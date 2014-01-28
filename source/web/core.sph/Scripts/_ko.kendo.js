@@ -694,6 +694,7 @@ ko.bindingHandlers.serverPaging = {
             query = value.query,
             list = value.list,
             map = value.map,
+            pagerHidden = value.pagerHidden || false,
             $element = $(element),
             context = require('services/datacontext'),
             $pagerPanel = $('<div></div>'),
@@ -746,7 +747,8 @@ ko.bindingHandlers.serverPaging = {
                 var options = {
                     element: $pagerPanel,
                     count: lo.rows,
-                    changed: changed
+                    changed: changed,
+                    hidden: pagerHidden
                 },
                     pager = new bespoke.utils.ServerPager(options);
                 console.log(pager);
@@ -773,6 +775,7 @@ ko.bindingHandlers.searchPaging = {
             executedQuery = value.initialQuery || {},
             list = value.list,
             map = value.map,
+            pagerHidden = value.pagerHidden || false,
             searchButton = value.searchButton,
             $element = $(element),
             context = require('services/datacontext'),
@@ -790,12 +793,15 @@ ko.bindingHandlers.searchPaging = {
             },
             setItemsSource = function (items) {
 
-                _(items).each(function (v) {
-                    v.pager = {
-                        page: pager.page(),
-                        size: pager.pageSize()
-                    };
-                });
+                if (!pagerHidden) {
+                    _(items).each(function (v) {
+                        v.pager = {
+                            page: pager.page(),
+                            size: pager.pageSize()
+                        };
+                    });
+                }
+
                 if (map) {
                     items = _(items).map(map);
                 }
@@ -835,7 +841,8 @@ ko.bindingHandlers.searchPaging = {
                             var pagerOptions = {
                                 element: $pagerPanel,
                                 count: lo.rows,
-                                changed: pageChanged
+                                changed: pageChanged,
+                                hidden: pagerHidden
                             };
                             pager = new bespoke.utils.ServerPager(pagerOptions);
 

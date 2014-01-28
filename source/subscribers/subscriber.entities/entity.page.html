@@ -8,9 +8,13 @@
     <a data-toggle="collapse" href="#recent-@Model.Plural.ToLower()">
         <h3 data-bind="with : entity">Recent <span data-bind="text:Plural"></span></h3>
     </a>
-    <div id="recent--@Model.Plural.ToLower()" class="collapse collapsed">
-        <div class="" data-bind="searchPaging: {list :recentItems, query : recentItemsQuery , entity : '@Model.Name'}">
+    <div id="recent-@Model.Plural.ToLower()" class="collapse collapsed">
+        <div class="" data-bind="searchPaging: {list :recentItems, query : recentItemsQuery, pagerHidden:true , entity : '@Model.Name'}">
+            <div class="alert alert-danger">
+                <p>Change the url for the default form </p>
+            </div>
             <ul data-bind="foreach :recentItems" class="today-datas">
+                
 
                 <li>
                     @{

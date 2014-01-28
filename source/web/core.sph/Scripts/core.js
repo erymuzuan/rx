@@ -163,15 +163,17 @@ bespoke.utils.ServerPager = function (options) {
         count = options.count || 0,
         changed = options.changed || function () {
             console.log("no change event");
-        };
+        },
+        self2 = this,
+        rows = _.range(count),
+        pagerDataSource = new kendo.data.DataSource({
+            data: rows,
+            pageSize: 20
+        });
+    if (options.hidden) {
+        return self2;
+    }
 
-    var self2 = this;
-    var rows = _.range(count);
-
-    var pagerDataSource = new kendo.data.DataSource({
-        data: rows,
-        pageSize: 20
-    });
     var pager = element.kendoPager({
         dataSource: pagerDataSource,
         messages: {
@@ -1069,6 +1071,7 @@ ko.bindingHandlers.serverPaging = {
             query = value.query,
             list = value.list,
             map = value.map,
+            pagerHidden = value.pagerHidden || false,
             $element = $(element),
             context = require('services/datacontext'),
             $pagerPanel = $('<div></div>'),
@@ -1121,7 +1124,8 @@ ko.bindingHandlers.serverPaging = {
                 var options = {
                     element: $pagerPanel,
                     count: lo.rows,
-                    changed: changed
+                    changed: changed,
+                    hidden: pagerHidden
                 },
                     pager = new bespoke.utils.ServerPager(options);
                 console.log(pager);
@@ -1148,6 +1152,7 @@ ko.bindingHandlers.searchPaging = {
             executedQuery = value.initialQuery || {},
             list = value.list,
             map = value.map,
+            pagerHidden = value.pagerHidden || false,
             searchButton = value.searchButton,
             $element = $(element),
             context = require('services/datacontext'),
@@ -1165,12 +1170,15 @@ ko.bindingHandlers.searchPaging = {
             },
             setItemsSource = function (items) {
 
-                _(items).each(function (v) {
-                    v.pager = {
-                        page: pager.page(),
-                        size: pager.pageSize()
-                    };
-                });
+                if (!pagerHidden) {
+                    _(items).each(function (v) {
+                        v.pager = {
+                            page: pager.page(),
+                            size: pager.pageSize()
+                        };
+                    });
+                }
+
                 if (map) {
                     items = _(items).map(map);
                 }
@@ -1210,7 +1218,8 @@ ko.bindingHandlers.searchPaging = {
                             var pagerOptions = {
                                 element: $pagerPanel,
                                 count: lo.rows,
-                                changed: pageChanged
+                                changed: pageChanged,
+                                hidden: pagerHidden
                             };
                             pager = new bespoke.utils.ServerPager(pagerOptions);
 

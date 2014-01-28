@@ -1,17 +1,11 @@
 ﻿<h1>@Model.View.Name</h1>
-<div class="row" data-bind="with : entity">
-    <img alt="logo" data-bind="attr:{src:'/image/thumbnail/' + IconStoreId() + '?height=50'}" class="pull-right" />
-    <h1 data-bind="text:Name"></h1>
-</div>
-
-
 
 <div class="row">
     <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : '@Model.Definition.Name', list:list}">
         <thead>
             <tr>
-                <th>@Model.EntityDefinition.RecordName</th>
-                @foreach(var col in Model.EntityView.ViewColumnCollection)
+                <th>@Model.Definition.RecordName</th>
+                @foreach(var col in Model.View.ViewColumnCollection)
                 {
                 <th>@col.Header</th>
                 }
@@ -20,7 +14,10 @@
         <tbody data-bind="foreach :list">
             <tr>
                 <td>
-                    <a data-bind="attr : {href:'#@Model.Form.Route'},text: @Model.Definition.RecordName"></a>
+                    @{
+                var eid = Model.Definition.Name + "Id";
+                }
+                    <a data-bind="attr : {href:'#@Model.Form.Route' + '/' + @eid },text: @Model.Definition.RecordName"></a>
                 </td>  @foreach(var col in Model.View.ViewColumnCollection)
                 {
                     <td data-bind="text:@col.Path"></td>

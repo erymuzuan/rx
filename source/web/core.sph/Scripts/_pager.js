@@ -15,15 +15,17 @@ bespoke.utils.ServerPager = function (options) {
         count = options.count || 0,
         changed = options.changed || function () {
             console.log("no change event");
-        };
+        },
+        self2 = this,
+        rows = _.range(count),
+        pagerDataSource = new kendo.data.DataSource({
+            data: rows,
+            pageSize: 20
+        });
+    if (options.hidden) {
+        return self2;
+    }
 
-    var self2 = this;
-    var rows = _.range(count);
-
-    var pagerDataSource = new kendo.data.DataSource({
-        data: rows,
-        pageSize: 20
-    });
     var pager = element.kendoPager({
         dataSource: pagerDataSource,
         messages: {

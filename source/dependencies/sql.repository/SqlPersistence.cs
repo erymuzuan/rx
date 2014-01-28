@@ -131,7 +131,7 @@ namespace Bespoke.Sph.SqlRepository
             var updates = columns
                 .Where(p => p.Name != "CreatedDate")
                 .Where(p => p.Name != "CreatedBy")
-                .Select(p => string.Format("[{0}]=@{0}{1}", p.Name.Replace(".","_"), count1));
+                .Select(p => string.Format("[{0}]=@{1}{2}", p.Name, p.Name.Replace(".","_"), count1));
             sql.AppendLine();
             sql.AppendFormat("SET {0}", string.Join(",\r\n", updates));
 

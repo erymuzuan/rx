@@ -43,6 +43,17 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public static void AddCacheList(Type type, object dependency)
+        {
+            var key = type;
+            lock (m_lock)
+            {
+                if (m_cacheList.ContainsKey(key))
+                    m_cacheList[key] = dependency;
+                else
+                    m_cacheList.Add(key, dependency);
+            }
+        }
         public static void AddCacheList<T>(T dependency)
         {
             var key = typeof(T);

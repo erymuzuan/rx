@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -41,6 +45,37 @@ namespace Bespoke.Sph.Web.App_Start
             }
         }
 
+        public static void RegisterCustomEntityDependencies(IEnumerable<EntityDefinition> entityDefinitions)
+        {
+            var sqlAssembly = Assembly.Load("sql.repository");
+            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
+
+            foreach (var ed in entityDefinitions)
+            {
+                var ed1 = ed;
+                try
+                {
+                    var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
+                    var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed1.EntityDefinitionId, ed1.Name);
+                    var edType = edAssembly.GetType(edTypeName);
+                    if (null == edType)
+                        Console.WriteLine("Cannot create type " + edTypeName);
+
+                    var reposType = sqlRepositoryType.MakeGenericType(edType);
+                    var repository = Activator.CreateInstance(reposType);
+
+                    var ff = typeof(IRepository<>).MakeGenericType(new[] { edType });
+
+                    ObjectBuilder.AddCacheList(ff, repository);
+                }
+                catch (FileNotFoundException e)
+                {
+                  //  Console.WriteLine(e);
+                }
+            }
+
+        }
+
         public static async Task<IEnumerable<JsRoute>> GetJsRoutes()
         {
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
@@ -48,22 +83,56 @@ namespace Bespoke.Sph.Web.App_Start
 
             var context = new SphDataContext();
             // ReSharper disable RedundantBoolCompare
-            var rdlTask = context.LoadAsync(context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user)));
-            var edTasks = context.LoadAsync(context.EntityDefinitions);
-            var formTask = context.LoadAsync(context.EntityForms);
-            var viewTask = context.LoadAsync(context.EntityViews);
+            var rdlTask = context.LoadAsync(context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user)), includeTotalRows: true);
+            var edTasks = context.LoadAsync(context.EntityDefinitions, includeTotalRows: true);
+            var formTask = context.LoadAsync(context.EntityForms, includeTotalRows: true);
+            var viewTask = context.LoadAsync(context.EntityViews, includeTotalRows: true);
             // ReSharper restore RedundantBoolCompare
             await Task.WhenAll(rdlTask, edTasks);
 
 
-            var rdls = await rdlTask;
-            var eds = await edTasks;
-            var views = await viewTask;
-            var forms = await formTask;
+            var reportDefinitionLoadOperation = await rdlTask;
+            var entityDefinitionLoadOperation = await edTasks;
+            var viewsLoadOperation = await viewTask;
+            var formLoadOperation = await formTask;
             var routes = new List<JsRoute>();
 
+            var reportDefinitions = new ObjectCollection<ReportDefinition>(reportDefinitionLoadOperation.ItemCollection);
+            var entityDefinitions = new ObjectCollection<EntityDefinition>(entityDefinitionLoadOperation.ItemCollection);
+            var views = new ObjectCollection<EntityView>(viewsLoadOperation.ItemCollection);
+            var forms = new ObjectCollection<EntityForm>(formLoadOperation.ItemCollection);
 
-            var formRoutes = from t in forms.ItemCollection
+
+            while (entityDefinitionLoadOperation.HasNextPage)
+            {
+                entityDefinitionLoadOperation = await context.LoadAsync(
+                        context.EntityDefinitions, entityDefinitionLoadOperation.CurrentPage + 1, includeTotalRows: true);
+                entityDefinitions.AddRange(entityDefinitionLoadOperation.ItemCollection);
+            }
+
+            while (formLoadOperation.HasNextPage)
+            {
+                formLoadOperation = await context.LoadAsync(
+                        context.EntityForms, formLoadOperation.CurrentPage + 1, includeTotalRows: true);
+                forms.AddRange(formLoadOperation.ItemCollection);
+            }
+            while (viewsLoadOperation.HasNextPage)
+            {
+                viewsLoadOperation = await context.LoadAsync(
+                        context.EntityViews, viewsLoadOperation.CurrentPage + 1, includeTotalRows: true);
+                views.AddRange(viewsLoadOperation.ItemCollection);
+            }
+
+            while (reportDefinitionLoadOperation.HasNextPage)
+            {
+                reportDefinitionLoadOperation = await context.LoadAsync(
+                        context.ReportDefinitions, reportDefinitionLoadOperation.CurrentPage + 1, includeTotalRows: true);
+                reportDefinitions.AddRange(reportDefinitionLoadOperation.ItemCollection);
+            }
+
+            RegisterCustomEntityDependencies(entityDefinitions);
+
+            var formRoutes = from t in forms
                              select new JsRoute
                              {
                                  Title = t.Name,
@@ -73,7 +142,7 @@ namespace Bespoke.Sph.Web.App_Start
                                  ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
                                  Nav = false
                              };
-            var viewRoutes = from t in views.ItemCollection
+            var viewRoutes = from t in views
                              select new JsRoute
                              {
                                  Title = t.Name,
@@ -83,7 +152,7 @@ namespace Bespoke.Sph.Web.App_Start
                                  ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
                                  Nav = false
                              };
-            var edRoutes = from t in eds.ItemCollection
+            var edRoutes = from t in entityDefinitions
                            select new JsRoute
                            {
                                Title = t.Plural,
@@ -94,7 +163,7 @@ namespace Bespoke.Sph.Web.App_Start
                                Nav = true
                            };
 
-            var rdlRoutes = from t in rdls.ItemCollection
+            var rdlRoutes = from t in reportDefinitions
                             select new JsRoute
                             {
                                 Title = t.Title,

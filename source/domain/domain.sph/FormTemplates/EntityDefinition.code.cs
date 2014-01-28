@@ -113,7 +113,7 @@ namespace Bespoke.Sph.Domain
             var content = response.Content as System.Net.Http.StreamContent;
             if (null == content) throw new Exception(""Cannot execute query on es "" + request);
             this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Content(await content.ReadAsStringAsync());", this.Plural.ToLower());
+            return Content(await content.ReadAsStringAsync());", this.Name.ToLower());
             code.AppendLine("       }");
 
             // SAVE
