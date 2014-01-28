@@ -347,6 +347,36 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Script.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\BarChartItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BarChartItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\DataGridItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataGridItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LabelItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LabelItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LineChartItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LineChartItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LineItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LineItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\PieChartItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PieChartItem.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\ReportDefinitionEdit\Html.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -3035,7 +3065,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LabelItem.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LabelItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>LabelItem.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\App\Views\ReportDefinitionEdit\TextBox.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>TextBox.generated.cs</LastGenOutput>
@@ -3044,11 +3077,26 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_DesignerContextAction.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\PieChartItem.cshtml" />
-    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LineChartItem.cshtml" />
-    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\DataGridItem.cshtml" />
-    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LineItem.cshtml" />
-    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\BarChartItem.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\PieChartItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PieChartItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LineChartItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>LineChartItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\DataGridItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DataGridItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LineItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>LineItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\BarChartItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>BarChartItem.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\App\Views\ReportDefinitionEdit\_LabelDesignerContextAction.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_LabelDesignerContextAction.generated.cs</LastGenOutput>

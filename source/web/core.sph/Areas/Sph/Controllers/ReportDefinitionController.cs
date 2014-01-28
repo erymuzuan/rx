@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Web.Helpers;
@@ -18,8 +17,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             // update the Filter type based on the FieldName
             var dataSource = ObjectBuilder.GetObject<IReportDataSource>();
-            var typeName = (typeof(Entity).GetShortAssemblyQualifiedName() ?? "").Replace("Entity", rdl.DataSource.EntityName);
-            var cols = await dataSource.GetColumnsAsync(Type.GetType(typeName));
+            var typeName = rdl.DataSource.EntityName;
+            var cols = await dataSource.GetColumnsAsync(typeName);
 
             foreach (var filter in rdl.DataSource.ReportFilterCollection)
             {
@@ -45,8 +44,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> GetEntityColumns(string id)
         {
             var dataSource = ObjectBuilder.GetObject<IReportDataSource>();
-            var typeName = (typeof (Entity).GetShortAssemblyQualifiedName() ?? "").Replace("Entity", id);
-            var cols = await dataSource.GetColumnsAsync(Type.GetType(typeName));
+            var typeName = id;
+            var cols = await dataSource.GetColumnsAsync(typeName);
 
             var json = JsonConvert.SerializeObject(cols);
 

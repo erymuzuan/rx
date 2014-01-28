@@ -12,10 +12,8 @@ namespace Bespoke.Sph.Domain
         public async Task<ObjectCollection<ReportColumn>> GetAvailableColumnsAsync()
         {
 
-            // ReSharper disable PossibleNullReferenceException
-            var type = Type.GetType(typeof(Entity).GetShortAssemblyQualifiedName().Replace("Entity", this.DataSource.EntityName));
-            // ReSharper restore PossibleNullReferenceException
-            
+            var type = this.DataSource.EntityName;
+
             var repository = ObjectBuilder.GetObject<IReportDataSource>();
             var columns = await repository.GetColumnsAsync(type).ConfigureAwait(false);
 
@@ -40,7 +38,7 @@ namespace Bespoke.Sph.Domain
             var parm = this.DataSource.ParameterCollection.SingleOrDefault(p => p.Name == parameterName);
             if (null == parm) return default(T);
             var stringValue = string.Format("{0}", parm.Value);
-            if (typeof (T) == typeof (int))
+            if (typeof(T) == typeof(int))
             {
                 return (T)(object)int.Parse(stringValue);
             }

@@ -165,5 +165,13 @@
                 return System.Configuration.ConfigurationManager.AppSettings["sph:ApplicationName"] ?? "YOUR_APP";
             }
         }
+
+        public static string ApplicationFullName
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["sph:ApplicationFullName"] ?? "SPH platform showcase";
+            }
+        }
     }
 }

@@ -111,7 +111,7 @@ WriteLiteral(">");
 
             
             #line 15 "..\..\Areas\App\Views\Header\Html.cshtml"
-                                                                         Write(Bespoke.Sph.Domain.ConfigurationManager.ApplicationName);
+                                                                         Write(Bespoke.Sph.Domain.ConfigurationManager.ApplicationFullName);
 
             
             #line default
@@ -195,14 +195,14 @@ WriteLiteral(" class=\"fa fa-cogs\"");
 
 WriteLiteral("></i>Settings</a></li>\r\n                        <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1414), Tuple.Create("\"", 1476)
+WriteAttribute("href", Tuple.Create(" href=\"", 1418), Tuple.Create("\"", 1480)
             
             #line 32 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 1421), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff", "SphAccount", new {area = "Sph"})
+, Tuple.Create(Tuple.Create("", 1425), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff", "SphAccount", new {area = "Sph"})
             
             #line default
             #line hidden
-, 1421), false)
+, 1425), false)
 );
 
 WriteLiteral("><i");
@@ -246,14 +246,14 @@ WriteLiteral(">\r\n                    <li><a");
 
 WriteLiteral(" id=\"log-in\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2044), Tuple.Create("\"", 2106)
+WriteAttribute("href", Tuple.Create(" href=\"", 2048), Tuple.Create("\"", 2110)
             
             #line 46 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 2051), Tuple.Create<System.Object, System.Int32>(Url.Action("Login", "SphAccount", new { area = "Sph"})
+, Tuple.Create(Tuple.Create("", 2055), Tuple.Create<System.Object, System.Int32>(Url.Action("Login", "SphAccount", new { area = "Sph"})
             
             #line default
             #line hidden
-, 2051), false)
+, 2055), false)
 );
 
 WriteLiteral(" class=\"login-label\"");

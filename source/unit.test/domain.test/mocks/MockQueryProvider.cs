@@ -7,7 +7,8 @@ namespace domain.test
     {
         public override string GetQueryText(Expression expression)
         {
-            throw new System.NotImplementedException();
+            return expression.Type.ToString();
+
         }
 
         public override object Execute(Expression expression)

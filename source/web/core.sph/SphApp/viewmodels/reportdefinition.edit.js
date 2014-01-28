@@ -1,5 +1,5 @@
 ﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -13,6 +13,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
         './reportdefinition.base', './_reportdefinition.preview', 'services/jsonimportexport'],
     function (context, logger, system, designer, preview,eximp) {
         var isBusy = ko.observable(false),
+            entities = ko.observableArray(),
             reportDefinitionId = ko.observable(),
 
             setRdl = function (d) {
@@ -29,11 +30,18 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
 
                 d.DataSource().EntityName.subscribe(loadEntityColumns);
             },
-            activate = function (routeData) {
+            activate = function (rid) {
                 designer.activate();
-                var id = parseInt(routeData.id);
+                var id = parseInt(rid);
                 reportDefinitionId(id);
                 
+                context.getListAsync("EntityDefinition", "EntityDefinitionId gt 0", "Name")
+                .done(function (list) {
+                    entities(list);
+                    tcs.resolve(true);
+                });
+
+
                 if (!id) {
                     var rdl = new bespoke.sph.domain.ReportDefinition(system.guid());
                     setRdl(rdl);
@@ -88,7 +96,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
             },
             loadEntityColumns = function (entity) {
                 var tcs = new $.Deferred();
-                $.get('ReportDefinition/GetEntityColumns/' + entity)
+                $.get('/sph/ReportDefinition/GetEntityColumns/' + entity)
                         .done(function(columns) {
                             vm.entityColumns(columns);
                             var filterable = _(columns).filter(function(v) {
@@ -190,6 +198,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
             reportDefinition: designer.reportDefinition,
             title: ko.observable('Report Builder'),
             isBusy: isBusy,
+            entities : entities,
             activate: activate,
             attached: attached,
             removeReportItem: removeReportItem,

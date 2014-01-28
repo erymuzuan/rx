@@ -1,59 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace Bespoke.Sph.SqlReportDataSource
 {
 
     public class SqlDataSource : IReportDataSource
     {
-
-        public void GetColumns(ObjectCollection<ReportColumn> columns, Type type, string root = "")
-        {
-            var nativeTypes = new[] { typeof(string), typeof(int),typeof(DateTime), typeof(decimal), typeof(double), typeof(float), typeof(bool) ,
-                typeof(int?),typeof(DateTime?), typeof(decimal?), typeof(double?), typeof(float?), typeof(bool?) };
-            var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-               .Where(p => nativeTypes.Contains(p.PropertyType))
-               .Where(p => p.Name != "Item")
-               .Where(p => p.Name != "WebId")
-               .Where(p => p.Name != "Dirty")
-               .Where(p => p.Name != "Bil")
-               .Where(p => p.Name != "Error")
-               .Where(p => p.Name != "Wkt")
-               .Where(p => p.Name != "EncodedWkt")
-               .Select(p => new ReportColumn
-               {
-                   Name = root + p.Name,
-                   Type = p.PropertyType,
-                   IsNullable = p.PropertyType.FullName.Contains("Nullable")
-               });
-
-            var aggregates = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-               .Where(p => p.PropertyType.Namespace == typeof(Entity).Namespace)
-               .Where(p => p.Name != "Item")
-               .Where(p => !p.Name.EndsWith("Collection"))
-               .ToList();
-            foreach (var p in aggregates)
-            {
-                this.GetColumns(columns, p.PropertyType, root + p.Name + ".");
-            }
-
-            columns.AddRange(props);
-        }
-
-        private Task<ReportColumn[]> GetCustomFieldColumns(string table)
-        {
-            var list = new ObjectCollection<ReportColumn>();
-         
-
-            return Task.FromResult(list.ToArray());
-        }
 
         private async Task<string[]> GetDatabaseColumns(string table)
         {
@@ -84,7 +42,7 @@ namespace Bespoke.Sph.SqlReportDataSource
             using (var conn = new SqlConnection(cs))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("@Schema", "Sph");
+                cmd.Parameters.AddWithValue("@Schema", ConfigurationManager.ApplicationName);
                 cmd.Parameters.AddWithValue("@Table", table);
                 await conn.OpenAsync();
                 using (var reader = await cmd.ExecuteReaderAsync())
@@ -100,22 +58,45 @@ namespace Bespoke.Sph.SqlReportDataSource
             return list.ToArray();
         }
 
-        public async Task<ObjectCollection<ReportColumn>> GetColumnsAsync(Type type)
+        public IEnumerable<Member> GetFilterableMembers(string parent, IList<Member> members)
         {
+            var filterables = members
+                .Where(m => m.Type != typeof(object))
+                .Where(m => m.Type != typeof(Array))
+                .ToList();
+            var list = members.Where(m => m.Type == typeof(object))
+                .Select(m => this.GetFilterableMembers(parent + m.Name + ".", m.MemberCollection))
+                .SelectMany(m => m)
+                .ToList();
+            filterables.AddRange(list);
+
+            filterables.Where(m => string.IsNullOrWhiteSpace(m.FullName))
+                .ToList().ForEach(m => m.FullName = parent + m.Name);
+
+            return filterables;
+        }
+
+        public async Task<ObjectCollection<ReportColumn>> GetColumnsAsync(string type)
+        {
+            var context = new SphDataContext();
             var columns = new ObjectCollection<ReportColumn>();
-            this.GetColumns(columns, type);
-            var databaseColumns = await this.GetDatabaseColumns(type.Name);
-            var customColumns = await this.GetCustomFieldColumns(type.Name);
+            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == type);
 
-            foreach (var column in columns)
-            {
-                var column1 = column;
-                column1.IsFilterable = databaseColumns.Any(c => c == column1.Name);
-            }
-            columns.AddRange(customColumns);
+            var databaseColumns = this.GetFilterableMembers("", ed.MemberCollection)
+                .Select(m => new ReportColumn
+                {
+                    IsFilterable = m.IsFilterable,
+                    Name = m.FullName,
+                    TypeName = m.TypeName,
+                    Type = m.Type,
+                    Header = m.Name,
+                    IsNullable = m.IsNullable,
+                    WebId = m.WebId
 
-            // custom field
+                });
 
+
+            columns.AddRange(databaseColumns);
 
             return columns;
         }
@@ -123,9 +104,7 @@ namespace Bespoke.Sph.SqlReportDataSource
         public async Task<ObjectCollection<ReportRow>> GetRowsAsync(ReportDefinition rdl)
         {
 
-            // ReSharper disable PossibleNullReferenceException
-            var type = Type.GetType(typeof(Entity).GetShortAssemblyQualifiedName().Replace("Entity", rdl.DataSource.EntityName));
-            // ReSharper restore PossibleNullReferenceException
+            var type = rdl.DataSource.EntityName;
 
             var dataSource = rdl.DataSource;
             var columns = await this.GetColumnsAsync(type);

@@ -76,8 +76,8 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             var datasource = rdl.DataSource;
 
             var sql = ObjectBuilder.GetObject<IReportDataSource>();
-            var typeName = (typeof(Entity).GetShortAssemblyQualifiedName() ?? "").Replace("Entity", rdl.DataSource.EntityName);
-            var cols = await sql.GetColumnsAsync(Type.GetType(typeName));
+            var typeName = rdl.DataSource.EntityName;
+            var cols = await sql.GetColumnsAsync(typeName);
 
             foreach (var filter in rdl.DataSource.ReportFilterCollection)
             {
