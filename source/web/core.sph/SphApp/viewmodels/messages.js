@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery.signalR-2.0.1.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
@@ -33,7 +33,7 @@ define([objectbuilders.datacontext, objectbuilders.config],
 
             },
             attached = function (view) {
-                $.getScript("/Scripts/jquery.signalR-2.0.1.min.js", function () {
+                $.getScript("/Scripts/jquery.signalR-2.0.2.min.js", function () {
                     var connection = $.connection('/signalr_message');
 
                     connection.received(function (data) {
