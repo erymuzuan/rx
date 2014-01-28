@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.App.DisplayTemplates
+namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplate
 {
     using System;
     using System.Collections.Generic;
@@ -22,13 +22,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App.DisplayTemplates
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/App/DisplayTemplates/DataGridItem.cshtml")]
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/ReportDefinitionExecute/DisplayTemplate/DataGridItem.cshtml")]
     public partial class DataGridItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.DataGridItem>
     {
         public DataGridItem()
@@ -37,7 +39,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App.DisplayTemplates
         public override void Execute()
         {
             
-            #line 2 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 2 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
   
     var index = 0;
 
@@ -51,13 +53,13 @@ WriteLiteral(" class=\"table table-striped\"");
 WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n");
 
             
-            #line 9 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 9 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 9 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 9 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                  foreach (var c in Model.DataGridColumnCollection)
                 {
 
@@ -67,7 +69,7 @@ WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n");
 WriteLiteral("                    <th>");
 
             
-            #line 11 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 11 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                    Write(c.Header);
 
             
@@ -76,7 +78,7 @@ WriteLiteral("                    <th>");
 WriteLiteral("</th>\r\n");
 
             
-            #line 12 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 12 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                 }
 
             
@@ -85,13 +87,13 @@ WriteLiteral("</th>\r\n");
 WriteLiteral("            </tr>\r\n        </thead>\r\n        <tbody>\r\n");
 
             
-            #line 16 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 16 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 16 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 16 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
              foreach (var group in Model.GetGroupHeaders())
             {
 
@@ -106,7 +108,7 @@ WriteLiteral(">\r\n                    <td");
 
 WriteAttribute("colspan", Tuple.Create(" colspan=\"", 499), Tuple.Create("\"", 546)
             
-            #line 19 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 19 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
 , Tuple.Create(Tuple.Create("", 509), Tuple.Create<System.Object, System.Int32>(Model.DataGridColumnCollection.Count
             
             #line default
@@ -119,7 +121,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                        ");
 
             
-            #line 20 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 20 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                    Write(group.Text);
 
             
@@ -128,7 +130,7 @@ WriteLiteral("                        ");
 WriteLiteral("\r\n                    </td>\r\n                </tr>\r\n");
 
             
-            #line 23 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 23 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
 
                 foreach (var r in group.ReportRowCollection)
                 {
@@ -140,13 +142,13 @@ WriteLiteral("\r\n                    </td>\r\n                </tr>\r\n");
 WriteLiteral("                    <tr>\r\n\r\n");
 
             
-            #line 29 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 29 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 29 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 29 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                          foreach (var c in Model.DataGridColumnCollection)
                         {
                             if (c.Expression == "$index" || c.Expression == "$row")
@@ -158,7 +160,7 @@ WriteLiteral("                    <tr>\r\n\r\n");
 WriteLiteral("                                <td>");
 
             
-            #line 33 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 33 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                                Write(index);
 
             
@@ -167,7 +169,7 @@ WriteLiteral("                                <td>");
 WriteLiteral("</td>\r\n");
 
             
-            #line 34 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 34 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                             }
                             else
                             {
@@ -179,7 +181,7 @@ WriteLiteral("</td>\r\n");
 WriteLiteral("                                <td>");
 
             
-            #line 38 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 38 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                                Write(output);
 
             
@@ -188,7 +190,7 @@ WriteLiteral("                                <td>");
 WriteLiteral("</td>\r\n");
 
             
-            #line 39 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 39 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                             }
                         }
 
@@ -198,7 +200,7 @@ WriteLiteral("</td>\r\n");
 WriteLiteral("                    </tr>\r\n");
 
             
-            #line 42 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 42 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                 }
             }
 
@@ -208,7 +210,7 @@ WriteLiteral("                    </tr>\r\n");
 WriteLiteral("            ");
 
             
-            #line 44 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 44 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
              if (Model.DataGridGroupDefinitionCollection.Count == 0)
             {
                 foreach (var r in Model.ReportRowCollection)
@@ -221,13 +223,13 @@ WriteLiteral("            ");
 WriteLiteral("                    <tr>\r\n\r\n");
 
             
-            #line 51 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 51 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 51 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 51 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                          foreach (var c in Model.DataGridColumnCollection)
                         {
                             if (c.Expression == "$index" || c.Expression == "$row")
@@ -239,7 +241,7 @@ WriteLiteral("                    <tr>\r\n\r\n");
 WriteLiteral("                                <td>");
 
             
-            #line 55 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 55 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                                Write(index);
 
             
@@ -248,7 +250,7 @@ WriteLiteral("                                <td>");
 WriteLiteral("</td>\r\n");
 
             
-            #line 56 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 56 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                             }
                             else
                             {
@@ -260,7 +262,7 @@ WriteLiteral("</td>\r\n");
 WriteLiteral("                                <td>");
 
             
-            #line 60 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 60 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                                Write(output);
 
             
@@ -269,7 +271,7 @@ WriteLiteral("                                <td>");
 WriteLiteral("</td>\r\n");
 
             
-            #line 61 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 61 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                             }
                         }
 
@@ -279,7 +281,7 @@ WriteLiteral("</td>\r\n");
 WriteLiteral("                    </tr>\r\n");
 
             
-            #line 64 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 64 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                 }
 
 
@@ -291,13 +293,13 @@ WriteLiteral("                <!-- FOOTER -->\r\n");
 WriteLiteral("                <tr>\r\n\r\n");
 
             
-            #line 69 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 69 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 69 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 69 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                      foreach (var c in Model.DataGridColumnCollection)
                     {
 
@@ -307,7 +309,7 @@ WriteLiteral("                <tr>\r\n\r\n");
 WriteLiteral("                            <td>");
 
             
-            #line 71 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 71 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                            Write(Model.GetFooterText(c.FooterExpression));
 
             
@@ -316,7 +318,7 @@ WriteLiteral("                            <td>");
 WriteLiteral("</td>\r\n");
 
             
-            #line 72 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 72 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
                         
                     }
 
@@ -326,7 +328,7 @@ WriteLiteral("</td>\r\n");
 WriteLiteral("                </tr>\r\n");
 
             
-            #line 75 "..\..\Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml"
+            #line 75 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\DataGridItem.cshtml"
             }
 
             

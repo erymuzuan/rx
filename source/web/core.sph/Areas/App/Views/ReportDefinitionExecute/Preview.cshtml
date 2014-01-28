@@ -10,7 +10,8 @@
     <div class="row">
         @foreach (var item in layout.ReportItemCollection)
         {
-            @Html.DisplayFor(m => item)
+            var ri = item;
+            @Html.DisplayFor(m => ri)
         }
     </div>
 }

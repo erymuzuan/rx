@@ -9,10 +9,10 @@
     define(['services/datacontext'], function (context) {
         var isBusy = ko.observable(false),
             id = 0,
-            activate = function (routeData) {
-                id = parseInt(routeData.id);
+            activate = function (rid) {
+                id = parseInt(rid);
 
-                var query = String.format("ReportDefinitionId eq {0}", id),
+                var query = String.format("ReportDefinitionId eq {0}", @Model.ReportDefinitionId),
                     tcs = new $.Deferred();
 
 
