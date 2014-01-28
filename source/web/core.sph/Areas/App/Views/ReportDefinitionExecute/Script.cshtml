@@ -44,7 +44,7 @@
                 NProgress.start();
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.datasource);
-                $.post("/App/ReportDefinitionExecuteHtml/" + id, data, "html")
+                $.post("/App/ReportDefinitionExecute/Preview/" + id, data, "html")
                     .done(function (html) {
                         NProgress.done();
                         $layout.html(html);

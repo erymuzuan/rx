@@ -127,17 +127,25 @@ WriteLiteral(" id=\"report-layout-panel\"");
 
 WriteLiteral(">\r\n\r\n    </div>\r\n");
 
-WriteLiteral("    <section");
+WriteLiteral("    <div");
 
-WriteLiteral(" class=\"modal hide\"");
+WriteLiteral(" class=\"modal\"");
 
 WriteLiteral(" id=\"parameters-dialog\"");
 
-WriteLiteral(">\r\n\r\n        <div");
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(">\r\n                <div");
 
 WriteLiteral(" class=\"modal-header\"");
 
-WriteLiteral(">\r\n            <button");
+WriteLiteral(">\r\n                    <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -145,51 +153,52 @@ WriteLiteral(" class=\"close\"");
 
 WriteLiteral(" data-dismiss=\"modal\"");
 
-WriteLiteral(">&times;</button>\r\n            <h3>Parameters</h3>\r\n        </div>\r\n        <div");
+WriteLiteral(">&times;</button>\r\n                    <h3>Parameters</h3>\r\n                </div" +
+">\r\n                <div");
 
 WriteLiteral(" class=\"modal-body\"");
 
 WriteLiteral(" data-bind=\"with : datasource\"");
 
-WriteLiteral(">\r\n            <form");
+WriteLiteral(">\r\n                    <form");
 
 WriteLiteral(" class=\"form-horizontal\"");
 
 WriteLiteral(">\r\n");
 
             
-            #line 39 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                
+            #line 40 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                        
             
             #line default
             #line hidden
             
-            #line 39 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                 foreach (var parm in Model.Rdl.DataSource.ParameterCollection)
-                {
-                    count++;
-                    if (parm.Type == typeof(string) && !string.IsNullOrWhiteSpace(parm.AvailableValues))
-                    {
+            #line 40 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                         foreach (var parm in Model.Rdl.DataSource.ParameterCollection)
+                        {
+                            count++;
+                            if (parm.Type == typeof(string) && !string.IsNullOrWhiteSpace(parm.AvailableValues))
+                            {
 
 
             
             #line default
             #line hidden
-WriteLiteral("                        <div");
+WriteLiteral("                                <div");
 
 WriteLiteral(" class=\"control-group\"");
 
-WriteLiteral(">\r\n                            <label");
+WriteLiteral(">\r\n                                    <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 1270), Tuple.Create("\"", 1293)
-, Tuple.Create(Tuple.Create("", 1276), Tuple.Create("parameter", 1276), true)
+WriteAttribute("for", Tuple.Create(" for=\"", 1440), Tuple.Create("\"", 1463)
+, Tuple.Create(Tuple.Create("", 1446), Tuple.Create("parameter", 1446), true)
             
-            #line 46 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 1285), Tuple.Create<System.Object, System.Int32>(count
+            #line 47 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 1455), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 1285), false)
+, 1455), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -197,84 +206,85 @@ WriteLiteral(" class=\"control-label\"");
 WriteLiteral(">");
 
             
-            #line 46 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                                            Write(parm.Label);
+            #line 47 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                                    Write(parm.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n                            <div");
+WriteLiteral("</label>\r\n                                    <div");
 
 WriteLiteral(" class=\"controls\"");
 
-WriteLiteral(">\r\n                                <select");
+WriteLiteral(">\r\n                                        <select");
 
 WriteLiteral(" data-bind=\"value: ParameterCollection()[");
 
             
-            #line 48 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                                           Write(count);
+            #line 49 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                                   Write(count);
 
             
             #line default
             #line hidden
 WriteLiteral("].Value\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 1484), Tuple.Create("\"", 1506)
-, Tuple.Create(Tuple.Create("", 1489), Tuple.Create("parameter", 1489), true)
+WriteAttribute("id", Tuple.Create(" id=\"", 1670), Tuple.Create("\"", 1692)
+, Tuple.Create(Tuple.Create("", 1675), Tuple.Create("parameter", 1675), true)
             
-            #line 48 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                             , Tuple.Create(Tuple.Create("", 1498), Tuple.Create<System.Object, System.Int32>(count
+            #line 49 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                     , Tuple.Create(Tuple.Create("", 1684), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 1498), false)
+, 1684), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 1507), Tuple.Create("\"", 1531)
-, Tuple.Create(Tuple.Create("", 1514), Tuple.Create("parameter", 1514), true)
+WriteAttribute("name", Tuple.Create(" name=\"", 1693), Tuple.Create("\"", 1717)
+, Tuple.Create(Tuple.Create("", 1700), Tuple.Create("parameter", 1700), true)
             
-            #line 48 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                      , Tuple.Create(Tuple.Create("", 1523), Tuple.Create<System.Object, System.Int32>(count
+            #line 49 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                              , Tuple.Create(Tuple.Create("", 1709), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 1523), false)
+, 1709), false)
 );
 
-WriteLiteral(">\r\n                                    <option>[Please Select]</option>\r\n");
+WriteLiteral(">\r\n                                            <option>[Please Select]</option>\r\n" +
+"");
 
             
-            #line 50 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                    
+            #line 51 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                            
             
             #line default
             #line hidden
             
-            #line 50 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                     foreach (var opt in parm.AvailableValues.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                                    {
+            #line 51 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                             foreach (var opt in parm.AvailableValues.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                            {
 
             
             #line default
             #line hidden
-WriteLiteral("                                        <option");
+WriteLiteral("                                                <option");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 1831), Tuple.Create("\"", 1843)
+WriteAttribute("value", Tuple.Create(" value=\"", 2049), Tuple.Create("\"", 2061)
             
-            #line 52 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 1839), Tuple.Create<System.Object, System.Int32>(opt
+            #line 53 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 2057), Tuple.Create<System.Object, System.Int32>(opt
             
             #line default
             #line hidden
-, 1839), false)
+, 2057), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 52 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                        Write(opt);
+            #line 53 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                Write(opt);
 
             
             #line default
@@ -282,41 +292,41 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
             
-            #line 53 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                    }
+            #line 54 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                            }
 
             
             #line default
             #line hidden
-WriteLiteral("                                </select>\r\n                            </div>\r\n  " +
-"                      </div>\r\n");
+WriteLiteral("                                        </select>\r\n                              " +
+"      </div>\r\n                                </div>\r\n");
 
             
-            #line 57 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+            #line 58 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
 
-                    }
+                            }
 
-                    if (parm.Type == typeof(string) && string.IsNullOrWhiteSpace(parm.AvailableValues))
-                    {
+                            if (parm.Type == typeof(string) && string.IsNullOrWhiteSpace(parm.AvailableValues))
+                            {
 
             
             #line default
             #line hidden
-WriteLiteral("                        <div");
+WriteLiteral("                                <div");
 
 WriteLiteral(" class=\"control-group\"");
 
-WriteLiteral(">\r\n                            <label");
+WriteLiteral(">\r\n                                    <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 2252), Tuple.Create("\"", 2275)
-, Tuple.Create(Tuple.Create("", 2258), Tuple.Create("parameter", 2258), true)
+WriteAttribute("for", Tuple.Create(" for=\"", 2542), Tuple.Create("\"", 2565)
+, Tuple.Create(Tuple.Create("", 2548), Tuple.Create("parameter", 2548), true)
             
-            #line 63 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 2267), Tuple.Create<System.Object, System.Int32>(count
+            #line 64 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 2557), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 2267), false)
+, 2557), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -324,79 +334,80 @@ WriteLiteral(" class=\"control-label\"");
 WriteLiteral(">");
 
             
-            #line 63 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                                            Write(parm.Label);
+            #line 64 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                                    Write(parm.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n                            <div");
+WriteLiteral("</label>\r\n                                    <div");
 
 WriteLiteral(" class=\"controls\"");
 
-WriteLiteral(">\r\n                                <input");
+WriteLiteral(">\r\n                                        <input");
 
 WriteLiteral(" data-bind=\"value: ParameterCollection()[");
 
             
-            #line 65 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                                          Write(count);
+            #line 66 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                                  Write(count);
 
             
             #line default
             #line hidden
 WriteLiteral("].Value\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 2465), Tuple.Create("\"", 2487)
-, Tuple.Create(Tuple.Create("", 2470), Tuple.Create("parameter", 2470), true)
+WriteAttribute("id", Tuple.Create(" id=\"", 2771), Tuple.Create("\"", 2793)
+, Tuple.Create(Tuple.Create("", 2776), Tuple.Create("parameter", 2776), true)
             
-            #line 65 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                            , Tuple.Create(Tuple.Create("", 2479), Tuple.Create<System.Object, System.Int32>(count
+            #line 66 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                    , Tuple.Create(Tuple.Create("", 2785), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 2479), false)
+, 2785), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 2488), Tuple.Create("\"", 2512)
-, Tuple.Create(Tuple.Create("", 2495), Tuple.Create("parameter", 2495), true)
+WriteAttribute("name", Tuple.Create(" name=\"", 2794), Tuple.Create("\"", 2818)
+, Tuple.Create(Tuple.Create("", 2801), Tuple.Create("parameter", 2801), true)
             
-            #line 65 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                     , Tuple.Create(Tuple.Create("", 2504), Tuple.Create<System.Object, System.Int32>(count
+            #line 66 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                             , Tuple.Create(Tuple.Create("", 2810), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 2504), false)
+, 2810), false)
 );
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" />\r\n                            </div>\r\n                        </div>\r\n");
+WriteLiteral(" />\r\n                                    </div>\r\n                                " +
+"</div>\r\n");
 
             
-            #line 68 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                    }
-                    if (parm.Type == typeof(DateTime))
-                    {
+            #line 69 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                            }
+                            if (parm.Type == typeof(DateTime))
+                            {
 
             
             #line default
             #line hidden
-WriteLiteral("                        <div");
+WriteLiteral("                                <div");
 
 WriteLiteral(" class=\"control-group\"");
 
-WriteLiteral(">\r\n                            <label");
+WriteLiteral(">\r\n                                    <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 2787), Tuple.Create("\"", 2810)
-, Tuple.Create(Tuple.Create("", 2793), Tuple.Create("parameter", 2793), true)
+WriteAttribute("for", Tuple.Create(" for=\"", 3149), Tuple.Create("\"", 3172)
+, Tuple.Create(Tuple.Create("", 3155), Tuple.Create("parameter", 3155), true)
             
-            #line 72 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 2802), Tuple.Create<System.Object, System.Int32>(count
+            #line 73 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 3164), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 2802), false)
+, 3164), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -404,79 +415,80 @@ WriteLiteral(" class=\"control-label\"");
 WriteLiteral(">");
 
             
-            #line 72 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                                            Write(parm.Label);
+            #line 73 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                                    Write(parm.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n                            <div");
+WriteLiteral("</label>\r\n                                    <div");
 
 WriteLiteral(" class=\"controls\"");
 
-WriteLiteral(">\r\n                                <input");
+WriteLiteral(">\r\n                                        <input");
 
 WriteLiteral(" data-bind=\"kendoDate: ParameterCollection()[");
 
             
-            #line 74 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                                              Write(count);
+            #line 75 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                                      Write(count);
 
             
             #line default
             #line hidden
 WriteLiteral("].Value\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 3004), Tuple.Create("\"", 3026)
-, Tuple.Create(Tuple.Create("", 3009), Tuple.Create("parameter", 3009), true)
+WriteAttribute("id", Tuple.Create(" id=\"", 3382), Tuple.Create("\"", 3404)
+, Tuple.Create(Tuple.Create("", 3387), Tuple.Create("parameter", 3387), true)
             
-            #line 74 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                , Tuple.Create(Tuple.Create("", 3018), Tuple.Create<System.Object, System.Int32>(count
+            #line 75 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                        , Tuple.Create(Tuple.Create("", 3396), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 3018), false)
+, 3396), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 3027), Tuple.Create("\"", 3051)
-, Tuple.Create(Tuple.Create("", 3034), Tuple.Create("parameter", 3034), true)
+WriteAttribute("name", Tuple.Create(" name=\"", 3405), Tuple.Create("\"", 3429)
+, Tuple.Create(Tuple.Create("", 3412), Tuple.Create("parameter", 3412), true)
             
-            #line 74 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                         , Tuple.Create(Tuple.Create("", 3043), Tuple.Create<System.Object, System.Int32>(count
+            #line 75 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                 , Tuple.Create(Tuple.Create("", 3421), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 3043), false)
+, 3421), false)
 );
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" />\r\n                            </div>\r\n                        </div>\r\n");
+WriteLiteral(" />\r\n                                    </div>\r\n                                " +
+"</div>\r\n");
 
             
-            #line 77 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                    }
-                    if (parm.Type == typeof(decimal))
-                    {
+            #line 78 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                            }
+                            if (parm.Type == typeof(decimal))
+                            {
 
             
             #line default
             #line hidden
-WriteLiteral("                        <div");
+WriteLiteral("                                <div");
 
 WriteLiteral(" class=\"control-group\"");
 
-WriteLiteral(">\r\n                            <label");
+WriteLiteral(">\r\n                                    <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 3325), Tuple.Create("\"", 3348)
-, Tuple.Create(Tuple.Create("", 3331), Tuple.Create("parameter", 3331), true)
+WriteAttribute("for", Tuple.Create(" for=\"", 3759), Tuple.Create("\"", 3782)
+, Tuple.Create(Tuple.Create("", 3765), Tuple.Create("parameter", 3765), true)
             
-            #line 81 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 3340), Tuple.Create<System.Object, System.Int32>(count
+            #line 82 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 3774), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 3340), false)
+, 3774), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -484,79 +496,80 @@ WriteLiteral(" class=\"control-label\"");
 WriteLiteral(">");
 
             
-            #line 81 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                                            Write(parm.Label);
+            #line 82 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                                    Write(parm.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n                            <div");
+WriteLiteral("</label>\r\n                                    <div");
 
 WriteLiteral(" class=\"controls\"");
 
-WriteLiteral(">\r\n                                <input");
+WriteLiteral(">\r\n                                        <input");
 
 WriteLiteral(" data-bind=\"value: ParameterCollection()[");
 
             
-            #line 83 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                                          Write(count);
+            #line 84 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                                  Write(count);
 
             
             #line default
             #line hidden
 WriteLiteral("].Value\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 3538), Tuple.Create("\"", 3560)
-, Tuple.Create(Tuple.Create("", 3543), Tuple.Create("parameter", 3543), true)
+WriteAttribute("id", Tuple.Create(" id=\"", 3988), Tuple.Create("\"", 4010)
+, Tuple.Create(Tuple.Create("", 3993), Tuple.Create("parameter", 3993), true)
             
-            #line 83 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                            , Tuple.Create(Tuple.Create("", 3552), Tuple.Create<System.Object, System.Int32>(count
+            #line 84 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                    , Tuple.Create(Tuple.Create("", 4002), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 3552), false)
+, 4002), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 3561), Tuple.Create("\"", 3585)
-, Tuple.Create(Tuple.Create("", 3568), Tuple.Create("parameter", 3568), true)
+WriteAttribute("name", Tuple.Create(" name=\"", 4011), Tuple.Create("\"", 4035)
+, Tuple.Create(Tuple.Create("", 4018), Tuple.Create("parameter", 4018), true)
             
-            #line 83 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                     , Tuple.Create(Tuple.Create("", 3577), Tuple.Create<System.Object, System.Int32>(count
+            #line 84 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                             , Tuple.Create(Tuple.Create("", 4027), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 3577), false)
+, 4027), false)
 );
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" />\r\n                            </div>\r\n                        </div>\r\n");
+WriteLiteral(" />\r\n                                    </div>\r\n                                " +
+"</div>\r\n");
 
             
-            #line 86 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                    }
-                    if (parm.Type == typeof(int))
-                    {
+            #line 87 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                            }
+                            if (parm.Type == typeof(int))
+                            {
 
             
             #line default
             #line hidden
-WriteLiteral("                        <div");
+WriteLiteral("                                <div");
 
 WriteLiteral(" class=\"control-group\"");
 
-WriteLiteral(">\r\n                            <label");
+WriteLiteral(">\r\n                                    <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 3855), Tuple.Create("\"", 3878)
-, Tuple.Create(Tuple.Create("", 3861), Tuple.Create("parameter", 3861), true)
+WriteAttribute("for", Tuple.Create(" for=\"", 4361), Tuple.Create("\"", 4384)
+, Tuple.Create(Tuple.Create("", 4367), Tuple.Create("parameter", 4367), true)
             
-            #line 90 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 3870), Tuple.Create<System.Object, System.Int32>(count
+            #line 91 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 4376), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 3870), false)
+, 4376), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -564,69 +577,70 @@ WriteLiteral(" class=\"control-label\"");
 WriteLiteral(">");
 
             
-            #line 90 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                                            Write(parm.Label);
+            #line 91 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                                    Write(parm.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n                            <div");
+WriteLiteral("</label>\r\n                                    <div");
 
 WriteLiteral(" class=\"controls\"");
 
-WriteLiteral(">\r\n                                <input");
+WriteLiteral(">\r\n                                        <input");
 
 WriteLiteral(" data-bind=\"value: ParameterCollection()[");
 
             
-            #line 92 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                                          Write(count);
+            #line 93 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                                                  Write(count);
 
             
             #line default
             #line hidden
 WriteLiteral("].Value\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 4068), Tuple.Create("\"", 4090)
-, Tuple.Create(Tuple.Create("", 4073), Tuple.Create("parameter", 4073), true)
+WriteAttribute("id", Tuple.Create(" id=\"", 4590), Tuple.Create("\"", 4612)
+, Tuple.Create(Tuple.Create("", 4595), Tuple.Create("parameter", 4595), true)
             
-            #line 92 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                            , Tuple.Create(Tuple.Create("", 4082), Tuple.Create<System.Object, System.Int32>(count
+            #line 93 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                    , Tuple.Create(Tuple.Create("", 4604), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 4082), false)
+, 4604), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 4091), Tuple.Create("\"", 4115)
-, Tuple.Create(Tuple.Create("", 4098), Tuple.Create("parameter", 4098), true)
+WriteAttribute("name", Tuple.Create(" name=\"", 4613), Tuple.Create("\"", 4637)
+, Tuple.Create(Tuple.Create("", 4620), Tuple.Create("parameter", 4620), true)
             
-            #line 92 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                                                     , Tuple.Create(Tuple.Create("", 4107), Tuple.Create<System.Object, System.Int32>(count
+            #line 93 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                                                             , Tuple.Create(Tuple.Create("", 4629), Tuple.Create<System.Object, System.Int32>(count
             
             #line default
             #line hidden
-, 4107), false)
+, 4629), false)
 );
 
 WriteLiteral(" type=\"number\"");
 
-WriteLiteral(" />\r\n                            </div>\r\n                        </div>\r\n");
+WriteLiteral(" />\r\n                                    </div>\r\n                                " +
+"</div>\r\n");
 
             
-            #line 95 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
-                    }
+            #line 96 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+                            }
 
-                }
+                        }
 
             
             #line default
             #line hidden
-WriteLiteral("            </form>\r\n        </div>\r\n\r\n        <div");
+WriteLiteral("                    </form>\r\n                </div>\r\n\r\n                <div");
 
 WriteLiteral(" class=\"modal-footer\"");
 
-WriteLiteral(">\r\n            <button");
+WriteLiteral(">\r\n                    <button");
 
 WriteLiteral(" data-dismiss=\"modal\"");
 
@@ -636,11 +650,12 @@ WriteLiteral(" class=\"btn btn-primary\"");
 
 WriteLiteral(" data-bind=\"click: executeCommand\"");
 
-WriteLiteral(">\r\n                <i");
+WriteLiteral(">\r\n                        <i");
 
 WriteLiteral(" class=\"fa fa-play\"");
 
-WriteLiteral("></i>\r\n                Run\r\n            </button>\r\n            <a");
+WriteLiteral("></i>\r\n                        Run\r\n                    </button>\r\n              " +
+"      <a");
 
 WriteLiteral(" href=\"#\"");
 
@@ -648,10 +663,11 @@ WriteLiteral(" class=\"btn\"");
 
 WriteLiteral(" data-dismiss=\"modal\"");
 
-WriteLiteral(">Close</a>\r\n        </div>\r\n    </section>\r\n");
+WriteLiteral(">Close</a>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n    </d" +
+"iv>\r\n");
 
             
-            #line 109 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
+            #line 113 "..\..\Areas\App\Views\ReportDefinitionExecute\Html.cshtml"
 
 
 

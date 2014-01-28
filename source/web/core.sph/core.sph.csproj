@@ -1767,7 +1767,7 @@
     <Content Include="Content\images\carousel-next.png" />
     <Content Include="Content\images\carousel-prev.png" />
     <Content Include="Content\images\img-border.png" />
-    <Content Include="Content\nprogress.css" />
+    <EmbeddedResource Include="Content\nprogress.css" />
     <Content Include="Content\theme.matyie\widgets.css" />
     <Content Include="Content\theme.matyie\workflow.triggers.css">
       <DependentUpon>workflow.triggers.less</DependentUpon>
@@ -2193,7 +2193,7 @@
     <Content Include="Scripts\modernizr-2.7.1.js" />
     <Content Include="Scripts\moment+langs.js" />
     <Content Include="Scripts\moment+langs.min.js" />
-    <Content Include="Scripts\nprogress.js" />
+    <EmbeddedResource Include="Scripts\nprogress.js" />
     <Content Include="Scripts\qunit-1.12.0.js" />
     <EmbeddedResource Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-chromevox.js" />
