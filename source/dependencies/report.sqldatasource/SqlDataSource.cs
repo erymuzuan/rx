@@ -12,52 +12,6 @@ namespace Bespoke.Sph.SqlReportDataSource
 
     public class SqlDataSource : IReportDataSource
     {
-
-        private async Task<string[]> GetDatabaseColumns(string table)
-        {
-            const string sql = @"SELECT 
-        '[' + s.name + '].[' + o.name + ']' as 'Table'
-        ,c.name as 'Column'
-        ,t.name as 'Type' 
-        ,c.max_length as 'length'
-        ,c.is_nullable as 'IsNullable'    
-	    ,c.is_identity as 'IsIdentity'
-        ,c.is_computed as 'IsComputed'
-    FROM 
-        sys.objects o INNER JOIN sys.all_columns c
-        ON c.object_id = o.object_id
-        INNER JOIN sys.types t 
-        ON c.system_type_id = t.system_type_id
-        INNER JOIN sys.schemas s
-        ON s.schema_id = o.schema_id
-    WHERE 
-        o.type = 'U'
-        AND s.name = @Schema
-        AND o.Name = @Table
-        AND t.name <> N'sysname'
-    ORDER 
-        BY o.type";
-            var list = new ObjectCollection<string>();
-            var cs = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
-            using (var conn = new SqlConnection(cs))
-            using (var cmd = new SqlCommand(sql, conn))
-            {
-                cmd.Parameters.AddWithValue("@Schema", ConfigurationManager.ApplicationName);
-                cmd.Parameters.AddWithValue("@Table", table);
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
-                {
-                    while (reader.Read())
-                    {
-                        list.Add(reader.GetString(1));
-                    }
-                }
-            }
-
-
-            return list.ToArray();
-        }
-
         public IEnumerable<Member> GetFilterableMembers(string parent, IList<Member> members)
         {
             var filterables = members
@@ -81,6 +35,8 @@ namespace Bespoke.Sph.SqlReportDataSource
             var context = new SphDataContext();
             var columns = new ObjectCollection<ReportColumn>();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == type);
+            if (null == ed)
+                return new ObjectCollection<ReportColumn>();
 
             var databaseColumns = this.GetFilterableMembers("", ed.MemberCollection)
                 .Select(m => new ReportColumn

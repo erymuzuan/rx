@@ -52,91 +52,115 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityViewDesigner
             
             #line default
             #line hidden
-WriteLiteral("\r\n<h1>View Designer</h1>\r\n<div");
+WriteLiteral("\r\n<h1");
+
+WriteLiteral(" data-bind=\"with : entity\"");
+
+WriteLiteral(">View Designer for <span");
+
+WriteLiteral(" data-bind=\"text:Plural\"");
+
+WriteLiteral("></span></h1>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n    <form");
+WriteLiteral(">\r\n    <a");
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral(" href=\"#general-ev-panel\"");
+
+WriteLiteral(">\r\n        <h3>\r\n            <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n            General options\r\n        </h3>\r\n    </a>\r\n    <div");
+
+WriteLiteral(" class=\"collapse in\"");
+
+WriteLiteral(" id=\"general-ev-panel\"");
+
+WriteLiteral(">\r\n\r\n        <form");
 
 WriteLiteral(" class=\"form-horizontal\"");
 
 WriteLiteral(" data-bind=\"with : view\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n            <div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n            <label");
+WriteLiteral(">\r\n                <label");
 
 WriteLiteral(" for=\"view-name\"");
 
 WriteLiteral(" class=\"col-lg-2 control-label\"");
 
-WriteLiteral(">Name</label>\r\n            <div");
+WriteLiteral(">Name</label>\r\n                <div");
 
 WriteLiteral(" class=\"col-lg-6\"");
 
-WriteLiteral(">\r\n                <input");
+WriteLiteral(">\r\n                    <input");
 
 WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-bind=\"value: Name\"");
 
-WriteLiteral("\r\n                       required");
+WriteLiteral("\r\n                           required");
 
 WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_ ]*$\"");
 
-WriteLiteral("\r\n                       placeholder=\"Name for the view\"");
+WriteLiteral("\r\n                           placeholder=\"Name for the view\"");
 
-WriteLiteral("\r\n                       class=\"form-control\"");
+WriteLiteral("\r\n                           class=\"form-control\"");
 
 WriteLiteral(" id=\"view-name\"");
 
-WriteLiteral(">\r\n            </div>\r\n        </div>\r\n        <div");
+WriteLiteral(">\r\n                </div>\r\n            </div>\r\n            <div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n            <label");
+WriteLiteral(">\r\n                <label");
 
 WriteLiteral(" for=\"view-route\"");
 
 WriteLiteral(" class=\"col-lg-2 control-label\"");
 
-WriteLiteral(">Route</label>\r\n            <div");
+WriteLiteral(">Route</label>\r\n                <div");
 
 WriteLiteral(" class=\"col-lg-6\"");
 
-WriteLiteral(">\r\n                <input");
+WriteLiteral(">\r\n                    <input");
 
 WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-bind=\"value: Route\"");
 
-WriteLiteral("\r\n                       required");
+WriteLiteral("\r\n                           required");
 
 WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_-]*$\"");
 
-WriteLiteral("\r\n                       placeholder=\"route url\"");
+WriteLiteral("\r\n                           placeholder=\"route url\"");
 
-WriteLiteral("\r\n                       class=\"form-control\"");
+WriteLiteral("\r\n                           class=\"form-control\"");
 
 WriteLiteral(" id=\"view-route\"");
 
-WriteLiteral(">\r\n            </div>\r\n        </div>\r\n        <div");
+WriteLiteral(">\r\n                </div>\r\n            </div>\r\n            <div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n            <label");
+WriteLiteral(">\r\n                <label");
 
 WriteLiteral(" for=\"icon-storeid\"");
 
 WriteLiteral(" class=\"col-lg-2 control-label\"");
 
-WriteLiteral(">Icon/Logo</label>\r\n            <div");
+WriteLiteral(">Icon/Logo</label>\r\n                <div");
 
 WriteLiteral(" class=\"col-lg-6\"");
 
-WriteLiteral(">\r\n                <img");
+WriteLiteral(">\r\n                    <img");
 
 WriteLiteral(" width=\"150\"");
 
@@ -146,7 +170,7 @@ WriteLiteral(" data-bind=\"attr : {src:\'/sph/image/thumbnail/\' + IconStoreId()
 
 WriteLiteral(" alt=\"Logo\"");
 
-WriteLiteral(" />\r\n                <input");
+WriteLiteral(" />\r\n                    <input");
 
 WriteLiteral(" type=\"file\"");
 
@@ -158,60 +182,86 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" id=\"icon-storeid\"");
 
-WriteLiteral(">\r\n            </div>\r\n        </div>\r\n        <div");
+WriteLiteral(">\r\n                </div>\r\n            </div>\r\n            <div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n            <label");
+WriteLiteral(">\r\n                <label");
 
 WriteLiteral(" for=\"view-note\"");
 
 WriteLiteral(" class=\"col-lg-2 control-label\"");
 
-WriteLiteral(">Note</label>\r\n            <div");
+WriteLiteral(">Note</label>\r\n                <div");
 
 WriteLiteral(" class=\"col-lg-6\"");
 
-WriteLiteral(">\r\n                <textarea");
+WriteLiteral(">\r\n                    <textarea");
 
 WriteLiteral(" data-bind=\"value: Note\"");
 
-WriteLiteral("\r\n                          placeholder=\"Note about the view\"");
+WriteLiteral("\r\n                              placeholder=\"Note about the view\"");
 
-WriteLiteral("\r\n                          class=\"form-control\"");
+WriteLiteral("\r\n                              class=\"form-control\"");
 
 WriteLiteral(" id=\"view-note\"");
 
-WriteLiteral("></textarea>\r\n            </div>\r\n        </div>\r\n    </form>\r\n</div>\r\n<div");
+WriteLiteral("></textarea>\r\n                </div>\r\n            </div>\r\n        </form>\r\n    </" +
+"div>\r\n</div>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
 WriteLiteral(" data-bind=\"with : view\"");
 
-WriteLiteral(">\r\n\r\n    <table");
+WriteLiteral(">\r\n    <a");
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral(" href=\"#filters-ev-panel\"");
+
+WriteLiteral(">\r\n        <h3>\r\n            <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n            Filters\r\n        </h3>\r\n    </a>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"collapse collapsed\"");
+
+WriteLiteral(" id=\"filters-ev-panel\"");
+
+WriteLiteral(">\r\n        <button");
+
+WriteLiteral(" class=\"btn btn-link pull-right\"");
+
+WriteLiteral(" data-bind=\"click : addFilter\"");
+
+WriteLiteral(">+ Filter</button>\r\n        <table");
 
 WriteLiteral(" class=\"table table-striped\"");
 
-WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th>Term</th>\r\n            " +
-"    <th>Operator</th>\r\n                <th>Value</th>\r\n                <th></th>" +
-"\r\n            </tr>\r\n        </thead>\r\n        <tbody");
+WriteLiteral(">\r\n            <thead>\r\n                <tr>\r\n                    <th>Term</th>\r\n" +
+"                    <th>Operator</th>\r\n                    <th>Value</th>\r\n     " +
+"               <th></th>\r\n                </tr>\r\n            </thead>\r\n         " +
+"   <tbody");
 
 WriteLiteral(" data-bind=\"foreach :FilterCollection\"");
 
-WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n                    <input");
+WriteLiteral(">\r\n                <tr>\r\n                    <td>\r\n                        <input" +
+"");
 
 WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" \r\n                           data-bind=\"value:Term,entityTypeaheadPath :$root.en" +
-"tity().EntityDefinitionId()\"");
+WriteLiteral("\r\n                               data-bind=\"value:Term,entityTypeaheadPath :$root" +
+".entity().EntityDefinitionId()\"");
 
-WriteLiteral(" \r\n                           required");
+WriteLiteral("\r\n                               required");
 
 WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_.]*$\"");
 
-WriteLiteral(" />\r\n                </td>\r\n                <td>\r\n                    <select");
+WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
+" <select");
 
 WriteLiteral(" name=\"rule-operator\"");
 
@@ -219,82 +269,99 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-bind=\"value: Operator\"");
 
-WriteLiteral(">\r\n                        <option");
+WriteLiteral(">\r\n                            <option");
 
 WriteLiteral(" value=\"Eq\"");
 
-WriteLiteral(">=</option>\r\n                        <option");
+WriteLiteral(">=</option>\r\n                            <option");
 
 WriteLiteral(" value=\"Le\"");
 
-WriteLiteral(">&lt;=</option>\r\n                        <option");
+WriteLiteral(">&lt;=</option>\r\n                            <option");
 
 WriteLiteral(" value=\"Lt\"");
 
-WriteLiteral(">&lt;</option>\r\n                        <option");
+WriteLiteral(">&lt;</option>\r\n                            <option");
 
 WriteLiteral(" value=\"Ge\"");
 
-WriteLiteral(">&gt;=</option>\r\n                        <option");
+WriteLiteral(">&gt;=</option>\r\n                            <option");
 
 WriteLiteral(" value=\"Gt\"");
 
-WriteLiteral(">&gt;</option>\r\n                        <option");
+WriteLiteral(">&gt;</option>\r\n                            <option");
 
 WriteLiteral(" value=\"Substringof\"");
 
-WriteLiteral(">Substringof</option>\r\n                        <option");
+WriteLiteral(">Substringof</option>\r\n                            <option");
 
 WriteLiteral(" value=\"StartsWith\"");
 
-WriteLiteral(">StartsWith</option>\r\n                        <option");
+WriteLiteral(">StartsWith</option>\r\n                            <option");
 
 WriteLiteral(" value=\"EndsWith\"");
 
-WriteLiteral(">EndsWith</option>\r\n                    </select>\r\n                </td>\r\n       " +
-"         <td>                    ");
+WriteLiteral(">EndsWith</option>\r\n                        </select>\r\n                    </td>\r" +
+"\n                    <td>                    ");
 
             
-            #line 73 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
-                                   Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" }));
+            #line 90 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+                                       Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" }));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                <td>\r\n                    <a");
+WriteLiteral("\r\n                    <td>\r\n                        <a");
 
 WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click : $parent.removeFilter.call($parent,$data)\"");
 
-WriteLiteral(">\r\n                        <span");
+WriteLiteral(">\r\n                            <span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 
-WriteLiteral("></span>\r\n                    </a>\r\n                </td>\r\n            </tr>\r\n   " +
-"     </tbody>\r\n    </table>\r\n    <button");
-
-WriteLiteral(" class=\"btn btn-link\"");
-
-WriteLiteral(" data-bind=\"click : addFilter\"");
-
-WriteLiteral(">+ Filter</button>\r\n</div>\r\n<div");
+WriteLiteral("></span>\r\n                        </a>\r\n                    </td>\r\n              " +
+"  </tr>\r\n            </tbody>\r\n        </table>\r\n\r\n    </div>\r\n</div>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
 WriteLiteral(" data-bind=\"with : view\"");
 
-WriteLiteral(">\r\n\r\n    <table");
+WriteLiteral(">\r\n    <a");
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral(" href=\"#columns-ev-panel\"");
+
+WriteLiteral(">\r\n        <h3>\r\n            <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n           Columns\r\n        </h3>\r\n    </a>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"collapse in\"");
+
+WriteLiteral(" id=\"columns-ev-panel\"");
+
+WriteLiteral(">\r\n        <button");
+
+WriteLiteral(" class=\"btn btn-link pull-right\"");
+
+WriteLiteral(" data-bind=\"click : addViewColumn\"");
+
+WriteLiteral(">+ Column</button>\r\n        <table");
 
 WriteLiteral(" class=\"table table-striped\"");
 
-WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th>Path</th>\r\n            " +
-"    <th>Header</th>\r\n                <th></th>\r\n            </tr>\r\n        </the" +
-"ad>\r\n        <tbody");
+WriteLiteral(">\r\n            <thead>\r\n                <tr>\r\n                    <th>Path</th>\r\n" +
+"                    <th>Header</th>\r\n                    <th></th>\r\n            " +
+"    </tr>\r\n            </thead>\r\n            <tbody");
 
 WriteLiteral(" data-bind=\"foreach :ViewColumnCollection\"");
 
-WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n                    <input");
+WriteLiteral(">\r\n                <tr>\r\n                    <td>\r\n                        <input" +
+"");
 
 WriteLiteral(" class=\"form-control\"");
 
@@ -306,7 +373,8 @@ WriteLiteral(" required");
 
 WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_.]*$\"");
 
-WriteLiteral(" />\r\n                </td>\r\n                <td>\r\n                    <input");
+WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
+" <input");
 
 WriteLiteral(" class=\"form-control\"");
 
@@ -314,24 +382,18 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-bind=\"value:Header\"");
 
-WriteLiteral(" required />\r\n                <td>\r\n                    <a");
+WriteLiteral(" required />\r\n                    <td>\r\n                        <a");
 
 WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click : $parent.removeViewColumn.call($parent,$data)\"");
 
-WriteLiteral(">\r\n                        <span");
+WriteLiteral(">\r\n                            <span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 
-WriteLiteral("></span>\r\n                    </a>\r\n                </td>\r\n            </tr>\r\n   " +
-"     </tbody>\r\n    </table>\r\n    <button");
-
-WriteLiteral(" class=\"btn btn-link\"");
-
-WriteLiteral(" data-bind=\"click : addViewColumn\"");
-
-WriteLiteral(">+ Column</button>\r\n</div>");
+WriteLiteral("></span>\r\n                        </a>\r\n                    </td>\r\n              " +
+"  </tr>\r\n            </tbody>\r\n        </table>\r\n\r\n    </div>\r\n</div>");
 
         }
     }
