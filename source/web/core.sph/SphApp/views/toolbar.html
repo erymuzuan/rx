@@ -32,7 +32,7 @@
         <!-- /ko -->
 
         <!-- ko if: typeof addNewCommand === "function"-->
-        <button id="save" class="btn btn-primary" data-bind="command: addNewCommand" data-loading-text="Simpan....">
+        <button id="save" class="btn btn-default" data-bind="command: addNewCommand" data-loading-text="Simpan....">
             <i class="fa fa-plus"></i>
             Add
         </button>
@@ -40,7 +40,7 @@
 
         <!-- ko if: typeof addNew === "object"-->
         <!-- ko with: addNew-->
-        <a id="savebutton" class="btn btn-primary" data-bind="attr: { href: location }" data-loading-text="Simpan....">
+        <a id="savebutton" class="btn btn-default" data-bind="attr: { href: location }" data-loading-text="Simpan....">
             <i class="fa fa-plus"></i>
             <!-- ko text : caption -->
             <!-- /ko -->
@@ -49,19 +49,19 @@
         <!-- /ko -->
 
         <!-- ko if: typeof saveCommand === "function"-->
-        <button id="save-button" class="btn btn-primary" data-bind="command: saveCommand">
+        <button id="save-button" class="btn btn-default" data-bind="command: saveCommand">
             <i class="fa fa-save"></i>
             Save
         </button>
         <!-- /ko -->
         <!-- ko if: typeof removeCommand === "function"-->
-        <button class="btn btn-danger" data-bind="command: removeCommand">
-            <i class="fa fa-remove"></i>
+        <button class="btn btn-default" data-bind="command: removeCommand">
+            <i class="glyphicon glyphicon-remove"></i>
             Delete
         </button>
         <!-- /ko -->
         <!-- ko if: typeof reloadCommand === "function"-->
-        <button class="btn btn-warning" data-bind="command: reloadCommand" data-loading-text="Sedang Proses....">
+        <button class="btn btn-default" data-bind="command: reloadCommand" data-loading-text="Sedang Proses....">
             <i class="fa fa-refresh"></i>
             Refresh
         </button>
@@ -103,13 +103,13 @@
 
         <!-- ko if: typeof watchCommand === "function"-->
         <button class="btn btn-default" data-bind="command: watchCommand, visible: watching() === false" data-loading-text="saving....">
-            <i class="fa fa-eye-open"></i>
+            <i class="glyphicon glyphicon-eye-open"></i>
             Watch
         </button>
         <!-- /ko -->
         <!-- ko if: typeof unwatchCommand === "function"-->
-        <button class="btn btn-warning" data-bind="command: unwatchCommand, visible: watching" data-loading-text="saving....">
-            <i class="fa fa-eye-close"></i>
+        <button class="btn btn-default" data-bind="command: unwatchCommand, visible: watching" data-loading-text="saving....">
+            <i class="glyphicon glyphicon-eye-close"></i>
             Unwatch
         </button>
         <!-- /ko -->

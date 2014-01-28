@@ -25,7 +25,27 @@ header {
 }
 
 #header-navbar {
-    height:47px;
+    height: 47px;
+    background-color: @brand-header-color;
+
+
+    button {
+        color: @label-color;
+    }
+
+        button:hover {
+            color: @label-color;
+        }
+
+    li > a.dropdown-toggle:hover {
+        color: @brand-header-color !important;
+        background-color: @body-bg;
+    }
+
+    li > a.dropdown-toggle:focus {
+        color: @brand-header-color !important;
+        background-color: @body-bg;
+    }
 }
 
 .navbar .nav > li > a {
@@ -45,20 +65,21 @@ header {
     color: white;
     margin-top: 10px;
 }
-.icon-image {
-        width: auto\9;
-        float: left;
-        margin: 10px;
-        height: auto;
-        max-width: 100%;
-        vertical-align: middle;
-        border: 0;
-        -ms-interpolation-mode: bicubic;
-    }
 
-.login-label{
-    font-family : Verdana, Geneva, 'DejaVu Sans', sans-serif;
-    font-weight :bold;
-    font-size : large;
-    color : floralwhite;
+.icon-image {
+    width: auto\9;
+    float: left;
+    margin: 10px;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+}
+
+.login-label {
+    font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif;
+    font-weight: bold;
+    font-size: large;
+    color: floralwhite;
 }

@@ -332,15 +332,6 @@ form label {
   border: none !important;
 }
 /* Navbar */
-.navbar {
-  background-color: #002050;
-}
-.navbar button {
-  color: #ffffff;
-}
-.navbar button:hover {
-  color: #ffffff;
-}
 .navbar * {
   text-shadow: none !important;
   background-image: none !important;
@@ -355,13 +346,7 @@ form label {
   font-size: 14px;
   color: #fff;
   margin: 4px;
-  padding-left: 0px;
-}
-.navbar .nav > li > a:hover {
-  background-color: #002050;
-}
-.navbar .nav > li > a:focus {
-  background-color: #002050;
+  padding-left: 10px;
 }
 .navbar i {
   margin-right: 3px;

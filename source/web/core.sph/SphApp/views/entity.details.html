@@ -20,10 +20,11 @@
 <div class="row">
     <a data-toggle="collapse" href="#general-ed-panel">
         <h3>
+            <i class="fa fa-chevron-down"></i>
             General options
         </h3>
     </a>
-    <div class="collapse in" id="general-ed-panel">
+    <div class="collapse collapsed" id="general-ed-panel">
         <form name="entity-form" id="entity-form" class="form-horizontal" role="form" data-bind="with : entity">
             <div class="form-group">
                 <label for="name" class="col-lg-2">Name</label>
@@ -76,10 +77,11 @@
 <div class="row">
     <a data-toggle="collapse" href="#forms-table">
         <h3>
+            <i class="fa fa-chevron-down"></i>
             Forms
         </h3>
     </a>
-    <div class="collapse in" id="forms-table">
+    <div class="collapse collapsed" id="forms-table">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -98,17 +100,18 @@
                 </tr>
             </tbody>
         </table>
-        <a data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().EntityDefinitionId() + '/0'}">Add</a>
+        <a class="btn btn-link" data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().EntityDefinitionId() + '/0'}">+ Create new form</a>
 
     </div>
 </div>
 <div class="row">
     <a data-toggle="collapse" href="#view-table">
         <h3>
+            <i class="fa fa-chevron-down"></i>
             Views
         </h3>
     </a>
-    <div class="collapse in" id="view-table">
+    <div class="collapse collapsed" id="view-table">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -127,11 +130,12 @@
                 </tr>
             </tbody>
         </table>
-        <a data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().EntityDefinitionId() + '/0'}">Add</a>
+        <a class="btn btn-link" data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().EntityDefinitionId() + '/0'}">+ Create new view</a>
     </div>
 </div>
 
 <div class="row" id="members-panel">
+    <h3>Schema Designer</h3>
     <div class="col-lg-8">
         <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree" value="" />
         <div data-bind="tree : {entity: entity, selected: member, searchbox: '#search-box-tree'}">

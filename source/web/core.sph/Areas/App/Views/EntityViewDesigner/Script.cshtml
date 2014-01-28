@@ -38,6 +38,9 @@
                             view(f);
                             tcs.resolve(true);
                         });
+                    } else {
+
+                        view(new bespoke.sph.domain.EntityView({ WebId: system.guid() }));
                     }
                     view().EntityDefinitionId(id);
 

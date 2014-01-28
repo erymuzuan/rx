@@ -6,17 +6,10 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger', 'plugins/router'], function (context, logger, router) {
+define([], function () {
 
     var activate = function () {
         return true;
-    },
-    addNew = function () {
-        var url = '/#/trigger.setup/0';
-        router.navigateTo(url);
-        return {
-            then: function () { }
-        };
     },
      exportList = function () {
 
@@ -26,7 +19,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'], function (
         activate: activate,
         triggerCollection: ko.observableArray([]),
         toolbar: {
-            addNewCommand: addNew,
+            addNew : { location: '#/trigger.setup/0', caption: 'Add new trigger' },
             exportCommand: exportList
         }
     };

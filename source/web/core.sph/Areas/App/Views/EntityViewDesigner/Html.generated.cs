@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityViewDesigner
             
             #line default
             #line hidden
-WriteLiteral("\r\n<h2>View Designer</h2>\r\n<div");
+WriteLiteral("\r\n<h1>View Designer</h1>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -122,7 +122,67 @@ WriteLiteral("\r\n                       class=\"form-control\"");
 
 WriteLiteral(" id=\"view-route\"");
 
-WriteLiteral(">\r\n            </div>\r\n        </div>\r\n    </form>\r\n</div>\r\n<div");
+WriteLiteral(">\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n            <label");
+
+WriteLiteral(" for=\"icon-storeid\"");
+
+WriteLiteral(" class=\"col-lg-2 control-label\"");
+
+WriteLiteral(">Icon/Logo</label>\r\n            <div");
+
+WriteLiteral(" class=\"col-lg-6\"");
+
+WriteLiteral(">\r\n                <img");
+
+WriteLiteral(" width=\"150\"");
+
+WriteLiteral(" height=\"150\"");
+
+WriteLiteral(" data-bind=\"attr : {src:\'/sph/image/thumbnail/\' + IconStoreId()}\"");
+
+WriteLiteral(" alt=\"Logo\"");
+
+WriteLiteral(" />\r\n                <input");
+
+WriteLiteral(" type=\"file\"");
+
+WriteLiteral(" data-bind=\"kendoUpload: IconStoreId\"");
+
+WriteLiteral(" name=\"files\"");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" id=\"icon-storeid\"");
+
+WriteLiteral(">\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n            <label");
+
+WriteLiteral(" for=\"view-note\"");
+
+WriteLiteral(" class=\"col-lg-2 control-label\"");
+
+WriteLiteral(">Note</label>\r\n            <div");
+
+WriteLiteral(" class=\"col-lg-6\"");
+
+WriteLiteral(">\r\n                <textarea");
+
+WriteLiteral(" data-bind=\"value: Note\"");
+
+WriteLiteral("\r\n                          placeholder=\"Note about the view\"");
+
+WriteLiteral("\r\n                          class=\"form-control\"");
+
+WriteLiteral(" id=\"view-note\"");
+
+WriteLiteral("></textarea>\r\n            </div>\r\n        </div>\r\n    </form>\r\n</div>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -195,7 +255,7 @@ WriteLiteral(">EndsWith</option>\r\n                    </select>\r\n           
 "         <td>                    ");
 
             
-            #line 58 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 73 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
                                    Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" }));
 
             
@@ -214,7 +274,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 WriteLiteral("></span>\r\n                    </a>\r\n                </td>\r\n            </tr>\r\n   " +
 "     </tbody>\r\n    </table>\r\n    <button");
 
-WriteLiteral(" class=\"btn btn-default\"");
+WriteLiteral(" class=\"btn btn-link\"");
 
 WriteLiteral(" data-bind=\"click : addFilter\"");
 
@@ -267,7 +327,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 WriteLiteral("></span>\r\n                    </a>\r\n                </td>\r\n            </tr>\r\n   " +
 "     </tbody>\r\n    </table>\r\n    <button");
 
-WriteLiteral(" class=\"btn btn-default\"");
+WriteLiteral(" class=\"btn btn-link\"");
 
 WriteLiteral(" data-bind=\"click : addViewColumn\"");
 

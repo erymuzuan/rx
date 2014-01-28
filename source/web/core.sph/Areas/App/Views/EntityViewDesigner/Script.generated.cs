@@ -95,28 +95,30 @@ WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext, objectbuilders.lo
 "                  if (vid) {\r\n                        context.loadOneAsync(\"Enti" +
 "tyView\", \"EntityViewId eq \" + vid)\r\n                        .done(function (f) {" +
 "\r\n\r\n                            view(f);\r\n                            tcs.resolv" +
-"e(true);\r\n                        });\r\n                    }\r\n                  " +
-"  view().EntityDefinitionId(id);\r\n\r\n                    return tcs.promise();\r\n\r" +
-"\n                },\r\n                attached = function () {\r\n\r\n\r\n\r\n           " +
-"     },\r\n                publish = function () {\r\n                    var tcs = " +
-"new $.Deferred(),\r\n                        data = ko.mapping.toJSON(view);\r\n\r\n  " +
-"                  context.post(data, \"/Sph/EntityView/Publish\")\r\n               " +
-"         .then(function (result) {\r\n                            view().EntityVie" +
-"wId(result.id);\r\n                            tcs.resolve(result);\r\n             " +
-"           });\r\n                    return tcs.promise();\r\n                },\r\n " +
-"               save = function () {\r\n                    var tcs = new $.Deferre" +
-"d(),\r\n                        data = ko.mapping.toJSON(view);\r\n\r\n               " +
-"     context.post(data, \"/Sph/EntityView/Save\")\r\n                        .then(f" +
-"unction (result) {\r\n                            view().EntityViewId(result.id);\r" +
-"\n                            tcs.resolve(result);\r\n                        });\r\n" +
-"                    return tcs.promise();\r\n                };\r\n\r\n            var" +
-" vm = {\r\n                attached: attached,\r\n                activate: activate" +
-",\r\n                view: view,\r\n                entity: entity,\r\n               " +
-" toolbar: {\r\n                    commands: ko.observableArray([{\r\n              " +
-"          caption: \'Publish\',\r\n                        icon: \'fa fa-folder-open-" +
-"o\',\r\n                        command: publish\r\n                    }\r\n          " +
-"          ]),\r\n                    saveCommand: save\r\n                }\r\n       " +
-"     };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"e(true);\r\n                        });\r\n                    } else {\r\n\r\n         " +
+"               view(new bespoke.sph.domain.EntityView({ WebId: system.guid() }))" +
+";\r\n                    }\r\n                    view().EntityDefinitionId(id);\r\n\r\n" +
+"                    return tcs.promise();\r\n\r\n                },\r\n               " +
+" attached = function () {\r\n\r\n\r\n\r\n                },\r\n                publish = f" +
+"unction () {\r\n                    var tcs = new $.Deferred(),\r\n                 " +
+"       data = ko.mapping.toJSON(view);\r\n\r\n                    context.post(data," +
+" \"/Sph/EntityView/Publish\")\r\n                        .then(function (result) {\r\n" +
+"                            view().EntityViewId(result.id);\r\n                   " +
+"         tcs.resolve(result);\r\n                        });\r\n                    " +
+"return tcs.promise();\r\n                },\r\n                save = function () {\r" +
+"\n                    var tcs = new $.Deferred(),\r\n                        data =" +
+" ko.mapping.toJSON(view);\r\n\r\n                    context.post(data, \"/Sph/Entity" +
+"View/Save\")\r\n                        .then(function (result) {\r\n                " +
+"            view().EntityViewId(result.id);\r\n                            tcs.res" +
+"olve(result);\r\n                        });\r\n                    return tcs.promi" +
+"se();\r\n                };\r\n\r\n            var vm = {\r\n                attached: a" +
+"ttached,\r\n                activate: activate,\r\n                view: view,\r\n    " +
+"            entity: entity,\r\n                toolbar: {\r\n                    com" +
+"mands: ko.observableArray([{\r\n                        caption: \'Publish\',\r\n     " +
+"                   icon: \'fa fa-folder-open-o\',\r\n                        command" +
+": publish\r\n                    }\r\n                    ]),\r\n                    s" +
+"aveCommand: save\r\n                }\r\n            };\r\n\r\n            return vm;\r\n\r" +
+"\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }

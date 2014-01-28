@@ -10,7 +10,7 @@
     </a>
     <div id="recent-@Model.Definition.Plural.ToLower()" class="collapse collapsed">
         <div class="" data-bind="searchPaging: {list :recentItems, query : recentItemsQuery, pagerHidden:true , entity : '@Model.Definition.Name'}">
-     
+
 
             <ul data-bind="foreach :recentItems" class="metro-tile">
 
@@ -43,7 +43,14 @@
         <ul data-bind="foreach :views" class="metro-tile">
             <li>
                 <a data-bind="attr:{href : '#/' + Route()}">
-                    <span data-bind="text:Name"></span>
+                    <div class="pull-left">
+                        <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon" />
+                    </div>
+                    <div class="pull-right">
+                        <h3 data-bind="text: Name"></h3>
+                        <label data-bind="text: Note"></label>
+                    </div>
+
                 </a>
             </li>
         </ul>

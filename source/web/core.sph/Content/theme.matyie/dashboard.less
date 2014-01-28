@@ -408,63 +408,47 @@ form {
 
 /* Navbar */
 
-.navbar {
-    background-color: @brand-header-color;
 
-    button {
-        color : @label-color;
-    }
-    button:hover {
-        color : @label-color;
-    }
+.navbar * {
+    text-shadow: none !important;
+    background-image: none !important;
 }
 
-    .navbar * {
-        text-shadow: none !important;
-        background-image: none !important;
-    }
+
+.navbar .brand {
+    color: #eee !important;
+}
+
+.navbar .container {
+    width: 97% !important;
+}
+
+.navbar .nav > li > a {
+    font-size: 14px;
+    color: #fff;
+    margin: 4px;
+    padding-left: 10px;
+}
 
 
-    .navbar .brand {
-        color: #eee !important;
-    }
 
-    .navbar .container {
-        width: 97% !important;
-    }
+.navbar i {
+    margin-right: 3px;
+}
 
-    .navbar .nav > li > a {
-        font-size: 14px;
-        color: #fff;
-        margin: 4px;
-        padding-left: 0px;
-    }
+.navbar .caret {
+    border-top-color: #fff !important;
+    border-bottom-color: #fff !important;
+}
 
-        .navbar .nav > li > a:hover {
-            background-color: @brand-header-color;
-        }
+.navbar .nav-user-pic {
+    width: 20px;
+    margin-right: 10px;
+}
 
-        .navbar .nav > li > a:focus {
-            background-color: @brand-header-color;
-        }
-
-    .navbar i {
-        margin-right: 3px;
-    }
-
-    .navbar .caret {
-        border-top-color: #fff !important;
-        border-bottom-color: #fff !important;
-    }
-
-    .navbar .nav-user-pic {
-        width: 20px;
-        margin-right: 10px;
-    }
-
-    .navbar .badge {
-        margin-left: 5px;
-    }
+.navbar .badge {
+    margin-left: 5px;
+}
 
 
 /* Notification */

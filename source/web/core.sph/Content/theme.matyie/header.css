@@ -20,6 +20,21 @@ header div.nav-header > ul {
 }
 #header-navbar {
   height: 47px;
+  background-color: #002050;
+}
+#header-navbar button {
+  color: #ffffff;
+}
+#header-navbar button:hover {
+  color: #ffffff;
+}
+#header-navbar li > a.dropdown-toggle:hover {
+  color: #002050 !important;
+  background-color: #ffffff;
+}
+#header-navbar li > a.dropdown-toggle:focus {
+  color: #002050 !important;
+  background-color: #ffffff;
 }
 .navbar .nav > li > a {
   -webkit-text-shadow: none;

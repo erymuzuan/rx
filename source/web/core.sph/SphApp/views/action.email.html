@@ -5,13 +5,13 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
-                <h3>Hantar email notifikasi</h3>
+                <h3>Email notification</h3>
             </div>
             <div class="modal-body" data-bind="with: action">
 
                 <form class="form-horizontal" id="email-action-form">
                     <div class="form-group">
-                        <label for="email-action-title" class="control-label">Tajuk</label>
+                        <label for="email-action-title" class="control-label">Title</label>
                         <div class="controls">
                             <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" required data-bind="value: Title" id="email-action-title" type="text" name="email-action-title" />
                         </div>

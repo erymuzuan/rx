@@ -2,7 +2,7 @@
 @{
     Layout = null;
 }
-<h2>View Designer</h2>
+<h1>View Designer</h1>
 <div class="row">
     <form class="form-horizontal" data-bind="with : view">
         <div class="form-group">
@@ -21,6 +21,21 @@
                        required pattern="^[A-Za-z_][A-Za-z0-9_-]*$"
                        placeholder="route url"
                        class="form-control" id="view-route">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="icon-storeid" class="col-lg-2 control-label">Icon/Logo</label>
+            <div class="col-lg-6">
+                <img width="150" height="150" data-bind="attr : {src:'/sph/image/thumbnail/' + IconStoreId()}" alt="Logo" />
+                <input type="file" data-bind="kendoUpload: IconStoreId" name="files" class="form-control" id="icon-storeid">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="view-note" class="col-lg-2 control-label">Note</label>
+            <div class="col-lg-6">
+                <textarea data-bind="value: Note"
+                          placeholder="Note about the view"
+                          class="form-control" id="view-note"></textarea>
             </div>
         </div>
     </form>
@@ -64,7 +79,7 @@
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-default" data-bind="click : addFilter">+ Filter</button>
+    <button class="btn btn-link" data-bind="click : addFilter">+ Filter</button>
 </div>
 <div class="row" data-bind="with : view">
 
@@ -91,5 +106,5 @@
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-default" data-bind="click : addViewColumn">+ Column</button>
+    <button class="btn btn-link" data-bind="click : addViewColumn">+ Column</button>
 </div>

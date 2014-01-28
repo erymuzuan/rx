@@ -989,7 +989,7 @@ ko.bindingHandlers.filter = {
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
             $element = $(element),
-            $filterInput = $("<input type='search' class='search-query input-medium form-control' placeholder='Tapis..'>"),
+            $filterInput = $("<input type='search' class='search-query input-medium form-control' placeholder='Filter..'>"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
             $form = $("<form class='form-search col-lg-4 col-lg-offset-8'>" +
                 " <div class='input-group pull-right'>" +
