@@ -58,7 +58,7 @@ WriteLiteral(" class=\"navbar-inner\"");
 
 WriteLiteral(">\r\n\r\n        <img");
 
-WriteLiteral(" src=\"/Images/sph_48x48.png\"");
+WriteLiteral(" src=\"/Images/sph_32x32.png\"");
 
 WriteLiteral(" class=\"pull-left\"");
 

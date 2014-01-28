@@ -24,11 +24,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                   tcs = new $.Deferred(),
                   formsQuery = String.format("EntityDefinitionId eq @Model.EntityDefinitionId"),
                   edTask = context.loadOneAsync("EntityDefinition", query),
-                  formsTask = context.loadAsync("EntityForm", formsQuery);
+                  formsTask = context.loadAsync("EntityForm", formsQuery),
+                  viewsTask = context.loadAsync("EntityView", formsQuery);
 
 
-                $.when(edTask, formsTask)
-                 .done(function (b, formsLo) {
+                $.when(edTask, formsTask, viewsTask)
+                 .done(function (b, formsLo, viewsLo) {
                      entity(b);
                      var formsCommands = _(formsLo.itemCollection).map(function (v) {
                          return {
@@ -40,6 +41,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                              icon: "@Model.IconClass"
                          };
                      });
+                     views(viewsLo.itemCollection);
                      vm.toolbar.commands(formsCommands);
                      tcs.resolve(true);
                  });

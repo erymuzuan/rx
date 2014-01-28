@@ -1210,6 +1210,9 @@
     <Content Include="Content\less\print.css">
       <DependentUpon>print.less</DependentUpon>
     </Content>
+    <Content Include="Content\less\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <EmbeddedResource Include="Scripts\jstree.min.js" />
     <EmbeddedResource Include="Images\Field.png" />
@@ -2088,6 +2091,9 @@
     </Content>
     <Content Include="Content\theme.matyie\header.css.map">
       <DependentUpon>header.css</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.matyie\dashboard.css.map">
+      <DependentUpon>dashboard.css</DependentUpon>
     </Content>
     <None Include="Content\__css.css.bundle" />
     <None Include="Properties\Settings.settings">

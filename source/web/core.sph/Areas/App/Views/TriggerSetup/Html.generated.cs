@@ -73,8 +73,11 @@ WriteLiteral(" data-toggle=\"collapse\"");
 
 WriteLiteral(" href=\"#general-trigger-panel\"");
 
-WriteLiteral(">\r\n        <h3>\r\n            General options\r\n        </h3>\r\n    </a>\r\n\r\n    <div" +
-"");
+WriteLiteral(">\r\n        <h3>\r\n            <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n            General options\r\n        </h3>\r\n    </a>\r\n\r\n    <div");
 
 WriteLiteral(" class=\"collapse in\"");
 
@@ -251,7 +254,23 @@ WriteLiteral(" />\r\n                <span");
 WriteLiteral(" class=\"help-block\"");
 
 WriteLiteral(">When this operation is invoked. Use \",\" to add more than 1 operations</span>\r\n  " +
-"          </div>\r\n        </div>\r\n    </div>\r\n\r\n    <h3>Rules</h3>\r\n    <a");
+"          </div>\r\n        </div>\r\n    </div>\r\n\r\n    <a");
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral(" href=\"#rules-panel\"");
+
+WriteLiteral(">\r\n        <h3>\r\n            <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n            Rules\r\n        </h3>\r\n    </a>\r\n    <div");
+
+WriteLiteral(" id=\"rules-panel\"");
+
+WriteLiteral(" class=\"collapsed collapse\"");
+
+WriteLiteral(">\r\n        <a");
 
 WriteLiteral(" href=\"#\"");
 
@@ -259,30 +278,32 @@ WriteLiteral(" class=\"pull-right\"");
 
 WriteLiteral(" data-bind=\"click: addRule\"");
 
-WriteLiteral(">+ Rule</a>\r\n    <table");
+WriteLiteral(">+ Rule</a>\r\n        <table");
 
 WriteLiteral(" id=\"rules-table\"");
 
 WriteLiteral(" class=\"table table-striped\"");
 
-WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th>Left</th>\r\n            " +
-"    <th>Operator</th>\r\n                <th>Right</th>\r\n                <th></th>" +
-"\r\n            </tr>\r\n        </thead>\r\n        <tbody");
+WriteLiteral(">\r\n            <thead>\r\n                <tr>\r\n                    <th>Left</th>\r\n" +
+"                    <th>Operator</th>\r\n                    <th>Right</th>\r\n     " +
+"               <th></th>\r\n                </tr>\r\n            </thead>\r\n         " +
+"   <tbody");
 
 WriteLiteral(" data-bind=\"foreach: RuleCollection\"");
 
-WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n");
+WriteLiteral(">\r\n                <tr>\r\n                    <td>\r\n");
 
-WriteLiteral("                    ");
+WriteLiteral("                        ");
 
             
-            #line 88 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
-               Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Left" }));
+            #line 95 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
+                   Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Left" }));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                </td>\r\n                <td>\r\n                    <select");
+WriteLiteral("\r\n                    </td>\r\n                    <td>\r\n                        <s" +
+"elect");
 
 WriteLiteral(" name=\"rule-operator\"");
 
@@ -290,51 +311,52 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-bind=\"value: Operator\"");
 
-WriteLiteral(">\r\n                        <option");
+WriteLiteral(">\r\n                            <option");
 
 WriteLiteral(" value=\"Eq\"");
 
-WriteLiteral(">=</option>\r\n                        <option");
+WriteLiteral(">=</option>\r\n                            <option");
 
 WriteLiteral(" value=\"Le\"");
 
-WriteLiteral(">&lt;=</option>\r\n                        <option");
+WriteLiteral(">&lt;=</option>\r\n                            <option");
 
 WriteLiteral(" value=\"Lt\"");
 
-WriteLiteral(">&lt;</option>\r\n                        <option");
+WriteLiteral(">&lt;</option>\r\n                            <option");
 
 WriteLiteral(" value=\"Ge\"");
 
-WriteLiteral(">&gt;=</option>\r\n                        <option");
+WriteLiteral(">&gt;=</option>\r\n                            <option");
 
 WriteLiteral(" value=\"Gt\"");
 
-WriteLiteral(">&gt;</option>\r\n                        <option");
+WriteLiteral(">&gt;</option>\r\n                            <option");
 
 WriteLiteral(" value=\"Substringof\"");
 
-WriteLiteral(">Substringof</option>\r\n                        <option");
+WriteLiteral(">Substringof</option>\r\n                            <option");
 
 WriteLiteral(" value=\"StartsWith\"");
 
-WriteLiteral(">StartsWith</option>\r\n                        <option");
+WriteLiteral(">StartsWith</option>\r\n                            <option");
 
 WriteLiteral(" value=\"EndsWith\"");
 
-WriteLiteral(">EndsWith</option>\r\n                    </select>\r\n                </td>\r\n       " +
-"         <td>\r\n");
+WriteLiteral(">EndsWith</option>\r\n                        </select>\r\n                    </td>\r" +
+"\n                    <td>\r\n");
 
-WriteLiteral("                    ");
+WriteLiteral("                        ");
 
             
-            #line 103 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
-               Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Right" }));
+            #line 110 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
+                   Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Right" }));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                </td>\r\n                <td>\r\n                    <a");
+WriteLiteral("\r\n                    </td>\r\n                    <td>\r\n                        <a" +
+"");
 
 WriteLiteral(" rel=\"nofollow\"");
 
@@ -342,75 +364,94 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click : $parent.removeRule.call($parent,$data)\"");
 
-WriteLiteral(">Buang</a>\r\n                </td>\r\n            </tr>\r\n        </tbody>\r\n    </tab" +
-"le>\r\n\r\n    <h3>Action</h3>\r\n    <div");
+WriteLiteral(">\r\n                            Remove\r\n                        </a>\r\n            " +
+"        </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n  " +
+"  </div>\r\n\r\n    <a");
 
-WriteLiteral(" id=\"action-panel\"");
+WriteLiteral(" data-toggle=\"collapse\"");
 
-WriteLiteral(" class=\"pull-right\"");
+WriteLiteral(" href=\"#actions-panel\"");
+
+WriteLiteral(">\r\n        <h3>\r\n            <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n\r\n            Action\r\n        </h3>\r\n    </a>\r\n\r\n    <div");
+
+WriteLiteral(" id=\"actions-panel\"");
+
+WriteLiteral(" class=\"collapsed collapse\"");
 
 WriteLiteral(">\r\n        <div");
 
+WriteLiteral(" id=\"action-panel\"");
+
+WriteLiteral(">\r\n            <div");
+
 WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(">\r\n            <a");
+WriteLiteral(">\r\n                <a");
 
 WriteLiteral(" class=\"btn btn-link dropdown-toggle\"");
 
 WriteLiteral(" data-toggle=\"drop-down\"");
 
-WriteLiteral(">\r\n                Add Action &nbsp;<span");
+WriteLiteral(">\r\n                    Add Action &nbsp;<span");
 
 WriteLiteral(" class=\"caret\"");
 
-WriteLiteral("></span>\r\n            </a>\r\n            <ul");
+WriteLiteral("></span>\r\n                </a>\r\n                <ul");
 
 WriteLiteral(" class=\"dropdown-menu\"");
 
-WriteLiteral(">\r\n                <li>\r\n                    <a");
+WriteLiteral(">\r\n                    <li>\r\n                        <a");
 
 WriteLiteral(" class=\"btn btn-link\"");
 
 WriteLiteral(" data-bind=\"click: addAction(\'Email\')\"");
 
-WriteLiteral(">\r\n                        <i");
+WriteLiteral(">\r\n                            <i");
 
 WriteLiteral(" class=\"fa fa-envelope\"");
 
-WriteLiteral("></i>\r\n                        Add Email Action\r\n                    </a>\r\n      " +
-"          </li>\r\n                <li>\r\n                    <a");
+WriteLiteral("></i>\r\n                            Add Email Action\r\n                        </a>" +
+"\r\n                    </li>\r\n                    <li>\r\n                        <" +
+"a");
 
 WriteLiteral(" class=\"btn btn-link\"");
 
 WriteLiteral(" data-bind=\"click: addAction(\'Setter\')\"");
 
-WriteLiteral(">\r\n                        <i");
+WriteLiteral(">\r\n                            <i");
 
 WriteLiteral(" class=\"fa fa-gear\"");
 
-WriteLiteral("></i>\r\n                        Add Setter Action\r\n                    </a>\r\n     " +
-"           </li>\r\n                <li>\r\n                    <a");
+WriteLiteral("></i>\r\n                            Add Setter Action\r\n                        </a" +
+">\r\n                    </li>\r\n                    <li>\r\n                        " +
+"<a");
 
 WriteLiteral(" class=\"btn btn-link\"");
 
 WriteLiteral(" data-bind=\"click: addAction(\'StartWorkflow\')\"");
 
-WriteLiteral(">\r\n                        <i");
+WriteLiteral(">\r\n                            <i");
 
 WriteLiteral(" class=\"fa fa-gears\"");
 
-WriteLiteral("></i>\r\n                        Start Workflow\r\n                    </a>\r\n        " +
-"        </li>\r\n\r\n            </ul>\r\n        </div>\r\n\r\n    </div>\r\n\r\n    <table");
+WriteLiteral("></i>\r\n                            Start Workflow\r\n                        </a>\r\n" +
+"                    </li>\r\n\r\n                </ul>\r\n            </div>\r\n\r\n      " +
+"  </div>\r\n        <table");
 
 WriteLiteral(" class=\"table table-striped\"");
 
-WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th>Title</th>\r\n           " +
-"     <th>Note</th>\r\n                <th>Is active</th>\r\n                <th></th" +
-">\r\n            </tr>\r\n        </thead>\r\n        <tbody");
+WriteLiteral(">\r\n            <thead>\r\n                <tr>\r\n                    <th>Title</th>\r" +
+"\n                    <th>Note</th>\r\n                    <th>Is active</th>\r\n    " +
+"                <th></th>\r\n                </tr>\r\n            </thead>\r\n        " +
+"    <tbody");
 
 WriteLiteral(" data-bind=\"foreach: ActionCollection\"");
 
-WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n                    <a");
+WriteLiteral(">\r\n                <tr>\r\n                    <td>\r\n                        <a");
 
 WriteLiteral(" type=\"button\"");
 
@@ -420,7 +461,7 @@ WriteLiteral(" data-bind=\"click : $parent.editAction.call($parent,$data)\"");
 
 WriteLiteral(" href=\"#\"");
 
-WriteLiteral(">\r\n\r\n                        <img");
+WriteLiteral(">\r\n\r\n                            <img");
 
 WriteLiteral(" data-bind=\"fieldImage : $type\"");
 
@@ -428,9 +469,10 @@ WriteLiteral(" class=\"pull-left\"");
 
 WriteLiteral(" alt=\".\"");
 
-WriteLiteral(" />\r\n                        &nbsp;\r\n                        <!-- ko text : Title" +
-" -->\r\n                        <!-- /ko -->\r\n                    </a>\r\n          " +
-"      </td>\r\n                <td>\r\n                    <input");
+WriteLiteral(" />\r\n                            &nbsp;\r\n                            <!-- ko text" +
+" : Title -->\r\n                            <!-- /ko -->\r\n                        " +
+"</a>\r\n                    </td>\r\n                    <td>\r\n                     " +
+"   <input");
 
 WriteLiteral(" type=\"text\"");
 
@@ -438,7 +480,8 @@ WriteLiteral(" class=\"input-action-note form-control\"");
 
 WriteLiteral(" data-bind=\"value: Note\"");
 
-WriteLiteral(" />\r\n                </td>\r\n                <td>\r\n                    <input");
+WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
+" <input");
 
 WriteLiteral(" class=\"input-action-isactive\"");
 
@@ -450,7 +493,8 @@ WriteLiteral(" type=\"checkbox\"");
 
 WriteLiteral(" name=\"IsActive\"");
 
-WriteLiteral(" />\r\n                </td>\r\n                <td>\r\n                    <a");
+WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
+" <a");
 
 WriteLiteral(" class=\"btn btn-mini\"");
 
@@ -460,8 +504,8 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click: $parent.removeAction.call($parent,$data)\"");
 
-WriteLiteral(">Buang</a>\r\n                </td>\r\n            </tr>\r\n        </tbody>\r\n    </tab" +
-"le>\r\n</form>\r\n");
+WriteLiteral(">Buang</a>\r\n                    </td>\r\n                </tr>\r\n            </tbody" +
+">\r\n        </table>\r\n    </div>\r\n</form>\r\n");
 
         }
     }

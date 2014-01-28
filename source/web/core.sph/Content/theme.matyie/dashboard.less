@@ -1,54 +1,5 @@
 ﻿@import 'variables.less';
 
-#rental-list {
-    h3 {
-        color: #fff;
-        font-style: bold;
-    }
-
-    label, a {
-        color: #fff;
-        font-size: 16px;
-    }
-
-    ul {
-        list-style: none;
-
-        li {
-            width: 190px;
-            height: 90px;
-            padding: 10px;
-            margin: 10px;
-            background-color: @modal-footer-border-color;
-            float: left;
-            border-radius: 5px;
-        }
-
-            li.Baru {
-                background-color: @badge-active-color;
-            }
-
-            li.Menunggu {
-                background-color: @alert-danger-bg;
-            }
-
-            li.Diluluskan {
-                background-color: @alert-success-bg;
-            }
-
-            li.Dikembalikan {
-                background-color: orange;
-            }
-
-            li.Ditolak {
-                background-color: red;
-            }
-
-            li.Selesai {
-                background-color: @alert-success-bg;
-            }
-    }
-}
 
 
 * {
@@ -65,9 +16,6 @@
     margin-bottom: 9px;
 }
 
-.navbar * {
-    background-image: none !important;
-}
 
 form * {
     font-family: "Segoe UI", "Segoe UI Web Regular", "Segoe UI Symbol", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
@@ -282,97 +230,8 @@ a.btn {
     background: #52b9e9 !important;
 }
 
-/* Background colors */
 
 
-.blightblue {
-    background: #52b9e9 !important;
-    color: #fff !important;
-    border: 0px !important;
-}
-
-.bblue {
-    background: #1171a3 !important;
-    color: #fff !important;
-    border: 0px !important;
-}
-
-.bgreen {
-    background: #43c83c !important;
-    color: #fff !important;
-    border: 0px !important;
-}
-
-.borange {
-    background: #f88529 !important;
-    color: #fff !important;
-    border: 0px !important;
-}
-
-.bred {
-    background: #fa3031 !important;
-    color: #fff !important;
-    border: 0px !important;
-}
-
-.bviolet {
-    background: #932ab6 !important;
-    color: #fff !important;
-    border: 0px !important;
-}
-
-    .blightblue h2, .blightblue h3, .blightblue h3, .blightblue h4, .blightblue h5, .blightblue h6,
-    .bblue h2, .bblue h3, .bblue h3, .bblue h4, .bblue h5, .bblue h6,
-    .bgreen h2, .bgreen h3, .bgreen h3, .bgreen h4, .bgreen h5, .bgreen h6,
-    .bred h2, .bred h3, .bred h3, .bred h4, .bred h5, .bred h6,
-    .bviolet h2, .bviolet h3, .bviolet h3, .bviolet h4, .bviolet h5, .bviolet h6,
-    .borange h2, .borange h3, .borange h3, .borange h4, .borange h5, .borange h6 {
-        color: #fff !important;
-    }
-
-    .blightblue a,
-    .bblue a,
-    .bgreen a,
-    .bred a,
-    .borange a,
-    .bviolet a {
-        color: #eee !important;
-    }
-
-        .blightblue a:hover,
-        .bblue a:hover,
-        .bgreen a:hover,
-        .bred a:hover,
-        .borange a:hover,
-        .bviolet a:hover {
-            color: #ddd !important;
-        }
-
-/* Text colors */
-
-.lightblue {
-    color: #52b9e9 !important;
-}
-
-.blue {
-    color: #1171a3 !important;
-}
-
-.green {
-    color: #43c83c !important;
-}
-
-.orange {
-    color: #f88529 !important;
-}
-
-.red {
-    color: #fa3031 !important;
-}
-
-.violet {
-    color: #932ab6 !important;
-}
 
 
 /* Modal */
@@ -549,52 +408,63 @@ form {
 
 /* Navbar */
 
-.navbar * {
-    text-shadow: none !important;
+.navbar {
+    background-color: @brand-header-color;
+
+    button {
+        color : @label-color;
+    }
+    button:hover {
+        color : @label-color;
+    }
 }
 
+    .navbar * {
+        text-shadow: none !important;
+        background-image: none !important;
+    }
 
-.navbar .brand {
-    color: #eee !important;
-}
 
-.navbar .container {
-    width: 97% !important;
-}
+    .navbar .brand {
+        color: #eee !important;
+    }
 
-.navbar .nav > li > a {
-    font-size: 14px;
-    color: #fff;
-    margin: 4px;
-    padding-left: 0px;
+    .navbar .container {
+        width: 97% !important;
+    }
 
-}
+    .navbar .nav > li > a {
+        font-size: 14px;
+        color: #fff;
+        margin: 4px;
+        padding-left: 0px;
+    }
 
-.navbar .nav > li > a:hover {
-    background-color: #000;
-}
+        .navbar .nav > li > a:hover {
+            background-color: @brand-header-color;
+        }
 
-.navbar .nav > li > a:focus {
-    background-color: #000;
-}
+        .navbar .nav > li > a:focus {
+            background-color: @brand-header-color;
+        }
 
-.navbar i {
-    margin-right: 3px;
-}
+    .navbar i {
+        margin-right: 3px;
+    }
 
-.navbar .caret {
-    border-top-color: #fff !important;
-    border-bottom-color: #fff !important;
-}
+    .navbar .caret {
+        border-top-color: #fff !important;
+        border-bottom-color: #fff !important;
+    }
 
-.navbar .nav-user-pic {
-    width: 20px;
-    margin-right: 10px;
-}
+    .navbar .nav-user-pic {
+        width: 20px;
+        margin-right: 10px;
+    }
 
-.navbar .badge {
-    margin-left: 5px;
-}
+    .navbar .badge {
+        margin-left: 5px;
+    }
 
 
 /* Notification */
@@ -1215,46 +1085,44 @@ form {
 
 /* Today datas */
 
-.today-datas {
+.metro-tile {
     list-style-type: none;
     padding: 0px;
     margin: 10px 0px;
 }
 
-    .today-datas li {
+    .metro-tile li {
         display: inline-block;
         margin-bottom: 5px;
         margin-right: 10px;
         padding: 20px 15px;
-        background-color: #f8f8f8;
-        background: #f8f8f8;
         border: 1px solid #ccc;
         max-width: 100%;
         text-align: center;
     }
 
-        .today-datas li .spark {
+        .metro-tile li .spark {
             margin-right: 10px;
         }
 
-        .today-datas li .datas-text {
+        .metro-tile li .data-text {
             font-size: 13px;
             padding: 7px 0px 0px 0px;
             font-weight: normal;
         }
 
-            .today-datas li .datas-text span {
+            .metro-tile li .data-text span {
                 display: block;
                 font-size: 24px;
                 margin-bottom: 5px;
             }
 
-        .today-datas li i {
+        .metro-tile li i {
             font-size: 50px;
             margin-right: 10px;
         }
 
-        .today-datas li .dial {
+        .metro-tile li .dial {
             margin-right: 10px !important;
         }
 
@@ -1577,7 +1445,7 @@ form {
         float: none;
     }
 
-    .today-datas {
+    .metro-tile {
         text-align: center;
     }
 
@@ -1808,13 +1676,7 @@ footer.main {
         margin-left: 10px;
     }
 
-.jPanelMenu-panel {
-    position: fixed;
-    left: 0px;
-    display: none;
-    z-index: 1080;
-    background-color: #3b3b3b;
-}
+
 
 #drawer-menu {
     display: block;

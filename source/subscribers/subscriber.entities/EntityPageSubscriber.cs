@@ -22,6 +22,15 @@ namespace subscriber.entities
 
         protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
+            var context = new SphDataContext();
+            var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true
+                && f.EntityDefinitionId == item.EntityDefinitionId);
+            var vm = new
+            {
+                Definition = item,
+                Form = form
+            };
+
             var assembly = Assembly.GetExecutingAssembly();
             const string resourceName = "subscriber.entities.entity.page";
 
@@ -30,7 +39,7 @@ namespace subscriber.entities
             using (var reader = new StreamReader(stream))
             {
                 var raw = reader.ReadToEnd();
-                var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, item);
+                var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                 if (File.Exists(html))
                 {
                     File.Move(html, string.Format("{0}_{1:yyyyMMdd_HHmmss}.html", html.Replace(".html",""), DateTime.Now));
@@ -45,7 +54,7 @@ namespace subscriber.entities
             using (var reader = new StreamReader(stream))
             {
                 var raw = reader.ReadToEnd();
-                var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, item);
+                var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                 if (File.Exists(js))
                 {
                     File.Move(js, string.Format("{0}_{1:yyyyMMdd_HHmmss}.js", js.Replace(".js",""), DateTime.Now));

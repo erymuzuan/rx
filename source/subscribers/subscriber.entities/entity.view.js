@@ -59,7 +59,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             list: list,
             query: query,
             toolbar: {
-                commands: ko.observableArray([])
+                commands: ko.observableArray([]),
+                addNew: {
+                    location: '#/@Model.Form.Route/0',
+                    caption: '@Model.Form.Name'
+                }
             }
         };
 
