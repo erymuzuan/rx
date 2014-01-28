@@ -10,18 +10,18 @@
 
 
 define([],
-    function() {
+    function () {
 
         var isBusy = ko.observable(false),
             rdl = ko.observable(),
             activate = function (reportDefinition) {
                 rdl(reportDefinition);
             },
-            showPreview = function() {
+            showPreview = function () {
                 $('#preview-parameters-dialog').modal();
                 return Task.fromResult(true);
             },
-            executePreview = function() {
+            executePreview = function () {
                 var $layout = $('#report-preview-panel');
                 $layout.html('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />');
 
@@ -34,7 +34,7 @@ define([],
                         $layout.html(html);
                         tcs.resolve(true);
                     })
-                    .fail(function(error) {
+                    .fail(function (error) {
                         $layout.html(error.responseText);
                     });
 
@@ -46,7 +46,7 @@ define([],
             activate: activate,
             rdl: rdl,
             showPreview: showPreview,
-            executePreview : executePreview
+            executePreview: executePreview
         };
 
         return vm;

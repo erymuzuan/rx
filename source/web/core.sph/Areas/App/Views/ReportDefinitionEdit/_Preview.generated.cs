@@ -50,7 +50,7 @@ WriteLiteral("\r\n\r\n<div");
 
 WriteLiteral(" data-bind=\"compose:\'viewmodels/_reportdefinition.preview\'\"");
 
-WriteLiteral(">/*/*/*/*</div>\r\n");
+WriteLiteral(">/*/*/*/*-*-*</div>\r\n");
 
         }
     }

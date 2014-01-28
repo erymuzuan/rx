@@ -6,8 +6,6 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/bootstrap.js" />
-/// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
 define(['services/datacontext', 'services/logger', 'durandal/system',
         './reportdefinition.base', './_reportdefinition.preview', 'services/jsonimportexport'],
@@ -38,7 +36,6 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                 context.getListAsync("EntityDefinition", "EntityDefinitionId gt 0", "Name")
                 .done(function (list) {
                     entities(list);
-                    tcs.resolve(true);
                 });
 
 
