@@ -2,7 +2,6 @@
   width: 0px;
   display: none;
   background-color: #252526;
-  margin-top: -40px;
 }
 #slider-menu .nav > li {
   padding: 5px;
@@ -31,3 +30,4 @@
   margin-top: 5px;
   z-index: 2;
 }
+/*# sourceMappingURL=nav.css.map */

@@ -2095,6 +2095,9 @@
     <Content Include="Content\theme.matyie\dashboard.css.map">
       <DependentUpon>dashboard.css</DependentUpon>
     </Content>
+    <Content Include="Content\theme.matyie\nav.css.map">
+      <DependentUpon>nav.css</DependentUpon>
+    </Content>
     <None Include="Content\__css.css.bundle" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
