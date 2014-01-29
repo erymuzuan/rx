@@ -297,6 +297,20 @@
   },
   {
     "role": "can_edit_workflow",
+    "groupName": "Entity",
+    "route": "entity.business.rule.designer/:entityid/:brid",
+    "moduleId": "viewmodels/entity.business.rule.designer",
+    "title": "Entity Business Rule Designer",
+    "nav": false,
+    "icon": "fa-bug",
+    "caption": "Entity Business Rule Designer",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
     "groupName": "Workflow",
     "route": "workflow.debugger/:id",
     "moduleId": "viewmodels/workflow.debugger",

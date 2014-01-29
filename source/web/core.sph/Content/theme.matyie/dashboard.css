@@ -66,8 +66,11 @@ h2 {
   line-height: 40px;
 }
 h3 {
-  font-size: 23px;
+  font-size: 19px;
   line-height: 33px;
+  text-decoration: underline;
+  text-transform: lowercase;
+  padding-left: 22px;
 }
 h4 {
   font-size: 20px;

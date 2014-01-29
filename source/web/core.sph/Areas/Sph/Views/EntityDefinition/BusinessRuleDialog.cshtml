@@ -1,0 +1,98 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Web.Models
+
+
+
+<section class="view-model-modal" id="rule-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>
+                    <i class="fa fa-list-alt"></i>
+                    Business Rule
+                </h3>
+            </div>
+            <div class="modal-body" data-bind="with: rule">
+
+                <form class="form-horizontal" id="rule-dialog-form">
+
+
+                    <div class="form-group">
+                        <label for="Name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="Name" placeholder="Rule name...." data-bind="value:Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Description" class="col-lg-2 control-label">Description</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="Description" placeholder="Description...." data-bind="value:Description">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ErrorLocation" class="col-lg-2 control-label">Error Location</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="ErrorLocation" placeholder="ErrorLocation...." data-bind="value:ErrorLocation">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="br-message" class="col-lg-2 control-label">Message</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="br-message" placeholder="Message" data-bind="value:ErrorMessage">
+                        </div>
+                    </div>
+
+                    <h4>
+                        <i class="fa fa-list-alt"></i>
+                        Rules
+                    </h4>
+                    <a class="btn btn-link pull-right" data-bind="click: addRule">+ Rule</a>
+                    <table id="rules-table" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Left</th>
+                                <th>Operator</th>
+                                <th>Right</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: RuleCollection">
+                            <tr>
+                                <td>
+                                    @Html.Partial("_RuleFieldDropDown", new TypeModel { Path = "Left" })
+                                </td>
+                                <td>
+                                    <select name="rule-operator" class="form-control" data-bind="value: Operator">
+                                        <option value="Eq">=</option>
+                                        <option value="Le">&lt;=</option>
+                                        <option value="Lt">&lt;</option>
+                                        <option value="Ge">&gt;=</option>
+                                        <option value="Gt">&gt;</option>
+                                        <option value="Substringof">Contains</option>
+                                        <option value="StartsWith">Starts with</option>
+                                        <option value="EndsWith">Ends with</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    @Html.Partial("_RuleFieldDropDown", new TypeModel { Path = "Right" })
+                                </td>
+                                <td>
+                                    <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click : $parent.removeRule.call($parent,$data)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="rule-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -78,6 +78,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
+        public ActionResult BusinessRuleDialog()
+        {
+            return View();
+        }
+
 
     }
 }

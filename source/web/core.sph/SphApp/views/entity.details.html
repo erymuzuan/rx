@@ -93,7 +93,7 @@
             <tbody data-bind="foreach :BusinessRuleCollection">
                 <tr>
                     <td>
-                        <a data-bind="click :$parent.editBusinessRull.call($parent,$data) ,text: Name"></a>
+                        <a href="#business-rules-table" data-bind="click :$parent.editBusinessRule.call($parent,$data) ,text: Name"></a>
                     </td>
                     <td data-bind="text:Description"></td>
                     <td></td>
@@ -101,7 +101,6 @@
             </tbody>
         </table>
         <a class="btn btn-link" data-bind="click : addBusinessRule">+ Create new rule</a>
-
     </div>
 </div>
 

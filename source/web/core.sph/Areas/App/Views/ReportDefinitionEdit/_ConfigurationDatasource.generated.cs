@@ -129,16 +129,16 @@ WriteLiteral(">&gt;</option>\r\n                        <option");
 
 WriteLiteral(" value=\"Substringof\"");
 
-WriteLiteral(">Mengandungi</option>\r\n                        <option");
+WriteLiteral(">Contains</option>\r\n                        <option");
 
 WriteLiteral(" value=\"StartsWith\"");
 
-WriteLiteral(">Mula dengan</option>\r\n                        <option");
+WriteLiteral(">Starts with</option>\r\n                        <option");
 
 WriteLiteral(" value=\"EndsWith\"");
 
-WriteLiteral(">Akhir</option>\r\n                    </select>\r\n                </td>\r\n          " +
-"      <td>\r\n                    <input");
+WriteLiteral(">Ends with</option>\r\n                    </select>\r\n                </td>\r\n      " +
+"          <td>\r\n                    <input");
 
 WriteLiteral(" class=\"input-datasource-value form-control\"");
 

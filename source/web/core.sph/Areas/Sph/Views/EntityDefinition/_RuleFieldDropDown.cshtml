@@ -1,0 +1,33 @@
+﻿@model Bespoke.Sph.Web.Models.TypeModel
+@{
+    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+}
+
+<div class="btn-group">
+    <a data-bind="with : @Model.Path, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+        <!-- ko text : Name -->
+        <!-- /ko -->
+        <span class="caret pull-right"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li data-bind="with : @Model.Path">
+            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.@Model.Path)">
+                <i class="fa fa-edit"></i>
+                Edit Field
+            </a>
+        </li>
+
+        @foreach (var type in fieldTypes)
+        {
+            <li>
+                <a class="btn btn-link" data-bind="unwrapClick: addField, field : '@type', accessor : $data.@Model.Path" href="#">
+                    <img src="@string.Format("/images/{0}Field.png",type)" class="pull-left"/>
+                    + @type
+                </a>
+            </li>
+        }
+
+
+    </ul>
+</div>

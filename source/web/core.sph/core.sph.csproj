@@ -656,6 +656,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Page.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BusinessRuleDialog.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_RuleFieldDropDown.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Sph\Views\Home\index.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1309,6 +1319,10 @@
     <Content Include="favicon.ico" />
     <EmbeddedResource Include="Scripts\jstree.min.js" />
     <EmbeddedResource Include="Images\Field.png" />
+    <Content Include="Areas\Sph\Views\EntityDefinition\_RuleFieldDropDown.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_RuleFieldDropDown.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
@@ -1975,6 +1989,7 @@
     <Content Include="SphApp\objectbuilders.min.js.map">
       <DependentUpon>objectbuilders.js</DependentUpon>
     </Content>
+    <EmbeddedResource Include="SphApp\viewmodels\business.rule.dialog.js" />
     <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
@@ -1996,6 +2011,7 @@
     <EmbeddedResource Include="Scripts\durandal\transitions\entrance.js" />
     <EmbeddedResource Include="Scripts\durandal\viewEngine.js" />
     <EmbeddedResource Include="Scripts\durandal\viewLocator.js" />
+    <Content Include="SphApp\views\business.rule.dialog.html" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\AddressElement.cshtml">
@@ -2622,7 +2638,6 @@
     <Folder Include="Areas\App\Views\ReportDefinition\" />
     <Folder Include="Areas\Sph\Models\" />
     <Folder Include="Areas\Sph\Views\Base\" />
-    <Folder Include="Areas\Sph\Views\EntityDefinition\" />
     <Folder Include="Areas\Sph\Views\EntityForm\" />
     <Folder Include="Filters\" />
   </ItemGroup>
@@ -3284,7 +3299,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Ace.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Template\_BusinessRule.cshtml" />
+    <Content Include="Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>BusinessRuleDialog.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\App\Views\ActivityScreen\Html.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>

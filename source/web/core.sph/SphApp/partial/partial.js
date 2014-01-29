@@ -337,7 +337,7 @@ bespoke.sph.domain.DelayActivityPartial = function () {
 ///#source 1 1 /SphApp/partial/EntityDefinition.js
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
@@ -345,6 +345,7 @@ bespoke.sph.domain.DelayActivityPartial = function () {
 
 bespoke.sph.domain.EntityDefinitionPartial = function () {
     var system = require('durandal/system'),
+        context = require(objectbuilders.datacontext),
         addMember = function() {
             this.MemberCollection.push(new bespoke.sph.domain.Member(system.guid()));
         },
@@ -371,19 +372,19 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
             };
         },
         addBusinessRule = function() {
-            this.BusinessRuleCollection.push(new bespoke.sph.domain.BusinessRule(system.guid()));
+            this.BusinessRuleCollection.push(new bespoke.sph.domain.BusinessRule({WebId : system.guid(), Name : '<New Rule>'}));
         },
         editBusinessRule = function(rule) {
             var self = this;
             return function() {
-                require(['viewmodels/rule.dialog', 'durandal/app'], function(dialog, app) {
-                    var clone = ko.mapping.fromJS(ko.mapping.toJS(rule));
+                require(['viewmodels/business.rule.dialog', 'durandal/app'], function(dialog, app) {
+                    var clone = context.toObservable(ko.mapping.toJS(rule));
                     dialog.rule(clone);
                     app.showDialog(dialog)
                         .done(function(result) {
                             if (!result) return;
                             if (result == "OK") {
-                                self.BlockCollection.replace(rule, clone);
+                                self.BusinessRuleCollection.replace(rule, clone);
                             }
                         });
                 });
