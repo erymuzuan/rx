@@ -180,9 +180,9 @@ WriteLiteral(" data-bind=\"click: $root.removeReportItem\"");
 
 WriteLiteral(">\r\n            <i");
 
-WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
+WriteLiteral(" class=\"fa fa-times\"");
 
-WriteLiteral("></i>\r\n            Buang\r\n        </a>\r\n    </div>\r\n</section>\r\n");
+WriteLiteral("></i>\r\n            Remove\r\n        </a>\r\n    </div>\r\n</section>\r\n");
 
         }
     }

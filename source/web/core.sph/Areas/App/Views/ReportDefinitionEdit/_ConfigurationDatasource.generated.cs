@@ -152,8 +152,12 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click: $root.removeFilter\"");
 
-WriteLiteral(">Buang</a>\r\n                </td>\r\n            </tr>\r\n        </tbody>\r\n    </tab" +
-"le>\r\n      <div");
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-times\"");
+
+WriteLiteral("></i></a>\r\n                </td>\r\n            </tr>\r\n        </tbody>\r\n    </tabl" +
+"e>\r\n      <div");
 
 WriteLiteral(" class=\"form-group\"");
 

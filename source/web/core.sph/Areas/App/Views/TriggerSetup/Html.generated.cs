@@ -504,8 +504,12 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(" data-bind=\"click: $parent.removeAction.call($parent,$data)\"");
 
-WriteLiteral(">Buang</a>\r\n                    </td>\r\n                </tr>\r\n            </tbody" +
-">\r\n        </table>\r\n    </div>\r\n</form>\r\n");
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-times\"");
+
+WriteLiteral("></i></a>\r\n                    </td>\r\n                </tr>\r\n            </tbody>" +
+"\r\n        </table>\r\n    </div>\r\n</form>\r\n");
 
         }
     }

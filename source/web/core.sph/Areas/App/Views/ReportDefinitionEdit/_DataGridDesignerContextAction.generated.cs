@@ -113,7 +113,7 @@ WriteLiteral(" data-bind=\"foreach: DataGridColumnCollection\"");
 WriteLiteral(">\r\n                <tr>\r\n                    <td>\r\n                        <input" +
 "");
 
-WriteLiteral("  class=\"input-datagrid-column-expression input-large \"");
+WriteLiteral("  class=\"input-datagrid-column-expression form-control \"");
 
 WriteLiteral(" data-bind=\"kendoComboBox: Expression, source: $root.dataGridColumnOptions\"");
 
@@ -121,7 +121,7 @@ WriteLiteral(" />\r\n                    </td>\r\n                    <td><input
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" class=\"input-datagrid-column-header\"");
+WriteLiteral(" class=\"input-datagrid-column-header form-control\"");
 
 WriteLiteral(" data-bind=\"value: Header\"");
 
@@ -137,7 +137,7 @@ WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n  
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" class=\"input-datagrid-column-footer\"");
+WriteLiteral(" class=\"input-datagrid-column-footer form-control\"");
 
 WriteLiteral(" data-bind=\"value: FooterExpression\"");
 
@@ -149,7 +149,7 @@ WriteLiteral(" data-bind=\"click : $parent.removeColumn.call($parent,$data)\"");
 
 WriteLiteral("><i");
 
-WriteLiteral(" class=\"fa fa-remove\"");
+WriteLiteral(" class=\"fa fa-times\"");
 
 WriteLiteral("></i></a></td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n\r\n" +
 "        <button");
@@ -195,7 +195,7 @@ WriteLiteral(" data-bind=\"foreach: DataGridGroupDefinitionCollection\"");
 WriteLiteral(">\r\n                <tr>\r\n                    <td>\r\n                        <input" +
 "");
 
-WriteLiteral("  class=\"input-datagrid-group-column input-large \"");
+WriteLiteral("  class=\"input-datagrid-group-column form-control \"");
 
 WriteLiteral(" data-bind=\"kendoComboBox: Column, source: $root.columnOptions\"");
 
@@ -221,7 +221,7 @@ WriteLiteral(" data-bind=\"click: $parent.removeDataGridGroupDefinition.call($pa
 
 WriteLiteral("><i");
 
-WriteLiteral(" class=\"fa fa-remove\"");
+WriteLiteral(" class=\"fa fa-times\"");
 
 WriteLiteral("></i></a></td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n\r\n" +
 "        <a");
@@ -232,9 +232,9 @@ WriteLiteral(" data-bind=\"click: $root.removeReportItem\"");
 
 WriteLiteral(">\r\n            <i");
 
-WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
+WriteLiteral(" class=\"fa fa-times\"");
 
-WriteLiteral("></i>\r\n            Buang\r\n        </a>\r\n\r\n\r\n    </div>\r\n</section>\r\n");
+WriteLiteral("></i>\r\n            Remove\r\n        </a>\r\n\r\n\r\n    </div>\r\n</section>\r\n");
 
         }
     }

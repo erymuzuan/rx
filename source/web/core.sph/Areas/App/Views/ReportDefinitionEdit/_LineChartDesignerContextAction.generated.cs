@@ -83,7 +83,7 @@ WriteLiteral(" class=\"controls\"");
 
 WriteLiteral(">\r\n                <input");
 
-WriteLiteral(" class=\"input-xlarge\"");
+WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-bind=\"value: Title\"");
 
@@ -105,6 +105,8 @@ WriteLiteral(" class=\"controls\"");
 
 WriteLiteral(">\r\n                <input");
 
+WriteLiteral(" class=\"form-control\"");
+
 WriteLiteral(" data-bind=\"value: ValueLabelFormat\"");
 
 WriteLiteral(" id=\"line-chart\"");
@@ -124,6 +126,8 @@ WriteLiteral(">Category Axis</label>\r\n            <div");
 WriteLiteral(" class=\"controls\"");
 
 WriteLiteral(">\r\n                <select");
+
+WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-bind=\"value: HorizontalAxisField, options:$root.columnOptions\"");
 
@@ -153,12 +157,16 @@ WriteLiteral(" data-bind=\"foreach :ChartSeriesCollection\"");
 WriteLiteral(">\r\n                    <tr>\r\n                        <td>\r\n                      " +
 "      <select");
 
+WriteLiteral(" class=\"form-control\"");
+
 WriteLiteral(" data-bind=\"value: Column, options:$root.columnOptions\"");
 
 WriteLiteral(" name=\"HorizontalAxisField\"");
 
 WriteLiteral("></select>\r\n                        </td>\r\n                        <td>\r\n        " +
 "                    <input");
+
+WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" type=\"text\"");
 
@@ -171,8 +179,13 @@ WriteLiteral(" href=\"/#\"");
 
 WriteLiteral(" data-bind=\"click : $parent.removeSeries.call($parent,$data)\"");
 
-WriteLiteral(">&times;</a>\r\n                        </td>\r\n                    </tr>\r\n         " +
-"       </tbody>\r\n            </table>\r\n        </div>\r\n        <a");
+WriteLiteral(">\r\n                                <i");
+
+WriteLiteral(" class=\"fa fa-times\"");
+
+WriteLiteral("></i> \r\n                            </a>\r\n                        </td>\r\n        " +
+"            </tr>\r\n                </tbody>\r\n            </table>\r\n        </div" +
+">\r\n        <a");
 
 WriteLiteral(" class=\"btn btn-link pull-right\"");
 
@@ -180,9 +193,9 @@ WriteLiteral(" data-bind=\"click: $root.removeReportItem\"");
 
 WriteLiteral(">\r\n            <i");
 
-WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
+WriteLiteral(" class=\"fa fa-times\"");
 
-WriteLiteral("></i>\r\n            Buang\r\n        </a>\r\n    </div>\r\n</section>\r\n");
+WriteLiteral("></i>\r\n            Remove\r\n        </a>\r\n    </div>\r\n</section>\r\n");
 
         }
     }

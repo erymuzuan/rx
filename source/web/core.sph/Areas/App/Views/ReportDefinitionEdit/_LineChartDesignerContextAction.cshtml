@@ -10,20 +10,20 @@
         <div class="control-group">
             <label class="control-label">Title</label>
             <div class="controls">
-                <input class="input-xlarge" data-bind="value: Title" id="line-chart" name="Title-linechart" />
+                <input class="form-control" data-bind="value: Title" id="line-chart" name="Title-linechart" />
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Label format</label>
             <div class="controls">
-                <input data-bind="value: ValueLabelFormat" id="line-chart" name="ValueLabelFormat" />
+                <input class="form-control" data-bind="value: ValueLabelFormat" id="line-chart" name="ValueLabelFormat" />
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label">Category Axis</label>
             <div class="controls">
-                <select data-bind="value: HorizontalAxisField, options:$root.columnOptions" name="HorizontalAxisField"></select>
+                <select class="form-control" data-bind="value: HorizontalAxisField, options:$root.columnOptions" name="HorizontalAxisField"></select>
             </div>
         </div>
         <div style="font-size: 10px">
@@ -39,21 +39,23 @@
                 <tbody data-bind="foreach :ChartSeriesCollection">
                     <tr>
                         <td>
-                            <select data-bind="value: Column, options:$root.columnOptions" name="HorizontalAxisField"></select>
+                            <select class="form-control" data-bind="value: Column, options:$root.columnOptions" name="HorizontalAxisField"></select>
                         </td>
                         <td>
-                            <input type="text" data-bind="value:Header" />
+                            <input class="form-control" type="text" data-bind="value:Header" />
                         </td>
                         <td>
-                            <a href="/#" data-bind="click : $parent.removeSeries.call($parent,$data)">&times;</a>
+                            <a href="/#" data-bind="click : $parent.removeSeries.call($parent,$data)">
+                                <i class="fa fa-times"></i> 
+                            </a>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
-            <i class="glyphicon glyphicon-remove"></i>
-            Buang
+            <i class="fa fa-times"></i>
+            Remove
         </a>
     </div>
 </section>

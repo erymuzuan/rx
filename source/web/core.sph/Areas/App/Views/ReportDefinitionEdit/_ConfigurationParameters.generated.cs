@@ -201,7 +201,11 @@ WriteLiteral(" class=\"btn btn-link\"");
 
 WriteLiteral(" data-bind=\"click : $root.removeParameter\"");
 
-WriteLiteral(">Buang</button>\r\n            </td>\r\n        </tr>\r\n    </tbody>\r\n</table>");
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-times\"");
+
+WriteLiteral("></i></button>\r\n            </td>\r\n        </tr>\r\n    </tbody>\r\n</table>");
 
         }
     }
