@@ -4,8 +4,6 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming

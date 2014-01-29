@@ -85,7 +85,13 @@ WriteLiteral(" href=\"#fields-validation\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
-WriteLiteral(">Validations</a>\r\n        </li>\r\n\r\n    </ul>\r\n    <div");
+WriteLiteral(">Validations</a>\r\n        </li>\r\n\r\n        <li>\r\n            <a");
+
+WriteLiteral(" href=\"#business-rules\"");
+
+WriteLiteral(" data-toggle=\"tab\"");
+
+WriteLiteral(">Business Rules</a>\r\n        </li>\r\n\r\n    </ul>\r\n    <div");
 
 WriteLiteral(" class=\"tab-content\"");
 
@@ -553,13 +559,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 160 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 164 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 160 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 164 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new Type[]
                         {
@@ -575,13 +581,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 169 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 173 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 169 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 173 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         
@@ -589,14 +595,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 171 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 175 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe));
 
             
             #line default
             #line hidden
             
-            #line 171 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 175 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                 
                     }
 
@@ -625,13 +631,35 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 182 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 186 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n        </div>\r\n\r\n    </div>\r\n</div>\r\n");
+WriteLiteral("\r\n        </div>\r\n        \r\n        <div");
+
+WriteLiteral(" id=\"business-rules\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral(">\r\n            <span>Apply these business rules to the form</span>\r\n            <" +
+"ul");
+
+WriteLiteral(" data-bind=\"foreach :entity().BusinessRuleCollection\"");
+
+WriteLiteral(" class=\"nav\"");
+
+WriteLiteral(">\r\n                <li>\r\n                    <label>\r\n                        <in" +
+"put");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" data-bind=\"checked : $root.form().Rules, value: Name\"");
+
+WriteLiteral("/>\r\n                        <!-- ko text : Name -->\r\n                        <!--" +
+" /ko -->\r\n\r\n                    </label>\r\n                </li>\r\n            </u" +
+"l>\r\n        </div>\r\n\r\n    </div>\r\n</div>\r\n");
 
         }
     }

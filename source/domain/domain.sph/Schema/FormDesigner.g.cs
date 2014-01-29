@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -2408,6 +2409,17 @@ namespace Bespoke.Sph.Domain
                 m_formDesign = value;
                 OnPropertyChanged();
             }
+        }
+
+        private readonly ObjectCollection<string> m_Rules = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> Rules
+        {
+            get { return m_Rules; }
         }
 
         ///<summary>

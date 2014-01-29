@@ -339,6 +339,13 @@
 		<xs:complexType>
 			<xs:all>
 				<xs:element ref="FormDesign"/>
+				<xs:element name="Rules">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Rule" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="EntityFormId" type="xs:int" use="required"/>
 			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
