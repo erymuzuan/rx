@@ -725,6 +725,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         IconClass: ko.observable(''),
         RecordName: ko.observable(''),
         MemberCollection: ko.observableArray([]),
+        BusinessRuleCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -865,7 +866,7 @@ bespoke.sph.domain.Filter = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
         Term: ko.observable(''),
         Operator: ko.observable('Operator'),
-        Field: ko.observable(new bespoke.sph.domain.Field()),
+        Field: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -918,7 +919,6 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
 };
 
 
-// placeholder for Field
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {
@@ -959,6 +959,31 @@ bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     if (bespoke.sph.domain.FormElementPartial) {
         return _(model).extend(new bespoke.sph.domain.FormElementPartial(model));
+    }
+    return model;
+};
+
+
+bespoke.sph.domain.Field = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Field, domain.sph",
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+    if (bespoke.sph.domain.FieldPartial) {
+        return _(model).extend(new bespoke.sph.domain.FieldPartial(model));
     }
     return model;
 };

@@ -74,6 +74,37 @@
     </div>
 </div>
 
+<div class="row" data-bind="with : entity">
+    <a data-toggle="collapse" href="#business-rules-table">
+        <h3>
+            <i class="fa fa-chevron-down"></i>
+            Business Rules
+        </h3>
+    </a>
+    <div class="collapse collapsed" id="business-rules-table">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :BusinessRuleCollection">
+                <tr>
+                    <td>
+                        <a data-bind="click :$parent.editBusinessRull.call($parent,$data) ,text: Name"></a>
+                    </td>
+                    <td data-bind="text:Description"></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-link" data-bind="click : addBusinessRule">+ Create new rule</a>
+
+    </div>
+</div>
+
 <div class="row">
     <a data-toggle="collapse" href="#forms-table">
         <h3>
@@ -104,6 +135,7 @@
 
     </div>
 </div>
+
 <div class="row">
     <a data-toggle="collapse" href="#view-table">
         <h3>
