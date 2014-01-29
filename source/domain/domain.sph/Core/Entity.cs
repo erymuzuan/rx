@@ -66,7 +66,6 @@ namespace Bespoke.Sph.Domain
         public ValidationResult ValidateBusinessRule(IEnumerable<BusinessRule> businessRules)
         {
             var result = new ValidationResult();
-            var context = new RuleContext(this);
             var valids = businessRules.Select(r => r.Evaluate(this)).ToList();
             var errors = valids.SelectMany(v => v.ValidationErrors);
 

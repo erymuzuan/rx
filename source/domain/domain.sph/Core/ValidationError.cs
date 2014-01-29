@@ -5,20 +5,9 @@
         public string PropertyName { get; set; }
         public string Message { get; set; }
         public string ErrorLocation { get; set; }
-    }
-
-    public class ValidationResult
-    {
-        public bool Success { get; set; }
-        public string ReferenceNo { get; set; }
-        private readonly ObjectCollection<ValidationError> m_errors = new ObjectCollection<ValidationError>();
-
-        public ObjectCollection<ValidationError> ValidationErrors
+        public override string ToString()
         {
-            get
-            {
-                return m_errors;
-            }
+            return string.Format("[{0}]:{1}", this.PropertyName, this.Message);
         }
     }
 }

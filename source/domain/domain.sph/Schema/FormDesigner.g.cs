@@ -1856,6 +1856,17 @@ namespace Bespoke.Sph.Domain
             get { return m_MemberCollection; }
         }
 
+        private readonly ObjectCollection<BusinessRule> m_BusinessRuleCollection = new ObjectCollection<BusinessRule>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("BusinessRule", IsNullable = false)]
+        public ObjectCollection<BusinessRule> BusinessRuleCollection
+        {
+            get { return m_BusinessRuleCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
