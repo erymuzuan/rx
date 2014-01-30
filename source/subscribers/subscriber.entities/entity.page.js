@@ -20,9 +20,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             views = ko.observableArray([]),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
-                var query = String.format("Name eq '{0}'", '@Model.Name'),
+                var query = String.format("Name eq '{0}'", '@Model.Definition.Name'),
                   tcs = new $.Deferred(),
-                  formsQuery = String.format("EntityDefinitionId eq @Model.EntityDefinitionId"),
+                  formsQuery = String.format("EntityDefinitionId eq @Model.Definition.EntityDefinitionId"),
                   edTask = context.loadOneAsync("EntityDefinition", query),
                   formsTask = context.loadAsync("EntityForm", formsQuery),
                   viewsTask = context.loadAsync("EntityView", formsQuery);
@@ -38,7 +38,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                                  window.location = '#' + v.Route() + '/0';
                                  return Task.fromResult(0);
                              },
-                             icon: "@Model.IconClass"
+                             icon: "@Model.Definition.IconClass"
                          };
                      });
                      views(viewsLo.itemCollection);
