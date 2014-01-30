@@ -8,7 +8,7 @@
 
 <h1>@Model.Form.Name</h1>
 <div class="row">
-    <form class="form-horizontal" data-bind="with : entity">
+    <form class="form-horizontal" data-bind="with : entity" id="@Model.Form.Route-form">
         @foreach (var fe in Model.Form.FormDesign.FormElementCollection)
         {
             var fe1 = fe;

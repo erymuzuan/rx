@@ -910,12 +910,15 @@ form label {
   margin-top: 15px;
 }
 /* Error */
-.error-page {
-  max-width: 500px;
-  margin: 50px auto;
+.error {
+  color: red;
 }
 .error h1 {
   font-weight: normal;
+}
+.error-page {
+  max-width: 500px;
+  margin: 50px auto;
 }
 /* Grid */
 .show-grid div {

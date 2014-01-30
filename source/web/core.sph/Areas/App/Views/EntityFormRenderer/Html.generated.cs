@@ -72,6 +72,17 @@ WriteLiteral(" class=\"form-horizontal\"");
 
 WriteLiteral(" data-bind=\"with : entity\"");
 
+WriteAttribute("id", Tuple.Create(" id=\"", 250), Tuple.Create("\"", 277)
+            
+            #line 11 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 255), Tuple.Create<System.Object, System.Int32>(Model.Form.Route
+            
+            #line default
+            #line hidden
+, 255), false)
+, Tuple.Create(Tuple.Create("", 272), Tuple.Create("-form", 272), true)
+);
+
 WriteLiteral(">\r\n");
 
             

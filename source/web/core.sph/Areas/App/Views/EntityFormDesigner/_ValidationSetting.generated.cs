@@ -42,7 +42,7 @@ WriteLiteral("<form");
 
 WriteLiteral(" class=\"form-horizontal\"");
 
-WriteLiteral(" data-bind2=\"with : FieldValidation\"");
+WriteLiteral(" data-bind=\"with : FieldValidation\"");
 
 WriteLiteral(" role=\"form\"");
 
@@ -52,7 +52,7 @@ WriteLiteral(" class=\"checkbox\"");
 
 WriteLiteral(">\r\n        <label>\r\n            <input");
 
-WriteLiteral(" data-bind2=\"checked: IsRequired\"");
+WriteLiteral(" data-bind=\"checked: IsRequired\"");
 
 WriteLiteral(" id=\"validation-isrequired\"");
 
@@ -70,7 +70,7 @@ WriteLiteral(" for=\"validation-pattern\"");
 
 WriteLiteral(">Pattern</label>\r\n        <input");
 
-WriteLiteral(" data-bind2=\"value:Pattern\"");
+WriteLiteral(" data-bind=\"value:Pattern\"");
 
 WriteLiteral(" type=\"text\"");
 
@@ -90,7 +90,7 @@ WriteLiteral(" for=\"validation-minlength\"");
 
 WriteLiteral(">Min Length</label>\r\n        <input");
 
-WriteLiteral(" data-bind2=\"value:MinLength\"");
+WriteLiteral(" data-bind=\"value:MinLength\"");
 
 WriteLiteral(" type=\"number\"");
 
@@ -108,7 +108,7 @@ WriteLiteral(" for=\"validation-maxlength\"");
 
 WriteLiteral(">Max Length</label>\r\n        <input");
 
-WriteLiteral(" data-bind2=\"value:MaxLength\"");
+WriteLiteral(" data-bind=\"value:MaxLength\"");
 
 WriteLiteral(" type=\"number\"");
 
@@ -130,7 +130,7 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" id=\"validation-mode\"");
 
-WriteLiteral(" data-bind2=\"value:Mode\"");
+WriteLiteral(" data-bind=\"value:Mode\"");
 
 WriteLiteral(">\r\n            <option");
 
@@ -166,7 +166,7 @@ WriteLiteral(" for=\"validation-message\"");
 
 WriteLiteral(">Message</label>\r\n        <input");
 
-WriteLiteral(" data-bind2=\"value:Message\"");
+WriteLiteral(" data-bind=\"value:Message\"");
 
 WriteLiteral(" type=\"text\"");
 

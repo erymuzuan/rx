@@ -1,29 +1,29 @@
-﻿<form class="form-horizontal" data-bind2="with : FieldValidation" role="form">
+﻿<form class="form-horizontal" data-bind="with : FieldValidation" role="form">
 
     <div class="checkbox">
         <label>
-            <input data-bind2="checked: IsRequired" id="validation-isrequired" type="checkbox" name="IsRequired" />
+            <input data-bind="checked: IsRequired" id="validation-isrequired" type="checkbox" name="IsRequired" />
             Is required
         </label>
     </div>
 
     <div class="form-group">
         <label for="validation-pattern">Pattern</label>
-        <input data-bind2="value:Pattern" type="text" class="form-control" id="validation-pattern" placeholder="regex pattern">
+        <input data-bind="value:Pattern" type="text" class="form-control" id="validation-pattern" placeholder="regex pattern">
     </div>
     <div class="form-group">
         <label for="validation-minlength">Min Length</label>
-        <input data-bind2="value:MinLength" type="number" class="form-control" id="validation-minlength">
+        <input data-bind="value:MinLength" type="number" class="form-control" id="validation-minlength">
     </div>
 
     <div class="form-group">
         <label for="validation-maxlength">Max Length</label>
-        <input data-bind2="value:MaxLength" type="number" class="form-control" id="validation-maxlength">
+        <input data-bind="value:MaxLength" type="number" class="form-control" id="validation-maxlength">
     </div>
 
     <div class="form-group">
         <label for="validation-mode">Mode</label>
-        <select class="form-control" id="validation-mode" data-bind2="value:Mode">
+        <select class="form-control" id="validation-mode" data-bind="value:Mode">
             <option value="">Text</option>
             <option value="email">Email</option>
             <option value="url">Url</option>
@@ -35,6 +35,6 @@
 
     <div class="form-group">
         <label for="validation-message">Message</label>
-        <input data-bind2="value:Message" type="text" class="form-control" id="validation-message" placeholder="Error message">
+        <input data-bind="value:Message" type="text" class="form-control" id="validation-message" placeholder="Error message">
     </div>
 </form>
