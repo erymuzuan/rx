@@ -2,9 +2,28 @@
 
 <!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.Button, domain.sph" -->
 <div class="form-group">
+    <label for="button-icon-class" class="col-lg-2 control-label">Icon class</label>
+    <div class="col-lg-6">
+        <input type="text" data-bind="value: IconClass"
+               placeholder="Icon class, glypicons or fontawesome"
+               class="form-control" id="button-icon-class">
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-lg-offset-2 col-lg-6">
+        <div class="checkbox">
+            <label>
+                <input data-bind="checked: IsToolbarItem" id="button-toolbar-item" type="checkbox" name="IsToolbarItem" />
+                Show on toolbar
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
     <label for="form-element-button-command-name">Command Name</label>
     <input class="form-control" data-bind="value: CommandName"
-           placeholder="save is default command generated, edit the command script using the page editor" 
+           placeholder="save is default command generated, edit the command script using the page editor"
            id="form-element-button-command-name" type="text" name="CommandName" />
 </div>
 <div class="form-group">

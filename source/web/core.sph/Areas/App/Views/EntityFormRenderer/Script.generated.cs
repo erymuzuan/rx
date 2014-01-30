@@ -35,6 +35,18 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
     #line hidden
     using Bespoke.Sph.Web;
     
+    #line 3 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+    using Humanizer;
+    
+    #line default
+    #line hidden
+    
+    #line 4 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+    using Newtonsoft.Json;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityFormRenderer/Script.cshtml")]
     public partial class Script : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.FormRendererViewModel>
@@ -44,16 +56,27 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
         }
         public override void Execute()
         {
+WriteLiteral("\r\n");
+
             
-            #line 4 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+            #line 6 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
   
     ViewBag.Title = "title";
     Layout = null;
     var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.EntityDefinitionId;
-    var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:'{2}'}})", ns, Model.EntityDefinition.Name, Guid.NewGuid());
+    var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:system.guid()}})", ns, Model.EntityDefinition.Name);
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
     var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
+    var validateUrl = string.Format("/{0}/Validate?rules={1}", @Model.EntityDefinition.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
     var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.EntityDefinitionId;
+    var commands = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
+        .Where(b => b.IsToolbarItem)
+        .Select(b => new
+        {
+            caption = b.Label,
+            command = b.CommandName,
+            icon = b.IconClass
+        });
 
             
             #line default
@@ -62,9 +85,9 @@ WriteLiteral("\r\n\r\n<h2>title</h2>\r\n<script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 723), Tuple.Create("\"", 762)
-, Tuple.Create(Tuple.Create("", 729), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
-, 729), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1187), Tuple.Create("\"", 1226)
+, Tuple.Create(Tuple.Create("", 1193), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
+, 1193), false)
 );
 
 WriteLiteral("></script>\r\n<script");
@@ -80,7 +103,7 @@ WriteLiteral(@">
             var entity = ko.observable(new ");
 
             
-            #line 20 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+            #line 31 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
                                       Write(Html.Raw(typeCtor));
 
             
@@ -90,7 +113,7 @@ WriteLiteral("),\r\n                activate = function (id) {\r\n              
 "id)) {\r\n                        var query = String.format(\"");
 
             
-            #line 23 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+            #line 34 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
                                                Write(Model.EntityDefinition.Name + "Id");
 
             
@@ -100,64 +123,289 @@ WriteLiteral(" eq {0}\", id),\r\n                            tcs = new $.Deferre
 "            context.loadOneAsync(\"");
 
             
-            #line 25 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+            #line 36 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
                                          Write(Model.EntityDefinition.Name);
 
             
             #line default
             #line hidden
 WriteLiteral("\", query)\r\n                            .done(function(b) {\r\n                     " +
-"           var item = context.toObservable(b,/Bespoke\\.");
+"           var item = context.toObservable(b, /Bespoke\\.");
 
             
-            #line 27 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
-                                                                       Write(codeNamespace);
+            #line 38 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                                                        Write(codeNamespace);
 
             
             #line default
             #line hidden
-WriteLiteral(@"\.Domain\.(.*?),/ );
+WriteLiteral(@"\.Domain\.(.*?),/);
                                 entity(item);
                                 tcs.resolve(true);
                             });
 
                         return tcs.promise();
 
-                    }
-                    return Task.fromResult(true);
-
-                },
-                attached = function (parameters) {
-
-                },
-                save = function() {
-                    var tcs = new $.Deferred();
-                    var data = ko.mapping.toJSON(entity);
-
-                    context.post(data, """);
+                    } else {
+                        entity(new ");
 
             
-            #line 45 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
-                                   Write(saveUrl);
+            #line 46 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                              Write(Html.Raw(typeCtor));
+
+            
+            #line default
+            #line hidden
+WriteLiteral(");\r\n                    }\r\n                    return Task.fromResult(true);\r\n\r\n " +
+"               },\r\n                attached = function (parameters) {\r\n\r\n       " +
+"         },\r\n\r\n");
+
+            
+            #line 55 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                
+            
+            #line default
+            #line hidden
+            
+            #line 55 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                 foreach (var rule in Model.Form.Rules)
+                {
+                    var function = rule.Dehumanize();
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                  ");
+
+            
+            #line 58 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                   Write(function);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(" = function(){\r\n\r\n                    var tcs = new $.Deferred(),\r\n              " +
+"          data = ko.mapping.toJSON(entity);\r\n\r\n                    context.post(" +
+"data, \"/Sph/BusinessRule/Validate/?rule=");
+
+            
+            #line 63 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                                                    Write(function);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("&ed=");
+
+            
+            #line 63 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                                                                 Write(Model.EntityDefinition.EntityDefinitionId);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\" )\r\n                        .then(function (result) {\r\n                         " +
+"   tcs.resolve(result);\r\n                        });\r\n                    return" +
+" tcs.promise();\r\n                },");
+
+WriteLiteral("\r\n");
+
+            
+            #line 69 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                ");
+
+            
+            #line 70 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                 foreach (var btn in Model.Form.FormDesign.FormElementCollection.OfType<Button>())
+                {
+                    var function = btn.CommandName;
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                  ");
+
+            
+            #line 73 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                   Write(function);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(" = function(){\r\n");
+
+WriteLiteral("                    ");
+
+            
+            #line 74 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+               Write(Html.Raw(btn.Command));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                },");
+
+WriteLiteral("\r\n");
+
+            
+            #line 76 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                save = function() {\r\n                    var tcs = new $.Deferred" +
+"(),\r\n                        data = ko.mapping.toJSON(entity);\r\n\r\n");
+
+            
+            #line 81 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                    
+            
+            #line default
+            #line hidden
+            
+            #line 81 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                     if (Model.Form.Rules.Any())
+                    {
+
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        ");
+
+WriteLiteral("\r\n\r\n                    context.post(data, \"");
+
+            
+            #line 86 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                   Write(validateUrl);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\")\r\n                        .then(function(result) {\r\n                           " +
+" if(result.success){\r\n                                context.post(data, \"");
+
+            
+            #line 89 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                               Write(saveUrl);
 
             
             #line default
             #line hidden
 WriteLiteral(@""")
-                        .then(function(result) {
-                            tcs.resolve(result);
+                                   .then(function(result) {
+                                       tcs.resolve(result);
+                                   });
+                            }else{
+                                tcs.resolve(result);
+                            }
                         });
-                    return tcs.promise();
-                };
+                    ");
 
-            return {
-                activate: activate,
+WriteLiteral("\r\n");
+
+            
+            #line 98 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                    }
+                    else
+                    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        ");
+
+WriteLiteral("\r\n\r\n                    context.post(data, \"");
+
+            
+            #line 103 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                   Write(saveUrl);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\")\r\n                        .then(function(result) {\r\n                           " +
+" tcs.resolve(result);\r\n                        });\r\n                    ");
+
+WriteLiteral("\r\n");
+
+            
+            #line 108 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                    return tcs.promise();\r\n                };\r\n\r\n            re" +
+"turn {\r\n");
+
+            
+            #line 114 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                
+            
+            #line default
+            #line hidden
+            
+            #line 114 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                 foreach (var rule in Model.Form.Rules)
+                    {
+                        var function = rule.Dehumanize();
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                    ");
+
+            
+            #line 117 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                     Write(function);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(" : ");
+
+            
+            #line 117 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                 Write(function);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(",");
+
+WriteLiteral("\r\n");
+
+            
+            #line 118 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral(@"                activate: activate,
                 attached: attached,
                 entity: entity,
-                save : save
-            };
-        });
-</script>");
+                save : save,
+                toolbar : {
+                    saveCommand : save,
+                    commands : ko.observableArray(");
+
+            
+            #line 125 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                             Write(Html.Raw(JsonConvert.SerializeObject(commands)));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                    )\r\n                }\r\n            };\r\n        });\r\n</script" +
+">");
 
         }
     }

@@ -106,28 +106,28 @@ else
             #line hidden
 WriteLiteral("    <div");
 
-WriteLiteral(" class=\"form-group datepicker\"");
+WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n        <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 349), Tuple.Create("\"", 371)
+WriteAttribute("for", Tuple.Create(" for=\"", 338), Tuple.Create("\"", 360)
             
             #line 14 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DatePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 355), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+, Tuple.Create(Tuple.Create("", 344), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 355), false)
+, 344), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 372), Tuple.Create("\"", 400)
+WriteAttribute("class", Tuple.Create(" class=\"", 361), Tuple.Create("\"", 389)
             
             #line 14 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DatePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 380), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+, Tuple.Create(Tuple.Create("", 369), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 380), false)
+, 369), false)
 );
 
 WriteLiteral(">");
@@ -141,26 +141,26 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</label>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 436), Tuple.Create("\"", 469)
+WriteAttribute("class", Tuple.Create(" class=\"", 425), Tuple.Create("\"", 458)
             
             #line 15 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DatePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 444), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+, Tuple.Create(Tuple.Create("", 433), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 444), false)
+, 433), false)
 );
 
 WriteLiteral(">\r\n            <input");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 491), Tuple.Create("\"", 548)
+WriteAttribute("class", Tuple.Create(" class=\"", 480), Tuple.Create("\"", 537)
             
             #line 16 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DatePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 499), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control " + Model.Size
+, Tuple.Create(Tuple.Create("", 488), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control " + Model.Size
             
             #line default
             #line hidden
-, 499), false)
+, 488), false)
 );
 
 WriteLiteral("\r\n                   data-bind=\"");
@@ -174,26 +174,26 @@ WriteLiteral("\r\n                   data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 631), Tuple.Create("\"", 652)
+WriteAttribute("id", Tuple.Create(" id=\"", 620), Tuple.Create("\"", 641)
             
             #line 17 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DatePicker.cshtml"
-      , Tuple.Create(Tuple.Create("", 636), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+      , Tuple.Create(Tuple.Create("", 625), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 636), false)
+, 625), false)
 );
 
 WriteLiteral(" type=\"text\"");
 
-WriteAttribute("name", Tuple.Create("\r\n                   name=\"", 665), Tuple.Create("\"", 703)
+WriteAttribute("name", Tuple.Create("\r\n                   name=\"", 654), Tuple.Create("\"", 692)
             
             #line 18 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DatePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 692), Tuple.Create<System.Object, System.Int32>(Model.Path
+, Tuple.Create(Tuple.Create("", 681), Tuple.Create<System.Object, System.Int32>(Model.Path
             
             #line default
             #line hidden
-, 692), false)
+, 681), false)
 );
 
 WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n");

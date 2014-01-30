@@ -1,14 +1,25 @@
 ﻿@using Bespoke.Sph.Domain
 @model Bespoke.Sph.Web.ViewModels.FormRendererViewModel
+@using Humanizer
+@using Newtonsoft.Json
 
 @{
     ViewBag.Title = "title";
     Layout = null;
     var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.EntityDefinitionId;
-    var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:'{2}'}})", ns, Model.EntityDefinition.Name, Guid.NewGuid());
+    var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:system.guid()}})", ns, Model.EntityDefinition.Name);
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
     var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
+    var validateUrl = string.Format("/{0}/Validate?rules={1}", @Model.EntityDefinition.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
     var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.EntityDefinitionId;
+    var commands = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
+        .Where(b => b.IsToolbarItem)
+        .Select(b => new
+        {
+            caption = b.Label,
+            command = b.CommandName,
+            icon = b.IconClass
+        });
 }
 
 <h2>title</h2>
@@ -24,13 +35,15 @@
                             tcs = new $.Deferred();
                         context.loadOneAsync("@Model.EntityDefinition.Name", query)
                             .done(function(b) {
-                                var item = context.toObservable(b,/Bespoke\.@codeNamespace\.Domain\.(.*?),/ );
+                                var item = context.toObservable(b, /Bespoke\.@codeNamespace\.Domain\.(.*?),/);
                                 entity(item);
                                 tcs.resolve(true);
                             });
 
                         return tcs.promise();
 
+                    } else {
+                        entity(new @Html.Raw(typeCtor));
                     }
                     return Task.fromResult(true);
 
@@ -38,22 +51,80 @@
                 attached = function (parameters) {
 
                 },
+
+                @foreach (var rule in Model.Form.Rules)
+                {
+                    var function = rule.Dehumanize();
+                  <text>@function = function(){
+
+                    var tcs = new $.Deferred(),
+                        data = ko.mapping.toJSON(entity);
+
+                    context.post(data, "/Sph/BusinessRule/Validate/?rule=@function&ed=@Model.EntityDefinition.EntityDefinitionId" )
+                        .then(function (result) {
+                            tcs.resolve(result);
+                        });
+                    return tcs.promise();
+                },</text>
+                }
+                @foreach (var btn in Model.Form.FormDesign.FormElementCollection.OfType<Button>())
+                {
+                    var function = btn.CommandName;
+                  <text>@function = function(){
+                    @Html.Raw(btn.Command)
+                },</text>
+                }
                 save = function() {
-                    var tcs = new $.Deferred();
-                    var data = ko.mapping.toJSON(entity);
+                    var tcs = new $.Deferred(),
+                        data = ko.mapping.toJSON(entity);
+
+                    @if (Model.Form.Rules.Any())
+                    {
+
+                        <text>
+
+                    context.post(data, "@validateUrl")
+                        .then(function(result) {
+                            if(result.success){
+                                context.post(data, "@saveUrl")
+                                   .then(function(result) {
+                                       tcs.resolve(result);
+                                   });
+                            }else{
+                                tcs.resolve(result);
+                            }
+                        });
+                    </text>
+                    }
+                    else
+                    {
+                        <text>
 
                     context.post(data, "@saveUrl")
                         .then(function(result) {
                             tcs.resolve(result);
                         });
+                    </text>
+                    }
+
                     return tcs.promise();
                 };
 
             return {
+                @foreach (var rule in Model.Form.Rules)
+                    {
+                        var function = rule.Dehumanize();
+                    <text>@function : @function,</text>
+                    }
                 activate: activate,
                 attached: attached,
                 entity: entity,
-                save : save
+                save : save,
+                toolbar : {
+                    saveCommand : save,
+                    commands : ko.observableArray(@Html.Raw(JsonConvert.SerializeObject(commands))
+                    )
+                }
             };
         });
 </script>

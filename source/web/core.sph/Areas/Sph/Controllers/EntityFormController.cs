@@ -18,5 +18,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return Json(new { success = true, status = "OK", id = ef.EntityFormId });
         }
+        public async Task<ActionResult> Publish()
+        {
+            var ef = this.GetRequestJson<EntityForm>();
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(ef);
+                await session.SubmitChanges("Publish");
+            }
+            return Json(new { success = true, status = "OK", id = ef.EntityFormId });
+        }
     }
 }

@@ -196,12 +196,6 @@
                     var fd = ko.unwrap(form().FormDesign);
                     fd.FormElementCollection.remove(fe);
                 },
-                exportScreen = function() {
-                    return eximp.exportJson(ko.unwrap(form().Name) + ".json", ko.mapping.toJSON(form));
-                },
-                open = function() {
-
-                },
                 importCommand = function() {
                     return eximp.importJson()
                  .done(function (json) {
@@ -216,6 +210,25 @@
                          logger.logError('Fail template import tidak sah', error, this, true);
                      }
                  });
+                },
+                publish = function() {
+                    var fd = ko.unwrap(form().FormDesign);
+                    // get the sorted element
+                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                        return ko.dataFor(div);
+                    });
+                    fd.FormElementCollection(elements);
+                    
+                    
+                    var tcs = new $.Deferred(),
+                        data = ko.mapping.toJSON(form);
+
+                    context.post(data, "/Sph/EntityForm/Publish")
+                        .then(function(result) {
+                            tcs.resolve(result);
+                        });
+                    return tcs.promise();
+
                 },
                 save = function() {
                     var fd = ko.unwrap(form().FormDesign);
@@ -250,12 +263,11 @@
                 importCommand :importCommand,
                 toolbar : {
                     commands :ko.observableArray([{
-                        caption : 'Create Pull Request',
-                        icon : 'fa fa-folder-open-o',
-                        command : open
+                        caption : 'Publish',
+                        icon : 'fa fa-file-text-o',
+                        command : publish
                     }
                     ]),
-                    exportCommand : exportScreen,
                     saveCommand : save
                 }
             };

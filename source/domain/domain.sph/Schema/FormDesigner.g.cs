@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -1799,6 +1798,38 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_CompleteText = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_IconClass;
+        [XmlAttribute]
+        public string IconClass
+        {
+            get
+            {
+                return m_IconClass;
+            }
+            set
+            {
+                m_IconClass = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsToolbarItem;
+        [XmlAttribute]
+        public bool IsToolbarItem
+        {
+            get
+            {
+                return m_IsToolbarItem;
+            }
+            set
+            {
+                m_IsToolbarItem = value;
                 RaisePropertyChanged();
             }
         }

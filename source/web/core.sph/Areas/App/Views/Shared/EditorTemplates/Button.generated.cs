@@ -31,15 +31,64 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.EditorTemplates
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/EditorTemplates/Button.cshtml")]
-    public partial class Button : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.Button>
+    public partial class _Button : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.Button>
     {
-        public Button()
+        public _Button()
         {
         }
         public override void Execute()
         {
 WriteLiteral("<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.Button, domain.sph\" -->\r\n<div" +
 "");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n    <label");
+
+WriteLiteral(" for=\"button-icon-class\"");
+
+WriteLiteral(" class=\"col-lg-2 control-label\"");
+
+WriteLiteral(">Icon class</label>\r\n    <div");
+
+WriteLiteral(" class=\"col-lg-6\"");
+
+WriteLiteral(">\r\n        <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: IconClass\"");
+
+WriteLiteral("\r\n               placeholder=\"Icon class, glypicons or fontawesome\"");
+
+WriteLiteral("\r\n               class=\"form-control\"");
+
+WriteLiteral(" id=\"button-icon-class\"");
+
+WriteLiteral(">\r\n    </div>\r\n</div>\r\n<div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-lg-offset-2 col-lg-6\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"checkbox\"");
+
+WriteLiteral(">\r\n            <label>\r\n                <input");
+
+WriteLiteral(" data-bind=\"checked: IsToolbarItem\"");
+
+WriteLiteral(" id=\"button-toolbar-item\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"IsToolbarItem\"");
+
+WriteLiteral(" />\r\n                Show on toolbar\r\n            </label>\r\n        </div>\r\n    <" +
+"/div>\r\n</div>\r\n\r\n<div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -56,7 +105,7 @@ WriteLiteral(" data-bind=\"value: CommandName\"");
 WriteLiteral("\r\n           placeholder=\"save is default command generated, edit the command scr" +
 "ipt using the page editor\"");
 
-WriteLiteral(" \r\n           id=\"form-element-button-command-name\"");
+WriteLiteral("\r\n           id=\"form-element-button-command-name\"");
 
 WriteLiteral(" type=\"text\"");
 

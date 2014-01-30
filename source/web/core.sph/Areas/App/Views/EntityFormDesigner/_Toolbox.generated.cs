@@ -181,7 +181,11 @@ WriteLiteral(" href=\"#label-cols\"");
 
 WriteLiteral(" data-toggle=\"collapse\"");
 
-WriteLiteral(">Label columns span</a>\r\n                </div>\r\n                <div");
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>Label columns span</a>\r\n                </div>\r\n                <div");
 
 WriteLiteral(" id=\"label-cols\"");
 
@@ -265,7 +269,11 @@ WriteLiteral(" href=\"#input-cols\"");
 
 WriteLiteral(" data-toggle=\"collapse\"");
 
-WriteLiteral(">Input columns span</a>\r\n                </div>\r\n                <div");
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>Input columns span</a>\r\n                </div>\r\n                <div");
 
 WriteLiteral(" id=\"input-cols\"");
 
@@ -435,7 +443,11 @@ WriteLiteral(" href=\"#toolbox-more-settings\"");
 
 WriteLiteral(" data-toggle=\"collapse\"");
 
-WriteLiteral(">More settings</a>\r\n                </div>\r\n                <div");
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>More settings</a>\r\n                </div>\r\n                <div");
 
 WriteLiteral(" id=\"toolbox-more-settings\"");
 
@@ -550,7 +562,12 @@ WriteLiteral(" href=\"#toolbox-advanced-settings\"");
 
 WriteLiteral(" data-toggle=\"collapse\"");
 
-WriteLiteral(">Advanced settings</a>\r\n                </div>\r\n                <div");
+WriteLiteral(">\r\n                        <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n                        Advanced settings\r\n                    </a>\r\n     " +
+"           </div>\r\n                <div");
 
 WriteLiteral(" id=\"toolbox-advanced-settings\"");
 
@@ -559,13 +576,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 164 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 167 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 164 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 167 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new Type[]
                         {
@@ -581,13 +598,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 173 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 176 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 173 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 176 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         
@@ -595,14 +612,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 175 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 178 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe));
 
             
             #line default
             #line hidden
             
-            #line 175 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 178 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                 
                     }
 
@@ -631,7 +648,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 186 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 189 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

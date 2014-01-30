@@ -53,7 +53,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n<h2>");
+WriteLiteral("\r\n\r\n<h1>");
 
             
             #line 9 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
@@ -62,7 +62,7 @@ Write(Model.Form.Name);
             
             #line default
             #line hidden
-WriteLiteral("</h2>\r\n<div");
+WriteLiteral("</h1>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -84,20 +84,29 @@ WriteLiteral(">\r\n");
             #line 12 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
          foreach (var fe in Model.Form.FormDesign.FormElementCollection)
         {
-            
+            var fe1 = fe;
+            var button = fe1 as Button;
+            if (null != button && button.IsToolbarItem)
+            {
+                // toolbar button
+            }
+            else
+            {
+                
             
             #line default
             #line hidden
             
-            #line 14 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-       Write(Html.EditorFor(f => fe));
+            #line 22 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+           Write(Html.EditorFor(f => fe1));
 
             
             #line default
             #line hidden
             
-            #line 14 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-                                    
+            #line 22 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+                                         
+            }
         }
 
             

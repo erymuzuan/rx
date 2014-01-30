@@ -204,16 +204,23 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "oJSON(form));\r\n                    }\r\n                },\r\n                remove" +
 "FormElement = function (fe) {\r\n                    var fd = ko.unwrap(form().For" +
 "mDesign);\r\n                    fd.FormElementCollection.remove(fe);\r\n           " +
-"     },\r\n                exportScreen = function() {\r\n                    return" +
-" eximp.exportJson(ko.unwrap(form().Name) + \".json\", ko.mapping.toJSON(form));\r\n " +
-"               },\r\n                open = function() {\r\n\r\n                },\r\n  " +
-"              importCommand = function() {\r\n                    return eximp.imp" +
-"ortJson()\r\n                 .done(function (json) {\r\n                     try {\r" +
-"\n\r\n                         var obj = JSON.parse(json),\r\n                       " +
-"      clone = context.toObservable(obj);\r\n\r\n                         form().Form" +
-"Design(clone.FormDesign());\r\n\r\n                     } catch (error) {\r\n         " +
-"                logger.logError(\'Fail template import tidak sah\', error, this, t" +
-"rue);\r\n                     }\r\n                 });\r\n                },\r\n       " +
+"     },\r\n                importCommand = function() {\r\n                    retur" +
+"n eximp.importJson()\r\n                 .done(function (json) {\r\n                " +
+"     try {\r\n\r\n                         var obj = JSON.parse(json),\r\n            " +
+"                 clone = context.toObservable(obj);\r\n\r\n                         " +
+"form().FormDesign(clone.FormDesign());\r\n\r\n                     } catch (error) {" +
+"\r\n                         logger.logError(\'Fail template import tidak sah\', err" +
+"or, this, true);\r\n                     }\r\n                 });\r\n                " +
+"},\r\n                publish = function() {\r\n                    var fd = ko.unwr" +
+"ap(form().FormDesign);\r\n                    // get the sorted element\r\n         " +
+"           var elements = _($(\'#template-form-designer>form>div\')).map(function " +
+"(div) {\r\n                        return ko.dataFor(div);\r\n                    })" +
+";\r\n                    fd.FormElementCollection(elements);\r\n                    " +
+"\r\n                    \r\n                    var tcs = new $.Deferred(),\r\n       " +
+"                 data = ko.mapping.toJSON(form);\r\n\r\n                    context." +
+"post(data, \"/Sph/EntityForm/Publish\")\r\n                        .then(function(re" +
+"sult) {\r\n                            tcs.resolve(result);\r\n                     " +
+"   });\r\n                    return tcs.promise();\r\n\r\n                },\r\n       " +
 "         save = function() {\r\n                    var fd = ko.unwrap(form().Form" +
 "Design);\r\n                    // get the sorted element\r\n                    var" +
 " elements = _($(\'#template-form-designer>form>div\')).map(function (div) {\r\n     " +
@@ -231,11 +238,11 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 ",\r\n                entity : entity,\r\n                okClick: okClick,\r\n        " +
 "        cancelClick: cancelClick,\r\n                importCommand :importCommand," +
 "\r\n                toolbar : {\r\n                    commands :ko.observableArray(" +
-"[{\r\n                        caption : \'Create Pull Request\',\r\n                  " +
-"      icon : \'fa fa-folder-open-o\',\r\n                        command : open\r\n   " +
-"                 }\r\n                    ]),\r\n                    exportCommand :" +
-" exportScreen,\r\n                    saveCommand : save\r\n                }\r\n     " +
-"       };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"[{\r\n                        caption : \'Publish\',\r\n                        icon :" +
+" \'fa fa-file-text-o\',\r\n                        command : publish\r\n              " +
+"      }\r\n                    ]),\r\n                    saveCommand : save\r\n      " +
+"          }\r\n            };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</scri" +
+"pt>\r\n");
 
         }
     }

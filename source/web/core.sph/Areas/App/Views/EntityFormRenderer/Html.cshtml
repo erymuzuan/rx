@@ -6,12 +6,21 @@
     Layout = null;
 }
 
-<h2>@Model.Form.Name</h2>
+<h1>@Model.Form.Name</h1>
 <div class="row">
     <form class="form-horizontal" data-bind="with : entity">
         @foreach (var fe in Model.Form.FormDesign.FormElementCollection)
         {
-            @Html.EditorFor(f => fe)
+            var fe1 = fe;
+            var button = fe1 as Button;
+            if (null != button && button.IsToolbarItem)
+            {
+                // toolbar button
+            }
+            else
+            {
+                @Html.EditorFor(f => fe1)
+            }
         }
     </form>
 </div>
