@@ -47,11 +47,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Users
             
             #line default
             #line hidden
-WriteLiteral("\r\n<h1");
-
-WriteLiteral(" class=\"col-lg-12\"");
-
-WriteLiteral(">Users Management</h1>\r\n\r\n<div");
+WriteLiteral("\r\n<h1>Users Management</h1>\r\n\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 

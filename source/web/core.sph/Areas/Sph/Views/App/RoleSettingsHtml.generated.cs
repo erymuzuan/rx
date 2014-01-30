@@ -188,12 +188,12 @@ WriteLiteral("                </select>\r\n            </div>\r\n        </div>\
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n            <span>Sila <i");
+WriteLiteral(">\r\n            <span>Please <i");
 
-WriteLiteral(" class=\"fa fa-ok\"");
+WriteLiteral(" class=\"fa fa-check\"");
 
-WriteLiteral("></i> bagi menetapkan kebenaran akses bagi jawatan yang ingin didaftarkan</span>\r" +
-"\n        </div>\r\n\r\n        <div>\r\n            <table");
+WriteLiteral("></i> to set the settings for the designation roles</span>\r\n        </div>\r\n\r\n   " +
+"     <div>\r\n            <table");
 
 WriteLiteral(" class=\"table table-striped\"");
 
@@ -231,28 +231,28 @@ WriteLiteral("</td>\r\n                            <td>\r\n                     
 
 WriteLiteral(" class=\"checkbox\"");
 
-WriteAttribute("title", Tuple.Create(" title=\"", 2174), Tuple.Create("\"", 2189)
+WriteAttribute("title", Tuple.Create(" title=\"", 2157), Tuple.Create("\"", 2172)
             
             #line 60 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
-, Tuple.Create(Tuple.Create("", 2182), Tuple.Create<System.Object, System.Int32>(r.Role
+, Tuple.Create(Tuple.Create("", 2165), Tuple.Create<System.Object, System.Int32>(r.Role
             
             #line default
             #line hidden
-, 2182), false)
+, 2165), false)
 );
 
 WriteLiteral(">\r\n                                    <input");
 
 WriteLiteral(" data-bind=\"checked: RoleCollection\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2271), Tuple.Create("\"", 2286)
+WriteAttribute("value", Tuple.Create(" value=\"", 2254), Tuple.Create("\"", 2269)
             
             #line 61 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
-      , Tuple.Create(Tuple.Create("", 2279), Tuple.Create<System.Object, System.Int32>(r.Role
+      , Tuple.Create(Tuple.Create("", 2262), Tuple.Create<System.Object, System.Int32>(r.Role
             
             #line default
             #line hidden
-, 2279), false)
+, 2262), false)
 );
 
 WriteLiteral("\r\n                                           type=\"checkbox\"");

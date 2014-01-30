@@ -29,9 +29,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App.EditorTemplates
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/App/EditorTemplates/AddressElement.cshtml")]
-    public partial class AddressElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.AddressElement>
+    public partial class _AddressElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.AddressElement>
     {
-        public AddressElement()
+        public _AddressElement()
         {
         }
         public override void Execute()
@@ -396,7 +396,7 @@ WriteLiteral(" name=\"address.State\"");
 WriteLiteral(" id=\"address.State\"");
 
 WriteLiteral(" data-bind=\"value: State, options: $root.stateOptions, optionsText: \'Name\', optio" +
-"nsValue: \'Name\', optionsCaption: \'[Sila Pilih]\'\"");
+"nsValue: \'Name\', optionsCaption: \'[Please Select]\'\"");
 
 WriteLiteral("></select>\r\n    </div>\r\n</div>\r\n<!--/ko-->\r\n");
 
