@@ -1,7 +1,8 @@
 ﻿packages/*
 /packages/
 *.nuspec
-bin/
+/bin/*
+!/bin/sources
 obj/
 Debug/
 debug/
@@ -52,3 +53,5 @@ _ReSharper.commercial-space
 /source/web/web.sph/SphApp/views/customer.html
 *.js
 *.html
+*.cs
+/source/web/core.sph/bin

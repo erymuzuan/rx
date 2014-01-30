@@ -1,0 +1,55 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "uiyuyi",
+        "Operator": "Eq",
+        "Field": null,
+        "WebId": "a54a5177-b64f-4c9e-b437-845526e884c9"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "uiyuiy",
+        "Operator": "Eq",
+        "Field": null,
+        "WebId": "a4fd3e40-dfd2-47bc-ace0-4131d3bb8109"
+      }
+    ]
+  },
+  "ViewColumnCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "FullName",
+        "Header": "FullName",
+        "Sort": "",
+        "WebId": "e2dd0f06-07e1-4a1e-8be3-b9464c21c984"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Address.Street1",
+        "Header": "Street1",
+        "Sort": "",
+        "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
+      }
+    ]
+  },
+  "EntityViewId": 1,
+  "IconClass": "",
+  "IconStoreId": "2782ee4a-4000-4098-9cd7-ca243da3cae2",
+  "EntityDefinitionId": 2,
+  "Name": "All customers",
+  "Route": "all-customers",
+  "Note": "",
+  "Query": "",
+  "Visibilty": "",
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-01-30T09:08:35.1638283+08:00",
+  "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
+}

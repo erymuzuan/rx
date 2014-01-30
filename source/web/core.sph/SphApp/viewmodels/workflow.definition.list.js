@@ -1,7 +1,7 @@
 ﻿/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/cultures.my.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/string.js" />
 
@@ -40,7 +40,7 @@ define([objectbuilders.datacontext, objectbuilders.cultures],
             definitions: ko.observableArray(),
             toolbar: {
                 addNew: {
-                    location: '/#/workflow.definition.visual/0',
+                    location: '#/workflow.definition.visual/0',
                     caption: 'New Workflow Definition'
                 }
             },
