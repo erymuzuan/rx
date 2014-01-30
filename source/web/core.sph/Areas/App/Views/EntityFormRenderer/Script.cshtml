@@ -10,12 +10,15 @@
     var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:system.guid()}})", ns, Model.EntityDefinition.Name);
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
     var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
-    var validateUrl = string.Format("/{0}/Validate?rules={1}", @Model.EntityDefinition.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
+    var validateUrl = string.Format("/Sph/BusinessRule/Validate/{0}?rules={1}", @Model.EntityDefinition.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
     var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.EntityDefinitionId;
     var commands = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
         .Where(b => b.IsToolbarItem)
         .Select(b => string.Format("{{ caption :\"{0}\", command : {1}, icon:\"{2}\" }}", b.Label, b.CommandName, b.IconClass));
     var commandsJs = string.Format("[{0}]", string.Join(",", commands));
+
+
+    var formId = @Model.Form.Route + "-form";
 }
 
 <h2>title</h2>
@@ -25,12 +28,15 @@
         function (context, logger, router, system, validation, eximp, dialog) {
 
             var entity = ko.observable(new @Html.Raw(typeCtor)),
+                form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 activate = function (id) {
-                  
-                        var query = String.format("@(Model.EntityDefinition.Name + "Id") eq {0}", id),
-                            tcs = new $.Deferred();
-                        context.loadOneAsync("@Model.EntityDefinition.Name", query)
-                            .done(function(b) {  
+
+                    var query = String.format("@(Model.EntityDefinition.Name + "Id") eq {0}", id),
+                        tcs = new $.Deferred(),
+                        itemTask = context.loadOneAsync("Customer", query),
+                        formTask = context.loadOneAsync("EntityForm", "Route eq '@Model.Form.Route'");
+
+                            $.when(itemTask, formTask).done(function(b,f) {  
                                 if (b) {
                                     var item = context.toObservable(b, /Bespoke\.@codeNamespace\.Domain\.(.*?),/);
                                     entity(item);
@@ -38,6 +44,7 @@
                                 else {
                                     entity(new @Html.Raw(typeCtor));
                                 }
+                                form(f);
                                 
                                 tcs.resolve(true);
                             });
@@ -46,7 +53,7 @@
                 },
                 attached = function (view) {
                     // validation
-                    validation.init($('#@Model.Form.Route-form'), form());
+                    validation.init($('#@formId'), form());
                     
                 },
 
@@ -58,7 +65,7 @@
                     var tcs = new $.Deferred(),
                         data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate/?rule=@function&ed=@Model.EntityDefinition.EntityDefinitionId" )
+                    context.post(data, "/Sph/BusinessRule/Validate/@Model.EntityDefinition.Name?rules=@function" )
                         .then(function (result) {
                             tcs.resolve(result);
                         });
@@ -73,6 +80,10 @@
                 },</text>
                 }
                 save = function() {
+                    if (!validation.valid()) {
+                        return Task.fromResult(false);
+                    }
+
                     var tcs = new $.Deferred(),
                         data = ko.mapping.toJSON(entity);
 

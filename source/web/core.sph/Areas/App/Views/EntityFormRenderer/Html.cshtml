@@ -4,11 +4,12 @@
 @{
     ViewBag.Title = "title";
     Layout = null;
+    var formId = @Model.Form.Route + "-form";
 }
 
 <h1>@Model.Form.Name</h1>
 <div class="row">
-    <form class="form-horizontal" data-bind="with : entity" id="@Model.Form.Route-form">
+    <form class="form-horizontal" data-bind="with : entity" id="@formId">
         @foreach (var fe in Model.Form.FormDesign.FormElementCollection)
         {
             var fe1 = fe;

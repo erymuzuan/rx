@@ -15,11 +15,11 @@
           "MaxLength": null,
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-            "IsRequired": false,
+            "IsRequired": true,
             "MaxLength": 0,
             "MinLength": 0,
-            "Pattern": null,
-            "Mode": null,
+            "Pattern": "[A-Za-z]",
+            "Mode": "",
             "Message": null,
             "WebId": null
           },
@@ -54,11 +54,11 @@
           "MaxLength": null,
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-            "IsRequired": false,
+            "IsRequired": true,
             "MaxLength": 0,
             "MinLength": 0,
-            "Pattern": null,
-            "Mode": null,
+            "Pattern": "[0-9]{1,2}",
+            "Mode": "",
             "Message": null,
             "WebId": null
           },
@@ -116,7 +116,7 @@
             "MaxLength": 0,
             "MinLength": 0,
             "Pattern": null,
-            "Mode": null,
+            "Mode": "",
             "Message": null,
             "WebId": null
           },
@@ -149,7 +149,7 @@
             "MaxLength": 0,
             "MinLength": 0,
             "Pattern": null,
-            "Mode": null,
+            "Mode": "",
             "Message": null,
             "WebId": null
           },
@@ -188,7 +188,7 @@
             "MaxLength": 0,
             "MinLength": 0,
             "Pattern": null,
-            "Mode": null,
+            "Mode": "",
             "Message": null,
             "WebId": null
           },
@@ -252,7 +252,7 @@
             "MaxLength": 0,
             "MinLength": 0,
             "Pattern": null,
-            "Mode": null,
+            "Mode": "",
             "Message": null,
             "WebId": null
           },
@@ -291,7 +291,7 @@
             "MaxLength": 0,
             "MinLength": 0,
             "Pattern": null,
-            "Mode": null,
+            "Mode": "",
             "Message": null,
             "WebId": null
           },
@@ -324,7 +324,7 @@
             "MaxLength": 0,
             "MinLength": 0,
             "Pattern": null,
-            "Mode": null,
+            "Mode": "",
             "Message": null,
             "WebId": null
           },
@@ -364,7 +364,7 @@
             "MaxLength": 0,
             "MinLength": 0,
             "Pattern": null,
-            "Mode": null,
+            "Mode": "",
             "Message": null,
             "WebId": null
           },
@@ -409,7 +409,9 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": [
       "Check the revenue",
-      "Verify the grade"
+      "Verify the grade",
+      "Verify the age",
+      "Must be Malaysian"
     ]
   },
   "EntityFormId": 2,
@@ -421,9 +423,16 @@
   "IconClass": null,
   "IconStoreId": null,
   "IsDefault": false,
+  "IsWatchAvailable": false,
+  "IsEmailAvailable": false,
+  "IsPrintAvailable": false,
+  "IsAuditTrailAvailable": false,
+  "IsRemoveAvailable": false,
+  "IsImportAvailable": false,
+  "IsExportAvailable": false,
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-01-30T09:08:26.2963104+08:00",
+  "ChangedDate": "2014-01-31T06:36:01.7901745+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

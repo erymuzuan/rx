@@ -381,28 +381,28 @@
                 "XPath": "",
                 "NamespacePrefix": "",
                 "TypeName": "",
-                "Path": "JobGrade",
-                "Name": "JobGrade",
-                "Note": "O",
+                "Path": "Age",
+                "Name": "Age",
+                "Note": "Age",
                 "WebId": "fdbed19f-2b36-4192-87df-69bf568f21ed"
               },
               "Right": {
                 "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-                "TypeName": "System.String, mscorlib",
-                "Value": "s",
-                "Name": "s",
-                "Note": "s",
+                "TypeName": "System.Int32, mscorlib",
+                "Value": 25,
+                "Name": "25",
+                "Note": "25",
                 "WebId": "01cbdcc2-0d99-46dc-8f29-57a488644903"
               },
-              "Operator": "Substringof",
+              "Operator": "Ge",
               "WebId": "89e9c66a-2543-4a5d-9fa9-e85db537a1a4"
             }
           ]
         },
-        "Description": "Grade",
-        "Name": "Verify the grade",
+        "Description": "Age",
+        "Name": "Verify the age",
         "ErrorLocation": "",
-        "ErrorMessage": "Do this",
+        "ErrorMessage": "Must be at least 25",
         "WebId": "d3ee9cf8-d686-4079-8a70-215c4124fd1b"
       },
       {
@@ -417,28 +417,28 @@
                 "XPath": "",
                 "NamespacePrefix": "",
                 "TypeName": "",
-                "Path": "Revenue",
-                "Name": "Revenue",
+                "Path": "Address.State",
+                "Name": "State",
                 "Note": "",
-                "WebId": "ee7370e9-f026-45bd-8b44-ae1aff55a628"
+                "WebId": "fe28189d-1a75-46b7-b3d8-6197a81f8d5b"
               },
               "Right": {
                 "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-                "TypeName": "System.Decimal",
-                "Value": 2000.0,
-                "Name": "2000",
+                "TypeName": "System.String, mscorlib",
+                "Value": "Malaysia",
+                "Name": "Malaysian",
                 "Note": "0",
                 "WebId": "ed85c72d-789a-4dea-80c9-182e22d9c383"
               },
-              "Operator": "Ge",
+              "Operator": "Substringof",
               "WebId": "511a4bb2-8cab-42dd-ba37-0acfeb49c6ac"
             }
           ]
         },
         "Description": "Just the revenues",
-        "Name": "Check the revenue",
+        "Name": "Must be Malaysian",
         "ErrorLocation": "",
-        "ErrorMessage": "",
+        "ErrorMessage": "Must be Malaysian",
         "WebId": "31f975d4-c0c4-483e-b10c-bc5dfcf4e0d3"
       }
     ]
@@ -452,6 +452,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-01-30T09:08:14.9313593+08:00",
+  "ChangedDate": "2014-01-31T05:52:42.5347608+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

@@ -49,6 +49,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
   
     ViewBag.Title = "title";
     Layout = null;
+    var formId = @Model.Form.Route + "-form";
 
             
             #line default
@@ -56,7 +57,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
 WriteLiteral("\r\n\r\n<h1>");
 
             
-            #line 9 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+            #line 10 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
 Write(Model.Form.Name);
 
             
@@ -72,27 +73,26 @@ WriteLiteral(" class=\"form-horizontal\"");
 
 WriteLiteral(" data-bind=\"with : entity\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 250), Tuple.Create("\"", 277)
+WriteAttribute("id", Tuple.Create(" id=\"", 297), Tuple.Create("\"", 309)
             
-            #line 11 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 255), Tuple.Create<System.Object, System.Int32>(Model.Form.Route
+            #line 12 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 302), Tuple.Create<System.Object, System.Int32>(formId
             
             #line default
             #line hidden
-, 255), false)
-, Tuple.Create(Tuple.Create("", 272), Tuple.Create("-form", 272), true)
+, 302), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 12 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+            #line 13 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 12 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+            #line 13 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
          foreach (var fe in Model.Form.FormDesign.FormElementCollection)
         {
             var fe1 = fe;
@@ -108,14 +108,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 22 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+            #line 23 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
            Write(Html.EditorFor(f => fe1));
 
             
             #line default
             #line hidden
             
-            #line 22 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+            #line 23 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
                                          
             }
         }

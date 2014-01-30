@@ -167,7 +167,7 @@ WriteLiteral(" charset=\"utf-8\"");
 WriteLiteral("></script>\r\n    <script");
 
 WriteAttribute("src", Tuple.Create(" src=\"", 1423), Tuple.Create("\"", 1458)
-, Tuple.Create(Tuple.Create("", 1429), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/jquery-2.0.3.min.js")
+, Tuple.Create(Tuple.Create("", 1429), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/jquery-2.1.0.min.js")
 , 1429), false)
 );
 

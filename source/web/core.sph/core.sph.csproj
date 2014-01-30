@@ -627,6 +627,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Sph\Controllers\BusinessRuleController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityFormController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
@@ -2310,7 +2311,7 @@
     <Content Include="Scripts\ace\mode-cobol.js" />
     <Content Include="Scripts\ace\mode-coffee.js" />
     <Content Include="Scripts\ace\mode-coldfusion.js" />
-    <Content Include="Scripts\ace\mode-csharp.js" />
+    <EmbeddedResource Include="Scripts\ace\mode-csharp.js" />
     <Content Include="Scripts\ace\mode-css.js" />
     <Content Include="Scripts\ace\mode-curly.js" />
     <Content Include="Scripts\ace\mode-c_cpp.js" />
@@ -2331,13 +2332,13 @@
     <Content Include="Scripts\ace\mode-haskell.js" />
     <Content Include="Scripts\ace\mode-haxe.js" />
     <EmbeddedResource Include="Scripts\ace\mode-html.js" />
-    <Content Include="Scripts\ace\mode-html_completions.js" />
+    <EmbeddedResource Include="Scripts\ace\mode-html_completions.js" />
     <Content Include="Scripts\ace\mode-html_ruby.js" />
     <Content Include="Scripts\ace\mode-ini.js" />
     <Content Include="Scripts\ace\mode-jack.js" />
     <Content Include="Scripts\ace\mode-jade.js" />
     <Content Include="Scripts\ace\mode-java.js" />
-    <Content Include="Scripts\ace\mode-javascript.js" />
+    <EmbeddedResource Include="Scripts\ace\mode-javascript.js" />
     <Content Include="Scripts\ace\mode-json.js" />
     <Content Include="Scripts\ace\mode-jsoniq.js" />
     <Content Include="Scripts\ace\mode-jsp.js" />
@@ -2516,7 +2517,7 @@
     <Content Include="Scripts\ace\theme-clouds.js" />
     <Content Include="Scripts\ace\theme-clouds_midnight.js" />
     <Content Include="Scripts\ace\theme-cobalt.js" />
-    <Content Include="Scripts\ace\theme-crimson_editor.js" />
+    <EmbeddedResource Include="Scripts\ace\theme-crimson_editor.js" />
     <Content Include="Scripts\ace\theme-dawn.js" />
     <Content Include="Scripts\ace\theme-dreamweaver.js" />
     <Content Include="Scripts\ace\theme-eclipse.js" />
@@ -2541,9 +2542,9 @@
     <Content Include="Scripts\ace\theme-vibrant_ink.js" />
     <Content Include="Scripts\ace\theme-xcode.js" />
     <Content Include="Scripts\ace\worker-coffee.js" />
-    <Content Include="Scripts\ace\worker-css.js" />
-    <Content Include="Scripts\ace\worker-javascript.js" />
-    <Content Include="Scripts\ace\worker-json.js" />
+    <EmbeddedResource Include="Scripts\ace\worker-css.js" />
+    <EmbeddedResource Include="Scripts\ace\worker-javascript.js" />
+    <EmbeddedResource Include="Scripts\ace\worker-json.js" />
     <Content Include="Scripts\ace\worker-lua.js" />
     <Content Include="Scripts\ace\worker-php.js" />
     <Content Include="Scripts\ace\worker-xquery.js" />
@@ -2642,6 +2643,7 @@
     <Folder Include="Areas\App\Views\ReportDefinition\" />
     <Folder Include="Areas\Sph\Models\" />
     <Folder Include="Areas\Sph\Views\Base\" />
+    <Folder Include="Areas\Sph\Views\BusinessRule\" />
     <Folder Include="Areas\Sph\Views\EntityForm\" />
     <Folder Include="Filters\" />
   </ItemGroup>
