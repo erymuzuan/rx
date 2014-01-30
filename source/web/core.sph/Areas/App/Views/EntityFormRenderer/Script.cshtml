@@ -14,12 +14,8 @@
     var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.EntityDefinitionId;
     var commands = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
         .Where(b => b.IsToolbarItem)
-        .Select(b => new
-        {
-            caption = b.Label,
-            command = b.CommandName,
-            icon = b.IconClass
-        });
+        .Select(b => string.Format("{{ caption :\"{0}\", command : {1}, icon:\"{2}\" }}", b.Label, b.CommandName, b.IconClass));
+    var commandsJs = string.Format("[{0}]", string.Join(",", commands));
 }
 
 <h2>title</h2>
@@ -120,10 +116,20 @@
                 attached: attached,
                 entity: entity,
                 save : save,
-                toolbar : {
+                toolbar : { 
+                    @if (Model.Form.IsEmailAvailable)
+                    {
+                        <text>emailCommand : function(){
+                        console.log("Sending email");
+                        return Task.fromResult(true);
+                    },</text>
+                    }
+                    @if (Model.Form.IsPrintAvailable)
+                    {
+                        <text>emailCommand :{},</text>
+                    }
                     saveCommand : save,
-                    commands : ko.observableArray(@Html.Raw(JsonConvert.SerializeObject(commands))
-                    )
+                    commands : ko.observableArray(@Html.Raw(commandsJs))
                 }
             };
         });

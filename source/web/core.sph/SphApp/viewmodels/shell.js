@@ -194,7 +194,6 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                         shell.selectedAuditTrail(new bespoke.sph.domain.AuditTrail());
 
                         tcs.resolve(true);
-                        $('#shell-logviewer-modal').modal({});
                     });
                 return tcs.promise();
             },
@@ -203,16 +202,10 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
             },
 
             print = function (commandParameter) {
-                var parameter = typeof commandParameter === "function" ? commandParameter() : commandParameter;
-
-                var tcs = new $.Deferred();
-
-                var url = "/print/" + parameter.entity + "/" + parameter.id();
+                var parameter = typeof commandParameter === "function" ? commandParameter() : commandParameter,
+                    url = "/print/" + parameter.entity + "/" + parameter.id();
                 window.open(url);
-                setTimeout(function () {
-                    tcs.resolve(true);
-                }, 500);
-                return tcs.promise();
+                return Task.fromResult(true);
             };
 
         var shell = {

@@ -67,7 +67,7 @@
         </button>
         <!-- /ko -->
         <!-- ko if: typeof auditTrail === "object"-->
-        <a data-toggle="modal" href="#shell-logviewer-modal" class="btn" data-bind="commandWithParameter: { command: $root.viewAuditTrailCommand, commandParameter: auditTrail }" data-loading-text="Sedang Proses....">
+        <a class="btn btn-default" data-bind="commandWithParameter: { command: $root.viewAuditTrailCommand, commandParameter: auditTrail }" data-loading-text="Sedang Proses....">
             <i class="fa fa-calendar"></i>
             Log
         </a>

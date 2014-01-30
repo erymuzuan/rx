@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -2426,6 +2427,41 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isWatchAvailable;
+        public const string PropertyNameIsWatchAvailable = "IsWatchAvailable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isEmailAvailable;
+        public const string PropertyNameIsEmailAvailable = "IsEmailAvailable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPrintAvailable;
+        public const string PropertyNameIsPrintAvailable = "IsPrintAvailable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isAuditTrailAvailable;
+        public const string PropertyNameIsAuditTrailAvailable = "IsAuditTrailAvailable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isRemoveAvailable;
+        public const string PropertyNameIsRemoveAvailable = "IsRemoveAvailable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isImportAvailable;
+        public const string PropertyNameIsImportAvailable = "IsImportAvailable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isExportAvailable;
+        public const string PropertyNameIsExportAvailable = "IsExportAvailable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();
 
@@ -2710,6 +2746,209 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isDefault;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsWatchAvailable
+        {
+            set
+            {
+                if (m_isWatchAvailable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsWatchAvailable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isWatchAvailable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isWatchAvailable;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsEmailAvailable
+        {
+            set
+            {
+                if (m_isEmailAvailable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsEmailAvailable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isEmailAvailable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isEmailAvailable;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsPrintAvailable
+        {
+            set
+            {
+                if (m_isPrintAvailable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPrintAvailable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPrintAvailable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPrintAvailable;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsAuditTrailAvailable
+        {
+            set
+            {
+                if (m_isAuditTrailAvailable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAuditTrailAvailable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAuditTrailAvailable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAuditTrailAvailable;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsRemoveAvailable
+        {
+            set
+            {
+                if (m_isRemoveAvailable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsRemoveAvailable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isRemoveAvailable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isRemoveAvailable;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsImportAvailable
+        {
+            set
+            {
+                if (m_isImportAvailable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsImportAvailable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isImportAvailable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isImportAvailable;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsExportAvailable
+        {
+            set
+            {
+                if (m_isExportAvailable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsExportAvailable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isExportAvailable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isExportAvailable;
             }
         }
 

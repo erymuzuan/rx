@@ -170,8 +170,38 @@ WriteLiteral(" type=\"checkbox\"");
 WriteLiteral(" name=\"FormDesign.IsDefault\"");
 
 WriteLiteral(" />\r\n                        Is default form\r\n                    </label>\r\n     " +
-"           </div>\r\n\r\n                <!-- ko with : FormDesign -->\r\n\r\n\r\n        " +
-"        <div");
+"           </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label>\r\n                        <input");
+
+WriteLiteral("  data-bind=\"checked: IsEmailAvailable\"");
+
+WriteLiteral(" id=\"form-design-isemail\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"FormDesign.IsEmailAvailable\"");
+
+WriteLiteral(" />\r\n                        Allow Email\r\n                    </label>\r\n         " +
+"       </div>\r\n\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label>\r\n                        <input");
+
+WriteLiteral("  data-bind=\"checked: IsPrintAvailable\"");
+
+WriteLiteral(" id=\"form-design-isprint\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"FormDesign.IsPrintAvailable\"");
+
+WriteLiteral(" />\r\n                        Allow Print\r\n                    </label>\r\n         " +
+"       </div>\r\n\r\n                <!-- ko with : FormDesign -->\r\n\r\n\r\n            " +
+"    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -576,13 +606,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 167 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 180 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 167 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 180 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new Type[]
                         {
@@ -598,13 +628,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 176 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 189 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 176 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 189 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         
@@ -612,14 +642,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 178 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 191 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe));
 
             
             #line default
             #line hidden
             
-            #line 178 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 191 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                 
                     }
 
@@ -648,7 +678,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 189 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 202 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

@@ -691,6 +691,10 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
 
     v.CompleteText = ko.observable('');
 
+    v.IconClass = ko.observable('');
+
+    v.IsToolbarItem = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.Button, domain.sph";
 
 
@@ -798,6 +802,13 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         IconClass: ko.observable(''),
         IconStoreId: ko.observable(''),
         IsDefault: ko.observable(false),
+        IsWatchAvailable: ko.observable(false),
+        IsEmailAvailable: ko.observable(false),
+        IsPrintAvailable: ko.observable(false),
+        IsAuditTrailAvailable: ko.observable(false),
+        IsRemoveAvailable: ko.observable(false),
+        IsImportAvailable: ko.observable(false),
+        IsExportAvailable: ko.observable(false),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         Rules: ko.observableArray([]),
         isBusy: ko.observable(false),
