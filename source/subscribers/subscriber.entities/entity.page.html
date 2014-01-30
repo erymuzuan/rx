@@ -35,6 +35,11 @@
         <h3>
             Reports
         </h3>
+        <ul data-bind="foreach: reports">
+            <li>
+                <a data-bind="attr:{href:String.format('#/reportdefinition.execute-id.{0}/{0}', ReportDefinitionId()) }, text:Title"></a>
+            </li>
+        </ul>
     </div>
     <div class="col-lg-6">
         <h3>

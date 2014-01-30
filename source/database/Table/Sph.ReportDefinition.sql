@@ -17,6 +17,10 @@ CREATE TABLE [Sph].[ReportDefinition](
 	[ChangedBy] VARCHAR(255) NULL
 	)
 GO
+ALTER TABLE [Sph].[ReportDefinition]
+ADD [DataSource.EntityName] VARCHAR(255) NOT NULL DEFAULT ''
+GO
+SELECT * FROM  [Sph].[ReportDefinition]
 
 
 
