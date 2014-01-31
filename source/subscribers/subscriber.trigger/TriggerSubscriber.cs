@@ -19,23 +19,45 @@ namespace Bespoke.Sph.CustomTriggers
             get { return new[] { "Trigger.#.#" }; }
         }
 
-        protected override Task ProcessMessage(Trigger item, MessageHeaders header)
+        protected override async Task ProcessMessage(Trigger item, MessageHeaders header)
         {
+            this.WriteMessage("Compiling new trigger");
+            if (header.Crud == CrudOperation.Deleted)
+            {
+                this.QueueUserWorkItem(DeleteTriggerAssembly, item);
+            }
             this.WriteMessage("Restarting the subscriber, changed detected to {0}", item);
+            var options = new CompilerOptions{IsDebug = true};
+            var result = await item.CompileAsync(options);
+            this.WriteMessage("Compile result {0}", result.Result);
+            result.Errors.ForEach(e => this.WriteError(new Exception(e.Message)));
+
             // NOTE : copy dlls, this will cause the appdomain to unload and we want it happend
             // after the Ack to the broker
-            var message = string.Format("{0}[{3}] was {1} on {2}\r\n", item.Name, header.Crud, DateTime.Now,
-                item.TriggerId);
-            ThreadPool.QueueUserWorkItem(WriteChangedLogs, message);
-            return Task.FromResult(0);
+            this.QueueUserWorkItem(DeployTriggerAssembly, item);
+        }
+
+        private void DeleteTriggerAssembly(Trigger trigger)
+        {
+            Thread.Sleep(1000);
+            var dll = Path.Combine(ConfigurationManager.SubscriberPath, string.Format("subscriber.trigger.{0}.dll", trigger.TriggerId));
+            if (File.Exists(dll))
+                File.Delete(dll);
         }
 
 
-        private static void WriteChangedLogs(object obj)
+        private static void DeployTriggerAssembly(object obj)
         {
             Thread.Sleep(1000);
-            var file = Path.Combine(ConfigurationManager.SubscriberPath, "trigger.log");
-            File.AppendAllText(file, obj.ToString());
+            var item = (Trigger)obj;
+            var dll = string.Format("subscriber.trigger.{0}.dll", item.TriggerId);
+            var pdb = string.Format("subscriber.trigger.{0}.pdb", item.TriggerId);
+            var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
+            var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
+
+            File.Copy(dllFullPath, ConfigurationManager.SubscriberPath + @"\" + dll, true);
+            File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);
+        
         }
 
     }

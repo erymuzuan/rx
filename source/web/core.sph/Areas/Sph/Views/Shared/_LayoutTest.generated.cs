@@ -76,83 +76,83 @@ WriteAttribute("src", Tuple.Create(" src=\"", 275), Tuple.Create("\"", 310)
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 334), Tuple.Create("\"", 365)
-, Tuple.Create(Tuple.Create("", 340), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/jquery-2.0.3.js")
+WriteAttribute("src", Tuple.Create(" src=\"", 334), Tuple.Create("\"", 378)
+, Tuple.Create(Tuple.Create("", 340), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/jquery-2.1.0.intellisense.js")
 , 340), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 389), Tuple.Create("\"", 418)
-, Tuple.Create(Tuple.Create("", 395), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/underscore.js")
-, 395), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 402), Tuple.Create("\"", 431)
+, Tuple.Create(Tuple.Create("", 408), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/underscore.js")
+, 408), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 442), Tuple.Create("\"", 471)
-, Tuple.Create(Tuple.Create("", 448), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/moment.min.js")
-, 448), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 455), Tuple.Create("\"", 484)
+, Tuple.Create(Tuple.Create("", 461), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/moment.min.js")
+, 461), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 495), Tuple.Create("\"", 524)
-, Tuple.Create(Tuple.Create("", 501), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_constants.js")
-, 501), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 508), Tuple.Create("\"", 537)
+, Tuple.Create(Tuple.Create("", 514), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_constants.js")
+, 514), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 548), Tuple.Create("\"", 587)
-, Tuple.Create(Tuple.Create("", 554), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_function.prototypes.js")
-, 554), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 561), Tuple.Create("\"", 600)
+, Tuple.Create(Tuple.Create("", 567), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_function.prototypes.js")
+, 567), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 611), Tuple.Create("\"", 635)
-, Tuple.Create(Tuple.Create("", 617), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_task.js")
-, 617), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 624), Tuple.Create("\"", 648)
+, Tuple.Create(Tuple.Create("", 630), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_task.js")
+, 630), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 659), Tuple.Create("\"", 690)
-, Tuple.Create(Tuple.Create("", 665), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/qunit-1.12.0.js")
-, 665), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 672), Tuple.Create("\"", 703)
+, Tuple.Create(Tuple.Create("", 678), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/qunit-1.12.0.js")
+, 678), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 714), Tuple.Create("\"", 749)
-, Tuple.Create(Tuple.Create("", 720), Tuple.Create<System.Object, System.Int32>(Href("~/App/schemas/sph.domain.g.js")
-, 720), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 727), Tuple.Create("\"", 762)
+, Tuple.Create(Tuple.Create("", 733), Tuple.Create<System.Object, System.Int32>(Href("~/App/schemas/sph.domain.g.js")
+, 733), false)
 );
 
 WriteLiteral("></script>\r\n    <link");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 771), Tuple.Create("\"", 804)
-, Tuple.Create(Tuple.Create("", 778), Tuple.Create<System.Object, System.Int32>(Href("~/Content/qunit-1.12.0.css")
-, 778), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 784), Tuple.Create("\"", 817)
+, Tuple.Create(Tuple.Create("", 791), Tuple.Create<System.Object, System.Int32>(Href("~/Content/qunit-1.12.0.css")
+, 791), false)
 );
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 836), Tuple.Create("\"", 880)
-, Tuple.Create(Tuple.Create("", 843), Tuple.Create<System.Object, System.Int32>(Href("~/Content/bootstrap/bootstrap.min.css")
-, 843), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 849), Tuple.Create("\"", 893)
+, Tuple.Create(Tuple.Create("", 856), Tuple.Create<System.Object, System.Int32>(Href("~/Content/bootstrap/bootstrap.min.css")
+, 856), false)
 );
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 912), Tuple.Create("\"", 961)
-, Tuple.Create(Tuple.Create("", 919), Tuple.Create<System.Object, System.Int32>(Href("~/Content/fontawesome/font-awesome.min.css")
-, 919), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 925), Tuple.Create("\"", 974)
+, Tuple.Create(Tuple.Create("", 932), Tuple.Create<System.Object, System.Int32>(Href("~/Content/fontawesome/font-awesome.min.css")
+, 932), false)
 );
 
 WriteLiteral(" rel=\"stylesheet\"");

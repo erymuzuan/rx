@@ -71,6 +71,7 @@
     <Compile Include="SubscriberMetadata.cs" />
     <Compile Include="SubscriberT.cs" />
     <Compile Include="TaskBasicConsumer.cs" />
+    <Compile Include="ThreadingHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
