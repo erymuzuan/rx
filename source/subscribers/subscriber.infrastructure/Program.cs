@@ -14,7 +14,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         private INotificationService m_notificationService;
         private static INotificationService m_notificationService2;
-        public SubscriberMetadata[] SubscribersMetadata { set; get; }
         public string Password { get; set; }
         public string UserName { get; set; }
         public string HostName { get; set; }
@@ -54,17 +53,30 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
 
 
-        public void Start()
+        public void Start(Subscriber[] subscribers, SubscriberMetadata[] subscribersMetadata)
         {
             this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);
             this.NotificationService.Write("Starts...");
             var threads = new List<Thread>();
-            foreach (var metadata in SubscribersMetadata)
+            foreach (var metadata in subscribersMetadata)
             {
                 this.NotificationService.Write("Starts..." + metadata.FullName);
                 try
                 {
                     var worker = StartAppDomain(metadata);
+                    threads.Add(worker);
+                }
+                catch (Exception e)
+                {
+                    this.NotificationService.Write(e.ToString());
+                }
+            }
+            foreach (var sub in subscribers)
+            {
+                this.NotificationService.Write("Starts..." + sub.GetType().FullName);
+                try
+                {
+                    var worker = this.StartSubscriber(sub);
                     threads.Add(worker);
                 }
                 catch (Exception e)
@@ -101,6 +113,25 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             thread.Start(subscriber);
 
             this.AppDomainCollection.Add(appdomain);
+            this.SubscriberCollection.Add(subscriber);
+
+            return thread;
+        }
+
+        private Thread StartSubscriber(Subscriber subscriber)
+        {
+            var thread = new Thread(o =>
+                {
+                    var o1 = (Subscriber)o;
+                    o1.HostName = this.HostName;
+                    o1.VirtualHost = this.VirtualHost;
+                    o1.UserName = this.UserName;
+                    o1.Password = this.Password;
+                    o1.Port = this.Port;
+                    o1.NotificicationService = this.NotificationService;
+                    o1.Run();
+                });
+            thread.Start(subscriber);
             this.SubscriberCollection.Add(subscriber);
 
             return thread;
@@ -176,7 +207,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             this.NotificationService.Write("STARTING in 2 seconds");
             await Task.Delay(2.Seconds());
             m_stopping = false;
-            this.Start();
+
+
+            var discoverer = new Discoverer();
+            var metadata = discoverer.Find();
+            var otherSubs = discoverer.FindSubscriber();
+            this.Start(otherSubs,metadata);
         }
     }
 }

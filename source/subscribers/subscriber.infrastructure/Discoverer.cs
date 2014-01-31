@@ -79,12 +79,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             return Assembly.ReflectionOnlyLoad(args.Name);
         }
 
-        public dynamic FindSubscriber()
+        public Subscriber[] FindSubscriber()
         {
-            var aseemblies = Directory.GetFiles(this.ProbingPath, "*.dll");
+            var assemblies = Directory.GetFiles(this.ProbingPath, "subscriber.*.dll");
 
-            var list = new List<dynamic>();
-            foreach (var dll in aseemblies)
+            var list = new List<Subscriber>();
+            foreach (var dll in assemblies)
             {
                 var assembly = Assembly.LoadFile(dll);
                 var providers = assembly.GetTypes()
@@ -92,12 +92,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 foreach (var type in providers)
                 {
                     dynamic pv = Activator.CreateInstance(type);
-                    var sms = pv.GetSubscribers();
+                    Subscriber[] sms = pv.GetSubscribers();
                     list.AddRange(sms);
                 }
             }
 
-            return list;
+            return list.ToArray();
         }
 
     }
