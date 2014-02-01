@@ -25,6 +25,8 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 f => f.GetType() == typeof(FormElement));
             return View(vm);
         }
+
+        [OutputCache(Duration = 600)]
         public ActionResult Html()
         {
             var vm = new TemplateFormViewModel

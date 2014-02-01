@@ -145,6 +145,7 @@
                                 helper: 'clone',
                                 connectToSortable: "#template-form-designer>form"
                             });
+                            vm.wd().isBusy(false);
                         });
 
                     $('section.context-action-panel').on('click', 'buton.close', function() {

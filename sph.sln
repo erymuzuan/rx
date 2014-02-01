@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WE-browsers.xml = WE-browsers.xml
 		..\..\..\Users\bespoke1\AppData\Local\Microsoft\VisualStudio\12.0\Extensions\f4yfe21a.zkq\schemas\WE-Palette.css = ..\..\..\Users\bespoke1\AppData\Local\Microsoft\VisualStudio\12.0\Extensions\f4yfe21a.zkq\schemas\WE-Palette.css
 		WE2013-settings.xml = WE2013-settings.xml
+		WebEssentials-Settings.json = WebEssentials-Settings.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domain", "domain", "{FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}"

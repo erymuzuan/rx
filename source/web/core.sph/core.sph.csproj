@@ -1246,7 +1246,7 @@
       <DependentUpon>__css.css.bundle</DependentUpon>
     </EmbeddedResource>
     <Content Include="Content\css.min.css">
-      <DependentUpon>__css.css.bundle</DependentUpon>
+      <DependentUpon>css.css</DependentUpon>
     </Content>
     <EmbeddedResource Include="Content\jstree\32px.png" />
     <EmbeddedResource Include="Content\jstree\40px.png" />
@@ -1431,7 +1431,7 @@
       <DependentUpon>__partial.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\partial\partial.min.js">
-      <DependentUpon>__partial.js.bundle</DependentUpon>
+      <DependentUpon>partial.js</DependentUpon>
     </EmbeddedResource>
     <Content Include="SphApp\partial\report.min.js">
       <DependentUpon>report.js</DependentUpon>
@@ -3580,7 +3580,7 @@
       <DependentUpon>Variable.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\WorkflowDefinition.min.js.map">
-      <DependentUpon>WorkflowDefinition.js</DependentUpon>
+      <DependentUpon>WorkflowDefinition.min.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\WorkflowDesigner.min.js.map">
       <DependentUpon>WorkflowDesigner.js</DependentUpon>
@@ -3590,7 +3590,7 @@
     </Content>
     <None Include="SphApp\partial\__partial.js.bundle" />
     <Content Include="SphApp\partial\partial.min.js.map">
-      <DependentUpon>__partial.js.bundle</DependentUpon>
+      <DependentUpon>partial.min.js</DependentUpon>
     </Content>
     <None Include="SphApp\prototypes\__prototypes.js.bundle" />
     <Content Include="SphApp\prototypes\prototypes.min.js.map">

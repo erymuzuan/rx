@@ -16,6 +16,7 @@ bespoke.sph.domain = bespoke.sph.domain || {};
 bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
     var system = require('durandal/system'),
+        isBusy = ko.observable(false),
         context = require(objectbuilders.datacontext),
         elementNameOptions = ko.observableArray(),
         removeActivity = function (activity) {
@@ -64,6 +65,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                     pattern = /Bespoke\.Sph\.Domain\.(.*?)Activity,/,
                     type = pattern.exec(activityType)[1];
 
+                isBusy(true);
                 require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.activity(clone);
 
@@ -161,6 +163,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
     model.SchemaStoreId.subscribe(loadSchema);
 
     var vm = {
+        isBusy: isBusy,
         removeActivity: removeActivity,
         removeVariable: removeVariable,
         addActivity: addActivity,
