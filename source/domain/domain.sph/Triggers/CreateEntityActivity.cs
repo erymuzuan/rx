@@ -13,11 +13,15 @@ namespace Bespoke.Sph.Domain
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
+            var context = new SphDataContext();
+            var ed = context.LoadOne<EntityDefinition>(d => d.Name == this.EntityType);
+            var entityFullName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName,
+                ed.EntityDefinitionId, ed.Name);
 
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
-            code.AppendLinf("        var item = new {0}();", this.EntityType);
+            code.AppendLinf("        var item = new {0}();", entityFullName);
             code.AppendLinf("        var self = this.WorkflowDefinition.ActivityCollection.OfType<CreateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
 
             foreach (var mapping in this.PropertyMappingCollection)

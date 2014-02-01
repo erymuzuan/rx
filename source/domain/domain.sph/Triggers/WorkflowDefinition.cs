@@ -89,6 +89,13 @@ namespace Bespoke.Sph.Domain
             if (!validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
 
+            if (this.ActivityCollection.Count(a => a.IsInitiator) != 1)
+                result.Errors.Add(new BuildError(this.WebId) { Message = "You must have exactly one initiator activity" });
+
+            if(string.IsNullOrWhiteSpace(this.SchemaStoreId))  
+                result.Errors.Add(new BuildError(this.WebId) { Message = "You must have exactly one schema defined" });
+
+
             foreach (var variable in this.VariableDefinitionCollection)
             {
                 var v = variable.ValidateBuild(this);
@@ -141,6 +148,8 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
 
+                // custom entities
+
                 foreach (var ass in options.ReferencedAssemblies)
                 {
                     parameters.ReferencedAssemblies.Add(ass.Location);
@@ -184,7 +193,7 @@ namespace Bespoke.Sph.Domain
                 return new BuildError(null, er.ToString())
                 {
                     Line = er.Line,
-                    Code =er.Line > 1 ? sources[er.Line - 1] : string.Empty
+                    Code = er.Line > 1 ? sources[er.Line - 1] : string.Empty
                 };
 
             }

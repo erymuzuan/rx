@@ -30,6 +30,10 @@ namespace Bespoke.Sph.Domain
             result.Errors.AddRange(errors);
             result.Errors.AddRange(elements.SelectMany(v => v));
 
+            if(!this.Performer.IsPublic && string.IsNullOrWhiteSpace(this.Performer.UserProperty))
+                result.Errors.Add(new BuildError(this.WebId,
+                             string.Format("[ScreenActivity] : {0} => does not have performer", this.Name)));
+
             return result;
         }
 

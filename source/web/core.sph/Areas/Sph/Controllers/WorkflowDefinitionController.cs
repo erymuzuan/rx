@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -84,10 +85,20 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             await this.Save("Compile", wd);
 
-            var options = new CompilerOptions();
+            var options = new CompilerOptions
+            {
+                SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
+            }; 
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
             options.ReferencedAssemblies.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly);
+
+            var customeEntityAssembiles = Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath,
+                ConfigurationManager.ApplicationName + ".*.dll");
+            foreach (var dll in customeEntityAssembiles)
+            {
+                options.ReferencedAssemblies.Add(Assembly.LoadFrom(dll));
+            }
 
             var result = wd.Compile(options);
 
@@ -117,6 +128,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
             options.ReferencedAssemblies.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly);
+            var customeEntityAssembiles = Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath,
+              ConfigurationManager.ApplicationName + ".*.dll");
+            foreach (var dll in customeEntityAssembiles)
+            {
+                options.ReferencedAssemblies.Add(Assembly.LoadFrom(dll));
+            }
 
             var result = wd.Compile(options);
             if (!result.Result || !System.IO.File.Exists(result.Output))
