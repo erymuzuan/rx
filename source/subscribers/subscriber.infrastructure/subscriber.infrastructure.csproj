@@ -62,6 +62,7 @@
     <Compile Include="EventLogNotification.cs" />
     <Compile Include="FileLog.cs" />
     <Compile Include="INotificationService.cs" />
+    <Compile Include="Isolated.cs" />
     <Compile Include="MessageHeaders.cs" />
     <Compile Include="ProcessTimeOutException.cs" />
     <Compile Include="Program.cs" />

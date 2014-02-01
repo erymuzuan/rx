@@ -15,7 +15,7 @@ namespace workers.console.runner
             var vhost = ParseArg("v") ?? "sph.0009";
             var username = ParseArg("u") ?? "guest";
             var password = ParseArg("p") ?? "guest";
-            var silent = ParseArgExist("quiet");
+            //var silent = ParseArgExist("quiet");
             var debug = ParseArgExist("debug");
             if (debug)
             {
@@ -43,13 +43,15 @@ namespace workers.console.runner
                     VirtualHost = vhost
                 };
 
-            var discoverer = new Discoverer();
-            var metadata = discoverer.Find();
-            var otherSubs = discoverer.FindSubscriber();
+            SubscriberMetadata[] metadata;
+            using (var discoverer = new Isolated<Discoverer>())
+            {
+                metadata = discoverer.Value.Find();
+            }
             metadata.Select(d => d.FullName).ToList().ForEach(Console.WriteLine);
 
 
-            program.Start(otherSubs, metadata);
+            program.Start(metadata);
             var quit = false;
             Console.WriteLine("Welcome to [SPH] Type quit to quit at any time.");
             while (!quit)

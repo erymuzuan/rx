@@ -53,7 +53,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
 
 
-        public void Start(Subscriber[] subscribers, SubscriberMetadata[] subscribersMetadata)
+        public void Start(SubscriberMetadata[] subscribersMetadata)
         {
             this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);
             this.NotificationService.Write("Starts...");
@@ -71,19 +71,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     this.NotificationService.Write(e.ToString());
                 }
             }
-            foreach (var sub in subscribers)
-            {
-                this.NotificationService.Write("Starts..." + sub.GetType().FullName);
-                try
-                {
-                    var worker = this.StartSubscriber(sub);
-                    threads.Add(worker);
-                }
-                catch (Exception e)
-                {
-                    this.NotificationService.Write(e.ToString());
-                }
-            }
+
 
             threads.ForEach(t => t.Join());
 
@@ -98,7 +86,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             var appdomain = this.CreateAppDomain(metadata);
             appdomain.UnhandledException += AppdomainUnhandledException;
-            var subscriber = appdomain.CreateInstanceAndUnwrap(metadata.Assembly, metadata.FullName) as Subscriber;
+            var subscriber = appdomain.CreateInstanceAndUnwrap(Path.GetFileNameWithoutExtension(metadata.Assembly), metadata.FullName) as Subscriber;
             var thread = new Thread(o =>
                 {
                     var o1 = (Subscriber)o;
@@ -118,34 +106,16 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             return thread;
         }
 
-        private Thread StartSubscriber(Subscriber subscriber)
-        {
-            var thread = new Thread(o =>
-                {
-                    var o1 = (Subscriber)o;
-                    o1.HostName = this.HostName;
-                    o1.VirtualHost = this.VirtualHost;
-                    o1.UserName = this.UserName;
-                    o1.Password = this.Password;
-                    o1.Port = this.Port;
-                    o1.NotificicationService = this.NotificationService;
-                    o1.Run();
-                });
-            thread.Start(subscriber);
-            this.SubscriberCollection.Add(subscriber);
 
-            return thread;
-        }
 
         public AppDomain CreateAppDomain(SubscriberMetadata metadata)
         {
             var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var dll = metadata.Type.Assembly.GetName().Name;
-            var configurationFile = Path.Combine(baseDirectory, dll) + ".dll.config";
+            var configurationFile = metadata.Assembly + ".config";
             var currentConfig = Path.Combine(baseDirectory, Assembly.GetEntryAssembly().GetName().Name + ".exe.config");
             var ads = new AppDomainSetup
             {
-                ApplicationBase = AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers",
+                ApplicationBase = ConfigurationManager.SubscriberPath,
                 DisallowBindingRedirects = false,
                 DisallowCodeDownload = true,
                 ConfigurationFile = File.Exists(configurationFile) ? configurationFile : currentConfig,
@@ -208,11 +178,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             await Task.Delay(2.Seconds());
             m_stopping = false;
 
-
-            var discoverer = new Discoverer();
-            var metadata = discoverer.Find();
-            var otherSubs = discoverer.FindSubscriber();
-            this.Start(otherSubs,metadata);
+            using (var work = new Isolated<Discoverer>())
+            {
+                var metadata = work.Value.Find();
+                this.Start(metadata);
+            }
         }
     }
 }
