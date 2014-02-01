@@ -56,6 +56,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             using (var conn = factory.CreateConnection())
             using (var channel = conn.CreateModel())
             {
+                channel.QueueDelete(this.QueueName, true, true);
+
                 channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
 
                 channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);
@@ -66,7 +68,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "#", null);
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.added", null);
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.changed", null);
-
 
                 foreach (var s in this.RoutingKeys)
                 {
