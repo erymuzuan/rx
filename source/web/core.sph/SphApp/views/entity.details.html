@@ -117,6 +117,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Route</th>
+                    <th>Default</th>
                     <th></th>
                 </tr>
             </thead>
@@ -126,6 +127,9 @@
                         <a data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().EntityDefinitionId() + '/' + EntityFormId()},text: Name"></a>
                     </td>
                     <td data-bind="text:Route"></td>
+                    <td>
+                        <i class="fa fa-check" data-bind="visible:IsDefault"></i>
+                    </td>
                     <td></td>
                 </tr>
             </tbody>

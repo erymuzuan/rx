@@ -60,13 +60,20 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public async Task<ActionResult> Publish()
         {
+            var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
             var buildValidation = ed.ValidateBuild();
+            var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true
+                && f.EntityDefinitionId == ed.EntityDefinitionId);
+            if (null == form)
+            {
+                buildValidation.Result = false;
+                buildValidation.Errors.Add(new BuildError(ed.WebId, "Please set a default form"));
+            }
 
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
-            var context = new SphDataContext();
 
             using (var session = context.OpenSession())
             {
