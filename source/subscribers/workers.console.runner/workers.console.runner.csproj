@@ -31,7 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>workers.console.runner.ConsoleProgram</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>sony errisson.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,6 +68,10 @@
     <None Include="App.config" />
     <None Include="Config\log4net.config" />
     <None Include="Config\log4net.unix.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="6.ico" />
+    <Content Include="sony errisson.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

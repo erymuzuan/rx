@@ -17,17 +17,21 @@ namespace workers.windowsservice.runner
             var logger = new EventLogNotification();
             m_program = new Program
             {
-                HostName = ConfigurationManager.AppSettings["RabbitMqHost"],
-                UserName = ConfigurationManager.AppSettings["RabbitMqUsername"],
-                Password = ConfigurationManager.AppSettings["RabbitMqPassword"],
-                Port = int.Parse(ConfigurationManager.AppSettings["RabbitMqPort"])
+                HostName = ConfigurationManager.AppSettings["sph:RabbitMqHost"],
+                UserName = ConfigurationManager.AppSettings["sph:RabbitMqUsername"],
+                Password = ConfigurationManager.AppSettings["sph:RabbitMqPassword"],
+                Port = int.Parse(ConfigurationManager.AppSettings["sph:RabbitMqPort"]),
+                VirtualHost = ConfigurationManager.AppSettings["sph:RabbitMqVhost"] ?? "sph.009"
 
             };
 
-            var discoverer = new Discoverer();
-            m_program.SubscribersMetadata = discoverer.Find();
+            SubscriberMetadata[] metadata;
+            using (var discoverer = new Isolated<Discoverer>())
+            {
+                metadata = discoverer.Value.Find();
+            }
             m_program.NotificationService = logger;
-            m_program.Start();
+            m_program.Start(metadata);
 
         }
 
