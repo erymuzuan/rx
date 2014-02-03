@@ -346,7 +346,7 @@ WriteLiteral(@">
             $('.carousel').carousel({
                 interval: 2000
             });
-            var retUrl = getParameterByName(""ReturnUrl"") + ""/"" + window.location.hash;
+            var retUrl = getParameterByName(""ReturnUrl"") + window.location.hash;
             $('input[name=ReturnUrl]').val(retUrl);
 
             function getParameterByName(name) {
