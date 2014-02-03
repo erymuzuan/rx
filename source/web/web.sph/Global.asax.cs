@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -23,7 +24,7 @@ namespace web.sph
 
 
             ModelBinders.Binders.Add(typeof(IEnumerable<Rule>), new RuleModelBinder());
-    
+
         }
     }
 }

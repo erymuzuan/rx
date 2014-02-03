@@ -13,7 +13,13 @@ namespace domain.test.workflows
         public void TriggerSchedule()
         {
             var wd = this.Create(503);
-            wd.ActivityCollection.Add(new ScheduledTriggerActivity { Name = "Starts", IsInitiator = true, WebId = "_A_", NextActivityWebId = "_B_" });
+            wd.ActivityCollection.Add(new ScheduledTriggerActivity
+            {
+                Name = "Starts",
+                IsInitiator = true,
+                WebId = "_A_",
+                NextActivityWebId = "_B_"
+            });
 
             var send = new NotificationActivity
             {
@@ -30,8 +36,8 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd, true);
-            this.Run(wd, result.Output, Console.WriteLine);
-
+            var wf = this.CreateInstance(wd, result.Output);
+            Assert.IsNotNull(wf);
         }
 
 
@@ -71,7 +77,8 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd, true);
-            var wf = this.Run(wd, result.Output, Console.WriteLine);
+            var wf = this.CreateInstance(wd, result.Output);
+            await wf.StartAsync();
 
             var resultA = await wf.ExecuteAsync("_A_");
             Assert.AreEqual(new[] { "_B_" }, resultA.NextActivities);
@@ -83,7 +90,7 @@ namespace domain.test.workflows
 
 
         [Test]
-        public void CompileAndRun()
+        public async Task CompileAndRun()
         {
             var wd = this.Create(500);
 
@@ -157,26 +164,19 @@ namespace domain.test.workflows
 
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_D_", Name = "habis" });
+            
+            var compilerResult = this.Compile(wd);
+            var wf = this.CreateInstance(wd, compilerResult.Output);
+            var execResult = await wf.StartAsync();
+            Console.WriteLine(wf);
+            Assert.AreEqual(new[] { "_B_" }, execResult.NextActivities);
 
-            var land = new CreateEntityActivity { Name = "Create Building", EntityType = "Building", NextActivityWebId = "_D_", WebId = "CREATE_BUILDING" };
-            land.PropertyMappingCollection.Add(new SimpleMapping { Source = "Title", Destination = "Name" });
-            wd.ActivityCollection.Add(land);
-
-
-
-            var result = this.Compile(wd);
-            this.Run(wd, result.Output, r2 =>
-            {
-                var result2 = r2.Result;
-                Console.WriteLine(result2);
-                Assert.AreEqual(new[] { "_B_" }, result2.NextActivities);
-            });
 
 
         }
 
         [Test]
-        public void EmailFieldExpression()
+        public async Task EmailFieldExpression()
         {
             var wd = this.Create(501);
 
@@ -211,13 +211,12 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_END_", Name = "habis" });
 
-            var result = this.Compile(wd, true);
-            this.Run(wd, result.Output, r2 =>
-            {
-                var result2 = r2.Result;
-                Console.WriteLine(result2);
-                Assert.AreEqual(new[] { "_EMAIL_" }, result2.NextActivities);
-            });
+            var compile = this.Compile(wd, true);
+            var wf = this.CreateInstance(wd, compile.Output);
+            var execResult = await wf.StartAsync();
+            Console.WriteLine(execResult);
+            Assert.AreEqual(new[] { "_EMAIL_" }, execResult.NextActivities);
+
 
 
         }

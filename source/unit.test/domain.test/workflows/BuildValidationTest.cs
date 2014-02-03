@@ -9,8 +9,8 @@ namespace domain.test.workflows
         [Test]
         public void BuildValidation()
         {
-            var wd = new WorkflowDefinition { Name = "3 Is Three" };
-            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = Guid.NewGuid().ToString() };
+            var wd = new WorkflowDefinition { Name = "3 Is Three" ,SchemaStoreId = Guid.NewGuid().ToString()};
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = Guid.NewGuid().ToString(), Performer = new Performer{IsPublic = true}};
             screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = string.Empty });
             wd.ActivityCollection.Add(screen);
 
@@ -27,8 +27,8 @@ namespace domain.test.workflows
         [Test]
         public void BuildValidationMissingWebId()
         {
-            var wd = new WorkflowDefinition { Name = "Test Workflow" };
-            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true };
+            var wd = new WorkflowDefinition { Name = "Test Workflow", SchemaStoreId = "123"};
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true , Performer = new Performer{IsPublic = true}};
             screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
             wd.ActivityCollection.Add(screen);
 
@@ -46,9 +46,9 @@ namespace domain.test.workflows
         [Test]
         public void BuildValidationDuplicateWebId()
         {
-            var wd = new WorkflowDefinition { Name = "Test Workflow" };
-            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A", NextActivityWebId = "B" };
-            var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A", NextActivityWebId = "C" };
+            var wd = new WorkflowDefinition { Name = "Test Workflow", SchemaStoreId = "123"};
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A", NextActivityWebId = "B", Performer = new Performer{IsPublic = true}};
+            var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A", NextActivityWebId = "C" , Performer = new Performer{IsPublic = true}};
             screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(screen2);

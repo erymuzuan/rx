@@ -35,8 +35,8 @@ namespace Bespoke.Sph.WathersSubscribers
             return Task.FromResult(0);
         }
 
-        private readonly ObjectCollection<Watcher> m_watchers =new ObjectCollection<Watcher>();
-      
+        private readonly ObjectCollection<Watcher> m_watchers = new ObjectCollection<Watcher>();
+
         protected async override void OnStart()
         {
             var context = new SphDataContext();
@@ -49,58 +49,49 @@ namespace Bespoke.Sph.WathersSubscribers
                 m_watchers.AddRange(lo.ItemCollection);
             }
 
+            var edQuery = context.EntityDefinitions;
+            var edLo = await context.LoadAsync(edQuery, includeTotalRows: true);
+            var definitions = new ObjectCollection<EntityDefinition>(edLo.ItemCollection);
+
+            while (edLo.HasNextPage)
+            {
+                edLo = await context.LoadAsync(edQuery, edLo.CurrentPage + 1, includeTotalRows: true);
+                definitions.AddRange(edLo.ItemCollection);
+            }
+
             // get the listeners
-            //m_buildingListener = ObjectBuilder.GetObject<IEntityChangedListener<Building>>();
-            //m_buildingListener.Changed += EntityChanged;
-            //m_buildingListener.Run();
+            m_listener = ObjectBuilder.GetObject<IEntityChangedListener<AuditTrail>>();
+            m_listener.Changed += EntityChanged;
+            m_listener.Run();
 
-            //m_applicationListener = ObjectBuilder.GetObject<IEntityChangedListener<RentalApplication>>();
-            //m_applicationListener.Changed += EntityChanged;
-            //m_applicationListener.Run();
 
-            //m_complaintListener = ObjectBuilder.GetObject<IEntityChangedListener<Complaint>>();
-            //m_complaintListener.Changed += EntityChanged;
-            //m_complaintListener.Run();
-
-            //m_maintenanceListener = ObjectBuilder.GetObject<IEntityChangedListener<Maintenance>>();
-            //m_maintenanceListener.Changed += EntityChanged;
-            //m_maintenanceListener.Run();
-
-            //m_spaceListener = ObjectBuilder.GetObject<IEntityChangedListener<Space>>();
-            //m_spaceListener.Changed += EntityChanged;
-            //m_spaceListener.Run();
-
-            //m_contractListener = ObjectBuilder.GetObject<IEntityChangedListener<Contract>>();
-            //m_contractListener.Changed += EntityChanged;
-            //m_contractListener.Run();
 
         }
 
-        async void EntityChanged<T>(object sender, EntityChangedEventArgs<T> e) where T : Entity
+        IEntityChangedListener<AuditTrail> m_listener;
+        private async void EntityChanged(object sender, EntityChangedEventArgs<AuditTrail> e)
         {
             this.WriteMessage("Changed to " + e);
-            var entityName = typeof(T).Name;
-            var id = (int)typeof(T).GetProperty(entityName + "Id")
-                .GetValue(e.Item);
+            var entityName = e.Item.Type;
+            var id = e.Item.EntityId;
             var watchers = m_watchers
-                .Where(w => w.EntityId == id
-                && w.EntityName == entityName)
+                .Where(w => w.EntityId == id && w.EntityName == entityName)
                 .ToList();
             this.WriteMessage("There {0} watchers", watchers.Count);
             foreach (var w in watchers)
             {
-                await this.SendMessage(w, e);
+                await this.SendMessage(w, e.Item);
             }
         }
 
-        private async Task SendMessage<T>(Watcher watcher, EntityChangedEventArgs<T> arg) where T:Entity
+        private async Task SendMessage(Watcher watcher, AuditTrail log)
         {
             var context = new SphDataContext();
             var message = new Message
             {
-                Subject = "Pertukaran di item yang anda pantau : " + arg.Item,
+                Subject = "There are changes in your watched item: " + log.Type,
                 UserName = watcher.User,
-                Body = arg.AuditTrail.ToString()
+                Body = log.ToString()
             };
 
 
@@ -109,6 +100,12 @@ namespace Bespoke.Sph.WathersSubscribers
                 session.Attach(message);
                 await session.SubmitChanges("Add new message");
             }
+        }
+
+        protected override void OnStop()
+        {
+            m_listener.Stop();
+            base.OnStop();
         }
     }
 }

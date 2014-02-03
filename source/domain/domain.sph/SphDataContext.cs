@@ -74,9 +74,6 @@ namespace Bespoke.Sph.Domain
                     list.Add(p);
                 }
 
-
-
-
                 if (type == typeof(Page))
                 {
                     Expression<Func<Page, bool>> predicate = t => t.PageId == o1.GetId();

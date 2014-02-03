@@ -26,7 +26,8 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new DelayActivity { Name = "Wait Delay", Seconds = 1, WebId = "B", NextActivityWebId = "C" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "C", Name = "Habis" });
             var result = this.Compile(wd);
-            dynamic wf = this.Run(wd, result.Output, Console.WriteLine);
+            dynamic wf = this.CreateInstance(wd, result.Output);
+            await wf.StartAsync();
 
             var resultA = await wf.ExecuteAsync("A");
             CollectionAssert.Contains(resultA.NextActivities, "B");
@@ -53,7 +54,8 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new DelayActivity { Name = "Wait Delay", Seconds = 1, WebId = "B", NextActivityWebId = "C" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "C", Name = "Habis" });
             var result = this.Compile(wd);
-            dynamic wf = this.Run(wd, result.Output, Console.WriteLine);
+            dynamic wf = this.CreateInstance(wd, result.Output);
+            await wf.StartAsync();
 
             var resultA = await wf.ExecuteAsync("A");
             CollectionAssert.Contains(resultA.NextActivities, "B");

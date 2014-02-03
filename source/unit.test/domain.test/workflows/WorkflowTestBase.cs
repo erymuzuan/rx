@@ -58,6 +58,13 @@ namespace domain.test.workflows
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
 
+            var edRepository = new Mock<IRepository<EntityDefinition>>(MockBehavior.Strict);
+            edRepository.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<EntityDefinition>>()))
+                .Returns(Task.FromResult(new EntityDefinition { Name= "Building", Plural = "Buildings", EntityDefinitionId= 10 }));
+            edRepository.Setup(x => x.LoadOne(It.IsAny<IQueryable<EntityDefinition>>()))
+                .Returns(new EntityDefinition { Name= "Building", Plural = "Buildings", EntityDefinitionId= 10 });
+            ObjectBuilder.AddCacheList(edRepository.Object);
+
             var usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);
             usersRepos.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<UserProfile>>()))
                 .Returns(Task.FromResult(new UserProfile { Username = "admin", Email = "admin@bespoke.com.my" }));
@@ -99,7 +106,7 @@ namespace domain.test.workflows
                 IsVerbose = verbose
             };
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll")));
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll")));
 
 
@@ -111,7 +118,7 @@ namespace domain.test.workflows
             return result;
         }
 
-        protected Workflow Run(WorkflowDefinition wd, string dll, Action<Task<ActivityExecutionResult>> continuationAction)
+        protected Workflow CreateInstance(WorkflowDefinition wd, string dll)
         {
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(dll);
@@ -133,15 +140,10 @@ namespace domain.test.workflows
             pemohon.Age = 28;
 
             wf.WorkflowDefinition = wd;
-            wf.StartAsync().ContinueWith(_ =>
-            {
-                if (null != continuationAction)
-                    continuationAction(_);
-
-            }).Wait();
 
             return wf;
         }
+
 
 
 
