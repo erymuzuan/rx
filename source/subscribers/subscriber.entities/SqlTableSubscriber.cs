@@ -120,5 +120,10 @@ namespace subscriber.entities
 
             return sql.ToString();
         }
+
+        public Task ProcessMessageAsync(EntityDefinition ed)
+        {
+            return this.ProcessMessage(ed, null);
+        }
     }
 }

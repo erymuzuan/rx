@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -10,7 +11,7 @@ namespace subscriber.entities
 {
     public class EntityIndexerMappingSubscriber : Subscriber<EntityDefinition>
     {
-        
+
         public override string QueueName
         {
             get { return "ed_es_mapping_gen"; }
@@ -45,23 +46,28 @@ namespace subscriber.entities
 
         protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
-            var applicationName = ConfigurationManager.ApplicationName;
-
-            var indexUrl = ConfigurationManager.ElasticSearchHost + "/" + applicationName.ToLowerInvariant();
+            var indexUrl = ConfigurationManager.ApplicationName.ToLowerInvariant();
             var url = indexUrl + string.Format("/{0}/_mapping", item.Name.ToLowerInvariant());
 
             var map = this.GetMapping(item);
             var content = new StringContent(map);
-            var client = new HttpClient();
-            var response = await client.PutAsync(url, content);
-
-            if (response.StatusCode == HttpStatusCode.NotFound)
+            using (var client = new HttpClient())
             {
-                // creates the index for the 1st time
-                await client.PutAsync(indexUrl, new StringContent(""));
-                await this.ProcessMessage(item, header);
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                var response = await client.PutAsync(url, content);
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // creates the index for the 1st time
+                    await client.PutAsync(indexUrl, new StringContent(""));
+                    await this.ProcessMessage(item, header);
+                }
             }
 
+        }
+
+        public Task ProcessMessageAsync(EntityDefinition ed)
+        {
+            return this.ProcessMessage(ed, null);
         }
 
 

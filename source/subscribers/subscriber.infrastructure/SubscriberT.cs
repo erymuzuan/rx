@@ -56,8 +56,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             using (var conn = factory.CreateConnection())
             using (var channel = conn.CreateModel())
             {
-                channel.QueueDelete(this.QueueName, true, true);
-
                 channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
 
                 channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);

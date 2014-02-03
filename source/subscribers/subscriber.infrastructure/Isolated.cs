@@ -17,7 +17,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 null, setup);
 
             var type = typeof(T);
-            m_value = (T)m_domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
+            m_value = (T)m_domain.CreateInstanceFromAndUnwrap(type.Assembly.Location, type.FullName);
         }
 
         public T Value

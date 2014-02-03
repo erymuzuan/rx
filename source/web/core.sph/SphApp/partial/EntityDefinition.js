@@ -53,10 +53,10 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                 });
             };
         },
-        removeBusinessRule = function (floor) {
+        removeBusinessRule = function (rule) {
             var self = this;
             return function () {
-                self.BusinessRuleCollection.remove(floor);
+                self.BusinessRuleCollection.remove(rule);
             };
         },
         editMemberMap = function (member) {

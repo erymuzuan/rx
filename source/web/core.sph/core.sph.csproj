@@ -1230,7 +1230,7 @@
       <DependentUpon>__core.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\core.min.js">
-      <DependentUpon>__core.js.bundle</DependentUpon>
+      <DependentUpon>core.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\vendor.js">
       <DependentUpon>__vendor.js.bundle</DependentUpon>
@@ -1358,6 +1358,9 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\_ko.entity.js" />
+    <Content Include="Scripts\_ko.kendo.min.js">
+      <DependentUpon>_ko.kendo.js</DependentUpon>
+    </Content>
     <Content Include="SphApp\partial\Activity.min.js">
       <DependentUpon>Activity.js</DependentUpon>
     </Content>
@@ -2229,7 +2232,7 @@
     <Content Include="Scripts\jquery-2.1.0.min.map" />
     <None Include="Scripts\__core.js.bundle" />
     <EmbeddedResource Include="Scripts\core.min.js.map">
-      <DependentUpon>__core.js.bundle</DependentUpon>
+      <DependentUpon>core.min.js</DependentUpon>
     </EmbeddedResource>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <EmbeddedResource Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
@@ -3293,7 +3296,7 @@
     </Content>
     <Content Include="Areas\Sph\Views\Template\_ValidationSetting.cshtml" />
     <Content Include="Scripts\_ko.kendo.min.js.map">
-      <DependentUpon>_ko.kendo.js</DependentUpon>
+      <DependentUpon>_ko.kendo.min.js</DependentUpon>
     </Content>
     <Content Include="Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -3510,7 +3513,7 @@
       <DependentUpon>DelayActivity.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\EntityDefinition.min.js.map">
-      <DependentUpon>EntityDefinition.js</DependentUpon>
+      <DependentUpon>EntityDefinition.min.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\ExecutedActivity.min.js.map">
       <DependentUpon>ExecutedActivity.js</DependentUpon>

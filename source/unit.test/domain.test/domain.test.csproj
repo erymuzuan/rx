@@ -158,6 +158,14 @@
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\subscribers\subscriber.entities\subscriber.entities.csproj">
+      <Project>{954AD880-4C7D-4DEE-9455-3A670FE9767B}</Project>
+      <Name>subscriber.entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\subscribers\subscriber.infrastructure\subscriber.infrastructure.csproj">
+      <Project>{40892CEA-FD47-4C1F-B821-7939776E9B6B}</Project>
+      <Name>subscriber.infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="contract.2013000036.xml">

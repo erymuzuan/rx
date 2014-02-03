@@ -5,17 +5,17 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        "Term": "uiyuyi",
+        "Term": "Address.State",
         "Operator": "Eq",
-        "Field": null,
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Kelantan",
+          "Name": "Kelantan",
+          "Note": "",
+          "WebId": "9d0f186a-d342-47bf-a4c6-16c3f48651b8"
+        },
         "WebId": "a54a5177-b64f-4c9e-b437-845526e884c9"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        "Term": "uiyuiy",
-        "Operator": "Eq",
-        "Field": null,
-        "WebId": "a4fd3e40-dfd2-47bc-ace0-4131d3bb8109"
       }
     ]
   },
@@ -35,13 +35,31 @@
         "Header": "Street1",
         "Sort": "",
         "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Address.State",
+        "Header": "State",
+        "Sort": "",
+        "WebId": "09aa9000-fb6e-4106-b717-10ed19194663"
+      }
+    ]
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
+        "Path": "FullName",
+        "Direction": "Desc",
+        "WebId": "30f7856b-9f91-4ce9-bed9-3dd519871546"
       }
     ]
   },
   "EntityViewId": 1,
   "IconClass": "",
-  "IconStoreId": "2782ee4a-4000-4098-9cd7-ca243da3cae2",
-  "EntityDefinitionId": 2,
+  "IconStoreId": "1fa7d31c-72ee-4fb3-9ab4-bdc8d5eaf049",
+  "EntityDefinitionId": 1,
   "Name": "All customers",
   "Route": "all-customers",
   "Note": "",
@@ -50,6 +68,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-01-30T09:08:35.1638283+08:00",
+  "ChangedDate": "2014-02-03T13:11:22.9935011+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }

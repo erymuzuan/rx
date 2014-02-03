@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace domain.test
 {
@@ -25,7 +26,7 @@ namespace domain.test
             Thread.CurrentPrincipal = principal;
         }
 
-        public static T GetDatabaseScalarValue<T>(this string connectionStringName, string sql,  params SqlParameter[] parameters)
+        public static T GetDatabaseScalarValue<T>(this string connectionStringName, string sql, params SqlParameter[] parameters)
         {
 
             var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
@@ -69,6 +70,29 @@ namespace domain.test
 
                 return (T)result;
             }
+        }
+
+        public static async Task<T?> GetNullableScalarValueAsync<T>(string sql, string connectionStringName, params SqlParameter[] parameters) where T : struct
+        {
+
+            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                if (parameters.Any())
+                    cmd.Parameters.AddRange(parameters);
+
+
+                await conn.OpenAsync();
+
+                var result = await cmd.ExecuteScalarAsync();
+
+                if (DBNull.Value == result || null == result)
+                    return new T?();
+
+
+                return (T)result;
+            }
 
         }
 
@@ -96,14 +120,36 @@ namespace domain.test
                 return list;
 
             }
+        }
 
+        public static async Task<List<T>> GetDatabaseListAsync<T>(string command, string connectionStringName, params SqlParameter[] parameters)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(command, conn))
+            {
+                if (parameters.Any())
+                    cmd.Parameters.AddRange(parameters);
 
+                await conn.OpenAsync();
+                var list = new List<T>();
+                using (var reader =await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection))
+                {
+                    while (reader.Read())
+                    {
+                        list.Add((T)reader[0]);
+                    }
+                }
+
+                return list;
+
+            }
         }
 
 
         public static Dictionary<TKey, TValue> GetDatabaseKeyList<TKey, TValue>(string sql, string connectionStringName, params SqlParameter[] parameters)
         {
-            
+
             var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
@@ -117,7 +163,7 @@ namespace domain.test
                 {
                     while (reader.Read())
                         list.Add((TKey)reader[0], (TValue)reader[1]);
-                    
+
                 }
 
                 return list;
@@ -136,9 +182,23 @@ namespace domain.test
             {
                 if (parameters.Any())
                     cmd.Parameters.AddRange(parameters);
-                
+
                 conn.Open();
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public static async Task ExecuteNonQueryAsync(this string connectionStringName, string sql, params SqlParameter[] parameters)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                if (parameters.Any())
+                    cmd.Parameters.AddRange(parameters);
+
+                await conn.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
             }
         }
 

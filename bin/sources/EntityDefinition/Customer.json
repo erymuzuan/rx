@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-  "CodeNamespace": "Bespoke.Dev_2.Domain",
+  "CodeNamespace": "Bespoke.Dev_1.Domain",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -443,7 +443,7 @@
       }
     ]
   },
-  "EntityDefinitionId": 2,
+  "EntityDefinitionId": 1,
   "Name": "Customer",
   "Plural": "Customers",
   "IconStoreId": "50f2a146-e813-4635-96e3-7a860bc6b021",
@@ -452,6 +452,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-01T08:59:38.7671335+08:00",
+  "ChangedDate": "2014-02-03T13:08:21.4889828+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

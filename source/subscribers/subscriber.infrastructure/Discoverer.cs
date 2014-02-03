@@ -27,7 +27,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             try
             {
                 var subscribers = new List<SubscriberMetadata>();
-                var assemblies = Directory.GetFiles(this.ProbingPath, "*.dll");
+                var assemblies = Directory.GetFiles(this.ProbingPath, "subscriber.*.dll");
                 foreach (var dll in assemblies)
                 {
                     var list = FindSubscriber(dll);

@@ -96,7 +96,11 @@
                         <a href="#business-rules-table" data-bind="click :$parent.editBusinessRule.call($parent,$data) ,text: Name"></a>
                     </td>
                     <td data-bind="text:Description"></td>
-                    <td></td>
+                    <td>
+                        <a href="#business-rules-table" data-bind="click : $parent.removeBusinessRule.call($parent,$data)">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>
