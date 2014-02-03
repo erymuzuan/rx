@@ -1530,7 +1530,7 @@
       <DependentUpon>__domain.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\schemas\domain.min.js">
-      <DependentUpon>__domain.js.bundle</DependentUpon>
+      <DependentUpon>domain.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\schemas\report.builder.g.js" />
     <Content Include="SphApp\schemas\sph.domain.g.js" />
@@ -3600,7 +3600,7 @@
     </Content>
     <None Include="SphApp\schemas\__domain.js.bundle" />
     <EmbeddedResource Include="SphApp\schemas\domain.min.js.map">
-      <DependentUpon>__domain.js.bundle</DependentUpon>
+      <DependentUpon>domain.min.js</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

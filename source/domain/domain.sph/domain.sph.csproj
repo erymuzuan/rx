@@ -131,6 +131,7 @@
     <Compile Include="FormTemplates\HtmlElement.cs" />
     <Compile Include="FormTemplates\NumberTextBox.cs" />
     <Compile Include="FormTemplates\SectionFormElement.cs" />
+    <Compile Include="FormTemplates\Sort.cs" />
     <Compile Include="FormTemplates\TextAreaElement.cs" />
     <Compile Include="FormTemplates\TextBox.cs" />
     <Compile Include="FormTemplates\BusinessRule.cs" />

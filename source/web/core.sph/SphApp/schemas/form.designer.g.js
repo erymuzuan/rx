@@ -849,6 +849,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         Visibilty: ko.observable(''),
         FilterCollection: ko.observableArray([]),
         ViewColumnCollection: ko.observableArray([]),
+        SortCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -931,6 +932,35 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.Sort = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
+        Path: ko.observable(''),
+        Direction: ko.observable('SortDirection'),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SortPartial) {
+        return _(model).extend(new bespoke.sph.domain.SortPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {
@@ -1002,3 +1032,13 @@ bespoke.sph.domain.Field = function (optionOrWebid) {
 
 
 // placeholder for Operatorenum
+
+bespoke.sph.domain.SortDirection = function () {
+    return {
+        ASC: 'Asc',
+        DESC: 'Desc',
+
+        DO_NOT_SELECT: 'DONTDOTHIS'
+    };
+}();
+

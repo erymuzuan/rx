@@ -311,7 +311,7 @@ WriteLiteral(">EndsWith</option>\r\n                        </select>\r\n       
             
             #line default
             #line hidden
-WriteLiteral("\r\n                    <td>\r\n                        <a");
+WriteLiteral("</td>\r\n                    <td>\r\n                        <a");
 
 WriteLiteral(" href=\"#\"");
 
@@ -322,7 +322,88 @@ WriteLiteral(">\r\n                            <span");
 WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 
 WriteLiteral("></span>\r\n                        </a>\r\n                    </td>\r\n              " +
-"  </tr>\r\n            </tbody>\r\n        </table>\r\n\r\n    </div>\r\n</div>\r\n<div");
+"  </tr>\r\n            </tbody>\r\n        </table>\r\n\r\n    </div>\r\n</div>\r\n\r\n\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" data-bind=\"with : view\"");
+
+WriteLiteral(">\r\n    <a");
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral(" href=\"#sorts-ev-panel\"");
+
+WriteLiteral(">\r\n        <h3>\r\n            <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n            Sorts\r\n        </h3>\r\n    </a>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"collapse collapsed\"");
+
+WriteLiteral(" id=\"sorts-ev-panel\"");
+
+WriteLiteral(">\r\n        <button");
+
+WriteLiteral(" class=\"btn btn-link pull-right\"");
+
+WriteLiteral(" data-bind=\"click : addSort\"");
+
+WriteLiteral(">+ Sort</button>\r\n        <table");
+
+WriteLiteral(" class=\"table table-striped\"");
+
+WriteLiteral(">\r\n            <thead>\r\n                <tr>\r\n                    <th>Path</th>\r\n" +
+"                    <th>Direction</th>\r\n                    <th></th>\r\n         " +
+"       </tr>\r\n            </thead>\r\n            <tbody");
+
+WriteLiteral(" data-bind=\"foreach :SortCollection\"");
+
+WriteLiteral(">\r\n                <tr>\r\n                    <td>\r\n                        <input" +
+"");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral("\r\n                               data-bind=\"value:Path,entityTypeaheadPath :$root" +
+".entity().EntityDefinitionId()\"");
+
+WriteLiteral("\r\n                               required");
+
+WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_.]*$\"");
+
+WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
+" <select");
+
+WriteLiteral(" name=\"rule-operator\"");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: Direction\"");
+
+WriteLiteral(">\r\n                            <option");
+
+WriteLiteral(" value=\"Asc\"");
+
+WriteLiteral(">Ascending</option>\r\n                            <option");
+
+WriteLiteral(" value=\"Desc\"");
+
+WriteLiteral(">Desc</option>\r\n                        </select>\r\n                    </td>\r\n   " +
+"                 <td>\r\n                        <a");
+
+WriteLiteral(" href=\"#\"");
+
+WriteLiteral(" data-bind=\"click : $parent.removeSort.call($parent,$data)\"");
+
+WriteLiteral(">\r\n                            <span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
+
+WriteLiteral("></span>\r\n                        </a>\r\n                    </td>\r\n              " +
+"  </tr>\r\n            </tbody>\r\n        </table>\r\n\r\n    </div>\r\n</div>\r\n\r\n\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 

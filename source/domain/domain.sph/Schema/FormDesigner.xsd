@@ -384,6 +384,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="SortCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Sort" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>
@@ -430,4 +437,16 @@
 			<xs:documentation>Placeholder</xs:documentation>
 		</xs:annotation>
 	</xs:complexType>
+	<xs:element name="Sort">
+		<xs:complexType>
+			<xs:attribute name="Path" type="xs:string" use="required"/>
+			<xs:attribute name="Direction" type="SortDirection" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="SortDirection">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Asc"/>
+			<xs:enumeration value="Desc"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

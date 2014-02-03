@@ -3032,6 +3032,17 @@ namespace Bespoke.Sph.Domain
             get { return m_ViewColumnCollection; }
         }
 
+        private readonly ObjectCollection<Sort> m_SortCollection = new ObjectCollection<Sort>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Sort", IsNullable = false)]
+        public ObjectCollection<Sort> SortCollection
+        {
+            get { return m_SortCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -3509,6 +3520,86 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_sort;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("Sort", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Sort
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_path;
+        public const string PropertyNamePath = "Path";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private SortDirection m_direction;
+        public const string PropertyNameDirection = "Direction";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Path
+        {
+            set
+            {
+                if (String.Equals(m_path, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_path = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_path;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public SortDirection Direction
+        {
+            set
+            {
+                if (m_direction == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDirection, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_direction = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_direction;
             }
         }
 
@@ -4047,6 +4138,14 @@ namespace Bespoke.Sph.Domain
     // placeholder for Field complext type
 
     // placeholder for Operator enum
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum SortDirection
+    {
+        Asc,
+        Desc,
+
+    }
 
 }
 // ReSharper restore InconsistentNaming

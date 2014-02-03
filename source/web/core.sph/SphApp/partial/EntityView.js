@@ -29,10 +29,22 @@ bespoke.sph.domain.EntityViewPartial = function () {
                 self.FilterCollection.remove(obj);
             };
 
+        },
+        addSort = function () {
+            this.SortCollection.push(new bespoke.sph.domain.Sort(system.guid()));
+        },
+        removeSort = function (obj) {
+            var self = this;
+            return function () {
+                self.SortCollection.remove(obj);
+            };
+
         };
     return {
         addViewColumn: addViewColumn,
         removeViewColumn: removeViewColumn,
+        addSort: addSort,
+        removeSort: removeSort,
         addFilter: addFilter,
         removeFilter: removeFilter
     };
