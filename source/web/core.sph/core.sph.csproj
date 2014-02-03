@@ -54,9 +54,9 @@
     <Reference Include="DiffPlex">
       <HintPath>..\..\..\packages\DiffPlex.1.2.0\lib\Net40\DiffPlex.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer, Version=1.6.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+    <Reference Include="Humanizer, Version=1.7.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Humanizer.1.6.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
+      <HintPath>..\..\..\packages\Humanizer.1.7.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer, Version=3.4.2.549, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -97,9 +97,9 @@
     <Reference Include="Monads.NET">
       <HintPath>..\..\..\packages\Monads.NET.1.0.3\lib\net40\Monads.NET.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -1236,7 +1236,7 @@
       <DependentUpon>__vendor.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\vendor.min.js">
-      <DependentUpon>__vendor.js.bundle</DependentUpon>
+      <DependentUpon>vendor.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\async.js" />
     <EmbeddedResource Include="SphApp\goog.js" />
@@ -1245,6 +1245,10 @@
     <EmbeddedResource Include="Content\css.css">
       <DependentUpon>__css.css.bundle</DependentUpon>
     </EmbeddedResource>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css.min.css">
       <DependentUpon>css.css</DependentUpon>
     </Content>
@@ -1328,7 +1332,15 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_RuleFieldDropDown.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
@@ -1662,10 +1674,6 @@
     <EmbeddedResource Include="SphApp\views\_users.department.html" />
     <EmbeddedResource Include="SphApp\views\_workflow.definition.activities.html" />
     <EmbeddedResource Include="SphApp\views\_workflow.definition.variables.html" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <EmbeddedResource Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\doc.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shCore.css" />
@@ -1868,7 +1876,6 @@
     <Content Include="Content\_semantic.home.css" />
     <Content Include="Content\_semantic.workflow.triggers.css" />
     <EmbeddedResource Include="fonts\fontawesome-webfont.svg" />
-    <EmbeddedResource Include="fonts\glyphicons-halflings-regular.svg" />
     <EmbeddedResource Include="Images\add_icon.png" />
     <EmbeddedResource Include="Images\add_user.png" />
     <EmbeddedResource Include="Images\arrow.png" />
@@ -1987,8 +1994,6 @@
       <DependentUpon>theme.js</DependentUpon>
     </Content>
     <Content Include="Scripts\almond-custom.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <EmbeddedResource Include="Scripts\bootstrap.min.js" />
     <EmbeddedResource Include="SphApp\services\cultures.my.js" />
     <EmbeddedResource Include="SphApp\services\system.js" />
     <Content Include="SphApp\objectbuilders.min.js.map">
@@ -2204,9 +2209,6 @@
     <EmbeddedResource Include="fonts\fontawesome-webfont.ttf" />
     <EmbeddedResource Include="fonts\fontawesome-webfont.eot" />
     <EmbeddedResource Include="fonts\FontAwesome.otf" />
-    <EmbeddedResource Include="fonts\glyphicons-halflings-regular.woff" />
-    <EmbeddedResource Include="fonts\glyphicons-halflings-regular.ttf" />
-    <EmbeddedResource Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\theme.matyie\site.css.map">
       <DependentUpon>site.css</DependentUpon>
     </Content>
@@ -3472,7 +3474,7 @@
     </Content>
     <None Include="Scripts\__vendor.js.bundle" />
     <EmbeddedResource Include="Scripts\vendor.min.js.map">
-      <DependentUpon>__vendor.js.bundle</DependentUpon>
+      <DependentUpon>vendor.min.js</DependentUpon>
     </EmbeddedResource>
     <Content Include="SphApp\partial\Activity.min.js.map">
       <DependentUpon>Activity.js</DependentUpon>
