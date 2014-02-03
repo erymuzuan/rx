@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Bespoke.Sph.Domain;
 using NUnit.Framework;
 using subscriber.entities;
@@ -21,7 +22,7 @@ namespace subscriber.test
                 IsFilterable = true,
                 IsAnalyzed = true,
                 Boost = 5
-            }); 
+            });
             ent.MemberCollection.Add(new Member
             {
                 Name = "Title",
@@ -49,19 +50,33 @@ namespace subscriber.test
                 IsExcludeInAll = true
             });
             var address = new Member { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" ,IsAnalyzed = true});
+            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib", IsAnalyzed = true });
             address.MemberCollection.Add(new Member { Name = "Street2", IsNotIndexed = true, TypeName = "System.String, mscorlib" });
             address.MemberCollection.Add(new Member { Name = "Postcode", IsFilterable = true, TypeName = "System.String, mscorlib" });
             address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
-           
 
-            var locality = new Member {Name = "Locality", Type = typeof (object)};
-            locality.Add(new Dictionary<string, Type>{{"Mode",typeof(string)}});
+
+            var locality = new Member { Name = "Locality", Type = typeof(object) };
+            locality.Add(new Dictionary<string, Type> { { "Mode", typeof(string) } });
             address.MemberCollection.Add(locality);
 
             var sub = new EntityIndexerMappingSubscriber();
             var map = sub.GetMapping(ent);
+            Console.WriteLine(map);
+            StringAssert.Contains("\"type\":", map);
+
+        }
+        
+        
+        [Test]
+        public void MapCustomer()
+        {
+            var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.WorkflowSourceDirectory, "EntityDefinition/Customer.json"));
+            var ed = customerDefinition.DeserializeFromJson<EntityDefinition>();
+
+            var sub = new EntityIndexerMappingSubscriber();
+            var map = sub.GetMapping(ed);
             Console.WriteLine(map);
             StringAssert.Contains("\"type\":", map);
 

@@ -50,21 +50,21 @@ namespace domain.test.entities
                 var response = await client.DeleteAsync("dev");
                 Console.WriteLine("DELETE dev : {0}", response.StatusCode);
 
-                await client.PutAsync("dev/customer", new StringContent(""));
+                await client.PutAsync("dev", new StringContent(""));
                 // mapping
                 var subs = new EntityIndexerMappingSubscriber();
                 await subs.ProcessMessageAsync(ed);
             }
-            //for (int i = 0; i < 10000; i++)
-            //{
-            //    Console.Write(".");
-            //    var customer = CreateCustomerInstance(type);
-            //    customer.CustomerId = (i + 1);
+            for (int i = 0; i < 10000; i++)
+            {
+                Console.Write(".");
+                var customer = CreateCustomerInstance(type);
+                customer.CustomerId = (i + 1);
 
-            //    var sql = InsertCustomerInstanceIntoSqlAsync(customer);
-            //    var es = InsertCustomerInstanceIntoElasticSearch(customer, i);
-            //    await Task.WhenAll(sql, es);
-            //}
+                var sql = InsertCustomerInstanceIntoSqlAsync(customer);
+                var es = InsertCustomerInstanceIntoElasticSearch(customer, i);
+                await Task.WhenAll(sql, es);
+            }
 
         }
 

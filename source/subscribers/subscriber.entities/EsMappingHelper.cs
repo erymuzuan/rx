@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain;
@@ -21,6 +20,9 @@ namespace subscriber.entities
                 if (!member.IsNotIndexed)
                     indexed = (member.IsAnalyzed ? "analyzed" : "not_analyzed");
             }
+
+            if (member.Type == typeof (bool))
+                indexed = "not_analyzed";
 
             map.AppendFormat("\"type\":\"{0}\"", type);
             map.AppendFormat(",\"index\":\"{0}\"", indexed);
@@ -53,7 +55,7 @@ namespace subscriber.entities
             var map = new StringBuilder();
             map.AppendLinf("    \"{0}\":{{", member.Name);
 
-            map.AppendLine("        \"type\": {\"type\": \"object\"},");
+            map.AppendLine("        \"type\":  \"object\",");
             map.AppendLine("        \"properties\":{");
 
             var memberMappings = string.Join(",\r\n", member.MemberCollection.Select(d => d.GetMemberMappings()));
