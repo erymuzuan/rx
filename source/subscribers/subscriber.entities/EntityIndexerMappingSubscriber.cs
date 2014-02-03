@@ -46,8 +46,7 @@ namespace subscriber.entities
 
         protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
-            var indexUrl = ConfigurationManager.ApplicationName.ToLowerInvariant();
-            var url = indexUrl + string.Format("/{0}/_mapping", item.Name.ToLowerInvariant());
+            var url = string.Format("{0}/_mapping/{1}", ConfigurationManager.ApplicationName.ToLowerInvariant(), item.Name.ToLowerInvariant());
 
             var map = this.GetMapping(item);
             var content = new StringContent(map);
@@ -57,8 +56,9 @@ namespace subscriber.entities
                 var response = await client.PutAsync(url, content);
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
+                    Console.Write(".");
                     // creates the index for the 1st time
-                    await client.PutAsync(indexUrl, new StringContent(""));
+                    await client.PutAsync(ConfigurationManager.ApplicationName.ToLowerInvariant(), new StringContent(""));
                     await this.ProcessMessage(item, header);
                 }
             }

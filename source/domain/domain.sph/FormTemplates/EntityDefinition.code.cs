@@ -103,17 +103,21 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("//exec:Search");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
             code.AppendLine("       {");
-            code.AppendLinf(@"
+            code.AppendFormat(@"
             var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
             var request = new System.Net.Http.StringContent(json);
-            var url = string.Format(""{{0}}/{{1}}/{0}/_search"", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ApplicationName.ToLower() );
+            var url = ""{1}/{0}/_search"";
 
-            var client = new System.Net.Http.HttpClient();
-            var response = await client.PostAsync(url, request);
-            var content = response.Content as System.Net.Http.StreamContent;
-            if (null == content) throw new Exception(""Cannot execute query on es "" + request);
-            this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Content(await content.ReadAsStringAsync());", this.Name.ToLower());
+            using(var client = new System.Net.Http.HttpClient())
+            {{
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                var response = await client.PostAsync(url, request);
+                var content = response.Content as System.Net.Http.StreamContent;
+                if (null == content) throw new Exception(""Cannot execute query on es "" + request);
+                this.Response.ContentType = ""application/json; charset=utf-8"";
+                return Content(await content.ReadAsStringAsync());
+            }}
+            ", this.Name.ToLower(), ConfigurationManager.ApplicationName.ToLower());
             code.AppendLine("       }");
 
             // SAVE
