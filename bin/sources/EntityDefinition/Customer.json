@@ -363,6 +363,23 @@
         "IsExcludeInAll": false,
         "Boost": 0,
         "WebId": "f6528f8a-40bc-4a9e-a70b-130230026913"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Rating",
+        "TypeName": "System.Int32, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "WebId": "42a88b57-cdc1-49f0-8189-b32493c23609"
       }
     ]
   },
@@ -452,6 +469,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-03T14:55:36.429378+08:00",
+  "ChangedDate": "2014-02-04T08:05:39.4760156+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

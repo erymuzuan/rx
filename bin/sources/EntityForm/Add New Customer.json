@@ -414,9 +414,9 @@
       "Must be Malaysian"
     ]
   },
-  "EntityFormId": 2,
-  "EntityDefinitionId": 2,
-  "Name": "Add New",
+  "EntityFormId": 1,
+  "EntityDefinitionId": 1,
+  "Name": "Add New Customer",
   "Route": "add-customer-form",
   "Note": "Add new customers",
   "IsAllowedNewItem": false,

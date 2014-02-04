@@ -28,7 +28,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                  .done(function (b, vw) {
                      entity(b);
                      view(vw);
-                     
+
                      tcs.resolve(true);
                  });
 
@@ -39,15 +39,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             attached = function () {
 
             },
-            // TODO : the filtered query
             query = {
-                "sort": [
-                 {
-                     "ChangedDate": {
-                         "order": "desc"
-                     }
-                 }
-                ]
+                "query": {
+                    "filtered": {
+                        "filter": @Raw(Model.FilterDsl)
+                    }
+                },
+                "sort" : @Raw(Model.SortDsl)
             };
 
         var vm = {

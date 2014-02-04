@@ -20,17 +20,25 @@ namespace subscriber.entities
 
         }
 
-        protected async override Task ProcessMessage(EntityView item, MessageHeaders header)
+        protected async override Task ProcessMessage(EntityView view, MessageHeaders header)
         {
             var context = new SphDataContext();
-            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.EntityDefinitionId == item.EntityDefinitionId);
+            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.EntityDefinitionId == view.EntityDefinitionId);
             var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true 
-                && f.EntityDefinitionId == item.EntityDefinitionId);
+                && f.EntityDefinitionId == view.EntityDefinitionId);
+
+
+            if(null == ed)
+                this.WriteError(new NullReferenceException("EntityDefinition is null Id = " + view.EntityDefinitionId));
+            if(null == form)
+                this.WriteError(new NullReferenceException("Default EntityForm cannot be found for EntityDefinition = " + view.EntityDefinitionId));
             var vm = new
             {
                 Definition = ed,
-                View = item, 
-                Form = form
+                View = view, 
+                Form = form,
+                FilterDsl = view.GenerateElasticSearchFilterDsl(),
+                SortDsl = view.GenerateEsSortDsl()
             };
 
 
@@ -38,7 +46,7 @@ namespace subscriber.entities
             const string resourceName = "subscriber.entities.entity.view";
 
 
-            var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + item.Route.ToLower() + ".html");
+            var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + view.Route.ToLower() + ".html");
             using (var stream = assembly.GetManifestResourceStream(resourceName + ".html"))
             using (var reader = new StreamReader(stream))
             {
@@ -53,7 +61,7 @@ namespace subscriber.entities
             }
 
 
-            var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + item.Route.ToLower() + ".js");
+            var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + view.Route.ToLower() + ".js");
             using (var stream = assembly.GetManifestResourceStream(resourceName + ".js"))
             using (var reader = new StreamReader(stream))
             {

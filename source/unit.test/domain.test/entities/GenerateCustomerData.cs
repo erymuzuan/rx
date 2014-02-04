@@ -30,6 +30,15 @@ namespace domain.test.entities
             await this.InsertEntityViewAsync(ed);
         }
         [Test]
+        public async Task RestoreAllCustomerForms()
+        {
+            var vd = File.ReadAllText(Path.Combine(ConfigurationManager.WorkflowSourceDirectory, @"EntityForm\Add New Customer.json"));
+            var ed = vd.DeserializeFromJson<EntityForm>();
+            Assert.IsNotNull(ed);
+
+            await this.InsertEntityFormAsync(ed);
+        }
+        [Test]
         public async Task GenerateLotsOfRows()
         {
 
@@ -179,11 +188,38 @@ SET IDENTITY_INSERT [dev].[Customer] OFF      ", customer.Age, customer.Gender, 
             return type;
         }
 
+        private async Task InsertEntityFormAsync(EntityForm form)
+        {
+
+            SphConnection.ExecuteNonQuery("TRUNCATE TABLE [Sph].[EntityForm]");
+            var sql = string.Format(@"INSERT INTO [Sph].[EntityForm]
+           ([Data]
+           ,[Name]
+           ,[Route]
+           ,[EntityDefinitionId]
+           ,[IsDefault]
+           ,[CreatedDate]
+           ,[CreatedBy]
+           ,[ChangedDate]
+           ,[ChangedBy])
+     VALUES
+           (@xml
+           ,'{0}'
+           ,'{1}'
+           ,{2}
+           ,{3}
+           ,GETDATE()
+           ,'admin'
+           ,GETDATE()
+           ,'admin')", form.Name, form.Route, form.EntityDefinitionId, form.IsDefault ? "1": "0");
+            await SphConnection.ExecuteNonQueryAsync(sql, new SqlParameter("@xml", form.ToXmlString()));
+        }
+
         private async Task InsertEntityViewAsync(EntityView view)
         {
 
             SphConnection.ExecuteNonQuery("TRUNCATE TABLE [Sph].[EntityView]");
-            var insertCustomerDefinitionSql = string.Format(@"INSERT INTO [Sph].[EntityView]
+            var sql = string.Format(@"INSERT INTO [Sph].[EntityView]
            ([Data]
            ,[Name]
            ,[Route]
@@ -201,7 +237,7 @@ SET IDENTITY_INSERT [dev].[Customer] OFF      ", customer.Age, customer.Gender, 
            ,'admin'
            ,GETDATE()
            ,'admin')", view.Name, view.Route, view.EntityDefinitionId);
-            await SphConnection.ExecuteNonQueryAsync(insertCustomerDefinitionSql, new SqlParameter("@xml", view.ToXmlString()));
+            await SphConnection.ExecuteNonQueryAsync(sql, new SqlParameter("@xml", view.ToXmlString()));
         }
 
         private async Task InsertCustomerDefinitionIntoSql(EntityDefinition ed)

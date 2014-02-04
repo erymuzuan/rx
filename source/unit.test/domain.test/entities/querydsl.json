@@ -1,0 +1,28 @@
+﻿{
+        "filtered": {
+           "filter": {
+               "and": {
+                  "filters": [
+                     {
+                         "term": {
+                            "Address.State": "Johor"
+                         }
+                     },
+                     {
+                         "term": {
+                            "Gender": "Male"
+                         }
+                     },
+                     {
+                         "range": {
+                            "Age": {
+                               "from": 25,
+                               "to": 28
+                            }
+                         }
+                     }
+                  ]
+               }
+           }
+        }
+    }
