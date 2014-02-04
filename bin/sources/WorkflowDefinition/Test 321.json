@@ -207,11 +207,11 @@
   "Name": "Test 321",
   "Note": "",
   "IsActive": false,
-  "SchemaStoreId": "",
+  "SchemaStoreId": "59bab20e-0f53-43e6-9b73-51bd0cd440a6",
   "Version": 0,
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-01-30T09:05:33.1718962+08:00",
+  "ChangedDate": "2014-02-04T15:43:44.6666086+08:00",
   "WebId": "d825fedb-c3c8-4b2a-8f80-2b689e56d6e5"
 }

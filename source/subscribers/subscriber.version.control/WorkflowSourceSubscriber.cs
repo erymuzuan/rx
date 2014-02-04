@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 
 namespace subscriber.version.control
 {
-    public class SourceSubscriber : Subscriber<Entity>
+    public class WorkflowSourceSubscriber : Subscriber<WorkflowDefinition>
     {
         public override string QueueName
         {
-            get { return "source_queue"; }
+            get { return "source_wd_queue"; }
         }
 
         public override string[] RoutingKeys
@@ -19,21 +19,12 @@ namespace subscriber.version.control
             {
                 return new[]
                 {
-                    typeof(ReportDelivery).Name + ".#.#",
-                    typeof(ReportDefinition).Name + ".#.#",
-                    typeof(Page).Name + ".#.#",
-                    typeof(Organization).Name + ".#.#",
-                    typeof(Setting).Name + ".#.#",
-                    typeof(Designation).Name + ".#.#",
-                    typeof(EntityView).Name + ".#.#",
-                    typeof(EntityForm).Name + ".#.#",
-                    typeof(EntityDefinition).Name + ".#.#",
-                    typeof(Trigger).Name + ".#.#"
+                    typeof(WorkflowDefinition).Name + ".#.#"
                 };
             }
         }
 
-        protected override Task ProcessMessage(Entity item, MessageHeaders header)
+        protected override async Task ProcessMessage(WorkflowDefinition item, MessageHeaders header)
         {
             var wc = ConfigurationManager.WorkflowSourceDirectory;
             var type = item.GetType();
@@ -44,7 +35,12 @@ namespace subscriber.version.control
             dynamic wi = item;
             var file = Path.Combine(folder, wi.Name + ".json");
             File.WriteAllText(file, item.ToJsonString(Formatting.Indented));
-            return Task.FromResult(0);
+
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var schema = await store.GetContentAsync(item.SchemaStoreId);
+            var xsd = Path.Combine(folder, wi.Name + ".xsd");
+            File.WriteAllBytes(xsd, schema.Content);
+
         }
     }
 }
