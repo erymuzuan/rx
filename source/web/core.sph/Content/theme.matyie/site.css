@@ -1,4 +1,4 @@
-﻿body {
+body {
   background-color: #ffffff;
 }
 #body {
@@ -16,6 +16,14 @@ a.dropdown > span.caret {
 div.datepicker div {
   margin-left: -223px;
 }
+.form-control {
+  font-size: 12px;
+  height: 28px;
+}
+select.form-control {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 span.k-datepicker {
   border: none;
   width: 200px;
@@ -24,7 +32,7 @@ span.k-datepicker span.k-picker-wrap {
   margin-top: -6px;
 }
 span.k-datepicker span.k-picker-wrap input.form-control {
-  height: 32px;
+  height: 28px;
 }
 span.k-datetimepicker {
   border: none;

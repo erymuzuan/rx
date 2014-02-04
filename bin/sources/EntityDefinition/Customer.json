@@ -361,7 +361,7 @@
         "IsAnalyzed": false,
         "IsFilterable": true,
         "IsExcludeInAll": false,
-        "Boost": 0,
+        "Boost": 1,
         "WebId": "f6528f8a-40bc-4a9e-a70b-130230026913"
       },
       {
@@ -378,8 +378,25 @@
         "IsAnalyzed": false,
         "IsFilterable": false,
         "IsExcludeInAll": false,
-        "Boost": 0,
+        "Boost": 1,
         "WebId": "42a88b57-cdc1-49f0-8189-b32493c23609"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "AnnualRevenue",
+        "TypeName": "System.Decimal, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 1,
+        "WebId": "dc87329a-bc36-43a0-8a76-da4df86b0577"
       }
     ]
   },
@@ -469,6 +486,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-04T08:05:39.4760156+08:00",
+  "ChangedDate": "2014-02-04T09:37:18.3665579+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

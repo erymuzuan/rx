@@ -1795,17 +1795,11 @@
     <EmbeddedResource Include="Content\jsplumb\sph.wf.64.png" />
     <Content Include="Content\pretty-json.css" />
     <Content Include="Content\qunit-1.12.0.css" />
-    <Content Include="Content\theme.matyie\building.css">
-      <DependentUpon>building.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.matyie\building.min.css">
-      <DependentUpon>building.less</DependentUpon>
-    </Content>
     <Content Include="Content\theme.matyie\dashboard.css">
       <DependentUpon>dashboard.less</DependentUpon>
     </Content>
     <Content Include="Content\theme.matyie\dashboard.min.css">
-      <DependentUpon>dashboard.less</DependentUpon>
+      <DependentUpon>dashboard.css</DependentUpon>
     </Content>
     <Content Include="Content\theme.matyie\header.css">
       <DependentUpon>header.less</DependentUpon>
@@ -1843,7 +1837,7 @@
       <DependentUpon>site.less</DependentUpon>
     </Content>
     <Content Include="Content\theme.matyie\site.min.css">
-      <DependentUpon>site.less</DependentUpon>
+      <DependentUpon>site.css</DependentUpon>
     </Content>
     <Content Include="Content\theme.matyie\space.css">
       <DependentUpon>space.less</DependentUpon>
@@ -1984,7 +1978,6 @@
     <Content Include="Content\theme.matyie\rentalapplication.less" />
     <Content Include="Content\theme.matyie\space.less" />
     <Content Include="Content\toastr.less" />
-    <Content Include="Content\theme.matyie\building.less" />
     <Content Include="Content\DataTables-1.9.4\media\images\Sorting icons.psd" />
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\printer.psd" />
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\file_types.psd" />

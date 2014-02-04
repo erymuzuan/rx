@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
+using Humanizer;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -34,6 +35,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
+
+        public ActionResult GetPlural(string id)
+        {
+            return Content(id.Pluralize());
+        }
         public async Task<ActionResult> Schemas()
         {
             var context = new SphDataContext();

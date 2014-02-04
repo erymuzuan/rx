@@ -24,9 +24,6 @@ input, textarea{
 	font-family: "Open Sans", Arial, Helvetica, sans-serif !important;
 }
 
-select{
-	font-size: 13px !important;
-}
 
 input[type="radio"], input[type="checkbox"] {
     margin: 0px 0 0 !important;
@@ -129,13 +126,7 @@ hr{
 	padding:10px 15px;
 }
 
-.btn{
-	font-size: 13px !important;
-}
 
-a.btn{
-	font-size: 13px !important;
-}
 
 .label{
 	font-weight: 400;

@@ -348,17 +348,20 @@ bespoke.sph.domain.DelayActivityPartial = function () {
 bespoke.sph.domain.EntityDefinitionPartial = function () {
     var system = require('durandal/system'),
         context = require(objectbuilders.datacontext),
-        addMember = function() {
-            this.MemberCollection.push(new bespoke.sph.domain.Member(system.guid()));
+        addMember = function () {
+            this.MemberCollection.push(new bespoke.sph.domain.Member({
+                WebId: system.guid(),
+                Boost: 1
+            }));
         },
-        editMember = function(member) {
+        editMember = function (member) {
             var self = this;
-            return function() {
-                require(['viewmodels/member.dialog', 'durandal/app'], function(dialog, app) {
+            return function () {
+                require(['viewmodels/member.dialog', 'durandal/app'], function (dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
                     dialog.member(clone);
                     app.showDialog(dialog)
-                        .done(function(result) {
+                        .done(function (result) {
                             if (!result) return;
                             if (result == "OK") {
                                 self.BlockCollection.replace(member, clone);
@@ -373,17 +376,17 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                 self.MemberCollection.remove(floor);
             };
         },
-        addBusinessRule = function() {
-            this.BusinessRuleCollection.push(new bespoke.sph.domain.BusinessRule({WebId : system.guid(), Name : '<New Rule>'}));
+        addBusinessRule = function () {
+            this.BusinessRuleCollection.push(new bespoke.sph.domain.BusinessRule({ WebId: system.guid(), Name: '<New Rule>' }));
         },
-        editBusinessRule = function(rule) {
+        editBusinessRule = function (rule) {
             var self = this;
-            return function() {
-                require(['viewmodels/business.rule.dialog', 'durandal/app'], function(dialog, app) {
+            return function () {
+                require(['viewmodels/business.rule.dialog', 'durandal/app'], function (dialog, app) {
                     var clone = context.toObservable(ko.mapping.toJS(rule));
                     dialog.rule(clone);
                     app.showDialog(dialog)
-                        .done(function(result) {
+                        .done(function (result) {
                             if (!result) return;
                             if (result == "OK") {
                                 self.BusinessRuleCollection.replace(rule, clone);

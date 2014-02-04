@@ -1,4 +1,6 @@
-﻿body {
+﻿@import 'variables.less';
+
+body {
     background-color: #ffffff;
 }
 
@@ -24,6 +26,16 @@ div.datepicker {
     }
 }
 
+.form-control {
+    font-size: @font-size-base;
+    height: @input-height-small;
+}
+
+select.form-control {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
 span.k-datepicker {
     border: none;
     width: 200px;
@@ -32,7 +44,7 @@ span.k-datepicker {
         margin-top: -6px;
 
         input.form-control {
-            height: 32px;
+            height: @input-height-small;
         }
     }
 }

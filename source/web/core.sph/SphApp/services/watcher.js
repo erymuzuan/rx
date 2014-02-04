@@ -16,7 +16,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
             var tcs = new $.Deferred(),
                 data = JSON.stringify({ id: id, entity: entity });
 
-            context.post(data, "/Watch/Register")
+            context.post(data, "/Sph/Watch/Register")
                 .then(function (result) {
                     tcs.resolve(result);
                     logger.log("Anda sudah didaftar", data, "watcher", true);
@@ -27,7 +27,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
                 var tcs = new $.Deferred(),
                     data = JSON.stringify({ id: id, entity: entity });
 
-                context.post(data, "/Watch/Deregister")
+                context.post(data, "/Sph/Watch/Deregister")
                     .then(function (result) {
                         tcs.resolve(result);
                         logger.log("Anda sudah dibuang dari senarai", data, "watcher", true);

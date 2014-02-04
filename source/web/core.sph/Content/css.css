@@ -12949,9 +12949,6 @@ input, textarea{
 	font-family: "Open Sans", Arial, Helvetica, sans-serif !important;
 }
 
-select{
-	font-size: 13px !important;
-}
 
 input[type="radio"], input[type="checkbox"] {
     margin: 0px 0 0 !important;
@@ -13054,13 +13051,7 @@ hr{
 	padding:10px 15px;
 }
 
-.btn{
-	font-size: 13px !important;
-}
 
-a.btn{
-	font-size: 13px !important;
-}
 
 .label{
 	font-weight: 400;
@@ -14492,6 +14483,14 @@ a.dropdown > span.caret {
 div.datepicker div {
   margin-left: -223px;
 }
+.form-control {
+  font-size: 12px;
+  height: 28px;
+}
+select.form-control {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 span.k-datepicker {
   border: none;
   width: 200px;
@@ -14500,7 +14499,7 @@ span.k-datepicker span.k-picker-wrap {
   margin-top: -6px;
 }
 span.k-datepicker span.k-picker-wrap input.form-control {
-  height: 32px;
+  height: 28px;
 }
 span.k-datetimepicker {
   border: none;
@@ -14969,9 +14968,6 @@ textarea {
   background-image: none !important;
   border: 1px solid #ccc !important;
 }
-select {
-  font-size: 13px !important;
-}
 input[type="radio"],
 input[type="checkbox"] {
   margin: 0px 0 0 !important;
@@ -15067,12 +15063,6 @@ hr {
 .well {
   padding: 10px 20px;
 }
-.btn {
-  font-size: 13px !important;
-}
-a.btn {
-  font-size: 13px !important;
-}
 .label {
   font-weight: 400;
   padding: 3px 6px !important;
@@ -15148,12 +15138,6 @@ a.btn {
 /* Form */
 form {
   margin: 10px;
-}
-form input,
-form button,
-form textarea,
-form select {
-  font-size: 13px !important;
 }
 form label {
   font-size: 13px;
@@ -15938,9 +15922,6 @@ form label {
   border-color: #9919fc !important;
 }
 /* Toggle button */
-.toggle-button span {
-  font-size: 13px !important;
-}
 /* Gallery */
 .gallery img {
   max-width: 170px;

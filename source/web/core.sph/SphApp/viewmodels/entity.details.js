@@ -43,8 +43,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                     return tcs.promise();
                 }
+                var ed = new bespoke.sph.domain.EntityDefinition(system.guid());
+                ed.Name.subscribe(function (name) {
+                    if (!entity().Plural()) {
+                        $.get('/Sph/EntityDefinition/GetPlural/' + name, function (v) {
+                            entity().Plural(v);
+                        });
+                    }
+                });
 
-                entity(new bespoke.sph.domain.EntityDefinition(system.guid()));
+                entity(ed);
                 return Task.fromResult(true);
 
             },
@@ -58,6 +66,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                 context.post(data, "/EntityDefinition/Save")
                     .then(function (result) {
+                        tcs.resolve(true);
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
@@ -68,7 +77,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                             errors(result.Errors);
                             logger.error("There are errors in your entity, !!!");
                         }
-                        tcs.resolve(result);
                     });
                 return tcs.promise();
             },
@@ -76,9 +84,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(entity);
-
-
-
                 isBusy(true);
 
                 context.post(data, "/EntityDefinition/Publish")
@@ -97,6 +102,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     });
                 return tcs.promise();
             };
+
 
         var vm = {
             forms: forms,
