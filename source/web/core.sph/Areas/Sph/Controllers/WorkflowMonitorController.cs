@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -13,6 +14,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     {
         public async Task<ActionResult> Search(int workflowDefinitionId, DateTime? createdDateStart, DateTime? createdDateEnd, string state)
         {
+            Thread.Sleep(2500);
             var context = new SphDataContext();
             var query = context.Workflows.Where(w => w.WorkflowDefinitionId == workflowDefinitionId)
                 .WhereIf(w => w.CreatedDate >= createdDateStart.Value, createdDateStart.HasValue)

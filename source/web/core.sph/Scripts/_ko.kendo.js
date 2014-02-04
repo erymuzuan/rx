@@ -398,21 +398,21 @@ ko.bindingHandlers.command = {
             }
         }
 
+        var $spinner = $("<i class='fa fa-spin fa-spinner'></i>").hide();
+        $button.append($spinner);
 
         $button.click(function (e) {
             e.preventDefault();
             if (this.form) {
                 if (!this.form.checkValidity()) return;
             }
+            $spinner.show();
 
-            var $spinner = $("<i class='icon-spin icon-spinner icon-large'></i>");
-            $spinner.css({ "margin-left": -($button.width() / 2) - 16, "position": "fixed", "margin-top": "10px" });
-            $button.after($spinner).show();
             action()
                 .then(function () {
                     $button
                         .button("complete")
-                        .prop('disabled', true)
+                        .prop('disabled', false)
                         .val(inputValue)
                         .removeClass('btn-disabled');
                     $spinner.hide();

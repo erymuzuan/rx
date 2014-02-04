@@ -8,6 +8,7 @@ CREATE TABLE Sph.EntityForm
 	 [EntityFormId] INT PRIMARY KEY IDENTITY(1,1)
 	,[EntityDefinitionId] INT NOT NULL
 	,[Data] XML NOT NULL
+	,[IsPublished] BIT NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
 	,[Route] VARCHAR(255) NOT NULL
 	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()

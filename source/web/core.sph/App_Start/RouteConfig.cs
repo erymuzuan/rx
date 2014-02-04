@@ -26,7 +26,8 @@ namespace Bespoke.Sph.Web.App_Start
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
             var context = new SphDataContext();
-            var query = context.EntityForms;
+
+            var query = context.EntityForms.Where(e => e.IsPublished == true);
             var lo = await context.LoadAsync(query, includeTotalRows: true);
             var forms = new ObjectCollection<EntityForm>(lo.ItemCollection);
             while (lo.HasNextPage)
@@ -84,9 +85,9 @@ namespace Bespoke.Sph.Web.App_Start
             var context = new SphDataContext();
             // ReSharper disable RedundantBoolCompare
             var rdlTask = context.LoadAsync(context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user)), includeTotalRows: true);
-            var edTasks = context.LoadAsync(context.EntityDefinitions, includeTotalRows: true);
-            var formTask = context.LoadAsync(context.EntityForms, includeTotalRows: true);
-            var viewTask = context.LoadAsync(context.EntityViews, includeTotalRows: true);
+            var edTasks = context.LoadAsync(context.EntityDefinitions.Where(e => e.IsPublished == true), includeTotalRows: true);
+            var formTask = context.LoadAsync(context.EntityForms.Where(e => e.IsPublished == true), includeTotalRows: true);
+            var viewTask = context.LoadAsync(context.EntityViews.Where(e => e.IsPublished == true), includeTotalRows: true);
             // ReSharper restore RedundantBoolCompare
             await Task.WhenAll(rdlTask, edTasks);
 

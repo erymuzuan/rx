@@ -13,6 +13,7 @@
             <th>Views</th>
             <th>Created On</th>
             <th>Changed On</th>
+            <th>Published</th>
             <th></th>
         </tr>
     </thead>
@@ -27,6 +28,9 @@
             <td data-bind="text:Plural"></td>
             <td data-bind="date:CreatedDate"></td>
             <td data-bind="date:ChangedDate"></td>
+            <td>
+                <i class="fa fa-check" data-bind="visible:IsPublished"></i>
+            </td>
             <td></td>
         </tr>
     </tbody>

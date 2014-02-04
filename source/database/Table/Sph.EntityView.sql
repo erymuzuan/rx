@@ -9,6 +9,7 @@ CREATE TABLE Sph.EntityView
 	,[EntityDefinitionId] INT NOT NULL
 	,[Data] XML NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
+	,[IsPublished] BIT NOT NULL
 	,[Route] VARCHAR(255) NOT NULL
 	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
 	,[CreatedBy] VARCHAR(255) NULL

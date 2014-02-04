@@ -80,7 +80,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
-
+            ed.IsPublished = true;
             using (var session = context.OpenSession())
             {
                 session.Attach(ed);

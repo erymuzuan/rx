@@ -314,6 +314,7 @@
 			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>
 			<xs:attribute name="RecordName" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Member">
@@ -357,6 +358,7 @@
 			<xs:attribute name="IsAllowedNewItem" type="xs:boolean" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>
 			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsDefault" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsWatchAvailable" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsEmailAvailable" type="xs:boolean" use="required"/>
@@ -400,6 +402,7 @@
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="Query" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 			<xs:attribute name="Visibilty" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>

@@ -20,14 +20,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
         public async Task<ActionResult> Publish()
         {
-            var ef = this.GetRequestJson<EntityView>();
+            var view = this.GetRequestJson<EntityView>();
             var context = new SphDataContext();
+
+            view.IsPublished = true;
             using (var session = context.OpenSession())
             {
-                session.Attach(ef);
+                session.Attach(view);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", id = ef.EntityViewId });
+            return Json(new { success = true, status = "OK", id = view.EntityViewId });
         }
     }
 }

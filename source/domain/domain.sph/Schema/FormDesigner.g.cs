@@ -1878,6 +1878,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameRecordName = "RecordName";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
+
+
         private readonly ObjectCollection<Member> m_MemberCollection = new ObjectCollection<Member>();
 
         ///<summary>
@@ -2070,6 +2075,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_recordName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
             }
         }
 
@@ -2422,6 +2456,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool m_isDefault;
         public const string PropertyNameIsDefault = "IsDefault";
 
@@ -2730,6 +2769,35 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
         public bool IsDefault
         {
             set
@@ -3006,6 +3074,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_visibilty;
         public const string PropertyNameVisibilty = "Visibilty";
 
@@ -3271,6 +3344,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_query;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
             }
         }
 
