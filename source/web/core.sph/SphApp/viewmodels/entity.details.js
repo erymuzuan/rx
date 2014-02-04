@@ -33,12 +33,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     // load forms and views
                     context.loadAsync("EntityForm", "EntityDefinitionId eq " + id)
                         .done(function (lo) {
-                        forms(lo.itemCollection);
-                    });
+                            forms(lo.itemCollection);
+                        });
                     context.loadAsync("EntityView", "EntityDefinitionId eq " + id)
                         .done(function (lo) {
-                        views(lo.itemCollection);
-                    });
+                            views(lo.itemCollection);
+                        });
 
 
                     return tcs.promise();
@@ -59,8 +59,15 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 context.post(data, "/EntityDefinition/Save")
                     .then(function (result) {
                         isBusy(false);
+                        if (result.success) {
+                            logger.info(result.message);
+                            entity().EntityDefinitionId(result.id);
+                            errors.removeAll();
+                        } else {
 
-
+                            errors(result.Errors);
+                            logger.error("There are errors in your entity, !!!");
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -79,6 +86,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
+                            entity().EntityDefinitionId(result.id);
                             errors.removeAll();
                         } else {
 
