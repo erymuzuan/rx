@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
 
-  
+
 
         public async Task<ActionResult> GetXsdElementName(string id)
         {
@@ -88,7 +88,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var options = new CompilerOptions
             {
                 SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
-            }; 
+            };
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
             options.ReferencedAssemblies.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly);
@@ -166,6 +166,19 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var wd = this.GetRequestJson<WorkflowDefinition>();
             var id = await this.Save("Update", wd);
             return Json(new { success = id > 0, id, status = "OK" });
+        }
+
+        public async Task<ActionResult> Remove()
+        {
+            var wd = this.GetRequestJson<WorkflowDefinition>();
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Delete(wd);
+                await session.SubmitChanges();
+            }
+
+            return Json(new { success = true, id = wd.WorkflowDefinitionId, status = "OK" });
         }
 
         public async Task<ActionResult> GetVariablePath(int id)

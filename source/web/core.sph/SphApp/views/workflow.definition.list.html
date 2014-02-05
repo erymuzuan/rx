@@ -6,7 +6,7 @@
             <th>Manage</th>
             <th>Design</th>
             <th>Note</th>
-            <th>Enabled</th>
+            <th>Active</th>
         </tr>
     </thead>
     <tbody data-bind="foreach: definitions">
@@ -27,7 +27,7 @@
             </td>
             <td data-bind="text: Note"></td>
             <td>
-                <input type="checkbox" data-bind="checked: IsActive" />
+                <i class="fa fa-check" data-bind="visible: IsActive"></i>
             </td>
         </tr>
     </tbody>

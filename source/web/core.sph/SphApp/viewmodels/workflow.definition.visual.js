@@ -616,6 +616,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             showError = function (error) {
                 console.log(error);
                 wd().editActivity(_(wd().ActivityCollection()).find(function (v) { return v.WebId() == error.ItemWebId; }))();
+            },
+            remove = function () {
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(wd);
+                app.showMessage('Are you sure you want delete this workflow definition ', 'SPH - Workflow', ['Yes', 'No'])
+                   .done(function (dr) {
+                       if (dr === 'Yes') {
+                           context.post(data, "/Sph/WorkflowDefinition/Remove").then(tcs.resolve);
+                       } else {
+                           tcs.resolve(false);
+                       }
+                   });
+
+                return tcs.promise();
             };
 
         var vm = {
@@ -635,6 +649,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 saveCommand: saveAsync,
                 exportCommand: exportWd,
                 importCommand: importAsync,
+                removeCommand: remove,
                 commands: ko.observableArray([
                     {
                         command: compileAsync,
