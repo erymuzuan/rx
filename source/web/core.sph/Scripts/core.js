@@ -176,7 +176,7 @@ bespoke.utils.ServerPager = function (options) {
 
     var pager = element.kendoPager({
         dataSource: pagerDataSource,
-        messages: {
+        /*messages: {
             display: "{0} - {1} of {2} rekod",
             empty: "Tiada rekod",
             page: "Muka",
@@ -187,7 +187,7 @@ bespoke.utils.ServerPager = function (options) {
             next: "Sergi mukasurat depan",
             last: "Pergi mukasurat terakhir",
             refresh: "Muat"
-        },
+        },*/
         pageSizes: [10, 20, 50]
     }).data("kendoPager");
     pager.page(1);
@@ -1373,11 +1373,14 @@ ko.bindingHandlers.autocomplete = {
 
 ko.bindingHandlers.scroll = {
     init: function (element, valueAccessor) {
-        var height = ko.unwrap(valueAccessor());
+        var rows = ko.unwrap(valueAccessor()),
+            done = false;
         // wait for attached
-        setTimeout(function () {
-            $(element).tableScroll({ height: height });
-        }, 500);
+        //setTimeout(function () {
+        //    // TODO : just do it this once rows is more than certail values
+        //    $(element).tableScroll({ height: height });
+        //    done = true;
+        //}, 500);
     }
 };
 

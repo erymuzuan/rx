@@ -51,12 +51,6 @@ h6 {
 }
 h1 {
   color: #666;
-  background-color: #f8f8f8;
-  border-top: 1px solid #bdbdbd;
-  border-bottom: 1px solid #bdbdbd;
-  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
 }
 h2 {
   font-size: 20px;

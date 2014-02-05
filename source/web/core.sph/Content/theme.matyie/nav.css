@@ -1,4 +1,4 @@
-﻿#slider-menu {
+#slider-menu {
   width: 0px;
   display: none;
   background-color: #252526;
@@ -26,8 +26,10 @@
   margin-right: 5px;
 }
 #toolbar-panel {
-  float: right;
   margin-top: 5px;
   z-index: 2;
+}
+#toolbar-panel .btn-default {
+  border: none;
 }
 /*# sourceMappingURL=nav.css.map */

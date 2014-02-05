@@ -52,11 +52,11 @@ WriteLiteral(">\r\n        <label");
 
 WriteLiteral(" for=\"data-source-entity\"");
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-2\"");
 
 WriteLiteral(">Entity</label>\r\n        <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-9\"");
 
 WriteLiteral(">\r\n            <select");
 
@@ -84,6 +84,8 @@ WriteLiteral(" data-bind=\"click: $root.addFilter\"");
 WriteLiteral(">+ Filter</a>\r\n    <table");
 
 WriteLiteral(" class=\"table table-striped\"");
+
+WriteLiteral(" data-bind=\"scroll : 5\"");
 
 WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th>Field</th>\r\n           " +
 "     <th>Operator</th>\r\n                <th>Value</th>\r\n                <th></th" +

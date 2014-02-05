@@ -1367,6 +1367,9 @@
     <Content Include="Scripts\_ko.kendo.min.js">
       <DependentUpon>_ko.kendo.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\_pager.min.js">
+      <DependentUpon>_pager.js</DependentUpon>
+    </Content>
     <Content Include="SphApp\partial\Activity.min.js">
       <DependentUpon>Activity.js</DependentUpon>
     </Content>
@@ -1816,7 +1819,7 @@
       <DependentUpon>nav.less</DependentUpon>
     </Content>
     <Content Include="Content\theme.matyie\nav.min.css">
-      <DependentUpon>nav.less</DependentUpon>
+      <DependentUpon>nav.css</DependentUpon>
     </Content>
     <Content Include="Content\theme.matyie\public.index.css">
       <DependentUpon>public.index.less</DependentUpon>
@@ -3283,7 +3286,7 @@
       <DependentUpon>_theme.js</DependentUpon>
     </Content>
     <Content Include="Scripts\_pager.min.js.map">
-      <DependentUpon>_pager.js</DependentUpon>
+      <DependentUpon>_pager.min.js</DependentUpon>
     </Content>
     <Content Include="Scripts\_ko.bootstrap.min.js.map">
       <DependentUpon>_ko.bootstrap.min.js</DependentUpon>

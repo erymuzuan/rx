@@ -14487,6 +14487,15 @@ div.datepicker div {
   font-size: 12px;
   height: 28px;
 }
+.input-group-addon {
+  font-size: 12px;
+}
+.btn {
+  font-size: 12px;
+}
+.btn i {
+  font-size: 15px;
+}
 select.form-control {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -14943,9 +14952,11 @@ header div.nav-header > ul {
   margin-right: 5px;
 }
 #toolbar-panel {
-  float: right;
   margin-top: 5px;
   z-index: 2;
+}
+#toolbar-panel .btn-default {
+  border: none;
 }
 /*# sourceMappingURL=nav.css.map */
 * {
@@ -15001,12 +15012,6 @@ h6 {
 }
 h1 {
   color: #666;
-  background-color: #f8f8f8;
-  border-top: 1px solid #bdbdbd;
-  border-bottom: 1px solid #bdbdbd;
-  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
 }
 h2 {
   font-size: 20px;

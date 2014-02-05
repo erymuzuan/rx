@@ -16,8 +16,8 @@ define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', '
             rdl = ko.observable(),
             delivery = ko.observable(),
             editedSchedule = ko.observable(),
-            activate = function (routeData) {
-                var rdlid = parseInt(routeData.rdlid),
+            activate = function (id) {
+                var rdlid = parseInt(id),
                     query = String.format("ReportDefinitionId eq {0}", rdlid),
                     tcs = new $.Deferred();
                 

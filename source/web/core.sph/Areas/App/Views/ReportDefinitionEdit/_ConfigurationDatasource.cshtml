@@ -1,7 +1,7 @@
 ﻿<form class="form-horizontal" data-bind="with: DataSource">
     <div class="form-group">
-        <label for="data-source-entity" class="control-label">Entity</label>
-        <div class="controls">
+        <label for="data-source-entity" class="col-lg-2">Entity</label>
+        <div class="col-lg-9">
             <select class="form-control" data-bind="value: EntityName, options: $root.entities, optionsCaption : '[Select Entity]'" id="data-source-entity" name="Entity">
             </select>
         </div>
@@ -9,7 +9,7 @@
     <div class="form-group">
     </div>
     <a class="btn-link pull-right btn" href="#" data-bind="click: $root.addFilter">+ Filter</a>
-    <table class="table table-striped">
+    <table class="table table-striped" data-bind="scroll : 5">
         <thead>
             <tr>
                 <th>Field</th>

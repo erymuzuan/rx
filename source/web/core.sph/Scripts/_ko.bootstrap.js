@@ -109,10 +109,13 @@ ko.bindingHandlers.autocomplete = {
 
 ko.bindingHandlers.scroll = {
     init: function (element, valueAccessor) {
-        var height = ko.unwrap(valueAccessor());
+        var rows = ko.unwrap(valueAccessor()),
+            done = false;
         // wait for attached
-        setTimeout(function () {
-            $(element).tableScroll({ height: height });
-        }, 500);
+        //setTimeout(function () {
+        //    // TODO : just do it this once rows is more than certail values
+        //    $(element).tableScroll({ height: height });
+        //    done = true;
+        //}, 500);
     }
 };

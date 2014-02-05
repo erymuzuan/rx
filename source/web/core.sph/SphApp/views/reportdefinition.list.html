@@ -1,11 +1,11 @@
 ﻿
-<h1 class="row-fluid">Senarai Laporan</h1>
+<h1>Report Definitions</h1>
 
-<table class="table table-striped"  data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'ReportDefinition', query: 'ReportDefinitionId gt 0', list: reports}">
+<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'ReportDefinition', query: 'ReportDefinitionId gt 0', list: reports}">
     <thead>
         <tr>
             <th>Execute</th>
-            <th>Nama</th>
+            <th>Title</th>
             <th>Owner</th>
             <th>Private</th>
             <th>Active</th>
@@ -15,18 +15,20 @@
     <tbody data-bind="foreach: reports">
         <tr>
             <td>
-                <a class="execute-report" data-bind="attr: { href: '#/reportdefinition.execute-id.' + ReportDefinitionId()  + '/' + ReportDefinitionId(), title:Title}" >
+                <a class="execute-report" data-bind="attr: { href: '#/reportdefinition.execute-id.' + ReportDefinitionId()  + '/' + ReportDefinitionId(), title:Title}">
                     <i class="fa fa-play"></i>
                 </a>
             </td>
             <td>
-                <a data-bind="attr: { href: '#/reportdefinition.edit/' + ReportDefinitionId() }, text: Title" ></a> 
+                <a data-bind="attr: { href: '#/reportdefinition.edit/' + ReportDefinitionId() }, text: Title"></a>
             </td>
             <td data-bind="text:CreatedBy"></td>
-            <td data-bind="text:IsPrivate">
-                
+            <td>
+                <i class="fa fa-check" data-bind="visible:IsPrivate"></i>
             </td>
-            <td data-bind="text:IsActive"></td>
+            <td >
+                <i class="fa fa-check" data-bind="visible:IsActive"></i>
+            </td>
             <td>
                 <a href="/#/reportdefinition.list" data-bind="attr: { href: '#/reportdelivery.schedule/' + ReportDefinitionId() }">
                     <i class="fa fa-calendar"></i>

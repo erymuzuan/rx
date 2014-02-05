@@ -1,6 +1,7 @@
 ﻿@import 'variables.less';
-@menu-color : #252526;
-@menu-color-hover : #ff0000;
+@menu-color: #252526;
+@menu-color-hover: #ff0000;
+
 #slider-menu {
     width: 0px;
     display: none;
@@ -13,22 +14,23 @@
     }
 
         .nav > li:hover {
-            background-color:@menu-color-hover;
+            background-color: @menu-color-hover;
         }
 
 
         .nav > li.active {
-            background-color:@menu-color-hover;
+            background-color: @menu-color-hover;
         }
 
         .nav > li > a {
             margin-right: 5px;
             color: #fff;
-            padding:0px;
+            padding: 0px;
         }
-        .nav > li > a:hover {
-            background-color: @menu-color-hover;
-        }
+
+            .nav > li > a:hover {
+                background-color: @menu-color-hover;
+            }
 
 
             .nav > li > a > i {
@@ -38,7 +40,10 @@
 
 
 #toolbar-panel {
-    float: right;
     margin-top: 5px;
-    z-index:2;
+    z-index: 2;
+
+    .btn-default {
+        border: none;
+    }
 }

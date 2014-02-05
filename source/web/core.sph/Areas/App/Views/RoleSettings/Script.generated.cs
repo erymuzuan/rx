@@ -56,8 +56,8 @@ WriteLiteral(@">
     define(['services/datacontext', objectbuilders.logger],
         function (context, logger) {
 
-            var activate = function (routeData) {
-                var id = parseInt(routeData.id);
+            var activate = function (rid) {
+                var id = parseInt(rid);
                 if (id) {
                     var query = String.format(""DesignationId eq {0}"", id);
                     var tcs = new $.Deferred();

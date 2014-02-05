@@ -28,7 +28,7 @@ bespoke.utils.ServerPager = function (options) {
 
     var pager = element.kendoPager({
         dataSource: pagerDataSource,
-        messages: {
+        /*messages: {
             display: "{0} - {1} of {2} rekod",
             empty: "Tiada rekod",
             page: "Muka",
@@ -39,7 +39,7 @@ bespoke.utils.ServerPager = function (options) {
             next: "Sergi mukasurat depan",
             last: "Pergi mukasurat terakhir",
             refresh: "Muat"
-        },
+        },*/
         pageSizes: [10, 20, 50]
     }).data("kendoPager");
     pager.page(1);
