@@ -38,7 +38,7 @@
                 "Name": "Single Line Text",
                 "Label": "Nama",
                 "Tooltip": null,
-                "Path": "Name",
+                "Path": "applicant.Name",
                 "IsRequired": false,
                 "Size": "input-large",
                 "CssClass": "",
@@ -76,7 +76,7 @@
           "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
           "UserProperty": "",
           "Value": "",
-          "IsPublic": false,
+          "IsPublic": true,
           "WebId": "bda46b58-fb17-488f-8535-0f77bb582bcf"
         },
         "ConfirmationOptions": {
@@ -92,8 +92,8 @@
         "ExecutingCode": null,
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 228,
-          "Y": -2,
+          "X": 514,
+          "Y": -11,
           "WebId": "2a7fe24a-fe53-4fbe-a735-1e8fe8f44629"
         },
         "IsInitiator": true,
@@ -240,6 +240,13 @@
         "TypeName": "System.Int32, mscorlib",
         "DefaultValue": "",
         "WebId": "c206801c-60a1-48e9-971a-c93cb16d50e4"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ComplexVariable, domain.sph",
+        "Name": "applicant",
+        "TypeName": "Applicant",
+        "DefaultValue": "",
+        "WebId": "23eb778c-f439-449b-a89b-4bc1d4cfe104"
       }
     ]
   },
@@ -252,6 +259,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-05T11:00:33.6396203+08:00",
+  "ChangedDate": "2014-02-05T14:15:37.6079966+08:00",
   "WebId": "d825fedb-c3c8-4b2a-8f80-2b689e56d6e5"
 }

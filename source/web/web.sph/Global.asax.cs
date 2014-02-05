@@ -20,7 +20,6 @@ namespace web.sph
             RouteConfig.RegisterRoutes(RouteTable.Routes).Wait();
             //BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-            HostingEnvironment.RegisterVirtualPathProvider(new WorkflowScreenActivityPathProvider());
 
 
             ModelBinders.Binders.Add(typeof(IEnumerable<Rule>), new RuleModelBinder());

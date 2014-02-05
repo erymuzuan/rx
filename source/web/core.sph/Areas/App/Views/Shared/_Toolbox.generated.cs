@@ -453,7 +453,12 @@ WriteLiteral(" href=\"#toolbox-more-settings\"");
 
 WriteLiteral(" data-toggle=\"collapse\"");
 
-WriteLiteral(">More settings</a>\r\n                </div>\r\n                <div");
+WriteLiteral(">\r\n                        <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n                        More settings\r\n                    </a>\r\n         " +
+"       </div>\r\n                <div");
 
 WriteLiteral(" id=\"toolbox-more-settings\"");
 
@@ -568,7 +573,12 @@ WriteLiteral(" href=\"#toolbox-advanced-settings\"");
 
 WriteLiteral(" data-toggle=\"collapse\"");
 
-WriteLiteral(">Advanced settings</a>\r\n                </div>\r\n                <div");
+WriteLiteral(">\r\n                        <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n                        Advanced settings\r\n                    </a>\r\n     " +
+"           </div>\r\n                <div");
 
 WriteLiteral(" id=\"toolbox-advanced-settings\"");
 
@@ -577,15 +587,15 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 154 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 160 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 154 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 160 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                       
-                        var types = new Type[]
+                        var types = new[]
                         {
                             typeof(TextBox),
                             typeof(ComboBox),
@@ -599,13 +609,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 163 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 169 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 163 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 169 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         
@@ -613,14 +623,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 165 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 171 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe));
 
             
             #line default
             #line hidden
             
-            #line 165 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 171 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                                                 
                     }
 
@@ -649,7 +659,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 176 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 182 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

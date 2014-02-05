@@ -386,7 +386,7 @@
 				<xs:element name="Code" type="xs:string"/>
 			</xs:all>
 			<xs:attribute name="PageId" type="xs:int" use="required"/>
-			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="IsRazor" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsPartial" type="xs:boolean" use="required"/>
 			<xs:attribute name="VirtualPath" type="xs:string" use="required"/>

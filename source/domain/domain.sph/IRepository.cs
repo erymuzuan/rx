@@ -11,6 +11,7 @@ namespace Bespoke.Sph.Domain
     {
         Task<LoadOperation<T>> LoadAsync(IQueryable<T> query, int page, int size, bool includeTotalRows);
         Task<T> LoadOneAsync(IQueryable<T> query);
+        Task<T> LoadOneAsync(int id);
         T LoadOne(IQueryable<T> query);
         Task<int> GetCountAsync(IQueryable<T> query);
 

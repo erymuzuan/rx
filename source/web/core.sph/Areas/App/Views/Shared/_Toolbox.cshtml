@@ -114,7 +114,10 @@
                 </div>
 
                 <div class="form-group">
-                    <a href="#toolbox-more-settings" data-toggle="collapse">More settings</a>
+                    <a href="#toolbox-more-settings" data-toggle="collapse">
+                        <i class="fa fa-chevron-down"></i>
+                        More settings
+                    </a>
                 </div>
                 <div id="toolbox-more-settings" class="collapse">
                     <div class="form-group">
@@ -148,11 +151,14 @@
                 </div>
 
                 <div class="form-group">
-                    <a href="#toolbox-advanced-settings" data-toggle="collapse">Advanced settings</a>
+                    <a href="#toolbox-advanced-settings" data-toggle="collapse">
+                        <i class="fa fa-chevron-down"></i>
+                        Advanced settings
+                    </a>
                 </div>
                 <div id="toolbox-advanced-settings" class="collapse">
                     @{
-                        var types = new Type[]
+                        var types = new[]
                         {
                             typeof(TextBox),
                             typeof(ComboBox),

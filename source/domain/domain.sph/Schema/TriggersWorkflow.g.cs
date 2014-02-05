@@ -2170,8 +2170,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_title;
-        public const string PropertyNameTitle = "Title";
+        private string m_name;
+        public const string PropertyNameName = "Name";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2253,22 +2253,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string Title
+        public string Name
         {
             set
             {
-                if (String.Equals(m_title, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTitle, value);
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_title = value;
+                    m_name = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_title;
+                return m_name;
             }
         }
 
@@ -4068,6 +4068,7 @@ namespace Bespoke.Sph.Domain
 
     }
 
+
     [XmlType("Field", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Field
     {
@@ -4133,6 +4134,7 @@ namespace Bespoke.Sph.Domain
 
 
     }
+
 
 
     [XmlType("CustomAction", Namespace = Strings.DEFAULT_NAMESPACE)]
@@ -4283,6 +4285,7 @@ namespace Bespoke.Sph.Domain
     }
 
 
+
     [XmlType("Activity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Activity
     {
@@ -4394,6 +4397,7 @@ namespace Bespoke.Sph.Domain
     }
 
 
+
     [XmlType("Variable", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Variable
     {
@@ -4488,6 +4492,7 @@ namespace Bespoke.Sph.Domain
     }
 
 
+
     [XmlType("PropertyMapping", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class PropertyMapping
     {
@@ -4555,6 +4560,7 @@ namespace Bespoke.Sph.Domain
     }
 
 
+
     [XmlType("Functoid", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Functoid
     {
@@ -4574,6 +4580,7 @@ namespace Bespoke.Sph.Domain
         DocumentField,
         ConstantField,
         FunctionField,
+
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
@@ -4588,6 +4595,7 @@ namespace Bespoke.Sph.Domain
         StartsWith,
         EndsWith,
         NotContains,
+
     }
 
 }

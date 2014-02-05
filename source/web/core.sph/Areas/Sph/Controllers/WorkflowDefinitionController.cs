@@ -238,7 +238,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 var page = new Page
                 {
                     Code = code,
-                    Title = scr1.Name,
+                    Name = scr1.Name,
                     IsPartial = false,
                     IsRazor = true,
                     Tag = tag,

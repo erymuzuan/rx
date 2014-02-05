@@ -19,7 +19,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             get
             {
-               return this.IsJson ? "[Json]" : "[Data]";
+                return this.IsJson ? "[Json]" : "[Data]";
             }
         }
 
@@ -39,6 +39,44 @@ namespace Bespoke.Sph.SqlRepository
         }
 
 
+        public async Task<T> LoadOneAsync(int id)
+        {
+            var elementType = typeof(T);
+            var schema = elementType.Namespace == typeof(Entity).Namespace
+                ? "Sph"
+                : ConfigurationManager.ApplicationName;
+            var sql = string.Format("SELECT [{0}Id],{1} FROM [{2}].[{0}] WHERE [{0}Id] = @id"
+                , elementType.Name
+                , this.DataColumn
+                , schema);
+
+
+
+            using (var conn = new SqlConnection(m_connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                await conn.OpenAsync().ConfigureAwait(false);
+                using (var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false))
+                {
+                    while (await reader.ReadAsync().ConfigureAwait(false))
+                    {
+                        if (this.IsJson)
+                        {
+                            dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
+                            t1.SetId(id);
+                            return t1;
+                        }
+                        var xml = XElement.Parse(reader.GetString(1));
+                        dynamic t = xml.DeserializeFromXml(elementType);
+                        t.SetId(id);
+                        return t;
+                    }
+                }
+            }
+            return null;
+        }
+
         public async Task<T> LoadOneAsync(IQueryable<T> query)
         {
             var elementType = typeof(T);
@@ -46,7 +84,7 @@ namespace Bespoke.Sph.SqlRepository
 
             var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Single(p => p.Name == elementType.Name + "Id");
-           
+
 
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))

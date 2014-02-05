@@ -2414,10 +2414,15 @@ bespoke.sph.domain.AssemblyField = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
     v.Location = ko.observable('');
+
     v.TypeName = ko.observable('');
+
     v.Method = ko.observable('');
+
     v.IsAsync = ko.observable(false);
+
     v.AsyncTimeout = ko.observable(0);
+
     v["$type"] = "Bespoke.Sph.Domain.AssemblyField, domain.sph";
 
     v.MethodArgCollection = ko.observableArray([]);
@@ -2447,6 +2452,7 @@ bespoke.sph.domain.FunctionField = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
     v.Script = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.FunctionField, domain.sph";
 
 
@@ -2475,6 +2481,7 @@ bespoke.sph.domain.ConstantField = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
     v.TypeName = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ConstantField, domain.sph";
 
 
@@ -2503,9 +2510,13 @@ bespoke.sph.domain.DocumentField = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
     v.XPath = ko.observable('');
+
     v.NamespacePrefix = ko.observable('');
+
     v.TypeName = ko.observable('');
+
     v.Path = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.DocumentField, domain.sph";
 
 
@@ -2534,9 +2545,13 @@ bespoke.sph.domain.PropertyChangedField = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Field(optionOrWebid);
 
     v.Path = ko.observable('');
+
     v.TypeName = ko.observable('');
+
     v.OldValue = ko.observable('');
+
     v.NewValue = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.PropertyChangedField, domain.sph";
 
 
@@ -2595,11 +2610,17 @@ bespoke.sph.domain.EmailAction = function (optionOrWebid) {
     var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
 
     v.From = ko.observable('');
+
     v.To = ko.observable('');
+
     v.SubjectTemplate = ko.observable('');
+
     v.BodyTemplate = ko.observable('');
+
     v.Bcc = ko.observable('');
+
     v.Cc = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.EmailAction, domain.sph";
 
 
@@ -2715,8 +2736,11 @@ bespoke.sph.domain.StartWorkflowAction = function (optionOrWebid) {
     var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
 
     v.WorkflowDefinitionId = ko.observable(0);
+
     v.Name = ko.observable('');
+
     v.Version = ko.observable(0);
+
     v["$type"] = "Bespoke.Sph.Domain.StartWorkflowAction, domain.sph";
 
     v.WorkflowTriggerMapCollection = ko.observableArray([]);
@@ -2844,12 +2868,19 @@ bespoke.sph.domain.ScreenActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.Title = ko.observable('');
+
     v.ViewVirtualPath = ko.observable('');
+
     v.WorkflowDefinitionId = ko.observable(0);
+
     v.CancelMessageSubject = ko.observable('');
+
     v.InvitationMessageSubject = ko.observable('');
+
     v.CancelMessageBody = ko.observable('');
+
     v.InvitationMessageBody = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ScreenActivity, domain.sph";
 
     v.FormDesign = ko.observable(new bespoke.sph.domain.FormDesign());
@@ -2909,6 +2940,7 @@ bespoke.sph.domain.DecisionBranch = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.IsDefault = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.DecisionBranch, domain.sph";
 
     v.Expression = ko.observable();//type but not nillable
@@ -2938,13 +2970,21 @@ bespoke.sph.domain.NotificationActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.From = ko.observable('');
+
     v.Subject = ko.observable('');
+
     v.Body = ko.observable('');
+
     v.To = ko.observable('');
+
     v.UserName = ko.observable('');
+
     v.Cc = ko.observable('');
+
     v.Bcc = ko.observable('');
+
     v.IsHtmlEmail = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.NotificationActivity, domain.sph";
 
 
@@ -3056,7 +3096,7 @@ bespoke.sph.domain.Page = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Page, domain.sph",
         PageId: ko.observable(0),
-        Title: ko.observable(''),
+        Name: ko.observable(''),
         IsRazor: ko.observable(false),
         IsPartial: ko.observable(false),
         VirtualPath: ko.observable(''),
@@ -3093,6 +3133,7 @@ bespoke.sph.domain.EndActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.IsTerminating = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.EndActivity, domain.sph";
 
 
@@ -3235,7 +3276,9 @@ bespoke.sph.domain.CreateEntityActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.EntityType = ko.observable('');
+
     v.ReturnValuePath = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.CreateEntityActivity, domain.sph";
 
     v.PropertyMappingCollection = ko.observableArray([]);
@@ -3293,7 +3336,9 @@ bespoke.sph.domain.DeleteEntityActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.EntityType = ko.observable('');
+
     v.EntityIdPath = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.DeleteEntityActivity, domain.sph";
 
 
@@ -3322,7 +3367,9 @@ bespoke.sph.domain.UpdateEntityActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.EntityType = ko.observable('');
+
     v.EntityIdPath = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.UpdateEntityActivity, domain.sph";
 
     v.PropertyMappingCollection = ko.observableArray([]);
@@ -3352,6 +3399,7 @@ bespoke.sph.domain.ScriptFunctoid = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
     v.Expression = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ScriptFunctoid, domain.sph";
 
 
@@ -3409,6 +3457,7 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.PortType = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ReceiveActivity, domain.sph";
 
 
@@ -3437,6 +3486,7 @@ bespoke.sph.domain.SendActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.PortType = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.SendActivity, domain.sph";
 
 
@@ -3521,6 +3571,7 @@ bespoke.sph.domain.JoinActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.Placeholder = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.JoinActivity, domain.sph";
 
 
@@ -3549,6 +3600,7 @@ bespoke.sph.domain.DelayActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.Expression = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.DelayActivity, domain.sph";
 
     v.Miliseconds = ko.observable();//type but not nillable
@@ -3581,6 +3633,7 @@ bespoke.sph.domain.ThrowActivity = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.Message = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ThrowActivity, domain.sph";
 
 
@@ -3637,7 +3690,9 @@ bespoke.sph.domain.ListenBranch = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
     v.IsWaitingAsync = ko.observable(false);
+
     v.IsDestroyed = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.ListenBranch, domain.sph";
 
 
@@ -3666,7 +3721,9 @@ bespoke.sph.domain.ClrTypeVariable = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Variable(optionOrWebid);
 
     v.Assembly = ko.observable('');
+
     v.CanInitiateWithDefaultConstructor = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph";
 
 
@@ -3997,6 +4054,7 @@ bespoke.sph.domain.FieldType = function () {
     };
 }();
 
+
 bespoke.sph.domain.Operator = function () {
     return {
         EQ: 'Eq',
@@ -4012,4 +4070,5 @@ bespoke.sph.domain.Operator = function () {
         DO_NOT_SELECT: 'DONTDOTHIS'
     };
 }();
+
 

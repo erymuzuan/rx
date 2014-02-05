@@ -63,31 +63,11 @@ namespace Bespoke.Sph.Domain
                 var type = item.GetEntityType();
                 var reposType = typeof(IRepository<>).MakeGenericType(new[] { type });
                 var repos = ObjectBuilder.GetObject(reposType);
-                var provider = ObjectBuilder.GetObject<QueryProvider>();
+
+                var p = await repos.LoadOneAsync(o1.GetId()).ConfigureAwait(false);
+                list.Add(p);
 
 
-                if (type == typeof(Trigger))
-                {
-                    Expression<Func<Trigger, bool>> predicate = t => t.TriggerId == o1.GetId();
-                    var query = new Query<Trigger>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
-                }
-
-                if (type == typeof(Page))
-                {
-                    Expression<Func<Page, bool>> predicate = t => t.PageId == o1.GetId();
-                    var query = new Query<Page>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
-                }
-                if (type == typeof(WorkflowDefinition))
-                {
-                    Expression<Func<WorkflowDefinition, bool>> predicate = t => t.WorkflowDefinitionId == o1.GetId();
-                    var query = new Query<WorkflowDefinition>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
-                }
             }
             return list;
         }
@@ -120,10 +100,10 @@ namespace Bespoke.Sph.Domain
                 .ConfigureAwait(false);
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
-            var logsAddedTask = publisher.PublishAdded(operation, logs,headers);
-            var addedTask = publisher.PublishAdded(operation, addedItems,headers);
-            var changedTask = publisher.PublishChanges(operation, changedItems, logs,headers);
-            var deletedTask = publisher.PublishDeleted(operation, session.DeletedCollection,headers);
+            var logsAddedTask = publisher.PublishAdded(operation, logs, headers);
+            var addedTask = publisher.PublishAdded(operation, addedItems, headers);
+            var changedTask = publisher.PublishChanges(operation, changedItems, logs, headers);
+            var deletedTask = publisher.PublishDeleted(operation, session.DeletedCollection, headers);
             await Task.WhenAll(addedTask, changedTask, deletedTask, logsAddedTask).ConfigureAwait(false);
 
 
@@ -142,7 +122,7 @@ namespace Bespoke.Sph.Domain
             var provider = ObjectBuilder.GetObject<QueryProvider>();
             var query = new Query<T>(provider).Where(predicate);
             var repos = ObjectBuilder.GetObject<IRepository<T>>();
-            return  repos.LoadOne(query);
+            return repos.LoadOne(query);
         }
 
         public async Task<LoadOperation<T>> LoadAsync<T>(IQueryable<T> query, int page = 1, int size = 40, bool includeTotalRows = false) where T : Entity

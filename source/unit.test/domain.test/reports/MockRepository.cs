@@ -28,6 +28,11 @@ namespace domain.test.reports
             return Task.FromResult(m_dictionary[query.ToString()]);
         }
 
+        public Task<T> LoadOneAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public T LoadOne(IQueryable<T> query)
         {
             throw new NotImplementedException();
