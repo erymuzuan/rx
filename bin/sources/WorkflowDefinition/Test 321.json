@@ -16,7 +16,47 @@
           "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
           "FormElementCollection": {
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
-            "$values": []
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+                "DefaultValue": null,
+                "AutoCompletionEntity": null,
+                "AutoCompletionField": null,
+                "AutoCompletionQuery": null,
+                "MinLength": null,
+                "MaxLength": null,
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "MaxLength": 0,
+                  "MinLength": 0,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "WebId": null
+                },
+                "Name": "Single Line Text",
+                "Label": "Nama",
+                "Tooltip": null,
+                "Path": "Name",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "",
+                "Visible": "true",
+                "Enable": null,
+                "ElementId": "c02cf885-0de4-4930-a465-9fd0c7d7db56",
+                "HelpText": null,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
+              }
+            ]
           },
           "Name": "",
           "Description": "",
@@ -52,8 +92,8 @@
         "ExecutingCode": null,
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 327,
-          "Y": 39,
+          "X": 228,
+          "Y": -2,
           "WebId": "2a7fe24a-fe53-4fbe-a735-1e8fe8f44629"
         },
         "IsInitiator": true,
@@ -212,6 +252,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-05T10:56:42.1909248+08:00",
+  "ChangedDate": "2014-02-05T11:00:33.6396203+08:00",
   "WebId": "d825fedb-c3c8-4b2a-8f80-2b689e56d6e5"
 }
