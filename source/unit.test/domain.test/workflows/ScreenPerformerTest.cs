@@ -31,7 +31,7 @@ namespace domain.test.workflows
             m_usersRepos.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<UserProfile>>()))
                 .Returns(Task.FromResult(new UserProfile
                 {
-                    Username = "ima",
+                    UserName = "ima",
                     Email = "ima@bespoke.com.my",
                     Department = "IT",
                     Designation = "Programmer"
@@ -48,7 +48,7 @@ namespace domain.test.workflows
             {
                 Performer = new Performer
                 {
-                    UserProperty = "Username",
+                    UserProperty = "UserName",
                     Value = "ima"
                 }
             };
@@ -65,7 +65,7 @@ namespace domain.test.workflows
             {
                 Performer = new Performer
                 {
-                    UserProperty = "Username",
+                    UserProperty = "UserName",
                     Value = "=item.CurrentUser"
                 }
             };

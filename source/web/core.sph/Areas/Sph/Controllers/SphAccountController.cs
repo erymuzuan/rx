@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     var context = new SphDataContext();
-                    var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == model.UserName);
+                    var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == model.UserName);
                     if (null != profile)
                     {
                         if (!profile.HasChangedDefaultPassword)
@@ -113,7 +113,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return Json(new { success = false, status = "ERROR_CHANGING_PASSWORD", message = "There's an error changing your password" });
 
             var context = new SphDataContext();
-            var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);
+            var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);
             profile.HasChangedDefaultPassword = true;
 
             using (var session = context.OpenSession())

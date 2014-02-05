@@ -204,7 +204,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
     <Compile Include="App_Start\SignalRHub.cs" />
-    <Compile Include="App_Start\WorkflowConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\App\AppAreaRegistration.cs" />
     <Compile Include="Areas\App\Controllers\ConfigController.cs" />
@@ -216,7 +215,7 @@
     <Compile Include="Areas\App\Controllers\NavController.cs" />
     <Compile Include="Areas\App\Controllers\ReportDefinitionExecuteController.cs" />
     <Compile Include="Areas\App\Controllers\ReportDefinitionEditController.cs" />
-    <Compile Include="Areas\App\Controllers\RoleController.cs" />
+    <Compile Include="Areas\App\Controllers\RoleSettingsController.cs" />
     <Compile Include="Areas\App\Controllers\ScreenEditorController.cs" />
     <Compile Include="Areas\App\Controllers\TriggerSetupController.cs" />
     <Compile Include="Areas\App\Controllers\UsersController.cs" />
@@ -1078,15 +1077,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\App\RoleSettingsHtml.generated.cs">
+    <Compile Include="Areas\App\Views\RoleSettings\Html.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RoleSettingsHtml.cshtml</DependentUpon>
+      <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\App\RoleSettingsJs.generated.cs">
+    <Compile Include="Areas\App\Views\RoleSettings\Script.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RoleSettingsJs.cshtml</DependentUpon>
+      <DependentUpon>Script.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\TriggerSetup\Html.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1639,7 +1638,6 @@
     <EmbeddedResource Include="SphApp\views\activity.notification.html" />
     <EmbeddedResource Include="SphApp\views\admin.home.html" />
     <EmbeddedResource Include="SphApp\viewmodels\admin.home.js" />
-    <EmbeddedResource Include="SphApp\views\application.template.list.html" />
     <EmbeddedResource Include="SphApp\views\chats.html" />
     <EmbeddedResource Include="SphApp\views\entities.list.html" />
     <EmbeddedResource Include="SphApp\views\entity.details.html" />
@@ -2666,16 +2664,12 @@
     <EmbeddedResource Include="SphApp\viewmodels\_audittrail.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_users.designation.js" />
     <EmbeddedResource Include="SphApp\views\admindashboard.html" />
-    <EmbeddedResource Include="SphApp\views\applicationlist.html" />
     <EmbeddedResource Include="SphApp\views\nav.html" />
     <EmbeddedResource Include="SphApp\views\organization.detail.html" />
-    <EmbeddedResource Include="SphApp\views\payment.html" />
     <EmbeddedResource Include="SphApp\views\setting.html" />
     <EmbeddedResource Include="SphApp\views\shell.html" />
     <EmbeddedResource Include="SphApp\views\toolbar.html" />
     <EmbeddedResource Include="SphApp\views\_audittrail.list.html" />
-    <EmbeddedResource Include="SphApp\views\_setting.space.category.html" />
-    <EmbeddedResource Include="SphApp\views\_setting.interest.html" />
     <EmbeddedResource Include="SphApp\views\_setting.state.html" />
     <EmbeddedResource Include="SphApp\views\_users.designation.html" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
@@ -2934,9 +2928,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\App\RoleSettingsJs.cshtml">
+    <Content Include="Areas\App\Views\RoleSettings\Script.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>RoleSettingsJs.generated.cs</LastGenOutput>
+      <LastGenOutput>Script.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\App\Views\UserProfile\Html.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -2946,9 +2940,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Script.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\App\RoleSettingsHtml.cshtml">
+    <Content Include="Areas\App\Views\RoleSettings\Html.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>RoleSettingsHtml.generated.cs</LastGenOutput>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\App\Views\TriggerSetup\Html.cshtml">
       <Generator>RazorGenerator</Generator>

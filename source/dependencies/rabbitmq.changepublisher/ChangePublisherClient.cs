@@ -47,7 +47,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         {
             var factory = new ConnectionFactory
             {
-                UserName = m_connection.Username,
+                UserName = m_connection.UserName,
                 Password = m_connection.Password,
                 HostName = m_connection.Host,
                 Port = m_connection.Port,

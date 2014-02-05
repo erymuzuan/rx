@@ -59,7 +59,7 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(" data-script=\"true\"");
 
 WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext],\r\n        function (context) {\r\n    " +
-"        var isBusy = ko.observable(false),\r\n            username = ko.observable" +
+"        var isBusy = ko.observable(false),\r\n            userName = ko.observable" +
 "(\'");
 
             
@@ -71,7 +71,7 @@ WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext],\r\n        funct
             #line hidden
 WriteLiteral(@"'),
             activate = function () {
-                var query = String.format(""Username eq '{0}'"", username());
+                var query = String.format(""UserName eq '{0}'"", userName());
                 var tcs = new $.Deferred();
                 context.loadOneAsync(""UserProfile"", query)
                     .done(function (b) {

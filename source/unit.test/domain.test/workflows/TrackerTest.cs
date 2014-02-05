@@ -74,7 +74,7 @@ namespace domain.test.workflows
             {
                 Name = "Start B",
                 WebId = "B",
-                Performer = new Performer { UserProperty = "Username", Value = "admin" }
+                Performer = new Performer { UserProperty = "UserName", Value = "admin" }
             });
 
             var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = 1, WorkflowId = 0 };
@@ -112,7 +112,7 @@ namespace domain.test.workflows
             {
                 Name = "Start B",
                 WebId = "B",
-                Performer = new Performer { UserProperty = "Username", Value = "admin" }
+                Performer = new Performer { UserProperty = "UserName", Value = "admin" }
             });
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
 
@@ -154,7 +154,7 @@ namespace domain.test.workflows
             {
                 Name = "Start B",
                 WebId = "B",
-                Performer = new Performer {UserProperty = "Username", Value = "admin"}
+                Performer = new Performer {UserProperty = "UserName", Value = "admin"}
             };
             wd.ActivityCollection.Add(screenB);
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });

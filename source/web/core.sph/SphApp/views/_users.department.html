@@ -2,7 +2,10 @@
 
     <div class="col-lg-1 col-lg-offset-11">
 
-        <input type="button" data-bind="command: saveCommand" class="btn btn-primary" form="users-department-form" value="Simpan" data-loading-text="diproses.." data-complete-text="Selesai" />
+        <button  data-bind="command: saveCommand" class="btn btn-default" form="users-department-form" data-loading-text="diproses.." data-complete-text="Selesai" >
+            <i class="fa fa-save"></i>
+            Save
+        </button>
 
     </div>
     <div class="col-lg-12">
@@ -10,7 +13,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Nama</th>
+                        <th>Department</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -33,8 +36,8 @@
     </div>
     <div class="col-lg-1 col-lg-offset-11">
 
-        <a href="#" id="add-user-button" data-bind="click: addCommand" data-toggle="modal" class="btn btn-default pull-left">
-            + Jabatan
+        <a href="#" id="add-user-button" data-bind="click: addCommand" data-toggle="modal" class="btn btn-link pull-left">
+            + Department
         </a>
 
     </div>

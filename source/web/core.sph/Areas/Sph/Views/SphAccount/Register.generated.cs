@@ -52,7 +52,7 @@ WriteLiteral(" class=\"control-group\"");
 
 WriteLiteral(">\r\n            <label");
 
-WriteLiteral(" for=\"Username\"");
+WriteLiteral(" for=\"UserName\"");
 
 WriteLiteral(" class=\"control-label\"");
 
@@ -64,11 +64,11 @@ WriteLiteral(">\r\n                <input");
 
 WriteLiteral(" data-bind=\"value: UserName\"");
 
-WriteLiteral(" id=\"Username\"");
+WriteLiteral(" id=\"UserName\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" name=\"Username\"");
+WriteLiteral(" name=\"UserName\"");
 
 WriteLiteral(" />\r\n                <i");
 
@@ -250,9 +250,9 @@ WriteLiteral(">\r\n\r\n    define([\'services/datacontext\'], function (context)
 " Telephone: ko.observable(),\r\n                Mobile: ko.observable(),\r\n        " +
 "        IsNew: ko.observable()\r\n            },\r\n            userNameValidationSt" +
 "atus: ko.observable(),\r\n            submitCommand: register\r\n        };\r\n       " +
-" vm.profile.UserName.subscribe(function (username) {\r\n            vm.isBusyValid" +
+" vm.profile.UserName.subscribe(function (userName) {\r\n            vm.isBusyValid" +
 "atingUserName(true);\r\n            var tcs = new $.Deferred();\r\n            var d" +
-"ata = JSON.stringify({ userName: username });\r\n            isBusy(true);\r\n      " +
+"ata = JSON.stringify({ userName: userName });\r\n            isBusy(true);\r\n      " +
 "      context.post(data, \"/Admin/ValidateUserName\")\r\n                .then(funct" +
 "ion (result) {\r\n                    isBusy(false);\r\n                    vm.isBus" +
 "yValidatingUserName(false);\r\n                    if (result.status !== \"OK\") {\r\n" +

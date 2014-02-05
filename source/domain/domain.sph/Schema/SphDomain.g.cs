@@ -4,8 +4,6 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -1106,8 +1104,8 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_username;
-        public const string PropertyNameUsername = "Username";
+        private string m_userName;
+        public const string PropertyNameUserName = "UserName";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1169,22 +1167,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string Username
+        public string UserName
         {
             set
             {
-                if (String.Equals(m_username, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameUsername, value);
+                if (String.Equals(m_userName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUserName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_username = value;
+                    m_userName = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_username;
+                return m_userName;
             }
         }
 
@@ -1497,8 +1495,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_username;
-        public const string PropertyNameUsername = "Username";
+        private string m_userName;
+        public const string PropertyNameUserName = "UserName";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1551,22 +1549,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string Username
+        public string UserName
         {
             set
             {
-                if (String.Equals(m_username, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameUsername, value);
+                if (String.Equals(m_userName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUserName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_username = value;
+                    m_userName = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_username;
+                return m_userName;
             }
         }
 

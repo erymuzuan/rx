@@ -233,7 +233,7 @@ bespoke.sph.domain.UserProfile = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.UserProfile, domain.sph",
-        Username: ko.observable(''),
+        UserName: ko.observable(''),
         FullName: ko.observable(''),
         Designation: ko.observable(''),
         Telephone: ko.observable(''),
@@ -272,7 +272,7 @@ bespoke.sph.domain.Setting = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Setting, domain.sph",
         SettingId: ko.observable(0),
-        Username: ko.observable(''),
+        UserName: ko.observable(''),
         Key: ko.observable(),
         Value: ko.observable(),
         isBusy: ko.observable(false),

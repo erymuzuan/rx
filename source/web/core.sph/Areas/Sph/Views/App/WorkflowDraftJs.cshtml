@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    var username = @User.Identity.Name;
+    var userName = @User.Identity.Name;
 }
 
 <script type="text/javascript" data-script="true">
@@ -8,7 +8,7 @@
         var isBusy = ko.observable(false),
             user = ko.observable(),
             activate = function () {
-                user('@Html.Raw(username)');
+                user('@Html.Raw(userName)');
                 var query = String.format("CreatedBy eq '{0}' ", user());
                 var tcs = new $.Deferred();
                 context.loadAsync("Workflow", query)

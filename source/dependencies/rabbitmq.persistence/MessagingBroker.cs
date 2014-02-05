@@ -21,7 +21,7 @@ namespace Bespoke.Station.MessagingPersistences
             this.Exchange = exchange;
             var factory = new ConnectionFactory
             {
-                UserName = connection.Username,
+                UserName = connection.UserName,
                 Password = connection.Password,
                 HostName = connection.Host,
                 Port = connection.Port,

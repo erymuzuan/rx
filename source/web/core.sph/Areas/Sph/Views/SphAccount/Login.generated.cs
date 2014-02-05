@@ -179,7 +179,7 @@ WriteLiteral(" data-dismiss=\"alert\"");
 
 WriteLiteral(" href=\"#\"");
 
-WriteLiteral(">&times;</a>\r\n                                Incorrect username or password!\r\n  " +
+WriteLiteral(">&times;</a>\r\n                                Incorrect userName or password!\r\n  " +
 "                          </div>\r\n");
 
             
@@ -204,7 +204,7 @@ WriteLiteral("                            ");
 
             
             #line 41 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-                       Write(Html.TextBoxFor(m => m.UserName, new { placeholder = "Username", @class = "form-control", required = true, autofocus = "autofocus" }));
+                       Write(Html.TextBoxFor(m => m.UserName, new { placeholder = "UserName", @class = "form-control", required = true, autofocus = "autofocus" }));
 
             
             #line default

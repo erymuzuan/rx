@@ -33,7 +33,7 @@ define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', '
                         delivery(d);
                     });
 
-                context.getListAsync("UserProfile", "UserProfileId gt 0", "Username")
+                context.getListAsync("UserProfile", "UserProfileId gt 0", "UserName")
                     .done(vm.userOptions);
 
 

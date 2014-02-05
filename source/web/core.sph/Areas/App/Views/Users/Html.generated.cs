@@ -147,7 +147,7 @@ WriteLiteral(">\r\n                            <button");
 
 WriteLiteral(" type=\"submit\"");
 
-WriteLiteral(" class=\"btn btn-primary\"");
+WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" id=\"search-btn\"");
 
@@ -167,7 +167,7 @@ WriteLiteral(" data-bind=\"serverPaging: { entity: \'UserProfile\', query: \'Use
 WriteLiteral(@">
                     <thead>
                         <tr>
-                            <th>Username</th>
+                            <th>UserName</th>
                             <th>Full name</th>
                             <th>Department</th>
                             <th>Designation</th>

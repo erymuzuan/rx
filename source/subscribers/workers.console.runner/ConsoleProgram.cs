@@ -13,7 +13,7 @@ namespace workers.console.runner
         {
             var host = ParseArg("h") ?? "localhost";
             var vhost = ParseArg("v") ?? "sph.0009";
-            var username = ParseArg("u") ?? "guest";
+            var userName = ParseArg("u") ?? "guest";
             var password = ParseArg("p") ?? "guest";
             //var silent = ParseArgExist("quiet");
             var debug = ParseArgExist("debug");
@@ -31,12 +31,12 @@ namespace workers.console.runner
                 log = new EventLogNotification();
             }
 
-            var title = string.Format("Connecting to {2}:{3}@{0}:{1}", host, port, username, password);
+            var title = string.Format("Connecting to {2}:{3}@{0}:{1}", host, port, userName, password);
             log.Write(Console.Title = title);
             var program = new Program
                 {
                     HostName = host,
-                    UserName = username,
+                    UserName = userName,
                     Password = password,
                     Port = port,
                     NotificationService = log,

@@ -74,11 +74,11 @@ WriteLiteral(">\r\n            <label");
 
 WriteLiteral(" for=\"FullName\"");
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-2\"");
 
-WriteLiteral(">Nama penuh</label>\r\n            <div");
+WriteLiteral(">Full Name</label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-9\"");
 
 WriteLiteral(">\r\n                <input");
 
@@ -100,11 +100,11 @@ WriteLiteral(">\r\n            <label");
 
 WriteLiteral(" for=\"email\"");
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-2\"");
 
 WriteLiteral(">Email</label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-9\"");
 
 WriteLiteral(">\r\n                <input");
 
@@ -126,11 +126,11 @@ WriteLiteral(">\r\n            <label");
 
 WriteLiteral(" for=\"email\"");
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-2\"");
 
-WriteLiteral(">Jabatan </label>\r\n            <div");
+WriteLiteral(">Departement </label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-9\"");
 
 WriteLiteral(">\r\n                <span");
 
@@ -144,11 +144,11 @@ WriteLiteral(">\r\n            <label");
 
 WriteLiteral(" for=\"email\"");
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-2\"");
 
-WriteLiteral(">Jawatan </label>\r\n            <div");
+WriteLiteral(">Designation </label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-9\"");
 
 WriteLiteral(">\r\n                <span");
 
@@ -162,11 +162,11 @@ WriteLiteral(">\r\n            <label");
 
 WriteLiteral(" for=\"startModule\"");
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-2\"");
 
-WriteLiteral(">startModule </label>\r\n            <div");
+WriteLiteral(">Start Module </label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-9\"");
 
 WriteLiteral(">\r\n                <select");
 
@@ -186,11 +186,11 @@ WriteLiteral(">\r\n            <label");
 
 WriteLiteral(" for=\"Telephone\"");
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-2\"");
 
-WriteLiteral(">No Telefon </label>\r\n            <div");
+WriteLiteral(">Telephone </label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-9\"");
 
 WriteLiteral(">\r\n                <input");
 

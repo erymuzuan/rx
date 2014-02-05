@@ -2,9 +2,9 @@
     <h3>Add new user</h3>
     <form class="form-horizontal" data-bind="with: profile">
         <div class="control-group">
-            <label for="Username" class="control-label">User name:</label>
+            <label for="UserName" class="control-label">User name:</label>
             <div class="controls">
-                <input data-bind="value: UserName" id="Username" type="text" name="Username" />
+                <input data-bind="value: UserName" id="UserName" type="text" name="UserName" />
                 <i class="fa fa-spinner icon-spin =" data-bind="visible: $root.isBusyValidatingUserName"></i>
                 <span class="help-block alert alert-danger" data-bind="text: $root.userNameValidationStatus, visible: $root.userNameValidationStatus() "></span>
             </div>
@@ -89,10 +89,10 @@
             userNameValidationStatus: ko.observable(),
             submitCommand: register
         };
-        vm.profile.UserName.subscribe(function (username) {
+        vm.profile.UserName.subscribe(function (userName) {
             vm.isBusyValidatingUserName(true);
             var tcs = new $.Deferred();
-            var data = JSON.stringify({ userName: username });
+            var data = JSON.stringify({ userName: userName });
             isBusy(true);
             context.post(data, "/Admin/ValidateUserName")
                 .then(function (result) {

@@ -18,7 +18,7 @@ namespace workers.windowsservice.runner
             m_program = new Program
             {
                 HostName = ConfigurationManager.AppSettings["sph:RabbitMqHost"],
-                UserName = ConfigurationManager.AppSettings["sph:RabbitMqUsername"],
+                UserName = ConfigurationManager.AppSettings["sph:RabbitMqUserName"],
                 Password = ConfigurationManager.AppSettings["sph:RabbitMqPassword"],
                 Port = int.Parse(ConfigurationManager.AppSettings["sph:RabbitMqPort"]),
                 VirtualHost = ConfigurationManager.AppSettings["sph:RabbitMqVhost"] ?? "sph.009"

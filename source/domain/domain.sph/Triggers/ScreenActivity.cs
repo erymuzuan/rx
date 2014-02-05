@@ -81,7 +81,7 @@ namespace Bespoke.Sph.Domain
             foreach (var user in users)
             {
                 string user1 = user;
-                var profile = await context.LoadOneAsync<UserProfile>(p => p.Username == user1);
+                var profile = await context.LoadOneAsync<UserProfile>(p => p.UserName == user1);
                 var subject = await this.TransformTemplateAsync(subjectTemplate, model);
                 var body = await this.TransformTemplateAsync(bodyTemplate, model);
 
@@ -110,19 +110,19 @@ namespace Bespoke.Sph.Domain
             var users = new List<string>();
             switch (this.Performer.UserProperty)
             {
-                case "Username":
+                case "UserName":
                     users.Add(unwrapValue);
                     break;
                 case "Department":
                     var list = await context.GetListAsync<UserProfile, string>(
                         u => u.Department == unwrapValue,
-                        u => u.Username);
+                        u => u.UserName);
                     users.AddRange(list);
                     break;
                 case "Designation":
                     var list2 = await context.GetListAsync<UserProfile, string>(
                         u => u.Designation == unwrapValue,
-                        u => u.Username);
+                        u => u.UserName);
                     users.AddRange(list2);
                     break;
                 case "Roles":
@@ -185,7 +185,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf("           var wf =await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id);", wd.WorkflowTypeName);
 
             code.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
-            code.AppendLinf("           var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);");
+            code.AppendLinf("           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);");
             code.AppendLinf("           var screen = wf.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
 
             code.AppendLinf("           var vm = new {0}(){{", this.ViewModelType);

@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.App_Start;
 using Bespoke.Sph.Web.Helpers;
-using Bespoke.Sph.Web.WorkflowHelpers;
 
 namespace web.sph
 {
@@ -15,7 +12,6 @@ namespace web.sph
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            WorkflowConfig.Register(Server);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes).Wait();
             //BundleConfig.RegisterBundles(BundleTable.Bundles);

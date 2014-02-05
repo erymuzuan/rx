@@ -12,7 +12,7 @@ namespace web.test
     public static class SqlPersistenceHelper
     {
         /// <summary>
-        /// Make sure the current Thread CurrentPrincipal runnin with the specified username and role
+        /// Make sure the current Thread CurrentPrincipal runnin with the specified userName and role
         /// NOTE : this will not be validated against the database
         /// </summary>
         /// <param name="userName"></param>

@@ -36,7 +36,7 @@
                 context.post(data, "/Designation/Save")
                     .then(function (result) {
                         tcs.resolve(result);
-                        logger.info("Jawatan sudah berjaya disimpan");
+                        logger.info("Designation is successfully saved");
                     });
                 return tcs.promise();
             };

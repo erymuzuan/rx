@@ -85,7 +85,7 @@
 	</xs:element>
 	<xs:element name="UserProfile">
 		<xs:complexType>
-			<xs:attribute name="Username" type="xs:string" use="required"/>
+			<xs:attribute name="UserName" type="xs:string" use="required"/>
 			<xs:attribute name="FullName" type="xs:string" use="required"/>
 			<xs:attribute name="Designation" type="xs:string" use="required"/>
 			<xs:attribute name="Telephone" type="xs:string" use="required"/>
@@ -105,7 +105,7 @@
 				<xs:element name="Value" type="xs:string"/>
 			</xs:all>
 			<xs:attribute name="SettingId" type="xs:int" use="required"/>
-			<xs:attribute name="Username" type="xs:string" use="required"/>
+			<xs:attribute name="UserName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Designation">

@@ -42,7 +42,7 @@
                 var profile = new bespoke.sph.domain.Profile();
                 profile.IsNew(false);
                 profile.FullName(item.FullName());
-                profile.UserName(item.Username());
+                profile.UserName(item.UserName());
                 profile.Email(item.Email());
                 profile.Designation(item.Designation());
                 profile.Department(item.Department());
@@ -114,10 +114,10 @@
                 
                 
             }, 
-            userNameChaged = function(username) {
+            userNameChaged = function(userName) {
                 vm.isBusyValidatingUserName(true);
                 var tcs = new $.Deferred();
-                var data = JSON.stringify({userName : username});
+                var data = JSON.stringify({userName : userName});
                 isBusy(true);
                 context.post(data, "/Admin/ValidateUserName")
                     .then(function(result) {

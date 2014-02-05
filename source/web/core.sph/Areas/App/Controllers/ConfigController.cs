@@ -14,9 +14,9 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            var username = User.Identity.Name;
+            var userName = User.Identity.Name;
             var context = new SphDataContext();
-            var profileTask =  context.LoadOneAsync<UserProfile>(u => u.Username == username);
+            var profileTask =  context.LoadOneAsync<UserProfile>(u => u.UserName == userName);
             var statesOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "State", x => x.Value);
             var departmentOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "Departments", x => x.Value);
             var spaceUsageOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "Categories", x => x.Value);
@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 DepartmentOptions =string.IsNullOrWhiteSpace(departmentOptions) ? "[]": departmentOptions,
                 UserProfile = profile
             };
-            if (username == "useradmin")
+            if (userName == "useradmin")
             {
                 vm.StartModule = "users";
             }

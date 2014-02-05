@@ -101,9 +101,9 @@ WriteLiteral(" value=\"Roles\"");
 
 WriteLiteral(">Roles</option>\r\n                <option");
 
-WriteLiteral(" value=\"Username\"");
+WriteLiteral(" value=\"UserName\"");
 
-WriteLiteral(">Username</option>\r\n                <option");
+WriteLiteral(">UserName</option>\r\n                <option");
 
 WriteLiteral(" value=\"Department\"");
 

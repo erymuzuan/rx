@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         public async  Task<ActionResult> Html()
         {
             var context = new SphDataContext();
-            var profile = await context.LoadOneAsync<UserProfile>(ua => ua.Username == User.Identity.Name);
+            var profile = await context.LoadOneAsync<UserProfile>(ua => ua.UserName == User.Identity.Name);
             if (null != profile)
                 ViewBag.StartModule = "#/"+profile.StartModule;
             return View();

@@ -25,8 +25,8 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         {
             var context = new SphDataContext();
             var user = Membership.GetUser();
-            var profile = await context.LoadOneAsync<UserProfile>(p => p.Username == User.Identity.Name)
-                          ?? new UserProfile { Username = User.Identity.Name };
+            var profile = await context.LoadOneAsync<UserProfile>(p => p.UserName == User.Identity.Name)
+                          ?? new UserProfile { UserName = User.Identity.Name };
 
             var routeConfig = Server.MapPath("~/routes.config.js");
             var json = System.IO.File.ReadAllText(routeConfig);

@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.App
+namespace Bespoke.Sph.Web.Areas.App.Views.RoleSettings
 {
     using System;
     using System.Collections.Generic;
@@ -22,22 +22,24 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/App/RoleSettingsHtml.cshtml")]
-    public partial class RoleSettingsHtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.RoleSettingViewModel>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/RoleSettings/Html.cshtml")]
+    public partial class Html : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.RoleSettingViewModel>
     {
-        public RoleSettingsHtml()
+        public Html()
         {
         }
         public override void Execute()
         {
             
-            #line 3 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 3 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
   
     Layout = null;
     var row = 1;
@@ -45,15 +47,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App
             
             #line default
             #line hidden
-WriteLiteral("\r\n<div");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n    <h1");
-
-WriteLiteral(" class=\"col-lg-12\"");
-
-WriteLiteral(">Maklumat Jawatan</h1>\r\n</div>\r\n<div");
+WriteLiteral("\r\n    <h1>Designation</h1>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -71,11 +65,11 @@ WriteLiteral(">\r\n            <label");
 
 WriteLiteral(" for=\"Name\"");
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-2\"");
 
-WriteLiteral(">Nama Jawatan</label>\r\n            <div");
+WriteLiteral(">Designation Name</label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-9\"");
 
 WriteLiteral(">\r\n                <input");
 
@@ -97,11 +91,11 @@ WriteLiteral(">\r\n            <label");
 
 WriteLiteral(" for=\"description\"");
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-2\"");
 
-WriteLiteral(">Keterangan</label>\r\n            <div");
+WriteLiteral(">Description</label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-9\"");
 
 WriteLiteral(">\r\n                <textarea");
 
@@ -123,11 +117,11 @@ WriteLiteral(">\r\n            <label");
 
 WriteLiteral(" for=\"StartModule\"");
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-2\"");
 
-WriteLiteral(">Modul Permulaan</label>\r\n            <div");
+WriteLiteral(">Start Module</label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-9\"");
 
 WriteLiteral(">\r\n                <select");
 
@@ -140,13 +134,13 @@ WriteLiteral(" data-bind=\"value: StartModule\"");
 WriteLiteral(">\r\n");
 
             
-            #line 32 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 30 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 32 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 30 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
                      foreach (var r in Model.Routes.Where(j => j.Nav))
                     {
 
@@ -155,20 +149,20 @@ WriteLiteral(">\r\n");
             #line hidden
 WriteLiteral("                        <option");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 1254), Tuple.Create("\"", 1270)
+WriteAttribute("value", Tuple.Create(" value=\"", 1191), Tuple.Create("\"", 1207)
             
-            #line 34 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
-, Tuple.Create(Tuple.Create("", 1262), Tuple.Create<System.Object, System.Int32>(r.Route
+            #line 32 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 1199), Tuple.Create<System.Object, System.Int32>(r.Route
             
             #line default
             #line hidden
-, 1262), false)
+, 1199), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 34 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 32 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
                                             Write(r.Title);
 
             
@@ -177,7 +171,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
             
-            #line 35 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 33 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
 
                     }
 
@@ -200,18 +194,18 @@ WriteLiteral(" class=\"table table-striped\"");
 WriteLiteral(" data-bind=\"filter: { path: \'tbody>tr\' }\"");
 
 WriteLiteral(">\r\n                <thead>\r\n                    <tr>\r\n                        <th" +
-">#</th>\r\n                        <th>Role</th>\r\n                        <th>Kete" +
-"rangan</th>\r\n                    </tr>\r\n                </thead>\r\n              " +
-"  <tbody>\r\n");
+">#</th>\r\n                        <th>Role</th>\r\n                        <th>Desc" +
+"ription</th>\r\n                    </tr>\r\n                </thead>\r\n             " +
+"   <tbody>\r\n");
 
             
-            #line 55 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 53 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 55 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 53 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
                      foreach (var r in Model.Roles.OrderBy(e => e.Name))
                     {
 
@@ -221,7 +215,7 @@ WriteLiteral(">\r\n                <thead>\r\n                    <tr>\r\n      
 WriteLiteral("                        <tr>\r\n                            <td>");
 
             
-            #line 58 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 56 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
                             Write(row++);
 
             
@@ -231,28 +225,28 @@ WriteLiteral("</td>\r\n                            <td>\r\n                     
 
 WriteLiteral(" class=\"checkbox\"");
 
-WriteAttribute("title", Tuple.Create(" title=\"", 2157), Tuple.Create("\"", 2172)
+WriteAttribute("title", Tuple.Create(" title=\"", 2095), Tuple.Create("\"", 2110)
             
-            #line 60 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
-, Tuple.Create(Tuple.Create("", 2165), Tuple.Create<System.Object, System.Int32>(r.Role
+            #line 58 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 2103), Tuple.Create<System.Object, System.Int32>(r.Role
             
             #line default
             #line hidden
-, 2165), false)
+, 2103), false)
 );
 
 WriteLiteral(">\r\n                                    <input");
 
 WriteLiteral(" data-bind=\"checked: RoleCollection\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2254), Tuple.Create("\"", 2269)
+WriteAttribute("value", Tuple.Create(" value=\"", 2192), Tuple.Create("\"", 2207)
             
-            #line 61 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
-      , Tuple.Create(Tuple.Create("", 2262), Tuple.Create<System.Object, System.Int32>(r.Role
+            #line 59 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
+      , Tuple.Create(Tuple.Create("", 2200), Tuple.Create<System.Object, System.Int32>(r.Role
             
             #line default
             #line hidden
-, 2262), false)
+, 2200), false)
 );
 
 WriteLiteral("\r\n                                           type=\"checkbox\"");
@@ -264,7 +258,7 @@ WriteLiteral(" />\r\n");
 WriteLiteral("                                    ");
 
             
-            #line 63 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 61 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
                                Write(r.Name);
 
             
@@ -278,7 +272,7 @@ WriteLiteral(" class=\"help-block\"");
 WriteLiteral(">");
 
             
-            #line 66 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 64 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
                                                     Write(r.Description);
 
             
@@ -287,7 +281,7 @@ WriteLiteral(">");
 WriteLiteral("</span></td>\r\n                        </tr>\r\n");
 
             
-            #line 68 "..\..\Areas\Sph\Views\App\RoleSettingsHtml.cshtml"
+            #line 66 "..\..\Areas\App\Views\RoleSettings\Html.cshtml"
                     }
 
             

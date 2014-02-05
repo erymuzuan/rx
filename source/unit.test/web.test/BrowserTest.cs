@@ -94,7 +94,7 @@ namespace web.test
                     "CreatedDate=\"2013-01-01T00:00:00\" " +
                     "HasChangedDefaultPassword=\"true\" " +
                     "ChangedDate=\"2013-01-01T00:00:00\" " +
-                    "Username=\"{1}\" " +
+                    "UserName=\"{1}\" " +
                     "FullName=\"{2}\" " +
                     "Designation=\"{3}\" " +
                     "Telephone=\"{4}\" " +

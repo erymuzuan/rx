@@ -187,7 +187,7 @@ namespace web.test
             Assert.AreNotEqual(0, max, "run _005_MarkApplicationAsComplete first ");
             
             var contractId = this.GetDatabaseScalarValue<int>("SELECT MAX([ContractId]) FROM [Sph].[Contract]");
-            var username = this.GetDatabaseScalarValue<string>("SELECT [TenantIdSsmNo] FROM [Sph].[Contract] WHERE [ContractId]=@Id", new SqlParameter("@Id", contractId));
+            var userName = this.GetDatabaseScalarValue<string>("SELECT [TenantIdSsmNo] FROM [Sph].[Contract] WHERE [ContractId]=@Id", new SqlParameter("@Id", contractId));
            
             var driver = this.InitiateDriver();
             driver.NavigateToUrl("/Account/Login");
@@ -198,7 +198,7 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(3));
 
 
-            var userId = this.GetDatabaseScalarValue<int>("SELECT [UserProfileId] FROM [Sph].[UserProfile] WHERE [UserName] = @Username", new SqlParameter("@Username", username));
+            var userId = this.GetDatabaseScalarValue<int>("SELECT [UserProfileId] FROM [Sph].[UserProfile] WHERE [UserName] = @UserName", new SqlParameter("@UserName", userName));
             Assert.AreNotEqual(0, userId);
 
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");

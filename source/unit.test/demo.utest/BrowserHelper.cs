@@ -23,12 +23,12 @@ namespace web.test
             return driver.Login(user.UserName, user.Password, wait);
         }
 
-        public static IWebDriver Login(this IWebDriver driver, string username = "admin", string password = "123456", int wait = 2000)
+        public static IWebDriver Login(this IWebDriver driver, string userName = "admin", string password = "123456", int wait = 2000)
         {
             driver
                 .NavigateToUrl("/Account/Logoff")
                 .NavigateToUrl("/Account/Login", 1.Seconds());
-            driver.Value("[name='UserName']", username)
+            driver.Value("[name='UserName']", userName)
                 .Value("[name='Password']", password)
                 .Click("[name='submit']");
 

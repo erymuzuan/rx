@@ -17,7 +17,7 @@ namespace workers.windowsservice.runner
 
             //# Service Account Information
             serviceProcessInstaller.Account = ServiceAccount.User;
-            serviceProcessInstaller.Username = @".\ItPro";
+            serviceProcessInstaller.UserName = @".\ItPro";
             serviceProcessInstaller.Password = "Qwer!234";
 
             //# Service Information

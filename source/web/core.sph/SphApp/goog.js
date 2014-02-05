@@ -88,7 +88,7 @@
 
 <input type="text" data-hotkey="/ s" name="q" id="js-command-bar-field" placeholder="Search or type a command" tabindex="1" autocapitalize="off"
     
-    data-username="erymuzuan"
+    data-userName="erymuzuan"
       data-repo="millermedeiros/requirejs-plugins"
       data-branch="master"
       data-sha="3e4d474e83d73544ad62bb9aeed9c47a26c73f9d"

@@ -62,7 +62,7 @@ namespace web.test
             driver.ClickFirst("button", e => e.Text == "Tambah Pengguna")
                 .Sleep(1.Seconds());
 
-            driver.Value("[name=Username]", USERNAME)
+            driver.Value("[name=UserName]", USERNAME)
                   .Value("[name=Password]", "123456")
                   .Value("[name=ConfirmPassword]", "123456")
                   .Value("[name=FullName]", "Noor Izzati")
@@ -74,7 +74,7 @@ namespace web.test
             driver.Click("#save-button")
             .Sleep(2.Seconds());
 
-            var count = this.GetDatabaseScalarValue<int>("SELECT COUNT([UserProfileId]) FROM [Sph].[UserProfile] WHERE [Username] =@Username", new SqlParameter("@Username", USERNAME));
+            var count = this.GetDatabaseScalarValue<int>("SELECT COUNT([UserProfileId]) FROM [Sph].[UserProfile] WHERE [UserName] =@UserName", new SqlParameter("@UserName", USERNAME));
             Assert.AreEqual(1, count, "There should only be 1 izzati");
 
 

@@ -40,7 +40,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App
             #line 1 "..\..\Areas\Sph\Views\App\WorkflowDraftJs.cshtml"
   
     Layout = null;
-    var username = @User.Identity.Name;
+    var userName = @User.Identity.Name;
 
             
             #line default
@@ -57,7 +57,7 @@ WriteLiteral(">\r\n    define([\'services/datacontext\'], function (context) {\r
 
             
             #line 11 "..\..\Areas\Sph\Views\App\WorkflowDraftJs.cshtml"
-                 Write(Html.Raw(username));
+                 Write(Html.Raw(userName));
 
             
             #line default

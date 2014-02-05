@@ -33,12 +33,12 @@
                         {
                             <div class="alert alert-danger">
                                 <a class="close" data-dismiss="alert" href="#">&times;</a>
-                                Incorrect username or password!
+                                Incorrect userName or password!
                             </div>
 
                         }
                         <form method="POST" action="" accept-charset="UTF-8">
-                            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Username", @class = "form-control", required = true, autofocus = "autofocus" })
+                            @Html.TextBoxFor(m => m.UserName, new { placeholder = "UserName", @class = "form-control", required = true, autofocus = "autofocus" })
                             @Html.ValidationMessageFor(m => m.UserName)
                             <label class="controls"></label>
                             @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control", required = true })

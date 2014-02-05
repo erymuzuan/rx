@@ -67,7 +67,7 @@ namespace domain.test.workflows
 
             var usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);
             usersRepos.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<UserProfile>>()))
-                .Returns(Task.FromResult(new UserProfile { Username = "admin", Email = "admin@bespoke.com.my" }));
+                .Returns(Task.FromResult(new UserProfile { UserName = "admin", Email = "admin@bespoke.com.my" }));
             ObjectBuilder.AddCacheList(usersRepos.Object);
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
 

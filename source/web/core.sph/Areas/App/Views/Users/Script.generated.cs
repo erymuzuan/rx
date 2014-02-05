@@ -92,7 +92,7 @@ WriteLiteral(",\r\n            printprofile = ko.observable(new bespoke.sph.doma
 ";\r\n                return tcs.promise();\r\n            },\r\n            map = func" +
 "tion(item) {\r\n                var profile = new bespoke.sph.domain.Profile();\r\n " +
 "               profile.IsNew(false);\r\n                profile.FullName(item.Full" +
-"Name());\r\n                profile.UserName(item.Username());\r\n                pr" +
+"Name());\r\n                profile.UserName(item.UserName());\r\n                pr" +
 "ofile.Email(item.Email());\r\n                profile.Designation(item.Designation" +
 "());\r\n                profile.Department(item.Department());\r\n                pr" +
 "ofile.Telephone(item.Telephone());\r\n                return profile;\r\n           " +
@@ -129,9 +129,9 @@ WriteLiteral(",\r\n            printprofile = ko.observable(new bespoke.sph.doma
 "                        logger.logError(result.messages, this, this, true);\r\n   " +
 "                     }\r\n                        tcs.resolve(true);\r\n            " +
 "        });\r\n                return tcs.promise();\r\n                \r\n          " +
-"      \r\n            }, \r\n            userNameChaged = function(username) {\r\n    " +
+"      \r\n            }, \r\n            userNameChaged = function(userName) {\r\n    " +
 "            vm.isBusyValidatingUserName(true);\r\n                var tcs = new $." +
-"Deferred();\r\n                var data = JSON.stringify({userName : username});\r\n" +
+"Deferred();\r\n                var data = JSON.stringify({userName : userName});\r\n" +
 "                isBusy(true);\r\n                context.post(data, \"/Admin/Valida" +
 "teUserName\")\r\n                    .then(function(result) {\r\n                    " +
 "    isBusy(false);\r\n                        vm.isBusyValidatingUserName(false);\r" +

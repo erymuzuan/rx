@@ -45,7 +45,7 @@ namespace permissions.editor
             {
                 Membership.CreateUser("useradmin", "123456", "useradmin@gmail.com");
                 Roles.AddUserToRoles("useradmin", new[] { "admin_user" });
-                MessageBox.Show("Username : useradmin , Password : 123456");
+                MessageBox.Show("UserName : useradmin , Password : 123456");
             }
 
         }

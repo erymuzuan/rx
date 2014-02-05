@@ -72,8 +72,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         private static async Task<UserProfile> CreateProfile(Profile profile, Designation designation)
         {
             var context = new SphDataContext();
-            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.Username == profile.UserName) ?? new UserProfile();
-            userprofile.Username = profile.UserName;
+            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.UserName == profile.UserName) ?? new UserProfile();
+            userprofile.UserName = profile.UserName;
             userprofile.FullName = profile.FullName;
             userprofile.Designation = profile.Designation;
             userprofile.Department = profile.Department;
@@ -95,8 +95,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> UpdateUser(UserProfile profile)
         {
             var context = new SphDataContext();
-            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.Username == profile.Username)
-                ?? new UserProfile { Username = User.Identity.Name };
+            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.UserName == profile.UserName)
+                ?? new UserProfile { UserName = User.Identity.Name };
             userprofile.Email = profile.Email;
             userprofile.Telephone = profile.Telephone;
             userprofile.FullName = profile.FullName;

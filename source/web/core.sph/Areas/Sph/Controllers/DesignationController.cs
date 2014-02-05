@@ -30,16 +30,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 user.RoleTypes = string.Join(",", designation.RoleCollection);
                 user.StartModule = designation.StartModule;
 
-                var member = Membership.GetUser(user.Username);
+                var member = Membership.GetUser(user.UserName);
                 Message message = null;
                 if (null == member)
                 {
                     var password = Guid.NewGuid().ToString().Substring(0, 8);
-                    Membership.CreateUser(user.Username, password, user.Email);
+                    Membership.CreateUser(user.UserName, password, user.Email);
 
                     message = new Message
                     {
-                        Subject = "User is created for " + user.Username,
+                        Subject = "User is created for " + user.UserName,
                         Body = "Password is " + password,
                         UserName = User.Identity.Name
                     };
@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             }
             // add or remove roles for the users
-            var userNames = lo.ItemCollection.Select(u => u.Username).ToArray();
+            var userNames = lo.ItemCollection.Select(u => u.UserName).ToArray();
             foreach (var role in roles.Where(s => !string.IsNullOrWhiteSpace(s)))
             {
                 if (!Roles.RoleExists(role))

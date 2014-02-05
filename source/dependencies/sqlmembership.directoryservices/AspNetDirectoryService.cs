@@ -52,7 +52,7 @@ namespace Bespoke.Sph.DirectoryServices
             if (null != user)
                 return Task.FromResult(new UserProfile
                 {
-                    Username = userName,
+                    UserName = userName,
                     IsLockedOut = user.IsLockedOut
                    
                 });

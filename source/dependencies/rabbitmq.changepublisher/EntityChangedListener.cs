@@ -41,7 +41,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
             var factory = new ConnectionFactory
             {
-                UserName = m_brokerConnection.Username,
+                UserName = m_brokerConnection.UserName,
                 VirtualHost = m_brokerConnection.VirtualHost,
                 Password = m_brokerConnection.Password,
                 HostName = m_brokerConnection.Host,

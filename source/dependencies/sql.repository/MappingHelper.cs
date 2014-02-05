@@ -22,7 +22,7 @@ namespace Bespoke.Sph.SqlRepository
             }
 
             var propInfo3 = item.GetType().GetProperty(column);
-            if (null == propInfo3) throw new InvalidOperationException("Cannot get property " + column);
+            if (null == propInfo3) throw new InvalidOperationException("Cannot get property " + column + " for " + item.GetType().FullName);
             var val = propInfo3.GetValue(item);
             if (null != val) return val;
 

@@ -7,7 +7,7 @@ IF  EXISTS (SELECT * FROM sys.schemas WHERE name = N'Sph')
 --GO
 CREATE TABLE [Sph].[UserProfile](
 	[UserProfileId] [int] IDENTITY(1,1) NOT NULL,
-	[Username] VARCHAR(50) NOT NULL,
+	[UserName] VARCHAR(50) NOT NULL,
 	[FullName] VARCHAR(100) NULL,
 	[Designation] VARCHAR(50) NULL,
 	[Department] VARCHAR(50) NULL,

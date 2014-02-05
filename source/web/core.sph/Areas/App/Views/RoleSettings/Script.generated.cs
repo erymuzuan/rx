@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.App
+namespace Bespoke.Sph.Web.Areas.App.Views.RoleSettings
 {
     using System;
     using System.Collections.Generic;
@@ -22,22 +22,24 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/App/RoleSettingsJs.cshtml")]
-    public partial class RoleSettingsJs : System.Web.Mvc.WebViewPage<IEnumerable<Bespoke.Sph.Web.ViewModels.RoleModel>>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/RoleSettings/Script.cshtml")]
+    public partial class Script : System.Web.Mvc.WebViewPage<IEnumerable<Bespoke.Sph.Web.ViewModels.RoleModel>>
     {
-        public RoleSettingsJs()
+        public Script()
         {
         }
         public override void Execute()
         {
             
-            #line 2 "..\..\Areas\Sph\Views\App\RoleSettingsJs.cshtml"
+            #line 2 "..\..\Areas\App\Views\RoleSettings\Script.cshtml"
   
     Layout = null;
 
@@ -82,7 +84,7 @@ WriteLiteral(@">
                 context.post(data, ""/Designation/Save"")
                     .then(function (result) {
                         tcs.resolve(result);
-                        logger.info(""Jawatan sudah berjaya disimpan"");
+                        logger.info(""Designation is successfully saved"");
                     });
                 return tcs.promise();
             };

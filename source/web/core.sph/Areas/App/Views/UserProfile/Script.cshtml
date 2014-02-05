@@ -8,9 +8,9 @@
     define([objectbuilders.datacontext],
         function (context) {
             var isBusy = ko.observable(false),
-            username = ko.observable('@Model.User.UserName'),
+            userName = ko.observable('@Model.User.UserName'),
             activate = function () {
-                var query = String.format("Username eq '{0}'", username());
+                var query = String.format("UserName eq '{0}'", userName());
                 var tcs = new $.Deferred();
                 context.loadOneAsync("UserProfile", query)
                     .done(function (b) {
