@@ -141,6 +141,10 @@
                     {
                         <text>emailCommand :{},</text>
                     }
+                    @if (Model.Form.IsAuditTrailAvailable)
+                    {
+                        <text>emailCommand :{},</text>
+                    }
                     saveCommand : save,
                     commands : ko.observableArray(@Html.Raw(commandsJs))
                 }

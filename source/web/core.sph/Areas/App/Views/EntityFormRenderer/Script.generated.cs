@@ -465,11 +465,34 @@ WriteLiteral("\r\n");
             
             #line default
             #line hidden
+WriteLiteral("                    ");
+
+            
+            #line 144 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                     if (Model.Form.IsAuditTrailAvailable)
+                    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        ");
+
+WriteLiteral("emailCommand :{},");
+
+WriteLiteral("\r\n");
+
+            
+            #line 147 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                    }
+
+            
+            #line default
+            #line hidden
 WriteLiteral("                    saveCommand : save,\r\n                    commands : ko.observ" +
 "ableArray(");
 
             
-            #line 145 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+            #line 149 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
                                              Write(Html.Raw(commandsJs));
 
             

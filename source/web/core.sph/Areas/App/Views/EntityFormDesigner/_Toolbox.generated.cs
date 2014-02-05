@@ -215,6 +215,21 @@ WriteLiteral(" type=\"checkbox\"");
 WriteLiteral(" name=\"FormDesign.IsWatchAvailable\"");
 
 WriteLiteral(" />\r\n                        Allow Watch\r\n                    </label>\r\n         " +
+"       </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label>\r\n                        <input");
+
+WriteLiteral(" data-bind=\"checked: IsAuditTrailAvailable\"");
+
+WriteLiteral(" id=\"form-design-IsAuditTrailAvailable\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"FormDesign.IsAuditTrailAvailable\"");
+
+WriteLiteral(" />\r\n                        Audit trail\r\n                    </label>\r\n         " +
 "       </div>\r\n\r\n                <!-- ko with : FormDesign -->\r\n\r\n\r\n            " +
 "    <div");
 
@@ -621,13 +636,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 186 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 192 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 186 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 192 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new Type[]
                         {
@@ -643,13 +658,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 195 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 201 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 195 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 201 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         
@@ -657,14 +672,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 197 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 203 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe));
 
             
             #line default
             #line hidden
             
-            #line 197 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 203 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                 
                     }
 
@@ -693,7 +708,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 208 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 214 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

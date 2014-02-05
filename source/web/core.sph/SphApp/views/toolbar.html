@@ -8,7 +8,7 @@
         <!-- ko foreach: groupCommands-->
 
         <div class="btn-group">
-            <a class="btn btn-default dropdown-toggle input-large" data-toggle="drop-down" href="#">
+            <a class="btn btn-default dropdown-toggle" data-toggle="drop-down" href="#">
 
                 <!-- ko text : caption -->
                 <!-- /ko -->
@@ -67,7 +67,8 @@
         </button>
         <!-- /ko -->
         <!-- ko if: typeof auditTrail === "object"-->
-        <a class="btn btn-default" data-bind="commandWithParameter: { command: $root.viewAuditTrailCommand, commandParameter: auditTrail }" data-loading-text="Sedang Proses....">
+        <a class="btn btn-default" data-bind="commandWithParameter: { command: $root.viewAuditTrailCommand, commandParameter: auditTrail }" 
+           data-loading-text="Processing....">
             <i class="fa fa-calendar"></i>
             Log
         </a>
