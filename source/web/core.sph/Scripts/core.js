@@ -1313,7 +1313,7 @@ ko.bindingHandlers.cssAutoComplete = {
                 // TODO : what happend if were to combine the css with Bundle
                 if (!s) return false;
                 if (!s.href) return false;
-           
+
                 return s.href.indexOf("bootstrap") > -1;
             });
         var data = ['btn', 'btn-warning', 'btn-success', 'btn-link'];
@@ -1367,6 +1367,17 @@ ko.bindingHandlers.autocomplete = {
             .on('typeahead:closed', function () {
                 allBindings.value($(this).val());
             });
+    }
+};
+
+
+ko.bindingHandlers.scroll = {
+    init: function (element, valueAccessor) {
+        var height = ko.unwrap(valueAccessor());
+        // wait for attached
+        setTimeout(function () {
+            $(element).tableScroll({ height: height });
+        }, 500);
     }
 };
 

@@ -10,8 +10,8 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedCode(WorkflowDefinition workflowDefinition)
         {
             var code = new StringBuilder();
-            code.AppendLinf(this.CanInitiateWithDefaultConstructor ? 
-                "   private {0} m_{1} = new {0}();" : 
+            code.AppendLinf(this.CanInitiateWithDefaultConstructor ?
+                "   private {0} m_{1} = new {0}();" :
                 "   private {0} m_{1};", this.Type.FullName, this.Name);
             code.AppendLinf("   public {0} {1}", this.Type.FullName, this.Name);
             code.AppendLine("   {");
@@ -29,6 +29,9 @@ namespace Bespoke.Sph.Domain
                 result.Result = false;
                 result.Errors.Add(new BuildError(this.WebId) { Message = string.Format("[Variable] \"{0}\" cannot contains space ", this.Name) });
             }
+            if (null == this.Type)
+                result.Errors.Add(new BuildError(this.WebId) { Message = string.Format("[Variable]  cannot find the type \"{0}\"", this.TypeName) });
+
 
             return result;
         }

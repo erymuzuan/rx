@@ -197,11 +197,8 @@ form label {
   margin-left: 15px;
 }
 .form-horizontal .control-label {
-  margin: 5px;
-  float: left;
   text-align: left;
   padding-left: 14px;
-  line-height: inherit;
 }
 .form-horizontal .controls {
   margin-left: 110px;

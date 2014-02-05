@@ -31,10 +31,13 @@ define(['plugins/dialog', objectbuilders.datacontext],
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
+            },
+            attached = function() {
             };
 
         var vm = {
             entities: entities,
+            attached: attached,
             activate: activate,
             activity: ko.observable(new bespoke.sph.domain.CreateEntityActivity()),
             wd: ko.observable(new bespoke.sph.domain.WorkflowDefinition()),

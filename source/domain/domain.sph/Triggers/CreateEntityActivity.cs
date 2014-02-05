@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
@@ -7,7 +9,19 @@ namespace Bespoke.Sph.Domain
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
-            return new BuildValidationResult { Result = true };
+            var result = new BuildValidationResult { Result = true };
+            try
+            {
+                var assembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + this.EntityType);
+                Console.WriteLine(assembly);
+            }
+            catch (FileNotFoundException)
+            {
+                result.Errors.Add(new BuildError(this.WebId, string.Format("[CreateEntityActivity] : Cannot find custom entity assembly \"{0}.{1}\" for {2}", ConfigurationManager.ApplicationName, this.EntityType, this.Name)));
+
+            }
+            result.Result = result.Errors.Count == 0;
+            return result;
         }
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {

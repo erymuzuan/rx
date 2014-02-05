@@ -1338,6 +1338,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\theme.matyie\workflow.triggers.css.map">
+      <DependentUpon>workflow.triggers.css</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1347,6 +1350,7 @@
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.0.2.js" />
     <EmbeddedResource Include="Scripts\jquery.signalR-2.0.2.min.js" />
+    <Content Include="Scripts\jquery.tablescroll.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -1357,6 +1361,9 @@
     <Content Include="Scripts\moment-with-langs.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\_ko.bootstrap.min.js">
+      <DependentUpon>_ko.bootstrap.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\_ko.entity.js" />
     <Content Include="Scripts\_ko.kendo.min.js">
       <DependentUpon>_ko.kendo.js</DependentUpon>
@@ -1866,7 +1873,7 @@
       <DependentUpon>workflow.triggers.less</DependentUpon>
     </Content>
     <Content Include="Content\theme.matyie\workflow.triggers.min.css">
-      <DependentUpon>workflow.triggers.less</DependentUpon>
+      <DependentUpon>workflow.triggers.css</DependentUpon>
     </Content>
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\typeahead.js-bootstrap.css" />
@@ -3285,7 +3292,7 @@
       <DependentUpon>_pager.js</DependentUpon>
     </Content>
     <Content Include="Scripts\_ko.bootstrap.min.js.map">
-      <DependentUpon>_ko.bootstrap.js</DependentUpon>
+      <DependentUpon>_ko.bootstrap.min.js</DependentUpon>
     </Content>
     <Content Include="Areas\Sph\Views\Template\_ValidationSetting.cshtml" />
     <Content Include="Scripts\_ko.kendo.min.js.map">
