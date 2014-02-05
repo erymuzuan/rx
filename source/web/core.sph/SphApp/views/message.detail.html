@@ -1,10 +1,13 @@
-﻿
-<div data-bind="with : message">
-    <div class="panel panel-default row">
-        <div class="panel-heading">
-            <h3 class="panel-title" data-bind="text:Subject"></h3>
-        </div>
-        <div class="panel-body" data-bind="html: $root.body">
-        </div>
+﻿<h1 data-bind="with : message">
+    <span data-bind="text:Subject"></span>
+</h1>
+<div class="row" data-bind="with : message">
+    <span class="col-lg-12" data-bind="date:CreatedDate"></span>
+</div>
+<div class="row" data-bind="with : message">
+
+
+    <div class="panel-body" data-bind="html: $root.body">
+
     </div>
 </div>

@@ -72,13 +72,13 @@ define(['services/datacontext'],
 	        toolbar: {
 	            commands: ko.observableArray([{
 	                command: markUnread,
-	                caption: 'mark unread',
-	                icon: 'icon-envelope'
+	                caption: 'Mark unread',
+	                icon: 'fa fa-check-square'
 	            },
 	                {
 	                    command: markRead,
-	                    caption: 'mark read',
-	                    icon: 'icon-check'
+	                    caption: 'Mark read',
+	                    icon: 'fa fa-check'
 	                }
 	            ])
 	        }
