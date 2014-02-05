@@ -8,15 +8,15 @@
             <div class="modal-body" data-bind="with : variable">
                 <form id="variable-form" class="form-horizontal">
                     <div class="form-group">
-                        <label for="variable-name" class="control-label">Name</label>
-                        <div class="controls">
+                        <label for="variable-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-9">
                             <input required pattern="^[A-Za-z][A-Za-z0-9_]*$" class="form-control" data-bind="value: Name" id="variable-name" type="text" name="variable-name" />
                         </div>
                     </div>
                   
                     <div class="form-group">
-                        <label for="variable-typename" class="control-label">Type</label>
-                        <div class="controls">
+                        <label for="variable-typename" class="col-lg-2 control-label">Type</label>
+                        <div class="col-lg-9">
                             <select required class="form-control" id="variable-typename" name="variable-typename" data-bind="value: TypeName">
                                 <option value="System.String, mscorlib">Text</option>
                                 <option value="System.DateTime">Date</option>
@@ -27,8 +27,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="variable-value" class="control-label">Default Value</label>
-                        <div class="controls">
+                        <label for="variable-value" class="col-lg-2 control-label">Default Value</label>
+                        <div class="col-lg-9">
                             <input class="form-control" data-bind="value: DefaultValue" id="variable-value" type="text" name="variable-value" />
                         </div>
                     </div>

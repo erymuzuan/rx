@@ -519,7 +519,7 @@ WriteLiteral(" data-dismiss=\"modal\"");
 
 WriteLiteral(" type=\"submit\"");
 
-WriteLiteral(" class=\"btn btn-primary\"");
+WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" value=\"OK\"");
 
