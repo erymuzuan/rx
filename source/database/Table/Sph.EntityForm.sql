@@ -9,6 +9,7 @@ CREATE TABLE Sph.EntityForm
 	,[EntityDefinitionId] INT NOT NULL
 	,[Data] XML NOT NULL
 	,[IsPublished] BIT NOT NULL
+	,[IsDefault] BIT NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
 	,[Route] VARCHAR(255) NOT NULL
 	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
@@ -18,5 +19,3 @@ CREATE TABLE Sph.EntityForm
 )
 GO 
 
-ALTER TABLE Sph.EntityForm
-ADD [IsDefault] BIT NOT NULL DEFAULT 0

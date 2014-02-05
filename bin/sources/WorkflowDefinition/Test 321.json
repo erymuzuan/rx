@@ -1,0 +1,217 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ScreenActivity, domain.sph",
+        "Title": "",
+        "ViewVirtualPath": "",
+        "WorkflowDefinitionId": 0,
+        "CancelMessageSubject": "[Sph] @Model.Screen.Name was cancelled",
+        "InvitationMessageSubject": "[Sph] @Model.Screen.Name  task is assigned to you",
+        "CancelMessageBody": "@Model.Screen.Name task was cancelled this url is not longer valid @Model.Url",
+        "InvitationMessageBody": "@Model.Screen.Name task is assigned to you go here @Model.Url",
+        "FormDesign": {
+          "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+          "FormElementCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": "",
+          "Description": "",
+          "ConfirmationText": "",
+          "ImageStoreId": "",
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "f903ccd1-7593-47e3-8b44-2c6eb37d4794"
+        },
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": "",
+          "Value": "",
+          "IsPublic": false,
+          "WebId": "bda46b58-fb17-488f-8535-0f77bb582bcf"
+        },
+        "ConfirmationOptions": {
+          "$type": "Bespoke.Sph.Domain.ConfirmationOptions, domain.sph",
+          "Type": "Message",
+          "Value": "",
+          "WebId": "205239ae-91d5-400b-9e66-3439cc6e3ec2"
+        },
+        "IsAsync": true,
+        "ViewModelType": "PermohonanBaruViewModel",
+        "MethodName": "ExecScreenActivityPermohonanBaru_affbAsync",
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 327,
+          "Y": 39,
+          "WebId": "2a7fe24a-fe53-4fbe-a735-1e8fe8f44629"
+        },
+        "IsInitiator": true,
+        "NextActivityWebId": "438db219-7bc9-45b6-b822-110ca9e0225f",
+        "Name": "Permohonan Baru",
+        "WebId": "affb4e73-6669-41aa-a641-d218b0c5aa74"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DecisionActivity, domain.sph",
+        "DecisionBranchCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.DecisionBranch, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.DecisionBranch, domain.sph",
+              "IsDefault": false,
+              "Expression": "Size > 12",
+              "MethodName": "ExecDecisionBranchBesar_b848Async",
+              "IsAsync": false,
+              "ExecutedCode": null,
+              "ExecutingCode": null,
+              "WorkflowDesigner": {
+                "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+                "X": 0,
+                "Y": 0,
+                "WebId": null
+              },
+              "IsInitiator": false,
+              "NextActivityWebId": "aaf3bb9d-b1b3-474d-a83b-e4d28ed132ef",
+              "Name": "Besar",
+              "WebId": "b848460a-d949-40a7-91a8-136579723c4b"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.DecisionBranch, domain.sph",
+              "IsDefault": true,
+              "Expression": null,
+              "MethodName": "ExecDecisionBranchOthers_b593Async",
+              "IsAsync": false,
+              "ExecutedCode": null,
+              "ExecutingCode": null,
+              "WorkflowDesigner": {
+                "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+                "X": 0,
+                "Y": 0,
+                "WebId": null
+              },
+              "IsInitiator": false,
+              "NextActivityWebId": "f7a63bc1-04e2-4b08-ba7d-df7cf1baf5a2",
+              "Name": "Others",
+              "WebId": "b5937178-09c9-4cf3-bc8a-c53b2e548683"
+            }
+          ]
+        },
+        "MethodName": "ExecDecisionActivityCheckSize_438dAsync",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 329,
+          "Y": 190,
+          "WebId": "32e8cd6b-28fb-4f55-b9fd-beda56e9ad50"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "",
+        "Name": "Check Size",
+        "WebId": "438db219-7bc9-45b6-b822-110ca9e0225f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "",
+        "Subject": "",
+        "Body": "",
+        "To": "",
+        "UserName": "",
+        "Cc": "",
+        "Bcc": "",
+        "IsHtmlEmail": false,
+        "MethodName": "ExecNotificationActivityNotify2_aaf3Async",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 135,
+          "Y": 453,
+          "WebId": "b4acce84-4f38-484b-806c-3d0bc9a32521"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "cb0db5a2-4e49-405c-81c0-6c3bcfddaddd",
+        "Name": "Notify2",
+        "WebId": "aaf3bb9d-b1b3-474d-a83b-e4d28ed132ef"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "",
+        "Subject": "",
+        "Body": "",
+        "To": "",
+        "UserName": "",
+        "Cc": "",
+        "Bcc": "",
+        "IsHtmlEmail": false,
+        "MethodName": "ExecNotificationActivityNotify3_f7a6Async",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 636,
+          "Y": 448,
+          "WebId": "a99e9668-abb7-4583-9c15-8bffee1db299"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "cb0db5a2-4e49-405c-81c0-6c3bcfddaddd",
+        "Name": "Notify3",
+        "WebId": "f7a63bc1-04e2-4b08-ba7d-df7cf1baf5a2"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
+        "IsTerminating": false,
+        "MethodName": "ExecEndActivityEnd4_cb0dAsync",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 405,
+          "Y": 683,
+          "WebId": "76a0bd99-5105-4173-b97f-67e8dc7ff1ff"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "",
+        "Name": "End4",
+        "WebId": "cb0db5a2-4e49-405c-81c0-6c3bcfddaddd"
+      }
+    ]
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "Size",
+        "TypeName": "System.Int32, mscorlib",
+        "DefaultValue": "",
+        "WebId": "c206801c-60a1-48e9-971a-c93cb16d50e4"
+      }
+    ]
+  },
+  "WorkflowDefinitionId": 8002,
+  "Name": "Test 321",
+  "Note": "",
+  "IsActive": false,
+  "SchemaStoreId": "59bab20e-0f53-43e6-9b73-51bd0cd440a6",
+  "Version": 0,
+  "CreatedBy": null,
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-02-05T10:56:42.1909248+08:00",
+  "WebId": "d825fedb-c3c8-4b2a-8f80-2b689e56d6e5"
+}
