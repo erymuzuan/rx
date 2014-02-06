@@ -1,0 +1,60 @@
+﻿<div class="row" data-bind="with : entity">
+    <img alt="logo" data-bind="attr:{src:'/image/thumbnail/' + IconStoreId() + '?height=50'}" class="pull-right" />
+    <h1 data-bind="text:Name"></h1>
+</div>
+
+
+<div class="row">
+
+    <a data-toggle="collapse" href="#recent-leads">
+
+        <h3 data-bind="with : entity">Recent <span data-bind="text:Plural"></span></h3>
+    </a>
+    <div id="recent-leads" class="collapse in collapsed">
+        <div class="" data-bind="searchPaging: {list :recentItems, query : recentItemsQuery , entity : 'Lead'}">
+            <ul data-bind="foreach :recentItems" class="today-datas">
+
+                <li>
+                    <a data-bind="attr:{href : '#lead-add-new/' + LeadId}">
+                        <i class="fa fa-edit"></i>
+                        <span data-bind="text:FullName"></span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <h3>Views</h3>
+    <div class="" data-bind="serverPaging: {list :views, query : 'EntityDefinitionId eq ' + $root.entity().EntityDefinitionId() , entity : 'EntityView'}">
+        <ul data-bind="foreach :views" class="today-datas">
+
+            <li>
+                <a data-bind="attr:{href : '#' + Route()}">
+                    <i class="fa fa-table"></i>
+                    <span data-bind="text:Name"></span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <h3>Reports
+        </h3>
+    </div>
+    <div class="col-lg-6">
+        <h3>Tools
+        </h3>
+    </div>
+</div>
+
+
+
+<div class="row">
+
+</div>

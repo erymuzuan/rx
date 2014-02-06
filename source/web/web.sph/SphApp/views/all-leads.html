@@ -1,0 +1,30 @@
+
+<div class="row" data-bind="with : entity">
+    <img alt="logo" data-bind="attr:{src:'/image/thumbnail/' + IconStoreId() + '?height=50'}" class="pull-right" />
+    <h1>All lead</h1>
+</div>
+
+
+
+<div class="row">
+    <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Lead', list:list}">
+        <thead>
+            <tr>
+                <th>FullName</th>
+                <th>Full name</th>
+                <th>Contact name</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :list">
+            <tr>
+                <td>
+                    <a data-bind="attr : {href:'#'},text: FullName"></a>
+                </td>                      <td data-bind="text:FullName"></td>
+                    <td data-bind="text:Contact.Name"></td>
+                    <td data-bind="text:Contact.Title"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

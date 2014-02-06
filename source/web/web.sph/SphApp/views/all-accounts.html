@@ -1,0 +1,23 @@
+<h1>All accounts</h1>
+
+<div class="row">
+    <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Account', list:list}">
+        <thead>
+            <tr>
+                <th>AccountName</th>
+                <th>No</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :list">
+            <tr>
+                <td>
+
+                    <a data-bind="attr : {href:'#account-detail' + '/' + AccountId },text: AccountName"></a>
+                </td>                      <td data-bind="text:AccountNo"></td>
+                    <td data-bind="text:Address.State"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
