@@ -87,15 +87,15 @@ WriteLiteral("),\r\n                    tcs = new $.Deferred();\r\n\r\n\r\n     
 "          execute = function () {\r\n                var $layout = $(\'#report-layo" +
 "ut-panel\');\r\n                $layout.html(\'<img src=\"/Images/spinner-md.gif\" alt" +
 "=\"loading\" class=\"absolute-center\" />\');\r\n\r\n                NProgress.start();\r\n" +
-"                var tcs = new $.Deferred();\r\n                var data = ko.mappi" +
-"ng.toJSON(vm.datasource);\r\n                $.post(\"/App/ReportDefinitionExecute/" +
-"Preview/\" + id, data, \"html\")\r\n                    .done(function (html) {\r\n    " +
-"                    NProgress.done();\r\n                        $layout.html(html" +
-");\r\n                        tcs.resolve(true);\r\n                    });\r\n\r\n     " +
-"           return tcs.promise();\r\n            };\r\n\r\n\r\n        var vm = {\r\n      " +
-"      isBusy: isBusy,\r\n            activate: activate,\r\n            viewAttached" +
-": viewAttached,\r\n            rdl: ko.observable(),\r\n            datasource: ko.m" +
-"apping.fromJSON(\'");
+"                var tcs = new $.Deferred(),\r\n                    data = ko.mappi" +
+"ng.toJSON(vm.rdl);\r\n                $.post(\"/App/ReportDefinitionExecute/Preview" +
+"/\" + id, data, \"html\")\r\n                    .done(function (html) {\r\n           " +
+"             NProgress.done();\r\n                        $layout.html(html);\r\n   " +
+"                     tcs.resolve(true);\r\n                    });\r\n\r\n            " +
+"    return tcs.promise();\r\n            };\r\n\r\n\r\n        var vm = {\r\n            i" +
+"sBusy: isBusy,\r\n            activate: activate,\r\n            viewAttached: viewA" +
+"ttached,\r\n            rdl: ko.observable(),\r\n            datasource: ko.mapping." +
+"fromJSON(\'");
 
             
             #line 63 "..\..\Areas\App\Views\ReportDefinitionExecute\Script.cshtml"

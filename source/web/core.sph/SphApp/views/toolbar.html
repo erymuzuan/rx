@@ -68,7 +68,14 @@
         <!-- /ko -->
 
         <!-- ko if: typeof printCommand === "object"-->
-        <button class="btn" data-bind="commandWithParameter: { command: $root.printCommand, commandParameter: printCommand }" data-loading-text="Cetak....">
+        <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.printCommand, commandParameter: printCommand }" data-loading-text="Cetak....">
+            <i class="fa fa-print"></i>
+            Print
+        </button>
+        <!-- /ko -->
+
+        <!-- ko if: typeof pdfCommand === "object"-->
+        <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.pdfCommand, commandParameter: pdfCommand }" data-loading-text="Cetak....">
             <i class="fa fa-print"></i>
             Print
         </button>
@@ -90,8 +97,8 @@
         <!-- /ko -->
 
         <!-- ko if: typeof emailCommand === "function"-->
-        <button class="btn btn-default" data-bind="command: emailCommand" data-loading-text="Sedang Proses....">
-            <i class="fa-envelope"></i>
+        <button class="btn btn-default" data-bind="command: emailCommand">
+            <i class="fa fa-envelope-o"></i>
             Email
         </button>
         <!-- /ko -->

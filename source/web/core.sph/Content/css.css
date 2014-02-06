@@ -14506,6 +14506,7 @@ select.form-control {
 span.k-datepicker {
   border: none;
   width: 200px;
+  padding-left: 0px;
 }
 span.k-datepicker span.k-picker-wrap {
   margin-top: -6px;

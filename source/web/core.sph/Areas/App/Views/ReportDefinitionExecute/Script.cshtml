@@ -42,8 +42,8 @@
                 $layout.html('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />');
 
                 NProgress.start();
-                var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(vm.datasource);
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(vm.rdl);
                 $.post("/App/ReportDefinitionExecute/Preview/" + id, data, "html")
                     .done(function (html) {
                         NProgress.done();

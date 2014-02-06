@@ -126,7 +126,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     console.log("Sending email");
                     return Task.fromResult(true);
                 },
-                emailCommand: {},
                 printCommand: {
                     entity: 'Customer',
                     id: ko.observable()
