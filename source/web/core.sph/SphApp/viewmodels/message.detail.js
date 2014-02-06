@@ -61,6 +61,20 @@ define(['services/datacontext'],
                     vm.message().IsRead(true);
                 });
             return tcs.promise();
+        },
+        remove = function () {
+
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(vm.message);
+            isBusy(true);
+
+            context.post(data, "/Sph/Message/Remove/" + vm.message().MessageId())
+                .then(function (result) {
+                    isBusy(false);
+                    tcs.resolve(result);
+                    window.location = '/sph#/message.inbox';
+                });
+            return tcs.promise();
         };
 
 	    var vm = {
@@ -70,6 +84,7 @@ define(['services/datacontext'],
 	        message: ko.observable(),
 	        body: ko.observable(),
 	        toolbar: {
+	            removeCommand: remove,
 	            commands: ko.observableArray([{
 	                command: markUnread,
 	                caption: 'Mark unread',

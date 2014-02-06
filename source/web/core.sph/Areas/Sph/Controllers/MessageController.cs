@@ -7,6 +7,20 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     public class MessageController : Controller
     {
 
+        public async Task<ActionResult> Remove(int id)
+        {
+            var context = new SphDataContext();
+            var message = await context.LoadOneAsync<Message>(m => m.MessageId == id);
+            message.IsRead = true;
+            using (var session = context.OpenSession())
+            {
+                session.Delete(message);
+                await session.SubmitChanges("Delete");
+            }
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content("true");
+
+        }
         public async Task<ActionResult> MarkRead(int id)
         {
             var context = new SphDataContext();
