@@ -47,7 +47,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
             
             #line 4 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
   
-    ViewBag.Title = "title";
+    
     Layout = null;
     var formId = @Model.Form.Route + "-form";
 
@@ -67,63 +67,116 @@ WriteLiteral("</h1>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n    <form");
+WriteLiteral(">\r\n\r\n    <div");
+
+WriteLiteral(" class=\"col-lg-8\"");
+
+WriteLiteral(">\r\n        <form");
 
 WriteLiteral(" class=\"form-horizontal\"");
 
 WriteLiteral(" data-bind=\"with : entity\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 297), Tuple.Create("\"", 309)
+WriteAttribute("id", Tuple.Create(" id=\"", 307), Tuple.Create("\"", 319)
             
-            #line 12 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 302), Tuple.Create<System.Object, System.Int32>(formId
+            #line 14 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 312), Tuple.Create<System.Object, System.Int32>(formId
             
             #line default
             #line hidden
-, 302), false)
+, 312), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 13 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-        
+            #line 15 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+            
             
             #line default
             #line hidden
             
-            #line 13 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-         foreach (var fe in Model.Form.FormDesign.FormElementCollection)
-        {
-            var fe1 = fe;
-            var button = fe1 as Button;
-            if (null != button && button.IsToolbarItem)
+            #line 15 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+             foreach (var fe in Model.Form.FormDesign.FormElementCollection)
             {
-                // toolbar button
-            }
-            else
-            {
-                
+                var fe1 = fe;
+                var button = fe1 as Button;
+                if (null != button && button.IsToolbarItem)
+                {
+                    // toolbar button
+                }
+                else
+                {
+                    
             
             #line default
             #line hidden
             
-            #line 23 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-           Write(Html.EditorFor(f => fe1));
+            #line 25 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+               Write(Html.EditorFor(f => fe1));
 
             
             #line default
             #line hidden
             
-            #line 23 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-                                         
+            #line 25 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+                                             
+                }
             }
-        }
 
             
             #line default
             #line hidden
-WriteLiteral("    </form>\r\n</div>\r\n");
+WriteLiteral("        </form>\r\n    </div>\r\n");
+
+            
+            #line 30 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+    
+            
+            #line default
+            #line hidden
+            
+            #line 30 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+     if (Model.Form.IsAuditTrailAvailable)
+    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <div");
+
+WriteLiteral(" class=\"col-lg-4\"");
+
+WriteLiteral(">\r\n            <h3>Audit Trail</h3>\r\n            <!--ko compose: {model:\'viewmode" +
+"ls/_audittrail.list\', activationData:{id:$root.entity().");
+
+            
+            #line 34 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+                                                                                                Write(Model.EntityDefinition.Name);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("Id(), entity : \'");
+
+            
+            #line 34 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+                                                                                                                                              Write(Model.EntityDefinition.Name);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\'}} -->\r\n            <!--/ko-->\r\n        </div>\r\n");
+
+            
+            #line 37 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+
+    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</div>\r\n");
 
         }
     }

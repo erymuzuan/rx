@@ -14474,6 +14474,9 @@ body {
 #toolbar-panel {
   background-color: transparent;
 }
+#audit-trail-table button.btn {
+  padding: 0px;
+}
 a.dropdown {
   width: 110%;
 }

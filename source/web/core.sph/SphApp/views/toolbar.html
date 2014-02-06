@@ -66,13 +66,7 @@
             Refresh
         </button>
         <!-- /ko -->
-        <!-- ko if: typeof auditTrail === "object"-->
-        <a class="btn btn-default" data-bind="commandWithParameter: { command: $root.viewAuditTrailCommand, commandParameter: auditTrail }" 
-           data-loading-text="Processing....">
-            <i class="fa fa-calendar"></i>
-            Log
-        </a>
-        <!-- /ko -->
+
         <!-- ko if: typeof printCommand === "object"-->
         <button class="btn" data-bind="commandWithParameter: { command: $root.printCommand, commandParameter: printCommand }" data-loading-text="Cetak....">
             <i class="fa fa-print"></i>

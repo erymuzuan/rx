@@ -350,6 +350,45 @@
           "WebId": null
         },
         {
+          "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+          "DefaultValue": null,
+          "AutoCompletionEntity": null,
+          "AutoCompletionField": null,
+          "AutoCompletionQuery": null,
+          "MinLength": null,
+          "MaxLength": null,
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "MaxLength": 0,
+            "MinLength": 0,
+            "Pattern": null,
+            "Mode": "number",
+            "Message": null,
+            "WebId": null
+          },
+          "Name": "Single Line Text",
+          "Label": "Revenue",
+          "Tooltip": null,
+          "Path": "AnnualRevenue",
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": null,
+          "ElementId": "be1a0e15-c653-467b-a30c-128eb5ac7534",
+          "HelpText": null,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
+        },
+        {
           "$type": "Bespoke.Sph.Domain.Button, domain.sph",
           "Command": "console.log(\"do this\");\nreturn Task.fromResult(true);",
           "UseClick": false,
@@ -434,6 +473,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-06T11:52:47.9263743+08:00",
+  "ChangedDate": "2014-02-06T13:16:11.3858669+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

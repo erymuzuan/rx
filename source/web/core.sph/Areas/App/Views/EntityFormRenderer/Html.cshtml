@@ -2,26 +2,38 @@
 @model Bespoke.Sph.Web.ViewModels.FormRendererViewModel
 
 @{
-    ViewBag.Title = "title";
+    
     Layout = null;
     var formId = @Model.Form.Route + "-form";
 }
 
 <h1>@Model.Form.Name</h1>
 <div class="row">
-    <form class="form-horizontal" data-bind="with : entity" id="@formId">
-        @foreach (var fe in Model.Form.FormDesign.FormElementCollection)
-        {
-            var fe1 = fe;
-            var button = fe1 as Button;
-            if (null != button && button.IsToolbarItem)
+
+    <div class="col-lg-8">
+        <form class="form-horizontal" data-bind="with : entity" id="@formId">
+            @foreach (var fe in Model.Form.FormDesign.FormElementCollection)
             {
-                // toolbar button
+                var fe1 = fe;
+                var button = fe1 as Button;
+                if (null != button && button.IsToolbarItem)
+                {
+                    // toolbar button
+                }
+                else
+                {
+                    @Html.EditorFor(f => fe1)
+                }
             }
-            else
-            {
-                @Html.EditorFor(f => fe1)
-            }
-        }
-    </form>
+        </form>
+    </div>
+    @if (Model.Form.IsAuditTrailAvailable)
+    {
+        <div class="col-lg-4">
+            <h3>Audit Trail</h3>
+            <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().@(Model.EntityDefinition.Name)Id(), entity : '@(Model.EntityDefinition.Name)'}} -->
+            <!--/ko-->
+        </div>
+
+    }
 </div>

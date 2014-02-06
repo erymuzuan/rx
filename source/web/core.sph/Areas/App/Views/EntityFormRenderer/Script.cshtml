@@ -40,12 +40,7 @@
                         if (b) {
                             var item = context.toObservable(b, /Bespoke\.@codeNamespace\.Domain\.(.*?),/);
                             entity(item);
-                            @if (Model.Form.IsAuditTrailAvailable)
-                            {
-                                <text>
-                            vm.toolbar.auditTrail.id(parseInt(id));
-                            </text>
-                            }
+
                             @if (Model.Form.IsPrintAvailable)
                             {
                                 <text>
@@ -131,7 +126,7 @@
                     return tcs.promise();
                 };
 
-            return {
+            var vm = {
                 @foreach (var rule in Model.Form.Rules)
                     {
                         var function = rule.Dehumanize();
@@ -156,20 +151,16 @@
                     @if (Model.Form.IsPrintAvailable)
                     {
                         <text>printCommand :{
-                            entity : '@Model.EntityDefinition.Name',
-                            id : ko.observable()
-                        },</text>
+                        entity : '@Model.EntityDefinition.Name',
+                        id : ko.observable()
+                    },</text>
                     }
-                    @if (Model.Form.IsAuditTrailAvailable)
-                    {
-                        <text>auditTrail :{
-                            entity : '@Model.EntityDefinition.Name',
-                            id : ko.observable()
-                        },</text>
-                    }
+
                     saveCommand : save,
                     commands : ko.observableArray(@Html.Raw(commandsJs))
                 }
             };
+
+            return vm;
         });
 </script>

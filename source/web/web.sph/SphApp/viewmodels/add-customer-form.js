@@ -14,6 +14,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     if (b) {
                         var item = context.toObservable(b, /Bespoke\.Dev_1\.Domain\.(.*?),/);
                         entity(item);
+
+
+                        vm.toolbar.printCommand.id(parseInt(id));
+
                     }
                     else {
                         entity(new bespoke.dev_1.domain.Customer({WebId: system.guid()}));
@@ -31,50 +35,54 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
             },
 
-            CheckTheRevenue = function () {
+            Customer;
+        CheckTheRevenue = function () {
 
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(entity);
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(entity);
 
-                context.post(data, "/Sph/BusinessRule/Validate/Customer?rules=CheckTheRevenue")
-                    .then(function (result) {
-                        tcs.resolve(result);
-                    });
-                return tcs.promise();
-            },
-            VerifyTheGrade = function () {
+            context.post(data, "/Sph/BusinessRule/Validate?Customer;CheckTheRevenue")
+                .then(function (result) {
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        },
+            Customer;
+        VerifyTheGrade = function () {
 
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(entity);
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(entity);
 
-                context.post(data, "/Sph/BusinessRule/Validate/Customer?rules=VerifyTheGrade")
-                    .then(function (result) {
-                        tcs.resolve(result);
-                    });
-                return tcs.promise();
-            },
-            VerifyTheAge = function () {
+            context.post(data, "/Sph/BusinessRule/Validate?Customer;VerifyTheGrade")
+                .then(function (result) {
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        },
+            Customer;
+        VerifyTheAge = function () {
 
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(entity);
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(entity);
 
-                context.post(data, "/Sph/BusinessRule/Validate/Customer?rules=VerifyTheAge")
-                    .then(function (result) {
-                        tcs.resolve(result);
-                    });
-                return tcs.promise();
-            },
-            MustBeMalaysian = function () {
+            context.post(data, "/Sph/BusinessRule/Validate?Customer;VerifyTheAge")
+                .then(function (result) {
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        },
+            Customer;
+        MustBeMalaysian = function () {
 
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(entity);
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(entity);
 
-                context.post(data, "/Sph/BusinessRule/Validate/Customer?rules=MustBeMalaysian")
-                    .then(function (result) {
-                        tcs.resolve(result);
-                    });
-                return tcs.promise();
-            },
+            context.post(data, "/Sph/BusinessRule/Validate?Customer;MustBeMalaysian")
+                .then(function (result) {
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        },
             doThis = function () {
                 console.log("do this");
                 return Task.fromResult(true);
@@ -104,7 +112,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 return tcs.promise();
             };
 
-        return {
+        var vm = {
             CheckTheRevenue: CheckTheRevenue,
             VerifyTheGrade: VerifyTheGrade,
             VerifyTheAge: VerifyTheAge,
@@ -113,21 +121,23 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             attached: attached,
             entity: entity,
             save: save,
-            auditTrails : ko.observableArray(),
             toolbar: {
                 emailCommand: function () {
                     console.log("Sending email");
                     return Task.fromResult(true);
                 },
                 emailCommand: {},
-                auditTrail: {
-                    entity : 'Customer',
-                    id : ko.observable()
+                printCommand: {
+                    entity: 'Customer',
+                    id: ko.observable()
                 },
+
                 saveCommand: save,
                 commands: ko.observableArray([
                     { caption: "Do this well", command: doThis, icon: "fa fa-user" }
                 ])
             }
         };
+
+        return vm;
     });
