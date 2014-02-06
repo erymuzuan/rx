@@ -54,7 +54,7 @@ WriteLiteral(" class=\"fa fa-chevron-circle-right\"");
 
 WriteLiteral("></i>\r\n    </button>\r\n\r\n    <div");
 
-WriteLiteral(" class=\"context-action alert alert-info\"");
+WriteLiteral(" class=\"context-action alert alert-info row\"");
 
 WriteLiteral(">\r\n        \r\n        <div");
 
@@ -71,19 +71,19 @@ WriteLiteral(" data-dismiss=\"modal\"");
 WriteLiteral(">&times;</button>\r\n            <span>Label Properties</span>\r\n        </div>\r\n   " +
 "     <div");
 
-WriteLiteral(" class=\"control-group\"");
+WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n            <label");
 
-WriteLiteral("  class=\"control-label\"");
+WriteLiteral("  class=\"col-lg-3\"");
 
 WriteLiteral(">Text</label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-8\"");
 
 WriteLiteral(">\r\n                <textarea");
 
-WriteLiteral(" class=\"input-label-html\"");
+WriteLiteral(" class=\"input-label-html form-control\"");
 
 WriteLiteral(" data-bind=\"value: Html, valueUpdate: \'keyup\'\"");
 
@@ -93,19 +93,19 @@ WriteLiteral(" rows=\"5\"");
 
 WriteLiteral("></textarea>\r\n            </div>\r\n        </div>\r\n        <div");
 
-WriteLiteral(" class=\"control-group\"");
+WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n            <label");
 
-WriteLiteral("  class=\"control-label\"");
+WriteLiteral("  class=\"col-lg-3\"");
 
 WriteLiteral(">Css Class</label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-8\"");
 
 WriteLiteral(">\r\n                <input");
 
-WriteLiteral(" class=\"input-label-cssclass\"");
+WriteLiteral(" class=\"input-label-cssclass form-control\"");
 
 WriteLiteral(" data-bind=\"value: CssClass, valueUpdate: \'keyup\'\"");
 
@@ -119,13 +119,15 @@ WriteLiteral(" class=\"control-group\"");
 
 WriteLiteral(">\r\n            <label");
 
-WriteLiteral("  class=\"control-label\"");
+WriteLiteral(" class=\"col-lg-3\"");
 
 WriteLiteral(">Tooltip</label>\r\n            <div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-lg-8\"");
 
 WriteLiteral(">\r\n                <input");
+
+WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-bind=\"value: Tooltip, valueUpdate: \'keyup\'\"");
 

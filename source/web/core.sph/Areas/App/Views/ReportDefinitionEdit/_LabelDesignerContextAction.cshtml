@@ -3,29 +3,29 @@
         <i class="fa fa-chevron-circle-right"></i>
     </button>
 
-    <div class="context-action alert alert-info">
+    <div class="context-action alert alert-info row">
         
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <span>Label Properties</span>
         </div>
-        <div class="control-group">
-            <label  class="control-label">Text</label>
-            <div class="controls">
-                <textarea class="input-label-html" data-bind="value: Html, valueUpdate: 'keyup'" id="context-action-label" rows="5"></textarea>
+        <div class="form-group">
+            <label  class="col-lg-3">Text</label>
+            <div class="col-lg-8">
+                <textarea class="input-label-html form-control" data-bind="value: Html, valueUpdate: 'keyup'" id="context-action-label" rows="5"></textarea>
             </div>
         </div>
-        <div class="control-group">
-            <label  class="control-label">Css Class</label>
-            <div class="controls">
-                <input class="input-label-cssclass" data-bind="value: CssClass, valueUpdate: 'keyup'" type="text" name="CssClass" />
+        <div class="form-group">
+            <label  class="col-lg-3">Css Class</label>
+            <div class="col-lg-8">
+                <input class="input-label-cssclass form-control" data-bind="value: CssClass, valueUpdate: 'keyup'" type="text" name="CssClass" />
             </div>
         </div>
 
         <div class="control-group">
-            <label  class="control-label">Tooltip</label>
-            <div class="controls">
-                <input data-bind="value: Tooltip, valueUpdate: 'keyup'" type="text" name="Tooltip" />
+            <label class="col-lg-3">Tooltip</label>
+            <div class="col-lg-8">
+                <input class="form-control" data-bind="value: Tooltip, valueUpdate: 'keyup'" type="text" name="Tooltip" />
             </div>
         </div>
 

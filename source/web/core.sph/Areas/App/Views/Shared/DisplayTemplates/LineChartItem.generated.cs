@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplate
+namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -29,23 +29,23 @@ namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplat
     using System.Web.WebPages;
     using Bespoke.Sph.Web;
     
-    #line 1 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LineChartItem.cshtml"
+    #line 1 "..\..\Areas\App\Views\Shared\DisplayTemplates\LineChartItem.cshtml"
     using Newtonsoft.Json;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/ReportDefinitionExecute/DisplayTemplate/LineChartItem.cshtml")]
-    public partial class LineChartItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.LineChartItem>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/DisplayTemplates/LineChartItem.cshtml")]
+    public partial class _LineChartItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.LineChartItem>
     {
-        public LineChartItem()
+        public _LineChartItem()
         {
         }
         public override void Execute()
         {
             
-            #line 3 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LineChartItem.cshtml"
+            #line 3 "..\..\Areas\App\Views\Shared\DisplayTemplates\LineChartItem.cshtml"
   
     var id = Guid.NewGuid().ToString();
     var series = from s in Model.ChartSeriesCollection
@@ -64,7 +64,7 @@ WriteLiteral("\r\n\r\n<div>\r\n    <div");
 
 WriteAttribute("id", Tuple.Create(" id=\"", 349), Tuple.Create("\"", 357)
             
-            #line 16 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LineChartItem.cshtml"
+            #line 16 "..\..\Areas\App\Views\Shared\DisplayTemplates\LineChartItem.cshtml"
 , Tuple.Create(Tuple.Create("", 354), Tuple.Create<System.Object, System.Int32>(id
             
             #line default
@@ -79,7 +79,7 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(">\r\n        (function () {\r\n\r\n            $(\"#");
 
             
-            #line 20 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LineChartItem.cshtml"
+            #line 20 "..\..\Areas\App\Views\Shared\DisplayTemplates\LineChartItem.cshtml"
            Write(id);
 
             
@@ -88,7 +88,7 @@ WriteLiteral(">\r\n        (function () {\r\n\r\n            $(\"#");
 WriteLiteral("\").kendoChart({\r\n                title: {\r\n                    text: \"");
 
             
-            #line 22 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LineChartItem.cshtml"
+            #line 22 "..\..\Areas\App\Views\Shared\DisplayTemplates\LineChartItem.cshtml"
                       Write(Model.Title);
 
             
@@ -108,7 +108,7 @@ WriteLiteral(@"""
                 series:");
 
             
-            #line 33 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LineChartItem.cshtml"
+            #line 33 "..\..\Areas\App\Views\Shared\DisplayTemplates\LineChartItem.cshtml"
                   Write(Html.Raw(seriesJson));
 
             
@@ -118,7 +118,7 @@ WriteLiteral(",\r\n                valueAxis: {\r\n                    labels: {
 "       format: \"");
 
             
-            #line 36 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LineChartItem.cshtml"
+            #line 36 "..\..\Areas\App\Views\Shared\DisplayTemplates\LineChartItem.cshtml"
                             Write(Model.ValueLabelFormat);
 
             
@@ -129,7 +129,7 @@ WriteLiteral("\"\r\n                        },\r\n                        line: 
 "              categoryAxis: {\r\n                    categories: [");
 
             
-            #line 43 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LineChartItem.cshtml"
+            #line 43 "..\..\Areas\App\Views\Shared\DisplayTemplates\LineChartItem.cshtml"
                             Write(Html.Raw(Model.CategoryAxiesValues));
 
             

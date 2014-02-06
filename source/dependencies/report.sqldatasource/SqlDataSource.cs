@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.SqlReportDataSource
 {
@@ -106,6 +107,12 @@ namespace Bespoke.Sph.SqlReportDataSource
                         var xml = XElement.Parse(reader["Data"].ToString());
                         FillColumnValue(xml, r);
                     }
+                    else if (sqlcolumns.Contains("Json"))
+                    {
+                        r.ReportColumnCollection.AddRange(columns.Clone());
+                        var json = reader["Json"].ToString();
+                        FillColumnValue(json, r);
+                    }
                     else
                     {
                         foreach (var c in sqlcolumns)
@@ -125,7 +132,15 @@ namespace Bespoke.Sph.SqlReportDataSource
             return rows;
         }
 
-
+        
+        public void FillColumnValue(string json, ReportRow r)
+        {
+            JObject o = JObject.Parse(json);
+            foreach (var c in r.ReportColumnCollection)
+            {
+                c.SetValue(o.SelectToken("$." + c.Name).Value<string>());
+            }
+        }
 
 
         public void FillColumnValue(XElement xml, ReportRow r)
@@ -140,26 +155,6 @@ namespace Bespoke.Sph.SqlReportDataSource
                     if (null != attribute)
                     {
                         c.SetValue(attribute.Value);
-                        continue;
-                    }
-
-
-                    // custom fields
-                    if (c.IsCustomField)
-                    {
-                        var ce = xml.Element(x + "CustomFieldValueCollection");
-                        if (null == ce) continue;
-                        foreach (var cv in ce.Elements(x + "CustomFieldValue"))
-                        {
-                            var cvName = cv.Attribute("Name");
-                            if (null == cvName) continue;
-                            if (cvName.Value == c.Name)
-                            {
-                                var valueAtribute = cv.Attribute("Value");
-                                if (null == valueAtribute) continue;
-                                c.SetValue(valueAtribute.Value);
-                            }
-                        }
                         continue;
                     }
 
@@ -178,7 +173,6 @@ namespace Bespoke.Sph.SqlReportDataSource
                     if (null == xe) break;
                     node = xe;
                 }
-
 
                 var attr = node.Attribute(prop);
                 if (null != attr)

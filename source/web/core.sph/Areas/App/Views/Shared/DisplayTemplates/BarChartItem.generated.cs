@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplate
+namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -29,23 +29,23 @@ namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplat
     using System.Web.WebPages;
     using Bespoke.Sph.Web;
     
-    #line 1 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\BarChartItem.cshtml"
+    #line 1 "..\..\Areas\App\Views\Shared\DisplayTemplates\BarChartItem.cshtml"
     using Newtonsoft.Json;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/ReportDefinitionExecute/DisplayTemplate/BarChartItem.cshtml")]
-    public partial class BarChartItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.BarChartItem>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/DisplayTemplates/BarChartItem.cshtml")]
+    public partial class _BarChartItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.BarChartItem>
     {
-        public BarChartItem()
+        public _BarChartItem()
         {
         }
         public override void Execute()
         {
             
-            #line 4 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\BarChartItem.cshtml"
+            #line 4 "..\..\Areas\App\Views\Shared\DisplayTemplates\BarChartItem.cshtml"
   
     var id = Guid.NewGuid().ToString();
     var series = from s in Model.ChartSeriesCollection
@@ -64,7 +64,7 @@ WriteLiteral("\r\n\r\n\r\n<div>\r\n    <div");
 
 WriteAttribute("id", Tuple.Create(" id=\"", 397), Tuple.Create("\"", 405)
             
-            #line 18 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\BarChartItem.cshtml"
+            #line 18 "..\..\Areas\App\Views\Shared\DisplayTemplates\BarChartItem.cshtml"
 , Tuple.Create(Tuple.Create("", 402), Tuple.Create<System.Object, System.Int32>(id
             
             #line default
@@ -79,7 +79,7 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(">\r\n            (function () {\r\n\r\n                $(\"#");
 
             
-            #line 22 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\BarChartItem.cshtml"
+            #line 22 "..\..\Areas\App\Views\Shared\DisplayTemplates\BarChartItem.cshtml"
                Write(id);
 
             
@@ -88,7 +88,7 @@ WriteLiteral(">\r\n            (function () {\r\n\r\n                $(\"#");
 WriteLiteral("\").kendoChart({\r\n                    title: {\r\n                        text: \"");
 
             
-            #line 24 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\BarChartItem.cshtml"
+            #line 24 "..\..\Areas\App\Views\Shared\DisplayTemplates\BarChartItem.cshtml"
                           Write(Model.Title);
 
             
@@ -108,7 +108,7 @@ WriteLiteral(@"""
                     series:");
 
             
-            #line 35 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\BarChartItem.cshtml"
+            #line 35 "..\..\Areas\App\Views\Shared\DisplayTemplates\BarChartItem.cshtml"
                       Write(Html.Raw(seriesJson));
 
             
@@ -118,7 +118,7 @@ WriteLiteral(",\r\n                    valueAxis: {\r\n                        l
 "                   format: \"");
 
             
-            #line 38 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\BarChartItem.cshtml"
+            #line 38 "..\..\Areas\App\Views\Shared\DisplayTemplates\BarChartItem.cshtml"
                                 Write(Model.ValueLabelFormat);
 
             
@@ -129,7 +129,7 @@ WriteLiteral("\"\r\n                        },\r\n                        line: 
 "                  categoryAxis: {\r\n                        categories: [");
 
             
-            #line 45 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\BarChartItem.cshtml"
+            #line 45 "..\..\Areas\App\Views\Shared\DisplayTemplates\BarChartItem.cshtml"
                                 Write(Html.Raw(Model.CategoryAxiesValues));
 
             

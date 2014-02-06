@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplate
+namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -30,10 +30,10 @@ namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplat
     using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/ReportDefinitionExecute/DisplayTemplate/LabelItem.cshtml")]
-    public partial class LabelItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.LabelItem>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/DisplayTemplates/LabelItem.cshtml")]
+    public partial class _LabelItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.LabelItem>
     {
-        public LabelItem()
+        public _LabelItem()
         {
         }
         public override void Execute()
@@ -42,7 +42,7 @@ WriteLiteral("<div");
 
 WriteAttribute("class", Tuple.Create(" class=\"", 43), Tuple.Create("\"", 66)
             
-            #line 3 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LabelItem.cshtml"
+            #line 3 "..\..\Areas\App\Views\Shared\DisplayTemplates\LabelItem.cshtml"
 , Tuple.Create(Tuple.Create("", 51), Tuple.Create<System.Object, System.Int32>(Model.CssClass
             
             #line default
@@ -52,7 +52,7 @@ WriteAttribute("class", Tuple.Create(" class=\"", 43), Tuple.Create("\"", 66)
 
 WriteAttribute("title", Tuple.Create(" title=\"", 67), Tuple.Create("\"", 89)
             
-            #line 3 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LabelItem.cshtml"
+            #line 3 "..\..\Areas\App\Views\Shared\DisplayTemplates\LabelItem.cshtml"
 , Tuple.Create(Tuple.Create("", 75), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
@@ -65,7 +65,7 @@ WriteLiteral(" >\r\n");
 WriteLiteral("    ");
 
             
-            #line 4 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\LabelItem.cshtml"
+            #line 4 "..\..\Areas\App\Views\Shared\DisplayTemplates\LabelItem.cshtml"
 Write(Html.Raw(Model.EvaluateHtml()));
 
             

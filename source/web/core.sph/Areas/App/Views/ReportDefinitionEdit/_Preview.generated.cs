@@ -48,7 +48,8 @@ namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionEdit
             #line hidden
 WriteLiteral("\r\n\r\n<div");
 
-WriteLiteral(" data-bind=\"compose:\'viewmodels/_reportdefinition.preview\'\"");
+WriteLiteral(" data-bind=\"compose:{model: \'viewmodels/_reportdefinition.preview\', activationDat" +
+"a :reportDefinition() }\"");
 
 WriteLiteral(">/*/*/*/*-*-*</div>\r\n");
 

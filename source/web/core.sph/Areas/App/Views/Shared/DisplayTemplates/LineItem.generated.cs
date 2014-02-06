@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplate
+namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -30,10 +30,10 @@ namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplat
     using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/ReportDefinitionExecute/DisplayTemplate/LineItem.cshtml")]
-    public partial class LineItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.LineItem>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/DisplayTemplates/LineItem.cshtml")]
+    public partial class _LineItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.LineItem>
     {
-        public LineItem()
+        public _LineItem()
         {
         }
         public override void Execute()

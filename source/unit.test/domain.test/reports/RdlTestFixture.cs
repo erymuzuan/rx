@@ -1,11 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Bespoke.Sph.RoslynScriptEngines;
+using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.SqlReportDataSource;
 using Bespoke.Sph.Domain;
-using domain.test.triggers;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace domain.test.reports
@@ -14,17 +16,8 @@ namespace domain.test.reports
     public class RdlTestFixture
     {
         private SqlDataSource m_sql;
+        private MockRepository<EntityDefinition> m_efMock;
 
-        [SetUp]
-        public void Init()
-        {
-            m_sql = new SqlDataSource();
-            ObjectBuilder.AddCacheList<IReportDataSource>(m_sql);
-
-            var roslyn = new RoslynScriptEngine();
-            ObjectBuilder.AddCacheList<IScriptEngine>(roslyn);
-            ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
-        }
 
         [Test]
         public void GetParamInExpressionConflict()
@@ -66,21 +59,34 @@ namespace domain.test.reports
 
         }
 
+        [SetUp]
+        public void Init()
+        {
+            m_efMock = new MockRepository<EntityDefinition>();
+            m_sql = new SqlDataSource();
+            ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
+            ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
+            ObjectBuilder.AddCacheList<IReportDataSource>(m_sql);
+        }
         [Test]
         public async Task GetColumnsValue()
         {
-            var ds = new DataSource { EntityName = "Building" };
+            var vd = File.ReadAllText(Path.Combine(ConfigurationManager.WorkflowSourceDirectory, "EntityDefinition/Customer.json"));
+            var ed = vd.DeserializeFromJson<EntityDefinition>();
+            var type = CompileCustomerDefinition(ed);
+
+            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
+
+            var ds = new DataSource { EntityName = "Customer" };
             var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
 
 
-            var building = new Designation
-            {
-                Name = "Test 1",
-                //   Floors = 15,
-                //   Address = new Address { State = "Kelantan" },
-            };
-            //building.CustomFieldValueCollection.Add(new CustomFieldValue { Name = "Custom01", Value = "XXX", Type = typeof(string).GetShortAssemblyQualifiedName() });
-            var xml = (building).ToXElement();
+            dynamic customer = Activator.CreateInstance(type);
+            customer.FullName = "erymuzuan";
+            customer.Age = 39;
+            customer.Address.State = "Kelantan";
+            var json = JsonSerializerService.ToJsonString(customer);
+            Console.WriteLine(json);
 
             Console.WriteLine("Exec");
             var row = new ReportRow();
@@ -88,12 +94,13 @@ namespace domain.test.reports
 
             var colums = await rdl.GetAvailableColumnsAsync();
             row.ReportColumnCollection.AddRange(colums);
-            m_sql.FillColumnValue(xml, row);
+            m_sql.FillColumnValue(json, row);
 
-
-            Console.WriteLine("Custom01: " + row["Custom01"].Value);
-            Assert.AreEqual("XX", row["Custom01"].Value);
+            
+            Console.WriteLine("FullName: " + row["FullName"].Value);
+            Assert.AreEqual("erymuzuan", row["FullName"].Value);
             Assert.AreEqual("Kelantan", row["Address.State"].Value);
+            Assert.AreEqual(39, row["Age"].Value);
 
 
         }
@@ -165,9 +172,33 @@ namespace domain.test.reports
             Assert.AreEqual(count, result.Count);
             Assert.AreEqual(name, result[0]["Name"].Value);
             Console.WriteLine(result[0]);
-
-
         }
+
+
+        private Type CompileCustomerDefinition(EntityDefinition ed)
+        {
+            var options = new CompilerOptions
+            {
+                IsVerbose = false,
+                IsDebug = true
+            };
+
+
+            options.ReferencedAssemblies.Add(
+                Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
+            options.ReferencedAssemblies.Add(
+                Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll")));
+            options.ReferencedAssemblies.Add(
+                Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll")));
+
+            var result = ed.Compile(options);
+            result.Errors.ForEach(Console.WriteLine);
+
+            var assembly = Assembly.LoadFrom(result.Output);
+            var type = assembly.GetType("Bespoke.Dev_1.Domain.Customer");
+            return type;
+        }
+
     }
 
 }

@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplate
+namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -30,10 +30,10 @@ namespace Bespoke.Sph.Web.Areas.App.Views.ReportDefinitionExecute.DisplayTemplat
     using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/ReportDefinitionExecute/DisplayTemplate/PieChartItem.cshtml")]
-    public partial class PieChartItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.PieChartItem>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/DisplayTemplates/PieChartItem.cshtml")]
+    public partial class _PieChartItem : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.PieChartItem>
     {
-        public PieChartItem()
+        public _PieChartItem()
         {
         }
         public override void Execute()
@@ -46,7 +46,7 @@ WriteLiteral(" ></div>\r\n    <script>\r\n        (function () {\r\n            
 "Chart({\r\n                title: {\r\n                    position: \'");
 
             
-            #line 9 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\PieChartItem.cshtml"
+            #line 9 "..\..\Areas\App\Views\Shared\DisplayTemplates\PieChartItem.cshtml"
                            Write(string.IsNullOrWhiteSpace(Model.TitlePlacement) ? "bottom" : Model.TitlePlacement );
 
             
@@ -55,7 +55,7 @@ WriteLiteral(" ></div>\r\n    <script>\r\n        (function () {\r\n            
 WriteLiteral("\',\r\n                    text: \"");
 
             
-            #line 10 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\PieChartItem.cshtml"
+            #line 10 "..\..\Areas\App\Views\Shared\DisplayTemplates\PieChartItem.cshtml"
                       Write(Model.EvaluateTitle());
 
             
@@ -83,7 +83,7 @@ WriteLiteral(@"""
                     data: ");
 
             
-            #line 29 "..\..\Areas\App\Views\ReportDefinitionExecute\DisplayTemplate\PieChartItem.cshtml"
+            #line 29 "..\..\Areas\App\Views\Shared\DisplayTemplates\PieChartItem.cshtml"
                      Write(Html.Raw(Model.JsonValues));
 
             

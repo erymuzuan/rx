@@ -28,7 +28,7 @@ define([],
                 NProgress.start();
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(rdl);
-                $.post("/App/ReportDefinitionPreview/", data, "html")
+                $.post("/App/ReportDefinitionExecute/Preview", data, "html")
                     .done(function (html) {
                         NProgress.done();
                         $layout.html(html);

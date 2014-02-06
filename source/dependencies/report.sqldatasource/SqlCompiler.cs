@@ -32,7 +32,7 @@ namespace Bespoke.Sph.SqlReportDataSource
 
             if (useDefaultColumn)
             {
-                sql.AppendFormat("[{0}Id], [Data] ", dataSource.EntityName);
+                sql.AppendFormat("[{0}Id], [Json] ", dataSource.EntityName);
             }
             else
             {
@@ -41,7 +41,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                     sql.AppendFormat(", [{0}]", c.Name);
                 }
             }
-            sql.AppendFormat(" FROM [Sph].[{0}] ", dataSource.EntityName);
+            sql.AppendFormat(" FROM [{1}].[{0}] ", dataSource.EntityName, ConfigurationManager.ApplicationName);
 
             if (dataSource.ReportFilterCollection.Any())
                 sql.Append("WHERE ");
