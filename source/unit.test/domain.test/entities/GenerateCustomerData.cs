@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
-using Amido.NAuto;
-using Amido.NAuto.Randomizers;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -47,7 +43,7 @@ namespace domain.test.entities
             Assert.IsNotNull(ed);
 
             await InsertCustomerDefinitionIntoSql(ed);
-            var type = CompileCustomerDefinition(ed);
+            var type = CustomerEntityHelper.CompileEntityDefinition(ed);
 
             var sqlSub = new SqlTableSubscriber();
             await sqlSub.ProcessMessageAsync(ed);
@@ -67,7 +63,7 @@ namespace domain.test.entities
             for (int i = 0; i < 10000; i++)
             {
                 Console.Write(".");
-                var customer = CreateCustomerInstance(type);
+                var customer = CustomerEntityHelper.CreateCustomerInstance(type);
                 customer.CustomerId = (i + 1);
 
                 var sql = InsertCustomerInstanceIntoSqlAsync(customer);
@@ -146,48 +142,7 @@ SET IDENTITY_INSERT [dev].[Customer] OFF      ", customer.Age, customer.Gender, 
 
         }
 
-        private static dynamic CreateCustomerInstance(Type type)
-        {
-            dynamic customer = Activator.CreateInstance(type);
-            customer.FullName = NAuto.GetRandomString(8, 18, CharacterSetType.Alpha, Spaces.Middle);
-            customer.Age = NAuto.GetRandomInteger(25, 65);
-            customer.Gender = new[] { "Male", "Female" }.OrderBy(f => Guid.NewGuid()).First();
-            customer.Address.State =
-                new[] { "Kelantan", "Selangor", "Perak", "Kuala Lumpur", "Johor", "Melaka", "Negeri Sembilan" }.OrderBy(
-                    f => Guid.NewGuid()).First();
-            customer.Address.Locality = new[] { "Rural", "Urban", "Surburb" }.OrderBy(f => Guid.NewGuid()).First();
-            customer.RegisteredDate = DateTime.Today.AddDays(-NAuto.GetRandomInteger(50, 500));
-
-            customer.IsPriority = customer.FullName.Length % 2 == 0;
-            customer.Contact.Name = NAuto.GetRandomString(8, 18, CharacterSetType.Alpha, Spaces.Middle);
-            customer.Address.Street1 = NAuto.GetRandomString(8, 18, CharacterSetType.Alpha, Spaces.Middle);
-            return customer;
-        }
-
-        private static Type CompileCustomerDefinition(EntityDefinition ed)
-        {
-            var options = new CompilerOptions
-            {
-                IsVerbose = false,
-                IsDebug = true
-            };
-
-
-            options.ReferencedAssemblies.Add(
-                Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
-            options.ReferencedAssemblies.Add(
-                Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll")));
-            options.ReferencedAssemblies.Add(
-                Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll")));
-
-            var result = ed.Compile(options);
-            result.Errors.ForEach(Console.WriteLine);
-
-            var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType("Bespoke.Dev_1.Domain.Customer");
-            return type;
-        }
-
+     
         private async Task InsertEntityFormAsync(EntityForm form)
         {
 

@@ -107,25 +107,35 @@ ko.bindingHandlers.kendoComboBox = {
     }
 };
 
+
 ko.bindingHandlers.money = {
     init: function (element, valueAccessor) {
-        var value = ko.utils.unwrapObservable(valueAccessor());
-        var money = parseFloat(value).toFixed(2);
+        var value = valueAccessor(),
+            textbox = $(element),
+            val = ko.unwrap(value),
+            fm = val.toFixed(2).replace(/./g, function (c, i, a) {
+                return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
+            });
 
-        $(element).text(money);
-        $(element).val(money);
+        textbox.val(fm);
 
-        $(element).on("change", function () {
-            var nv = $(this).val();
-            value.text(nv);
+        textbox.on('blur', function () {
+            var tv = $(this).val().replace(/,/g, "");
+            console.log(tv);
+            value(parseFloat(tv));
         });
+
     },
     update: function (element, valueAccessor) {
-        var value = ko.utils.unwrapObservable(valueAccessor());
-        var money = parseFloat(value).toFixed(2);
+        var value = valueAccessor(),
+             textbox = $(element),
+             val = parseFloat(ko.unwrap(value)),
+             fm = val.toFixed(2).replace(/./g, function (c, i, a) {
+                 return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
+             });
 
-        $(element).text(money);
-        $(element).val(money);
+        textbox.val(fm);
+
     }
 };
 

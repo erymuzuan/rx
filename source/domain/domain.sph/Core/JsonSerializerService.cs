@@ -10,6 +10,24 @@ namespace Bespoke.Sph.Domain
     public static class JsonSerializerService
     {
 
+        /// <summary>
+        /// Clone object, deep copy
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static T JsonClone<T>(this T source) where T : class
+        {
+            if (null == source) throw new ArgumentNullException("source");
+
+            var json = ToJsonString(source);
+            var clone = json.DeserializeFromJson<T>();
+
+            return clone;
+
+
+        }
+
         public async static Task<T> DeserializeJsonAsync<T>(this Stream stream)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };

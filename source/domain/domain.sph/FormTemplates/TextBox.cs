@@ -8,7 +8,10 @@ namespace Bespoke.Sph.Domain
         public override string GenerateMarkup()
         {
             var element = new StringBuilder();
-            element.AppendFormat("<input type='text' data-bind='value:{0}' name='{1}'></input>", this.Path, this.Name);
+            var binding = "value";
+            if (this.FieldValidation.Mode == "Number")
+                binding = "money";
+            element.AppendFormat("<input type='text' data-bind='{2}:{0}' name='{1}'></input>", this.Path, this.Name, binding);
             return element.ToString();
         }
 
@@ -16,6 +19,9 @@ namespace Bespoke.Sph.Domain
         {
 
             var path = this.Path.ConvertJavascriptObjectToFunction();
+            var binding = "value";
+            if (this.FieldValidation.Mode == "Number")
+                binding = "money";
 
 
             if (!string.IsNullOrWhiteSpace(this.AutoCompletionEntity)
@@ -33,10 +39,7 @@ namespace Bespoke.Sph.Domain
                     query);
             }
 
-
-            return string.Format("value: {0}, visible :{1}",
-                path,
-                this.Visible);
+            return string.Format("{2}: {0}, visible :{1}",path,this.Visible, binding);
         }
     }
 }

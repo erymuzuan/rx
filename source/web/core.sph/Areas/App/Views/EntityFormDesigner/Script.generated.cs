@@ -239,10 +239,10 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "        cancelClick: cancelClick,\r\n                importCommand :importCommand," +
 "\r\n                toolbar : {\r\n                    commands :ko.observableArray(" +
 "[{\r\n                        caption : \'Publish\',\r\n                        icon :" +
-" \'fa fa-file-text-o\',\r\n                        command : publish\r\n              " +
-"      }\r\n                    ]),\r\n                    saveCommand : save\r\n      " +
-"          }\r\n            };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</scri" +
-"pt>\r\n");
+" \'fa fa-sign-out\',\r\n                        command : publish\r\n                 " +
+"   }\r\n                    ]),\r\n                    saveCommand : save\r\n         " +
+"       }\r\n            };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>" +
+"\r\n");
 
         }
     }

@@ -9,7 +9,7 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../services/domain.g.js.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
-
+/// <reference path="~/Scripts/_task.js" />
 
 define(['services/datacontext'],
     function (context) {
