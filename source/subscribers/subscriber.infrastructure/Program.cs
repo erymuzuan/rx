@@ -73,12 +73,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
 
 
+            m_stopping = false;
             threads.ForEach(t => t.Join());
 
         }
 
         async void FswChanged(object sender, FileSystemEventArgs e)
         {
+            //this.NotificationService.Write("Detected changes in FileSystem initiating stop\r\n{0} has {1}", e.Name, e.ChangeType);
             await this.Stop();
         }
 
@@ -156,6 +158,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             if (m_stopping) return;
 
             m_stopping = true;
+            this.NotificationService.Write("Let all the process to run for  5 seconds");
+            await Task.Delay(5.Seconds());
+
             this.SubscriberCollection.ForEach(s => s.Stop());
             this.NotificationService.Write("WAITING to STOP for 5 seconds");
             await Task.Delay(5.Seconds());
@@ -176,7 +181,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             //
             this.NotificationService.Write("STARTING in 2 seconds");
             await Task.Delay(2.Seconds());
-            m_stopping = false;
 
             using (var work = new Isolated<Discoverer>())
             {

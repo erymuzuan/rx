@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 
 namespace subscriber.version.control
 {
-    public class SourceSubscriber : Subscriber<Entity>
+    public class ReportDefinitionSourceSubscriber : Subscriber<ReportDefinition>
     {
         public override string QueueName
         {
-            get { return "source_queue"; }
+            get { return "source_rdl_queue"; }
         }
 
         public override string[] RoutingKeys
@@ -19,20 +19,12 @@ namespace subscriber.version.control
             {
                 return new[]
                 {
-                    typeof(ReportDelivery).Name + ".#.#",
-                    typeof(Page).Name + ".#.#",
-                    typeof(Organization).Name + ".#.#",
-                    typeof(Setting).Name + ".#.#",
-                    typeof(Designation).Name + ".#.#",
-                    typeof(EntityView).Name + ".#.#",
-                    typeof(EntityForm).Name + ".#.#",
-                    typeof(EntityDefinition).Name + ".#.#",
-                    typeof(Trigger).Name + ".#.#"
+                    typeof(ReportDefinition).Name + ".#.#"
                 };
             }
         }
 
-        protected override Task ProcessMessage(Entity item, MessageHeaders header)
+        protected override Task ProcessMessage(ReportDefinition item, MessageHeaders header)
         {
             var wc = ConfigurationManager.WorkflowSourceDirectory;
             var type = item.GetType();
@@ -40,10 +32,12 @@ namespace subscriber.version.control
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            dynamic wi = item;
-            var file = Path.Combine(folder, wi.Name + ".json");
+            var file = Path.Combine(folder, item.Title + ".json");
             File.WriteAllText(file, item.ToJsonString(Formatting.Indented));
+
             return Task.FromResult(0);
+
+
         }
     }
 }

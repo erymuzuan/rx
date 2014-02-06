@@ -61,7 +61,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);
                 var args = new Dictionary<string, object> { { "x-dead-letter-exchange", deadLetterExchange } };
                 channel.QueueDeclare(this.QueueName, true, false, false, args);
-                 
+
                 channel.QueueDeclare(deadLetterQueue, true, false, false, args);
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "#", null);
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.added", null);
@@ -72,7 +72,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     channel.QueueBind(this.QueueName, exchangeName, s, null);
                 }
                 channel.BasicQos(0, (ushort)this.GetParallelProcessing(), false);
-              
+
                 var consumer = new TaskBasicConsumer(channel);
                 consumer.Received += async (s, e) =>
                 {
@@ -80,21 +80,17 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     var json = await this.DecompressAsync(body);
                     var header = new MessageHeaders(e);
                     var item = json.DeserializeFromJson<T>();
-                    ProcessMessage(item, header)
-                        .ContinueWith(_ =>
-                        {
-                            if (_.IsFaulted && null != _.Exception)
-                            {
-                                var exc = _.Exception;
-                                this.WriteError(exc);
-                                channel.BasicReject(e.DeliveryTag, false);
-                            }
-                            else
-                            {
-                                channel.BasicAck(e.DeliveryTag, false);
-                            }
-                        })
-                        .Wait();
+                    try
+                    {
+                        await ProcessMessage(item, header);
+                        channel.BasicAck(e.DeliveryTag, false);
+                    }
+                    catch (Exception exc)
+                    {
+                        this.WriteMessage("Error in {0}", this.GetType().Name);
+                        this.WriteError(exc);
+                        channel.BasicReject(e.DeliveryTag, false);
+                    }
 
                 };
 

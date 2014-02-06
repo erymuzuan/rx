@@ -22,19 +22,22 @@ define(['services/datacontext'],
                     type = typeOrOption.entity;
                     id = typeOrOption.id;
                 }
+                if (!parseInt(id)) {
+                    return Task.fromResult(false);
+                }
 
                 var query = String.format("Type eq '{0}' and EntityId eq {1}", type, id),
                  tcs = new $.Deferred();
 
-                context.loadAsync({ entity :"AuditTrail" ,orderby : "CreatedDate desc"}, query)
+                context.loadAsync({ entity: "AuditTrail", orderby: "CreatedDate desc" }, query)
                     .then(function (lo) {
                         isBusy(false);
                         vm.auditTrailCollection(lo.itemCollection);
                         tcs.resolve(true);
                     });
-        return tcs.promise();
+                return tcs.promise();
 
-    },
+            },
             attached = function () {
 
             },
@@ -43,15 +46,15 @@ define(['services/datacontext'],
                 $("#changes-dialog").modal();
             };
 
-var vm = {
-    isBusy: isBusy,
-    activate: activate,
-    attached: attached,
-    auditTrailCollection: ko.observable(),
-    log: ko.observable(new bespoke.sph.domain.AuditTrail()),
-    showChangesCommand: showChange
-};
+        var vm = {
+            isBusy: isBusy,
+            activate: activate,
+            attached: attached,
+            auditTrailCollection: ko.observable(),
+            log: ko.observable(new bespoke.sph.domain.AuditTrail()),
+            showChangesCommand: showChange
+        };
 
-return vm;
+        return vm;
 
-});
+    });

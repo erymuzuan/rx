@@ -104,7 +104,7 @@
             </div>
         </form>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-4" data-bind="visible: $root.entity().CustomerId()> 0">
         <h3>Audit Trail</h3>
         <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().CustomerId(), entity : 'Customer'}} -->
         <!--/ko-->

@@ -74,6 +74,7 @@ namespace Bespoke.Sph.Domain
             script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, this.Name);
             script.AppendLine(" var model = {");
             script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.CodeNamespace, this.Name, assemblyName);
+            script.AppendLinf("     {0}Id : ko.observable(),", this.Name);
             foreach (var item in this.MemberCollection)
             {
                 if (item.Type == typeof(Array))
