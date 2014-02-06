@@ -277,7 +277,7 @@ WriteLiteral(" name=\"confirmPassword\"");
 WriteLiteral(" />\r\n                                </div>\r\n                            </div>\r\n" +
 "\r\n                            <input");
 
-WriteLiteral(" class=\"btn btn-primary\"");
+WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" type=\"submit\"");
 

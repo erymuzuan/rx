@@ -52,10 +52,6 @@ namespace subscriber.entities
             {
                 var raw = reader.ReadToEnd();
                 var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
-                if (File.Exists(html))
-                {
-                    File.Move(html, string.Format("{0}_{1:yyyyMMdd_HHmmss}.html", html.Replace(".html",""), DateTime.Now));
-                }
                 File.WriteAllText(html, markup);
 
             }
@@ -67,10 +63,6 @@ namespace subscriber.entities
             {
                 var raw = reader.ReadToEnd();
                 var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
-                if (File.Exists(js))
-                {
-                    File.Move(js, string.Format("{0}_{1:yyyyMMdd_HHmmss}.js", js.Replace(".js",""), DateTime.Now));
-                }
                 File.WriteAllText(js, script);
 
             }

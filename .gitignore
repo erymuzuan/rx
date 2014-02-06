@@ -41,17 +41,10 @@ _ReSharper.commercial-space
 *.css~working on bootstrap 3
 *.less~HEAD
 *.less~working on bootstrap 3
-*.xml
 *.cmd
 *.sh
 *.config
 /source/web/core.sph/.idea
 /source/web/web.sph/durandal2
-/source/web/web.sph/SphApp/viewmodels/lead.js
-/source/web/web.sph/SphApp/views/lead.html
-/source/web/web.sph/SphApp/viewmodels/customer.js
-/source/web/web.sph/SphApp/views/customer.html
-*.js
-*.html
-*.cs
 /source/web/core.sph/bin
+/source/web/web.sph/bin

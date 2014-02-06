@@ -397,7 +397,7 @@ WriteLiteral(">Close</button>\r\n                    <button");
 
 WriteLiteral(" type=\"button\"");
 
-WriteLiteral(" class=\"btn btn-primary\"");
+WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(">Save changes</button>\r\n                </div>\r\n            </div><!-- /.modal-co" +
 "ntent -->\r\n        </div><!-- /.modal-dialog -->\r\n    </div><!-- /.modal -->\r\n</" +

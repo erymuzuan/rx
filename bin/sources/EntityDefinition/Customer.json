@@ -480,13 +480,13 @@
   "EntityDefinitionId": 1,
   "Name": "Customer",
   "Plural": "Customers",
-  "IconStoreId": "50f2a146-e813-4635-96e3-7a860bc6b021",
+  "IconStoreId": "7bc05822-fc47-41c7-b186-d36d9022f58d",
   "IconClass": "fa fa-users",
   "RecordName": "FullName",
-  "IsPublished": false,
+  "IsPublished": true,
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-05T12:09:55.4106971+08:00",
+  "ChangedDate": "2014-02-05T07:17:33.307229+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

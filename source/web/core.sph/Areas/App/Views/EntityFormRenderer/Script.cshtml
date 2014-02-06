@@ -1,7 +1,7 @@
 ﻿@using Bespoke.Sph.Domain
 @model Bespoke.Sph.Web.ViewModels.FormRendererViewModel
 @using Humanizer
-@using Newtonsoft.Json
+
 
 @{
     ViewBag.Title = "title";
@@ -10,7 +10,7 @@
     var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:system.guid()}})", ns, Model.EntityDefinition.Name);
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
     var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
-    var validateUrl = string.Format("/Sph/BusinessRule/Validate/{0}?rules={1}", @Model.EntityDefinition.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
+    var validateUrl = string.Format("/Sph/BusinessRule/Validate?{0};{1}", @Model.EntityDefinition.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
     var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.EntityDefinitionId;
     var commands = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
         .Where(b => b.IsToolbarItem)
@@ -36,36 +36,48 @@
                         itemTask = context.loadOneAsync("Customer", query),
                         formTask = context.loadOneAsync("EntityForm", "Route eq '@Model.Form.Route'");
 
-                            $.when(itemTask, formTask).done(function(b,f) {  
-                                if (b) {
-                                    var item = context.toObservable(b, /Bespoke\.@codeNamespace\.Domain\.(.*?),/);
-                                    entity(item);
-                                } 
-                                else {
-                                    entity(new @Html.Raw(typeCtor));
-                                }
-                                form(f);
-                                
-                                tcs.resolve(true);
-                            });
+                    $.when(itemTask, formTask).done(function(b,f) {
+                        if (b) {
+                            var item = context.toObservable(b, /Bespoke\.@codeNamespace\.Domain\.(.*?),/);
+                            entity(item);
+                            @if (Model.Form.IsAuditTrailAvailable)
+                            {
+                                <text>
+                            vm.toolbar.auditTrail.id(parseInt(id));
+                            </text>
+                            }
+                            @if (Model.Form.IsPrintAvailable)
+                            {
+                                <text>
+                            vm.toolbar.printCommand.id(parseInt(id));
+                            </text>
+                            }
+                        }
+                        else {
+                            entity(new @Html.Raw(typeCtor));
+                        }
+                        form(f);
 
-                        return tcs.promise();
+                        tcs.resolve(true);
+                    });
+
+                    return tcs.promise();
                 },
                 attached = function (view) {
                     // validation
                     validation.init($('#@formId'), form());
-                    
+
                 },
 
                 @foreach (var rule in Model.Form.Rules)
                 {
-                    var function = rule.Dehumanize();
+                    var function = Model.EntityDefinition.Name + ";"+ rule.Dehumanize();
                   <text>@function = function(){
 
                     var tcs = new $.Deferred(),
                         data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate/@Model.EntityDefinition.Name?rules=@function" )
+                    context.post(data, "/Sph/BusinessRule/Validate?@function" )
                         .then(function (result) {
                             tcs.resolve(result);
                         });
@@ -129,7 +141,7 @@
                 attached: attached,
                 entity: entity,
                 save : save,
-                toolbar : { 
+                toolbar : {
                     @if (Model.Form.IsEmailAvailable)
                     {
                         <text>emailCommand : function(){
@@ -141,9 +153,19 @@
                     {
                         <text>emailCommand :{},</text>
                     }
+                    @if (Model.Form.IsPrintAvailable)
+                    {
+                        <text>printCommand :{
+                            entity : '@Model.EntityDefinition.Name',
+                            id : ko.observable()
+                        },</text>
+                    }
                     @if (Model.Form.IsAuditTrailAvailable)
                     {
-                        <text>emailCommand :{},</text>
+                        <text>auditTrail :{
+                            entity : '@Model.EntityDefinition.Name',
+                            id : ko.observable()
+                        },</text>
                     }
                     saveCommand : save,
                     commands : ko.observableArray(@Html.Raw(commandsJs))

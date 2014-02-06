@@ -14,12 +14,26 @@ namespace Bespoke.Sph.SqlRepository
     public partial class SqlRepository<T> : IRepository<T> where T : Entity
     {
         private readonly string m_connectionString;
-        public bool IsJson { get; set; }
+        private bool m_isJson;
+
+        public bool IsJson
+        {
+            get
+            {
+                if (typeof(T).Namespace != typeof(Entity).Namespace)
+                    return true;
+                return m_isJson;
+            }
+            set { m_isJson = value; }
+        }
+
         public string DataColumn
         {
             get
             {
-                return this.IsJson ? "[Json]" : "[Data]";
+                if (typeof(T).Namespace == typeof(Entity).Namespace)
+                    return this.IsJson ? "[Json]" : "[Data]";
+                return "[Json]";
             }
         }
 
@@ -67,10 +81,13 @@ namespace Bespoke.Sph.SqlRepository
                             t1.SetId(id);
                             return t1;
                         }
-                        var xml = XElement.Parse(reader.GetString(1));
-                        dynamic t = xml.DeserializeFromXml(elementType);
-                        t.SetId(id);
-                        return t;
+                        else
+                        {
+                            var xml = XElement.Parse(reader.GetString(1));
+                            dynamic t = xml.DeserializeFromXml(elementType);
+                            t.SetId(id);
+                            return t;
+                        }
                     }
                 }
             }

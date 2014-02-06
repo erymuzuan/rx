@@ -28,10 +28,6 @@ namespace subscriber.entities
                 var uri = ConfigurationManager.BaseUrl + "/App/EntityFormRenderer/Html/" + item.Route;
                 this.WriteMessage("Rendering {0}", uri);
                 var markup = await client.GetStringAsync(uri);
-                if (File.Exists(html))
-                {
-                    File.Move(html, string.Format("{0}_{1:yyyyMMdd_HHmmss}.html", html.Replace(".html",""), DateTime.Now));
-                }
                 File.WriteAllText(html, markup);
             }
 
@@ -40,10 +36,6 @@ namespace subscriber.entities
             using (var client = new HttpClient())
             {
                 var script = await client.GetStringAsync(ConfigurationManager.BaseUrl + "/App/EntityFormRenderer/Js/" + item.Route);
-                if (File.Exists(js))
-                {
-                    File.Move(js, string.Format("{0}_{1:yyyyMMdd_HHmmss}.js", js.Replace(".js", ""), DateTime.Now));
-                }
                 File.WriteAllText(js, script);
             }
 

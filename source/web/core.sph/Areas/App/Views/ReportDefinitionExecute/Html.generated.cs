@@ -646,7 +646,7 @@ WriteLiteral(" data-dismiss=\"modal\"");
 
 WriteLiteral(" type=\"button\"");
 
-WriteLiteral(" class=\"btn btn-primary\"");
+WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" data-bind=\"click: executeCommand\"");
 

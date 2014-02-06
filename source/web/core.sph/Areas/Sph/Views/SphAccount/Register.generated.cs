@@ -211,7 +211,7 @@ WriteLiteral(">\r\n            <input");
 
 WriteLiteral(" type=\"button\"");
 
-WriteLiteral(" class=\"btn btn-primary\"");
+WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" data-bind=\"click: $parent.submitCommand\"");
 

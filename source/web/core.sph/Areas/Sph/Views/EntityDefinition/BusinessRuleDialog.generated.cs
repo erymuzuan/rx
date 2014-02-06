@@ -200,12 +200,8 @@ WriteLiteral(" placeholder=\"Message\"");
 WriteLiteral(" data-bind=\"value:ErrorMessage\"");
 
 WriteLiteral(">\r\n                        </div>\r\n                    </div>\r\n\r\n                " +
-"    <h4>\r\n                        <i");
-
-WriteLiteral(" class=\"fa fa-list-alt\"");
-
-WriteLiteral("></i>\r\n                        Rules\r\n                    </h4>\r\n                " +
-"    <a");
+"    <h3>\r\n                        \r\n                        Rules\r\n             " +
+"       </h3>\r\n                    <a");
 
 WriteLiteral(" class=\"btn btn-link pull-right\"");
 
@@ -324,7 +320,7 @@ WriteLiteral(" data-dismiss=\"modal\"");
 
 WriteLiteral(" type=\"submit\"");
 
-WriteLiteral(" class=\"btn btn-primary\"");
+WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" value=\"OK\"");
 

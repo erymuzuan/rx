@@ -184,8 +184,8 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
 
             },
             viewAuditTrail = function (entity) {
-                var query = String.format("Type eq '{0}' and EntityId eq {1}", entity()[$type], entity());
-                var tcs = new $.Deferred();
+                var query = String.format("Type eq '{0}' and EntityId eq {1}", entity()[$type], entity()),
+                    tcs = new $.Deferred();
 
                 context.loadAsync("AuditTrail", query)
                     .then(function (lo) {

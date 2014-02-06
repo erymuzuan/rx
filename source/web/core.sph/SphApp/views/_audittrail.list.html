@@ -20,34 +20,38 @@
 </table>
 
 
-<section class="modal hide" id="changes-dialog">
+<section class="modal fade" id="changes-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Changes</h3>
+            </div>
+            <div class="modal-body" data-bind="with: log">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Field</th>
+                            <th>Old</th>
+                            <th>New</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: ChangeCollection">
+                        <tr>
+                            <td data-bind="text:Action"></td>
+                            <td data-bind="text:PropertyName"></td>
+                            <td data-bind="text:OldValue"></td>
+                            <td data-bind="text:NewValue"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3>Pertukaran</h3>
-    </div>
-    <div class="modal-body" data-bind="with: log">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Action</th>
-                    <th>Field</th>
-                    <th>Old</th>
-                    <th>New</th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: ChangeCollection">
-                <tr>
-                    <td data-bind="text:Action"></td>
-                    <td data-bind="text:PropertyName"></td>
-                    <td data-bind="text:OldValue"></td>
-                    <td data-bind="text:NewValue"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+            <div class="modal-footer">
+                <a href="#changes-dialog" class="btn btn-default" data-dismiss="modal">Close</a>
+            </div>
 
-    <div class="modal-footer">
-        <a href="#changes-dialog" class="btn" data-dismiss="modal">Close</a>
+        </div>
     </div>
 </section>

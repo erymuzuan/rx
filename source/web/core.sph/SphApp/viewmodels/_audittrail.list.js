@@ -16,10 +16,16 @@ define(['services/datacontext'],
 
         var isBusy = ko.observable(false),
             ///
-            activate = function (type, id) {
+            activate = function (typeOrOption, id) {
+                var type = typeOrOption;
+                if (typeOrOption && typeof typeOrOption === "object") {
+                    type = typeOrOption.entity;
+                    id = typeOrOption.id;
+                }
+
                 var query = String.format("Type eq '{0}' and EntityId eq {1}", type, id),
                  tcs = new $.Deferred();
-                
+
                 context.loadAsync("AuditTrail", query)
                     .then(function (lo) {
                         isBusy(false);

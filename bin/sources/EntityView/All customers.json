@@ -72,7 +72,7 @@
   },
   "EntityViewId": 1,
   "IconClass": "",
-  "IconStoreId": "3d26a8a3-f6d6-46b6-b5ad-faec7edc0274",
+  "IconStoreId": "bcaba6b3-a664-4de2-9e6d-052fc01dbc23",
   "EntityDefinitionId": 1,
   "Name": "All customers",
   "Route": "all-customers",
@@ -83,6 +83,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-05T12:08:31.2652092+08:00",
+  "ChangedDate": "2014-02-06T11:48:04.7286791+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }
