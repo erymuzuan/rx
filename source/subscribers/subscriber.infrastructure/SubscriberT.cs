@@ -74,8 +74,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 channel.BasicQos(0, (ushort)this.GetParallelProcessing(), false);
 
                 var consumer = new TaskBasicConsumer(channel);
+                var processing = 0;
                 consumer.Received += async (s, e) =>
                 {
+                    processing++;
                     byte[] body = e.Body;
                     var json = await this.DecompressAsync(body);
                     var header = new MessageHeaders(e);
@@ -91,13 +93,19 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                         this.WriteError(exc);
                         channel.BasicReject(e.DeliveryTag, false);
                     }
-
+                    finally
+                    {
+                        processing--;
+                    }
                 };
 
 
                 channel.BasicConsume(this.QueueName, noAck, consumer);
 
                 var stopRequested = await Stoping();
+                while (processing > 0)
+                {
+                }
                 if (stopRequested)
                 {
                     channel.Close();

@@ -12583,7 +12583,7 @@ td.visible-print {
 }
 
 #nprogress .bar {
-  background: #29d;
+  background: #fe0000;
 
   position: fixed;
   z-index: 100;

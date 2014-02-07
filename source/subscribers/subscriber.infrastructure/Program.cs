@@ -158,8 +158,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             if (m_stopping) return;
 
             m_stopping = true;
-            this.NotificationService.Write("Let all the process to run for  5 seconds");
-            await Task.Delay(5.Seconds());
+            //this.NotificationService.Write("Let all the process to run for  5 seconds");
+            //await Task.Delay(5.Seconds());
 
             this.SubscriberCollection.ForEach(s => s.Stop());
             this.NotificationService.Write("WAITING to STOP for 5 seconds");

@@ -111,8 +111,8 @@ WriteLiteral(@"'),
                 printCommand: print,
                 commands: ko.observableArray([{
                     command: showParameterDialog,
-                    caption: 'Show Parameter',
-                    icon: 'icon-keyboard'
+                    caption: 'Run',
+                    icon: 'fa fa-gear'
 
                 }])
             }
