@@ -26,6 +26,17 @@
                 </div>
             </div>
 
+
+            <div data-bind="visible:true" class="form-group">
+                <label for="e22da1e1-7fd9-4506-9676-28a4d37393f1" class="col-lg-4">State</label>
+
+                <div class="col-lg-8">
+                    <input class=" form-control input-large" title=""
+                           data-bind="value: Address().State, visible :true"
+                           id="e22da1e1-7fd9-4506-9676-28a4d37393f1" type="text" name="Address.State"/>
+                </div>
+            </div>
+
             <div class="form-group" data-bind="visible:true">
                 <label for="ff83f8d0-9dd7-4621-87b7-7b5ddbd0c985" class="col-lg-4">Gender</label>
 
@@ -46,16 +57,6 @@
                 </label>
             </div>
 
-
-            <div data-bind="visible:true" class="form-group">
-                <label for="e22da1e1-7fd9-4506-9676-28a4d37393f1" class="col-lg-4">State</label>
-
-                <div class="col-lg-8">
-                    <input class=" form-control input-large" title=""
-                           data-bind="value: Address().State, visible :true"
-                           id="e22da1e1-7fd9-4506-9676-28a4d37393f1" type="text" name="Address.State"/>
-                </div>
-            </div>
 
             <div class="form-group" data-bind="visible:true">
                 <label for="0dab9f82-6ff7-436c-8ac0-af789738da24" class="col-lg-4">Locality</label>
@@ -104,7 +105,7 @@
             </div>
         </form>
     </div>
-    <div class="col-lg-4" data-bind="visible: $root.entity().CustomerId()> 0">
+    <div class="col-lg-4">
         <h3>Audit Trail</h3>
         <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().CustomerId(), entity : 'Customer'}} -->
         <!--/ko-->

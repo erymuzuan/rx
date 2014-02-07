@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Domain
             var customProperties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public).AsQueryable()
                                        .Where(
                                            p =>
-                                           p.PropertyType.Namespace == typeof(Entity).Namespace &&
+                                           (p.PropertyType.Namespace == typeof(Entity).Namespace || p.PropertyType.Namespace == type.Namespace )&&
                                            !p.PropertyType.Name.EndsWith("Collection")
                                            );
 
@@ -42,6 +42,16 @@ namespace Bespoke.Sph.Domain
             {
                 var v1 = string.Format("{0}", p.GetValue(item1));
                 var v2 = string.Format("{0}", p.GetValue(item2));
+                if (p.PropertyType == typeof (decimal))
+                {
+                    var d1 = Convert.ToDecimal(v1);
+                    var d2 = Convert.ToDecimal(v2);
+                    if (d1 != d2)
+                    {
+                        changes.Add(new Change { PropertyName = prepend + p.Name, NewValue = v2, OldValue = v1, Action = "Changed" });
+                    }
+                    continue;
+                }
                 if (v1 != v2)
                 {
                     changes.Add(new Change { PropertyName = prepend + p.Name, NewValue = v2, OldValue = v1, Action = "Changed" });

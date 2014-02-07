@@ -21,32 +21,32 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
                 var query = String.format("Name eq '{0}'", 'Customer'),
-                  tcs = new $.Deferred(),
-                  formsQuery = String.format("EntityDefinitionId eq 1"),
-                  edTask = context.loadOneAsync("EntityDefinition", query),
-                  formsTask = context.loadAsync("EntityForm", formsQuery),
-                  reportTask = context.loadAsync("ReportDefinition", "[DataSource.EntityName] eq 'Customer'"),
-                  viewsTask = context.loadAsync("EntityView", formsQuery);
+                    tcs = new $.Deferred(),
+                    formsQuery = String.format("EntityDefinitionId eq 1"),
+                    edTask = context.loadOneAsync("EntityDefinition", query),
+                    formsTask = context.loadAsync("EntityForm", formsQuery),
+                    reportTask = context.loadAsync("ReportDefinition", "[DataSource.EntityName] eq 'Customer'"),
+                    viewsTask = context.loadAsync("EntityView", formsQuery);
 
 
-                $.when(edTask, formsTask, viewsTask,reportTask )
-                 .done(function (b, formsLo, viewsLo,reportsLo) {
-                     entity(b);
-                     var formsCommands = _(formsLo.itemCollection).map(function (v) {
-                         return {
-                             caption: v.Name(),
-                             command: function () {
-                                 window.location = '#' + v.Route() + '/0';
-                                 return Task.fromResult(0);
-                             },
-                             icon: "fa fa-users"
-                         };
-                     });
-                     reports(reportsLo.itemCollection);
-                     views(viewsLo.itemCollection);
-                     vm.toolbar.commands(formsCommands);
-                     tcs.resolve(true);
-                 });
+                $.when(edTask, formsTask, viewsTask, reportTask)
+                    .done(function (b, formsLo, viewsLo, reportsLo) {
+                        entity(b);
+                        var formsCommands = _(formsLo.itemCollection).map(function (v) {
+                            return {
+                                caption: v.Name(),
+                                command: function () {
+                                    window.location = '#' + v.Route() + '/0';
+                                    return Task.fromResult(0);
+                                },
+                                icon: "fa fa-users"
+                            };
+                        });
+                        reports(reportsLo.itemCollection);
+                        views(viewsLo.itemCollection);
+                        vm.toolbar.commands(formsCommands);
+                        tcs.resolve(true);
+                    });
 
                 // TODO : get views
 
@@ -70,11 +70,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             },
             recentItemsQuery = {
                 "sort": [
-                 {
-                     "ChangedDate": {
-                         "order": "desc"
-                     }
-                 }
+                    {
+                        "ChangedDate": {
+                            "order": "desc"
+                        }
+                    }
                 ]
             };
 

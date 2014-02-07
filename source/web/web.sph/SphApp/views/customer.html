@@ -1,5 +1,6 @@
 <div class="row" data-bind="with : entity">
-    <img alt="logo" data-bind="attr:{src:'/image/thumbnail/' + IconStoreId() + '?height=50'}" class="pull-right" />
+    <img alt="logo" data-bind="attr:{src:'/image/thumbnail/' + IconStoreId() + '?height=50'}" class="pull-right"/>
+
     <h1 data-bind="text:Name"></h1>
 </div>
 
@@ -11,8 +12,10 @@
             Recent <span data-bind="text:Plural"></span>
         </h3>
     </a>
+
     <div id="recent-customers" class="collapse collapsed">
-        <div class="" data-bind="searchPaging: {list :recentItems, query : recentItemsQuery, pagerHidden:true , entity : 'Customer'}">
+        <div class=""
+             data-bind="searchPaging: {list :recentItems, query : recentItemsQuery, pagerHidden:true , entity : 'Customer'}">
 
 
             <ul data-bind="foreach :recentItems" class="metro-tile">
@@ -50,7 +53,7 @@
             <li>
                 <a data-bind="attr:{href : '#/' + Route()}">
                     <div class="pull-left">
-                        <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon" />
+                        <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon"/>
                     </div>
                     <div class="pull-right">
                         <h3 data-bind="text: Name"></h3>
@@ -62,7 +65,6 @@
         </ul>
     </div>
 </div>
-
 
 
 <div class="row">
