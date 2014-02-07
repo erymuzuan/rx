@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using RabbitMQ.Client;
@@ -77,7 +78,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 var processing = 0;
                 consumer.Received += async (s, e) =>
                 {
-                    processing++;
+                    Interlocked.Increment(ref processing);
                     byte[] body = e.Body;
                     var json = await this.DecompressAsync(body);
                     var header = new MessageHeaders(e);
@@ -95,7 +96,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     }
                     finally
                     {
-                        processing--;
+                        Interlocked.Decrement(ref processing);
                     }
                 };
 

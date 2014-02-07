@@ -10,8 +10,8 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context, logger, router) {
+define(['plugins/dialog'],
+    function (dialog) {
 
         var wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
             asyncActivities = ko.observableArray(),

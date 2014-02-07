@@ -220,7 +220,7 @@ namespace Bespoke.Sph.Workflows_9002_1
            var context = new SphDataContext();
            var wf =  new  TestPageToDiskWorkflow_9002_1();
            await wf.LoadWorkflowDefinitionAsync();
-           var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);
+           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);
            var screen = wf.GetActivity<ScreenActivity>("3448b2bd-fcb5-496f-a116-c702fe363349");
            var vm = new PermohonanViewModel(){
                    Screen  = screen,

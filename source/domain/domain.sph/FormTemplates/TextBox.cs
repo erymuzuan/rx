@@ -4,7 +4,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class TextBox : FormElement
     {
-        
+
         public override string GenerateMarkup()
         {
             var element = new StringBuilder();
@@ -19,6 +19,7 @@ namespace Bespoke.Sph.Domain
         {
 
             var path = this.Path.ConvertJavascriptObjectToFunction();
+
             var binding = "value";
             if (this.FieldValidation.Mode == "Number")
                 binding = "money";
@@ -39,7 +40,7 @@ namespace Bespoke.Sph.Domain
                     query);
             }
 
-            return string.Format("{2}: {0}, visible :{1}",path,this.Visible, binding);
+            return string.Format("{2}: {0}, visible :{1}", path, this.Visible, binding);
         }
     }
 }

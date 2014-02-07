@@ -151,6 +151,7 @@ namespace Bespoke.Sph.Domain
         public static string ConvertJavascriptObjectToFunction(this string path)
         {
             if (string.IsNullOrWhiteSpace(path)) return string.Empty;
+            if (path.Contains("().")) return path;
             return path.Replace(".", "().");
         }
     }
