@@ -1,6 +1,17 @@
 ﻿<h1>Activity Performance Indicator</h1>
 <div class="row">
     <div class="col-lg-8">
+        <div class="row">
+            <div id="reportrange" class="pull-right">
+                <i class="fa fa-calendar fa-lg"></i>
+                <span data-bind="date: {value : startDate, format :'MMMM D, YYYY'}">
+                </span>
+                -
+                <span data-bind="date: {value : endDate, format :'MMMM D, YYYY'}"></span>
+                <b class="caret"></b>
+            </div>
+        </div>
+
         <div class="row" id="chart-div">
 
         </div>
@@ -25,7 +36,6 @@
                 <option value="86400">Day</option>
                 <option value="604800">Week</option>
             </select>
-
 
 
             <button class="btn btn-default pull-right" data-bind="command : showChartCommand">

@@ -13,4 +13,5 @@
   <file>/Scripts/modernizr-2.7.1.js</file>
   <file>/Scripts/underscore.js</file>
   <file>/Scripts/jquery.tablescroll.js</file>
+  <file>/Scripts/daterangepicker.js</file>
 </bundle>

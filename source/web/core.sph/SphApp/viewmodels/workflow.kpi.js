@@ -12,9 +12,11 @@ define(['services/datacontext'],
     function (context) {
 
         var
+            startDate = ko.observable(moment().format('YYYY-MM-DD')),
+            endDate = ko.observable(moment().format('YYYY-MM-DD')),
             unit = ko.observable(3600),
             interval = ko.observable(1),
-            intervalInSeconds = ko.computed(function() {
+            intervalInSeconds = ko.computed(function () {
                 return unit() * interval();
             }),
             id = ko.observable(),
@@ -38,7 +40,24 @@ define(['services/datacontext'],
 
             },
             attached = function (view) {
-
+                $('#reportrange').daterangepicker(
+                        {
+                            ranges: {
+                                'Today': [moment(), moment()],
+                                'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                                'Last 7 Days': [moment().subtract('days', 6), moment()],
+                                'Last 30 Days': [moment().subtract('days', 29), moment()],
+                                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                                'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                            },
+                            startDate: moment().subtract('days', 29),
+                            endDate: moment()
+                        },
+                        function (start, end) {
+                            startDate(start.format('YYYY-MM-DD'));
+                            endDate(end.format('YYYY-MM-DD'));
+                        }
+                    );
             },
             showChartCommand = function () {
                 var tcs = new $.Deferred();
@@ -130,7 +149,12 @@ define(['services/datacontext'],
                 }
             };
 
+
+        endDate.subscribe(showChartCommand);
+        startDate.subscribe(showChartCommand);
         var vm = {
+            startDate: startDate,
+            endDate: endDate,
             unit: unit,
             interval: interval,
             selectedActivityName: selectedActivityName,

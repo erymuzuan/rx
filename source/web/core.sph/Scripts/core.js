@@ -378,7 +378,7 @@ ko.bindingHandlers.comboBoxLookupOptions = {
 /// <reference path="knockout-2.3.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
-/// <reference path="~/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="~/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="~/Scripts/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
@@ -519,6 +519,48 @@ ko.bindingHandlers.money = {
 ///user moment format
 ko.bindingHandlers.date = {
     init: function (element, valueAccessor) {
+        var value = ko.utils.unwrapObservable(valueAccessor()),
+            dv = ko.unwrap(value.value),
+            date = moment(dv),
+            invalid = ko.unwrap(value.invalid) || 'invalid date',
+            format = ko.unwrap(value.format) || "DD/MM/YYYY";
+
+        if (!value.format && typeof ko.unwrap(value) === "string") {
+            dv = ko.unwrap(value);
+            date = moment(dv);
+        }
+
+        $(element).on("change", function () {
+            var nv = $(this).val();
+            value.value(nv);
+        });
+        if (!dv) {
+            $(element).text(invalid);
+            $(element).val(invalid);
+            return;
+        }
+        if (!date) {
+            $(element).text("");
+            $(element).val("");
+            return;
+        }
+        if (date.year() == 1) { // DateTime.Min
+            $(element).text("");
+            $(element).val("");
+            return;
+        }
+
+
+        var dateString = date.format(format).toString();
+        if (dateString.indexOf("NaN") < 0) {
+            $(element).text(dateString);
+            $(element).val(dateString);
+        }
+
+
+
+    },
+    update: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor()),
             dv = ko.unwrap(value.value),
             date = moment(dv),
