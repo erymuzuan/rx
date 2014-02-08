@@ -67,9 +67,11 @@ namespace Bespoke.Sph.Domain
 
         public async Task SaveAsync()
         {
+            this.ExecutedActivityCollection.Sort(new ExecutedAcitivityComparer());
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
+
                 session.Attach(this);
                 await session.SubmitChanges("SaveTracker");
             }
@@ -104,7 +106,7 @@ namespace Bespoke.Sph.Domain
             return null;
         }
 
-        public void AddInitiateActivity(Activity act, InitiateActivityResult result)
+        public void AddInitiateActivity(Activity act, InitiateActivityResult result, DateTime time = new DateTime())
         {
             if (!this.ForbiddenActivities.Contains(act.WebId))
                 this.ForbiddenActivities.Add(act.WebId);
@@ -117,7 +119,7 @@ namespace Bespoke.Sph.Domain
                 User = directory.CurrentUserName,
                 Name = act.Name,
                 Type = act.GetType().Name,
-                Initiated = DateTime.UtcNow
+                Initiated = time == DateTime.MinValue ? DateTime.Now : time
             };
             if (WaitingAsyncList.ContainsKey(act.WebId))
             {
@@ -143,7 +145,7 @@ namespace Bespoke.Sph.Domain
             var ea = this.ExecutedActivityCollection.SingleOrDefault(e => e.ActivityWebId == act.WebId);
             if (null != ea)
             {
-                ea.Run = DateTime.UtcNow;
+                ea.Run = DateTime.Now;
                 // remove the waiting list
                 if (act.IsAsync && !act.IsInitiator)
                 {
@@ -163,9 +165,9 @@ namespace Bespoke.Sph.Domain
                     Type = act.GetType().Name
                 };
                 if (this.Workflow.State == "WaitingAsync" && act.IsAsync)
-                    ea.Initiated = DateTime.UtcNow;
+                    ea.Initiated = DateTime.Now;
                 else
-                    ea.Run = DateTime.UtcNow;
+                    ea.Run = DateTime.Now;
 
                 this.ExecutedActivityCollection.Add(ea);
             }

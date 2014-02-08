@@ -33,8 +33,6 @@ bespoke.sph.domain.ActivityPartial = function () {
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/require.js" />
 
-
-
 bespoke.sph.domain.AssemblyFieldPartial = function () {
     var system = require(objectbuilders.system),
         addParameter = function () {
@@ -53,14 +51,11 @@ bespoke.sph.domain.AssemblyFieldPartial = function () {
 };
 ///#source 1 1 /SphApp/partial/BarChartItem.js
 /// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.BarChartItemPartial = function () {
@@ -92,11 +87,6 @@ bespoke.sph.domain.BarChartItemPartial = function () {
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
-
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.BusinessRulePartial = function (model) {
 
@@ -170,9 +160,10 @@ bespoke.sph.domain.ButtonPartial = function () {
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="/Scripts/require.js" />
 
 bespoke.sph.domain.ComboBoxPartial = function () {
     var system = require('durandal/system'),
@@ -198,11 +189,6 @@ bespoke.sph.domain.ComboBoxPartial = function () {
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
-
-
 bespoke.sph.domain.ConstantFieldPartial = function () {
    
     return {
@@ -214,14 +200,11 @@ bespoke.sph.domain.ConstantFieldPartial = function () {
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="/Scripts/require.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
-var bespoke = bespoke || {};
- 
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.CreateEntityActivityPartial = function () {
@@ -247,13 +230,11 @@ bespoke.sph.domain.CreateEntityActivityPartial = function () {
 ///#source 1 1 /SphApp/partial/DataGridItem.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.DataGridItemPartial = function () {
@@ -292,14 +273,12 @@ bespoke.sph.domain.DataGridItemPartial = function () {
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="/Scripts/require.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
-var bespoke = bespoke || {};
- 
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
+
 
 
 bespoke.sph.domain.DecisionActivityPartial = function () {
@@ -484,14 +463,12 @@ bespoke.sph.domain.EntityViewPartial = function () {
 ///#source 1 1 /SphApp/partial/ExecutedActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.ExecutedActivityPartial = function () {
@@ -514,7 +491,7 @@ bespoke.sph.domain.ExecutedActivityPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -580,7 +557,7 @@ bespoke.sph.domain.FormElementPartial = function () {
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
 
@@ -611,10 +588,6 @@ bespoke.sph.domain.HtmlElementPartial = function () {
     };
 };
 ///#source 1 1 /SphApp/partial/IFormTemplate.js
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
-
 
 bespoke.sph.domain.FormTemplatePartial = function () {
 
@@ -626,14 +599,9 @@ bespoke.sph.domain.FormTemplatePartial = function () {
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
-
 
 bespoke.sph.domain.IntervalSchedulePartial = function () {
     var icon = ko.observable(),
@@ -645,15 +613,11 @@ bespoke.sph.domain.IntervalSchedulePartial = function () {
 };
 ///#source 1 1 /SphApp/partial/LineChartItem.js
 /// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
-
 
 bespoke.sph.domain.LineChartItemPartial = function () {
     var system = require('durandal/system'),
@@ -676,14 +640,9 @@ bespoke.sph.domain.LineChartItemPartial = function () {
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
-
-var bespoke = bespoke || {};
-
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.ListenActivityPartial = function () {
@@ -711,14 +670,12 @@ bespoke.sph.domain.ListenActivityPartial = function () {
 };
 ///#source 1 1 /SphApp/partial/ListView.js
 /// <reference path="../schemas/form.designer.g.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.ListViewPartial = function () {
@@ -750,13 +707,9 @@ bespoke.sph.domain.ListViewPartial = function () {
 ///#source 1 1 /SphApp/partial/ListViewColumn.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.ListViewColumnPartial = function (model) {
@@ -779,15 +732,12 @@ bespoke.sph.domain.ListViewColumnPartial = function (model) {
 ///#source 1 1 /SphApp/partial/Member.js
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
+/// <reference path="../schemassystem.js" />
 /// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
-
-var bespoke = bespoke || {};
- 
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
+/// <reference path="/Scripts/require.js" />
 
 
 bespoke.sph.domain.MemberPartial = function () {
@@ -849,13 +799,11 @@ bespoke.sph.domain.MemberPartial = function () {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.MethodArgPartial = function () {
 
@@ -901,18 +849,31 @@ bespoke.sph.domain.MethodArgPartial = function () {
     return vm;
 };
 
+///#source 1 1 /SphApp/partial/NotificationActivity.js
+/// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
+/// <reference path="../../App/durandal/amd/require.js" />
+/// <reference path="../../App/durandal/system.js" />
+
+
+bespoke.sph.domain.NotificationActivityPartial = function(model) {
+    
+    if (!model.From()) {
+        model.From("admin@@sph.my");
+    }
+    return {
+    };
+};
 ///#source 1 1 /SphApp/partial/ParallelActivity.js
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="/Scripts/require.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
-var bespoke = bespoke || {};
- 
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.ParallelActivityPartial = function () {
@@ -937,13 +898,11 @@ bespoke.sph.domain.ParallelActivityPartial = function () {
 };
 ///#source 1 1 /SphApp/partial/report.js
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
+
 
 
 bespoke.sph.domain.DailySchedulePartial = function () {
@@ -973,14 +932,10 @@ bespoke.sph.domain.MonthlySchedulePartial = function () {
 ///#source 1 1 /SphApp/partial/ReportDelivery.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../prototypes/IntervalScheduleContainer.js" />
 /// <reference path="../../App/durandal/system.js" />
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.ReportDeliveryPartial = function () {
 
@@ -993,14 +948,12 @@ bespoke.sph.domain.ReportDeliveryPartial = function () {
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.RulePartial = function () {
 
@@ -1051,14 +1004,11 @@ bespoke.sph.domain.RulePartial = function () {
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
 /// <reference path="../prototypes/IntervalScheduleContainer.js" />
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.ScheduledTriggerActivityPartial = function (model) {
@@ -1071,17 +1021,12 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function (model) {
 ///#source 1 1 /SphApp/partial/ScreenActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
-
 
 bespoke.sph.domain.ScreenActivityPartial = function () {
-
 
     return {
         isAsync: true,
@@ -1096,13 +1041,10 @@ bespoke.sph.domain.ScreenActivityPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.SetterActionPartial = function () {
 
@@ -1136,13 +1078,10 @@ bespoke.sph.domain.SetterActionPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.SetterActionChildPartial = function () {
 
@@ -1192,15 +1131,13 @@ bespoke.sph.domain.SetterActionChildPartial = function () {
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
+
 
 bespoke.sph.domain.StartWorkflowActionPartial = function () {
 
@@ -1232,14 +1169,12 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.TriggerPartial = function () {
 
@@ -1321,14 +1256,11 @@ bespoke.sph.domain.TriggerPartial = function () {
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="/Scripts/require.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
-var bespoke = bespoke || {};
- 
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.UpdateEntityActivityPartial = function () {
@@ -1354,14 +1286,12 @@ bespoke.sph.domain.UpdateEntityActivityPartial = function () {
 ///#source 1 1 /SphApp/partial/Variable.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.VariablePartial = function () {
@@ -1382,13 +1312,9 @@ bespoke.sph.domain.VariablePartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
@@ -1559,7 +1485,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 
@@ -1577,13 +1503,9 @@ bespoke.sph.domain.WorkflowDesignerPartial = function () {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.WorkflowTriggerMapPartial = function () {
     var self = this;

@@ -1,13 +1,9 @@
 ﻿/// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
-
 
 bespoke.sph.domain.LineChartItemPartial = function () {
     var system = require('durandal/system'),

@@ -21,30 +21,30 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
                 var query = String.format("Name eq '{0}'", 'Account'),
-                  tcs = new $.Deferred(),
-                  formsQuery = String.format("EntityDefinitionId eq 2"),
-                  edTask = context.loadOneAsync("EntityDefinition", query),
-                  formsTask = context.loadAsync("EntityForm", formsQuery),
-                  viewsTask = context.loadAsync("EntityView", formsQuery);
+                    tcs = new $.Deferred(),
+                    formsQuery = String.format("EntityDefinitionId eq 2"),
+                    edTask = context.loadOneAsync("EntityDefinition", query),
+                    formsTask = context.loadAsync("EntityForm", formsQuery),
+                    viewsTask = context.loadAsync("EntityView", formsQuery);
 
 
                 $.when(edTask, formsTask, viewsTask)
-                 .done(function (b, formsLo, viewsLo) {
-                     entity(b);
-                     var formsCommands = _(formsLo.itemCollection).map(function (v) {
-                         return {
-                             caption: v.Name(),
-                             command: function () {
-                                 window.location = '#' + v.Route() + '/0';
-                                 return Task.fromResult(0);
-                             },
-                             icon: "fa fa-table"
-                         };
-                     });
-                     views(viewsLo.itemCollection);
-                     vm.toolbar.commands(formsCommands);
-                     tcs.resolve(true);
-                 });
+                    .done(function (b, formsLo, viewsLo) {
+                        entity(b);
+                        var formsCommands = _(formsLo.itemCollection).map(function (v) {
+                            return {
+                                caption: v.Name(),
+                                command: function () {
+                                    window.location = '#' + v.Route() + '/0';
+                                    return Task.fromResult(0);
+                                },
+                                icon: "fa fa-table"
+                            };
+                        });
+                        views(viewsLo.itemCollection);
+                        vm.toolbar.commands(formsCommands);
+                        tcs.resolve(true);
+                    });
 
                 // TODO : get views
 
@@ -68,11 +68,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             },
             recentItemsQuery = {
                 "sort": [
-                 {
-                     "ChangedDate": {
-                         "order": "desc"
-                     }
-                 }
+                    {
+                        "ChangedDate": {
+                            "order": "desc"
+                        }
+                    }
                 ]
             };
 

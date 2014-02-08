@@ -70,7 +70,7 @@ namespace Bespoke.Sph.Domain
             {
                 code.AppendLinf("       var act{0} = this.GetActivity<Activity>(\"{1}\");", count, branch.NextActivityWebId);
                 code.AppendLinf("       var bc{0} = await  initiateTask{0};", count);
-                code.AppendLinf("       tracker.AddInitiateActivity(act{0}, bc{0});", count);
+                code.AppendLinf("       tracker.AddInitiateActivity(act{0}, bc{0}, System.DateTime.Now.AddSeconds(1));", count);
                 code.AppendLine();
                 count++;
             }
@@ -104,6 +104,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   {");
             code.AppendLinf("       var self = this.GetActivity<ListenActivity>(\"{0}\");", this.WebId);
             code.AppendLinf("       var fired = this.GetActivity<Activity>(webId);");
+
+            code.AppendLinf("       var tracker = await this.GetTrackerAsync();");
+            code.AppendLinf("       tracker.AddExecutedActivity(fired);");
+
             code.AppendLinf(@"      await self.CancelAsync(this);
  
                                     var cancelled = self.ListenBranchCollection

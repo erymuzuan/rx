@@ -1,0 +1,107 @@
+{
+		"$type": "Bespoke.Sph.Domain.Tracker, domain.sph",
+		"ForbiddenActivities": ["edb22af4-9fc2-4f01-b0f1-8c949aea76fc",
+		"77d593ea-0bc9-443c-80d6-0b6f069912d7",
+		"5d76fa1a-521e-432f-8d2a-ec36abf1d057",
+		"e56fda2b-5677-42e7-8da9-1e7fe0687d21",
+		"5f7b4900-798c-43f4-8d8e-20d92c07c28a",
+		"da9fdcd3-a029-4174-9167-eaf6c4c6363f"],
+		"ExecutedActivityCollection": [{
+			"$type": "Bespoke.Sph.Domain.ExecutedActivity, domain.sph",
+			"Elapse": "",
+			"InstanceId": 0,
+			"ActivityWebId": "edb22af4-9fc2-4f01-b0f1-8c949aea76fc",
+			"WorkflowDefinitionId": 10002,
+			"User": "BESPOKE1-PC",
+			"Name": "Every Five minutes",
+			"Type": "ScheduledTriggerActivity",
+			"Initiated": null,
+			"Run": "2014-02-08T09:22:11.4521834Z",
+			"WebId": null
+		},
+		{
+			"$type": "Bespoke.Sph.Domain.ExecutedActivity, domain.sph",
+			"Elapse": "",
+			"InstanceId": 48035,
+			"ActivityWebId": "77d593ea-0bc9-443c-80d6-0b6f069912d7",
+			"WorkflowDefinitionId": 10002,
+			"User": "BESPOKE1-PC",
+			"Name": "Verification",
+			"Type": "ScreenActivity",
+			"Initiated": "2014-02-08T09:22:13.3202353+08:00",
+			"Run": null,
+			"WebId": null
+		},
+		{
+			"$type": "Bespoke.Sph.Domain.ExecutedActivity, domain.sph",
+			"Elapse": "-7 hours",
+			"InstanceId": 48035,
+			"ActivityWebId": "5d76fa1a-521e-432f-8d2a-ec36abf1d057",
+			"WorkflowDefinitionId": 10002,
+			"User": "BESPOKE1-PC",
+			"Name": "Delay Verification",
+			"Type": "DelayActivity",
+			"Initiated": "2014-02-08T09:22:13.3202353+08:00",
+			"Run": "2014-02-08T09:23:15.3389748Z",
+			"WebId": null
+		},
+		{
+			"$type": "Bespoke.Sph.Domain.ExecutedActivity, domain.sph",
+			"Elapse": "-7 hours",
+			"InstanceId": 48035,
+			"ActivityWebId": "e56fda2b-5677-42e7-8da9-1e7fe0687d21",
+			"WorkflowDefinitionId": 10002,
+			"User": "BESPOKE1-PC",
+			"Name": "Starts Verification",
+			"Type": "ListenActivity",
+			"Initiated": "2014-02-08T09:22:12.3772383+08:00",
+			"Run": "2014-02-08T09:23:15.0959608Z",
+			"WebId": null
+		},
+		{
+			"$type": "Bespoke.Sph.Domain.ExecutedActivity, domain.sph",
+			"Elapse": "",
+			"InstanceId": 48035,
+			"ActivityWebId": "5f7b4900-798c-43f4-8d8e-20d92c07c28a",
+			"WorkflowDefinitionId": 10002,
+			"User": "BESPOKE1-PC",
+			"Name": "End2",
+			"Type": "EndActivity",
+			"Initiated": null,
+			"Run": "2014-02-08T09:23:42.075562Z",
+			"WebId": null
+		},
+		{
+			"$type": "Bespoke.Sph.Domain.ExecutedActivity, domain.sph",
+			"Elapse": "",
+			"InstanceId": 48035,
+			"ActivityWebId": "da9fdcd3-a029-4174-9167-eaf6c4c6363f",
+			"WorkflowDefinitionId": 10002,
+			"User": "BESPOKE1-PC",
+			"Name": "Email lambat buat",
+			"Type": "NotificationActivity",
+			"Initiated": null,
+			"Run": "2014-02-08T09:23:37.5432932Z",
+			"WebId": null
+		}],
+		"TrackerId": 25035,
+		"WorkflowId": 48035,
+		"WorkflowDefinitionId": 10002,
+		"WaitingJoinList": {
+			"$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib]], mscorlib"
+		},
+		"FiredJoinList": {
+			"$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib]], mscorlib"
+		},
+		"WaitingAsyncList": {
+			"$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib]], mscorlib",
+			"77d593ea-0bc9-443c-80d6-0b6f069912d7": [],
+			"5d76fa1a-521e-432f-8d2a-ec36abf1d057": ["1ce8fb86-9a64-49d0-aa4a-beef0e805290"],
+			"e56fda2b-5677-42e7-8da9-1e7fe0687d21": []
+		},
+		"CreatedBy": "BESPOKE1-PC",
+		"CreatedDate": "2014-02-08T09:22:11.7872164+08:00",
+		"ChangedBy": "BESPOKE1-PC",
+		"ChangedDate": "2014-02-08T09:23:42.0985633+08:00",
+		"WebId": "415d2260-3480-4645-8fc6-eb6fb6228973"
+	}

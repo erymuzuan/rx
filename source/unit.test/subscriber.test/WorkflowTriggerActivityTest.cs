@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WorkflowTriggerSubscriptions;
 using Humanizer;
+using Moq;
 using NUnit.Framework;
 
 namespace subscriber.test
@@ -9,10 +11,22 @@ namespace subscriber.test
     [TestFixture]
     public class WorkflowTriggerActivityTest
     {
-        [Test]
-        public void WeeklyTriggerTest()
+        private Mock<Bespoke.Sph.SubscribersInfrastructure.INotificationService> m_console;
+
+        [SetUp]
+        public void SetUp()
         {
-            var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe");
+            m_console = new Mock<Bespoke.Sph.SubscribersInfrastructure.INotificationService>(MockBehavior.Strict);
+            m_console.Setup(x => x.Write(It.IsAny<string>(), It.IsAny<object[]>()))
+                .Callback((string format, object[] f) => Console.WriteLine(format, f));
+        }
+        [Test]
+        public async Task WeeklyTriggerTest()
+        {
+            var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
+            {
+                NotificicationService = m_console.Object
+            };
             var wd = new WorkflowDefinition
             {
                 IsActive = true,
@@ -37,12 +51,16 @@ namespace subscriber.test
             wd.ActivityCollection.Add(trigger);
 
 
-            sub.Test(wd, null);
+            await sub.Test(wd, null);
         }
         [Test]
-        public void MonthlyTriggerTest()
+        public async Task MonthlyTriggerTest()
         {
-            var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe");
+            var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
+            {
+                NotificicationService = m_console.Object
+            };
+
             var wd = new WorkflowDefinition
             {
                 IsActive = true,
@@ -59,20 +77,25 @@ namespace subscriber.test
                 Start = DateTime.Today,
                 Expire = In.One.Year,
                 IsEnabled = true,
-                IsLastDay = true
+                IsLastDay = true,
+                IsApril = true,
+                IsMarch = true
             };
             trigger.IntervalScheduleCollection.Add(month);
             wd.ActivityCollection.Add(trigger);
 
 
-            sub.Test(wd, null);
+            await sub.Test(wd, null);
         }
 
 
         [Test]
-        public void DailyTrigger()
+        public async Task DailyTrigger()
         {
-            var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe");
+            var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
+            {
+                NotificicationService = m_console.Object
+            };
             var wd = new WorkflowDefinition
             {
                 IsActive = true,
@@ -107,7 +130,7 @@ namespace subscriber.test
             wd.ActivityCollection.Add(trigger);
 
 
-            sub.Test(wd, null);
+            await sub.Test(wd, null);
         }
     }
 }

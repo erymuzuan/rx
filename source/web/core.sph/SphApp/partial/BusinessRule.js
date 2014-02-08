@@ -10,11 +10,6 @@
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
-
 bespoke.sph.domain.BusinessRulePartial = function (model) {
 
     var system = require('durandal/system'),

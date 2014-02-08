@@ -25,10 +25,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                     trackerTask = context.loadOneAsync("Tracker", "WorkflowId eq " + wf.WorkflowId());
                 $.when(wdTask, trackerTask)
                     .done(function (b, t) {
-
                         wd(b);
                         tracker(t);
-
+                        // sort the
                         tcs.resolve(true);
                     });
 

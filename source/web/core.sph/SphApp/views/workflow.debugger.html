@@ -1,13 +1,10 @@
 ﻿<link href="/Content/jsplumb/jsplumb.css" rel="stylesheet" />
 <script src="/Scripts/jsPlumb/bundle.js"></script>
 <link href="/Content/jquery.contextMenu.css" rel="stylesheet" />
-<div class="row" data-bind="with : wd">
-    <div class="form-group">
-        <label>Instance id</label>
-        <span data-bind="text:Name"></span>
-    </div>
-
-</div>
+<h1 class="row" data-bind="with : wd">
+    <span data-bind="text:Name"></span>
+    (<span data-bind="text:WorkflowDefinitionId"></span>)
+</h1>
 <div class="row">
     <button class="btn btn-default" title="Continue" data-bind="click : debugcontinue">
         <i class="fa fa-play" style="color: green"></i>

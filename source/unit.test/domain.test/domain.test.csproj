@@ -121,6 +121,7 @@
     <Compile Include="workflows\BuildValidationTest.cs" />
     <Compile Include="workflows\CreationTest.cs" />
     <Compile Include="workflows\DelayActivityExecutionTest.cs" />
+    <Compile Include="workflows\ExecuteActivitySortTest.cs" />
     <Compile Include="workflows\ParallelJoinExecutionTest.cs" />
     <Compile Include="workflows\ScreenActivityTest.cs" />
     <Compile Include="workflows\TestWorkflowForTracker.cs" />
@@ -141,6 +142,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="workflows\tracker.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\razor.template\razor.template.csproj">

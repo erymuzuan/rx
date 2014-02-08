@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -92,7 +93,16 @@ namespace Bespoke.Sph.Web.Api
 
         public async Task<ActionResult> Tracker(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return await ExecuteAsync<Tracker>(filter, page, size, includeTotal);
+            Action<IEnumerable<Tracker>> process = list =>
+            {
+                foreach (var tracker in list)
+                {
+                    var sl = tracker.ExecutedActivityCollection.ToList();
+                    sl.Sort(new ExecutedAcitivityComparer());
+                    tracker.ExecutedActivityCollection.ClearAndAddRange(sl);
+                }
+            };
+            return await ExecuteAsync(filter, page, size, includeTotal, process);
         }
 
 
@@ -137,7 +147,7 @@ namespace Bespoke.Sph.Web.Api
             return Content(json.ToString());
         }
 
-        private async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false) where T : Entity
+        private async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false, Action<IEnumerable<T>> processAction = null ) where T : Entity
         {
             if (size > 200)
                 throw new ArgumentException("Your are not allowed to do more than 200", "size");
@@ -150,6 +160,8 @@ namespace Bespoke.Sph.Web.Api
             var rows = 0;
             var nextPageToken = "";
             var list = await this.ExecuteListTupleAsync<T>(sql, page, size);
+            if (null != processAction)
+                processAction(list);
 
             if (includeTotal || page > 1)
             {

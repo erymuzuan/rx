@@ -1,14 +1,11 @@
 ﻿/// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
+/// <reference path="../schemassystem.js" />
 /// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
-
-var bespoke = bespoke || {};
- 
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
+/// <reference path="/Scripts/require.js" />
 
 
 bespoke.sph.domain.MemberPartial = function () {

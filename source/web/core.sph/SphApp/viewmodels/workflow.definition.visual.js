@@ -630,6 +630,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                    });
 
                 return tcs.promise();
+            },
+            reload = function () {
+
+                if (!wd().WorkflowDefinitionId()) {
+                    var tcs = new $.Deferred();
+                    app.showMessage('You have yet to save your work ', 'SPH - Workflow', ['OK'])
+                       .done(tcs.resolve);
+
+                    return tcs.promise();
+                }
+                return activate(wd().WorkflowDefinitionId())
+                .done(function() {
+                    $('div.modalHost, div.modalBlockout').remove();
+                });
             };
 
         var vm = {
@@ -650,6 +664,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 exportCommand: exportWd,
                 importCommand: importAsync,
                 removeCommand: remove,
+                reloadCommand: reload,
                 commands: ko.observableArray([
                     {
                         command: compileAsync,

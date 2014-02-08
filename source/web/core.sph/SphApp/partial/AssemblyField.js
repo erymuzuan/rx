@@ -5,8 +5,6 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/require.js" />
 
-
-
 bespoke.sph.domain.AssemblyFieldPartial = function () {
     var system = require(objectbuilders.system),
         addParameter = function () {

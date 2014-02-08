@@ -9,7 +9,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         private readonly ReceivedMessageArgs m_args;
 
-        internal MessageHeaders(ReceivedMessageArgs args)
+        public MessageHeaders(ReceivedMessageArgs args)
         {
             m_args = args;
         }

@@ -27,7 +27,7 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
 
         public override string[] RoutingKeys
         {
-            get { return new[] { "WorkflowDefinition.*.Publish" }; }
+            get { return new[] { "WorkflowDefinition.#.Publish" }; }
         }
 
         protected override Task ProcessMessage(WorkflowDefinition item, MessageHeaders header)
@@ -44,7 +44,6 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
             this.Delete(path);
             if (!item.IsActive) return emptyTask;
 
-            if (header.Operation != "Publish") return emptyTask;
 
             this.WriteMessage("Creating scheduler for " + item.Name);
             using (var ts = new TaskService())
@@ -96,9 +95,9 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
 
         }
 
-        public void Test(WorkflowDefinition wd, MessageHeaders headers)
+        public async Task Test(WorkflowDefinition wd, MessageHeaders headers)
         {
-            this.ProcessMessage(wd, headers).Wait();
+            await this.ProcessMessage(wd, headers).ConfigureAwait(false);
         }
     }
 }

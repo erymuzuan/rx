@@ -33,6 +33,9 @@ namespace Bespoke.Sph.Domain
             if(!this.Performer.IsPublic && string.IsNullOrWhiteSpace(this.Performer.UserProperty))
                 result.Errors.Add(new BuildError(this.WebId,
                              string.Format("[ScreenActivity] : {0} => does not have performer", this.Name)));
+            if(string.IsNullOrWhiteSpace(this.NextActivityWebId))
+                result.Errors.Add(new BuildError(this.WebId,
+                             string.Format("[ScreenActivity] : {0} => does not the next activity defined", this.Name)));
 
             return result;
         }
