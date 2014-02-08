@@ -8,7 +8,7 @@
   <file>/Scripts/knockout.mapping-latest.js</file>
   <file>/Scripts/bootstrap.js</file>
   <file>/Scripts/toastr.js</file>
-  <file>/Scripts/typeahead.js</file>
+  <file>/Scripts/typeahead.bundle.min.js</file>
   <file>/Scripts/moment.js</file>
   <file>/Scripts/modernizr-2.7.1.js</file>
   <file>/Scripts/underscore.js</file>

@@ -54,9 +54,9 @@
     <Reference Include="DiffPlex">
       <HintPath>..\..\..\packages\DiffPlex.1.2.0\lib\Net40\DiffPlex.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer, Version=1.7.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+    <Reference Include="Humanizer, Version=1.8.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Humanizer.1.7.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
+      <HintPath>..\..\..\packages\Humanizer.1.8.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer, Version=3.4.2.549, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1365,6 +1365,7 @@
       <LastGenOutput>PieChartItem.generated.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
+    <Content Include="Scripts\bloodhound.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
@@ -1384,6 +1385,9 @@
     <Content Include="Scripts\moment-with-langs.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\typeahead.bundle.js" />
+    <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="Scripts\typeahead.jquery.js" />
     <Content Include="Scripts\_ko.bootstrap.min.js">
       <DependentUpon>_ko.bootstrap.js</DependentUpon>
     </Content>
@@ -2585,8 +2589,6 @@
     <EmbeddedResource Include="Scripts\text.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
-    <Content Include="Scripts\typeahead.js" />
-    <Content Include="Scripts\typeahead.min.js" />
     <Content Include="Scripts\underscore.js" />
     <EmbeddedResource Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_constants.js" />
@@ -3346,7 +3348,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_DesignerContextAction.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Workflow\_xxxxStart.cshtml" />
     <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\CheckBox.cshtml" />
     <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\ComboBox.cshtml" />
     <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\DatePicker.cshtml" />
