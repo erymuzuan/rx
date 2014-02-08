@@ -133,7 +133,15 @@ define(['services/datacontext'],
                                        "term": {
                                            "WorkflowDefinitionId": id
                                        }
-                                   }
+                                   },
+                                    {
+                                        "range": {
+                                            "Initiated": {
+                                                "from": startDate,
+                                                "to": endDate
+                                            }
+                                        }
+                                    }
                                 ]
                             }
                         }
