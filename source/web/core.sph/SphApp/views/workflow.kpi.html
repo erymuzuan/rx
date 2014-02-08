@@ -1,27 +1,37 @@
 ﻿<h1>Activity Performance Indicator</h1>
 <div class="row">
-    <form class="form form-inline">
-        <label>Activities</label>
-        <select class="form-control" data-bind="value:selectedActivityName,
+    <div class="col-lg-8">
+        <div class="row" id="chart-div">
+
+        </div>
+
+    </div>
+    <div class="col-lg-4">
+
+        <form class="form form-horizontal">
+            <label>Activities</label>
+            <select class="form-control" data-bind="value:selectedActivityName,
                     options: activities,
                     optionsText:'Name',
                     optionsValue : 'Name',
-                    optionsCaption:'Please select next activity'"></select>
+                    optionsCaption:'[Please select activity]'"></select>
 
-        <label>Interval</label>
-        <select class="form-control" data-bind="value:interval">
-            <option value="5">5 Seconds</option>
-            <option value="10">10 Seconds</option>
-            <option value="300">5 Minutes</option>
-            <option value="3600">1 Hour</option>
-            <option value="21600">6 Hour</option>
-        </select>
+            <label>Interval</label>
+            <input class="form-control" style="width: 30%" type="number" name="interval" data-bind="value:interval" />
+            <select class="form-control" style="width: 50%;float: none" data-bind="value:unit">
+                <option value="1">Second</option>
+                <option value="60">Minute</option>
+                <option value="3600">Hour</option>
+                <option value="86400">Day</option>
+                <option value="604800">Week</option>
+            </select>
 
-        <button class="btn btn-default" data-bind="command : showChartCommand">
-            <i class="fa fa-search"></i>
-        </button>
-    </form>
-</div>
-<div class="row" id="chart-div">
-    
+
+
+            <button class="btn btn-default pull-right" data-bind="command : showChartCommand">
+                <i class="fa fa-bar-chart-o"></i>
+                Display
+            </button>
+        </form>
+    </div>
 </div>

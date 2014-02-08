@@ -12,7 +12,11 @@ define(['services/datacontext'],
     function (context) {
 
         var
-            interval = ko.observable(5),
+            unit = ko.observable(3600),
+            interval = ko.observable(1),
+            intervalInSeconds = ko.computed(function() {
+                return unit() * interval();
+            }),
             id = ko.observable(),
             selectedActivityName = ko.observable(),
             isBusy = ko.observable(false),
@@ -120,13 +124,14 @@ define(['services/datacontext'],
                     "elapses": {
                         "histogram": {
                             "field": "ElapseSeconds",
-                            "interval": interval
+                            "interval": intervalInSeconds
                         }
                     }
                 }
             };
 
         var vm = {
+            unit: unit,
             interval: interval,
             selectedActivityName: selectedActivityName,
             showChartCommand: showChartCommand,
