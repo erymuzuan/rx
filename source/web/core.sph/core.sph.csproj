@@ -2050,7 +2050,9 @@
     <EmbeddedResource Include="Scripts\durandal\transitions\entrance.js" />
     <EmbeddedResource Include="Scripts\durandal\viewEngine.js" />
     <EmbeddedResource Include="Scripts\durandal\viewLocator.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\workflow.kpi.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\AddressElement.cshtml">

@@ -166,6 +166,11 @@ namespace Bespoke.Sph.Workflows_10002_0
      await this.FireListenTriggerExecListenActivityStartsVerification_e56fAsync("5d76fa1a-521e-432f-8d2a-ec36abf1d057");
        return result;
    }
+   public System.DateTime EvaluateExpressionExecDelayActivityDelayVerification_5d76Async()
+   {
+       var item = this;
+       return System.DateTime.Now.AddSeconds(this.WorkflowId % 30);
+   }
 
 
 //exec:da9fdcd3-a029-4174-9167-eaf6c4c6363f

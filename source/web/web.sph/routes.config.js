@@ -255,6 +255,20 @@
   },
   {
     "role": "can_edit_workflow",
+    "groupName": "Workflow",
+    "route": "workflow.kpi/:id",
+    "moduleId": "viewmodels/workflow.kpi",
+    "title": "Perfomance Indicator",
+    "nav": false,
+    "icon": "fa-bug",
+    "caption": "Performance Indicator",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
     "groupName": "Entity",
     "route": "entity.details/:id",
     "moduleId": "viewmodels/entity.details",

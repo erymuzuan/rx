@@ -89,27 +89,30 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(ea, setting);
             var content = new StringContent(json);
 
-            var url = string.Format("{0}/{1}/{2}/{3}", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex, "activity", id);
+            var url = string.Format("{0}/{1}/{2}", ConfigurationManager.ElasticSearchIndex, "activity", id);
 
-            var client = new HttpClient();
-            HttpResponseMessage response = null;
-            switch (headers.Crud)
+            using (var client = new HttpClient())
             {
-                case CrudOperation.Added:
-                    response = await client.PutAsync(url, content);
-                    break;
-                case CrudOperation.Changed:
-                    response = await client.PostAsync(url, content);
-                    break;
-                case CrudOperation.Deleted:
-                    response = await client.DeleteAsync(url);
-                    break;
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                HttpResponseMessage response = null;
+                switch (headers.Crud)
+                {
+                    case CrudOperation.Added:
+                        response = await client.PutAsync(url, content);
+                        break;
+                    case CrudOperation.Changed:
+                        response = await client.PostAsync(url, content);
+                        break;
+                    case CrudOperation.Deleted:
+                        response = await client.DeleteAsync(url);
+                        break;
 
-            }
+                }
 
-            if (null != response)
-            {
-                Debug.Write(".");
+                if (null != response)
+                {
+                    Debug.Write(".");
+                }
             }
         }
     }

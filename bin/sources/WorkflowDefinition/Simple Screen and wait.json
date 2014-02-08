@@ -300,9 +300,9 @@
       {
         "$type": "Bespoke.Sph.Domain.DelayActivity, domain.sph",
         "IsAsync": true,
-        "Expression": "",
+        "Expression": "System.DateTime.Now.AddSeconds(this.WorkflowId % 30)",
         "Miliseconds": 0,
-        "Seconds": 30,
+        "Seconds": 0,
         "Hour": 0,
         "Days": 0,
         "MethodName": "ExecDelayActivityDelayVerification_5d76Async",
@@ -367,6 +367,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-02-08T07:27:17.0040446+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-08T09:15:50.6495844+08:00",
+  "ChangedDate": "2014-02-08T11:44:37.7103369+08:00",
   "WebId": "0888d213-04f7-4fe1-a90c-444a09614e38"
 }
