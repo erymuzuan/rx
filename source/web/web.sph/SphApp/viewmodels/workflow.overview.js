@@ -13,17 +13,36 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
         var
             isBusy = ko.observable(false),
+            versions = ko.observableArray(),
             wd = ko.observable(),
             id = ko.observable(),
             activate = function (wdid) {
                 id(parseInt(wdid));
                 var query1 = String.format("WorkflowDefinitionId eq {0}", wdid),
-                    tcs = new $.Deferred();
-                context.loadOneAsync("WorkflowDefinition", query1)
-                    .done(function (b) {
-                        wd(b);
-                        tcs.resolve(true);
+                    vt = $.get('/WorkflowMonitor/DeployedVersions/' + id()),
+                    tcs = new $.Deferred(),
+                    wdTask = context.loadOneAsync("WorkflowDefinition", query1);
+
+                versions.removeAll();
+                $.when(vt, wdTask).done(function (deployments, b) {
+                    wd(b);
+                    _(deployments).each(function (v) {
+                        if (!v[0]) {
+                            return;
+                        }
+                        context.post(ko.mapping.toJSON(query), "workflow_" + wdid + "_" + ko.unwrap(v[0].Version) + "/search")
+                            .then(function (result) {
+                                versions.push({
+                                    version: v[0].Version,
+                                    states: result.facets.state.terms
+                                });
+                            });
+
                     });
+
+                    tcs.resolve(true);
+
+                });
 
                 return tcs.promise();
 
@@ -42,6 +61,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             };
 
         var vm = {
+            id: id,
+            versions: versions,
             wd: wd,
             isBusy: isBusy,
             activate: activate,

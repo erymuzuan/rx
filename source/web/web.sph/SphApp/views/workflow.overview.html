@@ -1,3 +1,43 @@
 ﻿<h1 data-bind="text:wd().Name"></h1>
 <div class="row">
+
+    <div class="col-lg-8">
+
+        <div data-bind="foreach :versions">
+            <h3>Version <span data-bind="text:version"></span></h3>
+            <ul class="today-datas" data-bind="foreach : states">
+
+                <li class="bblue">
+                    <div class="pull-left"><span id="todayspark1" class="spark"><canvas width="103" height="50" style="display: inline-block; width: 103px; height: 50px; vertical-align: top;"></canvas></span></div>
+                    <div class="datas-text pull-right">
+                        <span class="bold" data-bind="text:count"></span>
+                        <span data-bind="text:term"></span>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <h3>Tools</h3>
+        <nav>
+            <ul class="nav">
+                <li>
+
+                    <a data-bind="attr: { href: '#/workflow.manage/' + id() }" title="Manage deployment">
+                        <i style="color:rgb(118, 143, 207)" class="fa fa-gear fa-2x"></i>
+                        Manage deployment
+                    </a>
+                    <a data-bind="attr: { href: '#/workflow.debugger/' + id() }" title="Debugger">
+                        <i style="color:brown" class="fa fa-bug fa-2x"></i>Debugger
+                    </a>
+                    <a data-bind="attr: { href: '#/workflow.kpi/' + id() }" title="Performance indicator">
+                        <i style="color:rgb(33, 130, 214)" class="fa fa-bar-chart-o fa-2x"></i>Performance indicator
+                    </a>
+
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>
