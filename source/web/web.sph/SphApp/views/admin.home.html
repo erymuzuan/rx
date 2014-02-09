@@ -37,26 +37,44 @@
             Recent Workflow
             <i class="fa fa-chevron-down"></i>
         </h3>
-        <ul data-bind="foreach :recentWorkflowDefinitions" class="" style="list-style: none">
+        <ul data-bind="foreach :recentWorkflowDefinitions" class="nav">
             <li style="padding-top: 5px">
-                <i class="fa fa-thumb-tack"></i>
-                <i class="glyphicon glyphicon-pushpin"></i>
-                <a href="#" data-bind="attr : {href:'#/workflow.definition.visual/' + WorkflowDefinitionId()},text: Name" ></a>
+                <a style="padding-top: 5px" href="#" data-bind="attr : {href:'#/workflow.definition.visual/' + WorkflowDefinitionId()},text: Name"></a>
             </li>
         </ul>
-        <a href="#">more..</a>
+        <a href="#/workflow.definition.list">more..</a>
         <h3>
             Recent Entity Definitions
             <i class="fa fa-chevron-down"></i>
         </h3>
-        <ul data-bind="foreach :recentEntityDefinitions" class="" style="list-style: none">
-            <li style="padding-top: 5px">
-                <i class="fa fa-thumb-tack"></i>
-                <i class="glyphicon glyphicon-pushpin"></i>
-                <a href="#" data-bind="attr : {href:'#/entity.details/' + EntityDefinitionId()},text: Name" ></a>
+        <ul data-bind="foreach :recentEntityDefinitions" class="nav">
+            <li>
+                <a style="padding-top: 5px" href="#" data-bind="attr : {href:'#/entity.details/' + EntityDefinitionId()},text: Name"></a>
             </li>
         </ul>
-        <a href="#">more..</a>
+        <a href="#/entities.list">more..</a>
+
+        <!-- ko foreach : groups -->
+
+        <h3 data-bind="text:groupName"></h3>
+
+        <nav>
+            <ul class="nav nav-pills">
+                <!-- ko foreach :routes -->
+                <li>
+                    <a href="#" data-bind=" attr: { href: hash }">
+                        <i data-bind="attr : {'class' : 'fa ' + icon}"></i><span data-bind="text: title"></span>
+                    </a>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </nav>
+
+
+
+
+        <!-- /ko -->
+
     </div>
     <div class="col-lg-5">
         <h2>Discover what's new in SPH</h2>

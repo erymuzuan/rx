@@ -14,6 +14,21 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
 
         var isBusy = ko.observable(false),
             activate = function () {
+                var groups2 = _(config.routes).chain()
+                   .map(function (v) {
+                       return v.groupName;
+                   })
+                   .uniq()
+               .map(function (g) {
+                   return {
+                       groupName: g,
+                       routes: _(config.routes).filter(function (v) { return v.groupName === g && v.isAdminPage; })
+                   };
+               }).
+               filter(function (v) { return v.groupName && v.routes.length; })
+                   .value();
+                groups(groups2);
+
                 var tcs = new $.Deferred(),
                     wdTask = context.loadAsync({ entity: "WorkflowDefinition", sort: "ChangedDate desc", size: 5 }),
                     edTask = context.loadAsync({ entity: "EntityDefinition", sort: "ChangedDate desc", size: 5 });
