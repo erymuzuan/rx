@@ -1,0 +1,46 @@
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/moment.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
+/// <reference path="../../Scripts/bootstrap.js" />
+
+
+define(['services/datacontext', 'services/logger', objectbuilders.config],
+    function (context, logger, config) {
+
+        var isBusy = ko.observable(false),
+            activate = function () {
+                var tcs = new $.Deferred(),
+                    wdTask = context.loadAsync({ entity: "WorkflowDefinition", sort: "ChangedDate desc", size: 5 }),
+                    edTask = context.loadAsync({ entity: "EntityDefinition", sort: "ChangedDate desc", size: 5 });
+
+                $.when(wdTask, edTask).then(function (wdLo, edLo) {
+                    recentWorkflowDefinitions(wdLo.itemCollection);
+                    recentEntityDefinitions(edLo.itemCollection);
+                    tcs.resolve(true);
+                });
+                return tcs.promise();
+            },
+            attached = function (view) {
+
+            },
+            groups = ko.observableArray(),
+            recentWorkflowDefinitions = ko.observableArray(),
+            recentEntityDefinitions = ko.observableArray();
+
+        var vm = {
+            recentEntityDefinitions: recentEntityDefinitions,
+            recentWorkflowDefinitions: recentWorkflowDefinitions,
+            isBusy: isBusy,
+            activate: activate,
+            attached: attached,
+            groups: groups
+        };
+
+        return vm;
+
+    });

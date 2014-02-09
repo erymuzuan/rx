@@ -1,0 +1,126 @@
+﻿<h1>Start Page</h1>
+<div class="row">
+    <div class="col-lg-3">
+        <h3>Start</h3>
+        <ul class="nav">
+            <li>
+                <a href="#/entity.details/0">
+                    <i class="fa fa-clipboard"></i>
+                    New Entity Definition
+                </a>
+
+            </li>
+            <li>
+                <a href="#/workflow.definition.visual/0">
+                    <i class="fa fa-code-fork"></i>
+                    New Workflow Definition
+                </a>
+
+            </li>
+            <li>
+                <a href="#/trigger.setup/0">
+                    <i class="fa fa-bolt"></i>
+                    New Trigger
+                </a>
+
+            </li>
+            <li>
+                <a href="#/reportdefinition.edit/0">
+                    <i class="fa fa-bar-chart-o"></i>
+                    New Report Definition
+                </a>
+
+            </li>
+        </ul>
+
+        <h3>
+            Recent Workflow
+            <i class="fa fa-chevron-down"></i>
+        </h3>
+        <ul data-bind="foreach :recentWorkflowDefinitions" class="" style="list-style: none">
+            <li style="padding-top: 5px">
+                <i class="fa fa-thumb-tack"></i>
+                <i class="glyphicon glyphicon-pushpin"></i>
+                <a href="#" data-bind="attr : {href:'#/workflow.definition.visual/' + WorkflowDefinitionId()},text: Name" ></a>
+            </li>
+        </ul>
+        <a href="#">more..</a>
+        <h3>
+            Recent Entity Definitions
+            <i class="fa fa-chevron-down"></i>
+        </h3>
+        <ul data-bind="foreach :recentEntityDefinitions" class="" style="list-style: none">
+            <li style="padding-top: 5px">
+                <i class="fa fa-thumb-tack"></i>
+                <i class="glyphicon glyphicon-pushpin"></i>
+                <a href="#" data-bind="attr : {href:'#/entity.details/' + EntityDefinitionId()},text: Name" ></a>
+            </li>
+        </ul>
+        <a href="#">more..</a>
+    </div>
+    <div class="col-lg-5">
+        <h2>Discover what's new in SPH</h2>
+        <h3>You can find information about new features and enhancements in SPH by reviewing the following sections</h3>
+        <a href="#">Learn about new features in SPH</a>
+
+        <h3>Product videos</h3>
+        <span>Learn more with these short videos</span>
+        <ul class="nav">
+            <li>
+                <a href="#">
+                    <i class="fa fa-youtube fa-2x"></i>
+                    Creates your aggregate report with aggregations query and filtered query
+                </a>
+                <a href="#">
+                    <i class="fa fa-youtube-play fa-2x"></i>
+                    Monitoring your RabbitMQ for dead-letter
+                </a>
+                <a href="#">
+                    <i class="fa fa-youtube-square fa-2x"></i>
+                    Migration your data with no code
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-4">
+        <h3>More informations about SPH</h3>
+        <ul class="nav">
+            <li>
+                <a href="//www.sph.my/Blog?page=-1">
+                    <i class="fa fa-rss-square"></i>
+                    Official SPH Developers Blogs
+                </a>
+            </li>
+            <li>
+                <a href="//www.bespoke.com.my/services">
+                    <i class="fa fa-star"></i>
+                    Bespoke's Consulting Services
+                </a>
+            </li>
+            <li>
+                <a href="//gemini.bespoke.com.my">
+                    <i class="fa fa-question-circle"></i>
+                    Bespoke's Support Page
+                </a>
+            </li>
+        </ul>
+
+        <h3>Announcements</h3>
+        <ul class="nav">
+            <li>
+                <a href="#">
+                    <i class="fa fa-stack-overflow fa-2x"></i>
+                    StackOverflow
+                </a>
+                <a href="#">
+                    <i class="fa fa-twitter fa-2x"></i>
+                    Twitter
+                </a>
+                <a href="#">
+                    <i class="fa fa-facebook fa-2x"></i>
+                    Facebook
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
