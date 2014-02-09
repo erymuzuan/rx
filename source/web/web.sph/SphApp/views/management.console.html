@@ -1,81 +1,10 @@
 ﻿<h1>Management Console</h1>
 <div class="row">
     <div class="col-lg-8">
-        <h3>RabbitMQ Message Broker</h3>
-        <div data-bind="with : overview">
-            <label>Version</label>
-            <span class="badge" data-bind="text:management_version"></span>
-            <label>Statistics level</label>
-            <span class="badge" data-bind="text:statistics_level"></span>
-        </div>
-        <div data-bind="with : overview">
-            <ul class="today-datas" data-bind="with : queue_totals">
-
-                <!-- List #1 -->
-                <li class="bred">
-                    <!-- Graph -->
-                    <div class="pull-left"><span id="todayspark1" class="spark"><canvas width="103" height="50" style="display: inline-block; width: 103px; height: 50px; vertical-align: top;"></canvas></span></div>
-                    <!-- Text -->
-                    <div class="datas-text pull-right"><span class="bold" data-bind="text:messages"></span> Messages</div>
-
-                    <div class="clearfix"></div>
-                </li>
-
-                <li class="bgreen">
-                    <!-- Graph -->
-                    <div class="pull-left"><i class="icon-group"></i></div>
-                    <!-- Text -->
-                    <div class="datas-text pull-right"><span class="bold" data-bind="text:messages_details.rate"></span> Rate</div>
-
-                    <div class="clearfix"></div>
-                </li>
-
-                <li class="blightblue">
-                    <!-- Graph -->
-                    <div class="pull-left"><span id="todayspark2" class="spark"><canvas width="103" height="50" style="display: inline-block; width: 103px; height: 50px; vertical-align: top;"></canvas></span></div>
-                    <!-- Text -->
-                    <div class="datas-text pull-right"><span class="bold" data-bind="text:messages_ready"></span> Ready</div>
-
-                    <div class="clearfix"></div>
-                </li>
-
-                <li class="bviolet">
-                    <!-- Graph -->
-                    <div class="pull-left"><span id="todayspark3" class="spark"><canvas width="100" height="50" style="display: inline-block;  height: 50px; vertical-align: top;"></canvas></span></div>
-                    <!-- Text -->
-                    <div class="datas-text pull-right"><span class="bold" data-bind="text:messages_unacknowledged"></span> Unacknowledged </div>
-
-                    <div class="clearfix"></div>
-                </li>
-
-            </ul>
-        </div>
-        <table class="table table-striped table-condensed">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Memory</th>
-                    <th>Status</th>
-                    <th>Messages</th>
-                    <th>Consumers</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach :queues">
-                <tr>
-                    <td data-bind="text:name"></td>
-                    <td data-bind="text:memory"></td>
-                    <td data-bind="text:status"></td>
-                    <td>
-                        <!-- ko if :typeof messages === "number" -->
-                        <span data-bind="text:messages"></span>
-                        <!--/ko-->
-                    </td>
-                    <td data-bind="text:consumers"></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- ko compose : 'viewmodels/_workflow.management.consoles'-->
+        <!--/ko-->
+        <!-- ko compose : 'viewmodels/_rabbitmq.consoles'-->
+        <!--/ko-->
         <div></div>
         <h3>Recent Events</h3>
         <h3>Security Audits</h3>

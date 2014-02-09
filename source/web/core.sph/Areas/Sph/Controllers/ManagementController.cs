@@ -1,11 +1,9 @@
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Security;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers

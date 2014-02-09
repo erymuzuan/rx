@@ -12,19 +12,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 	function (context, logger, router) {
 
 		var isBusy = ko.observable(false),
-			queues = ko.observableArray(),
-			overview = ko.observable(),
 			activate = function () {
-				var tcs = new $.Deferred(),
-					queuesTask = $.get("/sph/management/api/queues"),
-				overviewTask = $.get("/sph/management/api/overview");
-
-				$.when(queuesTask, overviewTask).done(function (queuesr, overviewr) {
-					queues(queuesr[0]);
-					overview(overviewr[0]);
-					tcs.resolve(true);
-				});
-				return tcs.promise();
+			    return true;
 
 			},
 			attached = function (view) {
@@ -32,11 +21,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 			};
 
 		var vm = {
-			overview: overview,
 			isBusy: isBusy,
 			activate: activate,
-			attached: attached,
-			queues: queues
+			attached: attached
 		};
 
 		return vm;

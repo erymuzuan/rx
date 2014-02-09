@@ -59,11 +59,11 @@
         <h3 data-bind="text:groupName"></h3>
 
         <nav>
-            <ul class="nav nav-pills">
+            <ul class="nav nav-stacked">
                 <!-- ko foreach :routes -->
                 <li>
                     <a href="#" data-bind=" attr: { href: hash }">
-                        <i data-bind="attr : {'class' : 'fa ' + icon}"></i><span data-bind="text: title"></span>
+                        <i data-bind="attr : {'class' : 'fa ' + icon}"></i><span style="margin-left: 10px" data-bind="text: title"></span>
                     </a>
                 </li>
                 <!-- /ko -->

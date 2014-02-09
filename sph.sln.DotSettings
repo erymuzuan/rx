@@ -1095,23 +1095,21 @@ public override int GetHashCode()&#xD;
 &#xD;
 &#xD;
 &lt;/div&gt;</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/@KeyIndexDefined">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/Categories/=Imported_002020_002F11_002F2013/@EntryIndexedValue">Imported 20/11/2013</s:String>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/Description/@EntryValue">jQuery Click function handler</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/Field/=selector/@KeyIndexDefined">True</s:Boolean>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/Field/=selector/Order/@EntryValue">0</s:Int64>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/Reformat/@EntryValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/Type/@EntryValue">InJavaScriptStatement</s:String>
 	
 	
 	
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/Shortcut/@EntryValue">jquery_click</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=552449A41CB67349BCCFD5579DE88E68/Text/@EntryValue"> $('$selector$').click(function() {&#xD;
-	$END$&#xD;
-});</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=55E5BFB1C5AD354DB43DBBACA2B1914E/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=55E5BFB1C5AD354DB43DBBACA2B1914E/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=55E5BFB1C5AD354DB43DBBACA2B1914E/Categories/=Imported_002020_002F11_002F2013/@EntryIndexedValue">Imported 20/11/2013</s:String>
@@ -1823,45 +1821,19 @@ var dbItem = await context.LoadOneAsync&lt;$Entity$&gt;($p$ =&gt; $p$ .$Entity$I
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8C1E613588C720469EB878D54125C9F2/Shortcut/@EntryValue">ear</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8C1E613588C720469EB878D54125C9F2/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8C1E613588C720469EB878D54125C9F2/Text/@EntryValue">$TYPE$[] $NAME$ = new $TYPE$[] {};</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/@KeyIndexDefined">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Description/@EntryValue">creates kendo upload</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Field/=SELECTOR/@KeyIndexDefined">True</s:Boolean>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Field/=SELECTOR/Order/@EntryValue">0</s:Int64>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Reformat/@EntryValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/Type/@EntryValue">InJavaScriptStatement</s:String>
 	
 	
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Shortcut/@EntryValue">kendo-upload</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Text/@EntryValue">   $("$SELECTOR$").kendoUpload({&#xD;
-            async: {&#xD;
-                saveUrl: "/BinaryStore/Upload",&#xD;
-                removeUrl: "/BinaryStore/Remove",&#xD;
-                autoUpload: true&#xD;
-            },&#xD;
-            multiple: false,&#xD;
-            error: function (e) {&#xD;
-                logger.logError(e, e, this, true);&#xD;
-            },&#xD;
-            success: function (e) {&#xD;
-                logger.log('Your file has been ' + e.operation, e, this, true);&#xD;
-                var storeId = e.response.storeId;&#xD;
-				var uploaded = e.operation === "upload";&#xD;
-				var removed =  e.operation != "upload";&#xD;
-				// NOTE : the input file name is "files" and the id should equal to the vm.propertyName&#xD;
-				if (uploaded) {&#xD;
-					vm[e.sender.element.attr("Id")](storeId);&#xD;
-				}&#xD;
-&#xD;
-				if (removed) {&#xD;
-					vm[e.sender.element.attr("Id")]("");&#xD;
-				}&#xD;
-						$END$&#xD;
-&#xD;
-            }&#xD;
-});</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8F0E54793F0A314D8075BC893388FA05/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8F0E54793F0A314D8075BC893388FA05/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8F0E54793F0A314D8075BC893388FA05/Categories/=Imported_002020_002F11_002F2013/@EntryIndexedValue">Imported 20/11/2013</s:String>
@@ -2003,7 +1975,7 @@ var dbItem = await context.LoadOneAsync&lt;$Entity$&gt;($p$ =&gt; $p$ .$Entity$I
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Section/=C4F7044378126C41B9124675DFB7E9DA/SectionPlain/Text/@EntryValue">&lt;div class="row"&gt;&#xD;
 &lt;/div&gt;</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Text/@EntryValue">/// &lt;reference path="../../Scripts/jquery-2.0.3.intellisense.js" /&gt;&#xD;
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Text/@EntryValue">/// &lt;reference path="../../Scripts/jquery-2.1.0.intellisense.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/knockout-3.0.0.debug.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/knockout.mapping-latest.debug.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/require.js" /&gt;&#xD;
@@ -2028,7 +2000,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'], &#xD;
 	var vm = {&#xD;
 		isBusy : isBusy,&#xD;
 		activate : activate,&#xD;
-		viewAttached : viewAttached&#xD;
+		attached : attached&#xD;
 	};&#xD;
 &#xD;
 	return vm;&#xD;
@@ -2110,7 +2082,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'], &#xD;
     &lt;/div&gt;&#xD;
 &lt;/section&gt;</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Text/@EntryValue">/// &lt;reference path="../../Scripts/jquery-2.0.3.intellisense.js" /&gt;&#xD;
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Text/@EntryValue">/// &lt;reference path="../../Scripts/jquery-2.1.0.intellisense.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/knockout-3.0.0.debug.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/knockout.mapping-latest.debug.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/require.js" /&gt;&#xD;
@@ -2120,18 +2092,17 @@ define(['services/datacontext', 'services/logger', 'plugins/router'], &#xD;
 /// &lt;reference path="../schema/sph.domain.g.js" /&gt;&#xD;
 &#xD;
 &#xD;
-&#xD;
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],&#xD;
-    function(context, logger, router) {&#xD;
+define(['plugins/dialog'],&#xD;
+    function (dialog) {&#xD;
 &#xD;
         var okClick = function (data, ev) {&#xD;
             if (bespoke.utils.form.checkValidity(ev.target)) {&#xD;
-                this.modal.close("OK");&#xD;
+                 dialog.close(this, "OK");&#xD;
             }&#xD;
 &#xD;
         },&#xD;
            cancelClick = function () {&#xD;
-               this.modal.close("Cancel");&#xD;
+                dialog.close(this, "Cancel");&#xD;
            };&#xD;
 &#xD;
         var vm = {&#xD;
@@ -2458,13 +2429,9 @@ if (null != list)&#xD;
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Text/@EntryValue">/// &lt;reference path="../schemas/report.builder.g.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/underscore.js" /&gt;&#xD;
-/// &lt;reference path="../../Scripts/jquery-2.0.3.intellisense.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/jquery-2.1.0.intellisense.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/require.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/durandal/system.js" /&gt;&#xD;
-&#xD;
-var bespoke = bespoke || {};&#xD;
-bespoke.sph = bespoke.sph || {};&#xD;
-bespoke.sph.domain = bespoke.sph.domain || {};&#xD;
 &#xD;
 &#xD;
 bespoke.sph.domain.$DOMAIN$Partial = function () {&#xD;
@@ -2610,21 +2577,21 @@ $END$&#xD;
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD8EA0D747807943AE3D1626DAEB54C9/Shortcut/@EntryValue">textbox_style</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD8EA0D747807943AE3D1626DAEB54C9/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD8EA0D747807943AE3D1626DAEB54C9/Text/@EntryValue">&lt;TextBox Text="{Binding $property$}" Style="{StaticResource $style$}"/&gt;</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/@KeyIndexDefined">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Description/@EntryValue">set observable from source to vm</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Field/=DESTINATION/@KeyIndexDefined">True</s:Boolean>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Field/=DESTINATION/Order/@EntryValue">1</s:Int64>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Field/=SOURCE/@KeyIndexDefined">True</s:Boolean>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Field/=SOURCE/Order/@EntryValue">0</s:Int64>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Reformat/@EntryValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/Type/@EntryValue">InJavaScriptStatement</s:String>
 	
 	
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Shortcut/@EntryValue">set-observable</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Text/@EntryValue">ko.mapping.fromJS(ko.mapping.toJS($SOURCE$), {}, $DESTINATION$);</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C1552A913CC1E1448247FC31FF918D25/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C1552A913CC1E1448247FC31FF918D25/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C1552A913CC1E1448247FC31FF918D25/Categories/=Imported_002020_002F11_002F2013/@EntryIndexedValue">Imported 20/11/2013</s:String>

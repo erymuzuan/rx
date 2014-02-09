@@ -283,6 +283,20 @@
   },
   {
       "role": "can_edit_workflow",
+      "groupName": "Workflow",
+      "route": "workflow.overview/:id",
+      "moduleId": "viewmodels/workflow.overview",
+      "title": "Workflow Overview",
+      "nav": false,
+      "icon": "fa-bug",
+      "caption": "Workflow Overview",
+      "settings": null,
+      "isAdminPage": false,
+      "showWhenLoggedIn": false,
+      "error": ""
+  },
+  {
+      "role": "can_edit_workflow",
       "groupName": "Entity",
       "route": "entity.details/:id",
       "moduleId": "viewmodels/entity.details",
