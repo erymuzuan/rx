@@ -40,6 +40,44 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return await Es("activity", this.GetRequestBody());
         }
 
+        public async Task<ActionResult> WorkflowDefinition()
+        {
+            return await Es(typeof(WorkflowDefinition).Name.ToLowerInvariant(), this.GetRequestBody());
+        }
+        public async Task<ActionResult> EntityDefinition()
+        {
+            return await Es(typeof(EntityDefinition).Name.ToLowerInvariant(), this.GetRequestBody());
+        }
+        public async Task<ActionResult> EntityView()
+        {
+            return await Es(typeof(EntityView).Name.ToLowerInvariant(), this.GetRequestBody());
+        }
+        public async Task<ActionResult> EntityForm()
+        {
+            return await Es(typeof(EntityForm).Name.ToLowerInvariant(), this.GetRequestBody());
+        }
+        public async Task<ActionResult> Designation()
+        {
+            return await Es(typeof(Designation).Name.ToLowerInvariant(), this.GetRequestBody());
+        }
+
+        public async Task<ActionResult> ReportDefinition()
+        {
+            return await Es(typeof(ReportDefinition).Name.ToLowerInvariant(), this.GetRequestBody());
+        }
+        public async Task<ActionResult> ReportDelivery()
+        {
+            return await Es(typeof(ReportDelivery).Name.ToLowerInvariant(), this.GetRequestBody());
+        }
+        public async Task<ActionResult> Message()
+        {
+            return await Es(typeof(Message).Name.ToLowerInvariant(), this.GetRequestBody());
+        }
+        public async Task<ActionResult> Page()
+        {
+            return await Es(typeof(Page).Name.ToLowerInvariant(), this.GetRequestBody());
+        }
+
 
     }
 }

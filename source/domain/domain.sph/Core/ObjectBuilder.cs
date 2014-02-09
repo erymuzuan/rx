@@ -128,6 +128,11 @@ namespace Bespoke.Sph.Domain
 
             throw new InvalidOperationException("Cannot find any object for " + key.FullName);
         }
+        public static dynamic GetObject(string name)
+        {
+            var springObject = ContextRegistry.GetContext().GetObject(name);
+            return springObject;
+        }
 
     }
 }

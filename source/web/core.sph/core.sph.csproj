@@ -629,6 +629,7 @@
     <Compile Include="Areas\Sph\Controllers\BusinessRuleController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityFormController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
+    <Compile Include="Areas\Sph\Controllers\ManagementController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />
     <Compile Include="Areas\Sph\Controllers\AdminController.cs" />
