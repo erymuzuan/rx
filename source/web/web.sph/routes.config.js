@@ -14,7 +14,7 @@
       "error": ""
   },
   {
-      "role": "admin_user",
+      "role": "administrators",
       "groupName": "Security",
       "route": "users",
       "moduleId": "viewmodels/users",
@@ -28,7 +28,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_setting",
+      "role": "administrators",
       "groupName": "Settings",
       "route": "organization.detail",
       "moduleId": "viewmodels/organization.detail",
@@ -56,7 +56,7 @@
       "error": ""
   },
   {
-      "role": "admin_user",
+      "role": "administrators",
       "groupName": "Settings",
       "route": "role.settings/:id",
       "moduleId": "viewmodels/role.settings",
@@ -70,7 +70,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_setting",
+      "role": "administrators",
       "groupName": "Settings",
       "route": "setting",
       "moduleId": "viewmodels/setting",
@@ -86,7 +86,7 @@
       "error": ""
   },
   {
-      "role": "can_add_trigger",
+      "role": "developers",
       "groupName": null,
       "route": "trigger.setup/:id",
       "moduleId": "viewmodels/trigger.setup",
@@ -100,7 +100,7 @@
       "error": ""
   },
   {
-      "role": "can_add_trigger",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "trigger.list",
       "moduleId": "viewmodels/trigger.list",
@@ -142,7 +142,7 @@
       "error": ""
   },
   {
-      "role": "admin_dashboard",
+      "role": "developers",
       "groupName": null,
       "route": "reportdefinition.edit/:id",
       "moduleId": "viewmodels/reportdefinition.edit",
@@ -156,7 +156,7 @@
       "error": ""
   },
   {
-      "role": "admin_dashboard",
+      "role": "developers",
       "groupName": "Report Builder",
       "route": "reportdefinition.list",
       "moduleId": "viewmodels/reportdefinition.list",
@@ -170,7 +170,7 @@
       "error": ""
   },
   {
-      "role": "admin_dashboard",
+      "role": "developers",
       "groupName": null,
       "route": "reportdelivery.schedule/:rdlid",
       "moduleId": "viewmodels/reportdelivery.schedule",
@@ -198,7 +198,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Dev",
       "route": "dev.home",
       "moduleId": "viewmodels/dev.home",
@@ -212,7 +212,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "administrators",
       "groupName": "Admin",
       "route": "management.console",
       "moduleId": "viewmodels/management.console",
@@ -296,7 +296,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "can_edit_entity",
       "groupName": "Entity",
       "route": "entity.details/:id",
       "moduleId": "viewmodels/entity.details",
@@ -310,7 +310,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "can_edit_entity",
       "groupName": "Entity",
       "route": "entity.form.designer/:entityid/:formid",
       "moduleId": "viewmodels/entity.form.designer",
@@ -324,7 +324,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "can_edit_entity",
       "groupName": "Entity",
       "route": "entity.view.designer/:entityid/:viewid",
       "moduleId": "viewmodels/entity.view.designer",
@@ -338,7 +338,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "can_edit_entity",
       "groupName": "Entity",
       "route": "entity.business.rule.designer/:entityid/:brid",
       "moduleId": "viewmodels/entity.business.rule.designer",
@@ -394,7 +394,7 @@
       "error": ""
   },
   {
-      "role": "can_investigate",
+      "role": "can_edit_entity",
       "groupName": "Workflow",
       "route": "workflow.draft",
       "moduleId": "viewmodels/workflow.draft",

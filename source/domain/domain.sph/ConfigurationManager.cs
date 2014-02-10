@@ -1,4 +1,6 @@
-﻿namespace Bespoke.Sph.Domain
+﻿using System.IO;
+
+namespace Bespoke.Sph.Domain
 {
     public static class ConfigurationManager
     {
@@ -32,9 +34,9 @@
         {
             get
             {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowCompilerOutputPath"]
-                    ?? BinPath + @"\output";
-                return BaseDirectory + val;
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowCompilerOutputPath"];
+                if (Path.IsPathRooted(val)) return val;
+                return BaseDirectory + BinPath + @"\output";
             }
         }
 
@@ -42,9 +44,9 @@
         {
             get
             {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowSourceDirectory"] ??
-                       BinPath + @"\sources\";
-                return BaseDirectory + val;
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowSourceDirectory"];
+                if (Path.IsPathRooted(val)) return val;
+                return BaseDirectory + BinPath + @"\sources\";
             }
         }
 
@@ -60,7 +62,8 @@
         {
             get
             {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchIndex"] ?? "sph";
+                return System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchIndex"]
+                    ?? ApplicationName.ToLowerInvariant() + "_sys";
             }
         }
 
@@ -78,9 +81,9 @@
         {
             get
             {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:ReportDeliveryExecutable"]
-                    ?? BinPath + @"\schedulers\scheduler.report.delivery.exe";
-                return BaseDirectory + val;
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:ReportDeliveryExecutable"];
+                if (Path.IsPathRooted(val)) return val;
+                return BaseDirectory + BinPath + @"\schedulers\scheduler.report.delivery.exe";
             }
         }
 
@@ -88,9 +91,10 @@
         {
             get
             {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:ScheduledTriggerActivityExecutable"]
-                    ?? BinPath + @"\schedulers\scheduler.workflow.trigger.exe";
-                return BaseDirectory + val;
+                var val =
+                    System.Configuration.ConfigurationManager.AppSettings["sph:ScheduledTriggerActivityExecutable"];
+                if (Path.IsPathRooted(val)) return val;
+                return BaseDirectory + BinPath + @"\schedulers\scheduler.workflow.trigger.exe";
             }
         }
 
@@ -133,8 +137,10 @@
             get
             {
 
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SchedulerPath"] ?? BinPath + @"\schedulers";
-                return BaseDirectory + val;
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SchedulerPath"];
+                if (Path.IsPathRooted(val)) return val;
+                return BaseDirectory + BinPath + @"\schedulers";
+
             }
 
         }
@@ -143,8 +149,9 @@
             get
             {
 
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SubscriberPath"] ?? BinPath + @"\subscribers";
-                return BaseDirectory + val;
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SubscriberPath"];
+                if (Path.IsPathRooted(val)) return val;
+                return BaseDirectory + BinPath + @"\subscribers";
             }
         }
         public static string WebPath
@@ -153,6 +160,7 @@
             {
 
                 var val = System.Configuration.ConfigurationManager.AppSettings["sph:WebPath"] ?? BinPath + @"\web";
+                if (Path.IsPathRooted(val)) return val;
                 return BaseDirectory + val;
             }
         }
@@ -161,9 +169,9 @@
         {
             get
             {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:DelayActivityExecutable"] ?? BinPath + @"\schedulers\scheduler.delayactivity.exe";
-                return BaseDirectory + val;
-
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:DelayActivityExecutable"];
+                if (Path.IsPathRooted(val)) return val;
+                return BaseDirectory + BinPath + @"\schedulers\scheduler.delayactivity.exe";
 
             }
         }
