@@ -170,6 +170,7 @@ Write-Host "Creating database $ApplicationName"
 Write-Host "Created database $ApplicationName"
 #Start-Sleep -Seconds 10
 & sqlcmd -S "$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
+& sqlcmd -S "$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [$ApplicationName] AUTHORIZATION [dbo]"
 Write-Host "Created schema [SPH]"
 
 Get-ChildItem -Filter *.sql -Path C:\project\work\sph\source\database\Table `
