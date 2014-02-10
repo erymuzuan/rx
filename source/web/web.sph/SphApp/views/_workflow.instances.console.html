@@ -1,0 +1,75 @@
+﻿<div class="row">
+    <form class="form-inline" data-bind="with : query">
+        <div id="intance-query-date-range" class="pull-right">
+            <i class="fa fa-calendar fa-lg"></i>
+            <span data-bind="date: {value : createdDateFrom, format :'MMMM D, YYYY'}">
+            </span>
+            -
+            <span data-bind="date: {value : createdDateEnd, format :'MMMM D, YYYY'}"></span>
+            <b class="caret"></b>
+        </div>
+
+        <div class="form-group">
+            <select class="form-control">
+                <option>[Select state]</option>
+                <option value="Ready">Ready</option>
+                <option value="WaitingAsync">WaitingAsync</option>
+                <option value="Completed">Completed</option>
+                <option value="Terminated">Terminated</option>
+                <option value="Suspended">Suspended</option>
+                <option value="Suspended(Resumable)">Suspended(Resumable)</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-default" data-bind="command : $root.search">Search</button>
+    </form>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Created</th>
+            <th>Changed</th>
+            <th>State</th>
+            <th>Created </th>
+            <th>Changed</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :results">
+        <tr>
+            <td>
+                <label>
+                    <input type="checkbox" data-bind="checkedItems: $root.selectedItems" />
+                    <!-- ko text : WorkflowId -->
+                    <!-- /ko -->
+                </label>
+            </td>
+            <td>
+                <i class="fa fa-gears"></i>
+                <span data-bind="date:{value: CreatedDate, format:'DD/MM/YYYY HH:mm'}"></span>
+
+            </td>
+            <td data-bind="date:{value: ChangedDate, format:'DD/MM/YYYY HH:mm'}"></td>
+            <td data-bind="text:State"></td>
+            <td data-bind="text:CreatedBy"></td>
+            <td data-bind="text:ChangedBy"></td>
+            <td>
+                <a href="/#" data-bind="attr : {href:'#/workflow.activities/' + WorkflowId()}" title="Activity logs">
+                    <i class="fa fa-clock-o fa-2x"></i>
+                </a>
+                <a href="/#" data-bind="attr : {href:'#/workflow.debugger/' + WorkflowDefinitionId()}" title="debug">
+                    <i class="fa fa-bug fa-2x"></i>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="row">
+    <form class="form-inline">
+        <button class="btn btn-danger" title="Terminate all selected instances" data-bind="enable:selectedItems().length,command : terminateItems">
+            <span data-bind="text:selectedItems().length"></span>
+            Terminate
+        </button>
+    </form>
+</div>

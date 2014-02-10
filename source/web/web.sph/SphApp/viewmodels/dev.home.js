@@ -28,17 +28,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
                filter(function (v) { return v.groupName && v.routes.length; })
                    .value();
                 groups(groups2);
-
-                var tcs = new $.Deferred(),
-                    wdTask = context.loadAsync({ entity: "WorkflowDefinition", sort: "ChangedDate desc", size: 5 }),
-                    edTask = context.loadAsync({ entity: "EntityDefinition", sort: "ChangedDate desc", size: 5 });
-
-                $.when(wdTask, edTask).then(function (wdLo, edLo) {
-                    recentWorkflowDefinitions(wdLo.itemCollection);
-                    recentEntityDefinitions(edLo.itemCollection);
-                    tcs.resolve(true);
-                });
-                return tcs.promise();
+                return Task.fromResult(true);
             },
             attached = function (view) {
 

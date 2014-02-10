@@ -26,17 +26,24 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 versions.removeAll();
                 $.when(vt, wdTask).done(function (deployments, b) {
                     wd(b);
-                    _(deployments).each(function (v) {
-                        if (!v[0]) {
+                    _(deployments).each(function (vr) {
+                        if (!vr) {
                             return;
                         }
-                        context.post(ko.mapping.toJSON(query), "workflow_" + wdid + "_" + ko.unwrap(v[0].Version) + "/search")
+                        if (!vr[0]) {
+                            return;
+                        }
+                        if (!vr[0].Version) {
+                            return;
+                        }
+                        context.post(ko.mapping.toJSON(query), "workflow_" + wdid + "_" + ko.unwrap(vr[0].Version) + "/search")
                             .then(function (result) {
                                 versions.push({
-                                    version: v[0].Version,
+                                    version: vr[0].Version,
                                     states: result.facets.state.terms
                                 });
                             });
+
 
                     });
 
@@ -49,6 +56,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             },
             attached = function (view) {
 
+                getExecutionHistogram(id(), _(versions()).last().version)
+                    .done(drawExecutionChart);
             },
             query = {
                 "facets": {
@@ -58,10 +67,77 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                         }
                     }
                 }
+            },
+            histogramInterval = ko.observable("day"),
+            drawExecutionChart = function (result) {
+
+                var data = _(result.aggregations.execution_histogram).map(function (v) { return v.doc_count; }),
+                    categories = _(result.aggregations.execution_histogram).map(function (v) { return moment(v.key).format('DD/MM/YY'); });
+                $("#chart-div").kendoChart({
+                    title: {
+                        text: "Ecution by date interval "
+                    },
+                    legend: {
+                        position: "bottom"
+                    },
+                    chartArea: {
+                        background: ""
+                    },
+                    seriesDefaults: {
+                        type: "line"
+                    },
+                    series: [{
+                        name: 'Interval ' + histogramInterval(),
+                        data: data
+                    }
+                    ],
+                    valueAxis: {
+                        labels: {
+                            format: ''
+                        },
+                        line: {
+                            visible: false
+                        }
+                    },
+                    categoryAxis: {
+                        categories: categories,
+                        majorGridLines: {
+                            visible: false
+                        }
+                    },
+                    tooltip: {
+                        visible: true,
+                        format: "{0}",
+                        template: "#= category #: #= value #"
+                    }
+                });
+            },
+            getExecutionHistogram = function (wdid, version) {
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(createdDateHistogramQuery);
+                console.log(data);
+
+                context.post(data, "/workflow_" + wdid + "_" + version + "/search")
+                    .then(function (result) {
+
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            },
+            createdDateHistogramQuery = {
+                "aggs": {
+                    "execution_histogram": {
+                        "date_histogram": {
+                            "field": "CreatedDate",
+                            "interval": histogramInterval
+                        }
+                    }
+                }
             };
 
         var vm = {
             id: id,
+            histogramInterval: histogramInterval,
             versions: versions,
             wd: wd,
             isBusy: isBusy,

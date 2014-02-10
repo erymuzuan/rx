@@ -18090,7 +18090,7 @@ OTHER DEALINGS IN THE SOFTWARE.
                 this.opens = 'left';
 
             this.buttonClasses = ['btn', 'btn-small'];
-            this.applyClass = 'btn-success';
+            this.applyClass = 'btn-default';
             this.cancelClass = 'btn-default';
 
             this.format = 'MM/DD/YYYY';

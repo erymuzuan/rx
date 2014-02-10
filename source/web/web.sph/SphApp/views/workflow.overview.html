@@ -1,25 +1,42 @@
 ﻿<h1 data-bind="text:wd().Name"></h1>
 <div class="row">
 
-    <div class="col-lg-8">
+    <div class="col-md-8">
+        <a data-toggle="collapse" href="#wfi-overview">
+            <h3>
+                <i class="fa fa-chevron-down"></i>
+                Overview
+            </h3>
+        </a>
+        <div class="collapse in" id="wfi-overview">
+            <div data-bind="foreach :versions">
+                <span>Version <span data-bind="text:version"></span></span>
+                <ul class="today-datas" data-bind="foreach : states">
 
-        <div data-bind="foreach :versions">
-            <h3>Version <span data-bind="text:version"></span></h3>
-            <ul class="today-datas" data-bind="foreach : states">
+                    <li class="bblue">
+                        <div class="pull-left"><span id="todayspark1" class="spark"><canvas width="103" height="50" style="display: inline-block; width: 103px; height: 50px; vertical-align: top;"></canvas></span></div>
+                        <div class="datas-text pull-right">
+                            <span class="bold" data-bind="text:count"></span>
+                            <span data-bind="text:term"></span>
+                        </div>
 
-                <li class="bblue">
-                    <div class="pull-left"><span id="todayspark1" class="spark"><canvas width="103" height="50" style="display: inline-block; width: 103px; height: 50px; vertical-align: top;"></canvas></span></div>
-                    <div class="datas-text pull-right">
-                        <span class="bold" data-bind="text:count"></span>
-                        <span data-bind="text:term"></span>
-                    </div>
-
-                    <div class="clearfix"></div>
-                </li>
-            </ul>
+                        <div class="clearfix"></div>
+                    </li>
+                </ul>
+            </div>
+            <div id="chart-div"></div>
+        </div><a data-toggle="collapse" href="#wfi-intances">
+            <h3>
+                <i class="fa fa-chevron-down"></i>
+                Instances query
+            </h3>
+        </a>
+        <div class="collapse in" id="wfi-intances">
+            <!-- ko compose : {model:'viewmodels/_workflow.instances.console', activationData:{wdid:id()}}-->
+            <!--/ko-->
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-md-4">
         <h3>Tools</h3>
         <nav>
             <ul class="nav">
