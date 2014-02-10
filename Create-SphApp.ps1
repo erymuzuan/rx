@@ -3,6 +3,8 @@
        [string]$ApplicationName = "",
        [string]$Port = 0,
        [string]$SqlServer = "(localdb)\Projects",
+       [string]$RabbitMqUserName = "guest",
+       [string]$RabbitMqPassword = "guest",
 	   [switch]$Help = $false
      )
 if(($Help -eq $true) -or ($ApplicationName -eq ""))
@@ -186,3 +188,8 @@ Get-ChildItem -Filter *.sql -Path C:\project\work\sph\source\database\Table `
 Write-Host "Creating site"
 & "C:\Program Files (x86)\IIS Express\appcmd.exe" add site /name:"web.$ApplicationName" /bindings:http/*:$Port /physicalPath:"$WorkingCopy\web"
 Write-Host "Site created"
+
+
+#TODO : rabbitmqct
+& rabbitmqctl add_vhost "$ApplicationName"
+& rabbitmqctl set_permissions -p "/$ApplicationName" $RabbitMqUserName ".*" ".*" ".*"
