@@ -1,4 +1,3 @@
-USE [Sph]
 IF OBJECT_ID('Sph.EntityForm', 'U') IS NOT NULL
   DROP TABLE Sph.EntityForm
 GO

@@ -1,4 +1,3 @@
-USE [Sph]
 IF OBJECT_ID('Sph.Setting', 'U') IS NOT NULL
   DROP TABLE Sph.Setting
 GO

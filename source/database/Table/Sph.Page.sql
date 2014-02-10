@@ -1,5 +1,3 @@
- USE [Sph]
- GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Sph].[Page]') AND type in (N'U'))
 DROP TABLE [Sph].[Page]

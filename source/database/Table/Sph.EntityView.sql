@@ -1,4 +1,3 @@
-USE [Sph]
 IF OBJECT_ID('Sph.EntityView', 'U') IS NOT NULL
   DROP TABLE Sph.EntityView
 GO

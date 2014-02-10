@@ -1,4 +1,4 @@
-USE Sph
+
 IF OBJECT_ID('Sph.UserProfile', 'U') IS NOT NULL
   DROP TABLE [Sph].[UserProfile]
 

@@ -1,4 +1,3 @@
-USE [Sph]
 IF OBJECT_ID('Sph.SpatialStore', 'U') IS NOT NULL
   DROP TABLE Sph.SpatialStore
 GO

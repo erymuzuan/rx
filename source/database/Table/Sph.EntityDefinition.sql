@@ -1,4 +1,3 @@
-USE [Sph]
 IF OBJECT_ID('Sph.EntityDefinition', 'U') IS NOT NULL
   DROP TABLE Sph.EntityDefinition
 GO

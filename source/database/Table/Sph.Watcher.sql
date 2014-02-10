@@ -1,4 +1,4 @@
-USE [Sph]
+
 IF OBJECT_ID('Sph.Watcher', 'U') IS NOT NULL
   DROP TABLE Sph.Watcher
 GO

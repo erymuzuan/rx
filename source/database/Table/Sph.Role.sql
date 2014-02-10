@@ -1,5 +1,3 @@
-USE [Sph]
-GO
  IF OBJECT_ID('Sph.Role', 'U') IS NOT NULL
   DROP TABLE Sph.Role
 GO

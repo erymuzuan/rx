@@ -1,4 +1,3 @@
-USE [Sph]
 IF OBJECT_ID('Sph.BinaryStore', 'U') IS NOT NULL
   DROP TABLE Sph.BinaryStore
 GO

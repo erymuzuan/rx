@@ -1,5 +1,4 @@
-USE [Sph]
-GO
+
 IF OBJECT_ID('Sph.WorkflowDefinition', 'U') IS NOT NULL
   DROP TABLE Sph.WorkflowDefinition
 GO

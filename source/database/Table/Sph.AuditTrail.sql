@@ -1,4 +1,3 @@
-USE [Sph]
 IF OBJECT_ID('Sph.AuditTrail', 'U') IS NOT NULL
   DROP TABLE Sph.AuditTrail
 GO

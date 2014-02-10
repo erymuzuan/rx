@@ -2,6 +2,7 @@
        [string]$WorkingCopy = "..\wc",
        [string]$ApplicationName = "",
        [string]$Port = 0,
+       [string]$SqlServer = "(localdb)\Projects",
 	   [switch]$Help = $false
      )
 if(($Help -eq $true) -or ($ApplicationName -eq ""))
@@ -160,3 +161,27 @@ Set-Content  "$WorkingCopy\schedulers\scheduler.delayactivity.config" -Value $co
 #scheduler.workflow.trigger.exe.config
 $config3 = (gc "$WorkingCopy\schedulers\scheduler.workflow.trigger.exe.config").replace("sph.0009","$ApplicationName").Replace("4436", "$Port").Replace("Initial Catalog=Sph","Initial Catalog=$ApplicationName").Replace("Initial Catalog=sph","Initial Catalog=$ApplicationName")
 Set-Content  "$WorkingCopy\schedulers\scheduler.workflow.trigger.config" -Value $config3
+
+
+#creates databases
+Write-Host "Creating database $ApplicationName"
+& sqlcmd -S "$SqlServer" -E -d master -Q "DROP DATABASE [$ApplicationName]"
+& sqlcmd -S "$SqlServer" -E -d master -Q "CREATE DATABASE [$ApplicationName]"
+Write-Host "Created database $ApplicationName"
+#Start-Sleep -Seconds 10
+& sqlcmd -S "$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
+Write-Host "Created schema [SPH]"
+
+Get-ChildItem -Filter *.sql -Path C:\project\work\sph\source\database\Table `
+| %{
+    Write-Host "Creating table $_"
+    $sqlFileName = $_.FullName    
+    & sqlcmd -S "$SqlServer" -E -d "$ApplicationName" -i "$sqlFileName"
+}
+
+
+
+#creates IIS express directory
+Write-Host "Creating site"
+& "C:\Program Files (x86)\IIS Express\appcmd.exe" add site /name:"web.$ApplicationName" /bindings:http/*:$Port /physicalPath:"$WorkingCopy\web"
+Write-Host "Site created"
