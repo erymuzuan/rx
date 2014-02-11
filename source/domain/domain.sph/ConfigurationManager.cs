@@ -148,7 +148,6 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-
                 var val = System.Configuration.ConfigurationManager.AppSettings["sph:SubscriberPath"];
                 if (Path.IsPathRooted(val)) return val;
                 return BaseDirectory + BinPath + @"\subscribers";
@@ -159,9 +158,9 @@ namespace Bespoke.Sph.Domain
             get
             {
 
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WebPath"] ?? BinPath + @"\web";
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WebPath"];
                 if (Path.IsPathRooted(val)) return val;
-                return BaseDirectory + val;
+                return BaseDirectory + BinPath + @"\web";
             }
         }
 

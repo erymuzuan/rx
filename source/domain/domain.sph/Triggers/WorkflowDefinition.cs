@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Humanizer;
 using Microsoft.CSharp;
+using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -147,6 +148,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(Binder).Assembly.Location);
 
                 // custom entities
 
