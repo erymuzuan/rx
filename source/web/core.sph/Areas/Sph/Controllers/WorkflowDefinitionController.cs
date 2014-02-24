@@ -197,7 +197,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             // TODO : get the CLR type info too
 
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return Json(list.Select(d => new { Path = d }).ToArray(), JsonRequestBehavior.AllowGet);
         }
 
 

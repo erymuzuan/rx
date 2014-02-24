@@ -1,6 +1,6 @@
 ﻿/// <reference path="jstree.min.js" />
 /// <reference path="jstree.min.js" />
-/// <reference path="typeahead.js" />
+/// <reference path="typeahead.bundle.js" />
 /// <reference path="knockout-3.0.0.debug.js" />
 /// <reference path="knockout.mapping-latest.debug.js" />
 /// <reference path="../App/services/datacontext.js" />
@@ -40,14 +40,18 @@ ko.bindingHandlers.checkedItems = {
 ko.bindingHandlers.typeahead = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var id = ko.unwrap(valueAccessor()),
-        allBindings = allBindingsAccessor();
-        $(element).typeahead({
+            allBindings = allBindingsAccessor(),
+            members = new Bloodhound({
+                datumTokenizer: function (d) { return Bloodhound.tokenizers.whitespace(d.Path); },
+                queryTokenizer: Bloodhound.tokenizers.nonword,
+                prefetch: '/WorkflowDefinition/GetVariablePath/' + id
+
+            });
+        members.initialize();
+        $(element).typeahead({ highlight: true }, {
             name: 'schema_paths' + id,
-            limit: 10,
-            prefetch: {
-                url: '/WorkflowDefinition/GetVariablePath/' + id,
-                ttl: 1000 * 60
-            }
+            displayKey: "Path",
+            source: members.ttAdapter()
         })
             .on('typeahead:closed', function () {
                 allBindings.value($(this).val());

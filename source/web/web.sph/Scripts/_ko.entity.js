@@ -182,7 +182,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
                         return d.path.split(/s+/);
                     },
                     queryTokenizer: function(s) {
-                        return s.split(/\W+/);
+                        return s.split(/\./);
                     },
                     local: paths
                 });
