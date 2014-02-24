@@ -174,17 +174,32 @@ ko.bindingHandlers.tree = {
 ko.bindingHandlers.entityTypeaheadPath = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var id = ko.unwrap(valueAccessor()),
-        allBindings = allBindingsAccessor();
-        $(element).typeahead({
-            name: 'ed_paths' + id,
-            limit: 10,
-            prefetch: {
-                url: '/Sph/EntityDefinition/GetVariablePath/' + id,
-                ttl: 1000 * 60
-            }
-        })
-            .on('typeahead:closed', function () {
-                allBindings.value($(this).val());
-            });
+            allBindings = allBindingsAccessor();
+        $.get('/Sph/EntityDefinition/GetVariablePath/' + id).done(function (results) {
+            var paths = _(results).map(function (v) { return { path: v }; }),
+                members = new Bloodhound({
+                    datumTokenizer: function (d) {
+                        return d.path.split(/s+/);
+                    },
+                    queryTokenizer: function(s) {
+                        return s.split(/\W+/);
+                    },
+                    local: paths
+                });
+            members.initialize();
+
+            $(element).typeahead({
+                minLength: 0,
+                highlight: true,
+            },
+                {
+                    name: 'ed_paths' + id,
+                    displayKey: 'path',
+                    source: members.ttAdapter()
+                })
+                .on('typeahead:closed', function () {
+                    allBindings.value($(this).val());
+                });
+        });
     }
 };

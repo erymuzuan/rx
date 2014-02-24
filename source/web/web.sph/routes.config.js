@@ -184,7 +184,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "workflow.definition.list",
       "moduleId": "viewmodels/workflow.definition.list",
@@ -226,7 +226,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "workflow.instances.console",
       "moduleId": "viewmodels/workflow.instances.console",
@@ -240,7 +240,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "entities.list",
       "moduleId": "viewmodels/entities.list",
@@ -254,7 +254,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "workflow.activities/:id",
       "moduleId": "viewmodels/workflow.activities",
@@ -268,7 +268,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "workflow.kpi/:id",
       "moduleId": "viewmodels/workflow.kpi",
@@ -282,7 +282,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "workflow.overview/:id",
       "moduleId": "viewmodels/workflow.overview",
@@ -296,7 +296,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_entity",
+      "role": "developers",
       "groupName": "Entity",
       "route": "entity.details/:id",
       "moduleId": "viewmodels/entity.details",
@@ -310,7 +310,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_entity",
+      "role": "developers",
       "groupName": "Entity",
       "route": "entity.form.designer/:entityid/:formid",
       "moduleId": "viewmodels/entity.form.designer",
@@ -324,7 +324,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_entity",
+      "role": "developers",
       "groupName": "Entity",
       "route": "entity.view.designer/:entityid/:viewid",
       "moduleId": "viewmodels/entity.view.designer",
@@ -338,7 +338,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_entity",
+      "role": "developers",
       "groupName": "Entity",
       "route": "entity.business.rule.designer/:entityid/:brid",
       "moduleId": "viewmodels/entity.business.rule.designer",
@@ -352,7 +352,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "workflow.debugger/:id",
       "moduleId": "viewmodels/workflow.debugger",
@@ -366,7 +366,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "workflow.definition.visual/:id",
       "moduleId": "viewmodels/workflow.definition.visual",
@@ -380,7 +380,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "page.list",
       "moduleId": "viewmodels/page.list",
@@ -394,7 +394,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_entity",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "workflow.draft",
       "moduleId": "viewmodels/workflow.draft",
@@ -408,7 +408,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "workflow.manage/:id",
       "moduleId": "viewmodels/workflow.manage",
@@ -422,7 +422,7 @@
       "error": ""
   },
   {
-      "role": "can_edit_workflow",
+      "role": "developers",
       "groupName": "Workflow",
       "route": "screen.editor/:wdid/:webid",
       "moduleId": "viewmodels/screen.editor",
