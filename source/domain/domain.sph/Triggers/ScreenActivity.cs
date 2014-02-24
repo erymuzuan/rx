@@ -375,7 +375,7 @@ namespace Bespoke.Sph.Domain
             
             instance.addChildItem = function(list, type){{
                         return function(){{
-                            var item = bespoke.sph.w_{1}_{2}[type](system.guid());
+                            var item = new bespoke.sph.w_{1}_{2}[type](system.guid());
                             list.push(item);
                         }}
                     }};

@@ -85,9 +85,30 @@ namespace Bespoke.Sph.Domain
                 else
                     script.AppendLinf("     {0}: ko.observable(),", item.Name);
             }
+            script.AppendFormat(@"
+    addChildItem : function(list, type){{
+                        return function(){{
+                            var item = new bespoke.{0}.domain[type](system.guid());
+                            list.push(item);
+                        }}
+                    }},
+            
+   removeChildItem : function(list, obj){{
+                        return function(){{
+                            list.remove(obj);
+                        }}
+                    }},
+" ,jsNamespace);
             script.AppendLine("     WebId: ko.observable()");
 
             script.AppendLine(" }");
+
+            script.AppendFormat(@"
+
+    if (bespoke.{0}.domain.{1}Partial) {{
+        return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
+    }}", jsNamespace, this.Name);
+
             script.AppendLine(" return model;");
             script.AppendLine("};");
             foreach (var item in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
