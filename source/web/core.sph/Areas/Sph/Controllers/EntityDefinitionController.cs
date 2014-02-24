@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-
+        [HttpPost]
         public async Task<ActionResult> Save()
         {
             var ed = this.GetRequestJson<EntityDefinition>();

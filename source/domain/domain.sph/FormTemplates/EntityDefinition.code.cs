@@ -17,6 +17,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("using " + typeof(Task<>).Namespace + ";");
             code.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             code.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
+            code.AppendLine("using System.Web.Mvc;");
             code.AppendLine();
 
             code.AppendLine("namespace " + this.CodeNamespace);
@@ -132,6 +133,27 @@ namespace Bespoke.Sph.Domain
             {{
                 session.Attach(item);
                 await session.SubmitChanges(""save"");
+            }}
+            this.Response.ContentType = ""application/json; charset=utf-8"";
+            return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name);
+            code.AppendLine("       }");
+
+            // REMOVE
+            code.AppendLinf("//exec:Remove");
+            code.AppendLinf("       [HttpDelete]");
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(int id)");
+            code.AppendLine("       {");
+            code.AppendLinf(@"
+            var repos = ObjectBuilder.GetObject<IRepository<{0}>>();
+            var item = await repos.LoadOneAsync(id);
+            if(null == item)
+                return new HttpNotFoundResult();
+
+            var context = new Bespoke.Sph.Domain.SphDataContext();
+            using(var session = context.OpenSession())
+            {{
+                session.Delete(item);
+                await session.SubmitChanges(""delete"");
             }}
             this.Response.ContentType = ""application/json; charset=utf-8"";
             return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name);
