@@ -4,10 +4,7 @@
     {
         public override string GetKnockoutBindingExpression()
         {
-            var path = this.Path;
-            return string.Format("checked : {0}, visible : {1}",
-                path,
-                this.Visible);
+            return string.Format("checked : {0}, enable :{1}", this.Path, this.Enable);
         }
 
     }

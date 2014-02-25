@@ -40,7 +40,9 @@ namespace Bespoke.Sph.Domain
                     query);
             }
 
-            return string.Format("{2}: {0}, visible :{1}", path, this.Visible, binding);
+            if (this.IsCompact)
+                return string.Format("{2}: {0}, visible :{1}, enable :{3}", path, this.Visible, binding, this.Enable);
+            return string.Format("{1}: {0}, enable :{2}", path, binding, this.Enable);
         }
     }
 }

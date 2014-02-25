@@ -22,18 +22,14 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(Button))]
     public partial class FormElement : DomainObject
     {
-        
-
         public virtual string GetKnockoutBindingExpression()
         {
             return null;
         }
         public virtual string GetKnockoutDisplayBindingExpression()
         {
-
             var path = this.Path;
             return string.Format("text: {0}", path);
-
         }
 
         public string GetNormalizedName()

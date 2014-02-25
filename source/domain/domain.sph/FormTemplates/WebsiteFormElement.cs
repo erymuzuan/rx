@@ -6,10 +6,10 @@
 
         public override string GetKnockoutBindingExpression()
         {
-            var path = this.Path;
-            return string.Format("value: {0}, visible :{1}",
-                path,
-                this.Visible);
+            return string.Format("value: {0}, visible :{1}, enable: {2}",
+                this.Path,
+                this.Visible,
+                this.Enable);
         }
     }
 }

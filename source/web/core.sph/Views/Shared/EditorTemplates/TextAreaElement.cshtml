@@ -1,4 +1,8 @@
 ﻿@model Bespoke.Sph.Domain.TextAreaElement
+@if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}
 @if (Model.IsCompact)
 {
 
@@ -9,7 +13,7 @@
 else
 {
 
-    <div class="form-group">
+    <div class="form-group" data-bind="visible:@Model.Visible">
         <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
         <div class="@Model.InputPanelCssClass">
             <textarea class="@(Model.CssClass + " form-control "+ Model.Size)"

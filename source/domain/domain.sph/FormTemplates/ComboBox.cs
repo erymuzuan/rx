@@ -34,9 +34,9 @@
             }
 
 
-            return string.Format("value: {0}, visible :{1}",
-                path,
-                this.Visible);
+            return this.IsCompact ? 
+                string.Format("value: {0}, visible :{1}, enable :{2}", path, this.Visible, this.Enable) :
+                string.Format("value: {0}, enable :{1}", path, this.Enable);
         }
 
     }

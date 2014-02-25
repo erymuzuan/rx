@@ -2,6 +2,10 @@
 @{
     var required = Model.IsRequired ? "required" : null;
 }
+@if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}
 
 @if (Model.IsCompact)
 {

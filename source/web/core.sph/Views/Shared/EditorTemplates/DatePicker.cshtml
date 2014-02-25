@@ -1,5 +1,8 @@
 ﻿@model Bespoke.Sph.Domain.DatePicker
-
+@if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}
 @if (Model.IsCompact)
 {
 
@@ -10,7 +13,7 @@
 else
 {
 
-    <div class="form-group datepicker">
+    <div class="form-group datepicker" data-bind="visible : @Model.Visible">
         <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
         <div class="@Model.InputPanelCssClass">
             <input class="@(Model.CssClass + " form-control " + Model.Size)"
