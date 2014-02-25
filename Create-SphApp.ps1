@@ -116,7 +116,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\subscribers.host" `
 
 
 
-#web
+#tools
 Get-ChildItem -Filter *.* -Path ".\bin\tools" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `

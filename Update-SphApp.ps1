@@ -70,6 +70,11 @@ if((Test-Path("$WorkingCopy\web")) -eq $false)
     mkdir "$WorkingCopy\web"
 }
 
+if((Test-Path("$WorkingCopy\tools")) -eq $false)
+{
+    mkdir "$WorkingCopy\tools"
+}
+
 #schedulers
 Get-ChildItem -Filter *.* -Path ".\bin\schedulers" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
@@ -94,7 +99,12 @@ Get-ChildItem -Filter *.* -Path ".\bin\subscribers.host" `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$WorkingCopy\subscribers.host" -Force
 
-
+#tools
+Get-ChildItem -Filter *.* -Path ".\bin\tools" `
+| ? { $_.Name.StartsWith("workflows.") -eq $false} `
+| ? { $_.Name.StartsWith("Dev.") -eq $false} `
+| ? { $_.Name.EndsWith(".xml") -eq $false} `
+| Copy-Item -Destination "$WorkingCopy\tools" -Force -Recurse
 
 
 #web
@@ -148,6 +158,35 @@ if($droptables -eq "Yes")
     }
 }
 
+
+#configs value
+$allConfigs = @("$WorkingCopy\web\web.config"
+, "$WorkingCopy\schedulers\scheduler.delayactivity.exe.config"
+, "$WorkingCopy\schedulers\scheduler.workflow.trigger.exe.config"
+, "$WorkingCopy\subscribers.host\workers.console.runner.exe.config"
+, "$WorkingCopy\subscribers.host\workers.windowsservice.runner.exe.config"
+, "$WorkingCopy\tools\sph.builder.exe.config"
+)
+
+foreach($configFile in $allConfigs){
+    Write-Host "Processing $configFile"
+
+    $xml = (Get-Content $configFile) -as [xml]
+    $xml.SelectSingleNode('//appSettings/add[@key="sph:BaseUrl"]/@value').'#text' = 'http://localhost:' + $Port
+    $xml.SelectSingleNode('//appSettings/add[@key="sph:BaseDirectory"]/@value').'#text' = $WorkingCopy
+    $xml.SelectSingleNode('//appSettings/add[@key="sph:ApplicationName"]/@value').'#text' = $ApplicationName
+    $xml.SelectSingleNode('//appSettings/add[@key="sph:ApplicationFullName"]/@value').'#text' = $ApplicationName
+
+    $connectionString = 'Data Source=' + $SqlServer +';Initial Catalog='+ $ApplicationName +';Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False'
+
+    $xml.SelectSingleNode('//connectionStrings/add[@name="Sph"]/@connectionString').'#text' = $connectionString
+    $xml.SelectSingleNode('//spring/objects/object[@name="IPersistence"]/constructor-arg[@name="connectionString"]/@value').'#text' = $connectionString
+    $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="VirtualHost"]/@value').'#text' = $ApplicationName
+    $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="UserName"]/@value').'#text' = $RabbitMqUserName
+    $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="Password"]/@value').'#text' = $RabbitMqPassword
+
+    $xml.Save($configFile)
+}
 
 
 #delete all accidentally added config

@@ -1230,13 +1230,13 @@
       <DependentUpon>__core.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\core.min.js">
-      <DependentUpon>core.js</DependentUpon>
+      <DependentUpon>__core.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\vendor.js">
       <DependentUpon>__vendor.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\vendor.min.js">
-      <DependentUpon>vendor.js</DependentUpon>
+      <DependentUpon>__vendor.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\async.js" />
     <EmbeddedResource Include="SphApp\goog.js" />
@@ -1250,7 +1250,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css.min.css">
-      <DependentUpon>css.css</DependentUpon>
+      <DependentUpon>__css.css.bundle</DependentUpon>
     </Content>
     <EmbeddedResource Include="Content\jstree\32px.png" />
     <EmbeddedResource Include="Content\jstree\40px.png" />
@@ -1487,7 +1487,7 @@
       <DependentUpon>__partial.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\partial\partial.min.js">
-      <DependentUpon>partial.js</DependentUpon>
+      <DependentUpon>__partial.js.bundle</DependentUpon>
     </EmbeddedResource>
     <Content Include="SphApp\partial\report.min.js">
       <DependentUpon>report.js</DependentUpon>
@@ -1574,7 +1574,7 @@
       <DependentUpon>__domain.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\schemas\domain.min.js">
-      <DependentUpon>domain.js</DependentUpon>
+      <DependentUpon>__domain.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\schemas\report.builder.g.js" />
     <Content Include="SphApp\schemas\sph.domain.g.js" />
@@ -2266,7 +2266,7 @@
     <Content Include="Scripts\jquery-2.1.0.min.map" />
     <None Include="Scripts\__core.js.bundle" />
     <EmbeddedResource Include="Scripts\core.min.js.map">
-      <DependentUpon>core.min.js</DependentUpon>
+      <DependentUpon>__core.js.bundle</DependentUpon>
     </EmbeddedResource>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <EmbeddedResource Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
@@ -3480,7 +3480,7 @@
     </Content>
     <None Include="Scripts\__vendor.js.bundle" />
     <EmbeddedResource Include="Scripts\vendor.min.js.map">
-      <DependentUpon>vendor.min.js</DependentUpon>
+      <DependentUpon>__vendor.js.bundle</DependentUpon>
     </EmbeddedResource>
     <Content Include="SphApp\partial\Activity.min.js.map">
       <DependentUpon>Activity.js</DependentUpon>
@@ -3598,7 +3598,7 @@
     </Content>
     <None Include="SphApp\partial\__partial.js.bundle" />
     <Content Include="SphApp\partial\partial.min.js.map">
-      <DependentUpon>partial.min.js</DependentUpon>
+      <DependentUpon>__partial.js.bundle</DependentUpon>
     </Content>
     <None Include="SphApp\prototypes\__prototypes.js.bundle" />
     <Content Include="SphApp\prototypes\prototypes.min.js.map">
@@ -3606,7 +3606,7 @@
     </Content>
     <None Include="SphApp\schemas\__domain.js.bundle" />
     <EmbeddedResource Include="SphApp\schemas\domain.min.js.map">
-      <DependentUpon>domain.min.js</DependentUpon>
+      <DependentUpon>__domain.js.bundle</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

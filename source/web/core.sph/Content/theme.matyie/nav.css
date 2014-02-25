@@ -14,7 +14,7 @@
 #slider-menu .nav > li.active {
   background-color: #ff0000;
 }
-#slider-menu .nav > li > a {
+#slider-menu .nav > li a {
   margin-right: 5px;
   color: #fff;
   padding: 0px;

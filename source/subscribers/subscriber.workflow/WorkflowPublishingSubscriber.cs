@@ -41,6 +41,9 @@ namespace Bespoke.Sph.WorkflowsExecution
 
             File.Copy(dllFullPath, ConfigurationManager.SubscriberPath + @"\" + dll, true);
             File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);
+            
+            File.Copy(dllFullPath, ConfigurationManager.SchedulerPath + @"\" + dll, true);
+            File.Copy(pdbFullPath, ConfigurationManager.SchedulerPath + @"\" + pdb, true);
         }
     }
 }
