@@ -245,6 +245,8 @@
 
                     context.post(data, "/Sph/EntityForm/Save")
                         .then(function(result) {
+                            
+                            form().EntityFormId(result.id);
                             tcs.resolve(result);
                         });
                     return tcs.promise();

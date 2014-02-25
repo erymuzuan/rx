@@ -229,20 +229,21 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "ements);\r\n                    \r\n                    \r\n                    var tc" +
 "s = new $.Deferred(),\r\n                        data = ko.mapping.toJSON(form);\r\n" +
 "\r\n                    context.post(data, \"/Sph/EntityForm/Save\")\r\n              " +
-"          .then(function(result) {\r\n                            tcs.resolve(resu" +
-"lt);\r\n                        });\r\n                    return tcs.promise();\r\n  " +
-"              };\r\n\r\n            var vm = {\r\n                attached: attached,\r" +
-"\n                activate: activate,\r\n                formElements: ko.observabl" +
-"eArray(),\r\n                selectedFormElement: ko.observable(),\r\n              " +
-"  selectFormElement : selectFormElement,\r\n                removeFormElement : re" +
-"moveFormElement,\r\n                form: form,\r\n                entity : entity,\r" +
-"\n                okClick: okClick,\r\n                cancelClick: cancelClick,\r\n " +
-"               importCommand :importCommand,\r\n                toolbar : {\r\n     " +
-"               commands :ko.observableArray([{\r\n                        caption " +
-": \'Publish\',\r\n                        icon : \'fa fa-sign-out\',\r\n                " +
-"        command : publish\r\n                    }\r\n                    ]),\r\n     " +
-"               saveCommand : save\r\n                }\r\n            };\r\n\r\n        " +
-"    return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"          .then(function(result) {\r\n                            \r\n              " +
+"              form().EntityFormId(result.id);\r\n                            tcs.r" +
+"esolve(result);\r\n                        });\r\n                    return tcs.pro" +
+"mise();\r\n                };\r\n\r\n            var vm = {\r\n                attached:" +
+" attached,\r\n                activate: activate,\r\n                formElements: k" +
+"o.observableArray(),\r\n                selectedFormElement: ko.observable(),\r\n   " +
+"             selectFormElement : selectFormElement,\r\n                removeFormE" +
+"lement : removeFormElement,\r\n                form: form,\r\n                entity" +
+" : entity,\r\n                okClick: okClick,\r\n                cancelClick: canc" +
+"elClick,\r\n                importCommand :importCommand,\r\n                toolbar" +
+" : {\r\n                    commands :ko.observableArray([{\r\n                     " +
+"   caption : \'Publish\',\r\n                        icon : \'fa fa-sign-out\',\r\n     " +
+"                   command : publish\r\n                    }\r\n                   " +
+" ]),\r\n                    saveCommand : save\r\n                }\r\n            };\r" +
+"\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }
