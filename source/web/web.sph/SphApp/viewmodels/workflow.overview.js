@@ -8,8 +8,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context, logger, router) {
+define(['services/datacontext'],
+    function (context) {
 
         var
             isBusy = ko.observable(false),
@@ -38,6 +38,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                         }
                         context.post(ko.mapping.toJSON(query), "workflow_" + wdid + "_" + ko.unwrap(vr[0].Version) + "/search")
                             .then(function (result) {
+                                if (result.status === 404) {
+                                    return;
+                                }
                                 versions.push({
                                     version: vr[0].Version,
                                     states: result.facets.state.terms
@@ -54,9 +57,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 return tcs.promise();
 
             },
-            attached = function (view) {
-
-                getExecutionHistogram(id(), _(versions()).last().version)
+            attached = function () {
+                var last = _(versions()).last();
+                if (!last) {
+                    return;
+                }
+                getExecutionHistogram(id(), last.version)
                     .done(drawExecutionChart);
             },
             query = {
@@ -75,7 +81,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                     categories = _(result.aggregations.execution_histogram).map(function (v) { return moment(v.key).format('DD/MM/YY'); });
                 $("#chart-div").kendoChart({
                     title: {
-                        text: "Ecution by date interval "
+                        text: "Execution by date interval "
                     },
                     legend: {
                         position: "bottom"
