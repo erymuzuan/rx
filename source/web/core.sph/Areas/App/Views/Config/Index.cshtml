@@ -32,7 +32,8 @@
             startModule: startModule,
             stateOptions : @Html.Raw(Model.StateOptions),
             departmentOptions : @Html.Raw(Model.DepartmentOptions),
-            spaceUsageOptions : @Html.Raw(Model.SpaceUsageOptions),
+            applicationFullName :'@Model.ApplicationFullName',
+            applicationName :'@Model.ApplicationName',
             roles :[ @Html.Raw(string.Join(",", Roles.GetRolesForUser(User.Identity.Name).Select(u => string.Format("'{0}'", u))))],
             profile : @Html.Raw(JsonConvert.SerializeObject(Model.UserProfile))
             };

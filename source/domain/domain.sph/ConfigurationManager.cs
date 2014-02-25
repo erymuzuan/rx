@@ -160,6 +160,10 @@ namespace Bespoke.Sph.Domain
 
                 var val = System.Configuration.ConfigurationManager.AppSettings["sph:WebPath"];
                 if (Path.IsPathRooted(val)) return val;
+
+                if (ApplicationName == "Dev")
+                    return BaseDirectory  + @"\source\web\web.sph";
+
                 return BaseDirectory + BinPath + @"\web";
             }
         }

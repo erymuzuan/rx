@@ -12,7 +12,7 @@
      )
 if(($Help -eq $true) -or ($ApplicationName -eq ""))
 {
-	Write-Output "	A script to help copy the latest bin to your working copy, `
+	Write-Output "	A script to help to create new SPH appp in your working copy, `
 	You'll need to provide the path to your working copy and the application name`
 	"	
 	
@@ -21,6 +21,12 @@ if(($Help -eq $true) -or ($ApplicationName -eq ""))
 if($Port -eq 0)
 {
 	Write-Output "Please provide a port no for your web app"	
+	
+	exit;
+}
+if($ApplicationName -eq "Dev")
+{
+	Write-Output "Please provide a different name, Dev is a reserved keyword"	
 	
 	exit;
 }
@@ -224,4 +230,49 @@ Get-ChildItem -Filter *.json -Path C:\project\work\sph\source\elasticsearch\mapp
     $mappingUri = $esindex + "/" + $_.Name.ToLowerInvariant().Replace(".json", "") + "/_mapping"
     Write-Host "Creating elastic search mapping for $mappingUri"
     Invoke-WebRequest -Method PUT -Uri $mappingUri -InFile $_.FullName -ContentType "application/javascript"
+}
+
+
+#configs value
+$allConfigs = @("$WorkingCopy\web\web.config"
+, "$WorkingCopy\schedulers\scheduler.delayactivity.exe.config"
+, "$WorkingCopy\schedulers\scheduler.workflow.trigger.exe.config"
+, "$WorkingCopy\subscribers.host\workers.console.runner.exe.config"
+, "$WorkingCopy\subscribers.host\workers.windowsservice.runner.exe.config"
+, "$WorkingCopy\tools\sph.builder.exe.config"
+)
+
+foreach($configFile in $allConfigs){
+    Write-Host "Processing $configFile"
+
+    $xml = (Get-Content $configFile) -as [xml]
+    $xml.SelectSingleNode('//appSettings/add[@key="sph:BaseUrl"]/@value').'#text' = 'http://localhost:' + $Port
+    $xml.SelectSingleNode('//appSettings/add[@key="sph:BaseDirectory"]/@value').'#text' = $WorkingCopy
+    $xml.SelectSingleNode('//appSettings/add[@key="sph:ApplicationName"]/@value').'#text' = $ApplicationName
+    $xml.SelectSingleNode('//appSettings/add[@key="sph:ApplicationFullName"]/@value').'#text' = $ApplicationName
+
+    $connectionString = 'Data Source=' + $SqlServer +';Initial Catalog='+ $ApplicationName +';Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False'
+
+    $xml.SelectSingleNode('//connectionStrings/add[@name="Sph"]/@connectionString').'#text' = $connectionString
+    $xml.SelectSingleNode('//spring/objects/object[@name="IPersistence"]/constructor-arg[@name="connectionString"]/@value').'#text' = $connectionString
+    $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="VirtualHost"]/@value').'#text' = $ApplicationName
+    $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="UserName"]/@value').'#text' = $RabbitMqUserName
+    $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="Password"]/@value').'#text' = $RabbitMqPassword
+
+    $xml.Save($configFile)
+}
+#delete all accidentally added config
+$rubbishConfigs = @("$WorkingCopy\subscribers\subscriber.workflow.dll.config"
+,"$WorkingCopy\schedulers\scheduler.delayactivity.config"
+,"$WorkingCopy\schedulers\razor.template.dll.config"
+,"$WorkingCopy\schedulers\scheduler.workflow.trigger.config"
+,"$WorkingCopy\schedulers\sql.repository.dll.config"
+,"$WorkingCopy\subscribers\razor.template.dll.config"
+,"$WorkingCopy\subscribers\sql.repository.dll.config"
+)
+foreach($ucon in $rubbishConfigs)
+{
+    if((Test-Path $ucon) -eq $true){
+        Remove-Item $ucon
+    }
 }
