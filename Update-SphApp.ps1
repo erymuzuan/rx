@@ -148,3 +148,20 @@ if($droptables -eq "Yes")
     }
 }
 
+
+
+#delete all accidentally added config
+$rubbishConfigs = @("$WorkingCopy\subscribers\subscriber.workflow.dll.config"
+,"$WorkingCopy\schedulers\scheduler.delayactivity.config"
+,"$WorkingCopy\schedulers\razor.template.dll.config"
+,"$WorkingCopy\schedulers\scheduler.workflow.trigger.config"
+,"$WorkingCopy\schedulers\sql.repository.dll.config"
+,"$WorkingCopy\subscribers\razor.template.dll.config"
+,"$WorkingCopy\subscribers\sql.repository.dll.config"
+)
+foreach($ucon in $rubbishConfigs)
+{
+    if((Test-Path $ucon) -eq $true){
+        Remove-Item $ucon
+    }
+}

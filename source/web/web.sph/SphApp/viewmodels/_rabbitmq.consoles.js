@@ -8,8 +8,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function(context, logger, router) {
+define([objectbuilders.config],
+    function(config) {
 
         var
             isBusy = ko.observable(false),
@@ -21,7 +21,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 				overviewTask = $.get("/sph/management/api/overview");
 
                 $.when(queuesTask, overviewTask).done(function (queuesr, overviewr) {
-                    queues(queuesr[0]);
+                    queues(_(queuesr[0]).filter(function(v) { return v.vhost == config.applicationName; }));
                     overview(overviewr[0]);
                     tcs.resolve(true);
                 });
