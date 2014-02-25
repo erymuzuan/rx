@@ -51,8 +51,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             fsw.Changed += FswChanged;
         }
 
-
-
+        
         public void Start(SubscriberMetadata[] subscribersMetadata)
         {
             this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);

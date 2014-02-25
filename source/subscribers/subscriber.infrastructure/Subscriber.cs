@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
-
 //using sql = Bespoke.Sph.SqlRepository;
+using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -76,8 +79,52 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         protected virtual void RegisterServices()
         {
+            this.RegisterCustomEntityDependencies().Wait();
+        }
+
+
+        public async Task RegisterCustomEntityDependencies()
+        {
+            var sqlAssembly = Assembly.Load("sql.repository");
+            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
+
+            var context = new SphDataContext();
+            var query = context.EntityDefinitions.Where(e => e.IsPublished == true);
+            var lo = await context.LoadAsync(query, includeTotalRows: true);
+            var entityDefinitions = new ObjectCollection<EntityDefinition>(lo.ItemCollection);
+            while (lo.HasNextPage)
+            {
+                lo = await context.LoadAsync(query, includeTotalRows: true, page: lo.CurrentPage + 1);
+                entityDefinitions.AddRange(lo.ItemCollection);
+            }
+
+            foreach (var ed in entityDefinitions)
+            {
+                var ed1 = ed;
+                try
+                {
+                    var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
+                    var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed1.EntityDefinitionId, ed1.Name);
+                    var edType = edAssembly.GetType(edTypeName);
+                    if (null == edType)
+                        Console.WriteLine("Cannot create type " + edTypeName);
+
+                    var reposType = sqlRepositoryType.MakeGenericType(edType);
+                    var repository = Activator.CreateInstance(reposType);
+
+                    var ff = typeof(IRepository<>).MakeGenericType(new[] { edType });
+
+                    ObjectBuilder.AddCacheList(ff, repository);
+                }
+                catch (FileNotFoundException e)
+                {
+                    //  Console.WriteLine(e);
+                }
+            }
 
         }
+
+
 
         public override object InitializeLifetimeService()
         {
