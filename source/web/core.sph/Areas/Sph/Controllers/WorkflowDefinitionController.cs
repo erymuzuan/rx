@@ -195,7 +195,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     list.AddRange(xsd.GetMembersPath(v.TypeName).Select(x => v.Name + "." + x));
                 }
             }
-            // TODO : get the CLR type info too
+
+            foreach (var v in wd.VariableDefinitionCollection.OfType<ClrTypeVariable>())
+            {
+                var v1 = v;
+                var entity =await context.LoadOneAsync<EntityDefinition>(e => e.Name == v1.Type.Name);
+                if (null != entity)
+                {
+                    list.AddRange(entity.GetMembersPath().Select(x => v.Name + "." + x));
+                }
+            }
 
             return Json(list.Select(d => new { Path = d }).ToArray(), JsonRequestBehavior.AllowGet);
         }
