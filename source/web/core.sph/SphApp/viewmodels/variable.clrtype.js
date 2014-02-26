@@ -7,20 +7,39 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 
-define(['plugins/dialog'],
-    function (dialog) {
+define(['plugins/dialog', objectbuilders.datacontext, objectbuilders.config],
+    function (dialog, context, config) {
 
-        var okClick = function(data, ev) {
-            if (bespoke.utils.form.checkValidity(ev.target)) {
-                dialog.close(this, "OK");
-            }
+        var entityOptions = ko.observableArray(),
+            activate = function () {
+            var query = String.format("IsPublished eq 1"),
+                tcs = new $.Deferred();
+
+            context.loadAsync("EntityDefinition", query)
+                .then(function (lo) {
+                    var types = _(lo.itemCollection).map(function (v) { return {
+                        name: v.Name(),
+                        fullName : String.format("Bespoke.{0}_{1}.Domain.{2}, {0}.{2}", config.applicationName,v.EntityDefinitionId(), v.Name())
+                    }; });
+                    entityOptions(types);
+                    tcs.resolve(true);
+                });
+            return tcs.promise();
 
         },
-            cancelClick = function() {
+            okClick = function (data, ev) {
+                if (bespoke.utils.form.checkValidity(ev.target)) {
+                dialog.close(this, "OK");
+                }
+
+            },
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
         var vm = {
+            entityOptions: entityOptions,
+            activate: activate,
             variable: ko.observable(new bespoke.sph.domain.ClrTypeVariable()),
             okClick: okClick,
             cancelClick: cancelClick
