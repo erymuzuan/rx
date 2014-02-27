@@ -1,0 +1,44 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Domain.ListView
+@if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}
+
+<div data-bind="visible:@Model.Visible">
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path, '@Model.ChildItemType')">@Model.Label</button>
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                @foreach (var col in Model.ListViewColumnCollection)
+                {
+                    <th>@col.Label</th>
+                }
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :@Model.Path">
+            <tr>
+                @foreach (var col in Model.ListViewColumnCollection)
+                {
+                    var col1 = col;
+                    col.Input.Path = col.Path;
+                    col.Input.Visible = "true";
+                    col.Input.Enable = "true";
+                    col.Input.IsCompact = true;
+                    col.Input.ElementId = Guid.NewGuid().ToString();
+                    
+                    <td>
+                        @Html.EditorFor(f => col1.Input)
+                    </td>
+                }
+                <td>
+                    <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.@Model.Path, $data)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
