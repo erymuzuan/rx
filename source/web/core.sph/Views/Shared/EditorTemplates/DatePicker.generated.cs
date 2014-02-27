@@ -114,13 +114,13 @@ else
             #line hidden
 WriteLiteral("    <div");
 
-WriteLiteral(" class=\"form-group datepicker\"");
+WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(" data-bind=\"visible : ");
 
             
             #line 16 "..\..\Views\Shared\EditorTemplates\DatePicker.cshtml"
-                                                       Write(Model.Visible);
+                                            Write(Model.Visible);
 
             
             #line default
@@ -129,24 +129,24 @@ WriteLiteral("\"");
 
 WriteLiteral(">\r\n        <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 465), Tuple.Create("\"", 487)
+WriteAttribute("for", Tuple.Create(" for=\"", 454), Tuple.Create("\"", 476)
             
             #line 17 "..\..\Views\Shared\EditorTemplates\DatePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 471), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+, Tuple.Create(Tuple.Create("", 460), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 471), false)
+, 460), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 488), Tuple.Create("\"", 516)
+WriteAttribute("class", Tuple.Create(" class=\"", 477), Tuple.Create("\"", 505)
             
             #line 17 "..\..\Views\Shared\EditorTemplates\DatePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 496), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+, Tuple.Create(Tuple.Create("", 485), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 496), false)
+, 485), false)
 );
 
 WriteLiteral(">");
@@ -160,26 +160,26 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</label>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 552), Tuple.Create("\"", 585)
+WriteAttribute("class", Tuple.Create(" class=\"", 541), Tuple.Create("\"", 574)
             
             #line 18 "..\..\Views\Shared\EditorTemplates\DatePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 560), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+, Tuple.Create(Tuple.Create("", 549), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 560), false)
+, 549), false)
 );
 
 WriteLiteral(">\r\n            <input");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 607), Tuple.Create("\"", 664)
+WriteAttribute("class", Tuple.Create(" class=\"", 596), Tuple.Create("\"", 653)
             
             #line 19 "..\..\Views\Shared\EditorTemplates\DatePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 615), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control " + Model.Size
+, Tuple.Create(Tuple.Create("", 604), Tuple.Create<System.Object, System.Int32>(Model.CssClass + " form-control " + Model.Size
             
             #line default
             #line hidden
-, 615), false)
+, 604), false)
 );
 
 WriteLiteral("\r\n                   data-bind=\"");
@@ -193,26 +193,26 @@ WriteLiteral("\r\n                   data-bind=\"");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 747), Tuple.Create("\"", 768)
+WriteAttribute("id", Tuple.Create(" id=\"", 736), Tuple.Create("\"", 757)
             
             #line 20 "..\..\Views\Shared\EditorTemplates\DatePicker.cshtml"
-      , Tuple.Create(Tuple.Create("", 752), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+      , Tuple.Create(Tuple.Create("", 741), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 752), false)
+, 741), false)
 );
 
 WriteLiteral(" type=\"text\"");
 
-WriteAttribute("name", Tuple.Create("\r\n                   name=\"", 781), Tuple.Create("\"", 819)
+WriteAttribute("name", Tuple.Create("\r\n                   name=\"", 770), Tuple.Create("\"", 808)
             
             #line 21 "..\..\Views\Shared\EditorTemplates\DatePicker.cshtml"
-, Tuple.Create(Tuple.Create("", 808), Tuple.Create<System.Object, System.Int32>(Model.Path
+, Tuple.Create(Tuple.Create("", 797), Tuple.Create<System.Object, System.Int32>(Model.Path
             
             #line default
             #line hidden
-, 808), false)
+, 797), false)
 );
 
 WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n");

@@ -96,6 +96,39 @@
                 "WebId": null
               },
               {
+                "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "MaxLength": 0,
+                  "MinLength": 0,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "WebId": null
+                },
+                "Name": "Date",
+                "Label": "Date",
+                "Tooltip": null,
+                "Path": "Date",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "",
+                "Visible": "true",
+                "Enable": "true",
+                "ElementId": "84c3c0e5-d190-4518-9032-498d443e1674",
+                "HelpText": null,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
+              },
+              {
                 "$type": "Bespoke.Sph.Domain.Button, domain.sph",
                 "Command": null,
                 "UseClick": false,
@@ -176,7 +209,7 @@
           "WebId": "71ac0d9f-1ec1-4f67-9a43-8a5f54d45440"
         },
         "IsInitiator": false,
-        "NextActivityWebId": "85dabc4a-6a8f-4c55-8d56-172e3929088e",
+        "NextActivityWebId": "5f7b4900-798c-43f4-8d8e-20d92c07c28a",
         "Name": "Verification",
         "WebId": "77d593ea-0bc9-443c-80d6-0b6f069912d7"
       },
@@ -343,36 +376,6 @@
         "NextActivityWebId": "5f7b4900-798c-43f4-8d8e-20d92c07c28a",
         "Name": "Email lambat buat",
         "WebId": "da9fdcd3-a029-4174-9167-eaf6c4c6363f"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.UpdateEntityActivity, domain.sph",
-        "EntityType": "Bespoke.Dev_1.Domain.Customer, Dev.Customer",
-        "EntityIdPath": "customerId",
-        "PropertyMappingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.SimpleMapping, domain.sph",
-              "Source": "FullName",
-              "Destination": "FullName",
-              "WebId": "81168b09-0ee3-4b26-9c4b-955ae3ba4417"
-            }
-          ]
-        },
-        "MethodName": "ExecUpdateEntityActivityUpdateRecord6_85daAsync",
-        "IsAsync": false,
-        "ExecutedCode": null,
-        "ExecutingCode": null,
-        "WorkflowDesigner": {
-          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 113,
-          "Y": 532,
-          "WebId": "28ee810f-c92c-4500-97d7-6431efd8a442"
-        },
-        "IsInitiator": false,
-        "NextActivityWebId": "5f7b4900-798c-43f4-8d8e-20d92c07c28a",
-        "Name": "Update Record6",
-        "WebId": "85dabc4a-6a8f-4c55-8d56-172e3929088e"
       }
     ]
   },
@@ -388,17 +391,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
-        "Name": "customerId",
-        "TypeName": "System.Int32, mscorlib",
+        "Name": "Date",
+        "TypeName": "System.DateTime",
         "DefaultValue": "",
-        "WebId": "f44fc1ea-6390-4fd0-a00a-b2236dbb623a"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
-        "Name": "FullName",
-        "TypeName": "System.String, mscorlib",
-        "DefaultValue": "",
-        "WebId": "e11d97e4-70ec-4fb7-9863-d711cfd2eb66"
+        "WebId": "4d985b9e-3312-4456-81f8-f67e33ffa256"
       }
     ]
   },
@@ -411,6 +407,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-02-08T07:27:17.0040446+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-27T15:44:32.86289+08:00",
+  "ChangedDate": "2014-02-28T07:06:03.0985365+08:00",
   "WebId": "0888d213-04f7-4fe1-a90c-444a09614e38"
 }
