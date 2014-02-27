@@ -1,0 +1,198 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ScheduledTriggerActivity, domain.sph",
+        "IntervalScheduleCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.IntervalSchedule, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.DailySchedule, domain.sph",
+              "Recur": 1,
+              "StartHour": 0,
+              "StartMinute": 0,
+              "StartSecond": 0,
+              "EndHour": 0,
+              "EndMinute": 0,
+              "EndSecond": 0,
+              "IsEnabled": true,
+              "Start": "2014-02-01T00:00:00+08:00",
+              "Expire": "2014-05-10T12:00:46+08:00",
+              "Delay": null,
+              "Repeat": null,
+              "Duration": null,
+              "WebId": "a62cbfba-3c9d-4e1c-8edc-1fb7d98e0fb1"
+            }
+          ]
+        },
+        "MethodName": "ExecScheduledTriggerActivityScheduledTrigger1_b7c4Async",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 489,
+          "Y": 76,
+          "WebId": "a84a907b-6879-49db-a3c7-c526c5afc4dc"
+        },
+        "IsInitiator": true,
+        "NextActivityWebId": "b43ee476-563a-4e0b-84f4-021b82abf0d0",
+        "Name": "Scheduled Trigger1",
+        "WebId": "b7c4b7a6-fd22-4143-be20-8752eabdb463"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "test",
+        "Body": "test",
+        "To": "test@test.com",
+        "UserName": "",
+        "Cc": "",
+        "Bcc": "",
+        "IsHtmlEmail": false,
+        "MethodName": "ExecNotificationActivityNotify2_56fbAsync",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 166,
+          "Y": 256,
+          "WebId": "f77441c0-d6c9-4d88-9b87-f65bfa864404"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "15dffee5-f38b-4efd-a21f-eb75f99682b5",
+        "Name": "Notify2",
+        "WebId": "56fb80e3-d10f-4a2d-8268-e2118de28800"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
+        "IsTerminating": false,
+        "MethodName": "ExecEndActivityEnd3_15dfAsync",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 191,
+          "Y": 580,
+          "WebId": "df4c050b-2167-4749-96f5-7eb6f936d2c0"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "",
+        "Name": "End3",
+        "WebId": "15dffee5-f38b-4efd-a21f-eb75f99682b5"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ExpressionActivity, domain.sph",
+        "Expression": "//Do this\nConsole.WriteLine(\"Test\");//Do this\nConsole.WriteLine(\"Test\");//Do this\nConsole.WriteLine(\"Test\");//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");\n//Do this\nConsole.WriteLine(\"Test\");",
+        "MethodName": "ExecExpressionActivityExpression3_b43eAsync",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 626,
+          "Y": 239,
+          "WebId": "dbb022c6-0000-4d3a-ba3e-b904db3a03f4"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "ee090c8f-ac80-4444-a882-837dd81ecac4",
+        "Name": "Expression3",
+        "WebId": "b43ee476-563a-4e0b-84f4-021b82abf0d0"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ScreenActivity, domain.sph",
+        "Title": "",
+        "ViewVirtualPath": "",
+        "WorkflowDefinitionId": 0,
+        "CancelMessageSubject": "",
+        "InvitationMessageSubject": "",
+        "CancelMessageBody": "",
+        "InvitationMessageBody": "",
+        "FormDesign": {
+          "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+          "FormElementCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": "",
+          "Description": "",
+          "ConfirmationText": "",
+          "ImageStoreId": "",
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "3a09e34a-8df3-4e7b-97d7-6a8c58c5ba20"
+        },
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": "",
+          "Value": "",
+          "IsPublic": false,
+          "WebId": "9caac9ea-5153-4dd4-8139-0ab0569ad8c4"
+        },
+        "ConfirmationOptions": {
+          "$type": "Bespoke.Sph.Domain.ConfirmationOptions, domain.sph",
+          "Type": "",
+          "Value": "",
+          "WebId": "8c2bf6d9-2dd3-401d-88d3-9dd4b999fd86"
+        },
+        "IsAsync": true,
+        "ViewModelType": "Screen4ViewModel",
+        "MethodName": "ExecScreenActivityScreen4_ee09Async",
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 526,
+          "Y": 384,
+          "WebId": "d192634b-2c68-45f7-b920-79d85541ffbd"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "56fb80e3-d10f-4a2d-8268-e2118de28800",
+        "Name": "Screen4",
+        "WebId": "ee090c8f-ac80-4444-a882-837dd81ecac4"
+      }
+    ]
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ComplexVariable, domain.sph",
+        "Name": "app",
+        "TypeName": "Applicant",
+        "DefaultValue": "",
+        "WebId": "4efe93df-32de-439d-b2b1-54f12c6bf04c"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "customer",
+        "TypeName": "Bespoke.Dev_1001.Domain.Car, Dev.Car",
+        "DefaultValue": "",
+        "WebId": "c6ea1a57-4a06-411c-9d83-b71a52e14735"
+      }
+    ]
+  },
+  "WorkflowDefinitionId": 9002,
+  "Name": "My scheduled workflow",
+  "Note": "",
+  "IsActive": false,
+  "SchemaStoreId": "d1fd450b-8d47-4fa6-a8bc-6c50d67591ab",
+  "Version": 0,
+  "CreatedBy": null,
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-02-26T17:58:19.6157508+08:00",
+  "WebId": "ec86550b-df79-445a-98e6-ce0215a76606"
+}

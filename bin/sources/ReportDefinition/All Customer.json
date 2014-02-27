@@ -1,0 +1,191 @@
+{
+  "$type": "Bespoke.Sph.Domain.ReportDefinition, domain.sph",
+  "ReportLayoutCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportLayout, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.LabelItem, domain.sph",
+              "Html": "<h1>All customers</h1>",
+              "Name": "Label",
+              "CssClass": "",
+              "Visible": "",
+              "Tooltip": "",
+              "Icon": "fa fa-font icon-2x",
+              "WebId": "ad7edb88-b9d2-4f4b-815a-6a3e24035595"
+            }
+          ]
+        },
+        "Name": "header",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.DataGridItem, domain.sph",
+              "ReportRowCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportRow, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "DataGridColumnCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.DataGridColumn, domain.sph]], domain.sph",
+                "$values": [
+                  {
+                    "$type": "Bespoke.Sph.Domain.DataGridColumn, domain.sph",
+                    "Header": "FullName",
+                    "Width": "",
+                    "Expression": "[FullName]",
+                    "Format": "{0:d}",
+                    "Action": "",
+                    "FooterExpression": "",
+                    "WebId": "049c9bfc-5474-4677-a04f-872e09c8ed7f"
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.DataGridColumn, domain.sph",
+                    "Header": "Umur",
+                    "Width": "",
+                    "Expression": "[Age]",
+                    "Format": "",
+                    "Action": "",
+                    "FooterExpression": "",
+                    "WebId": "e0c4a6c3-f109-4b39-8881-f05a590f15bf"
+                  }
+                ]
+              },
+              "DataGridGroupDefinitionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.DataGridGroupDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Table",
+              "CssClass": "",
+              "Visible": "",
+              "Tooltip": "",
+              "Icon": "fa fa-table icon-2x",
+              "WebId": "5c020c79-19ee-4aa2-bccc-487fd4f76049"
+            }
+          ]
+        },
+        "Name": "Content",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "footer",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      }
+    ]
+  },
+  "DataSource": {
+    "$type": "Bespoke.Sph.Domain.DataSource, domain.sph",
+    "ParameterCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Parameter, domain.sph]], domain.sph",
+      "$values": [
+        {
+          "$type": "Bespoke.Sph.Domain.Parameter, domain.sph",
+          "Name": "State",
+          "TypeName": "System.String, mscorlib",
+          "AvailableValues": "",
+          "Label": "State",
+          "IsNullable": false,
+          "Value": null,
+          "DefaultValue": null,
+          "WebId": null
+        }
+      ]
+    },
+    "ReportFilterCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportFilter, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "EntityFieldCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityField, domain.sph]], domain.sph",
+      "$values": [
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "FullName",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "4d1f396c-2849-43b2-a9ea-7f6d7911fa0b"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Age",
+          "TypeName": "System.Int32, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "15158cbb-a5a1-4a7f-aa07-0dd4f78d8184"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Gender",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "e597e66f-4ed3-47d7-a60b-41b8d1b7339a"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Rating",
+          "TypeName": "System.Int32, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "5bd96ff4-f6c5-493d-98a6-eafa10578478"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "AnnualRevenue",
+          "TypeName": "System.Decimal, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "0caedf87-3d2b-41b3-89c3-c689808a449b"
+        }
+      ]
+    },
+    "EntityName": "Customer",
+    "Query": "",
+    "WebId": null
+  },
+  "ReportDefinitionId": 1006,
+  "Title": "All Customer",
+  "Category": "",
+  "IsActive": true,
+  "IsPrivate": false,
+  "IsExportAllowed": false,
+  "Description": "",
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-02-06T16:22:07.2237972+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-02-06T16:24:58.3572928+08:00",
+  "WebId": "73770b79-bea2-457f-984e-52e3d2aef07c"
+}

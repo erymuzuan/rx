@@ -51,6 +51,14 @@ namespace Bespoke.Sph.Workflows_8002_0
        public System.Int32 Size{get;set;}
 //variable:applicant
        public Applicant applicant {get;set;}
+//variable:customer
+          private Bespoke.Dev_1.Domain.Customer m_customer = new Bespoke.Dev_1.Domain.Customer();
+   public Bespoke.Dev_1.Domain.Customer customer
+   {
+       get{ return m_customer;}
+       set{ m_customer = value;}
+   }
+
 
 //exec:affb4e73-6669-41aa-a641-d218b0c5aa74
    public async Task<InitiateActivityResult> InitiateAsyncExecScreenActivityPermohonanBaru_affbAsync()

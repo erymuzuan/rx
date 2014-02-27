@@ -55,6 +55,135 @@
                 "InputColSm": null,
                 "InputColXs": null,
                 "WebId": null
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ListView, domain.sph",
+                "ChildItemType": "Manager",
+                "ListViewColumnCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ListViewColumn, domain.sph]], domain.sph",
+                  "$values": [
+                    {
+                      "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
+                      "Label": "Name",
+                      "Path": "FullName",
+                      "Input": {
+                        "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+                        "DefaultValue": "",
+                        "AutoCompletionEntity": "",
+                        "AutoCompletionField": "",
+                        "AutoCompletionQuery": "",
+                        "MinLength": null,
+                        "MaxLength": null,
+                        "FieldValidation": {
+                          "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                          "IsRequired": false,
+                          "MaxLength": 0,
+                          "MinLength": 0,
+                          "Pattern": "",
+                          "Mode": "",
+                          "Message": "",
+                          "WebId": null
+                        },
+                        "Name": "",
+                        "Label": "",
+                        "Tooltip": "",
+                        "Path": "",
+                        "IsRequired": false,
+                        "Size": "",
+                        "CssClass": "",
+                        "Visible": "",
+                        "Enable": "",
+                        "ElementId": "",
+                        "HelpText": "",
+                        "LabelColLg": null,
+                        "LabelColMd": null,
+                        "LabelColSm": null,
+                        "LabelColXs": null,
+                        "InputColLg": null,
+                        "InputColMd": null,
+                        "InputColSm": null,
+                        "InputColXs": null,
+                        "WebId": "e3a09ff7-91d9-4efe-b2f4-400b2308900a"
+                      },
+                      "WebId": "4e881f80-3685-437a-8f48-52fcf06a3c9d"
+                    },
+                    {
+                      "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
+                      "Label": "Tel.",
+                      "Path": "Telephone",
+                      "Input": {
+                        "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+                        "DefaultValue": "",
+                        "AutoCompletionEntity": "",
+                        "AutoCompletionField": "",
+                        "AutoCompletionQuery": "",
+                        "MinLength": null,
+                        "MaxLength": null,
+                        "FieldValidation": {
+                          "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                          "IsRequired": false,
+                          "MaxLength": 0,
+                          "MinLength": 0,
+                          "Pattern": "",
+                          "Mode": "",
+                          "Message": "",
+                          "WebId": null
+                        },
+                        "Name": "",
+                        "Label": "",
+                        "Tooltip": "",
+                        "Path": "",
+                        "IsRequired": false,
+                        "Size": "",
+                        "CssClass": "",
+                        "Visible": "",
+                        "Enable": "",
+                        "ElementId": "",
+                        "HelpText": "",
+                        "LabelColLg": null,
+                        "LabelColMd": null,
+                        "LabelColSm": null,
+                        "LabelColXs": null,
+                        "InputColLg": null,
+                        "InputColMd": null,
+                        "InputColSm": null,
+                        "InputColXs": null,
+                        "WebId": "b7ff67ab-fc4d-4c4d-9c4c-4040b4365ef9"
+                      },
+                      "WebId": "77ef1bfa-0463-43b2-9381-daf021f18c24"
+                    }
+                  ]
+                },
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "MaxLength": 0,
+                  "MinLength": 0,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "WebId": null
+                },
+                "Name": "List",
+                "Label": "+ Manager",
+                "Tooltip": null,
+                "Path": "customer.ManagerCollection",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "",
+                "Visible": "true",
+                "Enable": "true",
+                "ElementId": "1e8f7f7c-dca9-411a-8812-66cd07cbbc77",
+                "HelpText": null,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
               }
             ]
           },
@@ -163,7 +292,7 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
-        "From": "",
+        "From": "admin@@sph.my",
         "Subject": "",
         "Body": "",
         "To": "",
@@ -188,7 +317,7 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
-        "From": "",
+        "From": "admin@@sph.my",
         "Subject": "",
         "Body": "",
         "To": "",
@@ -247,6 +376,15 @@
         "TypeName": "Applicant",
         "DefaultValue": "",
         "WebId": "23eb778c-f439-449b-a89b-4bc1d4cfe104"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "customer",
+        "TypeName": "Bespoke.Dev_1.Domain.Customer, Dev.Customer",
+        "DefaultValue": "",
+        "WebId": "6c829284-c1a3-4797-9881-58a1f362afd9"
       }
     ]
   },
@@ -259,6 +397,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-05T18:07:45.601105+08:00",
+  "ChangedDate": "2014-02-27T16:29:50.0652068+08:00",
   "WebId": "d825fedb-c3c8-4b2a-8f80-2b689e56d6e5"
 }
