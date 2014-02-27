@@ -12,6 +12,11 @@ namespace Bespoke.Sph.Domain
             {
                 result.Errors.Add(new BuildError(this.WebId, string.Format("[UpdateEntityActivity] -\"{0}\" EntityIdPath is missing", this.Name)));
             }
+
+            var fullTypeName = this.EntityType;
+            var type = Type.GetType(fullTypeName);
+            if (null == type) result.Errors.Add(new BuildError(this.WebId, string.Format("[UpdateEntityActivity] -\"{0}\" Cannot load {1}", this.Name, this.EntityType)));
+
             return result;
         }
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
@@ -19,11 +24,16 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
 
+            var fullTypeName = this.EntityType;
+            var type = Type.GetType(fullTypeName);
+            if (null == type)
+                throw new InvalidOperationException("Cannot load " + this.EntityType);
+
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine("       var context = new Bespoke.Sph.Domain.SphDataContext();");
-            code.AppendLinf("       var item = await context.LoadOneAsync<{0}>(e => e.{0}Id == {1});", this.EntityType, this.EntityIdPath);
+            code.AppendLinf("       var item = await context.LoadOneAsync<{0}>(e => e.{1}Id == {2});", type.FullName, type.Name, this.EntityIdPath);
             code.AppendLinf("       var self = this.WorkflowDefinition.ActivityCollection.OfType<CreateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
 
             var count = 1;

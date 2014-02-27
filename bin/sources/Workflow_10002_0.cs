@@ -45,6 +45,9 @@ namespace Bespoke.Sph.Workflows_10002_0
                    case "da9fdcd3-a029-4174-9167-eaf6c4c6363f" : 
                        result = await this.ExecNotificationActivityEmailLambatBuat_da9fAsync();
                        break;
+                   case "85dabc4a-6a8f-4c55-8d56-172e3929088e" : 
+                       result = await this.ExecUpdateEntityActivityUpdateRecord6_85daAsync();
+                       break;
            }
            result.Correlation = correlation;
            await this.SaveAsync(activityId, result);
@@ -52,6 +55,10 @@ namespace Bespoke.Sph.Workflows_10002_0
        }
 //variable:applicant
        public Address applicant {get;set;}
+//variable:customerId
+       public System.Int32 customerId{get;set;}
+//variable:FullName
+       public System.String FullName{get;set;}
 
 //exec:77d593ea-0bc9-443c-80d6-0b6f069912d7
    public async Task<InitiateActivityResult> InitiateAsyncExecScreenActivityVerification_77d5Async()
@@ -72,7 +79,7 @@ namespace Bespoke.Sph.Workflows_10002_0
        await Task.Delay(40);
        this.State = "Ready";
        var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};
-       result.NextActivities = new[]{ "5f7b4900-798c-43f4-8d8e-20d92c07c28a"};
+       result.NextActivities = new[]{ "85dabc4a-6a8f-4c55-8d56-172e3929088e"};
      await this.FireListenTriggerExecListenActivityStartsVerification_e56fAsync("77d593ea-0bc9-443c-80d6-0b6f069912d7");
        return result;
    }
@@ -109,11 +116,11 @@ namespace Bespoke.Sph.Workflows_10002_0
        var tracker = await this.GetTrackerAsync();
        var act1 = this.GetActivity<Activity>("77d593ea-0bc9-443c-80d6-0b6f069912d7");
        var bc1 = await  initiateTask1;
-       tracker.AddInitiateActivity(act1, bc1);
+       tracker.AddInitiateActivity(act1, bc1, System.DateTime.Now.AddSeconds(1));
 
        var act2 = this.GetActivity<Activity>("5d76fa1a-521e-432f-8d2a-ec36abf1d057");
        var bc2 = await  initiateTask2;
-       tracker.AddInitiateActivity(act2, bc2);
+       tracker.AddInitiateActivity(act2, bc2, System.DateTime.Now.AddSeconds(1));
 
        var context = new Bespoke.Sph.Domain.SphDataContext();
        using(var session = context.OpenSession())
@@ -128,6 +135,8 @@ namespace Bespoke.Sph.Workflows_10002_0
    {
        var self = this.GetActivity<ListenActivity>("e56fda2b-5677-42e7-8da9-1e7fe0687d21");
        var fired = this.GetActivity<Activity>(webId);
+       var tracker = await this.GetTrackerAsync();
+       tracker.AddExecutedActivity(fired);
       await self.CancelAsync(this);
  
                                     var cancelled = self.ListenBranchCollection
@@ -230,6 +239,28 @@ namespace Bespoke.Sph.Workflows_10002_0
             return await razor.GenerateAsync(template, this);
    }
 
+
+
+//exec:85dabc4a-6a8f-4c55-8d56-172e3929088e
+   public async Task<ActivityExecutionResult> ExecUpdateEntityActivityUpdateRecord6_85daAsync()
+   {
+       var context = new Bespoke.Sph.Domain.SphDataContext();
+       var item = await context.LoadOneAsync<Bespoke.Dev_1.Domain.Customer>(e => e.CustomerId == customerId);
+       var self = this.WorkflowDefinition.ActivityCollection.OfType<CreateEntityActivity>().Single(a => a.WebId == "85dabc4a-6a8f-4c55-8d56-172e3929088e");
+       var functoid1 =  self.PropertyMappingCollection.SingleOrDefault(m => m.WebId == "81168b09-0ee3-4b26-9c4b-955ae3ba4417") as FunctoidMapping;
+       if(null != functoid1)
+           item.FullName = functoid1.Functoid.Convert<string,string>(this.FullName);
+       else
+           item.FullName = this.FullName;
+      using (var session = context.OpenSession())
+      {
+          session.Attach(item);
+          await session.SubmitChanges();
+      }
+       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};
+       result.NextActivities = new[]{"5f7b4900-798c-43f4-8d8e-20d92c07c28a"};
+       return result;
+   }
 
    }
    [XmlType("Vehicle",  Namespace="http://www.maim.gov.my/wakaf")]
@@ -364,6 +395,7 @@ namespace Bespoke.Sph.Workflows_10002_0
        public string Correlation {get;set;}
    }
 
+   
    
    
    
