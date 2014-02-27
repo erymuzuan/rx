@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Spatial;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Web.Helpers
@@ -348,7 +346,6 @@ namespace Bespoke.Sph.Web.Helpers
         /// at http://code.google.com/apis/maps/documentation/polylinealgorithm.html
         /// </remarks>
         /// <param name="polyString">Encoded GPolyline</param>
-        /// <param name="polyPoints">Collection Locations will be added to</param>
         /// <returns>Void</returns>
         /// <exception cref="System.ArgumentException">Thrown when there are no points in the GPolyline or an odd number of points</exception>
         public static IEnumerable<LatLng> Decode(this string polyString)
