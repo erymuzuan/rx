@@ -54,9 +54,9 @@
     <Reference Include="DiffPlex">
       <HintPath>..\..\..\packages\DiffPlex.1.2.0\lib\Net40\DiffPlex.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer, Version=1.11.3.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+    <Reference Include="Humanizer, Version=1.12.4.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Humanizer.1.11.3\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
+      <HintPath>..\..\..\packages\Humanizer.1.12.4\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer, Version=3.4.2.549, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1236,7 +1236,7 @@
       <DependentUpon>__vendor.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\vendor.min.js">
-      <DependentUpon>__vendor.js.bundle</DependentUpon>
+      <DependentUpon>vendor.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\async.js" />
     <EmbeddedResource Include="SphApp\goog.js" />
@@ -1333,12 +1333,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_RuleFieldDropDown.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\theme.matyie\workflow.triggers.css.map">
       <DependentUpon>workflow.triggers.css</DependentUpon>
     </Content>
@@ -1366,6 +1360,12 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PieChartItem.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\bloodhound.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -3480,7 +3480,7 @@
     </Content>
     <None Include="Scripts\__vendor.js.bundle" />
     <EmbeddedResource Include="Scripts\vendor.min.js.map">
-      <DependentUpon>__vendor.js.bundle</DependentUpon>
+      <DependentUpon>vendor.min.js</DependentUpon>
     </EmbeddedResource>
     <Content Include="SphApp\partial\Activity.min.js.map">
       <DependentUpon>Activity.js</DependentUpon>
