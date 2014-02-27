@@ -96,7 +96,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         } else {
 
                             errors(result.Errors);
-                            logger.error("There are errors in your form, !!!");
+                            logger.error("There are errors in your schema, !!!");
                         }
                         tcs.resolve(result);
                     });
@@ -119,7 +119,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     {
                         command: publishAsync,
                         caption: 'Publish',
-                        icon: "fa fa-sign-out"
+                        icon: "fa fa-sign-out",
+                        enable : ko.computed(function() {
+                            return entity().EntityDefinitionId() > 0;
+                        })
                     }])
             }
         };

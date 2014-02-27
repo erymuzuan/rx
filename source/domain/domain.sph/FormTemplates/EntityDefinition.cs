@@ -64,6 +64,11 @@ namespace Bespoke.Sph.Domain
                 this.ValidateMember(member, result);
             }
 
+            var names = this.MemberCollection.Select(a => a.Name);
+            var duplicates = names.GroupBy(a => a).Any(a => a.Count() > 1);
+            if(duplicates)
+                result.Errors.Add(new BuildError(this.WebId, "There are duplicates field names"));
+
 
             result.Result = !result.Errors.Any();
             return result;

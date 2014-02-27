@@ -247,9 +247,11 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "     importCommand :importCommand,\r\n                toolbar : {\r\n               " +
 "     commands :ko.observableArray([{\r\n                        caption : \'Publish" +
 "\',\r\n                        icon : \'fa fa-sign-out\',\r\n                        co" +
-"mmand : publish\r\n                    }\r\n                    ]),\r\n               " +
-"     saveCommand : save\r\n                }\r\n            };\r\n\r\n            return" +
-" vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"mmand : publish,\r\n                        enable : ko.computed(function() {\r\n   " +
+"                         return form().EntityFormId() > 0;\r\n                    " +
+"    })\r\n                    }\r\n                    ]),\r\n                    save" +
+"Command : save\r\n                }\r\n            };\r\n\r\n            return vm;\r\n\r\n " +
+"       });\r\n\r\n\r\n</script>\r\n");
 
         }
     }

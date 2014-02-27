@@ -119,7 +119,7 @@
         <!-- ko if: typeof commands === "function"-->
         <!-- ko foreach: commands-->
 
-        <!-- ko if: typeof visible === "undefined"-->
+        <!-- ko if: typeof visible === "undefined" && typeof enable === "undefined"-->
         <button class="btn btn-default" data-bind="command: command">
             <i data-bind=" attr: { 'class': icon }"></i>
             <!-- ko text: caption -->
@@ -127,7 +127,14 @@
         </button>
         <!-- /ko -->
         <!-- ko if: typeof visible === "function"-->
-        <button class="btn btn-default" data-bind="command: command, isvisible: visible">
+        <button class="btn btn-default" data-bind="command: command, visible: visible">
+            <i data-bind=" attr: { 'class': icon }"></i>
+            <!-- ko text: caption -->
+            <!-- /ko -->
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof enable === "function"-->
+        <button class="btn btn-default" data-bind="command: command, enable: enable">
             <i data-bind=" attr: { 'class': icon }"></i>
             <!-- ko text: caption -->
             <!-- /ko -->

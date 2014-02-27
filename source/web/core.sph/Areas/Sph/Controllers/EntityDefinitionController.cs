@@ -1,9 +1,13 @@
-﻿using System.Text;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Humanizer;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -79,6 +83,19 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             if (!buildValidation.Result)
                 return Json(buildValidation);
+
+            var options = new CompilerOptions();
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll")));
+
+
+            var result = ed.Compile(options);
+            result.Errors.ForEach(Console.WriteLine);
+            if (!result.Result)
+                return Json(result);
+
+
 
             ed.IsPublished = true;
             using (var session = context.OpenSession())

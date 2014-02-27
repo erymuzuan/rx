@@ -278,7 +278,10 @@
                     commands :ko.observableArray([{
                         caption : 'Publish',
                         icon : 'fa fa-sign-out',
-                        command : publish
+                        command : publish,
+                        enable : ko.computed(function() {
+                            return form().EntityFormId() > 0;
+                        })
                     }
                     ]),
                     saveCommand : save
