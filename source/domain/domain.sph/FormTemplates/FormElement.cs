@@ -106,5 +106,9 @@ namespace Bespoke.Sph.Domain
         {
             return new BuildError[]{};
         }
+        public virtual BuildError[] ValidateBuild(EntityDefinition ed)
+        {
+            return new BuildError[]{};
+        }
     }
 }

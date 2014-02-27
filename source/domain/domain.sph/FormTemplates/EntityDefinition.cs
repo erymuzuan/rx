@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Domain
                 result.Errors.Add(new BuildError(member.WebId) { Message = message });
             if (forbiddenNames.Contains(member.Name))
                 result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " is a reserved name" });
-            if(null == member.TypeName)
+            if (null == member.TypeName)
                 result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " does not have a type" });
 
             foreach (var m in member.MemberCollection)
@@ -143,6 +143,9 @@ namespace Bespoke.Sph.Domain
                     member = sources[i].Replace("//exec:", string.Empty);
             }
             var message = er.ErrorText;
+
+            if (er.Line == 0)
+                return new BuildError(member, message);
 
             return new BuildError(member, message)
             {

@@ -17,6 +17,8 @@ namespace Bespoke.Sph.Domain
 
         public override string GetKnockoutBindingExpression()
         {
+            if (string.IsNullOrWhiteSpace(this.Enable))
+                this.Enable = "true";
 
             var path = this.Path.ConvertJavascriptObjectToFunction();
 
