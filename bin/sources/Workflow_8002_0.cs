@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Workflows_8002_0
            this.Name = "Test 321";
            this.Version = 0;
            this.WorkflowDefinitionId = 8002;
+           this.applicant = new Applicant();
        }
        public override Task<ActivityExecutionResult> StartAsync()
        {
@@ -48,6 +49,8 @@ namespace Bespoke.Sph.Workflows_8002_0
        }
 //variable:Size
        public System.Int32 Size{get;set;}
+//variable:applicant
+       public Applicant applicant {get;set;}
 
 //exec:affb4e73-6669-41aa-a641-d218b0c5aa74
    public async Task<InitiateActivityResult> InitiateAsyncExecScreenActivityPermohonanBaru_affbAsync()
@@ -79,7 +82,7 @@ namespace Bespoke.Sph.Workflows_8002_0
    {
        var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};
        await Task.Delay(50);
-       var branch1 = this.CheckSizeBesar();
+       var branch1 = this.CheckSizeBesar2();
        if(branch1)
        {
            result.NextActivities = new []{"aaf3bb9d-b1b3-474d-a83b-e4d28ed132ef"};
@@ -89,7 +92,7 @@ namespace Bespoke.Sph.Workflows_8002_0
        return result;
    }
    [System.Diagnostics.Contracts.PureAttribute]
-   private bool CheckSizeBesar()
+   private bool CheckSizeBesar2()
    {
        var item = this;
        return Size > 12;

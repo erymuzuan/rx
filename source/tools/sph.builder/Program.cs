@@ -25,16 +25,18 @@ namespace sph.builder
                 Console.WriteLine("BYE.");
                 return;
             }
+            var edBuilder = new EntityDefinitionBuilder();
+            edBuilder.Initialize();
+            edBuilder.Restore().Wait();
+
             var wdBuilder = new WorkflowDefinitionBuilder();
             wdBuilder.Restore().Wait();
+
 
             var triggerBuilder = new TriggerBuilder();
             triggerBuilder.Initialize();
             triggerBuilder.Restore().Wait();
 
-            var edBuilder = new EntityDefinitionBuilder();
-            edBuilder.Initialize();
-            edBuilder.Restore().Wait();
 
             var formBuilder = new Builder<EntityForm>();
             formBuilder.Initialize();

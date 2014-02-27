@@ -41,17 +41,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
         }
 
-        public Program()
-        {
+        private FileSystemWatcher m_fsw;
 
-            var fsw = new FileSystemWatcher(AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers")
-            {
-                EnableRaisingEvents = true
-            };
-            fsw.Changed += FswChanged;
-        }
 
-        
         public void Start(SubscriberMetadata[] subscribersMetadata)
         {
             this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);
@@ -70,9 +62,20 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     this.NotificationService.Write(e.ToString());
                 }
             }
+            if (null != m_fsw)
+            {
+                m_fsw.Changed -= FswChanged;
+                m_fsw.Dispose();
+            }
 
+            m_fsw = new FileSystemWatcher(AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers")
+            {
+                EnableRaisingEvents = true
+            };
+            m_fsw.Changed += FswChanged;
 
             m_stopping = false;
+
             threads.ForEach(t => t.Join());
 
         }
@@ -159,6 +162,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_stopping = true;
             //this.NotificationService.Write("Let all the process to run for  5 seconds");
             //await Task.Delay(5.Seconds());
+            if (null != m_fsw)
+            {
+                m_fsw.Changed -= FswChanged;
+                m_fsw.Dispose();
+            }
 
             this.SubscriberCollection.ForEach(s => s.Stop());
             this.NotificationService.Write("WAITING to STOP for 5 seconds");

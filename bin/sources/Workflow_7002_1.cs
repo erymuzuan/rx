@@ -175,7 +175,7 @@ namespace Bespoke.Sph.Workflows_7002_1
            var context = new SphDataContext();
            var wf =  new  TestScreenFormsElement_7002_1();
            await wf.LoadWorkflowDefinitionAsync();
-           var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);
+           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);
            var screen = wf.GetActivity<ScreenActivity>("8655a85e-caea-4bd0-a498-157f0c032f54");
            var vm = new Screen0ViewModel(){
                    Screen  = screen,

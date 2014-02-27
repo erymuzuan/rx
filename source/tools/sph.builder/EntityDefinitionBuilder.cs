@@ -13,20 +13,20 @@ namespace sph.builder
 
         public override async Task Restore()
         {
-            var folder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, "EntityDefinition");
+            var folder = ConfigurationManager.WorkflowSourceDirectory + @"\EntityDefinition";
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.DeleteAsync("dev");
-                Console.WriteLine("DELETE dev : {0}", response.StatusCode);
-                await client.PutAsync("dev", new StringContent(""));
+                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName);
+                Console.WriteLine("DELETE {1} index : {0}", response.StatusCode, ConfigurationManager.ApplicationName);
+                await client.PutAsync(ConfigurationManager.ApplicationName, new StringContent(""));
 
             }
             this.Initialize();
-
+            Console.WriteLine("Reading from " + folder);
             foreach (var file in Directory.GetFiles(folder, "*.json"))
             {
-
+                Console.WriteLine("Building from :{0} ", file);
                 var json = File.ReadAllText(file);
                 var ed = json.DeserializeFromJson<EntityDefinition>();
 
@@ -44,9 +44,10 @@ namespace sph.builder
                     var subs = new EntityIndexerMappingSubscriber();
                     await subs.ProcessMessageAsync(ed);
                 }
-
+                Console.WriteLine("Deploying : {0}", ed.Name);
                 DeployCustomEntity(ed);
             }
+            Console.WriteLine("Done Custom Entities");
 
         }
 

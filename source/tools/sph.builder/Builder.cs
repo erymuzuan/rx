@@ -61,25 +61,26 @@ namespace sph.builder
                        .Where(p => p.CanRead && p.CanWrite)
                        .ToArray();
 
+
+            SPH_CONNECTION.ExecuteNonQuery(string.Format("TRUNCATE TABLE [Sph].[{0}]", name));
+
         }
 
         public async Task InsertAsync(T item)
         {
             var name = typeof(T).Name;
 
-            SPH_CONNECTION.ExecuteNonQuery(string.Format("TRUNCATE TABLE [Sph].[{0}]", name));
             var sql = this.SetIdentityOn +
                 string.Format(@"INSERT INTO [Sph].[{0}](", name) +
                 string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "[" + x.Name + "]"))
                 + " ) VALUES(" +
-                string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "@" + x.Name + ""))
+                string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "@" + x.Name.Replace(".", "_")))
                 + ")\r\n"
            + this.SetIdentityOff;
 
             var parms = from c in m_columns
-                        select new SqlParameter("@" + c.Name, this.GetParameterValue(c, item));
-            Console.WriteLine(sql);
-            await SPH_CONNECTION.ExecuteNonQueryAsync(sql, parms.ToArray());
+                        select new SqlParameter("@" + c.Name.Replace(".", "_"), this.GetParameterValue(c, item));
+            await SPH_CONNECTION.ExecuteNonQueryAsync(sql, parms.ToArray()).ConfigureAwait(false);
 
 
         }

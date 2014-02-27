@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -38,8 +37,6 @@ namespace subscriber.entities
                 var script = await client.GetStringAsync(ConfigurationManager.BaseUrl + "/App/EntityFormRenderer/Js/" + item.Route);
                 File.WriteAllText(js, script);
             }
-
-
 
         }
 
