@@ -15,6 +15,7 @@ namespace sph.builder
             var workflowDefinitions = this.GetItems();
             foreach (var wd in workflowDefinitions)
             {
+                Console.WriteLine("Compiling : {0} ", wd.Name);
                 await this.InsertSchemaAsync(wd);
                 await this.InsertAsync(wd);
                 this.Compile(wd);
@@ -50,6 +51,14 @@ namespace sph.builder
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
             options.ReferencedAssemblies.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly);
+            var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
+            var customDllPattern = ConfigurationManager.ApplicationName + ".*.dll";
+            var entityAssembiles = Directory.GetFiles(outputPath, customDllPattern);
+            foreach (var dll in entityAssembiles)
+            {
+                options.ReferencedAssemblies.Add(Assembly.LoadFrom(dll));
+            }
+
 
             var result = item.Compile(options);
             result.Errors.ForEach(Console.WriteLine);

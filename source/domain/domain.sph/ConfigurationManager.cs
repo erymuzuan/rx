@@ -153,6 +153,15 @@ namespace Bespoke.Sph.Domain
                 return BaseDirectory + BinPath + @"\subscribers";
             }
         }
+        public static string ToolsPath
+        {
+            get
+            {
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:ToolsPath"];
+                if (Path.IsPathRooted(val)) return val;
+                return BaseDirectory + BinPath + @"\tools";
+            }
+        }
         public static string WebPath
         {
             get

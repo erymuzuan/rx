@@ -18,15 +18,28 @@ if(($Help -eq $true) -or ($ApplicationName -eq ""))
 	
 	exit;
 }
+
+#verify the tools are in the path
+if(!(Get-Command rabbitmqctl -ErrorAction SilentlyContinue))
+{
+    Write-Warning "Cannot find rabbitmqctl"
+    exit;
+}
+if(!(Get-Command sqlcmd -ErrorAction SilentlyContinue))
+{
+    Write-Warning "Cannot find sqlcmd in your path"
+    exit;
+}
+
 if($Port -eq 0)
 {
-	Write-Output "Please provide a port no for your web app"	
+	Write-Warning "Please provide a port no for your web app"	
 	
 	exit;
 }
 if($ApplicationName -eq "Dev")
 {
-	Write-Output "Please provide a different name, Dev is a reserved keyword"	
+	Write-Warning "Please provide a different name, Dev is a reserved keyword"	
 	
 	exit;
 }
@@ -163,25 +176,23 @@ if((Test-Path("$WorkingCopy\start-subscriber-console-runner.ps1")) -eq $false)
 
 #web.config
 
-$webconfig = (gc "$WorkingCopy\web\web.config").replace("sph.0009","$ApplicationName").Replace("4436", "$Port").Replace("Initial Catalog=Sph","Initial Catalog=$ApplicationName").Replace("Initial Catalog=sph","Initial Catalog=$ApplicationName")
+$webconfig = (gc "$WorkingCopy\web\web.config")
 Set-Content  "$WorkingCopy\web\web.config" -Value $webconfig
 
 
 
 #workers.console.runner.exe.config
-$config1 = (gc "$WorkingCopy\subscribers.host\workers.console.runner.exe.config").replace("sph.0009","$ApplicationName").Replace("4436", "$Port").Replace("Initial Catalog=Sph","Initial Catalog=$ApplicationName").Replace("Initial Catalog=sph","Initial Catalog=$ApplicationName")
+$config1 = (gc "$WorkingCopy\subscribers.host\workers.console.runner.exe.config")
 Set-Content  "$WorkingCopy\subscribers.host\workers.console.runner.exe.config" -Value $config1
 
 
 
 #scheduler.delayactivity.exe.config
-$config2 = (gc "$WorkingCopy\schedulers\scheduler.delayactivity.exe.config").replace("sph.0009","$ApplicationName").Replace("4436", "$Port").Replace("Initial Catalog=Sph","Initial Catalog=$ApplicationName").Replace("Initial Catalog=sph","Initial Catalog=$ApplicationName")
+$config2 = (gc "$WorkingCopy\schedulers\scheduler.delayactivity.exe.config")
 Set-Content  "$WorkingCopy\schedulers\scheduler.delayactivity.config" -Value $config2
 
-
-
 #scheduler.workflow.trigger.exe.config
-$config3 = (gc "$WorkingCopy\schedulers\scheduler.workflow.trigger.exe.config").replace("sph.0009","$ApplicationName").Replace("4436", "$Port").Replace("Initial Catalog=Sph","Initial Catalog=$ApplicationName").Replace("Initial Catalog=sph","Initial Catalog=$ApplicationName")
+$config3 = (gc "$WorkingCopy\schedulers\scheduler.workflow.trigger.exe.config")
 Set-Content  "$WorkingCopy\schedulers\scheduler.workflow.trigger.config" -Value $config3
 
 

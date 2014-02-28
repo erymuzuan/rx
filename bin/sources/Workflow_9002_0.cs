@@ -36,6 +36,12 @@ namespace Bespoke.Sph.Workflows_9002_0
                    case "15dffee5-f38b-4efd-a21f-eb75f99682b5" : 
                        result = await this.ExecEndActivityEnd3_15dfAsync();
                        break;
+                   case "b43ee476-563a-4e0b-84f4-021b82abf0d0" : 
+                       result = await this.ExecExpressionActivityExpression3_b43eAsync();
+                       break;
+                   case "ee090c8f-ac80-4444-a882-837dd81ecac4" : 
+                       result = await this.ExecScreenActivityScreen4_ee09Async();
+                       break;
            }
            result.Correlation = correlation;
            await this.SaveAsync(activityId, result);
@@ -43,6 +49,14 @@ namespace Bespoke.Sph.Workflows_9002_0
        }
 //variable:app
        public Applicant app {get;set;}
+//variable:customer
+          private Bespoke.Dev_1001.Domain.Car m_customer = new Bespoke.Dev_1001.Domain.Car();
+   public Bespoke.Dev_1001.Domain.Car customer
+   {
+       get{ return m_customer;}
+       set{ m_customer = value;}
+   }
+
 
 //exec:b7c4b7a6-fd22-4143-be20-8752eabdb463
    public Task<ActivityExecutionResult> ExecScheduledTriggerActivityScheduledTrigger1_b7c4Async()
@@ -50,7 +64,7 @@ namespace Bespoke.Sph.Workflows_9002_0
 
        this.State = "Ready";
        var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success };
-       result.NextActivities = new[]{"56fb80e3-d10f-4a2d-8268-e2118de28800"};
+       result.NextActivities = new[]{"b43ee476-563a-4e0b-84f4-021b82abf0d0"};
 
        return Task.FromResult(result);
    }
@@ -124,6 +138,105 @@ namespace Bespoke.Sph.Workflows_9002_0
        result.NextActivities = new string[]{};
        this.State = "Completed";
        return Task.FromResult(result);
+   }
+
+
+//exec:b43ee476-563a-4e0b-84f4-021b82abf0d0
+   public async Task<ActivityExecutionResult> ExecExpressionActivityExpression3_b43eAsync()
+   {
+       await Task.Delay(50);
+       
+       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};
+       var item = this;
+       //Do this
+Console.WriteLine("Test");//Do this
+Console.WriteLine("Test");//Do this
+Console.WriteLine("Test");//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+//Do this
+Console.WriteLine("Test");
+       result.NextActivities = new[]{"ee090c8f-ac80-4444-a882-837dd81ecac4"};
+       
+       return result;
+   }
+
+
+//exec:ee090c8f-ac80-4444-a882-837dd81ecac4
+   public async Task<InitiateActivityResult> InitiateAsyncExecScreenActivityScreen4_ee09Async()
+   {
+       var correlation = Guid.NewGuid().ToString();
+       var self = this.GetActivity<ScreenActivity>("ee090c8f-ac80-4444-a882-837dd81ecac4");
+       var baseUrl = ConfigurationManager.BaseUrl;
+       var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}?correlation={5}", baseUrl, this.WorkflowDefinitionId, this.Version, self.ActionName, this.WorkflowId, correlation);
+       var imb = self.InvitationMessageBody ?? "@Model.Screen.Name task is assigned to you go here @Model.Url";
+       var ims = self.InvitationMessageSubject ?? "[Sph] @Model.Screen.Name task is assigned to you";
+       await self.SendNotificationToPerformers(this, baseUrl, url, ims, imb);
+       return new InitiateActivityResult{ Correlation = correlation };
+   }
+
+   public async Task<ActivityExecutionResult> ExecScreenActivityScreen4_ee09Async()
+   {
+
+       await Task.Delay(40);
+       this.State = "Ready";
+       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};
+       result.NextActivities = new[]{ "56fb80e3-d10f-4a2d-8268-e2118de28800"};
+
+       return result;
    }
 
    }
@@ -200,6 +313,69 @@ namespace Bespoke.Sph.Workflows_9002_0
    
    
    
+   
+   public partial class Workflow_9002_0Controller : System.Web.Mvc.Controller
+{
+//exec:ee090c8f-ac80-4444-a882-837dd81ecac4
+       public async Task<System.Web.Mvc.ActionResult> Screen4(int id, string correlation)
+       {
+           var context = new SphDataContext();
+           var wf =await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id);
+           await wf.LoadWorkflowDefinitionAsync();
+           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);
+           var screen = wf.GetActivity<ScreenActivity>("ee090c8f-ac80-4444-a882-837dd81ecac4");
+           var vm = new Screen4ViewModel(){
+                   Screen  = screen,
+                   Instance  = wf as MyScheduledWorkflow_9002_0,
+                   Controller  = this.GetType().Name,
+                   SaveAction  = "SaveScreen4",
+                   Namespace  = "Bespoke.Sph.Workflows_9002_0"
+               };
+           if(id == 0) throw new ArgumentException("id cannot be zero for none initiator");
+           var tracker = await wf.GetTrackerAsync();
+           if(!tracker.CanExecute("ee090c8f-ac80-4444-a882-837dd81ecac4", correlation ))
+           {
+               return RedirectToAction("InvalidState","Workflow");
+           }
+           vm.Correlation = correlation;
+           var canview = screen.Performer.IsPublic;
+           if(!screen.Performer.IsPublic)
+           {
+               var users = await screen.GetUsersAsync(wf);
+               canview = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);
+           }
+           if(canview) return View(vm);
+           return new System.Web.Mvc.HttpUnauthorizedResult();
+       }
+
+//exec:ee090c8f-ac80-4444-a882-837dd81ecac4
+       [System.Web.Mvc.HttpPost]
+       public async Task<System.Web.Mvc.ActionResult> SaveScreen4()
+       {
+           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<MyScheduledWorkflow_9002_0>(this);
+          var store = ObjectBuilder.GetObject<IBinaryStore>();
+                                        var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", wf.WorkflowDefinitionId, wf.Version));
+                                        using (var stream = new System.IO.MemoryStream(doc.Content))
+                                        {
+                                            wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
+                                        }  
+           var result = await wf.ExecuteAsync("ee090c8f-ac80-4444-a882-837dd81ecac4");
+           this.Response.ContentType = "application/javascript";
+           var retVal = new {sucess = true, status = "OK", result = result,wf};
+           return Content(Newtonsoft.Json.JsonConvert.SerializeObject(retVal));
+       }
+   }
+   public class Screen4ViewModel
+   {
+       public MyScheduledWorkflow_9002_0 Instance {get;set;}
+       public WorkflowDefinition WorkflowDefinition {get;set;}
+       public ScreenActivity Screen {get;set;}
+       public string Controller {get;set;}
+       public string Namespace {get;set;}
+       public string SaveAction {get;set;}
+       public string Correlation {get;set;}
+   }
+
 public partial class Workflow_9002_0Controller : System.Web.Mvc.Controller
 {
 //exec:Search

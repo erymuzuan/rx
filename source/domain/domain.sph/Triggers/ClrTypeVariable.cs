@@ -10,6 +10,9 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedCode(WorkflowDefinition workflowDefinition)
         {
             var code = new StringBuilder();
+            if(null == this.Type)
+                throw new Exception("Cannot find type " + this.TypeName);
+
             code.AppendLinf(this.CanInitiateWithDefaultConstructor ?
                 "   private {0} m_{1} = new {0}();" :
                 "   private {0} m_{1};", this.Type.FullName, this.Name);

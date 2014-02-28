@@ -48,6 +48,7 @@ namespace sph.builder
                 DeployCustomEntity(ed);
             }
             Console.WriteLine("Done Custom Entities");
+            // now copy all the output to this tools
 
         }
 
@@ -83,9 +84,11 @@ namespace sph.builder
             File.Copy(dllFullPath, ConfigurationManager.WebPath + @"\bin\" + dll, true);
             File.Copy(pdbFullPath, ConfigurationManager.WebPath + @"\bin\" + pdb, true);
 
-
             File.Copy(dllFullPath, ConfigurationManager.SubscriberPath + @"\" + dll, true);
             File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);
+
+            File.Copy(dllFullPath, ConfigurationManager.ToolsPath + @"\" + dll, true);
+            File.Copy(pdbFullPath, ConfigurationManager.ToolsPath + @"\" + pdb, true);
         }
 
     }
