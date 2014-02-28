@@ -374,17 +374,22 @@ namespace Bespoke.Sph.Domain
             }};
             
             instance.addChildItem = function(list, type){{
-                        return function(){{
-                            var item = new bespoke.sph.w_{1}_{2}[type](system.guid());
-                            list.push(item);
-                        }}
-                    }};
+                return function(){{
+                    if(typeof type === ""function""){{
+                        list.push(type(system.guid()));
+                        return;
+                    }}
+                    var item = new bespoke.sph.w_{1}_{2}[type](system.guid());
+                    list.push(item);
+                }}
+            }};
             
             instance.removeChildItem = function(list, obj){{
-                        return function(){{
-                            list.remove(obj);
-                        }}
-                    }};
+                return function(){{
+                    list.remove(obj);
+                }}
+            }};
+
             ko.applyBindings(vm, document.getElementById('body'));
             @*  the div#body is defined in _Layout.cshtml, if you use different Layout then this has got to changed accordingly *@
 

@@ -1,13 +1,23 @@
 ﻿@using System.Web.Mvc.Html
 @using Bespoke.Sph.Domain
 @model Bespoke.Sph.Domain.ListView
+
 @if (string.IsNullOrWhiteSpace(Model.Enable))
 {
     Model.Enable = "true";
 }
+@{
+    var childItem = string.Format("'{0}'", Model.ChildItemType);
+    if (Model.IsChildItemFunction)
+    {
+        childItem = string.Format("function(guid){{return new {0}(guid);}}", Model.ChildItemType);
+    }
+}
+
 
 <div data-bind="visible:@Model.Visible">
-    <button class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path, '@Model.ChildItemType')">@Model.Label</button>
+    <span> Test</span>
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path, @childItem)">@Model.Label</button>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>

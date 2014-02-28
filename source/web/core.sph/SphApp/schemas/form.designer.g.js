@@ -623,6 +623,8 @@ bespoke.sph.domain.ListView = function (optionOrWebid) {
 
     v.ChildItemType = ko.observable('');
 
+    v.IsChildItemFunction = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.ListView, domain.sph";
 
     v.ListViewColumnCollection = ko.observableArray([]);

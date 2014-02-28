@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<xs:schema xmlns="http://www.maim.gov.my/" xmlns:bs="http://www.maim.gov.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.maim.gov.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
+	<xs:element name="Attachment">
+		<xs:complexType>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="IsReceived" type="xs:boolean" use="required"/>
+			<xs:attribute name="StoreId" type="xs:string" use="required"/>
+			<xs:attribute name="IsCompleted" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MovableProperty">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Address"/>
+				<xs:element ref="Contact"/>
+			</xs:all>
+			<xs:attribute name="LandId" type="xs:int" use="required"/>
+			<xs:attribute name="PropertyType" type="xs:string" use="required"/>
+			<xs:attribute name="Location" type="xs:string" use="required"/>
+			<xs:attribute name="CompleteIcNo" type="xs:boolean" use="required"/>
+			<xs:attribute name="CompleteGrant" type="xs:boolean" use="required"/>
+			<xs:attribute name="ComplateTax" type="xs:boolean" use="required"/>
+			<xs:attribute name="CompleteLandPlan" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ImmovableProperty">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Address"/>
+				<xs:element ref="Contact"/>
+			</xs:all>
+			<xs:attribute name="LandId" type="xs:int" use="required"/>
+			<xs:attribute name="Size" type="xs:double" use="required"/>
+			<xs:attribute name="Mukim" type="xs:string" use="required"/>
+			<xs:attribute name="LotNo" type="xs:string" use="required"/>
+			<xs:attribute name="TypeAndOwnershipNo" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Address">
+		<xs:complexType>
+			<xs:attribute name="Street" type="xs:string" use="required"/>
+			<xs:attribute name="City" type="xs:string" use="required"/>
+			<xs:attribute name="Postcode" type="xs:string" use="required"/>
+			<xs:attribute name="State" type="xs:string" use="required"/>
+			<xs:attribute name="Country" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Contact">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="MobileNo" type="xs:string" use="optional"/>
+			<xs:attribute name="TelephoneNo" type="xs:string" use="optional"/>
+			<xs:attribute name="Email" type="xs:string" use="required"/>
+			<xs:attribute name="IcNo" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PropertyScheduleAndInterest">
+		<xs:complexType>
+			<xs:attribute name="Mukim" type="xs:string" use="required"/>
+			<xs:attribute name="LotNo" type="xs:string" use="required"/>
+			<xs:attribute name="TypeAndOwnershipNo" type="xs:string" use="required"/>
+			<xs:attribute name="LandShare" type="xs:string" use="optional"/>
+			<xs:attribute name="LeasingRegistrationNo" type="xs:string" use="optional"/>
+			<xs:attribute name="MortgageRegistrationNo" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WakafLand">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="MovableProperty"/>
+				<xs:element ref="ImmovableProperty"/>
+				<xs:element ref="Witness"/>
+				<xs:element ref="Contact"/>
+				<xs:element ref="Address"/>
+				<xs:element ref="RegistrationOfficer"/>
+			</xs:all>
+			<xs:attribute name="Purposed" type="xs:string" use="required"/>
+			<xs:attribute name="PronouncementDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Signature" type="xs:string" use="required"/>
+			<xs:attribute name="ReceiverParty" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Witness">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Contact"/>
+				<xs:element name="FirstWitnessSignature" type="xs:string"/>
+				<xs:element name="SecondWitnessSignature" type="xs:string"/>
+				<xs:element ref="Address"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RegistrationOfficer">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="IcNo" type="xs:string" use="required"/>
+			<xs:attribute name="ApplicationReceiveDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="IsApplicationTrue" type="xs:boolean" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
+			<xs:attribute name="Signature" type="xs:string" use="required"/>
+			<xs:attribute name="SignatureDate" type="xs:dateTime" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Investigation">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="WakafLand"/>
+			</xs:all>
+			<xs:attribute name="InvestigationDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Time" type="xs:string" use="required"/>
+			<xs:attribute name="Purposed" type="xs:string" use="required"/>
+			<xs:attribute name="InvestigationReport" type="xs:string" use="required"/>
+			<xs:attribute name="ReportDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="PreparedBy" type="xs:string" use="required"/>
+			<xs:attribute name="HeadUnitReview" type="xs:string" use="required"/>
+			<xs:attribute name="HeadUnitReviewDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="PsuReview" type="xs:string" use="required"/>
+			<xs:attribute name="PsuReviewDate" type="xs:dateTime" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Investigator">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PresenterParty">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Designation" type="xs:string" use="optional"/>
+			<xs:attribute name="TelephoneNo" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

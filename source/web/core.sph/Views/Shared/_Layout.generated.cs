@@ -131,25 +131,32 @@ WriteLiteral("            ");
             #line hidden
 WriteLiteral("\r\n        </section>\r\n    </div>\r\n\r\n\r\n\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 685), Tuple.Create("\"", 714)
-, Tuple.Create(Tuple.Create("", 691), Tuple.Create<System.Object, System.Int32>(Href("~/kendo/js/kendo.all.js")
+WriteAttribute("src", Tuple.Create(" src=\"", 685), Tuple.Create("\"", 721)
+, Tuple.Create(Tuple.Create("", 691), Tuple.Create<System.Object, System.Int32>(Href("~/Sph/EntityDefinition/Schemas")
 , 691), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 738), Tuple.Create("\"", 770)
-, Tuple.Create(Tuple.Create("", 744), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 744), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 745), Tuple.Create("\"", 774)
+, Tuple.Create(Tuple.Create("", 751), Tuple.Create<System.Object, System.Int32>(Href("~/kendo/js/kendo.all.js")
+, 751), false)
+);
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 798), Tuple.Create("\"", 830)
+, Tuple.Create(Tuple.Create("", 804), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 804), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 817), Tuple.Create("\"", 843)
-, Tuple.Create(Tuple.Create("", 823), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/require.js")
-, 823), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 877), Tuple.Create("\"", 903)
+, Tuple.Create(Tuple.Create("", 883), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/require.js")
+, 883), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -182,7 +189,7 @@ WriteLiteral(@">
 WriteLiteral("    ");
 
             
-            #line 45 "..\..\Views\Shared\_Layout.cshtml"
+            #line 46 "..\..\Views\Shared\_Layout.cshtml"
 Write(RenderSection("scripts", required: false));
 
             

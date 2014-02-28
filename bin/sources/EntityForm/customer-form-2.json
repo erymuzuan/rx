@@ -1,0 +1,49 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
+  "FormDesign": {
+    "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+    "FormElementCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "Name": "",
+    "Description": "",
+    "ConfirmationText": "",
+    "ImageStoreId": "",
+    "LabelColLg": null,
+    "LabelColMd": null,
+    "LabelColSm": null,
+    "LabelColXs": null,
+    "InputColLg": null,
+    "InputColMd": null,
+    "InputColSm": null,
+    "InputColXs": null,
+    "WebId": null
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "EntityFormId": 1001,
+  "EntityDefinitionId": 1,
+  "Name": "customer-form-2",
+  "Route": "customer-form-2",
+  "Note": "",
+  "IsAllowedNewItem": false,
+  "IconClass": "",
+  "IconStoreId": "",
+  "IsPublished": false,
+  "IsDefault": false,
+  "IsWatchAvailable": true,
+  "IsEmailAvailable": true,
+  "IsPrintAvailable": true,
+  "IsAuditTrailAvailable": true,
+  "IsRemoveAvailable": false,
+  "IsImportAvailable": false,
+  "IsExportAvailable": false,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-02-27T18:45:55.0819033+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-02-27T18:45:55.0819033+08:00",
+  "WebId": "947d23e3-f71f-412e-8157-225d8ac98be8"
+}

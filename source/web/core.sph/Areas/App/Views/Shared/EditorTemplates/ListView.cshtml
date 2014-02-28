@@ -1,12 +1,25 @@
 ﻿@using Bespoke.Sph.Domain
 @model Bespoke.Sph.Domain.ListView
-
+@{
+    var jsNamespace = string.Format("bespoke.{0}_{1}.domain.{2}", ConfigurationManager.ApplicationName.ToLowerInvariant(), "<Id>", "<ChildType>");
+}
 
 <!--ko if:ko.unwrap($type) === "Bespoke.Sph.Domain.ListView, domain.sph" -->
 <div class="form-group">
     <label for="form-element-list-view-type">Child item type</label>
     <input class="form-control" data-bind="value: ChildItemType" id="form-element-list-view-type" type="text" name="MinLength" />
 </div>
+
+<div class="form-group checkbox">
+
+    <label>
+        <input data-bind="checked: IsChildItemFunction" id="f-e-lv-func" type="checkbox" name="IsChildItemFunction" />
+        Is a function
+    </label>
+    <span class="help-block" data-bind="visible:IsChildItemFunction">For custom entity set the ChildItemType to @jsNamespace</span>
+
+</div>
+
 
 <div class="btn-group">
     <a data-bind="bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">

@@ -93,9 +93,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
             options.ReferencedAssemblies.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly);
 
-            var customeEntityAssembiles = Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath,
+            var entityAssembiles = Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath,
                 ConfigurationManager.ApplicationName + ".*.dll");
-            foreach (var dll in customeEntityAssembiles)
+            Console.WriteLine("Looking for custom entity dll in {0}, {1} found" , ConfigurationManager.WorkflowCompilerOutputPath, entityAssembiles.Length);
+            foreach (var dll in entityAssembiles)
             {
                 options.ReferencedAssemblies.Add(Assembly.LoadFrom(dll));
             }

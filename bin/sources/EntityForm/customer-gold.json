@@ -1,0 +1,49 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
+  "FormDesign": {
+    "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+    "FormElementCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "Name": "",
+    "Description": "",
+    "ConfirmationText": "",
+    "ImageStoreId": "",
+    "LabelColLg": null,
+    "LabelColMd": null,
+    "LabelColSm": null,
+    "LabelColXs": null,
+    "InputColLg": null,
+    "InputColMd": null,
+    "InputColSm": null,
+    "InputColXs": null,
+    "WebId": null
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "EntityFormId": 1002,
+  "EntityDefinitionId": 1,
+  "Name": "customer-gold",
+  "Route": "customer-gold",
+  "Note": "",
+  "IsAllowedNewItem": false,
+  "IconClass": "",
+  "IconStoreId": "",
+  "IsPublished": false,
+  "IsDefault": false,
+  "IsWatchAvailable": false,
+  "IsEmailAvailable": true,
+  "IsPrintAvailable": false,
+  "IsAuditTrailAvailable": false,
+  "IsRemoveAvailable": false,
+  "IsImportAvailable": false,
+  "IsExportAvailable": false,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-02-27T18:47:31.3382699+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-02-27T18:47:31.3382699+08:00",
+  "WebId": "e429c10c-8d0d-43ac-a318-ce965bcbd7ee"
+}

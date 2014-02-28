@@ -1593,6 +1593,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private bool m_IsChildItemFunction;
+        [XmlAttribute]
+        public bool IsChildItemFunction
+        {
+            get
+            {
+                return m_IsChildItemFunction;
+            }
+            set
+            {
+                m_IsChildItemFunction = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<ListViewColumn> m_ListViewColumnCollection = new ObjectCollection<ListViewColumn>();
 
         ///<summary>

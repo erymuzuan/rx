@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
         public override void Execute()
         {
             
-            #line 4 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 5 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
  if (string.IsNullOrWhiteSpace(Model.Enable))
 {
     Model.Enable = "true";
@@ -57,12 +57,24 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
             
             #line default
             #line hidden
-WriteLiteral("\r\n<div");
+            
+            #line 9 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+  
+    var childItem = string.Format("'{0}'", Model.ChildItemType);
+    if (Model.IsChildItemFunction)
+    {
+        childItem = string.Format("function(guid){{return new {0}(guid);}}", Model.ChildItemType);
+    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n\r\n<div");
 
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 18 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                    Write(Model.Visible);
 
             
@@ -70,35 +82,35 @@ WriteLiteral(" data-bind=\"visible:");
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral(">\r\n    <button");
+WriteLiteral(">\r\n    <span> Test</span>\r\n    <button");
 
 WriteLiteral(" class=\"btn btn-default pull-right\"");
 
 WriteLiteral(" data-bind=\"click : addChildItem(");
 
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 20 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                                                                           Write(Model.Path);
 
             
             #line default
             #line hidden
-WriteLiteral(", \'");
+WriteLiteral(", ");
 
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                        Write(Model.ChildItemType);
+            #line 20 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+                                                                                       Write(childItem);
 
             
             #line default
             #line hidden
-WriteLiteral("\')\"");
+WriteLiteral(")\"");
 
 WriteLiteral(">");
 
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                                                Write(Model.Label);
+            #line 20 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+                                                                                                    Write(Model.Label);
 
             
             #line default
@@ -110,13 +122,13 @@ WriteLiteral(" class=\"table table-condensed table-striped\"");
 WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n");
 
             
-            #line 14 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 24 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 14 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 24 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                  foreach (var col in Model.ListViewColumnCollection)
                 {
 
@@ -126,7 +138,7 @@ WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n");
 WriteLiteral("                    <th>");
 
             
-            #line 16 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 26 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                    Write(col.Label);
 
             
@@ -135,7 +147,7 @@ WriteLiteral("                    <th>");
 WriteLiteral("</th>\r\n");
 
             
-            #line 17 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 27 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                 }
 
             
@@ -146,7 +158,7 @@ WriteLiteral("                <th></th>\r\n            </tr>\r\n        </thead>
 WriteLiteral(" data-bind=\"foreach :");
 
             
-            #line 21 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 31 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                               Write(Model.Path);
 
             
@@ -157,13 +169,13 @@ WriteLiteral("\"");
 WriteLiteral(">\r\n            <tr>\r\n");
 
             
-            #line 23 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 33 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 23 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 33 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                  foreach (var col in Model.ListViewColumnCollection)
                 {
                     var col1 = col;
@@ -182,7 +194,7 @@ WriteLiteral("                    <td>\r\n");
 WriteLiteral("                        ");
 
             
-            #line 33 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 43 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                    Write(Html.EditorFor(f => col1.Input));
 
             
@@ -191,7 +203,7 @@ WriteLiteral("                        ");
 WriteLiteral("\r\n                    </td>\r\n");
 
             
-            #line 35 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 45 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                 }
 
             
@@ -206,7 +218,7 @@ WriteLiteral(" href=\"#\"");
 WriteLiteral(" data-bind=\"click : $parent.removeChildItem.call($parent,$parent.");
 
             
-            #line 37 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 47 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                                                                                                           Write(Model.Path);
 
             

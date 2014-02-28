@@ -1,0 +1,49 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
+  "FormDesign": {
+    "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+    "FormElementCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "Name": "",
+    "Description": "",
+    "ConfirmationText": "",
+    "ImageStoreId": "",
+    "LabelColLg": null,
+    "LabelColMd": null,
+    "LabelColSm": null,
+    "LabelColXs": null,
+    "InputColLg": null,
+    "InputColMd": null,
+    "InputColSm": null,
+    "InputColXs": null,
+    "WebId": null
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "EntityFormId": 1003,
+  "EntityDefinitionId": 2001,
+  "Name": "building-new",
+  "Route": "building-new",
+  "Note": "",
+  "IsAllowedNewItem": false,
+  "IconClass": "",
+  "IconStoreId": "",
+  "IsPublished": false,
+  "IsDefault": true,
+  "IsWatchAvailable": true,
+  "IsEmailAvailable": true,
+  "IsPrintAvailable": true,
+  "IsAuditTrailAvailable": true,
+  "IsRemoveAvailable": false,
+  "IsImportAvailable": false,
+  "IsExportAvailable": false,
+  "CreatedBy": null,
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-02-27T18:56:36.1515789+08:00",
+  "WebId": "4f66bdad-5923-4c54-bac7-b29604b04900"
+}

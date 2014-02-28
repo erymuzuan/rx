@@ -19,13 +19,17 @@
             <tr>
                 @foreach (var col in Model.ListViewColumnCollection)
                 {
+                    var col1 = col;
                     col.Input.Path = col.Path;
                     col.Input.Visible = "true";
+                    col.Input.Enable = "true";
                     col.Input.IsCompact = true;
                     col.Input.ElementId = Guid.NewGuid().ToString();
-                    
+
                     <td>
-                        @Html.EditorFor(f => col.Input)
+
+
+                        @Html.EditorFor(f => col1.Input)
                     </td>
                 }
                 <td>
