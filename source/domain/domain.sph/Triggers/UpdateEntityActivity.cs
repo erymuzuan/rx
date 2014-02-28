@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   {");
             code.AppendLine("       var context = new Bespoke.Sph.Domain.SphDataContext();");
             code.AppendLinf("       var item = await context.LoadOneAsync<{0}>(e => e.{1}Id == {2});", type.FullName, type.Name, this.EntityIdPath);
-            code.AppendLinf("       var self = this.WorkflowDefinition.ActivityCollection.OfType<CreateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
+            code.AppendLinf("       var self = this.WorkflowDefinition.ActivityCollection.OfType<UpdateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
 
             var count = 1;
             foreach (var mapping in this.PropertyMappingCollection)
