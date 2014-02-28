@@ -62,20 +62,19 @@ define(['schemas/report.builder.g', 'services/datacontext', 'durandal/system', '
 
             },
             sortableLayout = function () {
-                $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API 
-                        .done(function () {
-                            var initDesigner = function () {
-                                $('#report-designer>div.report-layout').sortable({
-                                    items: '>div>div',
-                                    placeholder: 'ph',
-                                    helper: 'original',
-                                    dropOnEmpty: true,
-                                    forcePlaceholderSize: true,
-                                    forceHelperSize: false
-                                });
-                            };
-                            initDesigner();
-                        });
+
+                var initDesigner = function () {
+                    $('#report-designer>div.report-layout').sortable({
+                        items: '>div>div',
+                        placeholder: 'ph',
+                        helper: 'original',
+                        dropOnEmpty: true,
+                        forcePlaceholderSize: true,
+                        forceHelperSize: false
+                    });
+                };
+                initDesigner();
+
             },
             attached = function (view) {
 

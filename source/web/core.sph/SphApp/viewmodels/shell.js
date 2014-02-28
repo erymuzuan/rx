@@ -25,6 +25,19 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                     });
                 };
 
+                $(document).on('mouseenter', '.view-model-modal .modal-header', function (e) {
+                    e.preventDefault();
+                    var elem = $(this).parentsUntil('.view-model-modal'),
+                        draggable = elem.data('draggable') || elem.data('ui-draggable') || elem.data('uiDraggable');
+
+                    if (!draggable) {
+                        elem.draggable({
+                            handle: '.modal-header'
+                        });
+                        console.log('draggagle modal');
+                    }
+                });
+
                 $(document).on('click', 'button.btn-context-action,a.btn-context-action', function (e) {
                     e.preventDefault();
                     var $a = $(this);

@@ -115,40 +115,39 @@
                         }
                     }
                     );
-                    $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API
-                        .done(function () {
-
-                            var initDesigner = function () {
-                                $('#template-form-designer>form').sortable({
-                                    items: '>div',
-                                    placeholder: 'ph',
-                                    helper: 'original',
-                                    dropOnEmpty: true,
-                                    forcePlaceholderSize: true,
-                                    forceHelperSize: false,
-                                    receive: receive
-                                });
-
-                            },
-                                receive = function (evt, ui) {
-                                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
-                                        return ko.dataFor(div);
-                                    });
-                                    var fe = ko.dataFor(ui.item[0]);
-                                    fe.isSelected = ko.observable(true);
-                                    elements.splice(2, 0, fe);
-                                    $('#template-form-designer>form').sortable("destroy");
 
 
-                                    fd.FormElementCollection(elements);
-                                };
-
-                            initDesigner();
-                            $('#add-field>ul>li').draggable({
-                                helper: 'clone',
-                                connectToSortable: "#template-form-designer>form"
-                            });
+                    var initDesigner = function () {
+                        $('#template-form-designer>form').sortable({
+                            items: '>div',
+                            placeholder: 'ph',
+                            helper: 'original',
+                            dropOnEmpty: true,
+                            forcePlaceholderSize: true,
+                            forceHelperSize: false,
+                            receive: receive
                         });
+
+                    },
+                        receive = function (evt, ui) {
+                            var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                                return ko.dataFor(div);
+                            });
+                            var fe = ko.dataFor(ui.item[0]);
+                            fe.isSelected = ko.observable(true);
+                            elements.splice(2, 0, fe);
+                            $('#template-form-designer>form').sortable("destroy");
+
+
+                            fd.FormElementCollection(elements);
+                        };
+
+                    initDesigner();
+                    $('#add-field>ul>li').draggable({
+                        helper: 'clone',
+                        connectToSortable: "#template-form-designer>form"
+                    });
+
 
                     $('section.context-action-panel').on('click', 'buton.close', function() {
                         $(this).parents('div.context-action').hide();
@@ -226,7 +225,7 @@
                         data = ko.mapping.toJSON(form);
 
                     context.post(data, "/Sph/EntityForm/Publish")
-                        .then(function(result) {   
+                        .then(function(result) {
                             if (result.success) {
                                 logger.info(result.message);
                                 entity().EntityDefinitionId(result.id);

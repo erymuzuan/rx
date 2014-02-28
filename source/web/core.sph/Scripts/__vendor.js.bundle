@@ -4,6 +4,7 @@
   <file>/Scripts/jquery-2.1.0.js</file>
   <file>/Scripts/jquery.validate.js</file>
   <file>/Scripts/jquery.tablesorter.min.js</file>
+	<file>/Scripts/jquery-ui-1.10.3.custom.min.js</file>
   <file>/Scripts/knockout-3.0.0.js</file>
   <file>/Scripts/knockout.mapping-latest.js</file>
   <file>/Scripts/bootstrap.js</file>

@@ -413,14 +413,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                 populateToolbox();
 
-                $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js', function () {
-                    $('div.toolbox-item').draggable({
-                        helper: function () {
-                            return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('.activity32').clone());
-                        },
-                        stop: toolboxItemDraggedStop
-                    });
+                $('div.toolbox-item').draggable({
+                    helper: function () {
+                        return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('.activity32').clone());
+                    },
+                    stop: toolboxItemDraggedStop
                 });
+
 
                 var paintedConnectors = [];
 
@@ -641,7 +640,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     return tcs.promise();
                 }
                 return activate(wd().WorkflowDefinitionId())
-                .done(function() {
+                .done(function () {
                     $('div.modalHost, div.modalBlockout').remove();
                 });
             };

@@ -183,100 +183,95 @@ WriteLiteral("@Model.Screen.Name was cancelled\");\r\n\r\n                    va
 "      }\r\n                                }).data(\"kendoEditor\");\r\n\r\n            " +
 "                htmlElement.Text.subscribe(function(t) {\r\n                      " +
 "          editor.value(ko.unwrap(t));\r\n                            });\r\n\r\n      " +
-"                  }\r\n                    }\r\n                    );\r\n            " +
-"        $.getScript(\'/Scripts/jquery-ui-1.10.3.custom.min.js\')// only contains U" +
-"I core and interactions API\r\n                        .done(function () {\r\n\r\n    " +
-"                        var initDesigner = function () {\r\n                      " +
-"          $(\'#template-form-designer>form\').sortable({\r\n                        " +
-"            items: \'>div\',\r\n                                    placeholder: \'ph" +
-"\',\r\n                                    helper: \'original\',\r\n                   " +
-"                 dropOnEmpty: true,\r\n                                    forcePl" +
-"aceholderSize: true,\r\n                                    forceHelperSize: false" +
-",\r\n                                    receive: receive\r\n                       " +
-"         });\r\n\r\n                            },\r\n                                " +
-"receive = function (evt, ui) {\r\n                                    var elements" +
-" = _($(\'#template-form-designer>form>div\')).map(function (div) {\r\n              " +
-"                          return ko.dataFor(div);\r\n                             " +
-"       });\r\n                                    var fe = ko.dataFor(ui.item[0]);" +
-"\r\n                                    fe.isSelected = ko.observable(true);\r\n    " +
-"                                elements.splice(2, 0, fe);\r\n                    " +
-"                $(\'#template-form-designer>form\').sortable(\"destroy\");\r\n\r\n\r\n    " +
-"                                fd.FormElementCollection(elements);\r\n           " +
-"                     };\r\n\r\n                            initDesigner();\r\n        " +
-"                    $(\'#add-field>ul>li\').draggable({\r\n                         " +
-"       helper: \'clone\',\r\n                                connectToSortable: \"#te" +
-"mplate-form-designer>form\"\r\n                            });\r\n                   " +
-"         vm.wd().isBusy(false);\r\n                        });\r\n\r\n                " +
-"    $(\'section.context-action-panel\').on(\'click\', \'buton.close\', function() {\r\n " +
-"                       $(this).parents(\'div.context-action\').hide();\r\n          " +
-"          });\r\n                },\r\n                supportsHtml5Storage = functi" +
-"on () {\r\n                    try {\r\n                        return \'localStorage" +
-"\' in window && window[\'localStorage\'] !== null;\r\n                    } catch (e)" +
-" {\r\n                        return false;\r\n                    }\r\n              " +
-"  },\r\n                okClick = function (data, ev) {\r\n                    if (b" +
-"espoke.utils.form.checkValidity(ev.target)) {\r\n\r\n                        var fd " +
-"= ko.unwrap(vm.activity().FormDesign);\r\n                        // get the sorte" +
-"d element\r\n                        var elements = _($(\'#template-form-designer>f" +
-"orm>div\')).map(function (div) {\r\n                            return ko.dataFor(d" +
-"iv);\r\n                        });\r\n                        fd.FormElementCollect" +
-"ion(elements);\r\n                        dialog.close(this, \"OK\");\r\n             " +
-"           if (supportsHtml5Storage()) {\r\n                            localStora" +
-"ge.removeItem(vm.activity().WebId());\r\n                        }\r\n              " +
-"      }\r\n                },\r\n                cancelClick = function () {\r\n      " +
-"              if (supportsHtml5Storage()) {\r\n                        localStorag" +
-"e.removeItem(vm.activity().WebId());\r\n                    }\r\n                   " +
-" dialog.close(this, \"Cancel\");\r\n                },\r\n                selectFormEl" +
-"ement = function (fe) {\r\n\r\n                    var fd = ko.unwrap(vm.activity()." +
-"FormDesign);\r\n                    _(fd.FormElementCollection()).each(function (f" +
-") {\r\n                        f.isSelected(false);\r\n                    });\r\n    " +
-"                fe.isSelected(true);\r\n                    vm.selectedFormElement" +
-"(fe);\r\n                    if (supportsHtml5Storage()) {\r\n                      " +
-"  localStorage.setItem(vm.activity().WebId(), ko.mapping.toJSON(vm.activity));\r\n" +
-"                    }\r\n                },\r\n                removeFormElement = f" +
-"unction (fe) {\r\n                    var fd = ko.unwrap(vm.activity().FormDesign)" +
-";\r\n                    fd.FormElementCollection.remove(fe);\r\n                },\r" +
-"\n                exportScreen = function() {\r\n                    return eximp.e" +
-"xportJson(ko.unwrap(vm.activity().Name) + \".json\", ko.mapping.toJSON(vm.activity" +
-"));\r\n                },\r\n                open = function() {\r\n\r\n                " +
-"},\r\n                importCommand = function() {\r\n                    return exi" +
-"mp.importJson()\r\n                 .done(function (json) {\r\n                     " +
-"try {\r\n\r\n                         var obj = JSON.parse(json),\r\n                 " +
-"            clone = context.toObservable(obj);\r\n\r\n                         vm.ac" +
-"tivity().FormDesign(clone.FormDesign());\r\n\r\n                     } catch (error)" +
-" {\r\n                         logger.logError(\'Fail template import tidak sah\', e" +
-"rror, this, true);\r\n                     }\r\n                 });\r\n              " +
-"  };\r\n\r\n            var vm = {\r\n                attached: attached,\r\n           " +
-"     activate: activate,\r\n                formElements: ko.observableArray(),\r\n " +
-"               selectedFormElement: ko.observable(),\r\n                selectForm" +
-"Element : selectFormElement,\r\n                removeFormElement : removeFormElem" +
-"ent,\r\n                activity: ko.observable(new bespoke.sph.domain.ScreenActiv" +
-"ity()),\r\n                wd : ko.observable(new bespoke.sph.domain.WorkflowDefin" +
-"ition(system.guid())),\r\n                okClick: okClick,\r\n                cance" +
-"lClick: cancelClick,\r\n                importCommand :importCommand,\r\n           " +
-"     toolbar : {\r\n                    commands :ko.observableArray([{\r\n         " +
-"               caption : \'Create Pull Request\',\r\n                        icon : " +
-"\'fa fa-folder-open-o\',\r\n                        command : open\r\n                " +
-"    }\r\n                    ]),\r\n                    exportCommand : exportScreen" +
-"\r\n                }\r\n            };\r\n\r\n            vm.activity.subscribe(functio" +
-"n(screen) {\r\n\r\n                var cached = localStorage.getItem(screen.WebId())" +
-";\r\n                if (cached) {\r\n                    app.showMessage(\"There\'s c" +
-"ached data in your local storage, do you want to restore this?\", \"Local storage\"" +
-", [\"Yes\", \"No\"])\r\n                        .done(function(dr) {\r\n                " +
-"            if (dr === \"Yes\") {\r\n                                var screen2 = c" +
-"ontext.toObservable(JSON.parse(cached)),\r\n                                    fd" +
-"2 = ko.unwrap(screen2.FormDesign);\r\n\r\n                                _(fd2.Form" +
-"ElementCollection()).each(function(v) {\r\n                                    v.i" +
-"sSelected = ko.observable(false);\r\n                                });\r\n        " +
-"                        if (typeof screen.FormDesign === \"function\") {\r\n        " +
-"                            screen.FormDesign(screen2.FormDesign());\r\n          " +
-"                      } else {\r\n                                    screen.FormD" +
-"esign.FormElementCollection(screen2.FormDesign().FormElementCollection());\r\n    " +
-"                            }\r\n\r\n                                return;\r\n      " +
-"                      }\r\n                        });\r\n                }\r\n\r\n     " +
-"           var fd = ko.unwrap(screen.FormDesign);\r\n                _(fd.FormElem" +
-"entCollection()).each(function(v) {\r\n                    v.isSelected = ko.obser" +
-"vable(false);\r\n                });\r\n            });\r\n\r\n\r\n            return vm;\r" +
-"\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"                  }\r\n                    }\r\n                    );\r\n\r\n\r\n        " +
+"            var initDesigner = function () {\r\n                        $(\'#templa" +
+"te-form-designer>form\').sortable({\r\n                            items: \'>div\',\r\n" +
+"                            placeholder: \'ph\',\r\n                            help" +
+"er: \'original\',\r\n                            dropOnEmpty: true,\r\n               " +
+"             forcePlaceholderSize: true,\r\n                            forceHelpe" +
+"rSize: false,\r\n                            receive: receive\r\n                   " +
+"     });\r\n\r\n                    },\r\n                        receive = function (" +
+"evt, ui) {\r\n                            var elements = _($(\'#template-form-desig" +
+"ner>form>div\')).map(function (div) {\r\n                                return ko." +
+"dataFor(div);\r\n                            });\r\n                            var " +
+"fe = ko.dataFor(ui.item[0]);\r\n                            fe.isSelected = ko.obs" +
+"ervable(true);\r\n                            elements.splice(2, 0, fe);\r\n        " +
+"                    $(\'#template-form-designer>form\').sortable(\"destroy\");\r\n\r\n\r\n" +
+"                            fd.FormElementCollection(elements);\r\n               " +
+"         };\r\n\r\n                    initDesigner();\r\n                    $(\'#add-" +
+"field>ul>li\').draggable({\r\n                        helper: \'clone\',\r\n           " +
+"             connectToSortable: \"#template-form-designer>form\"\r\n                " +
+"    });\r\n                    vm.wd().isBusy(false);\r\n\r\n\r\n                    $(\'" +
+"section.context-action-panel\').on(\'click\', \'buton.close\', function() {\r\n        " +
+"                $(this).parents(\'div.context-action\').hide();\r\n                 " +
+"   });\r\n                },\r\n                supportsHtml5Storage = function () {" +
+"\r\n                    try {\r\n                        return \'localStorage\' in wi" +
+"ndow && window[\'localStorage\'] !== null;\r\n                    } catch (e) {\r\n   " +
+"                     return false;\r\n                    }\r\n                },\r\n " +
+"               okClick = function (data, ev) {\r\n                    if (bespoke." +
+"utils.form.checkValidity(ev.target)) {\r\n\r\n                        var fd = ko.un" +
+"wrap(vm.activity().FormDesign);\r\n                        // get the sorted eleme" +
+"nt\r\n                        var elements = _($(\'#template-form-designer>form>div" +
+"\')).map(function (div) {\r\n                            return ko.dataFor(div);\r\n " +
+"                       });\r\n                        fd.FormElementCollection(ele" +
+"ments);\r\n                        dialog.close(this, \"OK\");\r\n                    " +
+"    if (supportsHtml5Storage()) {\r\n                            localStorage.remo" +
+"veItem(vm.activity().WebId());\r\n                        }\r\n                    }" +
+"\r\n                },\r\n                cancelClick = function () {\r\n             " +
+"       if (supportsHtml5Storage()) {\r\n                        localStorage.remov" +
+"eItem(vm.activity().WebId());\r\n                    }\r\n                    dialog" +
+".close(this, \"Cancel\");\r\n                },\r\n                selectFormElement =" +
+" function (fe) {\r\n\r\n                    var fd = ko.unwrap(vm.activity().FormDes" +
+"ign);\r\n                    _(fd.FormElementCollection()).each(function (f) {\r\n  " +
+"                      f.isSelected(false);\r\n                    });\r\n           " +
+"         fe.isSelected(true);\r\n                    vm.selectedFormElement(fe);\r\n" +
+"                    if (supportsHtml5Storage()) {\r\n                        local" +
+"Storage.setItem(vm.activity().WebId(), ko.mapping.toJSON(vm.activity));\r\n       " +
+"             }\r\n                },\r\n                removeFormElement = function" +
+" (fe) {\r\n                    var fd = ko.unwrap(vm.activity().FormDesign);\r\n    " +
+"                fd.FormElementCollection.remove(fe);\r\n                },\r\n      " +
+"          exportScreen = function() {\r\n                    return eximp.exportJs" +
+"on(ko.unwrap(vm.activity().Name) + \".json\", ko.mapping.toJSON(vm.activity));\r\n  " +
+"              },\r\n                open = function() {\r\n\r\n                },\r\n   " +
+"             importCommand = function() {\r\n                    return eximp.impo" +
+"rtJson()\r\n                 .done(function (json) {\r\n                     try {\r\n" +
+"\r\n                         var obj = JSON.parse(json),\r\n                        " +
+"     clone = context.toObservable(obj);\r\n\r\n                         vm.activity(" +
+").FormDesign(clone.FormDesign());\r\n\r\n                     } catch (error) {\r\n   " +
+"                      logger.logError(\'Fail template import tidak sah\', error, t" +
+"his, true);\r\n                     }\r\n                 });\r\n                };\r\n\r" +
+"\n            var vm = {\r\n                attached: attached,\r\n                ac" +
+"tivate: activate,\r\n                formElements: ko.observableArray(),\r\n        " +
+"        selectedFormElement: ko.observable(),\r\n                selectFormElement" +
+" : selectFormElement,\r\n                removeFormElement : removeFormElement,\r\n " +
+"               activity: ko.observable(new bespoke.sph.domain.ScreenActivity())," +
+"\r\n                wd : ko.observable(new bespoke.sph.domain.WorkflowDefinition(s" +
+"ystem.guid())),\r\n                okClick: okClick,\r\n                cancelClick:" +
+" cancelClick,\r\n                importCommand :importCommand,\r\n                to" +
+"olbar : {\r\n                    commands :ko.observableArray([{\r\n                " +
+"        caption : \'Create Pull Request\',\r\n                        icon : \'fa fa-" +
+"folder-open-o\',\r\n                        command : open\r\n                    }\r\n" +
+"                    ]),\r\n                    exportCommand : exportScreen\r\n     " +
+"           }\r\n            };\r\n\r\n            vm.activity.subscribe(function(scree" +
+"n) {\r\n\r\n                var cached = localStorage.getItem(screen.WebId());\r\n    " +
+"            if (cached) {\r\n                    app.showMessage(\"There\'s cached d" +
+"ata in your local storage, do you want to restore this?\", \"Local storage\", [\"Yes" +
+"\", \"No\"])\r\n                        .done(function(dr) {\r\n                       " +
+"     if (dr === \"Yes\") {\r\n                                var screen2 = context." +
+"toObservable(JSON.parse(cached)),\r\n                                    fd2 = ko." +
+"unwrap(screen2.FormDesign);\r\n\r\n                                _(fd2.FormElement" +
+"Collection()).each(function(v) {\r\n                                    v.isSelect" +
+"ed = ko.observable(false);\r\n                                });\r\n               " +
+"                 if (typeof screen.FormDesign === \"function\") {\r\n               " +
+"                     screen.FormDesign(screen2.FormDesign());\r\n                 " +
+"               } else {\r\n                                    screen.FormDesign.F" +
+"ormElementCollection(screen2.FormDesign().FormElementCollection());\r\n           " +
+"                     }\r\n\r\n                                return;\r\n             " +
+"               }\r\n                        });\r\n                }\r\n\r\n            " +
+"    var fd = ko.unwrap(screen.FormDesign);\r\n                _(fd.FormElementColl" +
+"ection()).each(function(v) {\r\n                    v.isSelected = ko.observable(f" +
+"alse);\r\n                });\r\n            });\r\n\r\n\r\n            return vm;\r\n\r\n    " +
+"    });\r\n\r\n\r\n</script>\r\n");
 
         }
     }
