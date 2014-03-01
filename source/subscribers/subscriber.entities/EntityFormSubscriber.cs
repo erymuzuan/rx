@@ -24,7 +24,7 @@ namespace subscriber.entities
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + item.Route.ToLower() + ".html");
             using (var client = new HttpClient())
             {
-                var uri = ConfigurationManager.BaseUrl + "/App/EntityFormRenderer/Html/" + item.Route;
+                var uri = ConfigurationManager.BaseUrl + "/Sph/EntityFormRenderer/Html/" + item.Route;
                 this.WriteMessage("Rendering {0}", uri);
                 var markup = await client.GetStringAsync(uri);
                 File.WriteAllText(html, markup);
@@ -34,7 +34,7 @@ namespace subscriber.entities
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + item.Route.ToLower() + ".js");
             using (var client = new HttpClient())
             {
-                var script = await client.GetStringAsync(ConfigurationManager.BaseUrl + "/App/EntityFormRenderer/Js/" + item.Route);
+                var script = await client.GetStringAsync(ConfigurationManager.BaseUrl + "/Sph/EntityFormRenderer/Js/" + item.Route);
                 File.WriteAllText(js, script);
             }
 

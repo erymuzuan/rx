@@ -3,9 +3,9 @@ using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.ViewModels;
 
-namespace Bespoke.Sph.Web.Areas.App.Controllers
+namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
-    public class EntityFormRendererController : BaseAppController
+    public class EntityFormRendererController : BaseSphController
     {
         public async Task<ActionResult> Html(string id)
         {
