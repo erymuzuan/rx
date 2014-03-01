@@ -1,11 +1,14 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class EntityForm : Entity
     {
-        public  BuildValidationResult ValidateBuild(EntityDefinition ed)
+        public async Task<BuildValidationResult> ValidateBuildAsync(EntityDefinition ed)
         {
+
+            var result = new BuildValidationResult();
             var errors = from f in this.FormDesign.FormElementCollection
                          where f.IsPathIsRequired
                              && string.IsNullOrWhiteSpace(f.Path) && (f.Name != "HTML Section")
@@ -20,11 +23,28 @@ namespace Bespoke.Sph.Domain
                            where null != err
                            select err;
 
-            var result = new BuildValidationResult();
+            var context = new SphDataContext();
+
+            var formRouteCountTask = context.GetCountAsync<EntityForm>(f => f.Route == this.Route && f.EntityFormId != this.EntityFormId);
+            var viewRouteCountTask = context.GetCountAsync<EntityView>(f => f.Route == this.Route);
+            var entityRouteCountTask = context.GetCountAsync<EntityDefinition>(f => f.Name == this.Route);
+
+            await Task.WhenAll(formRouteCountTask, viewRouteCountTask, entityRouteCountTask).ConfigureAwait(false);
+
+            if (await formRouteCountTask > 0)
+                result.Errors.Add(new BuildError(this.WebId, "The route is already in used by another form"));
+
+            if (await viewRouteCountTask > 0)
+                result.Errors.Add(new BuildError(this.WebId, "The route is already in used by a view"));
+
+            if (await entityRouteCountTask > 0)
+                result.Errors.Add(new BuildError(this.WebId, "The route is already in used, cannot be the same as an entity name"));
+
+
             result.Errors.AddRange(errors);
             result.Errors.AddRange(elements.SelectMany(v => v));
             result.Result = result.Errors.Count == 0;
-            
+
             return result;
         }
     }

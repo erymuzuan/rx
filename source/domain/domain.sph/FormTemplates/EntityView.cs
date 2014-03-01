@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class EntityView : Entity
     {
-        public async Task<BuildValidationResult> ValidateBuild(EntityDefinition ed)
+        public async Task<BuildValidationResult> ValidateBuildAsync(EntityDefinition ed)
         {
             var result = new BuildValidationResult();
             var filterErrors = from f in this.FilterCollection
@@ -35,12 +36,22 @@ namespace Bespoke.Sph.Domain
 
 
             var context = new SphDataContext();
-            var count = await context.GetCountAsync<EntityForm>(f => f.Route == this.Route);
-            if (count > 0)
-                result.Errors.Add(new BuildError(this.WebId, "The route is already in used"));
-            var count2 = await context.GetCountAsync<EntityView>(f => f.Route == this.Route && f.EntityViewId != this.EntityViewId);
-            if (count2 > 0)
-                result.Errors.Add(new BuildError(this.WebId, "The route is already in used"));
+
+            var formRouteCountTask = context.GetCountAsync<EntityForm>(f => f.Route == this.Route);
+            var viewRouteCountTask = context.GetCountAsync<EntityView>(f => f.Route == this.Route && f.EntityViewId != this.EntityViewId);
+            var entityRouteCountTask = context.GetCountAsync<EntityDefinition>(f => f.Name == this.Route);
+
+            await Task.WhenAll(formRouteCountTask, viewRouteCountTask, entityRouteCountTask).ConfigureAwait(false);
+
+            if (await formRouteCountTask > 0)
+                result.Errors.Add(new BuildError(this.WebId, "The route is already in used by a form"));
+            
+            if (await viewRouteCountTask > 0)
+                result.Errors.Add(new BuildError(this.WebId, "The route is already in used by another view"));
+
+            if (await entityRouteCountTask> 0)
+                result.Errors.Add(new BuildError(this.WebId, "The route is already in used, cannot be the same as an entity name"));
+
 
             if(!this.ViewColumnCollection.Any())
                 result.Errors.Add(new BuildError(this.WebId, "Your views are missing columns"));

@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             form.IsPublished = true;
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.EntityDefinitionId == form.EntityDefinitionId);
 
-            var buildValidation = form.ValidateBuild(ed);
+            var buildValidation =await form.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
                 return Json(buildValidation);
 

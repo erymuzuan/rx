@@ -24,7 +24,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.EntityDefinitionId == view.EntityDefinitionId);
 
-            var buildValidation = await view.ValidateBuild(ed);
+            var buildValidation = await view.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
