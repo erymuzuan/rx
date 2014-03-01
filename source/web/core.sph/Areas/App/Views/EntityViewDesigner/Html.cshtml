@@ -3,6 +3,19 @@
     Layout = null;
 }
 <h1 data-bind="with : entity">View Designer for <span data-bind="text:Plural"></span></h1>
+<div id="error-list-entity-view" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-lg-8 col-lg-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+    </div>
+    <div class="col-lg-2"></div>
+    <!-- /ko-->
+</div>
 <div class="row">
     <a data-toggle="collapse" href="#general-ev-panel">
         <h3>

@@ -13,7 +13,8 @@
     define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system],
         function (context, logger, router, system) {
 
-            var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
+            var errors = ko.observableArray(),
+                entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
                 view = ko.observable(new bespoke.sph.domain.EntityView({ WebId: system.guid() })),
                 activate = function (entityid, viewid) {
 
@@ -58,7 +59,15 @@
 
                     context.post(data, "/Sph/EntityView/Publish")
                         .then(function (result) {
-                            view().EntityViewId(result.id);
+                            if (result.success) {
+                                logger.info(result.message);
+                                view().EntityViewId(result.id);
+                                errors.removeAll();
+                            } else {
+                                errors(result.Errors);
+                                logger.error("There are errors in your entity, !!!");
+                            }
+
                             tcs.resolve(result);
                         });
                     return tcs.promise();
@@ -76,6 +85,7 @@
                 };
 
             var vm = {
+                errors: errors,
                 attached: attached,
                 activate: activate,
                 view: view,
@@ -83,8 +93,11 @@
                 toolbar: {
                     commands: ko.observableArray([{
                         caption: 'Publish',
-                        icon: 'fa fa-folder-open-o',
-                        command: publish
+                        icon: 'fa fa-sign-out',
+                        command: publish,
+                        enable : ko.computed(function() {
+                            return view().EntityViewId() > 0;
+                        })
                     }
                     ]),
                     saveCommand: save

@@ -22,6 +22,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var view = this.GetRequestJson<EntityView>();
             var context = new SphDataContext();
+            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.EntityDefinitionId == view.EntityDefinitionId);
+
+            var buildValidation = await view.ValidateBuild(ed);
+            if (!buildValidation.Result)
+                return Json(buildValidation);
 
             view.IsPublished = true;
             using (var session = context.OpenSession())
