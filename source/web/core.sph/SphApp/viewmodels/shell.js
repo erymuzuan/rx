@@ -13,6 +13,11 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                 .activate();
         },
             attached = function (view) {
+                // BUG:#1499
+                if (window.location.href.indexOf("/sph#") === -1) {
+                    window.location = "/sph#" + config.startModule;
+                    return;
+                }
                 var dropDown = function (e) {
                     e.preventDefault();
                     e.stopPropagation();
