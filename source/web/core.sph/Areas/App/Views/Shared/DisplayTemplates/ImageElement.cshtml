@@ -1,0 +1,8 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Domain.ImageElement
+
+<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.ImageElement, domain.sph" -->
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement" class="form-group">
+   <img src="/Images/no-image.png"/>
+</div>
+<!--/ko-->

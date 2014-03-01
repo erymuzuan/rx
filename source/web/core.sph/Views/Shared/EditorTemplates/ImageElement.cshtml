@@ -1,0 +1,8 @@
+﻿@model Bespoke.Sph.Domain.ImageElement
+@if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}@{
+    var path = string.Format("'/sph/image/store/' + {0}()", this.Model.Path);
+}
+<img data-bind="attr : {'src':@path}, visible:@Model.Visible" />

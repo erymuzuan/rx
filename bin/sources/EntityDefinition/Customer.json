@@ -397,6 +397,23 @@
         "IsExcludeInAll": false,
         "Boost": 1,
         "WebId": "dc87329a-bc36-43a0-8a76-da4df86b0577"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "ProfileStoreId",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": true,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "WebId": "a483f810-5eef-4d4a-89be-281e0056423c"
       }
     ]
   },
@@ -487,6 +504,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-28T07:54:55.8752777+08:00",
+  "ChangedDate": "2014-03-01T10:06:08.2753252+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

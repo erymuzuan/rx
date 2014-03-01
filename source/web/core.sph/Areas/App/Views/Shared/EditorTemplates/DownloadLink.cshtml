@@ -1,0 +1,39 @@
+﻿@model Bespoke.Sph.Domain.DownloadLink
+
+<!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.DownloadLink, domain.sph" -->
+<div class="form-group">
+    <label for="dl-icon-class">Icon class</label>
+
+    <input type="text" data-bind="value: IconClass"
+           placeholder="Icon class, glypicons or fontawesome"
+           class="form-control" id="dl-icon-class">
+
+</div>
+<div class="form-group checkbox">
+
+    <label>
+        <input data-bind="checked: IsTranformTemplate" id="dl-tt" type="checkbox" name="dl-tt" />
+        Is Transform Template
+    </label>
+
+</div>
+
+<div class="form-group">
+    <label for="dl-template-storeid">Template StoreId</label>
+
+    <input type="text" data-bind="value: TemplateStoreId"
+           placeholder="The document storeid for the template"
+           class="form-control" id="dl-template-storeid">
+
+</div>
+
+<div class="form-group">
+    <label for="dl-entity-type">Entity type</label>
+    <input type="text" data-bind="value: Entity"
+           pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+           placeholder="The entity to trasform with the template"
+           class="form-control" id="dl-entity-type">
+
+</div>
+
+<!--/ko-->

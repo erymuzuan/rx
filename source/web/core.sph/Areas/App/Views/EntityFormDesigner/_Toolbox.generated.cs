@@ -57,6 +57,8 @@ WriteLiteral(">\r\n    <ul");
 
 WriteLiteral(" class=\"nav nav-tabs\"");
 
+WriteLiteral(" data-bind2=\"filter : {path:\'>li\'}\"");
+
 WriteLiteral(">\r\n        <li");
 
 WriteLiteral(" class=\"active\"");
@@ -669,6 +671,7 @@ WriteLiteral(">\r\n");
                             typeof(TextBox),
                             typeof(ComboBox),
                             typeof(Button),
+                            typeof(DownloadLink),
                             typeof(ListView)
                         };
                     
@@ -678,13 +681,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 205 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 206 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 205 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 206 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         
@@ -692,14 +695,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 207 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 208 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe));
 
             
             #line default
             #line hidden
             
-            #line 207 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 208 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                 
                     }
 
@@ -728,7 +731,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 218 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 219 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

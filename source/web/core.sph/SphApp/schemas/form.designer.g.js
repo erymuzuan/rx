@@ -966,6 +966,72 @@ bespoke.sph.domain.Sort = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.ImageElement = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
+
+    v.IsThumbnail = ko.observable(false);
+
+    v["$type"] = "Bespoke.Sph.Domain.ImageElement, domain.sph";
+
+    v.Width = ko.observable();//nillable
+    v.Height = ko.observable();//nillable
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ImageElementPartial) {
+        return _(v).extend(new bespoke.sph.domain.ImageElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.DownloadLink = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
+
+    v.IsTranformTemplate = ko.observable(false);
+
+    v.TemplateStoreId = ko.observable('');
+
+    v.Entity = ko.observable('');
+
+    v.IconClass = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.DownloadLink, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DownloadLinkPartial) {
+        return _(v).extend(new bespoke.sph.domain.DownloadLinkPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

@@ -453,4 +453,29 @@
 			<xs:enumeration value="Desc"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:element name="ImageElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:all>
+						<xs:element name="Width" type="xs:int" nillable="true"/>
+						<xs:element name="Height" type="xs:int" nillable="true"/>
+					</xs:all>
+					<xs:attribute name="IsThumbnail" type="xs:boolean" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DownloadLink">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:attribute name="IsTranformTemplate" type="xs:boolean" use="required"/>
+					<xs:attribute name="TemplateStoreId" type="xs:string" use="required"/>
+					<xs:attribute name="Entity" type="xs:string" use="required"/>
+					<xs:attribute name="IconClass" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

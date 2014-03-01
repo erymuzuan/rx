@@ -27,7 +27,7 @@
   "EntityFormId": 1002,
   "EntityDefinitionId": 1,
   "Name": "customer-gold",
-  "Route": "customer-gold",
+  "Route": "customer",
   "Note": "",
   "IsAllowedNewItem": false,
   "IconClass": "",
@@ -44,6 +44,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-02-27T18:47:31.3382699+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-27T18:47:31.3382699+08:00",
+  "ChangedDate": "2014-03-01T08:34:10.0261659+08:00",
   "WebId": "e429c10c-8d0d-43ac-a318-ce965bcbd7ee"
 }

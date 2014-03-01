@@ -3725,6 +3725,114 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ImageElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ImageElement
+    {
+
+        private bool m_IsThumbnail;
+        [XmlAttribute]
+        public bool IsThumbnail
+        {
+            get
+            {
+                return m_IsThumbnail;
+            }
+            set
+            {
+                m_IsThumbnail = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        public int? Width { get; set; }
+
+        public int? Height { get; set; }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DownloadLink", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DownloadLink
+    {
+
+        private bool m_IsTranformTemplate;
+        [XmlAttribute]
+        public bool IsTranformTemplate
+        {
+            get
+            {
+                return m_IsTranformTemplate;
+            }
+            set
+            {
+                m_IsTranformTemplate = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_TemplateStoreId;
+        [XmlAttribute]
+        public string TemplateStoreId
+        {
+            get
+            {
+                return m_TemplateStoreId;
+            }
+            set
+            {
+                m_TemplateStoreId = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Entity;
+        [XmlAttribute]
+        public string Entity
+        {
+            get
+            {
+                return m_Entity;
+            }
+            set
+            {
+                m_Entity = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_IconClass;
+        [XmlAttribute]
+        public string IconClass
+        {
+            get
+            {
+                return m_IconClass;
+            }
+            set
+            {
+                m_IconClass = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement

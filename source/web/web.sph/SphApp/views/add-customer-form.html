@@ -1,3 +1,5 @@
+
+
 <h1>Add New Customer</h1>
 <div class="row">
 
@@ -5,109 +7,152 @@
         <form class="form-horizontal" data-bind="with : entity" id="add-customer-form-form">
 
 
-            <div data-bind="visible:true" class="form-group">
-                <label for="53671b97-faf0-4343-bea4-1642fd40424f" class="col-lg-4">Full name</label>
+    <div data-bind="visible:true" class="form-group">
+        <label for="53671b97-faf0-4343-bea4-1642fd40424f" class="col-lg-4">Full name</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: FullName, enable :true"
+                   id="53671b97-faf0-4343-bea4-1642fd40424f" type="text" name="FullName" />
+        </div>
+    </div>
 
-                <div class="col-lg-8">
-                    <input class=" form-control input-large" title=""
-                           data-bind="value: FullName, visible :true"
-                           id="53671b97-faf0-4343-bea4-1642fd40424f" type="text" name="FullName"/>
-                </div>
-            </div>
-
-
-            <div data-bind="visible:true" class="form-group">
-                <label for="14d1a541-0106-4776-a1aa-fcf75d070dec" class="col-lg-4">Age</label>
-
-                <div class="col-lg-8">
-                    <input class=" form-control input-large" title=""
-                           data-bind="value: Age, visible :true"
-                           id="14d1a541-0106-4776-a1aa-fcf75d070dec" type="text" name="Age"/>
-                </div>
-            </div>
+    <div class="form-group" data-bind="visible:true">
+        <label for="ff83f8d0-9dd7-4621-87b7-7b5ddbd0c985" class="col-lg-4">Gender</label>
+        <div class="col-lg-8">
+            <select data-bind="value: Gender, enable :" id="ff83f8d0-9dd7-4621-87b7-7b5ddbd0c985" name="Gender" class=" input-large form-control">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+            </select>
+        </div>
+    </div>
 
 
-            <div data-bind="visible:true" class="form-group">
-                <label for="e22da1e1-7fd9-4506-9676-28a4d37393f1" class="col-lg-4">State</label>
+    <div data-bind="visible:true" class="form-group">
+        <label for="14d1a541-0106-4776-a1aa-fcf75d070dec" class="col-lg-4">Age</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Age, enable :true"
+                   id="14d1a541-0106-4776-a1aa-fcf75d070dec" type="text" name="Age" />
+        </div>
+    </div>
 
-                <div class="col-lg-8">
-                    <input class=" form-control input-large" title=""
-                           data-bind="value: Address().State, visible :true"
-                           id="e22da1e1-7fd9-4506-9676-28a4d37393f1" type="text" name="Address.State"/>
-                </div>
-            </div>
-
-            <div class="form-group" data-bind="visible:true">
-                <label for="ff83f8d0-9dd7-4621-87b7-7b5ddbd0c985" class="col-lg-4">Gender</label>
-
-                <div class="col-lg-8">
-                    <select data-bind="value: Gender, visible :true" id="ff83f8d0-9dd7-4621-87b7-7b5ddbd0c985"
-                            name="Gender" class=" input-large form-control">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label class="checkbox">
-                    <input data-bind="checked : IsPriority, visible : true" id="IsPriority" title="" type="checkbox"
-                           name="IsPriority"/>
-                    Priority
-                </label>
-            </div>
+    <div class="control-group">
+        <label class="checkbox">
+            <input data-bind="checked : IsPriority, enable :" id="IsPriority" title="" type="checkbox" name="IsPriority" />
+            Priority
+        </label>
+    </div>
 
 
-            <div class="form-group" data-bind="visible:true">
-                <label for="0dab9f82-6ff7-436c-8ac0-af789738da24" class="col-lg-4">Locality</label>
 
-                <div class="col-lg-8">
-                    <select data-bind="value: Address().Locality, visible :true"
-                            id="0dab9f82-6ff7-436c-8ac0-af789738da24" name="Address.Locality"
-                            class=" input-large form-control">
-                        <option value="Urban">Urban</option>
-                        <option value="Surburb">Suburban</option>
-                        <option value="Remote">Remote</option>
-                    </select>
-                </div>
-            </div>
+    <div data-bind="visible:true" class="form-group">
+        <label for="e22da1e1-7fd9-4506-9676-28a4d37393f1" class="col-lg-4">State</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Address().State, enable :true"
+                   id="e22da1e1-7fd9-4506-9676-28a4d37393f1" type="text" name="Address.State" />
+        </div>
+    </div>
 
-
-            <div data-bind="visible:true" class="form-group">
-                <label for="4fd5b435-4058-4db2-a506-b5fc161f1751" class="col-lg-4">Contact name</label>
-
-                <div class="col-lg-8">
-                    <input class=" form-control input-large" title=""
-                           data-bind="value: Contact().Name, visible :true"
-                           id="4fd5b435-4058-4db2-a506-b5fc161f1751" type="text" name="Contact.Name"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" class="col-lg-4">Registered</label>
-
-                <div class="col-lg-8">
-                    <input class=" form-control input-large"
-                           data-bind="kendoDate: RegisteredDate, visible :true"
-                           id="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" type="text"
-                           name="RegisteredDate"/>
-                </div>
-            </div>
+    <div class="form-group" data-bind="visible:true">
+        <label for="0dab9f82-6ff7-436c-8ac0-af789738da24" class="col-lg-4">Locality</label>
+        <div class="col-lg-8">
+            <select data-bind="value: Address().Locality, enable :" id="0dab9f82-6ff7-436c-8ac0-af789738da24" name="Address.Locality" class=" input-large form-control">
+                    <option value="Urban">Urban</option>
+                    <option value="Surburb">Suburban</option>
+                    <option value="Remote">Remote</option>
+            </select>
+        </div>
+    </div>
 
 
-            <div data-bind="visible:true" class="form-group">
-                <label for="be1a0e15-c653-467b-a30c-128eb5ac7534" class="col-lg-4">Revenue</label>
+    <div data-bind="visible:true" class="form-group">
+        <label for="4fd5b435-4058-4db2-a506-b5fc161f1751" class="col-lg-4">Contact name</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Contact().Name, enable :true"
+                   id="4fd5b435-4058-4db2-a506-b5fc161f1751" type="text" name="Contact.Name" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" class="col-lg-4">Registered</label>
+        <div class="col-lg-8">
+            <input class=" form-control input-large"
+                   data-bind="kendoDate: RegisteredDate, enable :" id="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" type="text"
+                   name="RegisteredDate" />
+        </div>
+    </div>
 
-                <div class="col-lg-8">
-                    <input class=" form-control input-large" title=""
-                           data-bind="value: AnnualRevenue, visible :true"
-                           id="be1a0e15-c653-467b-a30c-128eb5ac7534" type="text" name="AnnualRevenue"/>
-                </div>
-            </div>
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="be1a0e15-c653-467b-a30c-128eb5ac7534" class="col-lg-4">Revenue</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: AnnualRevenue, enable :true"
+                   id="be1a0e15-c653-467b-a30c-128eb5ac7534" type="text" name="AnnualRevenue" />
+        </div>
+    </div>
+<!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.DownloadLink, domain.sph" -->
+<div class="form-group">
+    <label for="dl-icon-class">Icon class</label>
+
+    <input type="text" data-bind="value: IconClass"
+           placeholder="Icon class, glypicons or fontawesome"
+           class="form-control" id="dl-icon-class">
+
+</div>
+<div class="form-group checkbox">
+
+    <label>
+        <input data-bind="checked: IsTranformTemplate" id="dl-tt" type="checkbox" name="dl-tt" />
+        Is Transform Template
+    </label>
+
+</div>
+
+<div class="form-group">
+    <label for="dl-template-storeid">Template StoreId</label>
+
+    <input type="text" data-bind="value: TemplateStoreId"
+           placeholder="The document storeid for the template"
+           class="form-control" id="dl-template-storeid">
+
+</div>
+
+<div class="form-group">
+    <label for="dl-entity-type">Entity type</label>
+    <input type="text" data-bind="value: Entity"
+           pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+           placeholder="The entity to trasform with the template"
+           class="form-control" id="dl-entity-type">
+
+</div>
+
+<!--/ko-->
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="3e1a01cf-2665-4d59-bab3-d04bea004a21" class="col-lg-4">Upload Profile</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="kendoUpload : ProfileStoreId, visible :true"
+                   id="3e1a01cf-2665-4d59-bab3-d04bea004a21" type="file" name="files" />
+        </div>
+    </div>
+
+<img data-bind="attr : {'src':&#39;/sph/image/store/&#39; + PhotoStoreId()}, visible:true" />
+    <div data-bind="visible:true" class="form-group">
+        <label for="45ecb6e5-93fd-49a8-81d8-26537a4e3ded" class="col-lg-4">Upload Photo</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="kendoUpload : PhotoStoreId, visible :true"
+                   id="45ecb6e5-93fd-49a8-81d8-26537a4e3ded" type="file" name="files" />
+        </div>
+    </div>
         </form>
     </div>
-    <div class="col-lg-4">
-        <h3>Audit Trail</h3>
-        <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().CustomerId(), entity : 'Customer'}} -->
-        <!--/ko-->
-    </div>
+        <div class="col-lg-4">
+            <h3>Audit Trail</h3>
+            <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().CustomerId(), entity : 'Customer'}} -->
+            <!--/ko-->
+        </div>
 </div>

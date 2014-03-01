@@ -87,6 +87,7 @@
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />
     <Compile Include="FormTemplates\DefaultValue.cs" />
+    <Compile Include="FormTemplates\DownloadLink.cs" />
     <Compile Include="FormTemplates\EntityDefinition.code.cs">
       <DependentUpon>EntityDefinition.cs</DependentUpon>
     </Compile>
@@ -96,6 +97,7 @@
     <Compile Include="FormTemplates\FieldValidation.cs" />
     <Compile Include="FormTemplates\FileUploadElement.cs" />
     <Compile Include="FormTemplates\Filter.cs" />
+    <Compile Include="FormTemplates\ImageElement.cs" />
     <Compile Include="FormTemplates\ListView.cs" />
     <Compile Include="FormTemplates\ListViewColumn.cs" />
     <Compile Include="FormTemplates\MapElement.cs" />

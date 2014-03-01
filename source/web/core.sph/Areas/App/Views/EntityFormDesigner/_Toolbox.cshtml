@@ -3,7 +3,7 @@
 @model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
 
 <div id="form-designer-toolbox">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs" data-bind2="filter : {path:'>li'}">
         <li class="active">
             <a href="#form-general2" data-toggle="tab">General</a>
         </li>
@@ -199,6 +199,7 @@
                             typeof(TextBox),
                             typeof(ComboBox),
                             typeof(Button),
+                            typeof(DownloadLink),
                             typeof(ListView)
                         };
                     }
