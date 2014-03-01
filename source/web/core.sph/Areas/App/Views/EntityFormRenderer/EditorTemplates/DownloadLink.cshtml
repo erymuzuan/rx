@@ -2,8 +2,7 @@
 @if (string.IsNullOrWhiteSpace(Model.Enable))
 {
     Model.Enable = "true";
-}
-@{
+}@{
      var path = string.Format("'/sph/binarystore/get/' + {0}()", Model.Path);
  }
 <a data-bind="attr : {'href':@path}, visible:@Model.Visible" download>

@@ -154,6 +154,16 @@
     <Content Include="images\4.png" />
     <Content Include="images\5.png" />
     <Content Include="images\6.png" />
+    <Content Include="images\form.element.Button.png" />
+    <Content Include="images\form.element.CheckBox.png" />
+    <Content Include="images\form.element.ComboBox.png" />
+    <Content Include="images\form.element.DatePicker.png" />
+    <Content Include="images\form.element.DateTimePicker.png" />
+    <Content Include="images\form.element.FileUploadElement.png" />
+    <Content Include="images\form.element.HtmlElement.png" />
+    <Content Include="images\form.element.NumberTextBox.png" />
+    <Content Include="images\form.element.TextArea.png" />
+    <Content Include="images\form.element.TextBox.png" />
     <Content Include="images\logo_sph.png" />
     <Content Include="rewrite.config" />
     <Content Include="index.html" />

@@ -272,6 +272,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DateTimePicker.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\DownloadLink.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DownloadLink.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\EmailFormElement.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -291,6 +296,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HtmlElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\ImageElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImageElement.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\ListView.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1144,16 +1154,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_ViewStart.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Shared\EditorTemplates\ImageElement.generated.cs">
-      <DependentUpon>ImageElement.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Views\Shared\EditorTemplates\DownloadLink.generated.cs">
-      <DependentUpon>DownloadLink.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Views\Shared\EditorTemplates\Button.generated.cs">
       <DependentUpon>Button.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1179,6 +1179,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Views\Shared\EditorTemplates\DownloadLink.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DownloadLink.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\EditorTemplates\EmailFormElement.generated.cs">
       <DependentUpon>EmailFormElement.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1198,6 +1203,11 @@
       <DependentUpon>HtmlElement.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Views\Shared\EditorTemplates\ImageElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImageElement.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shared\EditorTemplates\ListView.generated.cs">
       <DependentUpon>ListView.cshtml</DependentUpon>
@@ -1392,6 +1402,14 @@
     <Content Include="Areas\App\Views\Shared\EditorTemplates\DownloadLink.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DownloadLink.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\DownloadLink.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DownloadLink.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\ImageElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ImageElement.generated.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\bloodhound.js" />

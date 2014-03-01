@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
+namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer.EditorTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -22,13 +22,15 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/EditorTemplates/DownloadLink.cshtml")]
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityFormRenderer/EditorTemplates/DownloadLink.cshtml")]
     public partial class _DownloadLink : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.DownloadLink>
     {
         public _DownloadLink()
@@ -37,18 +39,17 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
         public override void Execute()
         {
             
-            #line 2 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+            #line 2 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DownloadLink.cshtml"
  if (string.IsNullOrWhiteSpace(Model.Enable))
 {
     Model.Enable = "true";
 }
-
             
             #line default
             #line hidden
             
-            #line 6 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-  
+            #line 5 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DownloadLink.cshtml"
+   
      var path = string.Format("'/sph/binarystore/get/' + {0}()", Model.Path);
  
             
@@ -59,7 +60,7 @@ WriteLiteral("\r\n<a");
 WriteLiteral(" data-bind=\"attr : {\'href\':");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+            #line 8 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DownloadLink.cshtml"
                         Write(path);
 
             
@@ -68,7 +69,7 @@ WriteLiteral(" data-bind=\"attr : {\'href\':");
 WriteLiteral("}, visible:");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+            #line 8 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DownloadLink.cshtml"
                                         Write(Model.Visible);
 
             
@@ -81,7 +82,7 @@ WriteLiteral(" download>\r\n");
 WriteLiteral("    ");
 
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+            #line 9 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\DownloadLink.cshtml"
 Write(Model.Label);
 
             

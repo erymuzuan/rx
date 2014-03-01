@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
+namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer.EditorTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -22,45 +22,46 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/EditorTemplates/DownloadLink.cshtml")]
-    public partial class _DownloadLink : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.DownloadLink>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityFormRenderer/EditorTemplates/ImageElement.cshtml")]
+    public partial class _ImageElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.ImageElement>
     {
-        public _DownloadLink()
+        public _ImageElement()
         {
         }
         public override void Execute()
         {
             
-            #line 2 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+            #line 2 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\ImageElement.cshtml"
  if (string.IsNullOrWhiteSpace(Model.Enable))
 {
     Model.Enable = "true";
 }
-
             
             #line default
             #line hidden
             
-            #line 6 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-  
-     var path = string.Format("'/sph/binarystore/get/' + {0}()", Model.Path);
- 
+            #line 5 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\ImageElement.cshtml"
+   
+    var path = string.Format("'/sph/image/store/' + {0}()", this.Model.Path);
+
             
             #line default
             #line hidden
-WriteLiteral("\r\n<a");
+WriteLiteral("\r\n<img");
 
-WriteLiteral(" data-bind=\"attr : {\'href\':");
+WriteLiteral(" data-bind=\"attr : {\'src\':");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-                        Write(path);
+            #line 8 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\ImageElement.cshtml"
+                         Write(path);
 
             
             #line default
@@ -68,26 +69,15 @@ WriteLiteral(" data-bind=\"attr : {\'href\':");
 WriteLiteral("}, visible:");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-                                        Write(Model.Visible);
+            #line 8 "..\..\Areas\App\Views\EntityFormRenderer\EditorTemplates\ImageElement.cshtml"
+                                         Write(Model.Visible);
 
             
             #line default
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral(" download>\r\n");
-
-WriteLiteral("    ");
-
-            
-            #line 10 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-Write(Model.Label);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n</a>");
+WriteLiteral(" />");
 
         }
     }
