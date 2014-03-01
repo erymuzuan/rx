@@ -117,29 +117,30 @@
                     );
 
 
-                    var initDesigner = function () {
-                        $('#template-form-designer>form').sortable({
-                            items: '>div',
-                            placeholder: 'ph',
-                            helper: 'original',
-                            dropOnEmpty: true,
-                            forcePlaceholderSize: true,
-                            forceHelperSize: false,
-                            receive: receive
-                        });
-
-                    },
-                        receive = function (evt, ui) {
+                    var receive = function (evt, ui) {
                             var elements = _($('#template-form-designer>form>div')).map(function (div) {
                                 return ko.dataFor(div);
                             });
                             var fe = ko.dataFor(ui.item[0]);
                             fe.isSelected = ko.observable(true);
+                            // TODO, should be inserted to the position is dropped
                             elements.splice(2, 0, fe);
                             $('#template-form-designer>form').sortable("destroy");
-
-
+                            //rebuild
                             fd.FormElementCollection(elements);
+                            initDesigner();
+                            $('#template-form-designer>form li.ui-draggable').remove();
+                        },
+                        initDesigner = function () {
+                            $('#template-form-designer>form').sortable({
+                                items: '>div',
+                                placeholder: 'ph',
+                                helper: 'original',
+                                dropOnEmpty: true,
+                                forcePlaceholderSize: true,
+                                forceHelperSize: false,
+                                receive: receive
+                            });
                         };
 
                     initDesigner();

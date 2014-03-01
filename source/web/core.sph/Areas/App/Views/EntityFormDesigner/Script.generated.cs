@@ -156,97 +156,100 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "         htmlElement.Text.subscribe(function(t) {\r\n                             " +
 "   editor.value(ko.unwrap(t));\r\n                            });\r\n\r\n             " +
 "           }\r\n                    }\r\n                    );\r\n\r\n\r\n               " +
-"     var initDesigner = function () {\r\n                        $(\'#template-form" +
-"-designer>form\').sortable({\r\n                            items: \'>div\',\r\n       " +
-"                     placeholder: \'ph\',\r\n                            helper: \'or" +
-"iginal\',\r\n                            dropOnEmpty: true,\r\n                      " +
-"      forcePlaceholderSize: true,\r\n                            forceHelperSize: " +
-"false,\r\n                            receive: receive\r\n                        })" +
-";\r\n\r\n                    },\r\n                        receive = function (evt, ui" +
-") {\r\n                            var elements = _($(\'#template-form-designer>for" +
-"m>div\')).map(function (div) {\r\n                                return ko.dataFor" +
-"(div);\r\n                            });\r\n                            var fe = ko" +
-".dataFor(ui.item[0]);\r\n                            fe.isSelected = ko.observable" +
-"(true);\r\n                            elements.splice(2, 0, fe);\r\n               " +
-"             $(\'#template-form-designer>form\').sortable(\"destroy\");\r\n\r\n\r\n       " +
-"                     fd.FormElementCollection(elements);\r\n                      " +
-"  };\r\n\r\n                    initDesigner();\r\n                    $(\'#add-field>u" +
-"l>li\').draggable({\r\n                        helper: \'clone\',\r\n                  " +
-"      connectToSortable: \"#template-form-designer>form\"\r\n                    });" +
-"\r\n\r\n\r\n                    $(\'section.context-action-panel\').on(\'click\', \'buton.c" +
-"lose\', function() {\r\n                        $(this).parents(\'div.context-action" +
-"\').hide();\r\n                    });\r\n                },\r\n                support" +
-"sHtml5Storage = function () {\r\n                    try {\r\n                      " +
-"  return \'localStorage\' in window && window[\'localStorage\'] !== null;\r\n         " +
-"           } catch (e) {\r\n                        return false;\r\n               " +
-"     }\r\n                },\r\n                okClick = function (data, ev) {\r\n   " +
-"                 if (bespoke.utils.form.checkValidity(ev.target)) {\r\n\r\n         " +
-"               var fd = ko.unwrap(form().FormDesign);\r\n                        /" +
-"/ get the sorted element\r\n                        var elements = _($(\'#template-" +
-"form-designer>form>div\')).map(function (div) {\r\n                            retu" +
-"rn ko.dataFor(div);\r\n                        });\r\n                        fd.For" +
-"mElementCollection(elements);\r\n                        dialog.close(this, \"OK\");" +
-"\r\n                        if (supportsHtml5Storage()) {\r\n                       " +
-"     localStorage.removeItem(form().WebId());\r\n                        }\r\n      " +
-"              }\r\n                },\r\n                cancelClick = function () {" +
-"\r\n                    if (supportsHtml5Storage()) {\r\n                        loc" +
-"alStorage.removeItem(form().WebId());\r\n                    }\r\n                  " +
-"  dialog.close(this, \"Cancel\");\r\n                },\r\n                selectFormE" +
-"lement = function (fe) {\r\n\r\n                    var fd = ko.unwrap(form().FormDe" +
-"sign);\r\n                    _(fd.FormElementCollection()).each(function (f) {\r\n " +
-"                       f.isSelected(false);\r\n                    });\r\n          " +
-"          fe.isSelected(true);\r\n                    vm.selectedFormElement(fe);\r" +
-"\n                    if (supportsHtml5Storage()) {\r\n                        loca" +
-"lStorage.setItem(form().WebId(), ko.mapping.toJSON(form));\r\n                    " +
-"}\r\n                },\r\n                removeFormElement = function (fe) {\r\n    " +
-"                var fd = ko.unwrap(form().FormDesign);\r\n                    fd.F" +
-"ormElementCollection.remove(fe);\r\n                },\r\n                importComm" +
-"and = function() {\r\n                    return eximp.importJson()\r\n             " +
-"    .done(function (json) {\r\n                     try {\r\n\r\n                     " +
-"    var obj = JSON.parse(json),\r\n                             clone = context.to" +
-"Observable(obj);\r\n\r\n                         form().FormDesign(clone.FormDesign(" +
-"));\r\n\r\n                     } catch (error) {\r\n                         logger.l" +
-"ogError(\'Fail template import tidak sah\', error, this, true);\r\n                 " +
-"    }\r\n                 });\r\n                },\r\n                publish = funct" +
-"ion() {\r\n                    var fd = ko.unwrap(form().FormDesign);\r\n           " +
-"         // get the sorted element\r\n                    var elements = _($(\'#tem" +
-"plate-form-designer>form>div\')).map(function (div) {\r\n                        re" +
-"turn ko.dataFor(div);\r\n                    });\r\n                    fd.FormEleme" +
-"ntCollection(elements);\r\n\r\n\r\n                    var tcs = new $.Deferred(),\r\n  " +
-"                      data = ko.mapping.toJSON(form);\r\n\r\n                    con" +
-"text.post(data, \"/Sph/EntityForm/Publish\")\r\n                        .then(functi" +
-"on(result) {\r\n                            if (result.success) {\r\n               " +
-"                 logger.info(result.message);\r\n                                e" +
-"ntity().EntityDefinitionId(result.id);\r\n                                errors.r" +
-"emoveAll();\r\n                            } else {\r\n                             " +
-"   errors(result.Errors);\r\n                                logger.error(\"There a" +
-"re errors in your entity, !!!\");\r\n                            }\r\n               " +
-"             tcs.resolve(result);\r\n                        });\r\n                " +
-"    return tcs.promise();\r\n\r\n                },\r\n                save = function" +
-"() {\r\n                    var fd = ko.unwrap(form().FormDesign);\r\n              " +
-"      // get the sorted element\r\n                    var elements = _($(\'#templa" +
-"te-form-designer>form>div\')).map(function (div) {\r\n                        retur" +
-"n ko.dataFor(div);\r\n                    });\r\n                    fd.FormElementC" +
-"ollection(elements);\r\n\r\n\r\n                    var tcs = new $.Deferred(),\r\n     " +
-"                   data = ko.mapping.toJSON(form);\r\n\r\n                    contex" +
-"t.post(data, \"/Sph/EntityForm/Save\")\r\n                        .then(function(res" +
-"ult) {\r\n\r\n                            form().EntityFormId(result.id);\r\n         " +
-"                   tcs.resolve(result);\r\n                        });\r\n          " +
-"          return tcs.promise();\r\n                };\r\n\r\n            var vm = {\r\n " +
-"               errors: errors,\r\n                attached: attached,\r\n           " +
-"     activate: activate,\r\n                formElements: ko.observableArray(),\r\n " +
-"               selectedFormElement: ko.observable(),\r\n                selectForm" +
-"Element : selectFormElement,\r\n                removeFormElement : removeFormElem" +
-"ent,\r\n                form: form,\r\n                entity : entity,\r\n           " +
-"     okClick: okClick,\r\n                cancelClick: cancelClick,\r\n             " +
-"   importCommand :importCommand,\r\n                toolbar : {\r\n                 " +
-"   commands :ko.observableArray([{\r\n                        caption : \'Publish\'," +
-"\r\n                        icon : \'fa fa-sign-out\',\r\n                        comm" +
-"and : publish,\r\n                        enable : ko.computed(function() {\r\n     " +
-"                       return form().EntityFormId() > 0;\r\n                      " +
-"  })\r\n                    }\r\n                    ]),\r\n                    saveCo" +
-"mmand : save\r\n                }\r\n            };\r\n\r\n            return vm;\r\n\r\n   " +
-"     });\r\n\r\n\r\n</script>\r\n");
+"     var receive = function (evt, ui) {\r\n                            var element" +
+"s = _($(\'#template-form-designer>form>div\')).map(function (div) {\r\n             " +
+"                   return ko.dataFor(div);\r\n                            });\r\n   " +
+"                         var fe = ko.dataFor(ui.item[0]);\r\n                     " +
+"       fe.isSelected = ko.observable(true);\r\n                            // TODO" +
+", should be inserted to the position is dropped\r\n                            ele" +
+"ments.splice(2, 0, fe);\r\n                            $(\'#template-form-designer>" +
+"form\').sortable(\"destroy\");\r\n                            //rebuild\r\n            " +
+"                fd.FormElementCollection(elements);\r\n                           " +
+" initDesigner();\r\n                            $(\'#template-form-designer>form li" +
+".ui-draggable\').remove();\r\n                        },\r\n                        i" +
+"nitDesigner = function () {\r\n                            $(\'#template-form-desig" +
+"ner>form\').sortable({\r\n                                items: \'>div\',\r\n         " +
+"                       placeholder: \'ph\',\r\n                                helpe" +
+"r: \'original\',\r\n                                dropOnEmpty: true,\r\n            " +
+"                    forcePlaceholderSize: true,\r\n                               " +
+" forceHelperSize: false,\r\n                                receive: receive\r\n    " +
+"                        });\r\n                        };\r\n\r\n                    i" +
+"nitDesigner();\r\n                    $(\'#add-field>ul>li\').draggable({\r\n         " +
+"               helper: \'clone\',\r\n                        connectToSortable: \"#te" +
+"mplate-form-designer>form\"\r\n                    });\r\n\r\n\r\n                    $(\'" +
+"section.context-action-panel\').on(\'click\', \'buton.close\', function() {\r\n        " +
+"                $(this).parents(\'div.context-action\').hide();\r\n                 " +
+"   });\r\n                },\r\n                supportsHtml5Storage = function () {" +
+"\r\n                    try {\r\n                        return \'localStorage\' in wi" +
+"ndow && window[\'localStorage\'] !== null;\r\n                    } catch (e) {\r\n   " +
+"                     return false;\r\n                    }\r\n                },\r\n " +
+"               okClick = function (data, ev) {\r\n                    if (bespoke." +
+"utils.form.checkValidity(ev.target)) {\r\n\r\n                        var fd = ko.un" +
+"wrap(form().FormDesign);\r\n                        // get the sorted element\r\n   " +
+"                     var elements = _($(\'#template-form-designer>form>div\')).map" +
+"(function (div) {\r\n                            return ko.dataFor(div);\r\n        " +
+"                });\r\n                        fd.FormElementCollection(elements);" +
+"\r\n                        dialog.close(this, \"OK\");\r\n                        if " +
+"(supportsHtml5Storage()) {\r\n                            localStorage.removeItem(" +
+"form().WebId());\r\n                        }\r\n                    }\r\n            " +
+"    },\r\n                cancelClick = function () {\r\n                    if (sup" +
+"portsHtml5Storage()) {\r\n                        localStorage.removeItem(form().W" +
+"ebId());\r\n                    }\r\n                    dialog.close(this, \"Cancel\"" +
+");\r\n                },\r\n                selectFormElement = function (fe) {\r\n\r\n " +
+"                   var fd = ko.unwrap(form().FormDesign);\r\n                    _" +
+"(fd.FormElementCollection()).each(function (f) {\r\n                        f.isSe" +
+"lected(false);\r\n                    });\r\n                    fe.isSelected(true)" +
+";\r\n                    vm.selectedFormElement(fe);\r\n                    if (supp" +
+"ortsHtml5Storage()) {\r\n                        localStorage.setItem(form().WebId" +
+"(), ko.mapping.toJSON(form));\r\n                    }\r\n                },\r\n      " +
+"          removeFormElement = function (fe) {\r\n                    var fd = ko.u" +
+"nwrap(form().FormDesign);\r\n                    fd.FormElementCollection.remove(f" +
+"e);\r\n                },\r\n                importCommand = function() {\r\n         " +
+"           return eximp.importJson()\r\n                 .done(function (json) {\r\n" +
+"                     try {\r\n\r\n                         var obj = JSON.parse(json" +
+"),\r\n                             clone = context.toObservable(obj);\r\n\r\n         " +
+"                form().FormDesign(clone.FormDesign());\r\n\r\n                     }" +
+" catch (error) {\r\n                         logger.logError(\'Fail template import" +
+" tidak sah\', error, this, true);\r\n                     }\r\n                 });\r\n" +
+"                },\r\n                publish = function() {\r\n                    " +
+"var fd = ko.unwrap(form().FormDesign);\r\n                    // get the sorted el" +
+"ement\r\n                    var elements = _($(\'#template-form-designer>form>div\'" +
+")).map(function (div) {\r\n                        return ko.dataFor(div);\r\n      " +
+"              });\r\n                    fd.FormElementCollection(elements);\r\n\r\n\r\n" +
+"                    var tcs = new $.Deferred(),\r\n                        data = " +
+"ko.mapping.toJSON(form);\r\n\r\n                    context.post(data, \"/Sph/EntityF" +
+"orm/Publish\")\r\n                        .then(function(result) {\r\n               " +
+"             if (result.success) {\r\n                                logger.info(" +
+"result.message);\r\n                                entity().EntityDefinitionId(re" +
+"sult.id);\r\n                                errors.removeAll();\r\n                " +
+"            } else {\r\n                                errors(result.Errors);\r\n  " +
+"                              logger.error(\"There are errors in your entity, !!!" +
+"\");\r\n                            }\r\n                            tcs.resolve(resu" +
+"lt);\r\n                        });\r\n                    return tcs.promise();\r\n\r\n" +
+"                },\r\n                save = function() {\r\n                    var" +
+" fd = ko.unwrap(form().FormDesign);\r\n                    // get the sorted eleme" +
+"nt\r\n                    var elements = _($(\'#template-form-designer>form>div\'))." +
+"map(function (div) {\r\n                        return ko.dataFor(div);\r\n         " +
+"           });\r\n                    fd.FormElementCollection(elements);\r\n\r\n\r\n   " +
+"                 var tcs = new $.Deferred(),\r\n                        data = ko." +
+"mapping.toJSON(form);\r\n\r\n                    context.post(data, \"/Sph/EntityForm" +
+"/Save\")\r\n                        .then(function(result) {\r\n\r\n                   " +
+"         form().EntityFormId(result.id);\r\n                            tcs.resolv" +
+"e(result);\r\n                        });\r\n                    return tcs.promise(" +
+");\r\n                };\r\n\r\n            var vm = {\r\n                errors: errors" +
+",\r\n                attached: attached,\r\n                activate: activate,\r\n   " +
+"             formElements: ko.observableArray(),\r\n                selectedFormEl" +
+"ement: ko.observable(),\r\n                selectFormElement : selectFormElement,\r" +
+"\n                removeFormElement : removeFormElement,\r\n                form: f" +
+"orm,\r\n                entity : entity,\r\n                okClick: okClick,\r\n     " +
+"           cancelClick: cancelClick,\r\n                importCommand :importComma" +
+"nd,\r\n                toolbar : {\r\n                    commands :ko.observableArr" +
+"ay([{\r\n                        caption : \'Publish\',\r\n                        ico" +
+"n : \'fa fa-sign-out\',\r\n                        command : publish,\r\n             " +
+"           enable : ko.computed(function() {\r\n                            return" +
+" form().EntityFormId() > 0;\r\n                        })\r\n                    }\r\n" +
+"                    ]),\r\n                    saveCommand : save\r\n               " +
+" }\r\n            };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }
