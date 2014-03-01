@@ -1,0 +1,30 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ViewColumnCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityViewId": 1001,
+  "IconClass": "",
+  "IconStoreId": "",
+  "EntityDefinitionId": 1,
+  "Name": "customer wajib",
+  "Route": "",
+  "Note": "",
+  "Query": "",
+  "IsPublished": false,
+  "Visibilty": "",
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-03-01T08:22:45.3076795+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-03-01T08:22:45.3076795+08:00",
+  "WebId": "38dfabc3-87e7-48a7-bef1-8e277d2dde5a"
+}

@@ -1,0 +1,51 @@
+﻿<telerik:RadWindow x:Class="Bespoke.Station.Windows.RabbitMqDeadLetter.ConnectionDialog"
+            Header="Broker Connection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                   xmlns:model="clr-namespace:Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels"
+                   d:DesignHeight="300" d:DesignWidth="300">
+    <Grid d:DataContext="{d:DesignInstance d:Type={x:Type model:ConnectionViewModel}}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="1" Content="Host" />
+        <telerik:RadWatermarkTextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedConnection.HostName}"/>
+
+        <Label Grid.Row="2" Content="Virtual Host" />
+        <telerik:RadWatermarkTextBox Grid.Column="1" Grid.Row="2" Text="{Binding SelectedConnection.VirtualHost}"/>
+
+        <Label Grid.Row="3" Content="Port" />
+        <telerik:RadWatermarkTextBox Grid.Column="1" Grid.Row="3" Text="{Binding SelectedConnection.Port}" HorizontalAlignment="Left" Width="80" ToolTip="Broker's port"/>
+        <telerik:RadWatermarkTextBox Grid.Column="1" Grid.Row="3" Margin="100,5,5,5" HorizontalAlignment="Left" Width="80" Text="{Binding SelectedConnection.ApiPort}" ToolTip="Management API port"/>
+
+        <Label Grid.Row="1" Grid.Column="2" Content="UserName" />
+        <telerik:RadWatermarkTextBox Grid.Column="3" Grid.Row="1" Text="{Binding SelectedConnection.UserName}"/>
+
+        <Label Grid.Row="2" Grid.Column="2" Content="Password" />
+        <telerik:RadWatermarkTextBox Grid.Column="3" Grid.Row="2" Text="{Binding SelectedConnection.Password}"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="3">
+            <telerik:RadButton Content="_OK" IsDefault="True" Click="OkButtonClick"/>
+            <telerik:RadButton Content="_Cancel" IsCancel="True"/>
+        </StackPanel>
+
+    </Grid>
+</telerik:RadWindow>
