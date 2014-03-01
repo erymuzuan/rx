@@ -142,6 +142,7 @@ WriteLiteral(">\r\n\r\n");
                 , typeof(DateTimePicker)
                 , typeof(FileUploadElement)
                 , typeof(Button)
+                , typeof(ImageElement)
             };
         
             
@@ -150,13 +151,13 @@ WriteLiteral(">\r\n\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 43 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 44 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 43 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 44 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
          foreach (var type in fieldTypes)
         {
 
@@ -170,7 +171,7 @@ WriteLiteral(" class=\"btn btn-link\"");
 WriteLiteral(" data-bind=\"click: addListViewColumn(\'");
 
             
-            #line 46 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 47 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
                                                                         Write(type.Name);
 
             
@@ -182,14 +183,14 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(">\r\n                    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1696), Tuple.Create("\"", 1758)
+WriteAttribute("src", Tuple.Create(" src=\"", 1736), Tuple.Create("\"", 1798)
             
-            #line 47 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
-, Tuple.Create(Tuple.Create("", 1702), Tuple.Create<System.Object, System.Int32>(string.Format("/images/form.element.{0}.png",type.Name)
+            #line 48 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+, Tuple.Create(Tuple.Create("", 1742), Tuple.Create<System.Object, System.Int32>(string.Format("/images/form.element.{0}.png",type.Name)
             
             #line default
             #line hidden
-, 1702), false)
+, 1742), false)
 );
 
 WriteLiteral(" class=\"pull-left\"");
@@ -197,7 +198,7 @@ WriteLiteral(" class=\"pull-left\"");
 WriteLiteral(" />\r\n                    + ");
 
             
-            #line 48 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 49 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
                  Write(type.Name);
 
             
@@ -206,7 +207,7 @@ WriteLiteral(" />\r\n                    + ");
 WriteLiteral("\r\n                </a>\r\n            </li>\r\n");
 
             
-            #line 51 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 52 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
         }
 
             

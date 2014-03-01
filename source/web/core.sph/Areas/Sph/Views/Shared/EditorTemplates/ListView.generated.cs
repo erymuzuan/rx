@@ -47,6 +47,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Shared.EditorTemplates
         }
         public override void Execute()
         {
+            
+            #line 4 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+ if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}
+
+            
+            #line default
+            #line hidden
 WriteLiteral("\r\n<div");
 
 WriteLiteral(" data-bind=\"\"");
@@ -58,8 +68,8 @@ WriteLiteral(" class=\"btn btn-default pull-right\"");
 WriteLiteral(" data-bind=\"click : addChildItem(");
 
             
-            #line 7 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                          Write(Model.Path);
+            #line 10 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+                                                                          Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             
             #line default
@@ -67,8 +77,8 @@ WriteLiteral(" data-bind=\"click : addChildItem(");
 WriteLiteral(", \'");
 
             
-            #line 7 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                        Write(Model.ChildItemType);
+            #line 10 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+                                                                                                                            Write(Model.ChildItemType);
 
             
             #line default
@@ -78,8 +88,8 @@ WriteLiteral("\')\"");
 WriteLiteral(">");
 
             
-            #line 7 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                                                Write(Model.Label);
+            #line 10 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+                                                                                                                                                    Write(Model.Label);
 
             
             #line default
@@ -91,13 +101,13 @@ WriteLiteral(" class=\"table table-condensed table-striped\"");
 WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n");
 
             
-            #line 11 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 14 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 11 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 14 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
                  foreach (var col in Model.ListViewColumnCollection)
                 {
 
@@ -107,7 +117,7 @@ WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n");
 WriteLiteral("                    <th>");
 
             
-            #line 13 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 16 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
                    Write(col.Label);
 
             
@@ -116,7 +126,7 @@ WriteLiteral("                    <th>");
 WriteLiteral("</th>\r\n");
 
             
-            #line 14 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 17 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
                 }
 
             
@@ -127,8 +137,8 @@ WriteLiteral("                <th></th>\r\n            </tr>\r\n        </thead>
 WriteLiteral(" data-bind=\"foreach :");
 
             
-            #line 18 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
-                              Write(Model.Path);
+            #line 21 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+                              Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             
             #line default
@@ -138,13 +148,13 @@ WriteLiteral("\"");
 WriteLiteral(">\r\n            <tr>\r\n");
 
             
-            #line 20 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 23 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 20 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 23 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
                  foreach (var col in Model.ListViewColumnCollection)
                 {
                     var col1 = col;
@@ -163,7 +173,7 @@ WriteLiteral("                    <td>\r\n\r\n\r\n");
 WriteLiteral("                        ");
 
             
-            #line 32 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 35 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
                    Write(Html.EditorFor(f => col1.Input));
 
             
@@ -172,7 +182,7 @@ WriteLiteral("                        ");
 WriteLiteral("\r\n                    </td>\r\n");
 
             
-            #line 34 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 37 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
                 }
 
             
@@ -187,8 +197,8 @@ WriteLiteral(" href=\"#\"");
 WriteLiteral(" data-bind=\"click : $parent.removeChildItem.call($parent,$parent.");
 
             
-            #line 36 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                                          Write(Model.Path);
+            #line 39 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
+                                                                                                          Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             
             #line default

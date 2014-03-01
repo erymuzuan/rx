@@ -142,6 +142,201 @@
           "WebId": null
         },
         {
+          "$type": "Bespoke.Sph.Domain.ListView, domain.sph",
+          "ChildItemType": "Attachment",
+          "IsChildItemFunction": false,
+          "ListViewColumnCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ListViewColumn, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
+                "Label": "Title",
+                "Path": "Title",
+                "Input": {
+                  "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+                  "DefaultValue": "",
+                  "AutoCompletionEntity": "",
+                  "AutoCompletionField": "",
+                  "AutoCompletionQuery": "",
+                  "MinLength": null,
+                  "MaxLength": null,
+                  "FieldValidation": {
+                    "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                    "IsRequired": false,
+                    "MaxLength": 0,
+                    "MinLength": 0,
+                    "Pattern": "",
+                    "Mode": "",
+                    "Message": "",
+                    "WebId": null
+                  },
+                  "Name": "",
+                  "Label": "Title",
+                  "Tooltip": "",
+                  "Path": "Title",
+                  "IsRequired": false,
+                  "Size": "",
+                  "CssClass": "",
+                  "Visible": "",
+                  "Enable": "",
+                  "ElementId": "",
+                  "HelpText": "",
+                  "LabelColLg": null,
+                  "LabelColMd": null,
+                  "LabelColSm": null,
+                  "LabelColXs": null,
+                  "InputColLg": null,
+                  "InputColMd": null,
+                  "InputColSm": null,
+                  "InputColXs": null,
+                  "WebId": "d4b8eb93-f360-45c8-b77c-4ef2a9880f64"
+                },
+                "WebId": "b803aafe-3a45-44cf-a647-15a87c4a4cf4"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
+                "Label": "Ext.",
+                "Path": "Extension",
+                "Input": {
+                  "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
+                  "ComboBoxItemCollection": {
+                    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
+                    "$values": [
+                      {
+                        "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                        "Caption": "Word 2007",
+                        "Value": ".docx",
+                        "WebId": "7ef146e4-b6aa-4bcf-8961-d80aa857517e"
+                      },
+                      {
+                        "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                        "Caption": "Excel 2007",
+                        "Value": ".xlsx",
+                        "WebId": "757bb426-ec8e-4894-ae38-bb2606f5f396"
+                      },
+                      {
+                        "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                        "Caption": "PDF",
+                        "Value": ".pdf",
+                        "WebId": "c1ea3327-109e-4e55-9ca4-9e931ceb71a7"
+                      }
+                    ]
+                  },
+                  "ComboBoxLookup": {
+                    "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+                    "Entity": "",
+                    "ValuePath": "",
+                    "DisplayPath": "",
+                    "Query": "",
+                    "WebId": null
+                  },
+                  "FieldValidation": {
+                    "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                    "IsRequired": false,
+                    "MaxLength": 0,
+                    "MinLength": 0,
+                    "Pattern": "",
+                    "Mode": "",
+                    "Message": "",
+                    "WebId": null
+                  },
+                  "Name": "",
+                  "Label": "Ext.",
+                  "Tooltip": "",
+                  "Path": "Extension",
+                  "IsRequired": false,
+                  "Size": "",
+                  "CssClass": "",
+                  "Visible": "",
+                  "Enable": "",
+                  "ElementId": "",
+                  "HelpText": "",
+                  "LabelColLg": null,
+                  "LabelColMd": null,
+                  "LabelColSm": null,
+                  "LabelColXs": null,
+                  "InputColLg": null,
+                  "InputColMd": null,
+                  "InputColSm": null,
+                  "InputColXs": null,
+                  "WebId": "5878ac4d-88ea-4023-a9ec-2ef85089829a"
+                },
+                "WebId": "ee74ac7c-39b7-40ab-850c-9def52277ffd"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
+                "Label": "Upload",
+                "Path": "StoreId",
+                "Input": {
+                  "$type": "Bespoke.Sph.Domain.FileUploadElement, domain.sph",
+                  "AllowedExtensions": "",
+                  "FieldValidation": {
+                    "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                    "IsRequired": false,
+                    "MaxLength": 0,
+                    "MinLength": 0,
+                    "Pattern": "",
+                    "Mode": "",
+                    "Message": "",
+                    "WebId": null
+                  },
+                  "Name": "",
+                  "Label": "Upload",
+                  "Tooltip": "",
+                  "Path": "StoreId",
+                  "IsRequired": false,
+                  "Size": "",
+                  "CssClass": "",
+                  "Visible": "",
+                  "Enable": "",
+                  "ElementId": "",
+                  "HelpText": "",
+                  "LabelColLg": null,
+                  "LabelColMd": null,
+                  "LabelColSm": null,
+                  "LabelColXs": null,
+                  "InputColLg": null,
+                  "InputColMd": null,
+                  "InputColSm": null,
+                  "InputColXs": null,
+                  "WebId": "efbaf6b3-8723-4cb4-8f60-cf118f3f0e66"
+                },
+                "WebId": "1b77e794-bdb4-4674-9d10-29643ba46d95"
+              }
+            ]
+          },
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "MaxLength": 0,
+            "MinLength": 0,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "WebId": null
+          },
+          "Name": "List",
+          "Label": "Attachment",
+          "Tooltip": null,
+          "Path": "Contact.AttachmentCollection",
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "23aa3ba3-c861-42e3-af30-d58474ee7008",
+          "HelpText": null,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
+        },
+        {
           "$type": "Bespoke.Sph.Domain.CheckBox, domain.sph",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -614,6 +809,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-01T11:56:34.0163784+08:00",
+  "ChangedDate": "2014-03-01T13:39:55.8619086+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

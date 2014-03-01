@@ -1448,7 +1448,7 @@
       <DependentUpon>__partial.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\partial\partial.min.js">
-      <DependentUpon>__partial.js.bundle</DependentUpon>
+      <DependentUpon>partial.js</DependentUpon>
     </EmbeddedResource>
     <Content Include="SphApp\partial\report.min.js">
       <DependentUpon>report.js</DependentUpon>
@@ -3499,7 +3499,7 @@
     </Content>
     <None Include="SphApp\partial\__partial.js.bundle" />
     <Content Include="SphApp\partial\partial.min.js.map">
-      <DependentUpon>__partial.js.bundle</DependentUpon>
+      <DependentUpon>partial.min.js</DependentUpon>
     </Content>
     <None Include="SphApp\prototypes\__prototypes.js.bundle" />
     <Content Include="SphApp\prototypes\prototypes.min.js.map">

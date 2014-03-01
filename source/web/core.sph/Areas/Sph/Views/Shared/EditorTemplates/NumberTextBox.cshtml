@@ -1,4 +1,9 @@
 ﻿@model Bespoke.Sph.Domain.NumberTextBox
+@if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}
+
 @if (Model.IsCompact)
 {
     <input step="@Model.Step" class="@(Model.CssClass + " form-control "+ Model.Size)"

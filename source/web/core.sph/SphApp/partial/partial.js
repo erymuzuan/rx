@@ -688,6 +688,13 @@ bespoke.sph.domain.ListViewPartial = function () {
                 var column = new bespoke.sph.domain.ListViewColumn(system.guid()),
                     input = bespoke.sph.domain[type](system.guid());
 
+                column.Path.subscribe(function(v) {
+                    input.Path(v);
+                });
+                column.Label.subscribe(function(v) {
+                    input.Label(v);
+                });
+
                 column.Input(input);
                 self.ListViewColumnCollection.push(column);
             };
@@ -714,7 +721,19 @@ bespoke.sph.domain.ListViewPartial = function () {
 
 bespoke.sph.domain.ListViewColumnPartial = function (model) {
 
-    var icon = ko.observable('/images/form.element.textbox.png');
+    try {
+
+        var pattern1 = /Bespoke\.Sph\.Domain\.(.*?),/,
+            input1 = ko.unwrap(model.Input),
+            name1 = pattern1.exec(ko.unwrap(input1.$type))[1],
+            icon1 = '/images/form.element.' + name1 + '.png';
+
+
+    } catch (err) {
+
+    }
+    icon1 = icon1 || '/images/form.element.textbox.png';
+    var icon = ko.observable(icon1);
     model.Input.subscribe(function (c) {
         if (!c.$type) {
             return;
@@ -722,7 +741,8 @@ bespoke.sph.domain.ListViewColumnPartial = function (model) {
 
         var pattern = /Bespoke\.Sph\.Domain\.(.*?),/,
             name = pattern.exec(ko.unwrap(c.$type))[1];
-        icon('/images/form.element.' + name +'.png');
+        icon('/images/form.element.' + name + '.png');
+
 
     });
     return {

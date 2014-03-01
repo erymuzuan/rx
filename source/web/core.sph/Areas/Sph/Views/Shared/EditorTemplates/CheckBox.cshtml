@@ -1,6 +1,9 @@
 ﻿@model Bespoke.Sph.Domain.CheckBox
 @{
-
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 }
 @if (Model.IsCompact)
 {

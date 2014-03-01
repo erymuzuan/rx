@@ -19,7 +19,7 @@
     <div class="form-group" data-bind="visible:true">
         <label for="ff83f8d0-9dd7-4621-87b7-7b5ddbd0c985" class="col-lg-4">Gender</label>
         <div class="col-lg-8">
-            <select data-bind="value: Gender, enable :" id="ff83f8d0-9dd7-4621-87b7-7b5ddbd0c985" name="Gender" class=" input-large form-control">
+            <select data-bind="value: Gender, enable :true" id="ff83f8d0-9dd7-4621-87b7-7b5ddbd0c985" name="Gender" class=" input-large form-control">
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
             </select>
@@ -36,9 +36,62 @@
         </div>
     </div>
 
+<div data-bind="">
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, 'Attachment')">Attachment</button>
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                    <th>Title</th>
+                    <th>Ext.</th>
+                    <th>Upload</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :Contact().AttachmentCollection">
+            <tr>
+                    <td>
+
+
+                        
+
+    <input  class=" form-control " title=""
+           data-bind="value: Title, visible :true, enable :true"
+           id="bc069254-1c3a-469d-8ce4-abd7e101e0a8" type="text" name="Title" />
+
+                    </td>
+                    <td>
+
+
+                        
+    <select data-bind="value: Extension, visible :true, enable :true" id="7256ee5d-9528-4ed1-802d-3b51ac6c0101" name="Extension" class="  form-control">
+            <option value=".docx">Word 2007</option>
+            <option value=".xlsx">Excel 2007</option>
+            <option value=".pdf">PDF</option>
+    </select>
+
+                    </td>
+                    <td>
+
+
+                        
+    <input  class=" form-control " title=""
+           data-bind="kendoUpload : StoreId, visible :true"
+           id="35daf3ff-7a0f-409a-9b8b-27220359b7ee" type="file" name="files" />
+
+                    </td>
+                <td>
+                    <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.Contact().AttachmentCollection, $data)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
     <div class="control-group">
         <label class="checkbox">
-            <input data-bind="checked : IsPriority, enable :" id="IsPriority" title="" type="checkbox" name="IsPriority" />
+            <input data-bind="checked : IsPriority, enable :true" id="IsPriority" title="" type="checkbox" name="IsPriority" />
             Priority
         </label>
     </div>
@@ -57,7 +110,7 @@
     <div class="form-group" data-bind="visible:true">
         <label for="0dab9f82-6ff7-436c-8ac0-af789738da24" class="col-lg-4">Locality</label>
         <div class="col-lg-8">
-            <select data-bind="value: Address().Locality, enable :" id="0dab9f82-6ff7-436c-8ac0-af789738da24" name="Address.Locality" class=" input-large form-control">
+            <select data-bind="value: Address().Locality, enable :true" id="0dab9f82-6ff7-436c-8ac0-af789738da24" name="Address.Locality" class=" input-large form-control">
                     <option value="Urban">Urban</option>
                     <option value="Surburb">Suburban</option>
                     <option value="Remote">Remote</option>
@@ -78,7 +131,7 @@
         <label for="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" class="col-lg-4">Registered</label>
         <div class="col-lg-8">
             <input class=" form-control input-large"
-                   data-bind="kendoDate: RegisteredDate, enable :" id="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" type="text"
+                   data-bind="kendoDate: RegisteredDate, enable :true" id="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" type="text"
                    name="RegisteredDate" />
         </div>
     </div>

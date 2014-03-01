@@ -3,20 +3,28 @@
 
 
 <!--ko if:ko.unwrap($type) === "Bespoke.Sph.Domain.ListView, domain.sph" -->
-<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+<div data-bind="css: { 'selected-form-element': isSelected }">
     @Html.Partial("_DesignerContextAction")
-    <input type="button" class="btn btn-default pull-right" data-bind="value: Label" />
+
+    <input data-bind="click: $root.selectFormElement" type="button" class="btn btn-default" value="Click to select" />
+    <input data-bind="click: $root.selectFormElement,value: Label" type="button" class="btn btn-default pull-right" />
     <table class="table table-condensed table-striped">
         <thead>
             <tr data-bind="foreach: ListViewColumnCollection">
-                <th data-bind="text: Label"></th>
+                <th data-bind="with : Input">
+                    <a href="#" data-bind="click : $root.selectFormElement">
+                        <span data-bind="text:$parent.Label"></span>
+                        <i class="fa fa-check"></i>
+                    </a>
+                </th>
             </tr>
         </thead>
         <tbody>
             @for (int i = 0; i < 5; i++)
             {
                 <tr data-bind="foreach: ListViewColumnCollection">
-                    <td data-bind="with : Input">
+                    <!-- ko with : Input -->
+                    <td>
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.TextBox, domain.sph'-->
                         <input class="form-control" type="text" value="sample data" />
                         <!--/ko-->
@@ -24,26 +32,37 @@
                         <button class="btn btn-default" data-bind="attr : {'class':CssClass},text: $parent.Label">Button</button>
                         <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.CheckBox, domain.sph'-->
-                        <input class="form-control" type="checkbox" value="" checked="@(i % 2 ==0? "checked": "")" />
+                        <input type="checkbox" value="" checked="@(i % 2 ==0? "checked": "")" />
                         <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.DatePicker, domain.sph'-->
-                        <div class="input-append">
-                            <input class="form-control" type="text" value="@DateTime.Today.ToShortDateString()" />
-                            <i class="fa fa-calendar"></i>
+                        <div class="input-group">
+                            <input class="form-control" style="width: 80%" type="text" value="@DateTime.Today.ToShortDateString()" />
+                            <i class="fa fa-calendar input-group-addon"></i>
                         </div>
                         <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.DateTimePicker, domain.sph'-->
-                        <div class="input-append">
-                            <input class="form-control" type="text" value="@DateTime.Today.ToShortDateString()" />
-                            <i class="fa fa-calendar"></i>
-                            <i class="fa fa-clock-o"></i>
+                        <div class="input-group">
+                            <input class="form-control" style="width: 80%" type="text" value="@DateTime.Today.ToShortDateString()" />
+                            <i class="fa fa-calendar input-group-addon"></i>
+                            <i class="fa fa-clock-o input-group-addon"></i>
                         </div>
                         <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.NumberTextBox, domain.sph'-->
                         <input class="form-control" type="number" value="@i" />
                         <!--/ko-->
-
+                        <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.ComboBox, domain.sph'-->
+                        <select class="form-control"></select>
+                        <!--/ko-->
+                        <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.FileUploadElement, domain.sph'-->
+                        <input type="file" />
+                        <!--/ko-->
+                        <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.ImageElement, domain.sph'-->
+                        <img src="/images/form.element.imageelement.png" alt="image" />
+                        <!--/ko-->
                     </td>
+
+                    <!-- /ko -->
+
                 </tr>
 
             }

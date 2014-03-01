@@ -1,10 +1,13 @@
 ﻿@using System.Web.Mvc.Html
 @using Bespoke.Sph.Domain
 @model Bespoke.Sph.Domain.ListView
-
+@if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}
 
 <div data-bind="">
-    <button class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path, '@Model.ChildItemType')">@Model.Label</button>
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path.ConvertJavascriptObjectToFunction(), '@Model.ChildItemType')">@Model.Label</button>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
@@ -15,7 +18,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody data-bind="foreach :@Model.Path">
+        <tbody data-bind="foreach :@Model.Path.ConvertJavascriptObjectToFunction()">
             <tr>
                 @foreach (var col in Model.ListViewColumnCollection)
                 {
@@ -33,7 +36,7 @@
                     </td>
                 }
                 <td>
-                    <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.@Model.Path, $data)">
+                    <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.@Model.Path.ConvertJavascriptObjectToFunction(), $data)">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>
                 </td>

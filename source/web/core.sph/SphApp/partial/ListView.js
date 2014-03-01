@@ -17,6 +17,13 @@ bespoke.sph.domain.ListViewPartial = function () {
                 var column = new bespoke.sph.domain.ListViewColumn(system.guid()),
                     input = bespoke.sph.domain[type](system.guid());
 
+                column.Path.subscribe(function(v) {
+                    input.Path(v);
+                });
+                column.Label.subscribe(function(v) {
+                    input.Label(v);
+                });
+
                 column.Input(input);
                 self.ListViewColumnCollection.push(column);
             };

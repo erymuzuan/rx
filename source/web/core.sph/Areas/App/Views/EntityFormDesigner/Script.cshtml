@@ -188,6 +188,9 @@
                     _(fd.FormElementCollection()).each(function (f) {
                         f.isSelected(false);
                     });
+                    if (typeof fe.isSelected === "undefined") {
+                        fe.isSelected = ko.observable(true);
+                    }
                     fe.isSelected(true);
                     vm.selectedFormElement(fe);
                     if (supportsHtml5Storage()) {
