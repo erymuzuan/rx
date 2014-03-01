@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
@@ -51,10 +52,10 @@ namespace Bespoke.Sph.Domain
             return list.ToArray();
         }
 
-        public BuildValidationResult ValidateBuild()
+        public async Task<BuildValidationResult> ValidateBuildAsync()
         {
             var result = new BuildValidationResult();
-
+            var context = new SphDataContext();
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_]*$");
             if (!validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
@@ -66,11 +67,26 @@ namespace Bespoke.Sph.Domain
 
             var names = this.MemberCollection.Select(a => a.Name);
             var duplicates = names.GroupBy(a => a).Any(a => a.Count() > 1);
-            if(duplicates)
+            if (duplicates)
                 result.Errors.Add(new BuildError(this.WebId, "There are duplicates field names"));
 
+            if(string.IsNullOrWhiteSpace(this.RecordName))
+                result.Errors.Add(new BuildError(this.WebId, "Record name is missing"));
+            if(string.IsNullOrWhiteSpace(this.Name))
+                result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
+            if(string.IsNullOrWhiteSpace(this.Plural))
+                result.Errors.Add(new BuildError(this.WebId, "Plural is missing"));
 
-            result.Result = !result.Errors.Any();
+            if(this.MemberCollection.All(m => m.Name != this.RecordName))
+                result.Errors.Add(new BuildError(this.WebId, "Record name is not registered in your schema as a first level member"));
+
+
+            var defaultForm = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true && f.EntityDefinitionId == this.EntityDefinitionId);
+            if (null == defaultForm)
+                result.Errors.Add(new BuildError(this.WebId, "Please set a default form"));
+
+
+            result.Result = result.Errors.Count == 0;
             return result;
         }
 
