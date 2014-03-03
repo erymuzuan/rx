@@ -186,7 +186,11 @@
                     _(fd.FormElementCollection()).each(function (f) {
                         f.isSelected(false);
                     });
-                    fe.isSelected(true);
+                    if (typeof fe.isSelected !== "function") {
+                        fe.isSelected = ko.observable(true);
+                    } else {
+                        fe.isSelected(true);
+                    }
                     vm.selectedFormElement(fe);
                     if (supportsHtml5Storage()) {
                         localStorage.setItem(vm.activity().WebId(), ko.mapping.toJSON(vm.activity));

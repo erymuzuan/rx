@@ -1740,12 +1740,12 @@
                           "Pattern": "",
                           "Mode": "",
                           "Message": "",
-                          "WebId": null
+                          "WebId": "0a51669e-e43a-4be8-95da-cebd612eb0be"
                         },
                         "Name": "",
-                        "Label": "",
+                        "Label": "Title",
                         "Tooltip": "",
-                        "Path": "",
+                        "Path": "Title",
                         "IsRequired": false,
                         "Size": "",
                         "CssClass": "",
@@ -1761,22 +1761,47 @@
                         "InputColMd": null,
                         "InputColSm": null,
                         "InputColXs": null,
-                        "WebId": "8a28d123-62ff-4e06-990f-20a9e7ce0dac"
+                        "WebId": "e2a49e8d-a417-429c-91db-35fcaf4d5bec"
                       },
-                      "WebId": "6315de22-28e0-49bf-811f-ca3491d1fcd3"
+                      "WebId": "f0edc110-c678-45d1-b827-59619a6352d2"
                     },
                     {
                       "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
-                      "Label": "Note",
-                      "Path": "Note",
+                      "Label": "Ext",
+                      "Path": "Extension",
                       "Input": {
-                        "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
-                        "DefaultValue": "",
-                        "AutoCompletionEntity": "",
-                        "AutoCompletionField": "",
-                        "AutoCompletionQuery": "",
-                        "MinLength": null,
-                        "MaxLength": null,
+                        "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
+                        "ComboBoxItemCollection": {
+                          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
+                          "$values": [
+                            {
+                              "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                              "Caption": "Word",
+                              "Value": ".docx",
+                              "WebId": "aac241f1-9527-43fd-92fb-c3aeef6f7f3e"
+                            },
+                            {
+                              "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                              "Caption": "PDF",
+                              "Value": ".pdf",
+                              "WebId": "f0056a15-37d8-4610-ae9e-9a707cafa240"
+                            },
+                            {
+                              "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                              "Caption": "Excel",
+                              "Value": ".xlsx",
+                              "WebId": "a1e71789-e27c-46d0-bea5-badae154a193"
+                            }
+                          ]
+                        },
+                        "ComboBoxLookup": {
+                          "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+                          "Entity": "",
+                          "ValuePath": "",
+                          "DisplayPath": "",
+                          "Query": "",
+                          "WebId": "92a7ea1f-6c53-4cd9-b449-a1b4a45c1c04"
+                        },
                         "FieldValidation": {
                           "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                           "IsRequired": false,
@@ -1785,12 +1810,12 @@
                           "Pattern": "",
                           "Mode": "",
                           "Message": "",
-                          "WebId": null
+                          "WebId": "47b2cdc2-33a5-41af-8046-37cbe9a0e09f"
                         },
                         "Name": "",
-                        "Label": "",
+                        "Label": "Ext",
                         "Tooltip": "",
-                        "Path": "",
+                        "Path": "Extension",
                         "IsRequired": false,
                         "Size": "",
                         "CssClass": "",
@@ -1806,9 +1831,9 @@
                         "InputColMd": null,
                         "InputColSm": null,
                         "InputColXs": null,
-                        "WebId": "19d01473-2ddb-4b83-9828-eb146fff5b1d"
+                        "WebId": "f4938787-be26-4285-a9b6-fd0ef0948570"
                       },
-                      "WebId": "9706c15d-2bb2-4fba-8fa7-401a492aee36"
+                      "WebId": "04d123f3-a7fe-4048-bac2-5ddecde3e03a"
                     },
                     {
                       "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
@@ -1825,12 +1850,12 @@
                           "Pattern": "",
                           "Mode": "",
                           "Message": "",
-                          "WebId": null
+                          "WebId": "40fd8d0e-26cb-4fdc-abbd-7524843ca1d1"
                         },
                         "Name": "",
-                        "Label": "",
+                        "Label": "Upload",
                         "Tooltip": "",
-                        "Path": "",
+                        "Path": "StoreId",
                         "IsRequired": false,
                         "Size": "",
                         "CssClass": "",
@@ -1846,9 +1871,9 @@
                         "InputColMd": null,
                         "InputColSm": null,
                         "InputColXs": null,
-                        "WebId": "62b017d9-3737-4da6-afaf-8af41e39be65"
+                        "WebId": "9343cb89-6199-4cc1-9439-e4c06d51232e"
                       },
-                      "WebId": "0cf45983-fb42-4823-a266-8dae8bc13f17"
+                      "WebId": "efc2bbed-453a-4088-84ea-9f1c9843c605"
                     }
                   ]
                 },
@@ -2224,7 +2249,7 @@
                 "Name": "Single Line Text",
                 "Label": "No. Telefon ",
                 "Tooltip": null,
-                "Path": "Investigation.WakafLand.Contact.MobileNo",
+                "Path": "Applicant.TelephoneNo",
                 "IsRequired": false,
                 "Size": "input-large",
                 "CssClass": "",
@@ -2393,6 +2418,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2013-11-12T19:15:41.8140225+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-28T19:18:21.64383+08:00",
+  "ChangedDate": "2014-03-04T06:58:12.5162807+08:00",
   "WebId": "b2b67738-3def-42f2-8e4b-a5930d3fc8c9"
 }

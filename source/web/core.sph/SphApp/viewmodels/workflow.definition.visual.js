@@ -565,17 +565,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         compileCompleted(result);
                         if (result.success) {
                             wd().Version(result.version);
+                            publishingMessage("Stopping all subscribers...");
+                            setTimeout(function() {
+                                publishingMessage("Deployment in progress");
+                                setTimeout(function() {
+                                    publishingMessage("Starting the subscribers");
+                                    setTimeout(function() {
+                                        isPublishing(false);
+                                    }, 5 * 1000);
+                                }, 2 * 1000);
+                            }, 5 * 1000);
+                        } else {
+                            publishingMessage("Errors");
+                            isPublishing(false);
                         }
-                        publishingMessage("Stopping all subscribers...");
-                        setTimeout(function () {
-                            publishingMessage("Deployment in progress");
-                            setTimeout(function () {
-                                publishingMessage("Starting the subscribers");
-                                setTimeout(function () {
-                                    isPublishing(false);
-                                }, 5 * 1000);
-                            }, 2 * 1000);
-                        }, 5 * 1000);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
