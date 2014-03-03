@@ -1,6 +1,5 @@
 ﻿packages/*
 /packages/
-*.nuspec
 /bin/*
 !/bin/sources
 obj/
