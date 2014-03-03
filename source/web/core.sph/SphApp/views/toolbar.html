@@ -104,13 +104,13 @@
         <!-- /ko -->
 
         <!-- ko if: typeof watchCommand === "function"-->
-        <button class="btn btn-default" data-bind="command: watchCommand, visible: watching() === false" data-loading-text="saving....">
+        <button class="btn btn-default" data-bind="command: watchCommand, visible: watching() === false" >
             <i class="glyphicon glyphicon-eye-open"></i>
             Watch
         </button>
         <!-- /ko -->
         <!-- ko if: typeof unwatchCommand === "function"-->
-        <button class="btn btn-default" data-bind="command: unwatchCommand, visible: watching" data-loading-text="saving....">
+        <button class="btn btn-default" data-bind="command: unwatchCommand, visible: watching">
             <i class="glyphicon glyphicon-eye-close"></i>
             Unwatch
         </button>

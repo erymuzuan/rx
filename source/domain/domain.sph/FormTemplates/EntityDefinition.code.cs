@@ -88,9 +88,8 @@ namespace Bespoke.Sph.Domain
             }
             script.AppendFormat(@"
     addChildItem : function(list, type){{
-                        return function(){{
-                            var item = new bespoke.{0}.domain[type](system.guid());
-                            list.push(item);
+                        return function(){{                          
+                            list.push(new type(system.guid()));
                         }}
                     }},
             
@@ -99,7 +98,7 @@ namespace Bespoke.Sph.Domain
                             list.remove(obj);
                         }}
                     }},
-" ,jsNamespace);
+", jsNamespace);
             script.AppendLine("     WebId: ko.observable()");
 
             script.AppendLine(" }");

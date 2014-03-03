@@ -143,7 +143,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.ListView, domain.sph",
-          "ChildItemType": "Attachment",
+          "ChildItemType": "",
           "IsChildItemFunction": false,
           "ListViewColumnCollection": {
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ListViewColumn, domain.sph]], domain.sph",
@@ -302,6 +302,52 @@
                   "WebId": "efbaf6b3-8723-4cb4-8f60-cf118f3f0e66"
                 },
                 "WebId": "1b77e794-bdb4-4674-9d10-29643ba46d95"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
+                "Label": "Delete",
+                "Path": "Delete",
+                "Input": {
+                  "$type": "Bespoke.Sph.Domain.Button, domain.sph",
+                  "Command": "",
+                  "UseClick": false,
+                  "CommandName": "",
+                  "LoadingText": "",
+                  "CompleteText": "",
+                  "IconClass": "",
+                  "IsToolbarItem": false,
+                  "FieldValidation": {
+                    "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                    "IsRequired": false,
+                    "MaxLength": 0,
+                    "MinLength": 0,
+                    "Pattern": "",
+                    "Mode": "",
+                    "Message": "",
+                    "WebId": null
+                  },
+                  "Name": "",
+                  "Label": "Delete",
+                  "Tooltip": "",
+                  "Path": "Delete",
+                  "IsRequired": false,
+                  "Size": "",
+                  "CssClass": "",
+                  "Visible": "",
+                  "Enable": "",
+                  "ElementId": "",
+                  "HelpText": "",
+                  "LabelColLg": null,
+                  "LabelColMd": null,
+                  "LabelColSm": null,
+                  "LabelColXs": null,
+                  "InputColLg": null,
+                  "InputColMd": null,
+                  "InputColSm": null,
+                  "InputColXs": null,
+                  "WebId": "fee65b42-0cc3-44d3-ae63-a97a4a10be69"
+                },
+                "WebId": "bb2a12cf-2f47-48f7-9823-d0b2f396acd9"
               }
             ]
           },
@@ -809,6 +855,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-01T13:39:55.8619086+08:00",
+  "ChangedDate": "2014-03-03T08:09:04.2212755+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

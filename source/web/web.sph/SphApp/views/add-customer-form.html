@@ -37,13 +37,14 @@
     </div>
 
 <div data-bind="">
-    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, 'Attachment')">Attachment</button>
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, bespoke.dev_1.domain.Attachment)">Attachment</button>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
                     <th>Title</th>
                     <th>Ext.</th>
                     <th>Upload</th>
+                    <th>Delete</th>
                 <th></th>
             </tr>
         </thead>
@@ -56,14 +57,14 @@
 
     <input  class=" form-control " title=""
            data-bind="value: Title, visible :true, enable :true"
-           id="bc069254-1c3a-469d-8ce4-abd7e101e0a8" type="text" name="Title" />
+           id="c774a8a5-f0a0-4a74-8324-caf4e87afbcf" type="text" name="Title" />
 
                     </td>
                     <td>
 
 
                         
-    <select data-bind="value: Extension, visible :true, enable :true" id="7256ee5d-9528-4ed1-802d-3b51ac6c0101" name="Extension" class="  form-control">
+    <select data-bind="value: Extension, visible :true, enable :true" id="dd9f042e-a543-4be6-aca1-7d3d518ad331" name="Extension" class="  form-control">
             <option value=".docx">Word 2007</option>
             <option value=".xlsx">Excel 2007</option>
             <option value=".pdf">PDF</option>
@@ -76,9 +77,12 @@
                         
     <input  class=" form-control " title=""
            data-bind="kendoUpload : StoreId, visible :true"
-           id="35daf3ff-7a0f-409a-9b8b-27220359b7ee" type="file" name="files" />
+           id="de6bf648-6389-4a0c-8a7f-af88117f8f56" type="file" name="files" />
 
                     </td>
+
+
+
                 <td>
                     <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.Contact().AttachmentCollection, $data)">
                         <span class="glyphicon glyphicon-remove"></span>

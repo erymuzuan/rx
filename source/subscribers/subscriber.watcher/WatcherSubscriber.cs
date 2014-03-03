@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
@@ -59,21 +62,57 @@ namespace Bespoke.Sph.WathersSubscribers
                 definitions.AddRange(edLo.ItemCollection);
             }
 
-            // get the listeners
-            m_listener = ObjectBuilder.GetObject<IEntityChangedListener<AuditTrail>>();
-            m_listener.Changed += EntityChanged;
-            m_listener.Run();
+            this.ListenerCollection.Clear();
 
+            foreach (var ed in definitions)
+            {
+                var listener = this.RegisterCustomEntityDependencies(ed);
+                if (null == listener) continue;
+                listener.Changed += new EntityChangedEventHandler<Entity>(EntityChanged);
+                listener.Run();
+                this.ListenerCollection.Add(listener);
+
+            }
+            // get the listeners
 
 
         }
 
-        IEntityChangedListener<AuditTrail> m_listener;
-        private async void EntityChanged(object sender, EntityChangedEventArgs<AuditTrail> e)
+
+        public dynamic RegisterCustomEntityDependencies(EntityDefinition ed1)
+        {
+            var sqlAssembly = Assembly.Load("rabbitmq.changepublisher");
+            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.RabbitMqPublisher.EntityChangedListener`1");
+
+            try
+            {
+                var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
+                var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed1.EntityDefinitionId, ed1.Name);
+                var edType = edAssembly.GetType(edTypeName);
+                if (null == edType)
+                    Console.WriteLine("Cannot create type " + edTypeName);
+
+                var listenerType = sqlRepositoryType.MakeGenericType(edType);
+                dynamic listener = Activator.CreateInstance(listenerType);
+
+
+                return listener;
+            }
+            catch (FileNotFoundException e)
+            {
+                //  Console.WriteLine(e);
+            }
+
+            return null;
+
+
+        }
+
+        private async void EntityChanged<T>(object sender, EntityChangedEventArgs<T> e) where T : Entity
         {
             this.WriteMessage("Changed to " + e);
-            var entityName = e.Item.Type;
-            var id = e.Item.EntityId;
+            var entityName = e.Item.GetType().Name;
+            var id = e.Item.GetId();
             var watchers = m_watchers
                 .Where(w => w.EntityId == id && w.EntityName == entityName)
                 .ToList();
@@ -84,14 +123,14 @@ namespace Bespoke.Sph.WathersSubscribers
             }
         }
 
-        private async Task SendMessage(Watcher watcher, AuditTrail log)
+        private async Task SendMessage<T>(Watcher watcher, T item) where T: Entity
         {
             var context = new SphDataContext();
             var message = new Message
             {
-                Subject = "There are changes in your watched item: " + log.Type,
+                Subject = "There are changes in your watched item: " + item.GetType().Name,
                 UserName = watcher.User,
-                Body = log.ToString()
+                Body = item.ToString()
             };
 
 
@@ -102,9 +141,16 @@ namespace Bespoke.Sph.WathersSubscribers
             }
         }
 
+        private readonly ObjectCollection<dynamic> m_listenerCollection = new ObjectCollection<dynamic>();
+
+        public ObjectCollection<dynamic> ListenerCollection
+        {
+            get { return m_listenerCollection; }
+        }
+
         protected override void OnStop()
         {
-            m_listener.Stop();
+            this.ListenerCollection.ForEach(l => l.Stop());
             base.OnStop();
         }
     }

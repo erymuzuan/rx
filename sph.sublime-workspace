@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"Web",
+				"WebId"
+			],
+			[
+				"Save",
+				"SaveAsync"
+			],
+			[
 				"Htt",
 				"HttpUnauthorizedResult"
 			],
@@ -24,26 +32,18 @@
 	"buffers":
 	[
 		{
-			"file": "/C/project/work/pws/source/web/web.sph/Views/HotTowel/index.cshtml",
+			"file": "source/domain/domain.sph/Triggers/Activity.cs",
 			"settings":
 			{
-				"buffer_size": 1977,
+				"buffer_size": 3731,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "source/web/web.sph/App_Start/BundleConfig.cs",
+			"file": "source/domain/domain.sph/Triggers/ScreenActivity.cs",
 			"settings":
 			{
-				"buffer_size": 5039,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "source/web/web.sph/Scripts/_function.prototypes.js",
-			"settings":
-			{
-				"buffer_size": 453,
+				"buffer_size": 20010,
 				"line_ending": "Windows"
 			}
 		}
@@ -51,15 +51,18 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 0.0,
+		"height": 58.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 392.0
 	},
 	"console":
 	{
-		"height": 0.0
+		"height": 0.0,
+		"history":
+		[
+		]
 	},
 	"distraction_free":
 	{
@@ -72,60 +75,23 @@
 	},
 	"file_history":
 	[
-		"/C/project/work/sph/x_deploy.workflows.ps1",
-		"/C/project/work/sph/source/dependencies/rabbitmq.changepublisher/ChangePublisherClient.cs",
-		"/H/installers/Servers/en_microsoft_dynamics_crm_server_2013_x86_and_x64_dvd_2985621.txt",
-		"/H/installers/Operating Systems/en_windows_server_2012_r2_x64_dvd_2707946.txt",
-		"/C/project/work/sph/StartAspnetAdminWeb.bat",
-		"/D/project/work/knockout.kendo/js/kendoEditor.js",
-		"/D/project/work/knockout.kendo/README.md",
-		"/D/project/work/knockout.kendo/js/kendoEnable.js",
-		"/C/project/work/sph/source/elasticsearch/mapping/pendingtask.curl.js",
-		"/C/project/work/pws/source/web/web.sph/Views/Account/_Slider.cshtml",
-		"/C/project/work/pws/source/web/web.sph/App/viewmodels/application.list.js",
-		"/D/project/work/knockout.kendo/js/kendoDateTime.js",
-		"/D/project/work/knockout.kendo/js/kendoDate.js",
-		"/D/project/work/knockout.kendo/js/kendoDropDownList.js",
-		"/D/project/work/knockout.kendo/js/kendoComboBox.js",
-		"/D/project/work/knockout.kendo/js/money.js",
-		"/D/project/work/knockout.kendo/js/date.js",
-		"/D/project/work/knockout.kendo/js/kendoUpload.js",
-		"/D/temp/sph/Workflow_5002_4.cs",
-		"/D/temp/sph/Workflow_5002_1.cs",
-		"/D/temp/sph/Workflow_8_25.cs",
-		"/C/project/work/sph/copy.workflows.bat",
-		"/C/project/work/sph/start-subscriber-console-runner.ps1",
-		"/D/temp/jsplumb/README.md",
-		"/D/temp/sph/Workflow_6002_0.cs",
-		"/D/temp/vegeta/README.md",
-		"/D/temp/sph/Workflow_4004_5.cs",
-		"/C/project/work/sph/source/domain/domain.sph/Triggers/ScreenActivity.cs",
-		"/C/project/work/sph/source/subscribers/subscriber.workflow/WorkflowSubscriber.cs",
 		"/C/project/work/sph/source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
-		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Index.cshtml",
-		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffPane.cshtml",
-		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffLine.cshtml",
-		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Diff.cshtml",
-		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Controllers/DiffController.cs",
-		"/H/Downloads/3003",
-		"/H/Downloads/tengok.cshtml",
-		"/D/project/work/_archived/cpd/source/web/cpd/Controllers/CourseController.cs",
-		"/C/project/work/sph/sph.sublime-project",
-		"/C/project/work/sph/SQLQuery1.sql",
-		"/C/project/work/sph/source/domain/domain.sph/Triggers/WorkflowDefinition.code.cs",
-		"/D/temp/Workflow_8_25.cs",
-		"/D/temp/Workflow_0_25.cs",
 		"/C/project/work/sph/source/web/web.sph/Views/Workflow/EditorTemplates/TextBox.cshtml",
 		"/C/Users/itpro/AppData/Local/Temp/ipuuso0s.0.cs",
+		"/D/temp/sph/Workflow_0_5.cs",
+		"/D/temp/sph/Workflow_1_21.cs",
 		"/D/temp/Workflow_1_5.cs",
 		"/D/temp/Workflow_1_8.cs",
 		"/D/temp/Workflow_1_13.cs",
+		"/C/Users/bespoke1/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/bespoke1/AppData/Roaming/Sublime Text 3/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/bespoke1/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
 		"/C/project/work/sph/source/web/web.sph/App/partial/WorkflowDefinition.js",
 		"/C/project/work/sph/source/web/web.sph/Views/Workflow/Start.cshtml"
 	],
 	"find":
 	{
-		"height": 44.0
+		"height": 32.0
 	},
 	"find_in_files":
 	{
@@ -139,17 +105,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"win",
-			"\n\nPOST sph/pendingtask/_search\n{\n    \"query\": {\n        \"term\": {\n           \"Performers\": {\n              \"value\": \"umar\"\n           }\n        }\n    }\n}\n",
-			"bc1",
-			"InitiateAs",
-			"<ActionRe",
-			"InitiateAsyncExecDelayActivityDelay3_a6f2Async",
-			"DelayA",
-			"buil",
-			"bu",
-			"diffB",
-			"Change",
+			"this",
+			"\n        public async override Task InitiateAsync(Workflow wf)\n        {\n          ",
+			"indent",
+			"tab",
 			"<input.*class=\".*(form-control).*\"",
 			"<input.*class=\".*^(?!.*?form-control).*\"",
 			"<input.*class=\".*^(form-control).*\"",
@@ -183,46 +142,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/C/project/work/pws/source/web/web.sph/Views/HotTowel/index.cshtml",
+					"file": "source/domain/domain.sph/Triggers/Activity.cs",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1977,
+						"buffer_size": 3731,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1235,
-								1235
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ASP/HTML-ASP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 528.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "source/web/web.sph/App_Start/BundleConfig.cs",
-					"settings":
-					{
-						"buffer_size": 5039,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								414,
-								414
+								0,
+								0
 							]
 						],
 						"settings":
@@ -232,37 +164,40 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 198.0,
+						"translation.y": 813.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "source/web/web.sph/Scripts/_function.prototypes.js",
+					"buffer": 1,
+					"file": "source/domain/domain.sph/Triggers/ScreenActivity.cs",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 453,
+						"buffer_size": 20010,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								309,
-								309
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/C#/C#.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1068.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -270,7 +205,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 0.0
+		"height": 32.0
 	},
 	"input":
 	{
@@ -299,9 +234,14 @@
 		]
 	},
 	"menu_visible": true,
-	"replace":
+	"output.find_results":
 	{
 		"height": 0.0
+	},
+	"project": "sph.sublime-project",
+	"replace":
+	{
+		"height": 60.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -310,28 +250,12 @@
 		"selected_items":
 		[
 			[
-				"_fun",
-				"source/web/web.sph/Scripts/_function.prototypes.js"
+				"screea",
+				"source\\domain\\domain.sph\\Triggers\\ScreenActivity.cs"
 			],
 			[
-				"buc",
-				"source/web/web.sph/App_Start/BundleConfig.cs"
-			],
-			[
-				"rabbitmqcha",
-				"source/dependencies/rabbitmq.changepublisher/ChangePublisherClient.cs"
-			],
-			[
-				"scree",
-				"source/domain/domain.sph/Triggers/ScreenActivity.cs"
-			],
-			[
-				"wordefc",
-				"source/web/web.sph/Controllers/WorkflowDefinitionController.cs"
-			],
-			[
-				"worde.co",
-				"source/domain/domain.sph/Triggers/WorkflowDefinition.code.cs"
+				"acti",
+				"source\\domain\\domain.sph\\Triggers\\Activity.cs"
 			],
 			[
 				"worde.js",
@@ -350,16 +274,30 @@
 	},
 	"select_project":
 	{
-		"height": 500.0,
+		"height": 0.0,
 		"selected_items":
 		[
 		],
-		"width": 380.0
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
 	},
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 230.0,
-	"status_bar_visible": true
+	"side_bar_width": 308.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
 }

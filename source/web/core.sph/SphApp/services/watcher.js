@@ -19,7 +19,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
             context.post(data, "/Sph/Watch/Register")
                 .then(function (result) {
                     tcs.resolve(result);
-                    logger.log("Anda sudah didaftar", data, "watcher", true);
+                    logger.log("Your watch has been registered", data, "watcher", true);
                 });
             return tcs.promise();
         },
@@ -30,7 +30,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
                 context.post(data, "/Sph/Watch/Deregister")
                     .then(function (result) {
                         tcs.resolve(result);
-                        logger.log("Anda sudah dibuang dari senarai", data, "watcher", true);
+                        logger.log("Your watch has been de-registered", data, "watcher", true);
                     });
                 return tcs.promise();
             },

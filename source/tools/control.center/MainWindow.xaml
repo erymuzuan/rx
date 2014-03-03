@@ -1,9 +1,10 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="Manual"
     Icon="Propeller.ico"
         xmlns:cc="clr-namespace:Bespoke.Sph.ControlCenter" x:Class="control.center.MainWindow"
-        Title="SPH control center" Height="350" Width="525">
+        Title="SPH control center" Height="850" Width="525">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

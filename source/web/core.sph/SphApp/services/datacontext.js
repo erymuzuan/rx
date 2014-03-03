@@ -111,6 +111,24 @@ function (logger, system, ko2) {
                     }
                 }
             }
+            // addChildItemFunction
+            item.addChildItem = function(list, childType) {
+                return function () {
+                    if (typeof childType === "function") {
+                        list.push(new childType(system.guid()));
+                        return;
+                    }
+                    console.log("Whoaaaaa");
+                };
+            };
+
+            item.removeChildItem = function(list, obj) {
+                return function() {
+                    list.remove(obj);
+                };
+            };
+
+
             return item;
 
         },

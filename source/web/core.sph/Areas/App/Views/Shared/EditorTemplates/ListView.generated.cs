@@ -44,14 +44,6 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.EditorTemplates
         }
         public override void Execute()
         {
-            
-            #line 3 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
-  
-    var jsNamespace = string.Format("bespoke.{0}_{1}.domain.{2}", ConfigurationManager.ApplicationName.ToLowerInvariant(), "<Id>", "<ChildType>");
-
-            
-            #line default
-            #line hidden
 WriteLiteral("\r\n\r\n<!--ko if:ko.unwrap($type) === \"Bespoke.Sph.Domain.ListView, domain.sph\" -->\r" +
 "\n<div");
 
@@ -62,6 +54,19 @@ WriteLiteral(">\r\n    <label");
 WriteLiteral(" for=\"form-element-list-view-type\"");
 
 WriteLiteral(">Child item type</label>\r\n    <input");
+
+WriteAttribute("placeholder", Tuple.Create(" placeholder=\"", 253), Tuple.Create("\"", 374)
+, Tuple.Create(Tuple.Create("", 267), Tuple.Create("e.g,", 267), true)
+, Tuple.Create(Tuple.Create(" ", 271), Tuple.Create("bespoke.", 272), true)
+            
+            #line 9 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+, Tuple.Create(Tuple.Create("", 280), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.ApplicationName.ToLowerInvariant()
+            
+            #line default
+            #line hidden
+, 280), false)
+, Tuple.Create(Tuple.Create("", 338), Tuple.Create("_&lt;id&gt;.domain.&lt;ChildType&gt;", 338), true)
+);
 
 WriteLiteral(" class=\"form-control\"");
 
@@ -74,35 +79,6 @@ WriteLiteral(" type=\"text\"");
 WriteLiteral(" name=\"MinLength\"");
 
 WriteLiteral(" />\r\n</div>\r\n\r\n<div");
-
-WriteLiteral(" class=\"form-group checkbox\"");
-
-WriteLiteral(">\r\n\r\n    <label>\r\n        <input");
-
-WriteLiteral(" data-bind=\"checked: IsChildItemFunction\"");
-
-WriteLiteral(" id=\"f-e-lv-func\"");
-
-WriteLiteral(" type=\"checkbox\"");
-
-WriteLiteral(" name=\"IsChildItemFunction\"");
-
-WriteLiteral(" />\r\n        Is a function\r\n    </label>\r\n    <span");
-
-WriteLiteral(" class=\"help-block\"");
-
-WriteLiteral(" data-bind=\"visible:IsChildItemFunction\"");
-
-WriteLiteral(">For custom entity set the ChildItemType to ");
-
-            
-            #line 19 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                                           Write(jsNamespace);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</span>\r\n\r\n</div>\r\n\r\n\r\n<div");
 
 WriteLiteral(" class=\"btn-group\"");
 
@@ -125,13 +101,13 @@ WriteLiteral(" class=\"dropdown-menu\"");
 WriteLiteral(">\r\n\r\n");
 
             
-            #line 31 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 19 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 31 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 19 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
           
             var fieldTypes = new[] {
                 typeof(TextBox)
@@ -151,13 +127,13 @@ WriteLiteral(">\r\n\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 44 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 32 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 44 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 32 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
          foreach (var type in fieldTypes)
         {
 
@@ -171,7 +147,7 @@ WriteLiteral(" class=\"btn btn-link\"");
 WriteLiteral(" data-bind=\"click: addListViewColumn(\'");
 
             
-            #line 47 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 35 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
                                                                         Write(type.Name);
 
             
@@ -183,14 +159,14 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(">\r\n                    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1736), Tuple.Create("\"", 1798)
+WriteAttribute("src", Tuple.Create(" src=\"", 1353), Tuple.Create("\"", 1415)
             
-            #line 48 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
-, Tuple.Create(Tuple.Create("", 1742), Tuple.Create<System.Object, System.Int32>(string.Format("/images/form.element.{0}.png",type.Name)
+            #line 36 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+, Tuple.Create(Tuple.Create("", 1359), Tuple.Create<System.Object, System.Int32>(string.Format("/images/form.element.{0}.png",type.Name)
             
             #line default
             #line hidden
-, 1742), false)
+, 1359), false)
 );
 
 WriteLiteral(" class=\"pull-left\"");
@@ -198,7 +174,7 @@ WriteLiteral(" class=\"pull-left\"");
 WriteLiteral(" />\r\n                    + ");
 
             
-            #line 49 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 37 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
                  Write(type.Name);
 
             
@@ -207,7 +183,7 @@ WriteLiteral(" />\r\n                    + ");
 WriteLiteral("\r\n                </a>\r\n            </li>\r\n");
 
             
-            #line 52 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 40 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
         }
 
             
