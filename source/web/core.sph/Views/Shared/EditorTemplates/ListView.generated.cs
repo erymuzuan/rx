@@ -147,7 +147,7 @@ WriteLiteral(" data-bind=\"foreach :");
 
             
             #line 23 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
-                              Write(Model.Path);
+                              Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             
             #line default
@@ -207,7 +207,7 @@ WriteLiteral(" data-bind=\"click : $parent.removeChildItem.call($parent,$parent.
 
             
             #line 39 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                                          Write(Model.Path);
+                                                                                                          Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             
             #line default
