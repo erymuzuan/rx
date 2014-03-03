@@ -74,22 +74,22 @@ WriteLiteral(" data-bind=\"click : addChildItem(");
             
             #line default
             #line hidden
-WriteLiteral(", \'");
+WriteLiteral(", ");
 
             
             #line 10 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                                                            Write(Model.ChildItemType);
+                                                                                                                           Write(Model.ChildItemType);
 
             
             #line default
             #line hidden
-WriteLiteral("\')\"");
+WriteLiteral(")\"");
 
 WriteLiteral(">");
 
             
             #line 10 "..\..\Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                                                                                    Write(Model.Label);
+                                                                                                                                                  Write(Model.Label);
 
             
             #line default

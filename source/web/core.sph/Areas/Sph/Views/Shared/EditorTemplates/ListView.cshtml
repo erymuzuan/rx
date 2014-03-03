@@ -7,7 +7,7 @@
 }
 
 <div data-bind="">
-    <button class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path.ConvertJavascriptObjectToFunction(), '@Model.ChildItemType')">@Model.Label</button>
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path.ConvertJavascriptObjectToFunction(), @Model.ChildItemType)">@Model.Label</button>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>

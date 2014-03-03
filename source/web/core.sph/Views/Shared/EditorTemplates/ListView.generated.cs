@@ -78,7 +78,7 @@ WriteLiteral(" data-bind=\"click : addChildItem(");
 
             
             #line 12 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                          Write(Model.Path);
+                                                                          Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             
             #line default
@@ -87,7 +87,7 @@ WriteLiteral(", ");
 
             
             #line 12 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                       Write(Model.ChildItemType);
+                                                                                                                           Write(Model.ChildItemType);
 
             
             #line default
@@ -98,7 +98,7 @@ WriteLiteral(">");
 
             
             #line 12 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
-                                                                                                              Write(Model.Label);
+                                                                                                                                                  Write(Model.Label);
 
             
             #line default
