@@ -48,3 +48,8 @@ _ReSharper.commercial-space
 /source/web/web.sph/durandal2
 /source/web/core.sph/bin
 /source/web/web.sph/bin
+/elasticsearch
+/IIS Express
+/IIS Express/config/schema/ASPNET_schema.xml
+/rabbitmq_server
+/rabbitmq_server/ebin/app_utils.beam
