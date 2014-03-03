@@ -93,7 +93,7 @@ namespace Bespoke.Sph.WathersSubscribers
 
                 var listenerType = sqlRepositoryType.MakeGenericType(edType);
                 dynamic listener = Activator.CreateInstance(listenerType, ObjectBuilder.GetObject("IBrokerConnection"));
-                listener.Callback = new Action<object>(Console.WriteLine);
+                listener.Callback = new Action<object>(arg => this.EntityChanged(listener, arg));
 
                 //var method = this.GetType().GetMethod("EntityChanged").MakeGenericMethod(edType);
                 //var eventInfo = listener.GetType().GetEvent("Changed");
@@ -112,7 +112,7 @@ namespace Bespoke.Sph.WathersSubscribers
 
         }
 
-        public async void EntityChanged<T>(object sender, EntityChangedEventArgs<T> e) where T : Entity
+        public async void EntityChanged(object sender, dynamic e)
         {
             this.WriteMessage("Changed to " + e);
             var entityName = e.Item.GetType().Name;
@@ -123,18 +123,18 @@ namespace Bespoke.Sph.WathersSubscribers
             this.WriteMessage("There {0} watchers", watchers.Count);
             foreach (var w in watchers)
             {
-                await this.SendMessage(w, e.Item);
+                await this.SendMessage(w, e.Item, e.AuditTrail);
             }
         }
 
-        private async Task SendMessage<T>(Watcher watcher, T item) where T: Entity
+        private async Task SendMessage<T>(Watcher watcher, T item, AuditTrail log) where T : Entity
         {
             var context = new SphDataContext();
             var message = new Message
             {
                 Subject = "There are changes in your watched item: " + item.GetType().Name,
                 UserName = watcher.User,
-                Body = item.ToString()
+                Body = string.Format("<p>{0}</p><div>{1}</div>", item, log)
             };
 
 

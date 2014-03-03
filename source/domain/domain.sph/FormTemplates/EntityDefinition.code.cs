@@ -9,6 +9,7 @@ namespace Bespoke.Sph.Domain
     public partial class EntityDefinition
     {
 
+
         private string GenerateCode()
         {
             var code = new StringBuilder();
@@ -32,6 +33,12 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       get{{ return m_{0}Id;}}", this.Name.ToCamelCase());
             code.AppendLinf("       set{{ m_{0}Id = value;}}", this.Name.ToCamelCase());
             code.AppendLine("   }");
+
+            code.AppendFormat(@"     
+        public override string ToString()
+        {{
+            return ""{0}:"" + {1};
+        }}", this.Name, this.RecordName);
 
             // properties for each members
             foreach (var member in this.MemberCollection)
