@@ -1,0 +1,1 @@
+".\rabbitmq_server\sbin\rabbitmq-server.bat"
