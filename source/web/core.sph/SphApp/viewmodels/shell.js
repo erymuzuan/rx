@@ -39,6 +39,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                         elem.draggable({
                             handle: '.modal-header'
                         });
+                        $('.modal-header').css("cursor", "move");
                         console.log('draggagle modal');
                     }
                 });
