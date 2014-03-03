@@ -68,7 +68,6 @@ namespace Bespoke.Sph.WathersSubscribers
             {
                 var listener = this.RegisterCustomEntityDependencies(ed);
                 if (null == listener) continue;
-                listener.Changed += new EntityChangedEventHandler<Entity>(EntityChanged);
                 listener.Run();
                 this.ListenerCollection.Add(listener);
 
@@ -93,8 +92,13 @@ namespace Bespoke.Sph.WathersSubscribers
                     Console.WriteLine("Cannot create type " + edTypeName);
 
                 var listenerType = sqlRepositoryType.MakeGenericType(edType);
-                dynamic listener = Activator.CreateInstance(listenerType);
+                dynamic listener = Activator.CreateInstance(listenerType, ObjectBuilder.GetObject("IBrokerConnection"));
+                listener.Callback = new Action<object>(Console.WriteLine);
 
+                //var method = this.GetType().GetMethod("EntityChanged").MakeGenericMethod(edType);
+                //var eventInfo = listener.GetType().GetEvent("Changed");
+                //Decimal handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, method);
+                //eventInfo.AddEventHandler(listener, handler);
 
                 return listener;
             }
@@ -108,7 +112,7 @@ namespace Bespoke.Sph.WathersSubscribers
 
         }
 
-        private async void EntityChanged<T>(object sender, EntityChangedEventArgs<T> e) where T : Entity
+        public async void EntityChanged<T>(object sender, EntityChangedEventArgs<T> e) where T : Entity
         {
             this.WriteMessage("Changed to " + e);
             var entityName = e.Item.GetType().Name;

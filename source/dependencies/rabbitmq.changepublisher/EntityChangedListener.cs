@@ -91,7 +91,12 @@ namespace Bespoke.Sph.RabbitMqPublisher
                     this.Changed(this, arg);// worker thread
 
             }
+
+            if (null != this.Callback)
+                Callback(arg);
         }
+
+        public Action<object> Callback { get; set; }
 
 
         private string ByteToString(byte[] content)
