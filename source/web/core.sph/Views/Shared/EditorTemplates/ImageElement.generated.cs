@@ -59,7 +59,7 @@ WriteLiteral(" data-bind=\"attr : {\'src\':");
 
             
             #line 8 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                         Write(path);
+                         Write(Html.Raw(path));
 
             
             #line default
@@ -68,7 +68,7 @@ WriteLiteral("}, visible:");
 
             
             #line 8 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                         Write(Model.Visible);
+                                                   Write(Html.Raw(Model.Visible));
 
             
             #line default

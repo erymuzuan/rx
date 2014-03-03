@@ -4,8 +4,25 @@
     Model.Enable = "true";
 }
 @{
-     var path = string.Format("'/sph/binarystore/get/' + {0}()", Model.Path);
- }
-<a data-bind="attr : {'href':@path}, visible:@Model.Visible" download>
-    @Model.Label
-</a>
+    var path = string.Format("'/sph/binarystore/get/' + {0}()", Model.Path);
+}
+
+@if (Model.IsCompact)
+{
+    <a data-bind="attr : {'href':@Html.Raw(path)}, visible:@Model.Visible" download>
+        @Model.Label
+    </a>
+}
+else
+{
+
+    <div class="form-group" data-bind="visible:@Model.Visible">
+        <label for="@Model.ElementId" class=""></label>
+        <div class="@Model.InputPanelCssClass">
+            <a id="@Model.ElementId" data-bind="attr : {'href':@Html.Raw(path)}, visible:@Model.Visible" download>
+                @Model.Label
+            </a>
+        </div>
+    </div>
+}
+

@@ -5,4 +5,4 @@
 }@{
     var path = string.Format("'/sph/image/store/' + {0}()", this.Model.Path);
 }
-<img data-bind="attr : {'src':@path}, visible:@Model.Visible" />
+<img data-bind="attr : {'src':@Html.Raw(path)}, visible:@Html.Raw(Model.Visible)" />

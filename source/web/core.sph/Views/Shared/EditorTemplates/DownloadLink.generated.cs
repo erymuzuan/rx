@@ -49,18 +49,28 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
             
             #line 6 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
   
-     var path = string.Format("'/sph/binarystore/get/' + {0}()", Model.Path);
- 
+    var path = string.Format("'/sph/binarystore/get/' + {0}()", Model.Path);
+
             
             #line default
             #line hidden
-WriteLiteral("\r\n<a");
+WriteLiteral("\r\n\r\n");
+
+            
+            #line 10 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+ if (Model.IsCompact)
+{
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    <a");
 
 WriteLiteral(" data-bind=\"attr : {\'href\':");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-                        Write(path);
+            #line 12 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+                            Write(Html.Raw(path));
 
             
             #line default
@@ -68,8 +78,8 @@ WriteLiteral(" data-bind=\"attr : {\'href\':");
 WriteLiteral("}, visible:");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-                                        Write(Model.Visible);
+            #line 12 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+                                                      Write(Model.Visible);
 
             
             #line default
@@ -78,16 +88,121 @@ WriteLiteral("\"");
 
 WriteLiteral(" download>\r\n");
 
-WriteLiteral("    ");
+WriteLiteral("        ");
 
             
-            #line 10 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
-Write(Model.Label);
+            #line 13 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+   Write(Model.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n</a>");
+WriteLiteral("\r\n    </a>\r\n");
+
+            
+            #line 15 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+}
+else
+{
+
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(" data-bind=\"visible:");
+
+            
+            #line 19 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+                                          Write(Model.Visible);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
+
+WriteLiteral(">\r\n        <label");
+
+WriteAttribute("for", Tuple.Create(" for=\"", 445), Tuple.Create("\"", 467)
+            
+            #line 20 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+, Tuple.Create(Tuple.Create("", 451), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            
+            #line default
+            #line hidden
+, 451), false)
+);
+
+WriteLiteral(" class=\"\"");
+
+WriteLiteral("></label>\r\n        <div");
+
+WriteAttribute("class", Tuple.Create(" class=\"", 500), Tuple.Create("\"", 533)
+            
+            #line 21 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+, Tuple.Create(Tuple.Create("", 508), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            
+            #line default
+            #line hidden
+, 508), false)
+);
+
+WriteLiteral(">\r\n            <a");
+
+WriteAttribute("id", Tuple.Create(" id=\"", 551), Tuple.Create("\"", 572)
+            
+            #line 22 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+, Tuple.Create(Tuple.Create("", 556), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            
+            #line default
+            #line hidden
+, 556), false)
+);
+
+WriteLiteral(" data-bind=\"attr : {\'href\':");
+
+            
+            #line 22 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+                                                          Write(Html.Raw(path));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("}, visible:");
+
+            
+            #line 22 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+                                                                                    Write(Model.Visible);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
+
+WriteLiteral(" download>\r\n");
+
+WriteLiteral("                ");
+
+            
+            #line 23 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+           Write(Model.Label);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n            </a>\r\n        </div>\r\n    </div>\r\n");
+
+            
+            #line 27 "..\..\Views\Shared\EditorTemplates\DownloadLink.cshtml"
+}
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
 
         }
     }
