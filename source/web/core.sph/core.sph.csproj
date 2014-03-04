@@ -381,11 +381,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\AddressElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AddressElement.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Areas\App\Views\Shared\DisplayTemplates\BarChartItem.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -724,11 +719,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_TriggerFieldDropDown.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\AddressElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AddressElement.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\CheckBox.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -870,11 +860,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Index.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\AddressElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AddressElement.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Views\App\DisplayTemplates\CheckBox.generated.cs">
       <AutoGen>True</AutoGen>
@@ -2050,10 +2035,6 @@
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
-    <Content Include="Areas\App\Views\Shared\DisplayTemplates\AddressElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>AddressElement.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\Button.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Button.generated.cs</LastGenOutput>
@@ -3015,10 +2996,6 @@
       <LastGenOutput>AddressElement.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\Template\EditorTemplates\AddressElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\AddressElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>AddressElement.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\Sph\Views\Template\_Toolbox.cshtml" />
     <Content Include="Areas\Sph\Views\Template\EditorTemplates\ComplaintCategoryElement.cshtml" />
     <Content Include="Areas\Sph\Views\Template\_PathPicker.cshtml" />
@@ -3208,11 +3185,6 @@
     <Content Include="Areas\Sph\Views\Shared\_LayoutTest.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_LayoutTest.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\App\DisplayTemplates\AddressElement.cshtml">
-      <SubType>Code</SubType>
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>AddressElement.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\App\DisplayTemplates\MapElement.cshtml">
       <Generator>RazorGenerator</Generator>
