@@ -17,6 +17,14 @@ namespace Bespoke.Sph.Web.Api
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
 
+        public async Task<ActionResult> EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<EmailTemplate>(filter, page, size, includeTotal);
+        }
+        public async Task<ActionResult> DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<DocumentTemplate>(filter, page, size, includeTotal);
+        }
         public async Task<ActionResult> EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<EntityDefinition>(filter, page, size, includeTotal);

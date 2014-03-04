@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class DocumentTemplate : Entity
+    public partial class EmailTemplate : Entity
     {
         public Task<BuildValidationResult> ValidateBuildAsync(EntityDefinition ed)
         {

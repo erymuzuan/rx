@@ -1,5 +1,5 @@
 ﻿<section>
-    <h1>Settings</h1>
+    <h1>Templates</h1>
     <div class="">
         <ul class="nav nav-tabs">
             <li class="active">
@@ -7,18 +7,78 @@
             </li>
             <li>
                 <a href="#email-template-tab" data-toggle="tab">Email Templates</a>
-            </li> 
-            
+            </li>
+
         </ul>
 
         <div class="tab-content">
             <div id="doc-template-tab" class="tab-pane active">
-               
+
+                <table class="table table-striped" data-bind="filter : {path:'tbody>tr'},
+    serverPaging : {
+        entity : 'DocumentTemplate',
+        query : 'DocumentTemplateId gt 0',
+        list : documentTemplates
+    }">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Entity</th>
+                            <th>Note</th>
+                            <th>Is Published</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach :documentTemplates">
+                        <tr>
+                            <td>
+                                <a data-bind="attr : {href:'#/document.template.details/' + DocumentTemplateId()}">
+                                    <i class="fa fa-edit"></i>
+                                    <span data-bind="text:Name"></span>
+                                </a>
+                            </td>
+                            <td data-bind="text:Entity"></td>
+                            <td data-bind="text:Note"></td>
+                            <td>
+                                <i class="fa fa-check" data-bind="visible:IsPublished"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="#document.template.details/0">+ Document Template</a>
 
             </div>
-            <div id="email-template-tab" class="tab-pane active">
-               
-
+            <div id="email-template-tab" class="tab-pane">
+                <table class="table table-striped" data-bind="filter : {path:'tbody>tr'},
+    serverPaging : {
+        entity : 'EmailTemplate',
+        query : 'EmailTemplateId gt 0',
+        list : emailTemplates
+    }">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Entity</th>
+                            <th>Note</th>
+                            <th>Is Published</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach :emailTemplates">
+                        <tr>
+                            <td>
+                                <a data-bind="attr : {href:'#/email.template.details/' + EmailTemplateId()}">
+                                    <i class="fa fa-edit"></i>
+                                    <span data-bind="text:Name"></span>
+                                </a>
+                            </td>
+                            <td data-bind="text:Entity"></td>
+                            <td data-bind="text:Note"></td>
+                            <td>
+                                <i class="fa fa-check" data-bind="visible:IsPublished"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="#email.template.details/0">+ Email Template</a>
             </div>
 
         </div>

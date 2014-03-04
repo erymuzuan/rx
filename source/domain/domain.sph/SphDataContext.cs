@@ -13,6 +13,8 @@ namespace Bespoke.Sph.Domain
     public class SphDataContext
     {
         public IQueryable<AuditTrail> AuditTrails { get; set; }
+        public IQueryable<DocumentTemplate> DocumentTemplates { get; set; }
+        public IQueryable<EmailTemplate> EmailTemplates { get; set; }
         public IQueryable<EntityDefinition> EntityDefinitions { get; set; }
         public IQueryable<EntityForm> EntityForms { get; set; }
         public IQueryable<EntityView> EntityViews { get; set; }
@@ -31,6 +33,8 @@ namespace Bespoke.Sph.Domain
         {
             var provider = ObjectBuilder.GetObject<QueryProvider>();
 
+            this.DocumentTemplates = new Query<DocumentTemplate>(provider);
+            this.EmailTemplates = new Query<EmailTemplate>(provider);
             this.EntityDefinitions = new Query<EntityDefinition>(provider);
             this.EntityForms = new Query<EntityForm>(provider);
             this.EntityViews = new Query<EntityView>(provider);

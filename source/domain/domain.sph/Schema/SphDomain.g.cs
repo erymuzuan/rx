@@ -3017,6 +3017,472 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("EmailTemplate", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class EmailTemplate
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_emailTemplateId;
+        public const string PropertyNameEmailTemplateId = "EmailTemplateId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_subjectTemplate;
+        public const string PropertyNameSubjectTemplate = "SubjectTemplate";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_bodyTemplate;
+        public const string PropertyNameBodyTemplate = "BodyTemplate";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int EmailTemplateId
+        {
+            set
+            {
+                if (m_emailTemplateId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEmailTemplateId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_emailTemplateId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_emailTemplateId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Note
+        {
+            set
+            {
+                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string SubjectTemplate
+        {
+            set
+            {
+                if (String.Equals(m_subjectTemplate, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSubjectTemplate, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_subjectTemplate = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_subjectTemplate;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string BodyTemplate
+        {
+            set
+            {
+                if (String.Equals(m_bodyTemplate, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBodyTemplate, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_bodyTemplate = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_bodyTemplate;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DocumentTemplate", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DocumentTemplate
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_documentTemplateId;
+        public const string PropertyNameDocumentTemplateId = "DocumentTemplateId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_wordTemplateStoreId;
+        public const string PropertyNameWordTemplateStoreId = "WordTemplateStoreId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int DocumentTemplateId
+        {
+            set
+            {
+                if (m_documentTemplateId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDocumentTemplateId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_documentTemplateId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_documentTemplateId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Note
+        {
+            set
+            {
+                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string WordTemplateStoreId
+        {
+            set
+            {
+                if (String.Equals(m_wordTemplateStoreId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameWordTemplateStoreId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_wordTemplateStoreId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_wordTemplateStoreId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+
+    }
+
 }
 // ReSharper restore InconsistentNaming
 

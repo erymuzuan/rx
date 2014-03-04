@@ -2427,6 +2427,73 @@ bespoke.sph.domain.Address = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.EmailTemplate = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EmailTemplate, domain.sph",
+        EmailTemplateId: ko.observable(0),
+        Entity: ko.observable(''),
+        Name: ko.observable(''),
+        Note: ko.observable(''),
+        SubjectTemplate: ko.observable(''),
+        BodyTemplate: ko.observable(''),
+        IsPublished: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EmailTemplatePartial) {
+        return _(model).extend(new bespoke.sph.domain.EmailTemplatePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.DocumentTemplate = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.DocumentTemplate, domain.sph",
+        DocumentTemplateId: ko.observable(0),
+        Name: ko.observable(''),
+        Note: ko.observable(''),
+        WordTemplateStoreId: ko.observable(''),
+        IsPublished: ko.observable(false),
+        Entity: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DocumentTemplatePartial) {
+        return _(model).extend(new bespoke.sph.domain.DocumentTemplatePartial(model));
+    }
+    return model;
+};
+
+
 ///#source 1 1 /SphApp/schemas/trigger.workflow.g.js
 
 /// <reference path="~/scripts/knockout-3.0.0.debug.js" />

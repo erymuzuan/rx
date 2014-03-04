@@ -12,68 +12,21 @@ define(['services/datacontext', 'services/logger'],
     function (context, logger) {
 
         var isBusy = ko.observable(false),
+            documentTemplates = ko.observableArray(),
+            emailTemplates = ko.observableArray(),
             activate = function () {
+                return true;
+
             },
             attached = function () {
-                $("#returnLetterTemplate,#offerLetterTemplate").kendoUpload({
-                    async: {
-                        saveUrl: "/BinaryStore/Upload",
-                        removeUrl: "/BinaryStore/Remove",
-                        autoUpload: true
-                    },
-                    multiple: false,
-                    error: function (e) {
-                        logger.logError(e, e, this, true);
-                    },
-                    success: function (e) {
-                        logger.log('Your file has been ' + e.operation, e, this, true);
-                        var storeId = e.response.storeId;
-                        var uploaded = e.operation === "upload";
-                        var removed = e.operation != "upload";
-
-                        if (uploaded) {
-                            vm[e.sender.element.attr("id")](storeId);
-                        }
-
-                        if (removed) {
-                            vm[e.sender.element.attr("id")]("");
-                        }
-
-                    }
-                });
-            },
-
-                save = function () {
-
-                    var tcs = new $.Deferred();
-                    var data = JSON.stringify({
-                        settings: [{
-                            Key: "Template.Returned.Letter",
-                            Value: vm.returnLetterTemplate()
-                        },
-                            {
-                                Key: "Template.Offer.Letter",
-                                Value: vm.offerLetterTemplate()
-                            }]
-                    });
-                    isBusy(true);
-
-                    context.post(data, "/Setting/Save")
-                        .then(function (result) {
-                            isBusy(false);
-                            logger.log('All the setting has been saved', result, this, true);
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
-                };
+            };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
             attached: attached,
-            returnLetterTemplate: ko.observable(''),
-            offerLetterTemplate: ko.observable(''),
-            saveCommand: save
+            documentTemplates: documentTemplates,
+            emailTemplates: emailTemplates
         };
 
         return vm;
