@@ -48,15 +48,26 @@ define([objectbuilders.datacontext, objectbuilders.config],
                                     });
                         }
 
-                        var item = _(vm.messages()).find(function(v) {
+                        var item = _(vm.messages()).find(function (v) {
                             return v.MessageId() == message.MessageId();
                         });
                         if (item) {
                             vm.messages.remove(item);
+                        } else {
+                            // new item - put it on top
+                            var query1 = String.format("MessageId eq {0}", message.MessageId());
+                            context.getCountAsync("Message", query1, "MessageId")
+                                   .done(function (c) {
+                                       if (c === 1) {
+                                           vm.messages.splice(0, 0, message);
+                                       }
+                                   });
                         }
+
                     });
 
                     connection.start().done(function () {
+
                         console.log("started...connection to message connection");
                     });
 

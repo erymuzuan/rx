@@ -184,7 +184,7 @@
       }
     ]
   },
-  "WorkflowDefinitionId": 9002,
+  "WorkflowDefinitionId": 9003,
   "Name": "My scheduled workflow",
   "Note": "",
   "IsActive": false,
