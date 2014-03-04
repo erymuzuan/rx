@@ -46,6 +46,11 @@
                             tcs.resolve(true);
                         });
                     }
+                    form().Name.subscribe(function(v) {
+                        if (!form().Route()) {
+                            form().Route(v.toLowerCase().replace(/\W+/g, "-"));
+                        }
+                    });
                     form().EntityDefinitionId(id);
 
                     return tcs.promise();

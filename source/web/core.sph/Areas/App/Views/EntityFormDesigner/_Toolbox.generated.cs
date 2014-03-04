@@ -117,7 +117,7 @@ WriteLiteral(">\r\n                    <label>Name</label>\r\n                  
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: Name, valueUpdate: \'keyup\'\"");
+WriteLiteral(" data-bind=\"value: Name\"");
 
 WriteLiteral(" id=\"form-design-name\"");
 
@@ -133,7 +133,7 @@ WriteLiteral(">\r\n                    <label>Description</label>\r\n           
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: Note, valueUpdate: \'keyup\'\"");
+WriteLiteral(" data-bind=\"value: Note\"");
 
 WriteLiteral(" id=\"form-design-Description\"");
 
