@@ -2022,6 +2022,7 @@
       <DependentUpon>objectbuilders.js</DependentUpon>
     </Content>
     <EmbeddedResource Include="SphApp\viewmodels\business.rule.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\email.entity.dialog.js" />
     <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
@@ -2046,6 +2047,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\workflow.kpi.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
+    <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\AddressElement.cshtml">

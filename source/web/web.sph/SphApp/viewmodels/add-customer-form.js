@@ -4,13 +4,14 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         var entity = ko.observable(new bespoke.dev_1.domain.Customer({WebId: system.guid()})),
             form = ko.observable(new bespoke.sph.domain.EntityForm()),
             watching = ko.observable(false),
-            activate = function (id) {
-
-                var query = String.format("CustomerId eq {0}", id),
+            id = ko.observable(),
+            activate = function (id2) {
+                id(parseInt(id2));
+                var query = String.format("CustomerId eq {0}", id2),
                     tcs = new $.Deferred(),
                     itemTask = context.loadOneAsync("Customer", query),
                     formTask = context.loadOneAsync("EntityForm", "Route eq 'add-customer-form'"),
-                    watcherTask = watcher.getIsWatchingAsync("Customer", id);
+                    watcherTask = watcher.getIsWatchingAsync("Customer", id2);
 
                 $.when(itemTask, formTask, watcherTask).done(function (b, f, w) {
                     if (b) {
@@ -18,7 +19,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         entity(item);
 
 
-                        vm.toolbar.printCommand.id(parseInt(id));
+                        vm.toolbar.printCommand.id(parseInt(id2));
 
                     }
                     else {
@@ -125,9 +126,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             entity: entity,
             save: save,
             toolbar: {
-                emailCommand: function () {
-                    console.log("Sending email");
-                    return Task.fromResult(true);
+                emailCommand: {
+                    entity: 'Customer',
+                    id: id
                 },
 
                 watchCommand: function () {
@@ -145,7 +146,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 watching: watching,
                 printCommand: {
                     entity: 'Customer',
-                    id: ko.observable()
+                    id: id
                 },
 
                 saveCommand: save,

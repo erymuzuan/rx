@@ -67,6 +67,13 @@
         </button>
         <!-- /ko -->
 
+        <!-- ko if: typeof emailCommand === "object"-->
+        <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.emailCommand, commandParameter: emailCommand }">
+            <i class="fa fa-envelope-o"></i>
+            Email
+        </button>
+        <!-- /ko -->
+
         <!-- ko if: typeof printCommand === "object"-->
         <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.printCommand, commandParameter: printCommand }" data-loading-text="Cetak....">
             <i class="fa fa-print"></i>
@@ -96,12 +103,6 @@
         </button>
         <!-- /ko -->
 
-        <!-- ko if: typeof emailCommand === "function"-->
-        <button class="btn btn-default" data-bind="command: emailCommand">
-            <i class="fa fa-envelope-o"></i>
-            Email
-        </button>
-        <!-- /ko -->
 
         <!-- ko if: typeof watchCommand === "function"-->
         <button class="btn btn-default" data-bind="command: watchCommand, visible: watching() === false" >

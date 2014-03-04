@@ -1,6 +1,7 @@
 ﻿/// <reference path="../objectbuilders.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/require.js" />
 
 
 define(['durandal/system', 'plugins/router', 'services/logger', 'services/datacontext', objectbuilders.config, objectbuilders.cultures],
@@ -224,6 +225,31 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                     url = String.format("/sph/print/{0}/{1}", parameter.entity, +parameter.id());
                 window.open(url);
                 return Task.fromResult(true);
+            },
+            email = function (commandParameter) {
+                var parameter = typeof commandParameter === "function" ? commandParameter() : commandParameter,
+                    url = String.format("/sph/print/{0}/{1}", parameter.entity, +parameter.id()),
+                    tcs = new $.Deferred();
+
+
+
+                require(['viewmodels/email.entity.dialog', 'durandal/app'], function (dialog, app2) {
+                    dialog.entity(parameter.entity);
+                    dialog.id(parameter.id());
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+
+                            }
+                        tcs.resolve(true);
+                    });
+
+                });
+                return tcs.promise();
             };
 
         var shell = {
@@ -233,6 +259,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
             router: router,
             viewAuditTrailCommand: viewAuditTrail,
             printCommand: print,
+            emailCommand: email,
             auditTrailCollection: ko.observableArray(),
             selectedAuditTrail: ko.observable(new bespoke.sph.domain.AuditTrail()),
             selectAuditTrail: selectAuditTrail
