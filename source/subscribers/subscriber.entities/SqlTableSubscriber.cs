@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Newtonsoft.Json;
 
 namespace subscriber.entities
 {
@@ -64,6 +65,7 @@ namespace subscriber.entities
                     "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{0}'  AND  TABLE_NAME = '{1}'",
                     applicationName, item.Name);
             var createTable = this.CreateTableSql(item, header, applicationName);
+            var oldTable = string.Format("{0}_{1:yyyyMMdd_HHmmss}", item.Name, DateTime.Now);
             using (var conn = new SqlConnection(connectionString))
             {
                 await conn.OpenAsync();
@@ -78,7 +80,7 @@ namespace subscriber.entities
                     using (var renameTableCommand = new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
                     {
                         renameTableCommand.Parameters.AddWithValue("@objname", string.Format("[{0}].[{1}]", applicationName, item.Name));
-                        renameTableCommand.Parameters.AddWithValue("@newname", string.Format("{0}_{1:yyyyMMdd_HHmmss}", item.Name, DateTime.Now));
+                        renameTableCommand.Parameters.AddWithValue("@newname", oldTable);
                         //renameTableCommand.Parameters.AddWithValue("@objtype", "OBJECT");
 
                         await renameTableCommand.ExecuteNonQueryAsync();
@@ -89,6 +91,33 @@ namespace subscriber.entities
                 using (var createTableCommand = new SqlCommand(createTable, conn))
                 {
                     await createTableCommand.ExecuteNonQueryAsync();
+                }
+                if (count == 0) return;
+
+                this.WriteMessage("Migrating data for {0}", item.Name);
+
+                //migrate
+                var readSql = string.Format("SELECT [{0}Id],[Json] FROM [{1}].[{2}]", item.Name, applicationName, oldTable);
+                using (var cmd = new SqlCommand(readSql, conn))
+                {
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (reader.Read())
+                        {
+                            var id = reader.GetInt32(0);
+                            var json = reader.GetString(1);
+
+                            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                            dynamic ent = JsonConvert.DeserializeObject(json, setting);
+                            ent.SetId(id);
+
+                            //
+                            var persistence = ObjectBuilder.GetObject<IPersistence>();
+                            await persistence.SubmitChanges(ent);
+
+                        }
+
+                    }
                 }
 
 

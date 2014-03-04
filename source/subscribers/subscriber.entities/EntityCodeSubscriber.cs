@@ -45,7 +45,7 @@ namespace subscriber.entities
 
         private void Deploy(EntityDefinition item)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(5000);
 
             var dll = string.Format("{0}.{1}.dll",ConfigurationManager.ApplicationName, item.Name);
             var pdb = string.Format("{0}.{1}.pdb",ConfigurationManager.ApplicationName, item.Name);
