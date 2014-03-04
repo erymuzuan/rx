@@ -1,155 +1,159 @@
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher],
+    function (context, logger, router, system, validation, eximp, dialog, watcher) {
 
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher],
-        function (context, logger, router, system, validation, eximp, dialog, watcher) {
+        var entity = ko.observable(new bespoke.dev_1.domain.Customer({WebId: system.guid()})),
+            form = ko.observable(new bespoke.sph.domain.EntityForm()),
+            watching = ko.observable(false),
+            activate = function (id) {
 
-            var entity = ko.observable(new bespoke.dev_1.domain.Customer({WebId:system.guid()})),
-                form = ko.observable(new bespoke.sph.domain.EntityForm()),
-                watching = ko.observable(false),
-                activate = function (id) {
+                var query = String.format("CustomerId eq {0}", id),
+                    tcs = new $.Deferred(),
+                    itemTask = context.loadOneAsync("Customer", query),
+                    formTask = context.loadOneAsync("EntityForm", "Route eq 'add-customer-form'"),
+                    watcherTask = watcher.getIsWatchingAsync("Customer", id);
 
-                    var query = String.format("CustomerId eq {0}", id),
-                        tcs = new $.Deferred(),
-                        itemTask = context.loadOneAsync("Customer", query),
-                        formTask = context.loadOneAsync("EntityForm", "Route eq 'add-customer-form'"),
-                        watcherTask = watcher.getIsWatchingAsync("Customer", id);
+                $.when(itemTask, formTask, watcherTask).done(function (b, f, w) {
+                    if (b) {
+                        var item = context.toObservable(b, /Bespoke\.Dev_1\.Domain\.(.*?),/);
+                        entity(item);
 
-                    $.when(itemTask, formTask, watcherTask).done(function(b,f,w) {
-                        if (b) {
-                            var item = context.toObservable(b, /Bespoke\.Dev_1\.Domain\.(.*?),/);
-                            entity(item);
 
-                                
-                            vm.toolbar.printCommand.id(parseInt(id));
-                            
+                        vm.toolbar.printCommand.id(parseInt(id));
+
+                    }
+                    else {
+                        entity(new bespoke.dev_1.domain.Customer({WebId: system.guid()}));
+                    }
+                    form(f);
+                    watching(w);
+
+                    tcs.resolve(true);
+                });
+
+                return tcs.promise();
+            },
+            attached = function (view) {
+                // validation
+                validation.init($('#add-customer-form-form'), form());
+
+            },
+
+            Customer;
+        CheckTheRevenue = function () {
+
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(entity);
+
+            context.post(data, "/Sph/BusinessRule/Validate?Customer;CheckTheRevenue")
+                .then(function (result) {
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        },
+            Customer;
+        VerifyTheGrade = function () {
+
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(entity);
+
+            context.post(data, "/Sph/BusinessRule/Validate?Customer;VerifyTheGrade")
+                .then(function (result) {
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        },
+            Customer;
+        VerifyTheAge = function () {
+
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(entity);
+
+            context.post(data, "/Sph/BusinessRule/Validate?Customer;VerifyTheAge")
+                .then(function (result) {
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        },
+            Customer;
+        MustBeMalaysian = function () {
+
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(entity);
+
+            context.post(data, "/Sph/BusinessRule/Validate?Customer;MustBeMalaysian")
+                .then(function (result) {
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        },
+            doThis = function () {
+                console.log("do this");
+                return Task.fromResult(true);
+            },
+            save = function () {
+                if (!validation.valid()) {
+                    return Task.fromResult(false);
+                }
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(entity);
+
+
+                context.post(data, "/Sph/BusinessRule/Validate?Customer;CheckTheRevenue;VerifyTheGrade;VerifyTheAge;MustBeMalaysian")
+                    .then(function (result) {
+                        if (result.success) {
+                            context.post(data, "/Customer/Save")
+                                .then(function (result) {
+                                    tcs.resolve(result);
+                                });
+                        } else {
+                            tcs.resolve(result);
                         }
-                        else {
-                            entity(new bespoke.dev_1.domain.Customer({WebId:system.guid()}));
-                        }
-                        form(f);
-                        watching(w);
-
-                        tcs.resolve(true);
                     });
 
-                    return tcs.promise();
-                },
-                attached = function (view) {
-                    // validation
-                    validation.init($('#add-customer-form-form'), form());
 
-                },
-
-                  Customer;CheckTheRevenue = function(){
-
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
-
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;CheckTheRevenue" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
-                },
-                  Customer;VerifyTheGrade = function(){
-
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
-
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;VerifyTheGrade" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
-                },
-                  Customer;VerifyTheAge = function(){
-
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
-
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;VerifyTheAge" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
-                },
-                  Customer;MustBeMalaysian = function(){
-
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
-
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;MustBeMalaysian" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
-                },
-                                  doThis = function(){
-                    console.log("do this");
-return Task.fromResult(true);
-                },
-                save = function() {
-                    if (!validation.valid()) {
-                        return Task.fromResult(false);
-                    }
-
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
-
-                        
-
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;CheckTheRevenue;VerifyTheGrade;VerifyTheAge;MustBeMalaysian")
-                        .then(function(result) {
-                            if(result.success){
-                                context.post(data, "/Customer/Save")
-                                   .then(function(result) {
-                                       tcs.resolve(result);
-                                   });
-                            }else{
-                                tcs.resolve(result);
-                            }
-                        });
-                    
-
-                    return tcs.promise();
-                };
-
-            var vm = {
-                    CheckTheRevenue : CheckTheRevenue,
-                    VerifyTheGrade : VerifyTheGrade,
-                    VerifyTheAge : VerifyTheAge,
-                    MustBeMalaysian : MustBeMalaysian,
-                activate: activate,
-                attached: attached,
-                entity: entity,
-                save : save,
-                toolbar : {
-                        emailCommand : function(){
-                        console.log("Sending email");
-                        return Task.fromResult(true);
-                    },
-                                            
-                    watchCommand: function() {
-                        return watcher.watch("Customer", entity().CustomerId())
-                            .done(function(){
-                                watching(true);
-                            });
-                    },
-                    unwatchCommand: function() {
-                        return watcher.unwatch("Customer", entity().CustomerId())
-                            .done(function(){
-                                watching(false);
-                            });
-                    },
-                    watching: watching,
-                                            printCommand :{
-                        entity : 'Customer',
-                        id : ko.observable()
-                    },
-
-                    saveCommand : save,
-                    commands : ko.observableArray([{ caption :"Do this well", command : doThis, icon:"fa fa-user" }])
-                }
+                return tcs.promise();
             };
 
-            return vm;
-        });
+        var vm = {
+            CheckTheRevenue: CheckTheRevenue,
+            VerifyTheGrade: VerifyTheGrade,
+            VerifyTheAge: VerifyTheAge,
+            MustBeMalaysian: MustBeMalaysian,
+            activate: activate,
+            attached: attached,
+            entity: entity,
+            save: save,
+            toolbar: {
+                emailCommand: function () {
+                    console.log("Sending email");
+                    return Task.fromResult(true);
+                },
+
+                watchCommand: function () {
+                    return watcher.watch("Customer", entity().CustomerId())
+                        .done(function () {
+                            watching(true);
+                        });
+                },
+                unwatchCommand: function () {
+                    return watcher.unwatch("Customer", entity().CustomerId())
+                        .done(function () {
+                            watching(false);
+                        });
+                },
+                watching: watching,
+                printCommand: {
+                    entity: 'Customer',
+                    id: ko.observable()
+                },
+
+                saveCommand: save,
+                commands: ko.observableArray([
+                    { caption: "Do this well", command: doThis, icon: "fa fa-user" }
+                ])
+            }
+        };
+
+        return vm;
+    });

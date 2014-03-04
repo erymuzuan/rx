@@ -1,4 +1,4 @@
-﻿@using System.Web.Optimization
+﻿@using System.Web.Mvc.Html
 @using Newtonsoft.Json
 @model Bespoke.Sph.Web.ViewModels.PrintViewModel
 
@@ -11,29 +11,35 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>SPH: Print Details</title>
+    <title>SPH: @Model.Item.ToString()</title>
+    <link href="~/Content/css.css" rel="stylesheet" />
 </head>
-    <body>
-        
-        <div id="print-details">
-            <h1>@Model.Name</h1>
-            <div>
-                @foreach (var fe in Model.FormDesign.FormElementCollection)
-                {
-                    @Html.DisplayFor(m => fe)
-                }
-            </div>
+<body>
 
+    <div id="print-details">
+        <h1>@Model.Name</h1>
+        <div class="container">
+           
+            @foreach (var fe in Model.FormDesign.FormElementCollection)
+            {
+                var fe1 = fe;
+                <div class="row">
+                    @Html.DisplayFor(m => fe1)
+                </div>
+            }
         </div>
-    </body>
-    @Scripts.Render("~/scripts/vendor")
-<script type="text/javascript">
-    $(function () {
-        var item = ko.mapping.fromJSON('@Html.Raw(JsonConvert.SerializeObject(Model.Item))');
-        ko.applyBindings(item);
+
+    </div>
+    <script src="~/Scripts/vendor.js"></script>
+    <script src="~/Scripts/core.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var item = ko.mapping.fromJSON('@Html.Raw(JsonConvert.SerializeObject(Model.Item))');
+            ko.applyBindings(item);
 
 
-    });
+        });
 
-</script>
+    </script>
+</body>
 </html>

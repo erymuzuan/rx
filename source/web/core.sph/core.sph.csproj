@@ -552,6 +552,7 @@
     <Compile Include="Areas\Sph\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\Controllers\ManagementController.cs" />
+    <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />
     <Compile Include="Areas\Sph\Controllers\AdminController.cs" />
@@ -612,6 +613,86 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_splash.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\Button.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Button.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\CheckBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\ComboBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComboBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\DatePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\DownloadLink.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DownloadLink.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\EmailFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\FileUploadElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileUploadElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\FormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\ImageElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImageElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\ListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ListView.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\NumberTextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumberTextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\SectionFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SectionFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\TextAreaElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextAreaElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\TextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\DisplayTemplates\WebsiteFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Print\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Views\Shared\Error.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1251,6 +1332,26 @@
     <Content Include="Areas\Sph\Views\EntityFormRenderer\Script.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Script.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\Button.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Button.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\DownloadLink.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DownloadLink.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\ImageElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ImageElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\FileUploadElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ListView.generated.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\bloodhound.js" />
@@ -2920,18 +3021,50 @@
     <Content Include="Areas\Sph\Views\Template\EditorTemplates\ComplaintCategoryElement.cshtml" />
     <Content Include="Areas\Sph\Views\Template\_PathPicker.cshtml" />
     <Content Include="Areas\Sph\Views\Template\_DesignerContextAction.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\Index.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\AddressElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\CheckBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\ComboBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\DatePicker.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\EmailFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\FormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\NumberTextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\SectionFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\TextAreaElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\TextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\CheckBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CheckBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\ComboBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\DatePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\EmailFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\FormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\NumberTextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumberTextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\SectionFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SectionFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\TextAreaElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextAreaElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\TextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\WebsiteFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\SphAccount\_Slider.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Slider.generated.cs</LastGenOutput>

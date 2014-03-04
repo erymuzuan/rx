@@ -221,7 +221,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
 
             print = function (commandParameter) {
                 var parameter = typeof commandParameter === "function" ? commandParameter() : commandParameter,
-                    url = "/print/" + parameter.entity + "/" + parameter.id();
+                    url = String.format("/sph/print/{0}/{1}", parameter.entity, +parameter.id());
                 window.open(url);
                 return Task.fromResult(true);
             };

@@ -1,0 +1,35 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Domain.ListView
+
+
+<div data-bind="visible:@Model.Visible">
+    <span> @Model.Label</span>
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                @foreach (var col in Model.ListViewColumnCollection)
+                {
+                    <th>@col.Label</th>
+                }
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :@Model.Path">
+            <tr>
+                @foreach (var col in Model.ListViewColumnCollection)
+                {
+                    var col1 = col;
+                    col.Input.Path = col.Path;
+                    col.Input.Visible = "true";
+                    col.Input.Enable = "true";
+                    col.Input.IsCompact = true;
+                    col.Input.ElementId = Guid.NewGuid().ToString();
+                    
+                    <td data-bind="text:@col.Path">
+                    </td>
+                }
+               
+            </tr>
+        </tbody>
+    </table>
+</div>
