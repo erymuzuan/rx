@@ -49,9 +49,11 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared
         }
         public override void Execute()
         {
-WriteLiteral("<div");
+WriteLiteral("\r\n<div");
 
 WriteLiteral(" id=\"form-designer-toolbox\"");
+
+WriteLiteral(" data-path=\"Areas\\App\\Views\\Shared\\_Toolbox.cshtml\"");
 
 WriteLiteral(">\r\n    <ul");
 
@@ -138,13 +140,13 @@ WriteLiteral(" name=\"FormDesign.Description\"");
 WriteLiteral(" />\r\n                </div>\r\n");
 
             
-            #line 32 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 33 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 32 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 33 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                  if (Model.IsImportVisible)
                 {
 
@@ -185,7 +187,7 @@ WriteLiteral("></i>\r\n                            Edit\r\n                     
 "          </div>\r\n");
 
             
-            #line 44 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 45 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
 
                 }
 
@@ -607,13 +609,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 166 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 167 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 166 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 167 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
@@ -629,13 +631,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 175 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 176 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 175 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 176 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         
@@ -643,14 +645,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 177 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 178 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe));
 
             
             #line default
             #line hidden
             
-            #line 177 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 178 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                                                 
                     }
 
@@ -679,7 +681,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 188 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 189 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

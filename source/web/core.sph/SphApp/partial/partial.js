@@ -678,7 +678,7 @@ bespoke.sph.domain.ListenActivityPartial = function () {
 
 
 
-bespoke.sph.domain.ListViewPartial = function () {
+bespoke.sph.domain.ListViewPartial = function (model) {
 
     // ListViewColumn
     var system = require('durandal/system'),
@@ -706,6 +706,11 @@ bespoke.sph.domain.ListViewPartial = function () {
             };
 
         };
+
+    _(model.ListViewColumnCollection()).each(function(v) {
+        v.Input().isSelected = ko.observable(false);
+    });
+
     return {
         addListViewColumn: addListViewColumn,
         removeListViewColumn: removeListViewColumn

@@ -93,7 +93,8 @@ WriteLiteral(">\r\n                    <a");
 
 WriteLiteral(" href=\"#\"");
 
-WriteLiteral(" data-bind=\"click : $root.selectFormElement\"");
+WriteLiteral(" data-bind=\"click : $root.selectFormElement,css: { \'selected-form-element\': isSel" +
+"ected }\"");
 
 WriteLiteral(">\r\n                        <span");
 
@@ -103,17 +104,26 @@ WriteLiteral("></span>\r\n                        <i");
 
 WriteLiteral(" class=\"fa fa-check\"");
 
-WriteLiteral("></i>\r\n                    </a>\r\n                </th>\r\n            </tr>\r\n      " +
-"  </thead>\r\n        <tbody>\r\n");
+WriteLiteral("></i>\r\n                        <!-- ko if : typeof isSelected === \"function\" -->\r" +
+"\n                        <i");
+
+WriteLiteral(" class=\"fa fa-check\"");
+
+WriteLiteral(" data-bind=\"visible:isSelected\"");
+
+WriteLiteral(" style=\"color:darkblue\"");
+
+WriteLiteral("></i>\r\n                        <!-- /ko -->\r\n\r\n                    </a>\r\n        " +
+"        </th>\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n");
 
             
-            #line 23 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 27 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 23 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 27 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
              for (int i = 0; i < 5; i++)
             {
 
@@ -140,10 +150,10 @@ WriteLiteral(" />\r\n                        <!--/ko-->\r\n                     
 
 WriteLiteral(" class=\"fa fa-cloud-download\"");
 
-WriteLiteral("></i>  \r\n                            Download\r\n                        </span>\r\n " +
-"                       <!--/ko-->\r\n                        <!-- ko if: ko.unwrap" +
-"($type) === \'Bespoke.Sph.Domain.Button, domain.sph\'-->\r\n                        " +
-"<button");
+WriteLiteral("></i>\r\n                            Download\r\n                        </span>\r\n   " +
+"                     <!--/ko-->\r\n                        <!-- ko if: ko.unwrap($" +
+"type) === \'Bespoke.Sph.Domain.Button, domain.sph\'-->\r\n                        <b" +
+"utton");
 
 WriteLiteral(" class=\"btn btn-default\"");
 
@@ -157,14 +167,14 @@ WriteLiteral(" type=\"checkbox\"");
 
 WriteLiteral(" value=\"\"");
 
-WriteAttribute("checked", Tuple.Create(" checked=\"", 2149), Tuple.Create("\"", 2186)
+WriteAttribute("checked", Tuple.Create(" checked=\"", 2414), Tuple.Create("\"", 2451)
             
-            #line 41 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
-, Tuple.Create(Tuple.Create("", 2159), Tuple.Create<System.Object, System.Int32>(i % 2 ==0? "checked": ""
+            #line 45 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+, Tuple.Create(Tuple.Create("", 2424), Tuple.Create<System.Object, System.Int32>(i % 2 ==0? "checked": ""
             
             #line default
             #line hidden
-, 2159), false)
+, 2424), false)
 );
 
 WriteLiteral(" />\r\n                        <!--/ko-->\r\n                        <!-- ko if: ko.u" +
@@ -181,14 +191,14 @@ WriteLiteral(" style=\"width: 80%\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2470), Tuple.Create("\"", 2513)
+WriteAttribute("value", Tuple.Create(" value=\"", 2735), Tuple.Create("\"", 2778)
             
-            #line 45 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
-              , Tuple.Create(Tuple.Create("", 2478), Tuple.Create<System.Object, System.Int32>(DateTime.Today.ToShortDateString()
+            #line 49 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+              , Tuple.Create(Tuple.Create("", 2743), Tuple.Create<System.Object, System.Int32>(DateTime.Today.ToShortDateString()
             
             #line default
             #line hidden
-, 2478), false)
+, 2743), false)
 );
 
 WriteLiteral(" />\r\n                            <i");
@@ -209,14 +219,14 @@ WriteLiteral(" style=\"width: 80%\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2911), Tuple.Create("\"", 2954)
+WriteAttribute("value", Tuple.Create(" value=\"", 3176), Tuple.Create("\"", 3219)
             
-            #line 51 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
-              , Tuple.Create(Tuple.Create("", 2919), Tuple.Create<System.Object, System.Int32>(DateTime.Today.ToShortDateString()
+            #line 55 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+              , Tuple.Create(Tuple.Create("", 3184), Tuple.Create<System.Object, System.Int32>(DateTime.Today.ToShortDateString()
             
             #line default
             #line hidden
-, 2919), false)
+, 3184), false)
 );
 
 WriteLiteral(" />\r\n                            <i");
@@ -235,14 +245,14 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" type=\"number\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 3356), Tuple.Create("\"", 3366)
+WriteAttribute("value", Tuple.Create(" value=\"", 3621), Tuple.Create("\"", 3631)
             
-            #line 57 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
-, Tuple.Create(Tuple.Create("", 3364), Tuple.Create<System.Object, System.Int32>(i
+            #line 61 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+, Tuple.Create(Tuple.Create("", 3629), Tuple.Create<System.Object, System.Int32>(i
             
             #line default
             #line hidden
-, 3364), false)
+, 3629), false)
 );
 
 WriteLiteral(" />\r\n                        <!--/ko-->\r\n                        <!-- ko if: ko.u" +
@@ -269,7 +279,7 @@ WriteLiteral(" />\r\n                        <!--/ko-->\r\n                    <
 "         <!-- /ko -->\r\n\r\n                </tr>\r\n");
 
             
-            #line 73 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 77 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
 
             }
 

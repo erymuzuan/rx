@@ -181,11 +181,12 @@
                     dialog.close(this, "Cancel");
                 },
                 selectFormElement = function (fe) {
-
-                    var fd = ko.unwrap(vm.activity().FormDesign);
-                    _(fd.FormElementCollection()).each(function (f) {
-                        f.isSelected(false);
+                    $('.selected-form-element').each(function(e) {
+                        var kd = ko.dataFor(this);
+                        if (typeof kd.isSelected === "function")
+                            kd.isSelected(false);
                     });
+
                     if (typeof fe.isSelected !== "function") {
                         fe.isSelected = ko.observable(true);
                     } else {
@@ -249,24 +250,26 @@
 
                 var cached = localStorage.getItem(screen.WebId());
                 if (cached) {
-                    app.showMessage("There's cached data in your local storage, do you want to restore this?", "Local storage", ["Yes", "No"])
-                        .done(function(dr) {
-                            if (dr === "Yes") {
-                                var screen2 = context.toObservable(JSON.parse(cached)),
-                                    fd2 = ko.unwrap(screen2.FormDesign);
+                    setTimeout(function() {
+                        app.showMessage("There's cached data in your local storage, do you want to restore this?", "Local storage", ["Yes", "No"])
+                            .done(function(dr) {
+                                if (dr === "Yes") {
+                                    var screen2 = context.toObservable(JSON.parse(cached)),
+                                        fd2 = ko.unwrap(screen2.FormDesign);
 
-                                _(fd2.FormElementCollection()).each(function(v) {
-                                    v.isSelected = ko.observable(false);
-                                });
-                                if (typeof screen.FormDesign === "function") {
-                                    screen.FormDesign(screen2.FormDesign());
-                                } else {
-                                    screen.FormDesign.FormElementCollection(screen2.FormDesign().FormElementCollection());
+                                    _(fd2.FormElementCollection()).each(function(v) {
+                                        v.isSelected = ko.observable(false);
+                                    });
+                                    if (typeof screen.FormDesign === "function") {
+                                        screen.FormDesign(screen2.FormDesign());
+                                    } else {
+                                        screen.FormDesign.FormElementCollection(screen2.FormDesign().FormElementCollection());
+                                    }
+
+                                    return;
                                 }
-
-                                return;
-                            }
-                        });
+                            });
+                    }, 2500);
                 }
 
                 var fd = ko.unwrap(screen.FormDesign);

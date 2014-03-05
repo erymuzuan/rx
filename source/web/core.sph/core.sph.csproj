@@ -721,66 +721,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_TriggerFieldDropDown.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\CheckBox.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CheckBox.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\ComboBox.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ComboBox.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\DatePicker.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DatePicker.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\EmailFormElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EmailFormElement.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\FormElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FormElement.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\HtmlElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HtmlElement.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\MapElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MapElement.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\NumberTextBox.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NumberTextBox.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\SectionFormElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SectionFormElement.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\TextAreaElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TextAreaElement.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\TextBox.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TextBox.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\WebsiteFormElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\ResourcesController.cs" />
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
@@ -2899,61 +2839,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\CheckBox.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>CheckBox.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\ComboBox.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\DatePicker.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>DatePicker.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\EmailFormElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>EmailFormElement.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\NumberTextBox.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>NumberTextBox.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\TextAreaElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>TextAreaElement.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\TextBox.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\WebsiteFormElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\CheckBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\ComboBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\DatePicker.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\EmailFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\NumberTextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\TextAreaElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\TextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\FormElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>FormElement.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\MapElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>MapElement.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\MapElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\FormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\SectionFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\SectionFormElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>SectionFormElement.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\Sph\Views\App\EditorTemplates\MapElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>MapElement.generated.cs</LastGenOutput>
@@ -3002,11 +2887,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>AddressElement.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\AddressElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\_Toolbox.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\ComplaintCategoryElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\_PathPicker.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\_DesignerContextAction.cshtml" />
     <Content Include="Areas\Sph\Views\Print\Index.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Index.generated.cs</LastGenOutput>
@@ -3155,21 +3035,14 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_BarLineChartDesignerContextAction.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\HtmlElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\HtmlElement.cshtml" />
     <Content Include="Areas\Sph\Views\App\EditorTemplates\HtmlElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\MaintenanceOfficerElement.cshtml" />
     <Content Include="Areas\App\Views\ReportDefinitionExecute\Preview.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Preview.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\CustomListDefinitionElement.cshtml" />
     <Content Include="Areas\Sph\Views\App\DisplayTemplates\TextBox.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>TextBox.generated.cs</LastGenOutput>
@@ -3187,7 +3060,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_DataGridItemRow.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Template\_DefaultValues.cshtml" />
     <Content Include="Areas\Sph\Views\Test\Index.cshtml" />
     <Content Include="Areas\Sph\Views\Shared\_LayoutTest.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -3238,7 +3110,6 @@
     <Content Include="Scripts\_ko.bootstrap.min.js.map">
       <DependentUpon>_ko.bootstrap.min.js</DependentUpon>
     </Content>
-    <Content Include="Areas\Sph\Views\Template\_ValidationSetting.cshtml" />
     <Content Include="Scripts\_ko.kendo.min.js.map">
       <DependentUpon>_ko.kendo.min.js</DependentUpon>
     </Content>
@@ -3339,7 +3210,6 @@
       <LastGenOutput>DatePickerTime.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\DateTimePicker.cshtml" />
-    <Content Include="Areas\Sph\Views\Template\EditorTemplates\DateTimePicker.cshtml" />
     <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\DateTimePicker.cshtml" />
     <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\TextBox.cshtml" />
     <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\ComboBox.cshtml" />

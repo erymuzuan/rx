@@ -53,6 +53,8 @@ WriteLiteral("<div");
 
 WriteLiteral(" id=\"form-designer-toolbox\"");
 
+WriteLiteral(" data-path=\"Areas\\App\\Views\\EntityFormDesigner\\_Toolbox.cshtml\"");
+
 WriteLiteral(">\r\n    <ul");
 
 WriteLiteral(" class=\"nav nav-tabs\"");
@@ -163,7 +165,7 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                    <label>\r\n                        <input");
 
-WriteLiteral("  data-bind=\"checked: IsDefault\"");
+WriteLiteral(" data-bind=\"checked: IsDefault\"");
 
 WriteLiteral(" id=\"form-design-isdefault\"");
 
@@ -178,7 +180,7 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                    <label>\r\n                        <input");
 
-WriteLiteral("  data-bind=\"checked: IsEmailAvailable\"");
+WriteLiteral(" data-bind=\"checked: IsEmailAvailable\"");
 
 WriteLiteral(" id=\"form-design-isemail\"");
 
@@ -193,7 +195,7 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                    <label>\r\n                        <input");
 
-WriteLiteral("  data-bind=\"checked: IsPrintAvailable\"");
+WriteLiteral(" data-bind=\"checked: IsPrintAvailable\"");
 
 WriteLiteral(" id=\"form-design-isprint\"");
 
@@ -208,7 +210,7 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                    <label>\r\n                        <input");
 
-WriteLiteral("  data-bind=\"checked: IsWatchAvailable\"");
+WriteLiteral(" data-bind=\"checked: IsWatchAvailable\"");
 
 WriteLiteral(" id=\"form-design-iswatch\"");
 
@@ -666,7 +668,7 @@ WriteLiteral(">\r\n");
             
             #line 196 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
-                        var types = new Type[]
+                        var types = new[]
                         {
                             typeof(TextBox),
                             typeof(ComboBox),
@@ -737,7 +739,7 @@ WriteLiteral("            ");
             
             #line default
             #line hidden
-WriteLiteral("\r\n        </div>\r\n        \r\n        <div");
+WriteLiteral("\r\n        </div>\r\n\r\n        <div");
 
 WriteLiteral(" id=\"business-rules\"");
 
@@ -757,9 +759,9 @@ WriteLiteral(" type=\"checkbox\"");
 
 WriteLiteral(" data-bind=\"checked : $root.form().Rules, value: Name\"");
 
-WriteLiteral("/>\r\n                        <!-- ko text : Name -->\r\n                        <!--" +
-" /ko -->\r\n\r\n                    </label>\r\n                </li>\r\n            </u" +
-"l>\r\n        </div>\r\n\r\n    </div>\r\n</div>\r\n");
+WriteLiteral(" />\r\n                        <!-- ko text : Name -->\r\n                        <!-" +
+"- /ko -->\r\n\r\n                    </label>\r\n                </li>\r\n            </" +
+"ul>\r\n        </div>\r\n\r\n    </div>\r\n</div>\r\n");
 
         }
     }

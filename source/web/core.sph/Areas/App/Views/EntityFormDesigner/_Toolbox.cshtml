@@ -2,7 +2,7 @@
 @using Bespoke.Sph.Domain
 @model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
 
-<div id="form-designer-toolbox">
+<div id="form-designer-toolbox" data-path="Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml">
     <ul class="nav nav-tabs" data-bind2="filter : {path:'>li'}">
         <li class="active">
             <a href="#form-general2" data-toggle="tab">General</a>
@@ -40,26 +40,26 @@
 
                 <div class="form-group">
                     <label>
-                        <input  data-bind="checked: IsDefault" id="form-design-isdefault" type="checkbox" name="FormDesign.IsDefault" />
+                        <input data-bind="checked: IsDefault" id="form-design-isdefault" type="checkbox" name="FormDesign.IsDefault" />
                         Is default form
                     </label>
                 </div>
                 <div class="form-group">
                     <label>
-                        <input  data-bind="checked: IsEmailAvailable" id="form-design-isemail" type="checkbox" name="FormDesign.IsEmailAvailable" />
+                        <input data-bind="checked: IsEmailAvailable" id="form-design-isemail" type="checkbox" name="FormDesign.IsEmailAvailable" />
                         Allow Email
                     </label>
                 </div>
 
                 <div class="form-group">
                     <label>
-                        <input  data-bind="checked: IsPrintAvailable" id="form-design-isprint" type="checkbox" name="FormDesign.IsPrintAvailable" />
+                        <input data-bind="checked: IsPrintAvailable" id="form-design-isprint" type="checkbox" name="FormDesign.IsPrintAvailable" />
                         Allow Print
                     </label>
                 </div>
                 <div class="form-group">
                     <label>
-                        <input  data-bind="checked: IsWatchAvailable" id="form-design-iswatch" type="checkbox" name="FormDesign.IsWatchAvailable" />
+                        <input data-bind="checked: IsWatchAvailable" id="form-design-iswatch" type="checkbox" name="FormDesign.IsWatchAvailable" />
                         Allow Watch
                     </label>
                 </div>
@@ -194,7 +194,7 @@
                 </div>
                 <div id="toolbox-advanced-settings" class="collapse">
                     @{
-                        var types = new Type[]
+                        var types = new[]
                         {
                             typeof(TextBox),
                             typeof(ComboBox),
@@ -218,13 +218,13 @@
         <div id="fields-validation" class="tab-pane" data-bind="with : selectedFormElement">
             @Html.Partial("_ValidationSetting")
         </div>
-        
+
         <div id="business-rules" class="tab-pane">
             <span>Apply these business rules to the form</span>
             <ul data-bind="foreach :entity().BusinessRuleCollection" class="nav">
                 <li>
                     <label>
-                        <input type="checkbox" data-bind="checked : $root.form().Rules, value: Name"/>
+                        <input type="checkbox" data-bind="checked : $root.form().Rules, value: Name" />
                         <!-- ko text : Name -->
                         <!-- /ko -->
 

@@ -188,11 +188,13 @@
                     dialog.close(this, "Cancel");
                 },
                 selectFormElement = function (fe) {
-
-                    var fd = ko.unwrap(form().FormDesign);
-                    _(fd.FormElementCollection()).each(function (f) {
-                        f.isSelected(false);
+                    
+                    $('.selected-form-element').each(function(e) {
+                        var kd = ko.dataFor(this);
+                        if (typeof kd.isSelected === "function")
+                            kd.isSelected(false);
                     });
+
                     if (typeof fe.isSelected === "undefined") {
                         fe.isSelected = ko.observable(true);
                     }
