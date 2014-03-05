@@ -361,7 +361,7 @@ namespace Bespoke.Sph.Domain
 {{
     <script type=""text/javascript"" src=""/{0}/Schemas""></script>
     <script type=""text/javascript"">
-        require(['services/datacontext', 'jquery','services/app', 'services/system'], function(context,jquery,app, system) {{
+        require(['services/datacontext', 'jquery','services/app', 'services/system', 'services/config'], function(context,jquery,app, system, config) {{
 
             
            var instance = context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Instance, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
@@ -370,6 +370,7 @@ namespace Bespoke.Sph.Domain
                 id : @Model.Instance.WorkflowDefinitionId,
                 instance : ko.observable(instance),    
                 screen : ko.observable(screen),
+                config : config,
                 isBusy : ko.observable(){3}
             }};
             
