@@ -12,28 +12,39 @@
 <div class="form-group checkbox">
 
     <label>
-        <input data-bind="checked: IsTranformTemplate" id="dl-tt" type="checkbox" name="dl-tt" />
+        <input data-bind="checked: IsTransformTemplate" id="dl-tt" type="checkbox" name="dl-tt" />
         Is Transform Template
     </label>
 
 </div>
 
 <div class="form-group">
-    <label for="dl-template-storeid">Template StoreId</label>
-
-    <input type="text" data-bind="value: TemplateStoreId"
-           placeholder="The document storeid for the template"
-           class="form-control" id="dl-template-storeid">
-
-</div>
-
-<div class="form-group">
     <label for="dl-entity-type">Entity type</label>
-    <input type="text" data-bind="value: Entity"
-           pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
-           placeholder="The entity to trasform with the template"
-           class="form-control" id="dl-entity-type">
+    <select data-bind="comboBoxLookupOptions:{
+                value: Entity,
+                entity:'EntityDefinition',
+                query: 'IsPublished eq 1',
+                valuePath:'Name',
+                displayPath:'Name',
+                caption : '[Please select an entity]'},
+                enable:IsTransformTemplate"
+            class="form-control" id="dl-entity-type"></select>
 
 </div>
+<div class="form-group">
+    <label for="dl-template-storeid">Template</label>
+
+    <select data-bind="comboBoxLookupOptions:{
+            value: TemplateId,
+            entity:'DocumentTemplate',
+            query: 'IsPublished eq 1',
+            valuePath:'DocumentTemplateId',
+            displayPath:'Name',
+            caption : '[Please select a template]'},
+            enable:IsTransformTemplate"
+            class="form-control" id="dl-template-storeid"></select>
+
+</div>
+
 
 <!--/ko-->

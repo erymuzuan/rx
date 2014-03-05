@@ -470,8 +470,8 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="FormElement">
-					<xs:attribute name="IsTranformTemplate" type="xs:boolean" use="required"/>
-					<xs:attribute name="TemplateStoreId" type="xs:string" use="required"/>
+					<xs:attribute name="IsTransformTemplate" type="xs:boolean" use="required"/>
+					<xs:attribute name="TemplateId" type="xs:int" use="required"/>
 					<xs:attribute name="Entity" type="xs:string" use="required"/>
 					<xs:attribute name="IconClass" type="xs:string" use="required"/>
 				</xs:extension>

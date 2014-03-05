@@ -1003,9 +1003,9 @@ bespoke.sph.domain.DownloadLink = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.IsTranformTemplate = ko.observable(false);
+    v.IsTransformTemplate = ko.observable(false);
 
-    v.TemplateStoreId = ko.observable('');
+    v.TemplateId = ko.observable(0);
 
     v.Entity = ko.observable('');
 

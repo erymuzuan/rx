@@ -241,9 +241,11 @@ bespoke.utils.ServerPager = function (options) {
 /// <reference path="knockout-3.0.0.debug.js" />
 /// <reference path="knockout.mapping-latest.debug.js" />
 /// <reference path="../App/services/datacontext.js" />
+/// <reference path="../SphApp/objectbuilders.js" />
 /// <reference path="../App/durandal/amd/text.js" />
 /// <reference path="jquery-2.0.3.intellisense.js" />
 /// <reference path="underscore.js" />
+/// <reference path="require.js" />
 
 ko.bindingHandlers.activityClass = {
     init: function (element, valueAccessor) {
@@ -348,6 +350,7 @@ ko.bindingHandlers.comboBoxLookupOptions = {
     init: function (element, valueAccessor) {
         var lookup = ko.unwrap(valueAccessor()),
         value = lookup.value,
+        caption = lookup.caption,
         context = require('services/datacontext');
 
         context.getTuplesAsync({
@@ -359,6 +362,9 @@ ko.bindingHandlers.comboBoxLookupOptions = {
         })
             .done(function (list) {
                 element.options.length = 0;
+                if (caption) {
+                    element.add(new Option(caption, ""));
+                }
                 _(list).each(function (v) {
                     element.add(new Option(v.Item2, v.Item1));
                 });

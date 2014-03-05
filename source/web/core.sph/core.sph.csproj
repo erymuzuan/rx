@@ -1165,7 +1165,7 @@
       <DependentUpon>__core.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\core.min.js">
-      <DependentUpon>__core.js.bundle</DependentUpon>
+      <DependentUpon>core.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\vendor.js">
       <DependentUpon>__vendor.js.bundle</DependentUpon>
@@ -2174,7 +2174,7 @@
     <Content Include="Scripts\jquery-2.1.0.min.map" />
     <None Include="Scripts\__core.js.bundle" />
     <EmbeddedResource Include="Scripts\core.min.js.map">
-      <DependentUpon>__core.js.bundle</DependentUpon>
+      <DependentUpon>core.min.js</DependentUpon>
     </EmbeddedResource>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <EmbeddedResource Include="Scripts\jquery-ui-1.10.3.custom.min.js" />

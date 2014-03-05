@@ -3766,33 +3766,33 @@ namespace Bespoke.Sph.Domain
     public partial class DownloadLink
     {
 
-        private bool m_IsTranformTemplate;
+        private bool m_IsTransformTemplate;
         [XmlAttribute]
-        public bool IsTranformTemplate
+        public bool IsTransformTemplate
         {
             get
             {
-                return m_IsTranformTemplate;
+                return m_IsTransformTemplate;
             }
             set
             {
-                m_IsTranformTemplate = value;
+                m_IsTransformTemplate = value;
                 RaisePropertyChanged();
             }
         }
 
 
-        private string m_TemplateStoreId;
+        private int m_TemplateId;
         [XmlAttribute]
-        public string TemplateStoreId
+        public int TemplateId
         {
             get
             {
-                return m_TemplateStoreId;
+                return m_TemplateId;
             }
             set
             {
-                m_TemplateStoreId = value;
+                m_TemplateId = value;
                 RaisePropertyChanged();
             }
         }

@@ -65,7 +65,7 @@ WriteLiteral(" class=\"form-group checkbox\"");
 
 WriteLiteral(">\r\n\r\n    <label>\r\n        <input");
 
-WriteLiteral(" data-bind=\"checked: IsTranformTemplate\"");
+WriteLiteral(" data-bind=\"checked: IsTransformTemplate\"");
 
 WriteLiteral(" id=\"dl-tt\"");
 
@@ -79,43 +79,47 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n    <label");
 
-WriteLiteral(" for=\"dl-template-storeid\"");
+WriteLiteral(" for=\"dl-entity-type\"");
 
-WriteLiteral(">Template StoreId</label>\r\n\r\n    <input");
+WriteLiteral(">Entity type</label>\r\n    <select");
 
-WriteLiteral(" type=\"text\"");
+WriteLiteral(@" data-bind=""comboBoxLookupOptions:{
+                value: Entity,
+                entity:'EntityDefinition',
+                query: 'IsPublished eq 1',
+                valuePath:'Name',
+                displayPath:'Name',
+                caption : '[Please select an entity]'},
+                enable:IsTransformTemplate""");
 
-WriteLiteral(" data-bind=\"value: TemplateStoreId\"");
+WriteLiteral("\r\n            class=\"form-control\"");
 
-WriteLiteral("\r\n           placeholder=\"The document storeid for the template\"");
+WriteLiteral(" id=\"dl-entity-type\"");
 
-WriteLiteral("\r\n           class=\"form-control\"");
-
-WriteLiteral(" id=\"dl-template-storeid\"");
-
-WriteLiteral(">\r\n\r\n</div>\r\n\r\n<div");
+WriteLiteral("></select>\r\n\r\n</div>\r\n<div");
 
 WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n    <label");
 
-WriteLiteral(" for=\"dl-entity-type\"");
+WriteLiteral(" for=\"dl-template-storeid\"");
 
-WriteLiteral(">Entity type</label>\r\n    <input");
+WriteLiteral(">Template</label>\r\n\r\n    <select");
 
-WriteLiteral(" type=\"text\"");
+WriteLiteral(@" data-bind=""comboBoxLookupOptions:{
+            value: TemplateId,
+            entity:'DocumentTemplate',
+            query: 'IsPublished eq 1',
+            valuePath:'DocumentTemplateId',
+            displayPath:'Name',
+            caption : '[Please select a template]'},
+            enable:IsTransformTemplate""");
 
-WriteLiteral(" data-bind=\"value: Entity\"");
+WriteLiteral("\r\n            class=\"form-control\"");
 
-WriteLiteral("\r\n           pattern=\"^[A-Za-z_][A-Za-z0-9_ ]*$\"");
+WriteLiteral(" id=\"dl-template-storeid\"");
 
-WriteLiteral("\r\n           placeholder=\"The entity to trasform with the template\"");
-
-WriteLiteral("\r\n           class=\"form-control\"");
-
-WriteLiteral(" id=\"dl-entity-type\"");
-
-WriteLiteral(">\r\n\r\n</div>\r\n\r\n<!--/ko-->\r\n");
+WriteLiteral("></select>\r\n\r\n</div>\r\n\r\n\r\n<!--/ko-->\r\n");
 
         }
     }

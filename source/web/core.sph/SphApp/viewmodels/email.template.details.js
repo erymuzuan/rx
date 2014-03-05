@@ -22,12 +22,14 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                     templateTask = context.loadOneAsync("EmailTemplate", query1),
                     tcs = new $.Deferred();
 
-                $.when(entityTask, templateTask).then(function (lo,b) {
+                $.when(entityTask, templateTask).then(function (lo, b) {
                     var types = _(lo.itemCollection).map(function (v) {
                         return v.Name();
                     });
                     entityOptions(types);
-                    template(b);
+                    if (parseInt(id)) {
+                        template(b);
+                    }
                     tcs.resolve(true);
                 });
                 return tcs.promise();
