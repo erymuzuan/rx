@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
@@ -39,6 +40,14 @@ namespace Bespoke.Sph.Domain
 
             if (await entityRouteCountTask > 0)
                 result.Errors.Add(new BuildError(this.WebId, "The route is already in used, cannot be the same as an entity name"));
+
+            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9 -]*$");
+            if (!validName.Match(this.Name).Success)
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
+
+            var validRoute = new Regex(@"^[a-z0-9-._]*$");
+            if (!validRoute.Match(this.Route).Success)
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Route must be lower case.You cannot use symbol or number as first character, or other chars except _ - ." });
 
 
             result.Errors.AddRange(errors);

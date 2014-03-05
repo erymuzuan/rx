@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 
@@ -55,6 +56,15 @@ namespace Bespoke.Sph.Domain
 
             if(!this.ViewColumnCollection.Any())
                 result.Errors.Add(new BuildError(this.WebId, "Your views are missing columns"));
+
+            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9 -]*$");
+            if (!validName.Match(this.Name).Success)
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
+
+            var validRoute = new Regex(@"^[a-z0-9-._]*$");
+            if (!validRoute.Match(this.Route).Success)
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Route must be lower case.You cannot use symbol or number as first character, or other chars except _ - ." });
+
 
             result.Errors.AddRange(columnErrors);
             result.Errors.AddRange(filterErrors);
