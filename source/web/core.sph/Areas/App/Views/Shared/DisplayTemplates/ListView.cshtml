@@ -28,6 +28,12 @@
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.TextBox, domain.sph'-->
                         <input class="form-control" type="text" value="sample data" />
                         <!--/ko-->
+                        <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.DownloadLink, domain.sph'-->
+                        <span>
+                            <i class="fa fa-cloud-download"></i>  
+                            Download
+                        </span>
+                        <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.Button, domain.sph'-->
                         <button class="btn btn-default" data-bind="attr : {'class':CssClass},text: $parent.Label">Button</button>
                         <!--/ko-->

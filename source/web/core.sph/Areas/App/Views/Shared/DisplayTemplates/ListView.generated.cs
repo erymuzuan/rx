@@ -135,8 +135,15 @@ WriteLiteral(" type=\"text\"");
 WriteLiteral(" value=\"sample data\"");
 
 WriteLiteral(" />\r\n                        <!--/ko-->\r\n                        <!-- ko if: ko.u" +
-"nwrap($type) === \'Bespoke.Sph.Domain.Button, domain.sph\'-->\r\n                   " +
-"     <button");
+"nwrap($type) === \'Bespoke.Sph.Domain.DownloadLink, domain.sph\'-->\r\n             " +
+"           <span>\r\n                            <i");
+
+WriteLiteral(" class=\"fa fa-cloud-download\"");
+
+WriteLiteral("></i>  \r\n                            Download\r\n                        </span>\r\n " +
+"                       <!--/ko-->\r\n                        <!-- ko if: ko.unwrap" +
+"($type) === \'Bespoke.Sph.Domain.Button, domain.sph\'-->\r\n                        " +
+"<button");
 
 WriteLiteral(" class=\"btn btn-default\"");
 
@@ -150,14 +157,14 @@ WriteLiteral(" type=\"checkbox\"");
 
 WriteLiteral(" value=\"\"");
 
-WriteAttribute("checked", Tuple.Create(" checked=\"", 1835), Tuple.Create("\"", 1872)
+WriteAttribute("checked", Tuple.Create(" checked=\"", 2149), Tuple.Create("\"", 2186)
             
-            #line 35 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
-, Tuple.Create(Tuple.Create("", 1845), Tuple.Create<System.Object, System.Int32>(i % 2 ==0? "checked": ""
+            #line 41 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+, Tuple.Create(Tuple.Create("", 2159), Tuple.Create<System.Object, System.Int32>(i % 2 ==0? "checked": ""
             
             #line default
             #line hidden
-, 1845), false)
+, 2159), false)
 );
 
 WriteLiteral(" />\r\n                        <!--/ko-->\r\n                        <!-- ko if: ko.u" +
@@ -174,14 +181,14 @@ WriteLiteral(" style=\"width: 80%\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2156), Tuple.Create("\"", 2199)
+WriteAttribute("value", Tuple.Create(" value=\"", 2470), Tuple.Create("\"", 2513)
             
-            #line 39 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
-              , Tuple.Create(Tuple.Create("", 2164), Tuple.Create<System.Object, System.Int32>(DateTime.Today.ToShortDateString()
+            #line 45 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+              , Tuple.Create(Tuple.Create("", 2478), Tuple.Create<System.Object, System.Int32>(DateTime.Today.ToShortDateString()
             
             #line default
             #line hidden
-, 2164), false)
+, 2478), false)
 );
 
 WriteLiteral(" />\r\n                            <i");
@@ -202,14 +209,14 @@ WriteLiteral(" style=\"width: 80%\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2597), Tuple.Create("\"", 2640)
+WriteAttribute("value", Tuple.Create(" value=\"", 2911), Tuple.Create("\"", 2954)
             
-            #line 45 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
-              , Tuple.Create(Tuple.Create("", 2605), Tuple.Create<System.Object, System.Int32>(DateTime.Today.ToShortDateString()
+            #line 51 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+              , Tuple.Create(Tuple.Create("", 2919), Tuple.Create<System.Object, System.Int32>(DateTime.Today.ToShortDateString()
             
             #line default
             #line hidden
-, 2605), false)
+, 2919), false)
 );
 
 WriteLiteral(" />\r\n                            <i");
@@ -228,14 +235,14 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" type=\"number\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 3042), Tuple.Create("\"", 3052)
+WriteAttribute("value", Tuple.Create(" value=\"", 3356), Tuple.Create("\"", 3366)
             
-            #line 51 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
-, Tuple.Create(Tuple.Create("", 3050), Tuple.Create<System.Object, System.Int32>(i
+            #line 57 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+, Tuple.Create(Tuple.Create("", 3364), Tuple.Create<System.Object, System.Int32>(i
             
             #line default
             #line hidden
-, 3050), false)
+, 3364), false)
 );
 
 WriteLiteral(" />\r\n                        <!--/ko-->\r\n                        <!-- ko if: ko.u" +
@@ -262,7 +269,7 @@ WriteLiteral(" />\r\n                        <!--/ko-->\r\n                    <
 "         <!-- /ko -->\r\n\r\n                </tr>\r\n");
 
             
-            #line 67 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 73 "..\..\Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml"
 
             }
 
