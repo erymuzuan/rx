@@ -1,4 +1,7 @@
+using System;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -35,6 +38,44 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges("Publish");
             }
             return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = template.DocumentTemplateId });
+
+        }
+
+        public async Task<ActionResult> Transform(int id, string entity, int templateId)
+        {
+
+            var context = new SphDataContext();
+            var template = await context.LoadOneAsync<DocumentTemplate>(e => e.DocumentTemplateId == templateId);
+            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Name == entity);
+
+            var buildValidation = await template.ValidateBuildAsync(ed);
+            if (!buildValidation.Result)
+                return Json(buildValidation);
+
+            var sqlAssembly = Assembly.Load("sql.repository");
+            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
+
+            var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed.Name);
+            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.EntityDefinitionId, ed.Name);
+            var edType = edAssembly.GetType(edTypeName);
+            if (null == edType)
+                Console.WriteLine("Cannot create type " + edTypeName);
+
+
+            var reposType = sqlRepositoryType.MakeGenericType(edType);
+            dynamic repository = Activator.CreateInstance(reposType);
+            var item = await repository.LoadOneAsync(id);
+
+            var file = System.IO.Path.GetTempFileName() + ".docx";
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var content = await store.GetContentAsync(template.WordTemplateStoreId);
+            System.IO.File.WriteAllBytes(file, content.Content);
+
+            var wordGen = ObjectBuilder.GetObject<IDocumentGenerator>();
+            wordGen.Generate(file, item);
+
+
+            return File(System.IO.File.ReadAllBytes(file), MimeMapping.GetMimeMapping(file), string.Format("{0}.{1}.docx", template.Name, item.GetId()));
 
         }
     }

@@ -55,12 +55,12 @@
 
     <input  class=" form-control " title=""
            data-bind="value: Title, visible :true, enable :true"
-           id="33752a61-31f4-4709-9326-41fbf1dd9655" type="text" name="Title" />
+           id="a5c209d8-1e81-477d-bf21-721e971987e5" type="text" name="Title" />
 
                     </td>
                     <td>
                         
-    <select data-bind="value: Extension, visible :true, enable :true" id="ae18ea67-4ac2-4800-b541-8d7ee0eb5973" name="Extension" class="  form-control">
+    <select data-bind="value: Extension, visible :true, enable :true" id="205966de-6bc8-4049-8bbc-27f937d6501a" name="Extension" class="  form-control">
             <option value=".docx">Word 2007</option>
             <option value=".xlsx">Excel 2007</option>
             <option value=".pdf">PDF</option>
@@ -71,7 +71,7 @@
                         
     <input  class=" form-control " title=""
            data-bind="kendoUpload : StoreId, visible :true"
-           id="43d91207-8427-4b17-96f4-ddf5a02e4b73" type="file" name="files" />
+           id="fe266887-fd51-498c-a998-fce9e0818967" type="file" name="files" />
 
                     </td>
                 <td>
@@ -144,7 +144,7 @@
     <div class="form-group" data-bind="visible:true">
         <label for="f7afcecf-9176-4446-b55d-2d5e43a3fea4" class=""></label>
         <div class="col-lg-8">
-            <a id="f7afcecf-9176-4446-b55d-2d5e43a3fea4" data-bind="attr : {'href':'/sph/binarystore/get/' + ProfileStoreId()}, visible:true" download>
+            <a id="f7afcecf-9176-4446-b55d-2d5e43a3fea4" data-bind="attr : {'href':'/sph/documenttemplate/transform?entity=Customer&templateId=2&id=' + CustomerId()}, visible:true" download>
                 Download Profile
             </a>
         </div>

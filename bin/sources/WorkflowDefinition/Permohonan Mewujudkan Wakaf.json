@@ -2019,7 +2019,7 @@
           "WebId": null
         },
         "IsInitiator": true,
-        "NextActivityWebId": "3aa668ed-598b-4ac6-845a-230b7e1a7deb",
+        "NextActivityWebId": "5547d4c1-b4c1-47d3-aa84-47cc30e91153",
         "Name": "Apply Screen",
         "WebId": "4122d09e-40cd-4558-93eb-ed18f6309f09"
       },
@@ -2391,14 +2391,46 @@
         "ExecutingCode": null,
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 539,
-          "Y": 423,
+          "X": 146,
+          "Y": 448,
           "WebId": null
         },
         "IsInitiator": false,
         "NextActivityWebId": "",
         "Name": "End Of Application Process",
         "WebId": "5cfb5560-2b44-4af1-8b7b-6d3a2913dd31"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.UpdateEntityActivity, domain.sph",
+        "EntityType": "Bespoke.Dev_1.Domain.Customer, Dev.Customer",
+        "EntityIdPath": "customer.CustomerId",
+        "UseVariable": "customer",
+        "IsUsingVariable": true,
+        "PropertyMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMapping, domain.sph",
+              "Source": "Ticket",
+              "Destination": "FullName",
+              "WebId": "4fecf979-efc8-4aec-ae60-fb882f015ff1"
+            }
+          ]
+        },
+        "MethodName": "ExecUpdateEntityActivityUpdateRecord3_5547Async",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 250,
+          "Y": 234,
+          "WebId": "fe1b235a-62d7-4bb2-9d7a-cf33ef5e15d0"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "3aa668ed-598b-4ac6-845a-230b7e1a7deb",
+        "Name": "Update Record3",
+        "WebId": "5547d4c1-b4c1-47d3-aa84-47cc30e91153"
       }
     ]
   },
@@ -2476,6 +2508,13 @@
         "TypeName": "Bespoke.Dev_1.Domain.Customer, Dev.Customer",
         "DefaultValue": "",
         "WebId": "a64a415c-c59e-4dfb-a90c-7800d0d4f5b8"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "Ticket",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "",
+        "WebId": "ebaf93f2-8082-49b7-bb8f-f27eec92fb5e"
       }
     ]
   },
@@ -2488,6 +2527,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2013-11-12T19:15:41.8140225+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-05T20:13:27.9925989+08:00",
+  "ChangedDate": "2014-03-06T06:46:15.71844+08:00",
   "WebId": "b2b67738-3def-42f2-8e4b-a5930d3fc8c9"
 }

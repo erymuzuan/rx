@@ -17,16 +17,24 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
             isBusy = ko.observable(false),
             activate = function (id) {
                 var query = String.format("IsPublished eq 1"),
-                  tcs = new $.Deferred();
+                    query1 = String.format("DocumentTemplateId eq {0}", id),
+                    entityTask = context.loadAsync("EntityDefinition", query),
+                    templateTask = context.loadOneAsync("DocumentTemplate", query1),
+                    tcs = new $.Deferred();
 
-                context.loadAsync("EntityDefinition", query)
-                    .then(function (lo) {
-                        var types = _(lo.itemCollection).map(function (v) {
-                            return v.Name();
-                        });
-                        entityOptions(types);
-                        tcs.resolve(true);
+
+                $.when(entityTask, templateTask).then(function (lo,b) {
+                    var types = _(lo.itemCollection).map(function (v) {
+                        return v.Name();
                     });
+                    entityOptions(types);
+                    if (parseInt(id)) {
+                        template(b);
+                    } else {
+                        template(new bespoke.sph.domain.DocumentTemplate(system.guid()));
+                    }
+                    tcs.resolve(true);
+                });
                 return tcs.promise();
             },
             attached = function (view) {
