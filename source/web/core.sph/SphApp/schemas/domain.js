@@ -3505,6 +3505,10 @@ bespoke.sph.domain.UpdateEntityActivity = function (optionOrWebid) {
 
     v.EntityIdPath = ko.observable('');
 
+    v.UseVariable = ko.observable('');
+
+    v.IsUsingVariable = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.UpdateEntityActivity, domain.sph";
 
     v.PropertyMappingCollection = ko.observableArray([]);

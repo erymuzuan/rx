@@ -2897,6 +2897,38 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_UseVariable;
+        [XmlAttribute]
+        public string UseVariable
+        {
+            get
+            {
+                return m_UseVariable;
+            }
+            set
+            {
+                m_UseVariable = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsUsingVariable;
+        [XmlAttribute]
+        public bool IsUsingVariable
+        {
+            get
+            {
+                return m_IsUsingVariable;
+            }
+            set
+            {
+                m_IsUsingVariable = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<PropertyMapping> m_PropertyMappingCollection = new ObjectCollection<PropertyMapping>();
 
         ///<summary>

@@ -19,8 +19,8 @@
                     <div class="form-group">
                         <label for="ue-idpath" class="col-lg-2 control-label">ID Path</label>
                         <div class="col-lg-6">
-                            <input type="text" data-bind="value: EntityIdPath" 
-                                   required pattern="^[A-Za-z_][A-Za-z0-9_.]*$" 
+                            <input type="text" data-bind="value: EntityIdPath, typeahead : $root.wd().WorkflowDefinitionId()"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_.]*$"
                                    placeholder="Variable path that points to Id to update"
                                    class="form-control" id="ue-idpath">
                         </div>
@@ -28,11 +28,30 @@
                     <div class="form-group">
                         <label for="ce-entitytype" class="col-lg-2 control-label">Entity</label>
                         <div class="col-lg-6">
-                            <select class="form-control" id="ce-entitytype" data-bind="value:EntityType,
+                            <select required class="form-control" id="ce-entitytype" data-bind="value:EntityType,
                                 options: $root.entityOptions,
-                                optionsText : 'name', 
-                                optionsValue :'fullName', 
+                                optionsText : 'name',
+                                optionsValue :'fullName',
                                 optionsCaption : '[Select Entity]'"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: IsUsingVariable" id="is-using-var" type="checkbox" name="IsUsingVariable" />
+                                    Use custom entity variable
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" data-bind="visible:IsUsingVariable">
+                        <label for="use-variable" class="col-lg-2 control-label">Variable</label>
+                        <div class="col-lg-6">
+                            <input type="text" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" id="use-variable" data-bind="value:UseVariable, typeahead : $root.wd().WorkflowDefinitionId()" class="form-control" />
                         </div>
                     </div>
 
@@ -49,6 +68,8 @@
 
                         </div>
                     </div>
+
+
                     <div class="pull-right">
                         <div class="btn-group">
                             <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
@@ -85,7 +106,7 @@
                                 <td><input type="text" required pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value:Destination, uniqueName:true" class="form-control" /></td>
                                 <td>
                                     <!-- ko if : $data.hasOwnProperty("Functoid") -->
-                                        <input type="text" data-bind="value:Functoid" />
+                                    <input type="text" data-bind="value:Functoid" />
                                     <!--/ko-->
                                 </td>
                                 <td><a data-bind="click : $parent.removePropertyMapping.call($parent,$data)"><i class="fa fa-times"></i></a></td>
