@@ -26,11 +26,19 @@
                 {
                     var col1 = col;
                     col.Input.Path = col.Path;
-                    col.Input.Visible = "true";
-                    col.Input.Enable = "true";
+                    if (string.IsNullOrWhiteSpace(col.Input.Visible))
+                    {
+
+                        col.Input.Visible = "true";
+                    }
+                    if (string.IsNullOrWhiteSpace(col.Input.Enable))
+                    {
+
+                        col.Input.Enable = "true";
+                    }
                     col.Input.IsCompact = true;
                     col.Input.ElementId = Guid.NewGuid().ToString();
-                    
+
                     <td>
                         @Html.EditorFor(f => col1.Input)
                     </td>

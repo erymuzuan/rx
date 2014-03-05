@@ -88,8 +88,8 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(" data-script=\"true\"");
 
 WriteLiteral(@">
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher],
-        function (context, logger, router, system, validation, eximp, dialog, watcher) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config],
+        function (context, logger, router, system, validation, eximp, dialog, watcher,config) {
 
             var entity = ko.observable(new ");
 
@@ -441,18 +441,18 @@ WriteLiteral("\r\n");
             
             #line default
             #line hidden
-WriteLiteral("                activate: activate,\r\n                attached: attached,\r\n       " +
-"         entity: entity,\r\n                save : save,\r\n                toolbar " +
-": {\r\n");
+WriteLiteral("                activate: activate,\r\n                config: config,\r\n           " +
+"     attached: attached,\r\n                entity: entity,\r\n                save " +
+": save,\r\n                toolbar : {\r\n");
 
             
-            #line 143 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 144 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 143 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 144 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      if (Model.Form.IsEmailAvailable)
                     {
 
@@ -467,7 +467,7 @@ WriteLiteral("emailCommand : function(){\r\n                        console.log(
 WriteLiteral("\r\n");
 
             
-            #line 149 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 150 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
 
             
@@ -476,7 +476,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                    ");
 
             
-            #line 150 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 151 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      if (Model.Form.IsWatchAvailable)
                     {
 
@@ -489,7 +489,7 @@ WriteLiteral("\r\n                    watchCommand: function() {\r\n            
 "watcher.watch(\"");
 
             
-            #line 154 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 155 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                          Write(Model.EntityDefinition.Name);
 
             
@@ -498,7 +498,7 @@ WriteLiteral("\r\n                    watchCommand: function() {\r\n            
 WriteLiteral("\", entity().");
 
             
-            #line 154 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 155 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                                                                   Write(Model.EntityDefinition.Name);
 
             
@@ -513,7 +513,7 @@ WriteLiteral(@"Id())
                         return watcher.unwatch(""");
 
             
-            #line 160 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 161 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                            Write(Model.EntityDefinition.Name);
 
             
@@ -522,7 +522,7 @@ WriteLiteral(@"Id())
 WriteLiteral("\", entity().");
 
             
-            #line 160 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 161 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                                                                     Write(Model.EntityDefinition.Name);
 
             
@@ -535,7 +535,7 @@ WriteLiteral("Id())\r\n                            .done(function(){\r\n        
 WriteLiteral("\r\n");
 
             
-            #line 166 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 167 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
 
             
@@ -544,7 +544,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                    ");
 
             
-            #line 167 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 168 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      if (Model.Form.IsPrintAvailable)
                     {
 
@@ -556,7 +556,7 @@ WriteLiteral("                        ");
 WriteLiteral("printCommand :{\r\n                        entity : \'");
 
             
-            #line 170 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 171 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                              Write(Model.EntityDefinition.Name);
 
             
@@ -567,7 +567,7 @@ WriteLiteral("\',\r\n                        id : ko.observable()\r\n           
 WriteLiteral("\r\n");
 
             
-            #line 173 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 174 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
 
             
@@ -577,7 +577,7 @@ WriteLiteral("\r\n                    saveCommand : save,\r\n                   
 "rvableArray(");
 
             
-            #line 176 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 177 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                              Write(Html.Raw(commandsJs));
 
             

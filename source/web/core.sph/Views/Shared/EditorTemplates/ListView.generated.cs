@@ -168,11 +168,19 @@ WriteLiteral(">\r\n            <tr>\r\n");
                 {
                     var col1 = col;
                     col.Input.Path = col.Path;
-                    col.Input.Visible = "true";
-                    col.Input.Enable = "true";
+                    if (string.IsNullOrWhiteSpace(col.Input.Visible))
+                    {
+
+                        col.Input.Visible = "true";
+                    }
+                    if (string.IsNullOrWhiteSpace(col.Input.Enable))
+                    {
+
+                        col.Input.Enable = "true";
+                    }
                     col.Input.IsCompact = true;
                     col.Input.ElementId = Guid.NewGuid().ToString();
-                    
+
 
             
             #line default
@@ -182,7 +190,7 @@ WriteLiteral("                    <td>\r\n");
 WriteLiteral("                        ");
 
             
-            #line 35 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 43 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                    Write(Html.EditorFor(f => col1.Input));
 
             
@@ -191,7 +199,7 @@ WriteLiteral("                        ");
 WriteLiteral("\r\n                    </td>\r\n");
 
             
-            #line 37 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 45 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                 }
 
             
@@ -206,7 +214,7 @@ WriteLiteral(" href=\"#\"");
 WriteLiteral(" data-bind=\"click : $parent.removeChildItem.call($parent,$parent.");
 
             
-            #line 39 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 47 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                                                                                                           Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             

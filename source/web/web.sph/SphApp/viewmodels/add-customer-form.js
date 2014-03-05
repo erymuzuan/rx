@@ -1,17 +1,16 @@
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher],
-    function (context, logger, router, system, validation, eximp, dialog, watcher) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config],
+    function (context, logger, router, system, validation, eximp, dialog, watcher, config) {
 
         var entity = ko.observable(new bespoke.dev_1.domain.Customer({WebId: system.guid()})),
             form = ko.observable(new bespoke.sph.domain.EntityForm()),
             watching = ko.observable(false),
-            id = ko.observable(),
-            activate = function (id2) {
-                id(parseInt(id2));
-                var query = String.format("CustomerId eq {0}", id2),
+            activate = function (id) {
+
+                var query = String.format("CustomerId eq {0}", id),
                     tcs = new $.Deferred(),
                     itemTask = context.loadOneAsync("Customer", query),
                     formTask = context.loadOneAsync("EntityForm", "Route eq 'add-customer-form'"),
-                    watcherTask = watcher.getIsWatchingAsync("Customer", id2);
+                    watcherTask = watcher.getIsWatchingAsync("Customer", id);
 
                 $.when(itemTask, formTask, watcherTask).done(function (b, f, w) {
                     if (b) {
@@ -19,7 +18,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         entity(item);
 
 
-                        vm.toolbar.printCommand.id(parseInt(id2));
+                        vm.toolbar.printCommand.id(parseInt(id));
 
                     }
                     else {
@@ -122,13 +121,14 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             VerifyTheAge: VerifyTheAge,
             MustBeMalaysian: MustBeMalaysian,
             activate: activate,
+            config: config,
             attached: attached,
             entity: entity,
             save: save,
             toolbar: {
-                emailCommand: {
-                    entity: 'Customer',
-                    id: id
+                emailCommand: function () {
+                    console.log("Sending email");
+                    return Task.fromResult(true);
                 },
 
                 watchCommand: function () {
@@ -146,7 +146,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 watching: watching,
                 printCommand: {
                     entity: 'Customer',
-                    id: id
+                    id: ko.observable()
                 },
 
                 saveCommand: save,

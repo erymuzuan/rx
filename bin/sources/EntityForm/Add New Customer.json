@@ -247,8 +247,8 @@
                   "IsRequired": false,
                   "Size": "",
                   "CssClass": "",
-                  "Visible": "",
-                  "Enable": "",
+                  "Visible": "true",
+                  "Enable": "Title() === $root.config.userName",
                   "ElementId": "",
                   "HelpText": "",
                   "LabelColLg": null,
@@ -587,7 +587,7 @@
           "$type": "Bespoke.Sph.Domain.DownloadLink, domain.sph",
           "IsTranformTemplate": false,
           "TemplateStoreId": null,
-          "Entity": null,
+          "Entity": "Customer",
           "IconClass": null,
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -809,6 +809,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-04T06:19:34.0830714+08:00",
+  "ChangedDate": "2014-03-05T16:14:18.0318303+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }
