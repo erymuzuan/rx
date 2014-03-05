@@ -17,6 +17,7 @@ bespoke.sph.domain.ListViewPartial = function (model) {
                 var column = new bespoke.sph.domain.ListViewColumn(system.guid()),
                     input = bespoke.sph.domain[type](system.guid());
 
+
                 column.Path.subscribe(function(v) {
                     input.Path(v);
                 });
@@ -25,6 +26,7 @@ bespoke.sph.domain.ListViewPartial = function (model) {
                 });
 
                 column.Input(input);
+                input.isSelected = ko.observable(false);
                 self.ListViewColumnCollection.push(column);
             };
         },
