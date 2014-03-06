@@ -1,0 +1,1 @@
+nuget pack .\Sph.Platform.ElasticSearch.nuspec

@@ -1,0 +1,13 @@
+[2014-02-05 10:34:13] [info]  [  404] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2014-02-05 10:34:13] [info]  [  404] Service elasticsearch-service-x64 name Elasticsearch 0.90.11 (elasticsearch-service-x64)
+[2014-02-05 10:34:13] [info]  [  404] Service 'elasticsearch-service-x64' installed
+[2014-02-05 10:34:13] [info]  [  404] Commons Daemon procrun finished
+[2014-02-05 10:34:28] [info]  [ 4008] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2014-02-05 10:34:28] [info]  [ 4008] Starting service 'elasticsearch-service-x64' ...
+[2014-02-05 10:34:28] [info]  [ 2620] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2014-02-05 10:34:28] [info]  [ 2620] Running 'elasticsearch-service-x64' Service...
+[2014-02-05 10:34:28] [info]  [ 4504] Starting service...
+[2014-02-05 10:34:29] [info]  [ 4504] Service started in 1133 ms.
+[2014-02-05 10:34:31] [info]  [ 4008] Service 'elasticsearch-service-x64' started
+[2014-02-05 10:34:31] [info]  [ 4008] Start service finished.
+[2014-02-05 10:34:31] [info]  [ 4008] Commons Daemon procrun finished
