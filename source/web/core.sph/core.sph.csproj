@@ -1956,6 +1956,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\email.entity.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\email.template.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\document.template.details.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\field.permission.dialog.js" />
     <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
@@ -1983,6 +1984,7 @@
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
     <EmbeddedResource Include="SphApp\views\email.template.details.html" />
     <EmbeddedResource Include="SphApp\views\document.template.details.html" />
+    <EmbeddedResource Include="SphApp\views\field.permission.dialog.html" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\Button.cshtml">

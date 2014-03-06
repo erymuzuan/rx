@@ -101,6 +101,7 @@
     <Compile Include="FormTemplates\EntityDefinition.cs" />
     <Compile Include="FormTemplates\EntityForm.cs" />
     <Compile Include="FormTemplates\EntityView.cs" />
+    <Compile Include="FormTemplates\FieldPermission.cs" />
     <Compile Include="FormTemplates\FieldValidation.cs" />
     <Compile Include="FormTemplates\FileUploadElement.cs" />
     <Compile Include="FormTemplates\Filter.cs" />

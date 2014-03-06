@@ -770,6 +770,7 @@ bespoke.sph.domain.Member = function (optionOrWebid) {
         IsExcludeInAll: ko.observable(false),
         Boost: ko.observable(0),
         MemberCollection: ko.observableArray([]),
+        FieldPermissionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1030,6 +1031,36 @@ bespoke.sph.domain.DownloadLink = function (optionOrWebid) {
         return _(v).extend(new bespoke.sph.domain.DownloadLinkPartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sph.domain.FieldPermission = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FieldPermission, domain.sph",
+        Role: ko.observable(''),
+        IsHidden: ko.observable(false),
+        IsReadOnly: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FieldPermissionPartial) {
+        return _(model).extend(new bespoke.sph.domain.FieldPermissionPartial(model));
+    }
+    return model;
 };
 
 

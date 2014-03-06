@@ -3833,6 +3833,120 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("FieldPermission", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FieldPermission
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_role;
+        public const string PropertyNameRole = "Role";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isHidden;
+        public const string PropertyNameIsHidden = "IsHidden";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isReadOnly;
+        public const string PropertyNameIsReadOnly = "IsReadOnly";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Role
+        {
+            set
+            {
+                if (String.Equals(m_role, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRole, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_role = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_role;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsHidden
+        {
+            set
+            {
+                if (m_isHidden == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsHidden, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isHidden = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isHidden;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsReadOnly
+        {
+            set
+            {
+                if (m_isReadOnly == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsReadOnly, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isReadOnly = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isReadOnly;
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement

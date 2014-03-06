@@ -769,17 +769,17 @@ bespoke.sph.domain.ListViewColumnPartial = function (model) {
 
 bespoke.sph.domain.MemberPartial = function () {
     var system = require('durandal/system'),
-        addMember = function() {
+        addMember = function () {
             this.MemberCollection.push(new bespoke.sph.domain.Member(system.guid()));
         },
-        editMember = function(member) {
+        editMember = function (member) {
             var self = this;
-            return function() {
-                require(['viewmodels/member.dialog', 'durandal/app'], function(dialog, app) {
+            return function () {
+                require(['viewmodels/member.dialog', 'durandal/app'], function (dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
                     dialog.member(clone);
                     app.showDialog(dialog)
-                        .done(function(result) {
+                        .done(function (result) {
                             if (!result) return;
                             if (result == "OK") {
                                 self.BlockCollection.replace(member, clone);
@@ -787,6 +787,21 @@ bespoke.sph.domain.MemberPartial = function () {
                         });
                 });
             };
+        },
+        editPermission = function (member) {
+            var self = this;
+            require(['viewmodels/field.permission.dialog', 'durandal/app'], function (dialog, app) {
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
+                dialog.member(clone);
+                app.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result == "OK") {
+                            self.FieldPermissionCollection(clone.FieldPermissionCollection());
+                        }
+                    });
+            });
+
         },
         removeMember = function (floor) {
             var self = this;
@@ -813,6 +828,7 @@ bespoke.sph.domain.MemberPartial = function () {
             };
         };
     return {
+        editPermission: editPermission,
         addMember: addMember,
         editMember: editMember,
         editMemberMap: editMemberMap,
