@@ -445,15 +445,18 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"Path\"");
 
-WriteLiteral(" />\r\n                </div>\r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n         \r\n\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n                        <div");
+WriteLiteral(" style=\"padding-top: 25px\"");
 
-WriteLiteral(" class=\"checkbox\"");
+WriteLiteral(">\r\n                    <label");
 
-WriteLiteral(">\r\n                            <label>\r\n                                <input");
+WriteLiteral(" for=\"use-display-template\"");
+
+WriteLiteral(">\r\n                        Use display template\r\n                    </label>\r\n  " +
+"                  <input");
 
 WriteLiteral(" data-bind=\"checked: UseDisplayTemplate\"");
 
@@ -463,9 +466,7 @@ WriteLiteral(" type=\"checkbox\"");
 
 WriteLiteral(" name=\"UseDisplayTemplate\"");
 
-WriteLiteral(" />\r\n                                Use display template\r\n                      " +
-"      </label>\r\n                        </div>\r\n                </div>\r\n\r\n      " +
-"          <div");
+WriteLiteral(" />\r\n                </div>\r\n\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 

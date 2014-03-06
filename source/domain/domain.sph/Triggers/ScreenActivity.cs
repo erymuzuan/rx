@@ -347,9 +347,10 @@ namespace Bespoke.Sph.Domain
     <form class=""form-horizontal"" id=""workflow-start-form"" data-bind=""with: instance"">
         @foreach (var fe in Model.Screen.FormDesign.FormElementCollection)
         {{
-            fe.Path = fe.Path.ConvertJavascriptObjectToFunction();
-            fe.SetDefaultLayout(Model.Screen.FormDesign);
-            @Html.EditorFor(f => fe)
+            var fe1 = fe;
+            fe1.Path = fe.Path.ConvertJavascriptObjectToFunction();
+            fe1.SetDefaultLayout(Model.Screen.FormDesign);
+            @(fe.UseDisplayTemplate ? Html.DisplayFor(f => fe1) : Html.EditorFor(f => fe1))
         }}
    
     </form>
