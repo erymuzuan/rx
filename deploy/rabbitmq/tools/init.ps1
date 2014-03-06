@@ -22,6 +22,10 @@ if((Test-Path("rabbitmq")) -eq $false)
 {
     mkdir "rabbitmq"
 }
+else
+{
+  Remove-Item -Path "rabbitmq\*" -force -recurse
+}
 
 Get-ChildItem -Path "$installPath\content" | Copy-Item -Destination "rabbitmq" -Force
 Write-Host "Done"
