@@ -123,19 +123,31 @@
 
 
                     var receive = function (evt, ui) {
-                            var elements = _($('#template-form-designer>form>div')).map(function (div) {
-                                return ko.dataFor(div);
-                            });
-                            var fe = ko.dataFor(ui.item[0]);
-                            fe.isSelected = ko.observable(true);
-                            // TODO, should be inserted to the position is dropped
-                            elements.splice(2, 0, fe);
-                            $('#template-form-designer>form').sortable("destroy");
-                            //rebuild
-                            fd.FormElementCollection(elements);
-                            initDesigner();
-                            $('#template-form-designer>form li.ui-draggable').remove();
-                        },
+                        var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                            return ko.dataFor(div);
+                        }),
+                        fe = ko.dataFor(ui.item[0]),
+                        sortable = $(this),
+                        position = 0,
+                        children = sortable.children();
+
+                        fe.isSelected = ko.observable(true);
+                        fe.Enable("true");
+                        fe.Visible("true");
+
+                        for (var i = 0; i < children.length; i++) {
+                            if ($(children[i]).position().top > ui.position.top) {
+                                position = i;
+                                break;
+                            }
+                        }
+                        elements.splice(position, 0, fe);
+                        $('#template-form-designer>form').sortable("destroy");
+                        //rebuild
+                        fd.FormElementCollection(elements);
+                        initDesigner();
+                        $('#template-form-designer>form li.ui-draggable').remove();
+                    },
                         initDesigner = function () {
                             $('#template-form-designer>form').sortable({
                                 items: '>div',
@@ -188,7 +200,7 @@
                     dialog.close(this, "Cancel");
                 },
                 selectFormElement = function (fe) {
-                    
+
                     $('.selected-form-element').each(function(e) {
                         var kd = ko.dataFor(this);
                         if (typeof kd.isSelected === "function")

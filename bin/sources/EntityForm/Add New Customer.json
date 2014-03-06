@@ -337,39 +337,6 @@
           "WebId": null
         },
         {
-          "$type": "Bespoke.Sph.Domain.CheckBox, domain.sph",
-          "FieldValidation": {
-            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-            "IsRequired": false,
-            "MaxLength": 0,
-            "MinLength": 0,
-            "Pattern": null,
-            "Mode": "",
-            "Message": null,
-            "WebId": null
-          },
-          "Name": "Checkboxes",
-          "Label": "Priority",
-          "Tooltip": "",
-          "Path": "IsPriority",
-          "IsRequired": false,
-          "Size": "input-large",
-          "CssClass": "",
-          "Visible": "true",
-          "Enable": null,
-          "ElementId": "e6134f92-0d96-4d8b-990b-f484a614d407",
-          "HelpText": null,
-          "LabelColLg": null,
-          "LabelColMd": null,
-          "LabelColSm": null,
-          "LabelColXs": null,
-          "InputColLg": null,
-          "InputColMd": null,
-          "InputColSm": null,
-          "InputColXs": null,
-          "WebId": null
-        },
-        {
           "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
           "DefaultValue": null,
           "AutoCompletionEntity": null,
@@ -512,6 +479,39 @@
           "WebId": null
         },
         {
+          "$type": "Bespoke.Sph.Domain.CheckBox, domain.sph",
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "MaxLength": 0,
+            "MinLength": 0,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "WebId": null
+          },
+          "Name": "Checkboxes",
+          "Label": "Priority",
+          "Tooltip": null,
+          "Path": "IsPriority",
+          "IsRequired": false,
+          "Size": null,
+          "CssClass": "fa fa-check",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": null,
+          "HelpText": null,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
+        },
+        {
           "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -531,7 +531,7 @@
           "Size": "input-large",
           "CssClass": "",
           "Visible": "true",
-          "Enable": null,
+          "Enable": "IsPriority",
           "ElementId": "3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435",
           "HelpText": null,
           "LabelColLg": null,
@@ -809,6 +809,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-06T07:32:18.9192636+08:00",
+  "ChangedDate": "2014-03-06T18:47:34.1404006+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

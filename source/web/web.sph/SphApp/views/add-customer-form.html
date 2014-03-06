@@ -55,12 +55,12 @@
 
     <input  class=" form-control " title=""
            data-bind="value: Title, visible :true, enable :true"
-           id="a5c209d8-1e81-477d-bf21-721e971987e5" type="text" name="Title" />
+           id="46f10144-c9b1-4a0c-b084-16ccf6606894" type="text" name="Title" />
 
                     </td>
                     <td>
                         
-    <select data-bind="value: Extension, visible :true, enable :true" id="205966de-6bc8-4049-8bbc-27f937d6501a" name="Extension" class="  form-control">
+    <select data-bind="value: Extension, visible :true, enable :true" id="c05a9c0d-2903-45d9-9675-6aa5969e5c64" name="Extension" class="  form-control">
             <option value=".docx">Word 2007</option>
             <option value=".xlsx">Excel 2007</option>
             <option value=".pdf">PDF</option>
@@ -71,7 +71,7 @@
                         
     <input  class=" form-control " title=""
            data-bind="kendoUpload : StoreId, visible :true"
-           id="fe266887-fd51-498c-a998-fce9e0818967" type="file" name="files" />
+           id="c5278d13-ee2d-4b3e-bd2a-8184a24ebd8d" type="file" name="files" />
 
                     </td>
                 <td>
@@ -83,13 +83,6 @@
         </tbody>
     </table>
 </div>
-    <div class="control-group" data-bind="visible:true">
-        <label class="checkbox">
-            <input data-bind="checked : IsPriority, enable :true" id="IsPriority" title="" type="checkbox" name="IsPriority" />
-            Priority
-        </label>
-    </div>
-
 
 
     <div data-bind="visible:true" class="form-group">
@@ -121,11 +114,18 @@
                    id="4fd5b435-4058-4db2-a506-b5fc161f1751" type="text" name="Contact.Name" />
         </div>
     </div>
+    <div class="control-group" data-bind="visible:true">
+        <label class="checkbox">
+            <input data-bind="checked : IsPriority, enable :true" id="IsPriority" type="checkbox" name="IsPriority" />
+            Priority
+        </label>
+    </div>
+
     <div class="form-group" data-bind="visible : true">
         <label for="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" class="col-lg-4">Registered</label>
         <div class="col-lg-8">
             <input class=" form-control input-large"
-                   data-bind="kendoDate: RegisteredDate, enable :true" id="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" type="text"
+                   data-bind="kendoDate: RegisteredDate, enable :IsPriority" id="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" type="text"
                    name="RegisteredDate" />
         </div>
     </div>

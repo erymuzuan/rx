@@ -275,9 +275,10 @@ ko.bindingHandlers.kendoUpload = {
 
 ///user moment format
 ko.bindingHandlers.kendoDate = {
-    init: function (element, valueAccessor) {
+    init: function (element, valueAccessor, allBindingsAccessor) {
         var value = valueAccessor(),
             $input = $(element),
+            allBindings = allBindingsAccessor(),
             currentValue = ko.utils.unwrapObservable(value),
             date = moment(currentValue),
             changed = function (e) {
@@ -296,6 +297,17 @@ ko.bindingHandlers.kendoDate = {
             },
             picker = $input.kendoDatePicker({ format: "dd/MM/yyyy", change: changed }).data("kendoDatePicker");
 
+        if (typeof allBindings.enable === "boolean") {
+            if (!allBindings.enable) {
+                picker.enable(false);
+            }
+        }
+        if (typeof allBindings.enable === "function" && typeof allBindings.enable.subscribe === "function") {
+            allBindings.enable.subscribe(function(enable) {
+                picker.enable(enable);
+            });
+        }
+
         if (!date) {
             picker.value(null);
             return;
@@ -308,8 +320,9 @@ ko.bindingHandlers.kendoDate = {
 
         picker.value(date.toDate());
     },
-    update: function (element, valueAccessor) {
-        var $input = $(element);
+    update: function (element, valueAccessor, allBindingsAccessor) {
+        var $input = $(element),
+            allBindings = allBindingsAccessor();
         if ($input.data("stop") == "true") return;
 
         var value = valueAccessor(),
@@ -326,6 +339,16 @@ ko.bindingHandlers.kendoDate = {
             return;
         }
 
+        if (typeof allBindings.enable === "boolean") {
+            if (!allBindings.enable) {
+                picker.enable(false);
+            }
+        }
+        if (typeof allBindings.enable === "function" && typeof allBindings.enable.subscribe === "function") {
+            allBindings.enable.subscribe(function (enable) {
+                picker.enable(enable);
+            });
+        }
         picker.value(date.toDate());
 
     }
