@@ -22,6 +22,13 @@ copy .\source\web\web.sph\bin\System.Web.Razor.dll .\bin\subscribers
 copy .\source\web\web.sph\bin\System.Web.WebPages.dll .\bin\subscribers
 copy .\source\web\web.sph\bin\System.Web.WebPages.Razor.dll .\bin\subscribers
 
+copy .\packages\Common.Logging.2.2.0\lib\net40\Common.Logging.dll .\bin\subscribers
+copy .\packages\Common.Logging.2.2.0\lib\net40\Common.Logging.dll .\bin\subscribers.host
+copy .\packages\Common.Logging.2.2.0\lib\net40\Common.Logging.dll .\bin\schedulers
+copy .\packages\Common.Logging.2.2.0\lib\net40\Common.Logging.dll .\bin\tools
+copy .\packages\Common.Logging.2.2.0\lib\net40\Common.Logging.dll .\bin\web\bin
+
+
 
 copy .\source\web\web.sph\bin\Common.Logging.dll .\bin\schedulers
 copy .\source\web\web.sph\bin\System.Web.Mvc.dll .\bin\schedulers
