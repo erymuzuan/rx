@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
+namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -28,33 +28,43 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Print/DisplayTemplates/FormElement.cshtml")]
-    public partial class _FormElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.FormElement>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/CheckBox.cshtml")]
+    public partial class _CheckBox : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.CheckBox>
     {
-        public _FormElement()
+        public _CheckBox()
         {
         }
         public override void Execute()
         {
-WriteLiteral("<p>\r\n    <span>WE DON\'T KNOW HOW TO DISPLAY ");
+WriteLiteral("<label");
+
+WriteLiteral(" class=\"col-md-4\"");
+
+WriteLiteral(">");
 
             
-            #line 3 "..\..\Areas\Sph\Views\Print\DisplayTemplates\FormElement.cshtml"
-                                  Write(Model.GetType().Name);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</span>\r\n    <span>Path : ");
-
-            
-            #line 4 "..\..\Areas\Sph\Views\Print\DisplayTemplates\FormElement.cshtml"
-            Write(Model.Path);
+            #line 3 "..\..\Views\Shared\DisplayTemplates\CheckBox.cshtml"
+                   Write(Model.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</span>\r\n</p>\r\n");
+WriteLiteral("</label>\r\n<span");
+
+WriteLiteral(" class=\"col-md-8\"");
+
+WriteLiteral(" data-bind=\"text: ");
+
+            
+            #line 4 "..\..\Views\Shared\DisplayTemplates\CheckBox.cshtml"
+                                   Write(Model.Path);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
+
+WriteLiteral("></span>\r\n");
 
         }
     }

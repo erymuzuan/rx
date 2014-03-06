@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
+namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -28,44 +28,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Print/DisplayTemplates/ComboBox.cshtml")]
-    public partial class _ComboBox : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.ComboBox>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/FileUploadElement.cshtml")]
+    public partial class _FileUploadElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.FileUploadElement>
     {
-        public _ComboBox()
+        public _FileUploadElement()
         {
         }
         public override void Execute()
         {
-WriteLiteral("<label");
-
-WriteLiteral(" class=\"col-md-4\"");
-
-WriteLiteral(">");
-
-            
-            #line 3 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ComboBox.cshtml"
-                   Write(Model.Label);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</label>\r\n<span");
-
-WriteLiteral(" class=\"col-md-8\"");
-
-WriteLiteral(" data-bind=\"text: ");
-
-            
-            #line 4 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ComboBox.cshtml"
-                                   Write(Model.Path);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
-
-WriteLiteral("></span>\r\n");
-
         }
     }
 }

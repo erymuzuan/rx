@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
+namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -28,45 +28,43 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Print/DisplayTemplates/ImageElement.cshtml")]
-    public partial class _ImageElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.ImageElement>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/DatePicker.cshtml")]
+    public partial class _DatePicker : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.DatePicker>
     {
-        public _ImageElement()
+        public _DatePicker()
         {
         }
         public override void Execute()
         {
 WriteLiteral("<label");
 
-WriteLiteral("    class=\"col-md-4\"");
+WriteLiteral(" class=\"col-md-4\"");
 
 WriteLiteral(">");
 
             
-            #line 2 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ImageElement.cshtml"
-                      Write(Model.Label);
+            #line 3 "..\..\Views\Shared\DisplayTemplates\DatePicker.cshtml"
+                   Write(Model.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n<img");
+WriteLiteral("</label>\r\n<span");
 
 WriteLiteral(" class=\"col-md-8\"");
 
-WriteLiteral(" data-bind=\"attr:{src : \'/sph/image/store/\' + ko.unwrap(");
+WriteLiteral(" data-bind=\"text: ");
 
             
-            #line 3 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ImageElement.cshtml"
-                                                                        Write(Model.Path);
+            #line 4 "..\..\Views\Shared\DisplayTemplates\DatePicker.cshtml"
+                                   Write(Model.Path);
 
             
             #line default
             #line hidden
-WriteLiteral(") }\"");
+WriteLiteral("\"");
 
-WriteLiteral(" alt=\"image\"");
-
-WriteLiteral(" />\r\n");
+WriteLiteral("></span>\r\n");
 
         }
     }

@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
+namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -28,24 +28,43 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Print/DisplayTemplates/SectionFormElement.cshtml")]
-    public partial class _SectionFormElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.SectionFormElement>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/EmailFormElement.cshtml")]
+    public partial class _EmailFormElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.EmailFormElement>
     {
-        public _SectionFormElement()
+        public _EmailFormElement()
         {
         }
         public override void Execute()
         {
-WriteLiteral("<h2>");
+WriteLiteral("<label");
+
+WriteLiteral(" class=\"col-md-4\"");
+
+WriteLiteral(">");
 
             
-            #line 2 "..\..\Areas\Sph\Views\Print\DisplayTemplates\SectionFormElement.cshtml"
-Write(Model.Label);
+            #line 3 "..\..\Views\Shared\DisplayTemplates\EmailFormElement.cshtml"
+                   Write(Model.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</h2>");
+WriteLiteral("</label>\r\n<span");
+
+WriteLiteral(" class=\"col-md-8\"");
+
+WriteLiteral(" data-bind=\"text: ");
+
+            
+            #line 4 "..\..\Views\Shared\DisplayTemplates\EmailFormElement.cshtml"
+                                   Write(Model.Path);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
+
+WriteLiteral("></span>\r\n");
 
         }
     }

@@ -129,7 +129,7 @@ WriteLiteral(">\r\n                    <label>Description</label>\r\n           
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: Description, valueUpdate: \'keyup\'\"");
+WriteLiteral(" data-bind=\"value: Description\"");
 
 WriteLiteral(" id=\"form-design-Description\"");
 
@@ -445,7 +445,27 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"Path\"");
 
-WriteLiteral(" />\r\n                </div>\r\n\r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <div");
+
+WriteLiteral(" class=\"checkbox\"");
+
+WriteLiteral(">\r\n                            <label>\r\n                                <input");
+
+WriteLiteral(" data-bind=\"checked: UseDisplayTemplate\"");
+
+WriteLiteral(" id=\"use-display-template\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"UseDisplayTemplate\"");
+
+WriteLiteral(" />\r\n                                Use display template\r\n                      " +
+"      </label>\r\n                        </div>\r\n                </div>\r\n\r\n      " +
+"          <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -609,13 +629,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 167 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 175 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 167 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 175 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
@@ -631,13 +651,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 176 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 184 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 176 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 184 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         
@@ -645,14 +665,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 178 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 186 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe));
 
             
             #line default
             #line hidden
             
-            #line 178 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 186 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                                                 
                     }
 
@@ -681,7 +701,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 189 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 197 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

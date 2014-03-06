@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
+namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     
-    #line 1 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+    #line 1 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
     using System.Web.Mvc.Html;
     
     #line default
@@ -32,14 +32,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.UI;
     using System.Web.WebPages;
     
-    #line 2 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+    #line 2 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
     using Bespoke.Sph.Domain;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Print/DisplayTemplates/ListView.cshtml")]
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/ListView.cshtml")]
     public partial class _ListView : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.ListView>
     {
         public _ListView()
@@ -52,7 +52,7 @@ WriteLiteral("\r\n<div");
 WriteLiteral(" data-bind=\"visible:");
 
             
-            #line 6 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 6 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                    Write(Model.Visible);
 
             
@@ -63,7 +63,7 @@ WriteLiteral("\"");
 WriteLiteral(">\r\n    <span> ");
 
             
-            #line 7 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 7 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
       Write(Model.Label);
 
             
@@ -76,13 +76,13 @@ WriteLiteral(" class=\"table table-condensed table-striped\"");
 WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n");
 
             
-            #line 11 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 11 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 11 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 11 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                  foreach (var col in Model.ListViewColumnCollection)
                 {
 
@@ -92,7 +92,7 @@ WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n");
 WriteLiteral("                    <th>");
 
             
-            #line 13 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 13 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                    Write(col.Label);
 
             
@@ -101,7 +101,7 @@ WriteLiteral("                    <th>");
 WriteLiteral("</th>\r\n");
 
             
-            #line 14 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 14 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                 }
 
             
@@ -112,7 +112,7 @@ WriteLiteral("            </tr>\r\n        </thead>\r\n        <tbody");
 WriteLiteral(" data-bind=\"foreach :");
 
             
-            #line 17 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 17 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                               Write(Model.Path);
 
             
@@ -123,13 +123,13 @@ WriteLiteral("\"");
 WriteLiteral(">\r\n            <tr>\r\n");
 
             
-            #line 19 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 19 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 19 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 19 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                  foreach (var col in Model.ListViewColumnCollection)
                 {
                     var col1 = col;
@@ -148,7 +148,7 @@ WriteLiteral("                    <td");
 WriteLiteral(" data-bind=\"text:");
 
             
-            #line 28 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 28 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                    Write(col.Path);
 
             
@@ -159,7 +159,7 @@ WriteLiteral("\"");
 WriteLiteral(">\r\n                    </td>\r\n");
 
             
-            #line 30 "..\..\Areas\Sph\Views\Print\DisplayTemplates\ListView.cshtml"
+            #line 30 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                 }
 
             

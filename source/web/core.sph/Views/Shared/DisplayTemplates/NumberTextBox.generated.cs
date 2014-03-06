@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
+namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -28,10 +28,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Print/DisplayTemplates/CheckBox.cshtml")]
-    public partial class _CheckBox : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.CheckBox>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/NumberTextBox.cshtml")]
+    public partial class _NumberTextBox : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.NumberTextBox>
     {
-        public _CheckBox()
+        public _NumberTextBox()
         {
         }
         public override void Execute()
@@ -43,7 +43,7 @@ WriteLiteral(" class=\"col-md-4\"");
 WriteLiteral(">");
 
             
-            #line 3 "..\..\Areas\Sph\Views\Print\DisplayTemplates\CheckBox.cshtml"
+            #line 3 "..\..\Views\Shared\DisplayTemplates\NumberTextBox.cshtml"
                    Write(Model.Label);
 
             
@@ -56,7 +56,7 @@ WriteLiteral(" class=\"col-md-8\"");
 WriteLiteral(" data-bind=\"text: ");
 
             
-            #line 4 "..\..\Areas\Sph\Views\Print\DisplayTemplates\CheckBox.cshtml"
+            #line 4 "..\..\Views\Shared\DisplayTemplates\NumberTextBox.cshtml"
                                    Write(Model.Path);
 
             

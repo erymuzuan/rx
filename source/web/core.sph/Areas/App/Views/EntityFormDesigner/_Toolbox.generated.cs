@@ -497,7 +497,28 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"Path\"");
 
-WriteLiteral(" />\r\n                </div>\r\n\r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(" style=\"padding-top: 25px\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"use-display-template\"");
+
+WriteLiteral(">\r\n                        Use display template\r\n                    </label>\r\n  " +
+"                  <input");
+
+WriteLiteral(" data-bind=\"checked: UseDisplayTemplate\"");
+
+WriteLiteral(" id=\"use-display-template\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"UseDisplayTemplate\"");
+
+WriteLiteral(" />\r\n                </div>\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -660,13 +681,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 196 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 201 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 196 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 201 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
@@ -683,13 +704,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 206 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 211 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 206 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 211 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         
@@ -697,14 +718,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 208 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 213 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe));
 
             
             #line default
             #line hidden
             
-            #line 208 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 213 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                 
                     }
 
@@ -733,7 +754,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 219 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 224 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
+namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -28,10 +28,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Print/DisplayTemplates/DownloadLink.cshtml")]
-    public partial class _DownloadLink : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.DownloadLink>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/Button.cshtml")]
+    public partial class _Button : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.Button>
     {
-        public _DownloadLink()
+        public _Button()
         {
         }
         public override void Execute()

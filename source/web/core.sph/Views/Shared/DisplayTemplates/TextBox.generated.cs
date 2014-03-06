@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
+namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Print/DisplayTemplates/TextBox.cshtml")]
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/TextBox.cshtml")]
     public partial class _TextBox : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.TextBox>
     {
         public _TextBox()
@@ -43,7 +43,7 @@ WriteLiteral(" class=\"col-md-4\"");
 WriteLiteral(">");
 
             
-            #line 4 "..\..\Areas\Sph\Views\Print\DisplayTemplates\TextBox.cshtml"
+            #line 4 "..\..\Views\Shared\DisplayTemplates\TextBox.cshtml"
                    Write(Model.Label);
 
             
@@ -56,7 +56,7 @@ WriteLiteral(" class=\"col-md-8\"");
 WriteLiteral(" data-bind=\"text: ");
 
             
-            #line 5 "..\..\Areas\Sph\Views\Print\DisplayTemplates\TextBox.cshtml"
+            #line 5 "..\..\Views\Shared\DisplayTemplates\TextBox.cshtml"
                                    Write(Model.Path);
 
             

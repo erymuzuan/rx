@@ -1,8 +1,9 @@
-﻿@using Bespoke.Sph.Domain
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
 @model Bespoke.Sph.Web.ViewModels.FormRendererViewModel
 
 @{
-    
+
     Layout = null;
     var formId = @Model.Form.Route + "-form";
 }
@@ -15,6 +16,7 @@
             @foreach (var fe in Model.Form.FormDesign.FormElementCollection)
             {
                 var fe1 = fe;
+                fe1.Path = fe1.Path.ConvertJavascriptObjectToFunction();
                 var button = fe1 as Button;
                 if (null != button && button.IsToolbarItem)
                 {
@@ -22,7 +24,7 @@
                 }
                 else
                 {
-                    @Html.EditorFor(f => fe1)
+                    @(fe.UseDisplayTemplate ? Html.DisplayFor(f => fe1) : Html.EditorFor(f => fe1))
                 }
             }
         </form>

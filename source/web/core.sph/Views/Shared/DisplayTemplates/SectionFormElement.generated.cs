@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
+namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -28,43 +28,24 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Print/DisplayTemplates/NumberTextBox.cshtml")]
-    public partial class _NumberTextBox : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.NumberTextBox>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/SectionFormElement.cshtml")]
+    public partial class _SectionFormElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.SectionFormElement>
     {
-        public _NumberTextBox()
+        public _SectionFormElement()
         {
         }
         public override void Execute()
         {
-WriteLiteral("<label");
-
-WriteLiteral(" class=\"col-md-4\"");
-
-WriteLiteral(">");
+WriteLiteral("<h2>");
 
             
-            #line 3 "..\..\Areas\Sph\Views\Print\DisplayTemplates\NumberTextBox.cshtml"
-                   Write(Model.Label);
+            #line 2 "..\..\Views\Shared\DisplayTemplates\SectionFormElement.cshtml"
+Write(Model.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n<span");
-
-WriteLiteral(" class=\"col-md-8\"");
-
-WriteLiteral(" data-bind=\"text: ");
-
-            
-            #line 4 "..\..\Areas\Sph\Views\Print\DisplayTemplates\NumberTextBox.cshtml"
-                                   Write(Model.Path);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
-
-WriteLiteral("></span>\r\n");
+WriteLiteral("</h2>");
 
         }
     }

@@ -2187,6 +2187,17 @@ namespace Bespoke.Sph.Domain
             get { return m_MemberCollection; }
         }
 
+        private readonly ObjectCollection<FieldPermission> m_FieldPermissionCollection = new ObjectCollection<FieldPermission>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("FieldPermission", IsNullable = false)]
+        public ObjectCollection<FieldPermission> FieldPermissionCollection
+        {
+            get { return m_FieldPermissionCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -4010,6 +4021,11 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
+        private bool m_useDisplayTemplate;
+        public const string PropertyNameUseDisplayTemplate = "UseDisplayTemplate";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
         private int? m_labelColLg;
         public const string PropertyNameLabelColLg = "LabelColLg";
 
@@ -4307,6 +4323,28 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_helpText;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public bool UseDisplayTemplate
+        {
+            set
+            {
+                if (m_useDisplayTemplate == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUseDisplayTemplate, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_useDisplayTemplate = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_useDisplayTemplate;
             }
         }
 

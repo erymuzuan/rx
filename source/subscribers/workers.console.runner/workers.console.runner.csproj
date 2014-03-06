@@ -34,7 +34,7 @@
     <StartupObject>workers.console.runner.ConsoleProgram</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>sony errisson.ico</ApplicationIcon>
+    <ApplicationIcon>Propeller.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="6.ico" />
+    <Content Include="Propeller.ico" />
     <Content Include="sony errisson.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

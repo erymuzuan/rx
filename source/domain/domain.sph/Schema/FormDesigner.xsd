@@ -49,6 +49,7 @@
 		<xs:attribute name="Enable" type="xs:string" use="optional" default="true"/>
 		<xs:attribute name="ElementId" type="xs:string" use="required"/>
 		<xs:attribute name="HelpText" type="xs:string" use="optional"/>
+		<xs:attribute name="UseDisplayTemplate" type="xs:boolean" use="required"/>
 	</xs:complexType>
 	<xs:element name="TextBox">
 		<xs:complexType>
@@ -331,7 +332,7 @@
 				<xs:element name="FieldPermissionCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="FieldPermission"/>
+							<xs:element ref="FieldPermission" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>

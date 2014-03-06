@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
+namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
 {
     using System;
     using System.Collections.Generic;
@@ -28,52 +28,33 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Print.DisplayTemplates
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Print/DisplayTemplates/WebsiteFormElement.cshtml")]
-    public partial class _WebsiteFormElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.WebsiteFormElement>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/FormElement.cshtml")]
+    public partial class _FormElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.FormElement>
     {
-        public _WebsiteFormElement()
+        public _FormElement()
         {
         }
         public override void Execute()
         {
-WriteLiteral("<label");
-
-WriteLiteral(" class=\"col-md-4\"");
-
-WriteLiteral(">");
+WriteLiteral("<p>\r\n    <span>WE DON\'T KNOW HOW TO DISPLAY ");
 
             
-            #line 3 "..\..\Areas\Sph\Views\Print\DisplayTemplates\WebsiteFormElement.cshtml"
-                   Write(Model.Label);
+            #line 3 "..\..\Views\Shared\DisplayTemplates\FormElement.cshtml"
+                                  Write(Model.GetType().Name);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n<a");
-
-WriteLiteral(" class=\"col-md-8\"");
-
-WriteLiteral(" data-bind=\"attr : {\'href\':");
+WriteLiteral("</span>\r\n    <span>Path : ");
 
             
-            #line 4 "..\..\Areas\Sph\Views\Print\DisplayTemplates\WebsiteFormElement.cshtml"
-                                         Write(Model.Path);
+            #line 4 "..\..\Views\Shared\DisplayTemplates\FormElement.cshtml"
+            Write(Model.Path);
 
             
             #line default
             #line hidden
-WriteLiteral("},text: ");
-
-            
-            #line 4 "..\..\Areas\Sph\Views\Print\DisplayTemplates\WebsiteFormElement.cshtml"
-                                                            Write(Model.Path);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\"");
-
-WriteLiteral(" ></a>\r\n");
+WriteLiteral("</span>\r\n</p>\r\n");
 
         }
     }
