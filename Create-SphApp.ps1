@@ -274,7 +274,11 @@ foreach($configFile in $allConfigs){
     $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="VirtualHost"]/@value').'#text' = $ApplicationName
     $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="UserName"]/@value').'#text' = $RabbitMqUserName
     $xml.SelectSingleNode('//spring/objects/object[@name="IBrokerConnection"]/property[@name="Password"]/@value').'#text' = $RabbitMqPassword
-
+    
+    Try{
+        $taskscheduler = $WorkingCopy   + "\schedulers\scheduler.delayactivity.exe"  
+        $xml.SelectSingleNode('//spring/objects/object[@name="ITaskScheduler"]/constructor-arg[@name="executable"]/@value').'#text' = $taskscheduler
+    }Catch{}
     $xml.Save($configFile)
 }
 
