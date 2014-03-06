@@ -30,6 +30,16 @@ if(!(Get-Command sqlcmd -ErrorAction SilentlyContinue))
     Write-Warning "Cannot find sqlcmd in your path"
     exit;
 }
+Try
+{
+   & sqlcmd -E -S "$SqlServer" -Q "SELECT COUNT(*) FROM sysdatabases"
+}
+Catch
+{
+    Write-Warning "Cannot cannot to $SqlServer , Please make sure the server instance is correct and trusted connection can be used"
+    exit;
+}
+
 
 if($Port -eq 0)
 {
@@ -43,6 +53,7 @@ if($ApplicationName -eq "Dev")
 	
 	exit;
 }
+
 # copy some dll into schedulers and subscribers
 copy .\source\web\web.sph\bin\Common.Logging.dll .\bin\subscribers
 copy .\source\web\web.sph\bin\System.Web.Mvc.dll .\bin\subscribers
@@ -213,12 +224,6 @@ Get-ChildItem -Filter *.sql -Path C:\project\work\sph\source\database\Table `
     & sqlcmd -S "$SqlServer" -E -d "$ApplicationName" -i "$sqlFileName"
 }
 
-#asp.net memberships
-& aspnet_regsql.exe -E -S "$SqlServer" -d "$ApplicationName" -A mr
-#roles
-mru -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
-mru -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
-
 
 #creates IIS express directory
 Write-Host "Creating site"
@@ -272,6 +277,15 @@ foreach($configFile in $allConfigs){
 
     $xml.Save($configFile)
 }
+
+#asp.net memberships
+& aspnet_regsql.exe -E -S "$SqlServer" -d "$ApplicationName" -A mr
+#roles
+mru -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
+mru -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
+
+
+
 #delete all accidentally added config
 $rubbishConfigs = @("$WorkingCopy\subscribers\subscriber.workflow.dll.config"
 ,"$WorkingCopy\schedulers\scheduler.delayactivity.config"
