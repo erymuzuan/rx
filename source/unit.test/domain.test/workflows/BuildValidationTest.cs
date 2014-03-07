@@ -1,5 +1,6 @@
 ﻿using System;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace domain.test.workflows
@@ -16,9 +17,9 @@ namespace domain.test.workflows
 
 
             var result = wd.ValidateBuild();
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Formatting.Indented));
             Assert.IsFalse(result.Result);
-            Assert.AreEqual(2, result.Errors.Count);
+            Assert.AreEqual(3, result.Errors.Count);
             Assert.AreEqual("Name must be started with letter.You cannot use symbol or number as first character", result.Errors[0].Message);
             Assert.AreEqual("[ScreenActivity] : Pohon => 'Nama' does not have path", result.Errors[1].Message);
 
@@ -34,9 +35,9 @@ namespace domain.test.workflows
 
 
             var result = wd.ValidateBuild();
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Formatting.Indented));
             Assert.IsFalse(result.Result);
-            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(2, result.Errors.Count);
             StringAssert.Contains("Missing webid", result.Errors[0].ToString());
 
         }
