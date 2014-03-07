@@ -11,9 +11,20 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     [Authorize]
     public class SphAccountController : Controller
     {
-        public ActionResult Logoff()
+        public async Task<ActionResult> Logoff()
         {
+            var user = User.Identity.Name;
             FormsAuthentication.SignOut();
+            try
+            {
+                var logger = ObjectBuilder.GetObject<ILogger>();
+                await logger.LogAsync("Logoff", "Logoff for " + user
+                    );
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             return Redirect("/");
         }
 
@@ -44,6 +55,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
+            var logger = ObjectBuilder.GetObject<ILogger>();
             if (ModelState.IsValid)
             {
                 var directory = ObjectBuilder.GetObject<IDirectoryService>();
@@ -52,15 +64,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     var context = new SphDataContext();
                     var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == model.UserName);
+                    await logger.LogAsync("Login", "Successful login for " + model.UserName);
                     if (null != profile)
                     {
                         if (!profile.HasChangedDefaultPassword)
                             return RedirectToAction("ChangePassword");
                         if (returnUrl == "/" ||
-                            returnUrl.Equals("/sph", StringComparison.InvariantCultureIgnoreCase )|| 
-                            returnUrl.Equals("/sph#", StringComparison.InvariantCultureIgnoreCase )|| 
-                            returnUrl.Equals("/sph/", StringComparison.InvariantCultureIgnoreCase )|| 
-                            returnUrl.Equals("/sph/#", StringComparison.InvariantCultureIgnoreCase )|| 
+                            returnUrl.Equals("/sph", StringComparison.InvariantCultureIgnoreCase) ||
+                            returnUrl.Equals("/sph#", StringComparison.InvariantCultureIgnoreCase) ||
+                            returnUrl.Equals("/sph/", StringComparison.InvariantCultureIgnoreCase) ||
+                            returnUrl.Equals("/sph/#", StringComparison.InvariantCultureIgnoreCase) ||
                             string.IsNullOrWhiteSpace(returnUrl))
                             return Redirect("/sph#/" + profile.StartModule);
                     }
@@ -69,6 +82,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     return RedirectToAction("Index", "Home", new { area = "Sph" });
                 }
                 var user = await directory.GetUserAsync(model.UserName);
+                await logger.LogAsync("Login", "Login failed for " + model.UserName);
                 if (null != user && user.IsLockedOut)
                     ModelState.AddModelError("", "Your acount has beeen locked, Please contact NSRM administrator.");
                 else

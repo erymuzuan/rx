@@ -194,6 +194,7 @@
     <Compile Include="Api\RepositoryController.cs" />
     <Compile Include="Api\Sql2008PagingTranslator.cs" />
     <Compile Include="Api\Sql2012PagingTranslator.cs" />
+    <Compile Include="ApplicationHelper.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
