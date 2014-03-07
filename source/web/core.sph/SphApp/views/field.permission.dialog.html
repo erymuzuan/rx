@@ -5,7 +5,10 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
-                <h3>Field Level Permission</h3>
+                <h3 data-bind="with : member">
+                    Field Level Permission for
+                    <span data-bind="text:Name"></span>
+                </h3>
             </div>
             <div class="modal-body" data-bind="with: member">
 

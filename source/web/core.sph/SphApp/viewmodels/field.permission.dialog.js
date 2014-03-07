@@ -19,8 +19,14 @@ define(['plugins/dialog', objectbuilders.config, objectbuilders.system],
                 if (typeof member().FieldPermissionCollection === "undefined") {
                     member().FieldPermissionCollection = ko.observableArray(permissions);
                 } else {
-                    member().FieldPermissionCollection(permissions);
-                } 
+                    // add new roles
+                    _(config.roles).each(function (v) {
+                        var exist = _(member().FieldPermissionCollection()).find(function (p) { return p.Role() == v; });
+                        if (!exist) {
+                            member().FieldPermissionCollection().push(new bespoke.sph.domain.FieldPermission({ Role: v, WebId: system.guid() }));
+                        }
+                    });
+                }
             },
         okClick = function (data, ev) {
             if (bespoke.utils.form.checkValidity(ev.target)) {
