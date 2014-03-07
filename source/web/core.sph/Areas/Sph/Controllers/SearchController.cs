@@ -40,6 +40,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return await Es("activity", this.GetRequestBody());
         }
 
+        public async Task<ActionResult> Log()
+        {
+            return await Es("log", this.GetRequestBody());
+        }
+
         public async Task<ActionResult> WorkflowDefinition()
         {
             return await Es(typeof(WorkflowDefinition).Name.ToLowerInvariant(), this.GetRequestBody());
