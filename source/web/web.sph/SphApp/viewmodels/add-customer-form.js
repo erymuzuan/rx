@@ -5,22 +5,20 @@
             var entity = ko.observable(new bespoke.dev_1.domain.Customer({WebId:system.guid()})),
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
-                activate = function (id) {
+                id = ko.observable(),
+                activate = function (entityId) {
+                    id(parseInt(entityId));
 
-                    var query = String.format("CustomerId eq {0}", id),
+                    var query = String.format("CustomerId eq {0}", entityId),
                         tcs = new $.Deferred(),
                         itemTask = context.loadOneAsync("Customer", query),
                         formTask = context.loadOneAsync("EntityForm", "Route eq 'add-customer-form'"),
-                        watcherTask = watcher.getIsWatchingAsync("Customer", id);
+                        watcherTask = watcher.getIsWatchingAsync("Customer", entityId);
 
                     $.when(itemTask, formTask, watcherTask).done(function(b,f,w) {
                         if (b) {
-                            var item = context.toObservable(b, /Bespoke\.Dev_1\.Domain\.(.*?),/);
+                            var item = context.toObservable(b);
                             entity(item);
-
-                                
-                            vm.toolbar.printCommand.id(parseInt(id));
-                            
                         }
                         else {
                             entity(new bespoke.dev_1.domain.Customer({WebId:system.guid()}));
@@ -106,6 +104,7 @@ return Task.fromResult(true);
                                    });
                             }else{
                                 tcs.resolve(result);
+
                             }
                         });
                     
@@ -124,9 +123,13 @@ return Task.fromResult(true);
                 entity: entity,
                 save : save,
                 toolbar : {
-                        emailCommand : function(){
-                        console.log("Sending email");
-                        return Task.fromResult(true);
+                        emailCommand : {
+                        entity : "Customer",
+                        id :id
+                    },
+                                            printCommand :{
+                        entity : 'Customer',
+                        id : id
                     },
                                             
                     watchCommand: function() {
@@ -142,10 +145,6 @@ return Task.fromResult(true);
                             });
                     },
                     watching: watching,
-                                            printCommand :{
-                        entity : 'Customer',
-                        id : ko.observable()
-                    },
 
                     saveCommand : save,
                     commands : ko.observableArray([{ caption :"Do this well", command : doThis, icon:"fa fa-user" }])
