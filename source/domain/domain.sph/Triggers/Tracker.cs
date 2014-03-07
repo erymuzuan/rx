@@ -142,7 +142,7 @@ namespace Bespoke.Sph.Domain
             var directory = ObjectBuilder.GetObject<IDirectoryService>();
 
 
-            var ea = this.ExecutedActivityCollection.SingleOrDefault(e => e.ActivityWebId == act.WebId);
+            var ea = this.ExecutedActivityCollection.LastOrDefault(e => e.ActivityWebId == act.WebId);
             if (null != ea)
             {
                 ea.Run = DateTime.Now;

@@ -37,48 +37,24 @@
     </div>
 
 <div data-bind="visible:true">
-    <span> Test</span>
-    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, bespoke.dev_1.domain.Attachment)">Attachment</button>
+    <span> Attachment</span>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
                     <th>Title</th>
                     <th>Ext.</th>
                     <th>Upload</th>
-                <th></th>
             </tr>
         </thead>
         <tbody data-bind="foreach :Contact().AttachmentCollection">
             <tr>
-                    <td>
-                        
-
-    <input  class=" form-control " title=""
-           data-bind="value: Title, visible :true, enable :true"
-           id="7b97c3fe-4f16-4c37-ab25-f30678414dfe" type="text" name="Title" />
-
+                    <td data-bind="text:Title">
                     </td>
-                    <td>
-                        
-    <select data-bind="value: Extension, visible :true, enable :Title() === $root.config.userName" id="10e5c5a1-851a-437d-886b-82e10faf55a7" name="Extension" class="  form-control">
-            <option value=".docx">Word 2007</option>
-            <option value=".xlsx">Excel 2007</option>
-            <option value=".pdf">PDF</option>
-    </select>
-
+                    <td data-bind="text:Extension">
                     </td>
-                    <td>
-                        
-    <input  class=" form-control " title=""
-           data-bind="kendoUpload : StoreId, visible :true"
-           id="3a4cd5e9-b054-4fad-b24b-b9243ec9c5d0" type="file" name="files" />
-
+                    <td data-bind="text:StoreId">
                     </td>
-                <td>
-                    <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.Contact().AttachmentCollection, $data)">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </a>
-                </td>
+               
             </tr>
         </tbody>
     </table>
@@ -90,6 +66,14 @@
         </label>
     </div>
 
+    <div class="form-group" data-bind="visible : true">
+        <label for="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" class="col-lg-4">Registered</label>
+        <div class="col-lg-8">
+            <input class=" form-control input-large"
+                   data-bind="kendoDate: RegisteredDate, enable :IsPriority" id="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" type="text"
+                   name="RegisteredDate" />
+        </div>
+    </div>
 
 
     <div data-bind="visible:true" class="form-group">
@@ -119,14 +103,6 @@
             <input  class=" form-control input-large" title=""
                    data-bind="value: Contact().Name, enable :true"
                    id="4fd5b435-4058-4db2-a506-b5fc161f1751" type="text" name="Contact().Name" />
-        </div>
-    </div>
-    <div class="form-group" data-bind="visible : true">
-        <label for="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" class="col-lg-4">Registered</label>
-        <div class="col-lg-8">
-            <input class=" form-control input-large"
-                   data-bind="kendoDate: RegisteredDate, enable :true" id="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" type="text"
-                   name="RegisteredDate" />
         </div>
     </div>
 
