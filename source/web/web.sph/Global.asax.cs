@@ -17,7 +17,6 @@ namespace web.sph
             //BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-
             ModelBinders.Binders.Add(typeof(IEnumerable<Rule>), new RuleModelBinder());
 
         }

@@ -24,14 +24,47 @@ namespace Bespoke.Sph.Web.App_Start
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+            await RegisterFormRoutesAsync(routes).ConfigureAwait(false);
+            //await RegisterEntitySearchAndApiRoutesAsync(routes).ConfigureAwait(false);
+        }
+
+        private static async Task RegisterEntitySearchAndApiRoutesAsync(RouteCollection routes)
+        {
+            var context = new SphDataContext();
+
+            var query = context.EntityDefinitions.Where(e => e.IsPublished == true);
+            var lo = await context.LoadAsync(query, includeTotalRows: true).ConfigureAwait(false);
+            var entityDefinitions = new ObjectCollection<EntityDefinition>(lo.ItemCollection);
+            while (lo.HasNextPage)
+            {
+                lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true).ConfigureAwait(false);
+                entityDefinitions.AddRange(lo.ItemCollection);
+            }
+            foreach (var ed in entityDefinitions)
+            {
+                routes.MapRoute(
+                    name: ed.Name + "_search",
+                    url: string.Format("search/{0}", ed.Name.ToLowerInvariant()),
+                    defaults: new {controller = ed.Name, action = "search"}
+                    );
+                routes.MapRoute(
+                    name: ed.Name + "_api",
+                    url: string.Format("api/{0}", ed.Name),
+                    defaults: new {controller = "api", action = "index", id = UrlParameter.Optional}
+                    );
+            }
+        }
+
+        private static async Task RegisterFormRoutesAsync(RouteCollection routes)
+        {
             var context = new SphDataContext();
 
             var query = context.EntityForms.Where(e => e.IsPublished == true);
-            var lo = await context.LoadAsync(query, includeTotalRows: true);
+            var lo = await context.LoadAsync(query, includeTotalRows: true).ConfigureAwait(false);
             var forms = new ObjectCollection<EntityForm>(lo.ItemCollection);
             while (lo.HasNextPage)
             {
-                lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true);
+                lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true).ConfigureAwait(false);
                 forms.AddRange(lo.ItemCollection);
             }
             foreach (var form in forms)
@@ -39,9 +72,8 @@ namespace Bespoke.Sph.Web.App_Start
                 routes.MapRoute(
                     name: form.Route,
                     url: string.Format("App/viewmodels/{0}.js", form.Route),
-                    defaults: new { controller = "EntityForm", action = "Form", Area = "Sph", id = form.Route }
-                );
-
+                    defaults: new {controller = "EntityForm", action = "Form", Area = "Sph", id = form.Route}
+                    );
             }
         }
 
