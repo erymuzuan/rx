@@ -50,12 +50,14 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Builder.cs" />
     <Compile Include="EntityFormSubscriber.cs" />
     <Compile Include="EntityIndexerMappingSubscriber.cs" />
     <Compile Include="EntityViewSubscriber.cs" />
     <Compile Include="EntityPageSubscriber.cs" />
     <Compile Include="EntityCodeSubscriber.cs" />
     <Compile Include="EsMappingHelper.cs" />
+    <Compile Include="SqlPersistenceHelper.cs" />
     <Compile Include="SqlTableSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,6 +67,10 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\dependencies\sql.repository\sql.repository.csproj">
+      <Project>{79494592-2FE0-429E-8F79-CB97863378DC}</Project>
+      <Name>sql.repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>

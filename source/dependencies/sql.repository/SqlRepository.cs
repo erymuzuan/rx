@@ -81,13 +81,10 @@ namespace Bespoke.Sph.SqlRepository
                             t1.SetId(id);
                             return t1;
                         }
-                        else
-                        {
-                            var xml = XElement.Parse(reader.GetString(1));
-                            dynamic t = xml.DeserializeFromXml(elementType);
-                            t.SetId(id);
-                            return t;
-                        }
+                        var xml = XElement.Parse(reader.GetString(1));
+                        dynamic t = xml.DeserializeFromXml(elementType);
+                        t.SetId(id);
+                        return t;
                     }
                 }
             }

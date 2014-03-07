@@ -24,6 +24,11 @@ namespace Bespoke.Sph.SqlRepository
             m_connectionString = connectionString;
         }
 
+        public Task<SubmitOperation> SubmitChanges(Entity item)
+        {
+            return this.SubmitChanges(new[] { item }, new Entity[]{}, null);
+        }
+
         public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session)
         {
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
@@ -131,7 +136,7 @@ namespace Bespoke.Sph.SqlRepository
             var updates = columns
                 .Where(p => p.Name != "CreatedDate")
                 .Where(p => p.Name != "CreatedBy")
-                .Select(p => string.Format("[{0}]=@{1}{2}", p.Name, p.Name.Replace(".","_"), count1));
+                .Select(p => string.Format("[{0}]=@{1}{2}", p.Name, p.Name.Replace(".", "_"), count1));
             sql.AppendLine();
             sql.AppendFormat("SET {0}", string.Join(",\r\n", updates));
 
@@ -150,7 +155,7 @@ namespace Bespoke.Sph.SqlRepository
 
             sql.AppendLine();
             sql.AppendFormat("VALUES");
-            sql.AppendFormat("({0})", string.Join(",", columns.Select(p => string.Format("@{0}{1}", p.Name.Replace(".","_"), count1))));
+            sql.AppendFormat("({0})", string.Join(",", columns.Select(p => string.Format("@{0}{1}", p.Name.Replace(".", "_"), count1))));
             sql.AppendLine();
             sql.AppendFormat("SELECT @id{0} = @@IDENTITY", count1);
             sql.AppendLine();
@@ -162,7 +167,7 @@ namespace Bespoke.Sph.SqlRepository
 
         private string GetSchema(Type type)
         {
-            if (type.Namespace == typeof (Entity).Namespace) return "Sph";
+            if (type.Namespace == typeof(Entity).Namespace) return "Sph";
             return ConfigurationManager.ApplicationName;
         }
 
@@ -209,13 +214,5 @@ namespace Bespoke.Sph.SqlRepository
         }
 
 
-        public async Task<SubmitOperation> SubmitChanges(Entity item)
-        {
-            using (var conn = new SqlConnection(m_connectionString))
-            {
-                await conn.OpenAsync();
-            }
-            return new SubmitOperation();
-        }
     }
 }

@@ -11,6 +11,10 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
         },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Name": "FullName",
         "TypeName": "System.String, mscorlib",
         "IsNullable": false,
@@ -34,6 +38,10 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
               },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
               "Name": "Street1",
               "TypeName": "System.String, mscorlib",
               "IsNullable": false,
@@ -49,6 +57,10 @@
               "FullName": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
               "Name": "Street2",
@@ -68,6 +80,10 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
               },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
               "Name": "Postcode",
               "TypeName": "System.String, mscorlib",
               "IsNullable": false,
@@ -83,6 +99,10 @@
               "FullName": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
               "Name": "State",
@@ -102,6 +122,10 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
               },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
               "Name": "Locality",
               "TypeName": "System.String, mscorlib",
               "IsNullable": false,
@@ -113,6 +137,10 @@
               "WebId": "17d90245-37e2-4d4c-a083-b837bd08e604"
             }
           ]
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
         },
         "Name": "Address",
         "TypeName": "System.Object, mscorlib",
@@ -129,6 +157,10 @@
         "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
           "$values": []
         },
         "Name": "Age",
@@ -148,6 +180,10 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
         },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Name": "Gender",
         "TypeName": "System.String, mscorlib",
         "IsNullable": false,
@@ -163,6 +199,10 @@
         "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
           "$values": []
         },
         "Name": "IsPriority",
@@ -188,6 +228,10 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
               },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
               "Name": "Name",
               "TypeName": "System.String, mscorlib",
               "IsNullable": false,
@@ -205,6 +249,10 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                 "$values": []
               },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
               "Name": "Email",
               "TypeName": "System.String, mscorlib",
               "IsNullable": false,
@@ -220,6 +268,10 @@
               "FullName": null,
               "MemberCollection": {
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
               "Name": "Telephone",
@@ -245,6 +297,10 @@
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": []
                     },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
                     "Name": "Title",
                     "TypeName": "System.String, mscorlib",
                     "IsNullable": false,
@@ -260,6 +316,10 @@
                     "FullName": null,
                     "MemberCollection": {
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                       "$values": []
                     },
                     "Name": "Extension",
@@ -279,6 +339,10 @@
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": []
                     },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
                     "Name": "Note",
                     "TypeName": "System.String, mscorlib",
                     "IsNullable": false,
@@ -296,6 +360,10 @@
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                       "$values": []
                     },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
                     "Name": "StoreId",
                     "TypeName": "System.String, mscorlib",
                     "IsNullable": false,
@@ -308,6 +376,10 @@
                   }
                 ]
               },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
               "Name": "AttachmentCollection",
               "TypeName": "System.Array, mscorlib",
               "IsNullable": false,
@@ -319,6 +391,10 @@
               "WebId": "acf88a85-e860-478f-a641-af2bfd9c73a2"
             }
           ]
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
         },
         "Name": "Contact",
         "TypeName": "System.Object, mscorlib",
@@ -335,6 +411,10 @@
         "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
           "$values": []
         },
         "Name": "PhotoStoreId",
@@ -354,6 +434,10 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
         },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Name": "RegisteredDate",
         "TypeName": "System.DateTime, mscorlib",
         "IsNullable": false,
@@ -371,12 +455,16 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
           "$values": []
         },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Name": "Rating",
         "TypeName": "System.Int32, mscorlib",
         "IsNullable": false,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
-        "IsFilterable": false,
+        "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
         "WebId": "42a88b57-cdc1-49f0-8189-b32493c23609"
@@ -386,6 +474,10 @@
         "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
           "$values": []
         },
         "Name": "AnnualRevenue",
@@ -403,6 +495,10 @@
         "FullName": null,
         "MemberCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
           "$values": []
         },
         "Name": "ProfileStoreId",
@@ -504,6 +600,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-04T16:59:55.4737083+08:00",
+  "ChangedDate": "2014-03-07T07:43:17.1622886+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }
