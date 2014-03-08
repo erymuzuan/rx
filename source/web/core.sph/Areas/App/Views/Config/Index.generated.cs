@@ -62,18 +62,18 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Config
             
             #line default
             #line hidden
-WriteLiteral("\r\n<script");
+WriteLiteral("\r\n\r\n\r\n<script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 298), Tuple.Create("\"", 337)
-, Tuple.Create(Tuple.Create("", 304), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
-, 304), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 302), Tuple.Create("\"", 341)
+, Tuple.Create(Tuple.Create("", 308), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
+, 308), false)
 );
 
 WriteLiteral("></script>\r\n<script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 357), Tuple.Create("\"", 390)
-, Tuple.Create(Tuple.Create("", 363), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/underscore.min.js")
-, 363), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 361), Tuple.Create("\"", 394)
+, Tuple.Create(Tuple.Create("", 367), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/underscore.min.js")
+, 367), false)
 );
 
 WriteLiteral("></script>\r\n<script");
@@ -83,36 +83,37 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(" data-script=\"true\"");
 
 WriteLiteral(@">
+ 
     define(function() {
         toastr.options.timeOut = 4000;
         toastr.options.positionClass = 'toast-bottom-right';
         var imageSettings = {
-            imageBasePath: '~/content/images/photos/',
-            unknownPersonImageSource: 'unknown_person.jpg'
-        };
-        var routes = ");
+                imageBasePath: '~/content/images/photos/',
+                unknownPersonImageSource: 'unknown_person.jpg'
+            },
+            routes = ");
 
             
-            #line 22 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 25 "..\..\Areas\App\Views\Config\Index.cshtml"
                 Write(Html.Raw(JsonConvert.SerializeObject(Model.Routes,Formatting.Indented,settings)));
 
             
             #line default
             #line hidden
-WriteLiteral(";\r\n\r\n        var startModule = \'");
+WriteLiteral(",\r\n            startModule = \'");
 
             
-            #line 24 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 26 "..\..\Areas\App\Views\Config\Index.cshtml"
                       Write(Model.StartModule);
 
             
             #line default
             #line hidden
-WriteLiteral("\';\r\n\r\n        return {\r\n            debugEnabled: ko.observable(true),\r\n         " +
-"   imageSettings: imageSettings,\r\n            userName: \'");
+WriteLiteral("\';\r\n\r\n\r\n        return {\r\n            debugEnabled: ko.observable(true),\r\n       " +
+"     imageSettings: imageSettings,\r\n            userName: \'");
 
             
-            #line 29 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 32 "..\..\Areas\App\Views\Config\Index.cshtml"
                   Write(User.Identity.Name);
 
             
@@ -121,7 +122,7 @@ WriteLiteral("\';\r\n\r\n        return {\r\n            debugEnabled: ko.observ
 WriteLiteral("\',\r\n            isAuthenticated : ");
 
             
-            #line 30 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 33 "..\..\Areas\App\Views\Config\Index.cshtml"
                           Write(User.Identity.IsAuthenticated.ToString().ToLower());
 
             
@@ -131,7 +132,7 @@ WriteLiteral(",\r\n            routes: routes,\r\n            startModule: start
 "  stateOptions : ");
 
             
-            #line 33 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 36 "..\..\Areas\App\Views\Config\Index.cshtml"
                       Write(Html.Raw(Model.StateOptions));
 
             
@@ -140,7 +141,7 @@ WriteLiteral(",\r\n            routes: routes,\r\n            startModule: start
 WriteLiteral(",\r\n            departmentOptions : ");
 
             
-            #line 34 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 37 "..\..\Areas\App\Views\Config\Index.cshtml"
                            Write(Html.Raw(Model.DepartmentOptions));
 
             
@@ -149,7 +150,7 @@ WriteLiteral(",\r\n            departmentOptions : ");
 WriteLiteral(",\r\n            applicationFullName :\'");
 
             
-            #line 35 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 38 "..\..\Areas\App\Views\Config\Index.cshtml"
                              Write(Model.ApplicationFullName);
 
             
@@ -158,7 +159,7 @@ WriteLiteral(",\r\n            applicationFullName :\'");
 WriteLiteral("\',\r\n            applicationName :\'");
 
             
-            #line 36 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 39 "..\..\Areas\App\Views\Config\Index.cshtml"
                          Write(Model.ApplicationName);
 
             
@@ -167,8 +168,17 @@ WriteLiteral("\',\r\n            applicationName :\'");
 WriteLiteral("\',\r\n            roles :[ ");
 
             
-            #line 37 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 40 "..\..\Areas\App\Views\Config\Index.cshtml"
                 Write(Html.Raw(string.Join(",", Roles.GetRolesForUser(User.Identity.Name).Select(u => string.Format("'{0}'", u)))));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("],\r\n            allRoles :[ ");
+
+            
+            #line 41 "..\..\Areas\App\Views\Config\Index.cshtml"
+                   Write(Html.Raw(string.Join(",", Roles.GetAllRoles().Select(u => string.Format("'{0}'", u)))));
 
             
             #line default
@@ -176,13 +186,13 @@ WriteLiteral("\',\r\n            roles :[ ");
 WriteLiteral("],\r\n            profile : ");
 
             
-            #line 38 "..\..\Areas\App\Views\Config\Index.cshtml"
+            #line 42 "..\..\Areas\App\Views\Config\Index.cshtml"
                  Write(Html.Raw(JsonConvert.SerializeObject(Model.UserProfile)));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n            };\r\n    });\r\n</script>\r\n");
+WriteLiteral("\r\n        };\r\n    });\r\n </script>\r\n");
 
         }
     }

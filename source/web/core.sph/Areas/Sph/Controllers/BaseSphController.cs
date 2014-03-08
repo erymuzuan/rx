@@ -1,13 +1,13 @@
-﻿using System.Web.Mvc;
+using System.Web.Mvc;
 using Bespoke.Sph.Web.Filters;
 
-namespace Bespoke.Sph.Web.Areas.App.Controllers
+namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
-    public class BaseAppController : Controller
+    public class BaseSphController : Controller
     {
         public const string APPLICATION_JAVASCRIPT = "application/javascript";
         public const string TEXT_HTML = "text/html";
-        
+
         protected internal virtual ViewResult Script(string viewName = null, object model = null, string masterName = null)
         {
             if (model != null)
@@ -24,6 +24,5 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 ViewEngineCollection = ViewEngineCollection
             };
         }
-
     }
 }

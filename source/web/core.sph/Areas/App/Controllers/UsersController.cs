@@ -1,23 +1,19 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using Bespoke.Sph.Web.Filters;
 
 namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
     public class UsersController : BaseAppController
     {
+        [RazorScriptFilter]
         public ActionResult Js()
         {
-            this.Response.ContentType = APPLICATION_JAVASCRIPT;
             this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
-
-            var script = this.RenderScript("Script");
-            return Content(script);
+            return View("Script");
         }
 
-        public ActionResult Script()
-        {
-            return View();
-        }
+    
         public ActionResult Html()
         {
             return View();

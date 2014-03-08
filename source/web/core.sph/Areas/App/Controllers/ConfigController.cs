@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.App_Start;
+using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -12,11 +13,14 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
     public class ConfigController : BaseAppController
     {
-        public async Task<ActionResult> Index()
+        [RazorScriptFilter]
+        public async Task<ActionResult> Js()
         {
+            this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+
             var userName = User.Identity.Name;
             var context = new SphDataContext();
-            var profileTask =  context.LoadOneAsync<UserProfile>(u => u.UserName == userName);
+            var profileTask = context.LoadOneAsync<UserProfile>(u => u.UserName == userName);
             var statesOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "State", x => x.Value);
             var departmentOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "Departments", x => x.Value);
             var spaceUsageOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "Categories", x => x.Value);
@@ -30,7 +34,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             {
                 StartModule = "public.index",
                 StateOptions = string.IsNullOrWhiteSpace(stateOptions) ? "[]" : stateOptions,
-                DepartmentOptions =string.IsNullOrWhiteSpace(departmentOptions) ? "[]": departmentOptions,
+                DepartmentOptions = string.IsNullOrWhiteSpace(departmentOptions) ? "[]" : departmentOptions,
                 UserProfile = profile
             };
             if (userName == "useradmin")
@@ -41,11 +45,11 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             {
                 vm.StartModule = profile.StartModule;
             }
-           
+
             var routeConfig = Server.MapPath("~/routes.config.js");
             var json = System.IO.File.ReadAllText(routeConfig);
-            
-            var settings = new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()};
+
+            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
             var routes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings).AsQueryable()
                 .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role) || r.Role == "everybody", User.Identity.IsAuthenticated)
                 .WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
@@ -53,17 +57,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
 
             vm.Routes.AddRange(await RouteConfig.GetJsRoutes());
 
-            return View(vm);
-        }
-
-
-        public ActionResult Js(string id)
-        {
-            this.Response.ContentType = APPLICATION_JAVASCRIPT;
-            this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
-
-            var script = this.RenderScript("Index");
-            return Content(script);
+            return Script("Index", vm);
         }
 
 

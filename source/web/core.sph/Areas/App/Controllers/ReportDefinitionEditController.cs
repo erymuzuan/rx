@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
 
@@ -27,14 +28,14 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             vm.ToolboxItems.AddRange(items);
             return View(vm);
         }
+
+        [RazorScriptFilter]
         public async Task<ActionResult> ReportDefinitionExecuteJs(int id)
         {
             var context = new SphDataContext();
             var rdl = await context.LoadOneAsync<ReportDefinition>(r => r.ReportDefinitionId == id);
 
-            var view = this.RenderRazorViewToJs("ReportDefinitionExecuteJs", rdl);
-            this.Response.ContentType = APPLICATION_JAVASCRIPT;
-            return Content(view);
+            return View("ReportDefinitionExecuteJs", rdl);
         }
 
         public async Task<ActionResult> ReportDefinitionExecuteHtml(int id)

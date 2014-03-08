@@ -1,0 +1,35 @@
+
+
+<h1>building-new</h1>
+<div class="row">
+
+    <div class="col-lg-8">
+        <form class="form-horizontal" data-bind="with : entity" id="building-new-form">
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="fac8d71e-04b8-4c89-bed5-e1346106fd1c" class="col-lg-4">Name</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Name, enable :true"
+                   id="fac8d71e-04b8-4c89-bed5-e1346106fd1c" type="text" name="Name" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="53e3a366-7b14-4e9b-a53b-cdb2651929a8" class="col-lg-4">Name</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Name2, enable :true"
+                   id="53e3a366-7b14-4e9b-a53b-cdb2651929a8" type="text" name="Name2" />
+        </div>
+    </div>
+        </form>
+    </div>
+        <div class="col-lg-4">
+            <h3>Audit Trail</h3>
+            <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().BuildingId(), entity : 'Building'}} -->
+            <!--/ko-->
+        </div>
+</div>

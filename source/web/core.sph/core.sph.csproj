@@ -546,7 +546,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Controllers\BaseAppController.cs" />
+    <Compile Include="Areas\Sph\Controllers\BaseSphController.cs" />
     <Compile Include="Areas\Sph\Controllers\BusinessRuleController.cs" />
     <Compile Include="Areas\Sph\Controllers\DocumentTemplateController.cs" />
     <Compile Include="Areas\Sph\Controllers\EmailTemplateController.cs" />
@@ -652,6 +652,9 @@
       <DependentUpon>_TriggerFieldDropDown.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ResourcesController.cs" />
+    <Compile Include="Filters\RazorScriptStream.cs" />
+    <Compile Include="Filters\RazorScriptFilter.cs" />
+    <Compile Include="Filters\ScriptResult.cs" />
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
@@ -2586,7 +2589,6 @@
     <Folder Include="Areas\Sph\Views\BusinessRule\" />
     <Folder Include="Areas\Sph\Views\EmailTemplate\" />
     <Folder Include="Areas\Sph\Views\EntityForm\" />
-    <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SphApp\schemas\_object.xslt">

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Models;
 using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
@@ -12,15 +13,12 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
     public class UserProfileController : BaseAppController
     {
-        public ActionResult Script()
-        {
-            return View();
-        }
         public ActionResult Html()
         {
             return View();
         }
 
+        [RazorScriptFilter]
         public async Task<ActionResult> Js()
         {
             var context = new SphDataContext();
@@ -45,9 +43,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 StartModuleOptions = modules
             };
 
-            var script = this.RenderRazorViewToJs("Script", vm);
-            this.Response.ContentType = APPLICATION_JAVASCRIPT;
-            return Content(script);
+            return View("Script", vm);
         }
     }
 }
