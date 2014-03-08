@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Web.Hubs
             }
             m_listener = ObjectBuilder.GetObject<IEntityChangedListener<Message>>();
             m_listener.Changed += ListenerChanged;
-            m_listener.Run(SynchronizationContext.Current);
+            m_listener.Run();
 
             return Connection.Send(connectionId, (new Message { Subject = "Welcome" }).ToJsonString());
         }
