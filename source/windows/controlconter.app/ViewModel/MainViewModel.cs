@@ -14,6 +14,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
     {
         private string m_settingsFile;
         private Process m_elasticProcess;
+        private Process m_iisServiceProcess;
 
         public RelayCommand StartElasticSearchCommand { get; set; }
         public RelayCommand StopElasticSearchCommand { get; set; }
@@ -78,12 +79,46 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StartIisService()
         {
-            IisServiceStarted = true;
+            Console.WriteLine(@"ElasticSearch...[INITIATING]");
+
+            try
+            {
+                var iisConfig = Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\Documents\IISExpress\config\applicationhost.config");
+	
+                var info = new ProcessStartInfo
+                {
+                    FileName = IisExpressDirectory,
+                    Arguments = string.Format("/config:{0} /site:web.jlm /trace:verbose", iisConfig),
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                    RedirectStandardError = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+                m_iisServiceProcess = Process.Start(info);
+                m_iisServiceProcess.BeginOutputReadLine();
+                m_iisServiceProcess.BeginErrorReadLine();
+                m_iisServiceProcess.OutputDataReceived += OnElasticSearchDataReceived;
+                m_iisServiceProcess.ErrorDataReceived += OnElasticSearchDataReceived;
+
+                IisServiceStarted = true;
+                IisServiceStatus = "Running";
+                Console.WriteLine(@"IIS Service... [STARTED]");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+            }
         }
 
         private void StopIisService()
         {
+            m_iisServiceProcess.CloseMainWindow();
+            m_iisServiceProcess.Close();
+            m_iisServiceProcess = null;
+            Console.WriteLine(@"IIS Service... [STOPPED]");
             IisServiceStarted = false;
+            IisServiceStatus = "Stopped";
         }
 
         private void StartSqlService()
@@ -127,8 +162,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 m_elasticProcess = Process.Start(info);
                 m_elasticProcess.BeginOutputReadLine();
                 m_elasticProcess.BeginErrorReadLine();
-                m_elasticProcess.OutputDataReceived += OnDataReceived;
-                m_elasticProcess.ErrorDataReceived += OnErrorReceived;
+                m_elasticProcess.OutputDataReceived += OnElasticSearchDataReceived;
+                m_elasticProcess.ErrorDataReceived += OnElasticSearchErrorReceived;
                 
                 ElasticSearchServiceStarted = true;
                 ElasticSearchStatus = "Running";
@@ -173,13 +208,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             Application.Current.Shutdown();
         }
 
-        private void OnDataReceived(object sender, DataReceivedEventArgs e)
+        private void OnElasticSearchDataReceived(object sender, DataReceivedEventArgs e)
         {
             if ((e.Data != null) && (m_writer != null))
                 m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
         }
 
-        private void OnErrorReceived(object sender, DataReceivedEventArgs e)
+        private void OnElasticSearchErrorReceived(object sender, DataReceivedEventArgs e)
         {
             if ((e.Data != null) && (m_writer != null))
             {

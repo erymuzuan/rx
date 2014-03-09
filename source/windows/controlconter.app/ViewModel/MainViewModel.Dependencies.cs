@@ -159,5 +159,16 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             get { return m_sqlServiceStatus; }
         }
+
+        private string m_iisServiceStatus;
+        public string IisServiceStatus
+        {
+            set
+            {
+                m_iisServiceStatus = value;
+                OnPropertyChanged("IisServiceStatus");
+            }
+            get { return m_iisServiceStatus; }
+        }
     }
 }
