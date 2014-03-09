@@ -77,7 +77,7 @@ WriteLiteral("\r\n\r\n<h2>title</h2>\r\n<script");
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteAttribute("src", Tuple.Create(" src=\"", 1279), Tuple.Create("\"", 1318)
-, Tuple.Create(Tuple.Create("", 1285), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
+, Tuple.Create(Tuple.Create("", 1285), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.1.0.debug.js")
 , 1285), false)
 );
 

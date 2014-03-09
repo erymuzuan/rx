@@ -1,6 +1,6 @@
 ﻿///#source 1 1 /SphApp/partial/Activity.js
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
@@ -84,7 +84,7 @@ bespoke.sph.domain.BarChartItemPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 
@@ -120,7 +120,7 @@ bespoke.sph.domain.BusinessRulePartial = function (model) {
 
 ///#source 1 1 /SphApp/partial/ButtonPartial.js
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -161,7 +161,7 @@ bespoke.sph.domain.ButtonPartial = function () {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
@@ -202,7 +202,7 @@ bespoke.sph.domain.ConstantFieldPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="/Scripts/require.js" />
 /// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -275,7 +275,7 @@ bespoke.sph.domain.DataGridItemPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="/Scripts/require.js" />
 /// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -304,7 +304,7 @@ bespoke.sph.domain.DecisionActivityPartial = function () {
 ///#source 1 1 /SphApp/partial/DelayActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
@@ -320,7 +320,7 @@ bespoke.sph.domain.DelayActivityPartial = function () {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../objectbuilders.js" />
 /// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
@@ -462,7 +462,7 @@ bespoke.sph.domain.EntityViewPartial = function () {
 };
 ///#source 1 1 /SphApp/partial/ExecutedActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -491,7 +491,7 @@ bespoke.sph.domain.ExecutedActivityPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -555,7 +555,7 @@ bespoke.sph.domain.FormElementPartial = function () {
 
 ///#source 1 1 /SphApp/partial/HtmlElement.js
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
@@ -597,7 +597,7 @@ bespoke.sph.domain.FormTemplatePartial = function () {
 }
 ///#source 1 1 /SphApp/partial/IntervalSchedule.js
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
@@ -641,7 +641,7 @@ bespoke.sph.domain.LineChartItemPartial = function () {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -762,7 +762,7 @@ bespoke.sph.domain.ListViewColumnPartial = function (model) {
 /// <reference path="../schemassystem.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
 
@@ -843,7 +843,7 @@ bespoke.sph.domain.MemberPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -914,7 +914,7 @@ bespoke.sph.domain.NotificationActivityPartial = function(model) {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="/Scripts/require.js" />
 /// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -943,7 +943,7 @@ bespoke.sph.domain.ParallelActivityPartial = function () {
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 
 
 
@@ -993,7 +993,7 @@ bespoke.sph.domain.ReportDeliveryPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -1044,7 +1044,7 @@ bespoke.sph.domain.RulePartial = function () {
 
 ///#source 1 1 /SphApp/partial/ScheduledTriggerActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1063,7 +1063,7 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function (model) {
 
 ///#source 1 1 /SphApp/partial/ScreenActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 /// <reference path="../../App/durandal/system.js" />
@@ -1084,7 +1084,7 @@ bespoke.sph.domain.ScreenActivityPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -1121,7 +1121,7 @@ bespoke.sph.domain.SetterActionPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -1214,7 +1214,7 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -1301,7 +1301,7 @@ bespoke.sph.domain.TriggerPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="/Scripts/require.js" />
 /// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -1328,7 +1328,7 @@ bespoke.sph.domain.UpdateEntityActivityPartial = function () {
 };
 ///#source 1 1 /SphApp/partial/Variable.js
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1355,7 +1355,7 @@ bespoke.sph.domain.VariablePartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -1530,7 +1530,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 
 
 
@@ -1546,7 +1546,7 @@ bespoke.sph.domain.WorkflowDesignerPartial = function () {
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 

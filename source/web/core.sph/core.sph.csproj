@@ -1284,6 +1284,9 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.1.0.debug.js" />
+    <Content Include="Scripts\knockout-3.1.0.js" />
+    <Content Include="Scripts\modernizr-2.7.2.js" />
     <Content Include="Scripts\moment-with-langs.js" />
     <Content Include="Scripts\moment-with-langs.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -2147,12 +2150,9 @@
     <Content Include="Scripts\jsPlumb\renderers-vml.js" />
     <Content Include="Scripts\jsPlumb\util.js" />
     <Content Include="Scripts\jsPlumb\yui.jsPlumb.js" />
-    <Content Include="Scripts\knockout-3.0.0.debug.js" />
-    <EmbeddedResource Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <EmbeddedResource Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\loadoperation.js" />
-    <Content Include="Scripts\modernizr-2.7.1.js" />
     <Content Include="Scripts\moment+langs.js" />
     <Content Include="Scripts\moment+langs.min.js" />
     <EmbeddedResource Include="Scripts\nprogress.js" />
@@ -3242,7 +3242,7 @@
       <DependentUpon>vendor.min.js</DependentUpon>
     </EmbeddedResource>
     <Content Include="SphApp\partial\Activity.min.js.map">
-      <DependentUpon>Activity.js</DependentUpon>
+      <DependentUpon>Activity.min.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\AssemblyField.min.js.map">
       <DependentUpon>AssemblyField.min.js</DependentUpon>
@@ -3254,7 +3254,7 @@
       <DependentUpon>BusinessRule.min.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\ButtonPartial.min.js.map">
-      <DependentUpon>ButtonPartial.js</DependentUpon>
+      <DependentUpon>ButtonPartial.min.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\ComboBox.min.js.map">
       <DependentUpon>ComboBox.min.js</DependentUpon>
@@ -3272,7 +3272,7 @@
       <DependentUpon>DecisionActivity.min.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\DelayActivity.min.js.map">
-      <DependentUpon>DelayActivity.js</DependentUpon>
+      <DependentUpon>DelayActivity.min.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\EntityDefinition.min.js.map">
       <DependentUpon>EntityDefinition.min.js</DependentUpon>
@@ -3361,7 +3361,7 @@
     </Content>
     <None Include="SphApp\prototypes\__prototypes.js.bundle" />
     <Content Include="SphApp\prototypes\prototypes.min.js.map">
-      <DependentUpon>__prototypes.js.bundle</DependentUpon>
+      <DependentUpon>prototypes.min.js</DependentUpon>
     </Content>
     <None Include="SphApp\schemas\__domain.js.bundle" />
     <EmbeddedResource Include="SphApp\schemas\domain.min.js.map">

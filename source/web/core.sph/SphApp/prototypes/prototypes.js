@@ -102,7 +102,7 @@ bespoke.sph.domain.FieldContainer = function () {
 
 ///#source 1 1 /SphApp/prototypes/IntervalScheduleContainer.js
 /// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />

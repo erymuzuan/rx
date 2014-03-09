@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Config
 WriteLiteral("\r\n\r\n\r\n<script");
 
 WriteAttribute("src", Tuple.Create(" src=\"", 302), Tuple.Create("\"", 341)
-, Tuple.Create(Tuple.Create("", 308), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
+, Tuple.Create(Tuple.Create("", 308), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.1.0.debug.js")
 , 308), false)
 );
 

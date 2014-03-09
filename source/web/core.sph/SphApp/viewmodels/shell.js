@@ -1,6 +1,6 @@
 ﻿/// <reference path="../objectbuilders.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 
 
