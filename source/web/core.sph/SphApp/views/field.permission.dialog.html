@@ -4,7 +4,10 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <button type="button" title="helps" class="close" data-dismiss="modal" data-bind="help : 'FieldPermission'">&times;</button>
+                <button type="button" title="close" class="close" data-dismiss="modal" data-bind="click : cancelClick">
+                    <i class="fa fa-question-circle"></i>
+                </button>
                 <h3 data-bind="with : member">
                     Field Level Permission for
                     <span data-bind="text:Name"></span>
@@ -12,7 +15,7 @@
             </div>
             <div class="modal-body" data-bind="with: member">
 
-                <form class="form-horizontal" id="fiel-permission-dialog-form"  data-bind="filter : {path:'tbody>tr'}">
+                <form class="form-horizontal" id="fiel-permission-dialog-form" data-bind="filter : {path:'tbody>tr'}">
                     <table class="table table-striped">
                         <thead>
                             <tr>

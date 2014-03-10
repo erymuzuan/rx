@@ -209,7 +209,15 @@ WriteLiteral("><i");
 
 WriteLiteral(" class=\"fa fa-power-off\"");
 
-WriteLiteral("></i>Logout</a></li>\r\n                    </ul>\r\n                </div>\r\n");
+WriteLiteral("></i>Logout</a></li>\r\n                        <li><a");
+
+WriteLiteral(" href=\"/docs/\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-question-circle\"");
+
+WriteLiteral("></i>  Help</a></li>\r\n                    </ul>\r\n                </div>\r\n");
 
 WriteLiteral("                <!-- Notifications -->\r\n");
 
@@ -222,7 +230,7 @@ WriteLiteral(">\r\n                    <!-- ko compose : \'viewmodels/messages\'
 "->\r\n                    <!-- /ko -->\r\n                </ul>\r\n");
 
             
-            #line 42 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 43 "..\..\Areas\App\Views\Header\Html.cshtml"
             }
 
             
@@ -231,7 +239,7 @@ WriteLiteral(">\r\n                    <!-- ko compose : \'viewmodels/messages\'
 WriteLiteral("            ");
 
             
-            #line 43 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 44 "..\..\Areas\App\Views\Header\Html.cshtml"
              if (!User.Identity.IsAuthenticated)
             {
 
@@ -246,14 +254,14 @@ WriteLiteral(">\r\n                    <li><a");
 
 WriteLiteral(" id=\"log-in\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2043), Tuple.Create("\"", 2105)
+WriteAttribute("href", Tuple.Create(" href=\"", 2142), Tuple.Create("\"", 2204)
             
-            #line 46 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 2050), Tuple.Create<System.Object, System.Int32>(Url.Action("Login", "SphAccount", new { area = "Sph"})
+            #line 47 "..\..\Areas\App\Views\Header\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 2149), Tuple.Create<System.Object, System.Int32>(Url.Action("Login", "SphAccount", new { area = "Sph"})
             
             #line default
             #line hidden
-, 2050), false)
+, 2149), false)
 );
 
 WriteLiteral(" class=\"login-label\"");
@@ -265,7 +273,8 @@ WriteLiteral(" class=\"fa fa-sign-in\"");
 WriteLiteral("></i>  Log Masuk </a></li>\r\n                </ul>\r\n");
 
             
-            #line 48 "..\..\Areas\App\Views\Header\Html.cshtml"
+            #line 49 "..\..\Areas\App\Views\Header\Html.cshtml"
+
             }
 
             

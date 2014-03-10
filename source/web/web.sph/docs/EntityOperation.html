@@ -24,11 +24,11 @@ You can click <code>+Operation</code> to add a new operation.</p>
 <li>A set of <code>BusinessRule</code> you want to validate with, prior to executing your operation. If any of the rules failed to operation will not proceed and error messages will be show to the user.<br />
 Please refer to the <a href="businessrule.htm">BusinessRule</a> for more details about <code>BusinessRule</code></li>
 <li>Set of roles/authorization required to execute the operation. The use must be in one of these roles in other for the execution to succeed, else status code <a href="http.403.htm">Status 403</a> will be returned.</li>
-<li>You can specify <a href="childsetteraction.htm">setter actions</a> to set the values of your entity fields/attributes. For example setting the <code>Rating</code> field for <code>Customer</code> entity to be 1 less than the previous value using a <a href="FunctionField.html">FuctionField</a> <code>item.Rating -1</code></li>
+<li>You can specify <a href="childsetteraction.htm">setter actions</a> to set the values of your entity fields/attributes. For example setting the <code>Rating</code> field for <code>Customer</code> entity to be 1 less than the previous value using a <a href="functionfield.htm">FuctionField</a> <code>item.Rating -1</code></li>
 </ol>
 
 <p>The <code>EntityOperation</code> designer will not compile your code, clicking save will only save it to your <code>EntityDefinition</code> in which you will have to <code>Publish</code> it from the <code>EntityDefinition</code> designer.</p>
 
 <p>Once compiled, a new Asp.Net MVC <code>Action</code> will be created with the name of the operation. Where it would take an instance of the <code>EntityDefinition</code> from the input stream, and run the specified business rules and if all passed the setter action will be called before submitting it to the persistence layer.<br />
 If you need to modify or do other works from this <code>EntityOperation</code> apart from simple field settings, you can use <a href="trigger.htm">Trigger</a> where you<br />
-can call additional <a href="SetterAction.html">setter</a>, or <a href="emailaction.html">email</a> or <a href="StartWorkflowAction.htm">starts a new workflow</a>.</p>
+can call additional <a href="SetterAction.htm">setter</a>, or <a href="emailaction.html">email</a> or <a href="StartWorkflowAction.htm">starts a new workflow</a>.</p>

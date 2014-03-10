@@ -170,7 +170,16 @@ ko.bindingHandlers.tree = {
     }
 };
 
-
+ko.bindingHandlers.help = {
+    init: function(element, valueAccessor) {
+        var link = $(element),
+            href = ko.unwrap(valueAccessor);
+        link.click(function(e) {
+            e.preventDefault();
+            window.open("/docs/#" + href);
+        });
+    }
+};
 ko.bindingHandlers.entityTypeaheadPath = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var id = ko.unwrap(valueAccessor()),
