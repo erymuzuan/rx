@@ -77,7 +77,6 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Business\AggrementPronouncement.cs" />
     <Compile Include="Business\Address.cs" />
     <Compile Include="Business\Designation.cs" />
     <Compile Include="Business\EmailTemplate.cs" />

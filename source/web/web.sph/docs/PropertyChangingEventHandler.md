@@ -19,4 +19,4 @@
 ## See also
 
 [MulticastDelegate](MulticastDelegate.html)
-*[PropertyChangingEventHandler](PropertyChangingEventHandler.html)
+[PropertyChangingEventHandler](/docs/#PropertyChangingEventHandler.html)

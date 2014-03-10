@@ -19,10 +19,10 @@
 ## See also
 
 [DbExpressionVisitor](DbExpressionVisitor.html)
-*[DbExpressionVisitor](DbExpressionVisitor.html)
-*[AliasesProduced](AliasesProduced.html)
-*[DistinctRewriter](DistinctRewriter.html)
-*[OrderByRewriter](OrderByRewriter.html)
-*[ProjectionBuilder](ProjectionBuilder.html)
-*[RedundantSubqueryRemover](RedundantSubqueryRemover.html)
-*[UnusedColumnRemover](UnusedColumnRemover.html)
+[DbExpressionVisitor](/docs/#DbExpressionVisitor.html)
+[AliasesProduced](/docs/#AliasesProduced.html)
+[DistinctRewriter](/docs/#DistinctRewriter.html)
+[OrderByRewriter](/docs/#OrderByRewriter.html)
+[ProjectionBuilder](/docs/#ProjectionBuilder.html)
+[RedundantSubqueryRemover](/docs/#RedundantSubqueryRemover.html)
+[UnusedColumnRemover](/docs/#UnusedColumnRemover.html)

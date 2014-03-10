@@ -24,5 +24,5 @@
 ## See also
 
 [SpatialEntity](SpatialEntity.html)
-*[SpatialEntity](SpatialEntity.html)
-*[SpatialStore](SpatialStore.html)
+[SpatialEntity](/docs/#SpatialEntity.html)
+[SpatialStore](/docs/#SpatialStore.html)

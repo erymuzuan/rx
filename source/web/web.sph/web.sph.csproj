@@ -158,6 +158,12 @@
       <DependentUpon>Button.md</DependentUpon>
     </Content>
     <Content Include="docs\Button.md" />
+    <Content Include="docs\ConstantField.html">
+      <DependentUpon>ConstantField.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DocumentField.html">
+      <DependentUpon>DocumentField.md</DependentUpon>
+    </Content>
     <Content Include="docs\EntityDefinition.html">
       <DependentUpon>EntityDefinition.md</DependentUpon>
     </Content>
@@ -170,6 +176,9 @@
       <DependentUpon>EntityOperation.md</DependentUpon>
     </Content>
     <Content Include="docs\EntityOperation.md" />
+    <Content Include="docs\Field.html">
+      <DependentUpon>Field.md</DependentUpon>
+    </Content>
     <Content Include="docs\FormElement.html">
       <DependentUpon>FormElement.md</DependentUpon>
     </Content>
@@ -185,6 +194,9 @@
     <Content Include="docs\ListView.md" />
     <Content Include="docs\overview.html">
       <DependentUpon>overview.md</DependentUpon>
+    </Content>
+    <Content Include="docs\PropertyChangedField.html">
+      <DependentUpon>PropertyChangedField.md</DependentUpon>
     </Content>
     <Content Include="docs\scripts\main.js" />
     <Content Include="docs\sidebar.html" />

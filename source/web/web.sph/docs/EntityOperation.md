@@ -1,5 +1,20 @@
-#EntityOperation
+#Entity Operation
+
+
+
 ##Overview
+
+`EntityDefinition` is like a class in object oriented world, as such there are 2 things an object has
+
+1. Attributes - set of properties that define an object
+2. Operations -  set of method or function than an object can invoke
+
+Attributes is defined by the schema designer, where you can design your object in a hierachical manner. 
+
+SPH also allows you to creates a set of operations to your entity definition by means of `EntityOperation`, this is available from `EntityDefinition` designer.
+![EntityOperation](http://i.imgur.com/PD4IAz9.png). 
+You can click `+Operation` to add a new operation.
+
 
 
 
@@ -24,158 +39,26 @@
 </tbody></table>
 
 
+This will bring you this screen.
+
+![EntityOperation designer](http://i.imgur.com/1dPutz0.png)
+
+1. The name of the `EntityOperation` , it must be a valid identifier for method name, as such cannot contain spaces, or special chars except `_`, and must start with a letter. For consistency we recommend using `PascalCase` e.g. '`Demote`
+2. The `EntityDefinition` that you are working on
+3. The name of the `EntityOperation`, refer #1
+4. A set of `BusinessRule` you want to validate with, prior to executing your operation. If any of the rules failed to operation will not proceed and error messages will be show to the user.
+   Please refer to the [BusinessRule](businessrule.htm) for more details about `BusinessRule`
+5. Set of roles/authorization required to execute the operation. The use must be in one of these roles in other for the execution to succeed, else status code [Status 403](http.403.htm) will be returned.
+6. You can specify [setter actions](childsetteraction.htm) to set the values of your entity fields/attributes. For example setting the `Rating` field for `Customer` entity to be 1 less than the previous value using a [FuctionField](functionfield.htm) `item.Rating -1`
+
+The `EntityOperation` designer will not compile your code, clicking save will only save it to your `EntityDefinition` in which you will have to `Publish` it from the `EntityDefinition` designer.
+
+Once compiled, a new Asp.Net MVC `Action` will be created with the name of the operation. Where it would take an instance of the `EntityDefinition` from the input stream, and run the specified business rules and if all passed the setter action will be called before submitting it to the persistence layer.
+If you need to modify or do other works from this `EntityOperation` apart from simple field settings, you can use [Trigger](trigger.htm) where you
+can call additional [setter](SetterAction.htm), or [email](emailaction.html) or [starts a new workflow](StartWorkflowAction.htm).
+
 
 ## See also
-
-[DomainObject](DomainObject.html)
-*[DomainObject](DomainObject.html)
-*[AggrementPronouncement](AggrementPronouncement.html)
-*[Address](Address.html)
-*[Entity](Entity.html)
-*[Designation](Designation.html)
-*[EmailTemplate](EmailTemplate.html)
-*[Photo](Photo.html)
-*[Attachment](Attachment.html)
-*[AuditTrail](AuditTrail.html)
-*[BinaryStore](BinaryStore.html)
-*[ChangeSubmission](ChangeSubmission.html)
-*[FormElement](FormElement.html)
-*[Button](Button.html)
-*[ComboBoxLookup](ComboBoxLookup.html)
-*[DateTimePicker](DateTimePicker.html)
-*[DefaultValue](DefaultValue.html)
-*[DownloadLink](DownloadLink.html)
-*[EntityDefinition](EntityDefinition.html)
-*[EntityForm](EntityForm.html)
-*[EntityOperation](EntityOperation.html)
-*[EntityPermission](EntityPermission.html)
-*[EntityView](EntityView.html)
-*[FieldPermission](FieldPermission.html)
-*[FieldValidation](FieldValidation.html)
-*[FileUploadElement](FileUploadElement.html)
-*[Filter](Filter.html)
-*[ImageElement](ImageElement.html)
-*[ListView](ListView.html)
-*[ListViewColumn](ListViewColumn.html)
-*[MapElement](MapElement.html)
-*[Member](Member.html)
-*[Change](Change.html)
-*[Setting](Setting.html)
-*[Document](Document.html)
-*[DocumentTemplate](DocumentTemplate.html)
-*[DocumentVersion](DocumentVersion.html)
-*[Extension](Extension.html)
-*[AddressElement](AddressElement.html)
-*[CheckBox](CheckBox.html)
-*[ComboBox](ComboBox.html)
-*[ComboBoxItem](ComboBoxItem.html)
-*[DatePicker](DatePicker.html)
-*[EmailFormElement](EmailFormElement.html)
-*[FormDesign](FormDesign.html)
-*[HtmlElement](HtmlElement.html)
-*[NumberTextBox](NumberTextBox.html)
-*[SectionFormElement](SectionFormElement.html)
-*[Sort](Sort.html)
-*[TextAreaElement](TextAreaElement.html)
-*[TextBox](TextBox.html)
-*[BusinessRule](BusinessRule.html)
-*[ViewColumn](ViewColumn.html)
-*[WebsiteFormElement](WebsiteFormElement.html)
-*[Activity](Activity.html)
-*[ActivityExecutionResult](ActivityExecutionResult.html)
-*[CustomAction](CustomAction.html)
-*[AssemblyAction](AssemblyAction.html)
-*[Field](Field.html)
-*[AssemblyField](AssemblyField.html)
-*[Breakpoint](Breakpoint.html)
-*[Variable](Variable.html)
-*[ClrTypeVariable](ClrTypeVariable.html)
-*[ComplexVariable](ComplexVariable.html)
-*[ConfirmationOptions](ConfirmationOptions.html)
-*[CreateEntityActivity](CreateEntityActivity.html)
-*[DecisionActivity](DecisionActivity.html)
-*[DecisionBranch](DecisionBranch.html)
-*[DelayActivity](DelayActivity.html)
-*[DeleteEntityActivity](DeleteEntityActivity.html)
-*[EndActivity](EndActivity.html)
-*[ExecutedActivity](ExecutedActivity.html)
-*[ExpressionActivity](ExpressionActivity.html)
-*[FunctionField](FunctionField.html)
-*[Message](Message.html)
-*[Organization](Organization.html)
-*[Owner](Owner.html)
-*[Permission](Permission.html)
-*[Profile](Profile.html)
-*[ReportItem](ReportItem.html)
-*[BarChartItem](BarChartItem.html)
-*[ChartSeries](ChartSeries.html)
-*[DataGridColumn](DataGridColumn.html)
-*[DataGridColumnHost](DataGridColumnHost.html)
-*[DataGridGroup](DataGridGroup.html)
-*[DataGridGroupDefinition](DataGridGroupDefinition.html)
-*[DataGridItem](DataGridItem.html)
-*[DataSource](DataSource.html)
-*[EntityField](EntityField.html)
-*[IntervalSchedule](IntervalSchedule.html)
-*[WeeklySchedule](WeeklySchedule.html)
-*[DailySchedule](DailySchedule.html)
-*[HourlySchedule](HourlySchedule.html)
-*[MonthlySchedule](MonthlySchedule.html)
-*[LabelItem](LabelItem.html)
-*[LabelItemScriptHost](LabelItemScriptHost.html)
-*[LineChartItem](LineChartItem.html)
-*[LineItem](LineItem.html)
-*[Parameter](Parameter.html)
-*[PieChartItem](PieChartItem.html)
-*[ReportColumn](ReportColumn.html)
-*[ReportContent](ReportContent.html)
-*[ReportDefinition](ReportDefinition.html)
-*[ReportDelivery](ReportDelivery.html)
-*[ReportFilter](ReportFilter.html)
-*[ReportLayout](ReportLayout.html)
-*[ReportRow](ReportRow.html)
-*[LatLng](LatLng.html)
-*[UserProfile](UserProfile.html)
-*[Watcher](Watcher.html)
-*[Trigger](Trigger.html)
-*[ConstantField](ConstantField.html)
-*[DocumentField](DocumentField.html)
-*[PropertyChangedField](PropertyChangedField.html)
-*[Rule](Rule.html)
-*[EmailAction](EmailAction.html)
-*[SetterAction](SetterAction.html)
-*[SetterActionChild](SetterActionChild.html)
-*[MethodArg](MethodArg.html)
-*[StartWorkflowAction](StartWorkflowAction.html)
-*[WorkflowTriggerMap](WorkflowTriggerMap.html)
-*[WorkflowDefinition](WorkflowDefinition.html)
-*[Workflow](Workflow.html)
-*[ScreenActivity](ScreenActivity.html)
-*[NotificationActivity](NotificationActivity.html)
-*[SimpleVariable](SimpleVariable.html)
-*[VariableValue](VariableValue.html)
-*[Page](Page.html)
-*[Performer](Performer.html)
-*[WorkflowDesigner](WorkflowDesigner.html)
-*[PropertyMapping](PropertyMapping.html)
-*[SimpleMapping](SimpleMapping.html)
-*[FunctoidMapping](FunctoidMapping.html)
-*[UpdateEntityActivity](UpdateEntityActivity.html)
-*[Functoid](Functoid.html)
-*[ScriptFunctoid](ScriptFunctoid.html)
-*[ReceiveActivity](ReceiveActivity.html)
-*[SendActivity](SendActivity.html)
-*[ListenActivity](ListenActivity.html)
-*[ParallelActivity](ParallelActivity.html)
-*[JoinActivity](JoinActivity.html)
-*[ThrowActivity](ThrowActivity.html)
-*[ParallelBranch](ParallelBranch.html)
-*[ListenBranch](ListenBranch.html)
-*[ScheduledTriggerActivity](ScheduledTriggerActivity.html)
-*[Tracker](Tracker.html)
-*[Action](Action.html)
-*[InitiateActivityResult](InitiateActivityResult.html)
-*[Role](Role.html)
-*[SpatialEntity](SpatialEntity.html)
-*[SpatialStore](SpatialStore.html)
-*[User](User.html)
+[FunctionField](/docs/#FunctionField.html)
+[DocumentField](/docs/#DocumentField.html)
+[ConstantField](/docs/#ConstantField.html)

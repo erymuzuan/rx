@@ -23,8 +23,8 @@
 ## See also
 
 [Expression](Expression.html)
-*[TableExpression](TableExpression.html)
-*[ColumnExpression](ColumnExpression.html)
-*[SelectExpression](SelectExpression.html)
-*[JoinExpression](JoinExpression.html)
-*[ProjectionExpression](ProjectionExpression.html)
+[TableExpression](/docs/#TableExpression.html)
+[ColumnExpression](/docs/#ColumnExpression.html)
+[SelectExpression](/docs/#SelectExpression.html)
+[JoinExpression](/docs/#JoinExpression.html)
+[ProjectionExpression](/docs/#ProjectionExpression.html)

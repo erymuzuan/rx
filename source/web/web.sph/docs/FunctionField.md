@@ -1,6 +1,7 @@
 #FunctionField
 ##Overview
-
+## Overview
+`FunctionField` is a primary and the easiest way to generate a dynamic values at runtime, this value be not be know at design time, as such using [ConstantField](/docs/#ConstantField.htm) is imposible.
 
 
 ##Properties
@@ -21,9 +22,9 @@
 ## See also
 
 [Field](Field.html)
-*[Field](Field.html)
-*[AssemblyField](AssemblyField.html)
-*[FunctionField](FunctionField.html)
-*[ConstantField](ConstantField.html)
-*[DocumentField](DocumentField.html)
-*[PropertyChangedField](PropertyChangedField.html)
+[Field](/docs/#Field.html)
+[AssemblyField](/docs/#AssemblyField.html)
+[FunctionField](/docs/#FunctionField.html)
+[ConstantField](/docs/#ConstantField.html)
+[DocumentField](/docs/#DocumentField.html)
+[PropertyChangedField](/docs/#PropertyChangedField.html)

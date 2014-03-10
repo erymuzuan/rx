@@ -12,4 +12,15 @@ define([], function () {
 
         $('#applicationHost').load( this.href);
     });
+    $('#applicationHost').on('click', 'a', function (e) {
+        if (this.href.indexOf("/docs/#") < 0) {
+            return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
+
+        $('#applicationHost').load( this.href.replace("#",""));
+    });
+
+    
 });

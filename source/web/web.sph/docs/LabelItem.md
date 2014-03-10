@@ -20,10 +20,10 @@
 ## See also
 
 [ReportItem](ReportItem.html)
-*[ReportItem](ReportItem.html)
-*[BarChartItem](BarChartItem.html)
-*[DataGridItem](DataGridItem.html)
-*[LabelItem](LabelItem.html)
-*[LineChartItem](LineChartItem.html)
-*[LineItem](LineItem.html)
-*[PieChartItem](PieChartItem.html)
+[ReportItem](/docs/#ReportItem.html)
+[BarChartItem](/docs/#BarChartItem.html)
+[DataGridItem](/docs/#DataGridItem.html)
+[LabelItem](/docs/#LabelItem.html)
+[LineChartItem](/docs/#LineChartItem.html)
+[LineItem](/docs/#LineItem.html)
+[PieChartItem](/docs/#PieChartItem.html)

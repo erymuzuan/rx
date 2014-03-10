@@ -19,16 +19,41 @@
             color: #03420c;
             font-weight: bold;
         }
+
         a:visited {
             color: #800080;
         }
+
         a:hover {
             color: #bb0531;
         }
-       
     </style>
 </head>
 <body>
+    <header>
+        <div id="header-navbar" style="background-color: #17852D;" class="navbar navbar-fixed-top" data-view="views/header" data-active-view="true">
+            <div class="navbar-inner">
+
+                <img src="/Images/sph_32x32.png" class="pull-left" alt="Logo">
+
+                <!-- Site name for smallar screens -->
+                <a class="logo" href="/docs">SPH Helps</a>
+
+                <!-- Navigation starts -->
+                <div class="nav-header">
+
+                    <!-- Links -->
+                    <div class="btn-group">
+                        <button id="user-profile-split-button" type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+                            <img src="/Images/user_24_white.png" alt="">
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
     <div class="container">
         <div class="row">
             <div class="col-md-3" id="sidebar"></div>
@@ -51,7 +76,6 @@
     <script src="/Scripts/jstree.min.js"></script>
     <script src="/Scripts/core.js"></script>
     <script src="/Scripts/_ko.entity.js"></script>
-    <script src="/Content/theme.matyie/theme.js"></script>
     <script src="/kendo/js/kendo.all.js"></script>
 
 

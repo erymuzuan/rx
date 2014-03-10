@@ -20,5 +20,5 @@
 ## See also
 
 [Functoid](Functoid.html)
-*[Functoid](Functoid.html)
-*[ScriptFunctoid](ScriptFunctoid.html)
+[Functoid](/docs/#Functoid.html)
+[ScriptFunctoid](/docs/#ScriptFunctoid.html)
