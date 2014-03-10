@@ -781,6 +781,47 @@
           "InputColSm": null,
           "InputColXs": null,
           "WebId": null
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.Button, domain.sph",
+          "Command": null,
+          "UseClick": false,
+          "CommandName": "",
+          "LoadingText": null,
+          "CompleteText": null,
+          "IconClass": "fa fa-star",
+          "IsToolbarItem": true,
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "MaxLength": 0,
+            "MinLength": 0,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "WebId": null
+          },
+          "Name": "Button",
+          "Label": "Upgrade rating",
+          "Tooltip": null,
+          "Path": "UpdgradeRating",
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "b0d571b2-8fc5-4c49-803e-b8f629be6ad3",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
         }
       ]
     },
@@ -827,6 +868,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-07T12:05:24.5413636+08:00",
+  "ChangedDate": "2014-03-10T14:51:02.07891+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

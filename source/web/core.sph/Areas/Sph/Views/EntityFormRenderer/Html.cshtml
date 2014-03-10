@@ -9,6 +9,17 @@
 }
 
 <h1>@Model.Form.Name</h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-lg-8 col-lg-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+    
+    </div>
+    <div class="col-lg-2"></div>
+    <!-- /ko-->
+</div>
 <div class="row">
 
     <div class="col-lg-8">

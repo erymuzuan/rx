@@ -1,8 +1,9 @@
 
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config],
-        function (context, logger, router, system, validation, eximp, dialog, watcher,config) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config, objectbuilders.app],
+        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app) {
 
             var entity = ko.observable(new bespoke.dev_1.domain.Customer({WebId:system.guid()})),
+                errors = ko.observableArray(),
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
                 id = ko.observable(),
@@ -31,51 +32,81 @@
 
                     return tcs.promise();
                 },
+                upgradeRating = function(){
+
+                     var tcs = new $.Deferred(),
+                         data = ko.mapping.toJSON(entity);
+
+                     context.post(data, "/Customer/UpgradeRating" )
+                         .then(function (result) {
+                             if (result.success) {
+                                 logger.info(result.message);
+                                 entity().CustomerId(result.id);
+                                 errors.removeAll();
+
+                                 
+                                    app.showMessage("Thank you for your rating", "SPH Platform showcase", ["OK"])
+	                                    .done(function (dialogResult) {
+                                            console.log();
+                                            window.location='/sph#customer'
+	                                    });
+                                 
+                             } else {
+                                 errors.removeAll();
+                                 _(result.rules).each(function(v){
+                                     errors(v.ValidationErrors);
+                                 });
+                                 logger.error("There are errors in your entity, !!!");
+                             }
+                             tcs.resolve(result);
+                         });
+                     return tcs.promise();
+                 },
                 attached = function (view) {
                     // validation
                     validation.init($('#add-customer-form-form'), form());
 
                 },
 
-                  Customer;CheckTheRevenue = function(){
+                  checkTheRevenue = function(){
 
                     var tcs = new $.Deferred(),
                         data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;CheckTheRevenue" )
+                    context.post(data, "/Sph/BusinessRule/Validate?checkTheRevenue" )
                         .then(function (result) {
                             tcs.resolve(result);
                         });
                     return tcs.promise();
                 },
-                  Customer;VerifyTheGrade = function(){
+                  verifyTheGrade = function(){
 
                     var tcs = new $.Deferred(),
                         data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;VerifyTheGrade" )
+                    context.post(data, "/Sph/BusinessRule/Validate?verifyTheGrade" )
                         .then(function (result) {
                             tcs.resolve(result);
                         });
                     return tcs.promise();
                 },
-                  Customer;VerifyTheAge = function(){
+                  verifyTheAge = function(){
 
                     var tcs = new $.Deferred(),
                         data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;VerifyTheAge" )
+                    context.post(data, "/Sph/BusinessRule/Validate?verifyTheAge" )
                         .then(function (result) {
                             tcs.resolve(result);
                         });
                     return tcs.promise();
                 },
-                  Customer;MustBeMalaysian = function(){
+                  mustBeMalaysian = function(){
 
                     var tcs = new $.Deferred(),
                         data = ko.mapping.toJSON(entity);
 
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;MustBeMalaysian" )
+                    context.post(data, "/Sph/BusinessRule/Validate?mustBeMalaysian" )
                         .then(function (result) {
                             tcs.resolve(result);
                         });
@@ -113,14 +144,15 @@ return Task.fromResult(true);
                 };
 
             var vm = {
-                    CheckTheRevenue : CheckTheRevenue,
-                    VerifyTheGrade : VerifyTheGrade,
-                    VerifyTheAge : VerifyTheAge,
-                    MustBeMalaysian : MustBeMalaysian,
+                    checkTheRevenue : checkTheRevenue,
+                    verifyTheGrade : verifyTheGrade,
+                    verifyTheAge : verifyTheAge,
+                    mustBeMalaysian : mustBeMalaysian,
                 activate: activate,
                 config: config,
                 attached: attached,
                 entity: entity,
+                errors: errors,
                 save : save,
                 toolbar : {
                         emailCommand : {
@@ -147,7 +179,7 @@ return Task.fromResult(true);
                     watching: watching,
 
                     saveCommand : save,
-                    commands : ko.observableArray([{ caption :"Do this well", command : doThis, icon:"fa fa-user" }])
+                    commands : ko.observableArray([{ caption :"Do this well", command : doThis, icon:"fa fa-user" },{ caption :"Upgrade rating", command : upgradeRating, icon:"fa fa-star" }])
                 }
             };
 

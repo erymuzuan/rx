@@ -57,11 +57,11 @@ WriteLiteral(" class=\"row\"");
 
 WriteLiteral(" data-bind=\"with : entity\"");
 
-WriteLiteral(">\r\n    <h1>Custom entity form:\r\n<span");
+WriteLiteral(">\r\n    <h1>\r\n        Custom entity form:\r\n        <span");
 
 WriteLiteral(" data-bind=\"text:Name\"");
 
-WriteLiteral("></span></h1>\r\n</div>\r\n<div");
+WriteLiteral("></span>\r\n    </h1>\r\n</div>\r\n<div");
 
 WriteLiteral(" id=\"error-list-entity-form\"");
 
@@ -114,7 +114,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("        ");
 
             
-            #line 27 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 29 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
    Write(Html.Partial("_Toolbox"));
 
             
@@ -132,7 +132,61 @@ WriteLiteral(">\r\n        <div");
 
 WriteLiteral(" id=\"template-form-designer\"");
 
-WriteLiteral(">\r\n            <h1");
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" data-bind=\"with : $root.form\"");
+
+WriteLiteral(" id=\"toolbar-panel-design\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" style=\"border: none\"");
+
+WriteLiteral(">\r\n                    <i");
+
+WriteLiteral(" class=\"fa fa-save\"");
+
+WriteLiteral("></i>\r\n                    Save\r\n                </button>\r\n                <butt" +
+"on");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" data-bind=\"visible:IsPrintAvailable\"");
+
+WriteLiteral(">\r\n                    <i");
+
+WriteLiteral(" class=\"fa fa-print\"");
+
+WriteLiteral("></i>\r\n                    Print\r\n                </button>\r\n                <but" +
+"ton");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" data-bind=\"visible:IsEmailAvailable\"");
+
+WriteLiteral(">\r\n                    <i");
+
+WriteLiteral(" class=\"fa fa-envelope\"");
+
+WriteLiteral("></i>\r\n                    Email\r\n                </button>\r\n                <but" +
+"ton");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" data-bind=\"visible:IsWatchAvailable\"");
+
+WriteLiteral(">\r\n                    <i");
+
+WriteLiteral(" class=\"fa fa-eye\"");
+
+WriteLiteral("></i>\r\n                    Watch\r\n                </button>\r\n            </div>\r\n" +
+"            <h1");
 
 WriteLiteral(" data-bind=\"text: Name\"");
 
@@ -147,13 +201,13 @@ WriteLiteral(" class=\"form-horizontal\"");
 WriteLiteral(">\r\n                <!--ko foreach:FormElementCollection -->\r\n");
 
             
-            #line 37 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 57 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 37 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 57 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                  foreach (var fe in Model.FormElements)
                 {
                     var fe1 = fe;
@@ -162,14 +216,14 @@ WriteLiteral(">\r\n                <!--ko foreach:FormElementCollection -->\r\n"
             #line default
             #line hidden
             
-            #line 40 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 60 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                Write(Html.DisplayFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 40 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 60 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                                               
                 }
 

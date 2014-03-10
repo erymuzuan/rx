@@ -5,8 +5,10 @@
     Layout = null;
 }
 <div class="row" data-bind="with : entity">
-    <h1>Custom entity form:
-<span data-bind="text:Name"></span></h1>
+    <h1>
+        Custom entity form:
+        <span data-bind="text:Name"></span>
+    </h1>
 </div>
 <div id="error-list-entity-form" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
@@ -28,7 +30,25 @@
     </div>
     <!-- ko with : form -->
     <div id="screen-activity-designer" class="col-lg-9" data-bind="with: FormDesign">
-        <div id="template-form-designer">
+        <div id="template-form-designer" class="row">
+            <div class="row" data-bind="with : $root.form" id="toolbar-panel-design">
+                <button class="btn btn-default" style="border: none">
+                    <i class="fa fa-save"></i>
+                    Save
+                </button>
+                <button class="btn btn-default" data-bind="visible:IsPrintAvailable">
+                    <i class="fa fa-print"></i>
+                    Print
+                </button>
+                <button class="btn btn-default" data-bind="visible:IsEmailAvailable">
+                    <i class="fa fa-envelope"></i>
+                    Email
+                </button>
+                <button class="btn btn-default" data-bind="visible:IsWatchAvailable">
+                    <i class="fa fa-eye"></i>
+                    Watch
+                </button>
+            </div>
             <h1 data-bind="text: Name"></h1>
             <span data-bind="text: Description"></span>
 

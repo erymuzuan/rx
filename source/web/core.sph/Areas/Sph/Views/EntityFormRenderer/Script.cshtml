@@ -12,22 +12,30 @@
     var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
     var validateUrl = string.Format("/Sph/BusinessRule/Validate?{0};{1}", @Model.EntityDefinition.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
     var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.EntityDefinitionId;
+    var buttonOperations = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
+        .Where(b => b.IsToolbarItem)
+        .Where(b => !string.IsNullOrWhiteSpace(b.Operation))
+        .Select(b => string.Format("{{ caption :\"{0}\", command : {1}, icon:\"{2}\" }}", b.Label, b.Operation.ToCamelCase(), b.IconClass));
+
     var commands = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
         .Where(b => b.IsToolbarItem)
+        .Where(b => !string.IsNullOrWhiteSpace(b.CommandName))
         .Select(b => string.Format("{{ caption :\"{0}\", command : {1}, icon:\"{2}\" }}", b.Label, b.CommandName, b.IconClass));
-    var commandsJs = string.Format("[{0}]", string.Join(",", commands));
+    var commandsJs = string.Format("[{0}]", string.Join(",", commands.Concat(buttonOperations)));
 
 
     var formId = @Model.Form.Route + "-form";
+    var saveOperation = Model.Form.Operation ?? "save";
 }
 
 <h2>title</h2>
 <script type="text/javascript" src="~/Scripts/knockout-3.1.0.debug.js"></script>
 <script type="text/javascript" data-script="true">
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config],
-        function (context, logger, router, system, validation, eximp, dialog, watcher,config) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config, objectbuilders.app],
+        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app) {
 
             var entity = ko.observable(new @Html.Raw(typeCtor)),
+                errors = ko.observableArray(),
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
                 id = ko.observable(),
@@ -56,6 +64,34 @@
 
                     return tcs.promise();
                 },
+                 @foreach (var operation in Model.EntityDefinition.EntityOperationCollection)
+            {
+                var opFunc = operation.Name.ToCamelCase();
+                <text>@opFunc = function(){
+
+                     var tcs = new $.Deferred(),
+                         data = ko.mapping.toJSON(entity);
+
+                     context.post(data, "/@Model.EntityDefinition.Name/@operation.Name" )
+                         .then(function (result) {
+                             if (result.success) {
+                                 logger.info(result.message);
+                                 entity().@(Model.EntityDefinition.Name)Id(result.id);
+                                 errors.removeAll();
+
+                                @(Html.Raw(operation.GetConfirmationMessage()))
+                             } else {
+                                 errors.removeAll();
+                                 _(result.rules).each(function(v){
+                                     errors(v.ValidationErrors);
+                                 });
+                                 logger.error("There are errors in your entity, !!!");
+                             }
+                             tcs.resolve(result);
+                         });
+                     return tcs.promise();
+                 },</text>
+            }
                 attached = function (view) {
                     // validation
                     validation.init($('#@formId'), form());
@@ -64,7 +100,7 @@
 
                 @foreach (var rule in Model.Form.Rules)
                 {
-                    var function = Model.EntityDefinition.Name + ";"+ rule.Dehumanize();
+                    var function = rule.Dehumanize().ToCamelCase();
                   <text>@function = function(){
 
                     var tcs = new $.Deferred(),
@@ -79,6 +115,10 @@
                 }
                 @foreach (var btn in Model.Form.FormDesign.FormElementCollection.OfType<Button>())
                 {
+                    if (string.IsNullOrWhiteSpace(btn.CommandName))
+                    {
+                        continue;
+                    }
                     var function = btn.CommandName;
                   <text>@function = function(){
                     @Html.Raw(btn.Command)
@@ -128,13 +168,14 @@
             var vm = {
                 @foreach (var rule in Model.Form.Rules)
                     {
-                        var function = rule.Dehumanize();
+                        var function = rule.Dehumanize().ToCamelCase();
                     <text>@function : @function,</text>
                     }
                 activate: activate,
                 config: config,
                 attached: attached,
                 entity: entity,
+                errors: errors,
                 save : save,
                 toolbar : {
                     @if (Model.Form.IsEmailAvailable)
@@ -169,7 +210,7 @@
                     watching: watching,</text>
                     }
 
-                    saveCommand : save,
+                    saveCommand : @saveOperation.ToCamelCase(),
                     commands : ko.observableArray(@Html.Raw(commandsJs))
                 }
             };

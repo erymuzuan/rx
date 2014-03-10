@@ -15028,6 +15028,10 @@ header div.nav-header > ul {
 #toolbar-panel .btn-default {
   border: none;
 }
+#toolbar-panel-design .btn-default {
+  border: none;
+    color: #9c9c9c;
+}
 /*# sourceMappingURL=nav.css.map */
 * {
   border-radius: 0 !important;

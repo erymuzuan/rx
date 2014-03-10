@@ -697,6 +697,8 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
 
     v.IsToolbarItem = ko.observable(false);
 
+    v.Operation = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.Button, domain.sph";
 
 
@@ -815,6 +817,7 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         IsRemoveAvailable: ko.observable(false),
         IsImportAvailable: ko.observable(false),
         IsExportAvailable: ko.observable(false),
+        Operation: ko.observable(''),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         Rules: ko.observableArray([]),
         isBusy: ko.observable(false),
@@ -1100,6 +1103,10 @@ bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityOperation, domain.sph",
         Name: ko.observable(''),
+        SuccessMessage: ko.observable(''),
+        ShowSuccessMessag: ko.observable(false),
+        NavigateSuccessUrl: ko.observable(''),
+        SuccessCommand: ko.observable(''),
         EntityPermissionCollection: ko.observableArray([]),
         Rules: ko.observableArray([]),
         Permissions: ko.observableArray([]),

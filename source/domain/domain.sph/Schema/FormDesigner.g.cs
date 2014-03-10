@@ -1852,6 +1852,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_Operation;
+        [XmlAttribute]
+        public string Operation
+        {
+            get
+            {
+                return m_Operation;
+            }
+            set
+            {
+                m_Operation = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -2539,6 +2555,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_operation;
+        public const string PropertyNameOperation = "Operation";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();
 
@@ -3055,6 +3076,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isExportAvailable;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Operation
+        {
+            set
+            {
+                if (String.Equals(m_operation, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperation, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_operation = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_operation;
             }
         }
 
@@ -4097,6 +4147,26 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameName = "Name";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_successMessage;
+        public const string PropertyNameSuccessMessage = "SuccessMessage";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_showSuccessMessag;
+        public const string PropertyNameShowSuccessMessag = "ShowSuccessMessag";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_navigateSuccessUrl;
+        public const string PropertyNameNavigateSuccessUrl = "NavigateSuccessUrl";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_successCommand;
+        public const string PropertyNameSuccessCommand = "SuccessCommand";
+
+
         private readonly ObjectCollection<EntityPermission> m_EntityPermissionCollection = new ObjectCollection<EntityPermission>();
 
         ///<summary>
@@ -4166,6 +4236,122 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string SuccessMessage
+        {
+            set
+            {
+                if (String.Equals(m_successMessage, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSuccessMessage, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_successMessage = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_successMessage;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool ShowSuccessMessag
+        {
+            set
+            {
+                if (m_showSuccessMessag == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameShowSuccessMessag, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_showSuccessMessag = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_showSuccessMessag;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string NavigateSuccessUrl
+        {
+            set
+            {
+                if (String.Equals(m_navigateSuccessUrl, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNavigateSuccessUrl, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_navigateSuccessUrl = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_navigateSuccessUrl;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string SuccessCommand
+        {
+            set
+            {
+                if (String.Equals(m_successCommand, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSuccessCommand, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_successCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_successCommand;
             }
         }
 

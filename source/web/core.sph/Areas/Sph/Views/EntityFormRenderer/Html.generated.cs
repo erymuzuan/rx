@@ -68,6 +68,40 @@ Write(Model.Form.Name);
             #line hidden
 WriteLiteral("</h1>\r\n<div");
 
+WriteLiteral(" id=\"error-list\"");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" data-bind=\"visible:errors().length\"");
+
+WriteLiteral(">\r\n    <!-- ko foreach : errors -->\r\n    <div");
+
+WriteLiteral(" class=\"col-lg-8 col-lg-offset-2 alert alert-dismissable alert-danger\"");
+
+WriteLiteral(">\r\n        <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" data-dismiss=\"alert\"");
+
+WriteLiteral(" aria-hidden=\"true\"");
+
+WriteLiteral(">&times;</button>\r\n        <i");
+
+WriteLiteral(" class=\"fa fa-exclamation\"");
+
+WriteLiteral("></i>\r\n        <span");
+
+WriteLiteral(" data-bind=\"text:Message\"");
+
+WriteLiteral("></span>\r\n    \r\n    </div>\r\n    <div");
+
+WriteLiteral(" class=\"col-lg-2\"");
+
+WriteLiteral("></div>\r\n    <!-- /ko-->\r\n</div>\r\n<div");
+
 WriteLiteral(" class=\"row\"");
 
 WriteLiteral(">\r\n\r\n    <div");
@@ -80,26 +114,26 @@ WriteLiteral(" class=\"form-horizontal\"");
 
 WriteLiteral(" data-bind=\"with : entity\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 331), Tuple.Create("\"", 343)
+WriteAttribute("id", Tuple.Create(" id=\"", 787), Tuple.Create("\"", 799)
             
-            #line 15 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 336), Tuple.Create<System.Object, System.Int32>(formId
+            #line 26 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
+, Tuple.Create(Tuple.Create("", 792), Tuple.Create<System.Object, System.Int32>(formId
             
             #line default
             #line hidden
-, 336), false)
+, 792), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 16 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
+            #line 27 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 16 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
+            #line 27 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
              foreach (var fe in Model.Form.FormDesign.FormElementCollection)
             {
                 var fe1 = fe;
@@ -116,14 +150,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 27 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
+            #line 38 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
                 Write(fe.UseDisplayTemplate ? Html.DisplayFor(f => fe1) : Html.EditorFor(f => fe1));
 
             
             #line default
             #line hidden
             
-            #line 27 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
+            #line 38 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
                                                                                                    
                 }
             }
@@ -134,13 +168,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("        </form>\r\n    </div>\r\n");
 
             
-            #line 32 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
+            #line 43 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 32 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
+            #line 43 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
      if (Model.Form.IsAuditTrailAvailable)
     {
 
@@ -155,7 +189,7 @@ WriteLiteral(">\r\n            <h3>Audit Trail</h3>\r\n            <!--ko compos
 "ls/_audittrail.list\', activationData:{id:$root.entity().");
 
             
-            #line 36 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
+            #line 47 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
                                                                                                 Write(Model.EntityDefinition.Name);
 
             
@@ -164,7 +198,7 @@ WriteLiteral(">\r\n            <h3>Audit Trail</h3>\r\n            <!--ko compos
 WriteLiteral("Id(), entity : \'");
 
             
-            #line 36 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
+            #line 47 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
                                                                                                                                               Write(Model.EntityDefinition.Name);
 
             
@@ -173,7 +207,7 @@ WriteLiteral("Id(), entity : \'");
 WriteLiteral("\'}} -->\r\n            <!--/ko-->\r\n        </div>\r\n");
 
             
-            #line 39 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
+            #line 50 "..\..\Areas\Sph\Views\EntityFormRenderer\Html.cshtml"
 
     }
 

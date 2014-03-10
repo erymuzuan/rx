@@ -288,6 +288,7 @@
 					<xs:attribute name="CompleteText" type="xs:string" use="optional"/>
 					<xs:attribute name="IconClass" type="xs:string" use="optional"/>
 					<xs:attribute name="IsToolbarItem" type="xs:boolean" use="optional"/>
+					<xs:attribute name="Operation" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -383,6 +384,7 @@
 			<xs:attribute name="IsRemoveAvailable" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsImportAvailable" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsExportAvailable" type="xs:boolean" use="required"/>
+			<xs:attribute name="Operation" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EntityView">
@@ -540,6 +542,10 @@
 				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="SuccessMessage" type="xs:string" use="required"/>
+			<xs:attribute name="ShowSuccessMessag" type="xs:boolean" use="required"/>
+			<xs:attribute name="NavigateSuccessUrl" type="xs:string" use="required"/>
+			<xs:attribute name="SuccessCommand" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="SetterActionChild">
