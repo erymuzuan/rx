@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Domain
             }
 
             // search
-            this.GenerateSearchController(code);
+            this.GenerateController(code);
 
 
             code.AppendLine("}");// end namespace
@@ -126,7 +126,7 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(script.ToString());
         }
 
-        private void GenerateSearchController(StringBuilder code)
+        private void GenerateController(StringBuilder code)
         {
             code.AppendLinf("public partial class {0}Controller : System.Web.Mvc.Controller", this.Name);
             code.AppendLine("{");
@@ -165,6 +165,9 @@ namespace Bespoke.Sph.Domain
             this.Response.ContentType = ""application/json; charset=utf-8"";
             return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name);
             code.AppendLine("       }");
+
+            //OPERATIONS
+            this.AppendOperationsCode(code);
 
             // REMOVE
             code.AppendLinf("//exec:Remove");
@@ -205,7 +208,50 @@ namespace Bespoke.Sph.Domain
 
         }
 
+        private void AppendOperationsCode(StringBuilder code)
+        {
+            code.AppendLinf("       public {0} Item{{get;set;}}", this.Name);
+            foreach (var operation in this.EntityOperationCollection)
+            {
+                // SAVE
+                code.AppendLinf("//exec:{0}", operation.Name);
+                code.AppendLine("       [HttpPost]");
+                code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> {0}()", operation.Name);
+                code.AppendLine("       {");
+                code.AppendLine("           var context = new Bespoke.Sph.Domain.SphDataContext();");
+                code.AppendLinf("           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", this.Name);
+                code.AppendLine("           if(null == item) item = this.Item;");
+                code.AppendLinf("           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == \"{0}\");", this.Name);
 
+                code.AppendLine("           var brokenRules = new ObjectCollection<ValidationResult>();");
+                var count = 0;
+                foreach (var rule in operation.Rules)
+                {
+                    count++;
+                    code.AppendFormat(@"
+            var appliedRules{1} = ed.BusinessRuleCollection.Where(b => b.Name == ""{0}"");
+            ValidationResult result{1} = item.ValidateBusinessRule(appliedRules{1});
 
+            if(!result{1}.Success){{
+                brokenRules.Add(result{1});
+            }}
+", rule,count);
+                }
+                code.AppendLine("           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});");
+
+                code.AppendFormat(@"
+           
+            using(var session = context.OpenSession())
+            {{
+                session.Attach(item);
+                await session.SubmitChanges(""{1}"");
+            }}
+            this.Response.ContentType = ""application/json; charset=utf-8"";
+            return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name, operation.Name);
+
+                code.AppendLine();
+                code.AppendLine("       }");
+            }
+        }
     }
 }

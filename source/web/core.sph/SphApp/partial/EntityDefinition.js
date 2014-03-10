@@ -15,6 +15,23 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                 Boost: 1
             }));
         },
+        removeMember = function (floor) {
+            var self = this;
+            return function () {
+                self.MemberCollection.remove(floor);
+            };
+        },
+        addEntityOperation = function () {
+            this.EntityOperationCollection.push(new bespoke.sph.domain.EntityOperation({
+                WebId: system.guid()
+            }));
+        },
+        removeEntityOperation = function (operation) {
+            var self = this;
+            return function () {
+                self.EntityOperationCollection.remove(operation);
+            };
+        },
         editMember = function (member) {
             var self = this;
             return function () {
@@ -29,12 +46,6 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                             }
                         });
                 });
-            };
-        },
-        removeMember = function (floor) {
-            var self = this;
-            return function () {
-                self.MemberCollection.remove(floor);
             };
         },
         addBusinessRule = function () {
@@ -81,6 +92,8 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
             };
         };
     return {
+        addEntityOperation: addEntityOperation,
+        removeEntityOperation: removeEntityOperation,
         addMember: addMember,
         editMember: editMember,
         removeMember: removeMember,

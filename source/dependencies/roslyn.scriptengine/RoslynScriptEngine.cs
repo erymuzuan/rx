@@ -67,6 +67,10 @@ namespace Bespoke.Sph.RoslynScriptEngines
             {
                 throw new Exception("Error compiling this code : \r\n" + block + "\r\n The full code is \r\n" + code,e);
             }
+            catch (Exception e)
+            {
+                throw new Exception("Error compiling this code : \r\n" + block + "\r\n The full code is \r\n" + code,e);
+            }
             var result = session.Execute("Evaluate();");
 
             return (T)result;

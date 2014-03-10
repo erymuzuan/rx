@@ -5,7 +5,7 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schema/sph.domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
 
 
 define(['plugins/dialog', objectbuilders.config, objectbuilders.system],
@@ -13,14 +13,14 @@ define(['plugins/dialog', objectbuilders.config, objectbuilders.system],
 
         var member = ko.observable(new bespoke.sph.domain.Member()),
             activate = function () {
-                var permissions = _(config.roles).map(function (v) {
+                var permissions = _(config.allRoles).map(function (v) {
                     return new bespoke.sph.domain.FieldPermission({ Role: v, WebId: system.guid() });
                 });
                 if (typeof member().FieldPermissionCollection === "undefined") {
                     member().FieldPermissionCollection = ko.observableArray(permissions);
                 } else {
                     // add new roles
-                    _(config.roles).each(function (v) {
+                    _(config.allRoles).each(function (v) {
                         var exist = _(member().FieldPermissionCollection()).find(function (p) { return p.Role() == v; });
                         if (!exist) {
                             member().FieldPermissionCollection().push(new bespoke.sph.domain.FieldPermission({ Role: v, WebId: system.guid() }));

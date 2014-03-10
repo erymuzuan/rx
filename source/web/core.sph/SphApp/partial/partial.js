@@ -333,6 +333,23 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                 Boost: 1
             }));
         },
+        removeMember = function (floor) {
+            var self = this;
+            return function () {
+                self.MemberCollection.remove(floor);
+            };
+        },
+        addEntityOperation = function () {
+            this.EntityOperationCollection.push(new bespoke.sph.domain.EntityOperation({
+                WebId: system.guid()
+            }));
+        },
+        removeEntityOperation = function (operation) {
+            var self = this;
+            return function () {
+                self.EntityOperationCollection.remove(operation);
+            };
+        },
         editMember = function (member) {
             var self = this;
             return function () {
@@ -347,12 +364,6 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                             }
                         });
                 });
-            };
-        },
-        removeMember = function (floor) {
-            var self = this;
-            return function () {
-                self.MemberCollection.remove(floor);
             };
         },
         addBusinessRule = function () {
@@ -399,6 +410,8 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
             };
         };
     return {
+        addEntityOperation: addEntityOperation,
+        removeEntityOperation: removeEntityOperation,
         addMember: addMember,
         editMember: editMember,
         removeMember: removeMember,
@@ -408,6 +421,43 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
         editMemberMap: editMemberMap
     };
 };
+///#source 1 1 /SphApp/partial/EntityOperation.js
+/// <reference path="../objectbuilders.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../durandal/system.js" />
+/// <reference path="../durandal/amd/require.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+
+
+
+bespoke.sph.domain.EntityOperationPartial = function () {
+
+    var system = require('durandal/system'),
+        removeChildAction = function (child) {
+            var self = this;
+            return function() {
+                self.SetterActionChildCollection.remove(child);
+            };
+        },
+        addChildAction = function() {
+            var child = new bespoke.sph.domain.SetterActionChild(system.guid());
+            child.Field({ Name: ko.observable("+ Field") });
+            this.SetterActionChildCollection.push(child);
+        };
+
+    var vm = {
+        addChildAction: addChildAction,
+        removeChildAction: removeChildAction
+
+    };
+
+    return vm;
+};
+
 ///#source 1 1 /SphApp/partial/EntityView.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />

@@ -88,6 +88,20 @@
   {
       "role": "developers",
       "groupName": null,
+      "route": "entity.operation.details/:id/:name",
+      "moduleId": "viewmodels/entity.operation.details",
+      "title": "Operation",
+      "nav": false,
+      "icon": "fa-gavel",
+      "caption": "Operation",
+      "settings": null,
+      "isAdminPage": false,
+      "showWhenLoggedIn": false,
+      "error": ""
+  },
+  {
+      "role": "developers",
+      "groupName": null,
       "route": "email.template.details/:id",
       "moduleId": "viewmodels/email.template.details",
       "title": "Email Template",

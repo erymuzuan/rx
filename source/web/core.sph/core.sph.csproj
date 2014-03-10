@@ -1285,7 +1285,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
-    <Content Include="Scripts\knockout-3.1.0.js" />
+    <EmbeddedResource Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
     <Content Include="Scripts\moment-with-langs.js" />
     <Content Include="Scripts\moment-with-langs.min.js" />
@@ -1342,6 +1342,7 @@
     <Content Include="SphApp\partial\EntityDefinition.min.js">
       <DependentUpon>EntityDefinition.js</DependentUpon>
     </Content>
+    <Content Include="SphApp\partial\EntityOperation.js" />
     <Content Include="SphApp\partial\EntityView.js" />
     <Content Include="SphApp\partial\ExecutedActivity.min.js">
       <DependentUpon>ExecutedActivity.js</DependentUpon>
@@ -1944,6 +1945,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\email.template.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\document.template.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.permission.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\entity.operation.details.js" />
     <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
@@ -1972,6 +1974,7 @@
     <EmbeddedResource Include="SphApp\views\email.template.details.html" />
     <EmbeddedResource Include="SphApp\views\document.template.details.html" />
     <EmbeddedResource Include="SphApp\views\field.permission.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\entity.operation.details.html" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\Button.cshtml">

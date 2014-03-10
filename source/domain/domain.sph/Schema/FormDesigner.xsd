@@ -309,6 +309,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="EntityOperationCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="EntityOperation" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -492,5 +499,52 @@
 			<xs:attribute name="IsHidden" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsReadOnly" type="xs:boolean" use="required"/>
 		</xs:complexType>
+	</xs:element>
+	<xs:element name="EntityPermission">
+		<xs:complexType>
+			<xs:attribute name="Role" type="xs:string" use="required"/>
+			<xs:attribute name="IsHidden" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsReadOnly" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EntityOperation">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="EntityPermissionCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="EntityPermission" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Rules">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Rule" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Permissions">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Permission" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SetterActionChildCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="SetterActionChild" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SetterActionChild">
+		<xs:annotation>
+			<xs:documentation>Placeholder</xs:documentation>
+		</xs:annotation>
 	</xs:element>
 </xs:schema>

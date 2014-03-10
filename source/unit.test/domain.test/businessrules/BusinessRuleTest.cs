@@ -20,7 +20,7 @@ namespace domain.test.businessrules
         [Test]
         public void SimpleRule()
         {
-            var customerDefinition = this.CreateCustomerDefinition();
+            var customerDefinition = this.CreatePatientDefinition();
             dynamic customer = this.CreateInstance(customerDefinition);
             customer.FullName = "Erymuzuan";
 
@@ -50,7 +50,7 @@ namespace domain.test.businessrules
         public void TwoRulesAOneFail()
         {
 
-            var customerDefinition = this.CreateCustomerDefinition();
+            var customerDefinition = this.CreatePatientDefinition();
             dynamic customer = this.CreateInstance(customerDefinition);
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
@@ -91,7 +91,7 @@ namespace domain.test.businessrules
         public void TwoRulesAllFail()
         {
 
-            var customerDefinition = this.CreateCustomerDefinition();
+            var customerDefinition = this.CreatePatientDefinition();
             dynamic customer = this.CreateInstance(customerDefinition);
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
@@ -155,9 +155,9 @@ namespace domain.test.businessrules
         }
 
 
-        public EntityDefinition CreateCustomerDefinition()
+        public EntityDefinition CreatePatientDefinition()
         {
-            var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" };
+            var ent = new EntityDefinition { Name = "Patient", Plural = "Patients" ,RecordName = "FullName"};
             ent.MemberCollection.Add(new Member
             {
                 Name = "FullName",

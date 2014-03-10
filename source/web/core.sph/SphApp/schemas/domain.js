@@ -734,6 +734,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         IsPublished: ko.observable(false),
         MemberCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
+        EntityOperationCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1064,6 +1065,69 @@ bespoke.sph.domain.FieldPermission = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.EntityPermission = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EntityPermission, domain.sph",
+        Role: ko.observable(''),
+        IsHidden: ko.observable(false),
+        IsReadOnly: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EntityPermissionPartial) {
+        return _(model).extend(new bespoke.sph.domain.EntityPermissionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EntityOperation, domain.sph",
+        Name: ko.observable(''),
+        EntityPermissionCollection: ko.observableArray([]),
+        Rules: ko.observableArray([]),
+        Permissions: ko.observableArray([]),
+        SetterActionChildCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EntityOperationPartial) {
+        return _(model).extend(new bespoke.sph.domain.EntityOperationPartial(model));
+    }
+    return model;
+};
+
+
+// placeholder for SetterActionChild
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

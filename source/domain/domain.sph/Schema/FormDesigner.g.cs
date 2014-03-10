@@ -1921,6 +1921,17 @@ namespace Bespoke.Sph.Domain
             get { return m_BusinessRuleCollection; }
         }
 
+        private readonly ObjectCollection<EntityOperation> m_EntityOperationCollection = new ObjectCollection<EntityOperation>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("EntityOperation", IsNullable = false)]
+        public ObjectCollection<EntityOperation> EntityOperationCollection
+        {
+            get { return m_EntityOperationCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -3958,6 +3969,211 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("EntityPermission", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class EntityPermission
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_role;
+        public const string PropertyNameRole = "Role";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isHidden;
+        public const string PropertyNameIsHidden = "IsHidden";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isReadOnly;
+        public const string PropertyNameIsReadOnly = "IsReadOnly";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Role
+        {
+            set
+            {
+                if (String.Equals(m_role, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRole, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_role = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_role;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsHidden
+        {
+            set
+            {
+                if (m_isHidden == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsHidden, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isHidden = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isHidden;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsReadOnly
+        {
+            set
+            {
+                if (m_isReadOnly == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsReadOnly, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isReadOnly = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isReadOnly;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("EntityOperation", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class EntityOperation
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        private readonly ObjectCollection<EntityPermission> m_EntityPermissionCollection = new ObjectCollection<EntityPermission>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("EntityPermission", IsNullable = false)]
+        public ObjectCollection<EntityPermission> EntityPermissionCollection
+        {
+            get { return m_EntityPermissionCollection; }
+        }
+
+        private readonly ObjectCollection<string> m_Rules = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> Rules
+        {
+            get { return m_Rules; }
+        }
+
+        private readonly ObjectCollection<string> m_Permissions = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> Permissions
+        {
+            get { return m_Permissions; }
+        }
+
+        private readonly ObjectCollection<SetterActionChild> m_SetterActionChildCollection = new ObjectCollection<SetterActionChild>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("SetterActionChild", IsNullable = false)]
+        public ObjectCollection<SetterActionChild> SetterActionChildCollection
+        {
+            get { return m_SetterActionChildCollection; }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+
+    }
+
+    // placeholder for SetterActionChild
 
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement
