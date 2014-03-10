@@ -1,0 +1,62 @@
+#Trigger
+##Overview
+
+
+
+##Properties
+<table class="table table-condensed table-bordered">
+    <thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>RuleCollection</td><td> - </td></tr>
+<tr><td>ActionCollection</td><td> - </td></tr>
+<tr><td>Name</td><td> - </td></tr>
+<tr><td>Entity</td><td> - </td></tr>
+<tr><td>TypeOf</td><td> - </td></tr>
+<tr><td>TriggerId</td><td> - </td></tr>
+<tr><td>Note</td><td> - </td></tr>
+<tr><td>IsActive</td><td> - </td></tr>
+<tr><td>IsFiredOnAdded</td><td> - </td></tr>
+<tr><td>IsFiredOnDeleted</td><td> - </td></tr>
+<tr><td>IsFiredOnChanged</td><td> - </td></tr>
+<tr><td>FiredOnOperations</td><td> - </td></tr>
+<tr><td>CodeNamespace</td><td> - </td></tr>
+</tbody></table>
+
+
+
+## See also
+
+[Entity](Entity.html)
+*[Entity](Entity.html)
+*[Designation](Designation.html)
+*[EmailTemplate](EmailTemplate.html)
+*[AuditTrail](AuditTrail.html)
+*[BinaryStore](BinaryStore.html)
+*[EntityDefinition](EntityDefinition.html)
+*[EntityForm](EntityForm.html)
+*[EntityView](EntityView.html)
+*[Setting](Setting.html)
+*[DocumentTemplate](DocumentTemplate.html)
+*[Message](Message.html)
+*[Organization](Organization.html)
+*[DataGridColumnHost](DataGridColumnHost.html)
+*[LabelItemScriptHost](LabelItemScriptHost.html)
+*[ReportContent](ReportContent.html)
+*[ReportDefinition](ReportDefinition.html)
+*[ReportDelivery](ReportDelivery.html)
+*[UserProfile](UserProfile.html)
+*[Watcher](Watcher.html)
+*[Trigger](Trigger.html)
+*[WorkflowDefinition](WorkflowDefinition.html)
+*[Workflow](Workflow.html)
+*[Page](Page.html)
+*[Tracker](Tracker.html)
+*[Role](Role.html)
+*[SpatialEntity](SpatialEntity.html)
+*[SpatialStore](SpatialStore.html)
+*[User](User.html)

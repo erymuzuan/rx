@@ -1,53 +1,26 @@
 <h1>EntityDefinition</h1>
 
-<p>The first core concept of SPH is the <code>Entity</code>. This plays a very vital role in the whole SPH programming concept. <code>Entity</code> is not a <code>table</code> translated from relational world. Thus it is hugely different than <code>table</code> and <code>tuples</code> from relational world.</p>
+<h2>Overview</h2>
 
-<p>To really understand the power of <code>Entity</code> is to forget everthing you know about relational database and it's related technologies such as <code>object relational mapper(ORM)</code>.The concepts of foreign key, parent child, and normal forms just simply didn't exist in the first place.</p>
+<h2>Properties</h2>
 
-<p>An <code>Entity</code> is an object that you are interested in to track their life in your problem domains. This could be <code>Customer</code> if you are developing a Customer relationship management or <code>Patient</code> in case clinical information system. It's also know as <code>Root</code> object. Then there are <code>Value</code> objects, these are objects that attached to an entity, and would not exist without the <code>Entity</code> for example <code>Address</code> for your <code>Customer</code>, the <code>Address</code> alone is not an <code>Entity</code> as it is quite useless without the <code>Customer</code>. But if you are developing a Geographic information System for postal service than an <code>Address</code> could be your <code>Entity</code>.</p>
-
-<p>As such, think an <code>Entity</code> as the a traditional paper folder where it holds many paper records inside. Take a folder for a <code>Patient</code> in a hospital environment. It might have these fields writen on it.<br />
-* The name of the patient<br />
-* The registration number(MRN)<br />
-* Date of birth<br />
-* Address<br />
-    * Street<br />
-    * State<br />
-    * Postal code<br />
-* etc</p>
-
-<p>and there could be a number of documents inside it, such as visit records, medical history, referals etc.</p>
-
-<p>So your <code>Entity</code> will be called <code>Patient</code>, and <code>Visit</code> will be your value object, well in this case there will be many <code>Visit</code>s</p>
-
-<p>In SPH, this could easily be modelled as follows</p>
-
-<p>```</p>
-
-<pre><code>Entity:Patient
-    Value:FullName
-    Value:Mrn
-    Value:Address
-        Value:Street
-        Value:Postalcode
-        Value:State
-    Value:Visit list**
-        Value:DateTime
-        Value:Title
-        Value:Doctor     
-    Value:Medical History list
-        Value:DateTime
-        Value:ClinicalNote
-      ...
-       ... 
-</code></pre>
-
-<p>```</p>
-
-<p>This is very natural way storing your data, in a way that we all understand, there's no need to artificially model after tables and relatioships. The way SPH take care of your data is known as <code>Document</code> store database. You can read more about <a href="http://en.wikipedia.org/wiki/Document-oriented_database">Document database</a> in Wikipedia.</p>
-
-<p>Notice that <code>Address</code> is just another object that belongs to the <code>Patient</code>, what makes the <code>Patient</code> and <code>Address</code> diferrent is very minimal<br />
-*<code>Patient</code> is an object that you interested to track it's life time<br />
-* <code>Address</code> is just an object that belong to another <code>Value</code> object or an <code>Entity</code><br />
-*<code>Patient</code> has an identitfier field or what we call RecordName<br />
-*<code>Address</code> doesn't have any identifier field, as such with it's parent, it's imposible to tell if an <code>Address</code> belong to patient A or patient B. <code>Value</code> object does not live in isolation.</p>
+<table class="table table-condensed table-bordered">
+    <thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>CodeNamespace</td><td> - </td></tr>
+<tr><td>MemberCollection</td><td> - </td></tr>
+<tr><td>BusinessRuleCollection</td><td> - </td></tr>
+<tr><td>EntityOperationCollection</td><td> - </td></tr>
+<tr><td>EntityDefinitionId</td><td> - </td></tr>
+<tr><td>Name</td><td> - </td></tr>
+<tr><td>Plural</td><td> - </td></tr>
+<tr><td>IconStoreId</td><td> - </td></tr>
+<tr><td>IconClass</td><td> - </td></tr>
+<tr><td>RecordName</td><td> - </td></tr>
+<tr><td>IsPublished</td><td> - </td></tr>
+</tbody></table>
