@@ -1,0 +1,104 @@
+﻿<h1>Operation : <span data-bind="text:operation().Name"></span> (<span data-bind="text:entity().Name"></span>)</h1>
+<div class="row">
+    <form class="form-horizontal" data-bind="with : operation">
+
+        <div class="form-group">
+            <label for="name" class="col-md-2 control-label">Name</label>
+            <div class="col-md-6">
+                <input type="text" data-bind="value: Name"
+                       required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                       placeholder="Operation name"
+                       class="form-control" id="name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2">Rules</label>
+            <div class="col-md-6">
+                <ul data-bind="foreach :$root.entity().BusinessRuleCollection" class="nav">
+                    <li>
+                        <label>
+                            <input type="checkbox" data-bind="checked : $root.operation().Rules, value: Name" />
+                            <!-- ko text : Name -->
+                            <!-- /ko -->
+
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2">Permisssions</label>
+            <div class="col-md-6">
+                <ul data-bind="foreach :$root.config.allRoles" class="nav">
+                    <li>
+                        <label>
+                            <input type="checkbox" data-bind="checked : $root.operation().Permissions, value:$data" />
+                            <!-- ko text : $data -->
+                            <!-- /ko -->
+
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Field setters</label>
+            <div class="col-md-9">
+
+                <a class="btn btn-mini pull-right" data-bind="click: addChildAction">+ Field</a>
+                <table id="setter-action-table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Path</th>
+                            <th>Value</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: SetterActionChildCollection">
+                        <tr>
+                            <td>
+                                <input class="input-setter-path form-control" type="text" data-bind="value: Path, entityTypeaheadPath : $root.entity().EntityDefinitionId()" id="setter-action-child-path" />
+                            </td>
+                            <td>
+
+                                <div class="btn-group">
+
+                                    <a data-bind="with : Field, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                        <!-- ko text : Name -->
+                                        <!-- /ko -->
+                                        <span class="caret"></span>
+                                    </a>
+
+
+                                    <ul class="dropdown-menu">
+                                        <li data-bind="with : Field">
+                                            <a class="btn-add-setter-field" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent,$data)">
+                                                <i class="fa fa-edit"></i>
+                                                Edit Field
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="btn-add-document-setter-field" data-bind="unwrapClick: addField,field : 'Document', accessor : $data.Field" href="#">+ Document Field</a>
+                                        </li>
+                                        <li>
+                                            <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">+ Constant Field</a>
+                                        </li>
+                                        <li>
+                                            <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">+ Function Field</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="#" data-bind="click : $parent.removeChildAction.call($parent, $data)"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>  
