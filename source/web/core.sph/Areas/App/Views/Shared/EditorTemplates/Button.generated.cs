@@ -53,7 +53,7 @@ WriteLiteral(">Icon class</label>\r\n    <input");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" data-bind=\"value: IconClass\"");
+WriteLiteral(" data-bind=\"value: IconClass, cssTypeahead :{}\"");
 
 WriteLiteral("\r\n           placeholder=\"Icon class, glypicons or fontawesome\"");
 

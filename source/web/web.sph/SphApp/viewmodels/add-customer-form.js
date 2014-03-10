@@ -32,12 +32,36 @@
 
                     return tcs.promise();
                 },
-                upgradeRating = function(){
+                promoteTo = function(){
 
                      var tcs = new $.Deferred(),
                          data = ko.mapping.toJSON(entity);
 
-                     context.post(data, "/Customer/UpgradeRating" )
+                     context.post(data, "/Customer/PromoteTo" )
+                         .then(function (result) {
+                             if (result.success) {
+                                 logger.info(result.message);
+                                 entity().CustomerId(result.id);
+                                 errors.removeAll();
+
+                                
+                             } else {
+                                 errors.removeAll();
+                                 _(result.rules).each(function(v){
+                                     errors(v.ValidationErrors);
+                                 });
+                                 logger.error("There are errors in your entity, !!!");
+                             }
+                             tcs.resolve(result);
+                         });
+                     return tcs.promise();
+                 },
+                demote = function(){
+
+                     var tcs = new $.Deferred(),
+                         data = ko.mapping.toJSON(entity);
+
+                     context.post(data, "/Customer/Demote" )
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
@@ -45,7 +69,7 @@
                                  errors.removeAll();
 
                                  
-                                    app.showMessage("Thank you for your rating", "SPH Platform showcase", ["OK"])
+                                    app.showMessage("You had been demoted", "SPH Platform showcase", ["OK"])
 	                                    .done(function (dialogResult) {
                                             console.log();
                                             window.location='/sph#customer'
@@ -112,11 +136,7 @@
                         });
                     return tcs.promise();
                 },
-                                  doThis = function(){
-                    console.log("do this");
-return Task.fromResult(true);
-                },
-                save = function() {
+                                save = function() {
                     if (!validation.valid()) {
                         return Task.fromResult(false);
                     }
@@ -179,7 +199,7 @@ return Task.fromResult(true);
                     watching: watching,
 
                     saveCommand : save,
-                    commands : ko.observableArray([{ caption :"Do this well", command : doThis, icon:"fa fa-user" },{ caption :"Upgrade rating", command : upgradeRating, icon:"fa fa-star" }])
+                    commands : ko.observableArray([{ caption :"Demote", command : demote, icon:"fa fa-star-o" }])
                 }
             };
 

@@ -138,6 +138,23 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\daterangepicker-bs3.css" />
+    <Content Include="docs\EntityDefinition.html">
+      <DependentUpon>EntityDefinition.md</DependentUpon>
+    </Content>
+    <Content Include="docs\EntityOperation.html">
+      <DependentUpon>EntityOperation.md</DependentUpon>
+    </Content>
+    <Content Include="docs\FunctionField.html">
+      <DependentUpon>FunctionField.md</DependentUpon>
+    </Content>
+    <Content Include="docs\index.html" />
+    <Content Include="docs\EntityDefinition.md" />
+    <None Include="docs\overview.md" />
+    <Content Include="docs\overview.html">
+      <DependentUpon>overview.md</DependentUpon>
+    </Content>
+    <Content Include="docs\scripts\main.js" />
+    <Content Include="docs\sidebar.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -147,6 +164,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="docs\EntityOperation.md" />
+    <Content Include="docs\FunctionField.md" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />

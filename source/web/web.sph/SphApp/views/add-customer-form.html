@@ -37,54 +37,56 @@
         </div>
     </div>
 
-
-    <div data-bind="visible:true" class="form-group">
-        <label for="14d1a541-0106-4776-a1aa-fcf75d070dec" class="col-lg-4">Age</label>
-        <div class="col-lg-8">
-            <input  class=" form-control input-large" title=""
-                   data-bind="value: Age, enable :true"
-                   id="14d1a541-0106-4776-a1aa-fcf75d070dec" type="text" name="Age" />
-        </div>
-    </div>
+<label class="col-md-4">Age</label>
+<span class="col-md-8" data-bind="text: Age"></span>
 
 <div data-bind="visible:true">
-    <span> Attachment</span>
+    <span> Test</span>
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, bespoke.dev_1.domain.Attachment)">Attachment</button>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
                     <th>Title</th>
                     <th>Ext.</th>
                     <th>Upload</th>
+                <th></th>
             </tr>
         </thead>
         <tbody data-bind="foreach :Contact().AttachmentCollection">
             <tr>
-                    <td data-bind="text:Title">
+                    <td>
+                        
+
+    <input  class=" form-control " title=""
+           data-bind="value: Title, visible :true, enable :true"
+           id="5971db3d-9dce-41c2-81b9-72db6b25b3c1" type="text" name="Title" />
+
                     </td>
-                    <td data-bind="text:Extension">
+                    <td>
+                        
+    <select data-bind="value: Extension, visible :true, enable :true" id="88dd5740-ccba-4aad-a789-9a32b81aa7df" name="Extension" class="  form-control">
+            <option value=".docx">Word 2007</option>
+            <option value=".xlsx">Excel 2007</option>
+            <option value=".pdf">PDF</option>
+    </select>
+
                     </td>
-                    <td data-bind="text:StoreId">
+                    <td>
+                        
+    <input  class=" form-control " title=""
+           data-bind="kendoUpload : StoreId, visible :true"
+           id="b1f72d9a-392a-44c4-8f59-9a1352042fc9" type="file" name="files" />
+
                     </td>
-               
+                <td>
+                    <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.Contact().AttachmentCollection, $data)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
-    <div class="control-group" data-bind="visible:true">
-        <label class="checkbox">
-            <input data-bind="checked : IsPriority, enable :true" id="IsPriority" title="" type="checkbox" name="IsPriority" />
-            Priority
-        </label>
-    </div>
-
-    <div class="form-group" data-bind="visible : true">
-        <label for="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" class="col-lg-4">Registered</label>
-        <div class="col-lg-8">
-            <input class=" form-control input-large"
-                   data-bind="kendoDate: RegisteredDate, enable :IsPriority" id="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" type="text"
-                   name="RegisteredDate" />
-        </div>
-    </div>
 
 
     <div data-bind="visible:true" class="form-group">
@@ -116,6 +118,21 @@
                    id="4fd5b435-4058-4db2-a506-b5fc161f1751" type="text" name="Contact().Name" />
         </div>
     </div>
+    <div class="control-group" data-bind="visible:true">
+        <label class="checkbox">
+            <input data-bind="checked : IsPriority, enable :true" id="IsPriority" type="checkbox" name="IsPriority" />
+            Priority
+        </label>
+    </div>
+
+    <div class="form-group" data-bind="visible : true">
+        <label for="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" class="col-lg-4">Registered</label>
+        <div class="col-lg-8">
+            <input class=" form-control input-large"
+                   data-bind="kendoDate: RegisteredDate, enable :IsPriority" id="3c1a89b1-5b54-4d98-a89f-8fb3e7fd3435" type="text"
+                   name="RegisteredDate" />
+        </div>
+    </div>
 
 
     <div data-bind="visible:true" class="form-group">
@@ -131,7 +148,7 @@
     <div class="form-group" data-bind="visible:true">
         <label for="f7afcecf-9176-4446-b55d-2d5e43a3fea4" class=""></label>
         <div class="col-lg-8">
-            <a id="f7afcecf-9176-4446-b55d-2d5e43a3fea4" data-bind="attr : {'href':'/sph/documenttemplate/transform?entity=Customer&templateId=1&id=' + ProfileStoreId()}, visible:true" download>
+            <a id="f7afcecf-9176-4446-b55d-2d5e43a3fea4" data-bind="attr : {'href':'/sph/documenttemplate/transform?entity=Customer&templateId=2&id=' + CustomerId()}, visible:true" download>
                 Download Profile
             </a>
         </div>

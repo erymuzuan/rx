@@ -181,7 +181,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
                     datumTokenizer: function (d) {
                         return d.path.split(/s+/);
                     },
-                    queryTokenizer: function(s) {
+                    queryTokenizer: function (s) {
                         return s.split(/\./);
                     },
                     local: paths
@@ -201,5 +201,52 @@ ko.bindingHandlers.entityTypeaheadPath = {
                     allBindings.value($(this).val());
                 });
         });
+    }
+};
+
+ko.bindingHandlers.cssTypeahead = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var id = ko.unwrap(valueAccessor()),
+            allBindings = allBindingsAccessor(),
+            results = ["fa", "fa-user", "fa-user-o"],
+            extractor = function (query) {
+                 var result = /([^,]+)$/.exec(query);
+                 if (result && result[1])
+                     return result[1].trim();
+                 return '';
+            },
+            paths = _(results).map(function (v) { return { path: v }; }),
+            members = new Bloodhound({
+                datumTokenizer: function (d) {
+                    return d.path.split(/s+/);
+                },
+                queryTokenizer: function (s) {
+                    return s.split(/\./);
+                },
+                local: paths
+            });
+        members.initialize();
+
+        $(element).typeahead({
+            minLength: 0,
+            highlight: true,
+            updater: function () {
+                return this.$element.val().replace(/[^,]*$/, '') + item + ',';
+            },
+            matcher: function (item) {
+                var tquery = extractor(this.query);
+                if (!tquery) return false;
+                return ~item.toLowerCase().indexOf(tquery.toLowerCase())
+            }
+        },
+            {
+                name: 'css-class',
+                displayKey: 'path',
+                source: members.ttAdapter()
+            })
+            .on('typeahead:closed', function () {
+                allBindings.value($(this).val());
+            });
+
     }
 };
