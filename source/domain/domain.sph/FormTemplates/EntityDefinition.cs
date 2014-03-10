@@ -70,14 +70,14 @@ namespace Bespoke.Sph.Domain
             if (duplicates)
                 result.Errors.Add(new BuildError(this.WebId, "There are duplicates field names"));
 
-            if(string.IsNullOrWhiteSpace(this.RecordName))
+            if (string.IsNullOrWhiteSpace(this.RecordName))
                 result.Errors.Add(new BuildError(this.WebId, "Record name is missing"));
-            if(string.IsNullOrWhiteSpace(this.Name))
+            if (string.IsNullOrWhiteSpace(this.Name))
                 result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
-            if(string.IsNullOrWhiteSpace(this.Plural))
+            if (string.IsNullOrWhiteSpace(this.Plural))
                 result.Errors.Add(new BuildError(this.WebId, "Plural is missing"));
 
-            if(this.MemberCollection.All(m => m.Name != this.RecordName))
+            if (this.MemberCollection.All(m => m.Name != this.RecordName))
                 result.Errors.Add(new BuildError(this.WebId, "Record name is not registered in your schema as a first level member"));
 
 
@@ -174,6 +174,29 @@ namespace Bespoke.Sph.Domain
                 Line = er.Line
             };
 
+        }
+
+        private Member GetMember(string path)
+        {
+            if (!path.Contains("."))
+                return this.MemberCollection.Single(a => a.Name == path);
+
+            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+            var child = this.GetMember(paths.First());
+            var gg = path.Remove(0);
+            var nextPath = string.Join(".", gg);
+            return this.GetMember(nextPath, child);
+        }
+        private Member GetMember(string path, Member member2)
+        {
+            if (!path.Contains("."))
+                return member2.MemberCollection.Single(a => a.Name == path);
+
+            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+            var child = this.GetMember(paths.First(), member2);
+            var gg = path.Remove(0);
+            var nextPath = string.Join(".", gg);
+            return this.GetMember(nextPath, child);
         }
     }
 }

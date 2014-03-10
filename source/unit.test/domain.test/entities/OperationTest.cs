@@ -7,6 +7,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using domain.test.reports;
+using domain.test.triggers;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -16,6 +17,7 @@ namespace domain.test.entities
     public class OperationTest
     {
         private MockRepository<EntityDefinition> m_efMock;
+        private readonly MockPersistence m_persistence = new MockPersistence();
 
         [SetUp]
         public void Setup()
@@ -24,6 +26,9 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+            ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
+            ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
+            ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
         }
         private dynamic CreateInstance(EntityDefinition ed, bool verbose = false)
         {
@@ -57,6 +62,12 @@ namespace domain.test.entities
             ent.MemberCollection.Add(new Member
             {
                 Name = "FullName",
+                TypeName = "System.String, mscorlib",
+                IsFilterable = true
+            });
+            ent.MemberCollection.Add(new Member
+            {
+                Name = "Status",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });
@@ -167,6 +178,46 @@ namespace domain.test.entities
             var ttt = JsonSerializerService.ToJsonString(vr, Formatting.Indented);
             StringAssert.Contains("\"success\": false",ttt);
             Console.WriteLine();
+            //Assert.IsFalse(vr.success);
+            //Assert.AreEqual(3, vr.rules.Length);
+
+        }
+        [Test]
+        public async Task AddReleaseOperationWithSetter()
+        {
+            var release = new EntityOperation { Name = "Release" ,WebId = Guid.NewGuid().ToString()};
+            var statusSetter = new SetterActionChild
+            {
+                Path = "Status",
+                Field = new ConstantField{ Type = typeof(string), Value = "Released",Name = "Released"},
+                WebId = Guid.NewGuid().ToString()
+            };
+            var ed = this.CreatePatientDefinition();
+            ed.EntityOperationCollection.Add(release);
+            release.SetterActionChildCollection.Add(statusSetter);
+
+            var patient = this.CreateInstance(ed,true);
+            Assert.IsNotNull(patient);
+            patient.DeathDateTime = DateTime.Today.AddDays(1);
+
+            Type patientType = patient.GetType();
+            var dll = patientType.Assembly;
+
+            var controllerType = dll.GetType(patientType.Namespace + ".PatientController");
+            dynamic controller = Activator.CreateInstance(controllerType);
+            controller.Item = patient;
+
+            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
+
+
+            var result = await controller.Release();
+            Console.WriteLine("Result type : " + result);
+            Assert.IsNotNull(result);
+
+            dynamic vr = result.Data;
+            Assert.IsNotNull(vr);
+
+            Assert.AreEqual("Released",patient.Status);
             //Assert.IsFalse(vr.success);
             //Assert.AreEqual(3, vr.rules.Length);
 

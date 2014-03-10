@@ -235,18 +235,27 @@ namespace Bespoke.Sph.Domain
             if(!result{1}.Success){{
                 brokenRules.Add(result{1});
             }}
-", rule,count);
+", rule, count);
                 }
                 code.AppendLine("           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});");
 
-                code.AppendFormat(@"
-           
+                code.AppendLine();
+                // now the setter
+                code.AppendLinf("           var operation = ed.EntityOperationCollection.Single(o => o.WebId == \"{0}\");", operation.WebId);
+                code.AppendLinf("           var rc = new RuleContext(item);");
+                count = 0;
+                foreach (var act in operation.SetterActionChildCollection)
+                {
+                    count++;
+                    code.AppendLinf("           var setter{0} = operation.SetterActionChildCollection.Single(a => a.WebId == \"{1}\");", count, act.WebId);
+                    code.AppendLinf("           item.{1} = ({2})setter{0}.Field.GetValue(rc);", count, act.Path, this.GetMember(act.Path).Type.FullName);
+                }
+                code.AppendFormat(@"           
             using(var session = context.OpenSession())
             {{
                 session.Attach(item);
                 await session.SubmitChanges(""{1}"");
             }}
-            this.Response.ContentType = ""application/json; charset=utf-8"";
             return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name, operation.Name);
 
                 code.AppendLine();

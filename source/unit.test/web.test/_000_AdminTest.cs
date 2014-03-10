@@ -11,7 +11,7 @@ namespace web.test
 {
 
     [TestFixture]
-// ReSharper disable once InconsistentNaming
+    // ReSharper disable once InconsistentNaming
     public class _000_AdminTest : BrowserTest
     {
         private TestUser m_admin;

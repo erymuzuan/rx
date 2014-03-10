@@ -84,13 +84,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Space\AddNewSpaceSchema.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AddNewSpaceSchema.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Space\AddNewSpaceTest.cs" />
-    <Compile Include="Space\SpaceBaseTest.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="_000_AdminTest.cs" />
     <Compile Include="BrowserHelper.cs" />
@@ -120,11 +113,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Space\AddNewSpaceSchema.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>AddNewSpaceSchema.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="invoice.xml">
@@ -138,7 +126,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Space\AddNewSpaceData.xml" />
     <Content Include="rebate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

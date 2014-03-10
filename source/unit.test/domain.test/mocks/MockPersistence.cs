@@ -10,7 +10,10 @@ namespace domain.test
     {
         public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session)
         {
-            this.Building = addedOrUpdatedItems.OfType<Designation>().FirstOrDefault().Clone();
+            foreach (var item in addedOrUpdatedItems)
+            {
+                this.ChangedItems.Add(item);
+            }
             Console.WriteLine("saving");
             await Task.Delay(2000).ConfigureAwait(false);
             return new SubmitOperation();
@@ -21,6 +24,10 @@ namespace domain.test
             throw new System.NotImplementedException();
         }
 
-        public Designation Building { get; set; }
+        private readonly List<Entity> m_changedItems = new List<Entity>();
+        public List<Entity> ChangedItems
+        {
+            get { return m_changedItems; }
+        }
     }
 }
