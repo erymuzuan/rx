@@ -15,6 +15,17 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             get { return m_applicationName; }
         }
 
+        private string m_sqlLocalDbName;
+        public string SqlLocalDbName
+        {
+            set
+            {
+                m_sqlLocalDbName = value;
+                OnPropertyChanged("SqlLocalDbName");
+            }
+            get { return m_sqlLocalDbName; }
+        }
+
         private TextWriter m_writer;
         public TextWriter TextWriter
         {
