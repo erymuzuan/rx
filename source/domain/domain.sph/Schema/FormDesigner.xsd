@@ -543,7 +543,7 @@
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="SuccessMessage" type="xs:string" use="required"/>
-			<xs:attribute name="ShowSuccessMessag" type="xs:boolean" use="required"/>
+			<xs:attribute name="ShowSuccessMessage" type="xs:boolean" use="required"/>
 			<xs:attribute name="NavigateSuccessUrl" type="xs:string" use="required"/>
 			<xs:attribute name="SuccessCommand" type="xs:string" use="required"/>
 		</xs:complexType>

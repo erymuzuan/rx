@@ -24,7 +24,6 @@ Represent a single line text input in your HTML. It's good for string, number or
 
 ## See also
 
-[FormElement](FormElement.html)
 [FormElement](/docs/#FormElement.html)
 [Button](/docs/#Button.html)
 [DateTimePicker](/docs/#DateTimePicker.html)

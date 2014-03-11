@@ -153,6 +153,9 @@
     <Content Include="docs\AddressElement.html">
       <DependentUpon>AddressElement.md</DependentUpon>
     </Content>
+    <Content Include="docs\alm.html">
+      <DependentUpon>alm.md</DependentUpon>
+    </Content>
     <Content Include="docs\architecture.html">
       <DependentUpon>architecture.md</DependentUpon>
     </Content>
@@ -370,8 +373,16 @@
       <DependentUpon>FunctionField.md</DependentUpon>
     </Content>
     <Content Include="docs\FunctionField.md" />
+    <Content Include="docs\Functoid.html">
+      <DependentUpon>Functoid.md</DependentUpon>
+    </Content>
     <Content Include="docs\FunctoidMapping.html">
       <DependentUpon>FunctoidMapping.md</DependentUpon>
+    </Content>
+    <Content Include="docs\alm.md" />
+    <None Include="docs\getting-started.md" />
+    <Content Include="docs\getting-started.html">
+      <DependentUpon>getting-started.md</DependentUpon>
     </Content>
     <Content Include="docs\HourlySchedule.html">
       <DependentUpon>HourlySchedule.md</DependentUpon>

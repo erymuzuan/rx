@@ -1,1 +1,19 @@
 <h1>Architecture</h1>
+
+<p>SPH is an enterprise ready application platform built using the well known and best practices available from the industries. It's not a traditional <code>n-tier</code> application, but something what we called <code>Reactive</code> architecture.It's a combination of <code>Command Query Segregation Responsibility(CQRS)</code> and <code>Pub-Sub</code> with messaging at it's heart instead of the usual <code>Remote Procedure Call(RPC)</code> used in traditional <code>n-tier</code> apps.</p>
+
+<p><code>Reactive</code> is this case, refer to the fact that it's event driven with publisher and subscribers concepts<code>Pub-Sub</code>. This kind kind of archtecture allows you to easily scales without burdening your application with bottlenecks and un-necessary complexities and pulling requests for updates.</p>
+
+<p><code>Pub-Sub</code> allows you to asyncronously react when something happened or when an event of your interest is raised. Take an example, if in a hospital environment</p>
+
+<h2>Scenarios</h2>
+
+<p>Given the event is when a new <code>patient is registered</code><br />
+Then ask the ward to <code>prepare a bed</code><br />
+At the same time <code>let the dietician know</code>s that the patient might have special diet.<br />
+and may be at the same time <code>open a billing record</code> in the finacial system.</p>
+
+<h2>Pub-Sub with Triggers</h2>
+
+<p>These series of event and the sequence of actions could easily design and deployed in SPH via an <code>Entity Trigger</code>.What happened is when the event is raised, it will be submitted into the message broker, where the broker will distribute the information about the event to any subscribers that has registered for that particular event via topic subscription.<br />
+A <code>Trigger</code> is a subscriber that subscribe to the event and can perform the subsequent action.</p>
