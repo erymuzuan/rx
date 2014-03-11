@@ -18,7 +18,7 @@ SPH tools are built on `HTML5`, `CSS3` and `Javascript`, these choices are made 
 SPH are build on to of Microsoft .Net framework runtime. It's not a propetiery technology thus allowing you to have a mature platform in the enterprise area. SPH is also develop with diferrent kind of approach and technology stack than prescribed by Microsoft. This is to enable for us to deliver a highly agile and scalable applications without locking in into specific vendors insfrastructure and implementations.
 
 ##How to
-This section will provide you details on how to achieve certain things within a well know problem domains. This could be a simple proble such as `How to validate your custom object before submission` into running a complex workflow.
+This section will provide you details on how to achieve certain things within a well know problem domains. This could be a simple problem such as `How to validate your custom object before submission` into running a complex workflow.
 
 ##Reference Implementation
 Step by step walktrough on how to create an app. We will present you from blank solution to a finish application in a beginner kind of approach
