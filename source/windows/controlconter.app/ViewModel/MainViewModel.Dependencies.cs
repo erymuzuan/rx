@@ -4,6 +4,17 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 {
     public partial class MainViewModel : ViewModelBase
     {
+        private string m_applicationName;
+        public string ApplicationName
+        {
+            set
+            {
+                m_applicationName = value;
+                OnPropertyChanged("ApplicationName");
+            }
+            get { return m_applicationName; }
+        }
+
         private TextWriter m_writer;
         public TextWriter TextWriter
         {
@@ -48,15 +59,15 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             get { return m_iisExpressDirectory; }
         }
 
-        private string m_webProjectDirectory;
-        public string WebProjectDirectory
+        private string m_projectDirectory;
+        public string ProjectDirectory
         {
             set
             {
-                m_webProjectDirectory = value;
-                OnPropertyChanged("WebProjectDirectory");
+                m_projectDirectory = value;
+                OnPropertyChanged("ProjectDirectory");
             }
-            get { return m_webProjectDirectory; }
+            get { return m_projectDirectory; }
         }
 
         private string m_rabbitMqDirectory;
@@ -116,6 +127,17 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             get { return m_sqlServiceStarted; }
         }
 
+        private bool m_sphWorkerServiceStarted;
+        public bool SphWorkerServiceStarted
+        {
+            set
+            {
+                m_sphWorkerServiceStarted = value;
+                OnPropertyChanged("SphWorkerServiceStarted");
+            }
+            get { return m_sphWorkerServiceStarted; }
+        }
+
         private string m_elasticSearchStatus;
         public string ElasticSearchStatus
         {
@@ -169,6 +191,17 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 OnPropertyChanged("IisServiceStatus");
             }
             get { return m_iisServiceStatus; }
+        }
+
+        private string m_sphWorkersStatus;
+        public string SphWorkersStatus
+        {
+            set
+            {
+                m_sphWorkersStatus = value;
+                OnPropertyChanged("SphWorkersStatus");
+            }
+            get { return m_sphWorkersStatus; }
         }
     }
 }

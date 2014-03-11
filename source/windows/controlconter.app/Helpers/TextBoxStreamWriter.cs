@@ -25,6 +25,14 @@ namespace Bespoke.Sph.ControlCenter.Helpers
             
         }
 
+        public override void WriteLine(char value)
+        {
+            base.WriteLine(value);
+            //m_output.AppendText(value.ToString(CultureInfo.InvariantCulture));
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ThreadStart(() => m_output.AppendText(value.ToString(CultureInfo.InvariantCulture))));
+
+        }
+
         public override Encoding Encoding
         {
             get { return Encoding.UTF8; }
