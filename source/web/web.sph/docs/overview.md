@@ -19,3 +19,6 @@ SPH are build on to of Microsoft .Net framework runtime. It's not a propetiery t
 
 ##How to
 This section will provide you details on how to achieve certain things within a well know problem domains. This could be a simple proble such as `How to validate your custom object before submission` into running a complex workflow.
+
+##Reference Implementation
+Step by step walktrough on how to create an app. We will present you from blank solution to a finish application in a beginner kind of approach

@@ -144,8 +144,17 @@
     <Content Include="docs\Activity.html">
       <DependentUpon>Activity.md</DependentUpon>
     </Content>
-    <Content Include="docs\AggrementPronouncement.html">
-      <DependentUpon>AggrementPronouncement.md</DependentUpon>
+    <Content Include="docs\ActivityExecutionResult.html">
+      <DependentUpon>ActivityExecutionResult.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ActivityExecutionStatus.html">
+      <DependentUpon>ActivityExecutionStatus.md</DependentUpon>
+    </Content>
+    <Content Include="docs\AddressElement.html">
+      <DependentUpon>AddressElement.md</DependentUpon>
+    </Content>
+    <Content Include="docs\architecture.html">
+      <DependentUpon>architecture.md</DependentUpon>
     </Content>
     <Content Include="docs\AssemblyAction.html">
       <DependentUpon>AssemblyAction.md</DependentUpon>
@@ -153,21 +162,159 @@
     <Content Include="docs\AssemblyField.html">
       <DependentUpon>AssemblyField.md</DependentUpon>
     </Content>
+    <Content Include="docs\Attachment.html">
+      <DependentUpon>Attachment.md</DependentUpon>
+    </Content>
+    <Content Include="docs\AuditTrail.html">
+      <DependentUpon>AuditTrail.md</DependentUpon>
+    </Content>
+    <Content Include="docs\BarChartItem.html">
+      <DependentUpon>BarChartItem.md</DependentUpon>
+    </Content>
     <Content Include="docs\BarChartItem.md" />
+    <Content Include="docs\BinaryStore.html">
+      <DependentUpon>BinaryStore.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Breakpoint.html">
+      <DependentUpon>Breakpoint.md</DependentUpon>
+    </Content>
+    <Content Include="docs\BuildError.html">
+      <DependentUpon>BuildError.md</DependentUpon>
+    </Content>
+    <Content Include="docs\BuildValidationResult.html">
+      <DependentUpon>BuildValidationResult.md</DependentUpon>
+    </Content>
+    <Content Include="docs\BusinessRule.html">
+      <DependentUpon>BusinessRule.md</DependentUpon>
+    </Content>
     <Content Include="docs\Button.html">
       <DependentUpon>Button.md</DependentUpon>
     </Content>
     <Content Include="docs\Button.md" />
+    <Content Include="docs\Change.html">
+      <DependentUpon>Change.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ChangeSubmission.html">
+      <DependentUpon>ChangeSubmission.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ChartSeries.html">
+      <DependentUpon>ChartSeries.md</DependentUpon>
+    </Content>
+    <Content Include="docs\CheckBox.html">
+      <DependentUpon>CheckBox.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ClrTypeVariable.html">
+      <DependentUpon>ClrTypeVariable.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ComboBox.html">
+      <DependentUpon>ComboBox.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ComboBoxItem.html">
+      <DependentUpon>ComboBoxItem.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ComboBoxLookup.html">
+      <DependentUpon>ComboBoxLookup.md</DependentUpon>
+    </Content>
+    <Content Include="docs\CompilerOptions.html">
+      <DependentUpon>CompilerOptions.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ComplexVariable.html">
+      <DependentUpon>ComplexVariable.md</DependentUpon>
+    </Content>
+    <Content Include="docs\components.html">
+      <DependentUpon>components.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ConfigurationManager.html">
+      <DependentUpon>ConfigurationManager.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ConfirmationOptions.html">
+      <DependentUpon>ConfirmationOptions.md</DependentUpon>
+    </Content>
     <Content Include="docs\ConstantField.html">
       <DependentUpon>ConstantField.md</DependentUpon>
     </Content>
+    <Content Include="docs\CreateEntityActivity.html">
+      <DependentUpon>CreateEntityActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\CredentialProvider.html">
+      <DependentUpon>CredentialProvider.md</DependentUpon>
+    </Content>
+    <Content Include="docs\CustomAction.html">
+      <DependentUpon>CustomAction.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DailySchedule.html">
+      <DependentUpon>DailySchedule.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DataGridColumn.html">
+      <DependentUpon>DataGridColumn.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DataGridColumnHost.html">
+      <DependentUpon>DataGridColumnHost.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DataGridGroup.html">
+      <DependentUpon>DataGridGroup.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DataGridGroupDefinition.html">
+      <DependentUpon>DataGridGroupDefinition.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DataGridItem.html">
+      <DependentUpon>DataGridItem.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DataSource.html">
+      <DependentUpon>DataSource.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DatePicker.html">
+      <DependentUpon>DatePicker.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DateTimePicker.html">
+      <DependentUpon>DateTimePicker.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DecisionActivity.html">
+      <DependentUpon>DecisionActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DecisionBranch.html">
+      <DependentUpon>DecisionBranch.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DelayActivity.html">
+      <DependentUpon>DelayActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DeleteEntityActivity.html">
+      <DependentUpon>DeleteEntityActivity.md</DependentUpon>
+    </Content>
     <Content Include="docs\DocumentField.html">
       <DependentUpon>DocumentField.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DocumentTemplate.html">
+      <DependentUpon>DocumentTemplate.md</DependentUpon>
+    </Content>
+    <Content Include="docs\DownloadLink.html">
+      <DependentUpon>DownloadLink.md</DependentUpon>
+    </Content>
+    <Content Include="docs\EmailAction.html">
+      <DependentUpon>EmailAction.md</DependentUpon>
+    </Content>
+    <Content Include="docs\EmailFormElement.html">
+      <DependentUpon>EmailFormElement.md</DependentUpon>
+    </Content>
+    <Content Include="docs\EmailMessage.html">
+      <DependentUpon>EmailMessage.md</DependentUpon>
+    </Content>
+    <Content Include="docs\EmailTemplate.html">
+      <DependentUpon>EmailTemplate.md</DependentUpon>
+    </Content>
+    <Content Include="docs\EndActivity.html">
+      <DependentUpon>EndActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Entity.html">
+      <DependentUpon>Entity.md</DependentUpon>
     </Content>
     <Content Include="docs\EntityDefinition.html">
       <DependentUpon>EntityDefinition.md</DependentUpon>
     </Content>
     <Content Include="docs\EntityDefinition.md" />
+    <Content Include="docs\EntityField.html">
+      <DependentUpon>EntityField.md</DependentUpon>
+    </Content>
     <Content Include="docs\EntityForm.html">
       <DependentUpon>EntityForm.md</DependentUpon>
     </Content>
@@ -176,8 +323,44 @@
       <DependentUpon>EntityOperation.md</DependentUpon>
     </Content>
     <Content Include="docs\EntityOperation.md" />
+    <Content Include="docs\EntityPermission.html">
+      <DependentUpon>EntityPermission.md</DependentUpon>
+    </Content>
+    <Content Include="docs\EntityTypeAttribute.html">
+      <DependentUpon>EntityTypeAttribute.md</DependentUpon>
+    </Content>
+    <Content Include="docs\EntityView.html">
+      <DependentUpon>EntityView.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ExecutedAcitivityComparer.html">
+      <DependentUpon>ExecutedAcitivityComparer.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ExecutedActivity.html">
+      <DependentUpon>ExecutedActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ExpressionActivity.html">
+      <DependentUpon>ExpressionActivity.md</DependentUpon>
+    </Content>
     <Content Include="docs\Field.html">
       <DependentUpon>Field.md</DependentUpon>
+    </Content>
+    <Content Include="docs\FieldPermission.html">
+      <DependentUpon>FieldPermission.md</DependentUpon>
+    </Content>
+    <Content Include="docs\FieldType.html">
+      <DependentUpon>FieldType.md</DependentUpon>
+    </Content>
+    <Content Include="docs\FieldValidation.html">
+      <DependentUpon>FieldValidation.md</DependentUpon>
+    </Content>
+    <Content Include="docs\FileUploadElement.html">
+      <DependentUpon>FileUploadElement.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Filter.html">
+      <DependentUpon>Filter.md</DependentUpon>
+    </Content>
+    <Content Include="docs\FormDesign.html">
+      <DependentUpon>FormDesign.md</DependentUpon>
     </Content>
     <Content Include="docs\FormElement.html">
       <DependentUpon>FormElement.md</DependentUpon>
@@ -187,23 +370,336 @@
       <DependentUpon>FunctionField.md</DependentUpon>
     </Content>
     <Content Include="docs\FunctionField.md" />
+    <Content Include="docs\FunctoidMapping.html">
+      <DependentUpon>FunctoidMapping.md</DependentUpon>
+    </Content>
+    <Content Include="docs\HourlySchedule.html">
+      <DependentUpon>HourlySchedule.md</DependentUpon>
+    </Content>
+    <Content Include="docs\HtmlElement.html">
+      <DependentUpon>HtmlElement.md</DependentUpon>
+    </Content>
+    <Content Include="docs\IBinaryStore.html">
+      <DependentUpon>IBinaryStore.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ICustomScript.html">
+      <DependentUpon>ICustomScript.md</DependentUpon>
+    </Content>
+    <Content Include="docs\IDirectoryService.html">
+      <DependentUpon>IDirectoryService.md</DependentUpon>
+    </Content>
+    <Content Include="docs\IDocumentExport.html">
+      <DependentUpon>IDocumentExport.md</DependentUpon>
+    </Content>
+    <Content Include="docs\IDocumentGenerator.html">
+      <DependentUpon>IDocumentGenerator.md</DependentUpon>
+    </Content>
+    <Content Include="docs\IEntityChangePublisher.html">
+      <DependentUpon>IEntityChangePublisher.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ILogger.html">
+      <DependentUpon>ILogger.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ImageElement.html">
+      <DependentUpon>ImageElement.md</DependentUpon>
+    </Content>
     <Content Include="docs\index.html" />
+    <Content Include="docs\InitiateActivityResult.html">
+      <DependentUpon>InitiateActivityResult.md</DependentUpon>
+    </Content>
+    <Content Include="docs\INotificationChannel.html">
+      <DependentUpon>INotificationChannel.md</DependentUpon>
+    </Content>
+    <Content Include="docs\INotificationService.html">
+      <DependentUpon>INotificationService.md</DependentUpon>
+    </Content>
+    <Content Include="docs\IntervalSchedule.html">
+      <DependentUpon>IntervalSchedule.md</DependentUpon>
+    </Content>
+    <Content Include="docs\IPersistence.html">
+      <DependentUpon>IPersistence.md</DependentUpon>
+    </Content>
+    <Content Include="docs\IReportDataSource.html">
+      <DependentUpon>IReportDataSource.md</DependentUpon>
+    </Content>
+    <Content Include="docs\IScriptEngine.html">
+      <DependentUpon>IScriptEngine.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ISearchProvider.html">
+      <DependentUpon>ISearchProvider.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ISettingProvider.html">
+      <DependentUpon>ISettingProvider.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ITaskScheduler.html">
+      <DependentUpon>ITaskScheduler.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ITemplateEngine.html">
+      <DependentUpon>ITemplateEngine.md</DependentUpon>
+    </Content>
+    <Content Include="docs\JoinActivity.html">
+      <DependentUpon>JoinActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\JoinExpression.html">
+      <DependentUpon>JoinExpression.md</DependentUpon>
+    </Content>
+    <Content Include="docs\JoinType.html">
+      <DependentUpon>JoinType.md</DependentUpon>
+    </Content>
+    <Content Include="docs\JsonSerializerService.html">
+      <DependentUpon>JsonSerializerService.md</DependentUpon>
+    </Content>
+    <Content Include="docs\LabelItem.html">
+      <DependentUpon>LabelItem.md</DependentUpon>
+    </Content>
+    <Content Include="docs\LabelItemScriptHost.html">
+      <DependentUpon>LabelItemScriptHost.md</DependentUpon>
+    </Content>
+    <Content Include="docs\LatLng.html">
+      <DependentUpon>LatLng.md</DependentUpon>
+    </Content>
+    <Content Include="docs\LineChartItem.html">
+      <DependentUpon>LineChartItem.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ListenActivity.html">
+      <DependentUpon>ListenActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ListenBranch.html">
+      <DependentUpon>ListenBranch.md</DependentUpon>
+    </Content>
     <Content Include="docs\ListView.html">
       <DependentUpon>ListView.md</DependentUpon>
     </Content>
     <Content Include="docs\ListView.md" />
+    <Content Include="docs\ListViewColumn.html">
+      <DependentUpon>ListViewColumn.md</DependentUpon>
+    </Content>
+    <Content Include="docs\LogEntry.html">
+      <DependentUpon>LogEntry.md</DependentUpon>
+    </Content>
+    <Content Include="docs\MapElement.html">
+      <DependentUpon>MapElement.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Member.html">
+      <DependentUpon>Member.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Message.html">
+      <DependentUpon>Message.md</DependentUpon>
+    </Content>
+    <Content Include="docs\MethodArg.html">
+      <DependentUpon>MethodArg.md</DependentUpon>
+    </Content>
+    <Content Include="docs\MonthlySchedule.html">
+      <DependentUpon>MonthlySchedule.md</DependentUpon>
+    </Content>
+    <Content Include="docs\NotificationActivity.html">
+      <DependentUpon>NotificationActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\NumberTextBox.html">
+      <DependentUpon>NumberTextBox.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ObjectBuilder.html">
+      <DependentUpon>ObjectBuilder.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Operator.html">
+      <DependentUpon>Operator.md</DependentUpon>
+    </Content>
+    <Content Include="docs\OrderByRewriter.html">
+      <DependentUpon>OrderByRewriter.md</DependentUpon>
+    </Content>
+    <Content Include="docs\OrderExpression.html">
+      <DependentUpon>OrderExpression.md</DependentUpon>
+    </Content>
+    <Content Include="docs\OrderType.html">
+      <DependentUpon>OrderType.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Organization.html">
+      <DependentUpon>Organization.md</DependentUpon>
+    </Content>
     <Content Include="docs\overview.html">
       <DependentUpon>overview.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Owner.html">
+      <DependentUpon>Owner.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Page.html">
+      <DependentUpon>Page.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ParallelActivity.html">
+      <DependentUpon>ParallelActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ParallelBranch.html">
+      <DependentUpon>ParallelBranch.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Parameter.html">
+      <DependentUpon>Parameter.md</DependentUpon>
+    </Content>
+    <Content Include="docs\PendingTask.html">
+      <DependentUpon>PendingTask.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Performer.html">
+      <DependentUpon>Performer.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Permission.html">
+      <DependentUpon>Permission.md</DependentUpon>
+    </Content>
+    <Content Include="docs\PersistenceSession.html">
+      <DependentUpon>PersistenceSession.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Photo.html">
+      <DependentUpon>Photo.md</DependentUpon>
+    </Content>
+    <Content Include="docs\PieChartItem.html">
+      <DependentUpon>PieChartItem.md</DependentUpon>
+    </Content>
+    <Content Include="docs\PredicateBuilder.html">
+      <DependentUpon>PredicateBuilder.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Profile.html">
+      <DependentUpon>Profile.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ProjectedColumns.html">
+      <DependentUpon>ProjectedColumns.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ProjectionBuilder.html">
+      <DependentUpon>ProjectionBuilder.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ProjectionExpression.html">
+      <DependentUpon>ProjectionExpression.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ProjectionRow.html">
+      <DependentUpon>ProjectionRow.md</DependentUpon>
     </Content>
     <Content Include="docs\PropertyChangedField.html">
       <DependentUpon>PropertyChangedField.md</DependentUpon>
     </Content>
+    <Content Include="docs\PropertyChangingEventArgs.html">
+      <DependentUpon>PropertyChangingEventArgs.md</DependentUpon>
+    </Content>
+    <Content Include="docs\PropertyChangingEventHandler.html">
+      <DependentUpon>PropertyChangingEventHandler.md</DependentUpon>
+    </Content>
+    <Content Include="docs\PropertyMapping.html">
+      <DependentUpon>PropertyMapping.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ReceiveActivity.html">
+      <DependentUpon>ReceiveActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ReportDefinition.html">
+      <DependentUpon>ReportDefinition.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ReportDelivery.html">
+      <DependentUpon>ReportDelivery.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ReportItem.html">
+      <DependentUpon>ReportItem.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ReportLayout.html">
+      <DependentUpon>ReportLayout.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ReportRow.html">
+      <DependentUpon>ReportRow.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Role.html">
+      <DependentUpon>Role.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Rule.html">
+      <DependentUpon>Rule.md</DependentUpon>
+    </Content>
+    <Content Include="docs\RuleContext.html">
+      <DependentUpon>RuleContext.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ScheduledActivityExecution.html">
+      <DependentUpon>ScheduledActivityExecution.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ScheduledTriggerActivity.html">
+      <DependentUpon>ScheduledTriggerActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ScreenActivity.html">
+      <DependentUpon>ScreenActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ScriptFunctoid.html">
+      <DependentUpon>ScriptFunctoid.md</DependentUpon>
+    </Content>
     <Content Include="docs\scripts\main.js" />
+    <Content Include="docs\SearchResult.html">
+      <DependentUpon>SearchResult.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SectionFormElement.html">
+      <DependentUpon>SectionFormElement.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SelectExpression.html">
+      <DependentUpon>SelectExpression.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SendActivity.html">
+      <DependentUpon>SendActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SetterAction.html">
+      <DependentUpon>SetterAction.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SetterActionChild.html">
+      <DependentUpon>SetterActionChild.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Setting.html">
+      <DependentUpon>Setting.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Severity.html">
+      <DependentUpon>Severity.md</DependentUpon>
+    </Content>
     <Content Include="docs\sidebar.html" />
+    <Content Include="docs\SimpleMapping.html">
+      <DependentUpon>SimpleMapping.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SimpleVariable.html">
+      <DependentUpon>SimpleVariable.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Sort.html">
+      <DependentUpon>Sort.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SortDirection.html">
+      <DependentUpon>SortDirection.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SpatialEntity.html">
+      <DependentUpon>SpatialEntity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SpatialStore.html">
+      <DependentUpon>SpatialStore.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SphDataContext.html">
+      <DependentUpon>SphDataContext.md</DependentUpon>
+    </Content>
+    <Content Include="docs\StartWorkflowAction.html">
+      <DependentUpon>StartWorkflowAction.md</DependentUpon>
+    </Content>
+    <Content Include="docs\Strings.html">
+      <DependentUpon>Strings.md</DependentUpon>
+    </Content>
+    <Content Include="docs\SubmitOperation.html">
+      <DependentUpon>SubmitOperation.md</DependentUpon>
+    </Content>
+    <Content Include="docs\TableExpression.html">
+      <DependentUpon>TableExpression.md</DependentUpon>
+    </Content>
+    <Content Include="docs\TextAreaElement.html">
+      <DependentUpon>TextAreaElement.md</DependentUpon>
+    </Content>
     <Content Include="docs\TextBox.html">
       <DependentUpon>TextBox.md</DependentUpon>
     </Content>
     <Content Include="docs\TextBox.md" />
+    <Content Include="docs\ThrowActivity.html">
+      <DependentUpon>ThrowActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\tree.html" />
+    <Content Include="docs\Trigger.html">
+      <DependentUpon>Trigger.md</DependentUpon>
+    </Content>
+    <Content Include="docs\UpdateEntityActivity.html">
+      <DependentUpon>UpdateEntityActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDefinition.html">
+      <DependentUpon>WorkflowDefinition.md</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -217,29 +713,21 @@
     <Content Include="docs\Activity.md" />
     <Content Include="docs\ActivityExecutionResult.md" />
     <Content Include="docs\ActivityExecutionStatus.md" />
-    <Content Include="docs\Address.md" />
     <Content Include="docs\AddressElement.md" />
-    <Content Include="docs\AggrementPronouncement.md" />
-    <Content Include="docs\AliasesProduced.md" />
     <Content Include="docs\AssemblyAction.md" />
     <Content Include="docs\AssemblyField.md" />
     <Content Include="docs\Attachment.md" />
     <Content Include="docs\AuditTrail.md" />
     <Content Include="docs\BinaryStore.md" />
-    <Content Include="docs\BoundedContextAttribute.md" />
     <Content Include="docs\Breakpoint.md" />
     <Content Include="docs\BuildError.md" />
     <Content Include="docs\BuildValidationResult.md" />
     <Content Include="docs\BusinessRule.md" />
     <Content Include="docs\Change.md" />
-    <Content Include="docs\ChangeGenerator.md" />
     <Content Include="docs\ChangeSubmission.md" />
     <Content Include="docs\ChartSeries.md" />
     <Content Include="docs\CheckBox.md" />
     <Content Include="docs\ClrTypeVariable.md" />
-    <Content Include="docs\CollectionHelper.md" />
-    <Content Include="docs\ColumnDeclaration.md" />
-    <Content Include="docs\ColumnExpression.md" />
     <Content Include="docs\ComboBox.md" />
     <Content Include="docs\ComboBoxItem.md" />
     <Content Include="docs\ComboBoxLookup.md" />
@@ -250,7 +738,6 @@
     <Content Include="docs\ConstantField.md" />
     <Content Include="docs\CreateEntityActivity.md" />
     <Content Include="docs\CredentialProvider.md" />
-    <Content Include="docs\CsharpCodeGenerator.md" />
     <Content Include="docs\CustomAction.md" />
     <Content Include="docs\DailySchedule.md" />
     <Content Include="docs\DataGridColumn.md" />
@@ -261,21 +748,16 @@
     <Content Include="docs\DataSource.md" />
     <Content Include="docs\DatePicker.md" />
     <Content Include="docs\DateTimePicker.md" />
-    <Content Include="docs\DbExpressionExtensions.md" />
-    <Content Include="docs\DbExpressionType.md" />
-    <Content Include="docs\DbExpressionVisitor.md" />
     <Content Include="docs\DecisionActivity.md" />
     <Content Include="docs\DecisionBranch.md" />
     <Content Include="docs\DefaultValue.md" />
     <Content Include="docs\DelayActivity.md" />
     <Content Include="docs\DeleteEntityActivity.md" />
     <Content Include="docs\Designation.md" />
-    <Content Include="docs\DistinctRewriter.md" />
     <Content Include="docs\Document.md" />
     <Content Include="docs\DocumentField.md" />
     <Content Include="docs\DocumentTemplate.md" />
     <Content Include="docs\DocumentVersion.md" />
-    <Content Include="docs\DomainObject.md" />
     <Content Include="docs\DownloadLink.md" />
     <Content Include="docs\EmailAction.md" />
     <Content Include="docs\EmailFormElement.md" />
@@ -287,12 +769,9 @@
     <Content Include="docs\EntityPermission.md" />
     <Content Include="docs\EntityTypeAttribute.md" />
     <Content Include="docs\EntityView.md" />
-    <Content Include="docs\Evaluator.md" />
     <Content Include="docs\ExecutedAcitivityComparer.md" />
     <Content Include="docs\ExecutedActivity.md" />
     <Content Include="docs\ExpressionActivity.md" />
-    <Content Include="docs\ExpressionVisitor.md" />
-    <Content Include="docs\Extension.md" />
     <Content Include="docs\Field.md" />
     <Content Include="docs\FieldPermission.md" />
     <Content Include="docs\FieldType.md" />
@@ -371,11 +850,7 @@
     <Content Include="docs\PropertyChangingEventArgs.md" />
     <Content Include="docs\PropertyChangingEventHandler.md" />
     <Content Include="docs\PropertyMapping.md" />
-    <Content Include="docs\QueryBinder.md" />
-    <Content Include="docs\QueryHelper.md" />
-    <Content Include="docs\QueryProvider.md" />
     <Content Include="docs\ReceiveActivity.md" />
-    <Content Include="docs\RedundantSubqueryRemover.md" />
     <Content Include="docs\ReportColumn.md" />
     <Content Include="docs\ReportContent.md" />
     <Content Include="docs\ReportDefinition.md" />
@@ -434,6 +909,8 @@
     <Content Include="docs\WorkflowTriggerMap.md" />
     <Content Include="docs\XmlSerializerService.md" />
     <Content Include="docs\XsdMetadata.md" />
+    <Content Include="docs\architecture.md" />
+    <Content Include="docs\components.md" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />

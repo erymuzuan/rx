@@ -21,7 +21,6 @@
 
 ## See also
 
-[FormElement](FormElement.html)
 [FormElement](/docs/#FormElement.html)
 [Button](/docs/#Button.html)
 [DateTimePicker](/docs/#DateTimePicker.html)
