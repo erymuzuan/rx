@@ -15,7 +15,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private string m_settingsFile;
         private Process m_elasticProcess;
         private Process m_iisServiceProcess;
-        private Process m_sphWorkerProcess;
 
         public RelayCommand StartElasticSearchCommand { get; set; }
         public RelayCommand StopElasticSearchCommand { get; set; }
@@ -272,11 +271,20 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     RedirectStandardError = true,
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
-                m_sphWorkerProcess = Process.Start(workerInfo);
-                m_sphWorkerProcess.BeginOutputReadLine();
-                m_sphWorkerProcess.BeginErrorReadLine();
-                m_sphWorkerProcess.OutputDataReceived += OnDataReceived;
-                m_sphWorkerProcess.ErrorDataReceived += OnDataReceived;
+                using (var p = Process.Start(workerInfo))
+                {
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    p.OutputDataReceived += OnDataReceived;
+                    p.ErrorDataReceived += OnDataReceived;
+                    //p.WaitForExit();
+                }
+
+                //m_sphWorkerProcess = Process.Start(workerInfo);
+                //m_sphWorkerProcess.BeginOutputReadLine();
+                //m_sphWorkerProcess.BeginErrorReadLine();
+                //m_sphWorkerProcess.OutputDataReceived += OnDataReceived;
+                //m_sphWorkerProcess.ErrorDataReceived += OnDataReceived;
 
                 SphWorkerServiceStarted = true;
                 SphWorkersStatus = "Running";
@@ -290,9 +298,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StopSphWorker()
         {
-            m_sphWorkerProcess.CloseMainWindow();
-            m_sphWorkerProcess.Close();
-            m_sphWorkerProcess = null;
+            Log("SPH Worker... [STOPPING]");
+            var sphWorkerProcess = Process.GetProcessesByName("workers.console.runner");
+            foreach (var process in sphWorkerProcess)
+            {
+                process.Kill();
+            }
             Log("SPH Worker... [STOPPED]");
             SphWorkerServiceStarted = false;
             SphWorkersStatus = "Stopped";
