@@ -12,15 +12,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="SPH Control Panel" FontSize="18" FontWeight="Bold"/>
         <Button Grid.Row="0" HorizontalAlignment="Right" Content="Exit" Width="60" Height="26" Margin="5" Command="{Binding ExitAppCommand}"/>
-        <uc:ProjectSettingsUserControl Grid.Row="1" />
-        <GroupBox Header="Service Status" Grid.Row="2">
+
+        <GroupBox Header="Service Status" Grid.Row="1" Margin="5">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10*" />
@@ -34,26 +31,43 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="1" Content="SQL LocalDB" FontWeight="Bold"/>
                 <Button Grid.Row="0" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartSqlServiceCommand}"/>
                 <Button Grid.Row="0" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopSqlServiceCommand}"/>
 
-                <Label Grid.Row="1" Grid.Column="1" Content="IIS Express" FontWeight="Bold"/>
-                <Button Grid.Row="1" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartIisServiceCommand}"/>
-                <Button Grid.Row="1" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopIisServiceCommand}"/>
+                <Label Grid.Row="1" Grid.Column="1" Content="ElasticSearch" FontWeight="Bold"/>
+                <Button Grid.Row="1" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartElasticSearchCommand}"/>
+                <Button Grid.Row="1" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopElasticSearchCommand}"/>
+                <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding ElasticSearchStatus}" Margin="5"/>
 
                 <Label Grid.Row="2" Grid.Column="1" Content="RabbitMQ" FontWeight="Bold"/>
                 <Button Grid.Row="2" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartRabbitMqCommand}"/>
                 <Button Grid.Row="2" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopRabbitMqCommand}"/>
 
-                <Label Grid.Row="3" Grid.Column="1" Content="ElasticSearch" FontWeight="Bold"/>
-                <Button Grid.Row="3" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartElasticSearchCommand}"/>
-                <Button Grid.Row="3" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopElasticSearchCommand}"/>
-                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding ElasticSearchStatus}" Margin="5"/>
+                
+                <Label Grid.Row="3" Grid.Column="1" Content="SPH Workers" FontWeight="Bold"/>
+                <Button Grid.Row="3" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartSphWorkerCommand}"/>
+                <Button Grid.Row="3" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopSphWorkerCommand}"/>
+                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding SphWorkersStatus}" Margin="5"/>
+
+                <Label Grid.Row="4" Grid.Column="1" Content="IIS Express" FontWeight="Bold"/>
+                <Button Grid.Row="4" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartIisServiceCommand}"/>
+                <Button Grid.Row="4" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopIisServiceCommand}"/>
+                <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding IisServiceStatus, FallbackValue='?'}" Margin="5"/>
             </Grid>
         </GroupBox>
-        <Label Grid.Row="3" Content="Output Console"/>
-        <TextBox x:Name="OutputTextBox" Grid.Row="4" Margin="5" VerticalScrollBarVisibility="Auto" />
+        <TabControl Grid.Row="2" Margin="5,5,5,5">
+            <TabItem Header="Project Settings">
+                <uc:ProjectSettingsUserControl  />
+            </TabItem>
+            <TabItem Header="Output Console">
+                <TextBox x:Name="OutputTextBox" Margin="5" 
+                         VerticalScrollBarVisibility="Auto"
+                         IsReadOnlyCaretVisible="True"
+                         IsReadOnly="True"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

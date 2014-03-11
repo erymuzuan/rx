@@ -15,6 +15,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private string m_settingsFile;
         private Process m_elasticProcess;
         private Process m_iisServiceProcess;
+        private Process m_sphWorkerProcess;
 
         public RelayCommand StartElasticSearchCommand { get; set; }
         public RelayCommand StopElasticSearchCommand { get; set; }
@@ -24,6 +25,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public RelayCommand StopSqlServiceCommand { get; set; }
         public RelayCommand StartIisServiceCommand { get; set; }
         public RelayCommand StopIisServiceCommand { get; set; }
+        public RelayCommand StartSphWorkerCommand { get; set; }
+        public RelayCommand StopSphWorkerCommand { get; set; }
         public RelayCommand SaveSettingsCommand { get; set; }
         public RelayCommand ExitAppCommand { get; set; }
 
@@ -43,6 +46,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             StartElasticSearchCommand = new RelayCommand(StartElasticSearch, () => !ElasticSearchServiceStarted );
             StopElasticSearchCommand = new RelayCommand(StopElasticSearch, () => ElasticSearchServiceStarted);
 
+            StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted);
+            StopSphWorkerCommand = new RelayCommand(StopSphWorker, () => SphWorkerServiceStarted);
+
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             ExitAppCommand = new RelayCommand(Exit);
         }
@@ -55,8 +61,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var settings = File.ReadAllText(m_settingsFile)
                                    .Deserialize<SphSettings>();
 
+                ApplicationName = settings.ApplicationName;
                 IisExpressDirectory = settings.IisExpressDirectory;
-                WebProjectDirectory = settings.SphDirectory;
+                ProjectDirectory = settings.SphDirectory;
                 RabbitMqDirectory = settings.RabbitMqDirectory;
                 JavaHome = settings.JavaHome;
                 ElasticSearchHome = settings.ElasticSearchHome;
@@ -79,18 +86,19 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StartIisService()
         {
-            Console.WriteLine(@"ElasticSearch...[INITIATING]");
+            Console.WriteLine(@"IIS Service...[INITIATING]");
 
             try
             {
                 var iisConfig = Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\Documents\IISExpress\config\applicationhost.config");
-	
+	            Console.WriteLine(iisConfig);
                 var info = new ProcessStartInfo
                 {
                     FileName = IisExpressDirectory,
                     Arguments = string.Format("/config:{0} /site:web.jlm /trace:verbose", iisConfig),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
+                    RedirectStandardInput = true,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
                     WindowStyle = ProcessWindowStyle.Hidden
@@ -100,10 +108,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 m_iisServiceProcess.BeginErrorReadLine();
                 m_iisServiceProcess.OutputDataReceived += OnElasticSearchDataReceived;
                 m_iisServiceProcess.ErrorDataReceived += OnElasticSearchDataReceived;
-
+                
                 IisServiceStarted = true;
                 IisServiceStatus = "Running";
                 Console.WriteLine(@"IIS Service... [STARTED]");
+                //MessageBox.Show(m_iisServiceProcess.Id.ToString());
             }
             catch (Exception ex)
             {
@@ -113,8 +122,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StopIisService()
         {
-            m_iisServiceProcess.CloseMainWindow();
-            m_iisServiceProcess.Close();
+            m_iisServiceProcess.Kill();
             m_iisServiceProcess = null;
             Console.WriteLine(@"IIS Service... [STOPPED]");
             IisServiceStarted = false;
@@ -147,17 +155,19 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             try
             {
+                var f = string.Join(@"\", ElasticSearchHome, "elasticsearch.bat");
                 var info = new ProcessStartInfo
                 {
-                    FileName = "cmd.exe",
+                    FileName = f,
+                    //FileName = "cmd.exe",
                     WorkingDirectory = ElasticSearchHome,
-                    Arguments = "/c elasticsearch.bat",
+                    //Arguments = "/c elasticsearch.bat",
                     //Arguments = string.Format(@"/c {0}\{1}", ElasticSearchHome, "elasticsearch.bat"),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
-                    //CreateNoWindow = false,
-                    RedirectStandardError = true,
-                    WindowStyle = ProcessWindowStyle.Hidden
+                    //CreateNoWindow = true,
+                    RedirectStandardError = true
+                    //WindowStyle = ProcessWindowStyle.Hidden
                 };
                 m_elasticProcess = Process.Start(info);
                 m_elasticProcess.BeginOutputReadLine();
@@ -180,18 +190,63 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             m_elasticProcess.CloseMainWindow();
             m_elasticProcess.Close();
+            
             m_elasticProcess = null;
             Console.WriteLine(@"ElasticSearch... [STOPPED]");
             ElasticSearchServiceStarted = false;
             ElasticSearchStatus = "Stopped";
         }
 
+        private void StartSphWorker()
+        {
+            Console.WriteLine(@"SPH Worker...[STARTING]");
+            var f = string.Join(@"\", ProjectDirectory, "subscribers.host", "workers.console.runner.exe");
+            
+            try
+            {
+                var workerInfo = new ProcessStartInfo
+                {
+                    FileName = f,
+                    Arguments = string.Format("/log:console /v:{0}", ApplicationName),
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                    RedirectStandardError = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+                m_sphWorkerProcess = Process.Start(workerInfo);
+                m_sphWorkerProcess.BeginOutputReadLine();
+                m_sphWorkerProcess.BeginErrorReadLine();
+                m_sphWorkerProcess.OutputDataReceived += OnElasticSearchDataReceived;
+                m_sphWorkerProcess.ErrorDataReceived += OnElasticSearchDataReceived;
+
+                SphWorkerServiceStarted = true;
+                SphWorkersStatus = "Running";
+                Console.WriteLine(@"SPH Worker... [STARTED]");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        private void StopSphWorker()
+        {
+            m_sphWorkerProcess.CloseMainWindow();
+            m_sphWorkerProcess.Close();
+            m_sphWorkerProcess = null;
+            Console.WriteLine(@"SPH Worker... [STOPPED]");
+            SphWorkerServiceStarted = false;
+            SphWorkersStatus = "Stopped";
+        }
+
         private void SaveSettings()
         {
             var settings = new SphSettings
             {
+                ApplicationName = ApplicationName,
                 IisExpressDirectory = IisExpressDirectory,
-                SphDirectory = WebProjectDirectory,
+                SphDirectory = ProjectDirectory,
                 RabbitMqDirectory = RabbitMqDirectory,
                 JavaHome = JavaHome,
                 ElasticSearchHome = ElasticSearchHome
