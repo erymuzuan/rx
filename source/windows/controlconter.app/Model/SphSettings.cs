@@ -11,6 +11,8 @@ namespace Bespoke.Sph.ControlCenter.Model
         public string IisExpressDirectory { get; set; }
         public string SphDirectory { get; set; }
         public string RabbitMqDirectory { get; set; }
+        public string RabbitMqUserName { get; set; }
+        public string RabbitMqPassword { get; set; }
         public string JavaHome { get; set; }
         public string ElasticSearchHome { get; set; }
     }

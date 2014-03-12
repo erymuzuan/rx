@@ -3,10 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:uc="clr-namespace:Bespoke.Sph.ControlCenter"
         xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel" 
-        Height="610" Width="800" DataContext="{DynamicResource MainViewModel}"
+        Height="660" Width="800" DataContext="{DynamicResource MainViewModel}"
         WindowStartupLocation="CenterScreen" Title="Bespoke Technology Sdn Bhd">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel" />
+        <Style x:Key="LinkStyle" TargetType="TextBlock">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RabbitMqServiceStarted}" Value="True">
+                        <Setter Property="Visibility" Value="Visible"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding RabbitMqServiceStarted}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -36,26 +46,30 @@
                 <Label Grid.Row="0" Grid.Column="1" Content="SQL LocalDB" FontWeight="Bold"/>
                 <Button Grid.Row="0" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartSqlServiceCommand}"/>
                 <Button Grid.Row="0" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopSqlServiceCommand}"/>
-
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding SqlServiceStatus}" Margin="5"/>
+                
                 <Label Grid.Row="1" Grid.Column="1" Content="ElasticSearch" FontWeight="Bold"/>
                 <Button Grid.Row="1" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartElasticSearchCommand}"/>
                 <Button Grid.Row="1" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopElasticSearchCommand}"/>
-                <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding ElasticSearchStatus}" Margin="5"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding ElasticSearchStatus}" Margin="5"/>
 
                 <Label Grid.Row="2" Grid.Column="1" Content="RabbitMQ" FontWeight="Bold"/>
                 <Button Grid.Row="2" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartRabbitMqCommand}"/>
                 <Button Grid.Row="2" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopRabbitMqCommand}"/>
-
-                
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding RabbitMqStatus}" Margin="5"/>
+                <TextBlock x:Name="RabbitLink" Style="{StaticResource LinkStyle}" Grid.Row="2" Grid.Column="4" Margin="5">
+                    <Hyperlink NavigateUri="http://localhost:15672/" RequestNavigate="Navigate">View RabbitMQ Management</Hyperlink>
+                    
+                </TextBlock>
                 <Label Grid.Row="3" Grid.Column="1" Content="SPH Workers" FontWeight="Bold"/>
                 <Button Grid.Row="3" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartSphWorkerCommand}"/>
                 <Button Grid.Row="3" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopSphWorkerCommand}"/>
-                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding SphWorkersStatus}" Margin="5"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding SphWorkersStatus}" Margin="5"/>
 
                 <Label Grid.Row="4" Grid.Column="1" Content="IIS Express" FontWeight="Bold"/>
                 <Button Grid.Row="4" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartIisServiceCommand}"/>
                 <Button Grid.Row="4" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopIisServiceCommand}"/>
-                <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding IisServiceStatus, FallbackValue='?'}" Margin="5"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding IisServiceStatus, FallbackValue='?'}" Margin="5"/>
             </Grid>
         </GroupBox>
         <TabControl Grid.Row="2" Margin="5,5,5,5">

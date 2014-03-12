@@ -7,6 +7,8 @@ using System.Windows;
 using Bespoke.Sph.ControlCenter.Helpers;
 using Bespoke.Sph.ControlCenter.Model;
 using GalaSoft.MvvmLight.Command;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Exceptions;
 
 namespace Bespoke.Sph.ControlCenter.ViewModel
 {
@@ -31,8 +33,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public MainViewModel()
         {
-            LoadSettings();
-            
             StartIisServiceCommand = new RelayCommand(StartIisService, () => !IisServiceStarted);
             StopIisServiceCommand = new RelayCommand(StopIisService, () => IisServiceStarted);
 
@@ -50,10 +50,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             ExitAppCommand = new RelayCommand(Exit);
+
+            LoadSettings();
+            
         }
 
-        private void LoadSettings()
+        public void LoadSettings()
         {
+            
             m_settingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "sph.settings.xml");
             if (File.Exists(m_settingsFile))
             {
@@ -65,16 +69,25 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 IisExpressDirectory = settings.IisExpressDirectory;
                 ProjectDirectory = settings.SphDirectory;
                 RabbitMqDirectory = settings.RabbitMqDirectory;
+                RabbitmqUserName = settings.RabbitMqUserName;
+                RabbitmqPassword = settings.RabbitMqPassword;
                 JavaHome = settings.JavaHome;
                 ElasticSearchHome = settings.ElasticSearchHome;
-
             }
 
+            
             if (string.IsNullOrEmpty(JavaHome))
             {
                 Environment.GetEnvironmentVariable("JAVA_HOME", EnvironmentVariableTarget.Machine);
             }
 
+            var rabbitStarted = false;
+            if (!string.IsNullOrEmpty(RabbitmqUserName) && !string.IsNullOrEmpty(RabbitmqPassword))
+            {
+                rabbitStarted = CheckRabbitMqHostConnection(RabbitmqUserName, RabbitmqPassword, ApplicationName);
+            }
+            RabbitMqServiceStarted = rabbitStarted;
+            RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
         }
 
         private void StartIisService()
@@ -197,14 +210,101 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
         }
 
+        private bool CheckRabbitMqHostConnection(string username, string password, string host)
+        {
+            var isOpen = false;
+            try
+            {
+                
+                var factory = new ConnectionFactory
+                {
+                    UserName = username ?? "guest",
+                    Password = password ?? "guest",
+                    VirtualHost = host ?? "/"
+                };
+                using (var conn = factory.CreateConnection())
+                {
+                    isOpen = conn.IsOpen;
+                    conn.Close();
+                }
+                return isOpen;
+            }
+            catch (BrokerUnreachableException ex)
+            {
+                Log("Cannot connect to RabbitMQ host" + "\r\n\r\n" + ex.GetBaseException().Message);
+                
+            }
+            return isOpen;
+        }
+
         private void StartRabbitMqService()
         {
-            RabbitMqServiceStarted = true;
+            Log("RabbitMQ...[STARTING]");
+            try
+            {
+                var file = string.Join(@"\", RabbitMqDirectory, "sbin", "rabbitmqctl.bat");
+                var workerInfo = new ProcessStartInfo
+                {
+                    FileName = file,
+                    Arguments = "start_app",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                    RedirectStandardError = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+                using (var p = Process.Start(workerInfo))
+                {
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    p.OutputDataReceived += OnDataReceived;
+                    p.ErrorDataReceived += OnDataReceived;
+                    p.WaitForExit();
+                }
+
+                RabbitMqServiceStarted = true;
+                RabbitMqStatus = "Started";
+                Log("RabbitMQ... [STARTED]");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+            }
         }
 
         private void StopRabbitMqService()
         {
-            RabbitMqServiceStarted = false;
+            Log("RabbitMQ...[STOPPING]");
+            try
+            {
+                var file = string.Join(@"\", RabbitMqDirectory, "sbin", "rabbitmqctl.bat");
+                var workerInfo = new ProcessStartInfo
+                {
+                    FileName = file,
+                    Arguments = "stop_app",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                    RedirectStandardError = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+                using (var p = Process.Start(workerInfo))
+                {
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    p.OutputDataReceived += OnDataReceived;
+                    p.ErrorDataReceived += OnDataReceived;
+                    p.WaitForExit();
+                }
+
+                RabbitMqServiceStarted = false;
+                RabbitMqStatus = "Stopped";
+                Log("RabbitMQ... [STOPPED]");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+            }
         }
 
         private void StartElasticSearch()
@@ -318,6 +418,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 IisExpressDirectory = IisExpressDirectory,
                 SphDirectory = ProjectDirectory,
                 RabbitMqDirectory = RabbitMqDirectory,
+                RabbitMqUserName = RabbitmqUserName,
+                RabbitMqPassword = RabbitmqPassword,
                 JavaHome = JavaHome,
                 ElasticSearchHome = ElasticSearchHome
             };
@@ -330,7 +432,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void Exit()
         {
-            Application.Current.Shutdown();
+            Environment.Exit(0);
         }
 
         private void OnDataReceived(object sender, DataReceivedEventArgs e)
