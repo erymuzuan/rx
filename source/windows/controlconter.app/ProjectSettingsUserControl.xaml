@@ -54,6 +54,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20*"/>
@@ -61,6 +62,10 @@
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="RabbitMQ Directory"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RabbitMqDirectory}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Username"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RabbitmqUserName}"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Password"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding RabbitmqPassword}"/>
                 </Grid>
             </GroupBox>
             <GroupBox Header="Elastic Search">

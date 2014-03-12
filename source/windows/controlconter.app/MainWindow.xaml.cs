@@ -1,5 +1,7 @@
 ﻿using System;
-using System.IO;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Navigation;
 using Bespoke.Sph.ControlCenter.Helpers;
 using Bespoke.Sph.ControlCenter.ViewModel;
 
@@ -19,7 +21,12 @@ namespace Bespoke.Sph.ControlCenter
             vm.TextWriter = new TextBoxStreamWriter(OutputTextBox);
             Console.SetOut(vm.TextWriter);
             Console.WriteLine(@"[SPH Control Panel ready]");
+        }
 
+        private void Navigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
     }
 }

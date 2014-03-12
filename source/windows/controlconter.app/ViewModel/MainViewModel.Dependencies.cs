@@ -26,6 +26,28 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             get { return m_sqlLocalDbName; }
         }
 
+        private string m_rabbitmqUserName;
+        public string RabbitmqUserName
+        {
+            set
+            {
+                m_rabbitmqUserName = value;
+                OnPropertyChanged("RabbitmqUserName");
+            }
+            get { return m_rabbitmqUserName; }
+        }
+
+        private string m_rabbitmqPassword;
+        public string RabbitmqPassword
+        {
+            set
+            {
+                m_rabbitmqPassword = value;
+                OnPropertyChanged("RabbitmqPassword");
+            }
+            get { return m_rabbitmqPassword; }
+        }
+
         private TextWriter m_writer;
         public TextWriter TextWriter
         {
