@@ -150,9 +150,6 @@
     <Content Include="docs\ActivityExecutionStatus.html">
       <DependentUpon>ActivityExecutionStatus.md</DependentUpon>
     </Content>
-    <Content Include="docs\AddressElement.html">
-      <DependentUpon>AddressElement.md</DependentUpon>
-    </Content>
     <Content Include="docs\alm.html">
       <DependentUpon>alm.md</DependentUpon>
     </Content>
@@ -515,12 +512,6 @@
     <Content Include="docs\Operator.html">
       <DependentUpon>Operator.md</DependentUpon>
     </Content>
-    <Content Include="docs\OrderByRewriter.html">
-      <DependentUpon>OrderByRewriter.md</DependentUpon>
-    </Content>
-    <Content Include="docs\OrderExpression.html">
-      <DependentUpon>OrderExpression.md</DependentUpon>
-    </Content>
     <Content Include="docs\OrderType.html">
       <DependentUpon>OrderType.md</DependentUpon>
     </Content>
@@ -639,9 +630,6 @@
     <Content Include="docs\SectionFormElement.html">
       <DependentUpon>SectionFormElement.md</DependentUpon>
     </Content>
-    <Content Include="docs\SelectExpression.html">
-      <DependentUpon>SelectExpression.md</DependentUpon>
-    </Content>
     <Content Include="docs\SendActivity.html">
       <DependentUpon>SendActivity.md</DependentUpon>
     </Content>
@@ -724,7 +712,6 @@
     <Content Include="docs\Activity.md" />
     <Content Include="docs\ActivityExecutionResult.md" />
     <Content Include="docs\ActivityExecutionStatus.md" />
-    <Content Include="docs\AddressElement.md" />
     <Content Include="docs\AssemblyAction.md" />
     <Content Include="docs\AssemblyField.md" />
     <Content Include="docs\Attachment.md" />
@@ -835,8 +822,6 @@
     <Content Include="docs\NumberTextBox.md" />
     <Content Include="docs\ObjectBuilder.md" />
     <Content Include="docs\Operator.md" />
-    <Content Include="docs\OrderByRewriter.md" />
-    <Content Include="docs\OrderExpression.md" />
     <Content Include="docs\OrderType.md" />
     <Content Include="docs\Organization.md" />
     <Content Include="docs\overview.md" />
@@ -879,7 +864,6 @@
     <Content Include="docs\ScriptFunctoid.md" />
     <Content Include="docs\SearchResult.md" />
     <Content Include="docs\SectionFormElement.md" />
-    <Content Include="docs\SelectExpression.md" />
     <Content Include="docs\SendActivity.md" />
     <Content Include="docs\SetterAction.md" />
     <Content Include="docs\SetterActionChild.md" />
@@ -900,7 +884,6 @@
     <Content Include="docs\ThrowActivity.md" />
     <Content Include="docs\Tracker.md" />
     <Content Include="docs\Trigger.md" />
-    <Content Include="docs\UnusedColumnRemover.md" />
     <Content Include="docs\UpdateEntityActivity.md" />
     <Content Include="docs\User.md" />
     <Content Include="docs\UserProfile.md" />
