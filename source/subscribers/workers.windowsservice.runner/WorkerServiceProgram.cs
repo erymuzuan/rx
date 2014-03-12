@@ -8,7 +8,7 @@ namespace workers.windowsservice.runner
         {
             var servicesToRun = new ServiceBase[] 
                 { 
-                    new StationMsWorkerService() 
+                    new SphWorkerService() 
                 };
             ServiceBase.Run(servicesToRun);
         }

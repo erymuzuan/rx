@@ -25,10 +25,28 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public override void Run()
         {
-            RegisterServices();
-            PrintSubscriberInformation();
-            m_stoppingTcs = new TaskCompletionSource<bool>();
-            this.StartConsume().Wait();
+            try
+            {
+                RegisterServices();
+                PrintSubscriberInformation();
+                m_stoppingTcs = new TaskCompletionSource<bool>();
+                this.StartConsume().Wait();
+            }
+            catch (Exception e)
+            {
+                this.WriteMessage(e.ToString());
+                if (null != e.InnerException)
+                    this.WriteMessage(e.InnerException.ToString());
+                var aeg = e as AggregateException;
+                if (null != aeg)
+                {
+                    foreach (var exc in aeg.InnerExceptions)
+                    {
+                        this.WriteMessage(exc.ToString());
+                    }
+
+                }
+            }
         }
 
         protected override void OnStop()

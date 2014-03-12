@@ -6,26 +6,28 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     [Serializable]
     public class EventLogNotification : INotificationService
     {
+        public const string SOURCE = "SPH";
+        public const string LOG = "Application";
+
         public EventLogNotification()
         {
-            if (!EventLog.SourceExists(Source))
+            if (!EventLog.SourceExists(SOURCE))
             {
-                EventLog.CreateEventSource(Source, Log);
+                EventLog.CreateEventSource(SOURCE, LOG);
             }
         }
-        public const string Source = "StationMsWorkerService";
-        public const string Log = "Application";
+
         public void Write(string format, params object[] args)
         {
             var message = string.Format(format, args);
-            var eLog = new EventLog { Source = Source };
+            var eLog = new EventLog { Source = SOURCE };
             eLog.WriteEntry(message, EventLogEntryType.Information);
         }
 
         public void WriteError(string format, params object[] args)
         {
             var message = string.Format(format, args);
-            var eLog = new EventLog { Source = Source };
+            var eLog = new EventLog { Source = SOURCE };
             eLog.WriteEntry(message, EventLogEntryType.Error);
         }
     }
