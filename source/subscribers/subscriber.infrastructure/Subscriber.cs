@@ -26,6 +26,15 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             var message = new StringBuilder();
             var exc = exception;
+            var aeg = exc as AggregateException;
+            if (null != aeg)
+            {
+                foreach (var ie in aeg.InnerExceptions)
+                {
+                    this.WriteError(ie);
+                }
+
+            }
             while (null != exc)
             {
                 message.AppendLine(exc.GetType().FullName);

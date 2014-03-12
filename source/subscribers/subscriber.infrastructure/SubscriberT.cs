@@ -30,22 +30,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 RegisterServices();
                 PrintSubscriberInformation();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                this.StartConsume().Wait();
+// ReSharper disable CSharpWarnings::CS4014
+                // just let the StartConsume run in endless loop until stop is issued
+                this.StartConsume();
+// ReSharper restore CSharpWarnings::CS4014
             }
             catch (Exception e)
             {
-                this.WriteMessage(e.ToString());
-                if (null != e.InnerException)
-                    this.WriteMessage(e.InnerException.ToString());
-                var aeg = e as AggregateException;
-                if (null != aeg)
-                {
-                    foreach (var exc in aeg.InnerExceptions)
-                    {
-                        this.WriteMessage(exc.ToString());
-                    }
-
-                }
+                this.WriteError(e);
             }
         }
 
