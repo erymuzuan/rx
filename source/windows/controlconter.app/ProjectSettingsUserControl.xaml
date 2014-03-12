@@ -37,7 +37,17 @@
                 </Grid>
             </GroupBox>
             <GroupBox Header="SQL LocalDB">
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="LocalDB Instance Name"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SqlLocalDbName}"/>
+                </Grid>
             </GroupBox>
             <GroupBox Header="RabbitMQ">
                 <Grid>

@@ -15,7 +15,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private string m_settingsFile;
         private Process m_elasticProcess;
         private Process m_iisServiceProcess;
-        private Process m_sphWorkerProcess;
 
         public RelayCommand StartElasticSearchCommand { get; set; }
         public RelayCommand StopElasticSearchCommand { get; set; }
@@ -61,6 +60,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var settings = File.ReadAllText(m_settingsFile)
                                    .Deserialize<SphSettings>();
 
+                SqlLocalDbName = settings.SqlLocalDbName;
                 ApplicationName = settings.ApplicationName;
                 IisExpressDirectory = settings.IisExpressDirectory;
                 ProjectDirectory = settings.SphDirectory;
@@ -75,18 +75,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 Environment.GetEnvironmentVariable("JAVA_HOME", EnvironmentVariableTarget.Machine);
             }
 
-            //IisExpressDirectory = @"C:\Program Files (x86)\IIS Express\iisexpress.exe";
-            //WebProjectDirectory = @"D:\jlm";
-            //RabbitMqDirectory = @"D:\syazwan.app\rabbitmq";
-            //JavaHome = Environment.GetEnvironmentVariable("JAVA_HOME", EnvironmentVariableTarget.Machine);
-            //ElasticSearchHome = @"C:\elasticsearch-0.90.11";
-
-            Console.WriteLine(@"[Settings loaded]");
         }
 
         private void StartIisService()
         {
-            Console.WriteLine(@"IIS Service...[INITIATING]");
+            Log("IIS Service...[INITIATING]");
 
             try
             {
@@ -106,13 +99,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 m_iisServiceProcess = Process.Start(info);
                 m_iisServiceProcess.BeginOutputReadLine();
                 m_iisServiceProcess.BeginErrorReadLine();
-                m_iisServiceProcess.OutputDataReceived += OnElasticSearchDataReceived;
-                m_iisServiceProcess.ErrorDataReceived += OnElasticSearchDataReceived;
+                m_iisServiceProcess.OutputDataReceived += OnDataReceived;
+                m_iisServiceProcess.ErrorDataReceived += OnDataReceived;
                 
                 IisServiceStarted = true;
                 IisServiceStatus = "Running";
-                Console.WriteLine(@"IIS Service... [STARTED]");
-                //MessageBox.Show(m_iisServiceProcess.Id.ToString());
+                Log("IIS Service... [STARTED]");
             }
             catch (Exception ex)
             {
@@ -124,19 +116,85 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             m_iisServiceProcess.Kill();
             m_iisServiceProcess = null;
-            Console.WriteLine(@"IIS Service... [STOPPED]");
+            Log("IIS Service... [STOPPED]");
             IisServiceStarted = false;
             IisServiceStatus = "Stopped";
         }
 
         private void StartSqlService()
         {
-            SqlServiceStarted = true;
+            if (string.IsNullOrEmpty(SqlLocalDbName))
+            {
+                MessageBox.Show("Instance name cannot be empty", "SPH Control Panel");
+                return;
+            }
+
+            Log("SqlLocalDb...[STARTING]");
+            try
+            {
+                
+                var workerInfo = new ProcessStartInfo
+                {
+                    FileName = "SqlLocalDB.exe",
+                    Arguments = string.Format("start \"{0}\"", SqlLocalDbName),
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                    RedirectStandardError = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+                using (var p = Process.Start(workerInfo))
+                {
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    p.OutputDataReceived += OnDataReceived;
+                    p.ErrorDataReceived += OnDataReceived;
+                    p.WaitForExit();
+                }
+                
+                SqlServiceStarted = true;
+                SqlServiceStatus = "Running";
+                Log("SqlLocalDb... [STARTED]");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+            }
         }
 
         private void StopSqlService()
         {
-            SqlServiceStarted = false;
+            Log("SqlLocalDb...[STOPPING]");
+            try
+            {
+
+                var workerInfo = new ProcessStartInfo
+                {
+                    FileName = "SqlLocalDB.exe",
+                    Arguments = string.Format("stop \"{0}\"", SqlLocalDbName),
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                    RedirectStandardError = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+                using (var p = Process.Start(workerInfo))
+                {
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    p.OutputDataReceived += OnDataReceived;
+                    p.ErrorDataReceived += OnDataReceived;
+                    p.WaitForExit();
+                }
+
+                SqlServiceStarted = false;
+                SqlServiceStatus = "Stopped";
+                Log("SqlLocalDb... [STOPPED]");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+            }
         }
 
         private void StartRabbitMqService()
@@ -151,7 +209,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StartElasticSearch()
         {
-            Console.WriteLine(@"ElasticSearch...[INITIATING]");
+            Log("ElasticSearch...[INITIATING]");
 
             try
             {
@@ -159,25 +217,24 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var info = new ProcessStartInfo
                 {
                     FileName = f,
-                    //FileName = "cmd.exe",
                     WorkingDirectory = ElasticSearchHome,
                     //Arguments = "/c elasticsearch.bat",
                     //Arguments = string.Format(@"/c {0}\{1}", ElasticSearchHome, "elasticsearch.bat"),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     //CreateNoWindow = true,
-                    RedirectStandardError = true
-                    //WindowStyle = ProcessWindowStyle.Hidden
+                    RedirectStandardError = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
                 };
                 m_elasticProcess = Process.Start(info);
                 m_elasticProcess.BeginOutputReadLine();
                 m_elasticProcess.BeginErrorReadLine();
-                m_elasticProcess.OutputDataReceived += OnElasticSearchDataReceived;
-                m_elasticProcess.ErrorDataReceived += OnElasticSearchErrorReceived;
+                m_elasticProcess.OutputDataReceived += OnDataReceived;
+                m_elasticProcess.ErrorDataReceived += OnErrorReceived;
                 
                 ElasticSearchServiceStarted = true;
                 ElasticSearchStatus = "Running";
-                Console.WriteLine(@"ElasticSearch... [STARTED]");
+                Log("ElasticSearch... [STARTED]");
             }
             catch (Exception ex)
             {
@@ -192,14 +249,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             m_elasticProcess.Close();
             
             m_elasticProcess = null;
-            Console.WriteLine(@"ElasticSearch... [STOPPED]");
+            Log("ElasticSearch... [STOPPED]");
             ElasticSearchServiceStarted = false;
             ElasticSearchStatus = "Stopped";
         }
 
         private void StartSphWorker()
         {
-            Console.WriteLine(@"SPH Worker...[STARTING]");
+            Log("SPH Worker...[STARTING]");
             var f = string.Join(@"\", ProjectDirectory, "subscribers.host", "workers.console.runner.exe");
             
             try
@@ -214,15 +271,24 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     RedirectStandardError = true,
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
-                m_sphWorkerProcess = Process.Start(workerInfo);
-                m_sphWorkerProcess.BeginOutputReadLine();
-                m_sphWorkerProcess.BeginErrorReadLine();
-                m_sphWorkerProcess.OutputDataReceived += OnElasticSearchDataReceived;
-                m_sphWorkerProcess.ErrorDataReceived += OnElasticSearchDataReceived;
+                using (var p = Process.Start(workerInfo))
+                {
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    p.OutputDataReceived += OnDataReceived;
+                    p.ErrorDataReceived += OnDataReceived;
+                    //p.WaitForExit();
+                }
+
+                //m_sphWorkerProcess = Process.Start(workerInfo);
+                //m_sphWorkerProcess.BeginOutputReadLine();
+                //m_sphWorkerProcess.BeginErrorReadLine();
+                //m_sphWorkerProcess.OutputDataReceived += OnDataReceived;
+                //m_sphWorkerProcess.ErrorDataReceived += OnDataReceived;
 
                 SphWorkerServiceStarted = true;
                 SphWorkersStatus = "Running";
-                Console.WriteLine(@"SPH Worker... [STARTED]");
+                Log("SPH Worker... [STARTED]");
             }
             catch (Exception ex)
             {
@@ -232,10 +298,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StopSphWorker()
         {
-            m_sphWorkerProcess.CloseMainWindow();
-            m_sphWorkerProcess.Close();
-            m_sphWorkerProcess = null;
-            Console.WriteLine(@"SPH Worker... [STOPPED]");
+            Log("SPH Worker... [STOPPING]");
+            var sphWorkerProcess = Process.GetProcessesByName("workers.console.runner");
+            foreach (var process in sphWorkerProcess)
+            {
+                process.Kill();
+            }
+            Log("SPH Worker... [STOPPED]");
             SphWorkerServiceStarted = false;
             SphWorkersStatus = "Stopped";
         }
@@ -245,6 +314,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             var settings = new SphSettings
             {
                 ApplicationName = ApplicationName,
+                SqlLocalDbName = SqlLocalDbName,
                 IisExpressDirectory = IisExpressDirectory,
                 SphDirectory = ProjectDirectory,
                 RabbitMqDirectory = RabbitMqDirectory,
@@ -263,18 +333,23 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             Application.Current.Shutdown();
         }
 
-        private void OnElasticSearchDataReceived(object sender, DataReceivedEventArgs e)
+        private void OnDataReceived(object sender, DataReceivedEventArgs e)
         {
             if ((e.Data != null) && (m_writer != null))
                 m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
         }
 
-        private void OnElasticSearchErrorReceived(object sender, DataReceivedEventArgs e)
+        private void OnErrorReceived(object sender, DataReceivedEventArgs e)
         {
             if ((e.Data != null) && (m_writer != null))
             {
                 m_writer.WriteLine("[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, e.Data);
             }
+        }
+
+        private void Log(string message)
+        {
+            Console.WriteLine(@"[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, message);
         }
     }
 }

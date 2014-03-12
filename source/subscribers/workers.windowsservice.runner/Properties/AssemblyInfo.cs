@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
 
-[assembly: AssemblyTitle("workers.windowsservice.runner")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("SPH worker")]
+[assembly: AssemblyDescription("SPH subscribers worker")]
 [assembly: AssemblyConfiguration("")]

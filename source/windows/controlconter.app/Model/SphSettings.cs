@@ -7,6 +7,7 @@ namespace Bespoke.Sph.ControlCenter.Model
     public class SphSettings : DomainObject
     {
         public string ApplicationName { get; set; }
+        public string SqlLocalDbName { get; set; }
         public string IisExpressDirectory { get; set; }
         public string SphDirectory { get; set; }
         public string RabbitMqDirectory { get; set; }

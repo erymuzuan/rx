@@ -25,10 +25,20 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public override void Run()
         {
-            RegisterServices();
-            PrintSubscriberInformation();
-            m_stoppingTcs = new TaskCompletionSource<bool>();
-            this.StartConsume().Wait();
+            try
+            {
+                RegisterServices();
+                PrintSubscriberInformation();
+                m_stoppingTcs = new TaskCompletionSource<bool>();
+// ReSharper disable CSharpWarnings::CS4014
+                // just let the StartConsume run in endless loop until stop is issued
+                this.StartConsume();
+// ReSharper restore CSharpWarnings::CS4014
+            }
+            catch (Exception e)
+            {
+                this.WriteError(e);
+            }
         }
 
         protected override void OnStop()

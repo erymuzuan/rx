@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:uc="clr-namespace:Bespoke.Sph.ControlCenter"
         xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel" 
-        Height="700" Width="800" DataContext="{DynamicResource MainViewModel}"
-        WindowStartupLocation="CenterScreen">
+        Height="610" Width="800" DataContext="{DynamicResource MainViewModel}"
+        WindowStartupLocation="CenterScreen" Title="Bespoke Technology Sdn Bhd">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel" />
     </Window.Resources>
