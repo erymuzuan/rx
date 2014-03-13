@@ -11,6 +11,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
         './reportdefinition.base', './_reportdefinition.preview', 'services/jsonimportexport', objectbuilders.app],
     function (context, logger, system, designer, preview, eximp, app) {
         var isBusy = ko.observable(false),
+            errors = ko.observableArray(),
             entities = ko.observableArray(),
             reportDefinitionId = ko.observable(),
 
@@ -123,7 +124,14 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
 
                 context.post(data, "/Sph/ReportDefinition/Save")
                     .then(function (result) {
-                        logger.log("RDL has been saved", data, this, true);
+                        if (result.success) {
+                            logger.info(result.message);
+                            vm.reportDefinition().ReportDefinitionId(result.id);
+                            errors.removeAll();
+                        } else {
+                            errors(result.Errors);
+                            logger.error("There are errors in your Report Definition, !!!");
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -217,6 +225,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
             reportDefinition: designer.reportDefinition,
             title: ko.observable('Report Builder'),
             isBusy: isBusy,
+            errors: errors,
             entities: entities,
             activate: activate,
             attached: attached,

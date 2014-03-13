@@ -36,6 +36,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var typeName = rdl.DataSource.EntityName;
             var cols = await dataSource.GetColumnsAsync(typeName);
 
+            var vaild = await rdl.ValidateBuildAsync();
+            if (!vaild.Result)
+                return Json(vaild);
+
             foreach (var filter in rdl.DataSource.ReportFilterCollection)
             {
                 var filter1 = filter;
@@ -49,7 +53,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges("Save");
             }
 
-            return Json(new {success = true, status = "OK", id = rdl.ReportDefinitionId});
+            return Json(new {success = true, status = "OK", id = rdl.ReportDefinitionId, message = "Your RDL has been successfuly saved"});
 
 
         }
