@@ -8,9 +8,10 @@
 /// <reference path="../schemas/report.builder.g.js" />
 
 define(['services/datacontext', 'services/logger', 'durandal/system',
-        './reportdefinition.base', './_reportdefinition.preview', 'services/jsonimportexport'],
-    function (context, logger, system, designer, preview,eximp) {
+        './reportdefinition.base', './_reportdefinition.preview', 'services/jsonimportexport', objectbuilders.app],
+    function (context, logger, system, designer, preview, eximp, app) {
         var isBusy = ko.observable(false),
+            errors = ko.observableArray(),
             entities = ko.observableArray(),
             reportDefinitionId = ko.observable(),
 
@@ -32,7 +33,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                 designer.activate();
                 var id = parseInt(rid);
                 reportDefinitionId(id);
-                
+
                 context.getListAsync("EntityDefinition", "EntityDefinitionId gt 0", "Name")
                 .done(function (list) {
                     entities(list);
@@ -67,7 +68,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                 });
 
             },
-            loadSelectedEntityColumns = function(fields) {
+            loadSelectedEntityColumns = function (fields) {
                 var columns = _(fields).map(function (v) {
                     var name = v.Name(),
                         aggregate = v.Aggregate();
@@ -79,24 +80,24 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                     return "[" + name + "]";
                 }),
                     columns2 = _(fields).map(function (v) {
-                    var name = v.Name(),
-                        aggregate = v.Aggregate();
-                    if (aggregate) {
-                        if (aggregate !== "GROUP") {
-                            name = v.Name() + "_" + aggregate;
+                        var name = v.Name(),
+                            aggregate = v.Aggregate();
+                        if (aggregate) {
+                            if (aggregate !== "GROUP") {
+                                name = v.Name() + "_" + aggregate;
+                            }
                         }
-                    }
-                    return name;
-                });
+                        return name;
+                    });
                 vm.dataGridColumnOptions(columns);
                 vm.columnOptions(columns2);
             },
             loadEntityColumns = function (entity) {
                 var tcs = new $.Deferred();
                 $.get('/sph/ReportDefinition/GetEntityColumns/' + entity)
-                        .done(function(columns) {
+                        .done(function (columns) {
                             vm.entityColumns(columns);
-                            var filterable = _(columns).filter(function(v) {
+                            var filterable = _(columns).filter(function (v) {
                                 return v.IsFilterable;
                             });
                             vm.filterableEntityColumns(filterable);
@@ -121,15 +122,44 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.reportDefinition);
 
-                context.post(data, "/ReportDefinition/Save")
+                context.post(data, "/Sph/ReportDefinition/Save")
                     .then(function (result) {
-                        logger.log("RDL has been saved", data, this, true);
+                        if (result.success) {
+                            logger.info(result.message);
+                            vm.reportDefinition().ReportDefinitionId(result.id);
+                            errors.removeAll();
+                        } else {
+                            errors(result.Errors);
+                            logger.error("There are errors in your Report Definition, !!!");
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
 
             },
-            removeReportItem = function (ri,e) {
+            remove = function () {
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(vm.reportDefinition);
+                app.showMessage("Are you sure you want to trash this ReportDefinition, this action cannot be undone!!", "SPH", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+
+                            context.post(data, "/Sph/ReportDefinition/Remove")
+                                .then(function (result) {
+                                    logger.log("RDL has been remove", data, this, true);
+                                    tcs.resolve(result);
+                                    window.location = "/sph#reportdefinition.list";
+                                });
+                        } else {
+                            tcs.resolve(false);
+                        }
+                    });
+
+                return tcs.promise();
+
+            },
+            removeReportItem = function (ri, e) {
                 designer.removeReportItem(ri);
                 $(e.target).parents(".report-item");
             },
@@ -177,7 +207,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                         try {
                             var clone = context.toObservable(JSON.parse(json));
 
-                            _(clone.DataSource.ParameterCollection).each(function(p) {
+                            _(clone.DataSource.ParameterCollection).each(function (p) {
                                 if (!p.DefaultValue) {
                                     p.DefaultValue = "";
                                 }
@@ -195,7 +225,8 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
             reportDefinition: designer.reportDefinition,
             title: ko.observable('Report Builder'),
             isBusy: isBusy,
-            entities : entities,
+            errors: errors,
+            entities: entities,
             activate: activate,
             attached: attached,
             removeReportItem: removeReportItem,
@@ -217,10 +248,11 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
             addDataGridColumn: addDataGridColumn,
             dataGridColumnOptions: ko.observableArray(),
             columnOptions: ko.observableArray(),
-            
+
             toolbar: {
                 saveCommand: save,
                 exportCommand: exportTemplate,
+                removeCommand: remove,
                 importCommand: importTemplateJson,
                 commands: ko.observableArray([{
                     command: configure,

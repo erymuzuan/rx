@@ -10,6 +10,22 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     public class ReportDefinitionController : Controller
     {
 
+        public async Task<ActionResult> Remove()
+        {
+            var rdl = this.GetRequestJson<ReportDefinition>();
+            var context = new SphDataContext();
+
+            using (var session = context.OpenSession())
+            {
+                session.Delete(rdl);
+                await session.SubmitChanges("Delete");
+            }
+
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Json(new { success = true, id = rdl.ReportDefinitionId });
+
+
+        }
         public async Task<ActionResult> Save()
         {
             var rdl = this.GetRequestJson<ReportDefinition>();
@@ -19,6 +35,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var dataSource = ObjectBuilder.GetObject<IReportDataSource>();
             var typeName = rdl.DataSource.EntityName;
             var cols = await dataSource.GetColumnsAsync(typeName);
+
+            var vaild = await rdl.ValidateBuildAsync();
+            if (!vaild.Result)
+                return Json(vaild);
 
             foreach (var filter in rdl.DataSource.ReportFilterCollection)
             {
@@ -30,12 +50,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             using (var session = context.OpenSession())
             {
                 session.Attach(rdl);
-                await session.SubmitChanges("Save RDL");
+                await session.SubmitChanges("Save");
             }
 
-
-            this.Response.ContentType = "application/json; charset=utf-8";
-            return Content(await JsonConvert.SerializeObjectAsync(rdl.ReportDefinitionId));
+            return Json(new {success = true, status = "OK", id = rdl.ReportDefinitionId, message = "Your RDL has been successfuly saved"});
 
 
         }

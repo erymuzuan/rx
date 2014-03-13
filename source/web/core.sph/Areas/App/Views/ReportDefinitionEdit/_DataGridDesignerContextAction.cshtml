@@ -1,9 +1,9 @@
-﻿<section class="context-action-panel" data-bind="visible: isSelected">
+﻿<section class="context-action-panel"data-bind="visible: isSelected">
     <button class="btn btn-link btn-context-action">
         <i class="fa fa-chevron-circle-right"></i>
     </button>
 
-    <div class="context-action">
+    <div class="context-action" style="width: 720px">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <span>DataGrid Properties</span>
@@ -11,10 +11,10 @@
         <button class="btn btn-link pull-right" data-bind="click : addColumn">+ Column</button>
         <table class="table table-striped">
             <colgroup>
-                <col style="width: 100px"/>
-                <col style="width: 100px"/>
-                <col style="width: 30px"/>
-                <col style="width: 100px"/>
+                <col style="width: 240px" />
+                <col style="width: 200px" />
+                <col style="width: 100px" />
+                <col style="width: 200px" />
             </colgroup>
             <thead>
                 <tr>
@@ -28,7 +28,7 @@
             <tbody data-bind="foreach: DataGridColumnCollection">
                 <tr>
                     <td>
-                        <input  class="input-datagrid-column-expression form-control " data-bind="kendoComboBox: Expression, source: $root.dataGridColumnOptions" />
+                        <input class="input-datagrid-column-expression form-control " data-bind="kendoComboBox: Expression, source: $root.dataGridColumnOptions" />
                     </td>
                     <td><input type="text" class="input-datagrid-column-header form-control" data-bind="value: Header" /></td>
                     <td>
@@ -45,10 +45,10 @@
         <button class="btn btn-link pull-right" data-bind="click: addDataGridGroupDefinition">+ Group</button>
         <table class="table table-striped">
             <colgroup>
-                <col style="width: 100px"/>
-                <col style="width: 100px"/>
-                <col style="width: 30px"/>
-                <col style="width: 100px"/>
+                <col style="width: 100px" />
+                <col style="width: 100px" />
+                <col style="width: 30px" />
+                <col style="width: 100px" />
             </colgroup>
             <thead>
                 <tr>
@@ -61,7 +61,7 @@
             <tbody data-bind="foreach: DataGridGroupDefinitionCollection">
                 <tr>
                     <td>
-                        <input  class="input-datagrid-group-column form-control " data-bind="kendoComboBox: Column, source: $root.columnOptions" />
+                        <input class="input-datagrid-group-column form-control " data-bind="kendoComboBox: Column, source: $root.columnOptions" />
                     </td>
                     <td><input type="text" class="form-control input-datagrid-group-expression" data-bind="value: Expression" /></td>
                     <td>

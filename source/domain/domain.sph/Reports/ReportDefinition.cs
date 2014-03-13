@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -9,6 +10,25 @@ namespace Bespoke.Sph.Domain
 {
     public partial class ReportDefinition : Entity, ICustomScript
     {
+        public Task<BuildValidationResult> ValidateBuildAsync()
+        {
+            var result = new BuildValidationResult();
+            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_ ]*$");
+            if (!validName.Match(this.Title).Success)
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Title must start a with letter.You cannot use symbol or number as first character" });
+
+           
+            if (string.IsNullOrWhiteSpace(this.DataSource.EntityName))
+                result.Errors.Add(new BuildError(this.WebId) { Message = "You have not select an entity for your report" });
+
+           
+
+
+            result.Result = result.Errors.Count == 0;
+            return Task.FromResult(result);
+        }
+
+
         public async Task<ObjectCollection<ReportColumn>> GetAvailableColumnsAsync()
         {
 

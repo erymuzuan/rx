@@ -56,9 +56,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             this.NotificicationService.Write(format, args);
         }
-
-
-
+        
         protected virtual void OnStart()
         {
 
