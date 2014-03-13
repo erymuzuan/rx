@@ -76,7 +76,34 @@ define(['services/datacontext'],
             drawChart = function (result) {
 
                 var data = _(result.elapses.entries).map(function (v) { return v.count; }),
-                    categories = _(result.elapses.entries).map(function (v) { return v.key; });
+                    categories = _(result.elapses.entries).map(function (v) { return v.key; }),
+                    unitText = "seconds";
+             //   <option value="1">Second</option>
+             //   <option value="60">Minute</option>
+             //   <option value="3600">Hour</option>
+             //   <option value="86400">Day</option>
+             //   <option value="604800">Week</option>
+                switch (parseInt(unit())) {
+                    case 1:
+                        unitText = "second";
+                        break;
+                    case 60:
+                        unitText = "minute";
+                        break;
+                    case 3600:
+                        unitText = "hour";
+                        break;
+                    case 86400:
+                        unitText = "day";
+                        break;
+                    case 604800:
+                        unitText = "week";
+                        break;
+                    default:
+                }
+                if (parseInt(interval()) > 1) {
+                    unitText += "s";
+                }
                 $("#chart-div").kendoChart({
                     title: {
                         text: "KPI for " + selectedActivityName()
@@ -91,7 +118,7 @@ define(['services/datacontext'],
                         type: "column"
                     },
                     series: [{
-                        name: 'Interval ' + interval() + ' seconds',
+                        name: 'Interval ' + interval() + ' ' + unitText,
                         data: data
                     }
                     ],
