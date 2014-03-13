@@ -1,4 +1,4 @@
-body {
+﻿body {
   background-color: #ffffff;
 }
 #body {
@@ -35,6 +35,17 @@ div.datepicker div {
 select.form-control {
   padding-top: 0px;
   padding-bottom: 0px;
+}
+span.k-combobox {
+  border: none;
+  width: 200px;
+  padding-left: 0px;
+}
+span.k-combobox span.k-picker-wrap {
+  margin-top: -6px;
+}
+span.k-combobox span.k-picker-wrap input.form-control {
+  height: 28px;
 }
 span.k-datepicker {
   border: none;
