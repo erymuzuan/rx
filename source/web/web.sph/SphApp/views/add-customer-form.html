@@ -59,12 +59,12 @@
 
     <input  class=" form-control " title=""
            data-bind="value: Title, visible :true, enable :true"
-           id="d84c8250-264c-440f-9f3e-683d1bc0e8c5" type="text" name="Title" />
+           id="c881db2e-f634-4b61-8c3b-f1d9d6b3e8f8" type="text" name="Title" />
 
                     </td>
                     <td>
                         
-    <select data-bind="value: Extension, visible :true, enable :true" id="589607a6-5e8e-4834-975f-988bc00d9d98" name="Extension" class="  form-control">
+    <select data-bind="value: Extension, visible :true, enable :true" id="55698fcf-cd83-4d61-8e2c-c277d7acc09d" name="Extension" class="  form-control">
             <option value=".docx">Word 2007</option>
             <option value=".xlsx">Excel 2007</option>
             <option value=".pdf">PDF</option>
@@ -75,7 +75,7 @@
                         
     <input  class=" form-control " title=""
            data-bind="kendoUpload : StoreId, visible :true"
-           id="4cabbe9f-ff89-417b-be86-52da3a81bfab" type="file" name="files" />
+           id="9fca1df4-3aa1-46f8-a67c-d517b85d3418" type="file" name="files" />
 
                     </td>
                 <td>
@@ -118,11 +118,16 @@
                    id="4fd5b435-4058-4db2-a506-b5fc161f1751" type="text" name="Contact().Name" />
         </div>
     </div>
-    <div class="control-group" data-bind="visible:true">
-        <label class="checkbox">
-            <input data-bind="checked : IsPriority, enable :true" id="IsPriority" type="checkbox" name="IsPriority" />
-            Priority
-        </label>
+    <div class="form-group" data-bind="visible:true">
+        <div class="col-md-offset-4 col-lg-8">
+            <div class="checkbox">
+                <label class="checkbox">
+                    <input data-bind="checked : IsPriority, enable :true" id="IsPriority" type="checkbox"
+                           name="IsPriority" />
+                    Priority
+                </label>
+            </div>
+        </div>
     </div>
 
     <div class="form-group" data-bind="visible : true">

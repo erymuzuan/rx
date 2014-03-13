@@ -13,12 +13,16 @@
 else
 {
 
-    <div class="control-group" data-bind="visible:@Model.Visible">
-        <label class="checkbox">
-            <input data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.Path" title="@Model.Tooltip" type="checkbox" name="@Model.Path" />
-            @Model.Label
-        </label>
+    <div class="form-group" data-bind="visible:@Model.Visible">
+        <div class="col-md-offset-@(@Model.LabelColMd ?? 4) @Model.InputPanelCssClass">
+            <div class="checkbox">
+                <label class="checkbox">
+                    <input data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.Path" title="@Model.Tooltip" type="checkbox"
+                           name="@Model.Path" />
+                    @Model.Label
+                </label>
+            </div>
+        </div>
     </div>
-
 }
 

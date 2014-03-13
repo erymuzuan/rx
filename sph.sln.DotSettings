@@ -1227,7 +1227,7 @@ public override int GetHashCode()&#xD;
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=6098BB2045D63F4BBB836EED8EF0872E/Shortcut/@EntryValue">ffc</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=6098BB2045D63F4BBB836EED8EF0872E/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=6098BB2045D63F4BBB836EED8EF0872E/Text/@EntryValue">&lt;div class="form-group"&gt;&#xD;
-    &lt;div class="col-lg-offset-2 col-lg-6"&gt;&#xD;
+    &lt;div class="col-md-offset-2 col-md-6"&gt;&#xD;
 		&lt;div class="checkbox"&gt;&#xD;
 			&lt;label&gt;&#xD;
 				&lt;input data-bind="checked: $PROPERTY$" id="$ID$" type="checkbox" name="$PROPERTY$" /&gt;&#xD;
