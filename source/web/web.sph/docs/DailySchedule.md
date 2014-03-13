@@ -26,8 +26,8 @@
 ## See also
 
 [IntervalSchedule](IntervalSchedule.html)
-[IntervalSchedule](/docs/#IntervalSchedule.html)
-[WeeklySchedule](/docs/#WeeklySchedule.html)
-[DailySchedule](/docs/#DailySchedule.html)
-[HourlySchedule](/docs/#HourlySchedule.html)
-[MonthlySchedule](/docs/#MonthlySchedule.html)
+[IntervalSchedule](IntervalSchedule.html)
+[WeeklySchedule](WeeklySchedule.html)
+[DailySchedule](DailySchedule.html)
+[HourlySchedule](HourlySchedule.html)
+[MonthlySchedule](MonthlySchedule.html)

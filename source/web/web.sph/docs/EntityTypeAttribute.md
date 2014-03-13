@@ -20,5 +20,5 @@
 ## See also
 
 [Attribute](Attribute.html)
-[BoundedContextAttribute](/docs/#BoundedContextAttribute.html)
-[EntityTypeAttribute](/docs/#EntityTypeAttribute.html)
+[BoundedContextAttribute](BoundedContextAttribute.html)
+[EntityTypeAttribute](EntityTypeAttribute.html)

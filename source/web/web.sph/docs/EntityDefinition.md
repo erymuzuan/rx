@@ -81,10 +81,10 @@ Notice that `Address` is just another object that belongs to the `Patient` entit
 ## See also
 <ul>
 
-                <li><a href="/docs/#Member.html">Member</a></li>
-                <li><a href="/docs/#EntityForm.html">EntityForm</a></li>
-                <li><a href="/docs/#EntityView.html">EntityView</a></li>
-                <li><a href="/docs/#FieldPermission.html">FieldPermission</a></li>
-                <li><a href="/docs/#BusinessRule.html">BusinessRule</a></li>
-                <li><a href="/docs/#EntityOperation.html">EntityOperation</a></li>
+                <li><a href="Member.html">Member</a></li>
+                <li><a href="EntityForm.html">EntityForm</a></li>
+                <li><a href="EntityView.html">EntityView</a></li>
+                <li><a href="FieldPermission.html">FieldPermission</a></li>
+                <li><a href="BusinessRule.html">BusinessRule</a></li>
+                <li><a href="EntityOperation.html">EntityOperation</a></li>
             </ul>

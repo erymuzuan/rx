@@ -59,6 +59,6 @@ can call additional [setter](SetterAction.htm), or [email](emailaction.html) or 
 
 
 ## See also
-[FunctionField](/docs/#FunctionField.html)
-[DocumentField](/docs/#DocumentField.html)
-[ConstantField](/docs/#ConstantField.html)
+[FunctionField](FunctionField.html)
+[DocumentField](DocumentField.html)
+[ConstantField](ConstantField.html)

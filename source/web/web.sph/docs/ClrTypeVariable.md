@@ -22,7 +22,7 @@
 ## See also
 
 [Variable](Variable.html)
-[Variable](/docs/#Variable.html)
-[ClrTypeVariable](/docs/#ClrTypeVariable.html)
-[ComplexVariable](/docs/#ComplexVariable.html)
-[SimpleVariable](/docs/#SimpleVariable.html)
+[Variable](Variable.html)
+[ClrTypeVariable](ClrTypeVariable.html)
+[ComplexVariable](ComplexVariable.html)
+[SimpleVariable](SimpleVariable.html)

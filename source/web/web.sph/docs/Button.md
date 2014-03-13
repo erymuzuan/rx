@@ -19,29 +19,29 @@ Represents a button like form element, button allows you to perform an action
 <tr><td>CompleteText</td><td> - Reserved</td></tr>
 <tr><td>IconClass</td><td> - Css Icon class for the font-awesome icons</td></tr>
 <tr><td>IsToolbarItem</td><td> - Makes the button appear in the toolbar area at the top of the screen, instead of at the dropped location </td></tr>
-<tr><td>Operation</td><td> - The operation name for an EntityDefinition, not applicable for Workflow screen . see <a href="/docs/#EntityOperation.html">EntityOperation</a> for more details</td></tr>
+<tr><td>Operation</td><td> - The operation name for an EntityDefinition, not applicable for Workflow screen . see <a href="EntityOperation.html">EntityOperation</a> for more details</td></tr>
 </tbody></table>
 
 
 
 ## See also
 
-[FormElement](/docs/#FormElement.html)
-[Button](/docs/#Button.html)
-[DateTimePicker](/docs/#DateTimePicker.html)
-[DownloadLink](/docs/#DownloadLink.html)
-[FileUploadElement](/docs/#FileUploadElement.html)
-[ImageElement](/docs/#ImageElement.html)
-[ListView](/docs/#ListView.html)
-[MapElement](/docs/#MapElement.html)
-[AddressElement](/docs/#AddressElement.html)
-[CheckBox](/docs/#CheckBox.html)
-[ComboBox](/docs/#ComboBox.html)
-[DatePicker](/docs/#DatePicker.html)
-[EmailFormElement](/docs/#EmailFormElement.html)
-[HtmlElement](/docs/#HtmlElement.html)
-[NumberTextBox](/docs/#NumberTextBox.html)
-[SectionFormElement](/docs/#SectionFormElement.html)
-[TextAreaElement](/docs/#TextAreaElement.html)
-[TextBox](/docs/#TextBox.html)
-[WebsiteFormElement](/docs/#WebsiteFormElement.html)
+[FormElement](FormElement.html)
+[Button](Button.html)
+[DateTimePicker](DateTimePicker.html)
+[DownloadLink](DownloadLink.html)
+[FileUploadElement](FileUploadElement.html)
+[ImageElement](ImageElement.html)
+[ListView](ListView.html)
+[MapElement](MapElement.html)
+[AddressElement](AddressElement.html)
+[CheckBox](CheckBox.html)
+[ComboBox](ComboBox.html)
+[DatePicker](DatePicker.html)
+[EmailFormElement](EmailFormElement.html)
+[HtmlElement](HtmlElement.html)
+[NumberTextBox](NumberTextBox.html)
+[SectionFormElement](SectionFormElement.html)
+[TextAreaElement](TextAreaElement.html)
+[TextBox](TextBox.html)
+[WebsiteFormElement](WebsiteFormElement.html)

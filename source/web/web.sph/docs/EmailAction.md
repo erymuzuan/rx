@@ -26,8 +26,8 @@
 ## See also
 
 [CustomAction](CustomAction.html)
-[CustomAction](/docs/#CustomAction.html)
-[AssemblyAction](/docs/#AssemblyAction.html)
-[EmailAction](/docs/#EmailAction.html)
-[SetterAction](/docs/#SetterAction.html)
-[StartWorkflowAction](/docs/#StartWorkflowAction.html)
+[CustomAction](CustomAction.html)
+[AssemblyAction](AssemblyAction.html)
+[EmailAction](EmailAction.html)
+[SetterAction](SetterAction.html)
+[StartWorkflowAction](StartWorkflowAction.html)

@@ -20,6 +20,6 @@
 ## See also
 
 [PropertyMapping](PropertyMapping.html)
-[PropertyMapping](/docs/#PropertyMapping.html)
-[SimpleMapping](/docs/#SimpleMapping.html)
-[FunctoidMapping](/docs/#FunctoidMapping.html)
+[PropertyMapping](PropertyMapping.html)
+[SimpleMapping](SimpleMapping.html)
+[FunctoidMapping](FunctoidMapping.html)
