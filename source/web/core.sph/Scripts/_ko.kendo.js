@@ -279,7 +279,7 @@ ko.bindingHandlers.kendoDate = {
         var value = valueAccessor(),
             $input = $(element),
             allBindings = allBindingsAccessor(),
-            currentValue = ko.utils.unwrapObservable(value),
+            currentValue = ko.unwrap(value),
             date = moment(currentValue),
             changed = function (e) {
                 console.log(e);
@@ -319,6 +319,9 @@ ko.bindingHandlers.kendoDate = {
         }
 
         picker.value(date.toDate());
+        if (typeof currentValue === "undefined" && typeof value === "function") {
+            value(date.format("YYYY-MM-DD"));
+        }
     },
     update: function (element, valueAccessor, allBindingsAccessor) {
         var $input = $(element),
