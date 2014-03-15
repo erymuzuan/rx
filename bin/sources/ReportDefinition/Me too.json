@@ -1,0 +1,158 @@
+{
+  "$type": "Bespoke.Sph.Domain.ReportDefinition, domain.sph",
+  "ReportLayoutCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportLayout, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "header",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.DataGridItem, domain.sph",
+              "ReportRowCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportRow, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "DataGridColumnCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.DataGridColumn, domain.sph]], domain.sph",
+                "$values": [
+                  {
+                    "$type": "Bespoke.Sph.Domain.DataGridColumn, domain.sph",
+                    "Header": "",
+                    "Width": "",
+                    "Expression": "[FullName]",
+                    "Format": "",
+                    "Action": "",
+                    "FooterExpression": "",
+                    "WebId": "c4cef1f6-56c7-413b-a91d-9f3a295078e4"
+                  }
+                ]
+              },
+              "DataGridGroupDefinitionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.DataGridGroupDefinition, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Table",
+              "CssClass": "",
+              "Visible": "",
+              "Tooltip": "",
+              "Icon": "fa fa-table icon-2x",
+              "WebId": "79d16ef2-810a-4cee-b432-3b4071a63540"
+            }
+          ]
+        },
+        "Name": "Content",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "footer",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      }
+    ]
+  },
+  "DataSource": {
+    "$type": "Bespoke.Sph.Domain.DataSource, domain.sph",
+    "ParameterCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Parameter, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "ReportFilterCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportFilter, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "EntityFieldCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityField, domain.sph]], domain.sph",
+      "$values": [
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "FullName",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "289294d5-131f-458c-bd8d-5f7c42a9bce0"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Gender",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "7fd47643-3d95-4b88-8045-0efed98daeca"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "IsPriority",
+          "TypeName": "System.Boolean, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "4ede49fc-aabe-4440-9bf4-ade54b7e6eda"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Rating",
+          "TypeName": "System.Int32, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "ee5a25b5-3eec-4f7e-a586-26af8177473c"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.EntityField, domain.sph",
+          "Name": "Address.State",
+          "TypeName": "System.String, mscorlib",
+          "IsNullable": false,
+          "Aggregate": "",
+          "Order": "",
+          "OrderPosition": 0,
+          "WebId": "4d5008f9-8fff-4fb8-9d1d-5aebf55cff1f"
+        }
+      ]
+    },
+    "EntityName": "Customer",
+    "Query": "",
+    "WebId": null
+  },
+  "ReportDefinitionId": 1008,
+  "Title": "Me too",
+  "Category": "",
+  "IsActive": true,
+  "IsPrivate": true,
+  "IsExportAllowed": false,
+  "Description": "",
+  "CreatedBy": null,
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-03-13T08:52:45.2384173+08:00",
+  "WebId": "39c1ca42-bf69-420d-9e56-34c541a92463"
+}

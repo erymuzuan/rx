@@ -1,23 +1,6 @@
 #Entity Operation
 
 
-
-##Overview
-
-`EntityDefinition` is like a class in object oriented world, as such there are 2 things an object has
-
-1. Attributes - set of properties that define an object
-2. Operations -  set of method or function than an object can invoke
-
-Attributes is defined by the schema designer, where you can design your object in a hierachical manner. 
-
-SPH also allows you to creates a set of operations to your entity definition by means of `EntityOperation`, this is available from `EntityDefinition` designer.
-![EntityOperation](http://i.imgur.com/PD4IAz9.png). 
-You can click `+Operation` to add a new operation.
-
-
-
-
 ##Properties
 <table class="table table-condensed table-bordered">
     <thead>
@@ -27,16 +10,31 @@ You can click `+Operation` to add a new operation.
 </tr>
 </thead>
 <tbody>
-<tr><td>EntityPermissionCollection</td><td> - </td></tr>
-<tr><td>Rules</td><td> - </td></tr>
-<tr><td>Permissions</td><td> - </td></tr>
-<tr><td>SetterActionChildCollection</td><td> - </td></tr>
-<tr><td>Name</td><td> - </td></tr>
-<tr><td>SuccessMessage</td><td> - </td></tr>
-<tr><td>ShowSuccessMessag</td><td> - </td></tr>
-<tr><td>NavigateSuccessUrl</td><td> - </td></tr>
-<tr><td>SuccessCommand</td><td> - </td></tr>
+<tr><td>Rules</td><td> - Set of rules executed before executing the actions </td></tr>
+<tr><td>Permissions</td><td> -et of roles the use must have to perform this action </td></tr>
+<tr><td>SetterActionChildCollection</td><td> - Set of <a href="SetterActionChild.htm">SetterActionChild></a> that allows you to set member values after the Business Rule succeefully run and before the Operation is executed </td></tr>
+<tr><td>Name</td><td> - The name of the operation</td></tr>
+<tr><td>SuccessMessage</td><td> - If the operation is successfully executed, this will be the notification message</td></tr>
+<tr><td>NavigateSuccessUrl</td><td> - After the operation is successfully executed and notification is dismissed, the page will navigate to this url </td></tr>
 </tbody></table>
+
+
+##Overview
+
+`EntityDefinition` is like a class in object oriented world, as such there are 2 things an object has
+
+1. Attributes - set of properties that define an object
+2. Operations -  set of method or function than an object can invoke
+
+Attributes is defined by the schema designer, where you can design your object in a hierachical manner. SPH call this `Member` [see more](Member.html)
+
+SPH also allows you to creates a set of operations to your entity definition by means of `EntityOperation`, this is available from `EntityDefinition` designer.
+![EntityOperation](http://i.imgur.com/PD4IAz9.png). 
+You can click `+Operation` to add a new operation.
+
+
+
+
 
 
 This will bring you this screen.

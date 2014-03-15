@@ -1,6 +1,6 @@
 #DocumentField
 ##Overview
-
+DocumentField lets you extract the value of the given Path in your document. Your document is normally the current item that you are working on i.e. the instance of your `EntityDefinition` or record
 
 
 ##Properties
@@ -12,11 +12,8 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>XPath</td><td> - </td></tr>
-<tr><td>NamespacePrefix</td><td> - </td></tr>
-<tr><td>TypeName</td><td> - </td></tr>
-<tr><td>Path</td><td> - </td></tr>
-<tr><td>Type</td><td> - </td></tr>
+<tr><td>Path</td><td> - The path to the value</td></tr>
+<tr><td>Type</td><td> - The return type of value</td></tr>
 </tbody></table>
 
 

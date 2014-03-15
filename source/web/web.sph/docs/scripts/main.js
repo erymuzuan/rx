@@ -13,7 +13,11 @@ define(['types'], function (types) {
         $('#applicationHost').load(this.href);
     });
     $('#applicationHost').on('click', 'a', function (e) {
-        if (this.href.indexOf("/docs/#") < 0) {
+        var $anchor = $(this);
+        if ($anchor.attr('href').indexOf("http://") > -1) {
+            return;
+        }
+        if ($anchor.attr('href').indexOf("https://") > -1) {
             return;
         }
         e.preventDefault();

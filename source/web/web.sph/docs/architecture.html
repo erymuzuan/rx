@@ -1,8 +1,8 @@
 <h1>Architecture</h1>
 
-<p>SPH is an enterprise ready application platform built using the well known and best practices available from the industries. It's not a traditional <code>n-tier</code> application, but something what we called <code>Reactive</code> architecture.It's a combination of <code>Command Query Segregation Responsibility(CQRS)</code> and <code>Pub-Sub</code> with messaging at it's heart instead of the usual <code>Remote Procedure Call(RPC)</code> used in traditional <code>n-tier</code> apps.</p>
+<p>SPH is an enterprise ready application platform built using the well known patterns and architecture style available from the industries. It's not a traditional <code>n-tier</code> application, but something what we called <code>Reactive</code> architecture.It's a combination of <code>Command Query Segregation Responsibility(CQRS)</code> and <code>Pub-Sub</code> with messaging at it's heart instead of the usual <code>Remote Procedure Call(RPC)</code> used in traditional <code>n-tier</code> apps.</p>
 
-<p><code>Reactive</code> is this case, refer to the fact that it's event driven with publisher and subscribers concepts<code>Pub-Sub</code>. This kind kind of archtecture allows you to easily scales without burdening your application with bottlenecks and un-necessary complexities and pulling requests for updates.</p>
+<p><code>Reactive</code> is this case, refer to the fact that it's event driven with publisher and subscribers concepts called <code>Pub-Sub</code>. This kind of archtecture allows you to easily scales without burdening your application with bottlenecks and un-necessary complexities and pulling requests for updates.</p>
 
 <p><code>Pub-Sub</code> allows you to asyncronously react when something happened or when an event of your interest is raised. Take an example, if in a hospital environment</p>
 
@@ -13,7 +13,66 @@ Then ask the ward to <code>prepare a bed</code><br />
 At the same time <code>let the dietician know</code>s that the patient might have special diet.<br />
 and may be at the same time <code>open a billing record</code> in the finacial system.</p>
 
+<p>In a tradiontional <code>n-tier</code> app, this would normally designed as  method named <code>Register</code> that will internally call the methods</p>
+
+<pre>
+
+public class Patient
+{
+    public async Task&lt;string&gt; Register()
+    {
+        var s = await Persistence.Save(this);
+        var f = Financial.RegisterBillingAsync(this);
+        var w = Ward.RegisterBed(this);
+        var d = Diet.RegisterDiet(this)
+
+        await Task.WhenAll(f,w,d);
+
+        return s.Mrn;
+    }
+
+    //.. other methods
+    //.. other members
+}
+</pre>
+
+<p>The traditional <code>n-tier</code> requires you to think hard up front about your business process, thus making you code very rigid and pretty risky to changes.</p>
+
+<p>While with <code>Reactive</code> architecture, you will not pre define the call to the next 3 methods, instead you will listen to the <code>Patient.Register</code> event, you will then attach event handlers to this <code>event</code> to do any of the subsequent action. This archicture allow great deal of flexibility as you can add and remove event handlers without compiling the code with our messaging <code>Pub-Sub</code>.</p>
+
+<pre>
+// a simpler approach with Reactive architecture
+public class Patient
+{
+    public async Task&lt;string&gt; Register()
+    {
+        var s = await Persistence.Save(this);    
+        return s.Mrn;
+    }
+
+    //.. other methods
+    //.. other members
+}
+</pre>
+
+<p>and some where else you just create an event handler that subscribe to the <code>Patient.Register</code> topic</p>
+
+<pre>
+public void AddFinancialBilling()
+{
+    this.AddBindings("Patient.#.Register", Financial.RegisterBill);
+}
+</pre>
+
+<p>and this piece of code doesn't need to be anywhere near <code>Patient</code>, i.e. <code>Patient</code> class is ignorant about your <code>Subscriber</code>, it could even be on different machine.</p>
+
+<p><code>Reactive</code> architecture allows you to respond to changes quickly, without the risk of breaking existing code.</p>
+
+<p>SPH allow you to use <code>Reative</code> with code, and to to think about the internals of the <code>Pub-Sub</code> messaging. All you have to worry is your business requirements.</p>
+
 <h2>Pub-Sub with Triggers</h2>
 
 <p>These series of event and the sequence of actions could easily design and deployed in SPH via an <code>Entity Trigger</code>.What happened is when the event is raised, it will be submitted into the message broker, where the broker will distribute the information about the event to any subscribers that has registered for that particular event via topic subscription.<br />
 A <code>Trigger</code> is a subscriber that subscribe to the event and can perform the subsequent action.</p>
+
+<p><img src="http://i.imgur.com/efWfOWP.png%5b/IMG" alt="Pub sub" /></p>

@@ -1,0 +1,74 @@
+{
+  "$type": "Bespoke.Sph.Domain.ReportDefinition, domain.sph",
+  "ReportLayoutCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportLayout, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "header",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Content",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReportLayout, domain.sph",
+        "ReportItemCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportItem, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "footer",
+        "Row": 0,
+        "Column": 0,
+        "ColumnSpan": 0,
+        "WebId": null
+      }
+    ]
+  },
+  "DataSource": {
+    "$type": "Bespoke.Sph.Domain.DataSource, domain.sph",
+    "ParameterCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Parameter, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "ReportFilterCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReportFilter, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "EntityFieldCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityField, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "EntityName": "Customer",
+    "Query": "",
+    "WebId": null
+  },
+  "ReportDefinitionId": 1006,
+  "Title": "rrretertre",
+  "Category": "",
+  "IsActive": false,
+  "IsPrivate": false,
+  "IsExportAllowed": false,
+  "Description": "",
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-03-13T08:30:32.2345001+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-03-13T08:30:32.2345001+08:00",
+  "WebId": "4674d0e9-6b44-42e5-886a-b067ed7f6001"
+}
