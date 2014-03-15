@@ -36,6 +36,99 @@ namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
         }
         public override void Execute()
         {
+            
+            #line 3 "..\..\Views\Shared\DisplayTemplates\DownloadLink.cshtml"
+ if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}
+
+            
+            #line default
+            #line hidden
+            
+            #line 7 "..\..\Views\Shared\DisplayTemplates\DownloadLink.cshtml"
+  
+    var path = string.Format("'/sph/binarystore/get/' + {0}()", Model.Path);
+    if (Model.IsTransformTemplate)
+    {
+        path = string.Format("'/sph/documenttemplate/transform?entity={0}&templateId={1}&id=' + {2}()", Model.Entity, Model.TemplateId, Model.Path);
+    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n\r\n<label");
+
+WriteAttribute("for", Tuple.Create(" for=\"", 454), Tuple.Create("\"", 476)
+            
+            #line 15 "..\..\Views\Shared\DisplayTemplates\DownloadLink.cshtml"
+, Tuple.Create(Tuple.Create("", 460), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            
+            #line default
+            #line hidden
+, 460), false)
+);
+
+WriteLiteral(" class=\"\"");
+
+WriteLiteral("></label>\r\n<div");
+
+WriteAttribute("class", Tuple.Create(" class=\"", 501), Tuple.Create("\"", 534)
+            
+            #line 16 "..\..\Views\Shared\DisplayTemplates\DownloadLink.cshtml"
+, Tuple.Create(Tuple.Create("", 509), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+            
+            #line default
+            #line hidden
+, 509), false)
+);
+
+WriteLiteral(">\r\n    <a");
+
+WriteAttribute("id", Tuple.Create(" id=\"", 544), Tuple.Create("\"", 565)
+            
+            #line 17 "..\..\Views\Shared\DisplayTemplates\DownloadLink.cshtml"
+, Tuple.Create(Tuple.Create("", 549), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+            
+            #line default
+            #line hidden
+, 549), false)
+);
+
+WriteLiteral(" data-bind=\"attr : {\'href\':");
+
+            
+            #line 17 "..\..\Views\Shared\DisplayTemplates\DownloadLink.cshtml"
+                                                  Write(Html.Raw(path));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("}, visible:");
+
+            
+            #line 17 "..\..\Views\Shared\DisplayTemplates\DownloadLink.cshtml"
+                                                                            Write(Model.Visible);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
+
+WriteLiteral(" download>\r\n");
+
+WriteLiteral("        ");
+
+            
+            #line 18 "..\..\Views\Shared\DisplayTemplates\DownloadLink.cshtml"
+   Write(Model.Label);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n    </a>\r\n</div>");
+
         }
     }
 }

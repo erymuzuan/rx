@@ -308,6 +308,50 @@
                   "WebId": "efbaf6b3-8723-4cb4-8f60-cf118f3f0e66"
                 },
                 "WebId": "1b77e794-bdb4-4674-9d10-29643ba46d95"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
+                "Label": "Download",
+                "Path": "StoreId",
+                "Input": {
+                  "$type": "Bespoke.Sph.Domain.DownloadLink, domain.sph",
+                  "IsTransformTemplate": false,
+                  "TemplateId": 0,
+                  "Entity": "",
+                  "IconClass": "",
+                  "FieldValidation": {
+                    "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                    "IsRequired": false,
+                    "MaxLength": 0,
+                    "MinLength": 0,
+                    "Pattern": "",
+                    "Mode": "",
+                    "Message": "",
+                    "WebId": null
+                  },
+                  "Name": "",
+                  "Label": "Download",
+                  "Tooltip": "",
+                  "Path": "StoreId",
+                  "IsRequired": false,
+                  "Size": "",
+                  "CssClass": "",
+                  "Visible": "",
+                  "Enable": "",
+                  "ElementId": "",
+                  "HelpText": "",
+                  "UseDisplayTemplate": false,
+                  "LabelColLg": null,
+                  "LabelColMd": null,
+                  "LabelColSm": null,
+                  "LabelColXs": null,
+                  "InputColLg": null,
+                  "InputColMd": null,
+                  "InputColSm": null,
+                  "InputColXs": null,
+                  "WebId": "5c738f75-a3cd-4c03-b552-b80b85c2982e"
+                },
+                "WebId": "b7346372-5be6-4939-bccb-9f1cb539f481"
               }
             ]
           },
@@ -829,6 +873,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-13T08:22:07.7000745+08:00",
+  "ChangedDate": "2014-03-15T16:25:02.4337324+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }
