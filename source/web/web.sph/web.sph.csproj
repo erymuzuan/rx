@@ -702,6 +702,9 @@
     <Content Include="docs\UpdateEntityActivity.html">
       <DependentUpon>UpdateEntityActivity.md</DependentUpon>
     </Content>
+    <Content Include="docs\Variable.html">
+      <DependentUpon>Variable.md</DependentUpon>
+    </Content>
     <Content Include="docs\WebsiteFormElement.html">
       <DependentUpon>WebsiteFormElement.md</DependentUpon>
     </Content>
@@ -710,6 +713,9 @@
     </Content>
     <Content Include="docs\WorkflowDefinition.html">
       <DependentUpon>WorkflowDefinition.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDesigner.html">
+      <DependentUpon>WorkflowDesigner.md</DependentUpon>
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

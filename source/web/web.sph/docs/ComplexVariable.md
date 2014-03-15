@@ -19,7 +19,6 @@
 ## See also
 
 [Variable](Variable.html)
-[Variable](Variable.html)
 [ClrTypeVariable](ClrTypeVariable.html)
 [ComplexVariable](ComplexVariable.html)
 [SimpleVariable](SimpleVariable.html)
