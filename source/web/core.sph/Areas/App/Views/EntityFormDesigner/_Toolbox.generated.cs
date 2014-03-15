@@ -715,6 +715,7 @@ WriteLiteral(">\r\n");
                             typeof(ComboBox),
                             typeof(Button),
                             typeof(DownloadLink),
+                            typeof(ImageElement),
                             typeof(ListView)
                         };
                     
@@ -724,29 +725,30 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 217 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 218 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 217 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 218 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
+                        FormElement fe1 = fe;
                         
             
             #line default
             #line hidden
             
-            #line 219 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                   Write(Html.EditorFor(m => fe));
+            #line 221 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                   Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 219 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                                                
+            #line 221 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                                                 
                     }
 
             
@@ -774,7 +776,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 230 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 232 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

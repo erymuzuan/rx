@@ -178,12 +178,15 @@
                             typeof(TextBox),
                             typeof(ComboBox),
                             typeof(Button),
+                            typeof(ImageElement),
+                            typeof(DownloadLink),
                             typeof(ListView)
                         };
                     }
                     @foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
-                        @Html.EditorFor(m => fe)
+                        FormElement fe1 = fe;
+                        @Html.EditorFor(m => fe1)
                     }
                 </div>
 

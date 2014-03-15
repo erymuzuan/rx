@@ -643,6 +643,8 @@ WriteLiteral(">\r\n");
                             typeof(TextBox),
                             typeof(ComboBox),
                             typeof(Button),
+                            typeof(ImageElement),
+                            typeof(DownloadLink),
                             typeof(ListView)
                         };
                     
@@ -652,29 +654,30 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 184 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 186 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 184 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 186 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
+                        FormElement fe1 = fe;
                         
             
             #line default
             #line hidden
             
-            #line 186 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
-                   Write(Html.EditorFor(m => fe));
+            #line 189 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+                   Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 186 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
-                                                
+            #line 189 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+                                                 
                     }
 
             
@@ -702,7 +705,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 197 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
+            #line 200 "..\..\Areas\App\Views\Shared\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

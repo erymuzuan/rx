@@ -46,16 +46,34 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
 WriteLiteral("<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.ImageElement, domain.sph\" -->" +
 "\r\n<div");
 
+WriteLiteral(" class=\"form-group\"");
+
 WriteLiteral(" data-bind=\"css: { \'selected-form-element\': isSelected }, click: $root.selectForm" +
 "Element\"");
 
-WriteLiteral(" class=\"form-group\"");
+WriteLiteral(">\r\n    <label");
 
-WriteLiteral(">\r\n   <img");
+WriteLiteral(" data-bind=\"text: Label\"");
+
+WriteLiteral(" class=\"control-label col-lg-2\"");
+
+WriteLiteral("></label>\r\n    <div");
+
+WriteLiteral(" class=\"col-lg-4\"");
+
+WriteLiteral(">\r\n        <img");
+
+WriteLiteral(" alt=\"designer\"");
 
 WriteLiteral(" src=\"/Images/no-image.png\"");
 
-WriteLiteral("/>\r\n</div>\r\n<!--/ko-->");
+WriteLiteral(" />\r\n    </div>\r\n    <span");
+
+WriteLiteral(" data-bind=\"text: HelpText\"");
+
+WriteLiteral(" class=\"help-block\"");
+
+WriteLiteral("></span>\r\n</div>\r\n\r\n\r\n<!--/ko-->");
 
         }
     }

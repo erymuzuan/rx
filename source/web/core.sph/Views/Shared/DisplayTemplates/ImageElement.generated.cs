@@ -38,18 +38,67 @@ namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
         {
 WriteLiteral("<label");
 
-WriteLiteral("    class=\"col-md-4\"");
+WriteAttribute("class", Tuple.Create("    class=\"", 46), Tuple.Create("\"", 88)
+, Tuple.Create(Tuple.Create("", 57), Tuple.Create("col-md-", 57), true)
+            
+            #line 2 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 64), Tuple.Create<System.Object, System.Int32>(Model.LabelColMd ?? 4
+            
+            #line default
+            #line hidden
+, 64), false)
+);
 
 WriteLiteral(">");
 
             
             #line 2 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-                      Write(Model.Label);
+                                             Write(Model.Label);
 
             
             #line default
             #line hidden
 WriteLiteral("</label>\r\n<img");
+
+WriteAttribute("alt", Tuple.Create(" alt=\"", 116), Tuple.Create("\"", 134)
+            
+            #line 3 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 122), Tuple.Create<System.Object, System.Int32>(Model.Label
+            
+            #line default
+            #line hidden
+, 122), false)
+);
+
+WriteAttribute("title", Tuple.Create(" title=\"", 135), Tuple.Create("\"", 157)
+            
+            #line 3 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 143), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            
+            #line default
+            #line hidden
+, 143), false)
+);
+
+WriteAttribute("width", Tuple.Create(" width=\"", 158), Tuple.Create("\"", 178)
+            
+            #line 3 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 166), Tuple.Create<System.Object, System.Int32>(Model.Width
+            
+            #line default
+            #line hidden
+, 166), false)
+);
+
+WriteAttribute("height", Tuple.Create(" height=\"", 179), Tuple.Create("\"", 201)
+            
+            #line 3 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 188), Tuple.Create<System.Object, System.Int32>(Model.Height
+            
+            #line default
+            #line hidden
+, 188), false)
+);
 
 WriteLiteral(" class=\"col-md-8\"");
 
@@ -57,7 +106,7 @@ WriteLiteral(" data-bind=\"attr:{src : \'/sph/image/store/\' + ko.unwrap(");
 
             
             #line 3 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-                                                                        Write(Model.Path);
+                                                                                                                                                              Write(Model.Path);
 
             
             #line default

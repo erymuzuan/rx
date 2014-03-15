@@ -518,6 +518,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ComboBox.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\Shared\EditorTemplates\ImageElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImageElement.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\Shared\EditorTemplates\ListView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1269,6 +1274,12 @@
     <Content Include="Areas\Sph\Views\EntityFormRenderer\Script.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Script.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\App\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\App\Views\Shared\EditorTemplates\ImageElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ImageElement.generated.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\bloodhound.js" />

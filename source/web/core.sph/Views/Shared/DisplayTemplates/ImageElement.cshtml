@@ -1,3 +1,3 @@
 ﻿@model Bespoke.Sph.Domain.ImageElement
-<label    class="col-md-4">@Model.Label</label>
-<img class="col-md-8" data-bind="attr:{src : '/sph/image/store/' + ko.unwrap(@Model.Path) }" alt="image" />
+<label    class="col-md-@(Model.LabelColMd ?? 4)">@Model.Label</label>
+<img alt="@Model.Label" title="@Model.Tooltip" width="@Model.Width" height="@Model.Height" class="col-md-8" data-bind="attr:{src : '/sph/image/store/' + ko.unwrap(@Model.Path) }" alt="image" />
