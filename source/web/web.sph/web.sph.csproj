@@ -469,6 +469,9 @@
     <Content Include="docs\LineChartItem.html">
       <DependentUpon>LineChartItem.md</DependentUpon>
     </Content>
+    <Content Include="docs\LineItem.html">
+      <DependentUpon>LineItem.md</DependentUpon>
+    </Content>
     <Content Include="docs\ListenActivity.html">
       <DependentUpon>ListenActivity.md</DependentUpon>
     </Content>
@@ -695,6 +698,12 @@
     </Content>
     <Content Include="docs\UpdateEntityActivity.html">
       <DependentUpon>UpdateEntityActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WebsiteFormElement.html">
+      <DependentUpon>WebsiteFormElement.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WeeklySchedule.html">
+      <DependentUpon>WeeklySchedule.md</DependentUpon>
     </Content>
     <Content Include="docs\WorkflowDefinition.html">
       <DependentUpon>WorkflowDefinition.md</DependentUpon>
