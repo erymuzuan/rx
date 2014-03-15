@@ -377,6 +377,9 @@
       <DependentUpon>FunctoidMapping.md</DependentUpon>
     </Content>
     <Content Include="docs\alm.md" />
+    <None Include="App_Data\empty.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>
@@ -994,7 +997,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="App_Start\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />

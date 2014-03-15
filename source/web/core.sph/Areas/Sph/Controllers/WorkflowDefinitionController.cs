@@ -166,7 +166,23 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Save()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
-            var id = await this.Save("Update", wd);
+            if (wd.WorkflowDefinitionId == 0 && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
+            {
+                // get the empty schema
+                var store = ObjectBuilder.GetObject<IBinaryStore>();
+                var xsd = new BinaryStore
+                {
+                    Extension = ".xsd",
+                    FileName = "Empty.xsd",
+                    WebId = Guid.NewGuid().ToString(),
+                    StoreId =  Guid.NewGuid().ToString(),
+                    Content = System.IO.File.ReadAllBytes(Server.MapPath(@"~/App_Data/empty.xsd"))
+                };
+                await store.AddAsync(xsd);
+                wd.SchemaStoreId = xsd.StoreId;
+
+            }
+            var id = await this.Save(wd.WorkflowDefinitionId  == 0 ? "Add" : "Update", wd);
             return Json(new { success = id > 0, id, status = "OK" });
         }
 
