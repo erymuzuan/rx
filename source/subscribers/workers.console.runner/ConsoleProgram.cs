@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
@@ -11,6 +12,7 @@ namespace workers.console.runner
 
         public static int Main(string[] args)
         {
+
             var host = ParseArg("h") ?? "localhost";
             var vhost = ParseArg("v") ?? "Dev";
             var userName = ParseArg("u") ?? "guest";
@@ -50,6 +52,18 @@ namespace workers.console.runner
             }
             metadata.Select(d => d.FullName).ToList().ForEach(Console.WriteLine);
 
+            Console.CancelKeyPress += async (s, ce) =>
+            {
+                Console.WriteLine("Stop the workers [Y/N]");
+                var cki = Console.ReadKey(true);
+                if (cki.Key != ConsoleKey.Y)
+                {
+                    ce.Cancel = true;
+                    return;
+                }
+                await Task.Delay(500);
+                await program.Stop();
+            };
 
             program.Start(metadata);
             var quit = false;
@@ -67,6 +81,8 @@ namespace workers.console.runner
 
             return 0;
         }
+
+
 
         private static string ParseArg(string name)
         {
