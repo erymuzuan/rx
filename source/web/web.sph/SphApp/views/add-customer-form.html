@@ -64,13 +64,13 @@
 
                             <input class=" form-control " title=""
                                    data-bind="value: Title, visible :true, enable :true"
-                                   id="1c66d072-ec78-42c6-83b6-d25691f2df52" type="text" name="Title"/>
+                                   id="3d3fa2e9-9257-4fa2-98ec-f35803ea0e62" type="text" name="Title"/>
 
                         </td>
                         <td>
 
                             <select data-bind="value: Extension, visible :true, enable :true"
-                                    id="066358f9-7aa7-4b76-8ec5-aa6bbf5ddd76" name="Extension" class="  form-control">
+                                    id="42364442-0bfc-47af-98fb-ff4295658796" name="Extension" class="  form-control">
                                 <option value=".docx">Word 2007</option>
                                 <option value=".xlsx">Excel 2007</option>
                                 <option value=".pdf">PDF</option>
@@ -81,7 +81,7 @@
 
                             <input class=" form-control " title=""
                                    data-bind="kendoUpload : StoreId, visible :true"
-                                   id="73e6b259-c110-4886-8495-e283eaaa2267" type="file" name="files"/>
+                                   id="e8343a81-db58-46c2-909b-be536f7440ff" type="file" name="files"/>
 
                         </td>
                         <td>
@@ -210,6 +210,9 @@
                            id="45ecb6e5-93fd-49a8-81d8-26537a4e3ded" type="file" name="files"/>
                 </div>
             </div>
+
+            <button data-bind="command : $root.promoteTo, visible :true, enable: true" class="btn btn-default">Promote
+            </button>
         </form>
     </div>
     <div class="col-lg-4">

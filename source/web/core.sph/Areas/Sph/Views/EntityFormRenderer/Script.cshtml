@@ -179,7 +179,7 @@
                 save : save,
                 @foreach (var op in Model.EntityDefinition.EntityOperationCollection)
                 {
-                        var function = op.Name.Dehumanize().ToCamelCase();
+                        var function = op.Name.ToCamelCase();
                     <text>@function : @function,</text>
                     
                 }

@@ -520,7 +520,7 @@ WriteLiteral("                activate: activate,\r\n                config: con
             #line 180 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                  foreach (var op in Model.EntityDefinition.EntityOperationCollection)
                 {
-                        var function = op.Name.Dehumanize().ToCamelCase();
+                        var function = op.Name.ToCamelCase();
 
             
             #line default

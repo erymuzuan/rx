@@ -605,15 +605,31 @@
         },
         "Permissions": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-          "$values": []
+          "$values": [
+            "administrators",
+            "developers"
+          ]
         },
         "SetterActionChildCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
-          "$values": []
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+              "Path": "Rating",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "Script": "item.Rating + 1",
+                "Name": "Rating + 1",
+                "Note": "",
+                "WebId": "43a82985-0ca7-410a-ae95-faa7f901457c"
+              },
+              "WebId": "f1eb0f44-e235-4a3f-9444-6116717a5eb3"
+            }
+          ]
         },
         "Name": "PromoteTo",
-        "SuccessMessage": null,
-        "ShowSuccessMessag": false,
+        "SuccessMessage": "Wholaaa",
+        "ShowSuccessMessage": false,
         "NavigateSuccessUrl": null,
         "SuccessCommand": null,
         "WebId": "84d65cfd-a054-413f-8ea6-3fe2660a8564"
@@ -656,7 +672,7 @@
         },
         "Name": "Demote",
         "SuccessMessage": "You had been demoted",
-        "ShowSuccessMessag": false,
+        "ShowSuccessMessage": false,
         "NavigateSuccessUrl": "/sph#customer",
         "SuccessCommand": null,
         "WebId": "4d265ce9-c455-4c94-ab0a-97794f203ec8"
@@ -673,6 +689,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-10T16:17:50.0674094+08:00",
+  "ChangedDate": "2014-03-17T16:48:45.9247712+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }
