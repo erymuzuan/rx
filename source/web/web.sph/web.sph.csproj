@@ -308,6 +308,9 @@
     <Content Include="docs\Entity.html">
       <DependentUpon>Entity.md</DependentUpon>
     </Content>
+    <Content Include="docs\EntityDefinition.HowTo.ColumnWithLink.html">
+      <DependentUpon>EntityDefinition.HowTo.ColumnWithLink.md</DependentUpon>
+    </Content>
     <Content Include="docs\EntityDefinition.html">
       <DependentUpon>EntityDefinition.md</DependentUpon>
     </Content>
@@ -380,6 +383,7 @@
     <None Include="App_Data\empty.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="docs\EntityDefinition.HowTo.ColumnWithLink.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>

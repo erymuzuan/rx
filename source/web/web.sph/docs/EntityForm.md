@@ -38,7 +38,7 @@ Property tab lets you configure individual form element , once selected in the d
 <tr><td>Name</td><td> - The forms name - this just an identitifier</td></tr>
 <tr><td>Route</td><td> - Route is where the uri for the form, thus it must be unique to whole system. It must be a valid uri identitfier normally in lowercase seperated by periods or "-"</td></tr>
 <tr><td>Note</td><td> - Developers note</td></tr>
-<tr><td>IsAllowedNewItem</td><td> - Allow new entity to be added (Reserved) </td></tr>
+<tr><td>IsAllowedNewItem</td><td> - Allow new entity to be added, A toolbar will be shown in the entity landing page, when this property is set to true </td></tr>
 <tr><td>IconClass</td><td> - The font-awesome icons</td></tr>
 <tr><td>IconStoreId</td><td> -For png images</td></tr>
 <tr><td>IsPublished</td><td> -A flag for if the form has been published, if it is a route will be generated</td></tr>
@@ -56,4 +56,6 @@ Property tab lets you configure individual form element , once selected in the d
 
 
 ## See also
-
+[FormDesign](FormDesign.html)
+[EntityDefinition](EntityDefinition.html)
+[EntityView](EntityView.html)
