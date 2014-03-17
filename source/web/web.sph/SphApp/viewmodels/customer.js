@@ -22,11 +22,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             activate = function () {
                 var query = String.format("Name eq '{0}'", 'Customer'),
                   tcs = new $.Deferred(),
-                  formsQuery = String.format("EntityDefinitionId eq 1"),
+                  viewsQuery = String.format("EntityDefinitionId eq '1' and IsPublished eq 1"),
+                  formsQuery = String.format("EntityDefinitionId eq '1' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
                   edTask = context.loadOneAsync("EntityDefinition", query),
                   formsTask = context.loadAsync("EntityForm", formsQuery),
                   reportTask = context.loadAsync("ReportDefinition", "[DataSource.EntityName] eq 'Customer'"),
-                  viewsTask = context.loadAsync("EntityView", formsQuery);
+                  viewsTask = context.loadAsync("EntityView", viewsQuery);
 
 
                 $.when(edTask, formsTask, viewsTask,reportTask )

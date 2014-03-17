@@ -899,7 +899,7 @@
   "Name": "Add New Customer",
   "Route": "add-customer-form",
   "Note": "Add new customers",
-  "IsAllowedNewItem": false,
+  "IsAllowedNewItem": true,
   "IconClass": null,
   "IconStoreId": null,
   "IsPublished": true,
@@ -915,6 +915,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-17T16:45:01.3686214+08:00",
+  "ChangedDate": "2014-03-17T17:01:06.3580122+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

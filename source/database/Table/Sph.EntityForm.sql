@@ -8,6 +8,7 @@ CREATE TABLE Sph.EntityForm
 	,[EntityDefinitionId] INT NOT NULL
 	,[Data] XML NOT NULL
 	,[IsPublished] BIT NOT NULL
+	,[IsAllowedNewItem] BIT NOT NULL
 	,[IsDefault] BIT NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
 	,[Route] VARCHAR(255) NOT NULL
@@ -17,4 +18,7 @@ CREATE TABLE Sph.EntityForm
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
+
+ALTER TABLE Sph.EntityForm
+ADD [IsAllowedNewItem] BIT NOT NULL DEFAULT 0
 
