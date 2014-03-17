@@ -15,13 +15,24 @@
             <tr>
                 <td>
                     @{
-                var eid = Model.Definition.Name + "Id";
-                }
+                    var eid = Model.Definition.Name + "Id";
+                    }
                     <a data-bind="attr : {href:'#@Model.Form.Route' + '/' + @eid },text: @Model.Definition.RecordName"></a>
-                </td>  @foreach(var col in Model.View.ViewColumnCollection)
+                </td>
+
+                @foreach(var col in Model.View.ViewColumnCollection)
                 {
-                    <td data-bind="text:@col.Path"></td>
+                    if(col.IsLinkColumn){
+                    <td>
+                        <a data-bind="attr : {href:'#@col.FormRoute' + '/' + @eid },text: @col.Path"></a>
+                    </td>
+                    }
+                    else{
+                    <td data-bind="text:@col.Path"></td> 
+                    }
                 }
+
+
             </tr>
         </tbody>
     </table>

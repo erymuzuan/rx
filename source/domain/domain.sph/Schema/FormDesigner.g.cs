@@ -3629,6 +3629,26 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameSort = "Sort";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isLinkColumn;
+        public const string PropertyNameIsLinkColumn = "IsLinkColumn";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_formRoute;
+        public const string PropertyNameFormRoute = "FormRoute";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_iconCssClass;
+        public const string PropertyNameIconCssClass = "IconCssClass";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_iconStoreId;
+        public const string PropertyNameIconStoreId = "IconStoreId";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -3710,6 +3730,122 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_sort;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsLinkColumn
+        {
+            set
+            {
+                if (m_isLinkColumn == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsLinkColumn, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isLinkColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isLinkColumn;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string FormRoute
+        {
+            set
+            {
+                if (String.Equals(m_formRoute, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFormRoute, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_formRoute = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_formRoute;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string IconCssClass
+        {
+            set
+            {
+                if (String.Equals(m_iconCssClass, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIconCssClass, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_iconCssClass = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_iconCssClass;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string IconStoreId
+        {
+            set
+            {
+                if (String.Equals(m_iconStoreId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIconStoreId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_iconStoreId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_iconStoreId;
             }
         }
 
@@ -4153,8 +4289,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_showSuccessMessag;
-        public const string PropertyNameShowSuccessMessag = "ShowSuccessMessag";
+        private bool m_showSuccessMessage;
+        public const string PropertyNameShowSuccessMessage = "ShowSuccessMessage";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -4278,22 +4414,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public bool ShowSuccessMessag
+        public bool ShowSuccessMessage
         {
             set
             {
-                if (m_showSuccessMessag == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameShowSuccessMessag, value);
+                if (m_showSuccessMessage == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameShowSuccessMessage, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_showSuccessMessag = value;
+                    m_showSuccessMessage = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_showSuccessMessag;
+                return m_showSuccessMessage;
             }
         }
 

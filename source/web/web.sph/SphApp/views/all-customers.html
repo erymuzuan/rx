@@ -17,11 +17,19 @@
                 <td>
 
                     <a data-bind="attr : {href:'#add-customer-form' + '/' + CustomerId },text: FullName"></a>
-                </td>                      <td data-bind="text:FullName"></td>
-                    <td data-bind="text:Address.Street1"></td>
-                    <td data-bind="text:Address.State"></td>
-                    <td data-bind="text:Age"></td>
-                    <td data-bind="text:Gender"></td>
+                </td>
+
+                    <td>
+                        <a data-bind="attr : {href:'#customer-form-2' + '/' + CustomerId },text: FullName"></a>
+                    </td>
+                    <td>
+                        <a data-bind="attr : {href:'#customer' + '/' + CustomerId },text: Address.Street1"></a>
+                    </td>
+                    <td data-bind="text:Address.State"></td> 
+                    <td data-bind="text:Age"></td> 
+                    <td data-bind="text:Gender"></td> 
+
+
             </tr>
         </tbody>
     </table>

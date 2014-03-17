@@ -920,6 +920,10 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
         Path: ko.observable(''),
         Header: ko.observable(''),
         Sort: ko.observable(''),
+        IsLinkColumn: ko.observable(false),
+        FormRoute: ko.observable(''),
+        IconCssClass: ko.observable(''),
+        IconStoreId: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1104,7 +1108,7 @@ bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.EntityOperation, domain.sph",
         Name: ko.observable(''),
         SuccessMessage: ko.observable(''),
-        ShowSuccessMessag: ko.observable(false),
+        ShowSuccessMessage: ko.observable(false),
         NavigateSuccessUrl: ko.observable(''),
         SuccessCommand: ko.observable(''),
         EntityPermissionCollection: ko.observableArray([]),

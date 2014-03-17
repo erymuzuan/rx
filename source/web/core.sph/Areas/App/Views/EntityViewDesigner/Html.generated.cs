@@ -459,7 +459,7 @@ WriteLiteral(">\r\n        <h3>\r\n            <i");
 
 WriteLiteral(" class=\"fa fa-chevron-down\"");
 
-WriteLiteral("></i>\r\n           Columns\r\n        </h3>\r\n    </a>\r\n\r\n    <div");
+WriteLiteral("></i>\r\n            Columns\r\n        </h3>\r\n    </a>\r\n\r\n    <div");
 
 WriteLiteral(" class=\"collapse in\"");
 
@@ -475,9 +475,19 @@ WriteLiteral(">+ Column</button>\r\n        <table");
 
 WriteLiteral(" class=\"table table-striped\"");
 
-WriteLiteral(">\r\n            <thead>\r\n                <tr>\r\n                    <th>Path</th>\r\n" +
-"                    <th>Header</th>\r\n                    <th></th>\r\n            " +
-"    </tr>\r\n            </thead>\r\n            <tbody");
+WriteLiteral(@">
+            <thead>
+                <tr>
+                    <th>Path</th>
+                    <th>Header</th>
+                    <th>Link</th>
+                    <th>Form</th>
+                    <th>Icon css</th>
+                    <th>Icon</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody");
 
 WriteLiteral(" data-bind=\"foreach :ViewColumnCollection\"");
 
@@ -503,7 +513,48 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-bind=\"value:Header\"");
 
-WriteLiteral(" required />\r\n                    <td>\r\n                        <a");
+WriteLiteral(" required />\r\n                    </td>\r\n                    <td>\r\n              " +
+"          <input");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" data-bind=\"checked:IsLinkColumn\"");
+
+WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
+" <select");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(@" data-bind=""value:FormRoute,
+                                    enable:IsLinkColumn,
+                                    comboBoxLookupOptions : {
+                                        entity : 'EntityForm',
+                                        value : FormRoute,
+                                        valuePath : 'Route',
+                                        displayPath : 'Name',
+                                        query :$root.formsQuery
+                                    }""");
+
+WriteLiteral("></select>\r\n                    </td>\r\n                    <td>\r\n                " +
+"        <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value:IconCssClass,enable:IsLinkColumn\"");
+
+WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
+" <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value:IconStoreId,enable:IsLinkColumn\"");
+
+WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
+" <a");
 
 WriteLiteral(" href=\"#\"");
 

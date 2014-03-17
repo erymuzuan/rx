@@ -32,6 +32,14 @@ namespace Bespoke.Sph.Domain
                                  this.WebId,
                                  string.Format("[Column] : {0} does not have path", f.Path)
                              );
+            var linkErrors = from f in this.ViewColumnCollection
+                             where string.IsNullOrWhiteSpace(f.FormRoute)
+                             && f.IsLinkColumn
+                             select new BuildError
+                             (
+                                 this.WebId,
+                                 string.Format("[Column] : {0} does not have for route", f.Path)
+                             );
             if (string.IsNullOrWhiteSpace(this.Route))
                 result.Errors.Add(new BuildError(this.WebId, "Route is missing"));
 
@@ -66,6 +74,7 @@ namespace Bespoke.Sph.Domain
                 result.Errors.Add(new BuildError(this.WebId) { Message = "Route must be lower case.You cannot use symbol or number as first character, or other chars except _ - ." });
 
 
+            result.Errors.AddRange(linkErrors);
             result.Errors.AddRange(columnErrors);
             result.Errors.AddRange(filterErrors);
             result.Errors.AddRange(sortErrors);

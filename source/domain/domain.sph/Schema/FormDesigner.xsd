@@ -442,6 +442,10 @@
 			<xs:attribute name="Path" type="xs:string" use="required"/>
 			<xs:attribute name="Header" type="xs:string" use="required"/>
 			<xs:attribute name="Sort" type="xs:string" use="optional"/>
+			<xs:attribute name="IsLinkColumn" type="xs:boolean" use="required"/>
+			<xs:attribute name="FormRoute" type="xs:string" use="required"/>
+			<xs:attribute name="IconCssClass" type="xs:string" use="required"/>
+			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:simpleType name="Operator">

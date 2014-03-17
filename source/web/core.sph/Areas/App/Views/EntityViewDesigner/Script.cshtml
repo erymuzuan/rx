@@ -90,12 +90,15 @@
                 activate: activate,
                 view: view,
                 entity: entity,
+                formsQuery: ko.computed(function () {
+                    return String.format("EntityDefinitionId eq {0}", entity().EntityDefinitionId());
+                }),
                 toolbar: {
                     commands: ko.observableArray([{
                         caption: 'Publish',
                         icon: 'fa fa-sign-out',
                         command: publish,
-                        enable : ko.computed(function() {
+                        enable: ko.computed(function () {
                             return view().EntityViewId() > 0;
                         })
                     }

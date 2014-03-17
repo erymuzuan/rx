@@ -119,14 +119,16 @@ WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext, objectbuilders.lo
 "                return tcs.promise();\r\n                };\r\n\r\n            var vm " +
 "= {\r\n                errors: errors,\r\n                attached: attached,\r\n     " +
 "           activate: activate,\r\n                view: view,\r\n                ent" +
-"ity: entity,\r\n                toolbar: {\r\n                    commands: ko.obser" +
-"vableArray([{\r\n                        caption: \'Publish\',\r\n                    " +
-"    icon: \'fa fa-sign-out\',\r\n                        command: publish,\r\n        " +
-"                enable : ko.computed(function() {\r\n                            r" +
-"eturn view().EntityViewId() > 0;\r\n                        })\r\n                  " +
-"  }\r\n                    ]),\r\n                    saveCommand: save\r\n           " +
-"     }\r\n            };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n" +
-"");
+"ity: entity,\r\n                formsQuery: ko.computed(function () {\r\n           " +
+"         return String.format(\"EntityDefinitionId eq {0}\", entity().EntityDefini" +
+"tionId());\r\n                }),\r\n                toolbar: {\r\n                   " +
+" commands: ko.observableArray([{\r\n                        caption: \'Publish\',\r\n " +
+"                       icon: \'fa fa-sign-out\',\r\n                        command:" +
+" publish,\r\n                        enable: ko.computed(function () {\r\n          " +
+"                  return view().EntityViewId() > 0;\r\n                        })\r" +
+"\n                    }\r\n                    ]),\r\n                    saveCommand" +
+": save\r\n                }\r\n            };\r\n\r\n            return vm;\r\n\r\n        }" +
+");\r\n\r\n\r\n</script>\r\n");
 
         }
     }
