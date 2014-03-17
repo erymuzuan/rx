@@ -76,9 +76,7 @@
     <None Include="Config\log4net.unix.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="6.ico" />
     <Content Include="Propeller.ico" />
-    <Content Include="sony errisson.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

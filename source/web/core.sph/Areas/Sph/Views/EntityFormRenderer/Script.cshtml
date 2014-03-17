@@ -177,6 +177,12 @@
                 entity: entity,
                 errors: errors,
                 save : save,
+                @foreach (var op in Model.EntityDefinition.EntityOperationCollection)
+                {
+                        var function = op.Name.Dehumanize().ToCamelCase();
+                    <text>@function : @function,</text>
+                    
+                }
                 toolbar : {
                     @if (Model.Form.IsEmailAvailable)
                     {
