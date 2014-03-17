@@ -15,6 +15,11 @@ if(($Help -eq $true) -or ($ApplicationName -eq ""))
 	
 	exit;
 }
+
+#remove all the configs from subscribers
+ls -Path .\bin\subscribers -Filter *.config | Remove-Item
+
+
 # copy some dll into schedulers and subscribers
 copy .\source\web\web.sph\bin\Common.Logging.dll .\bin\subscribers
 copy .\source\web\web.sph\bin\System.Web.Mvc.dll .\bin\subscribers

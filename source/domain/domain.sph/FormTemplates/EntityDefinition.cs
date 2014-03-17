@@ -35,6 +35,12 @@ namespace Bespoke.Sph.Domain
             if (null == member.TypeName)
                 result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " does not have a type" });
 
+            if (member.Type == typeof(Array) && !member.Name.EndsWith("Collection"))
+                result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must be appennd with \"Collection\"" });
+            if (member.Type == typeof(object) && member.Name.EndsWith("Collection"))
+                result.Errors.Add(new BuildError(member.WebId) { Message = "[Member] " + member.Name + " must not end with \"Collection\"" });
+
+
             foreach (var m in member.MemberCollection)
             {
                 this.ValidateMember(m, result);
@@ -181,10 +187,10 @@ namespace Bespoke.Sph.Domain
             if (!path.Contains("."))
                 return this.MemberCollection.Single(a => a.Name == path);
 
-            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var child = this.GetMember(paths.First());
-            var gg = path.Remove(0);
-            var nextPath = string.Join(".", gg);
+            paths.RemoveAt(0);
+            var nextPath = string.Join(".", paths);
             return this.GetMember(nextPath, child);
         }
         private Member GetMember(string path, Member member2)
