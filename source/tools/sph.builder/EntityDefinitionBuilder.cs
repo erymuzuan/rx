@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.SubscribersInfrastructure;
 using subscriber.entities;
 
 namespace sph.builder
@@ -34,7 +35,7 @@ namespace sph.builder
                 var type = CompileEntityDefinition(ed);
                 Console.WriteLine("Compiled : {0}", type);
 
-                var sqlSub = new SqlTableSubscriber();
+                var sqlSub = new SqlTableSubscriber{NotificicationService = new ConsoleNotification()};
                 await sqlSub.ProcessMessageAsync(ed);
 
                 using (var client = new HttpClient())

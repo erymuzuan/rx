@@ -111,10 +111,11 @@ ko.bindingHandlers.activityPopover = {
 
 ko.bindingHandlers.comboBoxLookupOptions = {
     init: function (element, valueAccessor) {
-        var lookup = ko.unwrap(valueAccessor()),
-        value = lookup.value,
-        caption = lookup.caption,
-        context = require('services/datacontext');
+        var $select = $(element),
+            lookup = ko.unwrap(valueAccessor()),
+            value = lookup.value,
+            caption = lookup.caption,
+            context = require('services/datacontext');
 
         context.getTuplesAsync({
             entity: ko.unwrap(lookup.entity),
@@ -132,9 +133,9 @@ ko.bindingHandlers.comboBoxLookupOptions = {
                     element.add(new Option(v.Item2, v.Item1));
                 });
 
-                $(element).val(ko.unwrap(value))
+                $select.val(ko.unwrap(value))
                     .on('change', function () {
-                        value($(this).val());
+                        value($select.val());
                     });
 
             });
