@@ -594,6 +594,9 @@
     <Content Include="docs\PropertyMapping.html">
       <DependentUpon>PropertyMapping.md</DependentUpon>
     </Content>
+    <Content Include="docs\quick.access.html">
+      <DependentUpon>quick.access.md</DependentUpon>
+    </Content>
     <Content Include="docs\ReceiveActivity.html">
       <DependentUpon>ReceiveActivity.md</DependentUpon>
     </Content>
@@ -927,6 +930,7 @@
     <Content Include="docs\XsdMetadata.md" />
     <Content Include="docs\architecture.md" />
     <Content Include="docs\components.md" />
+    <Content Include="docs\quick.access.md" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />
