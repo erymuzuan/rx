@@ -13,7 +13,7 @@
         <div class="form-group"><input type="text" class="form-control" placeholder="Created date time to" data-bind="kendoDateTime:createdDateEnd" />
 </div>
         <div class="form-group">
-            <select class="form-control">
+            <select class="form-control" data-bind="value:$root.state">
                 <option>[Select state]</option>
                 <option value="Ready">Ready</option>
                 <option value="WaitingAsync">WaitingAsync</option>
