@@ -92,7 +92,7 @@
     "GenerateXHTML": true,
     "LinkEmails": true,
     "OutputDirectory": null,
-    "ShowPreviewPane": true,
+    "ShowPreviewPane": false,
     "StrictBoldItalic": true,
     "MinifyInPlace": false
   },

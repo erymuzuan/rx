@@ -146,8 +146,6 @@ WriteLiteral(">\r\n                <button");
 
 WriteLiteral(" class=\"btn btn-default\"");
 
-WriteLiteral(" style=\"border: none\"");
-
 WriteLiteral(">\r\n                    <i");
 
 WriteLiteral(" class=\"fa fa-save\"");
