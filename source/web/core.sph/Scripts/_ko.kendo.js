@@ -749,9 +749,9 @@ ko.bindingHandlers.filter = {
             });
 
 
-        };
+        },
+        throttled = _.throttle(dofilter, 800);
 
-        var throttled = _.throttle(dofilter, 800);
         $filterInput.on('keyup', throttled).siblings('span.input-group-addon')
             .click(function () {
                 $filterInput.val('');

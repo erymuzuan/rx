@@ -164,7 +164,7 @@ namespace Bespoke.Sph.Web.Api
 
             var orderby = this.Request.QueryString["$orderby"];
             var translator = new OdataSqlTranslator<T>(null, typeName);
-            var sql = translator.Select(filter, orderby);
+            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? typeof(T).Name + "Id gt 0" : filter, orderby);
             var rows = 0;
             var nextPageToken = "";
             var list = await this.ExecuteListTupleAsync<T>(sql, page, size);

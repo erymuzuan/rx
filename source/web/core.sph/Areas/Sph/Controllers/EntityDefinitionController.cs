@@ -78,7 +78,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
-            var options = new CompilerOptions();
+            var options = new CompilerOptions
+            {
+                SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
+            };
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll")));
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll")));
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll")));

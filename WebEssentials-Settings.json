@@ -15,7 +15,11 @@
     "GenerateSourceMaps": false,
     "OutputDirectory": null,
     "ShowPreviewPane": true,
-    "WrapClosure": true
+    "WrapClosure": true,
+    "LintOnBuild": false,
+    "LintOnSave": true,
+    "LintResultLocation": "Message",
+    "MinifyInPlace": false
   },
   "Css": {
     "AdjustRelativePaths": true,
@@ -75,26 +79,30 @@
     "CompileOnSave": true,
     "GenerateSourceMaps": true,
     "OutputDirectory": "",
-    "ShowPreviewPane": true
+    "ShowPreviewPane": true,
+    "EnableChainCompilation": true,
+    "MinifyInPlace": false
   },
   "Markdown": {
     "AutoHyperlink": true,
     "AutoNewLines": true,
-    "CompileOnBuild": true,
+    "CompileOnBuild": false,
     "CompileOnSave": true,
     "EncodeProblemUrlCharacters": true,
     "GenerateXHTML": true,
     "LinkEmails": true,
     "OutputDirectory": null,
     "ShowPreviewPane": true,
-    "StrictBoldItalic": true
+    "StrictBoldItalic": true,
+    "MinifyInPlace": false
   },
   "Sass": {
     "CompileOnBuild": false,
     "CompileOnSave": false,
     "GenerateSourceMaps": false,
     "OutputDirectory": null,
-    "ShowPreviewPane": false
+    "ShowPreviewPane": false,
+    "MinifyInPlace": false
   },
   "TypeScript": {
     "BraceCompletion": false,
@@ -102,5 +110,13 @@
     "LintOnSave": false,
     "LintResultLocation": "Message",
     "ShowPreviewPane": false
+  },
+  "SweetJs": {
+    "CompileOnBuild": false,
+    "CompileOnSave": true,
+    "GenerateSourceMaps": true,
+    "MinifyInPlace": false,
+    "OutputDirectory": null,
+    "ShowPreviewPane": true
   }
 }
