@@ -138,6 +138,10 @@ namespace Bespoke.Sph.WorkflowsExecution
         private WebSocketServer m_appServer;
         protected override void OnStart()
         {
+            var args = Environment.GetCommandLineArgs();
+            if (!args.Contains("/debug")) return;
+
+
             m_appServer = new WebSocketServer();
             if (!m_appServer.Setup(ConfigurationManager.WorkflowDebuggerPort))
             {
@@ -153,7 +157,6 @@ namespace Bespoke.Sph.WorkflowsExecution
             }
             this.WriteMessage("The WebSocket server started successfully!");
         }
-
 
 
         private void NewMessageReceived(WebSocketSession session, string value)
