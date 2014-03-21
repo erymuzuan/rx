@@ -105,7 +105,7 @@ namespace Bespoke.Sph.Domain
                             list.remove(obj);
                         }}
                     }},
-", jsNamespace);
+");
             script.AppendLine("     WebId: ko.observable()");
 
             script.AppendLine(" }");
@@ -213,9 +213,18 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       public {0} Item{{get;set;}}", this.Name);
             foreach (var operation in this.EntityOperationCollection)
             {
+                var everybody = operation.Permissions.Contains("Everybody");
+                var anonymous = operation.Permissions.Contains("Anonymous");
+                var roles = string.Join(",", operation.Permissions.Where(s => s != "Everybody" && s != "Anonymous"));
                 // SAVE
                 code.AppendLinf("//exec:{0}", operation.Name);
                 code.AppendLine("       [HttpPost]");
+                if (everybody)
+                    code.AppendLine("       [Authorize]");
+
+                if (!everybody && !anonymous && roles.Length > 0)
+                    code.AppendLinf("       [Authorize(Roles=\"{0}\")]", roles);
+
                 code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> {0}()", operation.Name);
                 code.AppendLine("       {");
                 code.AppendLine("           var context = new Bespoke.Sph.Domain.SphDataContext();");

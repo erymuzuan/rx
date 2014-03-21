@@ -14,9 +14,18 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             errors = ko.observableArray(),
+            roles = ko.observableArray(),
             operation = ko.observable(new bespoke.sph.domain.EntityOperation()),
             isBusy = ko.observable(false),
             activate = function (eid, name) {
+
+
+                if (!roles().length) {
+                    roles(config.allRoles);
+                    roles.splice(0, 0, 'Anynomous');
+                    roles.splice(0, 0, 'Everybody');
+                }
+
                 var query = String.format("EntityDefinitionId eq {0}", eid),
                     tcs = new $.Deferred();
                 context.loadOneAsync("EntityDefinition", query)
@@ -64,14 +73,15 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
             };
 
         var vm = {
+            roles: roles,
             entity: entity,
             operation: operation,
             isBusy: isBusy,
             config: config,
             activate: activate,
             attached: attached,
-            toolbar : {
-                saveCommand : save
+            toolbar: {
+                saveCommand: save
             }
         };
 

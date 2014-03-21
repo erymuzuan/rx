@@ -29,7 +29,7 @@
         <div class="form-group">
             <label class="col-md-2">Permisssions</label>
             <div class="col-md-6">
-                <ul data-bind="foreach :$root.config.allRoles" class="nav">
+                <ul data-bind="foreach :$root.roles" class="nav">
                     <li>
                         <label>
                             <input type="checkbox" data-bind="checked : $root.operation().Permissions, value:$data" />

@@ -606,8 +606,7 @@
         "Permissions": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": [
-            "administrators",
-            "developers"
+            "Everybody"
           ]
         },
         "SetterActionChildCollection": {
@@ -689,6 +688,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-21T07:10:51.2060751+08:00",
+  "ChangedDate": "2014-03-21T08:04:17.7016322+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

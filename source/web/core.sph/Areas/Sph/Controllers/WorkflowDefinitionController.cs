@@ -14,6 +14,7 @@ using Bespoke.Sph.Web.ViewModels;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
+    [Authorize]
     public class WorkflowDefinitionController : BaseController
     {
 
@@ -131,7 +132,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             options.ReferencedAssemblies.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly);
             var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
             var customDllPattern = ConfigurationManager.ApplicationName + ".*.dll";
-            var entityAssembiles = Directory.GetFiles(outputPath,customDllPattern );
+            var entityAssembiles = Directory.GetFiles(outputPath, customDllPattern);
             foreach (var dll in entityAssembiles)
             {
                 options.ReferencedAssemblies.Add(Assembly.LoadFrom(dll));
@@ -175,14 +176,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     Extension = ".xsd",
                     FileName = "Empty.xsd",
                     WebId = Guid.NewGuid().ToString(),
-                    StoreId =  Guid.NewGuid().ToString(),
+                    StoreId = Guid.NewGuid().ToString(),
                     Content = System.IO.File.ReadAllBytes(Server.MapPath(@"~/App_Data/empty.xsd"))
                 };
                 await store.AddAsync(xsd);
                 wd.SchemaStoreId = xsd.StoreId;
 
             }
-            var id = await this.Save(wd.WorkflowDefinitionId  == 0 ? "Add" : "Update", wd);
+            var id = await this.Save(wd.WorkflowDefinitionId == 0 ? "Add" : "Update", wd);
             return Json(new { success = id > 0, id, status = "OK" });
         }
 
@@ -271,8 +272,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                             Tag = tag,
                             Version = wd.Version,
                             WebId = Guid.NewGuid().ToString(),
-                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId,
-                        wd.Version, scr1.ActionName)
+                            VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId,
+                                wd.Version, scr1.ActionName)
                         };
 
 

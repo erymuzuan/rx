@@ -91,6 +91,14 @@ namespace Bespoke.Sph.Domain
             if (null == defaultForm)
                 result.Errors.Add(new BuildError(this.WebId, "Please set a default form"));
 
+            foreach (var operation in this.EntityOperationCollection)
+            {
+                var errors = (await operation.ValidateBuildAsync(this)).ToList();
+                if (errors.Any())
+                    result.Errors.AddRange(errors);
+            }
+
+
 
             result.Result = result.Errors.Count == 0;
             return result;
