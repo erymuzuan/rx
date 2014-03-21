@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
@@ -54,20 +53,27 @@ namespace workers.console.runner
 
             Console.CancelKeyPress += async (s, ce) =>
             {
-                Console.WriteLine("Stop the workers [Y/N]");
-                var cki = Console.ReadKey(true);
+                Console.WriteLine("Stop the workers [ENTER] +  y");
+                while (!Console.KeyAvailable)
+                {
+                    
+                }
+                var cki = Console.ReadKey();
                 if (cki.Key != ConsoleKey.Y)
                 {
+                    Console.WriteLine("----");
+                    Console.WriteLine(cki.KeyChar);
+                    Console.WriteLine(cki.Key);
                     ce.Cancel = true;
                     return;
                 }
-                await Task.Delay(500);
+                Console.WriteLine("The workers is shutting down...");
                 await program.Stop();
             };
 
             program.Start(metadata);
             var quit = false;
-            Console.WriteLine("Welcome to [SPH] Type quit to quit at any time.");
+            Console.WriteLine("Welcome to [SPH] Type ctrl + c to quit at any time.");
             while (!quit)
             {
                 string code = Console.ReadLine();

@@ -26,7 +26,7 @@ namespace Bespoke.Sph.SqlRepository
 
         public Task<SubmitOperation> SubmitChanges(Entity item)
         {
-            return this.SubmitChanges(new[] { item }, new Entity[]{}, null);
+            return this.SubmitChanges(new[] { item }, new Entity[] { }, null);
         }
 
         public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session)
@@ -105,7 +105,6 @@ namespace Bespoke.Sph.SqlRepository
                 sql.AppendLine("COMMIT");
                 /**/
                 cmd.CommandText = sql.ToString();
-                Console.WriteLine(sql);
                 await conn.OpenAsync();
                 var rows = await cmd.ExecuteNonQueryAsync();
 

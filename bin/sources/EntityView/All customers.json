@@ -5,13 +5,13 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        "Term": "Age",
-        "Operator": "Gt",
+        "Term": "Address.State",
+        "Operator": "Eq",
         "Field": {
           "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-          "TypeName": "System.Int32, mscorlib",
-          "Value": 0,
-          "Name": "0",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Kelantan",
+          "Name": "Kelantan",
           "Note": "",
           "WebId": "9d0f186a-d342-47bf-a4c6-16c3f48651b8"
         },
@@ -27,10 +27,10 @@
         "Path": "FullName",
         "Header": "FullName",
         "Sort": "",
-        "IsLinkColumn": true,
-        "FormRoute": "customer-form-2",
-        "IconCssClass": "fa fa-building-o",
-        "IconStoreId": "fa fa-building-o",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": null,
+        "IconStoreId": null,
         "WebId": "e2dd0f06-07e1-4a1e-8be3-b9464c21c984"
       },
       {
@@ -38,10 +38,10 @@
         "Path": "Address.Street1",
         "Header": "Street1",
         "Sort": "",
-        "IsLinkColumn": true,
-        "FormRoute": "customer",
-        "IconCssClass": "fa fa-building-o",
-        "IconStoreId": "fa fa-building-o",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": null,
+        "IconStoreId": null,
         "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
       },
       {
@@ -92,7 +92,7 @@
   },
   "EntityViewId": 1,
   "IconClass": "",
-  "IconStoreId": "bcaba6b3-a664-4de2-9e6d-052fc01dbc23",
+  "IconStoreId": "71a19acd-1a75-415b-8f89-bacef25a66b4",
   "EntityDefinitionId": 1,
   "Name": "All customers",
   "Route": "all-customers",
@@ -103,6 +103,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-17T09:52:40.31782+08:00",
+  "ChangedDate": "2014-03-20T13:49:48.8309487+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }
