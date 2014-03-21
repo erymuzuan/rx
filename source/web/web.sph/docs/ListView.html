@@ -2,6 +2,10 @@
 
 <h2>Overview</h2>
 
+<p>Provides a tabular view of your collection, <code>ListView</code> is one of the container <code>FormElement</code> in which it could contains other elements. The main properties of the <code>ListView</code> is the <a href="ListViewColumn.html"><code>ListViewColumnCollection</code></a> which represents individual column in the table.</p>
+
+<p><img src="http://i.imgur.com/irz9aYD.png" alt="ListView" /></p>
+
 <h2>Properties</h2>
 
 <table class="table table-condensed table-bordered">
@@ -12,9 +16,9 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>ChildItemType</td><td> - </td></tr>
-<tr><td>IsChildItemFunction</td><td> - </td></tr>
-<tr><td>ListViewColumnCollection</td><td> - </td></tr>
+<tr><td>ChildItemType</td><td> - Full name for the child item type, this is normallu in form `bespoke.<applicationName>_<EntityDefinitionId>.domain.<ChildItem>` for entity form. While for <code>ScreenActivity</code> in workflow it's in the form `bespoke.w_<WorkflowDefinitionId>_<version>.sph.<ChildItemType>` when the child item is generated from XML Schema</td></tr>
+<tr><td>IsChildItemFunction</td><td> - (Obsolete) </td></tr>
+<tr><td>ListViewColumnCollection</td><td> - Columns for the listview see <a href="ListViewColum.html"><code>ListViewColum</code></a> for details </td></tr>
 </tbody></table>
 
 <h2>See also</h2>

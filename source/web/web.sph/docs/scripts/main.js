@@ -4,26 +4,35 @@
 
 define(['types'], function (types) {
 
+
     $('#applicationHost').load('/docs/overview.html');
     $('#sidebar').load('/docs/sidebar.html');
     $('#sidebar').on('click', 'a', function (e) {
         e.preventDefault();
         e.stopPropagation();
 
-        $('#applicationHost').load(this.href);
+        $('#applicationHost').load(this.href, null, function () {
+            $('#applicationHost img').addClass('img-thumbnail');
+            console.log("downloaded %s", this.href);
+        });
     });
     $('#applicationHost').on('click', 'a', function (e) {
-        var $anchor = $(this);
-        if ($anchor.attr('href').indexOf("http://") > -1) {
+        var $anchor = $(this),
+            href = $anchor.attr('href');
+        if (href.indexOf("http://") > -1) {
             return;
         }
-        if ($anchor.attr('href').indexOf("https://") > -1) {
+        if (href.indexOf("https://") > -1) {
             return;
         }
+        
+        $('#applicationHost').load(href, null, function () {
+            $('#applicationHost img').addClass('img-thumbnail');
+            console.log("downloaded %s", this.href);
+        });
         e.preventDefault();
         e.stopPropagation();
 
-        $('#applicationHost').load(this.href.replace("#", ""));
     });
 
     var paths = _(types.types).map(function (v) { return { path: v }; }),
