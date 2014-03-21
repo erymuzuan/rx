@@ -2,7 +2,6 @@
     function (system, logger, config, context) {
 
         var isBusy = ko.observable(),
-
             attached = function (view) {
                 $(view).on('click', '#close-search-result', function (e) {
                     e.preventDefault();
@@ -11,8 +10,8 @@
 
             },
             search = function () {
-                var tcs = new $.Deferred();
-                var data = JSON.stringify({ text: vm.searchText() });
+                var tcs = new $.Deferred(),
+                    data = JSON.stringify({ text: vm.searchText() });
                 isBusy(true);
 
                 context.post(data, "/Search")
@@ -25,11 +24,10 @@
             }
             ,
             navigateSearch = function (sr) {
-                
+
             };
 
         var vm = {
-            
             searchCommand: search,
             searchResults: ko.observableArray(),
             navigateSearch: navigateSearch,
