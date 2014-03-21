@@ -424,7 +424,7 @@
   {
       "role": "developers",
       "groupName": "Workflow",
-      "route": "page.list",
+      "route": "page.list/:id",
       "moduleId": "viewmodels/page.list",
       "title": "Page list",
       "nav": false,

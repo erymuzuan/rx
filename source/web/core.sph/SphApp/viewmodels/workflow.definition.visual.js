@@ -646,6 +646,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 .done(function () {
                     $('div.modalHost, div.modalBlockout').remove();
                 });
+            },
+            viewPages = function () {
+                window.location = "#page.list/" + wd().WorkflowDefinitionId();
+                return Task.fromResult(true, 1500);
             };
 
         var vm = {
@@ -668,6 +672,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 removeCommand: remove,
                 reloadCommand: reload,
                 commands: ko.observableArray([
+                    {
+                        command: viewPages,
+                        caption: 'Pages',
+                        icon: "fa fa-code"
+                    },
                     {
                         command: compileAsync,
                         caption: 'Build',

@@ -14,11 +14,21 @@ define([objectbuilders.datacontext, objectbuilders.app],
     function (context, app) {
 
         var isBusy = ko.observable(false),
-            activate = function () {
-
+            wid = ko.observable(),
+            activate = function (wid2) {
+                wid(parseInt(wid2));
             },
-            attached = function () {
-
+            attached = function (view) {
+                if (!wid()) {
+                    return;
+                }
+                setTimeout(function () {
+                    var e = jQuery.Event("keyup");
+                    e.which = 50; 
+                    $(view).find('input.search-query')
+                        .val('Workflow_' + wid())
+                        .trigger('keyup');
+                }, 800);
             },
             editPage = function (page) {
                 var w = window.open("/sph/editor/page/" + page.PageId() + "?mode=html", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),

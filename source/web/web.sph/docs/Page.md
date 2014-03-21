@@ -1,7 +1,9 @@
 #Page
 ##Overview
+The view definition for your `ActivityScreen`. Page represent abstract concept of ASP.Net Razor view. It is not strictly important as the page will normally rendered from disk.
 
 
+Deleting pages from your repository will cause every compile to regerate the disk based page.
 
 ##Properties
 <table class="table table-condensed table-bordered">
