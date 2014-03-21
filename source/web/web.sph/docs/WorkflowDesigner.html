@@ -2,6 +2,8 @@
 
 <h2>Overview</h2>
 
+<p>Provides the design surface for <code>WorkflowDefinition</code></p>
+
 <h2>Properties</h2>
 
 <table class="table table-condensed table-bordered">
@@ -12,8 +14,18 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>X</td><td> - </td></tr>
-<tr><td>Y</td><td> - </td></tr>
+<tr><td>X</td><td> - The position in the design surface for an `Activity`</td></tr>
+<tr><td>Y</td><td> - The position in the design surface for an `Activity`</td></tr>
 </tbody></table>
+
+<h2>Known issues</h2>
+
+<p>The <code>Path</code> autosuggest in ScreenActivity do not refresh to the new path, when you change the data type for the variable.</p>
+
+<h3>Workaround</h3>
+
+<p>We use Bootstrap typeaheadjs to provide the autosuggest feature, the default behaviour is to cache the list of autosuggest in localstorage. You should clear the localstorage from your browser in order to refresh the list</p>
+
+<p><img src="http://i.imgur.com/wgZb5is.png" alt="" /></p>
 
 <h2>See also</h2>

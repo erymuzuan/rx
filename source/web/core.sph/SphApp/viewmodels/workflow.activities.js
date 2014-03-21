@@ -19,9 +19,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             wd = ko.observable(),
             tracker = ko.observable(),
             loadWd = function (wf) {
-                var query = String.format("WorkflowDefinitionId eq {0}", wf.WorkflowDefinitionId());
-                var tcs = new $.Deferred();
-                var wdTask = context.loadOneAsync("WorkflowDefinition", query),
+                var query = String.format("WorkflowDefinitionId eq {0}", wf.WorkflowDefinitionId()),
+                    tcs = new $.Deferred(),
+                    wdTask = context.loadOneAsync("WorkflowDefinition", query),
                     trackerTask = context.loadOneAsync("Tracker", "WorkflowId eq " + wf.WorkflowId());
                 $.when(wdTask, trackerTask)
                     .done(function (b, t) {
@@ -35,15 +35,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             },
             activate = function (idArg) {
                 id(parseInt(idArg));
-                var query = String.format("WorkflowId eq {0}", id());
-                var tcs = new $.Deferred();
+                var query = String.format("WorkflowId eq {0}", id()),
+                    tcs = new $.Deferred();
                 context.loadOneAsync("Workflow", query)
                     .done(function (b) {
-                        var wf = context.toObservable(b, /Bespoke\.Sph\.Workflows.*\.(.*?),/);
+                        var wf = context.toObservable(b);
                         instance(wf);
-                        loadWd(wf).done(function () {
-                            tcs.resolve(true);
-                        });
+                        loadWd(wf).done(tcs.resolve);
                     });
 
                 return tcs.promise();

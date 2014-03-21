@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Workflows_10002_0
            this.Name = "Simple Screen and wait";
            this.Version = 0;
            this.WorkflowDefinitionId = 10002;
-           this.applicant = new Address();
+           this.applicant = new Applicant();
        }
        public override Task<ActivityExecutionResult> StartAsync()
        {
@@ -50,10 +50,10 @@ namespace Bespoke.Sph.Workflows_10002_0
            await this.SaveAsync(activityId, result);
            return result;
        }
-//variable:applicant
-       public Address applicant {get;set;}
 //variable:Date
        public System.DateTime Date{get;set;}
+//variable:applicant
+       public Applicant applicant {get;set;}
 
 //exec:77d593ea-0bc9-443c-80d6-0b6f069912d7
    public async Task<InitiateActivityResult> InitiateAsyncExecScreenActivityVerification_77d5Async()
@@ -171,7 +171,7 @@ namespace Bespoke.Sph.Workflows_10002_0
    public System.DateTime EvaluateExpressionExecDelayActivityDelayVerification_5d76Async()
    {
        var item = this;
-       return System.DateTime.Now.AddSeconds(this.WorkflowId % 30);
+       return System.DateTime.Now.AddSeconds((this.WorkflowId % 30)+300);
    }
 
 

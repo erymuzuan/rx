@@ -146,6 +146,7 @@ namespace Bespoke.Sph.Domain
             if (null != ea)
             {
                 ea.Run = DateTime.Now;
+                ea.User = directory.CurrentUserName;
                 // remove the waiting list
                 if (act.IsAsync && !act.IsInitiator)
                 {

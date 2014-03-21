@@ -24,6 +24,8 @@ namespace Bespoke.Sph.Domain
 
         public static string ToCamelCase(this string text)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                return string.Empty;
             return new string(text.ToCamelCaseHelper().ToArray());
         }
         private static IEnumerable<char> ToCamelCaseHelper(this string text)

@@ -23,7 +23,16 @@
             var fe1 = fe;
             fe1.Path = fe.Path.ConvertJavascriptObjectToFunction();
             fe1.SetDefaultLayout(Model.Screen.FormDesign);
-            @(fe.UseDisplayTemplate ? Html.DisplayFor(f => fe1) : Html.EditorFor(f => fe1))
+            <!-- ** starts @fe1.Path -->
+            if(fe1.UseDisplayTemplate){
+                <div class="form-group">
+                  @Html.DisplayFor(f => fe1)
+                    </div>
+
+            }else{
+            }
+                 @Html.EditorFor(f => fe1)
+              <!-- ## end @fe1.Path-->
         }
    
     </form>
