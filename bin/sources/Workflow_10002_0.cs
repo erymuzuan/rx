@@ -45,6 +45,9 @@ namespace Bespoke.Sph.Workflows_10002_0
                    case "da9fdcd3-a029-4174-9167-eaf6c4c6363f" : 
                        result = await this.ExecNotificationActivityEmailLambatBuat_da9fAsync();
                        break;
+                   case "ea06c952-510b-4915-a6d8-1f8ec72981d1" : 
+                       result = await this.ExecExpressionActivityExpression6_ea06Async();
+                       break;
            }
            result.Correlation = correlation;
            await this.SaveAsync(activityId, result);
@@ -86,7 +89,7 @@ namespace Bespoke.Sph.Workflows_10002_0
 
        this.State = "Ready";
        var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success };
-       result.NextActivities = new[]{"e56fda2b-5677-42e7-8da9-1e7fe0687d21"};
+       result.NextActivities = new[]{"ea06c952-510b-4915-a6d8-1f8ec72981d1"};
 
        return Task.FromResult(result);
    }
@@ -168,11 +171,6 @@ namespace Bespoke.Sph.Workflows_10002_0
      await this.FireListenTriggerExecListenActivityStartsVerification_e56fAsync("5d76fa1a-521e-432f-8d2a-ec36abf1d057");
        return result;
    }
-   public System.DateTime EvaluateExpressionExecDelayActivityDelayVerification_5d76Async()
-   {
-       var item = this;
-       return System.DateTime.Now.AddSeconds((this.WorkflowId % 30)+300);
-   }
 
 
 //exec:da9fdcd3-a029-4174-9167-eaf6c4c6363f
@@ -234,6 +232,20 @@ namespace Bespoke.Sph.Workflows_10002_0
             return await razor.GenerateAsync(template, this);
    }
 
+
+
+//exec:ea06c952-510b-4915-a6d8-1f8ec72981d1
+   public async Task<ActivityExecutionResult> ExecExpressionActivityExpression6_ea06Async()
+   {
+       await Task.Delay(50);
+       
+       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};
+       var item = this;
+       Console.WriteLine("Whooooooiii");
+       result.NextActivities = new[]{"e56fda2b-5677-42e7-8da9-1e7fe0687d21"};
+       
+       return result;
+   }
 
    }
    [XmlType("Vehicle",  Namespace="http://www.maim.gov.my/wakaf")]
@@ -368,6 +380,7 @@ namespace Bespoke.Sph.Workflows_10002_0
        public string Correlation {get;set;}
    }
 
+   
    
    
    

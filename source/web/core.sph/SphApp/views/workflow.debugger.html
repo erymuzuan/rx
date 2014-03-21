@@ -6,20 +6,6 @@
     (<span data-bind="text:WorkflowDefinitionId"></span>)
 </h1>
 <div class="row">
-    <button class="btn btn-default" title="Continue" data-bind="click : debugcontinue">
-        <i class="fa fa-play" style="color: green"></i>
-    </button>
-    <button class="btn btn-default" title="Step through" data-bind="click : f10">
-        <i class="glyphicon glyphicon-log-in" style="color: rgb(96, 126, 166)"></i>
-    </button>
-    <button class="btn btn-default" title="Step out" data-bind="click : debugcontinue">
-        <i class="glyphicon glyphicon-log-out" style="color: rgb(96, 126, 166)"></i>
-    </button>
-    <button class="btn btn-default" title="Stops debugger">
-        <i class="fa fa-stop" style="color: red"></i>
-    </button>
-</div>
-<div class="row">
     <div class="col-lg-12" style="height: 500px; overflow: scroll" id="container-canvas" data-bind="with : wd">
         <!-- ko foreach : {data : ActivityCollection} -->
 

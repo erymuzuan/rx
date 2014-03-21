@@ -14,7 +14,9 @@
 define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels/workflow.jsplumb', 'jquery.contextmenu', 'jquery.ui.position'],
     function (context, logger, router, jp) {
         var isBusy = ko.observable(false),
+            running = ko.observable(false),
             locals = ko.observableArray(),
+            breakpoints = ko.observableArray(),
             id = ko.observable(),
             host = ko.observable('localhost'),
             consoleOutput = ko.observable(),
@@ -43,13 +45,19 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
                     Operation: "Continue"
                 };
                 ws.send(JSON.stringify(model));
+
+                return Task.fromResult(true, 800);
             },
             send = function (bp) {
                 var model = {
                     Operation: "AddBreakpoint",
                     Breakpoint: bp
                 };
-                ws.send(ko.mapping.toJSON(model));
+                if (ws) {
+                    ws.send(ko.mapping.toJSON(model));
+                } else {
+                    breakpoints.push(bp);
+                }
             },
             remove = function (bp) {
 
@@ -57,7 +65,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
                     Operation: "RemoveBreakpoint",
                     Breakpoint: bp
                 };
-                ws.send(ko.mapping.toJSON(model));
+                if (ws) {
+                    ws.send(ko.mapping.toJSON(model));
+                } else {
+                    breakpoints.push(bp);
+                }
             },
             attached = function (view) {
                 jp.attached(view);
@@ -194,6 +206,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
                     ws.send(JSON.stringify(model));
 
                     tcs.resolve(true);
+                    running(true);
                 };
 
                 // when the connection is closed, this method is called
@@ -209,6 +222,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
                     Operation: "StepThrough"
                 };
                 ws.send(JSON.stringify(model));
+
+                return Task.fromResult(true, 800);
             },
             addToWatch = function (local) {
                 console.log(local);
@@ -224,6 +239,21 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
             expandObjects = function (loc) {
                 if (!loc.items) return;
                 console.log(loc.items);
+            },
+            stop = function () {
+
+                var model = {
+                    Operation: "Stop"
+                };
+                ws.send(JSON.stringify(model));
+
+                setTimeout(function () {
+                    running(false);
+                }, 1000);
+                return Task.fromResult(true, 800)
+                    .done(function () {
+                        running(false);
+                    });
             };
 
         var vm = {
@@ -239,6 +269,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
             instance: instance,
             locals: locals,
             isBusy: isBusy,
+            running: running,
             wd: wd,
             port: port,
             activate: activate,
@@ -258,7 +289,31 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
 
                         command: start,
                         caption: "Start",
-                        icon: "fa fa-play"
+                        icon: "fa fa-play",
+                        enable: ko.computed(function () {
+                            return !running();
+                        })
+                    },
+                    {
+
+                        command: f10,
+                        caption: "Step Through",
+                        icon: "fa fa-arrow-down",
+                        enable: running
+                    },
+                    {
+
+                        command: debugcontinue,
+                        caption: "Continue",
+                        icon: "fa fa-chevron-right",
+                        enable: running
+                    },
+                    {
+
+                        command: stop,
+                        caption: "Stop",
+                        icon: "fa fa-stop",
+                        enable: running
                     }])
             }
         };
