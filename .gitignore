@@ -42,7 +42,6 @@ _ReSharper.commercial-space
 *.less~working on bootstrap 3
 *.cmd
 *.sh
-*.config
 /source/web/core.sph/.idea
 /source/web/web.sph/durandal2
 /source/web/core.sph/bin
