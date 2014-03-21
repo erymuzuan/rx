@@ -68,7 +68,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
                 if (ws) {
                     ws.send(ko.mapping.toJSON(model));
                 } else {
-                    breakpoints.push(bp);
+                    breakpoints.remove(bp);
                 }
             },
             attached = function (view) {
@@ -154,8 +154,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
                 return Task.fromResult(0);
             },
             start = function () {
-                var tcs = new $.Deferred();
-                var support = "MozWebSocket" in window ? 'MozWebSocket' : ("WebSocket" in window ? 'WebSocket' : null);
+                var tcs = new $.Deferred(),
+                    support = "MozWebSocket" in window ? 'MozWebSocket' : ("WebSocket" in window ? 'WebSocket' : null);
 
                 if (support == null) {
                     logger.error("No WebSocket support for debugging");
@@ -207,6 +207,14 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
 
                     tcs.resolve(true);
                     running(true);
+                    // Send the breakpoint which has been added before starting the connection
+                    _(breakpoints()).each(function (v) {
+                        var sm = {
+                            Operation: "AddBreakpoint",
+                            Breakpoint: v
+                        };
+                        ws.send(ko.mapping.toJSON(sm));
+                    });
                 };
 
                 // when the connection is closed, this method is called
