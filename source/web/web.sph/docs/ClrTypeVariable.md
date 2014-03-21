@@ -1,6 +1,6 @@
 #ClrTypeVariable
 ##Overview
-
+Let you define a `Variable` from a CLR type, this is normally one of the `EntityDefintion` in your application
 
 
 ##Properties

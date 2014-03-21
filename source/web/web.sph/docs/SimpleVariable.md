@@ -1,6 +1,6 @@
 #SimpleVariable
 ##Overview
-
+Let you define a `Variable` from a simple native type, such as string, boolean , integer, datetime and decimal
 
 
 ##Properties
@@ -12,7 +12,7 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>Type</td><td> - </td></tr>
+<tr><td>Type</td><td> - The name of the native type </td></tr>
 </tbody></table>
 
 
