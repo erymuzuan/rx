@@ -315,6 +315,10 @@ WriteLiteral(" value=\"Eq\"");
 
 WriteLiteral(">=</option>\r\n                            <option");
 
+WriteLiteral(" value=\"Neq\"");
+
+WriteLiteral(">!=</option>\r\n                            <option");
+
 WriteLiteral(" value=\"Le\"");
 
 WriteLiteral(">&lt;=</option>\r\n                            <option");
@@ -345,7 +349,7 @@ WriteLiteral(">EndsWith</option>\r\n                        </select>\r\n       
 "\n                    <td>                    ");
 
             
-            #line 103 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 104 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
                                        Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" }));
 
             

@@ -25,6 +25,8 @@ namespace Bespoke.Sph.Domain
             {
                 if (Operator == Operator.Eq)
                     return lc.CompareTo(rc) == 0;
+                if (Operator == Operator.Neq)
+                    return lc.CompareTo(rc) != 0;
                 if (Operator == Operator.Lt)
                     return lc.CompareTo(rc) < 0;
                 if (Operator == Operator.Le)
@@ -41,6 +43,8 @@ namespace Bespoke.Sph.Domain
             var sr = right as string;
             if (null != sr && null != sl)
             {
+                if (Operator == Operator.Neq)
+                    return sl != sr;
                 if (Operator == Operator.NotContains)
                     return !sl.ToLowerInvariant().Contains(sr.ToLowerInvariant());
                 if (Operator == Operator.Substringof)

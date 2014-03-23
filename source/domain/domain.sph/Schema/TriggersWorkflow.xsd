@@ -142,6 +142,9 @@
 			<xs:enumeration value="StartsWith"/>
 			<xs:enumeration value="EndsWith"/>
 			<xs:enumeration value="NotContains"/>
+			<xs:enumeration value="Neq"/>
+			<xs:enumeration value="NotStartsWith"/>
+			<xs:enumeration value="NotEndsWith"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="CustomAction">

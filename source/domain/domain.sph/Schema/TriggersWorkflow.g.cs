@@ -4627,6 +4627,9 @@ namespace Bespoke.Sph.Domain
         StartsWith,
         EndsWith,
         NotContains,
+        Neq,
+        NotStartsWith,
+        NotEndsWith,
 
     }
 

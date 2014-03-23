@@ -53,6 +53,64 @@ namespace domain.test.triggers
         }
 
         [Test]
+        public void ConstEqConstString()
+        {
+            var building = new Designation();
+            var rule = new Rule
+                {
+                    Left = new ConstantField { Value = "erymuzuan", Type = typeof(string) },
+                    Operator = Operator.Eq,
+                    Right = new ConstantField { Value = "Erymuzuan", Type = typeof(string) }
+                };
+
+            var result = rule.Execute(new RuleContext(building));
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void ConstEqConstString2()
+        {
+            var building = new Designation();
+            var rule = new Rule
+                {
+                    Left = new ConstantField { Value = "erymuzuan", Type = typeof(string) },
+                    Operator = Operator.Eq,
+                    Right = new ConstantField { Value = "erymuzuan", Type = typeof(string) }
+                };
+
+            var result = rule.Execute(new RuleContext(building));
+            Assert.IsTrue(result);
+        }
+        [Test]
+        public void ConstNeqConstString()
+        {
+            var building = new Designation();
+            var rule = new Rule
+                {
+                    Left = new ConstantField { Value = "erymuzuan", Type = typeof(string) },
+                    Operator = Operator.Neq,
+                    Right = new ConstantField { Value = "Erymuzuan", Type = typeof(string) }
+                };
+
+            var result = rule.Execute(new RuleContext(building));
+            Assert.IsTrue(result);
+        }
+        [Test]
+        public void ConstNeqConstInteger()
+        {
+            var building = new Designation();
+            var rule = new Rule
+                {
+                    Left = new ConstantField { Value = 500, Type = typeof(int) },
+                    Operator = Operator.Neq,
+                    Right = new ConstantField { Value = 501, Type = typeof(int) }
+                };
+
+            var result = rule.Execute(new RuleContext(building));
+            Assert.IsTrue(result);
+        }
+
+        [Test]
         public void ConstEqConst()
         {
             var building = new Designation();

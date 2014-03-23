@@ -52,3 +52,4 @@ _ReSharper.commercial-space
 /rabbitmq_server
 /rabbitmq_server/ebin/app_utils.beam
 *.InstallLog
+*.config

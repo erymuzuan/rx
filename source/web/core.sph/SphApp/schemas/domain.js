@@ -4312,6 +4312,9 @@ bespoke.sph.domain.Operator = function () {
         STARTS_WITH: 'StartsWith',
         ENDS_WITH: 'EndsWith',
         NOT_CONTAINS: 'NotContains',
+        NEQ: 'Neq',
+        NOT_STARTS_WITH: 'NotStartsWith',
+        NOT_ENDS_WITH: 'NotEndsWith',
 
         DO_NOT_SELECT: 'DONTDOTHIS'
     };
