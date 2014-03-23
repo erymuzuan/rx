@@ -53,11 +53,20 @@ So in the case of patient registration, a message will be created with `Patient.
 ![Trigger](http://i.imgur.com/rbElfmm.png)
 Basic trigger properties to listen to Patient register event
 
-
+##Rules
 Sometimes, it's not enough to just listen to entity operation, you will also what to do something else if the record or any other parameters differ. For example for a child Patient, you might want to trigger another action for the billing. This could be done via [`Rule`](Rule.html)
 ![Age](http://i.imgur.com/ww6netA.png)
 
+##Custom Actions
+Having a trigger registered is about , being able to do something about it. SPH allows you to do at least 3 things
 
+* Send a notification via [`EmailAction`](EmailAction.html) or `Message`
+* Run a [`SetterAction`](SetterAction.html) to set the properties of the record
+* Run a [`Workflow`](StartWorkflowAction.html), this will open up any other possibilities.
+
+![Action](http://i.imgur.com/GSuYtMr.png)
+
+You can add 1 or more actions, these actions will run synchronously except for `StartWorkflowAction`
 
 
 ## See also

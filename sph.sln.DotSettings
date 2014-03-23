@@ -245,6 +245,21 @@ temp($END$);&#xD;
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=16554E7C17D4CB4E93BABC11451AD750/Shortcut/@EntryValue">namespace_dp</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=16554E7C17D4CB4E93BABC11451AD750/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=16554E7C17D4CB4E93BABC11451AD750/Text/@EntryValue">xmlns:dp="clr-namespace:FarsiLibrary.FX.Win.Controls;assembly=FarsiLibrary.FX.Win"</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/Description/@EntryValue">code link for docs</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/Field/=Class/@KeyIndexDefined">True</s:Boolean>
+	
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/Field/=Class/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/Reformat/@EntryValue">True</s:Boolean>
+	
+	
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/Scope/=CF7C2F2066E462418ABD91975B64021C/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/Scope/=CF7C2F2066E462418ABD91975B64021C/CustomProperties/=mask/@EntryIndexedValue">*.md</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/Scope/=CF7C2F2066E462418ABD91975B64021C/Type/@EntryValue">InFileWithMask</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/Shortcut/@EntryValue">cl</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1CEC01E729D84849874E92D909CAD921/Text/@EntryValue">[`$Class$`]($Class$.html)</s:String>
 	
 	
 	
@@ -1942,6 +1957,21 @@ var dbItem = await context.LoadOneAsync&lt;$Entity$&gt;($p$ =&gt; $p$ .$Entity$I
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=93F98A2471C8E14B981B66D087BF011A/Shortcut/@EntryValue">propg</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=93F98A2471C8E14B981B66D087BF011A/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=93F98A2471C8E14B981B66D087BF011A/Text/@EntryValue">public $type$ $property$ { get; private set; }</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Description/@EntryValue">markdown image</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Field/=alt/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Field/=alt/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Field/=src/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Field/=src/Expression/@EntryValue">clipboard()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Field/=src/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Scope/=CF7C2F2066E462418ABD91975B64021C/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Scope/=CF7C2F2066E462418ABD91975B64021C/CustomProperties/=mask/@EntryIndexedValue">*.md</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Scope/=CF7C2F2066E462418ABD91975B64021C/Type/@EntryValue">InFileWithMask</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Shortcut/@EntryValue">img</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=94FD8CD70EF6934586C44B6D85FE242F/Text/@EntryValue">![$alt$]($src$)</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=97E685FBF093E14897D4C74225403A46/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=97E685FBF093E14897D4C74225403A46/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=97E685FBF093E14897D4C74225403A46/Categories/=Imported_002020_002F11_002F2013/@EntryIndexedValue">Imported 20/11/2013</s:String>

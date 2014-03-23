@@ -19,7 +19,6 @@
 ## See also
 
 [CustomAction](CustomAction.html)
-[CustomAction](CustomAction.html)
 [AssemblyAction](AssemblyAction.html)
 [EmailAction](EmailAction.html)
 [SetterAction](SetterAction.html)

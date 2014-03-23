@@ -53,8 +53,24 @@ private void Register(Patient patient)
 <p><img src="http://i.imgur.com/rbElfmm.png" alt="Trigger" /><br />
 Basic trigger properties to listen to Patient register event</p>
 
+<h2>Rules</h2>
+
 <p>Sometimes, it's not enough to just listen to entity operation, you will also what to do something else if the record or any other parameters differ. For example for a child Patient, you might want to trigger another action for the billing. This could be done via <a href="Rule.html"><code>Rule</code></a><br />
 <img src="http://i.imgur.com/ww6netA.png" alt="Age" /></p>
+
+<h2>Custom Actions</h2>
+
+<p>Having a trigger registered is about , being able to do something about it. SPH allows you to do at least 3 things</p>
+
+<ul>
+<li>Send a notification via <a href="EmailAction.html"><code>EmailAction</code></a> or <code>Message</code></li>
+<li>Run a <a href="SetterAction.html"><code>SetterAction</code></a> to set the properties of the record</li>
+<li>Run a <a href="StartWorkflowAction.html"><code>Workflow</code></a>, this will open up any other possibilities.</li>
+</ul>
+
+<p><img src="http://i.imgur.com/GSuYtMr.png" alt="Action" /></p>
+
+<p>You can add 1 or more actions, these actions will run synchronously except for <code>StartWorkflowAction</code></p>
 
 <h2>See also</h2>
 

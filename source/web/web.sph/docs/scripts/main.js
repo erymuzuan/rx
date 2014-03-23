@@ -13,6 +13,7 @@ define(['types'], function (types) {
 
         $('#applicationHost').load(this.href, null, function () {
             $('#applicationHost img').addClass('img-thumbnail');
+            $('#applicationHost a').prepend('<i class="fa fa-link">');
             console.log("downloaded %s", this.href);
         });
     });
@@ -28,6 +29,7 @@ define(['types'], function (types) {
         
         $('#applicationHost').load(href, null, function () {
             $('#applicationHost img').addClass('img-thumbnail');
+            $('#applicationHost a').prepend('<i class="fa fa-link">');
             console.log("downloaded %s", this.href);
         });
         e.preventDefault();
