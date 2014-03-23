@@ -28,7 +28,7 @@
         "FormRoute": null,
         "IconCssClass": "",
         "IconStoreId": "",
-        "Format": "date:{{ value:{0}, format:'DDD MMM YYYY'}}",
+        "Format": "text:{0}",
         "WebId": "b704d150-bb14-401a-9878-edaa3e392dbd"
       },
       {
@@ -66,6 +66,18 @@
         "IconStoreId": "",
         "Format": "text:{0}",
         "WebId": "b37682d9-a5eb-49bc-b22b-af326dba91f9"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Mrn",
+        "Header": "Admit",
+        "Sort": "",
+        "IsLinkColumn": true,
+        "FormRoute": "admission-form",
+        "IconCssClass": "fa fa-edit",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "88175440-2042-4f74-a23f-51d4d03b2c40"
       }
     ]
   },
@@ -93,6 +105,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-23T10:00:22.73305+08:00",
+  "ChangedDate": "2014-03-23T11:08:18.2151566+08:00",
   "WebId": "5ae449e7-1260-411e-9a36-74631d5fa46f"
 }

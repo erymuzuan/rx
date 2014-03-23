@@ -18,47 +18,45 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
                 var edQuery = String.format("Name eq '{0}'", 'Patient'),
-                    tcs = new $.Deferred(),
-                    viewQuery = String.format("EntityDefinitionId eq 2002"),
-                    edTask = context.loadOneAsync("EntityDefinition", edQuery),
-                    viewTask = context.loadOneAsync("EntityView", viewQuery);
-
+                  tcs = new $.Deferred(),
+                  viewQuery = String.format("EntityDefinitionId eq 2002"),
+                  edTask = context.loadOneAsync("EntityDefinition", edQuery),
+                  viewTask = context.loadOneAsync("EntityView", viewQuery);
 
 
                 $.when(edTask, viewTask)
-                    .done(function (b, vw) {
-                        entity(b);
-                        view(vw);
+                 .done(function (b, vw) {
+                     entity(b);
+                     view(vw);
 
-                        tcs.resolve(true);
-                    });
+                     tcs.resolve(true);
+                 });
+
 
 
                 return tcs.promise();
             },
             attached = function () {
-
-                chart.draw('Patient');
+                chart.draw('Patient', 'Race');
             },
             query = {
                 "query": {
                     "filtered": {
                         "filter": {
-                            "and": {
-                                "filters": [
-
-                                ]
-                            }
-                        }
+               "and": {
+                  "filters": [
+                    
+                  ]
+               }
+           }
                     }
                 },
-                "sort": [
-                    {"Mrn": {"order": "asc"}}
-                ]
+                "sort" : [{"Mrn":{"order":"asc"}}]
             };
 
         var vm = {
             view: view,
+            chart : chart,
             isBusy: isBusy,
             entity: entity,
             activate: activate,

@@ -2,7 +2,6 @@
 
 <div class="row">
     <div class="col-md-8">
-
         <table class="table table-striped"
                data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
             <thead>
@@ -13,6 +12,7 @@
                 <th>Gender</th>
                 <th>Race</th>
                 <th>Religion</th>
+                <th>Admit</th>
             </tr>
             </thead>
             <tbody data-bind="foreach :list">
@@ -23,21 +23,34 @@
                 </td>
 
                 <td data-bind="text:FullName"></td>
-                <td data-bind="date:{ value:Dob, format:'DD MMM YYYY'}"></td>
+                <td data-bind="text:Dob"></td>
                 <td data-bind="text:Gender"></td>
                 <td data-bind="text:Race"></td>
                 <td data-bind="text:Religion"></td>
+                <td>
+                    <a data-bind="attr : {href:'#admission-form' + '/' + PatientId },text:Mrn"></a>
+                </td>
 
 
             </tr>
             </tbody>
         </table>
-
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" data-bind="with:chart">
         <h3>Charts</h3>
-        <div id="chart22">
-test
+
+        <form class="form">
+            <div class="form-group">
+                <label for="field">Fields</label>
+                <select class="form-control" data-bind="value: field" id="field">
+                    <option value="Religion">Religion</option>
+                    <option value="Race">Race</option>
+                    <option value="Status">Status</option>
+                </select>
+            </div>
+        </form>
+        <div id="chart-Patient">
+
         </div>
     </div>
 </div>

@@ -13,7 +13,7 @@
                     var query = String.format("PatientId eq {0}", entityId),
                         tcs = new $.Deferred(),
                         itemTask = context.loadOneAsync("Patient", query),
-                        formTask = context.loadOneAsync("EntityForm", "Route eq 'patient-registration'"),
+                        formTask = context.loadOneAsync("EntityForm", "Route eq 'admission-form'"),
                         watcherTask = watcher.getIsWatchingAsync("Patient", entityId);
 
                     $.when(itemTask, formTask, watcherTask).done(function(b,f,w) {
@@ -154,7 +154,7 @@
                  },
                 attached = function (view) {
                     // validation
-                    validation.init($('#patient-registration-form'), form());
+                    validation.init($('#admission-form-form'), form());
 
                 },
 
@@ -189,8 +189,30 @@
                     transfer : transfer,
                     admit : admit,
                 toolbar : {
-                                        
-                    saveCommand : register,
+                        emailCommand : {
+                        entity : "Patient",
+                        id :id
+                    },
+                                            printCommand :{
+                        entity : 'Patient',
+                        id : id
+                    },
+                                            
+                    watchCommand: function() {
+                        return watcher.watch("Patient", entity().PatientId())
+                            .done(function(){
+                                watching(true);
+                            });
+                    },
+                    unwatchCommand: function() {
+                        return watcher.unwatch("Patient", entity().PatientId())
+                            .done(function(){
+                                watching(false);
+                            });
+                    },
+                    watching: watching,
+
+                    saveCommand : admit,
                     commands : ko.observableArray([])
                 }
             };

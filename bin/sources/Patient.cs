@@ -123,6 +123,30 @@ namespace Bespoke.Dev_2002.Domain
        set{ m_occupation = value;}
    }
 
+//member:Status
+          private System.String m_status;
+   public System.String Status
+   {
+       get{ return m_status;}
+       set{ m_status = value;}
+   }
+
+//member:Age
+          private System.Int32 m_age;
+   public System.Int32 Age
+   {
+       get{ return m_age;}
+       set{ m_age = value;}
+   }
+
+//member:Income
+          private System.Decimal m_income;
+   public System.Decimal Income
+   {
+       get{ return m_income;}
+       set{ m_income = value;}
+   }
+
    }
 //class:Mrn
 
@@ -244,6 +268,12 @@ namespace Bespoke.Dev_2002.Domain
 
 //class:Occupation
 
+//class:Status
+
+//class:Age
+
+//class:Income
+
 public partial class PatientController : System.Web.Mvc.Controller
 {
 //exec:Search
@@ -307,6 +337,76 @@ public partial class PatientController : System.Web.Mvc.Controller
             {
                 session.Attach(item);
                 await session.SubmitChanges("Register");
+            }
+            return Json(new {success = true, status="OK", id = item.PatientId});
+       }
+//exec:Discharge
+       [HttpPost]
+       [Authorize]
+       public async Task<System.Web.Mvc.ActionResult> Discharge()
+       {
+           var context = new Bespoke.Sph.Domain.SphDataContext();
+           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Patient>(this);
+           if(null == item) item = this.Item;
+           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Patient");
+           var brokenRules = new ObjectCollection<ValidationResult>();
+           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
+
+           var operation = ed.EntityOperationCollection.Single(o => o.WebId == "3fd43fb0-ee29-4933-875c-9c2330e81bbe");
+           var rc = new RuleContext(item);
+           var setter1 = operation.SetterActionChildCollection.Single(a => a.WebId == "0e22d6e6-f3af-46ff-ad65-d27a15c48f06");
+           item.Status = (System.String)setter1.Field.GetValue(rc);
+           
+            using(var session = context.OpenSession())
+            {
+                session.Attach(item);
+                await session.SubmitChanges("Discharge");
+            }
+            return Json(new {success = true, status="OK", id = item.PatientId});
+       }
+//exec:Transfer
+       [HttpPost]
+       [Authorize]
+       public async Task<System.Web.Mvc.ActionResult> Transfer()
+       {
+           var context = new Bespoke.Sph.Domain.SphDataContext();
+           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Patient>(this);
+           if(null == item) item = this.Item;
+           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Patient");
+           var brokenRules = new ObjectCollection<ValidationResult>();
+           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
+
+           var operation = ed.EntityOperationCollection.Single(o => o.WebId == "f017a0c7-b152-4cb4-8914-188b182a046a");
+           var rc = new RuleContext(item);
+           
+            using(var session = context.OpenSession())
+            {
+                session.Attach(item);
+                await session.SubmitChanges("Transfer");
+            }
+            return Json(new {success = true, status="OK", id = item.PatientId});
+       }
+//exec:Admit
+       [HttpPost]
+       [Authorize]
+       public async Task<System.Web.Mvc.ActionResult> Admit()
+       {
+           var context = new Bespoke.Sph.Domain.SphDataContext();
+           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Patient>(this);
+           if(null == item) item = this.Item;
+           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Patient");
+           var brokenRules = new ObjectCollection<ValidationResult>();
+           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
+
+           var operation = ed.EntityOperationCollection.Single(o => o.WebId == "c9da7b5e-2a70-46a9-9b04-cd962a3bf368");
+           var rc = new RuleContext(item);
+           var setter1 = operation.SetterActionChildCollection.Single(a => a.WebId == "1b76de49-5a32-45d2-b037-9ef091c8b5b2");
+           item.Status = (System.String)setter1.Field.GetValue(rc);
+           
+            using(var session = context.OpenSession())
+            {
+                session.Attach(item);
+                await session.SubmitChanges("Admit");
             }
             return Json(new {success = true, status="OK", id = item.PatientId});
        }
