@@ -37,7 +37,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 return tcs.promise();
             },
             attached = function () {
-                chart.draw('Patient', 'Race');
+                chart.draw('Patient');
             },
             query = {
                 "query": {
@@ -56,7 +56,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
 
         var vm = {
             view: view,
-            chart : chart,
+            chart: chart,
             isBusy: isBusy,
             entity: entity,
             activate: activate,

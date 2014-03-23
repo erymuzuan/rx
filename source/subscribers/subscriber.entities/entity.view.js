@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context, logger, router) {
+define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart'],
+    function (context, logger, router, chart) {
 
         var isBusy = ko.observable(false),
             view = ko.observable(),
@@ -37,7 +37,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 return tcs.promise();
             },
             attached = function () {
-
+                chart.draw('@Model.Definition.Name');
             },
             query = {
                 "query": {
@@ -50,6 +50,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
         var vm = {
             view: view,
+            chart: chart,
             isBusy: isBusy,
             entity: entity,
             activate: activate,

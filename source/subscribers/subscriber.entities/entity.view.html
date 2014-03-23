@@ -1,27 +1,28 @@
 ﻿<h1>@Model.View.Name</h1>
 
 <div class="row">
-    <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : '@Model.Definition.Name', list:list}">
-        <thead>
-            <tr>
-                <th>@Model.Definition.RecordName</th>
-                @foreach(var col in Model.View.ViewColumnCollection)
-                {
-                <th>@col.Header</th>
-                }
-            </tr>
-        </thead>
-        <tbody data-bind="foreach :list">
-            <tr>
-                <td>
-                    @{
-                    var eid = Model.Definition.Name + "Id";
+    <div class="col-md-8">
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : '@Model.Definition.Name', list:list}">
+            <thead>
+                <tr>
+                    <th>@Model.Definition.RecordName</th>
+                    @foreach(var col in Model.View.ViewColumnCollection)
+                    {
+                    <th>@col.Header</th>
                     }
-                    <a data-bind="attr : {href:'#@Model.Form.Route' + '/' + @eid },text: @Model.Definition.RecordName"></a>
-                </td>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :list">
+                <tr>
+                    <td>
+                        @{
+                        var eid = Model.Definition.Name + "Id";
+                        }
+                        <a data-bind="attr : {href:'#@Model.Form.Route' + '/' + @eid },text: @Model.Definition.RecordName"></a>
+                    </td>
 
-                @foreach(var col in Model.View.ViewColumnCollection)
-                {
+                    @foreach(var col in Model.View.ViewColumnCollection)
+                    {
                     var format = string.IsNullOrWhiteSpace(col.Format) ? "text:{0}": col.Format;
                     var binding = string.Format(col.Format, col.Path);
                     if(col.IsLinkColumn){
@@ -30,13 +31,33 @@
                     </td>
                     }
                     else{
-                    <td data-bind="@binding"></td> 
+                    <td data-bind="@binding"></td>
                     }
-                }
+                    }
 
 
-            </tr>
-        </tbody>
-    </table>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4" data-bind="with:chart">
+        <h3>Charts</h3>
 
+        <form class="form">
+            <div class="form-group">
+                <label for="field">Fields</label>
+                <select class="form-control" data-bind="value: field" id="field">
+
+                    <option value="">[Select Field]</option>
+                    @foreach(var m in Model.Definition.GetMembersPath())
+                    {
+                    <option value="@m">@m</option>
+                    }
+                </select>
+            </div>
+        </form>
+        <div id="chart-@Model.Definition.Name">
+
+        </div>
+    </div>
 </div>

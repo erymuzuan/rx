@@ -1,13 +1,15 @@
 define(['services/datacontext'], function (context) {
 
     var field = ko.observable(),
+        entityName = ko.observable(),
         draw = function (entity, fd) {
+            entityName(entity);
             if(!field()){
                 field(fd);
             }
-            field.subscribe(function(f){
-                draw(entity,f);
-            });
+            if(!fd){
+                return;
+            }
             var tcs = new $.Deferred(),
                 query = {
                     "aggs": {
@@ -31,7 +33,7 @@ define(['services/datacontext'], function (context) {
                         }),
                         chart = $("div#chart-" + entity).empty().kendoChart({
                             title: {
-                                text: "whatever"
+                                text: entityName() +  " count by " + field()
                             },
                             legend: {
                                 position: "bottom"
@@ -56,6 +58,13 @@ define(['services/datacontext'], function (context) {
 
             return tcs.promise();
         };
+
+
+
+    field.subscribe(function(f){
+        draw(entityName(), f);
+    });
+
     return {
         draw: draw,
         field: field
