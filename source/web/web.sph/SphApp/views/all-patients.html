@@ -1,0 +1,43 @@
+<h1>All patients</h1>
+
+<div class="row">
+    <div class="col-md-8">
+
+        <table class="table table-striped"
+               data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
+            <thead>
+            <tr>
+                <th>Mrn</th>
+                <th>Name</th>
+                <th>Dob</th>
+                <th>Gender</th>
+                <th>Race</th>
+                <th>Religion</th>
+            </tr>
+            </thead>
+            <tbody data-bind="foreach :list">
+            <tr>
+                <td>
+
+                    <a data-bind="attr : {href:'#patient-registration' + '/' + PatientId },text: Mrn"></a>
+                </td>
+
+                <td data-bind="text:FullName"></td>
+                <td data-bind="date:{ value:Dob, format:'DD MMM YYYY'}"></td>
+                <td data-bind="text:Gender"></td>
+                <td data-bind="text:Race"></td>
+                <td data-bind="text:Religion"></td>
+
+
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-md-4">
+        <h3>Charts</h3>
+        <div id="chart22">
+test
+        </div>
+    </div>
+</div>

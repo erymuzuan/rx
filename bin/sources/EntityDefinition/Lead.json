@@ -1,0 +1,50 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
+  "CodeNamespace": "Bespoke.Dev_1001.Domain",
+  "MemberCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Name",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 5,
+        "WebId": "3601a474-d787-4ef5-aa98-97e14aa7333b"
+      }
+    ]
+  },
+  "BusinessRuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.BusinessRule, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityOperationCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityOperation, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityDefinitionId": 1001,
+  "Name": "Lead",
+  "Plural": "Leads",
+  "IconStoreId": "e349f7c4-6c52-4233-8b61-5610fc352ad9",
+  "IconClass": "fa fa-user",
+  "RecordName": "Name",
+  "IsPublished": false,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-02-24T19:31:51.1916033+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-03-20T08:16:21.2993706+08:00",
+  "WebId": "99c91bbe-fd9c-4c3c-8392-5f0bbe13e33f"
+}

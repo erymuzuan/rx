@@ -295,6 +295,7 @@ function (logger, system, ko2) {
                 lo.size = size;
                 lo.rows = msg.hits.total;
                 lo.facets = msg.facets;
+                lo.aggregations = msg.aggregations;
 
                 tcs.resolve(lo);
             }

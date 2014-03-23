@@ -1,0 +1,182 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ScreenActivity, domain.sph",
+        "Title": "",
+        "ViewVirtualPath": "",
+        "WorkflowDefinitionId": 0,
+        "CancelMessageSubject": "[Sph] @Model.Screen.Name was cancelled",
+        "InvitationMessageSubject": "[Sph] @Model.Screen.Name  task is assigned to you",
+        "CancelMessageBody": "@Model.Screen.Name task was cancelled this url is not longer valid @Model.Url",
+        "InvitationMessageBody": "@Model.Screen.Name task is assigned to you go here @Model.Url",
+        "FormDesign": {
+          "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+          "FormElementCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+                "DefaultValue": null,
+                "AutoCompletionEntity": null,
+                "AutoCompletionField": null,
+                "AutoCompletionQuery": null,
+                "MinLength": null,
+                "MaxLength": null,
+                "FieldValidation": {
+                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                  "IsRequired": false,
+                  "MaxLength": 0,
+                  "MinLength": 0,
+                  "Pattern": null,
+                  "Mode": null,
+                  "Message": null,
+                  "WebId": null
+                },
+                "Name": "Single Line Text",
+                "Label": "Name",
+                "Tooltip": null,
+                "Path": "customer.FullName",
+                "IsRequired": false,
+                "Size": "input-large",
+                "CssClass": "",
+                "Visible": "true",
+                "Enable": "true",
+                "ElementId": "3c50fc7c-fc68-4d80-864f-9c3b727aff31",
+                "HelpText": null,
+                "UseDisplayTemplate": false,
+                "LabelColLg": null,
+                "LabelColMd": null,
+                "LabelColSm": null,
+                "LabelColXs": null,
+                "InputColLg": null,
+                "InputColMd": null,
+                "InputColSm": null,
+                "InputColXs": null,
+                "WebId": null
+              }
+            ]
+          },
+          "Name": "",
+          "Description": "",
+          "ConfirmationText": "",
+          "ImageStoreId": "",
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "8a613074-cb07-4914-a457-4e367dbf356d"
+        },
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": "",
+          "Value": "",
+          "IsPublic": true,
+          "WebId": "cfd7e8cb-c689-4109-a225-c4e3f280f688"
+        },
+        "ConfirmationOptions": {
+          "$type": "Bespoke.Sph.Domain.ConfirmationOptions, domain.sph",
+          "Type": "Message",
+          "Value": "",
+          "WebId": "e41ea815-6828-4465-aab9-dfbfb1a2592b"
+        },
+        "IsAsync": true,
+        "ViewModelType": "StartViewModel",
+        "MethodName": "ExecScreenActivityStart_c06cAsync",
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 430,
+          "Y": 94,
+          "WebId": "81c5766d-feef-402d-8d54-5a6684c9fe3f"
+        },
+        "IsInitiator": true,
+        "NextActivityWebId": "3f631023-fcb7-4396-ab72-e6240d9b5d06",
+        "Name": "Start",
+        "WebId": "c06c28c4-8cea-47f6-8846-9863c3b18a9e"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "",
+        "Body": "",
+        "To": "",
+        "UserName": "",
+        "Cc": "",
+        "Bcc": "",
+        "IsHtmlEmail": false,
+        "MethodName": "ExecNotificationActivityNotify1_3f63Async",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 155,
+          "Y": 237,
+          "WebId": "e012ed07-b736-43ac-948f-b62301ac1ab7"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "6b48e593-2e04-413d-a545-3b066dae70de",
+        "Name": "Notify1",
+        "WebId": "3f631023-fcb7-4396-ab72-e6240d9b5d06"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
+        "IsTerminating": false,
+        "MethodName": "ExecEndActivityEnd2_6b48Async",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 597,
+          "Y": 427,
+          "WebId": "215bd27b-e80d-491a-a96e-6e6ebd1b56b3"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "",
+        "Name": "End2",
+        "WebId": "6b48e593-2e04-413d-a545-3b066dae70de"
+      }
+    ]
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "Status",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "",
+        "WebId": "f68b79de-0a9d-4f8a-8531-048efbe8ee08"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "customer",
+        "TypeName": "Bespoke.Dev_1.Domain.Customer, Dev.Customer",
+        "DefaultValue": "",
+        "WebId": "b1183d49-d2bd-4dc6-82bd-d1598d9f7de6"
+      }
+    ]
+  },
+  "WorkflowDefinitionId": 11003,
+  "Name": "Empty schema test",
+  "Note": "",
+  "IsActive": true,
+  "SchemaStoreId": "",
+  "Version": 0,
+  "CreatedBy": null,
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-03-15T16:59:23.6516218+08:00",
+  "WebId": "32ee988e-f512-4a50-9f2c-297741ecbb7d"
+}

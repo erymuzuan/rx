@@ -1,0 +1,98 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ViewColumnCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "FullName",
+        "Header": "Name",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "c583639d-8681-4a16-802e-c5c85ea7db92"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Dob",
+        "Header": "Dob",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "date:{{ value:{0}, format:'DDD MMM YYYY'}}",
+        "WebId": "b704d150-bb14-401a-9878-edaa3e392dbd"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Gender",
+        "Header": "Gender",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "f3e85444-164c-4102-9245-99cd8ed0d5e8"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Race",
+        "Header": "Race",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "0b98023e-671c-4294-b1ba-e0d7d90a8dc3"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Religion",
+        "Header": "Religion",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "b37682d9-a5eb-49bc-b22b-af326dba91f9"
+      }
+    ]
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
+        "Path": "Mrn",
+        "Direction": "Asc",
+        "WebId": "e885d29a-a8be-4d63-9d61-29d8b673f2f4"
+      }
+    ]
+  },
+  "EntityViewId": 1002,
+  "IconClass": "",
+  "IconStoreId": "11f16d06-c22d-406f-ab97-5942315f2e68",
+  "EntityDefinitionId": 2002,
+  "Name": "All patients",
+  "Route": "all-patients",
+  "Note": "",
+  "Query": "",
+  "IsPublished": true,
+  "Visibilty": "",
+  "CreatedBy": null,
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-03-23T10:00:22.73305+08:00",
+  "WebId": "5ae449e7-1260-411e-9a36-74631d5fa46f"
+}

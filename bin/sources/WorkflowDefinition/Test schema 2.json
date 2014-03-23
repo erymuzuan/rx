@@ -1,0 +1,80 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ScheduledTriggerActivity, domain.sph",
+        "IntervalScheduleCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.IntervalSchedule, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.DailySchedule, domain.sph",
+              "Recur": 1,
+              "StartHour": 0,
+              "StartMinute": 0,
+              "StartSecond": 0,
+              "EndHour": 0,
+              "EndMinute": 0,
+              "EndSecond": 0,
+              "IsEnabled": true,
+              "Start": "2014-02-25T00:00:00+08:00",
+              "Expire": null,
+              "Delay": null,
+              "Repeat": null,
+              "Duration": null,
+              "WebId": "8df3eced-5e05-425d-8b75-9736d8cf237c"
+            }
+          ]
+        },
+        "MethodName": "ExecScheduledTriggerActivityStart_03f0Async",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 342,
+          "Y": 32,
+          "WebId": "847a7bda-ab5e-4f8a-a3c1-62ecbf951749"
+        },
+        "IsInitiator": true,
+        "NextActivityWebId": "23ea0076-94fc-4023-881f-fe627a6eb7b2",
+        "Name": "Start",
+        "WebId": "03f0cf87-240b-4c19-b94b-fdc3e28e46b9"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
+        "IsTerminating": false,
+        "MethodName": "ExecEndActivityEnd1_23eaAsync",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 391,
+          "Y": 372,
+          "WebId": "854b15f0-15e6-4ed4-90fa-e9b3c057584c"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "",
+        "Name": "End1",
+        "WebId": "23ea0076-94fc-4023-881f-fe627a6eb7b2"
+      }
+    ]
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "WorkflowDefinitionId": 11004,
+  "Name": "Test schema 2",
+  "Note": "",
+  "IsActive": false,
+  "SchemaStoreId": "3ba4c9ec-043c-4b07-b975-cae1a62eb8e4",
+  "Version": 0,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-03-15T17:04:22.959277+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-03-15T17:10:31.0377244+08:00",
+  "WebId": "d272d08e-fe09-4d54-9268-a215fa4add7c"
+}

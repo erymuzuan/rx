@@ -1,0 +1,56 @@
+
+define(['services/datacontext'], function (context) {
+
+    var draw = function (entity) {
+        var tcs = new $.Deferred(),
+            query = {
+                "aggs": {
+                    "category": {
+                        "terms": {
+                            "field": "Religion",
+                            "size": 10
+                        }
+                    }
+                }
+            };
+
+        context.searchAsync(entity, query)
+            .done(function (result) {
+                tcs.resolve(true);
+                var data = _(result.aggregations.category.buckets).map(function (v) {
+                        return {
+                            category: v.key,
+                            value: v.doc_count
+                        };
+                    }),
+                    chart = $("div#chart22").empty().kendoChart({
+                        title: {
+                            text: "whatever"
+                        },
+                        legend: {
+                            position: "bottom"
+                        },
+                        seriesDefaults: {
+                            labels: {
+                                visible: true,
+                                format: "{0}"
+                            }
+                        },
+                        series: [
+                            {
+                                type: "pie",
+                                data: data
+                            }
+                        ]
+                    }).data("kendoChart");
+                console.log(chart);
+
+            });
+
+
+        return tcs.promise();
+    };
+    return {
+        draw: draw
+    };
+});
