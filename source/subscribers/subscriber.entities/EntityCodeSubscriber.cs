@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
-
 namespace subscriber.entities
 {
     public class EntityCodeSubscriber : Subscriber<EntityDefinition>
@@ -45,7 +44,7 @@ namespace subscriber.entities
 
         private void Deploy(EntityDefinition item)
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(5 * 1000);
 
             var dll = string.Format("{0}.{1}.dll",ConfigurationManager.ApplicationName, item.Name);
             var pdb = string.Format("{0}.{1}.pdb",ConfigurationManager.ApplicationName, item.Name);

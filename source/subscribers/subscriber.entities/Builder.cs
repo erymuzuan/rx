@@ -6,13 +6,20 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
 
+using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
+
 namespace subscriber.entities
 {
     public class Builder
     {
+        private readonly INotificationService m_notifier;
         public EntityDefinition EntityDefinition { get; set; }
         public string Name { get; set; }
 
+        public Builder(INotificationService notifier)
+        {
+            m_notifier = notifier;
+        }
 
         private Column[] m_columns;
         public const string SPH_CONNECTION = "sph";
@@ -22,7 +29,7 @@ namespace subscriber.entities
         {
             get
             {
-                return string.Format(" SET IDENTITY_INSERT [{1}].[{0}] ON      \r\n", this.Name,ConfigurationManager.ApplicationName);
+                return string.Format(" SET IDENTITY_INSERT [{1}].[{0}] ON      \r\n", this.Name, ConfigurationManager.ApplicationName);
             }
         }
         public string SetIdentityOff
@@ -59,9 +66,13 @@ namespace subscriber.entities
                 + ")\r\n"
            + this.SetIdentityOff;
 
-            var parms = from c in m_columns
-                        select new SqlParameter("@" + c.Name.Replace(".", "_"), this.GetParameterValue(c, item));
-            await SPH_CONNECTION.ExecuteNonQueryAsync(sql, parms.ToArray()).ConfigureAwait(false);
+            var parms = (from c in m_columns
+                         select new SqlParameter("@" + c.Name.Replace(".", "_"), this.GetParameterValue(c, item))
+                        ).ToList();
+            var paramsValue = string.Join("\r\n",
+                parms.Select(p => string.Format("{0}\t=> {1}", p.ParameterName, p.Value)));
+            Console.WriteLine(sql + "\r\n" + paramsValue);
+            await SPH_CONNECTION.ExecuteNonQueryAsync(sql, parms.ToArray());
 
 
         }
@@ -97,7 +108,21 @@ namespace subscriber.entities
                 if (itemProp.PropertyType.GenericTypeArguments[0].IsEnum)
                     return value.ToString();
             }
-
+            if (!prop.IsNullable && null == value)
+            {
+                // get the default value
+                switch (prop.SqlType)
+                {
+                    case "varchar":
+                    case "nvarchar": return "";
+                    case "int": return 0;
+                    case "bit": return 0;
+                    case "money": return 0;
+                    case "float": return 0;
+                    case "smalldatetime": return DateTime.Today;
+                    default: throw new Exception("No default value for " + prop.SqlType);
+                }
+            }
             if (null == value) return DBNull.Value;
             return value;
         }

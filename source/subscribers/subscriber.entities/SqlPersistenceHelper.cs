@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
@@ -133,7 +134,7 @@ namespace subscriber.entities
 
                 await conn.OpenAsync();
                 var list = new List<T>();
-                using (var reader =await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection))
+                using (var reader = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection))
                 {
                     while (reader.Read())
                     {
@@ -198,7 +199,12 @@ namespace subscriber.entities
                     cmd.Parameters.AddRange(parameters);
 
                 await conn.OpenAsync();
-                await cmd.ExecuteNonQueryAsync();
+                var row = await cmd.ExecuteNonQueryAsync();
+                if (row == 0)
+                {
+                    Console.WriteLine("WHIIIIII " + sql);
+                    Debugger.Break();
+                }
             }
         }
 

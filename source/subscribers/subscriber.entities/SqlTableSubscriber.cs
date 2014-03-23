@@ -99,6 +99,10 @@ namespace subscriber.entities
                 //migrate
                 var readSql = string.Format("SELECT [{0}Id],[Json] FROM [{1}].[{2}]", item.Name, applicationName, oldTable);
                 this.WriteMessage(readSql);
+
+                var builder = new Builder(this.NotificicationService) { EntityDefinition = item, Name = item.Name };
+                builder.Initialize();
+
                 using (var cmd = new SqlCommand(readSql, conn))
                 {
                     using (var reader = await cmd.ExecuteReaderAsync())
@@ -111,12 +115,8 @@ namespace subscriber.entities
                             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
                             dynamic ent = JsonConvert.DeserializeObject(json, setting);
                             ent.SetId(id);
-
                             //
-                            var builder = new Builder {EntityDefinition = item, Name = item.Name};
-                            builder.Initialize();
-                            builder.InsertAsync(ent);
-
+                            await builder.InsertAsync(ent);
                         }
 
                     }
