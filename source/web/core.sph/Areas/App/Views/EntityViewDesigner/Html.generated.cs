@@ -496,6 +496,7 @@ WriteLiteral(@">
                 <tr>
                     <th>Path</th>
                     <th>Header</th>
+                    <th>Format</th>
                     <th>Link</th>
                     <th>Form</th>
                     <th>Icon css</th>
@@ -529,8 +530,39 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-bind=\"value:Header\"");
 
-WriteLiteral(" required />\r\n                    </td>\r\n                    <td>\r\n              " +
-"          <input");
+WriteLiteral(" required />\r\n                    </td>\r\n\r\n                    <td>\r\n            " +
+"            <select");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value:Format\"");
+
+WriteLiteral(">\r\n                            <option");
+
+WriteLiteral(" value=\"text:{0}\"");
+
+WriteLiteral(">Text</option>\r\n                            <option");
+
+WriteLiteral(" value=\"date:{0}\"");
+
+WriteLiteral(">Short date</option>\r\n                            <option");
+
+WriteLiteral(" value=\"date:{{ value:{0}, format:\'DD MMM YYYY\'}}\"");
+
+WriteLiteral(">Long date</option>\r\n                            <option");
+
+WriteLiteral(" value=\"date:{{ value:{0}, format:\'D/M/YYYY HH:mm\'}}\"");
+
+WriteLiteral(">Short date time</option>\r\n                            <option");
+
+WriteLiteral(" value=\"date:{{ value:{0}, format:\'DD MMM YYYY HH:mm\'}}\"");
+
+WriteLiteral(">Long date time</option>\r\n                            <option");
+
+WriteLiteral(" value=\"money:{0}\"");
+
+WriteLiteral(">Money</option>\r\n                        </select>\r\n                    </td>\r\n  " +
+"                  <td>\r\n                        <input");
 
 WriteLiteral(" type=\"checkbox\"");
 

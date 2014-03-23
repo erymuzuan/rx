@@ -925,6 +925,7 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
         FormRoute: ko.observable(''),
         IconCssClass: ko.observable(''),
         IconStoreId: ko.observable(''),
+        Format: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

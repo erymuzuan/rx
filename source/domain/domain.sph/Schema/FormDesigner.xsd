@@ -446,6 +446,7 @@
 			<xs:attribute name="FormRoute" type="xs:string" use="required"/>
 			<xs:attribute name="IconCssClass" type="xs:string" use="required"/>
 			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
+			<xs:attribute name="Format" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:simpleType name="Operator">

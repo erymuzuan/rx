@@ -177,6 +177,7 @@
                 <tr>
                     <th>Path</th>
                     <th>Header</th>
+                    <th>Format</th>
                     <th>Link</th>
                     <th>Form</th>
                     <th>Icon css</th>
@@ -191,6 +192,17 @@
                     </td>
                     <td>
                         <input class="form-control" type="text" data-bind="value:Header" required />
+                    </td>
+
+                    <td>
+                        <select class="form-control" data-bind="value:Format">
+                            <option value="text:{0}">Text</option>
+                            <option value="date:{0}">Short date</option>
+                            <option value="date:{{ value:{0}, format:'DD MMM YYYY'}}">Long date</option>
+                            <option value="date:{{ value:{0}, format:'D/M/YYYY HH:mm'}}">Short date time</option>
+                            <option value="date:{{ value:{0}, format:'DD MMM YYYY HH:mm'}}">Long date time</option>
+                            <option value="money:{0}">Money</option>
+                        </select>
                     </td>
                     <td>
                         <input type="checkbox" data-bind="checked:IsLinkColumn" />

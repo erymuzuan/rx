@@ -265,7 +265,7 @@ function (logger, system, ko2) {
             size = entityOrOptions.size || 20;
         }
 
-        var url = "/search/" + entity.toLowerCase();
+        var url = "/search/" + entity.toLowerCase() + "/";
         //NOTE: for workflows
         if (entity.indexOf("_") > 0) {
             url = entity.toLowerCase() + "/search/";

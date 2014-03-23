@@ -3649,6 +3649,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIconStoreId = "IconStoreId";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_format;
+        public const string PropertyNameFormat = "Format";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -3846,6 +3851,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_iconStoreId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Format
+        {
+            set
+            {
+                if (String.Equals(m_format, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFormat, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_format = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_format;
             }
         }
 
