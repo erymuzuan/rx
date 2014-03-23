@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Domain
             if (null == left) return false;
             if (null == right) return false;
 
-           // Console.WriteLine("Evaluate : ({3}){0} {1} ({4}){2}", left, Operator, right, left.GetType().Name, right.GetType().Name);
+            // Console.WriteLine("Evaluate : ({3}){0} {1} ({4}){2}", left, Operator, right, left.GetType().Name, right.GetType().Name);
 
             var lc = left as IComparable;
             var rc = right as IComparable;
@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Domain
                 if (Operator == Operator.Ge)
                     return lc.CompareTo(rc) >= 0;
 
-               
+
             }
 
             var sl = left as string;
@@ -51,8 +51,12 @@ namespace Bespoke.Sph.Domain
                     return sl.ToLowerInvariant().Contains(sr.ToLowerInvariant());
                 if (Operator == Operator.StartsWith)
                     return sl.ToLowerInvariant().StartsWith(sr.ToLowerInvariant());
+                if (Operator == Operator.NotStartsWith)
+                    return !sl.ToLowerInvariant().StartsWith(sr.ToLowerInvariant());
                 if (Operator == Operator.EndsWith)
                     return sl.ToLowerInvariant().EndsWith(sr.ToLowerInvariant());
+                if (Operator == Operator.NotEndsWith)
+                    return !sl.ToLowerInvariant().EndsWith(sr.ToLowerInvariant());
             }
 
             return false;

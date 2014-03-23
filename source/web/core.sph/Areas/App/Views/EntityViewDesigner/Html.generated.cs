@@ -345,11 +345,23 @@ WriteLiteral(">StartsWith</option>\r\n                            <option");
 
 WriteLiteral(" value=\"EndsWith\"");
 
-WriteLiteral(">EndsWith</option>\r\n                        </select>\r\n                    </td>\r" +
-"\n                    <td>                    ");
+WriteLiteral(">EndsWith</option>\r\n                            <option");
+
+WriteLiteral(" value=\"NotContains\"");
+
+WriteLiteral(">Not Substringof</option>\r\n                            <option");
+
+WriteLiteral(" value=\"NotStartsWith\"");
+
+WriteLiteral(">Not StartsWith</option>\r\n                            <option");
+
+WriteLiteral(" value=\"NotEndsWith\"");
+
+WriteLiteral(">Not EndsWith</option>\r\n                        </select>\r\n                    </" +
+"td>\r\n                    <td>                    ");
 
             
-            #line 104 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 107 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
                                        Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" }));
 
             

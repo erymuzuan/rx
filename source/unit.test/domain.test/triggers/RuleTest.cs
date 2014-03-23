@@ -140,6 +140,65 @@ namespace domain.test.triggers
             Assert.IsTrue(result);
         }
 
+        [Test]
+        public void NotContainsString()
+        {
+            var building = new Designation();
+            var rule = new Rule
+            {
+                Left = new ConstantField { Value = "Mohd Ali", Type = typeof(string) },
+                Operator = Operator.NotContains,
+                Right = new ConstantField { Value = "Sam", Type = typeof(string) }
+            };
+
+            var result = rule.Execute(new RuleContext(building));
+            Assert.IsTrue(result);
+        }
+        [Test]
+        public void NotContainsStringFalse()
+        {
+            var building = new Designation();
+            var rule = new Rule
+            {
+                Left = new ConstantField { Value = "Mohd Ali", Type = typeof(string) },
+                Operator = Operator.NotContains,
+                Right = new ConstantField { Value = "Ali", Type = typeof(string) }
+            };
+
+            var result = rule.Execute(new RuleContext(building));
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void NotStartsWith()
+        {
+            var building = new Designation();
+            var rule = new Rule
+            {
+                Left = new ConstantField { Value = "Mohd Ali", Type = typeof(string) },
+                Operator = Operator.NotStartsWith,
+                Right = new ConstantField { Value = "Ali", Type = typeof(string) }
+            };
+
+            var result = rule.Execute(new RuleContext(building));
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void NotEndsWith()
+        {
+            var building = new Designation();
+            var rule = new Rule
+            {
+                Left = new ConstantField { Value = "Mohd Ali", Type = typeof(string) },
+                Operator = Operator.NotEndsWith,
+                Right = new ConstantField { Value = "M", Type = typeof(string) }
+            };
+
+            var result = rule.Execute(new RuleContext(building));
+            Assert.IsTrue(result);
+        }
+
 
 
         [Test]

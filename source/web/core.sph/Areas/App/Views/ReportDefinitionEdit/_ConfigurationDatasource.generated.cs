@@ -69,7 +69,7 @@ WriteLiteral(" id=\"data-source-entity\"");
 
 WriteLiteral(" name=\"Entity\"");
 
-WriteLiteral(">\r\n            </select>\r\n        </div>\r\n    </div>\r\n    <div");
+WriteLiteral("></select>\r\n        </div>\r\n    </div>\r\n    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -143,8 +143,20 @@ WriteLiteral(">Starts with</option>\r\n                        <option");
 
 WriteLiteral(" value=\"EndsWith\"");
 
-WriteLiteral(">Ends with</option>\r\n                    </select>\r\n                </td>\r\n      " +
-"          <td>\r\n                    <input");
+WriteLiteral(">Ends with</option>\r\n                        <option");
+
+WriteLiteral(" value=\"NotContains\"");
+
+WriteLiteral(">Not Substringof</option>\r\n                        <option");
+
+WriteLiteral(" value=\"NotStartsWith\"");
+
+WriteLiteral(">Not StartsWith</option>\r\n                        <option");
+
+WriteLiteral(" value=\"NotEndsWith\"");
+
+WriteLiteral(">Not EndsWith</option>\r\n\r\n                    </select>\r\n                </td>\r\n " +
+"               <td>\r\n                    <input");
 
 WriteLiteral(" class=\"input-datasource-value form-control\"");
 
@@ -163,7 +175,7 @@ WriteLiteral("><i");
 WriteLiteral(" class=\"fa fa-times\"");
 
 WriteLiteral("></i></a>\r\n                </td>\r\n            </tr>\r\n        </tbody>\r\n    </tabl" +
-"e>\r\n      <div");
+"e>\r\n    <div");
 
 WriteLiteral(" class=\"form-group\"");
 

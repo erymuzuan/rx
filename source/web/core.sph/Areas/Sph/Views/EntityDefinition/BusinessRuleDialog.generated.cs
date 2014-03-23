@@ -200,8 +200,8 @@ WriteLiteral(" placeholder=\"Message\"");
 WriteLiteral(" data-bind=\"value:ErrorMessage\"");
 
 WriteLiteral(">\r\n                        </div>\r\n                    </div>\r\n\r\n                " +
-"    <h3>\r\n                        \r\n                        Rules\r\n             " +
-"       </h3>\r\n                    <a");
+"    <h3>\r\n\r\n                        Rules\r\n                    </h3>\r\n          " +
+"          <a");
 
 WriteLiteral(" class=\"btn btn-link pull-right\"");
 
@@ -282,13 +282,25 @@ WriteLiteral(">Starts with</option>\r\n                                        <
 
 WriteLiteral(" value=\"EndsWith\"");
 
-WriteLiteral(">Ends with</option>\r\n                                    </select>\r\n             " +
-"                   </td>\r\n                                <td>\r\n");
+WriteLiteral(">Ends with</option>\r\n                                        <option");
+
+WriteLiteral(" value=\"NotContains\"");
+
+WriteLiteral(">Not Substringof</option>\r\n                                        <option");
+
+WriteLiteral(" value=\"NotStartsWith\"");
+
+WriteLiteral(">Not StartsWith</option>\r\n                                        <option");
+
+WriteLiteral(" value=\"NotEndsWith\"");
+
+WriteLiteral(">Not EndsWith</option>\r\n                                    </select>\r\n          " +
+"                      </td>\r\n                                <td>\r\n");
 
 WriteLiteral("                                    ");
 
             
-            #line 81 "..\..\Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml"
+            #line 84 "..\..\Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml"
                                Write(Html.Partial("_RuleFieldDropDown", new TypeModel { Path = "Right" }));
 
             
