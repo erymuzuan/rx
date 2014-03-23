@@ -1,0 +1,99 @@
+@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@using Newtonsoft.Json
+@model Bespoke.Sph.Workflows_12003_0.Screen1ViewModel
+
+@{
+    ViewBag.Title = Model.Instance.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    const string controllerString = "Controller";
+    var setting = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+    var confirmationText = Model.Screen.ConfirmationOptions.Value;
+    
+}
+
+<div class="row">
+    <h1>@Model.Screen.FormDesign.Name</h1>
+    <span>@Model.Screen.FormDesign.Description</span>
+</div>
+<div class="row">
+    <form class="form-horizontal" id="workflow-start-form" data-bind="with: instance">
+        @foreach (var fe in Model.Screen.FormDesign.FormElementCollection)
+        {
+            var fe1 = fe;
+            fe1.Path = fe.Path.ConvertJavascriptObjectToFunction();
+            fe1.SetDefaultLayout(Model.Screen.FormDesign);
+            @(fe.UseDisplayTemplate ? Html.DisplayFor(f => fe1) : Html.EditorFor(f => fe1))
+        }
+   
+    </form>
+
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript" src="/Workflow_12003_0/Schemas"></script>
+    <script type="text/javascript">
+        require(['services/datacontext', 'jquery','services/app', 'services/system', 'services/config'], function(context,jquery,app, system, config) {
+
+            
+           var instance = context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Instance, setting)),/@Model.Namespace.Replace(".","\\.")\.(.*?),/),
+               screen = context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Screen, setting)),/@Model.Namespace.Replace(".","\\.")\.(.*?),/),
+               vm = {
+                id : @Model.Instance.WorkflowDefinitionId,
+                instance : ko.observable(instance),    
+                screen : ko.observable(screen),
+                config : config,
+                isBusy : ko.observable(),
+                save : function(){
+                      var tcs = new $.Deferred(),
+                            data = ko.mapping.toJSON(vm.instance),
+                            button = $(this);
+
+                        button.prop('disabled', true);
+                        context.post(data, "/workflow_12003_0/SaveScreen1")
+                            .then(function(result) {
+                                tcs.resolve(result);
+                                @if(Model.Screen.ConfirmationOptions.Type == "Message")
+                                {
+                                    <text>
+                                    var msg = _.template('@Html.Raw(confirmationText)')(result.wf);
+                                    app.showMessage(msg, '@Model.Screen.Name', ['OK'])
+                                        .done(function(dr){
+                                            console.log(dr);
+                                        });
+                                    </text>
+                                }else
+                                {
+                                    <text>
+                                    window.location = "@confirmationText";
+                                    </text>
+                                }
+                       
+
+                            });
+                        return tcs.promise();
+                }
+            };
+            
+            instance.addChildItem = function(list, type){
+                return function(){
+                     list.push(new type(system.guid()));                  
+                }
+            };
+            
+            instance.removeChildItem = function(list, obj){
+                return function(){
+                    list.remove(obj);
+                }
+            };
+
+            ko.applyBindings(vm, document.getElementById('body'));
+            @*  the div#body is defined in _Layout.cshtml, if you use different Layout then this has got to changed accordingly *@
+
+      
+        });
+
+    </script>
+}

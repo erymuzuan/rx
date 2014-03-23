@@ -572,6 +572,27 @@
         "IsExcludeInAll": false,
         "Boost": 0,
         "WebId": "76c418fa-88c5-4d5f-9f5e-e05984c58818"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Empty",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": true,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "WebId": "4d9f6fa6-a355-4900-ae58-1740c9f88cf3"
       }
     ]
   },
@@ -650,6 +671,19 @@
                 "WebId": "35dff2c2-7693-4832-8c5f-dc5ef177a40b"
               },
               "WebId": "ec52a232-a300-4671-97c3-debd580576da"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+              "Path": "Status",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "New",
+                "Name": "New",
+                "Note": "",
+                "WebId": "7368d50e-2982-4dcb-b77e-1bf636aec53c"
+              },
+              "WebId": "b414e6e9-9acb-4ba1-86ff-13f78db875f6"
             }
           ]
         },
@@ -719,7 +753,21 @@
         },
         "SetterActionChildCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
-          "$values": []
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+              "Path": "Status",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "Transferred",
+                "Name": "Transferred",
+                "Note": "",
+                "WebId": "3ca256b9-6cec-4fc8-8345-7c78678aca63"
+              },
+              "WebId": "3a91284f-ca47-4976-9a93-dab80642536c"
+            }
+          ]
         },
         "Name": "Transfer",
         "SuccessMessage": "Done",
@@ -781,6 +829,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-23T16:22:10.7257228+08:00",
+  "ChangedDate": "2014-03-23T19:11:01.0986999+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

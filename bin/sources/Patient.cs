@@ -147,6 +147,14 @@ namespace Bespoke.Dev_2002.Domain
        set{ m_income = value;}
    }
 
+//member:Empty
+          private System.String m_empty;
+   public System.String Empty
+   {
+       get{ return m_empty;}
+       set{ m_empty = value;}
+   }
+
    }
 //class:Mrn
 
@@ -274,6 +282,8 @@ namespace Bespoke.Dev_2002.Domain
 
 //class:Income
 
+//class:Empty
+
 public partial class PatientController : System.Web.Mvc.Controller
 {
 //exec:Search
@@ -332,6 +342,8 @@ public partial class PatientController : System.Web.Mvc.Controller
            var rc = new RuleContext(item);
            var setter1 = operation.SetterActionChildCollection.Single(a => a.WebId == "ec52a232-a300-4671-97c3-debd580576da");
            item.Mrn = (System.String)setter1.Field.GetValue(rc);
+           var setter2 = operation.SetterActionChildCollection.Single(a => a.WebId == "b414e6e9-9acb-4ba1-86ff-13f78db875f6");
+           item.Status = (System.String)setter2.Field.GetValue(rc);
            
             using(var session = context.OpenSession())
             {
@@ -378,6 +390,8 @@ public partial class PatientController : System.Web.Mvc.Controller
 
            var operation = ed.EntityOperationCollection.Single(o => o.WebId == "f017a0c7-b152-4cb4-8914-188b182a046a");
            var rc = new RuleContext(item);
+           var setter1 = operation.SetterActionChildCollection.Single(a => a.WebId == "3a91284f-ca47-4976-9a93-dab80642536c");
+           item.Status = (System.String)setter1.Field.GetValue(rc);
            
             using(var session = context.OpenSession())
             {

@@ -12,7 +12,7 @@ SPH do not dictate the kind of SDLC or Application Lifecycle Management(ALM) of 
 7. Enhacement/Changes
 
 ###User requirements
-SPH does not eliminates the need for `User requirement`, you still have to do it or how are going to deliver what the users really need. 
+SPH does not eliminates the need for `User requirement`, you still have to do it or how do you figure out what the users really need. 
 
 ###Design
 SPH make it easier for you to `Design` your app, it's built in with a lot of highly productive features to makes this process easier for your, but it doesn't necessarily remove the need to the people with good design skills and critical thinking.

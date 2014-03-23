@@ -558,4 +558,14 @@
 			<xs:documentation>Placeholder</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	<xs:element name="EntityChart">
+		<xs:complexType>
+			<xs:attribute name="EntityChartId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

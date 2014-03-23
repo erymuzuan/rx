@@ -2,7 +2,22 @@
   "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "Status",
+        "Operator": "Eq",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Admitted",
+          "Name": "Admitted",
+          "Note": "",
+          "WebId": "b14d7ae1-c1fc-413a-88a0-f074584e662a"
+        },
+        "WebId": "289b72de-cebf-48b4-913a-7f21b811dbb5"
+      }
+    ]
   },
   "ViewColumnCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
@@ -17,19 +32,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
-        "WebId": "c583639d-8681-4a16-802e-c5c85ea7db92"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "Path": "Dob",
-        "Header": "Dob",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "date:{0}",
-        "WebId": "b704d150-bb14-401a-9878-edaa3e392dbd"
+        "WebId": "e0d1465c-b071-4cec-acfb-0001a355dc9c"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -41,7 +44,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
-        "WebId": "f3e85444-164c-4102-9245-99cd8ed0d5e8"
+        "WebId": "2887fcc4-53eb-4c33-8ff9-a5425c9a358e"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -53,7 +56,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
-        "WebId": "0b98023e-671c-4294-b1ba-e0d7d90a8dc3"
+        "WebId": "8137e975-0bcc-46c8-9f5d-abe76cde9576"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -65,19 +68,19 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
-        "WebId": "b37682d9-a5eb-49bc-b22b-af326dba91f9"
+        "WebId": "8b76648d-7a38-4e60-804e-7f431d6be782"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "Path": "PassportNo",
-        "Header": "Admit",
+        "Path": "Age",
+        "Header": "Age",
         "Sort": "",
-        "IsLinkColumn": true,
-        "FormRoute": "admission-form",
-        "IconCssClass": "fa fa-hospital-o fa-2x",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
-        "WebId": "88175440-2042-4f74-a23f-51d4d03b2c40"
+        "WebId": "a131040f-c6f4-4823-acbf-4aaa2d2603b3"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -86,30 +89,35 @@
         "Sort": "",
         "IsLinkColumn": true,
         "FormRoute": "patient-discharge-form",
-        "IconCssClass": "fa fa-wheelchair o fa-2x",
+        "IconCssClass": "fa fa-wheelchair fa-2x",
         "IconStoreId": "",
         "Format": "text:{0}",
-        "WebId": "99e00fc8-ac7b-4ae8-b04f-fae5192f5d6d"
+        "WebId": "ff762493-e292-4d4d-86eb-6773355804c6"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "PassportNo",
+        "Header": "Transfer",
+        "Sort": "",
+        "IsLinkColumn": true,
+        "FormRoute": "patient-transfer-form",
+        "IconCssClass": "fa fa-hand-o-right fa-2x",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "c6ccf8fa-bdca-4d1c-87b7-637dabc84b11"
       }
     ]
   },
   "SortCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
-    "$values": [
-      {
-        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
-        "Path": "Mrn",
-        "Direction": "Asc",
-        "WebId": "e885d29a-a8be-4d63-9d61-29d8b673f2f4"
-      }
-    ]
+    "$values": []
   },
-  "EntityViewId": 1002,
+  "EntityViewId": 1003,
   "IconClass": "",
-  "IconStoreId": "11f16d06-c22d-406f-ab97-5942315f2e68",
+  "IconStoreId": "cf847335-6640-4508-9ecb-1145f46b5015",
   "EntityDefinitionId": 2002,
-  "Name": "All patients",
-  "Route": "all-patients",
+  "Name": "Admitted Patients",
+  "Route": "admitted-patients",
   "Note": "",
   "Query": "",
   "IsPublished": true,
@@ -117,6 +125,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-23T17:23:06.1550007+08:00",
-  "WebId": "5ae449e7-1260-411e-9a36-74631d5fa46f"
+  "ChangedDate": "2014-03-23T19:09:06.445316+08:00",
+  "WebId": "de22c2e4-722b-41ad-b327-33ffa94280fe"
 }

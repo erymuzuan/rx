@@ -1,0 +1,82 @@
+{
+  "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+  "RuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
+        "Left": {
+          "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+          "XPath": "",
+          "NamespacePrefix": "",
+          "TypeName": "",
+          "Path": "Status",
+          "Name": "Status",
+          "Note": "",
+          "WebId": "3055fb61-0ad4-41d6-8c84-db1340501860"
+        },
+        "Right": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "New",
+          "Name": "New",
+          "Note": "",
+          "WebId": "780101c1-d70f-487d-8f4b-2167532c5187"
+        },
+        "Operator": "Eq",
+        "WebId": "13613de5-73c5-498f-9a12-f0e5512c197a"
+      }
+    ]
+  },
+  "ActionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CustomAction, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.StartWorkflowAction, domain.sph",
+        "WorkflowDefinitionId": 12003,
+        "Name": "",
+        "Version": 0,
+        "WorkflowTriggerMapCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.WorkflowTriggerMap, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.WorkflowTriggerMap, domain.sph",
+              "VariablePath": "Patient",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "Script": "item",
+                "Name": "item",
+                "Note": "item",
+                "WebId": "fe7e392b-c829-40d9-8b35-a638922d5972"
+              },
+              "WebId": "dcdc193e-6e22-4389-9101-aca4dcbff11a"
+            }
+          ]
+        },
+        "UseAsync": true,
+        "Title": "",
+        "IsActive": true,
+        "TriggerId": 0,
+        "Note": "Create billing",
+        "CustomActionId": 0,
+        "WebId": "222b9dfb-901f-4003-afc2-02755a837d0f"
+      }
+    ]
+  },
+  "Name": "Create billing account",
+  "Entity": "Patient",
+  "TypeOf": "",
+  "TriggerId": 2,
+  "Note": "",
+  "IsActive": true,
+  "IsFiredOnAdded": false,
+  "IsFiredOnDeleted": false,
+  "IsFiredOnChanged": false,
+  "FiredOnOperations": "Register",
+  "CodeNamespace": "Bespoke.Sph.TriggerSubscribers",
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-03-23T17:33:02.1072749+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-03-23T17:33:56.9170338+08:00",
+  "WebId": "8f9f3878-1b29-42e8-b771-3d8ec7e191a8"
+}
