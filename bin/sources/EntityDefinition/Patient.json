@@ -654,7 +654,7 @@
         "Permissions": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
           "$values": [
-            "Everybody"
+            "Anonymous"
           ]
         },
         "SetterActionChildCollection": {
@@ -829,6 +829,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-23T19:11:01.0986999+08:00",
+  "ChangedDate": "2014-03-24T18:45:18.8719502+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

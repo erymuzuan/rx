@@ -703,6 +703,9 @@
       <DependentUpon>ThrowActivity.md</DependentUpon>
     </Content>
     <Content Include="docs\tree.html" />
+    <Content Include="docs\Trigger.HowTo.PassCurrentRecordToWorkflow.html">
+      <DependentUpon>Trigger.HowTo.PassCurrentRecordToWorkflow.md</DependentUpon>
+    </Content>
     <Content Include="docs\Trigger.html">
       <DependentUpon>Trigger.md</DependentUpon>
     </Content>
@@ -931,6 +934,7 @@
     <Content Include="docs\architecture.md" />
     <Content Include="docs\components.md" />
     <Content Include="docs\quick.access.md" />
+    <Content Include="docs\Trigger.HowTo.PassCurrentRecordToWorkflow.md" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />

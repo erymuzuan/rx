@@ -22,7 +22,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
 
                 if (!roles().length) {
                     roles(config.allRoles);
-                    roles.splice(0, 0, 'Anynomous');
+                    roles.splice(0, 0, 'Anonymous');
                     roles.splice(0, 0, 'Everybody');
                 }
 
