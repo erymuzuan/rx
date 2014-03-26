@@ -36,86 +36,104 @@ namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
         }
         public override void Execute()
         {
-WriteLiteral("<label");
-
-WriteAttribute("class", Tuple.Create("    class=\"", 46), Tuple.Create("\"", 88)
-, Tuple.Create(Tuple.Create("", 57), Tuple.Create("col-md-", 57), true)
             
             #line 2 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 64), Tuple.Create<System.Object, System.Int32>(Model.LabelColMd ?? 4
+ if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}
             
             #line default
             #line hidden
-, 64), false)
+            
+            #line 5 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+   
+    var path = string.Format("'/sph/image/store/' + {0}()", this.Model.Path);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n<label");
+
+WriteAttribute("class", Tuple.Create(" class=\"", 211), Tuple.Create("\"", 250)
+, Tuple.Create(Tuple.Create("", 219), Tuple.Create("col-md-", 219), true)
+            
+            #line 8 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 226), Tuple.Create<System.Object, System.Int32>(Model.LabelColMd ?? 4
+            
+            #line default
+            #line hidden
+, 226), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 2 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-                                             Write(Model.Label);
+            #line 8 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+                                          Write(Model.Label);
 
             
             #line default
             #line hidden
 WriteLiteral("</label>\r\n<img");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 116), Tuple.Create("\"", 134)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 278), Tuple.Create("\"", 296)
             
-            #line 3 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 122), Tuple.Create<System.Object, System.Int32>(Model.Label
+            #line 9 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 284), Tuple.Create<System.Object, System.Int32>(Model.Label
             
             #line default
             #line hidden
-, 122), false)
+, 284), false)
 );
 
-WriteAttribute("title", Tuple.Create(" title=\"", 135), Tuple.Create("\"", 157)
+WriteAttribute("title", Tuple.Create(" title=\"", 297), Tuple.Create("\"", 319)
             
-            #line 3 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 143), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 9 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 305), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 143), false)
+, 305), false)
 );
 
-WriteAttribute("width", Tuple.Create(" width=\"", 158), Tuple.Create("\"", 178)
-            
-            #line 3 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 166), Tuple.Create<System.Object, System.Int32>(Model.Width
-            
-            #line default
-            #line hidden
-, 166), false)
-);
-
-WriteAttribute("height", Tuple.Create(" height=\"", 179), Tuple.Create("\"", 201)
-            
-            #line 3 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 188), Tuple.Create<System.Object, System.Int32>(Model.Height
-            
-            #line default
-            #line hidden
-, 188), false)
-);
-
-WriteLiteral(" class=\"col-md-8\"");
-
-WriteLiteral(" data-bind=\"attr:{src : \'/sph/image/store/\' + ko.unwrap(");
+WriteLiteral(" width =\"");
 
             
-            #line 3 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-                                                                                                                                                              Write(Model.Path);
+            #line 9 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+                                                  Write(Model.Width);
 
             
             #line default
             #line hidden
-WriteLiteral(") }\"");
+WriteLiteral("\" height=\"");
 
-WriteLiteral(" alt=\"image\"");
+            
+            #line 9 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+                                                                        Write(Model.Height);
 
-WriteLiteral(" />\r\n");
+            
+            #line default
+            #line hidden
+WriteLiteral("\" data-bind=\"attr : {\'src\':");
+
+            
+            #line 9 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+                                                                                                                Write(Html.Raw(path));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("}, visible:");
+
+            
+            #line 9 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+                                                                                                                                          Write(Html.Raw(Model.Visible));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\" />");
 
         }
     }

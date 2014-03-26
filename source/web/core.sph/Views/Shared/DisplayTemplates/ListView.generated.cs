@@ -138,6 +138,125 @@ WriteLiteral(">\r\n            <tr>\r\n");
                     col.Input.Enable = "true";
                     col.Input.IsCompact = true;
                     col.Input.ElementId = Guid.NewGuid().ToString();
+
+                    var download = col.Input as DownloadLink;
+                    if (null != download)
+                    {
+                        var pathd = string.Format("'/sph/binarystore/get/' + {0}()", download.Path);
+                        if (download.IsTransformTemplate)
+                        {
+                            pathd = string.Format("'/sph/documenttemplate/transform?entity={0}&templateId={1}&id=' + {2}()", download.Entity, download.TemplateId, download.Path);
+                        }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        <td>\r\n                            <a");
+
+WriteLiteral(" data-bind=\"attr : {\'href\':");
+
+            
+            #line 37 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+                                                    Write(Html.Raw(pathd));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("}\"");
+
+WriteLiteral(" download>\r\n");
+
+WriteLiteral("                                ");
+
+            
+            #line 38 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+                           Write(download.Label);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                            </a>\r\n                        </td>\r\n");
+
+            
+            #line 41 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+                        continue;
+                    }
+                    var image = col.Input as ImageElement;
+                    if(null != image)
+                    {
+                        var path = string.Format("'/sph/image/store/' + {0}()", image.Path);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        <td>\r\n                            <img");
+
+WriteAttribute("alt", Tuple.Create(" alt=\"", 1998), Tuple.Create("\"", 2016)
+            
+            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+, Tuple.Create(Tuple.Create("", 2004), Tuple.Create<System.Object, System.Int32>(image.Label
+            
+            #line default
+            #line hidden
+, 2004), false)
+);
+
+WriteAttribute("title", Tuple.Create(" title=\"", 2017), Tuple.Create("\"", 2039)
+            
+            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+, Tuple.Create(Tuple.Create("", 2025), Tuple.Create<System.Object, System.Int32>(image.Tooltip
+            
+            #line default
+            #line hidden
+, 2025), false)
+);
+
+WriteAttribute("width", Tuple.Create(" width=\"", 2040), Tuple.Create("\"", 2060)
+            
+            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+  , Tuple.Create(Tuple.Create("", 2048), Tuple.Create<System.Object, System.Int32>(image.Width
+            
+            #line default
+            #line hidden
+, 2048), false)
+);
+
+WriteAttribute("height", Tuple.Create(" height=\"", 2061), Tuple.Create("\"", 2083)
+            
+            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+                        , Tuple.Create(Tuple.Create("", 2070), Tuple.Create<System.Object, System.Int32>(image.Height
+            
+            #line default
+            #line hidden
+, 2070), false)
+);
+
+WriteLiteral(" data-bind=\"attr : {\'src\':");
+
+            
+            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+                                                                                                                                           Write(Html.Raw(path));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("}, visible:");
+
+            
+            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+                                                                                                                                                                     Write(Html.Raw(image.Visible));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
+
+WriteLiteral(" />\r\n                        </td>\r\n");
+
+            
+            #line 50 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+                        continue;
+                    }
                     
 
             
@@ -148,7 +267,7 @@ WriteLiteral("                    <td");
 WriteLiteral(" data-bind=\"text:");
 
             
-            #line 28 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 53 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                    Write(col.Path);
 
             
@@ -156,10 +275,10 @@ WriteLiteral(" data-bind=\"text:");
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral(">\r\n                    </td>\r\n");
+WriteLiteral("></td>\r\n");
 
             
-            #line 30 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 54 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                 }
 
             

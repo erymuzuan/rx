@@ -2,7 +2,6 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 
 namespace Bespoke.Sph.Domain
 {
@@ -118,13 +117,14 @@ namespace Bespoke.Sph.Domain
 
         public string GetFilterDsl(Filter[] filters)
         {
+            var context = new RuleContext(this);
             var ft = filters.First();
             var query = new StringBuilder();
             query.AppendLine("                 {");
             if (ft.Operator == Operator.Eq)
             {
                 query.AppendLine("                     \"term\":{");
-                query.AppendLinf("                         \"{0}\":\"{1}\"", ft.Term, ft.Field.GetValue(null));
+                query.AppendLinf("                         \"{0}\":\"{1}\"", ft.Term, ft.Field.GetValue(context));
                 query.AppendLine("                     }");
             }
             else if (ft.Operator == Operator.Ge || ft.Operator == Operator.Gt ||
@@ -138,9 +138,9 @@ namespace Bespoke.Sph.Domain
                 {
                     count++;
                     if (t.Operator == Operator.Ge)
-                        query.AppendFormat("\"from\":{0}", t.Field.GetValue(null));
+                        query.AppendFormat("\"from\":{0}", t.Field.GetValue(context));
                     if (t.Operator == Operator.Le)
-                        query.AppendFormat("\"to\":{0}", t.Field.GetValue(null));
+                        query.AppendFormat("\"to\":{0}", t.Field.GetValue(context));
 
                     if (count < filters.Length)
                         query.Append(",");

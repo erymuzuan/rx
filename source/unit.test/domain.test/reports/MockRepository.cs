@@ -83,6 +83,46 @@ namespace domain.test.reports
             throw new NotImplementedException();
         }
 
+        public Task<int> GetCountAsync(Expression<Func<T, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) where TResult : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TResult> GetMinAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) where TResult : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TResult> GetSumAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) where TResult : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TResult> GetAverageAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) where TResult : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TResult> GetAverageAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult?>> selector) where TResult : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExistAsync(Expression<Func<T, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TResult> GetScalarAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<TResult>> GetListAsync<TResult>(IQueryable<T> query, Expression<Func<T, TResult>> selector)
         {
             throw new NotImplementedException();

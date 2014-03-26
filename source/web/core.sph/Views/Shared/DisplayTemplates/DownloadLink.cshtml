@@ -1,5 +1,4 @@
 ﻿@model Bespoke.Sph.Domain.DownloadLink
-@model Bespoke.Sph.Domain.DownloadLink
 @if (string.IsNullOrWhiteSpace(Model.Enable))
 {
     Model.Enable = "true";
@@ -12,9 +11,22 @@
     }
 }
 
-<label for="@Model.ElementId" class=""></label>
-<div class="@Model.InputPanelCssClass">
-    <a id="@Model.ElementId" data-bind="attr : {'href':@Html.Raw(path)}, visible:@Model.Visible" download>
+@if (Model.IsCompact)
+{
+    <a data-bind="attr : {'href':@Html.Raw(path)}, visible:@Model.Visible" download>
         @Model.Label
     </a>
-</div>
+}
+else
+{
+
+    <div class="form-group" data-bind="visible:@Model.Visible">
+        <label for="@Model.ElementId" class=""></label>
+        <div class="@Model.InputPanelCssClass">
+            <a id="@Model.ElementId" data-bind="attr : {'href':@Html.Raw(path)}, visible:@Model.Visible" download>
+                @Model.Label
+            </a>
+        </div>
+    </div>
+}
+

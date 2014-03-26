@@ -1,3 +1,9 @@
 ﻿@model Bespoke.Sph.Domain.ImageElement
-<label    class="col-md-@(Model.LabelColMd ?? 4)">@Model.Label</label>
-<img alt="@Model.Label" title="@Model.Tooltip" width="@Model.Width" height="@Model.Height" class="col-md-8" data-bind="attr:{src : '/sph/image/store/' + ko.unwrap(@Model.Path) }" alt="image" />
+@if (string.IsNullOrWhiteSpace(Model.Enable))
+{
+    Model.Enable = "true";
+}@{
+    var path = string.Format("'/sph/image/store/' + {0}()", this.Model.Path);
+}
+<label class="col-md-@(Model.LabelColMd ?? 4)">@Model.Label</label>
+<img alt="@Model.Label" title="@Model.Tooltip" width ="@Model.Width" height="@Model.Height" data-bind="attr : {'src':@Html.Raw(path)}, visible:@Html.Raw(Model.Visible)" />
