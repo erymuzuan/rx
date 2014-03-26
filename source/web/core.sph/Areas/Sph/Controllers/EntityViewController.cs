@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -35,6 +37,36 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges("Publish");
             }
             return Json(new { success = true, status = "OK", id = view.EntityViewId });
+        }
+
+        public async Task<ActionResult> Count(int id)
+        {
+            var context = new SphDataContext();
+            var view = await context.LoadOneAsync<EntityView>(e => e.EntityViewId == id);
+            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.EntityDefinitionId == view.EntityDefinitionId);
+            var type = ed.Name.ToLowerInvariant();
+
+            var json = @" {
+                ""query"": {
+                    ""filtered"": {
+                        ""filter"":" + view.GenerateElasticSearchFilterDsl() + @"
+                    }
+                }
+            }";
+            var request = new StringContent(json);
+            var url = string.Format("{0}/{1}/_search", ConfigurationManager.ApplicationName.ToLowerInvariant(), type);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+
+                var response = await client.PostAsync(url, request);
+                var content = response.Content as StreamContent;
+                if (null == content) throw new Exception("Cannot execute query on es " + request);
+                this.Response.ContentType = "application/json; charset=utf-8";
+                return Content(await content.ReadAsStringAsync());
+
+            }
         }
     }
 }

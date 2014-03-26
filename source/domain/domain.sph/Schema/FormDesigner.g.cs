@@ -3171,6 +3171,16 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameVisibilty = "Visibilty";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_tileColour;
+        public const string PropertyNameTileColour = "TileColour";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_countMessage;
+        public const string PropertyNameCountMessage = "CountMessage";
+
+
         private readonly ObjectCollection<Filter> m_FilterCollection = new ObjectCollection<Filter>();
 
         ///<summary>
@@ -3490,6 +3500,62 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_visibilty;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string TileColour
+        {
+            set
+            {
+                if (String.Equals(m_tileColour, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTileColour, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_tileColour = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_tileColour;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string CountMessage
+        {
+            set
+            {
+                if (String.Equals(m_countMessage, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCountMessage, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_countMessage = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_countMessage;
             }
         }
 
@@ -4530,6 +4596,222 @@ namespace Bespoke.Sph.Domain
     }
 
     // placeholder for SetterActionChild
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("EntityChart", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class EntityChart
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_entityChartId;
+        public const string PropertyNameEntityChartId = "EntityChartId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_entityDefinitionId;
+        public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_title;
+        public const string PropertyNameTitle = "Title";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_type;
+        public const string PropertyNameType = "Type";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_entityViewId;
+        public const string PropertyNameEntityViewId = "EntityViewId";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int EntityChartId
+        {
+            set
+            {
+                if (m_entityChartId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntityChartId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entityChartId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entityChartId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int EntityDefinitionId
+        {
+            set
+            {
+                if (m_entityDefinitionId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntityDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entityDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entityDefinitionId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Title
+        {
+            set
+            {
+                if (String.Equals(m_title, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTitle, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_title = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_title;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Type
+        {
+            set
+            {
+                if (String.Equals(m_type, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_type = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_type;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int EntityViewId
+        {
+            set
+            {
+                if (m_entityViewId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntityViewId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entityViewId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entityViewId;
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement

@@ -858,6 +858,8 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         Query: ko.observable(''),
         IsPublished: ko.observable(false),
         Visibilty: ko.observable(''),
+        TileColour: ko.observable(''),
+        CountMessage: ko.observable(''),
         FilterCollection: ko.observableArray([]),
         ViewColumnCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
@@ -1140,6 +1142,39 @@ bespoke.sph.domain.EntityOperation = function (optionOrWebid) {
 
 
 // placeholder for SetterActionChild
+
+bespoke.sph.domain.EntityChart = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
+        EntityChartId: ko.observable(0),
+        EntityDefinitionId: ko.observable(0),
+        Entity: ko.observable(''),
+        Title: ko.observable(''),
+        Type: ko.observable(''),
+        EntityViewId: ko.observable(0),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EntityChartPartial) {
+        return _(model).extend(new bespoke.sph.domain.EntityChartPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

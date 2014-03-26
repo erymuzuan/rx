@@ -36,8 +36,8 @@ namespace Bespoke.Dev_1.Domain
    }
 
 //member:Age
-          private System.Int32 m_age;
-   public System.Int32 Age
+          private System.Int32? m_age;
+   public System.Int32? Age
    {
        get{ return m_age;}
        set{ m_age = value;}

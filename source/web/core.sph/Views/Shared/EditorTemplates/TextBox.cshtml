@@ -1,6 +1,6 @@
 @model Bespoke.Sph.Domain.TextBox
 @{
-    var required = Model.IsRequired ? "required" : null;
+    var required = (Model.IsRequired || Model.FieldValidation.IsRequired) ? "required" : null;
 }
 @if (string.IsNullOrWhiteSpace(Model.Enable))
 {

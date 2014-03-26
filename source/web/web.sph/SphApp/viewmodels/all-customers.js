@@ -18,20 +18,19 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
                 var edQuery = String.format("Name eq '{0}'", 'Customer'),
-                  tcs = new $.Deferred(),
-                  viewQuery = String.format("EntityDefinitionId eq 1"),
-                  edTask = context.loadOneAsync("EntityDefinition", edQuery),
-                  viewTask = context.loadOneAsync("EntityView", viewQuery);
+                    tcs = new $.Deferred(),
+                    viewQuery = String.format("EntityDefinitionId eq 1"),
+                    edTask = context.loadOneAsync("EntityDefinition", edQuery),
+                    viewTask = context.loadOneAsync("EntityView", viewQuery);
 
 
                 $.when(edTask, viewTask)
-                 .done(function (b, vw) {
-                     entity(b);
-                     view(vw);
+                    .done(function (b, vw) {
+                        entity(b);
+                        view(vw);
 
-                     tcs.resolve(true);
-                 });
-
+                        tcs.resolve(true);
+                    });
 
 
                 return tcs.promise();
@@ -43,20 +42,22 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 "query": {
                     "filtered": {
                         "filter": {
-               "and": {
-                  "filters": [
-                                     {
-                     "range":{
-                         "Age":{}
-                     }
-                 }
+                            "and": {
+                                "filters": [
+                                    {
+                                        "range": {
+                                            "Age": {}
+                                        }
+                                    }
 
-                  ]
-               }
-           }
+                                ]
+                            }
+                        }
                     }
                 },
-                "sort" : [{"FullName":{"order":"desc"}}]
+                "sort": [
+                    {"FullName": {"order": "desc"}}
+                ]
             };
 
         var vm = {

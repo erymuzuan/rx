@@ -54,13 +54,22 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine("   }");
                 return code.ToString();
             }
-            code.AppendLinf("   private {0} m_{1};", this.Type.FullName, this.Name.ToCamelCase());
-            code.AppendLinf("   public {0} {1}", this.Type.FullName, this.Name);
+            code.AppendLinf("   private {0}{2} m_{1};", this.Type.FullName, this.Name.ToCamelCase(), this.GetNullable());
+            code.AppendLinf("   public {0}{2} {1}", this.Type.FullName, this.Name, this.GetNullable());
             code.AppendLine("   {");
             code.AppendLinf("       get{{ return m_{0};}}", this.Name.ToCamelCase());
             code.AppendLinf("       set{{ m_{0} = value;}}", this.Name.ToCamelCase());
             code.AppendLine("   }");
             return code.ToString();
+        }
+
+        private string GetNullable()
+        {
+            if (!this.IsNullable) return string.Empty;
+            if (typeof (string) == this.Type) return string.Empty;
+            if (typeof (object) == this.Type) return string.Empty;
+            if (typeof (Array) == this.Type) return string.Empty;
+            return "?";
         }
 
         public string GeneratedCustomClass()

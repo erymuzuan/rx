@@ -39,7 +39,7 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
             
             #line 2 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
   
-    var required = Model.IsRequired ? "required" : null;
+    var required = (Model.IsRequired || Model.FieldValidation.IsRequired) ? "required" : null;
 
             
             #line default
@@ -149,24 +149,24 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n        <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 547), Tuple.Create("\"", 569)
+WriteAttribute("for", Tuple.Create(" for=\"", 585), Tuple.Create("\"", 607)
             
             #line 20 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 553), Tuple.Create<System.Object, System.Int32>(Model.ElementId
+, Tuple.Create(Tuple.Create("", 591), Tuple.Create<System.Object, System.Int32>(Model.ElementId
             
             #line default
             #line hidden
-, 553), false)
+, 591), false)
 );
 
-WriteAttribute("class", Tuple.Create(" class=\"", 570), Tuple.Create("\"", 598)
+WriteAttribute("class", Tuple.Create(" class=\"", 608), Tuple.Create("\"", 636)
             
             #line 20 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 578), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
+, Tuple.Create(Tuple.Create("", 616), Tuple.Create<System.Object, System.Int32>(Model.LabelCssClass
             
             #line default
             #line hidden
-, 578), false)
+, 616), false)
 );
 
 WriteLiteral(">");
@@ -180,14 +180,14 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</label>\r\n        <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 634), Tuple.Create("\"", 667)
+WriteAttribute("class", Tuple.Create(" class=\"", 672), Tuple.Create("\"", 705)
             
             #line 21 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
-, Tuple.Create(Tuple.Create("", 642), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
+, Tuple.Create(Tuple.Create("", 680), Tuple.Create<System.Object, System.Int32>(Model.InputPanelCssClass
             
             #line default
             #line hidden
-, 642), false)
+, 680), false)
 );
 
 WriteLiteral(">\r\n            <input ");

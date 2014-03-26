@@ -45,6 +45,19 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                      });
                      reports(reportsLo.itemCollection);
                      views(viewsLo.itemCollection);
+                     // get counts
+                     _(views()).each(function (v) {
+                         v.CountMessage("....");
+                         var tm = setInterval(function () {
+                             v.CountMessage(v.CountMessage() == "...." ? "..." : "....");
+                         }, 250);
+                         $.get("/Sph/EntityView/Count/" + v.EntityViewId())
+                             .done(function(c) {
+                                 clearInterval(tm);
+                                 v.CountMessage(c.hits.total);
+                             });
+                     });
+
                      vm.toolbar.commands(formsCommands);
                      tcs.resolve(true);
                  });

@@ -422,6 +422,8 @@
 			<xs:attribute name="Query" type="xs:string" use="required"/>
 			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 			<xs:attribute name="Visibilty" type="xs:string" use="required"/>
+			<xs:attribute name="TileColour" type="xs:string" use="required"/>
+			<xs:attribute name="CountMessage" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Filter">

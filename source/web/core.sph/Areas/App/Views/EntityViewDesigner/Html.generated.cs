@@ -246,8 +246,55 @@ WriteLiteral("\r\n                              class=\"form-control\"");
 
 WriteLiteral(" id=\"view-note\"");
 
-WriteLiteral("></textarea>\r\n                </div>\r\n            </div>\r\n        </form>\r\n    </" +
-"div>\r\n</div>\r\n<div");
+WriteLiteral("></textarea>\r\n                </div>\r\n            </div>\r\n            \r\n         " +
+"   <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                <label");
+
+WriteLiteral(" for=\"ev-tl-color\"");
+
+WriteLiteral(" class=\"col-lg-2 control-label\"");
+
+WriteLiteral(">Tile Color</label>\r\n                <div");
+
+WriteLiteral(" class=\"col-lg-6\"");
+
+WriteLiteral(">\r\n                    <select");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" id=\"ev-tl-color\"");
+
+WriteLiteral(" data-bind=\"value:TileColour\"");
+
+WriteLiteral(">\r\n                        <option");
+
+WriteLiteral(" value=\"bblue\"");
+
+WriteLiteral(">Blue</option>\r\n                        <option");
+
+WriteLiteral(" value=\"blightblue\"");
+
+WriteLiteral(">Light blue</option>\r\n                        <option");
+
+WriteLiteral(" value=\"bred\"");
+
+WriteLiteral(">Red</option>\r\n                        <option");
+
+WriteLiteral(" value=\"bgreen\"");
+
+WriteLiteral(">Green</option>\r\n                        <option");
+
+WriteLiteral(" value=\"borange\"");
+
+WriteLiteral(">Orange</option>\r\n                        <option");
+
+WriteLiteral(" value=\"bviolet\"");
+
+WriteLiteral(">Violet</option>\r\n                    </select>\r\n                </div>\r\n        " +
+"    </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -361,7 +408,7 @@ WriteLiteral(">Not EndsWith</option>\r\n                        </select>\r\n   
 "td>\r\n                    <td>                    ");
 
             
-            #line 107 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 121 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
                                        Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" }));
 
             
