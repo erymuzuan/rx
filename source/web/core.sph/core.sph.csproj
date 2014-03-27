@@ -659,6 +659,7 @@
       <DependentUpon>_TriggerFieldDropDown.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ResourcesController.cs" />
+    <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Filters\RazorScriptStream.cs" />
     <Compile Include="Filters\RazorScriptFilter.cs" />
     <Compile Include="Filters\ScriptResult.cs" />

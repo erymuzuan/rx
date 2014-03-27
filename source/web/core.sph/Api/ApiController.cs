@@ -6,16 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Api
 {
+    [NoCache]
     public class ApiController : Controller
     {
         public static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
-
 
         public async Task<ActionResult> EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {

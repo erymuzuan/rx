@@ -226,6 +226,7 @@ function (logger, system, ko2) {
         var tcs = new $.Deferred();
         $.ajax({
             type: "GET",
+            cache : false,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -344,6 +345,7 @@ function (logger, system, ko2) {
         var tcs = new $.Deferred();
         $.ajax({
             type: "GET",
+            cache : false,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -369,6 +371,7 @@ function (logger, system, ko2) {
         var tcs = new $.Deferred();
         $.ajax({
             type: "GET",
+            cache: false,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -393,6 +396,7 @@ function (logger, system, ko2) {
         var tcs = new $.Deferred();
         $.ajax({
             type: "GET",
+            cache: false,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -418,6 +422,7 @@ function (logger, system, ko2) {
         var tcs = new $.Deferred();
         $.ajax({
             type: "GET",
+            cache: false,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
