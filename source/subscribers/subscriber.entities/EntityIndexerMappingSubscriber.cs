@@ -61,6 +61,16 @@ namespace subscriber.entities
                     await client.PutAsync(ConfigurationManager.ApplicationName.ToLowerInvariant(), new StringContent(""));
                     await this.ProcessMessage(item, header);
                 }
+
+                if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    var rc = response.Content as StreamContent;
+                    var text = string.Empty;
+                    if (null != rc)
+                        text = await rc.ReadAsStringAsync();
+
+                    this.WriteError(new Exception(" Error creating Elastic search map for " + item.Name + "/r/n" + text));
+                }
             }
 
         }
