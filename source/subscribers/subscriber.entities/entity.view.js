@@ -37,7 +37,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 return tcs.promise();
             },
             attached = function () {
-                chart.draw('@Model.Definition.Name');
+                chart.init('@Model.Definition.Name', query);
             },
             query = {
                 "query": {

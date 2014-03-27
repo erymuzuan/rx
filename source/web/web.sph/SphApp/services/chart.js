@@ -2,27 +2,29 @@ define(['services/datacontext'], function (context) {
 
     var field = ko.observable(),
         entityName = ko.observable(),
-        draw = function (entity, fd) {
+        _query = null,
+        init = function(entity, query){
             entityName(entity);
+            _query = query;
+        },
+        draw = function (fd) {
             if(!field()){
                 field(fd);
             }
             if(!fd){
                 return;
             }
-            var tcs = new $.Deferred(),
-                query = {
-                    "aggs": {
-                        "category": {
-                            "terms": {
-                                "field": fd,
-                                "size": 10
-                            }
-                        }
+            var tcs = new $.Deferred();
+            _query.aggs = {
+                "category": {
+                    "terms": {
+                        "field": fd,
+                            "size": 10
                     }
-                };
+                }
+            };
 
-            context.searchAsync(entity, query)
+            context.searchAsync(entityName(), _query)
                 .done(function (result) {
                     tcs.resolve(true);
                     var data = _(result.aggregations.category.buckets).map(function (v) {
@@ -31,7 +33,8 @@ define(['services/datacontext'], function (context) {
                                 value: v.doc_count
                             };
                         }),
-                        chart = $("div#chart-" + entity).empty().kendoChart({
+                        chart = $("div#chart-" + entityName()).empty().kendoChart({
+                            theme :"metro",
                             title: {
                                 text: entityName() +  " count by " + field()
                             },
@@ -62,11 +65,12 @@ define(['services/datacontext'], function (context) {
 
 
     field.subscribe(function(f){
-        draw(entityName(), f);
+        draw(f);
     });
 
     return {
         draw: draw,
+        init : init,
         field: field
     };
 });

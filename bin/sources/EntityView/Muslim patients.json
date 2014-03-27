@@ -73,7 +73,7 @@
   },
   "EntityViewId": 1004,
   "IconClass": "",
-  "IconStoreId": "9023c518-372a-4c4d-a156-66d26da1b6e0",
+  "IconStoreId": "267c54c9-7917-49b6-9eed-485e1f3b44c3",
   "EntityDefinitionId": 2002,
   "Name": "Muslim patients",
   "Route": "patient-religion-islam",
@@ -86,6 +86,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-27T18:28:35.5009659+08:00",
+  "ChangedDate": "2014-03-27T20:43:29.4221277+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }
