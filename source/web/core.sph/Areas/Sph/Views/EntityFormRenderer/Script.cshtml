@@ -183,6 +183,14 @@
                     <text>@function : @function,</text>
                     
                 }
+                //
+
+                @foreach (var btn in Model.Form.FormDesign.FormElementCollection.OfType<Button>().Where(b => !string.IsNullOrWhiteSpace(b.CommandName)))
+                {
+                    <text>@(btn.CommandName) : @(btn.CommandName) ,
+                    </text>
+                }
+
                 toolbar : {
                     @if (Model.Form.IsEmailAvailable)
                     {

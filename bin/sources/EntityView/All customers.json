@@ -5,13 +5,13 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        "Term": "Address.State",
-        "Operator": "Eq",
+        "Term": "Age",
+        "Operator": "Gt",
         "Field": {
           "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-          "TypeName": "System.String, mscorlib",
-          "Value": "Kelantan",
-          "Name": "Kelantan",
+          "TypeName": "System.Int32, mscorlib",
+          "Value": 0,
+          "Name": "0",
           "Note": "",
           "WebId": "9d0f186a-d342-47bf-a4c6-16c3f48651b8"
         },
@@ -27,10 +27,11 @@
         "Path": "FullName",
         "Header": "FullName",
         "Sort": "",
-        "IsLinkColumn": false,
+        "IsLinkColumn": true,
         "FormRoute": null,
-        "IconCssClass": null,
-        "IconStoreId": null,
+        "IconCssClass": "fa fa-building-o",
+        "IconStoreId": "fa fa-building-o",
+        "Format": "text:{0}",
         "WebId": "e2dd0f06-07e1-4a1e-8be3-b9464c21c984"
       },
       {
@@ -38,10 +39,11 @@
         "Path": "Address.Street1",
         "Header": "Street1",
         "Sort": "",
-        "IsLinkColumn": false,
+        "IsLinkColumn": true,
         "FormRoute": null,
-        "IconCssClass": null,
-        "IconStoreId": null,
+        "IconCssClass": "fa fa-building-o",
+        "IconStoreId": "fa fa-building-o",
+        "Format": "text:{0}",
         "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
       },
       {
@@ -53,6 +55,7 @@
         "FormRoute": null,
         "IconCssClass": null,
         "IconStoreId": null,
+        "Format": "text:{0}",
         "WebId": "09aa9000-fb6e-4106-b717-10ed19194663"
       },
       {
@@ -64,6 +67,7 @@
         "FormRoute": null,
         "IconCssClass": null,
         "IconStoreId": null,
+        "Format": "text:{0}",
         "WebId": "f544b246-5c19-4279-a8ae-447dc8f7e02d"
       },
       {
@@ -75,6 +79,7 @@
         "FormRoute": null,
         "IconCssClass": null,
         "IconStoreId": null,
+        "Format": "text:{0}",
         "WebId": "61ee8ea4-4b48-433d-b60b-8ab5bb7184a0"
       }
     ]
@@ -92,7 +97,7 @@
   },
   "EntityViewId": 1,
   "IconClass": "",
-  "IconStoreId": "71a19acd-1a75-415b-8f89-bacef25a66b4",
+  "IconStoreId": "3b4b7033-9925-4c3d-b96e-89d989f2a053",
   "EntityDefinitionId": 1,
   "Name": "All customers",
   "Route": "all-customers",
@@ -100,9 +105,11 @@
   "Query": "",
   "IsPublished": true,
   "Visibilty": "",
+  "TileColour": "bgreen",
+  "CountMessage": null,
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-20T13:49:48.8309487+08:00",
+  "ChangedDate": "2014-03-26T10:45:45.4323141+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }

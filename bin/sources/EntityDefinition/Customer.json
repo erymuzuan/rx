@@ -681,13 +681,13 @@
   "EntityDefinitionId": 1,
   "Name": "Customer",
   "Plural": "Customers",
-  "IconStoreId": "7bc05822-fc47-41c7-b186-d36d9022f58d",
+  "IconStoreId": "6db683b2-8711-4a37-85d4-874010a479a4",
   "IconClass": "fa fa-users",
   "RecordName": "FullName",
   "IsPublished": true,
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-21T08:04:17.7016322+08:00",
+  "ChangedDate": "2014-03-26T11:10:03.7686993+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

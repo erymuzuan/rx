@@ -17,6 +17,8 @@
     <div class="col-lg-8">
         <form class="form-horizontal" data-bind="with : entity" id="patient-discharge-form-form">
 
+<button data-bind="click : $root.dischargeMe, visible :true, enable: true" class="btn btn-warning">Say Discharge</button>
+
 <label class="col-md-4">MRN</label>
 <span class="col-md-8" data-bind="text: Mrn"></span>
 
