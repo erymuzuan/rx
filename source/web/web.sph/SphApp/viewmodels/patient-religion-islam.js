@@ -18,19 +18,32 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
                 var edQuery = String.format("Name eq '{0}'", 'Patient'),
-                    tcs = new $.Deferred(),
-                    viewQuery = String.format("EntityDefinitionId eq 2002"),
-                    edTask = context.loadOneAsync("EntityDefinition", edQuery),
-                    viewTask = context.loadOneAsync("EntityView", viewQuery);
+                  tcs = new $.Deferred(),
+                  formsQuery = String.format("EntityDefinitionId eq 2002 and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                  viewQuery = String.format("EntityDefinitionId eq 2002"),
+                  edTask = context.loadOneAsync("EntityDefinition", edQuery),
+                  formsTask = context.loadAsync("EntityForm", formsQuery),
+                  viewTask = context.loadOneAsync("EntityView", viewQuery);
 
 
-                $.when(edTask, viewTask)
-                    .done(function (b, vw) {
-                        entity(b);
-                        view(vw);
+                $.when(edTask, viewTask, formsTask)
+                 .done(function (b, vw,formsLo) {
+                     entity(b);
+                     view(vw);
+                     var formsCommands = _(formsLo.itemCollection).map(function (v) {
+                         return {
+                             caption: v.Name(),
+                             command: function () {
+                                 window.location = '#' + v.Route() + '/0';
+                                 return Task.fromResult(0);
+                             },
+                             icon: v.IconClass()
+                         };
+                     });
+                     vm.toolbar.commands(formsCommands);
+                     tcs.resolve(true);
+                 });
 
-                        tcs.resolve(true);
-                    });
 
 
                 return tcs.promise();
@@ -42,22 +55,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 "query": {
                     "filtered": {
                         "filter": {
-                            "and": {
-                                "filters": [
-                                    {
-                                        "term": {
-                                            "Religion": "Islam"
-                                        }
-                                    }
+               "and": {
+                  "filters": [
+                                     {
+                     "term":{
+                         "Religion":"Islam"
+                     }
+                 }
 
-                                ]
-                            }
-                        }
+                  ]
+               }
+           }
                     }
                 },
-                "sort": [
-                    {"FullName": {"order": "asc"}}
-                ]
+                "sort" : [{"FullName":{"order":"asc"}}]
             };
 
         var vm = {
@@ -70,11 +81,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             list: list,
             query: query,
             toolbar: {
-                commands: ko.observableArray([]),
-                addNew: {
-                    location: '#/patient-registration/0',
-                    caption: 'Patient registration'
-                }
+                commands: ko.observableArray([])
             }
         };
 

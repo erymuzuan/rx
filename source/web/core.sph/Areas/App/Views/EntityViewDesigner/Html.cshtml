@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label for="view-name" class="col-lg-2 control-label">Name</label>
                 <div class="col-lg-6">
-                    <input type="text" data-bind="value: Name"
+                    <input type="text" data-bind="value: Name, valueUpdate: 'keyup'"
                            required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
                            placeholder="Name for the view"
                            class="form-control" id="view-name">
@@ -45,21 +45,35 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="icon-storeid" class="col-lg-2 control-label">Icon/Logo</label>
-                <div class="col-lg-6">
-                    <img width="150" height="150" data-bind="attr : {src:'/sph/image/thumbnail/' + IconStoreId()}" alt="Logo" />
-                    <input type="file" data-bind="kendoUpload: IconStoreId" name="files" class="form-control" id="icon-storeid">
-                </div>
-            </div>
-            <div class="form-group">
                 <label for="view-note" class="col-lg-2 control-label">Note</label>
                 <div class="col-lg-6">
-                    <textarea data-bind="value: Note"
+                    <textarea data-bind="value: Note, valueUpdate: 'keyup'"
                               placeholder="Note about the view"
                               class="form-control" id="view-note"></textarea>
                 </div>
             </div>
-            
+            <div class="form-group">
+                <label for="icon-storeid" class="col-lg-2 control-label">Icon/Logo</label>
+                <div class="col-lg-6">
+                    
+                    <div data-bind="attr : {'class':TileColour}" style="padding: 10px;">
+                        <div class="pull-left">
+                            <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon">
+                        </div>
+                        <div>
+                            <span style="font-size: 32px; font-weight: bold; margin: 5px" >2631</span>
+                        </div>
+
+                        <div>
+                            <h5 data-bind="text: Name"></h5>
+                            <label data-bind="text: Note"></label>
+                        </div>
+                    </div>
+
+                    <input type="file" data-bind="kendoUpload: IconStoreId" name="files" class="form-control" id="icon-storeid">
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="ev-tl-color" class="col-lg-2 control-label">Tile Color</label>
                 <div class="col-lg-6">

@@ -144,7 +144,7 @@ WriteLiteral(">\r\n                    <input");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" data-bind=\"value: Name\"");
+WriteLiteral(" data-bind=\"value: Name, valueUpdate: \'keyup\'\"");
 
 WriteLiteral("\r\n                           required");
 
@@ -192,6 +192,30 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                <label");
 
+WriteLiteral(" for=\"view-note\"");
+
+WriteLiteral(" class=\"col-lg-2 control-label\"");
+
+WriteLiteral(">Note</label>\r\n                <div");
+
+WriteLiteral(" class=\"col-lg-6\"");
+
+WriteLiteral(">\r\n                    <textarea");
+
+WriteLiteral(" data-bind=\"value: Note, valueUpdate: \'keyup\'\"");
+
+WriteLiteral("\r\n                              placeholder=\"Note about the view\"");
+
+WriteLiteral("\r\n                              class=\"form-control\"");
+
+WriteLiteral(" id=\"view-note\"");
+
+WriteLiteral("></textarea>\r\n                </div>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                <label");
+
 WriteLiteral(" for=\"icon-storeid\"");
 
 WriteLiteral(" class=\"col-lg-2 control-label\"");
@@ -200,17 +224,38 @@ WriteLiteral(">Icon/Logo</label>\r\n                <div");
 
 WriteLiteral(" class=\"col-lg-6\"");
 
-WriteLiteral(">\r\n                    <img");
+WriteLiteral(">\r\n                    \r\n                    <div");
 
-WriteLiteral(" width=\"150\"");
+WriteLiteral(" data-bind=\"attr : {\'class\':TileColour}\"");
 
-WriteLiteral(" height=\"150\"");
+WriteLiteral(" style=\"padding: 10px;\"");
 
-WriteLiteral(" data-bind=\"attr : {src:\'/sph/image/thumbnail/\' + IconStoreId()}\"");
+WriteLiteral(">\r\n                        <div");
 
-WriteLiteral(" alt=\"Logo\"");
+WriteLiteral(" class=\"pull-left\"");
 
-WriteLiteral(" />\r\n                    <input");
+WriteLiteral(">\r\n                            <img");
+
+WriteLiteral(" data-bind=\"attr:{src: \'/sph/image/store/\' + IconStoreId() }\"");
+
+WriteLiteral(" alt=\"Icon\"");
+
+WriteLiteral(">\r\n                        </div>\r\n                        <div>\r\n               " +
+"             <span");
+
+WriteLiteral(" style=\"font-size: 32px; font-weight: bold; margin: 5px\"");
+
+WriteLiteral(" >2631</span>\r\n                        </div>\r\n\r\n                        <div>\r\n " +
+"                           <h5");
+
+WriteLiteral(" data-bind=\"text: Name\"");
+
+WriteLiteral("></h5>\r\n                            <label");
+
+WriteLiteral(" data-bind=\"text: Note\"");
+
+WriteLiteral("></label>\r\n                        </div>\r\n                    </div>\r\n\r\n        " +
+"            <input");
 
 WriteLiteral(" type=\"file\"");
 
@@ -222,32 +267,7 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" id=\"icon-storeid\"");
 
-WriteLiteral(">\r\n                </div>\r\n            </div>\r\n            <div");
-
-WriteLiteral(" class=\"form-group\"");
-
-WriteLiteral(">\r\n                <label");
-
-WriteLiteral(" for=\"view-note\"");
-
-WriteLiteral(" class=\"col-lg-2 control-label\"");
-
-WriteLiteral(">Note</label>\r\n                <div");
-
-WriteLiteral(" class=\"col-lg-6\"");
-
-WriteLiteral(">\r\n                    <textarea");
-
-WriteLiteral(" data-bind=\"value: Note\"");
-
-WriteLiteral("\r\n                              placeholder=\"Note about the view\"");
-
-WriteLiteral("\r\n                              class=\"form-control\"");
-
-WriteLiteral(" id=\"view-note\"");
-
-WriteLiteral("></textarea>\r\n                </div>\r\n            </div>\r\n            \r\n         " +
-"   <div");
+WriteLiteral(">\r\n                </div>\r\n            </div>\r\n\r\n            <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -408,7 +428,7 @@ WriteLiteral(">Not EndsWith</option>\r\n                        </select>\r\n   
 "td>\r\n                    <td>                    ");
 
             
-            #line 121 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 135 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
                                        Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" }));
 
             

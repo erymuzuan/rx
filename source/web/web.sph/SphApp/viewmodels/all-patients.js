@@ -18,82 +18,43 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
                 var edQuery = String.format("Name eq '{0}'", 'Patient'),
-                    tcs = new $.Deferred(),
-                    viewQuery = String.format("EntityDefinitionId eq 2002"),
-                    edTask = context.loadOneAsync("EntityDefinition", edQuery),
-                    viewTask = context.loadOneAsync("EntityView", viewQuery);
+                  tcs = new $.Deferred(),
+                  viewQuery = String.format("EntityDefinitionId eq 2002"),
+                  edTask = context.loadOneAsync("EntityDefinition", edQuery),
+                  viewTask = context.loadOneAsync("EntityView", viewQuery);
 
 
                 $.when(edTask, viewTask)
-                    .done(function (b, vw) {
-                        entity(b);
-                        view(vw);
+                 .done(function (b, vw) {
+                     entity(b);
+                     view(vw);
 
-                        tcs.resolve(true);
-                    });
+                     tcs.resolve(true);
+                 });
+
 
 
                 return tcs.promise();
             },
-            attached = function (view) {
-                chart.draw('Patient');
-                $(view).on('submit', 'form.paging-search', function (e) {
-                    e.preventDefault();
-                    var text = $(this).find('input[type=search]').val();
-                    query2.query.query_string.query = text;
-
-                    isBusy(true);
-                    context.searchAsync("Patient", query2)
-                        .done(function (lo) {
-                            console.log(lo);
-                            isBusy(false);
-                        });
-
-                });
-            },
-            query2 = {
-                "from": 0,
-                "size": 20,
-                "query": {
-                    "query_string": {
-                        "default_field": "_all",
-                        "query": ""
-                    },
-                    "filtered": {
-                        "filter": {
-                            "and": {
-                                "filters": [
-
-                                ]
-                            }
-                        }
-                    }
-                },
-                "sort": [
-                    {"Mrn": {"order": "asc"}}
-                ]
+            attached = function () {
+                chart.init('Patient', query);
             },
             query = {
-                "from": 0,
-                "size": 20,
                 "query": {
                     "filtered": {
                         "filter": {
-                            "and": {
-                                "filters": [
-
-                                ]
-                            }
-                        }
+               "and": {
+                  "filters": [
+                    
+                  ]
+               }
+           }
                     }
                 },
-                "sort": [
-                    {"Mrn": {"order": "asc"}}
-                ]
+                "sort" : [{"Mrn":{"order":"asc"}}]
             };
 
         var vm = {
-            exec : {},
             view: view,
             chart: chart,
             isBusy: isBusy,

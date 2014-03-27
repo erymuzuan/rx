@@ -40,7 +40,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                                  window.location = '#' + v.Route() + '/0';
                                  return Task.fromResult(0);
                              },
-                             icon: "@Model.Definition.IconClass"
+                             icon: v.IconClass()
                          };
                      });
                      reports(reportsLo.itemCollection);

@@ -167,6 +167,26 @@ WriteLiteral(" />\r\n                </div>\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"form-design-icon-class\"");
+
+WriteLiteral(">Icon class</label>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: IconClass\"");
+
+WriteLiteral(" id=\"form-design-icon-class\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"FormDesign.IconClass\"");
+
+WriteLiteral(" />\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
 WriteLiteral(">\r\n                    <label>Route</label>\r\n                    <input");
 
 WriteLiteral(" class=\"form-control\"");
@@ -716,13 +736,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 213 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 217 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 213 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 217 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
@@ -740,13 +760,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 224 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 228 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 224 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 228 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         FormElement fe1 = fe;
@@ -755,14 +775,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 227 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 231 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 227 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 231 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                  
                     }
 
@@ -791,7 +811,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 238 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 242 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

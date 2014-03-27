@@ -2,8 +2,7 @@
 
 <div class="row">
     <div class="col-md-8">
-        <button id="sb" class="btn btn-default">Search</button>
-        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ exec :exec, query: query, entity : 'Patient', list:list}">
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
             <thead>
                 <tr>
                     <th>Mrn</th>
