@@ -35,52 +35,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
 
                 return tcs.promise();
             },
-            attached = function (view) {
+            attached = function () {
                 chart.draw('Patient');
-                $(view).on('submit', 'form.paging-search', function (e) {
-                    e.preventDefault();
-                    var text = $(this).find('input[type=search]').val();
-                    query2.query.query_string.query = text;
-
-                    isBusy(true);
-                    context.searchAsync("Patient", query2)
-                        .done(function (lo) {
-                            console.log(lo);
-                            isBusy(false);
-                        });
-
-                });
-            },
-            query2 = {
-                "from": 0,
-                "size": 20,
-                "query": {
-                    "query_string": {
-                        "default_field": "_all",
-                        "query": ""
-                    },
-                    "filtered": {
-                        "filter": {
-                            "and": {
-                                "filters": [
-
-                                ]
-                            }
-                        }
-                    }
-                },
-                "sort": [
-                    {"Mrn": {"order": "asc"}}
-                ]
             },
             query = {
-                "from": 0,
-                "size": 20,
                 "query": {
                     "filtered": {
                         "filter": {
                             "and": {
                                 "filters": [
+                                    {
+                                        "term": {
+                                            "Religion": "Islam"
+                                        }
+                                    }
 
                                 ]
                             }
@@ -88,12 +56,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                     }
                 },
                 "sort": [
-                    {"Mrn": {"order": "asc"}}
+                    {"FullName": {"order": "asc"}}
                 ]
             };
 
         var vm = {
-            exec : {},
             view: view,
             chart: chart,
             isBusy: isBusy,

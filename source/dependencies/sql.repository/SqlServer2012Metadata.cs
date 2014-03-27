@@ -88,7 +88,14 @@ namespace Bespoke.Sph.SqlRepository
                     table.Columns = columns.ToArray();
                     lock (m_lock)
                     {
-                        m_cache.Add(name, table);
+                        try
+                        {
+                            m_cache.Add(name, table);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
                     }
                 }
 

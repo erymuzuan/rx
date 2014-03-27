@@ -303,7 +303,7 @@ ko.bindingHandlers.kendoDate = {
             }
         }
         if (typeof allBindings.enable === "function" && typeof allBindings.enable.subscribe === "function") {
-            allBindings.enable.subscribe(function(enable) {
+            allBindings.enable.subscribe(function (enable) {
                 picker.enable(enable);
             });
         }
@@ -708,28 +708,15 @@ ko.bindingHandlers.filter = {
         }
         $element.before($form);
 
-        $serverLoadButton.click(function (e) {
+        $form.submit(function (e) {
             e.preventDefault();
             var filter = $filterInput.val().toLowerCase(),
                 tcs = new $.Deferred();
             if (!filter) {
-                tcs.promise();
                 return tcs.promise();
             }
-            if (pagedSearch) {
-                var query = {
-                    "query": {
-                        "bool": {
-                            "must": [
-                                {
-                                    "query_string": { "query": filter }
-                                }
-                            ]
-                        }
-                    }
-                };
-                pagedSearch.query = query;
-                return pagedSearch.search(query);
+            if (pagedSearch && typeof pagedSearch.query === "object" && typeof pagedSearch.query.filterAndSearch === "function") {
+                return pagedSearch.query.filterAndSearch(filter);
             }
             return tcs.promise();
         });
@@ -820,23 +807,23 @@ ko.bindingHandlers.serverPaging = {
             size: 20,
             includeTotal: true
         }, query)
-            .then(function (lo) {
+        .then(function (lo) {
 
-                var options = {
-                    element: $pagerPanel,
-                    count: lo.rows,
-                    changed: changed,
-                    hidden: pagerHidden
-                },
-                    pager = new bespoke.utils.ServerPager(options);
-                console.log(pager);
-                setTimeout(function () {
-                    setItemsSource(lo.itemCollection);
-                    tcs.resolve(true);
-                    endLoad();
-                }, 500);
+            var options = {
+                element: $pagerPanel,
+                count: lo.rows,
+                changed: changed,
+                hidden: pagerHidden
+            },
+                pager = new bespoke.utils.ServerPager(options);
+            console.log(pager);
+            setTimeout(function () {
+                setItemsSource(lo.itemCollection);
+                tcs.resolve(true);
+                endLoad();
+            }, 500);
 
-            });
+        });
         return tcs.promise();
 
 
@@ -934,10 +921,30 @@ ko.bindingHandlers.searchPaging = {
 
                     });
                 return tcs1.promise();
+            },
+            filterAndSearch = function (text) {
+                var q = JSON.parse(ko.toJSON(value.query || value.initialQuery)),
+                    q2 = {
+                        "from": 0,
+                        "size": 20,
+                        "query": {
+                            "query_string": {
+                                "default_field": "_all",
+                                "query": text
+                            }
+                        }
+
+                    };
+                q2.query.filtered = q.query.filtered;
+                q2.sort = q.sort;
+                pager.destroy();
+                pager = null;
+                search(q2);
             };
 
         //exposed the search function
-        value.search = search;
+        query.search = search;
+        query.filterAndSearch = filterAndSearch;
 
         $element.after($pagerPanel).after($spinner)
             .fadeTo("slow", 0.33);
@@ -957,7 +964,8 @@ ko.bindingHandlers.searchPaging = {
 
         search(ko.toJS(executedQuery));
         return {
-            search: search
+            search: search,
+            filterAndSearch: filterAndSearch
         };
 
     }

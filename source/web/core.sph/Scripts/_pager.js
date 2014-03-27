@@ -58,6 +58,10 @@ bespoke.utils.ServerPager = function (options) {
             pagerDataSource.data(rows);
         }, 500);
     };
+    self2.destroy = function () {
+        pager.destroy();
+        element.empty();
+    };
 
     self2.pageSize = function (size) {
         if (size) {
