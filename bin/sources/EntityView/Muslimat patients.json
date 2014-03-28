@@ -1,0 +1,167 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "Religion",
+        "Operator": "Eq",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Islam",
+          "Name": "Islam",
+          "Note": "",
+          "WebId": "65ab3931-7a96-4cc8-ac3a-cc9cbf2aeb5b"
+        },
+        "WebId": "23e006e8-ab8c-40b9-84f5-4137bfd56c25"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "Gender",
+        "Operator": "Eq",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Female",
+          "Name": "Female",
+          "Note": "",
+          "WebId": "eb9ba469-fda6-4784-898b-de237e249d45"
+        },
+        "WebId": "80ca3d5e-0b76-48d1-90df-4384ad67f4c5"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "Status",
+        "Operator": "Neq",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Discharged",
+          "Name": "Discharged",
+          "Note": "",
+          "WebId": "251b6004-03d0-43de-b1ae-27c4e4e68e4d"
+        },
+        "WebId": "a6deb9c9-b297-45d1-b02e-a7b0cfc8f3f4"
+      }
+    ]
+  },
+  "ViewColumnCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Status",
+        "Header": "Status",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "68c6c000-e6be-49ad-96d1-30d2d30d8579"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "FullName",
+        "Header": "Nama",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "9cb0b228-37a4-418b-90cd-8326b57b2a0d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "PassportNo",
+        "Header": "Passport",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "f9c2eb3a-875b-4f14-8ce8-64179e5fc7bd"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "IdentificationNo",
+        "Header": "Id",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "95f4726f-c70d-4a4f-80d8-c754d7a46459"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Dob",
+        "Header": "DOB",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "date:{0}",
+        "WebId": "1e6b74fb-be00-4519-96c1-ed5a7a759127"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Age",
+        "Header": "Age",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "bd61b9bd-7cf1-4e31-bbe1-9e0afebe4d86"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "IdentificationNo",
+        "Header": "No. KP",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "76e9b490-fe52-4854-bb2c-0f0140d2f1b3"
+      }
+    ]
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
+        "Path": "FullName",
+        "Direction": "Asc",
+        "WebId": "da65fd21-b1c5-40fd-b6ec-d77a21e5ad4f"
+      }
+    ]
+  },
+  "EntityViewId": 1005,
+  "IconClass": "",
+  "IconStoreId": "02a2b328-f749-4872-9e49-96509153c880",
+  "EntityDefinitionId": 2002,
+  "Name": "Muslimat patients",
+  "Route": "patients-mulimat",
+  "Note": "Women muslim patients",
+  "Query": "",
+  "IsPublished": true,
+  "Visibilty": "",
+  "TileColour": "bgreen",
+  "CountMessage": "",
+  "CreatedBy": null,
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-03-28T16:46:24.5139817+08:00",
+  "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
+}

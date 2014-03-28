@@ -525,162 +525,23 @@ WriteLiteral(">\r\n                            <span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 
-WriteLiteral("></span>\r\n                        </a>\r\n                    </td>\r\n              " +
-"  </tr>\r\n            </tbody>\r\n        </table>\r\n\r\n    </div>\r\n</div>\r\n\r\n\r\n<div");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(" data-bind=\"with : view\"");
-
-WriteLiteral(">\r\n    <a");
-
-WriteLiteral(" data-toggle=\"collapse\"");
-
-WriteLiteral(" href=\"#columns-ev-panel\"");
-
-WriteLiteral(">\r\n        <h3>\r\n            <i");
-
-WriteLiteral(" class=\"fa fa-chevron-down\"");
-
-WriteLiteral("></i>\r\n            Columns\r\n        </h3>\r\n    </a>\r\n\r\n    <div");
-
-WriteLiteral(" class=\"collapse in\"");
-
-WriteLiteral(" id=\"columns-ev-panel\"");
-
-WriteLiteral(">\r\n        <button");
-
-WriteLiteral(" class=\"btn btn-link pull-right\"");
-
-WriteLiteral(" data-bind=\"click : addViewColumn\"");
-
-WriteLiteral(">+ Column</button>\r\n        <table");
-
-WriteLiteral(" class=\"table table-striped\"");
-
-WriteLiteral(@">
-            <thead>
-                <tr>
-                    <th>Path</th>
-                    <th>Header</th>
-                    <th>Format</th>
-                    <th>Link</th>
-                    <th>Form</th>
-                    <th>Icon css</th>
-                    <th>Icon</th>
-                    <th></th>
+WriteLiteral(@"></span>
+                        </a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody");
+            </tbody>
+        </table>
 
-WriteLiteral(" data-bind=\"foreach :ViewColumnCollection\"");
+    </div>
+</div>
 
-WriteLiteral(">\r\n                <tr>\r\n                    <td>\r\n                        <input" +
-"");
+<div>
+    
+    <!-- ko compose : {model: 'viewmodels/_view.columns.designer', activationData:$root.view()}-->
 
-WriteLiteral(" class=\"form-control\"");
+    <!--/ko-->
 
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(" data-bind=\"value:Path,entityTypeaheadPath :$root.entity().EntityDefinitionId()\"");
-
-WriteLiteral(" required");
-
-WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_.]*$\"");
-
-WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
-" <input");
-
-WriteLiteral(" class=\"form-control\"");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(" data-bind=\"value:Header\"");
-
-WriteLiteral(" required />\r\n                    </td>\r\n\r\n                    <td>\r\n            " +
-"            <select");
-
-WriteLiteral(" class=\"form-control\"");
-
-WriteLiteral(" data-bind=\"value:Format\"");
-
-WriteLiteral(">\r\n                            <option");
-
-WriteLiteral(" value=\"text:{0}\"");
-
-WriteLiteral(">Text</option>\r\n                            <option");
-
-WriteLiteral(" value=\"date:{0}\"");
-
-WriteLiteral(">Short date</option>\r\n                            <option");
-
-WriteLiteral(" value=\"date:{{ value:{0}, format:\'DD MMM YYYY\'}}\"");
-
-WriteLiteral(">Long date</option>\r\n                            <option");
-
-WriteLiteral(" value=\"date:{{ value:{0}, format:\'D/M/YYYY HH:mm\'}}\"");
-
-WriteLiteral(">Short date time</option>\r\n                            <option");
-
-WriteLiteral(" value=\"date:{{ value:{0}, format:\'DD MMM YYYY HH:mm\'}}\"");
-
-WriteLiteral(">Long date time</option>\r\n                            <option");
-
-WriteLiteral(" value=\"money:{0}\"");
-
-WriteLiteral(">Money</option>\r\n                        </select>\r\n                    </td>\r\n  " +
-"                  <td>\r\n                        <input");
-
-WriteLiteral(" type=\"checkbox\"");
-
-WriteLiteral(" data-bind=\"checked:IsLinkColumn\"");
-
-WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
-" <select");
-
-WriteLiteral(" class=\"form-control\"");
-
-WriteLiteral(@" data-bind=""value:FormRoute,
-                                    enable:IsLinkColumn,
-                                    comboBoxLookupOptions : {
-                                        entity : 'EntityForm',
-                                        value : FormRoute,
-                                        valuePath : 'Route',
-                                        displayPath : 'Name',
-                                        query :$root.formsQuery
-                                    }""");
-
-WriteLiteral("></select>\r\n                    </td>\r\n                    <td>\r\n                " +
-"        <input");
-
-WriteLiteral(" class=\"form-control\"");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(" data-bind=\"value:IconCssClass,enable:IsLinkColumn\"");
-
-WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
-" <input");
-
-WriteLiteral(" class=\"form-control\"");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(" data-bind=\"value:IconStoreId,enable:IsLinkColumn\"");
-
-WriteLiteral(" />\r\n                    </td>\r\n                    <td>\r\n                       " +
-" <a");
-
-WriteLiteral(" href=\"#\"");
-
-WriteLiteral(" data-bind=\"click : $parent.removeViewColumn.call($parent,$data)\"");
-
-WriteLiteral(">\r\n                            <span");
-
-WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
-
-WriteLiteral("></span>\r\n                        </a>\r\n                    </td>\r\n              " +
-"  </tr>\r\n            </tbody>\r\n        </table>\r\n\r\n    </div>\r\n</div>");
+</div>");
 
         }
     }

@@ -54,6 +54,13 @@
 
                 },
                 publish = function () {
+
+                    // get the sorted element
+                    var columns = _($('ul#column-design>li')).map(function (div) {
+                        return ko.dataFor(div);
+                    });
+                    view().ViewColumnCollection(columns);
+
                     var tcs = new $.Deferred(),
                         data = ko.mapping.toJSON(view);
 
@@ -73,6 +80,12 @@
                     return tcs.promise();
                 },
                 save = function () {
+                    // get the sorted element
+                    var columns = _($('ul#column-design>li')).map(function (div) {
+                        return ko.dataFor(div);
+                    });
+                    view().ViewColumnCollection(columns);
+
                     var tcs = new $.Deferred(),
                         data = ko.mapping.toJSON(view);
 

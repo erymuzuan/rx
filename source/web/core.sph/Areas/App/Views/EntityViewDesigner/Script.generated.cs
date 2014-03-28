@@ -100,40 +100,47 @@ WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext, objectbuilders.lo
 "sph.domain.EntityView({ WebId: system.guid() }));\r\n                    }\r\n      " +
 "              view().EntityDefinitionId(id);\r\n\r\n                    return tcs.p" +
 "romise();\r\n\r\n                },\r\n                attached = function () {\r\n\r\n\r\n\r" +
-"\n                },\r\n                publish = function () {\r\n                  " +
-"  var tcs = new $.Deferred(),\r\n                        data = ko.mapping.toJSON(" +
-"view);\r\n\r\n                    context.post(data, \"/Sph/EntityView/Publish\")\r\n   " +
-"                     .then(function (result) {\r\n                            if (" +
-"result.success) {\r\n                                logger.info(result.message);\r" +
-"\n                                view().EntityViewId(result.id);\r\n              " +
-"                  errors.removeAll();\r\n                            } else {\r\n   " +
-"                             errors(result.Errors);\r\n                           " +
-"     logger.error(\"There are errors in your entity, !!!\");\r\n                    " +
-"        }\r\n\r\n                            tcs.resolve(result);\r\n                 " +
-"       });\r\n                    return tcs.promise();\r\n                },\r\n     " +
-"           save = function () {\r\n                    var tcs = new $.Deferred()," +
-"\r\n                        data = ko.mapping.toJSON(view);\r\n\r\n                   " +
-" context.post(data, \"/Sph/EntityView/Save\")\r\n                        .then(funct" +
-"ion (result) {\r\n                            view().EntityViewId(result.id);\r\n   " +
-"                         tcs.resolve(result);\r\n                        });\r\n    " +
-"                return tcs.promise();\r\n                };\r\n\r\n            var vm " +
-"= {\r\n                errors: errors,\r\n                attached: attached,\r\n     " +
-"           activate: activate,\r\n                view: view,\r\n                ent" +
-"ity: entity,\r\n                formsQuery: ko.computed(function () {\r\n           " +
-"         return String.format(\"EntityDefinitionId eq {0}\", entity().EntityDefini" +
-"tionId());\r\n                }),\r\n                toolbar: {\r\n                   " +
-" commands: ko.observableArray([{\r\n                        caption: \'Clone\',\r\n   " +
-"                     icon: \'fa fa-copy\',\r\n                        command: funct" +
-"ion () {\r\n                            view().Name(view().Name() + \' Copy (1)\');\r" +
-"\n                            view().Route(\'\');\r\n                            view" +
-"().EntityViewId(0);\r\n                            return Task.fromResult(0);\r\n   " +
-"                     }\r\n                    },\r\n                    {\r\n         " +
-"               caption: \'Publish\',\r\n                        icon: \'fa fa-sign-ou" +
-"t\',\r\n                        command: publish,\r\n                        enable: " +
-"ko.computed(function () {\r\n                            return view().EntityViewI" +
-"d() > 0;\r\n                        })\r\n                    }\r\n                   " +
-" ]),\r\n                    saveCommand: save\r\n                }\r\n            };\r\n" +
-"\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"\n                },\r\n                publish = function () {\r\n\r\n                " +
+"    // get the sorted element\r\n                    var columns = _($(\'ul#column-" +
+"design>li\')).map(function (div) {\r\n                        return ko.dataFor(div" +
+");\r\n                    });\r\n                    view().ViewColumnCollection(col" +
+"umns);\r\n\r\n                    var tcs = new $.Deferred(),\r\n                     " +
+"   data = ko.mapping.toJSON(view);\r\n\r\n                    context.post(data, \"/S" +
+"ph/EntityView/Publish\")\r\n                        .then(function (result) {\r\n    " +
+"                        if (result.success) {\r\n                                l" +
+"ogger.info(result.message);\r\n                                view().EntityViewId" +
+"(result.id);\r\n                                errors.removeAll();\r\n             " +
+"               } else {\r\n                                errors(result.Errors);\r" +
+"\n                                logger.error(\"There are errors in your entity, " +
+"!!!\");\r\n                            }\r\n\r\n                            tcs.resolve" +
+"(result);\r\n                        });\r\n                    return tcs.promise()" +
+";\r\n                },\r\n                save = function () {\r\n                   " +
+" // get the sorted element\r\n                    var columns = _($(\'ul#column-des" +
+"ign>li\')).map(function (div) {\r\n                        return ko.dataFor(div);\r" +
+"\n                    });\r\n                    view().ViewColumnCollection(column" +
+"s);\r\n\r\n                    var tcs = new $.Deferred(),\r\n                        " +
+"data = ko.mapping.toJSON(view);\r\n\r\n                    context.post(data, \"/Sph/" +
+"EntityView/Save\")\r\n                        .then(function (result) {\r\n          " +
+"                  view().EntityViewId(result.id);\r\n                            t" +
+"cs.resolve(result);\r\n                        });\r\n                    return tcs" +
+".promise();\r\n                };\r\n\r\n            var vm = {\r\n                error" +
+"s: errors,\r\n                attached: attached,\r\n                activate: activ" +
+"ate,\r\n                view: view,\r\n                entity: entity,\r\n            " +
+"    formsQuery: ko.computed(function () {\r\n                    return String.for" +
+"mat(\"EntityDefinitionId eq {0}\", entity().EntityDefinitionId());\r\n              " +
+"  }),\r\n                toolbar: {\r\n                    commands: ko.observableAr" +
+"ray([{\r\n                        caption: \'Clone\',\r\n                        icon:" +
+" \'fa fa-copy\',\r\n                        command: function () {\r\n                " +
+"            view().Name(view().Name() + \' Copy (1)\');\r\n                         " +
+"   view().Route(\'\');\r\n                            view().EntityViewId(0);\r\n     " +
+"                       return Task.fromResult(0);\r\n                        }\r\n  " +
+"                  },\r\n                    {\r\n                        caption: \'P" +
+"ublish\',\r\n                        icon: \'fa fa-sign-out\',\r\n                     " +
+"   command: publish,\r\n                        enable: ko.computed(function () {\r" +
+"\n                            return view().EntityViewId() > 0;\r\n                " +
+"        })\r\n                    }\r\n                    ]),\r\n                    " +
+"saveCommand: save\r\n                }\r\n            };\r\n\r\n            return vm;\r\n" +
+"\r\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }
