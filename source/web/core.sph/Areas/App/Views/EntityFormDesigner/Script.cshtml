@@ -298,6 +298,16 @@
                 importCommand :importCommand,
                 toolbar : {
                     commands :ko.observableArray([{
+                        caption: 'Clone',
+                        icon: 'fa fa-copy',
+                        command: function () {
+                            form().Name(form().Name() + ' Copy (1)');
+                            form().Route('');
+                            form().EntityFormId(0);
+                            return Task.fromResult(0);
+                        }
+                    },
+                    {
                         caption : 'Publish',
                         icon : 'fa fa-sign-out',
                         command : publish,

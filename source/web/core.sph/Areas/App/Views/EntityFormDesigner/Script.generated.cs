@@ -255,12 +255,18 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "y : entity,\r\n                okClick: okClick,\r\n                cancelClick: can" +
 "celClick,\r\n                importCommand :importCommand,\r\n                toolba" +
 "r : {\r\n                    commands :ko.observableArray([{\r\n                    " +
-"    caption : \'Publish\',\r\n                        icon : \'fa fa-sign-out\',\r\n    " +
-"                    command : publish,\r\n                        enable : ko.comp" +
-"uted(function() {\r\n                            return form().EntityFormId() > 0;" +
-"\r\n                        })\r\n                    }\r\n                    ]),\r\n  " +
-"                  saveCommand : save\r\n                }\r\n            };\r\n\r\n     " +
-"       return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"    caption: \'Clone\',\r\n                        icon: \'fa fa-copy\',\r\n            " +
+"            command: function () {\r\n                            form().Name(form" +
+"().Name() + \' Copy (1)\');\r\n                            form().Route(\'\');\r\n      " +
+"                      form().EntityFormId(0);\r\n                            retur" +
+"n Task.fromResult(0);\r\n                        }\r\n                    },\r\n      " +
+"              {\r\n                        caption : \'Publish\',\r\n                 " +
+"       icon : \'fa fa-sign-out\',\r\n                        command : publish,\r\n   " +
+"                     enable : ko.computed(function() {\r\n                        " +
+"    return form().EntityFormId() > 0;\r\n                        })\r\n             " +
+"       }\r\n                    ]),\r\n                    saveCommand : save\r\n     " +
+"           }\r\n            };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</scr" +
+"ipt>\r\n");
 
         }
     }
