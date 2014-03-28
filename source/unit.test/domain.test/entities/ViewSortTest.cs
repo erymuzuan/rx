@@ -1,5 +1,7 @@
 ﻿using System;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.RoslynScriptEngines;
+using domain.test.triggers;
 using NUnit.Framework;
 
 namespace domain.test.entities
@@ -22,6 +24,29 @@ namespace domain.test.entities
             StringAssert.Contains("{\"Name\":{\"order\":\"asc\"}}", sortDsl);
         }
 
+        [Test]
+        public void UsingCurrentUser()
+        {
+            ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
+            var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
+            ed.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string) });
+            ed.MemberCollection.Add(new Member { Name = "Floors", Type = typeof(int) });
+            ed.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int) });
+            ed.MemberCollection.Add(new Member { Name = "CreatedBy", Type = typeof(string) });
+
+
+            var view = new EntityView { Name = "All buildings", Route = "all-buildings" };
+            view.SortCollection.Add(new Sort { Direction = SortDirection.Asc, Path = "Name" });
+            view.SortCollection.Add(new Sort { Direction = SortDirection.Desc, Path = "Floors" });
+
+            view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
+            view.AddFilter("Floors", Operator.Neq, new ConstantField { Type = typeof(int), Value = 0 });
+            view.AddFilter("CreatedBy", Operator.Eq, new FunctionField { Script = "@UserName", ScriptEngine =  new RoslynScriptEngine()});
+
+            var filter = view.GenerateElasticSearchFilterDsl();
+            Console.WriteLine(filter);
+            StringAssert.Contains("\"CreatedBy\":config.userName", filter);
+        }
         [Test]
         public void UsingNotFilters()
         {
