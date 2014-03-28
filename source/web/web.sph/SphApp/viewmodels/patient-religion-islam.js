@@ -18,28 +18,28 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
                 var edQuery = String.format("Name eq '{0}'", 'Patient'),
-                  tcs = new $.Deferred(),
-                  formsQuery = String.format("EntityDefinitionId eq 2002 and IsPublished eq 1 and IsAllowedNewItem eq 1"),
-                  viewQuery = String.format("EntityDefinitionId eq 2002"),
-                  edTask = context.loadOneAsync("EntityDefinition", edQuery),
-                  formsTask = context.loadAsync("EntityForm", formsQuery),
-                  viewTask = context.loadOneAsync("EntityView", viewQuery);
+                    tcs = new $.Deferred(),
+                    formsQuery = String.format("EntityDefinitionId eq 2002 and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                    viewQuery = String.format("EntityDefinitionId eq 2002"),
+                    edTask = context.loadOneAsync("EntityDefinition", edQuery),
+                    formsTask = context.loadAsync("EntityForm", formsQuery),
+                    viewTask = context.loadOneAsync("EntityView", viewQuery);
 
 
                 $.when(edTask, viewTask, formsTask)
-                 .done(function (b, vw,formsLo) {
-                     entity(b);
-                     view(vw);
-                     var formsCommands = _(formsLo.itemCollection).map(function (v) {
-                         return {
-                             caption: v.Name(),
-                             command: function () {
-                                 window.location = '#' + v.Route() + '/0';
-                                 return Task.fromResult(0);
-                             },
-                             icon: v.IconClass()
-                         };
-                     });
+                    .done(function (b, vw, formsLo) {
+                        entity(b);
+                        view(vw);
+                        var formsCommands = _(formsLo.itemCollection).map(function (v) {
+                            return {
+                                caption: v.Name(),
+                                command: function () {
+                                    window.location = '#' + v.Route() + '/0';
+                                    return Task.fromResult(0);
+                                },
+                                icon: v.IconClass()
+                            };
+                        });
                         formsCommands.push({
                             caption: "Reload",
                             command: function () {
@@ -48,35 +48,39 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                             },
                             icon: "fa fa-refresh"
                         });
-                     vm.toolbar.commands(formsCommands);
-                     tcs.resolve(true);
-                 });
-
+                        vm.toolbar.commands(formsCommands);
+                        tcs.resolve(true);
+                    });
 
 
                 return tcs.promise();
             },
             attached = function () {
-                chart.init('Patient', query);
+                chart.init('Patient', query, function (e) {
+                    console.log("TODO: filter the views with the filter from chart")
+                    console.log(e);
+                });
             },
             query = {
                 "query": {
                     "filtered": {
                         "filter": {
-               "and": {
-                  "filters": [
-                                     {
-                     "term":{
-                         "Religion":"Islam"
-                     }
-                 }
+                            "and": {
+                                "filters": [
+                                    {
+                                        "term": {
+                                            "Religion": "Islam"
+                                        }
+                                    }
 
-                  ]
-               }
-           }
+                                ]
+                            }
+                        }
                     }
                 },
-                "sort" : [{"FullName":{"order":"asc"}}]
+                "sort": [
+                    {"FullName": {"order": "asc"}}
+                ]
             };
 
         var vm = {

@@ -7,9 +7,11 @@ define(['services/datacontext'], function (context) {
         histogramInterval = ko.observable(),
         entityName = ko.observable(),
         _query = null,
-        init = function (entity, query) {
+        _click = null,
+        init = function (entity, query, click) {
             entityName(entity);
             _query = query;
+            _click = click;
         },
         draw = function (fd) {
             if (!field()) {
@@ -84,7 +86,22 @@ define(['services/datacontext'], function (context) {
                                     type: "pie",
                                     data: data
                                 }
-                            ], tooltip: {
+                            ],
+                            seriesClick: function (e) {
+                                if (typeof  _click === "function") {
+                                    _click({
+                                        query: _query,
+                                        category: e.category,
+                                        value: e.value,
+                                        field: field(),
+                                        aggregate: aggregate(),
+                                        histogramInterval: histogramInterval(),
+                                        dateInterval: dateInterval()
+
+                                    });
+
+                                }
+                            }, tooltip: {
                                 visible: true,
                                 format: "{0}",
                                 template: "#= category #: #= value #"
@@ -99,7 +116,7 @@ define(['services/datacontext'], function (context) {
             return tcs.promise();
         },
         execute = function () {
-           return draw(field());
+            return draw(field());
         };
 
 
@@ -114,13 +131,13 @@ define(['services/datacontext'], function (context) {
             draw(f);
         }
     });
-    histogramInterval.subscribe(function () {
-        if (aggregate() === 'histogram' && histogramInterval()) {
+    histogramInterval.subscribe(function (hi) {
+        if (aggregate() === 'histogram' && hi) {
             draw(field());
         }
     });
-    dateInterval.subscribe(function () {
-        if (aggregate() === 'histogram' && histogramInterval()) {
+    dateInterval.subscribe(function (di) {
+        if (aggregate() === 'date_histogram' && di) {
             draw(field());
         }
     });
