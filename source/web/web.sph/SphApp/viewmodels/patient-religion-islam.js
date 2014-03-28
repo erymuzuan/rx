@@ -40,6 +40,14 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                              icon: v.IconClass()
                          };
                      });
+                        formsCommands.push({
+                            caption: "Reload",
+                            command: function () {
+                                window.location = "#patient-religion-islam"
+                                return Task.fromResult(0);
+                            },
+                            icon: "fa fa-refresh"
+                        });
                      vm.toolbar.commands(formsCommands);
                      tcs.resolve(true);
                  });

@@ -2,28 +2,29 @@
 
 <div class="row">
     <div class="col-md-8">
-        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
+        <table class="table table-striped"
+               data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
             <thead>
-                <tr>
-                    <th>Mrn</th>
-                    <th>Nama</th>
-                    <th>Id</th>
-                    <th>DOB</th>
-                </tr>
+            <tr>
+                <th>Mrn</th>
+                <th>Nama</th>
+                <th>Id</th>
+                <th>DOB</th>
+            </tr>
             </thead>
             <tbody data-bind="foreach :list">
-                <tr>
-                    <td>
+            <tr>
+                <td>
 
-                        <a data-bind="attr : {href:'#patient-registration' + '/' + PatientId },text: Mrn"></a>
-                    </td>
+                    <a data-bind="attr : {href:'#patient-registration' + '/' + PatientId },text: Mrn"></a>
+                </td>
 
-                    <td data-bind="text:FullName"></td>
-                    <td data-bind="text:IdentificationNo"></td>
-                    <td data-bind="date:Dob"></td>
+                <td data-bind="text:FullName"></td>
+                <td data-bind="text:IdentificationNo"></td>
+                <td data-bind="date:Dob"></td>
 
 
-                </tr>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -31,6 +32,15 @@
         <h3>Charts</h3>
 
         <form class="form">
+            <div class="form-group">
+                <label for="chart-aggregate">Aggregate</label>
+                <select data-bind="value: aggregate" class="form-control" name="chart.aggregate" id="chart-aggregate">
+                    <option value="term">Term</option>
+                    <option value="range">Rage</option>
+                    <option value="histogram">Histogram</option>
+                    <option value="date_histogram">Date Histogram</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="field">Fields</label>
                 <select class="form-control" data-bind="value: field" id="field">
@@ -65,6 +75,27 @@
                     <option value="HomeAddress.State">HomeAddress.State</option>
                     <option value="HomeAddress.Country">HomeAddress.Country</option>
                 </select>
+            </div>
+
+            <div class="form-group" data-bind="visible : aggregate() === 'date_histogram'">
+                <label for="chart-date-interval">Date interval</label>
+                <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval" id="chart-date-interval">
+                    <option value="year">Year</option>
+                    <option value=" quarter">Quarter</option>
+                    <option value=" month">Month</option>
+                    <option value=" week">Week</option>
+                    <option value=" day">Day</option>
+                    <option value=" hour"> Hour</option>
+                    <option value=" minute">minute</option>
+                    <option value=" second">second</option>
+                </select>
+            </div>
+            <div class="form-group" data-bind="visible : aggregate() === 'histogram'">
+                <label for="histogram-interval">Interval</label>
+                <input class="form-control" step="10" type="number" id="histogram-interval" data-bind="value:histogramInterval"/>
+            </div>
+            <div class="form-group" style="display: none">
+                <button data-bind="command:execute" class="btn btn-default pull-right">OK</button>
             </div>
         </form>
         <div id="chart-Patient">

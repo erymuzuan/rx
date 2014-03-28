@@ -1082,7 +1082,7 @@ ko.bindingHandlers.filter = {
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
             $element = $(element),
-            $filterInput = $("<input type='search' class='search-query input-medium form-control' placeholder='Filter..'>"),
+            $filterInput = $("<input data-toggle='tooltip' title='Type to filter current page or type and [ENTER] to search the whole view' type='search' class='search-query input-medium form-control' placeholder='Filter.. '>"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
             $form = $("<form class='form-search col-lg-4 col-lg-offset-8'>" +
                 " <div class='input-group pull-right'>" +
@@ -1140,6 +1140,7 @@ ko.bindingHandlers.filter = {
         if ($filterInput.val()) {
             dofilter();
         }
+        $filterInput.tooltip();
 
     }
 };
