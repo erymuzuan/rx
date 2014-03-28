@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -25,12 +26,12 @@ namespace Bespoke.Sph.Domain
                                  string.Format("[Sort] : {0} does not have path", f.Path)
                              );
             var columnErrors = from f in this.ViewColumnCollection
-                             where string.IsNullOrWhiteSpace(f.Path)
-                             select new BuildError
-                             (
-                                 this.WebId,
-                                 string.Format("[Column] : {0} does not have path", f.Path)
-                             );
+                               where string.IsNullOrWhiteSpace(f.Path)
+                               select new BuildError
+                               (
+                                   this.WebId,
+                                   string.Format("[Column] : {0} does not have path", f.Path)
+                               );
             var linkErrors = from f in this.ViewColumnCollection
                              where string.IsNullOrWhiteSpace(f.FormRoute)
                              && f.IsLinkColumn
@@ -53,15 +54,15 @@ namespace Bespoke.Sph.Domain
 
             if (await formRouteCountTask > 0)
                 result.Errors.Add(new BuildError(this.WebId, "The route is already in used by a form"));
-            
+
             if (await viewRouteCountTask > 0)
                 result.Errors.Add(new BuildError(this.WebId, "The route is already in used by another view"));
 
-            if (await entityRouteCountTask> 0)
+            if (await entityRouteCountTask > 0)
                 result.Errors.Add(new BuildError(this.WebId, "The route is already in used, cannot be the same as an entity name"));
 
 
-            if(!this.ViewColumnCollection.Any())
+            if (!this.ViewColumnCollection.Any())
                 result.Errors.Add(new BuildError(this.WebId, "Your views are missing columns"));
 
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9 -]*$");
@@ -101,15 +102,22 @@ namespace Bespoke.Sph.Domain
             var fields = this.FilterCollection.Select(f => f.Term).Distinct().ToArray();
 
             var query = new StringBuilder();
-            var filters = from f in fields
-                          select this.GetFilterDsl(list.Where(x => x.Term == f).ToArray());
+
+            var mustFilters = fields.Select(f => this.GetFilterDsl(list.Where(x => x.Term == f && x.Operator != Operator.Neq).ToArray())).ToList();
+            var musts = string.Join(",\r\n", mustFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray());
+
+            var mustNotFilters = fields.Select(f => this.GetFilterDsl(list.Where(x => x.Term == f && x.Operator == Operator.Neq).ToArray())).ToList();
+            var mustnots = string.Join(",\r\n", mustNotFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray());
             query.AppendFormat(@"{{
-               ""and"": {{
-                  ""filters"": [
+               ""bool"": {{
+                  ""must"": [
                     {0}
+                  ],
+                  ""must_not"": [
+                    {1}
                   ]
                }}
-           }}", string.Join(",\r\n", filters.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray()));
+           }}", musts, mustnots);
 
             return query.ToString();
         }
@@ -118,42 +126,49 @@ namespace Bespoke.Sph.Domain
         public string GetFilterDsl(Filter[] filters)
         {
             var context = new RuleContext(this);
-            var ft = filters.First();
+            var ft = filters.FirstOrDefault();
+            if (null == ft) return null;
             var query = new StringBuilder();
             query.AppendLine("                 {");
-            if (ft.Operator == Operator.Eq)
+
+            switch (ft.Operator)
             {
-                query.AppendLine("                     \"term\":{");
-                query.AppendLinf("                         \"{0}\":\"{1}\"", ft.Term, ft.Field.GetValue(context));
-                query.AppendLine("                     }");
+                case Operator.Eq:
+                case Operator.Neq:
+                    query.AppendLine("                     \"term\":{");
+                    var val = ft.Field.GetValue(context);
+                    var valJson = string.Format("{0}", val);
+                    if (val is string)
+                        valJson = string.Format("\"{0}\"", val);
+                    if (val is DateTime)
+                        valJson = string.Format("\"{0:s}\"", val);
+                    query.AppendLinf("                         \"{0}\":{1}", ft.Term, valJson);
+                    query.AppendLine("                     }");
+                    break;
+                case Operator.Ge:
+                case Operator.Gt:
+                case Operator.Le:
+                case Operator.Lt:
+                    query.AppendLine("                     \"range\":{");
+                    query.AppendFormat("                         \"{0}\":{{", ft.Term);
+                    var count = 0;
+                    foreach (var t in filters)
+                    {
+                        count++;
+                        if (t.Operator == Operator.Ge)
+                            query.AppendFormat("\"from\":{0}", t.Field.GetValue(context));
+                        if (t.Operator == Operator.Le)
+                            query.AppendFormat("\"to\":{0}", t.Field.GetValue(context));
+
+                        if (count < filters.Length)
+                            query.Append(",");
+
+                    }
+                    query.AppendLine("}");
+                    query.AppendLine("                     }");
+                    break;
+                default: throw new Exception(ft.Operator + " is not supported for filter DSL yet");
             }
-            else if (ft.Operator == Operator.Ge || ft.Operator == Operator.Gt ||
-                ft.Operator == Operator.Le || ft.Operator == Operator.Lt)
-            {
-
-                query.AppendLine("                     \"range\":{");
-                query.AppendFormat("                         \"{0}\":{{", ft.Term);
-                var count = 0;
-                foreach (var t in filters)
-                {
-                    count++;
-                    if (t.Operator == Operator.Ge)
-                        query.AppendFormat("\"from\":{0}", t.Field.GetValue(context));
-                    if (t.Operator == Operator.Le)
-                        query.AppendFormat("\"to\":{0}", t.Field.GetValue(context));
-
-                    if (count < filters.Length)
-                        query.Append(",");
-
-                }
-                query.AppendLine("}");
-                query.AppendLine("                     }");
-            }
-            else
-            {
-                return string.Empty;
-            }
-
 
 
             query.AppendLine("                 }");
