@@ -172,12 +172,16 @@
             });
 
             // let it run
-            var count = 0;
-            while (!window.code && count < 3) {
-                alert(count + ": Cannot detect code");
-                count++;
-            }
-            editor.setValue(window.code);
+            setTimeout(function () {
+                if (window.code) {
+                    editor.setValue(window.code);
+                }
+                if (typeof window.field === "object") {
+                    editor.setValue(window.field.Script());
+                }
+                editor.gotoLine(1);
+
+            }, 600);
             editor.gotoLine(1);
 
 

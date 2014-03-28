@@ -388,11 +388,13 @@ WriteLiteral("\");\r\n            editor.gotoLine(1);\r\n\r\n            editor.
 "ace-theme\': $(this).val() });\r\n            });\r\n            $(\'#font-size\').chan" +
 "ge(function () {\r\n                $(\'#editor\').css(\"font-size\", $(this).val() + " +
 "\"px\");\r\n                $.post(\'/Editor/SaveSetting\', { \'ace-font-size\': $(this)" +
-".val() });\r\n            });\r\n\r\n            // let it run\r\n            var count " +
-"= 0;\r\n            while (!window.code && count < 3) {\r\n                alert(cou" +
-"nt + \": Cannot detect code\");\r\n                count++;\r\n            }\r\n        " +
-"    editor.setValue(window.code);\r\n            editor.gotoLine(1);\r\n\r\n\r\n        " +
-"});\r\n    </script>\r\n\r\n</body>\r\n</html>\r\n");
+".val() });\r\n            });\r\n\r\n            // let it run\r\n            setTimeout" +
+"(function () {\r\n                if (window.code) {\r\n                    editor.s" +
+"etValue(window.code);\r\n                }\r\n                if (typeof window.fiel" +
+"d === \"object\") {\r\n                    editor.setValue(window.field.Script());\r\n" +
+"                }\r\n                editor.gotoLine(1);\r\n\r\n            }, 600);\r\n" +
+"            editor.gotoLine(1);\r\n\r\n\r\n        });\r\n    </script>\r\n\r\n</body>\r\n</ht" +
+"ml>\r\n");
 
         }
     }

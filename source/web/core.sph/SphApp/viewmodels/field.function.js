@@ -8,11 +8,11 @@ define(['plugins/dialog'],
     function (dialog) {
 
         var okClick = function (data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target)) {
-                    dialog.close(this, "OK");
-                }
+            if (bespoke.utils.form.checkValidity(ev.target)) {
+                dialog.close(this, "OK");
+            }
 
-            },
+        },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
@@ -28,8 +28,16 @@ define(['plugins/dialog'],
             },
             edit = function () {
                 var w = window.open("/sph/editor/ace", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                if (typeof w.window === "object") {
+
+                    w.window.field = vm.field();
+                    w.window.saved = function (script) {
+                        vm.field().Script(script);
+                        w.close();
+                    };
+                }
                 w.field = vm.field();
-                w.saved= function(script) {
+                w.saved = function (script) {
                     vm.field().Script(script);
                     w.close();
                 };
