@@ -122,13 +122,18 @@ WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext, objectbuilders.lo
 "ity: entity,\r\n                formsQuery: ko.computed(function () {\r\n           " +
 "         return String.format(\"EntityDefinitionId eq {0}\", entity().EntityDefini" +
 "tionId());\r\n                }),\r\n                toolbar: {\r\n                   " +
-" commands: ko.observableArray([{\r\n                        caption: \'Publish\',\r\n " +
-"                       icon: \'fa fa-sign-out\',\r\n                        command:" +
-" publish,\r\n                        enable: ko.computed(function () {\r\n          " +
-"                  return view().EntityViewId() > 0;\r\n                        })\r" +
-"\n                    }\r\n                    ]),\r\n                    saveCommand" +
-": save\r\n                }\r\n            };\r\n\r\n            return vm;\r\n\r\n        }" +
-");\r\n\r\n\r\n</script>\r\n");
+" commands: ko.observableArray([{\r\n                        caption: \'Clone\',\r\n   " +
+"                     icon: \'fa fa-copy\',\r\n                        command: funct" +
+"ion () {\r\n                            view().Name(view().Name() + \' Copy (1)\');\r" +
+"\n                            view().Route(\'\');\r\n                            view" +
+"().EntityViewId(0);\r\n                            return Task.fromResult(0);\r\n   " +
+"                     }\r\n                    },\r\n                    {\r\n         " +
+"               caption: \'Publish\',\r\n                        icon: \'fa fa-sign-ou" +
+"t\',\r\n                        command: publish,\r\n                        enable: " +
+"ko.computed(function () {\r\n                            return view().EntityViewI" +
+"d() > 0;\r\n                        })\r\n                    }\r\n                   " +
+" ]),\r\n                    saveCommand: save\r\n                }\r\n            };\r\n" +
+"\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }

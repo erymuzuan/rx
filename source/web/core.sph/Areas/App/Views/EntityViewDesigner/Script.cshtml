@@ -95,6 +95,16 @@
                 }),
                 toolbar: {
                     commands: ko.observableArray([{
+                        caption: 'Clone',
+                        icon: 'fa fa-copy',
+                        command: function () {
+                            view().Name(view().Name() + ' Copy (1)');
+                            view().Route('');
+                            view().EntityViewId(0);
+                            return Task.fromResult(0);
+                        }
+                    },
+                    {
                         caption: 'Publish',
                         icon: 'fa fa-sign-out',
                         command: publish,

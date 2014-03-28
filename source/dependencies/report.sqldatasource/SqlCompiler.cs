@@ -96,6 +96,7 @@ namespace Bespoke.Sph.SqlReportDataSource
             switch (filter.Operator)
             {
                 case "Eq": return "=";
+                case "Neq": return "<>";
                 case "Ge": return ">=";
                 case "Gt": return ">";
                 case "Le": return "<=";
