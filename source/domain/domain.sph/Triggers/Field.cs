@@ -6,6 +6,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(DocumentField))]
     [XmlInclude(typeof(FunctionField))]
     [XmlInclude(typeof(ConstantField))]
+    [XmlInclude(typeof(JavascriptExpressionField))]
     [XmlInclude(typeof(PropertyChangedField))]
     [XmlInclude(typeof(AssemblyField))]
     public partial class Field : DomainObject

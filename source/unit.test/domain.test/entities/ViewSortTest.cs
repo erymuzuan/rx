@@ -1,6 +1,5 @@
 ﻿using System;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.RoslynScriptEngines;
 using domain.test.triggers;
 using NUnit.Framework;
 
@@ -41,7 +40,7 @@ namespace domain.test.entities
 
             view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
             view.AddFilter("Floors", Operator.Neq, new ConstantField { Type = typeof(int), Value = 0 });
-            view.AddFilter("CreatedBy", Operator.Eq, new FunctionField { Script = "@UserName", ScriptEngine =  new RoslynScriptEngine()});
+            view.AddFilter("CreatedBy", Operator.Eq, new JavascriptExpressionField { Expression = "config.userName"});
 
             var filter = view.GenerateElasticSearchFilterDsl();
             Console.WriteLine(filter);
