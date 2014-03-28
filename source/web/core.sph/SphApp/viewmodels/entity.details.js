@@ -114,12 +114,23 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             member: member,
             toolbar: {
                 saveCommand: save,
-                commands: ko.observableArray([
+                commands: ko.observableArray([{
+                    caption: 'Clone',
+                    icon: 'fa fa-copy',
+                    command: function () {
+                        entity().Name(entity().Name() + ' Copy (1)');
+                        entity().Plural(null);
+                        entity().EntityDefinitionId(0);
+                        forms([]);
+                        views([]);
+                        return Task.fromResult(0);
+                    }
+                },
                     {
                         command: publishAsync,
                         caption: 'Publish',
                         icon: "fa fa-sign-out",
-                        enable : ko.computed(function() {
+                        enable: ko.computed(function () {
                             return entity().EntityDefinitionId() > 0;
                         })
                     }])
