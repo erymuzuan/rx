@@ -132,11 +132,79 @@ WriteLiteral("\r\n    <pre");
 
 WriteLiteral(" id=\"editor\"");
 
-WriteLiteral(">\r\n// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\r\n</pre>\r\n\r\n    <script");
+WriteLiteral(">\r\n// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\r\n</pre>\r\n\r\n    <div");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1078), Tuple.Create("\"", 1104)
-, Tuple.Create(Tuple.Create("", 1084), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/ace/ace.js")
-, 1084), false)
+WriteLiteral(" class=\"modal fade\"");
+
+WriteLiteral(" style=\"background-color: white\"");
+
+WriteLiteral(" id=\"help\"");
+
+WriteLiteral(" tabindex=\"-1\"");
+
+WriteLiteral(" role=\"dialog\"");
+
+WriteLiteral(" aria-labelledby=\"myModalLabel\"");
+
+WriteLiteral(" aria-hidden=\"true\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" data-dismiss=\"modal\"");
+
+WriteLiteral(" aria-hidden=\"true\"");
+
+WriteLiteral(">&times;</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title\"");
+
+WriteLiteral(" id=\"myModalLabel\"");
+
+WriteLiteral(">Modal title</h4>\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                    ...\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" data-dismiss=\"modal\"");
+
+WriteLiteral(">Close</button>\r\n                    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(">Save changes</button>\r\n                </div>\r\n            </div><!-- /.modal-co" +
+"ntent -->\r\n        </div><!-- /.modal-dialog -->\r\n    </div><!-- /.modal -->\r\n\r\n" +
+"    <script");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 2031), Tuple.Create("\"", 2057)
+, Tuple.Create(Tuple.Create("", 2037), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/ace/ace.js")
+, 2037), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -145,9 +213,9 @@ WriteLiteral(" charset=\"utf-8\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1167), Tuple.Create("\"", 1202)
-, Tuple.Create(Tuple.Create("", 1173), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/jquery-2.1.0.min.js")
-, 1173), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2120), Tuple.Create("\"", 2155)
+, Tuple.Create(Tuple.Create("", 2126), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/jquery-2.1.0.min.js")
+, 2126), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -156,9 +224,9 @@ WriteLiteral(" charset=\"utf-8\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1265), Tuple.Create("\"", 1297)
-, Tuple.Create(Tuple.Create("", 1271), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/bootstrap.min.js")
-, 1271), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2218), Tuple.Create("\"", 2250)
+, Tuple.Create(Tuple.Create("", 2224), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/bootstrap.min.js")
+, 2224), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -167,9 +235,9 @@ WriteLiteral(" charset=\"utf-8\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1360), Tuple.Create("\"", 1393)
-, Tuple.Create(Tuple.Create("", 1366), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.1.0.js")
-, 1366), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2313), Tuple.Create("\"", 2346)
+, Tuple.Create(Tuple.Create("", 2319), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.1.0.js")
+, 2319), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -178,9 +246,9 @@ WriteLiteral(" charset=\"utf-8\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1456), Tuple.Create("\"", 1495)
-, Tuple.Create(Tuple.Create("", 1462), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_function.prototypes.js")
-, 1462), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2409), Tuple.Create("\"", 2448)
+, Tuple.Create(Tuple.Create("", 2415), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_function.prototypes.js")
+, 2415), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -189,9 +257,9 @@ WriteLiteral(" charset=\"utf-8\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1558), Tuple.Create("\"", 1583)
-, Tuple.Create(Tuple.Create("", 1564), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_utils.js")
-, 1564), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2511), Tuple.Create("\"", 2536)
+, Tuple.Create(Tuple.Create("", 2517), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_utils.js")
+, 2517), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -200,18 +268,27 @@ WriteLiteral(" charset=\"utf-8\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1646), Tuple.Create("\"", 1678)
-, Tuple.Create(Tuple.Create("", 1652), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 1652), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2599), Tuple.Create("\"", 2631)
+, Tuple.Create(Tuple.Create("", 2605), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 2605), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1725), Tuple.Create("\"", 1751)
-, Tuple.Create(Tuple.Create("", 1731), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/require.js")
-, 1731), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2678), Tuple.Create("\"", 2704)
+, Tuple.Create(Tuple.Create("", 2684), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/require.js")
+, 2684), false)
+);
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 2751), Tuple.Create("\"", 2780)
+, Tuple.Create(Tuple.Create("", 2757), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/underscore.js")
+, 2757), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -241,13 +318,13 @@ WriteLiteral(@">
 
     <script>
 
-        require(['services/datacontext', 'jquery', 'services/app', 'services/system'], function (context, jquery, app, system) {
+        require(['services/datacontext', 'jquery', 'services/app'], function (context, jquery, app) {
 
             var editor = ace.edit(""editor"");
             editor.setTheme(""ace/theme/");
 
             
-            #line 74 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 93 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
                                   Write(theme);
 
             
@@ -256,13 +333,13 @@ WriteLiteral(@">
 WriteLiteral("\");\r\n");
 
             
-            #line 75 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 94 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 75 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 94 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
               
             var mode = this.Request.QueryString["mode"] ?? "csharp";
         
@@ -272,7 +349,7 @@ WriteLiteral("\");\r\n");
 WriteLiteral("\r\n            editor.getSession().setMode(\"ace/mode/");
 
             
-            #line 78 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 97 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
                                              Write(mode);
 
             
@@ -299,21 +376,23 @@ WriteLiteral("\");\r\n            editor.gotoLine(1);\r\n\r\n            editor.
 " search,\r\n                    saveAndClose: saveAndClose,\r\n                    g" +
 "otoLine: gotoLine,\r\n                    snippets: ko.observableArray(),\r\n       " +
 "             logs: ko.observableArray(),\r\n                    openSnippetEditor:" +
-" function () {\r\n                        require([\'viewmodels/snippets.dialog\', \'" +
-"services/app\'], function (dialog, app2) {\r\n\r\n                            app2.sh" +
-"owModal(dialog)\r\n                                .done(function () {\r\n\r\n        " +
-"                        });\r\n\r\n                        });\r\n                    " +
-"}\r\n\r\n                };\r\n            ko.applyBindings(vm, document.getElementByI" +
-"d(\'header-navbar\'));\r\n\r\n\r\n\r\n            $(\'#theme\').change(function () {\r\n      " +
-"          editor.setTheme(\"ace/theme/\" + $(this).val());\r\n                $.post" +
-"(\'/Editor/SaveSetting\', { \'ace-theme\': $(this).val() });\r\n            });\r\n     " +
-"       $(\'#font-size\').change(function () {\r\n                $(\'#editor\').css(\"f" +
-"ont-size\", $(this).val() + \"px\");\r\n                $.post(\'/Editor/SaveSetting\'," +
-" { \'ace-font-size\': $(this).val() });\r\n            });\r\n\r\n            // let it " +
-"run\r\n            var count = 0;\r\n            while (!window.code && count < 3) {" +
-"\r\n                alert(count + \": Cannot detect code\");\r\n                count+" +
-"+;\r\n            }\r\n            editor.setValue(window.code);\r\n            editor" +
-".gotoLine(1);\r\n\r\n\r\n        });\r\n    </script>\r\n\r\n</body>\r\n</html>\r\n");
+" function () {\r\n                        require([\'viewmodels/snippets.dialog\'], " +
+"function (dialog) {\r\n\r\n                            app.showModal(dialog)\r\n      " +
+"                          .done(function () {\r\n\r\n                               " +
+" });\r\n                            setTimeout(function() {\r\n                     " +
+"           $(\'div.modal-backdrop\').remove();\r\n                            }, 500" +
+");\r\n                        });\r\n                    }\r\n\r\n                };\r\n  " +
+"          ko.applyBindings(vm, document.getElementById(\'header-navbar\'));\r\n\r\n\r\n\r" +
+"\n            $(\'#theme\').change(function () {\r\n                editor.setTheme(\"" +
+"ace/theme/\" + $(this).val());\r\n                $.post(\'/Editor/SaveSetting\', { \'" +
+"ace-theme\': $(this).val() });\r\n            });\r\n            $(\'#font-size\').chan" +
+"ge(function () {\r\n                $(\'#editor\').css(\"font-size\", $(this).val() + " +
+"\"px\");\r\n                $.post(\'/Editor/SaveSetting\', { \'ace-font-size\': $(this)" +
+".val() });\r\n            });\r\n\r\n            // let it run\r\n            var count " +
+"= 0;\r\n            while (!window.code && count < 3) {\r\n                alert(cou" +
+"nt + \": Cannot detect code\");\r\n                count++;\r\n            }\r\n        " +
+"    editor.setValue(window.code);\r\n            editor.gotoLine(1);\r\n\r\n\r\n        " +
+"});\r\n    </script>\r\n\r\n</body>\r\n</html>\r\n");
 
         }
     }
