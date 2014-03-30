@@ -126,25 +126,25 @@
                 </label>
             </div>
             <div class="form-group">
-                <label class="checkbox">
+                <label class="checkbox" data-placement="left" data-bind="tooltip:'Creates database column, to allow API filter and Report filter, Views and search do not use this property'">
                     <input data-bind="checked: IsFilterable" id="member-analyzed" type="checkbox" name="IsFilterable" />
                     Can be filtered
                 </label>
             </div>
             <div class="form-group">
-                <label class="checkbox">
+                <label class="checkbox" data-placement="left" data-bind="tooltip:'If checked, this member will not be indexed in elastic search, thus it will be searchable'">
                     <input data-bind="checked: IsNotIndexed" id="member-not-indexed" type="checkbox" name="IsNotIndexed" />
                     Do not indexed
                 </label>
             </div>
             <div class="form-group">
-                <label class="checkbox">
+                <label class="checkbox" data-bind="tooltip:'To use full text index, terms will be broken and analyzed. Do not check for items you want to use in aggregates(i.e. term search)'">
                     <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed || TypeName() !== 'System.String, mscorlib'" id="member-analyzed" type="checkbox" name="IsAnalyzed" />
                     Should analyzed(only for string)
                 </label>
             </div>
             <div class="form-group">
-                <label class="checkbox">
+                <label class="checkbox" data-bind="tooltip:'Check if you do not wish this member to be included in the search terms'">
                     <input data-bind="checked: IsExcludeInAll, disable: IsNotIndexed" id="member-exclude-all" type="checkbox" name="IsExcludeInAll" />
                     Do not include in all
                 </label>

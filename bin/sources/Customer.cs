@@ -107,6 +107,14 @@ namespace Bespoke.Dev_1.Domain
        set{ m_profileStoreId = value;}
    }
 
+//member:PrimaryContact
+          private System.String m_primaryContact;
+   public System.String PrimaryContact
+   {
+       get{ return m_primaryContact;}
+       set{ m_primaryContact = value;}
+   }
+
    }
 //class:FullName
 
@@ -242,6 +250,8 @@ namespace Bespoke.Dev_1.Domain
 
 //class:ProfileStoreId
 
+//class:PrimaryContact
+
 public partial class CustomerController : System.Web.Mvc.Controller
 {
 //exec:Search
@@ -329,6 +339,28 @@ public partial class CustomerController : System.Web.Mvc.Controller
             {
                 session.Attach(item);
                 await session.SubmitChanges("Demote");
+            }
+            return Json(new {success = true, status="OK", id = item.CustomerId});
+       }
+//exec:CreateOrder
+       [HttpPost]
+       [Authorize]
+       public async Task<System.Web.Mvc.ActionResult> CreateOrder()
+       {
+           var context = new Bespoke.Sph.Domain.SphDataContext();
+           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Customer>(this);
+           if(null == item) item = this.Item;
+           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Customer");
+           var brokenRules = new ObjectCollection<ValidationResult>();
+           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
+
+           var operation = ed.EntityOperationCollection.Single(o => o.WebId == "31952c83-2fdc-4d33-8360-8ac6750a0cb9");
+           var rc = new RuleContext(item);
+           
+            using(var session = context.OpenSession())
+            {
+                session.Attach(item);
+                await session.SubmitChanges("CreateOrder");
             }
             return Json(new {success = true, status="OK", id = item.CustomerId});
        }

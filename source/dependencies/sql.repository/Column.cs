@@ -1,7 +1,12 @@
 ﻿namespace Bespoke.Sph.SqlRepository
 {
-   public class Column
+    public class Column
     {
+        public override string ToString()
+        {
+            return string.Format("[{0}] as {1}({2})", this.Name, this.SqlType, this.Length);
+        }
+
         public string Name { get; set; }
         public string SqlType { get; set; }
         public int Length { get; set; }

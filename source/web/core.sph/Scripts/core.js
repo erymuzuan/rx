@@ -1397,7 +1397,20 @@ ko.bindingHandlers.bootstrapDropDown = {
     }
 };
 
+ko.bindingHandlers.tooltip = {
+    init: function (element, valueAccesor) {
+        var text = ko.unwrap(valueAccesor());
+        $(element).tooltip({title:text});
+    }
+};
+
 ko.bindingHandlers.bootstrapPopover = {
+    init: function (element, valueAccesor) {
+        var text = ko.unwrap(valueAccesor());
+        $(element).popover({ content: '<pre>' + text + '</pre>', html: true });
+    }
+};
+ko.bindingHandlers.popover = {
     init: function (element, valueAccesor) {
         var text = ko.unwrap(valueAccesor());
         $(element).popover({ content: '<pre>' + text + '</pre>', html: true });

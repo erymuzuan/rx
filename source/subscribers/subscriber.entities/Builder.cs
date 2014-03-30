@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -71,7 +72,7 @@ namespace subscriber.entities
                         ).ToList();
             var paramsValue = string.Join("\r\n",
                 parms.Select(p => string.Format("{0}\t=> {1}", p.ParameterName, p.Value)));
-            Console.WriteLine(sql + "\r\n" + paramsValue);
+            Debug.WriteLine(sql + "\r\n" + paramsValue);
             await SPH_CONNECTION.ExecuteNonQueryAsync(sql, parms.ToArray());
 
 

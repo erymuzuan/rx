@@ -28,7 +28,7 @@ namespace subscriber.test
             address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib"});
             ent.MemberCollection.Add(address);
             var sql = new SqlTableSubscriber();
-            var columns = sql.GetFiltarableMembers("", ent.MemberCollection).ToList();
+            var columns = sql.GetFilterableMembers("", ent.MemberCollection).ToList();
             
             CollectionAssert.AllItemsAreNotNull(columns);
             Assert.IsTrue(columns.Any(c => c.FullName == "Address.State"));

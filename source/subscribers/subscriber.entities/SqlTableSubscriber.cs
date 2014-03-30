@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.SqlRepository;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
 
@@ -37,14 +38,14 @@ namespace subscriber.entities
             return "VARCHAR(255)";
         }
 
-        public IEnumerable<Member> GetFiltarableMembers(string parent, IList<Member> members)
+        public IEnumerable<Member> GetFilterableMembers(string parent, IList<Member> members)
         {
             var filterables = members.Where(m => m.IsFilterable)
                 .Where(m => m.Type != typeof(object))
                 .Where(m => m.Type != typeof(Array))
                 .ToList();
             var list = members.Where(m => m.Type == typeof(object))
-                .Select(m => this.GetFiltarableMembers(parent + m.Name + ".", m.MemberCollection))
+                .Select(m => this.GetFilterableMembers(parent + m.Name + ".", m.MemberCollection)).ToList()
                 .SelectMany(m => m)
                 .ToList();
             filterables.AddRange(list);
@@ -69,13 +70,34 @@ namespace subscriber.entities
             using (var conn = new SqlConnection(connectionString))
             {
                 await conn.OpenAsync();
-                int count;
+                int existingTableCount;
                 using (var cmd = new SqlCommand(tableExistSql, conn))
                 {
-                    count = (int)(await cmd.ExecuteScalarAsync());
+                    existingTableCount = (int)(await cmd.ExecuteScalarAsync());
                 }
-                if (count > 0)
+                if (existingTableCount > 0)
                 {
+                    // Verify that the table has changed
+                    var members = this.GetFilterableMembers("", item.MemberCollection);
+                    var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
+                    var table = metadataProvider.GetTable(item.Name);
+                    var ok = true;
+                    foreach (var mb in members)
+                    {
+                        var colType = this.GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
+                        var mb1 = mb;
+                        var col = table.Columns.SingleOrDefault(c => c.Name.Equals(mb1.FullName,StringComparison.InvariantCultureIgnoreCase) && c.SqlType.Equals(colType, StringComparison.InvariantCultureIgnoreCase));
+                        if (null == col)
+                        {
+                            this.WriteMessage("[COLUMN-COMPARE] - > Cannot find column {0} as {1}", mb1.FullName, colType);
+                            ok = false;
+                            break;
+                        }
+                    }
+
+                    if (ok) return;
+
+
                     // rename table for migration
                     using (var renameTableCommand = new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
                     {
@@ -92,7 +114,7 @@ namespace subscriber.entities
                 {
                     await createTableCommand.ExecuteNonQueryAsync();
                 }
-                if (count == 0) return;
+                if (existingTableCount == 0) return;
 
                 this.WriteMessage("Migrating data for {0}", item.Name);
 
@@ -136,7 +158,7 @@ namespace subscriber.entities
             sql.AppendFormat("CREATE TABLE [{0}].[{1}]", applicationName, item.Name);
             sql.AppendLine("(");
             sql.AppendLinf("  [{0}Id] INT PRIMARY KEY IDENTITY(1,1)", item.Name);
-            var members = this.GetFiltarableMembers("", item.MemberCollection);
+            var members = this.GetFilterableMembers("", item.MemberCollection);
             foreach (var member in members)
             {
                 sql.AppendFormat(",[{0}] {1} {2} NULL", member.FullName, this.GetSqlType(member.TypeName), member.IsNullable ? "" : "NOT");
