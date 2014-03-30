@@ -494,6 +494,34 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    [XmlType("JavascriptExpressionField", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class JavascriptExpressionField
+    {
+
+        private string m_Expression;
+        [XmlAttribute]
+        public string Expression
+        {
+            get
+            {
+                return m_Expression;
+            }
+            set
+            {
+                m_Expression = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     [XmlType("FunctionField", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FunctionField
     {

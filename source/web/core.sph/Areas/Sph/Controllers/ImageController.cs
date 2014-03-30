@@ -74,6 +74,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return RedirectPermanent("~/images/PropertyChangedField.png");
             if (type == typeof(AssemblyField))
                 return RedirectPermanent("~/images/AssemblyField.png");
+            if (type == typeof(JavascriptExpressionField))
+                return RedirectPermanent("~/images/JavascriptExpressionField.png");
             if (type == typeof(Field))
                 return RedirectPermanent("~/images/Field.png");
 

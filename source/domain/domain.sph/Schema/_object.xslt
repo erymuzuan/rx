@@ -26,7 +26,7 @@
         <xsl:when test="xs:annotation/xs:documentation = 'Placeholder'">
           // placeholder for <xsl:value-of select="@name"/>
         </xsl:when>
-        
+
         <!-- ELEMENT -->
         <xsl:otherwise>
           ///&lt;summary&gt;
@@ -48,12 +48,12 @@
                     return m_<xsl:value-of select="@name"/>;}
                     set{
                     m_<xsl:value-of select="@name"/> = value;
-                      RaisePropertyChanged();
+                    RaisePropertyChanged();
                     }}
 
                   </xsl:when>
                   <xsl:otherwise>
-                   // if no type is set
+                    // if no type is set
                   </xsl:otherwise>
                 </xsl:choose>
               </xsl:for-each>
@@ -64,10 +64,10 @@
                     public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/> <xsl:value-of select="@name"/> {get;set;}
                   </xsl:when>
                 </xsl:choose>
-                
+
               </xsl:for-each>
               <xsl:apply-templates select="xs:complexType/xs:complexContent/xs:extension/xs:all/xs:element"/>
-             
+
             </xsl:when>
 
             <xsl:otherwise>
@@ -169,7 +169,7 @@
                 /// <xsl:value-of select="xs:annotation/xs:documentation"/>
                 ///&lt;/summary&gt;
                 [DebuggerHidden]
-				<xsl:value-of select="xs:annotation/xs:appinfo[@source='attr']"/>
+                <xsl:value-of select="xs:annotation/xs:appinfo[@source='attr']"/>
                 public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/>
                 <xsl:value-of select="@name"/>
                 {
@@ -201,84 +201,84 @@
           // placeholder for <xsl:value-of select="@name"/> complext type
         </xsl:when>
         <xsl:otherwise>
-            
-      [XmlType("<xsl:value-of select="@name"/>",  Namespace=Strings.DEFAULT_NAMESPACE)]
-      public partial class <xsl:value-of select="@name"/>
-      {
 
-      <!-- attribute-->
-      <xsl:for-each select="xs:attribute">
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+          [XmlType("<xsl:value-of select="@name"/>",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public partial class <xsl:value-of select="@name"/>
+          {
 
-        private  <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/> m_<xsl:value-of select="bspk:CamelCase(@name)"/>;
-        public const string PropertyName<xsl:value-of select="@name"/> = "<xsl:value-of select="@name"/>";
-      </xsl:for-each>
-      <!-- Element -->
-      <xsl:for-each select="xs:all/xs:element[@type != '']">
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+          <!-- attribute-->
+          <xsl:for-each select="xs:attribute">
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-        private <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/> m_<xsl:value-of select="bspk:CamelCase(@name)"/>
-        <xsl:if test="@bs:new='true'">
-          =  new <xsl:value-of select="@type"/>()
-        </xsl:if>;
-        public const string PropertyName<xsl:value-of select="@name"/> = "<xsl:value-of select="@name"/>";
-      </xsl:for-each>
-      <xsl:apply-templates select="xs:all/xs:element"/>
+            private  <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/> m_<xsl:value-of select="bspk:CamelCase(@name)"/>;
+            public const string PropertyName<xsl:value-of select="@name"/> = "<xsl:value-of select="@name"/>";
+          </xsl:for-each>
+          <!-- Element -->
+          <xsl:for-each select="xs:all/xs:element[@type != '']">
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-      // public properties members
-      <xsl:for-each select="xs:attribute">
+            private <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/> m_<xsl:value-of select="bspk:CamelCase(@name)"/>
+            <xsl:if test="@bs:new='true'">
+              =  new <xsl:value-of select="@type"/>()
+            </xsl:if>;
+            public const string PropertyName<xsl:value-of select="@name"/> = "<xsl:value-of select="@name"/>";
+          </xsl:for-each>
+          <xsl:apply-templates select="xs:all/xs:element"/>
 
-
-        [XmlAttribute]
-        public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/>
-        <xsl:value-of select="@name"/>
-        {
-        set
-        {
-        if(m_<xsl:value-of select="bspk:CamelCase(@name)"/>== value) return;
-        var arg = new PropertyChangingEventArgs(PropertyName<xsl:value-of select="@name"/>, value);
-        OnPropertyChanging(arg);
-        if( !arg.Cancel)
-        {
-        m_<xsl:value-of select="bspk:CamelCase(@name)"/>= value;
-        OnPropertyChanged();
-        }
-        }
-        get
-        {
-        return m_<xsl:value-of select="bspk:CamelCase(@name)"/>;}
-        }
-      </xsl:for-each>
-      <xsl:for-each select="xs:all/xs:element[@type != '']">
-
-        ///&lt;summary&gt;
-        /// <xsl:value-of select="xs:annotation/xs:documentation"/>
-        ///&lt;/summary&gt;
-        public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/>
-        <xsl:value-of select="@name"/>
-        {
-        set
-        {
-        if(m_<xsl:value-of select="bspk:CamelCase(@name)"/>== value) return;
-        var arg = new PropertyChangingEventArgs(PropertyName<xsl:value-of select="@name"/>, value);
-        OnPropertyChanging(arg);
-        if(! arg.Cancel)
-        {
-        m_<xsl:value-of select="bspk:CamelCase(@name)"/>= value;
-        OnPropertyChanged();
-        }
-        }
-        get { return m_<xsl:value-of select="bspk:CamelCase(@name)"/>;}
-        }
-      </xsl:for-each>
+          // public properties members
+          <xsl:for-each select="xs:attribute">
 
 
-      }
-          
+            [XmlAttribute]
+            public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/>
+            <xsl:value-of select="@name"/>
+            {
+            set
+            {
+            if(m_<xsl:value-of select="bspk:CamelCase(@name)"/>== value) return;
+            var arg = new PropertyChangingEventArgs(PropertyName<xsl:value-of select="@name"/>, value);
+            OnPropertyChanging(arg);
+            if( !arg.Cancel)
+            {
+            m_<xsl:value-of select="bspk:CamelCase(@name)"/>= value;
+            OnPropertyChanged();
+            }
+            }
+            get
+            {
+            return m_<xsl:value-of select="bspk:CamelCase(@name)"/>;}
+            }
+          </xsl:for-each>
+          <xsl:for-each select="xs:all/xs:element[@type != '']">
+
+            ///&lt;summary&gt;
+            /// <xsl:value-of select="xs:annotation/xs:documentation"/>
+            ///&lt;/summary&gt;
+            public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/>
+            <xsl:value-of select="@name"/>
+            {
+            set
+            {
+            if(m_<xsl:value-of select="bspk:CamelCase(@name)"/>== value) return;
+            var arg = new PropertyChangingEventArgs(PropertyName<xsl:value-of select="@name"/>, value);
+            OnPropertyChanging(arg);
+            if(! arg.Cancel)
+            {
+            m_<xsl:value-of select="bspk:CamelCase(@name)"/>= value;
+            OnPropertyChanged();
+            }
+            }
+            get { return m_<xsl:value-of select="bspk:CamelCase(@name)"/>;}
+            }
+          </xsl:for-each>
+
+
+          }
+
         </xsl:otherwise>
       </xsl:choose>
-      
-    
+
+
 
     </xsl:for-each>
     <!-- enum -->
@@ -288,19 +288,19 @@
           // placeholder for <xsl:value-of select="@name"/> enum
         </xsl:when>
         <xsl:otherwise>
-            [JsonConverter(typeof(StringEnumConverter))]
-      public enum <xsl:value-of select="@name"/>
-      {
-      <xsl:for-each select="xs:restriction/xs:enumeration">
-        <xsl:value-of select="@value"/>,
-      </xsl:for-each>
-      }
+          [JsonConverter(typeof(StringEnumConverter))]
+          public enum <xsl:value-of select="@name"/>
+          {
+          <xsl:for-each select="xs:restriction/xs:enumeration">
+            <xsl:value-of select="@value"/>,
+          </xsl:for-each>
+          }
         </xsl:otherwise>
       </xsl:choose>
-    
+
     </xsl:for-each>
     }
-// ReSharper restore InconsistentNaming
+    // ReSharper restore InconsistentNaming
 
   </xsl:template>
   <xsl:include href="_refobjects.xslt"/>

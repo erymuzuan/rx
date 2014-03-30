@@ -1,8 +1,7 @@
 namespace Bespoke.Sph.Domain
 {
-    public class JavascriptExpressionField : Field
+    public partial class JavascriptExpressionField : Field
     {
-        public string Expression { get; set; }
 
         public override object GetValue(RuleContext context)
         {
