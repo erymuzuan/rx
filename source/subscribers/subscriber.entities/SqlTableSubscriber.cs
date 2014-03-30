@@ -46,7 +46,11 @@ namespace subscriber.entities
                 .ToList();
             var list = members.Where(m => m.Type == typeof(object))
                 .Select(m => this.GetFilterableMembers(parent + m.Name + ".", m.MemberCollection)).ToList()
-                .SelectMany(m => m)
+                .SelectMany(m =>
+                {
+                    var enumerable = m as Member[] ?? m.ToArray();
+                    return enumerable;
+                })
                 .ToList();
             filterables.AddRange(list);
 
@@ -65,7 +69,7 @@ namespace subscriber.entities
                 string.Format(
                     "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{0}'  AND  TABLE_NAME = '{1}'",
                     applicationName, item.Name);
-            var createTable = this.CreateTableSql(item, header, applicationName);
+            var createTable = this.CreateTableSql(item, applicationName);
             var oldTable = string.Format("{0}_{1:yyyyMMdd_HHmmss}", item.Name, DateTime.Now);
             using (var conn = new SqlConnection(connectionString))
             {
@@ -78,23 +82,7 @@ namespace subscriber.entities
                 if (existingTableCount > 0)
                 {
                     // Verify that the table has changed
-                    var members = this.GetFilterableMembers("", item.MemberCollection);
-                    var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
-                    var table = metadataProvider.GetTable(item.Name);
-                    var ok = true;
-                    foreach (var mb in members)
-                    {
-                        var colType = this.GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
-                        var mb1 = mb;
-                        var col = table.Columns.SingleOrDefault(c => c.Name.Equals(mb1.FullName,StringComparison.InvariantCultureIgnoreCase) && c.SqlType.Equals(colType, StringComparison.InvariantCultureIgnoreCase));
-                        if (null == col)
-                        {
-                            this.WriteMessage("[COLUMN-COMPARE] - > Cannot find column {0} as {1}", mb1.FullName, colType);
-                            ok = false;
-                            break;
-                        }
-                    }
-
+                    var ok = CheckForNewColumns(item);
                     if (ok) return;
 
 
@@ -150,8 +138,33 @@ namespace subscriber.entities
 
         }
 
+        private bool CheckForNewColumns(EntityDefinition item)
+        {
+            var members = this.GetFilterableMembers("", item.MemberCollection);
+            var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
+            var table = metadataProvider.GetTable(item.Name);
+            var ok = true;
+            foreach (var mb in members)
+            {
+                var colType = this.GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
+                var mb1 = mb;
+                var col =
+                    table.Columns.SingleOrDefault(
+                        c =>
+                            c.Name.Equals(mb1.FullName, StringComparison.InvariantCultureIgnoreCase) &&
+                            c.SqlType.Equals(colType, StringComparison.InvariantCultureIgnoreCase));
+                if (null == col)
+                {
+                    this.WriteMessage("[COLUMN-COMPARE] - > Cannot find column {0} as {1}", mb1.FullName, colType);
+                    ok = false;
+                    break;
+                }
+            }
+            return ok;
+        }
 
-        private string CreateTableSql(EntityDefinition item, MessageHeaders header, string applicationName)
+
+        private string CreateTableSql(EntityDefinition item, string applicationName)
         {
 
             var sql = new StringBuilder();
