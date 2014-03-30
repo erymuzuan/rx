@@ -68,7 +68,7 @@
                                         <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                                         <!-- ko text : Name -->
                                         <!-- /ko -->
-                                        <span class="caret"></span>
+                                        <i class="fa fa-caret-down pull-right"></i>
                                     </a>
 
 
@@ -80,13 +80,29 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="btn-add-document-setter-field" data-bind="unwrapClick: addField,field : 'Document', accessor : $data.Field" href="#">+ Document Field</a>
+                                            <a class="btn-add-document-setter-field" data-bind="unwrapClick: addField,field : 'Document', accessor : $data.Field" href="#">
+                                                <img src="/images/DocumentField.png" class="pull-left" />
+                                                Document Field
+                                            </a>
                                         </li>
                                         <li>
-                                            <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">+ Constant Field</a>
+                                            <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">
+                                                <img src="/images/ConstantField.png" class="pull-left" />
+
+                                                Constant Field
+                                            </a>
                                         </li>
                                         <li>
-                                            <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">+ Function Field</a>
+                                            <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">
+                                                <img src="/images/FunctionField.png" class="pull-left" />
+                                                Function Field
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="btn-add-assembly-field" data-bind="unwrapClick: addField,field : 'Assembly', accessor : $data.Field" href="#">
+                                                <img src="/images/AssemblyField.png" class="pull-left" />
+                                                Assembly Field
+                                            </a>
                                         </li>
 
                                     </ul>
@@ -100,22 +116,22 @@
                 </table>
             </div>
         </div>
-        
+
         <h3>Success Action</h3>
         <div class="form-group">
             <label for="success-message" class="col-lg-2 control-label">Success Message</label>
             <div class="col-lg-8">
-                <textarea  data-bind="value: SuccessMessage" 
-                           placeholder="Success message to show"
-                           class="form-control" id="success-message"
-                           rows="8"></textarea>
+                <textarea data-bind="value: SuccessMessage"
+                          placeholder="Success message to show"
+                          class="form-control" id="success-message"
+                          rows="8"></textarea>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label for="navigate-url" class="col-lg-2 control-label">Navigate Url</label>
             <div class="col-lg-6">
-                <input type="text" data-bind="value: NavigateSuccessUrl" 
+                <input type="text" data-bind="value: NavigateSuccessUrl"
                        placeholder="If success navigate the page to"
                        class="form-control" id="navigate-url">
             </div>
