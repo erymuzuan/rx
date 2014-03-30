@@ -4,11 +4,14 @@
 }
 
 <div class="btn-group">
-    <a data-bind="with : @Model.Path, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+    <a title="Click to specify your value" data-bind="with : @Model.Path, bootstrapDropDown : '[Select a field]'" class="btn btn-link dropdown" href="#">
         <img data-bind="fieldImage : $type" class="pull-left" alt="." />
         <!-- ko text : Name -->
         <!-- /ko -->
-        <span class="caret pull-right"></span>
+        <!-- ko ifnot : Name -->
+           Your field
+        <!-- /ko -->
+        <i class="fa fa-caret-down pull-right"></i>
     </a>
     <ul class="dropdown-menu">
         <li data-bind="with : @Model.Path">
@@ -22,7 +25,7 @@
         {
             <li>
                 <a class="btn btn-link" data-bind="unwrapClick: addField, field : '@type', accessor : $data.@Model.Path" href="#">
-                    <img src="@string.Format("/images/{0}Field.png",type)" class="pull-left"/>
+                    <img src="@string.Format("/images/{0}Field.png",type)" class="pull-left" />
                     + @type
                 </a>
             </li>

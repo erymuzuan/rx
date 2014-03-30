@@ -1365,9 +1365,10 @@ ko.bindingHandlers.searchPaging = {
 };
 ///#source 1 1 /Scripts/_ko.bootstrap.js
 ko.bindingHandlers.bootstrapDropDown = {
-    init: function (element) {
-
-        var opened = false,
+    init: function (element, valueAccesor) {
+        var text = ko.unwrap(valueAccesor()) || '[Select your value]',
+            anchor = $(element),
+            opened = false,
             dropDown = function (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1388,7 +1389,11 @@ ko.bindingHandlers.bootstrapDropDown = {
 
 
             };
-        $(element).click(dropDown);
+        anchor.click(dropDown);
+
+        if (!anchor.html()) {
+            anchor.html(text + '<i class="fa fa-caret-down pull-right"></i>');
+        }
     }
 };
 
