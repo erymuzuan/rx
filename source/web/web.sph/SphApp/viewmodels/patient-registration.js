@@ -188,6 +188,9 @@
                     discharge : discharge,
                     transfer : transfer,
                     admit : admit,
+                //
+
+
                 toolbar : {
                                         
                     saveCommand : register,

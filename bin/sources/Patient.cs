@@ -155,6 +155,22 @@ namespace Bespoke.Dev_2002.Domain
        set{ m_empty = value;}
    }
 
+//member:Spouse
+          private System.String m_spouse;
+   public System.String Spouse
+   {
+       get{ return m_spouse;}
+       set{ m_spouse = value;}
+   }
+
+//member:MaritalStatus
+          private System.String m_maritalStatus;
+   public System.String MaritalStatus
+   {
+       get{ return m_maritalStatus;}
+       set{ m_maritalStatus = value;}
+   }
+
    }
 //class:Mrn
 
@@ -283,6 +299,10 @@ namespace Bespoke.Dev_2002.Domain
 //class:Income
 
 //class:Empty
+
+//class:Spouse
+
+//class:MaritalStatus
 
 public partial class PatientController : System.Web.Mvc.Controller
 {

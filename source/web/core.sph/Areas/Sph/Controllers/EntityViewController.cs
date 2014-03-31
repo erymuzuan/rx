@@ -46,13 +46,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.EntityDefinitionId == view.EntityDefinitionId);
             var type = ed.Name.ToLowerInvariant();
 
-            var json = @" {
+            var json =( @" {
                 ""query"": {
                     ""filtered"": {
                         ""filter"":" + view.GenerateElasticSearchFilterDsl() + @"
                     }
                 }
-            }";
+            }").Replace("config.userName", "\"" + User.Identity.Name + "\"");
+            Console.WriteLine(json);
             var request = new StringContent(json);
             var url = string.Format("{0}/{1}/_search", ConfigurationManager.ApplicationName.ToLowerInvariant(), type);
 

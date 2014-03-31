@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart'],
-    function (context, logger, router, chart) {
+define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart', objectbuilders.config],
+    function (context, logger, router, chart,config) {
 
         var isBusy = ko.observable(false),
             view = ko.observable(),
@@ -55,8 +55,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 "query": {
                     "filtered": {
                         "filter": {
-               "and": {
-                  "filters": [
+               "bool": {
+                  "must": [
+                    
+                  ],
+                  "must_not": [
                     
                   ]
                }
@@ -67,6 +70,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             };
 
         var vm = {
+            config: config,
             view: view,
             chart: chart,
             isBusy: isBusy,
