@@ -308,8 +308,14 @@
     <Content Include="docs\Entity.html">
       <DependentUpon>Entity.md</DependentUpon>
     </Content>
+    <Content Include="docs\EntityDefinition.HowTo.AddRecordName.html">
+      <DependentUpon>EntityDefinition.HowTo.AddRecordName.md</DependentUpon>
+    </Content>
     <Content Include="docs\EntityDefinition.HowTo.ColumnWithLink.html">
       <DependentUpon>EntityDefinition.HowTo.ColumnWithLink.md</DependentUpon>
+    </Content>
+    <Content Include="docs\EntityDefinition.HowTo.FilterByCurrentUser.html">
+      <DependentUpon>EntityDefinition.HowTo.FilterByCurrentUser.md</DependentUpon>
     </Content>
     <Content Include="docs\EntityDefinition.html">
       <DependentUpon>EntityDefinition.md</DependentUpon>
@@ -384,6 +390,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="docs\EntityDefinition.HowTo.ColumnWithLink.md" />
+    <Content Include="docs\EntityDefinition.HowTo.FilterByCurrentUser.md" />
+    <Content Include="docs\EntityDefinition.HowTo.AddRecordName.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>

@@ -10,8 +10,12 @@ define(['types'], function (types) {
     $('#sidebar').on('click', 'a', function (e) {
         e.preventDefault();
         e.stopPropagation();
-
-        $('#applicationHost').load(this.href, null, function () {
+        var href = this.href;
+        $('#applicationHost').load(this.href, null, function (responseText, textStatus) {
+            if (textStatus === "error") {
+                $('#applicationHost').html('<div class="alert alert-danger alert-dismissable">Cannot find the content for : ' + href + '</div>');
+                return;
+            }
             $('#applicationHost img').addClass('img-thumbnail');
             $('#applicationHost a').prepend('<i class="fa fa-link">');
             console.log("downloaded %s", this.href);
@@ -27,7 +31,11 @@ define(['types'], function (types) {
             return;
         }
         
-        $('#applicationHost').load(href, null, function () {
+        $('#applicationHost').load(href, null, function (responseText, textStatus) {
+            if (textStatus === "error") {
+                $('#applicationHost').html('<div class="alert alert-danger alert-dismissable">Cannot find the content for : ' + href + '</div>');
+                return;
+            }
             $('#applicationHost img').addClass('img-thumbnail');
             $('#applicationHost a').prepend('<i class="fa fa-link">');
             console.log("downloaded %s", this.href);

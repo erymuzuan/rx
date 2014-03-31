@@ -50,6 +50,15 @@
 
         <form class="form">
             <div class="form-group">
+                <label for="chart-aggregate">Aggregate</label>
+                <select data-bind="value: aggregate" class="form-control" name="chart.aggregate" id="chart-aggregate">
+                    <option value="term">Term</option>
+                    <option value="histogram">Histogram</option>
+                    <option value="date_histogram">Date Histogram</option>
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label for="field">Fields</label>
                 <select class="form-control" data-bind="value: field" id="field">
 
@@ -71,6 +80,8 @@
                     <option value="Age">Age</option>
                     <option value="Income">Income</option>
                     <option value="Empty">Empty</option>
+                    <option value="Spouse">Spouse</option>
+                    <option value="MaritalStatus">MaritalStatus</option>
                     <option value="NextOfKin.FullName">NextOfKin.FullName</option>
                     <option value="NextOfKin.Relationship">NextOfKin.Relationship</option>
                     <option value="NextOfKin.MobilePhone">NextOfKin.MobilePhone</option>
@@ -84,6 +95,26 @@
                     <option value="HomeAddress.Country">HomeAddress.Country</option>
                 </select>
             </div>
+
+            <div class="form-group" data-bind="visible : aggregate() === 'date_histogram'">
+                <label for="chart-date-interval">Date interval</label>
+                <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval" id="chart-date-interval">
+                    <option value="year">Year</option>
+                    <option value="quarter">Quarter</option>
+                    <option value="month">Month</option>
+                    <option value="week">Week</option>
+                    <option value="day">Day</option>
+                    <option value="hour"> Hour</option>
+                    <option value="minute">minute</option>
+                    <option value="second">second</option>
+                </select>
+            </div>
+
+            <div class="form-group" data-bind="visible : aggregate() === 'histogram'">
+                <label for="histogram-interval">Interval</label>
+                <input class="form-control" step="10" type="number" id="histogram-interval" data-bind="value:histogramInterval" />
+            </div>
+
         </form>
         <div id="chart-Patient">
 
