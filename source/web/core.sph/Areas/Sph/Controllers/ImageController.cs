@@ -46,7 +46,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var setting = string.Format("height={0};format=jpg;mode=max", height);
             var i = new ImageResizer.ImageJob(file, "~/thumbnails/" + id + content.Extension,
-                new ImageResizer.ResizeSettings(setting)) { CreateParentDirectory = true };
+                new ImageResizer.Instructions(setting)) { CreateParentDirectory = true };
             i.Build();
             System.IO.File.Delete(file);
             return File(thumbnail, MimeMapping.GetMimeMapping(thumbnail));

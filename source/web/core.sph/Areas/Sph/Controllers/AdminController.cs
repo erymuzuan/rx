@@ -17,22 +17,22 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> ValidateUserName(string userName)
+        public ActionResult ValidateUserName(string userName)
         {
             var user = Membership.GetUser(userName);
             if (null != user)
                 return Json(new { status = "DUPLICATE", message = string.Format("nama pengguna '{0}' sudah digunakan", userName) });
             this.Response.ContentType = "application/json; charset=utf-8";
-            return Content(await JsonConvert.SerializeObjectAsync(true));
+            return Content(JsonConvert.SerializeObject(true));
 
         }
-        public async Task<ActionResult> ValidateEmail(string email)
+        public ActionResult ValidateEmail(string email)
         {
             var emailExist = Membership.GetUserNameByEmail(email);
             if (null != emailExist)
                 return Json(new { status = "DUPLICATE", message = string.Format("email '{0}' sudah digunakan", email) });
             this.Response.ContentType = "application/json; charset=utf-8";
-            return Content(await JsonConvert.SerializeObjectAsync(true));
+            return Content(JsonConvert.SerializeObject(true));
 
         }
         public async Task<ActionResult> AddUser(Profile profile)

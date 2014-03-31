@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
             this.Response.ContentType = "application/json; charset=utf-8";
-            return Content(await JsonConvert.SerializeObjectAsync(rd.ReportDeliveryId));
+            return Content(JsonConvert.SerializeObject(rd.ReportDeliveryId));
 
         }
 

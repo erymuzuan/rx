@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     {
                         var setting = string.Format("width={0};format=jpg;mode=max",
                             ConfigurationManager.JpegMaxWitdh);
-                        var i = new ImageResizer.ImageJob(file, stream, new ImageResizer.ResizeSettings(setting)) { CreateParentDirectory = true };
+                        var i = new ImageResizer.ImageJob(file, stream, new ImageResizer.Instructions(setting)) { CreateParentDirectory = true };
                         i.Build();
 
                         content = stream.ToArray();

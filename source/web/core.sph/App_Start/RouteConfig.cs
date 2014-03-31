@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -102,7 +103,7 @@ namespace Bespoke.Sph.Web.App_Start
                 }
                 catch (FileNotFoundException e)
                 {
-                  //  Console.WriteLine(e);
+                   Debug.WriteLine(e);
                 }
             }
 
