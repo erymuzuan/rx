@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -7,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Newtonsoft.Json;
 
 namespace subscriber.entities
 {
@@ -45,6 +50,103 @@ namespace subscriber.entities
             return map.ToString();
         }
 
+
+        protected override void OnStart()
+        {
+
+            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var type = typeof(EntityDefinition);
+            var folder = Path.Combine(wc, type.Name);
+            foreach (var marker in Directory.GetFiles(folder, "*.marker"))
+            {
+                this.QueueUserWorkItem(MigrateData, Path.GetFileNameWithoutExtension(marker));
+                File.Delete(marker);
+
+            }
+            base.OnStart();
+        }
+
+        private async void MigrateData(string name)
+        {
+            await MigrateDataAsycn(name);
+
+        }
+        private async Task MigrateDataAsycn(string name)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(name);
+            var connectionString = ConfigurationManager.ConnectionStrings["sph"].ConnectionString;
+            var applicationName = ConfigurationManager.ApplicationName;
+
+            var taskBuckets = new List<Task>();
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                await conn.OpenAsync();//migrate
+                var readSql = string.Format("SELECT [{0}Id],[Json] FROM [{1}].[{0}]", name, applicationName);
+                this.WriteMessage(readSql);
+
+
+                using (var cmd = new SqlCommand(readSql, conn))
+                {
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (reader.Read())
+                        {
+                            var id = reader.GetInt32(0);
+                            var json = reader.GetString(1);
+                            this.WriteMessage("Migrating {0} : {1}", name, id);
+                            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                            dynamic ent = JsonConvert.DeserializeObject(json, setting);
+                            ent.SetId(id);
+
+                            var task = IndexItemToElasticSearchAsync(ent);
+                            taskBuckets.Add(task);
+                            if (taskBuckets.Count > 10)
+                            {
+                                await Task.WhenAll(taskBuckets);
+                                taskBuckets.Clear();
+                            }
+                        }
+
+                    }
+                }
+            }
+
+
+            Console.ResetColor();
+        }
+
+        private async Task IndexItemToElasticSearchAsync(Entity item)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            var setting = new JsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(item, setting);
+
+            var content = new StringContent(json);
+            var id = item.GetId();
+            if (item.GetType().Namespace == typeof(Entity).Namespace) return;// just custom entity
+
+
+            var url = string.Format("{0}/{1}/{2}",
+                ConfigurationManager.ApplicationName.ToLowerInvariant(),
+                item.GetType().Name.ToLowerInvariant(),
+                id);
+
+            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
+            {
+                Console.WriteLine(json);
+                var response = await client.PostAsync(url, content);
+                Console.WriteLine(response);
+                if (null != response)
+                {
+                    Console.Write(".");
+                }
+            }
+            Console.ResetColor();
+
+
+        }
         protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             var url = string.Format("{0}/_mapping/{1}", ConfigurationManager.ApplicationName.ToLowerInvariant(), item.Name.ToLowerInvariant());
@@ -79,6 +181,7 @@ namespace subscriber.entities
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     this.SaveMap(item, map);
+                    this.SaveMigrationMarker(item);
                 }
             }
 
@@ -114,6 +217,31 @@ namespace subscriber.entities
 
             var file = Path.Combine(folder, item.Name + ".mapping");
             File.WriteAllText(file, map);
+
+
+        }
+
+        private void SaveMigrationMarker(EntityDefinition item)
+        {
+            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var type = item.GetType();
+            var folder = Path.Combine(wc, type.Name);
+
+            var marker = Path.Combine(folder, item.Name + ".marker");
+            File.WriteAllText(marker, DateTime.Now.ToString(CultureInfo.InvariantCulture));
+
+
+        }
+
+        private void RemoveMigrationMarker(EntityDefinition item)
+        {
+            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var type = item.GetType();
+            var folder = Path.Combine(wc, type.Name);
+
+            var marker = Path.Combine(folder, item.Name + ".marker");
+            if (File.Exists(marker))
+                File.Delete(marker);
 
 
         }

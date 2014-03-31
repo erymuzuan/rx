@@ -199,6 +199,13 @@ namespace Bespoke.Dev_1.Domain
        get{ return m_attachmentCollection;}
    }
 
+   private System.String m_title;
+   public System.String Title
+   {
+       get{ return m_title;}
+       set{ m_title = value;}
+   }
+
    }
 
 
@@ -234,6 +241,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    }
+
 
 
 
