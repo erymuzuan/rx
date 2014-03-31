@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -50,6 +51,10 @@ namespace subscriber.entities
 
             var map = this.GetMapping(item);
             var content = new StringContent(map);
+            // compare
+            if (this.Compare(item, map)) return;
+
+            this.WriteMessage("There are differences from the existing ElasticSearch mapping");
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
@@ -71,13 +76,46 @@ namespace subscriber.entities
 
                     this.WriteError(new Exception(" Error creating Elastic search map for " + item.Name + "/r/n" + text));
                 }
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    this.SaveMap(item, map);
+                }
             }
+
+        }
+
+        private bool Compare(EntityDefinition item, string map)
+        {
+            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var type = typeof(EntityDefinition);
+            var folder = Path.Combine(wc, type.Name);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            var file = Path.Combine(folder, item.Name + ".mapping");
+            if (!File.Exists(file)) return false;
+            return File.ReadAllText(file) == map;
 
         }
 
         public Task ProcessMessageAsync(EntityDefinition ed)
         {
             return this.ProcessMessage(ed, null);
+        }
+
+
+        private void SaveMap(EntityDefinition item, string map)
+        {
+            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var type = item.GetType();
+            var folder = Path.Combine(wc, type.Name);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            var file = Path.Combine(folder, item.Name + ".mapping");
+            File.WriteAllText(file, map);
+
+
         }
 
 
