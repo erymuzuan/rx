@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context, logger, router) {
+define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart', objectbuilders.config],
+    function (context, logger, router, chart,config) {
 
         var isBusy = ko.observable(false),
             view = ko.observable(),
@@ -18,50 +18,66 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
                 var edQuery = String.format("Name eq '{0}'", 'Customer'),
-                    tcs = new $.Deferred(),
-                    viewQuery = String.format("EntityDefinitionId eq 1"),
-                    edTask = context.loadOneAsync("EntityDefinition", edQuery),
-                    viewTask = context.loadOneAsync("EntityView", viewQuery);
+                  tcs = new $.Deferred(),
+                  formsQuery = String.format("EntityDefinitionId eq 1 and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                  viewQuery = String.format("EntityDefinitionId eq 1"),
+                  edTask = context.loadOneAsync("EntityDefinition", edQuery),
+                  formsTask = context.loadAsync("EntityForm", formsQuery),
+                  viewTask = context.loadOneAsync("EntityView", viewQuery);
 
 
-                $.when(edTask, viewTask)
-                    .done(function (b, vw) {
-                        entity(b);
-                        view(vw);
+                $.when(edTask, viewTask, formsTask)
+                 .done(function (b, vw,formsLo) {
+                     entity(b);
+                     view(vw);
+                     var formsCommands = _(formsLo.itemCollection).map(function (v) {
+                         return {
+                             caption: v.Name(),
+                             command: function () {
+                                 window.location = '#' + v.Route() + '/0';
+                                 return Task.fromResult(0);
+                             },
+                             icon: v.IconClass()
+                         };
+                     });
+                     vm.toolbar.commands(formsCommands);
+                     tcs.resolve(true);
+                 });
 
-                        tcs.resolve(true);
-                    });
 
 
                 return tcs.promise();
             },
             attached = function () {
-
+                chart.init('Customer', query);
             },
             query = {
                 "query": {
                     "filtered": {
                         "filter": {
-                            "and": {
-                                "filters": [
-                                    {
-                                        "range": {
-                                            "Age": {}
-                                        }
-                                    }
+               "bool": {
+                  "must": [
+                                     {
+                     "range":{
+                         "Age":{}
+                     }
+                 }
 
-                                ]
-                            }
-                        }
+                  ],
+                  "must_not": [
+                    
+                  ]
+               }
+           }
                     }
                 },
-                "sort": [
-                    {"FullName": {"order": "desc"}}
-                ]
+                "sort" : [{"FullName":{"order":"desc"}}]
             };
 
         var vm = {
+            config: config,
             view: view,
+            chart: chart,
             isBusy: isBusy,
             entity: entity,
             activate: activate,
@@ -69,11 +85,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             list: list,
             query: query,
             toolbar: {
-                commands: ko.observableArray([]),
-                addNew: {
-                    location: '#/add-customer-form/0',
-                    caption: 'Add New Customer'
-                }
+                commands: ko.observableArray([])
             }
         };
 

@@ -1,37 +1,106 @@
 <h1>All customers</h1>
 
 <div class="row">
-    <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Customer', list:list}">
-        <thead>
-            <tr>
-                <th>FullName</th>
-                <th>FullName</th>
-                <th>Street1</th>
-                <th>State</th>
-                <th>Age</th>
-                <th>Gender</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach :list">
-            <tr>
-                <td>
-
-                    <a data-bind="attr : {href:'#add-customer-form' + '/' + CustomerId },text: FullName"></a>
-                </td>
-
+    <div class="col-md-8">
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Customer', list:list}">
+            <thead>
+                <tr>
+                    <th>FullName</th>
+                    <th>FullName</th>
+                    <th>Street1</th>
+                    <th>State</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Primary Contact</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :list">
+                <tr>
                     <td>
-                        <a data-bind="attr : {href:'#customer-form-2' + '/' + CustomerId },text: FullName"></a>
+
+                        <a data-bind="attr : {href:'#add-customer-form' + '/' + CustomerId },text: FullName"></a>
                     </td>
-                    <td>
-                        <a data-bind="attr : {href:'#customer' + '/' + CustomerId },text: Address.Street1"></a>
-                    </td>
-                    <td data-bind="text:Address.State"></td> 
-                    <td data-bind="text:Age"></td> 
-                    <td data-bind="text:Gender"></td> 
+
+                    <td data-bind="text:FullName"></td>
+                    <td data-bind="text:Address.Street1"></td>
+                    <td data-bind="text:Address.State"></td>
+                    <td data-bind="text:Age"></td>
+                    <td data-bind="text:Gender"></td>
+                    <td data-bind="text:PrimaryContact"></td>
 
 
-            </tr>
-        </tbody>
-    </table>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4" data-bind="with:chart">
+        <h3>Charts</h3>
 
+        <form class="form">
+            <div class="form-group">
+                <label for="chart-aggregate">Aggregate</label>
+                <select data-bind="value: aggregate" class="form-control" name="chart.aggregate" id="chart-aggregate">
+                    <option value="term">Term</option>
+                    <option value="histogram">Histogram</option>
+                    <option value="date_histogram">Date Histogram</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="field">Fields</label>
+                <select class="form-control" data-bind="value: field" id="field">
+
+                    <option value="">[Select Field]</option>
+                    <option value="FullName">FullName</option>
+                    <option value="Address">Address</option>
+                    <option value="Age">Age</option>
+                    <option value="Gender">Gender</option>
+                    <option value="IsPriority">IsPriority</option>
+                    <option value="Contact">Contact</option>
+                    <option value="PhotoStoreId">PhotoStoreId</option>
+                    <option value="RegisteredDate">RegisteredDate</option>
+                    <option value="Rating">Rating</option>
+                    <option value="AnnualRevenue">AnnualRevenue</option>
+                    <option value="ProfileStoreId">ProfileStoreId</option>
+                    <option value="PrimaryContact">PrimaryContact</option>
+                    <option value="Address.Street1">Address.Street1</option>
+                    <option value="Address.Street2">Address.Street2</option>
+                    <option value="Address.Postcode">Address.Postcode</option>
+                    <option value="Address.State">Address.State</option>
+                    <option value="Address.Locality">Address.Locality</option>
+                    <option value="Contact.Name">Contact.Name</option>
+                    <option value="Contact.Email">Contact.Email</option>
+                    <option value="Contact.Telephone">Contact.Telephone</option>
+                    <option value="Contact.AttachmentCollection">Contact.AttachmentCollection</option>
+                    <option value="Contact.Attachment.Title">Contact.Attachment.Title</option>
+                    <option value="Contact.Attachment.Extension">Contact.Attachment.Extension</option>
+                    <option value="Contact.Attachment.Note">Contact.Attachment.Note</option>
+                    <option value="Contact.Attachment.StoreId">Contact.Attachment.StoreId</option>
+                </select>
+            </div>
+
+            <div class="form-group" data-bind="visible : aggregate() === 'date_histogram'">
+                <label for="chart-date-interval">Date interval</label>
+                <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval" id="chart-date-interval">
+                    <option value="year">Year</option>
+                    <option value="quarter">Quarter</option>
+                    <option value="month">Month</option>
+                    <option value="week">Week</option>
+                    <option value="day">Day</option>
+                    <option value="hour"> Hour</option>
+                    <option value="minute">minute</option>
+                    <option value="second">second</option>
+                </select>
+            </div>
+
+            <div class="form-group" data-bind="visible : aggregate() === 'histogram'">
+                <label for="histogram-interval">Interval</label>
+                <input class="form-control" step="10" type="number" id="histogram-interval" data-bind="value:histogramInterval" />
+            </div>
+
+        </form>
+        <div id="chart-Customer">
+
+        </div>
+    </div>
 </div>
