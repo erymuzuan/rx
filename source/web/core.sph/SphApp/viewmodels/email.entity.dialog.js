@@ -20,6 +20,24 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             subject = ko.observable(),
             body = ko.observable(),
             message = ko.observable(),
+            activate = function () {
+                to('');
+                subject('');
+                body('');
+                message('');
+                template(0);
+
+                var query = String.format("IsPublished eq 1 and Entity eq '{0}'", entity()),
+                    tcs = new $.Deferred();
+
+                context.loadAsync("EmailTemplate", query)
+                    .then(function (lo) {
+                        templateOptions(lo.itemCollection);
+                        tcs.resolve(true);
+                    });
+                return tcs.promise();
+
+            },
             send = function () {
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON({
@@ -42,24 +60,6 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             }),
             cancelClick = function () {
                 dialog.close(this, "Cancel");
-            },
-            activate = function () {
-                to('');
-                subject('');
-                body('');
-                message('');
-                template(0);
-
-                var query = String.format("IsPublished eq {0}", 1),
-                    tcs = new $.Deferred();
-
-                context.loadAsync("EmailTemplate", query)
-                    .then(function (lo) {
-                        templateOptions(lo.itemCollection);
-                        tcs.resolve(true);
-                    });
-                return tcs.promise();
-
             };
 
         template.subscribe(function (emailTemplateId) {
