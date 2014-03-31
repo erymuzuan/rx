@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Web.Helpers;
@@ -8,6 +9,21 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     public class TriggerController : Controller
     {
+
+        public async Task<ActionResult> Publish()
+        {
+            var trigger = this.GetRequestJson<Trigger>();
+            if(trigger.TriggerId == 0)throw new InvalidOperationException("You cannot publish unsaved trigger");
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(trigger);
+                await session.SubmitChanges("Publish");
+            }
+
+
+            return Json(trigger.TriggerId);
+        }
 
         public async Task<ActionResult> Save()
         {

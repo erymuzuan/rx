@@ -16,7 +16,7 @@ namespace Bespoke.Sph.CustomTriggers
 
         public override string[] RoutingKeys
         {
-            get { return new[] { "Trigger.#.#" }; }
+            get { return new[] { "Trigger.#.Publish" }; }
         }
 
         protected override async Task ProcessMessage(Trigger item, MessageHeaders header)

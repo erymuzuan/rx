@@ -11,7 +11,8 @@
 define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app],
     function (context, eximp, app) {
 
-        var isBusy = ko.observable(false),
+        var trigger = ko.observable(new bespoke.sph.domain.Trigger()),
+            isBusy = ko.observable(false),
             id = ko.observable(),
             entities = ko.observableArray(),
             activate = function (id2) {
@@ -20,17 +21,17 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
                 var query = String.format("TriggerId eq {0} ", id()),
                     tcs = new $.Deferred(),
                     triggerTask = context.loadOneAsync("Trigger", query),
-                    entitiesTask = context.getListAsync("EntityDefinition","EntityDefinitionId gt 0", "Name");
-                    
+                    entitiesTask = context.getListAsync("EntityDefinition", "EntityDefinitionId gt 0", "Name");
+
                 $.when(triggerTask, entitiesTask).done(function (t, list) {
-                        entities(list);
-                        if (t) {
-                            vm.trigger(t);
-                        } else {
-                            vm.trigger(new bespoke.sph.domain.Trigger());
-                        }
-                        tcs.resolve(true);
-                    });
+                    entities(list);
+                    if (t) {
+                        vm.trigger(t);
+                    } else {
+                        vm.trigger(new bespoke.sph.domain.Trigger());
+                    }
+                    tcs.resolve(true);
+                });
 
                 return tcs.promise();
             },
@@ -39,8 +40,8 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
 
             },
             save = function () {
-                var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(vm.trigger);
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(vm.trigger);
                 isBusy(true);
 
                 context.post(data, "/Trigger/Save")
@@ -51,6 +52,19 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
                     });
                 return tcs.promise();
             },
+        publishAsync = function () {
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(vm.trigger);
+            isBusy(true);
+
+            context.post(data, "/Trigger/Publish")
+                .then(function (result) {
+                    isBusy(false);
+                    vm.trigger().TriggerId(result);
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        },
 
             exportJson = function () {
                 return eximp.exportJson("trigger." + vm.trigger().TriggerId() + ".json", ko.mapping.toJSON(vm.trigger));
@@ -79,7 +93,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
             isBusy: isBusy,
             activate: activate,
             attached: attached,
-            trigger: ko.observable(new bespoke.sph.domain.Trigger()),
+            trigger: trigger,
             entities: entities,
             toolbar: {
                 saveCommand: save,
@@ -90,6 +104,14 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
                         icon: 'fa fa-upload',
                         caption: 'import',
                         command: importJson
+                    },
+                    {
+                        command: publishAsync,
+                        caption: 'Publish',
+                        icon: "fa fa-sign-out",
+                        enable: ko.computed(function () {
+                            return trigger().TriggerId() > 0;
+                        })
                     }
                 ])
             }
