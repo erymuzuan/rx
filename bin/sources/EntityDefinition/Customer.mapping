@@ -1,0 +1,52 @@
+{
+    "customer":{
+        "properties":{
+            "CreatedBy": {"type": "string", "index":"not_analyzed"},
+            "ChangedBy": {"type": "string", "index":"not_analyzed"},
+            "WebId": {"type": "string", "index":"not_analyzed"},
+            "CreatedDate": {"type": "date"},
+            "ChangedDate": {"type": "date"},
+             "FullName":{"type":"string","index":"analyzed","boost":5,"include_in_all":true},
+    "Address":{
+        "type":  "object",
+        "properties":{
+             "Street1":{"type":"string","index":"analyzed","boost":1,"include_in_all":true},
+             "Street2":{"type":"string","index":"analyzed","boost":1,"include_in_all":true},
+             "Postcode":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "State":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Locality":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true}
+        }
+    }
+,
+             "Age":{"type":"integer","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false},
+             "Gender":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "IsPriority":{"type":"boolean","index":"not_analyzed","boost":1,"include_in_all":true},
+    "Contact":{
+        "type":  "object",
+        "properties":{
+             "Name":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Email":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Telephone":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+    "AttachmentCollection":{
+        "type":  "object",
+        "properties":{
+             "Title":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Extension":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "Note":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
+             "StoreId":{"type":"string","index":"no","boost":1,"include_in_all":true}
+        }
+    }
+,
+             "Title":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true}
+        }
+    }
+,
+             "PhotoStoreId":{"type":"string","index":"no","boost":1,"include_in_all":true},
+             "RegisteredDate":{"type":"date","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false},
+             "Rating":{"type":"integer","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false},
+             "AnnualRevenue":{"type":"float","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false},
+             "ProfileStoreId":{"type":"string","index":"no","boost":1,"include_in_all":true},
+             "PrimaryContact":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true}
+        }
+    }
+}

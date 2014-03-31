@@ -15,20 +15,24 @@ namespace subscriber.entities
             var indexed = (member.IsNotIndexed ? "no" : "analyzed");
 
             map.Append("{");
-            if (member.Type == typeof (string))
+            if (member.Type == typeof(string))
             {
                 if (!member.IsNotIndexed)
                     indexed = (member.IsAnalyzed ? "analyzed" : "not_analyzed");
             }
 
-            if (member.Type == typeof (bool))
+            if (member.Type == typeof(bool))
                 indexed = "not_analyzed";
+
+            var boost = member.Boost;
+            if (indexed == "not_analyzed")
+                boost = 1;
 
             map.AppendFormat("\"type\":\"{0}\"", type);
             map.AppendFormat(",\"index\":\"{0}\"", indexed);
-            map.AppendFormat(",\"boost\":{0}", Math.Max(1,member.Boost));
+            map.AppendFormat(",\"boost\":{0}", Math.Max(1, boost));
             map.AppendFormat(",\"include_in_all\":{0}", (!member.IsExcludeInAll).ToString().ToLowerInvariant());
-            
+
             if ((new[] { typeof(int), typeof(decimal), typeof(DateTime) }).Contains(member.Type))
             {
                 map.Append(",\"ignore_malformed\":false");
@@ -69,7 +73,7 @@ namespace subscriber.entities
         public static string GetMemberMappings(this Member member)
         {
 
-            if (member.Type == typeof (object) || member.Type == typeof (Array))
+            if (member.Type == typeof(object) || member.Type == typeof(Array))
             {
                 return member.GetObjectMapping();
             }
