@@ -171,10 +171,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\WebActivatorEx.2.0.5\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
-    <Reference Include="WebGrease">
-      <Private>True</Private>
-      <HintPath>..\..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
-    </Reference>
     <Reference Include="Antlr3.Runtime">
       <Private>True</Private>
       <HintPath>..\..\..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
@@ -685,7 +681,6 @@
     <Compile Include="Areas\Sph\Controllers\SettingController.cs" />
     <Compile Include="Areas\Sph\Controllers\TriggerController.cs" />
     <Compile Include="Areas\Sph\Controllers\WatchController.cs" />
-    <Compile Include="Dependencies\DummyChangeListener.cs" />
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
     <Compile Include="Dependencies\DummySearchProvider.cs" />
     <Compile Include="Helpers\ControllerHelpers.cs" />
