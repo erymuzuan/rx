@@ -80,8 +80,8 @@ namespace Bespoke.Sph.Domain
             script.AppendLinf("bespoke.{0}.domain = bespoke.{0}.domain ||{{}};", jsNamespace);
 
             script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, this.Name);
-            script.AppendLine(" var system = require('durandal/system')," +
-                              "   model = {");
+            script.AppendLine(" var system = require('durandal/system'),");
+            script.AppendLine(" model = {");
             script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.CodeNamespace, this.Name, assemblyName);
             script.AppendLinf("     {0}Id : ko.observable(),", this.Name);
             foreach (var item in this.MemberCollection)
@@ -108,13 +108,25 @@ namespace Bespoke.Sph.Domain
 ");
             script.AppendLine("     WebId: ko.observable()");
 
-            script.AppendLine(" }");
+            script.AppendLine(" };");
+
+            script.AppendLine(@" 
+             if (optionOrWebid && typeof optionOrWebid === ""object"") {
+                for (var n in optionOrWebid) {
+                    if (typeof model[n] === ""function"") {
+                        model[n](optionOrWebid[n]);
+                    }
+                }
+            }
+            if (optionOrWebid && typeof optionOrWebid === ""string"") {
+                model.WebId(optionOrWebid);
+            }");
 
             script.AppendFormat(@"
 
-    if (bespoke.{0}.domain.{1}Partial) {{
-        return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
-    }}", jsNamespace, this.Name);
+                if (bespoke.{0}.domain.{1}Partial) {{
+                    return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
+                }}", jsNamespace, this.Name);
 
             script.AppendLine(" return model;");
             script.AppendLine("};");

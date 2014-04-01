@@ -160,7 +160,19 @@ namespace Bespoke.Sph.Domain
 ");
             script.AppendLine("     WebId: ko.observable()");
 
-            script.AppendLine(" }");
+            script.AppendLine(" };");
+            
+            script.AppendLine(@" 
+             if (optionOrWebid && typeof optionOrWebid === ""object"") {
+                for (var n in optionOrWebid) {
+                    if (typeof model[n] === ""function"") {
+                        model[n](optionOrWebid[n]);
+                    }
+                }
+            }
+            if (optionOrWebid && typeof optionOrWebid === ""string"") {
+                model.WebId(optionOrWebid);
+            }");
 
             script.AppendFormat(@"
 
