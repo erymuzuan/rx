@@ -42,7 +42,7 @@ namespace sph.builder
                 {
                     client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
                     // mapping
-                    var subs = new EntityIndexerMappingSubscriber();
+                    var subs = new EntityIndexerMappingSubscriber{ NotificicationService = new ConsoleNotification()};
                     await subs.ProcessMessageAsync(ed);
                 }
                 Console.WriteLine("Deploying : {0}", ed.Name);
