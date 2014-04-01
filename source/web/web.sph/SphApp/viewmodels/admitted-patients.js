@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart'],
-    function (context, logger, router, chart) {
+define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart', objectbuilders.config],
+    function (context, logger, router, chart,config) {
 
         var isBusy = ko.observable(false),
             view = ko.observable(),
@@ -19,16 +19,28 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             activate = function () {
                 var edQuery = String.format("Name eq '{0}'", 'Patient'),
                   tcs = new $.Deferred(),
+                  formsQuery = String.format("EntityDefinitionId eq 2002 and IsPublished eq 1 and IsAllowedNewItem eq 1"),
                   viewQuery = String.format("EntityDefinitionId eq 2002"),
                   edTask = context.loadOneAsync("EntityDefinition", edQuery),
+                  formsTask = context.loadAsync("EntityForm", formsQuery),
                   viewTask = context.loadOneAsync("EntityView", viewQuery);
 
 
-                $.when(edTask, viewTask)
-                 .done(function (b, vw) {
+                $.when(edTask, viewTask, formsTask)
+                 .done(function (b, vw,formsLo) {
                      entity(b);
                      view(vw);
-
+                     var formsCommands = _(formsLo.itemCollection).map(function (v) {
+                         return {
+                             caption: v.Name(),
+                             command: function () {
+                                 window.location = '#' + v.Route() + '/0';
+                                 return Task.fromResult(0);
+                             },
+                             icon: v.IconClass()
+                         };
+                     });
+                     vm.toolbar.commands(formsCommands);
                      tcs.resolve(true);
                  });
 
@@ -37,20 +49,23 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 return tcs.promise();
             },
             attached = function () {
-                chart.draw('Patient');
+                chart.init('Patient', query);
             },
             query = {
                 "query": {
                     "filtered": {
                         "filter": {
-               "and": {
-                  "filters": [
+               "bool": {
+                  "must": [
                                      {
                      "term":{
                          "Status":"Admitted"
                      }
                  }
 
+                  ],
+                  "must_not": [
+                    
                   ]
                }
            }
@@ -60,6 +75,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             };
 
         var vm = {
+            config: config,
             view: view,
             chart: chart,
             isBusy: isBusy,
@@ -69,11 +85,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             list: list,
             query: query,
             toolbar: {
-                commands: ko.observableArray([]),
-                addNew: {
-                    location: '#/patient-registration/0',
-                    caption: 'Patient registration'
-                }
+                commands: ko.observableArray([])
             }
         };
 

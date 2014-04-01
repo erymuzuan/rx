@@ -25,6 +25,7 @@ namespace subscriber.version.control
                     typeof(Organization).Name + ".#.#",
                     typeof(Setting).Name + ".#.#",
                     typeof(Designation).Name + ".#.#",
+                    typeof(EntityChart).Name + ".#.#",
                     typeof(EntityView).Name + ".#.#",
                     typeof(EntityForm).Name + ".#.#",
                     typeof(EntityDefinition).Name + ".#.#",
