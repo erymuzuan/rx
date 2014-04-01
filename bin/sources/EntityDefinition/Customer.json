@@ -191,7 +191,7 @@
         "IsAnalyzed": false,
         "IsFilterable": true,
         "IsExcludeInAll": false,
-        "Boost": 0,
+        "Boost": 3,
         "WebId": "d7b037e4-a131-436a-ab7f-25dcdf8224e2"
       },
       {
@@ -389,6 +389,27 @@
               "IsExcludeInAll": false,
               "Boost": 0,
               "WebId": "acf88a85-e860-478f-a641-af2bfd9c73a2"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Title",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "WebId": "248d0c8f-b1a1-419a-b5c1-0564b6346915"
             }
           ]
         },
@@ -510,6 +531,27 @@
         "IsExcludeInAll": false,
         "Boost": 0,
         "WebId": "a483f810-5eef-4d4a-89be-281e0056423c"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "PrimaryContact",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": true,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": true,
+        "IsExcludeInAll": false,
+        "Boost": 1,
+        "WebId": "4255e9cb-0a64-4c00-9969-2cd1285325bf"
       }
     ]
   },
@@ -627,7 +669,7 @@
           ]
         },
         "Name": "PromoteTo",
-        "SuccessMessage": "Wholaaa",
+        "SuccessMessage": "Wholaaa 123",
         "ShowSuccessMessage": false,
         "NavigateSuccessUrl": null,
         "SuccessCommand": null,
@@ -675,19 +717,46 @@
         "NavigateSuccessUrl": "/sph#customer",
         "SuccessCommand": null,
         "WebId": "4d265ce9-c455-4c94-ab0a-97794f203ec8"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EntityOperation, domain.sph",
+        "EntityPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Rules": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "Permissions": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "Everybody"
+          ]
+        },
+        "SetterActionChildCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "CreateOrder",
+        "SuccessMessage": "Just a test op",
+        "ShowSuccessMessage": false,
+        "NavigateSuccessUrl": "",
+        "SuccessCommand": "",
+        "WebId": "31952c83-2fdc-4d33-8360-8ac6750a0cb9"
       }
     ]
   },
   "EntityDefinitionId": 1,
   "Name": "Customer",
   "Plural": "Customers",
-  "IconStoreId": "6db683b2-8711-4a37-85d4-874010a479a4",
+  "IconStoreId": "b26cdf5f-302e-47da-baa3-065f70896e81",
   "IconClass": "fa fa-users",
   "RecordName": "FullName",
   "IsPublished": true,
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-26T11:10:03.7686993+08:00",
+  "ChangedDate": "2014-03-31T10:58:20.2694074+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

@@ -395,6 +395,77 @@
           "InputColSm": null,
           "InputColXs": null,
           "WebId": null
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
+          "ComboBoxItemCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                "Caption": "Single",
+                "Value": "Single",
+                "WebId": "a53f59ef-475d-4e8c-8e92-84967f9e828a"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                "Caption": "Married",
+                "Value": "Married",
+                "WebId": "29786ab5-ac3c-4a1e-8187-9519e80ee2b9"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                "Caption": "Divorced",
+                "Value": "Divorced",
+                "WebId": "5f2a0775-3315-4a37-9079-2840ad5d8e40"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                "Caption": "Widow",
+                "Value": "Widow",
+                "WebId": "11aa32f2-31d3-49d6-b213-4f790c00287d"
+              }
+            ]
+          },
+          "ComboBoxLookup": {
+            "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+            "Entity": null,
+            "ValuePath": null,
+            "DisplayPath": null,
+            "Query": null,
+            "WebId": null
+          },
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "MaxLength": 0,
+            "MinLength": 0,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "WebId": null
+          },
+          "Name": "Select List",
+          "Label": "Marital Status",
+          "Tooltip": null,
+          "Path": "MaritalStatus",
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "3064a912-b562-4e70-bcf2-170b7a872303",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
         }
       ]
     },
@@ -434,9 +505,10 @@
   "IsImportAvailable": false,
   "IsExportAvailable": false,
   "Operation": "Register",
+  "Entity": null,
   "CreatedBy": "admin",
   "CreatedDate": "2014-03-22T20:23:09.7138554+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-28T07:00:19.7960734+08:00",
+  "ChangedDate": "2014-03-31T11:29:59.0840087+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

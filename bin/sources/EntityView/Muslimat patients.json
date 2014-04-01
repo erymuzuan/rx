@@ -44,19 +44,6 @@
           "WebId": "251b6004-03d0-43de-b1ae-27c4e4e68e4d"
         },
         "WebId": "a6deb9c9-b297-45d1-b02e-a7b0cfc8f3f4"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        "Term": "CreatedBy",
-        "Operator": "Eq",
-        "Field": {
-          "$type": "Bespoke.Sph.Domain.JavascriptExpressionField, domain.sph",
-          "Expression": "config.userName",
-          "Name": "user",
-          "Note": "",
-          "WebId": "07a5191e-d171-40bf-a171-f95f79aa352b"
-        },
-        "WebId": "f9b9dd28-351c-4f42-aeed-23cc6fabd2d3"
       }
     ]
   },
@@ -162,7 +149,7 @@
   },
   "EntityViewId": 1005,
   "IconClass": "",
-  "IconStoreId": "02a2b328-f749-4872-9e49-96509153c880",
+  "IconStoreId": "6609ea01-9ed5-4e1a-8414-2c5babb0175b",
   "EntityDefinitionId": 2002,
   "Name": "Muslimat patients",
   "Route": "patients-mulimat",
@@ -172,9 +159,10 @@
   "Visibilty": "",
   "TileColour": "bgreen",
   "CountMessage": "",
+  "Entity": null,
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-30T16:05:42.9592698+08:00",
+  "ChangedDate": "2014-03-31T20:28:30.7336193+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }

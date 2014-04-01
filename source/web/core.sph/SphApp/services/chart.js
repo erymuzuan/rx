@@ -1,7 +1,19 @@
 define(['services/datacontext', objectbuilders.system], function (context, system) {
 
     var _field = ko.observable(),
-        _format = ko.observable(),
+        _format = function () {
+            switch (_dateInterval()) {
+                case 'year': return 'yyyy';
+                case 'month': return 'MMM yyyy';
+                case 'week': return 'w yyyy';
+                case 'day': return 'yyyy-MM-dd';
+                case 'hour': return 'yyyy-MM-dd HH';
+                case 'minute': return 'yyyy-MM-dd HH:mm';
+                case 'second': return 'yyyy-MM-dd HH:mm:ss';
+
+                default: return 'yyyy-MM-dd';
+            }
+        },
         _aggregate = ko.observable(),
         _dateInterval = ko.observable(),
         _histogramInterval = ko.observable(),
@@ -74,7 +86,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                         "date_histogram": {
                             "field": fd,
                             "interval": _dateInterval(),
-                            "format": "yyyy-mm-dd"
+                            "format": _format()
                         }
                     }
                 };
@@ -91,7 +103,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                             };
                         }),
                         categories = _(buckets).map(function (v) {
-                            return  v.key_as_string || v.key.toString();
+                            return v.key_as_string || v.key.toString();
                         }),
                         chart = $("div#chart-" + _entity()).empty().kendoChart({
                             theme: "metro",
@@ -120,7 +132,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                                 }
                             },
                             seriesClick: function (e) {
-                                if (typeof  _click === "function") {
+                                if (typeof _click === "function") {
                                     _click({
                                         query: _query,
                                         category: e.category,

@@ -33,6 +33,18 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "MaritalStatus",
+        "Header": "Marital Status",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "d23f8b60-9ee8-40d3-877b-8d9d1d29c3cd"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
         "Path": "Gender",
         "Header": "Gender",
         "Sort": "",
@@ -116,9 +128,10 @@
   "Visibilty": "",
   "TileColour": "blightblue",
   "CountMessage": null,
+  "Entity": null,
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-28T08:43:51.2688728+08:00",
+  "ChangedDate": "2014-03-31T11:28:26.9160808+08:00",
   "WebId": "5ae449e7-1260-411e-9a36-74631d5fa46f"
 }

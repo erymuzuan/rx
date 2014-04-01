@@ -114,7 +114,7 @@
   },
   "EntityViewId": 1003,
   "IconClass": "",
-  "IconStoreId": "cf847335-6640-4508-9ecb-1145f46b5015",
+  "IconStoreId": "dcdb9619-5f1a-4913-8459-3e58c4656fa1",
   "EntityDefinitionId": 2002,
   "Name": "Admitted Patients",
   "Route": "admitted-patients",
@@ -124,9 +124,10 @@
   "Visibilty": "",
   "TileColour": "bviolet",
   "CountMessage": null,
+  "Entity": null,
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-26T10:43:42.4279142+08:00",
+  "ChangedDate": "2014-03-31T20:29:22.6094195+08:00",
   "WebId": "de22c2e4-722b-41ad-b327-33ffa94280fe"
 }
