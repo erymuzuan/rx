@@ -1959,6 +1959,11 @@
     <EmbeddedResource Include="SphApp\viewmodels\entity.operation.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\dev.quck.nav.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.javascriptexpression.js" />
+    <EmbeddedResource Include="SphApp\services\chart.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\dev.home.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\entity.chart.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\log.details.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\management.console.js" />
     <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
@@ -1981,6 +1986,14 @@
     <EmbeddedResource Include="Scripts\durandal\viewEngine.js" />
     <EmbeddedResource Include="Scripts\durandal\viewLocator.js" />
     <EmbeddedResource Include="SphApp\viewmodels\workflow.kpi.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_logs.recent.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_rabbitmq.consoles.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_recent.entity.definitions.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_recent.workflow.definitions.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_view.columns.designer.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_workflow.instances.console.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_workflow.management.consoles.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\workflow.overview.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -1990,6 +2003,18 @@
     <EmbeddedResource Include="SphApp\views\entity.operation.details.html" />
     <EmbeddedResource Include="SphApp\views\dev.quck.nav.html" />
     <EmbeddedResource Include="SphApp\views\field.javascriptexpression.html" />
+    <EmbeddedResource Include="SphApp\views\dev.home.html" />
+    <EmbeddedResource Include="SphApp\views\entity.chart.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\log.details.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\management.console.html" />
+    <EmbeddedResource Include="SphApp\views\workflow.overview.html" />
+    <EmbeddedResource Include="SphApp\views\_logs.recent.html" />
+    <EmbeddedResource Include="SphApp\views\_rabbitmq.consoles.html" />
+    <EmbeddedResource Include="SphApp\views\_recent.entity.definitions.html" />
+    <EmbeddedResource Include="SphApp\views\_recent.workflow.definitions.html" />
+    <EmbeddedResource Include="SphApp\views\_view.columns.designer.html" />
+    <EmbeddedResource Include="SphApp\views\_workflow.instances.console.html" />
+    <EmbeddedResource Include="SphApp\views\_workflow.management.consoles.html" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\Button.cshtml">

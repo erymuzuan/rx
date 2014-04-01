@@ -216,3 +216,5 @@ foreach($ucon in $rubbishConfigs)
         Remove-Item $ucon
     }
 }
+
+Start-Process -FilePath .\change.log.html

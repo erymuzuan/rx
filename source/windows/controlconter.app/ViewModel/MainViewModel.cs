@@ -110,6 +110,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
                 m_iisServiceProcess = Process.Start(info);
+                if(null == m_iisServiceProcess)throw new InvalidOperationException("Cannot start IIS");
+
                 m_iisServiceProcess.BeginOutputReadLine();
                 m_iisServiceProcess.BeginErrorReadLine();
                 m_iisServiceProcess.OutputDataReceived += OnDataReceived;
@@ -158,6 +160,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 };
                 using (var p = Process.Start(workerInfo))
                 {
+                    if (null == p) throw new InvalidOperationException("Cannot start sql");
                     p.BeginOutputReadLine();
                     p.BeginErrorReadLine();
                     p.OutputDataReceived += OnDataReceived;
@@ -193,6 +196,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 };
                 using (var p = Process.Start(workerInfo))
                 {
+                    if(null == p)throw new InvalidOperationException("Cannot start SQL");
                     p.BeginOutputReadLine();
                     p.BeginErrorReadLine();
                     p.OutputDataReceived += OnDataReceived;
@@ -255,6 +259,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 };
                 using (var p = Process.Start(workerInfo))
                 {
+                    if(null == p)throw new InvalidOperationException("Cannot start RabbitMQ");
                     p.BeginOutputReadLine();
                     p.BeginErrorReadLine();
                     p.OutputDataReceived += OnDataReceived;
