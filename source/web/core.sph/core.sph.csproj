@@ -553,6 +553,7 @@
     <Compile Include="Areas\Sph\Controllers\BusinessRuleController.cs" />
     <Compile Include="Areas\Sph\Controllers\DocumentTemplateController.cs" />
     <Compile Include="Areas\Sph\Controllers\EmailTemplateController.cs" />
+    <Compile Include="Areas\Sph\Controllers\EntityChartController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityFormController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
@@ -2605,6 +2606,7 @@
     <Folder Include="Areas\Sph\Views\Base\" />
     <Folder Include="Areas\Sph\Views\BusinessRule\" />
     <Folder Include="Areas\Sph\Views\EmailTemplate\" />
+    <Folder Include="Areas\Sph\Views\EntityChart\" />
     <Folder Include="Areas\Sph\Views\EntityForm\" />
   </ItemGroup>
   <ItemGroup>

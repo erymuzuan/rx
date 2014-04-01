@@ -31,6 +31,10 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteAsync<EntityDefinition>(filter, page, size, includeTotal);
         }
 
+        public async Task<ActionResult> EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<EntityChart>(filter, page, size, includeTotal);
+        }
         public async Task<ActionResult> EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<EntityForm>(filter, page, size, includeTotal);

@@ -385,6 +385,7 @@
 			<xs:attribute name="IsImportAvailable" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsExportAvailable" type="xs:boolean" use="required"/>
 			<xs:attribute name="Operation" type="xs:string" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EntityView">
@@ -424,6 +425,7 @@
 			<xs:attribute name="Visibilty" type="xs:string" use="required"/>
 			<xs:attribute name="TileColour" type="xs:string" use="required"/>
 			<xs:attribute name="CountMessage" type="xs:string" use="optional"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Filter">
@@ -562,13 +564,19 @@
 	</xs:element>
 	<xs:element name="EntityChart">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="HistogramInterval" type="xs:int" nillable="true"/>
+			</xs:all>
 			<xs:attribute name="EntityChartId" type="xs:int" use="required"/>
 			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
-			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
 			<xs:attribute name="Query" type="xs:string" use="required"/>
+			<xs:attribute name="Aggregate" type="xs:string" use="required"/>
+			<xs:attribute name="Field" type="xs:string" use="required"/>
+			<xs:attribute name="DateInterval" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

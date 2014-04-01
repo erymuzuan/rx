@@ -1,4 +1,7 @@
 namespace Bespoke.Sph.Domain
 {
-    public partial class EntityChart: Entity{}
+    public partial class EntityChart : Entity
+    {
+
+    }
 }
