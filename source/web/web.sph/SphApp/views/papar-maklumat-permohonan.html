@@ -1,0 +1,272 @@
+
+
+<h1>Papar Maklumat Permohonan</h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-lg-8 col-lg-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+    
+    </div>
+    <div class="col-lg-2"></div>
+    <!-- /ko-->
+</div>
+<div class="row">
+
+    <div class="col-lg-8">
+        <form class="form-horizontal" data-bind="with : entity" id="papar-maklumat-permohonan-form">
+<h2 data-bind="visible:true">Borang Permohonan Kuarters</h2>
+
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label class="col-lg-4">Kelas</label>
+        <div class="col-lg-8">
+            <input  class="fa fa-text-width form-control " title=""
+                   data-bind="value: GredJawatan, enable :true"
+                   id="" type="text" name="GredJawatan" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label class="col-lg-4">No KP</label>
+        <div class="col-lg-8">
+            <input  class="fa fa-text-width form-control " title=""
+                   data-bind="value: MyKad, enable :true"
+                   id="" type="text" name="MyKad" />
+        </div>
+    </div>
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="f82c7277-760c-4cf8-8a8c-e7ef299ce3ee" class="col-lg-4">Lokasi</label>
+        <div class="col-lg-8">
+            <select data-bind="value: LokasiDiPohon, enable :true" id="f82c7277-760c-4cf8-8a8c-e7ef299ce3ee" name="LokasiDiPohon" class=" input-large form-control">
+                    <option value="WP Putrajaya">WP Putrajaya</option>
+                    <option value="WP Kuala Lumpur">WP Kuala Lumpur</option>
+                    <option value="KLIA">KLIA</option>
+                    <option value="Kelantan">Kelantan</option>
+            </select>
+        </div>
+    </div>
+<h2 data-bind="visible:true">Maklumat Pemohon</h2>
+
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="b2f8df65-2d12-4802-983f-d68207b96031" class="col-lg-4">Nama</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: NamaPemohon, enable :true"
+                   id="b2f8df65-2d12-4802-983f-d68207b96031" type="text" name="NamaPemohon" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="1af9f98f-cf76-47c3-9499-f5b21546c684" class="col-lg-4">No. K.P.</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: MyKad, enable :true"
+                   id="1af9f98f-cf76-47c3-9499-f5b21546c684" type="text" name="MyKad" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="7ae06887-9172-4bff-83c6-45d1c4602108" class="col-lg-4">No. Telefon</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Telefon, enable :true"
+                   id="7ae06887-9172-4bff-83c6-45d1c4602108" type="text" name="Telefon" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="1d4b516d-b902-4809-bdc6-8a69a37feb1f" class="col-lg-4">Emel</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Email, enable :true"
+                   id="1d4b516d-b902-4809-bdc6-8a69a37feb1f" type="text" name="Email" />
+        </div>
+    </div>
+<h2 data-bind="visible:true">Maklumat Pekerjaan Pemohon</h2>
+
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="a91ddc4c-ac93-409e-a321-0e1679c9a0ea" class="col-lg-4">Gred Jawatan</label>
+        <div class="col-lg-8">
+            <select data-bind=" visible :true, comboBoxLookupOptions : { value: GredJawatan, entity : 'KelayakanKuarter', valuePath : 'Kelas', displayPath: 'Gred', query :'KelayakanKuarterId gt 0'}" id="a91ddc4c-ac93-409e-a321-0e1679c9a0ea" name="GredJawatan" class=" input-large form-control">
+            </select>
+        </div>
+    </div>
+    <div class="form-group" data-bind="visible : true">
+        <label for="8548e34a-4445-47c3-ae22-ca63906350c0" class="col-lg-4">Tarikh Lantikan Jawatan</label>
+        <div class="col-lg-8">
+            <input class=" form-control input-large"
+                   data-bind="kendoDate: TarikhLantikanJawatan, enable :true" id="8548e34a-4445-47c3-ae22-ca63906350c0" type="text"
+                   name="TarikhLantikanJawatan" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="a8eba3ab-bed7-4345-8669-3f38cc95f0a0" class="col-lg-4">No. Gaji</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: NoGaji, enable :true"
+                   id="a8eba3ab-bed7-4345-8669-3f38cc95f0a0" type="text" name="NoGaji" />
+        </div>
+    </div>
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="2f0f035c-f1c3-455c-bcf9-15c2f92efba3" class="col-lg-4">Jenis Perkhidmatan</label>
+        <div class="col-lg-8">
+            <select data-bind="value: JenisPerkhidmatan, enable :true" id="2f0f035c-f1c3-455c-bcf9-15c2f92efba3" name="JenisPerkhidmatan" class=" input-large form-control">
+                    <option value="Persekutuan">Persekutuan</option>
+                    <option value="Negeri">Negeri</option>
+                    <option value="Badan Berkanun">Badan Berkanun</option>
+                    <option value="Pihak Berkuasa Tempatan">Pihak Berkuasa Tempatan</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="25989498-9d12-40b0-922d-1a6949c56950" class="col-lg-4">Nama Kementerian</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Kementerian().Nama, visible :true, autocomplete :{ entity:'Kementerian', field :'Nama', query:'KementerianId gt 0' }"
+                   id="25989498-9d12-40b0-922d-1a6949c56950" type="text" name="Kementerian().Nama" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="585d5ae2-30fa-4385-8cb4-8048e7a7348f" class="col-lg-4">Bahagian</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Kementerian().Bahagian, enable :true"
+                   id="585d5ae2-30fa-4385-8cb4-8048e7a7348f" type="text" name="Kementerian().Bahagian" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="1ddf4dae-b777-44c2-af23-c10ac071e403" class="col-lg-4">Alamat Jabatan</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Kementerian().AlamatJabatan, enable :true"
+                   id="1ddf4dae-b777-44c2-af23-c10ac071e403" type="text" name="Kementerian().AlamatJabatan" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="9857755e-02a4-425a-b750-2b2d717ba151" class="col-lg-4">Poskod</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Kementerian().Postkod, enable :true"
+                   id="9857755e-02a4-425a-b750-2b2d717ba151" type="text" name="Kementerian().Postkod" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="f584cf79-0e0d-498e-b094-3024df9cd596" class="col-lg-4">Bandar</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Kementerian().Bandar, enable :true"
+                   id="f584cf79-0e0d-498e-b094-3024df9cd596" type="text" name="Kementerian().Bandar" />
+        </div>
+    </div>
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="e7f6839e-9f04-4b9c-93a8-9e6b144f932b" class="col-lg-4">Negeri</label>
+        <div class="col-lg-8">
+            <select data-bind="value: Kementerian().Negeri, enable :true" id="e7f6839e-9f04-4b9c-93a8-9e6b144f932b" name="Kementerian().Negeri" class=" input-large form-control">
+                    <option value="WP Putajaya">WP Putajaya</option>
+                    <option value="WP Kuala Lumpur">WP Kuala Lumpur</option>
+                    <option value="Negeri Sembilan">Negeri Sembilan</option>
+            </select>
+        </div>
+    </div>
+<h2 data-bind="visible:true">Maklumat Pinjaman Perumahan Kerajaan</h2>
+
+    <div class="form-group" data-bind="visible:true">
+        <div class="col-md-offset-4 col-lg-8">
+            <div class="checkbox">
+                <label class="checkbox">
+                    <input data-bind="checked : Pinjaman, enable :true" id="Pinjaman" type="checkbox"
+                           name="Pinjaman" />
+                    Pinjaman Perumahan
+                </label>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="d19e91ca-f87b-4dbc-a01f-8f9063410577" class="col-lg-4">Jenis Pinjaman</label>
+        <div class="col-lg-8">
+            <select data-bind="value: JenisPinjaman, enable :Pinjaman" id="d19e91ca-f87b-4dbc-a01f-8f9063410577" name="JenisPinjaman" class=" input-large form-control">
+                    <option value="">[Sila Pilih]</option>
+                    <option value="Suami">Suami</option>
+                    <option value="Isteri">Isteri</option>
+                    <option value="Bersama">Bersama</option>
+                    <option value="Sendiri">Sendiri</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="7b4f7a32-7ac0-49c0-9bb8-72bfa7636b00" class="col-lg-4">Alamat Rumah Yang Dibeli</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: AlamatRumahPinjaman().Alamat, enable :Pinjaman"
+                   id="7b4f7a32-7ac0-49c0-9bb8-72bfa7636b00" type="text" name="AlamatRumahPinjaman().Alamat" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="32bf0008-f846-4e49-913c-e57958dc605d" class="col-lg-4">Poskod</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: AlamatRumahPinjaman().Poskod, enable :Pinjaman"
+                   id="32bf0008-f846-4e49-913c-e57958dc605d" type="text" name="AlamatRumahPinjaman().Poskod" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="5462ddaf-e413-4457-9c14-5b10f6721866" class="col-lg-4">Bandar</label>
+        <div class="col-lg-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: AlamatRumahPinjaman().Bandar, enable :Pinjaman"
+                   id="5462ddaf-e413-4457-9c14-5b10f6721866" type="text" name="AlamatRumahPinjaman().Bandar" />
+        </div>
+    </div>
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="58192afa-7d0f-4544-b93f-94f38a3509ab" class="col-lg-4">Negeri</label>
+        <div class="col-lg-8">
+            <select data-bind="value: AlamatRumahPinjaman().Negeri, enable :Pinjaman" id="58192afa-7d0f-4544-b93f-94f38a3509ab" name="AlamatRumahPinjaman().Negeri" class=" input-large form-control">
+                    <option value="">[Sila Pilih]</option>
+                    <option value="Negeri Sembilan">Negeri Sembilan</option>
+            </select>
+        </div>
+    </div>
+
+<button data-bind="click : $root.showDistance, visible :true, enable: true" class="btn btn-default">Kira Jarak</button>
+        </form>
+    </div>
+        <div class="col-lg-4">
+            <h3>Audit Trail</h3>
+            <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().PermohonanId(), entity : 'Permohonan'}} -->
+            <!--/ko-->
+        </div>
+</div>

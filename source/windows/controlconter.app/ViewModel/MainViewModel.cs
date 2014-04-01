@@ -101,7 +101,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var info = new ProcessStartInfo
                 {
                     FileName = IisExpressDirectory,
-                    Arguments = string.Format("/config:{0} /site:web.jlm /trace:verbose", iisConfig),
+                    Arguments = string.Format("/config:{0} /site:web.{1} /trace:verbose", iisConfig, ApplicationName),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardInput = true,
@@ -246,11 +246,10 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             Log("RabbitMQ...[STARTING]");
             try
             {
-                var file = string.Join(@"\", RabbitMqDirectory, "sbin", "rabbitmqctl.bat");
+                var file = string.Join(@"\", RabbitMqDirectory, "sbin", "rabbitmq-server.bat");
                 var workerInfo = new ProcessStartInfo
                 {
                     FileName = file,
-                    Arguments = "start_app",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
@@ -264,7 +263,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     p.BeginErrorReadLine();
                     p.OutputDataReceived += OnDataReceived;
                     p.ErrorDataReceived += OnDataReceived;
-                    p.WaitForExit();
+                    //p.WaitForExit();
                 }
 
                 RabbitMqServiceStarted = true;
