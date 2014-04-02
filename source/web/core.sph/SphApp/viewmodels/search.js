@@ -48,12 +48,17 @@
                                     id: v._id,
                                     title: "",
                                     iconClass: 'fa fa-user'
-                                }
+                                };
                             }
                             var title = v._source[record.Item2];
                             if (v.highlight) {
-                                title = v.highlight[record.Item2][0];
+                                if (v.highlight[record.Item2]) {
+                                    title = v.highlight[record.Item2][0];
+                                } else {
+                                    title = v.highlight[Object.keys(v.highlight)[0]][0];
+                                }
                             }
+
                             return {
                                 type: v._type,
                                 id: v._id,
