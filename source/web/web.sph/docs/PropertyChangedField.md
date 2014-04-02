@@ -1,5 +1,6 @@
 #PropertyChangedField
 ##Overview
+Provides previous value of the property specified. This is normally used to detect a change. For example to find out if the `Status` property was changed from `New`, then you would write a [`PropertyChangedField`](PropertyChangedField.html) with `Path` = `Status` and operator is `=(Eq)` and the right field is a [`ConstantField`](ConstantField.html) with value `New`.
 
 
 
@@ -12,11 +13,11 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>Path</td><td> - </td></tr>
-<tr><td>TypeName</td><td> - </td></tr>
-<tr><td>OldValue</td><td> - </td></tr>
-<tr><td>NewValue</td><td> - </td></tr>
-<tr><td>Type</td><td> - </td></tr>
+<tr><td>Path</td><td> - The property path to the document</td></tr>
+<tr><td>TypeName</td><td> - Reserved</td></tr>
+<tr><td>OldValue</td><td> - Reserved</td></tr>
+<tr><td>NewValue</td><td> - Reserved</td></tr>
+<tr><td>Type</td><td> - Reserved</td></tr>
 </tbody></table>
 
 

@@ -1,6 +1,6 @@
 #ConstantField
 ##Overview
-
+Probably the simplest of all the [`Field`](Field.html), the `GetValue` method returns the value as specified at design time, i.e. is a `constant`
 
 
 ##Properties
@@ -12,9 +12,9 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>TypeName</td><td> - </td></tr>
-<tr><td>Type</td><td> - </td></tr>
-<tr><td>Value</td><td> - </td></tr>
+<tr><td>TypeName</td><td> - The type of the property</td></tr>
+<tr><td>Type</td><td> - Internally used</td></tr>
+<tr><td>Value</td><td> - The literal value of the constant, must be convertible to the TypeName specified </td></tr>
 </tbody></table>
 
 

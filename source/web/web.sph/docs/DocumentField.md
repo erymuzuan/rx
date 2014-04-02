@@ -21,7 +21,6 @@ DocumentField lets you extract the value of the given Path in your document. You
 ## See also
 
 [Field](Field.html)
-[Field](Field.html)
 [AssemblyField](AssemblyField.html)
 [FunctionField](FunctionField.html)
 [ConstantField](ConstantField.html)

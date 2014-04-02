@@ -2,6 +2,8 @@
 
 <h2>Overview</h2>
 
+<p><a href="Field.html"><code>Field</code></a> is the base class for all <code>fields</code> which provides a notion of a value that can be evaluated at run time.<code>Fields</code> are normally used in conjuction with and evaluator such as <a href="Rule.html"><code>Rule</code></a>, <a href="Filter.html"><code>Filter</code></a> and all the run time evaluation. <a href="Field.html"><code>Field</code></a> it self is an abstract class which on one method <code>GetValue</code> in which it's implemented by one of the <code>Field</code> class.</p>
+
 <h2>Properties</h2>
 
 <table class="table table-condensed table-bordered">
@@ -12,8 +14,15 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>Name</td><td> - </td></tr>
-<tr><td>Note</td><td> - </td></tr>
+<tr><td>Name</td><td> - The developer identifier</td></tr>
+<tr><td>Note</td><td> - Developers' note</td></tr>
 </tbody></table>
 
 <h2>See also</h2>
+
+<p><a href="DocumentField.html"><code>DocumentField</code></a><br />
+<a href="AssemblyField.html">AssemblyField</a><br />
+<a href="FunctionField.html">FunctionField</a><br />
+<a href="ConstantField.html">ConstantField</a><br />
+<a href="DocumentField.html">DocumentField</a><br />
+<a href="PropertyChangedField.html">PropertyChangedField</a></p>
