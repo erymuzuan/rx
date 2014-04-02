@@ -2,6 +2,10 @@
 
 <h2>Overview</h2>
 
+<p><a href="Rule.html"><code>Rule</code></a> provides a <code>Expression</code> withouth the need to do coding. The basic building block for a <a href="Rule.html"><code>Rule</code></a> are expression on the <code>Left</code>, an <a href="Operator.html"><code>Operator</code></a> and an expression on the <code>Right</code>. At run time the expressions will be evaluated and the binary operator will executed, the result of the execution will become the result of the rule.</p>
+
+<p>The other aspect of the rule is the <a href="RuleContext.html"><code>RuleContext</code></a>, under certain circumstances, there are time in whic left and right expreesion are evaluated with an entity. as such the item will be the rule context.</p>
+
 <h2>Properties</h2>
 
 <table class="table table-condensed table-bordered">
@@ -12,9 +16,11 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>Left</td><td> - </td></tr>
-<tr><td>Right</td><td> - </td></tr>
-<tr><td>Operator</td><td> - </td></tr>
+<tr><td>Left</td><td> - Expression field on the left</td></tr>
+<tr><td>Right</td><td> -Expression field on the right </td></tr>
+<tr><td>Operator</td><td> - Binary operator to be executed </td></tr>
 </tbody></table>
 
 <h2>See also</h2>
+
+<p><a href="Field.html"><code>Field</code></a></p>
