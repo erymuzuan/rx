@@ -1,0 +1,72 @@
+﻿<h1>Advanced Search</h1>
+<div class="row">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="type" class="col-lg-2 control-label">Entity</label>
+            <div class="col-lg-6">
+                <select class="form-control" id="type" data-bind="value:type, options:entities, optionsCaption:'[Select your entity]'"></select>
+            </div>
+        </div>
+        
+        <div class="form-group" >
+            <label for="filters" class="col-lg-2 control-label">Filters</label>
+            <div class="col-lg-6">
+
+                <button class="btn btn-link pull-right" data-bind="click : addFilter, enable: type()">+ Filter</button>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Operator</th>
+                            <th>Value</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach :filters">
+                        <tr>
+                            <td>
+                                <input class="form-control" type="text"
+                                       data-bind="value:Term,entityTypeaheadPath :$root.selected().EntityDefinitionId()"
+                                       required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                            </td>
+                            <td>
+                                <select name="rule-operator" class="form-control" data-bind="value: Operator">
+                                    <option value="Eq">=</option>
+                                    <option value="Neq">!=</option>
+                                    <option value="Le">&lt;=</option>
+                                    <option value="Lt">&lt;</option>
+                                    <option value="Ge">&gt;=</option>
+                                    <option value="Gt">&gt;</option>
+                                    <option value="Substringof">Substringof</option>
+                                    <option value="StartsWith">StartsWith</option>
+                                    <option value="EndsWith">EndsWith</option>
+                                    <option value="NotContains">Not Substringof</option>
+                                    <option value="NotStartsWith">Not StartsWith</option>
+                                    <option value="NotEndsWith">Not EndsWith</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input data-bind="value:Field" class="form-control" />
+
+                            </td>
+                            <td>
+                                <a href="#" data-bind="click : $parent.removeFilter.call($parent,$data)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="search" class="col-lg-2 control-label sr-only">Search</label>
+            <div class="col-lg-6">
+                <input type="submit" value="Search" 
+                       class="btn btn-default" id="search">
+            </div>
+        </div>
+
+    </form>
+</div>

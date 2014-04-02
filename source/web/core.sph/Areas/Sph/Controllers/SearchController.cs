@@ -2,10 +2,10 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -14,10 +14,47 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     {
         public async Task<ActionResult> Index(string text)
         {
-            var provider = ObjectBuilder.GetObject<ISearchProvider>();
-            var results = await provider.SearchAsync(text);
-            this.Response.ContentType = "application/json; charset=utf-8";
-            return Content(JsonConvert.SerializeObject(results));
+            var context = new SphDataContext();
+            var en = (await context.GetListAsync<EntityDefinition, string>(e => e.IsPublished == true, e => e.RecordName))
+                .Select(a => string.Format("\"{0}\":{{}}",a));
+            var entNames =(await context.GetListAsync<EntityDefinition, string>(e => e.IsPublished == true, e => e.Name))
+                .Select(a => a.ToLowerInvariant())
+                .ToArray();
+            var types = string.Join(",", entNames);
+
+            var records = string.Join(",", en.Distinct().ToArray());  
+            var json = @"
+                {
+                    ""query"": {
+                        ""query_string"": {
+                           ""default_field"": ""_all"",
+                           ""query"": """ + text + @"""
+                        }
+                    },
+                   ""highlight"": {
+                        ""fields"": {
+                            " + records + @"
+                        }
+                    },  
+                  ""from"": 0,
+                  ""size"": 20
+                }
+            ";
+            Console.WriteLine(json);
+            var request = new StringContent(json);
+            var url = string.Format("{0}/{1}/_search", ConfigurationManager.ApplicationName.ToLowerInvariant(), types);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+
+                var response = await client.PostAsync(url, request);
+                var content = response.Content as StreamContent;
+                if (null == content) throw new Exception("Cannot execute query on es " + request);
+                this.Response.ContentType = "application/json; charset=utf-8";
+                return Content(await content.ReadAsStringAsync());
+
+            }
         }
 
         public async Task<ActionResult> Es(string type, string json)

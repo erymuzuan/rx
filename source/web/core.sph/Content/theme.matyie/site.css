@@ -93,6 +93,9 @@ span.k-autocomplete input.form-control {
   margin-right: 20px;
   margin-left: 20px;
 }
+.search-panel em {
+  font-weight: bold;
+}
 .google-maps {
   min-height: 600px;
 }

@@ -113,7 +113,7 @@
   "EntityDefinitionId": 1,
   "Name": "All customers",
   "Route": "all-customers",
-  "Note": "",
+  "Note": "all the customers.. do you get it",
   "Query": "",
   "IsPublished": true,
   "Visibilty": "",
@@ -123,6 +123,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-01T17:49:43.6536763+08:00",
+  "ChangedDate": "2014-04-01T18:28:59.9202614+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }

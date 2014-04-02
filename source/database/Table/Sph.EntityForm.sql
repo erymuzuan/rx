@@ -22,3 +22,8 @@ GO
 ALTER TABLE Sph.EntityForm
 ADD [IsAllowedNewItem] BIT NOT NULL DEFAULT 0
 
+GO 
+
+ALTER TABLE Sph.EntityForm
+ADD [Entity] VARCHAR(255) NOT NULL DEFAULT ''
+

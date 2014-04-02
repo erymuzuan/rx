@@ -1,0 +1,19 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
+  "EntityChartId": 6,
+  "EntityDefinitionId": 2002,
+  "Entity": "Patient",
+  "Name": "Registered patient by year",
+  "Type": "pie",
+  "EntityViewId": 1002,
+  "Query": "{\"query\":{\"filtered\":{\"filter\":{\"bool\":{\"must\":[],\"must_not\":[]}}}},\"sort\":[{\"Mrn\":{\"order\":\"asc\"}}],\"aggs\":{\"category\":{\"date_histogram\":{\"field\":\"RegisteredDate\",\"interval\":\"year\",\"format\":\"yyyy\"}}},\"from\":0,\"size\":20}",
+  "Aggregate": "date_histogram",
+  "Field": "RegisteredDate",
+  "DateInterval": "year",
+  "HistogramInterval": null,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-01T18:24:07.660705+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-01T18:24:07.660705+08:00",
+  "WebId": "daf6d6f2-159b-4080-bcd8-3ecb514da750"
+}

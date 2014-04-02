@@ -7,6 +7,7 @@ CREATE TABLE Sph.EntityDefinition
 	 [EntityDefinitionId] INT PRIMARY KEY IDENTITY(1,1)
 	,[Data] XML NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
+	,[RecordName] VARCHAR(255) NOT NULL
 	,[Plural] VARCHAR(255) NOT NULL
 	,[IsPublished] BIT NOT NULL
 	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
@@ -15,3 +16,5 @@ CREATE TABLE Sph.EntityDefinition
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
+ALTER TABLE  Sph.EntityDefinition
+ADD [RecordName] VARCHAR(255) NOT NULL DEFAULT 'FullName'
