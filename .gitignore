@@ -54,3 +54,9 @@ _ReSharper.commercial-space
 *.InstallLog
 *.config
 /source/web/web.sph/SphApp/webstorm
+/sph.packages/control.center
+/sph.packages/database
+/sph.packages/elasticsearch
+/sph.packages/IIS Express
+/sph.packages/output
+/sph.packages/rabbitmq_server

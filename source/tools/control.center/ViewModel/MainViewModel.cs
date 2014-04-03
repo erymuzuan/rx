@@ -2,8 +2,10 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Xml.Linq;
 using Bespoke.Sph.ControlCenter.Helpers;
 using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.ControlCenter.Properties;
@@ -15,7 +17,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 {
     public partial class MainViewModel
     {
-        private string m_settingsFile;
         private Process m_elasticProcess;
         private Process m_iisServiceProcess;
 
@@ -59,21 +60,29 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public void LoadSettings()
         {
 
-            m_settingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "sph." + ApplicationName + ".settings.xml");
-            if (File.Exists(m_settingsFile))
+            ApplicationName = Settings.Default.ApplicationName;
+            ProjectDirectory = Settings.Default.ProjectDirectory;
+            var file = this.GetSettingFile();
+            if (File.Exists(file))
             {
-                var settings = File.ReadAllText(m_settingsFile)
+                var settings = File.ReadAllText(file)
                                    .Deserialize<SphSettings>();
 
                 SqlLocalDbName = settings.SqlLocalDbName;
-                ApplicationName = Settings.Default.ApplicationName;
                 IisExpressDirectory = settings.IisExpressDirectory;
-                ProjectDirectory = Settings.Default.ProjectDirectory;
                 RabbitMqDirectory = settings.RabbitMqDirectory;
                 RabbitmqUserName = settings.RabbitMqUserName;
                 RabbitmqPassword = settings.RabbitMqPassword;
                 JavaHome = settings.JavaHome;
                 ElasticSearchHome = settings.ElasticSearchHome;
+                if (settings.Port == 0)
+                {
+                    XNamespace x = "http://www.bespoke.com.my/";
+                    var xml = XElement.Parse(File.ReadAllText(file));
+                    var port = xml.Descendants(x + "Port").First().Value;
+                    this.Port = int.Parse(port);
+                }
+                Port = settings.Port;
             }
 
 
@@ -110,11 +119,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     return;
                 }
 
-
+                var arg = string.Format("/config:\"{0}\" /site:web.{1} /trace:verbose", iisConfig, ApplicationName);
                 var info = new ProcessStartInfo
                 {
                     FileName = IisExpressDirectory.TranslatePath(),
-                    Arguments = string.Format("/config:{0} /site:web.{1} /trace:verbose", iisConfig, ApplicationName),
+                    Arguments = arg,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardInput = true,
@@ -130,8 +139,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 m_iisServiceProcess.OutputDataReceived += OnDataReceived;
                 m_iisServiceProcess.ErrorDataReceived += OnDataReceived;
 
-                IisServiceStarted = true;
-                IisServiceStatus = "Running";
+                this.IisServiceStarted = true;
+                this.IisServiceStatus = "Running";
                 Log("IIS Service... [STARTED]");
             }
             catch (Exception ex)
@@ -255,6 +264,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         }
 
         private Process m_rabbitMqServer;
+        private Process m_sphWorkerProcess;
+
         private void StartRabbitMqService()
         {
             Log("RabbitMQ...[STARTING]");
@@ -317,7 +328,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             try
             {
-                var elasticSearchBat = string.Join(@"\", ElasticSearchHome,"bin", "elasticsearch.bat").TranslatePath();
+                var elasticSearchBat = string.Join(@"\", ElasticSearchHome, "bin", "elasticsearch.bat").TranslatePath();
                 Console.WriteLine(elasticSearchBat);
                 if (!File.Exists(elasticSearchBat))
                 {
@@ -327,7 +338,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 var info = new ProcessStartInfo
                 {
                     FileName = elasticSearchBat,
-                    WorkingDirectory =Path.GetDirectoryName(elasticSearchBat) ?? ".",
+                    WorkingDirectory = Path.GetDirectoryName(elasticSearchBat) ?? ".",
                     //Arguments = "/c elasticsearch.bat",
                     //Arguments = string.Format(@"/c {0}\{1}", ElasticSearchHome, "elasticsearch.bat"),
                     UseShellExecute = false,
@@ -386,20 +397,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     RedirectStandardError = true,
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
-                using (var p = Process.Start(workerInfo))
-                {
-                    p.BeginOutputReadLine();
-                    p.BeginErrorReadLine();
-                    p.OutputDataReceived += OnDataReceived;
-                    p.ErrorDataReceived += OnDataReceived;
-                    //p.WaitForExit();
-                }
 
-                //m_sphWorkerProcess = Process.Start(workerInfo);
-                //m_sphWorkerProcess.BeginOutputReadLine();
-                //m_sphWorkerProcess.BeginErrorReadLine();
-                //m_sphWorkerProcess.OutputDataReceived += OnDataReceived;
-                //m_sphWorkerProcess.ErrorDataReceived += OnDataReceived;
+
+                m_sphWorkerProcess = Process.Start(workerInfo);
+                if (null == m_sphWorkerProcess) throw new InvalidOperationException("Cannot start subscriber worker");
+                m_sphWorkerProcess.BeginOutputReadLine();
+                m_sphWorkerProcess.BeginErrorReadLine();
+                m_sphWorkerProcess.OutputDataReceived += OnDataReceived;
+                m_sphWorkerProcess.ErrorDataReceived += OnDataReceived;
 
                 SphWorkerServiceStarted = true;
                 SphWorkersStatus = "Running";
@@ -414,16 +419,20 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void StopSphWorker()
         {
             Log("SPH Worker... [STOPPING]");
-            var sphWorkerProcess = Process.GetProcessesByName("workers.console.runner");
-            foreach (var process in sphWorkerProcess)
-            {
-                process.Kill();
-            }
+            // TODO : send control +  C, or call stop
+            if (null != m_sphWorkerProcess)
+                m_sphWorkerProcess.Kill();
+
             Log("SPH Worker... [STOPPED]");
             SphWorkerServiceStarted = false;
             SphWorkersStatus = "Stopped";
         }
 
+        private string GetSettingFile()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "sph." + ApplicationName + ".settings.xml");
+
+        }
         private void SaveSettings()
         {
             var settings = new SphSettings
@@ -434,10 +443,11 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 RabbitMqUserName = RabbitmqUserName,
                 RabbitMqPassword = RabbitmqPassword,
                 JavaHome = JavaHome,
-                ElasticSearchHome = ElasticSearchHome
+                ElasticSearchHome = ElasticSearchHome,
+                Port = Port
             };
 
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "sph." + ApplicationName + ".settings.xml");
+            var path = this.GetSettingFile();
             File.WriteAllText(path, settings.ToXmlString(), Encoding.UTF8);
 
             Settings.Default.ApplicationName = this.ApplicationName;

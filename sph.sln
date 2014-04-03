@@ -105,7 +105,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticsearch.logger", "sou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.test", "source\unit.test\web.test\web.test.csproj", "{020B92C2-BEA9-479A-A083-69F3ED53523E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "controlcenter.app", "source\windows\controlconter.app\controlcenter.app.csproj", "{DF17CFE9-7689-47E4-9378-69D1E5F36EEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "control.center", "source\tools\control.center\control.center.csproj", "{DF17CFE9-7689-47E4-9378-69D1E5F36EEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

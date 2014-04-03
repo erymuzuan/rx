@@ -14,8 +14,8 @@ namespace Bespoke.Sph.ControlCenter.Model
         private string m_javaHome;
         private string m_rabbitMqPassword;
         private string m_rabbitMqUserName;
+        private int m_port;
 
-   
 
         public string SqlLocalDbName
         {
@@ -113,6 +113,16 @@ namespace Bespoke.Sph.ControlCenter.Model
                     m_elasticSearchHome;
             }
             set { m_elasticSearchHome = value; }
+        }
+
+        public int Port
+        {
+            get { return m_port; }
+            set
+            {
+                m_port = value;
+                OnPropertyChanged();
+            }
         }
     }
 }

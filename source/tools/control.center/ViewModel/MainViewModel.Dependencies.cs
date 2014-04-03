@@ -184,7 +184,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             get { return m_iisServiceStarted; }
         }
-        
+
         private bool m_sqlServiceStarted;
         public bool SqlServiceStarted
         {
@@ -263,6 +263,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         }
 
         private string m_sphWorkersStatus;
+        private int m_port;
+
         public string SphWorkersStatus
         {
             set
@@ -271,6 +273,16 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 OnPropertyChanged();
             }
             get { return m_sphWorkersStatus; }
+        }
+
+        public int Port
+        {
+            get { return m_port; }
+            set
+            {
+                m_port = value;
+                OnPropertyChanged();
+            }
         }
     }
 }

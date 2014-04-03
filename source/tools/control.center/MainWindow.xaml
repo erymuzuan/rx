@@ -4,7 +4,7 @@
         Icon="Propeller.ico"
         xmlns:uc="clr-namespace:Bespoke.Sph.ControlCenter"
         xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel" 
-        Height="660" Width="800" DataContext="{DynamicResource MainViewModel}"
+        Height="680" Width="800" DataContext="{DynamicResource MainViewModel}"
         WindowStartupLocation="CenterScreen" Title="Rx Developer : Bespoke Technology">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel" />
@@ -71,14 +71,27 @@
                 <Button Grid.Row="4" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartIisServiceCommand}"/>
                 <Button Grid.Row="4" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopIisServiceCommand}"/>
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding IisServiceStatus, FallbackValue='?'}" Margin="5"/>
+                <TextBlock IsEnabled="true" x:Name="webLink" Style="{StaticResource LinkStyle}" Grid.Row="4" Grid.Column="4" Margin="5">
+                    <Hyperlink NavigateUri="http://localhost:15672/" RequestNavigate="NavigateApp">View App</Hyperlink>
+                </TextBlock>
             </Grid>
         </GroupBox>
         <TabControl Grid.Row="2" Margin="5">
             <TabItem Header="Output Console">
-                <TextBox x:Name="outputTextBox" Margin="5" 
-                         VerticalScrollBarVisibility="Auto"
-                         IsReadOnlyCaretVisible="True"
-                         IsReadOnly="True"/>
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Clear" Click="CleartOutputText"></Button>
+                        <Button Content="Save" Click="SaveOutputText"></Button>
+                    </StackPanel>
+                    <TextBox Grid.Row="1" x:Name="outputTextBox" Margin="0" 
+            			VerticalScrollBarVisibility="Auto"
+            			IsReadOnlyCaretVisible="True"
+            			IsReadOnly="True" Background="#FF302F2F" Foreground="#FFE0DCDC"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Project Settings">
                 <uc:ProjectSettingsUserControl  />
