@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows;
 using Bespoke.Sph.ControlCenter.Helpers;
 using Bespoke.Sph.ControlCenter.Model;
+using Bespoke.Sph.ControlCenter.Properties;
 using GalaSoft.MvvmLight.Command;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
@@ -42,7 +43,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             StartRabbitMqCommand = new RelayCommand(StartRabbitMqService, () => !RabbitMqServiceStarted);
             StopRabbitMqCommand = new RelayCommand(StopRabbitMqService, () => RabbitMqServiceStarted);
 
-            StartElasticSearchCommand = new RelayCommand(StartElasticSearch, () => !ElasticSearchServiceStarted );
+            StartElasticSearchCommand = new RelayCommand(StartElasticSearch, () => !ElasticSearchServiceStarted);
             StopElasticSearchCommand = new RelayCommand(StopElasticSearch, () => ElasticSearchServiceStarted);
 
             StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted);
@@ -52,22 +53,22 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             ExitAppCommand = new RelayCommand(Exit);
 
             LoadSettings();
-            
+
         }
 
         public void LoadSettings()
         {
-            
-            m_settingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "sph.settings.xml");
+
+            m_settingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "sph." + ApplicationName + ".settings.xml");
             if (File.Exists(m_settingsFile))
             {
                 var settings = File.ReadAllText(m_settingsFile)
                                    .Deserialize<SphSettings>();
 
                 SqlLocalDbName = settings.SqlLocalDbName;
-                ApplicationName = settings.ApplicationName;
+                ApplicationName = Settings.Default.ApplicationName;
                 IisExpressDirectory = settings.IisExpressDirectory;
-                ProjectDirectory = settings.SphDirectory;
+                ProjectDirectory = Settings.Default.ProjectDirectory;
                 RabbitMqDirectory = settings.RabbitMqDirectory;
                 RabbitmqUserName = settings.RabbitMqUserName;
                 RabbitmqPassword = settings.RabbitMqPassword;
@@ -75,7 +76,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 ElasticSearchHome = settings.ElasticSearchHome;
             }
 
-            
+
             if (string.IsNullOrEmpty(JavaHome))
             {
                 Environment.GetEnvironmentVariable("JAVA_HOME", EnvironmentVariableTarget.Machine);
@@ -96,11 +97,23 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             try
             {
-                var iisConfig = Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\Documents\IISExpress\config\applicationhost.config");
-	            Console.WriteLine(iisConfig);
+                var iisConfig = @".\config\applicationhost.config".TranslatePath();
+                if (!File.Exists(iisConfig))
+                {
+                    Console.WriteLine(Resources.CannotFind + iisConfig);
+                    return;
+
+                }
+                if (!File.Exists(IisExpressDirectory.TranslatePath()))
+                {
+                    Console.WriteLine(Resources.CannotFind + IisExpressDirectory);
+                    return;
+                }
+
+
                 var info = new ProcessStartInfo
                 {
-                    FileName = IisExpressDirectory,
+                    FileName = IisExpressDirectory.TranslatePath(),
                     Arguments = string.Format("/config:{0} /site:web.{1} /trace:verbose", iisConfig, ApplicationName),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
@@ -110,20 +123,20 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
                 m_iisServiceProcess = Process.Start(info);
-                if(null == m_iisServiceProcess)throw new InvalidOperationException("Cannot start IIS");
+                if (null == m_iisServiceProcess) throw new InvalidOperationException("Cannot start IIS");
 
                 m_iisServiceProcess.BeginOutputReadLine();
                 m_iisServiceProcess.BeginErrorReadLine();
                 m_iisServiceProcess.OutputDataReceived += OnDataReceived;
                 m_iisServiceProcess.ErrorDataReceived += OnDataReceived;
-                
+
                 IisServiceStarted = true;
                 IisServiceStatus = "Running";
                 Log("IIS Service... [STARTED]");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace);
             }
         }
 
@@ -147,7 +160,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             Log("SqlLocalDb...[STARTING]");
             try
             {
-                
+
                 var workerInfo = new ProcessStartInfo
                 {
                     FileName = "SqlLocalDB.exe",
@@ -167,14 +180,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     p.ErrorDataReceived += OnDataReceived;
                     p.WaitForExit();
                 }
-                
+
                 SqlServiceStarted = true;
                 SqlServiceStatus = "Running";
                 Log("SqlLocalDb... [STARTED]");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -196,7 +209,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 };
                 using (var p = Process.Start(workerInfo))
                 {
-                    if(null == p)throw new InvalidOperationException("Cannot start SQL");
+                    if (null == p) throw new InvalidOperationException("Cannot start SQL");
                     p.BeginOutputReadLine();
                     p.BeginErrorReadLine();
                     p.OutputDataReceived += OnDataReceived;
@@ -210,7 +223,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -219,7 +232,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             var isOpen = false;
             try
             {
-                
+
                 var factory = new ConnectionFactory
                 {
                     UserName = username ?? "guest",
@@ -236,35 +249,41 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             catch (BrokerUnreachableException ex)
             {
                 Log("Cannot connect to RabbitMQ host" + "\r\n\r\n" + ex.GetBaseException().Message);
-                
+
             }
             return isOpen;
         }
 
+        private Process m_rabbitMqServer;
         private void StartRabbitMqService()
         {
             Log("RabbitMQ...[STARTING]");
             try
             {
-                var file = string.Join(@"\", RabbitMqDirectory, "sbin", "rabbitmq-server.bat");
-                var workerInfo = new ProcessStartInfo
+                var rabbitMqServerBat = string.Join(@"\", RabbitMqDirectory, "sbin", "rabbitmq-server.bat").TranslatePath();
+                if (!File.Exists(rabbitMqServerBat))
                 {
-                    FileName = file,
+                    Console.WriteLine(Resources.CannotFind + rabbitMqServerBat);
+                    return;
+                }
+
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = rabbitMqServerBat,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
-                using (var p = Process.Start(workerInfo))
-                {
-                    if(null == p)throw new InvalidOperationException("Cannot start RabbitMQ");
-                    p.BeginOutputReadLine();
-                    p.BeginErrorReadLine();
-                    p.OutputDataReceived += OnDataReceived;
-                    p.ErrorDataReceived += OnDataReceived;
-                    //p.WaitForExit();
-                }
+                m_rabbitMqServer = Process.Start(startInfo);
+
+                if (null == m_rabbitMqServer) throw new InvalidOperationException("Cannot start RabbitMQ");
+                m_rabbitMqServer.BeginOutputReadLine();
+                m_rabbitMqServer.BeginErrorReadLine();
+                m_rabbitMqServer.OutputDataReceived += OnDataReceived;
+                m_rabbitMqServer.ErrorDataReceived += OnDataReceived;
+
 
                 RabbitMqServiceStarted = true;
                 RabbitMqStatus = "Started";
@@ -272,7 +291,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace);
             }
         }
 
@@ -281,33 +300,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             Log("RabbitMQ...[STOPPING]");
             try
             {
-                var file = string.Join(@"\", RabbitMqDirectory, "sbin", "rabbitmqctl.bat");
-                var workerInfo = new ProcessStartInfo
-                {
-                    FileName = file,
-                    Arguments = "stop_app",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true,
-                    RedirectStandardError = true,
-                    WindowStyle = ProcessWindowStyle.Hidden
-                };
-                using (var p = Process.Start(workerInfo))
-                {
-                    p.BeginOutputReadLine();
-                    p.BeginErrorReadLine();
-                    p.OutputDataReceived += OnDataReceived;
-                    p.ErrorDataReceived += OnDataReceived;
-                    p.WaitForExit();
-                }
-
+                m_rabbitMqServer.Kill();
                 RabbitMqServiceStarted = false;
                 RabbitMqStatus = "Stopped";
                 Log("RabbitMQ... [STOPPED]");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -317,11 +317,17 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             try
             {
-                var f = string.Join(@"\", ElasticSearchHome, "elasticsearch.bat");
+                var elasticSearchBat = string.Join(@"\", ElasticSearchHome,"bin", "elasticsearch.bat").TranslatePath();
+                Console.WriteLine(elasticSearchBat);
+                if (!File.Exists(elasticSearchBat))
+                {
+                    Console.WriteLine(Resources.CannotFind + elasticSearchBat);
+                    return;
+                }
                 var info = new ProcessStartInfo
                 {
-                    FileName = f,
-                    WorkingDirectory = ElasticSearchHome,
+                    FileName = elasticSearchBat,
+                    WorkingDirectory =Path.GetDirectoryName(elasticSearchBat) ?? ".",
                     //Arguments = "/c elasticsearch.bat",
                     //Arguments = string.Format(@"/c {0}\{1}", ElasticSearchHome, "elasticsearch.bat"),
                     UseShellExecute = false,
@@ -331,27 +337,32 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
                 m_elasticProcess = Process.Start(info);
+                if (null == m_elasticProcess)
+                {
+                    Console.Error.WriteLine("Cannot start elastic search");
+                    return;
+                }
                 m_elasticProcess.BeginOutputReadLine();
                 m_elasticProcess.BeginErrorReadLine();
                 m_elasticProcess.OutputDataReceived += OnDataReceived;
                 m_elasticProcess.ErrorDataReceived += OnErrorReceived;
-                
+
                 ElasticSearchServiceStarted = true;
                 ElasticSearchStatus = "Running";
                 Log("ElasticSearch... [STARTED]");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
             }
-            
+
         }
 
         private void StopElasticSearch()
         {
             m_elasticProcess.CloseMainWindow();
             m_elasticProcess.Close();
-            
+
             m_elasticProcess = null;
             Log("ElasticSearch... [STOPPED]");
             ElasticSearchServiceStarted = false;
@@ -362,7 +373,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             Log("SPH Worker...[STARTING]");
             var f = string.Join(@"\", ProjectDirectory, "subscribers.host", "workers.console.runner.exe");
-            
+
             try
             {
                 var workerInfo = new ProcessStartInfo
@@ -396,7 +407,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine(@"Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -417,10 +428,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         {
             var settings = new SphSettings
             {
-                ApplicationName = ApplicationName,
                 SqlLocalDbName = SqlLocalDbName,
                 IisExpressDirectory = IisExpressDirectory,
-                SphDirectory = ProjectDirectory,
                 RabbitMqDirectory = RabbitMqDirectory,
                 RabbitMqUserName = RabbitmqUserName,
                 RabbitMqPassword = RabbitmqPassword,
@@ -428,8 +437,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 ElasticSearchHome = ElasticSearchHome
             };
 
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "sph.settings.xml");
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "sph." + ApplicationName + ".settings.xml");
             File.WriteAllText(path, settings.ToXmlString(), Encoding.UTF8);
+
+            Settings.Default.ApplicationName = this.ApplicationName;
+            Settings.Default.ProjectDirectory = this.ProjectDirectory;
+            Settings.Default.Save();
 
             MessageBox.Show("SPH settings has been successfully saved", "SPH Control Panel");
         }

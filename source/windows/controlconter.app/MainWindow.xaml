@@ -1,10 +1,11 @@
 ﻿<Window x:Class="Bespoke.Sph.ControlCenter.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Icon="Propeller.ico"
         xmlns:uc="clr-namespace:Bespoke.Sph.ControlCenter"
         xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel" 
         Height="660" Width="800" DataContext="{DynamicResource MainViewModel}"
-        WindowStartupLocation="CenterScreen" Title="Bespoke Technology Sdn Bhd">
+        WindowStartupLocation="CenterScreen" Title="Rx Developer : Bespoke Technology">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel" />
         <Style x:Key="LinkStyle" TargetType="TextBlock">
@@ -57,7 +58,7 @@
                 <Button Grid.Row="2" Grid.Column="2" Content="Start" Width="70" Command="{Binding StartRabbitMqCommand}"/>
                 <Button Grid.Row="2" Grid.Column="3" Content="Stop" Width="70" Command="{Binding StopRabbitMqCommand}"/>
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding RabbitMqStatus}" Margin="5"/>
-                <TextBlock x:Name="RabbitLink" Style="{StaticResource LinkStyle}" Grid.Row="2" Grid.Column="4" Margin="5">
+                <TextBlock x:Name="rabbitLink" Style="{StaticResource LinkStyle}" Grid.Row="2" Grid.Column="4" Margin="5">
                     <Hyperlink NavigateUri="http://localhost:15672/" RequestNavigate="Navigate">View RabbitMQ Management</Hyperlink>
                     
                 </TextBlock>
@@ -72,15 +73,15 @@
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding IisServiceStatus, FallbackValue='?'}" Margin="5"/>
             </Grid>
         </GroupBox>
-        <TabControl Grid.Row="2" Margin="5,5,5,5">
-            <TabItem Header="Project Settings">
-                <uc:ProjectSettingsUserControl  />
-            </TabItem>
+        <TabControl Grid.Row="2" Margin="5">
             <TabItem Header="Output Console">
-                <TextBox x:Name="OutputTextBox" Margin="5" 
+                <TextBox x:Name="outputTextBox" Margin="5" 
                          VerticalScrollBarVisibility="Auto"
                          IsReadOnlyCaretVisible="True"
                          IsReadOnly="True"/>
+            </TabItem>
+            <TabItem Header="Project Settings">
+                <uc:ProjectSettingsUserControl  />
             </TabItem>
         </TabControl>
     </Grid>

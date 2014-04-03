@@ -12,15 +12,16 @@ namespace Bespoke.Sph.ControlCenter
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += MainWindow_Loaded;
+            Loaded += MainWindowLoaded;
         }
 
-        void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
             var vm = this.DataContext as MainViewModel;
-            vm.TextWriter = new TextBoxStreamWriter(OutputTextBox);
+            if(null == vm)throw new InvalidOperationException("The DataContext is not MainViewModel");
+            vm.TextWriter = new TextBoxStreamWriter(outputTextBox);
             Console.SetOut(vm.TextWriter);
-            Console.WriteLine(@"[SPH Control Panel ready]");
+            Console.WriteLine(Properties.Resources.ControlPanelIsReady);
         }
 
         private void Navigate(object sender, RequestNavigateEventArgs e)

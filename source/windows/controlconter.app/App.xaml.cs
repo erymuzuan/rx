@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.ControlCenter
 {
-    public partial class App : Application
+    public partial class App
     {
     }
 }

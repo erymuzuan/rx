@@ -59,5 +59,32 @@ namespace Bespoke.Sph.ControlCenter.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find .
+        /// </summary>
+        internal static string CannotFind {
+            get {
+                return ResourceManager.GetString("CannotFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [SPH Control Panel ready].
+        /// </summary>
+        internal static string ControlPanelIsReady {
+            get {
+                return ResourceManager.GetString("ControlPanelIsReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception Occurred :{0},{1}.
+        /// </summary>
+        internal static string ExceptionOccurred {
+            get {
+                return ResourceManager.GetString("ExceptionOccurred", resourceCulture);
+            }
+        }
     }
 }

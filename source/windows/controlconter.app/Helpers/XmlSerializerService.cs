@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml.Linq;
-using Bespoke.Sph.ControlCenter.Model;
 
 namespace Bespoke.Sph.ControlCenter.Helpers
 {

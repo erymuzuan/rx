@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Bespoke.Sph.ControlCenter.ViewModel
 {
@@ -10,7 +11,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_applicationName = value;
-                OnPropertyChanged("ApplicationName");
+                OnPropertyChanged();
             }
             get { return m_applicationName; }
         }
@@ -21,9 +22,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_sqlLocalDbName = value;
-                OnPropertyChanged("SqlLocalDbName");
+                OnPropertyChanged();
             }
-            get { return m_sqlLocalDbName; }
+            get
+            {
+                return string.IsNullOrWhiteSpace(m_sqlLocalDbName) ?
+                            @"(localdb)\Projects" :
+                            m_sqlLocalDbName;
+            }
         }
 
         private string m_rabbitmqUserName;
@@ -32,9 +38,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_rabbitmqUserName = value;
-                OnPropertyChanged("RabbitmqUserName");
+                OnPropertyChanged();
             }
-            get { return m_rabbitmqUserName; }
+            get
+            {
+                return string.IsNullOrWhiteSpace(m_rabbitmqUserName) ?
+                    "guest" :
+                    m_rabbitmqUserName;
+            }
         }
 
         private string m_rabbitmqPassword;
@@ -43,9 +54,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_rabbitmqPassword = value;
-                OnPropertyChanged("RabbitmqPassword");
+                OnPropertyChanged();
             }
-            get { return m_rabbitmqPassword; }
+            get
+            {
+                return string.IsNullOrWhiteSpace(m_rabbitmqPassword) ?
+                    "guest" :
+                    m_rabbitmqPassword;
+            }
         }
 
         private TextWriter m_writer;
@@ -54,7 +70,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_writer = value;
-                OnPropertyChanged("TextWriter");
+                OnPropertyChanged();
             }
             get { return m_writer; }
         }
@@ -65,9 +81,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_javaHome = value;
-                OnPropertyChanged("JavaHome");
+                OnPropertyChanged();
             }
-            get { return m_javaHome; }
+            get
+            {
+                return string.IsNullOrWhiteSpace(m_javaHome) ?
+                    Environment.GetEnvironmentVariable("JAVA_HOME")
+                    : m_javaHome;
+            }
         }
 
         private string m_elasticSearchHome;
@@ -76,9 +97,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_elasticSearchHome = value;
-                OnPropertyChanged("ElasticSearchHome");
+                OnPropertyChanged();
             }
-            get { return m_elasticSearchHome; }
+            get
+            {
+                return string.IsNullOrWhiteSpace(m_elasticSearchHome) ?
+                    "elasticsearch" :
+                    m_elasticSearchHome;
+            }
         }
 
         private string m_iisExpressDirectory;
@@ -87,9 +113,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_iisExpressDirectory = value;
-                OnPropertyChanged("IisExpressDirectory");
+                OnPropertyChanged();
             }
-            get { return m_iisExpressDirectory; }
+            get
+            {
+                return string.IsNullOrWhiteSpace(m_iisExpressDirectory) ?
+                    @"IIS Express\iisexpress.exe" :
+                    m_iisExpressDirectory;
+            }
         }
 
         private string m_projectDirectory;
@@ -98,7 +129,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_projectDirectory = value;
-                OnPropertyChanged("ProjectDirectory");
+                OnPropertyChanged();
             }
             get { return m_projectDirectory; }
         }
@@ -109,9 +140,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_rabbitMqDirectory = value;
-                OnPropertyChanged("RabbitMqDirectory");
+                OnPropertyChanged();
             }
-            get { return m_rabbitMqDirectory; }
+            get
+            {
+                return string.IsNullOrWhiteSpace(m_rabbitMqDirectory) ?
+                    "rabbitmq_server"
+                    : m_rabbitMqDirectory;
+            }
         }
 
         private bool m_elasticSearchServiceStarted;
@@ -120,7 +156,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_elasticSearchServiceStarted = value;
-                OnPropertyChanged("ElasticSearchServiceStarted");
+                OnPropertyChanged();
             }
             get { return m_elasticSearchServiceStarted; }
         }
@@ -131,7 +167,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_rabbitMqServiceStarted = value;
-                OnPropertyChanged("RabbitMqServiceStarted");
+                OnPropertyChanged();
             }
             get { return m_rabbitMqServiceStarted; }
         }
@@ -144,7 +180,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_iisServiceStarted = value;
-                OnPropertyChanged("IisServiceStarted");
+                OnPropertyChanged();
             }
             get { return m_iisServiceStarted; }
         }
@@ -155,7 +191,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_sqlServiceStarted = value;
-                OnPropertyChanged("SqlServiceStarted");
+                OnPropertyChanged();
             }
             get { return m_sqlServiceStarted; }
         }
@@ -166,7 +202,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_sphWorkerServiceStarted = value;
-                OnPropertyChanged("SphWorkerServiceStarted");
+                OnPropertyChanged();
             }
             get { return m_sphWorkerServiceStarted; }
         }
@@ -177,7 +213,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_elasticSearchStatus = value;
-                OnPropertyChanged("ElasticSearchStatus");
+                OnPropertyChanged();
             }
             get { return m_elasticSearchStatus; }
         }
@@ -188,7 +224,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_rabbitMqStatus = value;
-                OnPropertyChanged("RabbitMqStatus");
+                OnPropertyChanged();
             }
             get { return m_rabbitMqStatus; }
         }
@@ -199,7 +235,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_iisStatus = value;
-                OnPropertyChanged("IisStatus");
+                OnPropertyChanged();
             }
             get { return m_iisStatus; }
         }
@@ -210,7 +246,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_sqlServiceStatus = value;
-                OnPropertyChanged("SqlServiceStatus");
+                OnPropertyChanged();
             }
             get { return m_sqlServiceStatus; }
         }
@@ -221,7 +257,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_iisServiceStatus = value;
-                OnPropertyChanged("IisServiceStatus");
+                OnPropertyChanged();
             }
             get { return m_iisServiceStatus; }
         }
@@ -232,7 +268,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             set
             {
                 m_sphWorkersStatus = value;
-                OnPropertyChanged("SphWorkersStatus");
+                OnPropertyChanged();
             }
             get { return m_sphWorkersStatus; }
         }
