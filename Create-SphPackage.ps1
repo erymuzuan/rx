@@ -198,5 +198,11 @@ Get-ChildItem -Filter *.* -Path ".\source\elasticsearch\mapping" `
 
 copy .\sph.packages\ControlCenter.bat $WorkingCopy
 
+#remove the custom triggers
+Get-Item -Path .\sph.packages\output\subscribers\subscriber.trigger.* `
+| ? { $_.Name.EndsWith("trigger.dll") -eq $false} `
+| ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
+| Remove-Item
+
 #compress
 & 7za a -t7z ".\sph.package.$version.7z" ".\sph.packages\output\*"
