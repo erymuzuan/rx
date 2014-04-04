@@ -91,6 +91,53 @@ namespace Bespoke.Sph.Domain
             if (null == defaultForm)
                 result.Errors.Add(new BuildError(this.WebId, "Please set a default form"));
 
+            // reserved names
+            var reservedNames = new[] {"JavascriptTest", 
+                "Management",
+                "Image",
+                "Home",
+                "BaseSph",
+                "Map",
+                "Admin",
+                "ActivityScreen",
+                "BaseApp",
+                "Config",
+                "Nav",
+                "RoleSettings",
+                "ScreenEditor",
+                "TriggerSetup",
+                "Users",
+                "WorkflowDraft",
+                typeof(ScreenActivity).Name, 
+                typeof(EntityDefinition).Name, 
+                typeof(AuditTrail).Name, 
+                typeof(BusinessRule).Name, 
+                typeof(BinaryStore).Name, 
+                typeof(SpatialEntity).Name, 
+                typeof(Entity).Name, 
+                typeof(Designation).Name, 
+                typeof(DocumentTemplate).Name, 
+                typeof(EmailAction).Name, 
+                typeof(EntityChart).Name, 
+                typeof(EntityDefinition).Name, 
+                typeof(EntityForm).Name, 
+                typeof(EntityView).Name, 
+                typeof(Message).Name, 
+                typeof(Organization).Name, 
+                typeof(Page).Name, 
+                typeof(ReportDefinition).Name, 
+                typeof(ReportDelivery).Name, 
+                typeof(SpatialStore).Name, 
+                typeof(Tracker).Name, 
+                typeof(Trigger).Name, 
+                typeof(UserProfile).Name, 
+                typeof(Watcher).Name, 
+                typeof(Workflow).Name, 
+                typeof(WorkflowDefinition).Name, 
+                typeof(EntityForm).Name, typeof(Message).Name};
+            if(reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
+                result.Errors.Add(new BuildError(this.WebId, string.Format("The name [{0}] is reserved for the system", this.Name)));
+
             foreach (var operation in this.EntityOperationCollection)
             {
                 var errors = (await operation.ValidateBuildAsync(this)).ToList();

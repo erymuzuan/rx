@@ -11,7 +11,7 @@
         @foreach (var f in Model.Files)
         {
             <li class="" style="margin-top: 5px">
-                <a class="btn btn-default" href="@Url.Action("Index", "Test", new {id = Path.GetFileNameWithoutExtension(f)})">
+                <a class="btn btn-default" href="@Url.Action("Index", "JavascriptTest", new {id = Path.GetFileNameWithoutExtension(f)})">
                     <i class="fa fa-play pull-left"></i>    @(Path.GetFileNameWithoutExtension(f))
 
                 </a>

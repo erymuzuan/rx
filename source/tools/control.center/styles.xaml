@@ -2,14 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <Style TargetType="Button">
-        <Setter Property="Margin" Value="5" />
+        <Setter Property="Margin" Value="3" />
         <Setter Property="Padding" Value="3" />
         <Setter Property="MinWidth" Value="45" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="FontSize" Value="10" />
     </Style>
     <Style TargetType="TextBox">
         <Setter Property="Margin" Value="5" />
     </Style>
     <Style TargetType="TextBlock">
+        <Setter Property="Margin" Value="5" />
+    </Style>
+    <Style TargetType="ComboBox">
         <Setter Property="Margin" Value="5" />
     </Style>
     

@@ -198,6 +198,8 @@ Get-ChildItem -Filter *.* -Path ".\source\elasticsearch\mapping" `
 
 copy .\sph.packages\ControlCenter.bat $WorkingCopy
 
+copy .\source\web\web.sph\getting.started.html $WorkingCopy
+
 #remove the custom triggers
 Get-Item -Path .\sph.packages\output\subscribers\subscriber.trigger.* `
 | ? { $_.Name.EndsWith("trigger.dll") -eq $false} `

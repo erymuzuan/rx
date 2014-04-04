@@ -1,4 +1,5 @@
-<p><link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" /></p>
+<p><link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" /><br />
+<style>    p,ul {        margin-left:10px;        margin-right:10px;    }    img { border:2px solid gray;padding:10px;margin-top:6px;    }</style></p>
 
 <h1>Getting started</h1>
 
@@ -6,15 +7,31 @@
 
 <h2>Pre-requisites</h2>
 
+<p><code>Rx Developer</code> only runs on these operating system</p>
+
+<ul>
+<li>Windows 7 Professional</li>
+<li>Windows 8 Professional</li>
+<li>Windows 8.1 Professional</li>
+<li>Windows Server 2008 R2</li>
+</ul>
+
 <p><a href="http://www.msdn.com/net"><code>Microsoft .Net 4.5.1 SDK</code></a> is the runtime for all the Rx Developer. Rx Developer it self is built on top of Microsoft Asp.Net MVC 5.</p>
+
+<p>For the database , download Microsoft Sql Localdb here</p>
+
+<ul>
+<li><a href="en_sql_server_2012_sqllocaldb_with_sp1_x64.msi"><code>en_sql_server_2012_sqllocaldb_with_sp1_x64.msi</code></a></li>
+<li><a href="en_sql_server_2012_sqllocaldb_with_sp1_x86.msi"><code>en_sql_server_2012_sqllocaldb_with_sp1_x86.msi</code></a></li>
+</ul>
 
 <p>You need Oracla Java runtime installed, go and get the here <a href="http://www.oracle.com/java"><code>Java</code></a>, and makes sure your <code>JAVA_HOME</code> environment variable is properly set. <code>ElasticSearch</code> is the default content indexer for Rx Developer and built using Java</p>
 
-<p>You will also needs a <a href="http://www.erlang.org"><code>Erlang</code></a>, this is a runtime for <a href="http://www/rabbitmq.com"><code>RabbitMq</code></a>, the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package.</p>
+<p>You will also need <a href="http://www.erlang.org"><code>Erlang</code></a> runtime, this is a runtime for <a href="http://www/rabbitmq.com"><code>RabbitMq</code></a>, the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package. Make sure your variable path <code>ERLANG_HOME</code> is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.</p>
 
 <h2>Downloading and extracting</h2>
 
-<p>Point your browser to <a href="http://www.sph.my/download"><code>Rx Develeper donwload page</code></a> to get all the necessary package.</p>
+<p>Point your browser to <a href="sph.package.1.0.10277.7z"><code>Rx Develeper donwload page</code></a> to get all the necessary package.</p>
 
 <p>Download the sph.package.&lt;version&gt;.7z and extract it to an empty folder of your choice.<br />
 Once extracted, your directory will look more or less like this<br />
@@ -22,8 +39,23 @@ Once extracted, your directory will look more or less like this<br />
 
 <p>Double click <code>ControlCenter.bat</code> to start the Rx Developer control center app.</p>
 
-<p><img src="http://i.imgur.com/yPD7zeJ.png" alt="alt" /><br />
-You'll need to start these 3 services</p>
+<p>Fill in on your settings<br />
+<img src="http://i.imgur.com/GEJY17S.png" alt="alt" /></p>
+
+<ul>
+<li>Application Name is the simple name without any spaces, numbers or symbols, e.g. myapp</li>
+<li>Project Directory, it's where you extracted the package</li>
+<li>IIS port, use any number, but pick one over 50000 for less chance of conflict</li>
+<li>IIS Express - bundled with the package so the default is <code>IIS Express\iisexpress.exe</code></li>
+<li>SQL localdb instance, pick from one, if don't have one, please download and install it from the link above</li>
+<li>RabbitMQ - this bundled with your package, you just need to install <code>Erlang</code>, and set your <code>ERLANG_HOME</code> variable.</li>
+<li><p>Elastic Search - this is bundled with the package, your just need <code>Java</code> and correctly configure your <code>JAVA_HOME</code> variable</p>
+
+<p>Take a note at the LocalDb instance, in this case I'm using <code>Projects</code>, you can pick one from the drop list. Click <code>Save Settings</code> button</p></li>
+</ul>
+
+<p><img src="http://i.imgur.com/WnrRSSE.png" alt="alt" /><br />
+Now starts these 3 services</p>
 
 <ul>
 <li>SQL Server localdb</li>
@@ -31,19 +63,22 @@ You'll need to start these 3 services</p>
 <li>Rabbit MQ</li>
 </ul>
 
-<p>then open you command prompt, got to your directory, type powershell and enter<br />
+<p>Make sure there are no errors coming out from the control center console,then open you command prompt, go to your directory, type <code>powershell</code> and <code>enter</code><br />
 <img src="http://i.imgur.com/cF5TBcb.png" alt="alt" /></p>
 
-<p>then type the following <code>.\Setup-SphApp.ps1 -ApplicationName myapp -Port 50352</code>, replace <code>myapp</code> with your desired application name, it must be lowercase letters only, no <code>.</code>, <code>,</code> numbers or special symbols allowed. Then specify the port to run your application on, choose those over 50000 to avoid conlict with your other services<br />
-<img src="http://i.imgur.com/dJBcOGI.png" alt="alt" /></p>
+<p>then type the following <code>.\Setup-SphApp.ps1 -ApplicationName ofg -Port 50332</code>, it must be lowercase letters only, no <code>.</code>, <code>,</code> numbers or special symbols allowed. Then specify the port to run your application on, choose those over 50000 to avoid conlict with your other services. Make sure the SqlServer is specified according to what you had set in the control center window</p>
 
-<p>Once you are done, you can go back to your <code>ControlCenter</code>, now starts <code>SPH Worker</code> and <code>IIS Express</code></p>
+<p><img src="http://i.imgur.com/JS6m80D.png" alt="alt" /></p>
+
+<p>This going to take a while, to set up your database, elastic search and rabbitmq vhost.<br />
+Once you are done, you can go back to your <code>ControlCenter</code>, now starts <code>SPH Worker</code> and <code>IIS Express</code><br />
+<img src="http://i.imgur.com/swWEPyL.png" alt="alt" /></p>
 
 <h2>Writing your first application</h2>
 
 <p>Once it's been set up, you can browser to your app by clicking on the <code>ViewApp</code> link in the <code>ControlCenter</code>, A default user <code>admin</code> and password <code>123456</code> has already been created by the <code>SetUp-SphApp.ps1</code> script for your convenience.<br />
 go to <br />
-<a href="http://localhost:&lt;port&gt;/sph#dev.home">http://localhost:&lt;port&gt;/sph#dev.home</a></p>
+<a href="http://localhost:50332/sph#dev.home">http://localhost:50332/sph#dev.home</a></p>
 
 <p><img src="http://i.imgur.com/8T46sAg.png" alt="alt" /><br />
 click on the <code>New Entity Definition</code>, this will take you to the <code>EntityDefinition</code> editor where you can design your first entity. For now lets just assume that an <code>EntityDefinition</code> is the main object in your application. Let's do a Hospital application , you'll need a <code>Patient</code><br />

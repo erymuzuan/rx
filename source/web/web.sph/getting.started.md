@@ -1,19 +1,31 @@
 ﻿
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+<style>    p,ul {        margin-left:10px;        margin-right:10px;    }    img { border:2px solid gray;padding:10px;margin-top:6px;    }</style>
 #Getting started
 This is a simple walkthrough to help you to get started developing with Rx Developer.
 
 ## Pre-requisites
+`Rx Developer` only runs on these operating system
+
+* Windows 7 Professional
+* Windows 8 Professional
+* Windows 8.1 Professional
+* Windows Server 2008 R2
 
 [`Microsoft .Net 4.5.1 SDK`](http://www.msdn.com/net) is the runtime for all the Rx Developer. Rx Developer it self is built on top of Microsoft Asp.Net MVC 5.
+
+For the database , download Microsoft Sql Localdb here
+
+* [`en_sql_server_2012_sqllocaldb_with_sp1_x64.msi`](en_sql_server_2012_sqllocaldb_with_sp1_x64.msi)
+* [`en_sql_server_2012_sqllocaldb_with_sp1_x86.msi`](en_sql_server_2012_sqllocaldb_with_sp1_x86.msi)
 
 You need Oracla Java runtime installed, go and get the here [`Java`](http://www.oracle.com/java), and makes sure your `JAVA_HOME` environment variable is properly set. `ElasticSearch` is the default content indexer for Rx Developer and built using Java
 
 
-You will also needs a [`Erlang`](http://www.erlang.org), this is a runtime for [`RabbitMq`](http://www/rabbitmq.com), the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package.
+You will also need [`Erlang`](http://www.erlang.org) runtime, this is a runtime for [`RabbitMq`](http://www/rabbitmq.com), the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package. Make sure your variable path `ERLANG_HOME` is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.
 
 ## Downloading and extracting
-Point your browser to [`Rx Develeper donwload page`](http://www.sph.my/download) to get all the necessary package.
+Point your browser to [`Rx Develeper donwload page`](sph.package.1.0.10277.7z) to get all the necessary package.
 
 Download the sph.package.&lt;version&gt;.7z and extract it to an empty folder of your choice.
 Once extracted, your directory will look more or less like this
@@ -21,26 +33,43 @@ Once extracted, your directory will look more or less like this
 
 Double click `ControlCenter.bat` to start the Rx Developer control center app.
 
-![alt](http://i.imgur.com/yPD7zeJ.png)
-You'll need to start these 3 services
+Fill in on your settings
+![alt](http://i.imgur.com/GEJY17S.png)
+
+* Application Name is the simple name without any spaces, numbers or symbols, e.g. myapp
+* Project Directory, it's where you extracted the package
+* IIS port, use any number, but pick one over 50000 for less chance of conflict
+* IIS Express - bundled with the package so the default is `IIS Express\iisexpress.exe`
+* SQL localdb instance, pick from one, if don't have one, please download and install it from the link above
+* RabbitMQ - this bundled with your package, you just need to install `Erlang`, and set your `ERLANG_HOME` variable.
+* Elastic Search - this is bundled with the package, your just need `Java` and correctly configure your `JAVA_HOME` variable
+
+ Take a note at the LocalDb instance, in this case I'm using `Projects`, you can pick one from the drop list. Click `Save Settings` button
+
+
+![alt](http://i.imgur.com/WnrRSSE.png)
+Now starts these 3 services
 
 * SQL Server localdb
 * Elastic Search
 * Rabbit MQ
 
-then open you command prompt, got to your directory, type powershell and enter
+Make sure there are no errors coming out from the control center console,then open you command prompt, go to your directory, type `powershell` and `enter`
 ![alt](http://i.imgur.com/cF5TBcb.png)
 
-then type the following `.\Setup-SphApp.ps1 -ApplicationName myapp -Port 50352`, replace `myapp` with your desired application name, it must be lowercase letters only, no `.`, `,` numbers or special symbols allowed. Then specify the port to run your application on, choose those over 50000 to avoid conlict with your other services
-![alt](http://i.imgur.com/dJBcOGI.png)
+then type the following `.\Setup-SphApp.ps1 -ApplicationName ofg -Port 50332`, it must be lowercase letters only, no `.`, `,` numbers or special symbols allowed. Then specify the port to run your application on, choose those over 50000 to avoid conlict with your other services. Make sure the SqlServer is specified according to what you had set in the control center window
 
+![alt](http://i.imgur.com/JS6m80D.png)
+
+This going to take a while, to set up your database, elastic search and rabbitmq vhost.
 Once you are done, you can go back to your `ControlCenter`, now starts `SPH Worker` and `IIS Express`
+![alt](http://i.imgur.com/swWEPyL.png)
 
 
 ## Writing your first application
 Once it's been set up, you can browser to your app by clicking on the `ViewApp` link in the `ControlCenter`, A default user `admin` and password `123456` has already been created by the `SetUp-SphApp.ps1` script for your convenience.
 go to 
-http://localhost:&lt;port&gt;/sph#dev.home
+http://localhost:50332/sph#dev.home
 
 ![alt](http://i.imgur.com/8T46sAg.png)
 click on the `New Entity Definition`, this will take you to the `EntityDefinition` editor where you can design your first entity. For now lets just assume that an `EntityDefinition` is the main object in your application. Let's do a Hospital application , you'll need a `Patient`

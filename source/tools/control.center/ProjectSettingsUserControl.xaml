@@ -49,7 +49,7 @@
                         <ColumnDefinition Width="80*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="LocalDB Instance Name"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SqlLocalDbName}"/>
+                    <ComboBox IsEditable="True" Name="sqlIntancesCombobox" Grid.Row="0" Grid.Column="1" Text="{Binding SqlLocalDbName}"/>
                 </Grid>
             </GroupBox>
             <GroupBox Header="RabbitMQ">
@@ -88,7 +88,6 @@
                 </Grid>
             </GroupBox>
             <Button HorizontalAlignment="Right" Content="Save Settings" 
-                            Width="110" Height="26" Margin="5" 
                             Command="{Binding SaveSettingsCommand}"/>
         </StackPanel>
     </Grid>

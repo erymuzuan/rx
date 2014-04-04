@@ -571,7 +571,7 @@
     <Compile Include="Areas\Sph\Controllers\DesignationController.cs" />
     <Compile Include="Areas\Sph\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sph\Controllers\ReportDeliveryController.cs" />
-    <Compile Include="Areas\Sph\Controllers\TestController.cs" />
+    <Compile Include="Areas\Sph\Controllers\JavascriptTestController.cs" />
     <Compile Include="Areas\Sph\Controllers\WorkflowDefinitionController.cs" />
     <Compile Include="Areas\Sph\Controllers\WorkflowController.cs" />
     <Compile Include="Areas\Sph\Controllers\WorkflowMonitorController.cs" />
@@ -3113,7 +3113,7 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_DataGridItemRow.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Test\Index.cshtml" />
+    <Content Include="Areas\Sph\Views\JavascriptTest\Index.cshtml" />
     <Content Include="Areas\Sph\Views\Shared\_LayoutTest.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_LayoutTest.generated.cs</LastGenOutput>

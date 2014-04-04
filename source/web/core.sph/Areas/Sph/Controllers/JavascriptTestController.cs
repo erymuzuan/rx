@@ -4,7 +4,7 @@ using Bespoke.Sph.Web.ViewModels;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
-    public class TestController : Controller
+    public class JavascriptTestController : Controller
     {
         public ActionResult Index(string id)
         {

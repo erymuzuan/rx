@@ -29,7 +29,6 @@
         <StackPanel Grid.Row="0" HorizontalAlignment="Right"  Orientation="Horizontal">
             <Button Content="Setup" Command="{Binding SetupCommand}"/>
             <Button Content="Exit" Command="{Binding ExitAppCommand}"/>
-
         </StackPanel>
 
         <GroupBox Header="Service Status" Grid.Row="1">
@@ -80,6 +79,7 @@
                 </TextBlock>
             </Grid>
         </GroupBox>
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="Gray" VerticalAlignment="Bottom" Height="3" />
         <TabControl Grid.Row="2">
             <TabItem Header="Output Console">
                 <Grid>
