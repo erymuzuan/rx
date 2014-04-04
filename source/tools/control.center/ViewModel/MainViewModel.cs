@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
 using Bespoke.Sph.ControlCenter.Helpers;
@@ -32,11 +36,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public RelayCommand StopSphWorkerCommand { get; set; }
         public RelayCommand SaveSettingsCommand { get; set; }
         public RelayCommand ExitAppCommand { get; set; }
+        public RelayCommand SetupCommand { get; set; }
 
         public MainViewModel()
         {
-            StartIisServiceCommand = new RelayCommand(StartIisService, () => !IisServiceStarted);
-            StopIisServiceCommand = new RelayCommand(StopIisService, () => IisServiceStarted);
+            StartIisServiceCommand = new RelayCommand(StartIisService, () => !IisServiceStarted );
+            StopIisServiceCommand = new RelayCommand(StopIisService, () => IisServiceStarted );
 
             StartSqlServiceCommand = new RelayCommand(StartSqlService, () => !SqlServiceStarted);
             StopSqlServiceCommand = new RelayCommand(StopSqlService, () => SqlServiceStarted);
@@ -47,17 +52,22 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             StartElasticSearchCommand = new RelayCommand(StartElasticSearch, () => !ElasticSearchServiceStarted);
             StopElasticSearchCommand = new RelayCommand(StopElasticSearch, () => ElasticSearchServiceStarted);
 
-            StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted);
-            StopSphWorkerCommand = new RelayCommand(StopSphWorker, () => SphWorkerServiceStarted);
+            StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted );
+            StopSphWorkerCommand = new RelayCommand(StopSphWorker, () => SphWorkerServiceStarted );
 
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             ExitAppCommand = new RelayCommand(Exit);
+            SetupCommand = new RelayCommand(Setup, () => !this.IsSetup);
 
-            LoadSettings();
 
         }
 
-        public void LoadSettings()
+        private void Setup()
+        {
+            MessageBox.Show("Use powershell to run Setup-SphApp.ps1");
+        }
+
+        public async Task LoadAsync()
         {
 
             ApplicationName = Settings.Default.ApplicationName;
@@ -83,6 +93,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     this.Port = int.Parse(port);
                 }
                 Port = settings.Port;
+                // TODO : see if the database, elasticsearch index, RabbitMq vhost etc are present
+                this.IsSetup = await this.FindOutSetupAsync();
+            }
+            else
+            {
+                this.IsSetup = false;
             }
 
 
@@ -98,6 +114,75 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
             RabbitMqServiceStarted = rabbitStarted;
             RabbitMqStatus = rabbitStarted ? "Running" : "Stopped";
+        }
+
+        private async Task<bool> FindOutSetupAsync()
+        {
+            if (string.IsNullOrWhiteSpace(this.ApplicationName)) return false;
+            using (var client = new HttpClient { BaseAddress = new Uri("http://localhost:9200") })
+            {
+                var url = this.ApplicationName.ToLowerInvariant() + "_sys/_mapping";
+
+                try
+                {
+                    var response = await client.GetAsync(url);
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                        return false;
+                    var content = response.Content as StreamContent;
+                    if (null == content) return false;
+                    var json = await content.ReadAsStringAsync();
+                    Console.WriteLine(json);
+                }
+                catch (HttpRequestException)
+                {
+                    return false;
+                }
+            }
+            // get the rabbitmq vhost
+            var handler = new HttpClientHandler
+            {
+                Credentials = new NetworkCredential(this.RabbitmqUserName, this.RabbitmqPassword)
+            };
+            using (var client = new HttpClient(handler) { BaseAddress = new Uri("http://localhost:15672") })
+            {
+                var url = "api/vhosts/" + this.ApplicationName;
+                try
+                {
+                    var response = await client.GetAsync(url);
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                        return false;
+                    var content = response.Content as StreamContent;
+                    if (null == content) return false;
+                    var json = await content.ReadAsStringAsync();
+                    Console.WriteLine(json);
+                }
+                catch (HttpRequestException)
+                {
+                    return false;
+                }
+            }
+            // get the database $
+            var connectionString = "Data Source=" + this.SqlLocalDbName + ";Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False";
+
+            //using (var conn = new SqlConnection(connectionString))
+            //{
+            //    try
+            //    {
+            //        await conn.OpenAsync();
+            //    }
+            //    catch (Exception)
+            //    {
+            //        return false;
+            //    }
+            //    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM sysdatabases WHERE [name] ='" + this.ApplicationName + "'"))
+            //    {
+            //        var count = await cmd.ExecuteScalarAsync();
+            //        return (int)count == 1;
+            //    }
+            //}
+
+
+            return true;
         }
 
         private void StartIisService()
@@ -158,7 +243,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             IisServiceStatus = "Stopped";
         }
 
-        private void StartSqlService()
+        private async void StartSqlService()
         {
             if (string.IsNullOrEmpty(SqlLocalDbName))
             {
@@ -193,6 +278,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 SqlServiceStarted = true;
                 SqlServiceStatus = "Running";
                 Log("SqlLocalDb... [STARTED]");
+                this.IsSetup = await this.FindOutSetupAsync();
             }
             catch (Exception ex)
             {
@@ -266,7 +352,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private Process m_rabbitMqServer;
         private Process m_sphWorkerProcess;
 
-        private void StartRabbitMqService()
+        private async void StartRabbitMqService()
         {
             Log("RabbitMQ...[STARTING]");
             try
@@ -285,7 +371,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
-                    WindowStyle = ProcessWindowStyle.Hidden
+                    WindowStyle = ProcessWindowStyle.Normal
                 };
                 m_rabbitMqServer = Process.Start(startInfo);
 
@@ -299,6 +385,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 RabbitMqServiceStarted = true;
                 RabbitMqStatus = "Started";
                 Log("RabbitMQ... [STARTED]");
+                this.IsSetup = await this.FindOutSetupAsync();
             }
             catch (Exception ex)
             {
@@ -322,7 +409,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
         }
 
-        private void StartElasticSearch()
+        private async void StartElasticSearch()
         {
             Log("ElasticSearch...[INITIATING]");
 
@@ -361,6 +448,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 ElasticSearchServiceStarted = true;
                 ElasticSearchStatus = "Running";
                 Log("ElasticSearch... [STARTED]");
+                this.IsSetup = await this.FindOutSetupAsync();
             }
             catch (Exception ex)
             {

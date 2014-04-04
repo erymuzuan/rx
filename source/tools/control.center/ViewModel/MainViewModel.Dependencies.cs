@@ -6,6 +6,19 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
     public partial class MainViewModel : ViewModelBase
     {
         private string m_applicationName;
+        private bool m_isSetup;
+
+        public bool IsSetup
+        {
+            get { return m_isSetup; }
+            set
+            {
+                m_isSetup = value;
+                OnPropertyChanged();
+                this.StartIisServiceCommand.RaiseCanExecuteChanged();
+                this.StartSphWorkerCommand.RaiseCanExecuteChanged();
+            }
+        }
         public string ApplicationName
         {
             set

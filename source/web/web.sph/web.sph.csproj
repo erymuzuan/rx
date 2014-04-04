@@ -741,6 +741,9 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="getting.started.html">
+      <DependentUpon>getting.started.md</DependentUpon>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -947,6 +950,7 @@
     <Content Include="docs\components.md" />
     <Content Include="docs\quick.access.md" />
     <Content Include="docs\Trigger.HowTo.PassCurrentRecordToWorkflow.md" />
+    <Content Include="getting.started.md" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />
@@ -973,6 +977,11 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <Content Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
@@ -1021,6 +1030,7 @@
     <Content Include="Scripts\jquery-2.1.0.min.map" />
     <Content Include="SphApp\viewmodels\management.console.js" />
     <Content Include="Scripts\underscore.min.map" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

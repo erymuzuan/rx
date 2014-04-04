@@ -18,10 +18,12 @@ namespace Bespoke.Sph.ControlCenter
             Loaded += MainWindowLoaded;
         }
 
-        void MainWindowLoaded(object sender, RoutedEventArgs e)
+        async void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
             var vm = this.DataContext as MainViewModel;
             if (null == vm) throw new InvalidOperationException("The DataContext is not MainViewModel");
+            await vm.LoadAsync();
+
             vm.TextWriter = new TextBoxStreamWriter(outputTextBox);
             Console.SetOut(vm.TextWriter);
             Console.WriteLine(Properties.Resources.ControlPanelIsReady);
