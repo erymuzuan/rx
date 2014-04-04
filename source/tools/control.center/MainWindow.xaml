@@ -4,7 +4,8 @@
         Icon="Propeller.ico"
         xmlns:uc="clr-namespace:Bespoke.Sph.ControlCenter"
         xmlns:vm="clr-namespace:Bespoke.Sph.ControlCenter.ViewModel" 
-        Height="680" Width="800" DataContext="{DynamicResource MainViewModel}"
+        Height="738" Width="500"
+        DataContext="{DynamicResource MainViewModel}"
         WindowStartupLocation="CenterScreen" Title="Rx Developer : Bespoke Technology">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel" />

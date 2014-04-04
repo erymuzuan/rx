@@ -1,9 +1,137 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
-    Login
-</body>
-</html>
+<p><link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" /><br />
+<style>    p,ul {        margin-left:10px;        margin-right:10px;    }    img { border:2px solid gray;padding:10px;margin-top:6px;    }</style></p>
+
+<h1>Getting started</h1>
+
+<p>This is a simple walkthrough to help you to get started developing with Rx Developer.</p>
+
+<h2>Pre-requisites</h2>
+
+<p><code>Rx Developer</code> only runs on these operating system</p>
+
+<ul>
+<li>Windows 7 Professional</li>
+<li>Windows 8 Professional</li>
+<li>Windows 8.1 Professional</li>
+<li>Windows Server 2008 R2</li>
+</ul>
+
+<p><a href="http://www.msdn.com/net"><code>Microsoft .Net 4.5.1 SDK</code></a> is the runtime for all the Rx Developer. Rx Developer it self is built on top of Microsoft Asp.Net MVC 5. Or you can get the SDK <a href="mu_.net_fx_4_5_1_dp_win_vistasp2_win_7sp1_win_8_win_8_1_win_server_2008sp2_win_server_2008_r2sp1_win_server_2012_win_server_2012r2_x86_x64_3009815.exe">here</a></p>
+
+<p>For the database , download Microsoft Sql Localdb here</p>
+
+<ul>
+<li><a href="en_sql_server_2012_sqllocaldb_with_sp1_x64.msi"><code>en_sql_server_2012_sqllocaldb_with_sp1_x64.msi</code></a></li>
+<li><a href="en_sql_server_2012_sqllocaldb_with_sp1_x86.msi"><code>en_sql_server_2012_sqllocaldb_with_sp1_x86.msi</code></a></li>
+</ul>
+
+<p>You need Oracla Java runtime installed, go and get the here <a href="http://www.oracle.com/java"><code>Java</code></a>, and makes sure your <code>JAVA_HOME</code> environment variable is properly set. <code>ElasticSearch</code> is the default content indexer for Rx Developer and built using Java</p>
+
+<p>You will also need <a href="http://www.erlang.org"><code>Erlang</code></a> runtime, this is a runtime for <a href="http://www/rabbitmq.com"><code>RabbitMq</code></a>, the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package. Make sure your variable path <code>ERLANG_HOME</code> is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.</p>
+
+<h2>Downloading and extracting</h2>
+
+<p>Point your browser to <a href="sph.package.1.0.10277.7z"><code>Rx Developer download page</code></a> to get all the necessary package.</p>
+
+<p>Download the sph.package.&lt;version&gt;.7z and extract it to an empty folder of your choice.<br />
+Once extracted, your directory will look more or less like this<br />
+<img src="http://i.imgur.com/xQVL0MH.png" alt="dir" /></p>
+
+<p>Double click <code>ControlCenter.bat</code> to start the Rx Developer control center app.</p>
+
+<p>Fill in on your settings accordingly, if you don;t what it means, see the explanation below<br />
+<img src="http://i.imgur.com/GEJY17S.png" alt="alt" /></p>
+
+<ul>
+<li>Application Name is the simple name <code>WITHOUT</code> any spaces, period <code>.</code>,comma <code>,</code> numbers or symbols, e.g. myapp. Honestly don't try to be fancy here</li>
+<li>Project Directory, it's where you extracted the package</li>
+<li>IIS port, use any number, but pick one over 50000 for less chance of conflict</li>
+<li>IIS Express - bundled with the package so the default is <code>IIS Express\iisexpress.exe</code></li>
+<li>SQL localdb instance, pick from one, if don't have one, please download and install it from the link above</li>
+<li>RabbitMQ - this bundled with your package, you just need to install <code>Erlang</code>, and set your <code>ERLANG_HOME</code> variable.</li>
+<li><p>Elastic Search - this is bundled with the package, your just need <code>Java</code> and correctly configure your <code>JAVA_HOME</code> variable</p>
+
+<p>Take a note at the LocalDb instance, in this case I'm using <code>Projects</code>, you can pick one from the drop list. Click <code>Save Settings</code> button</p></li>
+</ul>
+
+<p><img src="http://i.imgur.com/WnrRSSE.png" alt="alt" /><br />
+Now starts these 3 services</p>
+
+<ul>
+<li>SQL Server localdb</li>
+<li>Elastic Search</li>
+<li>Rabbit MQ</li>
+</ul>
+
+<p>Make sure there are no errors coming out from the control center console,then open you command prompt, go to your directory, type <code>powershell</code> and <code>enter</code><br />
+<img src="http://i.imgur.com/cF5TBcb.png" alt="alt" /></p>
+
+<p>then type the following <code>.\Setup-SphApp.ps1 -ApplicationName ofg -Port 50332</code>, it must be lowercase letters only, no <code>.</code>, <code>,</code> numbers or special symbols allowed. Then specify the port to run your application on, choose those over 50000 to avoid conlict with your other services. Make sure the SqlServer is specified according to what you had set in the control center window</p>
+
+<p><img src="http://i.imgur.com/JS6m80D.png" alt="alt" /></p>
+
+<p>This going to take a while, to set up your database, elastic search and rabbitmq vhost.<br />
+Once you are done, you can go back to your <code>ControlCenter</code>, now starts <code>SPH Worker</code> and <code>IIS Express</code><br />
+<img src="http://i.imgur.com/swWEPyL.png" alt="alt" /></p>
+
+<h2>Writing your first application</h2>
+
+<p>Once it's been set up, you can browser to your app by clicking on the <code>ViewApp</code> link in the <code>ControlCenter</code>, A default user <code>admin</code> and password <code>123456</code> has already been created by the <code>SetUp-SphApp.ps1</code> script for your convenience.<br />
+go to <br />
+<a href="http://localhost:50332/sph#dev.home">http://localhost:50332/sph#dev.home</a></p>
+
+<p><img src="http://i.imgur.com/8T46sAg.png" alt="alt" /><br />
+click on the <code>New Entity Definition</code>, this will take you to the <code>EntityDefinition</code> editor where you can design your first entity. For now lets just assume that an <code>EntityDefinition</code> is the main object in your application. Let's do a Hospital application , you'll need a <code>Patient</code><br />
+<img src="http://i.imgur.com/1v4LkQA.png" alt="alt" /></p>
+
+<p>Then click save, suddenly the screen will have new things appeared at the bottom. Right click on the empty folder, and select <code>Add Child</code>, give it a name <code>Mrn</code>. In case you don't know what Mrn, it stands for  Medical Record No, a primary way of identitfy a patient in a hospital<br />
+<img src="http://i.imgur.com/8XyrM5k.png" alt="alt" /></p>
+
+<p><img src="http://1.bp.blogspot.com/-oxkbDsgv9wE/TWX2SGMC8qI/AAAAAAAAACM/6AUzB4_fK34/s1600/MRN.JPG" alt="alt" /><br />
+sample MRN</p>
+
+<p><img src="http://i.imgur.com/CZ9JUol.png" alt="alt" /><br />
+press enter, the click on the <code>Mrn</code> again, this time the background will turn blue, to say that it's been selected, got to your right<br />
+<img src="http://i.imgur.com/ajov5Wl.png" alt="alt" /></p>
+
+<p>Then add 1 more member , called <code>FullName</code>, do the same thing.</p>
+
+<p>then click <code>Save</code></p>
+
+<h3>Create the 1st form</h3>
+
+<p>Go to the <code>Forms</code> section<br />
+<img src="http://i.imgur.com/rlytQQQ.png" alt="alt" /><br />
+Click creates new form, you'll get this, fill in as seen on the screen<br />
+<img src="http://i.imgur.com/IONIskG.png" alt="alt" />,<br />
+now click on the <code>Add a field</code> tab, the click on the <code>Single Line Text</code> twice<br />
+<img src="http://i.imgur.com/O7nbsXs.png" alt="alt" /></p>
+
+<p>Click on <code>Properties</code> tab and Click on the <code>Label 0</code>, now fill this according to the screen<br />
+<img src="http://i.imgur.com/a17JJ5q.png" alt="alt" /><br />
+Then click on <code>Label 1</code> and do this<br />
+<img src="http://i.imgur.com/oNqvLZ3.png" alt="alt" /></p>
+
+<p>Click <code>Save</code> then click publish<br />
+<img src="http://i.imgur.com/aloyow2.png" alt="alt" /><br />
+you will see this in your controlcenter<br />
+<img src="http://i.imgur.com/3vRbjaV.png" alt="alt" /></p>
+
+<p>Now you'll need to publish the <code>Patient</code> entity, use your keyboard <code>Ctrl + ,</code>, then click on the <code>Patient</code><br />
+<img src="http://i.imgur.com/YIb4qq7.png" alt="alt" /></p>
+
+<p>in your <code>Patient</code> entity definition click <code>Publish</code>, now you will see some activities in your ControlCenter and your CPU is kicking up, to generate the source code, compiles it and deploy it your app. This will take a while , may be around 15, 20 seconds.</p>
+
+<p>After a while just hard refresh your browser, may be <code>F5</code> few times then click on the navigation bar<br />
+<img src="http://i.imgur.com/BSrz3s1.png" alt="alt" /><br />
+you'll see <code>Patients</code> is listed, click that<br />
+<img src="http://i.imgur.com/CNuGvrR.png" alt="alt" /><br />
+Click <code>Patient Registraion</code>, fill in the details and click <code>Save</code>, the <code>Save</code> button spin a little but nothing happened(because we have not specified the action, we will get into that later).<br />
+<img src="http://i.imgur.com/4yZtwq5.png" alt="alt" /><br />
+press the back button, click <code>Patients</code> on the nav bar, click on the <code>Recent Patients</code> link</p>
+
+<p><img src="http://i.imgur.com/ZusUc1N.png" alt="alt" /></p>
+
+<p>You now have successfully created your first app.<br />
+To get to know the full power of Rx Developer, we can arrange a training session as well the full set of documentation that can be reached at <br />
+<a href="/docs"><code>http://localhost:&lt;port&gt;/docs</code></a></p>

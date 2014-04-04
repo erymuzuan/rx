@@ -741,9 +741,6 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="getting.started.html">
-      <DependentUpon>getting.started.md</DependentUpon>
-    </Content>
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -950,7 +947,7 @@
     <Content Include="docs\components.md" />
     <Content Include="docs\quick.access.md" />
     <Content Include="docs\Trigger.HowTo.PassCurrentRecordToWorkflow.md" />
-    <Content Include="getting.started.md" />
+    <Content Include="index.md" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />
@@ -969,7 +966,9 @@
     <Content Include="images\form.element.TextArea.png" />
     <Content Include="images\form.element.TextBox.png" />
     <Content Include="images\logo_sph.png" />
-    <Content Include="index.html" />
+    <Content Include="index.html">
+      <DependentUpon>index.md</DependentUpon>
+    </Content>
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />

@@ -12,7 +12,7 @@ This is a simple walkthrough to help you to get started developing with Rx Devel
 * Windows 8.1 Professional
 * Windows Server 2008 R2
 
-[`Microsoft .Net 4.5.1 SDK`](http://www.msdn.com/net) is the runtime for all the Rx Developer. Rx Developer it self is built on top of Microsoft Asp.Net MVC 5.
+[`Microsoft .Net 4.5.1 SDK`](http://www.msdn.com/net) is the runtime for all the Rx Developer. Rx Developer it self is built on top of Microsoft Asp.Net MVC 5. Or you can get the SDK [here](mu_.net_fx_4_5_1_dp_win_vistasp2_win_7sp1_win_8_win_8_1_win_server_2008sp2_win_server_2008_r2sp1_win_server_2012_win_server_2012r2_x86_x64_3009815.exe)
 
 For the database , download Microsoft Sql Localdb here
 
@@ -25,7 +25,7 @@ You need Oracla Java runtime installed, go and get the here [`Java`](http://www.
 You will also need [`Erlang`](http://www.erlang.org) runtime, this is a runtime for [`RabbitMq`](http://www/rabbitmq.com), the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package. Make sure your variable path `ERLANG_HOME` is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.
 
 ## Downloading and extracting
-Point your browser to [`Rx Develeper donwload page`](sph.package.1.0.10277.7z) to get all the necessary package.
+Point your browser to [`Rx Developer download page`](sph.package.1.0.10277.7z) to get all the necessary package.
 
 Download the sph.package.&lt;version&gt;.7z and extract it to an empty folder of your choice.
 Once extracted, your directory will look more or less like this
@@ -33,10 +33,10 @@ Once extracted, your directory will look more or less like this
 
 Double click `ControlCenter.bat` to start the Rx Developer control center app.
 
-Fill in on your settings
+Fill in on your settings accordingly, if you don;t what it means, see the explanation below
 ![alt](http://i.imgur.com/GEJY17S.png)
 
-* Application Name is the simple name without any spaces, numbers or symbols, e.g. myapp
+* Application Name is the simple name `WITHOUT` any spaces, period `.`,comma `,` numbers or symbols, e.g. myapp. Honestly don't try to be fancy here
 * Project Directory, it's where you extracted the package
 * IIS port, use any number, but pick one over 50000 for less chance of conflict
 * IIS Express - bundled with the package so the default is `IIS Express\iisexpress.exe`
@@ -75,8 +75,11 @@ http://localhost:50332/sph#dev.home
 click on the `New Entity Definition`, this will take you to the `EntityDefinition` editor where you can design your first entity. For now lets just assume that an `EntityDefinition` is the main object in your application. Let's do a Hospital application , you'll need a `Patient`
 ![alt](http://i.imgur.com/1v4LkQA.png)
 
-Then click save, suddenly the screen will have new things appeared at the bottom. Right click on the empty folder, and select `Add Child`, give it a name `Mrn`
+Then click save, suddenly the screen will have new things appeared at the bottom. Right click on the empty folder, and select `Add Child`, give it a name `Mrn`. In case you don't know what Mrn, it stands for  Medical Record No, a primary way of identitfy a patient in a hospital
 ![alt](http://i.imgur.com/8XyrM5k.png)
+
+![alt](http://1.bp.blogspot.com/-oxkbDsgv9wE/TWX2SGMC8qI/AAAAAAAAACM/6AUzB4_fK34/s1600/MRN.JPG)
+sample MRN
 
 ![alt](http://i.imgur.com/CZ9JUol.png)
 press enter, the click on the `Mrn` again, this time the background will turn blue, to say that it's been selected, got to your right
