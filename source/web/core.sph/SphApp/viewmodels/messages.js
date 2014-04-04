@@ -33,7 +33,7 @@ define([objectbuilders.datacontext, objectbuilders.config],
 
             },
             attached = function (view) {
-                $.getScript("/Scripts/jquery.signalR-2.0.2.min.js", function () {
+                $.getScript("/Scripts/jquery.signalR-2.0.3.min.js", function () {
                     var connection = $.connection('/signalr_message');
 
                     connection.received(function (data) {

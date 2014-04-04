@@ -27,10 +27,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="SPH Control Panel" FontSize="18" FontWeight="Bold"/>
-        <StackPanel Grid.Row="0" HorizontalAlignment="Right"  Orientation="Horizontal">
-            <Button Content="Setup" Command="{Binding SetupCommand}"/>
-            <Button Content="Exit" Command="{Binding ExitAppCommand}"/>
-        </StackPanel>
+      
+        <uc:UpdaterView HorizontalAlignment="Right" Grid.Row="0" />
 
         <GroupBox Header="Service Status" Grid.Row="1">
             <Grid>

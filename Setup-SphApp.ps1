@@ -182,7 +182,7 @@ foreach($configFile in $allConfigs){
 & aspnet_regsql.exe -E -S "(localdb)\$SqlServer" -d "$ApplicationName" -A mr
 #roles
 mru -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
-mru -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
+mru -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -c "$WorkingCopy\web\web.config"
 
 
 
