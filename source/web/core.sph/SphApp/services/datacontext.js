@@ -73,7 +73,7 @@ function (logger, system, ko2) {
                             }
                             return;
                         }
-                        
+
                         if (typeof item[prop] === "function") {
                             return;
                         }
@@ -112,7 +112,7 @@ function (logger, system, ko2) {
                 }
             }
             // addChildItemFunction
-            item.addChildItem = function(list, childType) {
+            item.addChildItem = function (list, childType) {
                 return function () {
                     if (typeof childType === "function") {
                         list.push(new childType(system.guid()));
@@ -122,8 +122,8 @@ function (logger, system, ko2) {
                 };
             };
 
-            item.removeChildItem = function(list, obj) {
-                return function() {
+            item.removeChildItem = function (list, obj) {
+                return function () {
                     list.remove(obj);
                 };
             };
@@ -226,7 +226,7 @@ function (logger, system, ko2) {
         var tcs = new $.Deferred();
         $.ajax({
             type: "GET",
-            cache : false,
+            cache: false,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -332,10 +332,11 @@ function (logger, system, ko2) {
             field2 = entityOrOptions.field2;
         }
 
-        var url = "/List/Tuple";
-        url += "?filter=";
-        url += query;
-        url += "&column=";
+        var url = "/List/Tuple?";
+        if (query) {
+            url += "filter=" + query + "&";
+        }
+        url += "column=";
         url += field;
         url += "&column2=";
         url += field2;
@@ -345,7 +346,7 @@ function (logger, system, ko2) {
         var tcs = new $.Deferred();
         $.ajax({
             type: "GET",
-            cache : false,
+            cache: false,
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -360,10 +361,11 @@ function (logger, system, ko2) {
     }
 
     function getListAsync(entity, query, field) {
-        var url = "/List/";
-        url += "?filter=";
-        url += query;
-        url += "&column=";
+        var url = "/List/?";
+        if (query) {
+            url += "filter=" + query + "&";
+        }
+        url += "column=";
         url += field;
         url += "&table=" + entity;
 

@@ -1,3 +1,4 @@
+
 <div class="row" data-bind="with : view">
     <a data-toggle="collapse" href="#columns-ev-panel">
         <h3>
@@ -12,8 +13,11 @@
 
         <div class="col-md-8">
             <ul id="column-design" class="nav nav-pills nav-tabs" style="">
+                <li class="label label-default" style="margin: 5px; padding: 6px; min-width: 100px;">
+                    <label data-bind="text:$root.entity().RecordName"></label>
+                </li>
                 <!-- ko foreach : ViewColumnCollection -->
-                <li class="badge badge-info" style="margin: 5px; padding: 6px; min-width: 100px;">
+                <li class="label label-info" style="margin: 5px; padding: 6px; min-width: 100px;">
                     <label data-bind="text:Header"></label>
                 </li>
                 <!-- /ko -->

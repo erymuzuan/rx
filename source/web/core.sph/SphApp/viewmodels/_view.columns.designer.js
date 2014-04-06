@@ -22,14 +22,14 @@ define([objectbuilders.datacontext], function (context) {
         },
         attached = function(view){
             $('#column-design').sortable({
-                items: '>li',
+                items: '>li:not(:first)',
                 placeholder: 'ph',
                 forcePlaceholderSize: true,
                 forceHelperSize: true,
                 helper: 'original'
             });
 
-            $(view).on('click', 'ul#column-design>li', function(){
+            $(view).on('click', 'ul#column-design>li:not(:first)', function(){
                 $('ul#column-design>li.selected-th').removeClass('selected-th');
                 $(this).addClass('selected-th');
                 _item(ko.dataFor(this));
