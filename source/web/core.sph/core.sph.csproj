@@ -8,7 +8,7 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A2B488B2-A536-49DF-9741-B87BDD745D8F}</ProjectGuid>
-    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bespoke.Sph.Web</RootNamespace>
@@ -1957,7 +1957,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\document.template.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.permission.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\entity.operation.details.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\dev.quck.nav.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\dev.quick.nav.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.javascriptexpression.js" />
     <EmbeddedResource Include="SphApp\services\chart.js" />
     <EmbeddedResource Include="SphApp\viewmodels\dev.home.js" />
@@ -2001,7 +2001,7 @@
     <EmbeddedResource Include="SphApp\views\document.template.details.html" />
     <EmbeddedResource Include="SphApp\views\field.permission.dialog.html" />
     <EmbeddedResource Include="SphApp\views\entity.operation.details.html" />
-    <EmbeddedResource Include="SphApp\views\dev.quck.nav.html" />
+    <EmbeddedResource Include="SphApp\views\dev.quick.nav.html" />
     <EmbeddedResource Include="SphApp\views\field.javascriptexpression.html" />
     <EmbeddedResource Include="SphApp\views\dev.home.html" />
     <EmbeddedResource Include="SphApp\views\entity.chart.dialog.html" />

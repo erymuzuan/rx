@@ -16,6 +16,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             view = ko.observable(),
             list = ko.observableArray([]),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
+
             activate = function () {
                 var edQuery = String.format("Name eq '{0}'", 'Patient'),
                   tcs = new $.Deferred(),
@@ -48,8 +49,15 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
 
                 return tcs.promise();
             },
-            attached = function () {
+            attached = function (view) {
                 chart.init('Patient', query);
+                $(view).on('click', 'a#charts-toggle', function(e){
+                    e.preventDefault();
+                    $('div#chart-div').toggleClass('col-md-4').toggleClass('col-md-11');
+                    $('div#table-div').toggle();
+                    $('div#chart-main').toggle();
+
+                });
             },
             query = {
                 "query": {
