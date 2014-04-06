@@ -1,0 +1,83 @@
+﻿
+<section class="view-model-modal" id="dev-quck-nav-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Quick nav</h3>
+            </div>
+            <div class="modal-body">
+                <form class="">
+                    <div class="input-group pull-right">
+                        <input autofocus id="quick-nav-filter" data-toggle="tooltip" title="" type="search" class="form-control" placeholder="Filter.. ">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </span>
+</div>
+                </form>
+                <h3>Entity Definitions</h3>
+                <div id="dev-quck-nav-dialog-form" style="max-height: 600px; overflow-y: scroll ">
+                    <ul class="nav nav-pills nav-stacked" data-bind="foreach :items">
+                        <li>
+                            <a href="#" data-bind="attr : {'href':route}">
+                                <span>
+                                    <i class="fa fa-clipboard"></i>
+                                    <!-- ko text: name-->
+                                    <!--/ko-->
+                                </span>
+                            </a>
+                            <ul data-bind="foreach :forms" class="nav nav-pills nav-stacked" style="margin-left: 20px">
+                                <li>
+                                    <a href="#" data-bind="attr : {'href':'#entity.form.designer/' + $parent.id() + '/' + EntityFormId() }">
+                                        <span>
+                                            <i class="fa fa-edit"></i>
+                                            <!-- ko text: Name-->
+                                            <!--/ko-->
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul><ul data-bind="foreach :views" class="nav nav-pills nav-stacked" style="margin-left: 20px">
+                                <li>
+                                    <a href="#" data-bind="attr : {'href':'#entity.view.designer/' + $parent.id() + '/' + EntityViewId() }">
+                                        <span>
+                                            <i class="fa fa-table"></i>
+                                            <!-- ko text: Name-->
+                                            <!--/ko-->
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                    <h3>Workflow Definitions</h3>
+                    <ul class="nav nav-pills nav-stacked" data-bind="foreach :wds">
+                        <li>
+                            <a href="#" data-bind="attr : {'href':'#workflow.definition.visual/' + WorkflowDefinitionId() }">
+                                <span>
+                                    <i class="fa fa-code-fork"></i>
+                                    <!-- ko text: Name-->
+                                    <!--/ko-->
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <h3>Triggers</h3>
+                    <ul class="nav nav-pills nav-stacked" data-bind="foreach :triggers">
+                        <li>
+                            <a href="#" data-bind="attr : {'href':'#trigger.setup/' + TriggerId() }">
+                                <span>
+                                    <i class="fa fa-bolt"></i>
+                                    <!-- ko text: Name-->
+                                    <!--/ko-->
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</section>

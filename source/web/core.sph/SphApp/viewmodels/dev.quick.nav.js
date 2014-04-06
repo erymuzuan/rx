@@ -49,6 +49,33 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                 $('#dev-quck-nav-dialog').on('click', 'a', function (e) {
                     dialog.close(self, "OK");
                 });
+
+                var $filterInput = $('#quick-nav-filter'),
+                    dofilter = function () {
+                        var $rows = $(view).find('li'),
+                            filter = $filterInput.val().toLowerCase();
+                        $rows.each(function () {
+                            var $tr = $(this);
+                            if ($tr.text().toLowerCase().indexOf(filter) > -1) {
+                                $tr.show();
+                            } else {
+                                $tr.hide();
+                            }
+                        });
+                    },
+                throttled = _.throttle(dofilter, 800);
+
+                $filterInput.on('keyup', throttled).siblings('span.input-group-addon')
+                    .click(function () {
+                        $filterInput.val('');
+                        dofilter();
+                    })
+                .end()
+                .focus();
+
+                if ($filterInput.val()) {
+                    dofilter();
+                }
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {

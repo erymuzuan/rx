@@ -126,7 +126,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                     }
                     if (e.ctrlKey && e.keyCode === 188) {
 
-                        require(['viewmodels/dev.quck.nav', 'durandal/app'], function (dialog, app2) {
+                        require(['viewmodels/dev.quick.nav', 'durandal/app'], function (dialog, app2) {
                            
                             app2.showDialog(dialog)
                                 .done(function (result) {
