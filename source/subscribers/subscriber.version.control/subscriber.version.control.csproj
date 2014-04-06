@@ -45,10 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocumentTemplateSourceSubscriber.cs" />
+    <Compile Include="DocumentTemplateSourceProvider.cs" />
+    <Compile Include="EntityDefinitionSourceProvider.cs" />
+    <Compile Include="EntityFormSourceProvider.cs" />
+    <Compile Include="EntitySourceProvider.cs" />
+    <Compile Include="EntityViewSourceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportDefinitionSourceSubscriber.cs" />
-    <Compile Include="WorkflowSourceSubscriber.cs" />
+    <Compile Include="ReportDefinitionSourceProvider.cs" />
+    <Compile Include="SourceProviderFactory.cs" />
+    <Compile Include="SourceProvider.cs" />
+    <Compile Include="WorkflowSourceProvider.cs" />
     <Compile Include="SourceSubscriber.cs" />
   </ItemGroup>
   <ItemGroup>
