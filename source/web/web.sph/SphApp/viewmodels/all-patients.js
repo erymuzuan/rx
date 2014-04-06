@@ -49,7 +49,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 return tcs.promise();
             },
             attached = function () {
-                chart.init('Patient', query, function(){}, 1002);
+                chart.init('Patient', query);
             },
             query = {
                 "query": {

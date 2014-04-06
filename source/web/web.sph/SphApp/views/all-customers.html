@@ -6,11 +6,12 @@
             <thead>
                 <tr>
                     <th>FullName</th>
-                    <th>FullName</th>
-                    <th>Street1</th>
-                    <th>State</th>
-                    <th>Age</th>
+                    <th>Email</th>
                     <th>Gender</th>
+                    <th>State</th>
+                    <th>Street1</th>
+                    <th>FullName</th>
+                    <th>Age</th>
                     <th>Primary Contact</th>
                 </tr>
             </thead>
@@ -21,11 +22,12 @@
                         <a data-bind="attr : {href:'#add-customer-form' + '/' + CustomerId },text: FullName"></a>
                     </td>
 
-                    <td data-bind="text:FullName"></td>
-                    <td data-bind="text:Address.Street1"></td>
-                    <td data-bind="text:Address.State"></td>
-                    <td data-bind="text:Age"></td>
+                    <td data-bind="text:Contact.Email"></td>
                     <td data-bind="text:Gender"></td>
+                    <td data-bind="text:Address.State"></td>
+                    <td data-bind="text:Address.Street1"></td>
+                    <td data-bind="text:FullName"></td>
+                    <td data-bind="text:Age"></td>
                     <td data-bind="text:PrimaryContact"></td>
 
 

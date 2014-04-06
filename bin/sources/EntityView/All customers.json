@@ -24,27 +24,27 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "Path": "FullName",
-        "Header": "FullName",
+        "Path": "Contact.Email",
+        "Header": "Email",
         "Sort": "",
         "IsLinkColumn": false,
         "FormRoute": null,
-        "IconCssClass": "fa fa-building-o",
-        "IconStoreId": "fa fa-building-o",
+        "IconCssClass": "",
+        "IconStoreId": "",
         "Format": "text:{0}",
-        "WebId": "e2dd0f06-07e1-4a1e-8be3-b9464c21c984"
+        "WebId": "f618fa6f-c209-48b1-9e8f-7959252686a1"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "Path": "Address.Street1",
-        "Header": "Street1",
+        "Path": "Gender",
+        "Header": "Gender",
         "Sort": "",
         "IsLinkColumn": false,
         "FormRoute": null,
-        "IconCssClass": "fa fa-building-o",
-        "IconStoreId": "fa fa-building-o",
+        "IconCssClass": null,
+        "IconStoreId": null,
         "Format": "text:{0}",
-        "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
+        "WebId": "61ee8ea4-4b48-433d-b60b-8ab5bb7184a0"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -60,6 +60,30 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "Address.Street1",
+        "Header": "Street1",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "fa fa-building-o",
+        "IconStoreId": "fa fa-building-o",
+        "Format": "text:{0}",
+        "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "Path": "FullName",
+        "Header": "FullName",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "fa fa-building-o",
+        "IconStoreId": "fa fa-building-o",
+        "Format": "text:{0}",
+        "WebId": "e2dd0f06-07e1-4a1e-8be3-b9464c21c984"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
         "Path": "Age",
         "Header": "Age",
         "Sort": "",
@@ -69,18 +93,6 @@
         "IconStoreId": null,
         "Format": "text:{0}",
         "WebId": "f544b246-5c19-4279-a8ae-447dc8f7e02d"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "Path": "Gender",
-        "Header": "Gender",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": null,
-        "IconStoreId": null,
-        "Format": "text:{0}",
-        "WebId": "61ee8ea4-4b48-433d-b60b-8ab5bb7184a0"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -123,6 +135,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-01T18:28:59.9202614+08:00",
+  "ChangedDate": "2014-04-06T08:58:28.8540826+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }

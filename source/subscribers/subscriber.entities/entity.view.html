@@ -1,5 +1,4 @@
 ﻿<h1>@Model.View.Name</h1>
-
 <div class="row">
     <div class="col-md-8">
         <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : '@Model.Definition.Name', list:list}">
@@ -20,7 +19,6 @@
                         }
                         <a data-bind="attr : {href:'#@Model.Form.Route' + '/' + @eid },text: @Model.Definition.RecordName"></a>
                     </td>
-
                     @foreach(var col in Model.View.ViewColumnCollection)
                     {
                     var format = string.IsNullOrWhiteSpace(col.Format) ? "text:{0}": col.Format;
@@ -30,11 +28,11 @@
                         <a data-bind="attr : {href:'#@col.FormRoute' + '/' + @eid, title:'@col.Header' }">
                             @if(!string.IsNullOrWhiteSpace(col.IconCssClass))
                             {
-                                <i class="@col.IconCssClass"></i>
+                            <i class="@col.IconCssClass"></i>
                             }
                             @if(!string.IsNullOrWhiteSpace(col.IconStoreId))
                             {
-                                <img src="/sph/images/get/@col.IconStoreId" alt="@col.Header"/>
+                            <img src="/sph/images/get/@col.IconStoreId" alt="@col.Header" />
                             }
                             <span data-bind="@binding"></span>
                         </a>
@@ -52,14 +50,12 @@
     </div>
     <div class="col-md-4" data-bind="with:chart">
         <h3>Charts</h3>
-
         <form class="form">
             <div class="form-group">
                 <label for="chart-name">Charts</label>
                 <select class="form-control" name="chart.name" id="chart-name"
                         data-bind="value: selectedChartId, options:charts, optionsText: 'Name', optionsValue : 'EntityChartId', optionsCaption:'[Select a chart]'"></select>
             </div>
-
             <div class="form-group">
                 <label for="chart-aggregate">Aggregate</label>
                 <select data-bind="value: aggregate" class="form-control" name="chart.aggregate" id="chart-aggregate">
@@ -68,19 +64,10 @@
                     <option value="date_histogram">Date Histogram</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="field">Fields</label>
-                <select class="form-control" data-bind="value: field" id="field">
-
-                    <option value="">[Select Field]</option>
-                    @foreach(var m in Model.Definition.GetMembersPath())
-                    {
-                    <option value="@m">@m</option>
-                    }
-                </select>
+                <select class="form-control" data-bind="value: field, options: fieldOptions, optionsCaption :'[Select a field]'" id="field"></select>
             </div>
-
             <div class="form-group" data-bind="visible : aggregate() === 'date_histogram'">
                 <label for="chart-date-interval">Date interval</label>
                 <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval" id="chart-date-interval">
@@ -94,7 +81,6 @@
                     <option value="second">second</option>
                 </select>
             </div>
-
             <div class="form-group" data-bind="visible : aggregate() === 'histogram'">
                 <label for="histogram-interval">Interval</label>
                 <input class="form-control" step="10" type="number" id="histogram-interval" data-bind="value:histogramInterval" />
@@ -115,16 +101,12 @@
                 <a href="#" data-bind="command:save, visible: selectedChartId" title="edit and save current chart">
                     <i class="fa fa-copy"></i>
                 </a>
-
                 <a href="#" data-bind="command:remove, visible: selectedChartId" title="remove current chart">
                     <i class="fa fa-times"></i>
                 </a>
-
             </div>
-
         </form>
         <div id="chart-@Model.Definition.Name">
-
         </div>
     </div>
 </div>

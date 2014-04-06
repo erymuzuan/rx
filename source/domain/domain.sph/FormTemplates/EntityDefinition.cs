@@ -55,6 +55,10 @@ namespace Bespoke.Sph.Domain
             {
                 list.AddRange(member.GetMembersPath(""));
             }
+            list.Add("CreatedBy");
+            list.Add("ChangedBy");
+            list.Add("CreatedDate");
+            list.Add("ChangedDate");
             return list.ToArray();
         }
 

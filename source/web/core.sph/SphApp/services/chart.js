@@ -15,6 +15,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
             }
         },
         _aggregate = ko.observable(),
+        _fieldOptions = ko.observableArray(),
         _dateInterval = ko.observable(),
         _histogramInterval = ko.observable(),
         _entity = ko.observable(),
@@ -45,6 +46,12 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
             context.getScalarAsync("EntityDefinition", query2, "EntityDefinitionId")
                 .done(function (id) {
                     _entityDefinitionId(parseInt(id));
+                    // get the fields
+                    $.get("/sph/EntityDefinition/GetVariablePath/" + id)
+                        .done(function (ps) {
+                            _fieldOptions(ps);
+                            tcs.resolve(true);
+                        });
                 });
             return tcs.promise();
         },
@@ -53,7 +60,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                 _field(fd);
             }
             if (!fd) {
-                return;
+                return Task.fromResult(false);
             }
             var tcs = new $.Deferred();
             if (_aggregate() === 'term') {
@@ -307,6 +314,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
         histogramInterval: _histogramInterval,
         draw: draw,
         init: init,
+        fieldOptions: _fieldOptions,
         field: _field
     };
 });
