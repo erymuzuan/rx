@@ -17,11 +17,12 @@ namespace Bespoke.Sph.WathersSubscribers
 
         public override string[] RoutingKeys
         {
-            get { return new[] { "Watcher.*" }; }
+            get { return new[] { "Watcher.#.#" }; }
         }
 
         protected override Task ProcessMessage(Watcher item, MessageHeaders header)
         {
+            this.WriteMessage("A watcher has been {0} : \r\n{1}", header.Crud, item);
             if (header.Crud == CrudOperation.Added)
             {
                 m_watchers.Add(item);
@@ -52,7 +53,7 @@ namespace Bespoke.Sph.WathersSubscribers
                 m_watchers.AddRange(lo.ItemCollection);
             }
 
-            var edQuery = context.EntityDefinitions;
+            var edQuery = context.EntityDefinitions.Where(d => d.IsPublished == true);
             var edLo = await context.LoadAsync(edQuery, includeTotalRows: true);
             var definitions = new ObjectCollection<EntityDefinition>(edLo.ItemCollection);
 
@@ -74,14 +75,13 @@ namespace Bespoke.Sph.WathersSubscribers
             }
             // get the listeners
 
-
         }
 
 
         public dynamic RegisterCustomEntityDependencies(EntityDefinition ed1)
         {
-            var sqlAssembly = Assembly.Load("rabbitmq.changepublisher");
-            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.RabbitMqPublisher.EntityChangedListener`1");
+            var changePublisherAssembly = Assembly.Load("rabbitmq.changepublisher");
+            var changePublisherType = changePublisherAssembly.GetType("Bespoke.Sph.RabbitMqPublisher.EntityChangedListener`1");
 
             try
             {
@@ -89,22 +89,18 @@ namespace Bespoke.Sph.WathersSubscribers
                 var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed1.EntityDefinitionId, ed1.Name);
                 var edType = edAssembly.GetType(edTypeName);
                 if (null == edType)
-                    Console.WriteLine("Cannot create type " + edTypeName);
+                    this.WriteError(new Exception("Cannot create type " + edTypeName));
 
-                var listenerType = sqlRepositoryType.MakeGenericType(edType);
+                var listenerType = changePublisherType.MakeGenericType(edType);
                 dynamic listener = Activator.CreateInstance(listenerType, ObjectBuilder.GetObject("IBrokerConnection"));
                 listener.Callback = new Action<object>(arg => this.EntityChanged(listener, arg));
 
-                //var method = this.GetType().GetMethod("EntityChanged").MakeGenericMethod(edType);
-                //var eventInfo = listener.GetType().GetEvent("Changed");
-                //Decimal handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, method);
-                //eventInfo.AddEventHandler(listener, handler);
 
                 return listener;
             }
             catch (FileNotFoundException e)
             {
-                //  Console.WriteLine(e);
+                this.WriteError(e);
             }
 
             return null;
