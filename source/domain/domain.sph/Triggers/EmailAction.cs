@@ -17,16 +17,20 @@ namespace Bespoke.Sph.Domain
             var templateEngine = ObjectBuilder.GetObject<ITemplateEngine>();
             var subject = await templateEngine.GenerateAsync(this.SubjectTemplate, item).ConfigureAwait(false);
             var body = await templateEngine.GenerateAsync(this.BodyTemplate, item).ConfigureAwait(false);
+            var to = await templateEngine.GenerateAsync(this.To, item).ConfigureAwait(false);
+            var cc = await templateEngine.GenerateAsync(this.Cc, item).ConfigureAwait(false);
+            var from = await templateEngine.GenerateAsync(this.From, item).ConfigureAwait(false);
+
             var message = new MailMessage
             {
                 Subject = subject,
                 Body = body,
-                From = new MailAddress(this.From)
+                From = new MailAddress(from)
 
             };
-            message.To.Add(this.To);
-            if (!string.IsNullOrWhiteSpace(this.Cc))
-                message.CC.Add(this.Cc);
+            message.To.Add(to);
+            if (!string.IsNullOrWhiteSpace(cc))
+                message.CC.Add(cc);
 
             var smtp = new SmtpClient();
             await smtp.SendMailAsync(message).ConfigureAwait(false);

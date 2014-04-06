@@ -17,9 +17,7 @@ namespace Bespoke.Sph.Templating
             viewBag.ApplicationFullName = ConfigurationManager.ApplicationFullName;
             viewBag.UserName = directory.CurrentUserName;
 
-
-
-            if (string.IsNullOrWhiteSpace(template)) throw new ArgumentNullException("template", "whoaaaaa");
+            if (string.IsNullOrWhiteSpace(template)) return Task.FromResult(string.Empty);
             var body = Razor.Parse(template, model, viewBag, null);
             return Task.FromResult(body);
         }
