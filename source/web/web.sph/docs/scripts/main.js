@@ -4,22 +4,47 @@
 
 define(['types'], function (types) {
 
+    var nav = function (href2) {
+        $('#applicationHost').load(href2, null, function (responseText, textStatus) {
+            if (textStatus === "error") {
+                $('#applicationHost').html('<div class="alert alert-danger alert-dismissable">Cannot find the content for : ' + href2 + '</div>');
+                return;
+            }
+            $('#applicationHost img').addClass('img-thumbnail');
+            $('#applicationHost a').prepend('<i class="fa fa-link">');
+        });
+    },
+        mapTopic = function (topicHash) {
+            if (topicHash.indexOf("trigger.setup") > -1)
+                return "Trigger.html";
 
+            if (topicHash.indexOf("entity.details") > -1)
+                return "EntityDefinition.html";
+            if (topicHash.indexOf("entity.form.designer") > -1)
+                return "EntityForm.html";
+            if (topicHash.indexOf("entity.view.designer") > -1)
+                return "EntityView.html";
+            if (topicHash.indexOf("entity.operation.details") > -1)
+                return "EntityOperation.html";
+
+            if (topicHash.indexOf("reportdefinition") > -1)
+                return "ReportDefinition.html";
+            if (topicHash.indexOf("reportdelivery") > -1)
+                return "reportdelivery.html";
+
+            if (topicHash.indexOf("workflow.definition.visual") > -1)
+                return "WorkflowDefinition.html";
+            if (topicHash.indexOf("workflow.debugger") > -1)
+                return "Breakpoint.html";
+            return "Overview.html";
+        },
+        topic = window.location.hash;
     $('#applicationHost').load('/docs/overview.html');
     $('#sidebar').load('/docs/sidebar.html');
     $('#sidebar').on('click', 'a', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var href = this.href;
-        $('#applicationHost').load(this.href, null, function (responseText, textStatus) {
-            if (textStatus === "error") {
-                $('#applicationHost').html('<div class="alert alert-danger alert-dismissable">Cannot find the content for : ' + href + '</div>');
-                return;
-            }
-            $('#applicationHost img').addClass('img-thumbnail');
-            $('#applicationHost a').prepend('<i class="fa fa-link">');
-            console.log("downloaded %s", this.href);
-        });
+        nav(this.href);
     });
     $('#applicationHost').on('click', 'a', function (e) {
         var $anchor = $(this),
@@ -30,7 +55,7 @@ define(['types'], function (types) {
         if (href.indexOf("https://") > -1) {
             return;
         }
-        
+
         $('#applicationHost').load(href, null, function (responseText, textStatus) {
             if (textStatus === "error") {
                 $('#applicationHost').html('<div class="alert alert-danger alert-dismissable">Cannot find the content for : ' + href + '</div>');
@@ -71,4 +96,11 @@ define(['types'], function (types) {
 
             $('#applicationHost').load($(this).val() + ".html");
         });
+
+
+
+    if (topic) {
+        var g = mapTopic(topic);
+        nav(g);
+    }
 });

@@ -1,6 +1,22 @@
-#Breakpoint
+#Workflow Debugger
 ##Overview
+Workflow debugger allow you to debug your work instance, it consist of few items in the debugger surface
 
+* Configuration
+* Designer surface
+
+## How it works
+
+
+## Worker console and Web socket
+
+
+## Breakpoints
+
+
+## Console window
+
+## Watch window
 
 
 ##Properties
