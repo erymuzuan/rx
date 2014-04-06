@@ -947,6 +947,7 @@
     <Content Include="docs\components.md" />
     <Content Include="docs\quick.access.md" />
     <Content Include="docs\Trigger.HowTo.PassCurrentRecordToWorkflow.md" />
+    <Content Include="images\charts.png" />
     <Content Include="index.md" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />

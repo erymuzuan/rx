@@ -1,6 +1,13 @@
 #Entity Operation
 
 
+##Overview
+
+`EntityDefinition` is like a class in object oriented world, as such there are 2 things an object has
+
+1. Attributes - set of properties that define an object
+2. Operations -  set of method or function that an object can invoke
+
 ##Properties
 <table class="table table-condensed table-bordered">
     <thead>
@@ -19,16 +26,9 @@
 </tbody></table>
 
 
-##Overview
+Attributes is defined by the schema designer, where you can design your object in a hierachical manner. `Rx Developer' call this `Member` [see more](Member.html)
 
-`EntityDefinition` is like a class in object oriented world, as such there are 2 things an object has
-
-1. Attributes - set of properties that define an object
-2. Operations -  set of method or function than an object can invoke
-
-Attributes is defined by the schema designer, where you can design your object in a hierachical manner. SPH call this `Member` [see more](Member.html)
-
-SPH also allows you to creates a set of operations to your entity definition by means of `EntityOperation`, this is available from `EntityDefinition` designer.
+`Rx Developer' also allows you to creates a set of operations to your entity definition by means of `EntityOperation`, this is available from `EntityDefinition` designer.
 ![EntityOperation](http://i.imgur.com/PD4IAz9.png). 
 You can click `+Operation` to add a new operation.
 
@@ -52,8 +52,8 @@ This will bring you this screen.
 The `EntityOperation` designer will not compile your code, clicking save will only save it to your `EntityDefinition` in which you will have to `Publish` it from the `EntityDefinition` designer.
 
 Once compiled, a new Asp.Net MVC `Action` will be created with the name of the operation. Where it would take an instance of the `EntityDefinition` from the input stream, and run the specified business rules and if all passed the setter action will be called before submitting it to the persistence layer.
-If you need to modify or do other works from this `EntityOperation` apart from simple field settings, you can use [Trigger](trigger.htm) where you
-can call additional [setter](SetterAction.htm), or [email](emailaction.html) or [starts a new workflow](StartWorkflowAction.htm).
+If you need to modify or do other works from this `EntityOperation` apart from simple field settings, you can use [`Trigger`](Trigger.html) where you
+can call additional [`SetterAction`](SetterAction.html), or [`EmailAction`](EmailAction.html) or [`StartWorkflowAction`](StartWorkflowAction.html).
 
 
 ## See also

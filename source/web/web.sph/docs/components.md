@@ -1,22 +1,22 @@
 ﻿#Components
 ##Message Broker
-The messaging infrastructure for SPH, RabbitMQ is the default broker used their to their Open Source nature and ease of use. It's highly scalable with elang node. Clustering the broker is also very easy to do. It also runs on various platforms.
+The messaging infrastructure for `Rx Developer', RabbitMQ is the default broker used their to their Open Source nature and ease of use. It's highly scalable with erlang node. Clustering the broker is also very easy to do. It also runs on various platforms.
 
-SPH could also be made to run on Microsoft Azure Enterprise Service Bug for cloud messaging solution.
+`Rx Developer` could also be made to run on Microsoft Azure Enterprise Service Bus for cloud messaging solution.
 
 
 ##Persistence Database
-Microsoft SQL Server 2012 is the default persistence database for SPH. SPH works with most popular databases.
+Microsoft SQL Server 2012 is the default persistence database for `Rx Developer'. Any other database management system are planned for the future release.
 
 
 ##Read/Search Repository
-ElasticSearch is the default analytics and search reposity
+ElasticSearch is the default analytics and search reposity. `Rx Developer` use `aggregations` feature in ElasticSearch thus the minimum required version is V1.0
 
 ##Web Server
 Microsoft II 8 , with .net 4.5.1
 
 ##Workers
-Subscriber workers is the core service running all the job for SPH operations. This is configured as Windows Service for production envrironment and Console application for development and debugging purposes.
+Subscriber workers is the core service running all the job for `Rx Developer` operations. This is configured as Windows Service for production envrironment and Console application for development and debugging purposes.
 
 ## Clients
 You'll need somewhat latest browsers, such as Google Chrome, FireFox or Internet Explorer.

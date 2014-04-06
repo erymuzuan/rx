@@ -2,7 +2,7 @@
 
 <h2>Overview</h2>
 
-<p><code>Reactive</code> architecture is the backbone of SPH, and <code>Trigger</code> is the center of how this is achieved. <code>Trigger</code> provides highly decoupled arhitecture for your business process.Lets walk through an example in a simple hospital environment when a patient is registered. Registration will normally follows with other operation as well such as create an account in billing system, provides the list of allegies and drugs to the pharmacist, or sending a message to a dietician aboout the illness and allergies. In a traditional n-tier application we would normally write this code</p>
+<p><code>Reactive</code> architecture is the backbone of <code>Rx Developer</code>, and <code>Trigger</code> is the center of how this is achieved. <code>Trigger</code> provides highly decoupled arhitecture for your business process.Lets walk through an example in a simple hospital environment when a patient is registered. Registration will normally follows with other operation as well such as create an account in billing system, provides the list of allegies and drugs to the pharmacist, or sending a message to a dietician aboout the illness and allergies. In a traditional n-tier application we would normally write this code</p>
 
 <pre>
 private void Register(Patient patient)
@@ -16,7 +16,7 @@ private void Register(Patient patient)
 
 <p>This is all fine and well, except that, you had pre defined the steps needed in the registration process. What if after few weeks you need to add another service , such as radiologist. Now you have to go back to your code, define a new service and recompile.</p>
 
-<p>SPH provides a simpler, means of achieving the same thing without any code and completey decouple from the main event. In SPH we have a message broker, in topical manner, i.e. for every <a href="EntityOperation.html"><code>EntityOperation</code></a> a message will be sent to the message broker, and every message has a <code>topic</code>. All we have to do is get a notification from these event is to subscribe to the topic.</p>
+<p><code>Rx Developer</code> provides a simpler, means of achieving the same thing without any code and completey decouple from the main event. In <code>Rx Developer</code> we have a message broker, in topical manner, i.e. for every <a href="EntityOperation.html"><code>EntityOperation</code></a> a message will be sent to the message broker, and every message has a <code>topic</code>. All we have to do is get a notification from these event is to subscribe to the topic.</p>
 
 <h2>Properties</h2>
 
@@ -60,7 +60,7 @@ Basic trigger properties to listen to Patient register event</p>
 
 <h2>Custom Actions</h2>
 
-<p>Having a trigger registered is about , being able to do something about it. SPH allows you to do at least 3 things</p>
+<p>Having a trigger registered is about , being able to do something about it. `Rx Developer' allows you to do at least 3 things</p>
 
 <ul>
 <li>Send a notification via <a href="EmailAction.html"><code>EmailAction</code></a> or <code>Message</code></li>

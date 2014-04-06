@@ -72,7 +72,7 @@ public class ProcessReferal : Workflow
 </pre>
 As you can see, `Activities` is nothing more than a function to perform an `Operation`, what it differs between the normal class is, it's ability to be persisted between activities.
 
-SPH `WorkflowDesigner` on the hand lets you forget about writing the code altogether, instead it will help generate the codes for you. The benefits of using `WorkflowDesigner` are tremendous, the code are tested to be robust, less chances for bugs, it also encapsulate the developers from the inner working of a state machince and let you focus on your actual business needs.
+`Rx Developer' `WorkflowDesigner` on the hand lets you forget about writing the code altogether, instead it will help generate the codes for you. The benefits of using `WorkflowDesigner` are tremendous, the code are tested to be robust, less chances for bugs, it also encapsulate the developers from the inner working of a state machince and let you focus on your actual business needs.
 
 
 Core concepts of `Worklfow` is a series of `Activities` it contains, these activities are generally can be divided into 2 categories

@@ -1,5 +1,14 @@
 <h1>Entity Operation</h1>
 
+<h2>Overview</h2>
+
+<p><code>EntityDefinition</code> is like a class in object oriented world, as such there are 2 things an object has</p>
+
+<ol>
+<li>Attributes - set of properties that define an object</li>
+<li>Operations -  set of method or function that an object can invoke</li>
+</ol>
+
 <h2>Properties</h2>
 
 <table class="table table-condensed table-bordered">
@@ -12,26 +21,17 @@
 <tbody>
 <tr><td>Rules</td><td> - Set of rules executed before executing the actions </td></tr>
 <tr><td>Permissions</td><td> -et of roles the use must have to perform this action </td></tr>
-<tr><td>SetterActionChildCollection</td><td> - Set of <a href="SetterActionChild.html">SetterActionChild</a> that allows you to set member values after the Business Rule succeefully run and before the Operation is executed </td></tr>
+<tr><td>SetterActionChildCollection</td><td> - Set of <a href="SetterActionChild.htm">SetterActionChild></a> that allows you to set member values after the Business Rule succeefully run and before the Operation is executed </td></tr>
 <tr><td>Name</td><td> - The name of the operation</td></tr>
 <tr><td>SuccessMessage</td><td> - If the operation is successfully executed, this will be the notification message</td></tr>
 <tr><td>NavigateSuccessUrl</td><td> - After the operation is successfully executed and notification is dismissed, the page will navigate to this url </td></tr>
 </tbody></table>
 
-<h2>Overview</h2>
+<p>Attributes is defined by the schema designer, where you can design your object in a hierachical manner. <code>Rx Developer' call this</code>Member` <a href="Member.html">see more</a></p>
 
-<p><code>EntityDefinition</code> is like a class in object oriented world, as such there are 2 things an object has</p>
-
-<ol>
-<li>Attributes - set of properties that define an object</li>
-<li>Operations -  set of method or function than an object can invoke</li>
-</ol>
-
-<p>Attributes is defined by the schema designer, where you can design your object in a hierachical manner. SPH call this <code>Member</code> <a href="Member.html">see more</a></p>
-
-<p>SPH also allows you to creates a set of operations to your entity definition by means of <code>EntityOperation</code>, this is available from <code>EntityDefinition</code> designer.<br />
-<img src="http://i.imgur.com/PD4IAz9.png" alt="EntityOperation" />. <br />
-You can click <code>+Operation</code> to add a new operation.</p>
+<p><code>Rx Developer' also allows you to creates a set of operations to your entity definition by means of</code>EntityOperation<code>, this is available from</code>EntityDefinition<code>designer.<br />
+![EntityOperation](http://i.imgur.com/PD4IAz9.png). <br />
+You can click</code>+Operation` to add a new operation.</p>
 
 <p>This will bring you this screen.</p>
 
@@ -50,8 +50,8 @@ Please refer to the <a href="businessrule.htm">BusinessRule</a> for more details
 <p>The <code>EntityOperation</code> designer will not compile your code, clicking save will only save it to your <code>EntityDefinition</code> in which you will have to <code>Publish</code> it from the <code>EntityDefinition</code> designer.</p>
 
 <p>Once compiled, a new Asp.Net MVC <code>Action</code> will be created with the name of the operation. Where it would take an instance of the <code>EntityDefinition</code> from the input stream, and run the specified business rules and if all passed the setter action will be called before submitting it to the persistence layer.<br />
-If you need to modify or do other works from this <code>EntityOperation</code> apart from simple field settings, you can use <a href="trigger.htm">Trigger</a> where you<br />
-can call additional <a href="SetterAction.htm">setter</a>, or <a href="emailaction.html">email</a> or <a href="StartWorkflowAction.htm">starts a new workflow</a>.</p>
+If you need to modify or do other works from this <code>EntityOperation</code> apart from simple field settings, you can use <a href="Trigger.html"><code>Trigger</code></a> where you<br />
+can call additional <a href="SetterAction.html"><code>SetterAction</code></a>, or <a href="EmailAction.html"><code>EmailAction</code></a> or <a href="StartWorkflowAction.html"><code>StartWorkflowAction</code></a>.</p>
 
 <h2>See also</h2>
 

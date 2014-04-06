@@ -1,10 +1,10 @@
 #EntityDefinition
 ##Overview
-The first core concept of SPH is the `Entity`. This plays a very vital role in the whole SPH programming concept. `Entity` is not a `table` translated from relational world. Thus it is hugely different than `table` and `tuples` from relational world.
+The first core concept of `Rx Developer` is the `Entity`. This plays a very vital role in the whole `Rx Developer` programming concept. `Entity` is not a `table` translated from relational world. It is hugely different than `table` and `tuples` from relational world that you may know.
 
 To really understand the power of `Entity` is to forget everthing you know about relational database and it's related technologies such as `object relational mapper(ORM)`.The concepts of foreign key, parent child, and normal forms just simply didn't exist in the first place.
 
-An `Entity` is an object that you are interested in to track their life in your problem domains. This could be `Customer` if you are developing a Customer relationship management or `Patient` in case clinical information system. It's also know as `Root` object. Then there are `Value` objects, these are objects that attached to an entity, and would not exist without the `Entity` for example `Address` for your `Customer`, the `Address` alone is not an `Entity` as it is quite useless without the `Customer`. But if you are developing a Geographic information System for postal service than an `Address` could be your `Entity`.
+An `Entity` is a type of object that you are interested to track it's life in your problem domains. This could be `Customer` if you are developing a Customer relationship management or `Patient` in case clinical information system. It's also know as `Root` object. Then there are `Value` objects, these are objects that attached to an entity, and would not exist without the `Entity` for example `Address` for your `Customer`, the `Address` alone is not an `Entity` as it is quite useless without the `Customer`. But if you are developing a Geographic information System for postal service than an `Address` could be your `Entity`.
 
 
 As such, think an `Entity` as the a traditional paper folder where one folder hold one record, that may contains many documents inside. Take a folder for a `Patient` in a hospital environment. It might have these fields writen on it.
@@ -21,30 +21,30 @@ and there could be a number of documents inside it, such as visit records, medic
 
 So your `Entity` will be called `Patient`, and `Visit` will be your value object, well in this case there will be many `Visit`s
 
-In SPH, this could easily be modelled as follows
+In `Rx Developer`, this could easily be modelled as follows
 
 ```
 
-    Entity:Patient
-        Value:FullName
-        Value:Mrn
-        Value:Address
-            Value:Street
-            Value:Postalcode
-            Value:State
-        Value:Visit list**
-            Value:DateTime
-            Value:Title
-            Value:Doctor     
-        Value:Medical History list
-            Value:DateTime
-            Value:ClinicalNote
+    Entity : Patient
+        Value : FullName
+        Value : Mrn
+        Value : Address
+            Value : Street
+            Value : Postalcode
+            Value : State
+        Value : Visit list**
+            Value : DateTime
+            Value : Title
+            Value : Doctor     
+        Value : Medical History list
+            Value : DateTime
+            Value : ClinicalNote
           ...
            ... 
 
 ```
 
-This is very natural way storing your data, in a way that we all understand, there's no need to artificially model after tables and relatioships. The way SPH take care of your data is known as `Document` store database. You can read more about [Document database](http://en.wikipedia.org/wiki/Document-oriented_database) in Wikipedia.
+This is very natural way storing your data, in a way that we all understand, there's no need to artificially model after tables and relatioships. The way `Rx Developer' take care of your data is known as `Document` store database. You can read more about [Document database](http://en.wikipedia.org/wiki/Document-oriented_database) in Wikipedia.
 
 Notice that `Address` is just another object that belongs to the `Patient` entity, what makes  `Patient` and `Address` diferrent is very minimal
 *`Patient` is an object that you interested to track it's life time

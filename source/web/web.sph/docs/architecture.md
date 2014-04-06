@@ -1,5 +1,5 @@
 ﻿#Architecture
-SPH is an enterprise ready application platform built using the well known patterns and architecture style available from the industries. It's not a traditional `n-tier` application, but something what we called `Reactive` architecture.It's a combination of `Command Query Segregation Responsibility(CQRS)` and `Pub-Sub` with messaging at it's heart instead of the usual `Remote Procedure Call(RPC)` used in traditional `n-tier` apps.
+`Rx Developer' is an enterprise ready application platform built using the well known patterns and architecture style available from the industries. It's not a traditional `n-tier` application, but something what we called `Reactive` architecture.It's a combination of `Command Query Segregation Responsibility(CQRS)` and `Pub-Sub` , with messaging at it's heart instead of the usual `Remote Procedure Call(RPC)` used in traditional `n-tier` apps.
 
 
 
@@ -37,7 +37,7 @@ public class Patient
 
 The traditional `n-tier` requires you to think hard up front about your business process, thus making you code very rigid and pretty risky to changes.
 
-While with `Reactive` architecture, you will not pre define the call to the next 3 methods, instead you will listen to the `Patient.Register` event, you will then attach event handlers to this `event` to do any of the subsequent action. This archicture allow great deal of flexibility as you can add and remove event handlers without compiling the code with our messaging `Pub-Sub`.
+While with `Reactive` architecture, you will not pre define the call to the next 3 methods, instead you will listen to the `Patient.Register` event, you will then attach event handlers to this `event` to do any of the subsequent action. This archicture allow great deal of flexibility as you can add and remove event handlers without the need to recompile the code.
 <pre>
 // a simpler approach with Reactive architecture
 public class Patient
@@ -60,14 +60,14 @@ public void AddFinancialBilling()
 }
 </pre>
 
-and this piece of code doesn't need to be anywhere near `Patient`, i.e. `Patient` class is ignorant about your `Subscriber`, it could even be on different machine.
+and this piece of code doesn't need to be anywhere near `Patient`, i.e. `Patient` class is ignorant about your `AddFinancialBilling`, it could even be on different machine.
 
 `Reactive` architecture allows you to respond to changes quickly, without the risk of breaking existing code.
 
-SPH allow you to use `Reative` with code, and to to think about the internals of the `Pub-Sub` messaging. All you have to worry is your business requirements.
+`Rx Developer' allow you to use `Reative` with code, and to to think about the internals of the `Pub-Sub` messaging. All you have to worry is your business requirements.
 
 ## Pub-Sub with Triggers
-These series of event and the sequence of actions could easily design and deployed in SPH via an `Entity Trigger`.What happened is when the event is raised, it will be submitted into the message broker, where the broker will distribute the information about the event to any subscribers that has registered for that particular event via topic subscription.
+These series of event and the sequence of actions could easily design and deployed in `Rx Developer' via an `Entity Trigger`.What happened is when the event is raised, it will be submitted into the message broker, where the broker will distribute the information about the event to any subscribers that has registered for that particular event via topic subscription.
 A `Trigger` is a subscriber that subscribe to the event and can perform the subsequent action.
 
 ![Pub sub](http://i.imgur.com/efWfOWP.png[/IMG)

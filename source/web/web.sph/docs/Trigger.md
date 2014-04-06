@@ -1,6 +1,6 @@
 #Trigger
 ##Overview
-`Reactive` architecture is the backbone of SPH, and `Trigger` is the center of how this is achieved. `Trigger` provides highly decoupled arhitecture for your business process.Lets walk through an example in a simple hospital environment when a patient is registered. Registration will normally follows with other operation as well such as create an account in billing system, provides the list of allegies and drugs to the pharmacist, or sending a message to a dietician aboout the illness and allergies. In a traditional n-tier application we would normally write this code
+`Reactive` architecture is the backbone of `Rx Developer`, and `Trigger` is the center of how this is achieved. `Trigger` provides highly decoupled arhitecture for your business process.Lets walk through an example in a simple hospital environment when a patient is registered. Registration will normally follows with other operation as well such as create an account in billing system, provides the list of allegies and drugs to the pharmacist, or sending a message to a dietician aboout the illness and allergies. In a traditional n-tier application we would normally write this code
 
 <pre>
 private void Register(Patient patient)
@@ -16,7 +16,7 @@ This is all fine and well, except that, you had pre defined the steps needed in 
 
 
 
-SPH provides a simpler, means of achieving the same thing without any code and completey decouple from the main event. In SPH we have a message broker, in topical manner, i.e. for every [`EntityOperation`](EntityOperation.html) a message will be sent to the message broker, and every message has a `topic`. All we have to do is get a notification from these event is to subscribe to the topic.
+`Rx Developer` provides a simpler, means of achieving the same thing without any code and completey decouple from the main event. In `Rx Developer` we have a message broker, in topical manner, i.e. for every [`EntityOperation`](EntityOperation.html) a message will be sent to the message broker, and every message has a `topic`. All we have to do is get a notification from these event is to subscribe to the topic.
 
 ##Properties
 <table class="table table-condensed table-bordered">
@@ -58,7 +58,7 @@ Sometimes, it's not enough to just listen to entity operation, you will also wha
 ![Age](http://i.imgur.com/ww6netA.png)
 
 ##Custom Actions
-Having a trigger registered is about , being able to do something about it. SPH allows you to do at least 3 things
+Having a trigger registered is about , being able to do something about it. `Rx Developer' allows you to do at least 3 things
 
 * Send a notification via [`EmailAction`](EmailAction.html) or `Message`
 * Run a [`SetterAction`](SetterAction.html) to set the properties of the record
