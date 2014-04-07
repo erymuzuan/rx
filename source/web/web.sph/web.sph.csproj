@@ -73,7 +73,7 @@
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.5.1.1\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -317,6 +317,9 @@
     <Content Include="docs\EntityDefinition.HowTo.ColumnWithLink.html">
       <DependentUpon>EntityDefinition.HowTo.ColumnWithLink.md</DependentUpon>
     </Content>
+    <Content Include="docs\EntityDefinition.HowTo.DefaultForm.html">
+      <DependentUpon>EntityDefinition.HowTo.DefaultForm.md</DependentUpon>
+    </Content>
     <Content Include="docs\EntityDefinition.HowTo.FilterByCurrentUser.html">
       <DependentUpon>EntityDefinition.HowTo.FilterByCurrentUser.md</DependentUpon>
     </Content>
@@ -396,6 +399,7 @@
     <Content Include="docs\EntityDefinition.HowTo.FilterByCurrentUser.md" />
     <Content Include="docs\EntityDefinition.HowTo.AddRecordName.md" />
     <Content Include="docs\EntityChart.md" />
+    <Content Include="docs\EntityDefinition.HowTo.DefaultForm.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>

@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Domain
             ZipFile.ExtractToDirectory(zipFile, folder);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var id = Strings.RegexSingleValue(Path.GetFileName(zipFile), "wd_(?<id>[0-9]{1,4})_.*?", "id");
+            var id = Strings.RegexSingleValue(Path.GetFileName(zipFile), "wd_(?<id>[0-9]{1,8})_.*?", "id");
 
             var wdFile = Path.Combine(folder, string.Format("wd_{0}.json", id));
             var wdJson = File.ReadAllText(wdFile);

@@ -19,13 +19,15 @@ For the database , download Microsoft Sql Localdb here
 * [`en_sql_server_2012_sqllocaldb_with_sp1_x64.msi`](en_sql_server_2012_sqllocaldb_with_sp1_x64.msi)
 * [`en_sql_server_2012_sqllocaldb_with_sp1_x86.msi`](en_sql_server_2012_sqllocaldb_with_sp1_x86.msi)
 
-You need Oracla Java runtime installed, go and get the here [`Java`](http://www.oracle.com/java), and makes sure your `JAVA_HOME` environment variable is properly set. `ElasticSearch` is the default content indexer for Rx Developer and built using Java
+You need Oracla Java runtime installed, go and get the here [`Java`](http://www.oracle.com/java), and makes sure your `JAVA_HOME` environment variable is properly set. `ElasticSearch` is the default content indexer for Rx Developer and built using Java.You may have to restart your computer to complete the process.
+
+For detailed instruction on how to set up `JAVA_HOME` please refer to the [WikiHow](http://www.wikihow.com/Set-Java-Home)
 
 
-You will also need [`Erlang`](http://www.erlang.org) runtime, this is a runtime for [`RabbitMq`](http://www/rabbitmq.com), the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package. Make sure your variable path `ERLANG_HOME` is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.
+You also need [`Erlang`](http://www.erlang.org) runtime, this is a runtime for [`RabbitMq`](http://www/rabbitmq.com), the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package. Make sure your variable path `ERLANG_HOME` is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.
 
 ## Downloading and extracting
-Point your browser to [`Rx Developer download page`](sph.package.1.0.10277.7z) to get all the necessary package.
+Point your browser to [`Rx Developer download page`](sph.package.1.0.10278.7z) to get all the necessary package.
 
 Download the sph.package.&lt;version&gt;.7z and extract it to an empty folder of your choice.
 Once extracted, your directory will look more or less like this
@@ -33,7 +35,7 @@ Once extracted, your directory will look more or less like this
 
 Double click `ControlCenter.bat` to start the Rx Developer control center app.
 
-Fill in on your settings accordingly, if you don;t what it means, see the explanation below
+Fill in on your settings accordingly, if you don't know what it means, see the explanation below
 ![alt](http://i.imgur.com/GEJY17S.png)
 
 * Application Name is the simple name `WITHOUT` any spaces, period `.`,comma `,` numbers or symbols, e.g. myapp. Honestly don't try to be fancy here
@@ -57,7 +59,7 @@ Now starts these 3 services
 Make sure there are no errors coming out from the control center console,then open you command prompt, go to your directory, type `powershell` and `enter`
 ![alt](http://i.imgur.com/cF5TBcb.png)
 
-then type the following `.\Setup-SphApp.ps1 -ApplicationName ofg -Port 50332`, it must be lowercase letters only, no `.`, `,` numbers or special symbols allowed. Then specify the port to run your application on, choose those over 50000 to avoid conlict with your other services. Make sure the SqlServer is specified according to what you had set in the control center window
+then type the following `.\Setup-SphApp.ps1 -ApplicationName ofg -Port 50332 -SqlServer "Projects"`. Make sure the parameters value are according to the value you had set in the control center.This is very important.If you are happy with the setting, press [ENTER]
 
 ![alt](http://i.imgur.com/JS6m80D.png)
 
