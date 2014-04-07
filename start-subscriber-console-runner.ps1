@@ -21,8 +21,9 @@ copy source\web\web.sph\bin\System.Web.WebPages.Razor.dll bin\subscribers
 copy source\web\web.sph\bin\System.Web.WebPages.dll bin\subscribers
 copy source\web\web.sph\bin\System.Web.Mvc.dll bin\subscribers
 
-#delete all *.config insubscrubers
+#delete all *.config in subscribers
 ls -Filter *.config -Path .\bin\subscribers | Remove-Item
+ls -Filter *.xml -Path .\bin\subscribers | Remove-Item
 
 $worker = ".\bin\subscribers.host\workers.console.runner.exe"
 IF(Test-Path $worker){

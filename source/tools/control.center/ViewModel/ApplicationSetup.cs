@@ -10,7 +10,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
     {
         public string Run(string applicationName, string path)
         {
-            var scriptText = File.ReadAllText(@".\Create-SphApp.ps1");
+            var scriptText = File.ReadAllText(@".\Setup-SphApp.ps1");
 
             Runspace runspace = RunspaceFactory.CreateRunspace();
 

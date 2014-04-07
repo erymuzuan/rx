@@ -335,15 +335,15 @@
       }
     ]
   },
-  "WorkflowDefinitionId": 12003,
+  "WorkflowDefinitionId": 12004,
   "Name": "Create billing account for new patient",
   "Note": "",
   "IsActive": true,
   "SchemaStoreId": "557eed80-60fa-48f3-85e7-e0ae5edd0a80",
   "Version": 0,
   "CreatedBy": "admin",
-  "CreatedDate": "2014-03-23T17:26:27.7501833+08:00",
+  "CreatedDate": "2014-04-07T08:35:13.2937124+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-23T17:41:25.7035626+08:00",
+  "ChangedDate": "2014-04-07T08:35:13.2937124+08:00",
   "WebId": "24471f9e-ffea-40ab-bcaf-049b80278ad9"
 }

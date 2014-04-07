@@ -60,4 +60,5 @@ _ReSharper.commercial-space
 /sph.packages/IIS Express
 /sph.packages/output
 /sph.packages/rabbitmq_server
+/sph.packages/web
 *.7z

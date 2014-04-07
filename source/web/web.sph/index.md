@@ -1,6 +1,6 @@
 ﻿
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
-<style>    p,ul {        margin-left:10px;        margin-right:10px;    }    img { border:2px solid gray;padding:10px;margin-top:6px;    }</style>
+<style>    p,ul,h1,h2,h3,img {        margin-left:60px;        max-width:900px;    }    img { border:2px solid gray;padding:10px;margin-top:6px;    }</style>
 #Getting started
 This is a simple walkthrough to help you to get started developing with Rx Developer.
 
@@ -24,10 +24,13 @@ You need Oracla Java runtime installed, go and get the here [`Java`](http://www.
 For detailed instruction on how to set up `JAVA_HOME` please refer to the [WikiHow](http://www.wikihow.com/Set-Java-Home)
 
 
-You also need [`Erlang`](http://www.erlang.org) runtime, this is a runtime for [`RabbitMq`](http://www/rabbitmq.com), the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package. Make sure your variable path `ERLANG_HOME` is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.
+You also need [Erlang](http://www.erlang.org) runtime, this is the runtime for [`RabbitMq`](http://www/rabbitmq.com), the default message broker used by Rx Developer. RabbitMq itself is bundled with Rx Developer package, so you don't have to download it yourself. Make sure your variable path `ERLANG_HOME` is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.
+
+Microsoft Powershell V3, is needed to run a lot of automation scripts in `Rx Developer` including the setup script. You also needs to set Powershell `ExecutionPolicy` to `RemoteSigned`. To do this, open command prompt with Adminstrator right, run `Powershell` , then `Set-ExectionPolicy -ExecutionPolicy RemoteSigned`
+![Powershell](http://i.imgur.com/ANIQy9T.png)
 
 ## Downloading and extracting
-Point your browser to [`Rx Developer download page`](sph.package.1.0.10278.7z) to get all the necessary package.
+Point your browser to [Rx Developer download page](sph.package.1.0.10278.7z) to get all the necessary package.
 
 Download the sph.package.&lt;version&gt;.7z and extract it to an empty folder of your choice.
 Once extracted, your directory will look more or less like this
@@ -127,6 +130,9 @@ press the back button, click `Patients` on the nav bar, click on the `Recent Pat
 You now have successfully created your first app.
 To get to know the full power of Rx Developer, we can arrange a training session as well the full set of documentation that can be reached at 
 [`http://localhost:<port>/docs`](/docs)
+
+
+The the rest of the documentation at [Rx Developer Center](http://rxdocs.azurewebsites.net)
 
 
 

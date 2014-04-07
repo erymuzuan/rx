@@ -1,5 +1,5 @@
 <p><link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" /><br />
-<style>    p,ul {        margin-left:10px;        margin-right:10px;    }    img { border:2px solid gray;padding:10px;margin-top:6px;    }</style></p>
+<style>    p,ul,h1,h2,h3,img {        margin-left:60px;        max-width:900px;    }    img { border:2px solid gray;padding:10px;margin-top:6px;    }</style></p>
 
 <h1>Getting started</h1>
 
@@ -29,11 +29,14 @@
 
 <p>For detailed instruction on how to set up <code>JAVA_HOME</code> please refer to the <a href="http://www.wikihow.com/Set-Java-Home">WikiHow</a></p>
 
-<p>You also need <a href="http://www.erlang.org"><code>Erlang</code></a> runtime, this is a runtime for <a href="http://www/rabbitmq.com"><code>RabbitMq</code></a>, the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package. Make sure your variable path <code>ERLANG_HOME</code> is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.</p>
+<p>You also need <a href="http://www.erlang.org">Erlang</a> runtime, this is the runtime for <a href="http://www/rabbitmq.com"><code>RabbitMq</code></a>, the default message broker used by Rx Developer. RabbitMq itself is bundled with Rx Developer package, so you don't have to download it yourself. Make sure your variable path <code>ERLANG_HOME</code> is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.</p>
+
+<p>Microsoft Powershell V3, is needed to run a lot of automation scripts in <code>Rx Developer</code> including the setup script. You also needs to set Powershell <code>ExecutionPolicy</code> to <code>RemoteSigned</code>. To do this, open command prompt with Adminstrator right, run <code>Powershell</code> , then <code>Set-ExectionPolicy -ExecutionPolicy RemoteSigned</code><br />
+<img src="http://i.imgur.com/ANIQy9T.png" alt="Powershell" /></p>
 
 <h2>Downloading and extracting</h2>
 
-<p>Point your browser to <a href="sph.package.1.0.10278.7z"><code>Rx Developer download page</code></a> to get all the necessary package.</p>
+<p>Point your browser to <a href="sph.package.1.0.10278.7z">Rx Developer download page</a> to get all the necessary package.</p>
 
 <p>Download the sph.package.&lt;version&gt;.7z and extract it to an empty folder of your choice.<br />
 Once extracted, your directory will look more or less like this<br />
@@ -137,3 +140,5 @@ press the back button, click <code>Patients</code> on the nav bar, click on the 
 <p>You now have successfully created your first app.<br />
 To get to know the full power of Rx Developer, we can arrange a training session as well the full set of documentation that can be reached at <br />
 <a href="/docs"><code>http://localhost:&lt;port&gt;/docs</code></a></p>
+
+<p>The the rest of the documentation at <a href="http://rxdocs.azurewebsites.net">Rx Developer Center</a></p>

@@ -4,7 +4,13 @@
      )
 
 
-
+Write-Host "Have you compiled your solution and published web.sph ? (y/n)"
+$published = Read-Host
+if($published -ne "y")
+{
+    Write-Warning "Too bad .. bye"
+    exit;
+}
 
 #remove all the configs from subscribers
 ls -Path .\bin\subscribers -Filter *.config | Remove-Item
@@ -205,6 +211,17 @@ Get-Item -Path .\sph.packages\output\subscribers\subscriber.trigger.* `
 | ? { $_.Name.EndsWith("trigger.dll") -eq $false} `
 | ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
 | Remove-Item
+
+Write-Host ""
+
+Write-Host ""
+
+Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit"
+$compressed = Read-Host
+if($compressed -eq 'q')
+{
+    exit;
+}
 
 #compress
 & 7za a -t7z ".\sph.package.$version.7z" ".\sph.packages\output\*"
