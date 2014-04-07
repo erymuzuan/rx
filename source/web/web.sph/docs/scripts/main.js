@@ -1,7 +1,6 @@
 ﻿/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 
-
 define(['types'], function (types) {
 
     var nav = function (href2) {
@@ -15,27 +14,18 @@ define(['types'], function (types) {
         });
     },
         mapTopic = function (topicHash) {
-            if (topicHash.indexOf("trigger.setup") > -1)
-                return "Trigger.html";
+            if (topicHash.indexOf("trigger.setup") > -1)return "Trigger.html";
 
-            if (topicHash.indexOf("entity.details") > -1)
-                return "EntityDefinition.html";
-            if (topicHash.indexOf("entity.form.designer") > -1)
-                return "EntityForm.html";
-            if (topicHash.indexOf("entity.view.designer") > -1)
-                return "EntityView.html";
-            if (topicHash.indexOf("entity.operation.details") > -1)
-                return "EntityOperation.html";
+            if (topicHash.indexOf("entity.details") > -1)return "EntityDefinition.html";
+            if (topicHash.indexOf("entity.form.designer") > -1)return "EntityForm.html";
+            if (topicHash.indexOf("entity.view.designer") > -1)return "EntityView.html";
+            if (topicHash.indexOf("entity.operation.details") > -1)return "EntityOperation.html";
 
-            if (topicHash.indexOf("reportdefinition") > -1)
-                return "ReportDefinition.html";
-            if (topicHash.indexOf("reportdelivery") > -1)
-                return "reportdelivery.html";
+            if (topicHash.indexOf("reportdefinition") > -1)return "ReportDefinition.html";
+            if (topicHash.indexOf("reportdelivery") > -1)return "reportdelivery.html";
 
-            if (topicHash.indexOf("workflow.definition.visual") > -1)
-                return "WorkflowDefinition.html";
-            if (topicHash.indexOf("workflow.debugger") > -1)
-                return "Breakpoint.html";
+            if (topicHash.indexOf("workflow.definition.visual") > -1)return "WorkflowDesigner.html";
+            if (topicHash.indexOf("workflow.debugger") > -1)return "Breakpoint.html";
             return "Overview.html";
         },
         topic = window.location.hash;
@@ -96,8 +86,6 @@ define(['types'], function (types) {
 
             $('#applicationHost').load($(this).val() + ".html");
         });
-
-
 
     if (topic) {
         var g = mapTopic(topic);

@@ -26,7 +26,7 @@ Provides the design surface for `WorkflowDefinition`. This allow developers to q
 </tbody></table>
 
 ##Toolbox
-Toolbox represent a floating palletes on your right(or bottom). It consist of 4 tab pages.
+Toolbox represent a floating palletes on your right(or bottom). It consist of 4 tab pages. You can close the toolbox by clicking on the `x` on the top right corner, to re open the toolbox use `[Ctrl] + [Alt] + x`
 
 ![Toolbox](http://i.imgur.com/LJXnbaI.png)
 
@@ -53,7 +53,7 @@ Lets you add and configure [`Variable`](Variable.html) for you [`WorkflowDefinit
 The `Path` autosuggest in ScreenActivity do not refresh to the new path, when you change the data type for the variable.
 
 ### Workaround
-We use Bootstrap typeaheadjs to provide the autosuggest feature, the default behaviour is to cache the list of autosuggest in localstorage. You should clear the localstorage from your browser in order to refresh the list
+We use Bootstrap typeaheadjs to provide the autosuggest feature, the default behaviour is to cache the list of autosuggest in localstorage. You should clear the localstorage from your browser in order to refresh the list. Click on all relevant keys to your WorkflowDefinition with corresponding id(10002 in this example), and press [delete] key on your keyboard.
 
 ![](http://i.imgur.com/wgZb5is.png)
 ## See also
