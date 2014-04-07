@@ -6,8 +6,8 @@
 /// <reference path="/Scripts/string.js" />
 
 
-define([objectbuilders.datacontext, objectbuilders.cultures],
-    function (context, cultures) {
+define([objectbuilders.datacontext, objectbuilders.cultures, objectbuilders.logger],
+    function (context, cultures, logger) {
         var
             activate = function () {
                 return true;
@@ -15,7 +15,7 @@ define([objectbuilders.datacontext, objectbuilders.cultures],
             attached = function () {
                 $("#import").kendoUpload({
                     async: {
-                        saveUrl: "/WorkflowDefinition/Import",
+                        saveUrl: "/sph/WorkflowDefinition/Import",
                         autoUpload: true
                     },
                     multiple: false,

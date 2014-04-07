@@ -584,23 +584,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 return tcs.promise();
 
             },
-            importAsync = function () {
-                return eximp.importJson()
-                .done(function (json) {
-                    try {
-
-                        var obj = JSON.parse(json),
-                            clone = context.toObservable(obj);
-
-                        clone.WorkflowDefinitionId(0);
-                        wd(clone);
-                        wdChanged(clone);
-
-                    } catch (error) {
-                        logger.logError('Workflow definition is not valid', error, this, true);
-                    }
-                });
-            },
             exportWd = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(wd);
@@ -668,7 +651,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             toolbar: {
                 saveCommand: saveAsync,
                 exportCommand: exportWd,
-                importCommand: importAsync,
                 removeCommand: remove,
                 reloadCommand: reload,
                 commands: ko.observableArray([
