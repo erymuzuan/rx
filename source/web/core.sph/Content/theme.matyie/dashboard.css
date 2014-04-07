@@ -1,4 +1,4 @@
-* {
+﻿* {
   border-radius: 0 !important;
   box-shadow: none !important;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false) !important;
@@ -1246,5 +1246,20 @@ footer.main {
   width: 800px;
   margin-bottom: 20px;
   border: 1px solid #aaa;
+}
+#entity-view-list li {
+  height: 125px;
+  width: 220px;
+}
+#entity-view-list .count-message {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 5px;
+}
+#entity-view-list p {
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 200px;
+  text-overflow: ellipsis;
 }
 /*# sourceMappingURL=dashboard.css.map */
