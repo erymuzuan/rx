@@ -1,0 +1,19 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
+  "EntityChartId": 4,
+  "EntityDefinitionId": 2002,
+  "Entity": "Patient",
+  "Name": "Race bar",
+  "Type": "bar",
+  "EntityViewId": 1002,
+  "Query": "{\"query\":{\"filtered\":{\"filter\":{\"bool\":{\"must\":[],\"must_not\":[]}}}},\"sort\":[{\"Mrn\":{\"order\":\"asc\"}}],\"aggs\":{\"category\":{\"terms\":{\"field\":\"Race\",\"size\":10}}},\"from\":0,\"size\":20}",
+  "Aggregate": "term",
+  "Field": "Race",
+  "DateInterval": "year",
+  "HistogramInterval": null,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-01T08:33:48.7585391+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-07T14:32:22.6917892+08:00",
+  "WebId": "030ea1ae-72eb-48ba-8e56-e9d6d5a48431"
+}

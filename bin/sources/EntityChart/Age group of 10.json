@@ -1,0 +1,19 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
+  "EntityChartId": 7,
+  "EntityDefinitionId": 2002,
+  "Entity": "Patient",
+  "Name": "Age group of 10",
+  "Type": "pie",
+  "EntityViewId": 1002,
+  "Query": "{\"query\":{\"filtered\":{\"filter\":{\"bool\":{\"must\":[],\"must_not\":[]}}}},\"sort\":[{\"Mrn\":{\"order\":\"asc\"}}],\"aggs\":{\"category\":{\"histogram\":{\"field\":\"Age\",\"interval\":10,\"min_doc_count\":0}}},\"from\":0,\"size\":20}",
+  "Aggregate": "histogram",
+  "Field": "Age",
+  "DateInterval": "year",
+  "HistogramInterval": 10,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-02T09:57:32.8091094+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-07T14:43:00.9953496+08:00",
+  "WebId": "8643ac6b-cf2c-4488-872b-624b51358a39"
+}

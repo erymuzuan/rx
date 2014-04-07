@@ -16,4 +16,6 @@ CREATE TABLE Sph.EntityChart
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
+ALTER TABLE [Sph].[EntityChart]
+ADD [IsDashboardItem] BIT NOT NULL DEFAULT 0
 

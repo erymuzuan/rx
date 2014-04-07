@@ -577,7 +577,8 @@
 			<xs:attribute name="Aggregate" type="xs:string" use="required"/>
 			<xs:attribute name="Field" type="xs:string" use="required"/>
 			<xs:attribute name="DateInterval" type="xs:string" use="required"/>
-			<xs:attribute name="IsDashboard" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsDashboardItem" type="xs:boolean" use="required"/>
+			<xs:attribute name="DasboardItemPosition" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

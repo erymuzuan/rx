@@ -1158,6 +1158,8 @@ bespoke.sph.domain.EntityChart = function (optionOrWebid) {
         Aggregate: ko.observable(''),
         Field: ko.observable(''),
         DateInterval: ko.observable(''),
+        IsDashboardItem: ko.observable(false),
+        DasboardItemPosition: ko.observable(0),
         HistogramInterval: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()

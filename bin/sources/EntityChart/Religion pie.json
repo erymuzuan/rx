@@ -1,0 +1,19 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
+  "EntityChartId": 3,
+  "EntityDefinitionId": 2002,
+  "Entity": "Patient",
+  "Name": "Religion pie",
+  "Type": "pie",
+  "EntityViewId": 1002,
+  "Query": "{\"query\":{\"filtered\":{\"filter\":{\"bool\":{\"must\":[],\"must_not\":[]}}}},\"sort\":[{\"Mrn\":{\"order\":\"asc\"}}],\"aggs\":{\"category\":{\"terms\":{\"field\":\"Religion\",\"size\":10}}},\"from\":0,\"size\":20}",
+  "Aggregate": "term",
+  "Field": "Religion",
+  "DateInterval": "year",
+  "HistogramInterval": null,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-01T08:29:16.1900918+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-07T14:30:16.1609063+08:00",
+  "WebId": "05a8e127-0b55-4564-937e-a32d0d70be6c"
+}

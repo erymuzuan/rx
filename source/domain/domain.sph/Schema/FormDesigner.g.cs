@@ -4724,6 +4724,16 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isDashboardItem;
+        public const string PropertyNameIsDashboardItem = "IsDashboardItem";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_dasboardItemPosition;
+        public const string PropertyNameDasboardItemPosition = "DasboardItemPosition";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int? m_histogramInterval;
         public const string PropertyNameHistogramInterval = "HistogramInterval";
 
@@ -5015,6 +5025,64 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_dateInterval;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsDashboardItem
+        {
+            set
+            {
+                if (m_isDashboardItem == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsDashboardItem, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isDashboardItem = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isDashboardItem;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int DasboardItemPosition
+        {
+            set
+            {
+                if (m_dasboardItemPosition == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDasboardItemPosition, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_dasboardItemPosition = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_dasboardItemPosition;
             }
         }
 

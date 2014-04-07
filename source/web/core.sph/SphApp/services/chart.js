@@ -237,6 +237,20 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                 .done(tcs.resolve);
 
             return tcs.promise();
+        },
+        pin = function () {
+            if (typeof _selectedChart.IsDashboardItem === "function") {
+                _selectedChart.IsDashboardItem(true);
+            } else {
+                _selectedChart.IsDashboardItem = ko.observable(true);
+            }
+
+            var tcs = new $.Deferred();
+
+            context.post(ko.mapping.toJSON(_selectedChart), '/sph/entitychart/save')
+                .done(tcs.resolve);
+
+            return tcs.promise();
         };
 
 
@@ -263,7 +277,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
     });
     _selectedChartId.subscribe(function (di) {
         if (!di) {
-            return;
+            return Task.fromResult(0);
         }
         var tcs = new $.Deferred();
         context.loadOneAsync("EntityChart", "EntityChartId eq " + di)
@@ -305,6 +319,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
         save: save,
         saveAs: saveAs,
         remove: remove,
+        pin: pin,
         type: _type,
         charts: _charts,
         execute: execute,
