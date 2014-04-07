@@ -8,12 +8,17 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
     function (system, router, logger, context, config) {
 
         var activate = function () {
-            return router.map(config.routes)
-                .buildNavigationModel()
-                .mapUnknownRoutes('viewmodels/admin.home', 'admin.home')
-                .activate();
-        },
+                return router.map(config.routes)
+                    .buildNavigationModel()
+                    .mapUnknownRoutes('viewmodels/admin.home', 'admin.home')
+                    .activate();
+            },
             attached = function (view) {
+                $(view).on('click', 'a#help', function(e) {
+                    e.preventDefault();
+                    var topic = window.location.hash;
+                    window.open("/docs/" + topic);
+                });
                 // BUG:#1499
                 if (window.location.href.indexOf("/sph#") === -1) {
                     window.location = "/sph#" + config.startModule;
@@ -214,22 +219,6 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                 }
 
             },
-            viewAuditTrail = function (entity) {
-                var query = String.format("Type eq '{0}' and EntityId eq {1}", entity()[$type], entity()),
-                    tcs = new $.Deferred();
-
-                context.loadAsync("AuditTrail", query)
-                    .then(function (lo) {
-                        shell.auditTrailCollection(lo.itemCollection);
-                        shell.selectedAuditTrail(new bespoke.sph.domain.AuditTrail());
-
-                        tcs.resolve(true);
-                    });
-                return tcs.promise();
-            },
-            selectAuditTrail = function (log2) {
-                shell.selectedAuditTrail(log2);
-            },
 
             print = function (commandParameter) {
                 var parameter = typeof commandParameter === "function" ? commandParameter() : commandParameter,
@@ -268,12 +257,8 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
             activate: activate,
             attached: attached,
             router: router,
-            viewAuditTrailCommand: viewAuditTrail,
             printCommand: print,
-            emailCommand: email,
-            auditTrailCollection: ko.observableArray(),
-            selectedAuditTrail: ko.observable(new bespoke.sph.domain.AuditTrail()),
-            selectAuditTrail: selectAuditTrail
+            emailCommand: email
         };
 
         return shell;
