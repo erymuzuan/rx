@@ -259,3 +259,72 @@ ko.bindingHandlers.cssTypeahead = {
 
     }
 };
+
+
+ko.bindingHandlers.chart = {
+    init : function(element, valueAccessor){
+        var $div = $(element),
+            chart = ko.unwrap(valueAccessor()),
+            context = require('services/datacontext'),
+            entity = chart.Entity(),
+            query = JSON.parse(chart.Query()),
+            field = chart.Field(),
+            type = chart.Type(),
+            tcs = new $.Deferred(),
+            name = chart.Name();
+
+
+            context.searchAsync(entity, query)
+                .done(function (result) {
+
+                    var buckets = result.aggregations.category.buckets || result.aggregations.category,
+                        data = _(buckets).map(function (v) {
+                            return {
+                                category: v.key_as_string || v.key.toString(),
+                                value: v.doc_count
+                            };
+                        }),
+                        categories = _(buckets).map(function (v) {
+                            return v.key_as_string || v.key.toString();
+                        }),
+                        chart = $(element).kendoChart({
+                            theme: "metro",
+                            background : "red", 
+                            title: {
+                                text: name
+                            },
+                            legend: {
+                                position: "bottom"
+                            },
+                            seriesDefaults: {
+                                labels: {
+                                    visible: true,
+                                    format: "{0}"
+                                }
+                            },
+                            series: [
+                                {
+                                    type: type,
+                                    data: data
+                                }
+                            ],
+                            categoryAxis: {
+                                categories: categories,
+                                majorGridLines: {
+                                    visible: false
+                                }
+                            }, 
+                            tooltip: {
+                                visible: true,
+                                format: "{0}",
+                                template: "#= category #: #= value #"
+                            }
+                        }).data("kendoChart");
+                    tcs.resolve(true);
+
+                });
+
+
+            return tcs.promise();
+    }
+};
