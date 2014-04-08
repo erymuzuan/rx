@@ -104,7 +104,7 @@ ko.bindingHandlers.tree = {
                                     var n = ref.get_selected(true)[0],
                                         p = ref.get_node($('#' + n.parent)),
                                         parentMember = p.data;
-                                    if (parentMember) {
+                                    if (parentMember && typeof parentMember.MemberCollection === "function") {
                                         var child = _(parentMember.MemberCollection()).find(function (v) {
                                             return v.WebId() === n.data.WebId();
                                         });
