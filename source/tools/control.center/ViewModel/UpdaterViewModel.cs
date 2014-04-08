@@ -28,7 +28,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     var content = response.Content as StreamContent;
                     if (null == content) return;
                     var json = await content.ReadAsStringAsync();
-                    MessageBox.Show(json);
+                    MessageBox.Show(json,Strings.Title, MessageBoxButton.OK,MessageBoxImage.Information);
                 }
                 catch (HttpRequestException e)
                 {

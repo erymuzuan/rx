@@ -1,5 +1,5 @@
 <p><link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" /><br />
-<style>    p,ul,h1,h2,h3,img {        margin-left:60px;        max-width:900px;    }    img { border:2px solid gray;padding:10px;margin-top:6px;    }</style></p>
+<style>    p,ul {        margin-left:10px;        margin-right:10px;    }    img { border:2px solid gray;padding:10px;margin-top:6px;    }</style></p>
 
 <h1>Getting started</h1>
 
@@ -7,58 +7,55 @@
 
 <h2>Pre-requisites</h2>
 
-<p>1.Rx Developer only runs on these operating system</p>
+<h4>Operating System</h4>
+
+<p><code>Rx Developer</code> only runs on these operating system</p>
 
 <ul>
 <li>Windows 7 Professional</li>
 <li>Windows 8 Professional</li>
 <li>Windows 8.1 Professional</li>
-<li>Windows Server 2008 R2 and later version of Windows Server Operating system</li>
+<li>Windows Server 2008 R2</li>
+<li>Windows Server 2012 and later</li>
 </ul>
 
-<p>2.<a href="http://www.msdn.com/net">Microsoft .Net 4.5.1</a> SDK is the runtime for all the <code>Rx Developer</code>. <code>Rx Developer</code> itself is built on top of <a href="http://www.asp.net/mvc">Microsoft Asp.Net MVC 5</a>. Download the SDK <a href="http://www.bespoke.com.my/download/mu_.net_fx_4_5_1_dp_win_vistasp2_win_7sp1_win_8_win_8_1_win_server_2008sp2_win_server_2008_r2sp1_win_server_2012_win_server_2012r2_x86_x64_3009815.exe">here</a> and install it to your workstation.</p>
+<h4>Microsoft .Net 4.5.1 SDK</h4>
 
-<p>3.<a href="http://www.microsoft.com/powershell">Powershell</a> consisting of a command-line shell and associated scripting language built on .NET Framework. Please make sure that your system running on Powershell of version 3 and above. To do that:<br />
-a)  Open your command prompt, type powershell and enter<br />
-b)  Type $PSVersionTable and enter<br />
-Your Command prompt will be looked like below:<br />
-<img src="http://i.imgur.com/BwUJogL.png" alt="alt" /></p>
+<p><a href="http://www.msdn.com/net">Microsoft .Net 4.5.1 SDK</a> is the runtime for all the Rx Developer. Rx Developer it self is built on top of Microsoft Asp.Net MVC 5. Or you can get the SDK <a href="mu_.net_fx_4_5_1_dp_win_vistasp2_win_7sp1_win_8_win_8_1_win_server_2008sp2_win_server_2008_r2sp1_win_server_2012_win_server_2012r2_x86_x64_3009815.exe">here</a></p>
 
-<p>Microsoft Powershell V3, is needed to run a lot of automation scripts in <code>Rx Developer</code> including the setup script. You also needs to set Powershell <code>ExecutionPolicy</code> to <code>RemoteSigned</code>. To do this, open command prompt with Adminstrator right, run <code>Powershell</code> , then <code>Set-ExectionPolicy -ExecutionPolicy RemoteSigned</code><br />
-<img src="http://i.imgur.com/ANIQy9T.png" alt="Powershell" /></p>
+<h4>Powershell</h4>
 
-<p>4.Check the information display. If your PSVersion is below than 3.0, Please download the latest version <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40855">here</a> . Select either Windows6.1-KB2819745-x64-MultiPkg.msu OR Windows6.1-KB2819745-x86-MultiPkg.msu according to your workstation.<br />
- </p>
+<p>You will need at least <a href="http://www.microsoft.com/en-us/download/details.aspx?id=34595">Powershell v3.0</a>, or <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40855">Powershell V4.0</a> is better but it didn't run on Windows 8, I think it will work on Windows 7 and Windows 8.1.</p>
 
-<p>5.Microsofr SQL Server LocalDB For the database, download Microsoft Sql Localdb according to your workstation.</p>
+<p>Check Powershell version on your computer  with this command, open a command prompt, type <code>powershell</code>, then <code>$PSVersionTable</code><br />
+<img src="http://i.imgur.com/07BBiea.png" alt="alt" /></p>
+
+<h4>Database - SQL Server LocalDb</h4>
+
+<p>For the database , download Microsoft Sql Localdb here</p>
 
 <ul>
-<li><a href="en_sql_server_2012_sqllocaldb_with_sp1_x64.msi"><code>en_sql_server_2012_sqllocaldb_with_sp1_x64.msi</code></a></li>
-<li><a href="en_sql_server_2012_sqllocaldb_with_sp1_x86.msi"><code>en_sql_server_2012_sqllocaldb_with_sp1_x86.msi</code></a></li>
+<li><a href="http://download.microsoft.com/download/8/D/D/8DD7BDBA-CEF7-4D8E-8C16-D9F69527F909/ENU/x64/SqlLocalDB.MSI">en_sql_server_2012_sqllocaldb_with_sp1_x64.msi</a></li>
+<li><a href="http://download.microsoft.com/download/8/D/D/8DD7BDBA-CEF7-4D8E-8C16-D9F69527F909/ENU/x86/SqlLocaLDB.MSI">en_sql_server_2012_sqllocaldb_with_sp1_x86.msi</a></li>
 </ul>
 
-<p>6.Microsoft ODBC Driver 11 for SQL Server Windows. Please download and install to your workstation. Go and get it <a href="http://www.microsoft.com/en-us/download/details.aspx?id=36434">here</a></p>
+<p>You also need Sql Server Command Line Utilities (v11) download it <a href="http://www.microsoft.com/en-us/download/details.aspx?id=36433">here</a></p>
 
-<p>7.Microsoft Command Line Utilities 11 for SQL Server. Please download and install to your workstation. Go and get it <a href="http://www.microsoft.com/en-us/download/details.aspx?id=36433">here</a></p>
+<h4>Java</h4>
 
-<p>8.Oracle Java Runtime must be installed. Go and get it <a href="http://www.oracle.com/java">here</a>. Once installed, please do the next step</p>
+<p>You need Oracla Java runtime installed, go and get the here <a href="http://www.oracle.com/java">Java</a>, and makes sure your <code>JAVA_HOME</code> environment variable is properly set. <code>ElasticSearch</code> is the default content indexer for Rx Developer and built using Java</p>
 
-<pre><code>* Go to Start -&gt; Settings -&gt; Control Panel -&gt; System -&gt; Advanced -&gt; Environment Variables. 
-* Create the system environment variable JAVA_HOME and set it to the full path of the directory which contains jdk1.7.0_51.
-</code></pre>
+<p>1) Click Downloads > Java > Java Runtime Environment (JRE) > Click Free Java Download<br />
+2) Go to Advanced System Settings in  Control Panel>All Control Panel Items>System  <br />
+3) Click Environment Variables to set your  <code>JAVA_HOME</code> environment variable. </p>
 
-<p>9.Erlang is a runtime for RabbitMq, the default message broker used by Rx Developer. Download according to your workstation.</p>
+<p><img src="http://i.imgur.com/EGaJD1g.png" alt="JAVA_HOME" /></p>
 
-<ul>
-<li><a href="http://www.erlang.org/download/otp_win32_R16B03-1.exe">OTP R16B03-1 Windows 32-bit Binary File</a> </li>
-<li><a href="http://www.erlang.org/download/otp_win64_R16B03-1.exe">OTP R16B03-1 Windows 64-bit Binary File</a></li>
-</ul>
+<h4>Erlang</h4>
 
-<p>Once installed, please do the next step<br />
-a.  Go to Start > Settings > Control Panel > System > Advanced > Environment Variables. <br />
-b.  Create the system environment variable ERLANG_HOME and set it to the full path of the directory which contains bin\erl.exe.</p>
+<p>Download <a href="http://www.erlang.org">Erlang</a> runtime, this is the runtime for <a href="http://www/rabbitmq.com">RabbitMq</a>, the default message broker used by Rx Developer, although the RabbitMq it self is bundled with the Rx Developer package. Make sure your variable path <code>ERLANG_HOME</code> is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.</p>
 
-<p>10.Then the all time compression utility favorite is 7z.. download it at <a href="http://www.7-zip.org/download.html">http://www.7-zip.org</a></p>
+<p><img src="http://i.imgur.com/rfCfuKQ.png" alt="ERLANG_HOME" /></p>
 
 <h2>Downloading and extracting</h2>
 
@@ -70,7 +67,7 @@ Once extracted, your directory will look more or less like this<br />
 
 <p>Double click <code>ControlCenter.bat</code> to start the Rx Developer control center app.</p>
 
-<p>Fill in on your settings accordingly, if you don't know what it means, see the explanation below<br />
+<p>Fill in on your settings accordingly, if you don;t what it means, see the explanation below<br />
 <img src="http://i.imgur.com/GEJY17S.png" alt="alt" /></p>
 
 <ul>
@@ -97,7 +94,7 @@ Now starts these 3 services</p>
 <p>Make sure there are no errors coming out from the control center console,then open you command prompt, go to your directory, type <code>powershell</code> and <code>enter</code><br />
 <img src="http://i.imgur.com/cF5TBcb.png" alt="alt" /></p>
 
-<p>then type the following <code>.\Setup-SphApp.ps1 -ApplicationName ofg -Port 50332 -SqlServer "Projects"</code>. Make sure the parameters value are according to the value you had set in the control center.This is very important.If you are happy with the setting, press [ENTER]</p>
+<p>then type the following <code>.\Setup-SphApp.ps1 -ApplicationName ofg -Port 50332</code>, it must be lowercase letters only, no <code>.</code>, <code>,</code> numbers or special symbols allowed. Then specify the port to run your application on, choose those over 50000 to avoid conlict with your other services. Make sure the SqlServer is specified according to what you had set in the control center window</p>
 
 <p><img src="http://i.imgur.com/JS6m80D.png" alt="alt" /></p>
 
@@ -165,6 +162,4 @@ press the back button, click <code>Patients</code> on the nav bar, click on the 
 
 <p>You now have successfully created your first app.<br />
 To get to know the full power of Rx Developer, we can arrange a training session as well the full set of documentation that can be reached at <br />
-<a href="/docs"><code>http://localhost:&lt;port&gt;/docs</code></a></p>
-
-<p>The the rest of the documentation at <a href="http://rxdocs.azurewebsites.net">Rx Developer Center</a></p>
+<a href="http://localhost:50332/docs">http://localhost:50332/docs</a></p>

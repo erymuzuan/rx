@@ -7,9 +7,11 @@ namespace Bespoke.Sph.ControlCenter
     {
         public static string TranslatePath(this string path)
         {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\" + path);
+            var abs = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\" + path);
+            return Path.GetFullPath(abs);
         }
         public const string DefaultNamespace = "http://www.bespoke.com.my/";
-   
+
+        public static string Title { get { return "Rx Developer"; } }
     }
 }

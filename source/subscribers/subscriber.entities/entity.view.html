@@ -94,15 +94,18 @@
                     <option value="column">Column</option>
                 </select>
             </div>
-            <div class="form-group">
-                <a href="#" data-bind="command:saveAs" title="Save chart as">
-                    <i class="fa fa-save"></i>
-                </a>
-                <a href="#" data-bind="command:save, visible: selectedChartId" title="edit and save current chart">
+            <div class="btn-group">
+                <a class="btn" href="#" data-bind="command:saveAs, tooltip:''" title="Creates a copy of the chart and save as">
                     <i class="fa fa-copy"></i>
                 </a>
-                <a href="#" data-bind="command:remove, visible: selectedChartId" title="remove current chart">
+                <a class="btn" href="#" data-bind="command:save, visible: selectedChartId, tooltip:''" title="Edit and save current chart">
+                    <i class="fa fa-save"></i>
+                </a>
+                <a class="btn" href="#" data-bind="command:remove, visible: selectedChartId, tooltip:''" title="Remove current chart permanently">
                     <i class="fa fa-times"></i>
+                </a>
+                <a class="btn" href="#" data-bind="command:pin, visible: selectedChartId, tooltip:''" title="Pin to dashboard">
+                    <i class="fa fa-thumb-tack"></i>
                 </a>
             </div>
         </form>

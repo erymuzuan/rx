@@ -1,6 +1,7 @@
 #Change Log
 
-##2014-04-02
+##2014-04-09
+EntityChart table add new column [IsDashboardItem]
 
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -39,8 +40,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public MainViewModel()
         {
-            StartIisServiceCommand = new RelayCommand(StartIisService, () => !IisServiceStarted );
-            StopIisServiceCommand = new RelayCommand(StopIisService, () => IisServiceStarted );
+            StartIisServiceCommand = new RelayCommand(StartIisService, () => !IisServiceStarted);
+            StopIisServiceCommand = new RelayCommand(StopIisService, () => IisServiceStarted);
 
             StartSqlServiceCommand = new RelayCommand(StartSqlService, () => !SqlServiceStarted);
             StopSqlServiceCommand = new RelayCommand(StopSqlService, () => SqlServiceStarted);
@@ -51,8 +52,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             StartElasticSearchCommand = new RelayCommand(StartElasticSearch, () => !ElasticSearchServiceStarted);
             StopElasticSearchCommand = new RelayCommand(StopElasticSearch, () => ElasticSearchServiceStarted);
 
-            StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted );
-            StopSphWorkerCommand = new RelayCommand(StopSphWorker, () => SphWorkerServiceStarted );
+            StartSphWorkerCommand = new RelayCommand(StartSphWorker, () => !SphWorkerServiceStarted);
+            StopSphWorkerCommand = new RelayCommand(StopSphWorker, () => SphWorkerServiceStarted);
 
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             ExitAppCommand = new RelayCommand(Exit);
@@ -161,24 +162,24 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 }
             }
             // get the database $
-            var connectionString = "Data Source=" + this.SqlLocalDbName + ";Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False";
+            var connectionString = "Data Source=(localdb)\\" + this.SqlLocalDbName + ";Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False";
 
-            //using (var conn = new SqlConnection(connectionString))
-            //{
-            //    try
-            //    {
-            //        await conn.OpenAsync();
-            //    }
-            //    catch (Exception)
-            //    {
-            //        return false;
-            //    }
-            //    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM sysdatabases WHERE [name] ='" + this.ApplicationName + "'"))
-            //    {
-            //        var count = await cmd.ExecuteScalarAsync();
-            //        return (int)count == 1;
-            //    }
-            //}
+            using (var conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    await conn.OpenAsync();
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM sysdatabases WHERE [name] ='" + this.ApplicationName + "'"))
+                {
+                    var count = await cmd.ExecuteScalarAsync();
+                    return (int)count == 1;
+                }
+            }
 
 
             return true;
@@ -395,17 +396,32 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void StopRabbitMqService()
         {
             Log("RabbitMQ...[STOPPING]");
-            try
+
+            var rabbitmqctl = string.Join(@"\", RabbitMqDirectory, "sbin", "rabbitmqctl.bat").TranslatePath();
+            var startInfo = new ProcessStartInfo
             {
-                m_rabbitMqServer.Kill();
-                RabbitMqServiceStarted = false;
-                RabbitMqStatus = "Stopped";
-                Log("RabbitMQ... [STOPPED]");
-            }
-            catch (Exception ex)
+                FileName = rabbitmqctl,
+                Arguments = "stop",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                WindowStyle = ProcessWindowStyle.Normal
+            };
+            using (var stop = Process.Start(startInfo))
             {
-                Console.WriteLine(Resources.ExceptionOccurred, ex.Message, ex.StackTrace.ToString(CultureInfo.InvariantCulture));
+                if (null != stop)
+                    stop.WaitForExit();
             }
+            if (null != m_rabbitMqServer)
+            {
+                m_rabbitMqServer.Dispose();
+            }
+
+            RabbitMqServiceStarted = false;
+            RabbitMqStatus = "Stopped";
+            Log("RabbitMQ... [STOPPED]");
+
         }
 
         private async void StartElasticSearch()
@@ -566,6 +582,15 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         private void Log(string message)
         {
             Console.WriteLine(@"[{0:yyyy-MM-dd HH:mm:ss}] {1}", DateTime.Now, message);
+        }
+
+        public bool CanExit()
+        {
+            return this.IisServiceStarted
+                   || this.RabbitMqServiceStarted
+                   || this.ElasticSearchServiceStarted
+                   || this.SphWorkerServiceStarted;
+
         }
     }
 }

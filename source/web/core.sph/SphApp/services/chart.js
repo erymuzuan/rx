@@ -239,10 +239,10 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
             return tcs.promise();
         },
         pin = function () {
-            if (typeof _selectedChart.IsDashboardItem === "function") {
-                _selectedChart.IsDashboardItem(true);
+            if (typeof _selectedChart().IsDashboardItem === "function") {
+                _selectedChart().IsDashboardItem(true);
             } else {
-                _selectedChart.IsDashboardItem = ko.observable(true);
+                _selectedChart().IsDashboardItem = ko.observable(true);
             }
 
             var tcs = new $.Deferred();

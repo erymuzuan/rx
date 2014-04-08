@@ -16,6 +16,20 @@ namespace Bespoke.Sph.ControlCenter
         {
             InitializeComponent();
             Loaded += MainWindowLoaded;
+            this.Closing += MainWindowClosing;
+        }
+
+        void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+            var vm = this.DataContext as MainViewModel;
+            if (null == vm)return;
+            if (vm.CanExit())
+            {
+                MessageBox.Show("Please stop all the services before exit", Strings.Title,
+                    MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                e.Cancel = true;
+            }
         }
 
         async void MainWindowLoaded(object sender, RoutedEventArgs e)

@@ -26,10 +26,17 @@ if(!(Get-Command sqlcmd -ErrorAction SilentlyContinue))
     exit;
 }
 
-#verify the tools are in the path
-if(!(Test-Path("$WorkingCopy\rabb")))
+
+if(!(Get-Command Invoke-WebRequest -ErrorAction SilentlyContinue))
 {
-    Write-Warning "Cannot find rabbitmqctl"
+    Write-Warning "You will need at least powershell version 3.0"
+    exit;
+}
+
+#verify the tools are in the path
+if(!(Test-Path("$WorkingCopy\rabbitmq_server\sbin\rabbitmqctl.bat")))
+{
+    Write-Warning "Cannot find rabbitmqctl.bat"
     exit;
 }
 Try
@@ -181,8 +188,8 @@ foreach($configFile in $allConfigs){
 #asp.net memberships
 & aspnet_regsql.exe -E -S "(localdb)\$SqlServer" -d "$ApplicationName" -A mr
 #roles
-mru -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
-mru -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -c "$WorkingCopy\web\web.config"
+& .\mru -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
+& .\mru -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -c "$WorkingCopy\web\web.config"
 
 
 
