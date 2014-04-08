@@ -30,10 +30,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 RegisterServices();
                 PrintSubscriberInformation();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-// ReSharper disable CSharpWarnings::CS4014
+                // ReSharper disable CSharpWarnings::CS4014
                 // just let the StartConsume run in endless loop until stop is issued
                 this.StartConsume();
-// ReSharper restore CSharpWarnings::CS4014
+                // ReSharper restore CSharpWarnings::CS4014
             }
             catch (Exception e)
             {
@@ -43,7 +43,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         protected override void OnStop()
         {
-            m_stoppingTcs.SetResult(true);
+            if (null != m_stoppingTcs)
+                m_stoppingTcs.SetResult(true);
         }
 
         public async Task StartConsume()
