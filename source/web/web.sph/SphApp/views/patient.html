@@ -13,19 +13,14 @@
     </a>
     <div id="recent-patients" class="collapse collapsed">
         <div class="" data-bind="searchPaging: {list :recentItems, query : recentItemsQuery, pagerHidden:true , entity : 'Patient'}">
-
-
             <ul data-bind="foreach :recentItems" class="metro-tile">
+                <li class="blightblue">
 
-
-                <li>
-
-                    <a data-bind="attr:{href : &#39;#patient-registration/&#39; + PatientId}">
-                        <i class="fa fa-edit"></i>
+                    <a data-bind="attr:{href : &#39;#patient-details/&#39; + PatientId}">
+                        <i class="fa fa-user"></i>
                         <span data-bind="text:Mrn"></span>
                     </a>
                 </li>
-
             </ul>
         </div>
 
@@ -34,12 +29,12 @@
 <div class="row">
     <div class="col-lg-6">
 
-           <h3>Charts</h3>
-            <div class="chart" data-bind="foreach: charts">
-                <div class="chart" data-bind="chart:$data" style="position: relative;width: 700px;height: 370px;margin:10px;padding: 10px;border: 1px solid rgba(0,0,0,0.05);background-color: rgba(0,0,0,0.01);">                        
-                   
-                </div>  
-            </div>  
+        <h3>Charts</h3>
+        <div data-bind="foreach: charts">
+            <div class="chart-wrapper">
+                <div data-bind="chart:$data"></div>
+            </div>
+        </div>
 
     </div>
     <div class="col-lg-6">
@@ -47,8 +42,8 @@
             Views
         </h3>
         <ul id="entity-view-list" data-bind="foreach :views" class="metro-tile">
-         
-            <li data-bind="attr : {'class':TileColour}" >
+
+            <li data-bind="attr : {'class':TileColour}">
                 <a data-bind="attr:{href : '#' + Route(), 'title' : Note}">
                     <div class="pull-left">
                         <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon" />
@@ -72,13 +67,13 @@
 
 
 <div class="row">
-  
-        <h3>
-            Reports
-        </h3>
-        <ul data-bind="foreach: reports">
-            <li>
-                <a data-bind="attr:{href:String.format('#/reportdefinition.execute-id.{0}/{0}', ReportDefinitionId()) }, text:Title"></a>
-            </li>
-        </ul>
+
+    <h3>
+        Reports
+    </h3>
+    <ul data-bind="foreach: reports">
+        <li>
+            <a data-bind="attr:{href:String.format('#/reportdefinition.execute-id.{0}/{0}', ReportDefinitionId()) }, text:Title"></a>
+        </li>
+    </ul>
 </div>

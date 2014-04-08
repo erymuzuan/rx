@@ -17,21 +17,24 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             tools = ko.observableArray([]),
             reports = ko.observableArray([]),
             recentItems = ko.observableArray([]),
+            charts = ko.observableArray([]),
             views = ko.observableArray([]),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
                 var query = String.format("Name eq '{0}'", '@Model.Definition.Name'),
                   tcs = new $.Deferred(),
+                  chartsQuery = String.format("Entity eq '@Model.Definition.Name' and IsDashboardItem eq 1"),
                   viewsQuery = String.format("EntityDefinitionId eq '@Model.Definition.EntityDefinitionId' and IsPublished eq 1"),
                   formsQuery = String.format("EntityDefinitionId eq '@Model.Definition.EntityDefinitionId' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
                   edTask = context.loadOneAsync("EntityDefinition", query),
+                  chartsTask = context.loadAsync("EntityChart", chartsQuery),
                   formsTask = context.loadAsync("EntityForm", formsQuery),
                   reportTask = context.loadAsync("ReportDefinition", "[DataSource.EntityName] eq '@Model.Definition.Name'"),
                   viewsTask = context.loadAsync("EntityView", viewsQuery);
 
 
-                $.when(edTask, formsTask, viewsTask,reportTask )
-                 .done(function (b, formsLo, viewsLo,reportsLo) {
+                $.when(edTask, formsTask, viewsTask, reportTask, chartsTask)
+                 .done(function (b, formsLo, viewsLo, reportsLo, chartsLo) {
                      entity(b);
                      var formsCommands = _(formsLo.itemCollection).map(function (v) {
                          return {
@@ -43,6 +46,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                              icon: v.IconClass()
                          };
                      });
+                     charts(chartsLo.itemCollection);
                      reports(reportsLo.itemCollection);
                      views(viewsLo.itemCollection);
                      // get counts
@@ -95,6 +99,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
         var vm = {
             isBusy: isBusy,
             views: views,
+            charts: charts,
             entity: entity,
             activate: activate,
             attached: attached,

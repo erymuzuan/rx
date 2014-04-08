@@ -101,7 +101,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                     sliderVisible = $menu.is(':visible');
 
 
-                $('#drawer-menu').on('click', function (e) {
+                $(view).on('click','#drawer-menu', function (e) {
                     e.preventDefault();
                     if (sliderVisible) {
                         hideSlider();

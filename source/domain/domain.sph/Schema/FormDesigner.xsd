@@ -566,6 +566,13 @@
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="HistogramInterval" type="xs:int" nillable="true"/>
+				<xs:element name="SeriesCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Series" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="EntityChartId" type="xs:int" use="required"/>
 			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
@@ -579,6 +586,17 @@
 			<xs:attribute name="DateInterval" type="xs:string" use="required"/>
 			<xs:attribute name="IsDashboardItem" type="xs:boolean" use="required"/>
 			<xs:attribute name="DasboardItemPosition" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Series">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="Color" type="xs:string" use="required"/>
+			<xs:attribute name="Query" type="xs:string" use="required"/>
+			<xs:attribute name="Aggregate" type="xs:string" use="required"/>
+			<xs:attribute name="Field" type="xs:string" use="required"/>
+			<xs:attribute name="DateInterval" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

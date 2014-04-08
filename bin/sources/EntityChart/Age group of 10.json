@@ -1,5 +1,9 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
+  "SeriesCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Series, domain.sph]], domain.sph",
+    "$values": []
+  },
   "EntityChartId": 7,
   "EntityDefinitionId": 2002,
   "Entity": "Patient",
@@ -10,10 +14,12 @@
   "Aggregate": "histogram",
   "Field": "Age",
   "DateInterval": "year",
+  "IsDashboardItem": false,
+  "DasboardItemPosition": 0,
   "HistogramInterval": 10,
   "CreatedBy": "admin",
   "CreatedDate": "2014-04-02T09:57:32.8091094+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-07T14:43:00.9953496+08:00",
+  "ChangedDate": "2014-04-08T08:22:48.521802+08:00",
   "WebId": "8643ac6b-cf2c-4488-872b-624b51358a39"
 }

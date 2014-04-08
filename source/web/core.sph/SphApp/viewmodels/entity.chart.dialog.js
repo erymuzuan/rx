@@ -9,15 +9,15 @@
 
 
 define(['services/datacontext', 'services/logger', 'plugins/dialog'],
-    function(context, logger, dialog) {
+    function (context, logger, dialog) {
 
-        var okClick = function(data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target)) {
-                    dialog.close(this, "OK");
-                }
+        var okClick = function (data, ev) {
+            if (bespoke.utils.form.checkValidity(ev.target)) {
+                dialog.close(this, "OK");
+            }
 
-            },
-            cancelClick = function() {
+        },
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 

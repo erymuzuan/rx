@@ -289,7 +289,9 @@ ko.bindingHandlers.chart = {
                         }),
                         chart = $(element).kendoChart({
                             theme: "metro",
-                            background : "red", 
+                            chartArea: {
+                                background: ""
+                            },
                             title: {
                                 text: name
                             },

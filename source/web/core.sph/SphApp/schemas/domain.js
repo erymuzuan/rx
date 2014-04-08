@@ -1162,6 +1162,7 @@ bespoke.sph.domain.EntityChart = function (optionOrWebid) {
         IsDashboardItem: ko.observable(false),
         DasboardItemPosition: ko.observable(0),
         HistogramInterval: ko.observable(),
+        SeriesCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1179,6 +1180,40 @@ bespoke.sph.domain.EntityChart = function (optionOrWebid) {
 
     if (bespoke.sph.domain.EntityChartPartial) {
         return _(model).extend(new bespoke.sph.domain.EntityChartPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.Series = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Series, domain.sph",
+        Name: ko.observable(''),
+        Entity: ko.observable(''),
+        Color: ko.observable(''),
+        Query: ko.observable(''),
+        Aggregate: ko.observable(''),
+        Field: ko.observable(''),
+        DateInterval: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SeriesPartial) {
+        return _(model).extend(new bespoke.sph.domain.SeriesPartial(model));
     }
     return model;
 };

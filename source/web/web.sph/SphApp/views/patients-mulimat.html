@@ -1,45 +1,46 @@
 <h1>Muslimat patients</h1>
-
 <div class="row">
     <div class="col-md-8">
-        <table class="table table-striped"
-               data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
             <thead>
-            <tr>
-                <th>Mrn</th>
-                <th>Status</th>
-                <th>Nama</th>
-                <th>Passport</th>
-                <th>Id</th>
-                <th>DOB</th>
-                <th>Age</th>
-                <th>No. KP</th>
-            </tr>
+                <tr>
+                    <th>Mrn</th>
+                    <th>Status</th>
+                    <th>Nama</th>
+                    <th>Passport</th>
+                    <th>Id</th>
+                    <th>DOB</th>
+                    <th>Age</th>
+                    <th>No. KP</th>
+                </tr>
             </thead>
             <tbody data-bind="foreach :list">
-            <tr>
-                <td>
+                <tr>
+                    <td>
 
-                    <a data-bind="attr : {href:'#patient-registration' + '/' + PatientId },text: Mrn"></a>
-                </td>
+                        <a data-bind="attr : {href:'#patient-details' + '/' + PatientId },text: Mrn"></a>
+                    </td>
+                    <td data-bind="text:Status"></td>
+                    <td data-bind="text:FullName"></td>
+                    <td data-bind="text:PassportNo"></td>
+                    <td data-bind="text:IdentificationNo"></td>
+                    <td data-bind="date:Dob"></td>
+                    <td data-bind="text:Age"></td>
+                    <td data-bind="text:IdentificationNo"></td>
 
-                <td data-bind="text:Status"></td>
-                <td data-bind="text:FullName"></td>
-                <td data-bind="text:PassportNo"></td>
-                <td data-bind="text:IdentificationNo"></td>
-                <td data-bind="date:Dob"></td>
-                <td data-bind="text:Age"></td>
-                <td data-bind="text:IdentificationNo"></td>
 
-
-            </tr>
+                </tr>
             </tbody>
         </table>
     </div>
     <div class="col-md-4" data-bind="with:chart">
         <h3>Charts</h3>
-
         <form class="form">
+            <div class="form-group">
+                <label for="chart-name">Charts</label>
+                <select class="form-control" name="chart.name" id="chart-name"
+                        data-bind="value: selectedChartId, options:charts, optionsText: 'Name', optionsValue : 'EntityChartId', optionsCaption:'[Select a chart]'"></select>
+            </div>
             <div class="form-group">
                 <label for="chart-aggregate">Aggregate</label>
                 <select data-bind="value: aggregate" class="form-control" name="chart.aggregate" id="chart-aggregate">
@@ -48,49 +49,13 @@
                     <option value="date_histogram">Date Histogram</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="field">Fields</label>
-                <select class="form-control" data-bind="value: field" id="field">
-
-                    <option value="">[Select Field]</option>
-                    <option value="Mrn">Mrn</option>
-                    <option value="FullName">FullName</option>
-                    <option value="Dob">Dob</option>
-                    <option value="Gender">Gender</option>
-                    <option value="Religion">Religion</option>
-                    <option value="Race">Race</option>
-                    <option value="RegisteredDate">RegisteredDate</option>
-                    <option value="IdentificationNo">IdentificationNo</option>
-                    <option value="PassportNo">PassportNo</option>
-                    <option value="Nationality">Nationality</option>
-                    <option value="NextOfKin">NextOfKin</option>
-                    <option value="HomeAddress">HomeAddress</option>
-                    <option value="Occupation">Occupation</option>
-                    <option value="Status">Status</option>
-                    <option value="Age">Age</option>
-                    <option value="Income">Income</option>
-                    <option value="Empty">Empty</option>
-                    <option value="Spouse">Spouse</option>
-                    <option value="MaritalStatus">MaritalStatus</option>
-                    <option value="NextOfKin.FullName">NextOfKin.FullName</option>
-                    <option value="NextOfKin.Relationship">NextOfKin.Relationship</option>
-                    <option value="NextOfKin.MobilePhone">NextOfKin.MobilePhone</option>
-                    <option value="NextOfKin.Email">NextOfKin.Email</option>
-                    <option value="NextOfKin.Telephone">NextOfKin.Telephone</option>
-                    <option value="HomeAddress.Street">HomeAddress.Street</option>
-                    <option value="HomeAddress.Street2">HomeAddress.Street2</option>
-                    <option value="HomeAddress.Postcode">HomeAddress.Postcode</option>
-                    <option value="HomeAddress.City">HomeAddress.City</option>
-                    <option value="HomeAddress.State">HomeAddress.State</option>
-                    <option value="HomeAddress.Country">HomeAddress.Country</option>
-                </select>
+                <select class="form-control" data-bind="value: field, options: fieldOptions, optionsCaption :'[Select a field]'" id="field"></select>
             </div>
-
             <div class="form-group" data-bind="visible : aggregate() === 'date_histogram'">
                 <label for="chart-date-interval">Date interval</label>
-                <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval"
-                        id="chart-date-interval">
+                <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval" id="chart-date-interval">
                     <option value="year">Year</option>
                     <option value="quarter">Quarter</option>
                     <option value="month">Month</option>
@@ -101,11 +66,9 @@
                     <option value="second">second</option>
                 </select>
             </div>
-
             <div class="form-group" data-bind="visible : aggregate() === 'histogram'">
                 <label for="histogram-interval">Interval</label>
-                <input class="form-control" step="10" type="number" id="histogram-interval"
-                       data-bind="value:histogramInterval"/>
+                <input class="form-control" step="10" type="number" id="histogram-interval" data-bind="value:histogramInterval" />
             </div>
             <div class="form-group">
                 <label for="chart-type">Type</label>
@@ -116,10 +79,19 @@
                     <option value="column">Column</option>
                 </select>
             </div>
-
+            <div class="form-group">
+                <a href="#" data-bind="command:saveAs" title="Save chart as">
+                    <i class="fa fa-save"></i>
+                </a>
+                <a href="#" data-bind="command:save, visible: selectedChartId" title="edit and save current chart">
+                    <i class="fa fa-copy"></i>
+                </a>
+                <a href="#" data-bind="command:remove, visible: selectedChartId" title="remove current chart">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
         </form>
         <div id="chart-Patient">
-
         </div>
     </div>
 </div>

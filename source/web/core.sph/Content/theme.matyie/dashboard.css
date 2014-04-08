@@ -1262,4 +1262,11 @@ footer.main {
   max-width: 200px;
   text-overflow: ellipsis;
 }
+.chart-wrapper {
+  position: relative;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.01);
+}
 /*# sourceMappingURL=dashboard.css.map */

@@ -1,0 +1,25 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
+  "SeriesCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Series, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityChartId": 1007,
+  "EntityDefinitionId": 2002,
+  "Entity": "Patient",
+  "Name": "All patients registered",
+  "Type": "pie",
+  "EntityViewId": 0,
+  "Query": "{\"query\":{\"filtered\":{\"filter\":{\"bool\":{\"must\":[],\"must_not\":[]}}}},\"sort\":[{\"Mrn\":{\"order\":\"asc\"}}],\"aggs\":{\"category\":{\"date_histogram\":{\"field\":\"RegisteredDate\",\"interval\":\"year\",\"format\":\"yyyy\"}}},\"from\":0,\"size\":20}",
+  "Aggregate": "date_histogram",
+  "Field": "RegisteredDate",
+  "DateInterval": "year",
+  "IsDashboardItem": true,
+  "DasboardItemPosition": 0,
+  "HistogramInterval": null,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-08T08:22:20.8614404+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-08T08:22:20.8614404+08:00",
+  "WebId": "416a3137-dfe2-4741-a7cb-3280f359ab4a"
+}

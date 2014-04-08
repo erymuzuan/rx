@@ -4739,6 +4739,17 @@ namespace Bespoke.Sph.Domain
 
 
 
+        private readonly ObjectCollection<Series> m_SeriesCollection = new ObjectCollection<Series>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Series", IsNullable = false)]
+        public ObjectCollection<Series> SeriesCollection
+        {
+            get { return m_SeriesCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -5108,6 +5119,256 @@ namespace Bespoke.Sph.Domain
             }
             get { return m_histogramInterval; }
         }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("Series", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Series
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_color;
+        public const string PropertyNameColor = "Color";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_query;
+        public const string PropertyNameQuery = "Query";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_aggregate;
+        public const string PropertyNameAggregate = "Aggregate";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_field;
+        public const string PropertyNameField = "Field";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_dateInterval;
+        public const string PropertyNameDateInterval = "DateInterval";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Color
+        {
+            set
+            {
+                if (String.Equals(m_color, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameColor, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_color = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_color;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Query
+        {
+            set
+            {
+                if (String.Equals(m_query, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameQuery, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_query = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_query;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Aggregate
+        {
+            set
+            {
+                if (String.Equals(m_aggregate, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAggregate, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_aggregate = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_aggregate;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Field
+        {
+            set
+            {
+                if (String.Equals(m_field, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameField, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_field = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_field;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string DateInterval
+        {
+            set
+            {
+                if (String.Equals(m_dateInterval, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDateInterval, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_dateInterval = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_dateInterval;
+            }
+        }
+
 
 
     }
