@@ -7,32 +7,58 @@
 
 <h2>Pre-requisites</h2>
 
-<p><code>Rx Developer</code> only runs on these operating system</p>
+<p>1.Rx Developer only runs on these operating system</p>
 
 <ul>
 <li>Windows 7 Professional</li>
 <li>Windows 8 Professional</li>
 <li>Windows 8.1 Professional</li>
-<li>Windows Server 2008 R2</li>
+<li>Windows Server 2008 R2 and later version of Windows Server Operating system</li>
 </ul>
 
-<p><a href="http://www.msdn.com/net"><code>Microsoft .Net 4.5.1 SDK</code></a> is the runtime for all the Rx Developer. Rx Developer it self is built on top of Microsoft Asp.Net MVC 5. Or you can get the SDK <a href="mu_.net_fx_4_5_1_dp_win_vistasp2_win_7sp1_win_8_win_8_1_win_server_2008sp2_win_server_2008_r2sp1_win_server_2012_win_server_2012r2_x86_x64_3009815.exe">here</a></p>
+<p>2.<a href="http://www.msdn.com/net">Microsoft .Net 4.5.1</a> SDK is the runtime for all the <code>Rx Developer</code>. <code>Rx Developer</code> itself is built on top of <a href="http://www.asp.net/mvc">Microsoft Asp.Net MVC 5</a>. Download the SDK <a href="http://www.bespoke.com.my/download/mu_.net_fx_4_5_1_dp_win_vistasp2_win_7sp1_win_8_win_8_1_win_server_2008sp2_win_server_2008_r2sp1_win_server_2012_win_server_2012r2_x86_x64_3009815.exe">here</a> and install it to your workstation.</p>
 
-<p>For the database , download Microsoft Sql Localdb here</p>
+<p>3.<a href="http://www.microsoft.com/powershell">Powershell</a> consisting of a command-line shell and associated scripting language built on .NET Framework. Please make sure that your system running on Powershell of version 3 and above. To do that:<br />
+a)  Open your command prompt, type powershell and enter<br />
+b)  Type $PSVersionTable and enter<br />
+Your Command prompt will be looked like below:<br />
+<img src="http://i.imgur.com/BwUJogL.png" alt="alt" /></p>
+
+<p>Microsoft Powershell V3, is needed to run a lot of automation scripts in <code>Rx Developer</code> including the setup script. You also needs to set Powershell <code>ExecutionPolicy</code> to <code>RemoteSigned</code>. To do this, open command prompt with Adminstrator right, run <code>Powershell</code> , then <code>Set-ExectionPolicy -ExecutionPolicy RemoteSigned</code><br />
+<img src="http://i.imgur.com/ANIQy9T.png" alt="Powershell" /></p>
+
+<p>4.Check the information display. If your PSVersion is below than 3.0, Please download the latest version <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40855">here</a> . Select either Windows6.1-KB2819745-x64-MultiPkg.msu OR Windows6.1-KB2819745-x86-MultiPkg.msu according to your workstation.<br />
+ </p>
+
+<p>5.Microsofr SQL Server LocalDB For the database, download Microsoft Sql Localdb according to your workstation.</p>
 
 <ul>
 <li><a href="en_sql_server_2012_sqllocaldb_with_sp1_x64.msi"><code>en_sql_server_2012_sqllocaldb_with_sp1_x64.msi</code></a></li>
 <li><a href="en_sql_server_2012_sqllocaldb_with_sp1_x86.msi"><code>en_sql_server_2012_sqllocaldb_with_sp1_x86.msi</code></a></li>
 </ul>
 
-<p>You need Oracla Java runtime installed, go and get the here <a href="http://www.oracle.com/java"><code>Java</code></a>, and makes sure your <code>JAVA_HOME</code> environment variable is properly set. <code>ElasticSearch</code> is the default content indexer for Rx Developer and built using Java.You may have to restart your computer to complete the process.</p>
+<p>6.Microsoft ODBC Driver 11 for SQL Server Windows. Please download and install to your workstation. Go and get it <a href="http://www.microsoft.com/en-us/download/details.aspx?id=36434">here</a></p>
 
-<p>For detailed instruction on how to set up <code>JAVA_HOME</code> please refer to the <a href="http://www.wikihow.com/Set-Java-Home">WikiHow</a></p>
+<p>7.Microsoft Command Line Utilities 11 for SQL Server. Please download and install to your workstation. Go and get it <a href="http://www.microsoft.com/en-us/download/details.aspx?id=36433">here</a></p>
 
-<p>You also need <a href="http://www.erlang.org">Erlang</a> runtime, this is the runtime for <a href="http://www/rabbitmq.com"><code>RabbitMq</code></a>, the default message broker used by Rx Developer. RabbitMq itself is bundled with Rx Developer package, so you don't have to download it yourself. Make sure your variable path <code>ERLANG_HOME</code> is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.</p>
+<p>8.Oracle Java Runtime must be installed. Go and get it <a href="http://www.oracle.com/java">here</a>. Once installed, please do the next step</p>
 
-<p>Microsoft Powershell V3, is needed to run a lot of automation scripts in <code>Rx Developer</code> including the setup script. You also needs to set Powershell <code>ExecutionPolicy</code> to <code>RemoteSigned</code>. To do this, open command prompt with Adminstrator right, run <code>Powershell</code> , then <code>Set-ExectionPolicy -ExecutionPolicy RemoteSigned</code><br />
-<img src="http://i.imgur.com/ANIQy9T.png" alt="Powershell" /></p>
+<pre><code>* Go to Start -&gt; Settings -&gt; Control Panel -&gt; System -&gt; Advanced -&gt; Environment Variables. 
+* Create the system environment variable JAVA_HOME and set it to the full path of the directory which contains jdk1.7.0_51.
+</code></pre>
+
+<p>9.Erlang is a runtime for RabbitMq, the default message broker used by Rx Developer. Download according to your workstation.</p>
+
+<ul>
+<li><a href="http://www.erlang.org/download/otp_win32_R16B03-1.exe">OTP R16B03-1 Windows 32-bit Binary File</a> </li>
+<li><a href="http://www.erlang.org/download/otp_win64_R16B03-1.exe">OTP R16B03-1 Windows 64-bit Binary File</a></li>
+</ul>
+
+<p>Once installed, please do the next step<br />
+a.  Go to Start > Settings > Control Panel > System > Advanced > Environment Variables. <br />
+b.  Create the system environment variable ERLANG_HOME and set it to the full path of the directory which contains bin\erl.exe.</p>
+
+<p>10.Then the all time compression utility favorite is 7z.. download it at <a href="http://www.7-zip.org/download.html">http://www.7-zip.org</a></p>
 
 <h2>Downloading and extracting</h2>
 

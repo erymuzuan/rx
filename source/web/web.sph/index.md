@@ -5,29 +5,53 @@
 This is a simple walkthrough to help you to get started developing with Rx Developer.
 
 ## Pre-requisites
-`Rx Developer` only runs on these operating system
+1.Rx Developer only runs on these operating system
 
 * Windows 7 Professional
 * Windows 8 Professional
 * Windows 8.1 Professional
-* Windows Server 2008 R2
+* Windows Server 2008 R2 and later version of Windows Server Operating system
 
-[`Microsoft .Net 4.5.1 SDK`](http://www.msdn.com/net) is the runtime for all the Rx Developer. Rx Developer it self is built on top of Microsoft Asp.Net MVC 5. Or you can get the SDK [here](mu_.net_fx_4_5_1_dp_win_vistasp2_win_7sp1_win_8_win_8_1_win_server_2008sp2_win_server_2008_r2sp1_win_server_2012_win_server_2012r2_x86_x64_3009815.exe)
+2.[Microsoft .Net 4.5.1](http://www.msdn.com/net) SDK is the runtime for all the `Rx Developer`. `Rx Developer` itself is built on top of [Microsoft Asp.Net MVC 5](http://www.asp.net/mvc). Download the SDK [here](http://www.bespoke.com.my/download/mu_.net_fx_4_5_1_dp_win_vistasp2_win_7sp1_win_8_win_8_1_win_server_2008sp2_win_server_2008_r2sp1_win_server_2012_win_server_2012r2_x86_x64_3009815.exe) and install it to your workstation.
 
-For the database , download Microsoft Sql Localdb here
+3.[Powershell](http://www.microsoft.com/powershell) consisting of a command-line shell and associated scripting language built on .NET Framework. Please make sure that your system running on Powershell of version 3 and above. To do that:
+a)	Open your command prompt, type powershell and enter
+b)	Type $PSVersionTable and enter
+Your Command prompt will be looked like below:
+![alt](http://i.imgur.com/BwUJogL.png)
+
+Microsoft Powershell V3, is needed to run a lot of automation scripts in `Rx Developer` including the setup script. You also needs to set Powershell `ExecutionPolicy` to `RemoteSigned`. To do this, open command prompt with Adminstrator right, run `Powershell` , then `Set-ExectionPolicy -ExecutionPolicy RemoteSigned`
+![Powershell](http://i.imgur.com/ANIQy9T.png)
+
+ 
+4.Check the information display. If your PSVersion is below than 3.0, Please download the latest version [here](http://www.microsoft.com/en-us/download/details.aspx?id=40855) . Select either Windows6.1-KB2819745-x64-MultiPkg.msu OR Windows6.1-KB2819745-x86-MultiPkg.msu according to your workstation.
+ 
+
+5.Microsofr SQL Server LocalDB For the database, download Microsoft Sql Localdb according to your workstation.
 
 * [`en_sql_server_2012_sqllocaldb_with_sp1_x64.msi`](en_sql_server_2012_sqllocaldb_with_sp1_x64.msi)
 * [`en_sql_server_2012_sqllocaldb_with_sp1_x86.msi`](en_sql_server_2012_sqllocaldb_with_sp1_x86.msi)
 
-You need Oracla Java runtime installed, go and get the here [`Java`](http://www.oracle.com/java), and makes sure your `JAVA_HOME` environment variable is properly set. `ElasticSearch` is the default content indexer for Rx Developer and built using Java.You may have to restart your computer to complete the process.
+6.Microsoft ODBC Driver 11 for SQL Server Windows. Please download and install to your workstation. Go and get it [here](http://www.microsoft.com/en-us/download/details.aspx?id=36434)
 
-For detailed instruction on how to set up `JAVA_HOME` please refer to the [WikiHow](http://www.wikihow.com/Set-Java-Home)
+7.Microsoft Command Line Utilities 11 for SQL Server. Please download and install to your workstation. Go and get it [here](http://www.microsoft.com/en-us/download/details.aspx?id=36433)
 
+8.Oracle Java Runtime must be installed. Go and get it [here](http://www.oracle.com/java). Once installed, please do the next step
 
-You also need [Erlang](http://www.erlang.org) runtime, this is the runtime for [`RabbitMq`](http://www/rabbitmq.com), the default message broker used by Rx Developer. RabbitMq itself is bundled with Rx Developer package, so you don't have to download it yourself. Make sure your variable path `ERLANG_HOME` is correctly set. Download the Windows 32-bit Binary or Windows 64-bit binary according to your workstation.
+    * Go to Start -> Settings -> Control Panel -> System -> Advanced -> Environment Variables. 
+    * Create the system environment variable JAVA_HOME and set it to the full path of the directory which contains jdk1.7.0_51.
+ 
+9.Erlang is a runtime for RabbitMq, the default message broker used by Rx Developer. Download according to your workstation.
 
-Microsoft Powershell V3, is needed to run a lot of automation scripts in `Rx Developer` including the setup script. You also needs to set Powershell `ExecutionPolicy` to `RemoteSigned`. To do this, open command prompt with Adminstrator right, run `Powershell` , then `Set-ExectionPolicy -ExecutionPolicy RemoteSigned`
-![Powershell](http://i.imgur.com/ANIQy9T.png)
+* [OTP R16B03-1 Windows 32-bit Binary File](http://www.erlang.org/download/otp_win32_R16B03-1.exe) 
+* [OTP R16B03-1 Windows 64-bit Binary File](http://www.erlang.org/download/otp_win64_R16B03-1.exe)
+
+Once installed, please do the next step
+a.	Go to Start > Settings > Control Panel > System > Advanced > Environment Variables. 
+b.	Create the system environment variable ERLANG_HOME and set it to the full path of the directory which contains bin\erl.exe.
+
+10.Then the all time compression utility favorite is 7z.. download it at [http://www.7-zip.org](http://www.7-zip.org/download.html)
+
 
 ## Downloading and extracting
 Point your browser to [Rx Developer download page](sph.package.1.0.10278.7z) to get all the necessary package.
