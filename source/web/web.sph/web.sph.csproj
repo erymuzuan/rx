@@ -311,6 +311,9 @@
     <Content Include="docs\EntityChart.html">
       <DependentUpon>EntityChart.md</DependentUpon>
     </Content>
+    <Content Include="docs\EntityDefinition.HowTo.AddChartToDashboard.html">
+      <DependentUpon>EntityDefinition.HowTo.AddChartToDashboard.md</DependentUpon>
+    </Content>
     <Content Include="docs\EntityDefinition.HowTo.AddRecordName.html">
       <DependentUpon>EntityDefinition.HowTo.AddRecordName.md</DependentUpon>
     </Content>
@@ -400,6 +403,7 @@
     <Content Include="docs\EntityDefinition.HowTo.AddRecordName.md" />
     <Content Include="docs\EntityChart.md" />
     <Content Include="docs\EntityDefinition.HowTo.DefaultForm.md" />
+    <Content Include="docs\EntityDefinition.HowTo.AddChartToDashboard.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>

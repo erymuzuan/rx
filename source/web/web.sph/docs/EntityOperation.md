@@ -18,7 +18,7 @@
 </thead>
 <tbody>
 <tr><td>Rules</td><td> - Set of rules executed before executing the actions </td></tr>
-<tr><td>Permissions</td><td> -et of roles the use must have to perform this action </td></tr>
+<tr><td>Permissions</td><td> - Set of roles the use must have to perform this action , There are 2 special permission defined and they are mutually exclusive, anynomous and everybody</td></tr>
 <tr><td>SetterActionChildCollection</td><td> - Set of <a href="SetterActionChild.htm">SetterActionChild></a> that allows you to set member values after the Business Rule succeefully run and before the Operation is executed </td></tr>
 <tr><td>Name</td><td> - The name of the operation</td></tr>
 <tr><td>SuccessMessage</td><td> - If the operation is successfully executed, this will be the notification message</td></tr>
@@ -54,6 +54,13 @@ The `EntityOperation` designer will not compile your code, clicking save will on
 Once compiled, a new Asp.Net MVC `Action` will be created with the name of the operation. Where it would take an instance of the `EntityDefinition` from the input stream, and run the specified business rules and if all passed the setter action will be called before submitting it to the persistence layer.
 If you need to modify or do other works from this `EntityOperation` apart from simple field settings, you can use [`Trigger`](Trigger.html) where you
 can call additional [`SetterAction`](SetterAction.html), or [`EmailAction`](EmailAction.html) or [`StartWorkflowAction`](StartWorkflowAction.html).
+
+Operation can be decorated with permissions attribute, this consist set of `role` they user must have to perform the operation.
+
+* `Anynomous` is for public unathenticated and authenticated users. Selecting this attribute will nullify the rest
+* `Everybody` is only for authenticated users. Selecting this attribute will nullify the rest
+* Custom roles, you can select 1 or more of these roles but must not be together with either `Anynomous` or `Everybody`
+
 
 
 ## See also
