@@ -1289,8 +1289,8 @@
     <Content Include="Scripts\jquery-2.1.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.0.3.js" />
-    <Content Include="Scripts\jquery.signalR-2.0.3.min.js" />
+    <EmbeddedResource Include="Scripts\jquery.signalR-2.0.3.js" />
+    <EmbeddedResource Include="Scripts\jquery.signalR-2.0.3.min.js" />
     <Content Include="Scripts\jquery.tablescroll.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
