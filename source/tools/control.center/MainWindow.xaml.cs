@@ -37,7 +37,7 @@ namespace Bespoke.Sph.ControlCenter
             var vm = this.DataContext as MainViewModel;
             if (null == vm) throw new InvalidOperationException("The DataContext is not MainViewModel");
             await vm.LoadAsync();
-
+            outputTextBox.Clear();
             vm.TextWriter = new TextBoxStreamWriter(outputTextBox);
             Console.SetOut(vm.TextWriter);
             Console.WriteLine(Properties.Resources.ControlPanelIsReady);

@@ -169,15 +169,15 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 try
                 {
                     await conn.OpenAsync();
+                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM sysdatabases WHERE [name] ='" + this.ApplicationName + "'"))
+                    {
+                        var count = await cmd.ExecuteScalarAsync();
+                        return (int)count == 1;
+                    }
                 }
                 catch (Exception)
                 {
                     return false;
-                }
-                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM sysdatabases WHERE [name] ='" + this.ApplicationName + "'"))
-                {
-                    var count = await cmd.ExecuteScalarAsync();
-                    return (int)count == 1;
                 }
             }
 

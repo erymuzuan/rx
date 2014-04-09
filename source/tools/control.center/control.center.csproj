@@ -86,6 +86,17 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Converters\BooleanInvertConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\ComparisonToBooleanConverter.cs" />
+    <Compile Include="Converters\ComparisonToVisibilityConverter.cs" />
+    <Compile Include="Converters\DontShowZeroConverter.cs" />
+    <Compile Include="Converters\FullScreenToggleConverter.cs" />
+    <Compile Include="Converters\HourVisibility.cs" />
+    <Compile Include="Converters\NullToBooleanConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Converters\ZeroStatusConverter.cs" />
+    <Compile Include="Converters\ZeroToVisibilityConverter.cs" />
     <Compile Include="Helpers\DomainObject.cs" />
     <Compile Include="Helpers\PropertyChangingEventArgs.cs" />
     <Compile Include="Helpers\TextBoxStreamWriter.cs" />
@@ -103,6 +114,10 @@
     <Compile Include="ViewModel\UpdaterViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Page Include="Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

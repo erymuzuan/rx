@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Bespoke.Sph.ControlCenter.Converters">
+    <converters:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <converters:ComparisonToBooleanConverter x:Key="ComparisonToBooleanConverter"/>
+    <converters:ComparisonToVisibilityConverter x:Key="ComparisonToVisibilityConverter"/>
+    <converters:DontShowZeroConverter x:Key="DontShowZeroConverter"/>
+    <converters:HourVisibility x:Key="HourVisibility"/>
+    <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    <converters:ZeroStatusConverter x:Key="ZeroStatusConverter"/>
+    <converters:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+</ResourceDictionary>
