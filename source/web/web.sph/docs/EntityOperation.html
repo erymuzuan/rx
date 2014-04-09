@@ -20,7 +20,7 @@
 </thead>
 <tbody>
 <tr><td>Rules</td><td> - Set of rules executed before executing the actions </td></tr>
-<tr><td>Permissions</td><td> -et of roles the use must have to perform this action </td></tr>
+<tr><td>Permissions</td><td> - Set of roles the use must have to perform this action , There are 2 special permission defined and they are mutually exclusive, anynomous and everybody</td></tr>
 <tr><td>SetterActionChildCollection</td><td> - Set of <a href="SetterActionChild.htm">SetterActionChild></a> that allows you to set member values after the Business Rule succeefully run and before the Operation is executed </td></tr>
 <tr><td>Name</td><td> - The name of the operation</td></tr>
 <tr><td>SuccessMessage</td><td> - If the operation is successfully executed, this will be the notification message</td></tr>
@@ -52,6 +52,14 @@ Please refer to the <a href="businessrule.htm">BusinessRule</a> for more details
 <p>Once compiled, a new Asp.Net MVC <code>Action</code> will be created with the name of the operation. Where it would take an instance of the <code>EntityDefinition</code> from the input stream, and run the specified business rules and if all passed the setter action will be called before submitting it to the persistence layer.<br />
 If you need to modify or do other works from this <code>EntityOperation</code> apart from simple field settings, you can use <a href="Trigger.html"><code>Trigger</code></a> where you<br />
 can call additional <a href="SetterAction.html"><code>SetterAction</code></a>, or <a href="EmailAction.html"><code>EmailAction</code></a> or <a href="StartWorkflowAction.html"><code>StartWorkflowAction</code></a>.</p>
+
+<p>Operation can be decorated with permissions attribute, this consist set of <code>role</code> they user must have to perform the operation.</p>
+
+<ul>
+<li><code>Anynomous</code> is for public unathenticated and authenticated users. Selecting this attribute will nullify the rest</li>
+<li><code>Everybody</code> is only for authenticated users. Selecting this attribute will nullify the rest</li>
+<li>Custom roles, you can select 1 or more of these roles but must not be together with either <code>Anynomous</code> or <code>Everybody</code></li>
+</ul>
 
 <h2>See also</h2>
 
