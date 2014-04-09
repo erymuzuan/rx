@@ -9,8 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit.test", "unit.test", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5D5FA217-25F5-4EF5-BADA-7691B883E274}"
 	ProjectSection(SolutionItems) = preProject
-		version.json = version.json
+		10279.ps1 = 10279.ps1
 		version.10279.json = version.10279.json
+		version.json = version.json
 		WE-browsers.xml = WE-browsers.xml
 		..\..\..\Users\bespoke1\AppData\Local\Microsoft\VisualStudio\12.0\Extensions\f4yfe21a.zkq\schemas\WE-Palette.css = ..\..\..\Users\bespoke1\AppData\Local\Microsoft\VisualStudio\12.0\Extensions\f4yfe21a.zkq\schemas\WE-Palette.css
 		WE2013-settings.xml = WE2013-settings.xml

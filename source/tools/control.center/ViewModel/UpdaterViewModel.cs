@@ -49,7 +49,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 {
                     var response = await client.GetAsync(url);
                     if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        MessageBox.Show("Now new update is found, Please check again in the future", "Rx Developer", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
                         return;
+
+                    }
                     var content = response.Content as StreamContent;
                     if (null == content) return;
                     var responseJson = await content.ReadAsStringAsync();
