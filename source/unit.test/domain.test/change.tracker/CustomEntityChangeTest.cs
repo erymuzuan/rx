@@ -65,7 +65,41 @@ namespace domain.test.change.tracker
         }
 
         [Test]
-        public void ContactAttachmentAdded()
+        public void PrimitiveCollectionChildItemAdded()
+        {
+            var c2 = new Designation();
+            c2.RoleCollection.Add("admin");
+            var c1 = c2.JsonClone();
+            
+            c1.RoleCollection.Add("dev");
+
+            var generator = new ChangeGenerator();
+            var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
+            Assert.IsNotNull(changes);
+
+            changes.ForEach(Console.WriteLine);
+            Assert.AreEqual(2, changes.Count);
+        }
+
+        [Test]
+        public void PrimitiveCollectionItemChanged()
+        {
+            var c2 = new Designation();
+            c2.RoleCollection.Add("admin");
+            var c1 = c2.JsonClone();
+            
+            c1.RoleCollection[0] = "dev";
+
+            var generator = new ChangeGenerator();
+            var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
+            Assert.IsNotNull(changes);
+
+            changes.ForEach(Console.WriteLine);
+            Assert.AreEqual(1, changes.Count);
+        }
+
+        [Test]
+        public void CollectionChildItemAdded()
         {
             var c2 = this.GetCustomerInstance();
             c2.FullName = "erymuzuan";
@@ -90,7 +124,7 @@ namespace domain.test.change.tracker
         }
 
         [Test]
-        public void AttachmentChanged()
+        public void CollectionItemChanged()
         {
             var assembly = Assembly.Load("Dev.Customer");
             var type = assembly.GetType("Bespoke.Dev_1.Domain.Attachment");

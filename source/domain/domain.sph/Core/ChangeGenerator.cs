@@ -92,10 +92,20 @@ namespace Bespoke.Sph.Domain
                             NewValue = string.Format("{0} item{1}", v2.Count, v2.Count == 1 ? "" : "s")
                         });
                 }
+
+
+                bool isPrimitive = false;
                 // look for change in the individual items, by what ? TrackingId on DomainObject is it's set
                 foreach (dynamic t in v1)
                 {
                     var t1 = t;
+                    Type td = t1.GetType();
+                    if (td.IsPrimitive || t1 is string)
+                    {
+                        isPrimitive = true;
+                        continue;
+                    }
+
                     if (string.IsNullOrWhiteSpace(t.WebId)) continue;
                     dynamic t2 = null;
                     foreach (var o in v2)
@@ -107,6 +117,15 @@ namespace Bespoke.Sph.Domain
                     if (null != t2)
                     {
                         changes.AddRange(this.GetChanges(t1, t2, prepend + p.Name));
+                    }
+                }
+                if (isPrimitive)
+                {
+                    var primitive1 = string.Join(",", v1);
+                    var primitive2 = string.Join(",", v2);
+                    if (string.Compare(primitive1, primitive2) != 0)
+                    {
+                        changes.Add(new Change{ Action = "Update",OldValue = primitive1, NewValue = primitive2,PropertyName = p.Name});
                     }
                 }
 
