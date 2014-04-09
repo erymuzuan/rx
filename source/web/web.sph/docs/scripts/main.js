@@ -14,16 +14,22 @@ define(['types'], function (types) {
         });
     },
         mapTopic = function (topicHash) {
+            topicHash = topicHash.toLowerCase();
             if (topicHash.indexOf("trigger.setup") > -1)return "Trigger.html";
 
             if (topicHash.indexOf("entity.details") > -1)return "EntityDefinition.html";
             if (topicHash.indexOf("entity.form.designer") > -1)return "EntityForm.html";
             if (topicHash.indexOf("entity.view.designer") > -1)return "EntityView.html";
             if (topicHash.indexOf("entity.operation.details") > -1)return "EntityOperation.html";
+            if (topicHash.indexOf("entityview") > -1) return "EntityView.html";
+            if (topicHash.indexOf("entityform") > -1) return "EntityForm.html";
+            if (topicHash.indexOf("entitydefinition") > -1) return "EntityDefinition.html";
+            if (topicHash.indexOf("entityoperation") > -1) return "EntityOperation.html";
 
             if (topicHash.indexOf("reportdefinition") > -1)return "ReportDefinition.html";
             if (topicHash.indexOf("reportdelivery") > -1)return "reportdelivery.html";
 
+            if (topicHash.indexOf("workflowdefinition.visual") > -1) return "WorkflowDefinition.html";
             if (topicHash.indexOf("workflow.definition.visual") > -1)return "WorkflowDesigner.html";
             if (topicHash.indexOf("workflow.debugger") > -1)return "Breakpoint.html";
             return "Overview.html";
