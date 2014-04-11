@@ -272,7 +272,7 @@
           "WebId": "4b04136a-d980-4bda-ada1-3adf4dccd8b9"
         },
         "IsInitiator": false,
-        "NextActivityWebId": "36dab4d5-ae32-43bd-a434-45facebbb3aa",
+        "NextActivityWebId": "98353c0c-3443-4adf-8afa-1f1f018c8f82",
         "Name": "Create Account",
         "WebId": "5e796abc-6629-4e40-99a2-d6e10db378b4"
       },
@@ -285,8 +285,8 @@
         "ExecutingCode": null,
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 290,
-          "Y": 474,
+          "X": 604,
+          "Y": 532,
           "WebId": "1031a49b-a13c-4758-b6be-68fe646481f2"
         },
         "IsInitiator": false,
@@ -318,6 +318,54 @@
         "NextActivityWebId": "cb58e7bb-5c9d-4a6b-a141-8b256c7085e1",
         "Name": "Tell my boss",
         "WebId": "68b2e916-bdc7-4ee3-9873-b0775d637d10"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.CreateEntityActivity, domain.sph",
+        "EntityType": "Patient",
+        "ReturnValuePath": "",
+        "PropertyMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMapping, domain.sph",
+              "Source": "NoMisic",
+              "Destination": "NoMisic",
+              "WebId": "e1cea8a6-6087-4e2e-9bd9-be4ce804a2a4"
+            }
+          ]
+        },
+        "MethodName": "ExecCreateEntityActivityCreateRecord4_d214Async",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 226,
+          "Y": 513,
+          "WebId": "ddc79acb-9419-4f86-877f-a746cfc7f45d"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "36dab4d5-ae32-43bd-a434-45facebbb3aa",
+        "Name": "Create Record4",
+        "WebId": "d2148a96-5e57-4768-9ef2-15c0573c96af"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ExpressionActivity, domain.sph",
+        "Expression": "// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\nthis.oracleId = int.Parse(this.id);",
+        "MethodName": "ExecExpressionActivityExpression5_9835Async",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 365,
+          "Y": 357,
+          "WebId": "2cbf93e1-c9e4-4aba-922b-3f51f0397d84"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "d2148a96-5e57-4768-9ef2-15c0573c96af",
+        "Name": "Expression5",
+        "WebId": "98353c0c-3443-4adf-8afa-1f1f018c8f82"
       }
     ]
   },
@@ -332,6 +380,20 @@
         "TypeName": "Bespoke.Dev_2002.Domain.Patient, Dev.Patient",
         "DefaultValue": "",
         "WebId": "aa1abc2a-c6cf-4c67-90bb-606331d03b46"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "Id",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "",
+        "WebId": "e1ebc774-91bc-48af-a33f-201dfb34da84"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "oracleId",
+        "TypeName": "System.Int32, mscorlib",
+        "DefaultValue": "",
+        "WebId": "f985387a-9425-4242-894d-b3ab1193d7d3"
       }
     ]
   },
@@ -344,6 +406,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-04-07T08:35:13.2937124+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-07T08:35:13.2937124+08:00",
+  "ChangedDate": "2014-04-10T12:23:01.119637+08:00",
   "WebId": "24471f9e-ffea-40ab-bcaf-049b80278ad9"
 }

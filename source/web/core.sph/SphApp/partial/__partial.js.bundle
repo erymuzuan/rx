@@ -14,6 +14,7 @@
   <file>/SphApp/partial/DelayActivity.js</file>
   <file>/SphApp/partial/EntityDefinition.js</file>
   <file>/SphApp/partial/EntityOperation.js</file>
+  <file>/SphApp/partial/EntityChart.js</file>
   <file>/SphApp/partial/EntityView.js</file>
   <file>/SphApp/partial/ExecutedActivity.js</file>
   <file>/SphApp/partial/Filter.js</file>

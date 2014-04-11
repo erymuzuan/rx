@@ -458,6 +458,42 @@ bespoke.sph.domain.EntityOperationPartial = function () {
     return vm;
 };
 
+///#source 1 1 /SphApp/partial/EntityChart.js
+
+bespoke.sph.domain.EntityChartPartial = function (model) {
+    var pin = function() {
+            if (typeof model.IsDashboardItem === "function") {
+                model.IsDashboardItem(true);
+            } else {
+                model.IsDashboardItem = ko.observable(true);
+            }
+
+            var tcs = new $.Deferred();
+
+            context.post(ko.mapping.toJSON(model), '/sph/entitychart/save')
+                .done(tcs.resolve);
+
+            return tcs.promise();
+        },
+        unpin = function() {
+            if (typeof model.IsDashboardItem === "function") {
+                model.IsDashboardItem(false);
+            } else {
+                model.IsDashboardItem = ko.observable(false);
+            }
+
+            var tcs = new $.Deferred();
+
+            context.post(ko.mapping.toJSON(model), '/sph/entitychart/save')
+                .done(tcs.resolve);
+
+            return tcs.promise();
+        };
+    return {
+        pin: pin,
+        unpin : unpin
+    };
+};
 ///#source 1 1 /SphApp/partial/EntityView.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />

@@ -1351,6 +1351,7 @@
     <Content Include="SphApp\partial\DelayActivity.min.js">
       <DependentUpon>DelayActivity.js</DependentUpon>
     </Content>
+    <Content Include="SphApp\partial\EntityChart.js" />
     <Content Include="SphApp\partial\EntityDefinition.min.js">
       <DependentUpon>EntityDefinition.js</DependentUpon>
     </Content>

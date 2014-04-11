@@ -251,6 +251,20 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                 .done(tcs.resolve);
 
             return tcs.promise();
+        },
+        unpin = function () {
+            if (typeof _selectedChart().IsDashboardItem === "function") {
+                _selectedChart().IsDashboardItem(false);
+            } else {
+                _selectedChart().IsDashboardItem = ko.observable(false);
+            }
+
+            var tcs = new $.Deferred();
+
+            context.post(ko.mapping.toJSON(_selectedChart), '/sph/entitychart/save')
+                .done(tcs.resolve);
+
+            return tcs.promise();
         };
 
 
@@ -320,6 +334,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
         saveAs: saveAs,
         remove: remove,
         pin: pin,
+        unpin: unpin,
         type: _type,
         charts: _charts,
         execute: execute,
