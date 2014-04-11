@@ -461,7 +461,8 @@ bespoke.sph.domain.EntityOperationPartial = function () {
 ///#source 1 1 /SphApp/partial/EntityChart.js
 
 bespoke.sph.domain.EntityChartPartial = function (model) {
-    var pin = function() {
+    var context = require(objectbuilders.datacontext),
+        pin = function () {
             if (typeof model.IsDashboardItem === "function") {
                 model.IsDashboardItem(true);
             } else {

@@ -32,10 +32,10 @@
         <h3>Charts</h3>
         <div data-bind="foreach: charts">
             <div class="chart-wrapper">
-                <a href="#">
+                <div data-bind="chart:$data"></div>
+                <a href="#" class="hover-drop" title="Unpin from homepage">
                     <span class="glyphicon glyphicon-pushpin pull-right"></span>
                 </a>
-                <div data-bind="chart:$data"></div>
             </div>
         </div>
 

@@ -78,7 +78,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 return tcs.promise();
             },
             attached = function (view) {
-
+                $(view).on('click', 'a.hover-drop', function (e) {
+                    e.preventDefault();
+                    var chart = ko.dataFor(this),
+                        link = $(this);
+                    if (!chart) {
+                        return;
+                    }
+                    if (typeof chart.unpin === "function") {
+                        link.prop('disabled', true);
+                        chart.unpin().done(function () {
+                            charts.remove(chart);
+                        });
+                    }
+                });
             },
             addForm = function () {
 
