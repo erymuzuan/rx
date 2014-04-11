@@ -1,5 +1,5 @@
 ﻿#Architecture
-`Rx Developer' is an enterprise ready application platform built using the well known patterns and architecture style available from the industries. It's not a traditional `n-tier` application, but something what we called `Reactive` architecture.It's a combination of `Command Query Segregation Responsibility(CQRS)` and `Pub-Sub` , with messaging at it's heart instead of the usual `Remote Procedure Call(RPC)` used in traditional `n-tier` apps.
+`Rx Developer` is an enterprise ready application platform built using the well known patterns and architecture style available from the industries. It's not a traditional `n-tier` application, but something what we called `Reactive` architecture.It's a combination of `Command Query Segregation Responsibility(CQRS)` and `Pub-Sub` , with messaging at it's heart instead of the usual `Remote Procedure Call(RPC)` used in traditional `n-tier` apps.
 
 
 
@@ -64,10 +64,22 @@ and this piece of code doesn't need to be anywhere near `Patient`, i.e. `Patient
 
 `Reactive` architecture allows you to respond to changes quickly, without the risk of breaking existing code.
 
-`Rx Developer' allow you to use `Reative` with code, and to to think about the internals of the `Pub-Sub` messaging. All you have to worry is your business requirements.
+`Rx Developer` allow you to use `Reative` with code, and to to think about the internals of the `Pub-Sub` messaging. All you have to worry is your business requirements.
 
 ## Pub-Sub with Triggers
-These series of event and the sequence of actions could easily design and deployed in `Rx Developer' via an `Entity Trigger`.What happened is when the event is raised, it will be submitted into the message broker, where the broker will distribute the information about the event to any subscribers that has registered for that particular event via topic subscription.
+These series of event and the sequence of actions could easily design and deployed in `Rx Developer` via an `Entity Trigger`.What happened is when the event is raised, it will be submitted into the message broker, where the broker will distribute the information about the event to any subscribers that has registered for that particular event via topic subscription.
 A `Trigger` is a subscriber that subscribe to the event and can perform the subsequent action.
 
 ![Pub sub](http://i.imgur.com/efWfOWP.png[/IMG)
+
+
+## System architecture
+`Rx Developer` in an enterprise level application development platform, thus it has certain charecteristics in order to make it scalable , easy to use and highly performant. Thus the way that it was designed solely based on the ability of messaging platform
+![alt](http://i.imgur.com/CsB3rqX.png)
+
+Depicted is the simplified version of the whole system architecture, `Rx Developer` consist of one or more web server where all the transactional request will then be routed to the message broker, it's the brokers responsibility to distribute the message to the subscribing workers, in this case there at least 2 workers, 1 for transactional data store and 1 for ElasticSearch index. The other subscribers are depends on your [`Trigger`](Trigger.html) subscriptions defined by the delelopers. These messages will then be routed to workers accordingly.
+
+For the searching and read data, the architecture is vastly simplified, by having the web server as the intermediary where it's primary job is to filter and massage the request query before submitting and applying certain things on the way out.
+
+![read only data](http://i.imgur.com/kaWRgf4.png)
+

@@ -53,8 +53,8 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var css = string.Format("col-lg-{0}", this.LabelColLg ?? 4);
-                if (this.LabelColMd.HasValue) css += " col-md-" + this.LabelColMd;
+                var css = string.Format("col-md-{0}", this.LabelColMd ?? 4);
+                if (this.LabelColMd.HasValue) css += " col-lg-" + this.LabelColLg;
                 if (this.LabelColSm.HasValue) css += " col-sm-" + this.LabelColSm;
                 if (this.LabelColXs.HasValue) css += " col-xs-" + this.LabelColXs;
                 return css;
@@ -66,8 +66,8 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var css = string.Format("col-lg-{0}", this.InputColLg ?? 8);
-                if (this.InputColMd.HasValue) css += " col-md-" + this.InputColMd;
+                var css = string.Format("col-md-{0}", this.InputColMd ?? 8);
+                if (this.InputColMd.HasValue) css += " col-lg-" + this.InputColLg;
                 if (this.InputColSm.HasValue) css += " col-sm-" + this.InputColSm;
                 if (this.InputColXs.HasValue) css += " col-xs-" + this.InputColXs;
                 return css;

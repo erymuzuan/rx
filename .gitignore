@@ -62,3 +62,4 @@ _ReSharper.commercial-space
 /sph.packages/rabbitmq_server
 /sph.packages/web
 *.7z
+/test.txt
