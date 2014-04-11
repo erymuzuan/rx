@@ -158,7 +158,7 @@
 
                 },
 
-                                save = function() {
+                save = function() {
                     if (!validation.valid()) {
                         return Task.fromResult(false);
                     }
@@ -196,11 +196,11 @@
                         entity : "Patient",
                         id :id
                     },
-                                            printCommand :{
+                        printCommand :{
                         entity : 'Patient',
                         id : id
                     },
-                                            
+                        
                     watchCommand: function() {
                         return watcher.watch("Patient", entity().PatientId())
                             .done(function(){
@@ -214,8 +214,6 @@
                             });
                     },
                     watching: watching,
-
-                    saveCommand : save,
                     commands : ko.observableArray([])
                 }
             };

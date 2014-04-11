@@ -31,7 +31,9 @@
                 </div>
                 <div class="form-group">
                     <label for="form-design-operation">Operation</label>
-                    <select class="form-control" data-bind="options :$root.entity().EntityOperationCollection, optionsText: 'Name', optionsValue : 'Name', optionsCaption :'[Default Save]',value: Operation" id="form-design-operation" name="FormDesign.Operation">
+                    <select class="form-control" data-bind="options :$root.operationsOption, 
+                            optionsCaption :'[Default - No Operation]',
+                            value: Operation" id="form-design-operation" name="FormDesign.Operation">
                         
                     </select>
                 </div>

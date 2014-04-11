@@ -16,6 +16,7 @@
         function (context, logger, router, system, app, eximp, dialog) {
 
             var errors = ko.observableArray(),
+                operationsOption = ko.observableArray(),
                 entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
                 form = ko.observable(new bespoke.sph.domain.EntityForm({WebId:system.guid()})),
                 activate = function (entityid, formid) {
@@ -34,8 +35,13 @@
                             if (!fid) {
                                 tcs.resolve(true);
                             }
-                            //b.loadSchema();
+                        var operations = (b.EntityOperationCollection()).map(function(v) {
+                            return v.Name();
                         });
+                        operations.push("save");
+                        operationsOption(operations);
+                        //b.loadSchema();
+                    });
                     if (fid) {
                         context.loadOneAsync("EntityForm", "EntityFormId eq " + fid)
                         .done(function(f) {
@@ -282,9 +288,9 @@
                         });
                     return tcs.promise();
                 };
-
             var vm = {
                 errors: errors,
+                operationsOption: operationsOption,
                 attached: attached,
                 activate: activate,
                 formElements: ko.observableArray(),

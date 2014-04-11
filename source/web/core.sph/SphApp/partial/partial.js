@@ -782,8 +782,12 @@ bespoke.sph.domain.ListViewColumnPartial = function (model) {
 
         var pattern1 = /Bespoke\.Sph\.Domain\.(.*?),/,
             input1 = ko.unwrap(model.Input),
+            name1 = null,
+            icon1 = null;
+        if (input1) {
             name1 = pattern1.exec(ko.unwrap(input1.$type))[1],
             icon1 = '/images/form.element.' + name1 + '.png';
+        }
 
 
     } catch (err) {

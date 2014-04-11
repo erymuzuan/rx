@@ -25,7 +25,7 @@
 
 
     var formId = @Model.Form.Route + "-form";
-    var saveOperation = Model.Form.Operation ?? "save";
+    var saveOperation = Model.Form.Operation;
 }
 
 <h2>title</h2>
@@ -223,8 +223,12 @@
                     },
                     watching: watching,</text>
                     }
-
+                    @if (!string.IsNullOrWhiteSpace(@saveOperation))
+                    {
+                        <text>
                     saveCommand : @saveOperation.ToCamelCase(),
+                        </text>
+                    }
                     commands : ko.observableArray(@Html.Raw(commandsJs))
                 }
             };
