@@ -662,6 +662,7 @@
     <Compile Include="Filters\ScriptResult.cs" />
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
+    <Compile Include="Hubs\AuditTrailHub.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -1293,6 +1294,8 @@
     <Content Include="Scripts\jquery.tablescroll.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
@@ -2162,9 +2165,7 @@
     <Content Include="Scripts\jquery.tablesorter.min.js" />
     <EmbeddedResource Include="Scripts\jquery.ui.position.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
     <EmbeddedResource Include="Scripts\jsPlumb\anchors.js" />
     <EmbeddedResource Include="Scripts\jsPlumb\bundle.js">
       <DependentUpon>__bundle.js.bundle</DependentUpon>
