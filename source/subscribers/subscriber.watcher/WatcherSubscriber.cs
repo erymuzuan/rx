@@ -100,7 +100,7 @@ namespace Bespoke.Sph.WathersSubscribers
             }
             catch (FileNotFoundException e)
             {
-                this.WriteError(e);
+                this.WriteError(new Exception(e.Message));
             }
 
             return null;

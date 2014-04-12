@@ -189,4 +189,4 @@ if($compressed -eq 'q')
 }
 
 #compress
-& 7za a -t7z ".\rx.update.$Build.7z" ".\sph.packages\output\*"
+& 7za a -t7z ".\$Build.7z" ".\sph.packages\output\*"
