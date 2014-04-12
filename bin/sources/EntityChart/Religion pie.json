@@ -14,12 +14,12 @@
   "Aggregate": "term",
   "Field": "Religion",
   "DateInterval": "year",
-  "IsDashboardItem": false,
+  "IsDashboardItem": true,
   "DasboardItemPosition": 0,
   "HistogramInterval": null,
   "CreatedBy": "admin",
   "CreatedDate": "2014-04-01T08:29:16.1900918+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-09T07:17:52.6613487+08:00",
+  "ChangedDate": "2014-04-11T18:46:29.9324435+08:00",
   "WebId": "05a8e127-0b55-4564-937e-a32d0d70be6c"
 }
