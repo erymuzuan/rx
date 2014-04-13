@@ -1915,6 +1915,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsPublished = "IsPublished";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isShowOnNavigationBar;
+        public const string PropertyNameIsShowOnNavigationBar = "IsShowOnNavigationBar";
+
+
         private readonly ObjectCollection<Member> m_MemberCollection = new ObjectCollection<Member>();
 
         ///<summary>
@@ -1946,6 +1951,17 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<EntityOperation> EntityOperationCollection
         {
             get { return m_EntityOperationCollection; }
+        }
+
+        private readonly ObjectCollection<string> m_AuthorizedRoleCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> AuthorizedRoleCollection
+        {
+            get { return m_AuthorizedRoleCollection; }
         }
 
         ///<summary>
@@ -2147,6 +2163,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isPublished;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsShowOnNavigationBar
+        {
+            set
+            {
+                if (m_isShowOnNavigationBar == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsShowOnNavigationBar, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isShowOnNavigationBar = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isShowOnNavigationBar;
             }
         }
 

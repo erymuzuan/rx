@@ -193,7 +193,7 @@ namespace Bespoke.Sph.Web.App_Start
                                Caption = t.Plural,
                                Icon = t.IconClass,
                                ModuleId = string.Format("viewmodels/{0}", t.Name.ToLowerInvariant()),
-                               Nav = true
+                               Nav = t.IsShowOnNavigationBar
                            };
 
             var rdlRoutes = from t in reportDefinitions
