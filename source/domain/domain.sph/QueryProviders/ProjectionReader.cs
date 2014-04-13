@@ -128,11 +128,13 @@ namespace Bespoke.Sph.Domain.QueryProviders {
                 return true;
             }
 
-            public T Current {
+            public T Current
+            {
                 get { return this.current; }
             }
 
-            object IEnumerator.Current {
+            object IEnumerator.Current
+            {
                 get { return this.current; }
             }
 

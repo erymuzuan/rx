@@ -7,10 +7,10 @@ namespace Bespoke.Sph.Domain.QueryProviders
 
     public class DistinctRewriter : DbExpressionVisitor
     {
-        bool m_isOuterMostSelect;
+       // bool m_isOuterMostSelect;
         public Expression Rewrite(Expression expression)
         {
-            m_isOuterMostSelect = true;
+            //m_isOuterMostSelect = true;
             return this.Visit(expression);
         }
         // TODO

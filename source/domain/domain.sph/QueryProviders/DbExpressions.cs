@@ -31,15 +31,25 @@ namespace Bespoke.Sph.Domain.QueryProviders
     /// </summary>
     public class TableExpression : Expression
     {
+        private readonly Type m_type;
         private readonly string m_alias;
         private readonly string m_name;
 
         public TableExpression(Type type, string alias, string name)
-            : base((ExpressionType) DbExpressionType.Table, type)
         {
+            m_type = type;
             m_alias = alias;
-
             m_name = name;
+        }
+
+        public override Type Type
+        {
+            get { return m_type; }
+        }
+
+        public override ExpressionType NodeType
+        {
+            get { return (ExpressionType)DbExpressionType.Table; }
         }
 
         public string Alias
@@ -58,17 +68,28 @@ namespace Bespoke.Sph.Domain.QueryProviders
     /// </summary>
     public class ColumnExpression : Expression
     {
+        private readonly Type m_type;
         private readonly string m_alias;
         private readonly string m_name;
         private readonly int m_ordinal;
 
         public ColumnExpression(Type type, string alias, string name, int ordinal)
-            : base((ExpressionType) DbExpressionType.Column, type)
         {
+            m_type = type;
             m_alias = alias;
             this.m_name = name;
             this.m_ordinal = ordinal;
         }
+        public override Type Type
+        {
+            get { return m_type; }
+        }
+
+        public override ExpressionType NodeType
+        {
+            get { return (ExpressionType)DbExpressionType.Column; }
+        }
+
 
         public string Alias
         {
@@ -150,18 +171,19 @@ namespace Bespoke.Sph.Domain.QueryProviders
     /// </summary>
     public class SelectExpression : Expression
     {
+        private readonly Type m_type;
         private readonly string m_alias;
         private readonly ReadOnlyCollection<ColumnDeclaration> m_columns;
         private readonly Expression m_from;
         private readonly ReadOnlyCollection<OrderExpression> m_orderBy;
         private readonly Expression m_where;
-        private readonly Expression m_count;
+        //private readonly Expression m_count;
 
         public SelectExpression(
             Type type, string alias, IEnumerable<ColumnDeclaration> columns,
             Expression from, Expression where, IEnumerable<OrderExpression> orderBy)
-            : base((ExpressionType) DbExpressionType.Select, type)
         {
+            m_type = type;
             this.m_alias = alias;
             this.m_columns = columns as ReadOnlyCollection<ColumnDeclaration> ??
                            new List<ColumnDeclaration>(columns).AsReadOnly();
@@ -172,6 +194,15 @@ namespace Bespoke.Sph.Domain.QueryProviders
             {
                 this.m_orderBy = new List<OrderExpression>(orderBy).AsReadOnly();
             }
+        }
+        public override Type Type
+        {
+            get { return m_type; }
+        }
+
+        public override ExpressionType NodeType
+        {
+            get { return (ExpressionType)DbExpressionType.Select; }
         }
 
         public SelectExpression(
@@ -224,18 +255,29 @@ namespace Bespoke.Sph.Domain.QueryProviders
     public class JoinExpression : Expression
     {
         private readonly Expression m_condition;
+        private readonly Type m_type;
         private readonly JoinType m_joinType;
         private readonly Expression m_left;
         private readonly Expression m_right;
 
         public JoinExpression(Type type, JoinType joinType, Expression left, Expression right, Expression condition)
-            : base((ExpressionType) DbExpressionType.Join, type)
         {
+            m_type = type;
             this.m_joinType = joinType;
             this.m_left = left;
             this.m_right = right;
             this.m_condition = condition;
         }
+        public override Type Type
+        {
+            get { return m_type; }
+        }
+
+        public override ExpressionType NodeType
+        {
+            get { return (ExpressionType)DbExpressionType.Join; }
+        }
+
 
         public JoinType Join
         {
@@ -268,10 +310,18 @@ namespace Bespoke.Sph.Domain.QueryProviders
         private readonly SelectExpression m_source;
 
         public ProjectionExpression(SelectExpression source, Expression projector)
-            : base((ExpressionType) DbExpressionType.Projection, source.Type)
         {
             this.m_source = source;
             this.m_projector = projector;
+        }
+         public override Type Type
+        {
+            get { return m_source.Type; }
+        }
+
+        public override ExpressionType NodeType
+        {
+            get { return (ExpressionType)DbExpressionType.Projection; }
         }
 
         public SelectExpression Source
