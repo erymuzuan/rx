@@ -58,9 +58,9 @@
     <Reference Include="DiffPlex">
       <HintPath>..\..\..\packages\DiffPlex.1.2.0\lib\Net40\DiffPlex.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer, Version=1.19.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Humanizer.1.19.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
+    <Reference Include="Humanizer">
+      <HintPath>..\..\..\packages\Humanizer.1.21.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ImageResizer, Version=3.4.2.549, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1283,6 +1283,7 @@
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
     <Content Include="Scripts\bloodhound.js" />
+    <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\daterangepicker.js" />
@@ -1293,9 +1294,9 @@
     <EmbeddedResource Include="Scripts\jquery.signalR-2.0.3.js" />
     <EmbeddedResource Include="Scripts\jquery.signalR-2.0.3.min.js" />
     <Content Include="Scripts\jquery.tablescroll.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
@@ -1311,6 +1312,7 @@
     <Content Include="Scripts\typeahead.bundle.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Scripts\typeahead.jquery.js" />
+    <Content Include="Scripts\typeahead.jquery.min.js" />
     <Content Include="Scripts\_ko.bootstrap.min.js">
       <DependentUpon>_ko.bootstrap.js</DependentUpon>
     </Content>

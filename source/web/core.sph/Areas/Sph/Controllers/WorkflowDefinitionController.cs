@@ -49,9 +49,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
 
-        public async Task<ActionResult> Export()
+        public async Task<ActionResult> Export([RequestBody]WorkflowDefinition wd)
         {
-            var wd = this.GetRequestJson<WorkflowDefinition>();
             var package = new WorkflowDefinitionPackage();
             var zd = await package.PackAsync(wd);
             return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.StoreId }) });
@@ -76,11 +75,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Compile()
+        public async Task<ActionResult> Compile([RequestBody]WorkflowDefinition wd)
         {
-            var wd = this.GetRequestJson<WorkflowDefinition>();
-            var buildValidation = wd.ValidateBuild();
+            if(null == wd)throw new ArgumentNullException("wd");
 
+            var buildValidation = wd.ValidateBuild();
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
@@ -113,14 +112,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-        public async Task<ActionResult> Publish()
+        public async Task<ActionResult> Publish([RequestBody]WorkflowDefinition wd)
         {
-            var wd = this.GetRequestJson<WorkflowDefinition>();
             var buildValidation = wd.ValidateBuild();
-
             if (!buildValidation.Result)
                 return Json(buildValidation);
-
 
             // compile , then save
             var options = new CompilerOptions
@@ -164,9 +160,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { success = true, version = wd.Version, status = "OK", message = "Your workflow has been successfully compiled and published : " + Path.GetFileName(result.Output) });
         }
 
-        public async Task<ActionResult> Save()
+        public async Task<ActionResult> Save([RequestBody]WorkflowDefinition wd)
         {
-            var wd = this.GetRequestJson<WorkflowDefinition>();
             if (wd.WorkflowDefinitionId == 0 && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
             {
                 // get the empty schema

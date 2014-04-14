@@ -32,18 +32,27 @@
 	"buffers":
 	[
 		{
-			"file": "source/domain/domain.sph/Triggers/Activity.cs",
+			"file": "bin/sources/Patient.cs",
 			"settings":
 			{
-				"buffer_size": 3731,
+				"buffer_size": 14746,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "source/domain/domain.sph/Triggers/ScreenActivity.cs",
+			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\nusing System.Web.Mvc;\n\nnamespace Bespoke.Dev_0.Domain\n{\n   public class Customer : Entity\n   {\n   private int m_customerId;\n   public int CustomerId\n   {\n       get{ return m_customerId;}\n       set{ m_customerId = value;}\n   }\n     \n        public override string ToString()\n        {\n            return \"Customer:\" + ;\n        }//member:Name2\n          private System.String m_name2;\n   public System.String Name2\n   {\n       get{ return m_name2;}\n       set{ m_name2 = value;}\n   }\n\n//member:Title\n          private System.String m_title;\n   public System.String Title\n   {\n       get{ return m_title;}\n       set{ m_title = value;}\n   }\n\n//member:Address\n          private Address m_address = new Address();\n   public Address Address\n   {\n       get{ return m_address;}\n       set{ m_address = value;}\n   }\n\n//member:ContactCollection\n          private readonly ObjectCollection<Contact> m_contactCollection = new ObjectCollection<Contact>();\n   public ObjectCollection<Contact> ContactCollection\n   {\n       get{ return m_contactCollection;}\n   }\n\n   }\n//class:Name2\n\n//class:Title\n\n//class:Address\n   public class Address: DomainObject\n   {\n   private System.String m_street1;\n   public System.String Street1\n   {\n       get{ return m_street1;}\n       set{ m_street1 = value;}\n   }\n\n   private System.String m_state;\n   public System.String State\n   {\n       get{ return m_state;}\n       set{ m_state = value;}\n   }\n\n   }\n\n\n\n//class:ContactCollection\n   public class Contact: DomainObject\n   {\n   private System.String m_name;\n   public System.String Name\n   {\n       get{ return m_name;}\n       set{ m_name = value;}\n   }\n\n   private System.String m_telephone;\n   public System.String Telephone\n   {\n       get{ return m_telephone;}\n       set{ m_telephone = value;}\n   }\n\n   }\n\n\n\npublic partial class CustomerController : System.Web.Mvc.Controller\n{\n//exec:Search\n       public async Task<System.Web.Mvc.ActionResult> Search()\n       {\n\n            var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);\n            var request = new System.Net.Http.StringContent(json);\n            var url = \"dev/customer/_search\";\n\n            using(var client = new System.Net.Http.HttpClient())\n            {\n                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);\n                var response = await client.PostAsync(url, request);\n                var content = response.Content as System.Net.Http.StreamContent;\n                if (null == content) throw new Exception(\"Cannot execute query on es \" + request);\n                this.Response.ContentType = \"application/json; charset=utf-8\";\n                return Content(await content.ReadAsStringAsync());\n            }\n                   }\n//exec:Save\n       public async Task<System.Web.Mvc.ActionResult> Save()\n       {\n\n            var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Customer>(this);\n            var context = new Bespoke.Sph.Domain.SphDataContext();\n            using(var session = context.OpenSession())\n            {\n                session.Attach(item);\n                await session.SubmitChanges(\"save\");\n            }\n            this.Response.ContentType = \"application/json; charset=utf-8\";\n            return Json(new {success = true, status=\"OK\", id = item.CustomerId});\n       }\n       public Customer Item{get;set;}\n//exec:validate\n       [HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> Validate(string id)\n       {\n           var context = new Bespoke.Sph.Domain.SphDataContext();\n           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Customer>(this);\n           if(null == item) item = this.Item;\n           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == \"Customer\");\n           var brokenRules = new ObjectCollection<ValidationResult>();\n           var rules = id.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);\n\n            foreach(var r in rules)\n            {\n                var appliedRules = ed.BusinessRuleCollection.Where(b => b.Name == r);\n                ValidationResult result = item.ValidateBusinessRule(appliedRules);\n\n                if(!result.Success){\n                    brokenRules.Add(result);\n                }\n            }\n           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});\n\n   \n            return Json(new {success = true, status=\"OK\", id = item.CustomerId});\n       }\n//exec:Remove\n       [HttpDelete]\n       public async Task<System.Web.Mvc.ActionResult> Remove(int id)\n       {\n\n            var repos = ObjectBuilder.GetObject<IRepository<Customer>>();\n            var item = await repos.LoadOneAsync(id);\n            if(null == item)\n                return new HttpNotFoundResult();\n\n            var context = new Bespoke.Sph.Domain.SphDataContext();\n            using(var session = context.OpenSession())\n            {\n                session.Delete(item);\n                await session.SubmitChanges(\"delete\");\n            }\n            this.Response.ContentType = \"application/json; charset=utf-8\";\n            return Json(new {success = true, status=\"OK\", id = item.CustomerId});\n       }\n//exec:Schemas\n       public async Task<System.Web.Mvc.ActionResult> Schemas()\n       {\n           var context = new SphDataContext();\n           var ed = await context.LoadOneAsync<EntityDefinition>(t => t.Name == \"Customer\");\n           var script = await ed.GenerateCustomXsdJavascriptClassAsync();\n           this.Response.ContentType = \"application/javascript\";\n           return Content(script);\n       }\n}\n}\n\nline:21 Invalid expression term ';'\nline:21 ; expected\n  {\n  \"$type\": \"Bespoke.Sph.Domain.WorkflowCompilerResult, domain.sph\",\n  \"Result\": false,\n  \"Errors\": {\n    \"$type\": \"Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.BuildError, domain.sph]], domain.sph\",\n    \"$values\": [\n      {\n        \"$type\": \"Bespoke.Sph.Domain.BuildError, domain.sph\",\n        \"Message\": \"Invalid expression term ';'\",\n        \"Code\": \"            return \\\"Customer:\\\" + ;\",\n        \"Line\": 21,\n        \"ItemWebId\": \"\"\n      },\n      {\n        \"$type\": \"Bespoke.Sph.Domain.BuildError, domain.sph\",\n        \"Message\": \"; expected\",\n        \"Code\": \"            return \\\"Customer:\\\" + ;\",\n        \"Line\": 21,\n        \"ItemWebId\": \"\"\n      }\n    ]\n  },\n  \"Output\": \"c:\\\\project\\\\work\\\\sph\\\\bin\\\\output\\\\Dev.Customer.dll\"\n}\n  Expected: True\n  But was:  False\n\n   at NUnit.Framework.Assert.That(Object actual, IResolveConstraint expression, String message, Object[] args)\n   at NUnit.Framework.Assert.IsTrue(Boolean condition, String message)\n   at domain.test.entities.EntityDefinitionCodeTest.GenerateRootClass() in EntityDefinitionCodeTest.cs: line 51\n",
 			"settings":
 			{
-				"buffer_size": 20010,
+				"buffer_size": 6883,
+				"line_ending": "Windows",
+				"name": "using Bespoke.Sph.Domain;"
+			}
+		},
+		{
+			"file": "/D/temp/sph/version.json",
+			"settings":
+			{
+				"buffer_size": 54,
 				"line_ending": "Windows"
 			}
 		}
@@ -75,6 +84,14 @@
 	},
 	"file_history":
 	[
+		"/C/project/work/sph/bin/web/docs/ParallelActivity.html",
+		"/C/project/work/sph/restore-package.ps1",
+		"/C/Users/bespoke1/Desktop/ddd.linq",
+		"/C/project/work/sph/source/domain/domain.sph/Triggers/Activity.cs",
+		"/C/project/work/sph/source/domain/domain.sph/Triggers/ScreenActivity.cs",
+		"/C/project/work/sph/source/web/web.sph/SphApp/views/patient-details.html",
+		"/C/project/work/sph/source/web/web.sph/SphApp/viewmodels/patient-details.js",
+		"/C/project/work/sph/packages/Castle.Core.3.2.2/ASL - Apache Software Foundation License.txt",
 		"/C/project/work/sph/source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
 		"/C/project/work/sph/source/web/web.sph/Views/Workflow/EditorTemplates/TextBox.cshtml",
 		"/C/Users/itpro/AppData/Local/Temp/ipuuso0s.0.cs",
@@ -105,6 +122,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"col-lg",
 			"this",
 			"\n        public async override Task InitiateAsync(Workflow wf)\n        {\n          ",
 			"indent",
@@ -127,6 +145,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"col-md"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -137,64 +156,92 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "source/domain/domain.sph/Triggers/Activity.cs",
+					"file": "bin/sources/Patient.cs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3731,
+						"buffer_size": 14746,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								7684,
+								7684
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 813.0,
+						"translation.y": 10329.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6883,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								853,
+								853
+							]
+						],
+						"settings":
+						{
+							"auto_name": "using Bespoke.Sph.Domain;",
+							"syntax": "Packages/C#/C#.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 291.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "source/domain/domain.sph/Triggers/ScreenActivity.cs",
+					"buffer": 2,
+					"file": "/D/temp/sph/version.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 20010,
+						"buffer_size": 54,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								54,
+								54
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1068.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -205,7 +252,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 32.0
+		"height": 40.0
 	},
 	"input":
 	{
@@ -241,7 +288,7 @@
 	"project": "sph.sublime-project",
 	"replace":
 	{
-		"height": 60.0
+		"height": 74.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -249,6 +296,14 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"patient.",
+				"bin\\sources\\Patient.cs"
+			],
+			[
+				"pa-de",
+				"source\\web\\web.sph\\SphApp\\views\\patient-details.html"
+			],
 			[
 				"screea",
 				"source\\domain\\domain.sph\\Triggers\\ScreenActivity.cs"
