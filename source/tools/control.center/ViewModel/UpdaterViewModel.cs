@@ -82,7 +82,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                         var ps = Process.Start(info);
                         if (null == ps) throw new InvalidOperationException("Cannot start Powershell");
                         ps.WaitForExit();
-                        MessageBox.Show("Now run the " + updateScript, Strings.Title, MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show( updateScript+ " has been downloaded to your working directory, use Powershell to execute the update", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
