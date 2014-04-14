@@ -20,7 +20,6 @@
 ## See also
 
 [Activity](Activity.html)
-[Activity](Activity.html)
 [CreateEntityActivity](CreateEntityActivity.html)
 [DecisionActivity](DecisionActivity.html)
 [DecisionBranch](DecisionBranch.html)

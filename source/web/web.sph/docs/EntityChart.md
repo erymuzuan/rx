@@ -24,7 +24,7 @@ The chart type, currently these are the only options
 * Column
 
 ## Saving your chart
-`Rx Developer' also allows you to save you chart, this enable you to quickly render your predefined charts by just selected it from the options
+`Rx Developer` also allows you to save you chart, this enable you to quickly render your predefined charts by just selected it from the options
 
 ![alt](http://i.imgur.com/gSWKWp6.png)
 Create your chart as usual and click on the save button to save your chart

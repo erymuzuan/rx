@@ -58,7 +58,7 @@ Sometimes, it's not enough to just listen to entity operation, you will also wha
 ![Age](http://i.imgur.com/ww6netA.png)
 
 ##Custom Actions
-Having a trigger registered is about , being able to do something about it. `Rx Developer' allows you to do at least 3 things
+Having a trigger registered is about , being able to do something about it. `Rx Developer` allows you to do at least 3 things
 
 * Send a notification via [`EmailAction`](EmailAction.html) or `Message`
 * Run a [`SetterAction`](SetterAction.html) to set the properties of the record

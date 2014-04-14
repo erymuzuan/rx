@@ -26,9 +26,9 @@
 </tbody></table>
 
 
-Attributes is defined by the schema designer, where you can design your object in a hierachical manner. `Rx Developer' call this `Member` [see more](Member.html)
+Attributes is defined by the schema designer, where you can design your object in a hierachical manner. `Rx Developer` call this `Member` [see more](Member.html)
 
-`Rx Developer' also allows you to creates a set of operations to your entity definition by means of `EntityOperation`, this is available from `EntityDefinition` designer.
+`Rx Developer` also allows you to creates a set of operations to your entity definition by means of `EntityOperation`, this is available from `EntityDefinition` designer.
 ![EntityOperation](http://i.imgur.com/PD4IAz9.png). 
 You can click `+Operation` to add a new operation.
 

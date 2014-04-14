@@ -1,12 +1,12 @@
 ﻿#Components
 ##Message Broker
-The messaging infrastructure for `Rx Developer', RabbitMQ is the default broker used their to their Open Source nature and ease of use. It's highly scalable with erlang node. Clustering the broker is also very easy to do. It also runs on various platforms.
+The messaging infrastructure for `Rx Developer`, RabbitMQ is the default broker used their to their Open Source nature and ease of use. It's highly scalable with erlang node. Clustering the broker is also very easy to do. It also runs on various platforms.
 
 `Rx Developer` could also be made to run on Microsoft Azure Enterprise Service Bus for cloud messaging solution.
 
 
 ##Persistence Database
-Microsoft SQL Server 2012 is the default persistence database for `Rx Developer'. Any other database management system are planned for the future release.
+Microsoft SQL Server 2012 is the default persistence database for `Rx Developer`. Any other database management system are planned for the future release.
 
 
 ##Read/Search Repository

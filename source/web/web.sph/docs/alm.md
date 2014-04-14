@@ -1,7 +1,7 @@
 ﻿#Application Development
 Software Development Lifecycle(SDLC) is a discipline in which the process of software development take places. These might consists a set of methodologies, best practices, design, development and project management styles of your preference.
 
-`Rx Developer' do not dictate the kind of SDLC or Application Lifecycle Management(ALM) of your choice, be it waterfall , RUP or one of the agile approaches. What this documentation will talk about is just the development processes. Normally, enterprise software development processes can be broken down into these activities :
+`Rx Developer` do not dictate the kind of SDLC or Application Lifecycle Management(ALM) of your choice, be it waterfall , RUP or one of the agile approaches. What this documentation will talk about is just the development processes. Normally, enterprise software development processes can be broken down into these activities :
 
 1. User requirements/user stories
 2. Design

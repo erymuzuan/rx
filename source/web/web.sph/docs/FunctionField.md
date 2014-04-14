@@ -18,7 +18,7 @@
 
 
 ## C# Script
-Microsoft Roslyn Service script engine allows you to run any arbitary C# code within a host object. `Rx Developer' will create a host object for your script which allow you to access few this such as 
+Microsoft Roslyn Service script engine allows you to run any arbitary C# code within a host object. `Rx Developer` will create a host object for your script which allow you to access few this such as 
 
 * The current record as `item`
 * All the types within your Entity or Workflow assembly

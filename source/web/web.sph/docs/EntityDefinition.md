@@ -44,7 +44,7 @@ In `Rx Developer`, this could easily be modelled as follows
 
 ```
 
-This is very natural way storing your data, in a way that we all understand, there's no need to artificially model after tables and relatioships. The way `Rx Developer' take care of your data is known as `Document` store database. You can read more about [Document database](http://en.wikipedia.org/wiki/Document-oriented_database) in Wikipedia.
+This is very natural way storing your data, in a way that we all understand, there's no need to artificially model after tables and relatioships. The way `Rx Developer` take care of your data is known as `Document` store database. You can read more about [Document database](http://en.wikipedia.org/wiki/Document-oriented_database) in Wikipedia.
 
 Notice that `Address` is just another object that belongs to the `Patient` entity, what makes  `Patient` and `Address` diferrent is very minimal
 *`Patient` is an object that you interested to track it's life time

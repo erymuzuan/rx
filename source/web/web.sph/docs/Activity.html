@@ -2,6 +2,8 @@
 
 <h2>Overview</h2>
 
+<p>Activity is the basis of any processing step in a <a href="WorkflowDefinition.html">WorkflowDefinition</a>, it's basically an individual task that will be executed as steps.</p>
+
 <h2>Properties</h2>
 
 <table class="table table-condensed table-bordered">
@@ -12,14 +14,35 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>MethodName</td><td> - </td></tr>
-<tr><td>IsAsync</td><td> - </td></tr>
-<tr><td>ExecutedCode</td><td> - </td></tr>
-<tr><td>ExecutingCode</td><td> - </td></tr>
-<tr><td>WorkflowDesigner</td><td> - </td></tr>
+<tr><td>MethodName</td><td> - The name of the Method for this Activity - Used internally</td></tr>
+<tr><td>IsAsync</td><td> - Is the method invoked asynchronously - Used internally</td></tr>
+<tr><td>ExecutedCode</td><td> - The piece of code that will be executed after the Activity method is executed - Used internally </td></tr>
+<tr><td>ExecutingCode</td><td> - The piece of code that will be executed prior  to the Activity method is executed - Used internally</td></tr>
+<tr><td>WorkflowDesigner</td><td> - The information about the Activity in the WorkflowDesigner - Used internally</td></tr>
 <tr><td>IsInitiator</td><td> - </td></tr>
-<tr><td>NextActivityWebId</td><td> - </td></tr>
-<tr><td>Name</td><td> - </td></tr>
+<tr><td>NextActivityWebId</td><td> - The next activity that will be executed, you would normally use the Workflow designer to connection the activities</td></tr>
+<tr><td>Name</td><td> - The identifier for the activity</td></tr>
 </tbody></table>
 
 <h2>See also</h2>
+
+<p><a href="Activity.html">Activity</a><br />
+<a href="CreateEntityActivity.html">CreateEntityActivity</a><br />
+<a href="DecisionActivity.html">DecisionActivity</a><br />
+<a href="DecisionBranch.html">DecisionBranch</a><br />
+<a href="DelayActivity.html">DelayActivity</a><br />
+<a href="DeleteEntityActivity.html">DeleteEntityActivity</a><br />
+<a href="EndActivity.html">EndActivity</a><br />
+<a href="ExpressionActivity.html">ExpressionActivity</a><br />
+<a href="ScreenActivity.html">ScreenActivity</a><br />
+<a href="NotificationActivity.html">NotificationActivity</a><br />
+<a href="UpdateEntityActivity.html">UpdateEntityActivity</a><br />
+<a href="ReceiveActivity.html">ReceiveActivity</a><br />
+<a href="SendActivity.html">SendActivity</a><br />
+<a href="ListenActivity.html">ListenActivity</a><br />
+<a href="ParallelActivity.html">ParallelActivity</a><br />
+<a href="JoinActivity.html">JoinActivity</a><br />
+<a href="ThrowActivity.html">ThrowActivity</a><br />
+<a href="ParallelBranch.html">ParallelBranch</a><br />
+<a href="ListenBranch.html">ListenBranch</a><br />
+<a href="ScheduledTriggerActivity.html">ScheduledTriggerActivity</a></p>
