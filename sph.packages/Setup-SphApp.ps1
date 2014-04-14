@@ -2,7 +2,7 @@
        [string]$WorkingCopy = ".",
        [string]$ApplicationName = "",
        [string]$Port = 0,
-       [string]$SqlServer = "(localdb)\Projects",
+       [string]$SqlServer = "Projects",
        [string]$RabbitMqUserName = "guest",
        [string]$RabbitMqPassword = "guest",
        [string]$ElasticSearchHost = "http://localhost:9200",
@@ -26,10 +26,18 @@ if(!(Get-Command sqlcmd -ErrorAction SilentlyContinue))
     exit;
 }
 
+
+if(!(Get-Command Invoke-WebRequest -ErrorAction SilentlyContinue))
+{
+    Write-Warning "You will need at least powershell version 3.0"
+    exit;
+}
+
+
 if(!(Test-Path("C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe")))
 {
     Write-Warning "Cannot find aspnet_regsql in your path, you may not have .Net 4.5.1 SDK installed"
-    Start-Process "http://www.sph.my/download"
+    Start-Process "http://www.bespoke.com.my/download"
     exit;
 }
 
@@ -42,7 +50,7 @@ if(!(Test-Path(".\rabbitmq_server\sbin\rabbitmqctl.bat")))
 }
 Try
 {
-   & sqlcmd -E -S "$SqlServer" -Q "SELECT COUNT(*) FROM sysdatabases"
+   & sqlcmd -E -S "(localdb)\$SqlServer" -Q "SELECT COUNT(*) FROM sysdatabases"
 }
 Catch
 {
@@ -54,13 +62,11 @@ Catch
 if($Port -eq 0)
 {
 	Write-Warning "Please provide a port no for your web app"	
-	
 	exit;
 }
 if($ApplicationName -eq "Dev")
 {
 	Write-Warning "Please provide a different name, Dev is a reserved keyword"	
-	
 	exit;
 }
 
@@ -80,19 +86,19 @@ if((Test-Path("$WorkingCopy\StartAspnetAdminWeb.bat")) -eq $false)
 
 #creates databases
 Write-Host "Creating database $ApplicationName"
-& sqlcmd -S "$SqlServer" -E -d master -Q "DROP DATABASE [$ApplicationName]"
-& sqlcmd -S "$SqlServer" -E -d master -Q "CREATE DATABASE [$ApplicationName]"
+& sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "DROP DATABASE [$ApplicationName]"
+& sqlcmd -S "(localdb)\$SqlServer" -E -d master -Q "CREATE DATABASE [$ApplicationName]"
 Write-Host "Created database $ApplicationName"
 #Start-Sleep -Seconds 10
-& sqlcmd -S "$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
-& sqlcmd -S "$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [$ApplicationName] AUTHORIZATION [dbo]"
+& sqlcmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
+& sqlcmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [$ApplicationName] AUTHORIZATION [dbo]"
 Write-Host "Created schema [SPH]"
 
 Get-ChildItem -Filter *.sql -Path $WorkingCopy\database\Table `
 | %{
     Write-Host "Creating table $_"
     $sqlFileName = $_.FullName    
-    & sqlcmd -S "$SqlServer" -E -d "$ApplicationName" -i "$sqlFileName"
+    & sqlcmd -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -i "$sqlFileName"
 }
 
 
@@ -131,7 +137,7 @@ foreach($configFile in $allConfigs){
     $xml.SelectSingleNode('//appSettings/add[@key="sph:ApplicationName"]/@value').'#text' = $ApplicationName
     $xml.SelectSingleNode('//appSettings/add[@key="sph:ApplicationFullName"]/@value').'#text' = $ApplicationName
 
-    $connectionString = 'Data Source=' + $SqlServer +';Initial Catalog='+ $ApplicationName +';Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False'
+    $connectionString = 'Data Source=(localdb)\' + $SqlServer +';Initial Catalog='+ $ApplicationName +';Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False'
 
     $xml.SelectSingleNode('//connectionStrings/add[@name="Sph"]/@connectionString').'#text' = $connectionString
     $xml.SelectSingleNode('//spring/objects/object[@name="IPersistence"]/constructor-arg[@name="connectionString"]/@value').'#text' = $connectionString
@@ -156,10 +162,10 @@ $apc.Save("$WorkingCopy\config\applicationhost.config")
 
 
 #asp.net memberships
-& C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe -E -S "$SqlServer" -d "$ApplicationName" -A mr
+& C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe -E -S "(localdb)\$SqlServer" -d "$ApplicationName" -A mr
 #roles
-mru -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
-mru -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
+& .\mru -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
+& .\mru -u admin -p 123456 -e admin@$ApplicationName.com -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c "$WorkingCopy\web\web.config"
 
 
 
