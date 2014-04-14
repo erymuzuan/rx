@@ -112,8 +112,6 @@ Get-ChildItem -Filter *.* -Path ".\bin\subscribers.host" `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$WorkingCopy\subscribers.host" -Force
 
-
-
 #tools
 Get-ChildItem -Filter *.* -Path ".\bin\tools" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
@@ -126,6 +124,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\web" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
+| ? { $_.Name.EndsWith(".md") -eq $false} `
 | Copy-Item -Destination "$WorkingCopy\web" -Force -Recurse
 
 
@@ -218,10 +217,15 @@ Get-Item -Path .\sph.packages\output\subscribers\subscriber.trigger.* `
 | ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
 | Remove-Item
 
-#version
-$versionJson = @"{" +
+ls -Filter *.md -Path $WorkingCopy\web\docs | Remove-Item
 
-+"}"
+#version
+$versionJson = @"
+{
+"build": $Build
+}
+"@
+$versionJson > $WorkingCopy\version.json
 Write-Host ""
 
 Write-Host ""
