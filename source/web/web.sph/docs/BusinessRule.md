@@ -2,6 +2,7 @@
 ##Overview
 [`BusinessRule`](BusinessRule.html) provides a way for the devekoper to define their custom business rules without code. A [`BusinessRule`](BusinessRule.html) can contains 1 or more [`Rule`](Rule.html), if any of this rule is evaluated to `false` then the whole [`BusinessRule`](BusinessRule.html) will be considered broken.
 
+![alt](http://i.imgur.com/KobnjRa.png)
 
 ##Properties
 <table class="table table-condensed table-bordered">
@@ -12,6 +13,7 @@
 </tr>
 </thead>
 <tbody>
+<tr><td>FilterCollection</td><td> - The list of rules that must be satisfied before the rules could be run, if no filter is specified the rule will be run every time, but if there are filters specified and if one of the filter fail to satifiy, the rule will not run.</td></tr>
 <tr><td>RuleCollection</td><td> - The list of Rule</td></tr>
 <tr><td>Description</td><td> -Developer descriptive note </td></tr>
 <tr><td>Name</td><td> - Developer descriptive identifier</td></tr>

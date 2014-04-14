@@ -47,6 +47,83 @@ namespace domain.test.businessrules
 
         }
         [Test]
+        public void SimpleRuleWithFilter()
+        {
+            var customerDefinition = this.CreatePatientDefinition();
+            dynamic customer = this.CreateInstance(customerDefinition);
+            customer.FullName = "Erymuzuan";
+            customer.Gender = "Male";
+
+            var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
+            var nameMustContainsA = new Rule
+            {
+                Left = new DocumentField { Type = typeof(string), Path = "FullName" },
+                Operator = Operator.Substringof,
+                Right = new ConstantField { Type = typeof(string), Value = "A" }
+            };
+            br.RuleCollection.Add(nameMustContainsA);
+            customerDefinition.BusinessRuleCollection.Add(br);
+
+            br.FilterCollection.Add(new Rule
+            {
+                Left = new DocumentField{Type = typeof(string),Path = "Gender"},
+                Operator = Operator.Eq,
+                Right = new ConstantField{ Type = typeof(string), Value = "Male"}
+            });
+
+            ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
+            foreach (var error in result.ValidationErrors)
+            {
+                Console.WriteLine(error);
+            }
+            Console.WriteLine(result.ValidationErrors);
+            Assert.IsTrue(result.Success);
+
+            Assert.AreEqual(0, result.ValidationErrors.Count);
+
+
+        }
+
+        [Test]
+        public void SimpleRuleWithFilterNotEvaluated()
+        {
+            var customerDefinition = this.CreatePatientDefinition();
+            dynamic customer = this.CreateInstance(customerDefinition);
+            customer.FullName = "Siti";
+            customer.Gender = "Female";
+
+            var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
+            var nameMustContainsA = new Rule
+            {
+                Left = new DocumentField { Type = typeof(string), Path = "FullName" },
+                Operator = Operator.Substringof,
+                Right = new ConstantField { Type = typeof(string), Value = "A" }
+            };
+            br.RuleCollection.Add(nameMustContainsA);
+            customerDefinition.BusinessRuleCollection.Add(br);
+
+            br.FilterCollection.Add(new Rule
+            {
+                Left = new DocumentField{Type = typeof(string),Path = "Gender"},
+                Operator = Operator.Eq,
+                Right = new ConstantField{ Type = typeof(string), Value = "Male"}
+            });
+
+            ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
+            foreach (var error in result.ValidationErrors)
+            {
+                Console.WriteLine(error);
+            }
+            Console.WriteLine(result.ValidationErrors);
+            Assert.IsTrue(result.Success);
+
+            Assert.AreEqual(0, result.ValidationErrors.Count);
+
+
+        }
+
+
+        [Test]
         public void TwoRulesAOneFail()
         {
 
@@ -163,9 +240,16 @@ namespace domain.test.businessrules
                 Name = "FullName",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
-            }); ent.MemberCollection.Add(new Member
+            }); 
+            ent.MemberCollection.Add(new Member
             {
                 Name = "Title",
+                TypeName = "System.String, mscorlib",
+                IsFilterable = true
+            });
+            ent.MemberCollection.Add(new Member
+            {
+                Name = "Gender",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });

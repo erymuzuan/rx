@@ -534,6 +534,7 @@ bespoke.sph.domain.BusinessRule = function (optionOrWebid) {
         ErrorLocation: ko.observable(''),
         ErrorMessage: ko.observable(''),
         RuleCollection: ko.observableArray([]),
+        FilterCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -734,9 +735,11 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         IconClass: ko.observable(''),
         RecordName: ko.observable(''),
         IsPublished: ko.observable(false),
+        IsShowOnNavigationBar: ko.observable(false),
         MemberCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
         EntityOperationCollection: ko.observableArray([]),
+        AuthorizedRoleCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

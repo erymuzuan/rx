@@ -27,23 +27,70 @@
                     </div>
                     <div class="form-group">
                         <label for="Description" class="col-lg-2 control-label">Description</label>
-                        <div class="col-lg-6">
+                        <div class="col-lg-9">
                             <input type="text" class="form-control" id="Description" placeholder="Description...." data-bind="value:Description">
                         </div>
                     </div>
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label for="ErrorLocation" class="col-lg-2 control-label">Error Location</label>
                         <div class="col-lg-6">
                             <input type="text" class="form-control" id="ErrorLocation" placeholder="ErrorLocation...." data-bind="value:ErrorLocation">
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="form-group">
                         <label for="br-message" class="col-lg-2 control-label">Message</label>
-                        <div class="col-lg-6">
+                        <div class="col-lg-9">
                             <input type="text" class="form-control" id="br-message" placeholder="Message" data-bind="value:ErrorMessage">
                         </div>
                     </div>
+
+                    <h3>
+
+                        Filters
+                    </h3>
+                    <a class="btn btn-link pull-right" data-bind="click: addFilter">+ Filter</a>
+                    <table id="filters-table" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Left</th>
+                                <th>Operator</th>
+                                <th>Right</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: FilterCollection">
+                            <tr>
+                                <td>
+                                    @Html.Partial("_RuleFieldDropDown", new TypeModel { Path = "Left" })
+                                </td>
+                                <td>
+                                    <select name="rule-operator" class="form-control" data-bind="value: Operator">
+                                        <option value="Eq">=</option>
+                                        <option value="Neq">!=</option>
+                                        <option value="Le">&lt;=</option>
+                                        <option value="Lt">&lt;</option>
+                                        <option value="Ge">&gt;=</option>
+                                        <option value="Gt">&gt;</option>
+                                        <option value="Substringof">Contains</option>
+                                        <option value="StartsWith">Starts with</option>
+                                        <option value="EndsWith">Ends with</option>
+                                        <option value="NotContains">Not Substringof</option>
+                                        <option value="NotStartsWith">Not StartsWith</option>
+                                        <option value="NotEndsWith">Not EndsWith</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    @Html.Partial("_RuleFieldDropDown", new TypeModel { Path = "Right" })
+                                </td>
+                                <td>
+                                    <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click : $parent.removeRule.call($parent,$data)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
                     <h3>
 

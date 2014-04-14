@@ -220,6 +220,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="FilterCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Rule" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>

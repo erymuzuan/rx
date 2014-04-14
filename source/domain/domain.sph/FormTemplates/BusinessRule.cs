@@ -9,6 +9,9 @@ namespace Bespoke.Sph.Domain
             var result = new ValidationResult { Success = true };
             var context = new RuleContext(item);
 
+            var filter = this.FilterCollection.All(r => r.Execute(context));
+            if (!filter) return result;
+
             var valid = this.RuleCollection.All(r => r.Execute(context));
             if (!valid)
             {

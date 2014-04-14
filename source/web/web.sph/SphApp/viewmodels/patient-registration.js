@@ -159,9 +159,23 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
             validate = function () {
                 var tcs = new $.Deferred();
-                context.post( ko.mapping.toJSON(entity),'/patient/validate/Dob,ChildMarriage')
+                context.post(ko.mapping.toJSON(entity), '/patient/validate/Dob,ChildMarriage')
                     .done(function (result) {
-                        console.log(result);
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                            app.showMessage("OK done", "SPH Platform showcase", ["OK"]);
+
+
+                        } else {
+                            var violations = _(result.rules).map(function (m) {
+                                m.ValidationErrors;
+                            });
+                            console.log(violations);
+                            errors(violations);
+
+                            logger.error("There are errors in your entity, !!!");
+                        }
                         tcs.resolve(true);
                     });
 

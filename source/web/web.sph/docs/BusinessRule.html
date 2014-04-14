@@ -4,6 +4,8 @@
 
 <p><a href="BusinessRule.html"><code>BusinessRule</code></a> provides a way for the devekoper to define their custom business rules without code. A <a href="BusinessRule.html"><code>BusinessRule</code></a> can contains 1 or more <a href="Rule.html"><code>Rule</code></a>, if any of this rule is evaluated to <code>false</code> then the whole <a href="BusinessRule.html"><code>BusinessRule</code></a> will be considered broken.</p>
 
+<p><img src="http://i.imgur.com/KobnjRa.png" alt="alt" /></p>
+
 <h2>Properties</h2>
 
 <table class="table table-condensed table-bordered">
@@ -14,6 +16,7 @@
 </tr>
 </thead>
 <tbody>
+<tr><td>FilterCollection</td><td> - The list of rules that must be satisfied before the rules could be run, if no filter is specified the rule will be run every time, but if there are filters specified and if one of the filter fail to satifiy, the rule will not run.</td></tr>
 <tr><td>RuleCollection</td><td> - The list of Rule</td></tr>
 <tr><td>Description</td><td> -Developer descriptive note </td></tr>
 <tr><td>Name</td><td> - Developer descriptive identifier</td></tr>

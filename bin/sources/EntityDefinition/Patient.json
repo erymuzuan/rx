@@ -670,6 +670,10 @@
             }
           ]
         },
+        "FilterCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Description": "",
         "Name": "Dob",
         "ErrorLocation": "",
@@ -681,29 +685,6 @@
         "RuleCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
           "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
-              "Left": {
-                "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
-                "XPath": "",
-                "NamespacePrefix": "",
-                "TypeName": "",
-                "Path": "Age",
-                "Name": "Age",
-                "Note": "",
-                "WebId": "feb7a7f2-7627-4e81-b314-b389ea11fef3"
-              },
-              "Right": {
-                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-                "TypeName": "System.Int32, mscorlib",
-                "Value": 16,
-                "Name": "16",
-                "Note": "",
-                "WebId": "6f1c6924-9dc0-438e-9481-7eb0b5a0a64d"
-              },
-              "Operator": "Le",
-              "WebId": "1738cbb4-4741-4e5f-82fe-382b4b602223"
-            },
             {
               "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
               "Left": {
@@ -726,6 +707,34 @@
               },
               "Operator": "Eq",
               "WebId": "8c1a203c-a748-420c-bb89-bfb9f2f60bf5"
+            }
+          ]
+        },
+        "FilterCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
+              "Left": {
+                "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                "XPath": "",
+                "NamespacePrefix": "",
+                "TypeName": "",
+                "Path": "Age",
+                "Name": "Age",
+                "Note": "",
+                "WebId": "383d3b32-1708-4b41-8940-dbc3c1287116"
+              },
+              "Right": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.Int32, mscorlib",
+                "Value": 10,
+                "Name": "10",
+                "Note": "",
+                "WebId": "22796ba8-b3ab-4db7-bf84-9f3239212206"
+              },
+              "Operator": "Le",
+              "WebId": "52a9afdf-fcc7-4c6f-b206-ab9f4583a0d6"
             }
           ]
         },
@@ -935,6 +944,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-14T08:44:26.5430103+08:00",
+  "ChangedDate": "2014-04-14T09:23:33.5053353+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

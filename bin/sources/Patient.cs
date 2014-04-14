@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Xml.Serialization;
 using System.Web.Mvc;
+using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Dev_2002.Domain
 {
@@ -325,10 +326,10 @@ public partial class PatientController : System.Web.Mvc.Controller
             }
                    }
 //exec:Save
-       public async Task<System.Web.Mvc.ActionResult> Save()
+       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]Patient item)
        {
 
-            var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Patient>(this);
+            if(null == item) throw new ArgumentNullException("item");
             var context = new Bespoke.Sph.Domain.SphDataContext();
             using(var session = context.OpenSession())
             {
@@ -338,14 +339,12 @@ public partial class PatientController : System.Web.Mvc.Controller
             this.Response.ContentType = "application/json; charset=utf-8";
             return Json(new {success = true, status="OK", id = item.PatientId});
        }
-       public Patient Item{get;set;}
 //exec:Register
        [HttpPost]
-       public async Task<System.Web.Mvc.ActionResult> Register()
+       public async Task<System.Web.Mvc.ActionResult> Register([RequestBody]Patient item)
        {
            var context = new Bespoke.Sph.Domain.SphDataContext();
-           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Patient>(this);
-           if(null == item) item = this.Item;
+           if(null == item) throw new ArgumentNullException("item");
            var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Patient");
            var brokenRules = new ObjectCollection<ValidationResult>();
 
@@ -374,11 +373,10 @@ public partial class PatientController : System.Web.Mvc.Controller
 //exec:Discharge
        [HttpPost]
        [Authorize]
-       public async Task<System.Web.Mvc.ActionResult> Discharge()
+       public async Task<System.Web.Mvc.ActionResult> Discharge([RequestBody]Patient item)
        {
            var context = new Bespoke.Sph.Domain.SphDataContext();
-           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Patient>(this);
-           if(null == item) item = this.Item;
+           if(null == item) throw new ArgumentNullException("item");
            var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Patient");
            var brokenRules = new ObjectCollection<ValidationResult>();
            if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
@@ -398,11 +396,10 @@ public partial class PatientController : System.Web.Mvc.Controller
 //exec:Transfer
        [HttpPost]
        [Authorize]
-       public async Task<System.Web.Mvc.ActionResult> Transfer()
+       public async Task<System.Web.Mvc.ActionResult> Transfer([RequestBody]Patient item)
        {
            var context = new Bespoke.Sph.Domain.SphDataContext();
-           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Patient>(this);
-           if(null == item) item = this.Item;
+           if(null == item) throw new ArgumentNullException("item");
            var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Patient");
            var brokenRules = new ObjectCollection<ValidationResult>();
            if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
@@ -422,11 +419,10 @@ public partial class PatientController : System.Web.Mvc.Controller
 //exec:Admit
        [HttpPost]
        [Authorize]
-       public async Task<System.Web.Mvc.ActionResult> Admit()
+       public async Task<System.Web.Mvc.ActionResult> Admit([RequestBody]Patient item)
        {
            var context = new Bespoke.Sph.Domain.SphDataContext();
-           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Patient>(this);
-           if(null == item) item = this.Item;
+           if(null == item) throw new ArgumentNullException("item");
            var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Patient");
            var brokenRules = new ObjectCollection<ValidationResult>();
            if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
@@ -445,7 +441,7 @@ public partial class PatientController : System.Web.Mvc.Controller
        }
 //exec:validate
        [HttpPost]
-       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[Bespoke.Sph.Web.Helpers.RequestBody]Patient item)
+       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[RequestBody]Patient item)
        {
            var context = new Bespoke.Sph.Domain.SphDataContext();
            if(null == item) throw new ArgumentNullException("item");
@@ -453,15 +449,15 @@ public partial class PatientController : System.Web.Mvc.Controller
            var brokenRules = new ObjectCollection<ValidationResult>();
            var rules = id.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);
 
-            foreach(var r in rules)
-            {
+           foreach(var r in rules)
+           {
                 var appliedRules = ed.BusinessRuleCollection.Where(b => b.Name == r);
                 ValidationResult result = item.ValidateBusinessRule(appliedRules);
 
                 if(!result.Success){
                     brokenRules.Add(result);
                 }
-            }
+           }
            if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
 
    

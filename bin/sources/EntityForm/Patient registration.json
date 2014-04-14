@@ -469,12 +469,12 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.Button, domain.sph",
-          "Command": "var tcs = new $.Deferred();\ncontext.post('/patient/validate/Dob', ko.mapping.toJSON(entity))\n.done(function(result){\n    console.log(result);\n    });\n\nreturn tcs.promise();",
+          "Command": "var tcs = new $.Deferred();\ncontext.post( ko.mapping.toJSON(entity),'/patient/validate/Dob,ChildMarriage')\n.done(function(result){\n    if (result.success) {\n        logger.info(result.message);\n        errors.removeAll();\n        app.showMessage(\"OK done\", \"SPH Platform showcase\", [\"OK\"]);;\n    \n    } else {\n        errors.removeAll();\n        _(result.rules).each(function (v) {\n            errors(v.ValidationErrors);\n        });\n        logger.error(\"There are errors in your entity, !!!\");\n    }\n    tcs.resolve(true);\n});\n\nreturn tcs.promise();",
           "UseClick": false,
           "CommandName": "validate",
           "LoadingText": null,
           "CompleteText": null,
-          "IconClass": null,
+          "IconClass": "fa fa-user",
           "IsToolbarItem": false,
           "Operation": null,
           "FieldValidation": {
@@ -493,7 +493,7 @@
           "Path": "Dob",
           "IsRequired": false,
           "Size": "input-large",
-          "CssClass": "",
+          "CssClass": "btn btn-default",
           "Visible": "true",
           "Enable": "true",
           "ElementId": "0c9a1468-f074-43c0-9848-ba86e805ccb0",
@@ -538,7 +538,7 @@
   "IconClass": "fa fa-h-square",
   "IconStoreId": "",
   "IsPublished": true,
-  "IsDefault": true,
+  "IsDefault": false,
   "IsWatchAvailable": false,
   "IsEmailAvailable": false,
   "IsPrintAvailable": false,
@@ -551,6 +551,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-03-22T20:23:09.7138554+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-14T08:04:45.2778702+08:00",
+  "ChangedDate": "2014-04-14T09:26:43.7826491+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

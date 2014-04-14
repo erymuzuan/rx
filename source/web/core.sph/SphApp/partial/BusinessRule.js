@@ -13,8 +13,22 @@
 bespoke.sph.domain.BusinessRulePartial = function (model) {
 
     var system = require('durandal/system'),
-        context = require(objectbuilders.datacontext),
-        logger = require(objectbuilders.logger),
+        addFilter = function () {
+            var self = this,
+                br = new bespoke.sph.domain.Rule(system.guid());
+
+            br.Left({ Name: ko.observable("+ Field") });
+            br.Right({ Name: ko.observable("+ Field") });
+
+            self.FilterCollection.push(br);
+
+        },
+        removeFilter = function (br) {
+            var self = this;
+            return function () {
+                self.FilterCollection.remove(br);
+            };
+        }
         addRule = function () {
             var self = this,
                 br = new bespoke.sph.domain.Rule(system.guid());
@@ -35,6 +49,8 @@ bespoke.sph.domain.BusinessRulePartial = function (model) {
 
 
     return {
+        addFilter: addFilter,
+        removeFilter: removeFilter,
         addRule: addRule,
         removeRule: removeRule
     };

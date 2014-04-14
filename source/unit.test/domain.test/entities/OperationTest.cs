@@ -165,12 +165,11 @@ namespace domain.test.entities
 
             var controllerType = dll.GetType(patientType.Namespace + ".PatientController");
             dynamic controller = Activator.CreateInstance(controllerType);
-            controller.Item = patient;
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
 
-            var result = await controller.Release();
+            var result = await controller.Release(patient);
             Console.WriteLine("Result type : " + result);
             Assert.IsNotNull(result);
 
@@ -205,12 +204,11 @@ namespace domain.test.entities
 
             var controllerType = dll.GetType(patientType.Namespace + ".PatientController");
             dynamic controller = Activator.CreateInstance(controllerType);
-            controller.Item = patient;
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
 
-            var result = await controller.Release();
+            var result = await controller.Release(patient);
             Console.WriteLine("Result type : " + result);
             Assert.IsNotNull(result);
 

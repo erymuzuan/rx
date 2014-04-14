@@ -1272,6 +1272,17 @@ namespace Bespoke.Sph.Domain
             get { return m_RuleCollection; }
         }
 
+        private readonly ObjectCollection<Rule> m_FilterCollection = new ObjectCollection<Rule>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Rule", IsNullable = false)]
+        public ObjectCollection<Rule> FilterCollection
+        {
+            get { return m_FilterCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>

@@ -19,6 +19,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             code.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
             code.AppendLine("using System.Web.Mvc;");
+            code.AppendLine("using Bespoke.Sph.Web.Helpers;");
             code.AppendLine();
 
             code.AppendLine("namespace " + this.CodeNamespace);
@@ -164,10 +165,10 @@ namespace Bespoke.Sph.Domain
 
             // SAVE
             code.AppendLinf("//exec:Save");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Save()");
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]{0} item)", this.Name);
             code.AppendLine("       {");
             code.AppendLinf(@"
-            var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);
+            if(null == item) throw new ArgumentNullException(""item"");
             var context = new Bespoke.Sph.Domain.SphDataContext();
             using(var session = context.OpenSession())
             {{
@@ -225,26 +226,23 @@ namespace Bespoke.Sph.Domain
 
         private void AppendOperationsCode(StringBuilder code)
         {
-            code.AppendLinf("       public {0} Item{{get;set;}}", this.Name);
             foreach (var operation in this.EntityOperationCollection)
             {
                 var everybody = operation.Permissions.Contains("Everybody");
                 var anonymous = operation.Permissions.Contains("Anonymous");
-                var roles = string.Join(",", operation.Permissions.Where(s => s != "Everybody" && s != "Anonymous"));
                 // SAVE
                 code.AppendLinf("//exec:{0}", operation.Name);
                 code.AppendLine("       [HttpPost]");
                 if (everybody)
                     code.AppendLine("       [Authorize]");
 
-                if (!everybody && !anonymous && roles.Length > 0)
-                    code.AppendLinf("       [Authorize(Roles=\"{0}\")]", roles);
+                if (!everybody && !anonymous && string.Join(",", operation.Permissions.Where(s => s != "Everybody" && s != "Anonymous")).Length > 0)
+                    code.AppendLinf("       [Authorize(Roles=\"{0}\")]", string.Join(",", operation.Permissions.Where(s => s != "Everybody" && s != "Anonymous")));
 
-                code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> {0}()", operation.Name);
+                code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> {0}([RequestBody]{1} item)", operation.Name, this.Name);
                 code.AppendLine("       {");
                 code.AppendLine("           var context = new Bespoke.Sph.Domain.SphDataContext();");
-                code.AppendLinf("           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", this.Name);
-                code.AppendLine("           if(null == item) item = this.Item;");
+                code.AppendLine("           if(null == item) throw new ArgumentNullException(\"item\");");
                 code.AppendLinf("           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == \"{0}\");", this.Name);
 
                 code.AppendLine("           var brokenRules = new ObjectCollection<ValidationResult>();");
@@ -294,7 +292,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("//exec:validate");
             code.AppendLine("       [HttpPost]");
 
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[Bespoke.Sph.Web.Helpers.RequestBody]{0} item)", this.Name);
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[RequestBody]{0} item)", this.Name);
             code.AppendLine("       {");
             code.AppendLine("           var context = new Bespoke.Sph.Domain.SphDataContext();");
             code.AppendLine("           if(null == item) throw new ArgumentNullException(\"item\");");
@@ -304,15 +302,15 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           var rules = id.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);");
         
                 code.AppendFormat(@"
-            foreach(var r in rules)
-            {{
+           foreach(var r in rules)
+           {{
                 var appliedRules = ed.BusinessRuleCollection.Where(b => b.Name == r);
                 ValidationResult result = item.ValidateBusinessRule(appliedRules);
 
                 if(!result.Success){{
                     brokenRules.Add(result);
                 }}
-            }}
+           }}
 ");
             code.AppendLine("           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});");
 
