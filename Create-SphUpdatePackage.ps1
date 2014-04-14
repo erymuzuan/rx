@@ -120,6 +120,8 @@ Get-ChildItem -Filter *.* -Path ".\bin\web" `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$output\web" -Force -Recurse
+#App_data/empty.xsd
+copy .\source\web\web.sph\App_Data -Destination $WorkingCopy\Web -Force -Recurse
 
 
 #web.bin -- for dependencies

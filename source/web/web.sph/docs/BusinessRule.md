@@ -2,7 +2,7 @@
 ##Overview
 [`BusinessRule`](BusinessRule.html) provides a way for the devekoper to define their custom business rules without code. A [`BusinessRule`](BusinessRule.html) can contains 1 or more [`Rule`](Rule.html), if any of this rule is evaluated to `false` then the whole [`BusinessRule`](BusinessRule.html) will be considered broken.
 
-![alt](http://i.imgur.com/KobnjRa.png)
+![Business rule dialog](http://i.imgur.com/KobnjRa.png)
 
 ##Properties
 <table class="table table-condensed table-bordered">

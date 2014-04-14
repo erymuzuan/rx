@@ -121,10 +121,35 @@ namespace domain.test.businessrules
 
 
         }
+        [Test]
+        public void SimpleRuleWithoutFilter()
+        {
+            var customerDefinition = this.CreatePatientDefinition();
+            dynamic customer = this.CreateInstance(customerDefinition);
+            customer.FullName = "Siti";
+            customer.Gender = "Female";
+
+            var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
+            var nameMustContainsA = new Rule
+            {
+                Left = new DocumentField { Type = typeof(string), Path = "FullName" },
+                Operator = Operator.Substringof,
+                Right = new ConstantField { Type = typeof(string), Value = "A" }
+            };
+            br.RuleCollection.Add(nameMustContainsA);
+            customerDefinition.BusinessRuleCollection.Add(br);
+        
+            ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
+            Assert.IsFalse(result.Success);
+
+            Assert.AreEqual(1, result.ValidationErrors.Count);
+
+
+        }
 
 
         [Test]
-        public void TwoRulesAOneFail()
+        public void TwoRulesOneFail()
         {
 
             var customerDefinition = this.CreatePatientDefinition();
