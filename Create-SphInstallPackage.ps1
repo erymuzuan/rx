@@ -1,5 +1,5 @@
 ﻿Param(
-       [string]$Version = "..\wc",
+       [int]$Build = 0,
        [switch]$PreRelease = $false
      )
 
@@ -9,6 +9,12 @@ $published = Read-Host
 if($published -ne "y")
 {
     Write-Warning "Too bad .. bye"
+    exit;
+}
+
+if($Build -eq 0)
+{
+    Write-Warning "Please provide a build number"
     exit;
 }
 
@@ -212,6 +218,10 @@ Get-Item -Path .\sph.packages\output\subscribers\subscriber.trigger.* `
 | ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
 | Remove-Item
 
+#version
+$versionJson = @"{" +
+
++"}"
 Write-Host ""
 
 Write-Host ""
@@ -224,4 +234,4 @@ if($compressed -eq 'q')
 }
 
 #compress
-& 7za a -t7z ".\sph.package.$version.7z" ".\sph.packages\output\*"
+& 7za a -t7z ".\sph.package.1.0.$Build.7z" ".\sph.packages\output\*"

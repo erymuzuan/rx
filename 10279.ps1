@@ -7,7 +7,7 @@ $name = Read-Host
 Write-Host "What is your IIS Port No ? : " -NoNewline -ForegroundColor Yellow -BackgroundColor Black
 $port = Read-Host
 
-Write-Host "You are no updating $name running on $port, Press [ENTER] to continue or q to exit"
+Write-Host "You are now updating $name running on $port, Press [ENTER] to continue or q to exit"
 $quit = Read-Host
 if($quit -eq "q"){
     exit;

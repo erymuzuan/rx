@@ -657,6 +657,7 @@
       <DependentUpon>ScriptFunctoid.md</DependentUpon>
     </Content>
     <Content Include="docs\scripts\main.js" />
+    <Content Include="docs\scripts\types.js" />
     <Content Include="docs\SearchResult.html">
       <DependentUpon>SearchResult.md</DependentUpon>
     </Content>
@@ -1058,7 +1059,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5451</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

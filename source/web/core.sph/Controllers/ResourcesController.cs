@@ -53,9 +53,7 @@ namespace Bespoke.Sph.Web.Controllers
 
                 return RedirectToAction("Html", controller, new { area = "App" });
             }
-            return Content("[DAMNIT] why can't i get the " + id);
-
-
+            return new HttpNotFoundResult("Cannot find " + id + "in resources");
 
         }
 
