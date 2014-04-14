@@ -443,6 +443,30 @@ public partial class PatientController : System.Web.Mvc.Controller
             }
             return Json(new {success = true, status="OK", id = item.PatientId});
        }
+//exec:validate
+       [HttpPost]
+       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[Bespoke.Sph.Web.Helpers.RequestBody]Patient item)
+       {
+           var context = new Bespoke.Sph.Domain.SphDataContext();
+           if(null == item) throw new ArgumentNullException("item");
+           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Patient");
+           var brokenRules = new ObjectCollection<ValidationResult>();
+           var rules = id.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);
+
+            foreach(var r in rules)
+            {
+                var appliedRules = ed.BusinessRuleCollection.Where(b => b.Name == r);
+                ValidationResult result = item.ValidateBusinessRule(appliedRules);
+
+                if(!result.Success){
+                    brokenRules.Add(result);
+                }
+            }
+           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
+
+   
+            return Json(new {success = true, status="OK", id = item.PatientId});
+       }
 //exec:Remove
        [HttpDelete]
        public async Task<System.Web.Mvc.ActionResult> Remove(int id)

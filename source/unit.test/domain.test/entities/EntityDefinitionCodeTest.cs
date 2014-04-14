@@ -14,7 +14,7 @@ namespace domain.test.entities
         [Test]
         public void GenerateRootClass()
         {
-            var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" };
+            var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" ,RecordName = "Name2"};
             ent.MemberCollection.Add(new Member
             {
                 Name = "Name2",

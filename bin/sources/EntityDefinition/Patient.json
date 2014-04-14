@@ -675,6 +675,65 @@
         "ErrorLocation": "",
         "ErrorMessage": "Dob cannot be future date",
         "WebId": "e12558cb-c8a5-43e0-9f1f-2de05c42879e"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.BusinessRule, domain.sph",
+        "RuleCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
+              "Left": {
+                "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                "XPath": "",
+                "NamespacePrefix": "",
+                "TypeName": "",
+                "Path": "Age",
+                "Name": "Age",
+                "Note": "",
+                "WebId": "feb7a7f2-7627-4e81-b314-b389ea11fef3"
+              },
+              "Right": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.Int32, mscorlib",
+                "Value": 16,
+                "Name": "16",
+                "Note": "",
+                "WebId": "6f1c6924-9dc0-438e-9481-7eb0b5a0a64d"
+              },
+              "Operator": "Le",
+              "WebId": "1738cbb4-4741-4e5f-82fe-382b4b602223"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
+              "Left": {
+                "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                "XPath": "",
+                "NamespacePrefix": "",
+                "TypeName": "",
+                "Path": "MaritalStatus",
+                "Name": "MaritalStatus",
+                "Note": "",
+                "WebId": "bb019a80-a80d-4266-9592-c15ea8fd813b"
+              },
+              "Right": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "Single",
+                "Name": "Single",
+                "Note": "",
+                "WebId": "3f251526-3e9b-4a18-9a94-99fb2cb20521"
+              },
+              "Operator": "Eq",
+              "WebId": "8c1a203c-a748-420c-bb89-bfb9f2f60bf5"
+            }
+          ]
+        },
+        "Description": "Too young to get married",
+        "Name": "ChildMarriage",
+        "ErrorLocation": "",
+        "ErrorMessage": "Too young to get married",
+        "WebId": "d7cb6bd5-5a17-4ec8-a6a6-20865d67246b"
       }
     ]
   },
@@ -861,6 +920,10 @@
       }
     ]
   },
+  "AuthorizedRoleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
   "EntityDefinitionId": 2002,
   "Name": "Patient",
   "Plural": "Patients",
@@ -868,9 +931,10 @@
   "IconClass": "fa fa-user",
   "RecordName": "Mrn",
   "IsPublished": true,
+  "IsShowOnNavigationBar": true,
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-09T11:39:39.1950584+08:00",
+  "ChangedDate": "2014-04-14T08:44:26.5430103+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

@@ -662,6 +662,7 @@
     <Compile Include="Filters\ScriptResult.cs" />
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
+    <Compile Include="Helpers\RequestBodyModelBinder.cs" />
     <Compile Include="Hubs\AuditTrailHub.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
