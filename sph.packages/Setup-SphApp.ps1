@@ -105,7 +105,7 @@ Get-ChildItem -Filter *.sql -Path $WorkingCopy\database\Table `
 #Rabbitmqctl
 & .\rabbitmq_server\sbin\rabbitmqctl.bat add_vhost "$ApplicationName"
 & .\rabbitmq_server\sbin\rabbitmqctl.bat set_permissions -p "$ApplicationName" $RabbitMqUserName ".*" ".*" ".*"
-
+& .\rabbitmq_server\sbin\rabbitmq-plugins.bat enable "rabbitmq_management"
 
 #elastic search mappings
 $esindex = $ElasticSearchHost + "/" + $ApplicationName.ToLowerInvariant() + "_sys"
