@@ -19,3 +19,5 @@
 /// <reference path="../sphapp/services/cultures.my.js" />
 /// <reference path="../sphapp/services/jsonimportexport.js" />
 /// <reference path="../sphapp/viewmodels/advanced-search.js" />
+/// <reference path="../docs/scripts/types.js" />
+/// <reference path="../sphapp/viewmodels/assembly.dialog.js" />

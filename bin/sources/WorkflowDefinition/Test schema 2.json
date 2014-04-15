@@ -4,30 +4,8 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
     "$values": [
       {
-        "$type": "Bespoke.Sph.Domain.ScheduledTriggerActivity, domain.sph",
-        "IntervalScheduleCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.IntervalSchedule, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.DailySchedule, domain.sph",
-              "Recur": 1,
-              "StartHour": 0,
-              "StartMinute": 0,
-              "StartSecond": 0,
-              "EndHour": 0,
-              "EndMinute": 0,
-              "EndSecond": 0,
-              "IsEnabled": true,
-              "Start": "2014-02-25T00:00:00+08:00",
-              "Expire": null,
-              "Delay": null,
-              "Repeat": null,
-              "Duration": null,
-              "WebId": "8df3eced-5e05-425d-8b75-9736d8cf237c"
-            }
-          ]
-        },
-        "MethodName": "ExecScheduledTriggerActivityStart_03f0Async",
+        "$type": "Bespoke.Sph.Domain.Activity, domain.sph",
+        "MethodName": "ExecActivityStart_03f0Async",
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
@@ -43,9 +21,8 @@
         "WebId": "03f0cf87-240b-4c19-b94b-fdc3e28e46b9"
       },
       {
-        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
-        "IsTerminating": false,
-        "MethodName": "ExecEndActivityEnd1_23eaAsync",
+        "$type": "Bespoke.Sph.Domain.Activity, domain.sph",
+        "MethodName": "ExecActivityEnd1_23eaAsync",
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
@@ -75,6 +52,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-03-15T17:04:22.959277+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-15T17:10:31.0377244+08:00",
+  "ChangedDate": "2014-04-15T09:13:15.0984879+08:00",
   "WebId": "d272d08e-fe09-4d54-9268-a215fa4add7c"
 }

@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Domain
             var changes = new ObjectCollection<Change>();
             var type = item1.GetType();
             if (type != item2.GetType())
-                throw new ArgumentException("Must be the same type");
+                throw new ArgumentException("Must be the same type : " + type + " !=" + item2.GetType());
 
             var natives = new[] { typeof(int), typeof(DateTime), typeof(string), typeof(double), typeof(float), typeof(decimal), typeof(bool) };
             var properties = from p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).AsQueryable()

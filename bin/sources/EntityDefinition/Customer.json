@@ -588,6 +588,10 @@
             }
           ]
         },
+        "FilterCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Description": "Age",
         "Name": "Verify the age",
         "ErrorLocation": "",
@@ -623,6 +627,10 @@
               "WebId": "511a4bb2-8cab-42dd-ba37-0acfeb49c6ac"
             }
           ]
+        },
+        "FilterCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+          "$values": []
         },
         "Description": "Just the revenues",
         "Name": "Must be Malaysian",
@@ -747,6 +755,10 @@
       }
     ]
   },
+  "AuthorizedRoleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
   "EntityDefinitionId": 1,
   "Name": "Customer",
   "Plural": "Customers",
@@ -754,9 +766,10 @@
   "IconClass": "fa fa-users",
   "RecordName": "FullName",
   "IsPublished": true,
+  "IsShowOnNavigationBar": false,
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-31T10:58:20.2694074+08:00",
+  "ChangedDate": "2014-04-15T09:07:56.3638817+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

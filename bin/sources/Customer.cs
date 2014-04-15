@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Xml.Serialization;
 using System.Web.Mvc;
+using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Dev_1.Domain
 {
@@ -281,10 +282,10 @@ public partial class CustomerController : System.Web.Mvc.Controller
             }
                    }
 //exec:Save
-       public async Task<System.Web.Mvc.ActionResult> Save()
+       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]Customer item)
        {
 
-            var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Customer>(this);
+            if(null == item) throw new ArgumentNullException("item");
             var context = new Bespoke.Sph.Domain.SphDataContext();
             using(var session = context.OpenSession())
             {
@@ -294,15 +295,13 @@ public partial class CustomerController : System.Web.Mvc.Controller
             this.Response.ContentType = "application/json; charset=utf-8";
             return Json(new {success = true, status="OK", id = item.CustomerId});
        }
-       public Customer Item{get;set;}
 //exec:PromoteTo
        [HttpPost]
        [Authorize]
-       public async Task<System.Web.Mvc.ActionResult> PromoteTo()
+       public async Task<System.Web.Mvc.ActionResult> PromoteTo([RequestBody]Customer item)
        {
            var context = new Bespoke.Sph.Domain.SphDataContext();
-           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Customer>(this);
-           if(null == item) item = this.Item;
+           if(null == item) throw new ArgumentNullException("item");
            var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Customer");
            var brokenRules = new ObjectCollection<ValidationResult>();
            if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
@@ -322,11 +321,10 @@ public partial class CustomerController : System.Web.Mvc.Controller
 //exec:Demote
        [HttpPost]
        [Authorize(Roles="developers,administrators")]
-       public async Task<System.Web.Mvc.ActionResult> Demote()
+       public async Task<System.Web.Mvc.ActionResult> Demote([RequestBody]Customer item)
        {
            var context = new Bespoke.Sph.Domain.SphDataContext();
-           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Customer>(this);
-           if(null == item) item = this.Item;
+           if(null == item) throw new ArgumentNullException("item");
            var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Customer");
            var brokenRules = new ObjectCollection<ValidationResult>();
 
@@ -353,11 +351,10 @@ public partial class CustomerController : System.Web.Mvc.Controller
 //exec:CreateOrder
        [HttpPost]
        [Authorize]
-       public async Task<System.Web.Mvc.ActionResult> CreateOrder()
+       public async Task<System.Web.Mvc.ActionResult> CreateOrder([RequestBody]Customer item)
        {
            var context = new Bespoke.Sph.Domain.SphDataContext();
-           var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<Customer>(this);
-           if(null == item) item = this.Item;
+           if(null == item) throw new ArgumentNullException("item");
            var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Customer");
            var brokenRules = new ObjectCollection<ValidationResult>();
            if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
@@ -370,6 +367,30 @@ public partial class CustomerController : System.Web.Mvc.Controller
                 session.Attach(item);
                 await session.SubmitChanges("CreateOrder");
             }
+            return Json(new {success = true, status="OK", id = item.CustomerId});
+       }
+//exec:validate
+       [HttpPost]
+       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[RequestBody]Customer item)
+       {
+           var context = new Bespoke.Sph.Domain.SphDataContext();
+           if(null == item) throw new ArgumentNullException("item");
+           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Customer");
+           var brokenRules = new ObjectCollection<ValidationResult>();
+           var rules = id.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);
+
+           foreach(var r in rules)
+           {
+                var appliedRules = ed.BusinessRuleCollection.Where(b => b.Name == r);
+                ValidationResult result = item.ValidateBusinessRule(appliedRules);
+
+                if(!result.Success){
+                    brokenRules.Add(result);
+                }
+           }
+           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
+
+   
             return Json(new {success = true, status="OK", id = item.CustomerId});
        }
 //exec:Remove

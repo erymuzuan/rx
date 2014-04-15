@@ -59,7 +59,10 @@ namespace Bespoke.Sph.Workflows_12003_0
        
        var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};
        var item = this;
-       if(null == this.Patient)
+       var admin = System.Web.Security.Membership.GetUser("admin");
+Console.WriteLine(admin.UserName);
+
+if(null == this.Patient)
     throw new Exception("You cannot register billing on null patient");
        result.NextActivities = new[]{"5e796abc-6629-4e40-99a2-d6e10db378b4"};
        
