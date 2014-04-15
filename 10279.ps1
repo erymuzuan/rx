@@ -55,8 +55,13 @@ ls -Path .\$build\web\Content -Filter *.* | copy -Destination .\web\Content
 ls -Path .\$build\web\docs -Filter *.html | copy -Destination .\web\docs
 ls -Path .\$build\web\docs\scripts -Filter *.js | copy -Destination .\web\docs\scripts
 ls -Path .\$build\web\fonts -Filter *.* | copy -Destination .\web\fonts
+ls -Path .\$build\web\App_Data -Filter *.* | copy -Destination .\web\App_Data
 
-
+if((Test-Path .\web\App_Data) -eq $false)
+{
+    mkdir .\web\App_Data
+    copy .\$build\web\App_Data\*.* -Destination .\web\App_Data
+}
 
 
 

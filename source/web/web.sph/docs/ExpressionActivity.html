@@ -2,7 +2,49 @@
 
 <h2>Overview</h2>
 
-<p><a href="ExpressionActivity.html"><code>ExpressionActivity</code></a> allows you </p>
+<p><a href="ExpressionActivity.html"><code>ExpressionActivity</code></a> allows you to embed your own code in a <a href="WorkflowDefinition.html"><code>WorkflowDefinition</code></a>. This is the main extensibilty point you can find in <code>Rx Developer</code> if the provided activities did not meet requirements. On the other hand <a href="ExpressionActivity.html"><code>ExpressionActivity</code></a> could also be used to do other things such as setting the <a href="Variable.html"><code>Variable</code></a> values, this is useful for example in a loop where you need to set the <code>CurrentItem</code> or the <code>CurrentIndex</code> for your loop. </p>
+
+<h2>Referencing external assemblies</h2>
+
+<p>If you need to call external assemblies there are 2 ways of achieving this at the moment</p>
+
+<ul>
+<li>Via <code>Add Referenced Assembly</code> dialog in your <a href="WorkflowDefinition.html"><code>WorkflowDefinition</code></a></li>
+<li>Via <a href="ObjectBuilder.html"><code>ObjectBuilder</code></a> registration.</li>
+</ul>
+
+<h3>Add reference assembly</h3>
+
+<p>Allow you to add commonly used assembly , those that currently loaded in your <code>AppDomain</code>, if this assembly is not in <code>GAC</code> then you'll have to copy it to the Subscriber folder.<br />
+<img src="http://i.imgur.com/Rex8SF6.png" alt="Use Referenced Assembly tab" /></p>
+
+<p>You'll have to fully qualified your the type used.</p>
+
+<pre>
+
+// example of calling Membership is 
+var me = System.Web.Security.Membership.GetUser("me");
+</pre>
+
+<h3>Using ObjectBuilder registration</h3>
+
+<p>ObjectBuilder is a little more flexible, that it allows you to add almost any assembly, all you have to do is register them in your <code>.config</code> files(subscribers.host\workers.console.runner.exe.config or subscribers.host\workers.windowsservice.runner.exe.config).</p>
+
+<pre>
+   &lt;object name="MyObject" type="MyCompany.Myproject.MyObject,mycustomdll">
+        &lt;constructor-arg name="arg" value="myname" />
+      &lt;/object>
+</pre>
+
+<p>This simple registration will allow you to write code like this</p>
+
+<pre>
+dynamic myobject = ObjectBuilder.GetObject("MyObject"); // refer to the name property
+myobject.Call();// where Call is a method defined in your class
+
+</pre>
+
+<p>The use of <code>dynamic</code> keyword allows far greated flexibilty, since <code>Rx Developer</code> didn't have to know about your object. Thou you are losing the compile time checking.</p>
 
 <h2>Properties</h2>
 
@@ -14,7 +56,7 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>Expression</td><td> - </td></tr>
+<tr><td>Expression</td><td> - Your code, must be a valid C# code</td></tr>
 </tbody></table>
 
 <h2>See also</h2>

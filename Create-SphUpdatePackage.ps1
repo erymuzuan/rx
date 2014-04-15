@@ -121,7 +121,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\web" `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$output\web" -Force -Recurse
 #App_data/empty.xsd
-copy .\source\web\web.sph\App_Data -Destination $WorkingCopy\Web -Force -Recurse
+copy .\source\web\web.sph\App_Data -Destination $output\Web -Force -Recurse
 
 
 #web.bin -- for dependencies
@@ -131,8 +131,6 @@ Get-ChildItem -Filter *.* -Path ".\source\web\web.sph\bin" `
 | ? { $_.Name.EndsWith(".config") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | Copy-Item -Destination "$output\web\bin" -Force
-
-
 
 
 

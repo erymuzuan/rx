@@ -47,7 +47,7 @@ Download [Erlang](http://www.erlang.org) runtime, this is the runtime for [Rabbi
 ![ERLANG_HOME](http://i.imgur.com/rfCfuKQ.png)
 
 ## Downloading and extracting
-Point your browser to [Rx Developer download page](sph.package.1.0.10278.7z) to get all the necessary package.
+Point your browser to [Rx Developer download page](sph.package.1.0.10279.7z) to get all the necessary package.
 
 Download the sph.package.&lt;version&gt;.7z and extract it to an empty folder of your choice.
 Once extracted, your directory will look more or less like this
@@ -69,7 +69,7 @@ Fill in on your settings accordingly, if you don;t what it means, see the explan
  Take a note at the LocalDb instance, in this case I'm using `Projects`, you can pick one from the drop list. Click `Save Settings` button
 
 
-![alt](http://i.imgur.com/WnrRSSE.png)
+![3 services](http://i.imgur.com/WnrRSSE.png)
 Now starts these 3 services
 
 * SQL Server localdb
@@ -77,15 +77,15 @@ Now starts these 3 services
 * Rabbit MQ
 
 Make sure there are no errors coming out from the control center console,then open you command prompt, go to your directory, type `powershell` and `enter`
-![alt](http://i.imgur.com/cF5TBcb.png)
+![starts powershell](http://i.imgur.com/cF5TBcb.png)
 
 then type the following `.\Setup-SphApp.ps1 -ApplicationName ofg -Port 50332`, it must be lowercase letters only, no `.`, `,` numbers or special symbols allowed. Then specify the port to run your application on, choose those over 50000 to avoid conlict with your other services. Make sure the SqlServer is specified according to what you had set in the control center window
 
-![alt](http://i.imgur.com/JS6m80D.png)
+![Run Setup-SphApp.ps1](http://i.imgur.com/JS6m80D.png)
 
 This going to take a while, to set up your database, elastic search and rabbitmq vhost.
 Once you are done, you can go back to your `ControlCenter`, now starts `SPH Worker` and `IIS Express`
-![alt](http://i.imgur.com/swWEPyL.png)
+![Starts worker and IIS](http://i.imgur.com/swWEPyL.png)
 
 
 ## Writing your first application
