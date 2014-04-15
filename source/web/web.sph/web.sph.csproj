@@ -1012,8 +1012,10 @@
     <Content Include="SphApp\services\jsonimportexport.js" />
     <Content Include="SphApp\viewmodels\advanced-search.js" />
     <Content Include="SphApp\viewmodels\assembly.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
     <Content Include="SphApp\views\advanced-search.html" />
     <Content Include="SphApp\views\assembly.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\public.index.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

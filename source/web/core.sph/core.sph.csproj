@@ -1574,7 +1574,6 @@
     <EmbeddedResource Include="SphApp\viewmodels\reportdefinition.edit.js" />
     <EmbeddedResource Include="SphApp\viewmodels\reportdefinition.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\messages.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
     <EmbeddedResource Include="SphApp\viewmodels\search.js" />
     <EmbeddedResource Include="SphApp\viewmodels\trigger.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\trigger.setup.js" />
@@ -1631,7 +1630,6 @@
     <EmbeddedResource Include="SphApp\views\message.detail.html" />
     <EmbeddedResource Include="SphApp\views\message.inbox.html" />
     <EmbeddedResource Include="SphApp\views\messages.html" />
-    <EmbeddedResource Include="SphApp\views\public.index.html" />
     <EmbeddedResource Include="SphApp\views\reportdefinition.list.html" />
     <EmbeddedResource Include="SphApp\views\search.html" />
     <EmbeddedResource Include="SphApp\views\trigger.list.html" />
