@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -81,9 +80,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             {
                 SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
             };
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll")));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
 
 
             var result = ed.Compile(options);

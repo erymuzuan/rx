@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CSharp;
@@ -46,10 +45,10 @@ namespace Bespoke.Sph.Domain
 
                 };
                 var edDll = string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, this.Entity);
-                options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, edDll)));
+                options.ReferencedAssembliesLocation.Add(Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, edDll));
 
                 var subscriberInfraDll = Path.Combine(ConfigurationManager.SubscriberPath, "subscriber.infrastructure.dll");
-                options.ReferencedAssemblies.Add(Assembly.LoadFrom(subscriberInfraDll));
+                options.ReferencedAssembliesLocation.Add(subscriberInfraDll);
           
                 parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
@@ -57,9 +56,9 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(Trigger).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
 
-                foreach (var ass in options.ReferencedAssemblies)
+                foreach (var ass in options.ReferencedAssembliesLocation)
                 {
-                    parameters.ReferencedAssemblies.Add(ass.Location);
+                    parameters.ReferencedAssemblies.Add(ass);
                 }
                 var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
                     : provider.CompileAssemblyFromSource(parameters, code);

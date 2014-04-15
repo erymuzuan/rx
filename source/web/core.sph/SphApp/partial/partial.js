@@ -1604,6 +1604,32 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                  self.VariableDefinitionCollection.remove(variable);
              };
          },
+        addReferencedAssembly = function () {
+            var self = this;
+            require(['viewmodels/assembly.dialog', 'durandal/app'], function (dialog, app2) {
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            _(dialog.selectedAssemblies()).each(function(v) {
+                                self.ReferencedAssemblyCollection.push(v);
+                            });
+                        }
+                    });
+
+            });
+
+
+        },
+        editReferencedAssembly = function (dll) {
+            alert('not implemented' + dll);
+        },
+         removeReferencedAssembly = function (dll) {
+             var self = this;
+             return function () {
+                 self.ReferencedAssemblyCollection.remove(dll);
+             };
+         },
         loadSchema = function (storeId) {
             var id = storeId || this.SchemaStoreId();
             $.get("/WorkflowDefinition/GetXsdElementName/" + id)
@@ -1617,12 +1643,15 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
     var vm = {
         isBusy: isBusy,
-        removeActivity: removeActivity,
         removeVariable: removeVariable,
-        addActivity: addActivity,
-        editActivity: editActivity,
         addVariable: addVariable,
         editVariable: editVariable,
+        removeReferencedAssembly: removeReferencedAssembly,
+        addReferencedAssembly: addReferencedAssembly,
+        editReferencedAssembly: editReferencedAssembly,
+        addActivity: addActivity,
+        editActivity: editActivity,
+        removeActivity: removeActivity,
         loadSchema: loadSchema,
         xsdElements: elementNameOptions,
         setStartActivity: setStartActivity

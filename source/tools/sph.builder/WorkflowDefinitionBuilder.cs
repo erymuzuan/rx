@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -48,15 +47,15 @@ namespace sph.builder
             {
                 SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
             };
-            options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
-            options.ReferencedAssemblies.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly);
+            options.ReferencedAssembliesLocation.Add(typeof(Controller).Assembly.Location);
+            options.ReferencedAssembliesLocation.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");
+            options.ReferencedAssembliesLocation.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly.Location);
             var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
             var customDllPattern = ConfigurationManager.ApplicationName + ".*.dll";
             var entityAssembiles = Directory.GetFiles(outputPath, customDllPattern);
             foreach (var dll in entityAssembiles)
             {
-                options.ReferencedAssemblies.Add(Assembly.LoadFrom(dll));
+                options.ReferencedAssembliesLocation.Add(dll);
             }
 
 

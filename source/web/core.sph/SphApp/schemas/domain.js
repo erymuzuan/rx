@@ -3160,6 +3160,7 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
         Version: ko.observable(0),
         ActivityCollection: ko.observableArray([]),
         VariableDefinitionCollection: ko.observableArray([]),
+        ReferencedAssemblyCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -4231,6 +4232,37 @@ bespoke.sph.domain.Breakpoint = function (optionOrWebid) {
 
     if (bespoke.sph.domain.BreakpointPartial) {
         return _(model).extend(new bespoke.sph.domain.BreakpointPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ReferencedAssembly = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        Name: ko.observable(''),
+        FullName: ko.observable(''),
+        Version: ko.observable(''),
+        Location: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ReferencedAssemblyPartial) {
+        return _(model).extend(new bespoke.sph.domain.ReferencedAssemblyPartial(model));
     }
     return model;
 };

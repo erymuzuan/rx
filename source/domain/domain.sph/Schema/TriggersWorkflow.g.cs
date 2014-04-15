@@ -1340,6 +1340,17 @@ namespace Bespoke.Sph.Domain
             get { return m_VariableDefinitionCollection; }
         }
 
+        private readonly ObjectCollection<ReferencedAssembly> m_ReferencedAssemblyCollection = new ObjectCollection<ReferencedAssembly>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ReferencedAssembly", IsNullable = false)]
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection
+        {
+            get { return m_ReferencedAssemblyCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -4121,6 +4132,154 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_messageExpression;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ReferencedAssembly", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ReferencedAssembly
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_fullName;
+        public const string PropertyNameFullName = "FullName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_version;
+        public const string PropertyNameVersion = "Version";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_location;
+        public const string PropertyNameLocation = "Location";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string FullName
+        {
+            set
+            {
+                if (String.Equals(m_fullName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFullName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_fullName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_fullName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Version
+        {
+            set
+            {
+                if (String.Equals(m_version, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameVersion, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_version = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_version;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Location
+        {
+            set
+            {
+                if (String.Equals(m_location, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLocation, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_location = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_location;
             }
         }
 

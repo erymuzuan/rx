@@ -21,8 +21,10 @@ namespace Bespoke.Sph.Web.Helpers
         {
             var request = controllerContext.HttpContext.Request;
             var json =this.GetContentJson(request.InputStream);
+            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
-            return JsonConvert.DeserializeObject(json,bindingContext.ModelType);
+
+            return JsonConvert.DeserializeObject(json,bindingContext.ModelType,setting);
         }
 
         private  string GetContentJson(Stream stream)

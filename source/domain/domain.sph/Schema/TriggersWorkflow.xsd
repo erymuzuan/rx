@@ -261,6 +261,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="ReferencedAssemblyCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ReferencedAssembly" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -721,6 +728,14 @@
 			<xs:attribute name="WhenHitPrintMessage" type="xs:boolean" use="required"/>
 			<xs:attribute name="WhenHitContinueExecution" type="xs:boolean" use="required"/>
 			<xs:attribute name="MessageExpression" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReferencedAssembly">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="FullName" type="xs:string" use="required"/>
+			<xs:attribute name="Version" type="xs:string" use="required"/>
+			<xs:attribute name="Location" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

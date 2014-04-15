@@ -61,9 +61,9 @@ namespace sph.builder
                 IsDebug = true
             };
             var webDir = ConfigurationManager.WebPath;
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(webDir + @"\bin\System.Web.Mvc.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(webDir + @"\bin\core.sph.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(webDir + @"\bin\Newtonsoft.Json.dll")));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(webDir + @"\bin\System.Web.Mvc.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(webDir + @"\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(webDir + @"\bin\Newtonsoft.Json.dll"));
 
             var result = ed.Compile(options);
             result.Errors.ForEach(Console.WriteLine);

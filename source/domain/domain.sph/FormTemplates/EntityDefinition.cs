@@ -190,9 +190,9 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
 
-                foreach (var ass in options.ReferencedAssemblies)
+                foreach (var ass in options.ReferencedAssembliesLocation)
                 {
-                    parameters.ReferencedAssemblies.Add(ass.Location);
+                    parameters.ReferencedAssemblies.Add(ass);
                 }
                 var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
                     : provider.CompileAssemblyFromSource(parameters, code);

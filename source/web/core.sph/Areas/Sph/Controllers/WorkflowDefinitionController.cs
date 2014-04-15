@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -49,8 +48,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
 
-        public async Task<ActionResult> Export([RequestBody]WorkflowDefinition wd)
+        public async Task<ActionResult> Export()
         {
+            var wd = this.GetRequestJson<WorkflowDefinition>();
             var package = new WorkflowDefinitionPackage();
             var zd = await package.PackAsync(wd);
             return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.StoreId }) });
@@ -75,11 +75,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Compile([RequestBody]WorkflowDefinition wd)
+        public async Task<ActionResult> Compile()
         {
-            if(null == wd)throw new ArgumentNullException("wd");
-
+            var wd = this.GetRequestJson<WorkflowDefinition>();
             var buildValidation = wd.ValidateBuild();
+
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
@@ -89,16 +89,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             {
                 SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
             };
-            options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
-            options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
-            options.ReferencedAssemblies.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly);
+            options.AddReference(typeof(Controller));
+            options.AddReference(typeof(WorkflowDefinitionController));
+            options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
 
-            var entityAssembiles = Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath,
-                ConfigurationManager.ApplicationName + ".*.dll");
-            Console.WriteLine("Looking for custom entity dll in {0}, {1} found", ConfigurationManager.WorkflowCompilerOutputPath, entityAssembiles.Length);
+            var entityAssembiles = Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath, ConfigurationManager.ApplicationName + ".*.dll");
             foreach (var dll in entityAssembiles)
             {
-                options.ReferencedAssemblies.Add(Assembly.LoadFrom(dll));
+                options.AddReference(dll);
             }
 
             var result = wd.Compile(options);
@@ -112,26 +110,30 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-        public async Task<ActionResult> Publish([RequestBody]WorkflowDefinition wd)
+        public async Task<ActionResult> Publish()
         {
+            var wd = this.GetRequestJson<WorkflowDefinition>();
             var buildValidation = wd.ValidateBuild();
+
             if (!buildValidation.Result)
                 return Json(buildValidation);
+
 
             // compile , then save
             var options = new CompilerOptions
             {
                 SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
             };
-            options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
-            options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
-            options.ReferencedAssemblies.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly);
+            options.AddReference(typeof(Controller));
+            options.AddReference(typeof(WorkflowDefinitionController));
+            options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
+
             var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
             var customDllPattern = ConfigurationManager.ApplicationName + ".*.dll";
             var entityAssembiles = Directory.GetFiles(outputPath, customDllPattern);
             foreach (var dll in entityAssembiles)
             {
-                options.ReferencedAssemblies.Add(Assembly.LoadFrom(dll));
+                options.AddReference(dll);
             }
 
             var result = wd.Compile(options);
@@ -160,8 +162,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { success = true, version = wd.Version, status = "OK", message = "Your workflow has been successfully compiled and published : " + Path.GetFileName(result.Output) });
         }
 
-        public async Task<ActionResult> Save([RequestBody]WorkflowDefinition wd)
+        public async Task<ActionResult> Save()
         {
+            var wd = this.GetRequestJson<WorkflowDefinition>();
             if (wd.WorkflowDefinitionId == 0 && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
             {
                 // get the empty schema
@@ -259,17 +262,17 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
                 var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
                 var page = new Page
-                        {
-                            Code = code,
-                            Name = scr1.Name,
-                            IsPartial = false,
-                            IsRazor = true,
-                            Tag = tag,
-                            Version = wd.Version,
-                            WebId = Guid.NewGuid().ToString(),
-                            VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId,
-                                wd.Version, scr1.ActionName)
-                        };
+                {
+                    Code = code,
+                    Name = scr1.Name,
+                    IsPartial = false,
+                    IsRazor = true,
+                    Tag = tag,
+                    Version = wd.Version,
+                    WebId = Guid.NewGuid().ToString(),
+                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId,
+                        wd.Version, scr1.ActionName)
+                };
 
 
                 pages.Add(page);
@@ -296,6 +299,23 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges(operation);
             }
             return wd.WorkflowDefinitionId;
+        }
+
+        public ActionResult GetLoadedAssemblies()
+        {
+            var assesmblies = AppDomain.CurrentDomain.GetAssemblies();
+            var refAssemblies = from a in assesmblies
+                                where a.IsDynamic == false
+                                let name = a.GetName()
+                                select new ReferencedAssembly
+                                {
+                                    Version = name.Version.ToString(),
+                                    FullName = name.FullName,
+                                    Location = a.Location,
+                                    Name = name.Name
+                                };
+
+            return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
         }
 
 

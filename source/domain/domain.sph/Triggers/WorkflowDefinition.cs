@@ -93,7 +93,7 @@ namespace Bespoke.Sph.Domain
             if (this.ActivityCollection.Count(a => a.IsInitiator) != 1)
                 result.Errors.Add(new BuildError(this.WebId) { Message = "You must have exactly one initiator activity" });
 
-            if(string.IsNullOrWhiteSpace(this.SchemaStoreId))  
+            if (string.IsNullOrWhiteSpace(this.SchemaStoreId))
                 result.Errors.Add(new BuildError(this.WebId) { Message = "You must have exactly one schema defined" });
 
 
@@ -149,12 +149,15 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Binder).Assembly.Location);
-
+                foreach (var ra in this.ReferencedAssemblyCollection)
+                {
+                    parameters.ReferencedAssemblies.Add(ra.Location);
+                }
                 // custom entities
 
-                foreach (var ass in options.ReferencedAssemblies)
+                foreach (var ass in options.ReferencedAssembliesLocation)
                 {
-                    parameters.ReferencedAssemblies.Add(ass.Location);
+                    parameters.ReferencedAssemblies.Add(ass);
                 }
                 var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
                     : provider.CompileAssemblyFromSource(parameters, code);

@@ -38,8 +38,8 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new EndActivity { Name = "Habis test", WebId = "B" });
 
             var options = new CompilerOptions { IsDebug = true, IsVerbose = false };
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll"));
 
             var code = wd.GenerateXsdCsharpClasses();
             StringAssert.Contains("public partial class Vehicle", code);
@@ -58,8 +58,8 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new EndActivity { Name = "Habis test", WebId = "B" });
 
             var options = new CompilerOptions { IsDebug = true, IsVerbose = false };
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll"));
 
             var script = await wd.GenerateCustomXsdJavascriptClassAsync();
             Assert.IsNotNull(script);
@@ -96,9 +96,9 @@ namespace domain.test.workflows
             wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
 
             var options = new CompilerOptions { IsDebug = true };
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.json.dll")));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.json.dll"));
 
             var result = wd.Compile(options);
             result.Errors.ForEach(Console.WriteLine);
