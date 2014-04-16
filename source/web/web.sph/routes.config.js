@@ -14,6 +14,20 @@
       "error": ""
   },
   {
+      "role": null,
+      "groupName": "Main",
+      "route": "not.found",
+      "moduleId": "viewmodels/not.found",
+      "title": "Home",
+      "nav": false,
+      "icon": "fa-home",
+      "caption": "Not Found",
+      "settings": null,
+      "isAdminPage": false,
+      "showWhenLoggedIn": true,
+      "error": ""
+  },
+  {
       "role": "administrators",
       "groupName": "Security",
       "route": "users",

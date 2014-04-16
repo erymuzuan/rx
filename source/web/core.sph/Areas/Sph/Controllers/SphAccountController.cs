@@ -75,16 +75,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                             returnUrl.Equals("/sph/", StringComparison.InvariantCultureIgnoreCase) ||
                             returnUrl.Equals("/sph/#", StringComparison.InvariantCultureIgnoreCase) ||
                             string.IsNullOrWhiteSpace(returnUrl))
-                            return Redirect("/sph#/" + profile.StartModule);
+                            return Redirect("/sph#" + profile.StartModule);
                     }
-                    if (!string.IsNullOrWhiteSpace(returnUrl))
+                    if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
                     return RedirectToAction("Index", "Home", new { area = "Sph" });
                 }
                 var user = await directory.GetUserAsync(model.UserName);
                 await logger.LogAsync("Login", "Login failed for " + model.UserName);
                 if (null != user && user.IsLockedOut)
-                    ModelState.AddModelError("", "Your acount has beeen locked, Please contact NSRM administrator.");
+                    ModelState.AddModelError("", "Your acount has beeen locked, Please contact your administrator.");
                 else
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");
             }
@@ -114,7 +114,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             if (!Membership.ValidateUser(userName, model.OldPassword))
             {
-                return Json(new { success = false, status = "PASSWORD_INCORRECT", message = "Your old password is incorrect" });
+                return Json(new { success = false, status = "PASSWORD_INCORRECT", message = "Your old password is incorrect" , user = userName});
             }
             if (model.Password != model.ConfirmPassword)
                 return Json(new { success = false, status = "PASSWORD_DOESNOT_MATCH", message = "Your password is not the same" });
@@ -152,6 +152,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public string OldPassword { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
+        public string Message { get; set; }
     }
 
     public class LoginModel
