@@ -8,22 +8,35 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', objectbuilders.system, 'plugins/router'],
-    function (context, system, router) {
-
+define(['services/datacontext', objectbuilders.system, objectbuilders.config],
+    function (context, system, config) {
         var entities = ko.observableArray(),
+            privateSearches = ko.observableArray(),
+            sharedSearches = ko.observableArray(),
             selected = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             filters = ko.observableArray(),
             type = ko.observable(),
             isBusy = ko.observable(false),
             activate = function () {
-                var query = String.format("IsPublished eq {0}", 1),
-                    tcs = new $.Deferred();
+                var entitiesQuery = String.format("IsPublished eq {0}", 1),
+                    tcs = new $.Deferred(),
+                    privateSearchesQuery = String.format("OwnerType eq 'User' and Owner eq '{0}'", config.userName),
+                    departmentSearchesQuery = String.format("OwnerType eq 'Department' and Owner eq '{0}'", config.profile.Department),
+                    designationSearchesQuery = String.format("OwnerType eq 'Designation' and Owner eq '{0}'", config.profile.Designation);
 
-                context.getListAsync("EntityDefinition", query, "Name")
-                    .then(function (lo) {
+
+                var privateTask = context.loadAsync("SearchDefinition", privateSearchesQuery),
+                    departmentTask = context.loadAsync("SearchDefinition", departmentSearchesQuery),
+                    designationTask = context.loadAsync("SearchDefinition", designationSearchesQuery),
+                    entitiesTask = context.getListAsync("EntityDefinition", entitiesQuery, "Name");
+
+                $.when(privateTask, departmentTask, designationTask, entitiesTask)
+                    .done(function(plo,dplo,dslo, elo){
                         isBusy(false);
-                        entities(lo);
+
+                        privateSearches(plo.itemCollection);
+                        sharedSearches(dslo.itemCollection);
+                        entities(elo);
 
                         tcs.resolve(true);
                     });
@@ -57,6 +70,8 @@ define(['services/datacontext', objectbuilders.system, 'plugins/router'],
         });
 
         var vm = {
+            privateSearches: privateSearches,
+            sharedSearches: sharedSearches,
             removeFilter: removeFilter,
             addFilter: addFilter,
             filters: filters,

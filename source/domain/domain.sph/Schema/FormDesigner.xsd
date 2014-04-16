@@ -614,4 +614,47 @@
 			<xs:attribute name="DateInterval" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="SearchDefinition">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="FilterCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Filter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ViewColumnCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ViewColumn" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SortCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Sort" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="SearchDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
+			<xs:attribute name="Route" type="xs:string" use="required"/>
+			<xs:attribute name="OwnerType" type="OwnerType" use="required"/>
+			<xs:attribute name="Owner" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="OwnerType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="User"/>
+			<xs:enumeration value="Everyone"/>
+			<xs:enumeration value="Role"/>
+			<xs:enumeration value="Designation"/>
+			<xs:enumeration value="Department"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

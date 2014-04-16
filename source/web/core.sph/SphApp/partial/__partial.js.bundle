@@ -35,6 +35,7 @@
   <file>/SphApp/partial/Rule.js</file>
   <file>/SphApp/partial/ScheduledTriggerActivity.js</file>
   <file>/SphApp/partial/ScreenActivity.js</file>
+  <file>/SphApp/partial/SearchDefinition.js</file>
   <file>/SphApp/partial/SetterAction.js</file>
   <file>/SphApp/partial/SetterActionChild.js</file>
   <file>/SphApp/partial/StartWorkflowAction.js</file>

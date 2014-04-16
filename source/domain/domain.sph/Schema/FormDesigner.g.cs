@@ -5429,6 +5429,289 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("SearchDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class SearchDefinition
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_searchDefinitionId;
+        public const string PropertyNameSearchDefinitionId = "SearchDefinitionId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_route;
+        public const string PropertyNameRoute = "Route";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private OwnerType m_ownerType;
+        public const string PropertyNameOwnerType = "OwnerType";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_owner;
+        public const string PropertyNameOwner = "Owner";
+
+
+        private readonly ObjectCollection<Filter> m_FilterCollection = new ObjectCollection<Filter>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Filter", IsNullable = false)]
+        public ObjectCollection<Filter> FilterCollection
+        {
+            get { return m_FilterCollection; }
+        }
+
+        private readonly ObjectCollection<ViewColumn> m_ViewColumnCollection = new ObjectCollection<ViewColumn>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ViewColumn", IsNullable = false)]
+        public ObjectCollection<ViewColumn> ViewColumnCollection
+        {
+            get { return m_ViewColumnCollection; }
+        }
+
+        private readonly ObjectCollection<Sort> m_SortCollection = new ObjectCollection<Sort>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Sort", IsNullable = false)]
+        public ObjectCollection<Sort> SortCollection
+        {
+            get { return m_SortCollection; }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int SearchDefinitionId
+        {
+            set
+            {
+                if (m_searchDefinitionId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSearchDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_searchDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_searchDefinitionId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Route
+        {
+            set
+            {
+                if (String.Equals(m_route, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_route = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_route;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public OwnerType OwnerType
+        {
+            set
+            {
+                if (m_ownerType == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOwnerType, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_ownerType = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_ownerType;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Owner
+        {
+            set
+            {
+                if (String.Equals(m_owner, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOwner, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_owner = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_owner;
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement
@@ -5993,6 +6276,17 @@ namespace Bespoke.Sph.Domain
     {
         Asc,
         Desc,
+
+    }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum OwnerType
+    {
+        User,
+        Everyone,
+        Role,
+        Designation,
+        Department,
 
     }
 

@@ -75,6 +75,10 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteAsync<Message>(filter, page, size, includeTotal);
         }
 
+        public async Task<ActionResult> SearchDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<SearchDefinition>(filter, page, size, includeTotal);
+        }
         public async Task<ActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Setting>(filter, page, size, includeTotal);

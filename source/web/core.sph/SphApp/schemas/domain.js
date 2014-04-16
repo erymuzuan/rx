@@ -1222,6 +1222,43 @@ bespoke.sph.domain.Series = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.SearchDefinition = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.SearchDefinition, domain.sph",
+        SearchDefinitionId: ko.observable(0),
+        Entity: ko.observable(''),
+        Name: ko.observable(''),
+        IsPublished: ko.observable(false),
+        Route: ko.observable(''),
+        OwnerType: ko.observable('OwnerType'),
+        Owner: ko.observable(''),
+        FilterCollection: ko.observableArray([]),
+        ViewColumnCollection: ko.observableArray([]),
+        SortCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SearchDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.SearchDefinitionPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {
@@ -1299,6 +1336,19 @@ bespoke.sph.domain.SortDirection = function () {
     return {
         ASC: 'Asc',
         DESC: 'Desc',
+
+        DO_NOT_SELECT: 'DONTDOTHIS'
+    };
+}();
+
+
+bespoke.sph.domain.OwnerType = function () {
+    return {
+        USER: 'User',
+        EVERYONE: 'Everyone',
+        ROLE: 'Role',
+        DESIGNATION: 'Designation',
+        DEPARTMENT: 'Department',
 
         DO_NOT_SELECT: 'DONTDOTHIS'
     };
