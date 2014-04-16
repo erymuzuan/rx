@@ -210,7 +210,6 @@ Get-ChildItem -Filter *.* -Path ".\source\elasticsearch\mapping" `
 | Copy-Item -Destination "$WorkingCopy\database\mapping" -Force -Recurse
 
 copy .\sph.packages\ControlCenter.bat $WorkingCopy
-copy .\source\web\web.sph\index.html $WorkingCopy\getting.started.html
 copy .\sph.packages\mru.exe $WorkingCopy
 
 #remove the custom triggers

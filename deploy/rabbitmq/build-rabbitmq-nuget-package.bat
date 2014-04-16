@@ -1,1 +1,0 @@
-nuget pack .\Sph.Platform.RabbitMq.nuspec
