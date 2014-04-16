@@ -1973,6 +1973,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\entity.chart.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\log.details.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\management.console.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\assembly.dialog.js" />
     <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
@@ -2003,6 +2004,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\_workflow.instances.console.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_workflow.management.consoles.js" />
     <EmbeddedResource Include="SphApp\viewmodels\workflow.overview.js" />
+    <EmbeddedResource Include="SphApp\views\assembly.dialog.html" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />

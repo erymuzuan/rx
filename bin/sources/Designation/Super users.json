@@ -1,0 +1,23 @@
+{
+  "$type": "Bespoke.Sph.Domain.Designation, domain.sph",
+  "Title": null,
+  "Owner": null,
+  "Option": 0,
+  "RoleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "administrators",
+      "developers"
+    ]
+  },
+  "DesignationId": 2,
+  "Name": "Super users",
+  "Description": "Super users, admin and dev",
+  "IsActive": false,
+  "StartModule": "dev.home",
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-15T11:31:53.1921053+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-15T11:31:53.1921053+08:00",
+  "WebId": "47c465aa-b899-4d1b-8c71-aa07bea0dcd5"
+}

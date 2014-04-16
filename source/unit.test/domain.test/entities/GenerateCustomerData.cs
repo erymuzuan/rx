@@ -58,7 +58,7 @@ namespace domain.test.entities
                 await client.PutAsync("dev", new StringContent(""));
                 // mapping
                 var subs = new EntityIndexerMappingSubscriber();
-                await subs.ProcessMessageAsync(ed);
+                await subs.PutMappingAsync(ed);
             }
             for (int i = 0; i < 10000; i++)
             {

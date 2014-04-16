@@ -158,6 +158,19 @@
 
                 },
 
+                  deleteAsync = function(){
+                    var tcs = new $.Deferred();
+$.ajax({
+            type: "DELETE",
+            url: "/Patient/Remove/" + entity().PatientId(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: tcs.resolve
+        });
+        
+return tcs.promise();
+                },
                 save = function() {
                     if (!validation.valid()) {
                         return Task.fromResult(false);
@@ -190,6 +203,8 @@
                     admit : admit,
                 //
 
+                    deleteAsync : deleteAsync ,
+                    
 
                 toolbar : {
                         emailCommand : {
@@ -217,7 +232,7 @@
                         
                     saveCommand : save,
                         
-                    commands : ko.observableArray([])
+                    commands : ko.observableArray([{ caption :"Delete", command : deleteAsync, icon:"fa fa-times" }])
                 }
             };
 
