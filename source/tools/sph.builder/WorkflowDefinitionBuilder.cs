@@ -15,19 +15,21 @@ namespace sph.builder
             foreach (var wd in workflowDefinitions)
             {
                 Console.WriteLine("Compiling : {0} ", wd.Name);
-                await this.InsertSchemaAsync(wd);
+                var exist = await this.InsertSchemaAsync(wd);
+                if (!exist) continue;
+
                 await this.InsertAsync(wd);
                 this.Compile(wd);
 
             }
         }
 
-        private async Task InsertSchemaAsync(WorkflowDefinition wd)
+        private async Task<bool> InsertSchemaAsync(WorkflowDefinition wd)
         {
             var wc = ConfigurationManager.WorkflowSourceDirectory;
             var folder = Path.Combine(wc, typeof(WorkflowDefinition).Name);
             var xsd = Path.Combine(folder, wd.Name + ".xsd");
-
+            if (!File.Exists(xsd)) return false;
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var schema = new BinaryStore
@@ -39,6 +41,7 @@ namespace sph.builder
                 WebId = wd.SchemaStoreId
             };
             await store.AddAsync(schema);
+            return true;
         }
 
         private void Compile(WorkflowDefinition item)

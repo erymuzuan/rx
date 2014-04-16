@@ -172,6 +172,14 @@ namespace Bespoke.Dev_2002.Domain
        set{ m_maritalStatus = value;}
    }
 
+//member:OldIC
+          private System.String m_oldIC;
+   public System.String OldIC
+   {
+       get{ return m_oldIC;}
+       set{ m_oldIC = value;}
+   }
+
    }
 //class:Mrn
 
@@ -304,6 +312,8 @@ namespace Bespoke.Dev_2002.Domain
 //class:Spouse
 
 //class:MaritalStatus
+
+//class:OldIC
 
 public partial class PatientController : System.Web.Mvc.Controller
 {

@@ -55,7 +55,7 @@
   "TypeOf": "",
   "TriggerId": 1,
   "Note": "test 222 3",
-  "IsActive": true,
+  "IsActive": false,
   "IsFiredOnAdded": false,
   "IsFiredOnDeleted": false,
   "IsFiredOnChanged": true,
@@ -64,6 +64,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2013-10-26T06:59:07.2389+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-31T11:19:22.2679996+08:00",
+  "ChangedDate": "2014-04-16T14:24:24.6199492+08:00",
   "WebId": "6b044f74-4c2d-474e-be0e-1f1c1587297d"
 }

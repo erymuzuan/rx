@@ -22,49 +22,49 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
                 var query = String.format("Name eq '{0}'", 'Patient'),
-                    tcs = new $.Deferred(),
-                    chartsQuery = String.format("Entity eq 'Patient' and IsDashboardItem eq 1"),
-                    viewsQuery = String.format("EntityDefinitionId eq '2002' and IsPublished eq 1"),
-                    formsQuery = String.format("EntityDefinitionId eq '2002' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
-                    edTask = context.loadOneAsync("EntityDefinition", query),
-                    chartsTask = context.loadAsync("EntityChart", chartsQuery),
-                    formsTask = context.loadAsync("EntityForm", formsQuery),
-                    reportTask = context.loadAsync("ReportDefinition", "[DataSource.EntityName] eq 'Patient'"),
-                    viewsTask = context.loadAsync("EntityView", viewsQuery);
+                  tcs = new $.Deferred(),
+                  chartsQuery = String.format("Entity eq 'Patient' and IsDashboardItem eq 1"),
+                  viewsQuery = String.format("EntityDefinitionId eq '2002' and IsPublished eq 1"),
+                  formsQuery = String.format("EntityDefinitionId eq '2002' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                  edTask = context.loadOneAsync("EntityDefinition", query),
+                  chartsTask = context.loadAsync("EntityChart", chartsQuery),
+                  formsTask = context.loadAsync("EntityForm", formsQuery),
+                  reportTask = context.loadAsync("ReportDefinition", "[DataSource.EntityName] eq 'Patient'"),
+                  viewsTask = context.loadAsync("EntityView", viewsQuery);
 
 
                 $.when(edTask, formsTask, viewsTask, reportTask, chartsTask)
-                    .done(function (b, formsLo, viewsLo, reportsLo, chartsLo) {
-                        entity(b);
-                        var formsCommands = _(formsLo.itemCollection).map(function (v) {
-                            return {
-                                caption: v.Name(),
-                                command: function () {
-                                    window.location = '#' + v.Route() + '/0';
-                                    return Task.fromResult(0);
-                                },
-                                icon: v.IconClass()
-                            };
-                        });
-                        charts(chartsLo.itemCollection);
-                        reports(reportsLo.itemCollection);
-                        views(viewsLo.itemCollection);
-                        // get counts
-                        _(views()).each(function (v) {
-                            v.CountMessage("....");
-                            var tm = setInterval(function () {
-                                v.CountMessage(v.CountMessage() == "...." ? "..." : "....");
-                            }, 250);
-                            $.get("/Sph/EntityView/Count/" + v.EntityViewId())
-                                .done(function (c) {
-                                    clearInterval(tm);
-                                    v.CountMessage(c.hits.total);
-                                });
-                        });
+                 .done(function (b, formsLo, viewsLo, reportsLo, chartsLo) {
+                     entity(b);
+                     var formsCommands = _(formsLo.itemCollection).map(function (v) {
+                         return {
+                             caption: v.Name(),
+                             command: function () {
+                                 window.location = '#' + v.Route() + '/0';
+                                 return Task.fromResult(0);
+                             },
+                             icon: v.IconClass()
+                         };
+                     });
+                     charts(chartsLo.itemCollection);
+                     reports(reportsLo.itemCollection);
+                     views(viewsLo.itemCollection);
+                     // get counts
+                     _(views()).each(function (v) {
+                         v.CountMessage("....");
+                         var tm = setInterval(function () {
+                             v.CountMessage(v.CountMessage() == "...." ? "..." : "....");
+                         }, 250);
+                         $.get("/Sph/EntityView/Count/" + v.EntityViewId())
+                             .done(function(c) {
+                                 clearInterval(tm);
+                                 v.CountMessage(c.hits.total);
+                             });
+                     });
 
-                        vm.toolbar.commands(formsCommands);
-                        tcs.resolve(true);
-                    });
+                     vm.toolbar.commands(formsCommands);
+                     tcs.resolve(true);
+                 });
 
                 // TODO : get views
 
@@ -101,11 +101,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             },
             recentItemsQuery = {
                 "sort": [
-                    {
-                        "ChangedDate": {
-                            "order": "desc"
-                        }
-                    }
+                 {
+                     "ChangedDate": {
+                         "order": "desc"
+                     }
+                 }
                 ]
             };
 

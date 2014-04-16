@@ -148,14 +148,27 @@ namespace subscriber.entities
         }
         protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
+            // compare
+            var map = this.GetMapping(item);
+            if (this.Compare(item, map)) return;
+
+            this.WriteMessage("There are differences from the existing ElasticSearch mapping");
+            var result = await PutMappingAsync(item);
+            if (result)
+            {
+                this.SaveMap(item, map);
+                this.SaveMigrationMarker(item);
+            }
+
+        }
+
+        public async Task<bool> PutMappingAsync(EntityDefinition item)
+        {
             var url = string.Format("{0}/_mapping/{1}", ConfigurationManager.ApplicationName.ToLowerInvariant(), item.Name.ToLowerInvariant());
 
             var map = this.GetMapping(item);
             var content = new StringContent(map);
-            // compare
-            if (this.Compare(item, map)) return;
 
-            this.WriteMessage("There are differences from the existing ElasticSearch mapping");
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
@@ -165,7 +178,7 @@ namespace subscriber.entities
                     Console.Write(".");
                     // creates the index for the 1st time
                     await client.PutAsync(ConfigurationManager.ApplicationName.ToLowerInvariant(), new StringContent(""));
-                    await this.ProcessMessage(item, header);
+                    return await this.PutMappingAsync(item);
                 }
 
                 if (response.StatusCode == HttpStatusCode.BadRequest)
@@ -177,13 +190,9 @@ namespace subscriber.entities
 
                     this.WriteError(new Exception(" Error creating Elastic search map for " + item.Name + "/r/n" + text));
                 }
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    this.SaveMap(item, map);
-                    this.SaveMigrationMarker(item);
-                }
-            }
 
+                return response.StatusCode == HttpStatusCode.OK;
+            }
         }
 
         private bool Compare(EntityDefinition item, string map)
@@ -200,10 +209,7 @@ namespace subscriber.entities
 
         }
 
-        public Task ProcessMessageAsync(EntityDefinition ed)
-        {
-            return this.ProcessMessage(ed, null);
-        }
+
 
 
         private void SaveMap(EntityDefinition item, string map)

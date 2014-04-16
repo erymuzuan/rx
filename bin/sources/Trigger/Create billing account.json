@@ -68,7 +68,7 @@
   "TypeOf": "",
   "TriggerId": 2,
   "Note": "",
-  "IsActive": true,
+  "IsActive": false,
   "IsFiredOnAdded": false,
   "IsFiredOnDeleted": false,
   "IsFiredOnChanged": false,
@@ -77,6 +77,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-03-23T17:33:02.1072749+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-23T17:33:56.9170338+08:00",
+  "ChangedDate": "2014-04-16T14:24:05.8167164+08:00",
   "WebId": "8f9f3878-1b29-42e8-b771-3d8ec7e191a8"
 }

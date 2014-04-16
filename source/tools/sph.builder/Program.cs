@@ -38,11 +38,15 @@ namespace sph.builder
             triggerBuilder.Restore().Wait();
 
 
-            var formBuilder = new Builder<EntityForm>();
+            var chartBuilder = new Builder<EntityChart>();
+            chartBuilder.Initialize();
+            chartBuilder.Restore().Wait();
+
+            var formBuilder = new EntityFormBuilder();
             formBuilder.Initialize();
             formBuilder.Restore().Wait();
 
-            var viewBuilder = new Builder<EntityView>();
+            var viewBuilder = new EntityViewBuilder();
             viewBuilder.Initialize();
             viewBuilder.Restore().Wait();
 
