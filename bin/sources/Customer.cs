@@ -20,7 +20,16 @@ namespace Bespoke.Dev_1.Domain
         public override string ToString()
         {
             return "Customer:" + FullName;
-        }//member:FullName
+        }     
+        public override void SetId(int id)
+        {
+            m_customerId = id;
+        }     
+        public override int GetId()
+        {
+            return m_customerId;
+        }
+//member:FullName
           private System.String m_fullName;
    public System.String FullName
    {
@@ -114,6 +123,22 @@ namespace Bespoke.Dev_1.Domain
    {
        get{ return m_primaryContact;}
        set{ m_primaryContact = value;}
+   }
+
+//member:Revenue
+          private System.Decimal? m_revenue;
+   public System.Decimal? Revenue
+   {
+       get{ return m_revenue;}
+       set{ m_revenue = value;}
+   }
+
+//member:LogoStoreId
+          private System.String m_logoStoreId;
+   public System.String LogoStoreId
+   {
+       get{ return m_logoStoreId;}
+       set{ m_logoStoreId = value;}
    }
 
    }
@@ -260,6 +285,10 @@ namespace Bespoke.Dev_1.Domain
 //class:ProfileStoreId
 
 //class:PrimaryContact
+
+//class:Revenue
+
+//class:LogoStoreId
 
 public partial class CustomerController : System.Web.Mvc.Controller
 {

@@ -74,6 +74,7 @@ namespace subscriber.entities
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(name);
+            this.WriteMessage("Starting data migration for " + name);
             var connectionString = ConfigurationManager.ConnectionStrings["sph"].ConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
 
@@ -111,6 +112,8 @@ namespace subscriber.entities
                     }
                 }
             }
+            if (taskBuckets.Any())
+                await Task.WhenAll(taskBuckets);
 
 
             Console.ResetColor();
@@ -134,9 +137,7 @@ namespace subscriber.entities
 
             using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
             {
-                Console.WriteLine(json);
                 var response = await client.PostAsync(url, content);
-                Console.WriteLine(response);
                 if (null != response)
                 {
                     Console.Write(".");
@@ -237,21 +238,5 @@ namespace subscriber.entities
 
 
         }
-
-        private void RemoveMigrationMarker(EntityDefinition item)
-        {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
-            var type = item.GetType();
-            var folder = Path.Combine(wc, type.Name);
-
-            var marker = Path.Combine(folder, item.Name + ".marker");
-            if (File.Exists(marker))
-                File.Delete(marker);
-
-
-        }
-
-
-
     }
 }
