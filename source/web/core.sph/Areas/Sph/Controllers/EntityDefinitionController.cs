@@ -66,6 +66,21 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Content(script.ToString());
         }
 
+        public async Task<ActionResult> Depublish()
+        {
+            var context = new SphDataContext();
+            var ed = this.GetRequestJson<EntityDefinition>();
+
+            ed.IsPublished = false;
+            using (var session = context.OpenSession())
+            {
+                session.Attach(ed);
+                await session.SubmitChanges("Depublish");
+            }
+            return Json(new { success = true, status = "OK", message = "Your entity has been successfully depublished", id = ed.EntityDefinitionId });
+
+
+        }
         public async Task<ActionResult> Publish()
         {
             var context = new SphDataContext();
