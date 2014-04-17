@@ -88,72 +88,76 @@ WriteLiteral("\r\n<div id=\"form-designer-toolbox\" data-path=\"Areas\\App\\View
 "gn-is-allow-new\" type=\"checkbox\" name=\"FormDesign.IsAllowedNewItem\" />\r\n        " +
 "                Allow new item\r\n                    </label>\r\n                </" +
 "div>\r\n                <div class=\"form-group\">\r\n                    <label>\r\n   " +
-"                     <input data-bind=\"checked: IsEmailAvailable\" id=\"form-desig" +
-"n-isemail\" type=\"checkbox\" name=\"FormDesign.IsEmailAvailable\" />\r\n              " +
-"          Allow Email\r\n                    </label>\r\n                </div>\r\n\r\n " +
-"               <div class=\"form-group\">\r\n                    <label>\r\n          " +
-"              <input data-bind=\"checked: IsPrintAvailable\" id=\"form-design-ispri" +
-"nt\" type=\"checkbox\" name=\"FormDesign.IsPrintAvailable\" />\r\n                     " +
-"   Allow Print\r\n                    </label>\r\n                </div>\r\n          " +
-"      <div class=\"form-group\">\r\n                    <label>\r\n                   " +
-"     <input data-bind=\"checked: IsWatchAvailable\" id=\"form-design-iswatch\" type=" +
-"\"checkbox\" name=\"FormDesign.IsWatchAvailable\" />\r\n                        Allow " +
-"Watch\r\n                    </label>\r\n                </div>\r\n                <di" +
-"v class=\"form-group\">\r\n                    <label>\r\n                        <inp" +
-"ut data-bind=\"checked: IsAuditTrailAvailable\" id=\"form-design-IsAuditTrailAvaila" +
-"ble\" type=\"checkbox\" name=\"FormDesign.IsAuditTrailAvailable\" />\r\n               " +
-"         Audit trail\r\n                    </label>\r\n                </div>\r\n\r\n  " +
-"              <!-- ko with : FormDesign -->\r\n\r\n\r\n                <div class=\"for" +
-"m-group\">\r\n                    <a href=\"#label-cols\" data-toggle=\"collapse\"><i c" +
-"lass=\"fa fa-chevron-down\"></i>Label columns span</a>\r\n                </div>\r\n  " +
-"              <div id=\"label-cols\" class=\"form-group collapse\">\r\n               " +
-"     <div class=\"form-group\">\r\n                        <label>Label Col Large</l" +
-"abel>\r\n                        <input class=\"form-control\" data-bind=\"value: Lab" +
-"elColLg\" id=\"form-design-LabelColLg\" type=\"number\" name=\"FormDesign.LabelColLg\" " +
-"/>\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n  " +
-"                      <label>Label Col Medium</label>\r\n                        <" +
-"input class=\"form-control\" data-bind=\"value: LabelColMd\" id=\"form-design-LabelCo" +
-"lMd\" type=\"number\" name=\"FormDesign.LabelColMd\" />\r\n                    </div>\r\n" +
-"                    <div class=\"form-group\">\r\n                        <label>Lab" +
-"el Col Small</label>\r\n                        <input class=\"form-control\" data-b" +
-"ind=\"value: LabelColSm\" id=\"form-design-LabelColSm\" type=\"number\" name=\"FormDesi" +
-"gn.LabelColSm\" />\r\n                    </div>\r\n                    <div class=\"f" +
-"orm-group\">\r\n                        <label>Label Col x-small</label>\r\n         " +
-"               <input class=\"form-control\" data-bind=\"value: LabelColXs\" id=\"for" +
-"m-design-LabelColXs\" type=\"number\" name=\"FormDesign.LabelColXs\" />\r\n            " +
-"        </div>\r\n                </div>\r\n\r\n                <div class=\"form-group" +
-"\">\r\n                    <a href=\"#input-cols\" data-toggle=\"collapse\"><i class=\"f" +
-"a fa-chevron-down\"></i>Input columns span</a>\r\n                </div>\r\n         " +
-"       <div id=\"input-cols\" class=\"collapse form-group\">\r\n                    <d" +
-"iv class=\"form-group\">\r\n                        <label>Input Col Large</label>\r\n" +
-"                        <input class=\"form-control\" data-bind=\"value: InputColLg" +
-"\" id=\"form-design-InputColLg\" type=\"number\" name=\"FormDesign.InputColLg\" />\r\n   " +
-"                 </div>\r\n                    <div class=\"form-group\">\r\n         " +
-"               <label>Input Col Medium</label>\r\n                        <input c" +
-"lass=\"form-control\" data-bind=\"value: InputColMd\" id=\"form-design-InputColMd\" ty" +
-"pe=\"number\" name=\"FormDesign.InputColMd\" />\r\n                    </div>\r\n       " +
-"             <div class=\"form-group\">\r\n                        <label>Input Col " +
-"Small</label>\r\n                        <input class=\"form-control\" data-bind=\"va" +
-"lue: InputColSm\" id=\"form-design-InputColSm\" type=\"number\" name=\"FormDesign.Inpu" +
-"tColSm\" />\r\n                    </div>\r\n                    <div class=\"form-gro" +
-"up\">\r\n                        <label>Input Col x-small</label>\r\n                " +
-"        <input class=\"form-control\" data-bind=\"value: InputColXs\" id=\"form-desig" +
-"n-InputColXs\" type=\"number\" name=\"FormDesign.InputColXs\" />\r\n                   " +
-" </div>\r\n\r\n                </div>\r\n\r\n\r\n                <!-- /ko -->\r\n\r\n         " +
-"   </form>\r\n        </div>\r\n        <div id=\"add-field\" class=\"tab-pane\">\r\n     " +
-"       <ul class=\"nav\" data-bind=\"foreach: formElements\">\r\n                <li>\r" +
-"\n                    <a class=\"btn btn-default\" href=\"#add-field\" data-bind=\"att" +
-"r : {title:Tooltip}\">\r\n                        <i data-bind=\"attr: { \'class\': Cs" +
-"sClass }\" class=\"pull-left\"></i>\r\n                        <!-- ko text: Name -->" +
-"\r\n                        <!-- /ko-->\r\n                    </a>\r\n               " +
-" </li>\r\n            </ul>\r\n        </div>\r\n\r\n        <div id=\"fields-settings\" c" +
-"lass=\"tab-pane\" data-bind=\"with: selectedFormElement\">\r\n            <form role=\"" +
-"form\">\r\n                <div class=\"form-group\">\r\n                    <label for" +
-"=\"form-element-label\">Label</label>\r\n                    <input class=\"form-cont" +
-"rol\" data-bind=\"value: Label, valueUpdate: \'keyup\'\" id=\"form-element-label\" type" +
-"=\"text\" name=\"Label\" />\r\n                </div>\r\n\r\n                <div class=\"f" +
-"orm-group\">\r\n                    <label for=\"form-element-path\">Path</label>\r\n  " +
-"                  ");
+"                     <input data-bind=\"checked: IsRemoveAvailable\" id=\"form-desi" +
+"gn-is-remove-item\" type=\"checkbox\" name=\"FormDesign.IsRemoveAvailable\" />\r\n     " +
+"                   Allow remove item\r\n                    </label>\r\n            " +
+"    </div>\r\n                <div class=\"form-group\">\r\n                    <label" +
+">\r\n                        <input data-bind=\"checked: IsEmailAvailable\" id=\"form" +
+"-design-isemail\" type=\"checkbox\" name=\"FormDesign.IsEmailAvailable\" />\r\n        " +
+"                Allow Email\r\n                    </label>\r\n                </div" +
+">\r\n\r\n                <div class=\"form-group\">\r\n                    <label>\r\n    " +
+"                    <input data-bind=\"checked: IsPrintAvailable\" id=\"form-design" +
+"-isprint\" type=\"checkbox\" name=\"FormDesign.IsPrintAvailable\" />\r\n               " +
+"         Allow Print\r\n                    </label>\r\n                </div>\r\n    " +
+"            <div class=\"form-group\">\r\n                    <label>\r\n             " +
+"           <input data-bind=\"checked: IsWatchAvailable\" id=\"form-design-iswatch\"" +
+" type=\"checkbox\" name=\"FormDesign.IsWatchAvailable\" />\r\n                        " +
+"Allow Watch\r\n                    </label>\r\n                </div>\r\n             " +
+"   <div class=\"form-group\">\r\n                    <label>\r\n                      " +
+"  <input data-bind=\"checked: IsAuditTrailAvailable\" id=\"form-design-IsAuditTrail" +
+"Available\" type=\"checkbox\" name=\"FormDesign.IsAuditTrailAvailable\" />\r\n         " +
+"               Audit trail\r\n                    </label>\r\n                </div>" +
+"\r\n\r\n                <!-- ko with : FormDesign -->\r\n\r\n\r\n                <div clas" +
+"s=\"form-group\">\r\n                    <a href=\"#label-cols\" data-toggle=\"collapse" +
+"\"><i class=\"fa fa-chevron-down\"></i>Label columns span</a>\r\n                </di" +
+"v>\r\n                <div id=\"label-cols\" class=\"form-group collapse\">\r\n         " +
+"           <div class=\"form-group\">\r\n                        <label>Label Col La" +
+"rge</label>\r\n                        <input class=\"form-control\" data-bind=\"valu" +
+"e: LabelColLg\" id=\"form-design-LabelColLg\" type=\"number\" name=\"FormDesign.LabelC" +
+"olLg\" />\r\n                    </div>\r\n                    <div class=\"form-group" +
+"\">\r\n                        <label>Label Col Medium</label>\r\n                   " +
+"     <input class=\"form-control\" data-bind=\"value: LabelColMd\" id=\"form-design-L" +
+"abelColMd\" type=\"number\" name=\"FormDesign.LabelColMd\" />\r\n                    </" +
+"div>\r\n                    <div class=\"form-group\">\r\n                        <lab" +
+"el>Label Col Small</label>\r\n                        <input class=\"form-control\" " +
+"data-bind=\"value: LabelColSm\" id=\"form-design-LabelColSm\" type=\"number\" name=\"Fo" +
+"rmDesign.LabelColSm\" />\r\n                    </div>\r\n                    <div cl" +
+"ass=\"form-group\">\r\n                        <label>Label Col x-small</label>\r\n   " +
+"                     <input class=\"form-control\" data-bind=\"value: LabelColXs\" i" +
+"d=\"form-design-LabelColXs\" type=\"number\" name=\"FormDesign.LabelColXs\" />\r\n      " +
+"              </div>\r\n                </div>\r\n\r\n                <div class=\"form" +
+"-group\">\r\n                    <a href=\"#input-cols\" data-toggle=\"collapse\"><i cl" +
+"ass=\"fa fa-chevron-down\"></i>Input columns span</a>\r\n                </div>\r\n   " +
+"             <div id=\"input-cols\" class=\"collapse form-group\">\r\n                " +
+"    <div class=\"form-group\">\r\n                        <label>Input Col Large</la" +
+"bel>\r\n                        <input class=\"form-control\" data-bind=\"value: Inpu" +
+"tColLg\" id=\"form-design-InputColLg\" type=\"number\" name=\"FormDesign.InputColLg\" /" +
+">\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n   " +
+"                     <label>Input Col Medium</label>\r\n                        <i" +
+"nput class=\"form-control\" data-bind=\"value: InputColMd\" id=\"form-design-InputCol" +
+"Md\" type=\"number\" name=\"FormDesign.InputColMd\" />\r\n                    </div>\r\n " +
+"                   <div class=\"form-group\">\r\n                        <label>Inpu" +
+"t Col Small</label>\r\n                        <input class=\"form-control\" data-bi" +
+"nd=\"value: InputColSm\" id=\"form-design-InputColSm\" type=\"number\" name=\"FormDesig" +
+"n.InputColSm\" />\r\n                    </div>\r\n                    <div class=\"fo" +
+"rm-group\">\r\n                        <label>Input Col x-small</label>\r\n          " +
+"              <input class=\"form-control\" data-bind=\"value: InputColXs\" id=\"form" +
+"-design-InputColXs\" type=\"number\" name=\"FormDesign.InputColXs\" />\r\n             " +
+"       </div>\r\n\r\n                </div>\r\n\r\n\r\n                <!-- /ko -->\r\n\r\n   " +
+"         </form>\r\n        </div>\r\n        <div id=\"add-field\" class=\"tab-pane\">\r" +
+"\n            <ul class=\"nav\" data-bind=\"foreach: formElements\">\r\n               " +
+" <li>\r\n                    <a class=\"btn btn-default\" href=\"#add-field\" data-bin" +
+"d=\"attr : {title:Tooltip}\">\r\n                        <i data-bind=\"attr: { \'clas" +
+"s\': CssClass }\" class=\"pull-left\"></i>\r\n                        <!-- ko text: Na" +
+"me -->\r\n                        <!-- /ko-->\r\n                    </a>\r\n         " +
+"       </li>\r\n            </ul>\r\n        </div>\r\n\r\n        <div id=\"fields-setti" +
+"ngs\" class=\"tab-pane\" data-bind=\"with: selectedFormElement\">\r\n            <form " +
+"role=\"form\">\r\n                <div class=\"form-group\">\r\n                    <lab" +
+"el for=\"form-element-label\">Label</label>\r\n                    <input class=\"for" +
+"m-control\" data-bind=\"value: Label, valueUpdate: \'keyup\'\" id=\"form-element-label" +
+"\" type=\"text\" name=\"Label\" />\r\n                </div>\r\n\r\n                <div cl" +
+"ass=\"form-group\">\r\n                    <label for=\"form-element-path\">Path</labe" +
+"l>\r\n                    ");
 
 
 
@@ -198,7 +202,7 @@ WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[
 
 
             
-            #line 219 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 225 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
@@ -216,7 +220,7 @@ WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[
             #line hidden
 
             
-            #line 230 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 236 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         FormElement fe1 = fe;
@@ -225,14 +229,14 @@ WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[
             #line default
             #line hidden
             
-            #line 233 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 239 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 233 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 239 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                  
                     }
 
@@ -252,7 +256,7 @@ WriteLiteral(@"                </div>
 
 
             
-            #line 244 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 250 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             
