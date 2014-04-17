@@ -73,6 +73,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 EnableRaisingEvents = true
             };
             m_fsw.Changed += FswChanged;
+            m_fsw.Deleted += FswChanged;
+            m_fsw.Created += FswChanged;
 
             m_stopping = false;
 

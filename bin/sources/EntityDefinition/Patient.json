@@ -647,15 +647,15 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
           "$values": []
         },
-        "Name": "OldIC",
-        "TypeName": "System.String, mscorlib",
+        "Name": "IsDeceased",
+        "TypeName": "System.Boolean, mscorlib",
         "IsNullable": true,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
         "IsFilterable": false,
         "IsExcludeInAll": false,
-        "Boost": 2,
-        "WebId": "ea2dda9c-1e1a-476c-a0af-61870b979b4e"
+        "Boost": 1,
+        "WebId": "6f425a50-451e-4016-9d0b-2af09ee57a76"
       }
     ]
   },
@@ -965,6 +965,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-16T14:31:27.6771294+08:00",
+  "ChangedDate": "2014-04-17T14:29:02.7091035+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

@@ -6,6 +6,7 @@
         string UserName { get;  }
         string Password { get; }
         int Port { get; set; }
+        int ManagementPort { get; set; }
         string VirtualHost { get;}
     }
 }
