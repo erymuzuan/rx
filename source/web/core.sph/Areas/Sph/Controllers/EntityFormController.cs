@@ -18,6 +18,23 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return Json(new { success = true, status = "OK", id = ef.EntityFormId });
         }
+
+        public async Task<ActionResult> Depublish()
+        {
+            var context = new SphDataContext();
+            var ed = this.GetRequestJson<EntityForm>();
+
+            ed.IsPublished = false;
+            using (var session = context.OpenSession())
+            {
+                session.Attach(ed);
+                await session.SubmitChanges("Depublish");
+            }
+            return Json(new { success = true, status = "OK", message = "Your form has been successfully depublished", id = ed.EntityFormId });
+
+
+        }
+
         public async Task<ActionResult> Publish()
         {
             var context = new SphDataContext();

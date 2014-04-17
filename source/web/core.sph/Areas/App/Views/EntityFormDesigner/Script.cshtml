@@ -35,13 +35,13 @@
                             if (!fid) {
                                 tcs.resolve(true);
                             }
-                        var operations = (b.EntityOperationCollection()).map(function(v) {
-                            return v.Name();
+                            var operations = (b.EntityOperationCollection()).map(function(v) {
+                                return v.Name();
+                            });
+                            operations.push("save");
+                            operationsOption(operations);
+                            //b.loadSchema();
                         });
-                        operations.push("save");
-                        operationsOption(operations);
-                        //b.loadSchema();
-                    });
                     if (fid) {
                         context.loadOneAsync("EntityForm", "EntityFormId eq " + fid)
                         .done(function(f) {
@@ -287,7 +287,26 @@
                             tcs.resolve(result);
                         });
                     return tcs.promise();
-                };
+                },
+
+            depublishAsync = function () {
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(form);
+
+                context.post(data, "/EntityForm/Depublish")
+                    .then(function (result) {
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
+                            logger.error("There are errors in your form, !!!");
+                        }
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            };
+
             var vm = {
                 errors: errors,
                 operationsOption: operationsOption,
@@ -315,10 +334,18 @@
                     },
                     {
                         caption : 'Publish',
-                        icon : 'fa fa-sign-out',
+                        icon : 'fa fa-sign-in',
                         command : publish,
                         enable : ko.computed(function() {
                             return form().EntityFormId() > 0;
+                        })
+                    },
+                    {
+                        command: depublishAsync,
+                        caption: 'Depublish',
+                        icon: "fa fa-sign-out",
+                        enable: ko.computed(function () {
+                            return form().EntityFormId() > 0 && form().IsPublished();
                         })
                     }
                     ]),
