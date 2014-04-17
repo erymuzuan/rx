@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -27,7 +26,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var form = this.GetRequestJson<EntityForm>();
 
             // look for column which points to the form
+// ReSharper disable RedundantBoolCompare
             var viewQuery = context.EntityViews.Where(e => e.IsPublished == true && e.EntityDefinitionId == form.EntityDefinitionId);
+// ReSharper restore RedundantBoolCompare
             var viewLo = await context.LoadAsync(viewQuery, includeTotalRows: true);
             var views = new ObjectCollection<EntityView>(viewLo.ItemCollection);
             while (viewLo.HasNextPage)

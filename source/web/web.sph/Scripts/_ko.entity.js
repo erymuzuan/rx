@@ -263,12 +263,10 @@ ko.bindingHandlers.cssTypeahead = {
 
 ko.bindingHandlers.chart = {
     init : function(element, valueAccessor){
-        var $div = $(element),
-            chart = ko.unwrap(valueAccessor()),
+        var chart = ko.unwrap(valueAccessor()),
             context = require('services/datacontext'),
             entity = chart.Entity(),
             query = JSON.parse(chart.Query()),
-            field = chart.Field(),
             type = chart.Type(),
             tcs = new $.Deferred(),
             name = chart.Name();
@@ -287,7 +285,7 @@ ko.bindingHandlers.chart = {
                         categories = _(buckets).map(function (v) {
                             return v.key_as_string || v.key.toString();
                         }),
-                        chart = $(element).kendoChart({
+                        kendoChart = $(element).kendoChart({
                             theme: "metro",
                             chartArea: {
                                 background: ""
@@ -301,7 +299,9 @@ ko.bindingHandlers.chart = {
                             seriesDefaults: {
                                 labels: {
                                     visible: true,
-                                    format: "{0}"
+                                    format: "{0}",
+                                    background: "transparent",
+                                    template: "#= category #: #= value#"
                                 }
                             },
                             series: [
@@ -323,6 +323,12 @@ ko.bindingHandlers.chart = {
                             }
                         }).data("kendoChart");
                     tcs.resolve(true);
+
+                    context.getScalarAsync("EntityView","EntityViewId eq " + chart.EntityViewId(), "Name")
+                        .done(function(viewName){
+                           kendoChart.options.title.text = name + " (" + viewName + ")" ;
+                            kendoChart.refresh();
+                        });
 
                 });
 
