@@ -254,20 +254,6 @@
       "error": ""
   },
   {
-      "role": "everybody",
-      "groupName": "search",
-      "route": "advanced-search",
-      "moduleId": "viewmodels/advanced-search",
-      "title": "Advanced Search",
-      "nav": true,
-      "icon": "fa-search",
-      "caption": "Search",
-      "settings": null,
-      "isAdminPage": false,
-      "showWhenLoggedIn": false,
-      "error": ""
-  },
-  {
       "role": "developers",
       "groupName": "Dev",
       "route": "dev.home",
