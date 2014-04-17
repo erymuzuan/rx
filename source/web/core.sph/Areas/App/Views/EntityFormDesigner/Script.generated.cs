@@ -225,42 +225,47 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "ction(elements);\r\n\r\n\r\n                    var tcs = new $.Deferred(),\r\n         " +
 "               data = ko.mapping.toJSON(form);\r\n\r\n                    context.po" +
 "st(data, \"/Sph/EntityForm/Save\")\r\n                        .then(function(result)" +
-" {\r\n\r\n                            form().EntityFormId(result.id);\r\n             " +
-"               tcs.resolve(result);\r\n                        });\r\n              " +
-"      return tcs.promise();\r\n                },\r\n\r\n            depublishAsync = " +
-"function () {\r\n\r\n                var tcs = new $.Deferred(),\r\n                  " +
-"  data = ko.mapping.toJSON(form);\r\n\r\n                context.post(data, \"/Entity" +
-"Form/Depublish\")\r\n                    .then(function (result) {\r\n               " +
-"         if (result.success) {\r\n                            logger.info(result.m" +
-"essage);\r\n                            errors.removeAll();\r\n                     " +
-"   } else {\r\n                            logger.error(\"There are errors in your " +
-"form, !!!\");\r\n                        }\r\n                        tcs.resolve(res" +
-"ult);\r\n                    });\r\n                return tcs.promise();\r\n         " +
-"   };\r\n\r\n            var vm = {\r\n                errors: errors,\r\n              " +
-"  operationsOption: operationsOption,\r\n                attached: attached,\r\n    " +
-"            activate: activate,\r\n                formElements: ko.observableArra" +
-"y(),\r\n                selectedFormElement: ko.observable(),\r\n                sel" +
-"ectFormElement : selectFormElement,\r\n                removeFormElement : removeF" +
-"ormElement,\r\n                form: form,\r\n                entity : entity,\r\n    " +
-"            okClick: okClick,\r\n                cancelClick: cancelClick,\r\n      " +
-"          importCommand :importCommand,\r\n                toolbar : {\r\n          " +
-"          commands :ko.observableArray([{\r\n                        caption: \'Clo" +
-"ne\',\r\n                        icon: \'fa fa-copy\',\r\n                        comma" +
-"nd: function () {\r\n                            form().Name(form().Name() + \' Cop" +
-"y (1)\');\r\n                            form().Route(\'\');\r\n                       " +
-"     form().EntityFormId(0);\r\n                            return Task.fromResult" +
-"(0);\r\n                        }\r\n                    },\r\n                    {\r\n" +
-"                        caption : \'Publish\',\r\n                        icon : \'fa" +
-" fa-sign-in\',\r\n                        command : publish,\r\n                     " +
-"   enable : ko.computed(function() {\r\n                            return form()." +
-"EntityFormId() > 0;\r\n                        })\r\n                    },\r\n       " +
-"             {\r\n                        command: depublishAsync,\r\n              " +
-"          caption: \'Depublish\',\r\n                        icon: \"fa fa-sign-out\"," +
-"\r\n                        enable: ko.computed(function () {\r\n                   " +
-"         return form().EntityFormId() > 0 && form().IsPublished();\r\n            " +
-"            })\r\n                    }\r\n                    ]),\r\n                " +
-"    saveCommand : save\r\n                }\r\n            };\r\n\r\n            return " +
-"vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+" {\r\n                            form().EntityFormId(result.id);\r\n               " +
+"             tcs.resolve(result);\r\n                        });\r\n                " +
+"    return tcs.promise();\r\n                },\r\n\r\n            depublishAsync = fu" +
+"nction () {\r\n\r\n                var tcs = new $.Deferred(),\r\n                    " +
+"data = ko.mapping.toJSON(form);\r\n\r\n                context.post(data, \"/EntityFo" +
+"rm/Depublish\")\r\n                    .then(function (result) {\r\n                 " +
+"       if (result.success) {\r\n                            logger.info(result.mes" +
+"sage);\r\n                            errors.removeAll();\r\n                       " +
+" } else {\r\n                            var views = _(result.views).map(function(" +
+"v) {\r\n                                return {\r\n                                " +
+"    Message : v + \" view has a link to this form!\",\r\n                           " +
+"         Code : \"\"\r\n                                }\r\n                         " +
+"   });\r\n                            errors(views);\r\n                            " +
+"logger.error(\"There are errors in your form, depublish those views first to proc" +
+"eed, !!!\");\r\n                        }\r\n                        tcs.resolve(resu" +
+"lt);\r\n                    });\r\n                return tcs.promise();\r\n          " +
+"  };\r\n\r\n            var vm = {\r\n                errors: errors,\r\n               " +
+" operationsOption: operationsOption,\r\n                attached: attached,\r\n     " +
+"           activate: activate,\r\n                formElements: ko.observableArray" +
+"(),\r\n                selectedFormElement: ko.observable(),\r\n                sele" +
+"ctFormElement : selectFormElement,\r\n                removeFormElement : removeFo" +
+"rmElement,\r\n                form: form,\r\n                entity : entity,\r\n     " +
+"           okClick: okClick,\r\n                cancelClick: cancelClick,\r\n       " +
+"         importCommand :importCommand,\r\n                toolbar : {\r\n           " +
+"         commands :ko.observableArray([{\r\n                        caption: \'Clon" +
+"e\',\r\n                        icon: \'fa fa-copy\',\r\n                        comman" +
+"d: function () {\r\n                            form().Name(form().Name() + \' Copy" +
+" (1)\');\r\n                            form().Route(\'\');\r\n                        " +
+"    form().EntityFormId(0);\r\n                            return Task.fromResult(" +
+"0);\r\n                        }\r\n                    },\r\n                    {\r\n " +
+"                       caption : \'Publish\',\r\n                        icon : \'fa " +
+"fa-sign-in\',\r\n                        command : publish,\r\n                      " +
+"  enable : ko.computed(function() {\r\n                            return form().E" +
+"ntityFormId() > 0;\r\n                        })\r\n                    },\r\n        " +
+"            {\r\n                        command: depublishAsync,\r\n               " +
+"         caption: \'Depublish\',\r\n                        icon: \"fa fa-sign-out\",\r" +
+"\n                        enable: ko.computed(function () {\r\n                    " +
+"        return form().EntityFormId() > 0 && form().IsPublished();\r\n             " +
+"           })\r\n                    }\r\n                    ]),\r\n                 " +
+"   saveCommand : save\r\n                }\r\n            };\r\n\r\n            return v" +
+"m;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
 
 
         }

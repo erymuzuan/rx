@@ -282,7 +282,6 @@
 
                     context.post(data, "/Sph/EntityForm/Save")
                         .then(function(result) {
-
                             form().EntityFormId(result.id);
                             tcs.resolve(result);
                         });
@@ -300,7 +299,14 @@
                             logger.info(result.message);
                             errors.removeAll();
                         } else {
-                            logger.error("There are errors in your form, !!!");
+                            var views = _(result.views).map(function(v) {
+                                return {
+                                    Message : v + " view has a link to this form!",
+                                    Code : ""
+                                }
+                            });
+                            errors(views);
+                            logger.error("There are errors in your form, depublish those views first to proceed, !!!");
                         }
                         tcs.resolve(result);
                     });

@@ -44,7 +44,7 @@
                                  entity().PatientId(result.id);
                                  errors.removeAll();
 
-                                 
+                                  
                                     app.showMessage("Ok done", "SPH Platform showcase", ["OK"])
 	                                    .done(function (dialogResult) {
                                             console.log();
@@ -74,7 +74,7 @@
                                  entity().PatientId(result.id);
                                  errors.removeAll();
 
-                                 
+                                  
                                     app.showMessage("Done", "SPH Platform showcase", ["OK"])
 	                                    .done(function (dialogResult) {
                                             console.log();
@@ -104,7 +104,7 @@
                                  entity().PatientId(result.id);
                                  errors.removeAll();
 
-                                 
+                                  
                                     app.showMessage("Done", "SPH Platform showcase", ["OK"])
 	                                    .done(function (dialogResult) {
                                             console.log();
@@ -134,7 +134,7 @@
                                  entity().PatientId(result.id);
                                  errors.removeAll();
 
-                                 
+                                  
                                     app.showMessage("OK done", "SPH Platform showcase", ["OK"])
 	                                    .done(function (dialogResult) {
                                             console.log();
@@ -158,7 +158,7 @@
 
                 },
 
-                                save = function() {
+                save = function() {
                     if (!validation.valid()) {
                         return Task.fromResult(false);
                     }
@@ -175,25 +175,49 @@
                     
 
                     return tcs.promise();
+                },
+                remove = function() {
+                    var tcs = new $.Deferred();
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/Patient/Remove/" + entity().PatientId(),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        error: tcs.reject,
+                        success: function() {
+                            tcs.resolve(true);
+                            app.showMessage("Your item has been successfully removed", "Removed", ["OK"])
+                              .done(function () {
+                                window.location = "#patient";
+                            });
+                        } 
+                    });
+
+
+                    return tcs.promise();
                 };
 
             var vm = {
-                activate: activate,
-                config: config,
-                attached: attached,
-                entity: entity,
-                errors: errors,
-                save : save,
+        activate: activate,
+        config: config,
+        attached: attached,
+        entity: entity,
+        errors: errors,
+        save : save,
                     register : register,
                     discharge : discharge,
                     transfer : transfer,
                     admit : admit,
-                toolbar : {
-                                        
-                    saveCommand : transfer,
-                    commands : ko.observableArray([])
-                }
-            };
+        //
 
-            return vm;
-        });
+
+        toolbar : {
+                        
+            saveCommand : transfer,
+            
+            commands : ko.observableArray([])
+        }
+    };
+
+    return vm;
+    });
