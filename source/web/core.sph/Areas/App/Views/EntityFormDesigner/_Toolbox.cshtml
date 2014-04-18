@@ -43,7 +43,9 @@
                 </div>
                 <div class="form-group">
                     <label for="form-design-icon-class">Icon class</label>
-                    <input class="form-control" data-bind="value: IconClass" id="form-design-icon-class" type="text" name="FormDesign.IconClass" />
+                    <br/>
+                    <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }"  id="form-design-icon-class"></i>
+
                 </div>
                 <div class="form-group">
                     <label>Route</label>
