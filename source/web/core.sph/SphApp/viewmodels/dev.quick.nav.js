@@ -31,6 +31,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                                 name: v.Name,
                                 id: v.EntityDefinitionId,
                                 route: '#entity.details/' + v.EntityDefinitionId(),
+                                operations : v.EntityOperationCollection(),
+                                triggers: _(triggersLo.itemCollection).filter(function (f) { return f.Entity() === v.Name(); }),
                                 forms: _(formsLo.itemCollection).filter(function (f) { return f.EntityDefinitionId() === v.EntityDefinitionId(); }),
                                 views: _(viewsLo.itemCollection).filter(function (f) { return f.EntityDefinitionId() === v.EntityDefinitionId(); })
                             };
