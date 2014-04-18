@@ -4,9 +4,9 @@
 <div class="form-group">
     <label for="dl-icon-class">Icon class</label>
 
-    <input type="text" data-bind="value: IconClass"
-           placeholder="Icon class, glypicons or fontawesome"
-           class="form-control" id="dl-icon-class">
+    <br />
+    <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="dl-icon-class"></i>
+   
 
 </div>
 <div class="form-group checkbox">
