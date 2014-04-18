@@ -17,6 +17,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             if (id == "sph-img-list")
                 return Redirect("/images/list.png");
+            if (id == "sph-img-document")
+                return Redirect("/images/document.png");
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var content = await store.GetContentAsync(id);

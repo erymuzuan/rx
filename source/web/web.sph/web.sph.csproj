@@ -964,6 +964,7 @@
     <Content Include="images\4.png" />
     <Content Include="images\5.png" />
     <Content Include="images\6.png" />
+    <Content Include="images\document.png" />
     <Content Include="images\form.element.Button.png" />
     <Content Include="images\form.element.CheckBox.png" />
     <Content Include="images\form.element.ComboBox.png" />

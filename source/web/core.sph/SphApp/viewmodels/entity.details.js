@@ -51,6 +51,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         });
                     }
                 });
+                ed.IconStoreId("sph-img-document");
 
                 entity(ed);
                 return Task.fromResult(true);
