@@ -969,11 +969,14 @@
     <Content Include="images\form.element.ComboBox.png" />
     <Content Include="images\form.element.DatePicker.png" />
     <Content Include="images\form.element.DateTimePicker.png" />
+    <Content Include="images\form.element.DownloadLink.png" />
     <Content Include="images\form.element.FileUploadElement.png" />
     <Content Include="images\form.element.HtmlElement.png" />
+    <Content Include="images\form.element.ImageElement.png" />
     <Content Include="images\form.element.NumberTextBox.png" />
     <Content Include="images\form.element.TextArea.png" />
     <Content Include="images\form.element.TextBox.png" />
+    <Content Include="images\list.png" />
     <Content Include="images\logo_sph.png" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />

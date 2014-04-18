@@ -42,6 +42,12 @@
                     } else {
 
                         view(new bespoke.sph.domain.EntityView({ WebId: system.guid() }));
+                        view().IconStoreId("sph-img-list");
+
+                        view().Name.subscribe(function (v) {
+                            view().Route(v.toLowerCase().replace(/\W+/g, "-"));
+
+                        });
                     }
                     view().EntityDefinitionId(id);
 
