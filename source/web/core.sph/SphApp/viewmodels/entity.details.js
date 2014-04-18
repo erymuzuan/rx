@@ -70,6 +70,18 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
+                            if (entity().EntityDefinitionId() === 0) {
+                                //reload forms and views 
+                                context.loadAsync("EntityForm", "EntityDefinitionId eq " + result.id)
+                                    .done(function (lo) {
+                                        forms(lo.itemCollection);
+                                    });
+                                context.loadAsync("EntityView", "EntityDefinitionId eq " + result.id)
+                                    .done(function (lo) {
+                                        views(lo.itemCollection);
+                                    });
+
+                            }
                             entity().EntityDefinitionId(result.id);
                             errors.removeAll();
                         } else {
