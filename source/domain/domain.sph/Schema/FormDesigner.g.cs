@@ -3309,6 +3309,17 @@ namespace Bespoke.Sph.Domain
             get { return m_SortCollection; }
         }
 
+        private readonly ObjectCollection<ConditionalFormatting> m_ConditionalFormattingCollection = new ObjectCollection<ConditionalFormatting>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
+        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection
+        {
+            get { return m_ConditionalFormattingCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -3843,6 +3854,17 @@ namespace Bespoke.Sph.Domain
         private string m_format;
         public const string PropertyNameFormat = "Format";
 
+
+        private readonly ObjectCollection<ConditionalFormatting> m_ConditionalFormattingCollection = new ObjectCollection<ConditionalFormatting>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
+        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection
+        {
+            get { return m_ConditionalFormattingCollection; }
+        }
 
         ///<summary>
         /// 
@@ -5705,6 +5727,86 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_owner;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ConditionalFormatting", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ConditionalFormatting
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_cssClass;
+        public const string PropertyNameCssClass = "CssClass";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_condition;
+        public const string PropertyNameCondition = "Condition";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string CssClass
+        {
+            set
+            {
+                if (String.Equals(m_cssClass, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCssClass, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_cssClass = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_cssClass;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Condition
+        {
+            set
+            {
+                if (String.Equals(m_condition, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCondition, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_condition = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_condition;
             }
         }
 

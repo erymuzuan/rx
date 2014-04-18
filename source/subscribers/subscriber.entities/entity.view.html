@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody data-bind="foreach :list">
-                <tr>
+                <tr data-bind="@Raw(Model.View.GenerateConditionalFormattingBinding())">
                     <td>
                         @{
                         var eid = Model.Definition.Name + "Id";

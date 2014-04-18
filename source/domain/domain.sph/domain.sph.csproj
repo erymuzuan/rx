@@ -92,6 +92,7 @@
     <Compile Include="Core\ValidationResult.cs" />
     <Compile Include="FormTemplates\Button.cs" />
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
+    <Compile Include="FormTemplates\ConditionalFormatting.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />
     <Compile Include="FormTemplates\DefaultValue.cs" />
     <Compile Include="FormTemplates\DownloadLink.cs" />

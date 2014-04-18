@@ -42,6 +42,7 @@
   <file>/SphApp/partial/Trigger.js</file>
   <file>/SphApp/partial/UpdateEntityActivity.js</file>
   <file>/SphApp/partial/Variable.js</file>
+  <file>/SphApp/partial/ViewColumn.js</file>
   <file>/SphApp/partial/WorkflowDefinition.js</file>
   <file>/SphApp/partial/WorkflowDesigner.js</file>
   <file>/SphApp/partial/WorkflowTriggerMap.js</file>

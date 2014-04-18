@@ -18,6 +18,13 @@ namespace Bespoke.Sph.Domain
                                    this.WebId,
                                    string.Format("[Filter] : {0} => '{1}' does not have term or field", f.Term, f.Field)
                                );
+            var conditionalFormattingErrors = from f in this.ConditionalFormattingCollection
+                             where string.IsNullOrWhiteSpace(f.Condition) || f.Condition.Contains("\"")
+                             select new BuildError
+                             (
+                                 this.WebId,
+                                 "[ConditionalFormatting] : Condition cannot contains \" or empty"
+                             );
             var sortErrors = from f in this.SortCollection
                              where string.IsNullOrWhiteSpace(f.Path)
                              select new BuildError
@@ -78,11 +85,21 @@ namespace Bespoke.Sph.Domain
             result.Errors.AddRange(columnErrors);
             result.Errors.AddRange(filterErrors);
             result.Errors.AddRange(sortErrors);
+            result.Errors.AddRange(conditionalFormattingErrors);
             result.Result = result.Errors.Count == 0;
 
             return result;
         }
 
+
+        public string GenerateConditionalFormattingBinding()
+        {
+            if (!this.ConditionalFormattingCollection.Any())
+                return string.Empty;
+            var f = from s in this.ConditionalFormattingCollection
+                    select string.Format("'{0}':{1}", s.CssClass, s.Condition);
+            return "css : {" + string.Join(",\r\n", f.ToArray()) + "}";
+        }
 
         public string GenerateEsSortDsl()
         {

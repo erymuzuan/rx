@@ -867,6 +867,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         FilterCollection: ko.observableArray([]),
         ViewColumnCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
+        ConditionalFormattingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -932,6 +933,7 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
         IconCssClass: ko.observable(''),
         IconStoreId: ko.observable(''),
         Format: ko.observable(''),
+        ConditionalFormattingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1253,6 +1255,35 @@ bespoke.sph.domain.SearchDefinition = function (optionOrWebid) {
 
     if (bespoke.sph.domain.SearchDefinitionPartial) {
         return _(model).extend(new bespoke.sph.domain.SearchDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ConditionalFormatting = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ConditionalFormatting, domain.sph",
+        CssClass: ko.observable(''),
+        Condition: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ConditionalFormattingPartial) {
+        return _(model).extend(new bespoke.sph.domain.ConditionalFormattingPartial(model));
     }
     return model;
 };

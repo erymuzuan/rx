@@ -524,6 +524,16 @@ bespoke.sph.domain.EntityViewPartial = function () {
 
     // Filter
     var system = require('durandal/system'),
+        addConditionalFormatting = function () {
+            this.ConditionalFormattingCollection.push(new bespoke.sph.domain.ConditionalFormatting(system.guid()));
+        },
+        removeConditionalFormatting = function (cf) {
+            var self = this;
+            return function () {
+                self.ConditionalFormattingCollection.remove(cf);
+            };
+
+        },
         addViewColumn = function () {
             this.ViewColumnCollection.push(new bespoke.sph.domain.ViewColumn(system.guid()));
         },
@@ -555,6 +565,8 @@ bespoke.sph.domain.EntityViewPartial = function () {
 
         };
     return {
+        addConditionalFormatting: addConditionalFormatting,
+        removeConditionalFormatting: removeConditionalFormatting,
         addViewColumn: addViewColumn,
         removeViewColumn: removeViewColumn,
         addSort: addSort,
@@ -1488,6 +1500,34 @@ bespoke.sph.domain.VariablePartial = function () {
     return {
         hasError: hasError,
         errors: errors
+    };
+};
+///#source 1 1 /SphApp/partial/ViewColumn.js
+/// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../App/durandal/amd/require.js" />
+/// <reference path="../../App/durandal/system.js" />
+
+
+bespoke.sph.domain.ViewColumnPartial = function () {
+
+    // Filter
+    var system = require('durandal/system'),
+        addConditionalFormatting = function () {
+            this.ConditionalFormattingCollection.push(new bespoke.sph.domain.ConditionalFormatting(system.guid()));
+        },
+        removeConditionalFormatting = function (cf) {
+            var self = this;
+            return function () {
+                self.ConditionalFormattingCollection.remove(cf);
+            };
+
+        };
+    return {
+        addConditionalFormatting: addConditionalFormatting,
+        removeConditionalFormatting: removeConditionalFormatting
     };
 };
 ///#source 1 1 /SphApp/partial/WorkflowDefinition.js

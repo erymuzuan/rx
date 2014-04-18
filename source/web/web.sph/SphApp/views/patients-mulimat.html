@@ -1,40 +1,42 @@
 <h1>Muslimat patients</h1>
 <div class="row">
     <div class="col-md-8">
-        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
+        <table class="table table-striped"
+               data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
             <thead>
-                <tr>
-                    <th>Mrn</th>
-                    <th>Status</th>
-                    <th>Nama</th>
-                    <th>Passport</th>
-                    <th>Id</th>
-                    <th>DOB</th>
-                    <th>Age</th>
-                    <th>No. KP</th>
-                </tr>
+            <tr>
+                <th>Mrn</th>
+                <th>Status</th>
+                <th>Nama</th>
+                <th>Passport</th>
+                <th>Id</th>
+                <th>DOB</th>
+                <th>Age</th>
+                <th>No. KP</th>
+            </tr>
             </thead>
             <tbody data-bind="foreach :list">
-                <tr>
-                    <td>
+            <tr data-bind="">
+                <td>
 
-                        <a data-bind="attr : {href:'#patient-details' + '/' + PatientId },text: Mrn"></a>
-                    </td>
-                    <td data-bind="text:Status"></td>
-                    <td data-bind="text:FullName"></td>
-                    <td data-bind="text:PassportNo"></td>
-                    <td data-bind="text:IdentificationNo"></td>
-                    <td data-bind="date:Dob"></td>
-                    <td data-bind="text:Age"></td>
-                    <td data-bind="text:IdentificationNo"></td>
+                    <a data-bind="attr : {href:'#patient-details' + '/' + PatientId },text: Mrn"></a>
+                </td>
+                <td data-bind="text:Status"></td>
+                <td data-bind="text:FullName"></td>
+                <td data-bind="text:PassportNo"></td>
+                <td data-bind="text:IdentificationNo"></td>
+                <td data-bind="date:Dob"></td>
+                <td data-bind="text:Age"></td>
+                <td data-bind="text:IdentificationNo"></td>
 
 
-                </tr>
+            </tr>
             </tbody>
         </table>
     </div>
     <div class="col-md-4" data-bind="with:chart">
         <h3>Charts</h3>
+
         <form class="form">
             <div class="form-group">
                 <label for="chart-name">Charts</label>
@@ -51,11 +53,14 @@
             </div>
             <div class="form-group">
                 <label for="field">Fields</label>
-                <select class="form-control" data-bind="value: field, options: fieldOptions, optionsCaption :'[Select a field]'" id="field"></select>
+                <select class="form-control"
+                        data-bind="value: field, options: fieldOptions, optionsCaption :'[Select a field]'"
+                        id="field"></select>
             </div>
             <div class="form-group" data-bind="visible : aggregate() === 'date_histogram'">
                 <label for="chart-date-interval">Date interval</label>
-                <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval" id="chart-date-interval">
+                <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval"
+                        id="chart-date-interval">
                     <option value="year">Year</option>
                     <option value="quarter">Quarter</option>
                     <option value="month">Month</option>
@@ -68,7 +73,8 @@
             </div>
             <div class="form-group" data-bind="visible : aggregate() === 'histogram'">
                 <label for="histogram-interval">Interval</label>
-                <input class="form-control" step="10" type="number" id="histogram-interval" data-bind="value:histogramInterval" />
+                <input class="form-control" step="10" type="number" id="histogram-interval"
+                       data-bind="value:histogramInterval"/>
             </div>
             <div class="form-group">
                 <label for="chart-type">Type</label>
@@ -79,15 +85,22 @@
                     <option value="column">Column</option>
                 </select>
             </div>
-            <div class="form-group">
-                <a href="#" data-bind="command:saveAs" title="Save chart as">
-                    <i class="fa fa-save"></i>
-                </a>
-                <a href="#" data-bind="command:save, visible: selectedChartId" title="edit and save current chart">
+            <div class="btn-group">
+                <a class="btn" href="#" data-bind="command:saveAs, tooltip:''"
+                   title="Creates a copy of the chart and save as">
                     <i class="fa fa-copy"></i>
                 </a>
-                <a href="#" data-bind="command:remove, visible: selectedChartId" title="remove current chart">
+                <a class="btn" href="#" data-bind="command:save, visible: selectedChartId, tooltip:''"
+                   title="Edit and save current chart">
+                    <i class="fa fa-save"></i>
+                </a>
+                <a class="btn" href="#" data-bind="command:remove, visible: selectedChartId, tooltip:''"
+                   title="Remove current chart permanently">
                     <i class="fa fa-times"></i>
+                </a>
+                <a class="btn" href="#" data-bind="command:pin, visible: selectedChartId, tooltip:''"
+                   title="Pin to dashboard">
+                    <i class="fa fa-thumb-tack"></i>
                 </a>
             </div>
         </form>
