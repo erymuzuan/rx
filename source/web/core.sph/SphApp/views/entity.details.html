@@ -87,9 +87,7 @@
             <div class="form-group">
                 <label for="icon-class" class="col-md-2 control-label">Icon class</label>
                 <div class="col-md-6">
-                    <input type="text" data-bind="value: IconClass"
-                           placeholder="Icon class either Bootsrap or font-awesome"
-                           class="form-control" id="icon-class">
+                    <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="icon-class"></i>
                 </div>
             </div>
 

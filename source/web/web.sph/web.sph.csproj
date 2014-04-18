@@ -1012,10 +1012,12 @@
     <Content Include="SphApp\services\jsonimportexport.js" />
     <Content Include="SphApp\viewmodels\advanced-search.js" />
     <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
+    <Content Include="SphApp\viewmodels\icon.picker.js" />
     <Content Include="SphApp\viewmodels\not.found.js" />
     <Content Include="SphApp\viewmodels\search.definition.dialog.js" />
     <Content Include="SphApp\views\advanced-search.html" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
+    <Content Include="SphApp\views\icon.picker.html" />
     <Content Include="SphApp\views\not.found.html" />
     <Content Include="SphApp\views\search.definition.dialog.html" />
     <Content Include="Web.config">
