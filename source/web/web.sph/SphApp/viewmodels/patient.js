@@ -107,11 +107,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                      }
                  }
                 ]
-            },
-            showLog = function(message){
-                return function(){
-                    logger.info(message);
-                }
             };
 
         var vm = {
@@ -126,7 +121,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             recentItems: recentItems,
             addForm: addForm,
             addView: addView,
-            showLog : showLog,
             recentItemsQuery: recentItemsQuery,
             toolbar: {
                 commands: ko.observableArray([])

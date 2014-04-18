@@ -1,0 +1,25 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
+  "SeriesCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Series, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityChartId": 1008,
+  "EntityDefinitionId": 2002,
+  "Entity": "Patient",
+  "Name": "Income",
+  "Type": "line",
+  "EntityViewId": 0,
+  "Query": "{\"query\":{\"filtered\":{\"filter\":{\"bool\":{\"must\":[],\"must_not\":[]}}}},\"sort\":[{\"Mrn\":{\"order\":\"asc\"}}],\"aggs\":{\"category\":{\"histogram\":{\"field\":\"Income\",\"interval\":5000,\"min_doc_count\":0}}},\"from\":0,\"size\":20}",
+  "Aggregate": "histogram",
+  "Field": "Income",
+  "DateInterval": "year",
+  "IsDashboardItem": true,
+  "DasboardItemPosition": 0,
+  "HistogramInterval": 5000,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-18T11:02:27.5842367+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-18T11:02:27.5842367+08:00",
+  "WebId": "f465f887-ba45-4bf0-9186-cec4d2bb40d7"
+}

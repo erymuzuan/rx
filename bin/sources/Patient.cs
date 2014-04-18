@@ -181,12 +181,12 @@ namespace Bespoke.Dev_2002.Domain
        set{ m_maritalStatus = value;}
    }
 
-//member:IsDeceased
-          private System.Boolean? m_isDeceased;
-   public System.Boolean? IsDeceased
+//member:OldIC
+          private System.String m_oldIC;
+   public System.String OldIC
    {
-       get{ return m_isDeceased;}
-       set{ m_isDeceased = value;}
+       get{ return m_oldIC;}
+       set{ m_oldIC = value;}
    }
 
    }
@@ -322,7 +322,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //class:MaritalStatus
 
-//class:IsDeceased
+//class:OldIC
 
 public partial class PatientController : System.Web.Mvc.Controller
 {
