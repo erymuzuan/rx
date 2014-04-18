@@ -112,9 +112,9 @@ WriteLiteral(@"                <div class=""btn-group"">
 WriteLiteral(@"
                         <span class=""caret""></span>
                     </button>
-                    <ul class=""dropdown-menu"">
-                        <li><a href=""#/user.profile""><i class=""fa fa-user""></i>Profile</a></li>
-                        <li><a href=""#/setting""><i class=""fa fa-cogs""></i>Settings</a></li>
+                    <ul class=""dropdown-menu"" style=""z-index: 9999"">
+                        <li><a href=""#user.profile""><i class=""fa fa-user""></i>Profile</a></li>
+                        <li><a href=""#setting""><i class=""fa fa-cogs""></i>Settings</a></li>
                         <li><a href=""");
 
 

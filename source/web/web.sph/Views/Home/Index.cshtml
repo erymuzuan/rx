@@ -25,7 +25,7 @@
 <body>
     <div>
         <h1>This is temporary home page, you should replace it with your own</h1>
-        <p>This page will redirect to the developers page in <span class="badge badge-important" id="seconds">30</span> seconds</p>
+        <p>This page will redirect to the developers page in <span class="badge badge-important" id="seconds">10</span> seconds</p>
         <div>
             <a href="/docs/index.html">
                 <i class="fa fa-question-circle fa-4x"></i>
@@ -37,7 +37,7 @@
     <script type="text/javascript">
 
         var span = document.getElementById("seconds"),
-            seconds = 30;
+            seconds = 10;
         var sc = setInterval(function () {
             span.innerText = seconds--;
             if (seconds === 0) {
