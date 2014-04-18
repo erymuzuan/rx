@@ -15057,6 +15057,9 @@ header div.nav-header > ul {
   border: none;
   color: #999999;
 }
+#dev-quck-nav-dialog a {
+  padding: 0px;
+}
 /*# sourceMappingURL=nav.css.map */
 * {
   border-radius: 0 !important;
