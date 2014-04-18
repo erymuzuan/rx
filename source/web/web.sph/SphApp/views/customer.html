@@ -1,5 +1,6 @@
 <div class="row" data-bind="with : entity">
-    <img alt="logo" data-bind="attr:{src:'/image/thumbnail/' + IconStoreId() + '?height=50'}" class="pull-right" />
+    <img alt="logo" data-bind="attr:{src:'/image/thumbnail/' + IconStoreId() + '?height=50'}" class="pull-right"/>
+
     <h1 data-bind="text:Name"></h1>
 </div>
 
@@ -11,12 +12,14 @@
             Recent <span data-bind="text:Plural"></span>
         </h3>
     </a>
+
     <div id="recent-customers" class="collapse collapsed">
-        <div class="" data-bind="searchPaging: {list :recentItems, query : recentItemsQuery, pagerHidden:true , entity : 'Customer'}">
+        <div class=""
+             data-bind="searchPaging: {list :recentItems, query : recentItemsQuery, pagerHidden:true , entity : 'Customer'}">
             <ul data-bind="foreach :recentItems" class="metro-tile">
                 <li class="blightblue">
 
-                    <a data-bind="attr:{href : &#39;#add-customer-form/&#39; + CustomerId}">
+                    <a data-bind="attr:{'href' : '#add-customer-form/' + CustomerId}">
                         <i class="fa fa-users"></i>
                         <span data-bind="text:FullName"></span>
                     </a>
@@ -30,6 +33,7 @@
     <div class="col-lg-6">
 
         <h3>Charts</h3>
+
         <div data-bind="foreach: charts">
             <div class="chart-wrapper">
                 <div data-bind="chart:$data"></div>
@@ -49,7 +53,7 @@
             <li data-bind="attr : {'class':TileColour}">
                 <a data-bind="attr:{href : '#' + Route(), 'title' : Note}">
                     <div class="pull-left">
-                        <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon" />
+                        <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon"/>
                     </div>
                     <div>
                         <span class="count-message" data-bind="text:CountMessage"></span>
@@ -58,6 +62,7 @@
                     <div>
                         <h5 data-bind="text: Name"></h5>
                         <span data-bind="visible: !Note()">..</span>
+
                         <p data-bind="text: Note">..</p>
                     </div>
                 </a>
@@ -66,7 +71,6 @@
         </ul>
     </div>
 </div>
-
 
 
 <div class="row">

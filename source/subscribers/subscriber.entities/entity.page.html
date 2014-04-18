@@ -18,7 +18,7 @@
                     @{
                     var url = string.Format("'#{0}/' + {1}Id", Model.Form.Route, Model.Definition.Name);
                     }
-                    <a data-bind="attr:{href : @url}">
+                    <a data-bind="attr:{'href' : @Raw(url)}">
                         <i class="@Model.Definition.IconClass"></i>
                         <span data-bind="text:@Model.Definition.RecordName"></span>
                     </a>
