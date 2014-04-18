@@ -18,10 +18,10 @@
 define('jquery', function () { return jQuery; });
 define('knockout', ko);
 
-define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'services/logger'],
-    function (app, viewLocator, system) {
+define(['durandal/app', 'durandal/viewLocator', 'durandal/system',  objectbuilders.config],
+    function (app, viewLocator, system, config) {
         system.debug(true);
-        app.title = "SPH";
+        app.title = config.applicationFullName ;
         
         //specify which plugins to install and their configuration
         app.configurePlugins({
