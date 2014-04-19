@@ -1,0 +1,37 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ViewColumnCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ConditionalFormattingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityViewId": 5005,
+  "IconClass": null,
+  "IconStoreId": null,
+  "EntityDefinitionId": 6003,
+  "Name": "All Appointments",
+  "Route": "appointments-all",
+  "Note": null,
+  "Query": null,
+  "IsPublished": false,
+  "Visibilty": null,
+  "TileColour": null,
+  "CountMessage": null,
+  "Entity": null,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-19T13:17:11.6129028+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-19T13:17:11.6129028+08:00",
+  "WebId": "9b12e461-e5d6-45ea-811c-bd5f27a2cb6f"
+}

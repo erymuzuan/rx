@@ -1,0 +1,51 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
+  "FormDesign": {
+    "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+    "FormElementCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "Name": null,
+    "Description": null,
+    "ConfirmationText": null,
+    "ImageStoreId": null,
+    "LabelColLg": null,
+    "LabelColMd": null,
+    "LabelColSm": null,
+    "LabelColXs": null,
+    "InputColLg": null,
+    "InputColMd": null,
+    "InputColSm": null,
+    "InputColXs": null,
+    "WebId": null
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "EntityFormId": 6009,
+  "EntityDefinitionId": 6003,
+  "Name": "Appointment details",
+  "Route": "appointment-details",
+  "Note": "appointment-create-new",
+  "IsAllowedNewItem": false,
+  "IconClass": "fa fa-calendar-o",
+  "IconStoreId": null,
+  "IsPublished": false,
+  "IsDefault": true,
+  "IsWatchAvailable": false,
+  "IsEmailAvailable": false,
+  "IsPrintAvailable": false,
+  "IsAuditTrailAvailable": false,
+  "IsRemoveAvailable": false,
+  "IsImportAvailable": false,
+  "IsExportAvailable": false,
+  "Operation": "Register",
+  "Entity": null,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-19T13:17:11.6079288+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-19T13:22:22.256686+08:00",
+  "WebId": "5ecc4866-b762-4784-afea-17adc06d91e3"
+}
