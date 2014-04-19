@@ -91,6 +91,7 @@
     <Compile Include="Business\ChangeSubmission.cs" />
     <Compile Include="Core\ValidationResult.cs" />
     <Compile Include="FormTemplates\Button.cs" />
+    <Compile Include="FormTemplates\ChildEntityListView.cs" />
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
     <Compile Include="FormTemplates\ConditionalFormatting.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />

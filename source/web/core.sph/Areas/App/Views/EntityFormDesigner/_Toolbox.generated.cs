@@ -211,6 +211,7 @@ WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[
                             typeof(Button),
                             typeof(DownloadLink),
                             typeof(ImageElement),
+                            typeof(ChildEntityListView),
                             typeof(ListView)
                         };
                     
@@ -220,7 +221,7 @@ WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[
             #line hidden
 
             
-            #line 238 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 239 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         FormElement fe1 = fe;
@@ -229,14 +230,14 @@ WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[
             #line default
             #line hidden
             
-            #line 241 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 242 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 241 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 242 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                  
                     }
 
@@ -256,7 +257,7 @@ WriteLiteral(@"                </div>
 
 
             
-            #line 252 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 253 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

@@ -399,6 +399,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CheckBox.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\ChildEntityListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChildEntityListView.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\Shared\DisplayTemplates\ComboBox.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -498,6 +503,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\EditorTemplates\ChildEntityListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChildEntityListView.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\Shared\EditorTemplates\DownloadLink.generated.cs">
       <DependentUpon>DownloadLink.cshtml</DependentUpon>
@@ -1280,6 +1290,14 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ImageElement.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\ChildEntityListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\EditorTemplates\ChildEntityListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
     <Content Include="Scripts\bloodhound.js" />
@@ -1340,6 +1358,7 @@
     <Content Include="SphApp\partial\ButtonPartial.min.js">
       <DependentUpon>ButtonPartial.js</DependentUpon>
     </Content>
+    <Content Include="SphApp\partial\ChildEntityListView.js" />
     <Content Include="SphApp\partial\ComboBox.min.js">
       <DependentUpon>ComboBox.js</DependentUpon>
     </Content>

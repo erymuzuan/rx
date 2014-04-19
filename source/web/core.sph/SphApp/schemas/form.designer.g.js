@@ -619,6 +619,40 @@ bespoke.sph.domain.ComboBoxLookup = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.ChildEntityListView = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
+
+    v.Entity = ko.observable('');
+
+    v.Query = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.ChildEntityListView, domain.sph";
+
+    v.ViewColumnCollection = ko.observableArray([]);
+    v.SortCollection = ko.observableArray([]);
+    v.ConditionalFormattingCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ChildEntityListViewPartial) {
+        return _(v).extend(new bespoke.sph.domain.ChildEntityListViewPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.ListView = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);

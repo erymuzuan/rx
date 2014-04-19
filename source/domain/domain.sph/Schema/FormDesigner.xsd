@@ -257,6 +257,39 @@
 			<xs:attribute name="IsComputedQuery" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ChildEntityListView">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:all>
+						<xs:element name="ViewColumnCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ViewColumn" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="SortCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="Sort" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ConditionalFormattingCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ConditionalFormatting" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="Entity" type="xs:string" use="required"/>
+					<xs:attribute name="Query" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="ListView">
 		<xs:complexType>
 			<xs:complexContent>

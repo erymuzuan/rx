@@ -1618,6 +1618,83 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    [XmlType("ChildEntityListView", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ChildEntityListView
+    {
+
+        private string m_Entity;
+        [XmlAttribute]
+        public string Entity
+        {
+            get
+            {
+                return m_Entity;
+            }
+            set
+            {
+                m_Entity = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Query;
+        [XmlAttribute]
+        public string Query
+        {
+            get
+            {
+                return m_Query;
+            }
+            set
+            {
+                m_Query = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<ViewColumn> m_ViewColumnCollection = new ObjectCollection<ViewColumn>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ViewColumn", IsNullable = false)]
+        public ObjectCollection<ViewColumn> ViewColumnCollection
+        {
+            get { return m_ViewColumnCollection; }
+        }
+
+        private readonly ObjectCollection<Sort> m_SortCollection = new ObjectCollection<Sort>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Sort", IsNullable = false)]
+        public ObjectCollection<Sort> SortCollection
+        {
+            get { return m_SortCollection; }
+        }
+
+        private readonly ObjectCollection<ConditionalFormatting> m_ConditionalFormattingCollection = new ObjectCollection<ConditionalFormatting>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
+        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection
+        {
+            get { return m_ConditionalFormattingCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     [XmlType("ListView", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ListView
     {
