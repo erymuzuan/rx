@@ -67,7 +67,7 @@
   "IsAllowedNewItem": false,
   "IconClass": "",
   "IconStoreId": "",
-  "IsPublished": true,
+  "IsPublished": false,
   "IsDefault": false,
   "IsWatchAvailable": false,
   "IsEmailAvailable": false,
@@ -77,9 +77,10 @@
   "IsImportAvailable": false,
   "IsExportAvailable": false,
   "Operation": "Transfer",
+  "Entity": null,
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-23T19:09:33.245833+08:00",
+  "ChangedDate": "2014-04-18T07:35:47.7170656+08:00",
   "WebId": "1f001469-c1c0-4693-969b-d783b7102ed3"
 }

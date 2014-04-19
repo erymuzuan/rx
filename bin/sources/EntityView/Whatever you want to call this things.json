@@ -1,0 +1,37 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ViewColumnCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ConditionalFormattingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityViewId": 3005,
+  "IconClass": "",
+  "IconStoreId": "8c19796c-8148-49ed-b418-abc6961325ea",
+  "EntityDefinitionId": 1,
+  "Name": "Whatever you want to call this things",
+  "Route": "whatever-you-want-to-call-this-things",
+  "Note": "And anymore suggestion",
+  "Query": "",
+  "IsPublished": false,
+  "Visibilty": "",
+  "TileColour": "bviolet",
+  "CountMessage": "",
+  "Entity": "",
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-18T18:44:44.2397315+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-18T18:44:44.2397315+08:00",
+  "WebId": "7509160f-61ce-4e67-a0ee-d036b5ffde80"
+}

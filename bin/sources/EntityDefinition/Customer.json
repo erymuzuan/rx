@@ -135,6 +135,27 @@
               "IsExcludeInAll": false,
               "Boost": 0,
               "WebId": "17d90245-37e2-4d4c-a083-b837bd08e604"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "District",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": true,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "WebId": "4c7c0387-0aeb-4abe-a25f-5501a4f193ec"
             }
           ]
         },
@@ -805,13 +826,13 @@
   "Name": "Customer",
   "Plural": "Customers",
   "IconStoreId": "b26cdf5f-302e-47da-baa3-065f70896e81",
-  "IconClass": "fa fa-users",
+  "IconClass": "glyphicon glyphicon-user",
   "RecordName": "FullName",
   "IsPublished": true,
-  "IsShowOnNavigationBar": false,
+  "IsShowOnNavigationBar": true,
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-17T14:23:57.8224326+08:00",
+  "ChangedDate": "2014-04-19T10:23:32.9177446+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

@@ -30,6 +30,20 @@
           "WebId": "eb9ba469-fda6-4784-898b-de237e249d45"
         },
         "WebId": "80ca3d5e-0b76-48d1-90df-4384ad67f4c5"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "Status",
+        "Operator": "Neq",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Discharged",
+          "Name": "Discharged",
+          "Note": "",
+          "WebId": "251b6004-03d0-43de-b1ae-27c4e4e68e4d"
+        },
+        "WebId": "a6deb9c9-b297-45d1-b02e-a7b0cfc8f3f4"
       }
     ]
   },
@@ -181,6 +195,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-18T10:45:47.8303449+08:00",
+  "ChangedDate": "2014-04-18T08:34:59.5473398+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }

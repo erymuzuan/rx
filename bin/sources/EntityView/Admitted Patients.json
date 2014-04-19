@@ -24,6 +24,10 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "FullName",
         "Header": "Name",
         "Sort": "",
@@ -36,6 +40,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Gender",
         "Header": "Gender",
         "Sort": "",
@@ -48,6 +56,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Race",
         "Header": "Race",
         "Sort": "",
@@ -60,6 +72,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Religion",
         "Header": "Religion",
         "Sort": "",
@@ -72,6 +88,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Age",
         "Header": "Age",
         "Sort": "",
@@ -84,6 +104,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "PassportNo",
         "Header": "Discharge",
         "Sort": "",
@@ -96,6 +120,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "PassportNo",
         "Header": "Transfer",
         "Sort": "",
@@ -112,15 +140,19 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
     "$values": []
   },
+  "ConditionalFormattingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+    "$values": []
+  },
   "EntityViewId": 1003,
   "IconClass": "",
-  "IconStoreId": "542f020e-363c-46ea-931f-83094085dbd1",
+  "IconStoreId": "dcdb9619-5f1a-4913-8459-3e58c4656fa1",
   "EntityDefinitionId": 2002,
   "Name": "Admitted Patients",
   "Route": "admitted-patients",
-  "Note": "",
+  "Note": "view.IsPublished()",
   "Query": "",
-  "IsPublished": true,
+  "IsPublished": false,
   "Visibilty": "",
   "TileColour": "bviolet",
   "CountMessage": null,
@@ -128,6 +160,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-07T12:02:34.3310091+08:00",
+  "ChangedDate": "2014-04-17T19:26:16.1130802+08:00",
   "WebId": "de22c2e4-722b-41ad-b327-33ffa94280fe"
 }

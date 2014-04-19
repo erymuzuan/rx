@@ -24,54 +24,10 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "Path": "Contact.Email",
-        "Header": "Email",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "WebId": "f618fa6f-c209-48b1-9e8f-7959252686a1"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "Path": "Gender",
-        "Header": "Gender",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": null,
-        "IconStoreId": null,
-        "Format": "text:{0}",
-        "WebId": "61ee8ea4-4b48-433d-b60b-8ab5bb7184a0"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "Path": "Address.State",
-        "Header": "State",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": null,
-        "IconStoreId": null,
-        "Format": "text:{0}",
-        "WebId": "09aa9000-fb6e-4106-b717-10ed19194663"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "Path": "Address.Street1",
-        "Header": "Street1",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "fa fa-building-o",
-        "IconStoreId": "fa fa-building-o",
-        "Format": "text:{0}",
-        "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "FullName",
         "Header": "FullName",
         "Sort": "",
@@ -84,6 +40,42 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Address.Street1",
+        "Header": "Street1",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "fa fa-building-o",
+        "IconStoreId": "fa fa-building-o",
+        "Format": "text:{0}",
+        "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Address.State",
+        "Header": "State",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": null,
+        "IconStoreId": null,
+        "Format": "text:{0}",
+        "WebId": "09aa9000-fb6e-4106-b717-10ed19194663"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Age",
         "Header": "Age",
         "Sort": "",
@@ -96,6 +88,26 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Gender",
+        "Header": "Gender",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": null,
+        "IconStoreId": null,
+        "Format": "text:{0}",
+        "WebId": "61ee8ea4-4b48-433d-b60b-8ab5bb7184a0"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "PrimaryContact",
         "Header": "Primary Contact",
         "Sort": "",
@@ -119,6 +131,10 @@
       }
     ]
   },
+  "ConditionalFormattingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+    "$values": []
+  },
   "EntityViewId": 1,
   "IconClass": "",
   "IconStoreId": "3b4b7033-9925-4c3d-b96e-89d989f2a053",
@@ -135,6 +151,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-06T08:58:28.8540826+08:00",
+  "ChangedDate": "2014-04-18T09:04:24.8595763+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }
