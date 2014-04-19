@@ -358,28 +358,39 @@ ko.bindingHandlers.comboBoxLookupOptions = {
             caption = lookup.caption,
             context = require('services/datacontext');
 
-        context.getTuplesAsync({
-            entity: ko.unwrap(lookup.entity),
-            query: ko.unwrap(lookup.query),
-            field: ko.unwrap(lookup.valuePath),
-            field2: ko.unwrap(lookup.displayPath)
+        var setup = function(query) {
+            context.getTuplesAsync({
+                    entity: ko.unwrap(lookup.entity),
+                    query: query,
+                    field: ko.unwrap(lookup.valuePath),
+                    field2: ko.unwrap(lookup.displayPath)
 
-        })
-            .done(function (list) {
-                element.options.length = 0;
-                if (caption) {
-                    element.add(new Option(caption, ""));
-                }
-                _(list).each(function (v) {
-                    element.add(new Option(v.Item2, v.Item1));
-                });
-
-                $select.val(ko.unwrap(value))
-                    .on('change', function () {
-                        value($select.val());
+                })
+                .done(function(list) {
+                    element.options.length = 0;
+                    if (caption) {
+                        element.add(new Option(caption, ""));
+                    }
+                    _(list).each(function(v) {
+                        element.add(new Option(v.Item2, v.Item1));
                     });
 
-            });
+                    $select.val(ko.unwrap(value))
+                        .on('change', function() {
+                            value($select.val());
+                        });
+
+                });
+        };
+        setup(ko.unwrap(lookup.query));
+
+        if (typeof lookup.query === "function") {
+            if (typeof lookup.query.subscribe === "function") {
+                lookup.query.subscribe(function(v) {
+                    setup(ko.unwrap(v));
+                });
+            }
+        }
     },
     update: function (element, valueAccessor) {
         var lookup = ko.unwrap(valueAccessor()),

@@ -16,6 +16,8 @@
                 var query = string.IsNullOrWhiteSpace(lookup.Query) ?
                     lookup.Entity + "Id gt 0"
                     : lookup.Query.Replace("'", "\\'");
+                if (this.IsComputedQuery)
+                    query = "ko.computed(function(){ return " + lookup.Query + ";})";
 
                 return string.Format(" visible :{1}, " +
                                      "comboBoxLookupOptions : {{ " +

@@ -520,6 +520,22 @@ namespace Bespoke.Sph.Domain
     public partial class ComboBox
     {
 
+        private bool m_IsComputedQuery;
+        [XmlAttribute]
+        public bool IsComputedQuery
+        {
+            get
+            {
+                return m_IsComputedQuery;
+            }
+            set
+            {
+                m_IsComputedQuery = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<ComboBoxItem> m_ComboBoxItemCollection = new ObjectCollection<ComboBoxItem>();
 
         ///<summary>

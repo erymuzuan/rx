@@ -182,7 +182,15 @@ namespace Bespoke.Dev_1.Domain
        set{ m_locality = value;}
    }
 
+   private System.String m_district;
+   public System.String District
+   {
+       get{ return m_district;}
+       set{ m_district = value;}
    }
+
+   }
+
 
 
 

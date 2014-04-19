@@ -102,6 +102,7 @@
 						</xs:element>
 						<xs:element ref="ComboBoxLookup"/>
 					</xs:all>
+					<xs:attribute name="IsComputedQuery" type="xs:boolean" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
