@@ -171,8 +171,6 @@ bespoke.sph.domain.ComboBox = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
-    v.IsComputedQuery = ko.observable(false);
-
     v["$type"] = "Bespoke.Sph.Domain.ComboBox, domain.sph";
 
     v.ComboBoxItemCollection = ko.observableArray([]);
@@ -598,6 +596,7 @@ bespoke.sph.domain.ComboBoxLookup = function (optionOrWebid) {
         ValuePath: ko.observable(''),
         DisplayPath: ko.observable(''),
         Query: ko.observable(''),
+        IsComputedQuery: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

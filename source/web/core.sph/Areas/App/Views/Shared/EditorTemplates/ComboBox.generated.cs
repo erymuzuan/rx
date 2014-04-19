@@ -56,11 +56,11 @@ WriteLiteral("\r\n<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.ComboBox,
 "he entity to be the caption of the combobox item\'\" />\r\n</div>\r\n<div class=\"form-" +
 "group\">\r\n    <label for=\"IsComputedQuery\">Computed Query</label>\r\n    <input id=" +
 "\"IsComputedQuery\" type=\"checkbox\" data-bind=\"checked:IsComputedQuery, tooltip :\'" +
-"If you need to update the options when the Query value changed\'\" />\r\n</div>\r\n\r\n<" +
-"div class=\"form-group\">\r\n    <label>Query</label>\r\n    <input type=\"text\" class=" +
-"\"form-control\" data-bind=\"value:Query, tooltip :\'The filter query for the items " +
-"from entity, if you need the query to be dynamically evaluated, check the Comput" +
-"edQuery\'\" />\r\n</div>\r\n\r\n<!-- /ko -->\r\n<!--/ko-->\r\n");
+"If you need to update the options when the Query value changed\'\" />\r\n    \r\n</div" +
+">\r\n\r\n\r\n\r\n<div class=\"form-group\">\r\n    <label>Query</label>\r\n    <input type=\"te" +
+"xt\" class=\"form-control\" data-bind=\"value:Query, tooltip :\'The filter query for " +
+"the items from entity, if you need the query to be dynamically evaluated, check " +
+"the ComputedQuery\'\" />\r\n</div>\r\n\r\n<!-- /ko -->\r\n<!--/ko-->\r\n");
 
 
         }

@@ -520,22 +520,6 @@ namespace Bespoke.Sph.Domain
     public partial class ComboBox
     {
 
-        private bool m_IsComputedQuery;
-        [XmlAttribute]
-        public bool IsComputedQuery
-        {
-            get
-            {
-                return m_IsComputedQuery;
-            }
-            set
-            {
-                m_IsComputedQuery = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
         private readonly ObjectCollection<ComboBoxItem> m_ComboBoxItemCollection = new ObjectCollection<ComboBoxItem>();
 
         ///<summary>
@@ -1476,6 +1460,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameQuery = "Query";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isComputedQuery;
+        public const string PropertyNameIsComputedQuery = "IsComputedQuery";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -1588,6 +1577,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_query;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsComputedQuery
+        {
+            set
+            {
+                if (m_isComputedQuery == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsComputedQuery, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isComputedQuery = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isComputedQuery;
             }
         }
 

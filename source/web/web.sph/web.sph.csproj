@@ -333,6 +333,9 @@
     <Content Include="docs\EntityField.html">
       <DependentUpon>EntityField.md</DependentUpon>
     </Content>
+    <Content Include="docs\EntityForm.HowTo.CreateCascadingCombobox.html">
+      <DependentUpon>EntityForm.HowTo.CreateCascadingCombobox.md</DependentUpon>
+    </Content>
     <Content Include="docs\EntityForm.html">
       <DependentUpon>EntityForm.md</DependentUpon>
     </Content>
@@ -404,6 +407,7 @@
     <Content Include="docs\EntityChart.md" />
     <Content Include="docs\EntityDefinition.HowTo.DefaultForm.md" />
     <Content Include="docs\EntityDefinition.HowTo.AddChartToDashboard.md" />
+    <Content Include="docs\EntityForm.HowTo.CreateCascadingCombobox.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>

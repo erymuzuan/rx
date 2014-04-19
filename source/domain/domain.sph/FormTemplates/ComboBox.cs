@@ -13,10 +13,9 @@
                 )
             {
                 var lookup = this.ComboBoxLookup;
-                var query = string.IsNullOrWhiteSpace(lookup.Query) ?
-                    lookup.Entity + "Id gt 0"
-                    : lookup.Query.Replace("'", "\\'");
-                if (this.IsComputedQuery)
+                var query = string.IsNullOrWhiteSpace(lookup.Query) ? string.Format("'{0}Id gt 0'", lookup.Entity)
+                    : "'" + lookup.Query.Replace("'", "\\'") + "'";
+                if (lookup.IsComputedQuery)
                     query = "ko.computed(function(){ return " + lookup.Query + ";})";
 
                 return string.Format(" visible :{1}, " +
@@ -25,7 +24,7 @@
                                      "entity : '{2}', " +
                                      "valuePath : '{3}', " +
                                      "displayPath: '{4}', " +
-                                     "query :'{5}'" +
+                                     "query :{5}" +
                                      "}}",
                                      path,
                                      this.Visible,
