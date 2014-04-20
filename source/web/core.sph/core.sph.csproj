@@ -962,6 +962,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CheckBox.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Shared\DisplayTemplates\ChildEntityListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChildEntityListView.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\DisplayTemplates\ComboBox.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1036,6 +1041,11 @@
       <DependentUpon>CheckBox.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Views\Shared\EditorTemplates\ChildEntityListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChildEntityListView.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shared\EditorTemplates\ComboBox.generated.cs">
       <DependentUpon>ComboBox.cshtml</DependentUpon>
@@ -2648,6 +2658,14 @@
     </Content>
     <Content Include="SphApp\partial\SetterAction.min.js - Copy.map">
       <DependentUpon>SetterAction.min - Copy.js</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\EditorTemplates\ChildEntityListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Shared\DisplayTemplates\ChildEntityListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
     </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
