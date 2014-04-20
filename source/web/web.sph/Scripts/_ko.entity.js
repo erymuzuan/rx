@@ -370,3 +370,15 @@ ko.bindingHandlers.iconPicker = {
 
     }
 };
+
+var bespoke = bespoke || {};
+bespoke.observableArray = bespoke.observableArray || {};
+
+bespoke.getSingletonObservableArray = function(key){
+    if(bespoke.observableArray[key]){
+        return bespoke.observableArray[key];
+    }
+
+    bespoke.observableArray[key] = ko.observableArray();
+    return bespoke.observableArray[key];
+};

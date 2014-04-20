@@ -1375,6 +1375,10 @@ ko.bindingHandlers.searchPaging = {
     }
 };
 ///#source 1 1 /Scripts/_ko.bootstrap.js
+/// <reference path="typeahead.bundle.js" />
+/// <reference path="knockout-3.1.0.debug.js" />
+/// <reference path="underscore.js" />
+
 ko.bindingHandlers.bootstrapDropDown = {
     init: function (element, valueAccesor) {
         var text = ko.unwrap(valueAccesor()) || '[Select your value]',
@@ -1411,7 +1415,7 @@ ko.bindingHandlers.bootstrapDropDown = {
 ko.bindingHandlers.tooltip = {
     init: function (element, valueAccesor) {
         var text = ko.unwrap(valueAccesor());
-        $(element).tooltip({title:text});
+        $(element).tooltip({ title: text });
     }
 };
 
@@ -1484,20 +1488,34 @@ ko.bindingHandlers.autocomplete = {
          entity = ko.unwrap(va.entity),
          field = ko.unwrap(va.field),
          query = ko.unwrap(va.query),
-        allBindings = allBindingsAccessor();
+         ttl = va.ttl || 300000,
+         allBindings = allBindingsAccessor(),
+         url = String.format("/list?table={0}&column={1}&filter={2}", entity, field, query),
+         suggestions = new Bloodhound({
+             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+             queryTokenizer: Bloodhound.tokenizers.whitespace,
+             prefetch: {
+                 url: url,
+                 tt1: ttl,
+                 filter: function (list) {
+                     return _(list).map(function (v) {
+                         return { name: v };
+                     });
+                 }
+             }
 
+         });
 
-        $(element).typeahead({
+        suggestions.initialize();
+        $(element).typeahead(null, {
             name: 'autocomplete_' + $(element).prop("id"),
-            limit: 5,
-            prefetch: {
-                url: String.format("/list?table={0}&column={1}&filter={2}", entity, field, query),
-                ttl: 1000 * 60
-            }
+            displayKey: "name",
+            source: suggestions.ttAdapter()
         })
-            .on('typeahead:closed', function () {
-                allBindings.value($(this).val());
-            });
+           .on('typeahead:closed', function () {
+               allBindings.value($(this).val());
+           });
+
     }
 };
 

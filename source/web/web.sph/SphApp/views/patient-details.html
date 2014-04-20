@@ -122,13 +122,13 @@
             </div>
             <div class="form-group">
                 <h3>Appointments</h3>
-                <table class="table table-condensed" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list:$root.appointments}">
+                <table class="table table-condensed" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('@guid')}">
                     <thead>
                     <th>Reference No</th>
                     <th>DateTime</th>
                     <th>Location</th>
                     </thead>
-                    <tbody data-bind="foreach: $root.appointments">
+                    <tbody data-bind="foreach:  bespoke.getSingletonObservableArray('@guid')">
                     <tr>
                         <td data-bind="text:ReferenceNo"></td>
                         <td data-bind="date:DateTime"></td>
