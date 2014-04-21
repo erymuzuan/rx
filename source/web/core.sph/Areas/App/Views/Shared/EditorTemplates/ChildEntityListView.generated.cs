@@ -49,15 +49,15 @@ WriteLiteral("\r\n\r\n\r\n<!--ko if:ko.unwrap($type) === \"Bespoke.Sph.Domain.Ch
 "\">\r\n\r\n</div>\r\n<div class=\"btn-group\">\r\n    <a data-bind=\"click : addViewColumn\" " +
 "class=\"btn btn-link\" href=\"#\">\r\n        +  Column\r\n    </a>\r\n</div>\r\n\r\n\r\n\r\n\r\n<ta" +
 "ble class=\"table table-condensed table-striped\">\r\n    <thead>\r\n        <tr>\r\n   " +
-"         <th>Path</th>\r\n            <th>Label</th>\r\n            <th></th>\r\n     " +
-"   </tr>\r\n    </thead>\r\n    <tbody data-bind=\"foreach: ViewColumnCollection\">\r\n " +
-"       <tr>\r\n            <td>\r\n                <input class=\"form-control\" type=" +
-"\"text\" data-bind=\"value:Path\" />\r\n            </td>\r\n            <td>\r\n         " +
-"       <input class=\"form-control\" type=\"text\" data-bind=\"value:Header\" />\r\n    " +
-"        </td>\r\n            <td>\r\n                <a href=\"#\" data-bind=\"click : " +
-"$parent.removeViewColumn.call($parent,$data)\">\r\n                    <span class=" +
-"\"glyphicon glyphicon-remove\"></span>\r\n                </a>\r\n            </td>\r\n " +
-"       </tr>\r\n    </tbody>\r\n</table>\r\n\r\n<!--/ko-->\r\n");
+"         <th>Header</th>\r\n            <th>Path</th>\r\n            <th></th>\r\n    " +
+"    </tr>\r\n    </thead>\r\n    <tbody data-bind=\"foreach: ViewColumnCollection\">\r\n" +
+"        <tr>\r\n            <td>\r\n                <a href=\"#\" data-bind=\"click : $" +
+"parent.editViewColumn.call($parent,$data),text: Header\"></a>\r\n            </td>\r" +
+"\n            <td data-bind=\"text:Path\">\r\n            </td>\r\n            <td>\r\n  " +
+"              <a href=\"#\" data-bind=\"click : $parent.removeViewColumn.call($pare" +
+"nt,$data)\">\r\n                    <span class=\"glyphicon glyphicon-remove\"></span" +
+">\r\n                </a>\r\n            </td>\r\n        </tr>\r\n    </tbody>\r\n</table" +
+">\r\n\r\n<!--/ko-->\r\n");
 
 
         }

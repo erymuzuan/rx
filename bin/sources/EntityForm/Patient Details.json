@@ -344,7 +344,7 @@
             "MaxLength": 0,
             "MinLength": 0,
             "Pattern": null,
-            "Mode": "",
+            "Mode": "number",
             "Message": null,
             "WebId": null
           },
@@ -497,7 +497,7 @@
                 "FormRoute": "",
                 "IconCssClass": "",
                 "IconStoreId": "",
-                "Format": "",
+                "Format": "text:{0}",
                 "WebId": "4bff4343-4206-40a3-9017-47e462abb715"
               },
               {
@@ -509,11 +509,11 @@
                 "Path": "DateTime",
                 "Header": "DateTime",
                 "Sort": "",
-                "IsLinkColumn": false,
-                "FormRoute": "",
-                "IconCssClass": "",
+                "IsLinkColumn": true,
+                "FormRoute": "appointment-details",
+                "IconCssClass": "fa fa-calendar-o",
                 "IconStoreId": "",
-                "Format": "",
+                "Format": "date:{0}",
                 "WebId": "25419cea-cd39-41c6-8c0e-d48930ab2f30"
               },
               {
@@ -529,8 +529,24 @@
                 "FormRoute": "",
                 "IconCssClass": "",
                 "IconStoreId": "",
-                "Format": "",
+                "Format": "text:{0}",
                 "WebId": "8101c425-5278-4374-96fc-3adf3f78f5f9"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+                "ConditionalFormattingCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+                  "$values": []
+                },
+                "Path": "Mrn",
+                "Header": "Mrn",
+                "Sort": "",
+                "IsLinkColumn": false,
+                "FormRoute": "",
+                "IconCssClass": "",
+                "IconStoreId": "",
+                "Format": "text:{0}",
+                "WebId": "3a061ffa-11dc-4901-bb1b-d98d2acadaa4"
               }
             ]
           },
@@ -563,7 +579,7 @@
           "Enable": "true",
           "ElementId": "950d0d7e-c32e-4013-a33a-2d81af111306",
           "HelpText": null,
-          "UseDisplayTemplate": true,
+          "UseDisplayTemplate": false,
           "LabelColLg": null,
           "LabelColMd": null,
           "LabelColSm": null,
@@ -616,6 +632,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-03-22T20:23:09.7138554+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-19T18:21:09.3356293+08:00",
+  "ChangedDate": "2014-04-21T08:47:57.2623891+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

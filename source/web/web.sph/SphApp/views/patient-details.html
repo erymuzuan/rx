@@ -120,19 +120,31 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+
+
+            <div class="form-group" data-bind="visible:true">
                 <h3>Appointments</h3>
-                <table class="table table-condensed" data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('@guid')}">
+                <table class="table table-condensed table-striped"
+                       data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('3c57c06c-ffa2-46de-bf60-b3a8c8140daf')}">
                     <thead>
-                    <th>Reference No</th>
-                    <th>DateTime</th>
-                    <th>Location</th>
-                    </thead>
-                    <tbody data-bind="foreach:  bespoke.getSingletonObservableArray('@guid')">
                     <tr>
-                        <td data-bind="text:ReferenceNo"></td>
-                        <td data-bind="date:DateTime"></td>
+                        <th>Doctor</th>
+                        <th>DateTime</th>
+                        <th>Location</th>
+                        <th>Mrn</th>
+                    </tr>
+                    </thead>
+                    <tbody data-bind="foreach: bespoke.getSingletonObservableArray('3c57c06c-ffa2-46de-bf60-b3a8c8140daf')">
+                    <tr>
+                        <td data-bind="text:Doctor"></td>
+                        <td>
+                            <a data-bind="attr : {href:'#appointment-details' + '/' + AppointmentId(), title:'DateTime' }">
+                                <i class="fa fa-calendar-o"></i>
+                                <span data-bind="date:DateTime"></span>
+                            </a>
+                        </td>
                         <td data-bind="text:Location"></td>
+                        <td data-bind="text:Mrn"></td>
                     </tr>
                     </tbody>
                 </table>

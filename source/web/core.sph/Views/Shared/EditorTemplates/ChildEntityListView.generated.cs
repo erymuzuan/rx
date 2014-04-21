@@ -77,7 +77,7 @@ WriteLiteral("</h3>\r\n    <table class=\"table table-condensed table-striped\" 
 
             
             #line 14 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-                                                                                    Write(Model.Query);
+                                                                                    Write(Html.Raw(Model.Query));
 
             
             #line default
@@ -87,7 +87,7 @@ WriteLiteral(", entity : \'");
 
             
             #line 14 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-                                                                                                            Write(Model.Entity);
+                                                                                                                      Write(Model.Entity);
 
             
             #line default
@@ -97,7 +97,7 @@ WriteLiteral("\', list: bespoke.getSingletonObservableArray(\'");
 
             
             #line 14 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-                                                                                                                                                                       Write(guid);
+                                                                                                                                                                                 Write(guid);
 
             
             #line default
@@ -151,16 +151,142 @@ WriteLiteral("\')\">\r\n            <tr>\r\n");
             #line 25 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
                  foreach (var col in Model.ViewColumnCollection)
                 {
+                    var binding = string.Format(col.Format, col.Path);
+                    if (col.IsLinkColumn)
+                    {
 
             
             #line default
             #line hidden
-WriteLiteral("                    <td data-bind=\"text:");
+WriteLiteral("                        <td>\r\n                            <a data-bind=\"attr : {h" +
+"ref:\'#");
 
 
             
-            #line 27 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
-                                   Write(col.Path);
+            #line 31 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                                    Write(col.FormRoute);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\' + \'/\' + ");
+
+
+            
+            #line 31 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                                                             Write(Model.Entity);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("Id(), title:\'");
+
+
+            
+            #line 31 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                                                                                        Write(col.Header);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\' }\">\r\n");
+
+
+            
+            #line 32 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                 if (!string.IsNullOrWhiteSpace(col.IconCssClass))
+                                {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                                    <i class=\"");
+
+
+            
+            #line 34 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                         Write(col.IconCssClass);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"></i>\r\n");
+
+
+            
+            #line 35 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                }
+
+            
+            #line default
+            #line hidden
+
+            
+            #line 36 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                 if (!string.IsNullOrWhiteSpace(col.IconStoreId))
+                                {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                                    <img src=\"/sph/images/get/");
+
+
+            
+            #line 38 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                                         Write(col.IconStoreId);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\" alt=\"");
+
+
+            
+            #line 38 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                                                                Write(col.Header);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\" />\r\n");
+
+
+            
+            #line 39 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                                <span data-bind=\"");
+
+
+            
+            #line 40 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                            Write(binding);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"></span>\r\n                            </a>\r\n                        </td>\r\n");
+
+
+            
+            #line 43 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                    }
+                    else
+                    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        <td data-bind=\"");
+
+
+            
+            #line 46 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                                  Write(binding);
 
             
             #line default
@@ -169,7 +295,8 @@ WriteLiteral("\"></td>\r\n");
 
 
             
-            #line 28 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+            #line 47 "..\..\Views\Shared\EditorTemplates\ChildEntityListView.cshtml"
+                    }
                 }
 
             
