@@ -193,6 +193,10 @@ ko.bindingHandlers.entityTypeaheadPath = {
             allBindings = allBindingsAccessor(),
             setup = function (entity) {
 
+                if(!entity){
+                    console.log("Cannot determine entity for the typeahead intellisense");
+                    return;
+                }
                 $.get('/Sph/EntityDefinition/GetVariablePath/' + entity).done(function (results) {
                     var paths = _(results).map(function (v) {
                             return { path: v };

@@ -1,6 +1,7 @@
 ﻿/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -16,7 +17,10 @@ bespoke.sph.domain.FilterPartial = function () {
           showFieldDialog = function (accessor, field, path) {
               require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
                   dialog.field(field);
-
+                  if (typeof dialog.entity === "function") {
+                      //dialog.entity();
+                      console.log("found the entity dialog :" + dialog.entity.name);
+                  }
                   app2.showDialog(dialog)
                   .done(function (result) {
                       if (!result) return;

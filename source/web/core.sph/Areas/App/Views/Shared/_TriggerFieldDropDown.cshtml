@@ -24,7 +24,7 @@
         @foreach (var type in fieldTypes)
         {
             <li>
-                <a class="btn btn-link" data-bind="unwrapClick: addField, field : '@type', accessor : $data.@Model.Path" href="#">
+                <a class="btn btn-link" data-bind="unwrapClick: addField, field : '@type', accessor : $data.@Model.Path, entity: $root.typeaheadEntity" href="#">
                     <img src="@string.Format("/images/{0}Field.png",type)" class="pull-left" />
                     + @type
                 </a>

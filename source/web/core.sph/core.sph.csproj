@@ -1465,9 +1465,6 @@
     </Content>
     <Content Include="SphApp\partial\Filter.js" />
     <Content Include="SphApp\partial\SearchDefinition.js" />
-    <Content Include="SphApp\partial\SetterAction.min - Copy.js">
-      <DependentUpon>SearchDefinition.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\SetterAction.min.js">
       <DependentUpon>SetterAction.js</DependentUpon>
     </Content>
@@ -2657,9 +2654,6 @@
     <Content Include="Views\Shared\DisplayTemplates\WebsiteFormElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="SphApp\partial\SetterAction.min.js - Copy.map">
-      <DependentUpon>SetterAction.min - Copy.js</DependentUpon>
     </Content>
     <Content Include="Views\Shared\EditorTemplates\ChildEntityListView.cshtml">
       <Generator>RazorGenerator</Generator>
