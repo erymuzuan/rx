@@ -5,7 +5,7 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schema/sph.domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
 
 
 define(['services/datacontext', 'services/logger', 'plugins/dialog'],

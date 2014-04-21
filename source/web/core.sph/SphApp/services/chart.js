@@ -1,5 +1,6 @@
 define(['services/datacontext', objectbuilders.system], function (context, system) {
 
+// ReSharper disable InconsistentNaming
     var _field = ko.observable(),
         _format = function () {
             switch (_dateInterval()) {
@@ -27,6 +28,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
         _viewId = ko.observable(),
         _selectedChartId = ko.observable(),
         _selectedChart = ko.observable(),
+// ReSharper restore InconsistentNaming
         init = function (entity, query, click, viewId) {
             var tcs = new $.Deferred(),
                 query1 = String.format("Entity eq '{0}'", entity),
