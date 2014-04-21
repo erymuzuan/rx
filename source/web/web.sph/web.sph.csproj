@@ -742,8 +742,38 @@
     <Content Include="docs\WeeklySchedule.html">
       <DependentUpon>WeeklySchedule.md</DependentUpon>
     </Content>
+    <Content Include="docs\WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.html">
+      <DependentUpon>WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDefinition.HowTo.DetermineKpiForYourUsers.html">
+      <DependentUpon>WorkflowDefinition.HowTo.DetermineKpiForYourUsers.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDefinition.HowTo.DoAWhileLoop.html">
+      <DependentUpon>WorkflowDefinition.HowTo.DoAWhileLoop.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDefinition.HowTo.RetrieveARecord.html">
+      <DependentUpon>WorkflowDefinition.HowTo.RetrieveARecord.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDefinition.HowTo.SechedulingAWorkflow.html">
+      <DependentUpon>WorkflowDefinition.HowTo.SechedulingAWorkflow.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDefinition.HowTo.SetADatelineToActivityScreen.html">
+      <DependentUpon>WorkflowDefinition.HowTo.SetADatelineToActivityScreen.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDefinition.HowTo.UploadDataToFtp.html">
+      <DependentUpon>WorkflowDefinition.HowTo.UploadDataToFtp.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDefinition.HowTo.UseCustomObjectInExpressionActivity.html">
+      <DependentUpon>WorkflowDefinition.HowTo.UseCustomObjectInExpressionActivity.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDefinition.HowTo.UseExistingEntityDefinitionAsVariable.html">
+      <DependentUpon>WorkflowDefinition.HowTo.UseExistingEntityDefinitionAsVariable.md</DependentUpon>
+    </Content>
     <Content Include="docs\WorkflowDefinition.html">
       <DependentUpon>WorkflowDefinition.md</DependentUpon>
+    </Content>
+    <Content Include="docs\WorkflowDefiniton.HowTo.DebugYourWorkflow.html">
+      <DependentUpon>WorkflowDefiniton.HowTo.DebugYourWorkflow.md</DependentUpon>
     </Content>
     <Content Include="docs\WorkflowDesigner.html">
       <DependentUpon>WorkflowDesigner.md</DependentUpon>
@@ -957,6 +987,16 @@
     <Content Include="docs\quick.access.md" />
     <Content Include="docs\Trigger.HowTo.PassCurrentRecordToWorkflow.md" />
     <Content Include="images\charts.png" />
+    <Content Include="docs\WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.md" />
+    <Content Include="docs\WorkflowDefinition.HowTo.DetermineKpiForYourUsers.md" />
+    <Content Include="docs\WorkflowDefinition.HowTo.DoAWhileLoop.md" />
+    <Content Include="docs\WorkflowDefinition.HowTo.RetrieveARecord.md" />
+    <Content Include="docs\WorkflowDefinition.HowTo.SetADatelineToActivityScreen.md" />
+    <Content Include="docs\WorkflowDefinition.HowTo.SechedulingAWorkflow.md" />
+    <Content Include="docs\WorkflowDefinition.HowTo.UploadDataToFtp.md" />
+    <Content Include="docs\WorkflowDefinition.HowTo.UseCustomObjectInExpressionActivity.md" />
+    <Content Include="docs\WorkflowDefinition.HowTo.UseExistingEntityDefinitionAsVariable.md" />
+    <Content Include="docs\WorkflowDefiniton.HowTo.DebugYourWorkflow.md" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />
