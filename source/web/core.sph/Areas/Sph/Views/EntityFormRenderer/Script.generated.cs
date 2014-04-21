@@ -768,13 +768,24 @@ WriteLiteral("\r\n");
             #line hidden
 WriteLiteral("                ");
 
-WriteLiteral("removeCommand :remove,");
+WriteLiteral("removeCommand :remove,\r\n                    canExecuteRemoveCommand : ko.computed" +
+"(function(){\r\n                        return entity().");
+
+
+            
+            #line 237 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+                                    Write(Model.EntityDefinition.Name);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("Id();\r\n                    }),");
 
 WriteLiteral("\r\n");
 
 
             
-            #line 236 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 239 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
             }
 
             
@@ -782,7 +793,7 @@ WriteLiteral("\r\n");
             #line hidden
 
             
-            #line 237 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 240 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      if (Model.Form.IsWatchAvailable)
                     {
 
@@ -796,7 +807,7 @@ WriteLiteral("\r\n                    watchCommand: function() {\r\n            
 
 
             
-            #line 241 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 244 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                          Write(Model.EntityDefinition.Name);
 
             
@@ -806,7 +817,7 @@ WriteLiteral("\", entity().");
 
 
             
-            #line 241 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 244 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                                                                   Write(Model.EntityDefinition.Name);
 
             
@@ -822,7 +833,7 @@ WriteLiteral(@"Id())
 
 
             
-            #line 247 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 250 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                            Write(Model.EntityDefinition.Name);
 
             
@@ -832,7 +843,7 @@ WriteLiteral("\", entity().");
 
 
             
-            #line 247 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 250 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                                                                     Write(Model.EntityDefinition.Name);
 
             
@@ -846,7 +857,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 253 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 256 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
 
             
@@ -854,7 +865,7 @@ WriteLiteral("\r\n");
             #line hidden
 
             
-            #line 254 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 257 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      if (!string.IsNullOrWhiteSpace(@saveOperation))
                     {
 
@@ -867,7 +878,7 @@ WriteLiteral("\r\n                    saveCommand : ");
 
 
             
-            #line 257 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 260 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                              Write(saveOperation.ToCamelCase());
 
             
@@ -879,7 +890,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 259 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 262 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
 
             
@@ -889,7 +900,7 @@ WriteLiteral("                    commands : ko.observableArray(");
 
 
             
-            #line 260 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 263 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                              Write(Html.Raw(commandsJs));
 
             

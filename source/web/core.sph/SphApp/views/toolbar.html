@@ -54,8 +54,14 @@
             Save
         </button>
         <!-- /ko -->
-        <!-- ko if: typeof removeCommand === "function"-->
+        <!-- ko if: typeof removeCommand === "function"&& typeof canExecuteRemoveCommand === "undefined"-->
         <button class="btn btn-default" data-bind="command: removeCommand">
+            <i class="fa fa-trash-o"></i>
+            Delete
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof removeCommand === "function" && typeof canExecuteRemoveCommand === "function"-->
+        <button class="btn btn-default" data-bind="command: removeCommand, enable :canExecuteRemoveCommand">
             <i class="fa fa-trash-o"></i>
             Delete
         </button>

@@ -232,7 +232,10 @@
                     }
                     @if (Model.Form.IsRemoveAvailable)
             {
-                <text>removeCommand :remove,</text>
+                <text>removeCommand :remove,
+                    canExecuteRemoveCommand : ko.computed(function(){
+                        return entity().@(Model.EntityDefinition.Name)Id();
+                    }),</text>
             }
                     @if (Model.Form.IsWatchAvailable)
                     {
