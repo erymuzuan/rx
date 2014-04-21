@@ -1,6 +1,6 @@
 define(['services/datacontext', objectbuilders.system], function (context, system) {
 
-// ReSharper disable InconsistentNaming
+    // ReSharper disable InconsistentNaming
     var _field = ko.observable(),
         _format = function () {
             switch (_dateInterval()) {
@@ -196,7 +196,11 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                         if (!result) return;
                         if (result === "OK") {
                             context.post(ko.mapping.toJSON(editedChart), '/sph/entitychart/save')
-                                .done(tcs.resolve);
+                                .done(function (r1) {
+                                    tcs.resolve(true);
+                                    editedChart.EntityChartId(r1.id);
+                                    _charts.push(editedChart);
+                                });
                         } else {
                             tcs.resolve(false);
                         }
@@ -236,7 +240,12 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
             var tcs = new $.Deferred();
 
             context.post(ko.mapping.toJSON(_selectedChart), '/sph/entitychart/remove')
-                .done(tcs.resolve);
+                .done(function () {
+                    tcs.resolve(true);
+                    var rt = _(_charts()).find(function (v) { return v.EntityChartId() === _selectedChartId(); });
+                    _charts.remove(rt);
+                });
+
 
             return tcs.promise();
         },
