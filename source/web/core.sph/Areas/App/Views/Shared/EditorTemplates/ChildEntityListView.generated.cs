@@ -39,25 +39,26 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.EditorTemplates
 
 WriteLiteral("\r\n\r\n\r\n<!--ko if:ko.unwrap($type) === \"Bespoke.Sph.Domain.ChildEntityListView, dom" +
 "ain.sph\" -->\r\n\r\n\r\n<div class=\"form-group\">\r\n    <label for=\"celv-entity\" class=\"" +
-"control-label\">Entity</label>\r\n\r\n    <input type=\"text\" data-bind=\"value: Entity" +
-", tooltip :\'The child entity name\'\"\r\n           required pattern=\"^[A-Za-z_][A-Z" +
-"a-z0-9_ ]*$\"\r\n           placeholder=\"Child entity name\"\r\n           class=\"form" +
-"-control\" id=\"celv-entity\">\r\n\r\n</div>\r\n\r\n<div class=\"form-group\">\r\n    <label fo" +
-"r=\"celv-query\" class=\"control-label\">Query</label>\r\n\r\n    <input type=\"text\" dat" +
-"a-bind=\"value: Query, tooltip : \'Query text to filter the child items\'\"\r\n       " +
-"    required placeholder=\"Query\"\r\n           class=\"form-control\" id=\"celv-query" +
-"\">\r\n\r\n</div>\r\n<div class=\"btn-group\">\r\n    <a data-bind=\"click : addViewColumn\" " +
-"class=\"btn btn-link\" href=\"#\">\r\n        +  Column\r\n    </a>\r\n</div>\r\n\r\n\r\n\r\n\r\n<ta" +
-"ble class=\"table table-condensed table-striped\">\r\n    <thead>\r\n        <tr>\r\n   " +
-"         <th>Header</th>\r\n            <th>Path</th>\r\n            <th></th>\r\n    " +
-"    </tr>\r\n    </thead>\r\n    <tbody data-bind=\"foreach: ViewColumnCollection\">\r\n" +
-"        <tr>\r\n            <td>\r\n                <a href=\"#\" data-bind=\"click : $" +
-"parent.editViewColumn.call($parent,$data),text: Header\"></a>\r\n            </td>\r" +
-"\n            <td data-bind=\"text:Path\">\r\n            </td>\r\n            <td>\r\n  " +
-"              <a href=\"#\" data-bind=\"click : $parent.removeViewColumn.call($pare" +
-"nt,$data)\">\r\n                    <span class=\"glyphicon glyphicon-remove\"></span" +
-">\r\n                </a>\r\n            </td>\r\n        </tr>\r\n    </tbody>\r\n</table" +
-">\r\n\r\n<!--/ko-->\r\n");
+"control-label\">Entity</label>\r\n\r\n    <select data-bind=\"value: Entity, tooltip :" +
+"\'The child entity name\',\r\n                options : $root.entityOptions,\r\n      " +
+"          optionsValue : \'value\',\r\n                optionsText : \'text\',\r\n      " +
+"          optionsCaption: \'[Select Entity]\'\"\r\n            required\r\n            " +
+"class=\"form-control\" id=\"celv-entity\"></select>\r\n\r\n</div>\r\n\r\n<div class=\"form-gr" +
+"oup\">\r\n    <label for=\"celv-query\" class=\"control-label\">Query</label>\r\n\r\n    <i" +
+"nput type=\"text\" data-bind=\"value: Query, tooltip : \'Query text to filter the ch" +
+"ild items\'\"\r\n           required placeholder=\"Query\"\r\n           class=\"form-con" +
+"trol\" id=\"celv-query\">\r\n\r\n</div>\r\n<div class=\"btn-group\">\r\n    <a data-bind=\"cli" +
+"ck : addViewColumn\" class=\"btn btn-link\" href=\"#\">\r\n        +  Column\r\n    </a>\r" +
+"\n</div>\r\n\r\n\r\n\r\n\r\n<table class=\"table table-condensed table-striped\">\r\n    <thead" +
+">\r\n        <tr>\r\n            <th>Header</th>\r\n            <th>Path</th>\r\n       " +
+"     <th></th>\r\n        </tr>\r\n    </thead>\r\n    <tbody data-bind=\"foreach: View" +
+"ColumnCollection\">\r\n        <tr>\r\n            <td>\r\n                <a href=\"#\" " +
+"data-bind=\"click : $parent.editViewColumn.call($parent,$data),text: Header\"></a>" +
+"\r\n            </td>\r\n            <td data-bind=\"text:Path\"></td>\r\n            <t" +
+"d>\r\n                <a href=\"#\" data-bind=\"click : $parent.removeViewColumn.call" +
+"($parent,$data)\">\r\n                    <span class=\"glyphicon glyphicon-remove\">" +
+"</span>\r\n                </a>\r\n            </td>\r\n        </tr>\r\n    </tbody>\r\n<" +
+"/table>\r\n\r\n<!--/ko-->\r\n");
 
 
         }

@@ -8,10 +8,13 @@
 <div class="form-group">
     <label for="celv-entity" class="control-label">Entity</label>
 
-    <input type="text" data-bind="value: Entity, tooltip :'The child entity name'"
-           required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
-           placeholder="Child entity name"
-           class="form-control" id="celv-entity">
+    <select data-bind="value: Entity, tooltip :'The child entity name',
+                options : $root.entityOptions,
+                optionsValue : 'value',
+                optionsText : 'text',
+                optionsCaption: '[Select Entity]'"
+            required
+            class="form-control" id="celv-entity"></select>
 
 </div>
 
@@ -45,8 +48,7 @@
             <td>
                 <a href="#" data-bind="click : $parent.editViewColumn.call($parent,$data),text: Header"></a>
             </td>
-            <td data-bind="text:Path">
-            </td>
+            <td data-bind="text:Path"></td>
             <td>
                 <a href="#" data-bind="click : $parent.removeViewColumn.call($parent,$data)">
                     <span class="glyphicon glyphicon-remove"></span>

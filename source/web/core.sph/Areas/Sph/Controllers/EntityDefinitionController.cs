@@ -11,14 +11,20 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     public class EntityDefinitionController : Controller
     {
-        public async Task<ActionResult> GetVariablePath(int id)
+        public async Task<ActionResult> GetVariablePath(string id)
         {
             var context = new SphDataContext();
-            var ed = await context.LoadOneAsync<EntityDefinition>(w => w.EntityDefinitionId == id);
-            var list = ed.GetMembersPath();
+            int eid;
+            if (int.TryParse(id, out eid))
+            {
+                var ed = await context.LoadOneAsync<EntityDefinition>(w => w.EntityDefinitionId == eid);
+                var list = ed.GetMembersPath();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
 
-
-            return Json(list, JsonRequestBehavior.AllowGet);
+            var ed2 = await context.LoadOneAsync<EntityDefinition>(w => w.Name == id);
+            var list2 = ed2.GetMembersPath();
+            return Json(list2, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

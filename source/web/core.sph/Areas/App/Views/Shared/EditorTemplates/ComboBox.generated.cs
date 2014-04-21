@@ -46,21 +46,25 @@ WriteLiteral("\r\n<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.ComboBox,
 "te: \'keyup\'\" />\r\n    <a href=\"#\" data-bind=\"click: $parent.removeItem.call($pare" +
 "nt, $data)\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </a>\r\n</di" +
 "v>\r\n\r\n\r\n<!-- /ko -->\r\n\r\n\r\n<!-- ko with : ComboBoxLookup -->\r\n\r\n\r\n<div class=\"for" +
-"m-group\">\r\n    <label>Lookup Entity</label>\r\n    <input type=\"text\" class=\"form-" +
-"control\" data-bind=\"value:Entity, tooltip :\'The entity name for the lookup items" +
-"\'\" />\r\n</div>\r\n<div class=\"form-group\">\r\n    <label>Value Path</label>\r\n    <inp" +
-"ut type=\"text\" class=\"form-control\" data-bind=\"value:ValuePath, tooltip :\'The me" +
-"mber name of the entity to be the value of the combobox item\'\" />\r\n</div>\r\n\r\n<di" +
-"v class=\"form-group\">\r\n    <label>Display Path</label>\r\n    <input type=\"text\" c" +
-"lass=\"form-control\" data-bind=\"value:DisplayPath, tooltip :\'The member name of t" +
-"he entity to be the caption of the combobox item\'\" />\r\n</div>\r\n<div class=\"form-" +
-"group\">\r\n    <label for=\"IsComputedQuery\">Computed Query</label>\r\n    <input id=" +
-"\"IsComputedQuery\" type=\"checkbox\" data-bind=\"checked:IsComputedQuery, tooltip :\'" +
-"If you need to update the options when the Query value changed\'\" />\r\n    \r\n</div" +
-">\r\n\r\n\r\n\r\n<div class=\"form-group\">\r\n    <label>Query</label>\r\n    <input type=\"te" +
-"xt\" class=\"form-control\" data-bind=\"value:Query, tooltip :\'The filter query for " +
-"the items from entity, if you need the query to be dynamically evaluated, check " +
-"the ComputedQuery\'\" />\r\n</div>\r\n\r\n<!-- /ko -->\r\n<!--/ko-->\r\n");
+"m-group\">\r\n    <label>Lookup Entity</label>\r\n    <select class=\"form-control\" da" +
+"ta-bind=\"value:Entity, \r\n                tooltip :\'The entity name for the looku" +
+"p items\',\r\n                options : $root.entityOptions,\r\n                optio" +
+"nsValue : \'value\',\r\n                optionsText : \'text\',\r\n                optio" +
+"nsCaption: \'[Select Entity]\'\"></select>\r\n</div>\r\n<div class=\"form-group\">\r\n    <" +
+"label>Value Path</label>\r\n    <input type=\"text\" class=\"form-control\" data-bind=" +
+"\"value:ValuePath,\r\n            entityTypeaheadPath: Entity,\r\n            tooltip" +
+" :\'The member name of the entity to be the value of the combobox item\'\" />\r\n</di" +
+"v>\r\n\r\n<div class=\"form-group\">\r\n    <label>Display Path</label>\r\n    <input type" +
+"=\"text\" class=\"form-control\" data-bind=\"value:DisplayPath,\r\n                enti" +
+"tyTypeaheadPath: Entity,\r\n                tooltip :\'The member name of the entit" +
+"y to be the caption of the combobox item\'\" />\r\n</div>\r\n<div class=\"form-group\">\r" +
+"\n    <label for=\"IsComputedQuery\">Computed Query</label>\r\n    <input id=\"IsCompu" +
+"tedQuery\" type=\"checkbox\" data-bind=\"checked:IsComputedQuery, tooltip :\'If you n" +
+"eed to update the options when the Query value changed\'\" />\r\n    \r\n</div>\r\n\r\n\r\n\r" +
+"\n<div class=\"form-group\">\r\n    <label>Query</label>\r\n    <input type=\"text\" clas" +
+"s=\"form-control\" data-bind=\"value:Query, tooltip :\'The filter query for the item" +
+"s from entity, if you need the query to be dynamically evaluated, check the Comp" +
+"utedQuery\'\" />\r\n</div>\r\n\r\n<!-- /ko -->\r\n<!--/ko-->\r\n");
 
 
         }

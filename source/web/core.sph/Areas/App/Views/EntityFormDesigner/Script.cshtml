@@ -17,6 +17,7 @@
 
             var errors = ko.observableArray(),
                 operationsOption = ko.observableArray(),
+                entityOptions = ko.observableArray(),
                 entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
                 form = ko.observable(new bespoke.sph.domain.EntityForm({WebId:system.guid()})),
                 activate = function (entityid, formid) {
@@ -28,6 +29,22 @@
                         id = parseInt(entityid),
                         query = String.format("EntityDefinitionId eq {0}", id),
                         tcs = new $.Deferred();
+
+
+                    context.getListAsync("EntityDefinition", null, "Name")
+                        .then(function(entities) {
+                            var list = _(entities).map(function(v) {
+                                return {
+                                    text : v,
+                                    value :v
+                                };
+                            });
+
+                            list.push({ text: 'UserProfile*', value: 'UserProfile' });
+                            list.push({ text: 'Designation*', value: 'Designation' });
+                            list.push({ text: 'Department*', value: 'Department' });
+                            entityOptions(list);
+                        });
 
                     context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
@@ -324,6 +341,7 @@
                 removeFormElement : removeFormElement,
                 form: form,
                 entity : entity,
+                entityOptions : entityOptions,
                 okClick: okClick,
                 cancelClick: cancelClick,
                 importCommand :importCommand,

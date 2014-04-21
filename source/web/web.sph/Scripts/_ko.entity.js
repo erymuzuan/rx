@@ -188,36 +188,48 @@ ko.bindingHandlers.help = {
 };
 ko.bindingHandlers.entityTypeaheadPath = {
     init: function (element, valueAccessor, allBindingsAccessor) {
-        var id = ko.unwrap(valueAccessor()),
-            allBindings = allBindingsAccessor();
-        $.get('/Sph/EntityDefinition/GetVariablePath/' + id).done(function (results) {
-            var paths = _(results).map(function (v) {
-                    return { path: v };
-                }),
-                members = new Bloodhound({
-                    datumTokenizer: function (d) {
-                        return d.path.split(/s+/);
-                    },
-                    queryTokenizer: function (s) {
-                        return s.split(/\./);
-                    },
-                    local: paths
-                });
-            members.initialize();
+        var value = valueAccessor(),
+            id = ko.unwrap(valueAccessor()),
+            allBindings = allBindingsAccessor(),
+            setup = function (entity) {
 
-            $(element).typeahead({
-                    minLength: 0,
-                    highlight: true,
-                },
-                {
-                    name: 'ed_paths' + id,
-                    displayKey: 'path',
-                    source: members.ttAdapter()
-                })
-                .on('typeahead:closed', function () {
-                    allBindings.value($(this).val());
+                $.get('/Sph/EntityDefinition/GetVariablePath/' + entity).done(function (results) {
+                    var paths = _(results).map(function (v) {
+                            return { path: v };
+                        }),
+                        members = new Bloodhound({
+                            datumTokenizer: function (d) {
+                                return d.path.split(/s+/);
+                            },
+                            queryTokenizer: function (s) {
+                                return s.split(/\./);
+                            },
+                            local: paths
+                        });
+                    members.initialize();
+
+                    $(element).typeahead({
+                            minLength: 0,
+                            highlight: true,
+                        },
+                        {
+                            name: 'ed_paths' + id,
+                            displayKey: 'path',
+                            source: members.ttAdapter()
+                        })
+                        .on('typeahead:closed', function () {
+                            allBindings.value($(this).val());
+                        });
                 });
-        });
+            };
+
+        setup(id);
+        if(typeof value === "function" && typeof value.subscribe === "function"){
+            value.subscribe(function(entity){
+                $(element).typeahead('destroy');
+                setup(entity);
+            })
+        }
     }
 };
 
@@ -374,8 +386,8 @@ ko.bindingHandlers.iconPicker = {
 var bespoke = bespoke || {};
 bespoke.observableArray = bespoke.observableArray || {};
 
-bespoke.getSingletonObservableArray = function(key){
-    if(bespoke.observableArray[key]){
+bespoke.getSingletonObservableArray = function (key) {
+    if (bespoke.observableArray[key]) {
         return bespoke.observableArray[key];
     }
 

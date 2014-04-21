@@ -286,6 +286,10 @@
 					</xs:all>
 					<xs:attribute name="Entity" type="xs:string" use="required"/>
 					<xs:attribute name="Query" type="xs:string" use="required"/>
+					<xs:attribute name="IsAllowAddItem" type="xs:boolean" use="required"/>
+					<xs:attribute name="NewItemFormRoute" type="xs:string" use="optional"/>
+					<xs:attribute name="NewItemMappingSource" type="xs:string" use="optional"/>
+					<xs:attribute name="NewItemMappingDestination" type="xs:string" use="optional"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
