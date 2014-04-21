@@ -19,6 +19,45 @@
 
 <label class="col-md-4">Reference No</label>
 <span class="col-md-8" data-bind="text: ReferenceNo"></span>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="709d58fd-57f1-4cc3-9268-3b0b40ac7edf" class="col-md-4">Doctor</label>
+        <div class="col-md-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Doctor, enable :true"
+                   id="709d58fd-57f1-4cc3-9268-3b0b40ac7edf" type="text" name="Doctor" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="6930f227-7969-408c-bba9-fa57e1d1c22a" class="col-md-4">Location</label>
+        <div class="col-md-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Location, enable :true"
+                   id="6930f227-7969-408c-bba9-fa57e1d1c22a" type="text" name="Location" />
+        </div>
+    </div>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="e85fd233-9719-4766-9029-90ae4a202404" class="col-md-4">Created</label>
+        <div class="col-md-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: CreatedDate, enable :true"
+                   id="e85fd233-9719-4766-9029-90ae4a202404" type="text" name="CreatedDate" />
+        </div>
+    </div>
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="4d94f9bd-b878-47b2-856a-fb3cb2dbcf51" class="col-md-4">DateTime</label>
+        <div class="col-md-8">
+            <input class=" form-control input-large"
+                   data-bind="kendoDateTime: DateTime, enable :true" id="4d94f9bd-b878-47b2-856a-fb3cb2dbcf51" type="text"
+                   name="DateTime" />
+        </div>
+    </div>
         </form>
     </div>
 </div>
