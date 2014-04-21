@@ -203,6 +203,9 @@
     <Content Include="docs\CheckBox.html">
       <DependentUpon>CheckBox.md</DependentUpon>
     </Content>
+    <Content Include="docs\ChildEntityListView.html">
+      <DependentUpon>ChildEntityListView.md</DependentUpon>
+    </Content>
     <Content Include="docs\ClrTypeVariable.html">
       <DependentUpon>ClrTypeVariable.md</DependentUpon>
     </Content>
@@ -408,6 +411,7 @@
     <Content Include="docs\EntityDefinition.HowTo.DefaultForm.md" />
     <Content Include="docs\EntityDefinition.HowTo.AddChartToDashboard.md" />
     <Content Include="docs\EntityForm.HowTo.CreateCascadingCombobox.md" />
+    <Content Include="docs\ChildEntityListView.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>
@@ -739,6 +743,9 @@
     </Content>
     <Content Include="docs\Variable.html">
       <DependentUpon>Variable.md</DependentUpon>
+    </Content>
+    <Content Include="docs\ViewColumn.html">
+      <DependentUpon>ViewColumn.md</DependentUpon>
     </Content>
     <Content Include="docs\WebsiteFormElement.html">
       <DependentUpon>WebsiteFormElement.md</DependentUpon>
