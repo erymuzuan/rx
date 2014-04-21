@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label for="doc-field-path" class="col-lg-2 control-label">Path</label>
                         <div class="col-lg-9">
-                            <input class="form-control" placeholder="Path to the property" id="doc-field-path" name="doc-field-path" data-bind="value:Path" />
+                            <input data-bind="value:Path,entityTypeaheadPath:$root.entity" class="form-control" placeholder="Path to the property" id="doc-field-path" name="doc-field-path" />
                             <span class="help-block">You can use <code>Path.Subpath</code>  convention</span>
                         </div>
                     </div>

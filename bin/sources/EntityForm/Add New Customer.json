@@ -70,6 +70,7 @@
             "ValuePath": null,
             "DisplayPath": null,
             "Query": null,
+            "IsComputedQuery": false,
             "WebId": null
           },
           "FieldValidation": {
@@ -134,6 +135,166 @@
           "ElementId": "14d1a541-0106-4776-a1aa-fcf75d070dec",
           "HelpText": null,
           "UseDisplayTemplate": true,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
+          "ComboBoxItemCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "ComboBoxLookup": {
+            "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+            "Entity": "State",
+            "ValuePath": "Name",
+            "DisplayPath": "Name",
+            "Query": null,
+            "IsComputedQuery": false,
+            "WebId": null
+          },
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "MaxLength": 0,
+            "MinLength": 0,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "WebId": null
+          },
+          "Name": "Select List",
+          "Label": "State",
+          "Tooltip": null,
+          "Path": "Address.State",
+          "IsRequired": false,
+          "Size": null,
+          "CssClass": "fa fa-chevron-down",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": null,
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
+          "ComboBoxItemCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "ComboBoxLookup": {
+            "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+            "Entity": "District",
+            "ValuePath": "Name",
+            "DisplayPath": "Name",
+            "Query": "'State eq \\'' + Address().State() + '\\''",
+            "IsComputedQuery": true,
+            "WebId": null
+          },
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "MaxLength": 0,
+            "MinLength": 0,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "WebId": null
+          },
+          "Name": "Select List",
+          "Label": "District",
+          "Tooltip": null,
+          "Path": "Address.District",
+          "IsRequired": false,
+          "Size": null,
+          "CssClass": "fa fa-chevron-down",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": null,
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
+          "ComboBoxItemCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                "Caption": "Urban",
+                "Value": "Urban",
+                "WebId": "a1332cc9-406c-436e-891f-8ada1a426b62"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                "Caption": "Suburban",
+                "Value": "Surburb",
+                "WebId": "0ad5d497-acfe-438e-96a1-1978c48e5d9d"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                "Caption": "Remote",
+                "Value": "Remote",
+                "WebId": "b7f37bdc-3052-470a-9378-010acbf5789c"
+              }
+            ]
+          },
+          "ComboBoxLookup": {
+            "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+            "Entity": null,
+            "ValuePath": null,
+            "DisplayPath": null,
+            "Query": null,
+            "IsComputedQuery": false,
+            "WebId": null
+          },
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "MaxLength": 0,
+            "MinLength": 0,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "WebId": null
+          },
+          "Name": "Select List",
+          "Label": "Locality",
+          "Tooltip": null,
+          "Path": "Address.Locality",
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": null,
+          "ElementId": "0dab9f82-6ff7-436c-8ac0-af789738da24",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
           "LabelColLg": null,
           "LabelColMd": null,
           "LabelColSm": null,
@@ -232,6 +393,7 @@
                     "ValuePath": "",
                     "DisplayPath": "",
                     "Query": "",
+                    "IsComputedQuery": false,
                     "WebId": null
                   },
                   "FieldValidation": {
@@ -406,111 +568,6 @@
             "WebId": null
           },
           "Name": "Single Line Text",
-          "Label": "State",
-          "Tooltip": null,
-          "Path": "Address.State",
-          "IsRequired": false,
-          "Size": "input-large",
-          "CssClass": "",
-          "Visible": "true",
-          "Enable": null,
-          "ElementId": "e22da1e1-7fd9-4506-9676-28a4d37393f1",
-          "HelpText": null,
-          "UseDisplayTemplate": false,
-          "LabelColLg": null,
-          "LabelColMd": null,
-          "LabelColSm": null,
-          "LabelColXs": null,
-          "InputColLg": null,
-          "InputColMd": null,
-          "InputColSm": null,
-          "InputColXs": null,
-          "WebId": null
-        },
-        {
-          "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
-          "ComboBoxItemCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
-            "$values": [
-              {
-                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
-                "Caption": "Urban",
-                "Value": "Urban",
-                "WebId": "a1332cc9-406c-436e-891f-8ada1a426b62"
-              },
-              {
-                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
-                "Caption": "Suburban",
-                "Value": "Surburb",
-                "WebId": "0ad5d497-acfe-438e-96a1-1978c48e5d9d"
-              },
-              {
-                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
-                "Caption": "Remote",
-                "Value": "Remote",
-                "WebId": "b7f37bdc-3052-470a-9378-010acbf5789c"
-              }
-            ]
-          },
-          "ComboBoxLookup": {
-            "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
-            "Entity": null,
-            "ValuePath": null,
-            "DisplayPath": null,
-            "Query": null,
-            "WebId": null
-          },
-          "FieldValidation": {
-            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-            "IsRequired": false,
-            "MaxLength": 0,
-            "MinLength": 0,
-            "Pattern": null,
-            "Mode": "",
-            "Message": null,
-            "WebId": null
-          },
-          "Name": "Select List",
-          "Label": "Locality",
-          "Tooltip": null,
-          "Path": "Address.Locality",
-          "IsRequired": false,
-          "Size": "input-large",
-          "CssClass": "",
-          "Visible": "true",
-          "Enable": null,
-          "ElementId": "0dab9f82-6ff7-436c-8ac0-af789738da24",
-          "HelpText": null,
-          "UseDisplayTemplate": false,
-          "LabelColLg": null,
-          "LabelColMd": null,
-          "LabelColSm": null,
-          "LabelColXs": null,
-          "InputColLg": null,
-          "InputColMd": null,
-          "InputColSm": null,
-          "InputColXs": null,
-          "WebId": null
-        },
-        {
-          "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
-          "DefaultValue": null,
-          "AutoCompletionEntity": null,
-          "AutoCompletionField": null,
-          "AutoCompletionQuery": null,
-          "MinLength": null,
-          "MaxLength": null,
-          "FieldValidation": {
-            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-            "IsRequired": false,
-            "MaxLength": 0,
-            "MinLength": 0,
-            "Pattern": null,
-            "Mode": "",
-            "Message": null,
-            "WebId": null
-          },
-          "Name": "Single Line Text",
           "Label": "Contact name",
           "Tooltip": null,
           "Path": "Contact.Name",
@@ -645,7 +702,7 @@
           "IsTransformTemplate": true,
           "TemplateId": 2,
           "Entity": "Customer",
-          "IconClass": null,
+          "IconClass": "glyphicon glyphicon-cloud-download",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -834,7 +891,7 @@
           "CommandName": null,
           "LoadingText": null,
           "CompleteText": null,
-          "IconClass": "fa fa-star",
+          "IconClass": "glyphicon glyphicon-star",
           "IsToolbarItem": false,
           "Operation": "PromoteTo",
           "FieldValidation": {
@@ -900,7 +957,7 @@
   "Route": "add-customer-form",
   "Note": "Add new customers",
   "IsAllowedNewItem": true,
-  "IconClass": null,
+  "IconClass": "glyphicon glyphicon-new-window",
   "IconStoreId": null,
   "IsPublished": true,
   "IsDefault": true,
@@ -912,9 +969,10 @@
   "IsImportAvailable": false,
   "IsExportAvailable": false,
   "Operation": null,
+  "Entity": null,
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-17T17:01:06.3580122+08:00",
+  "ChangedDate": "2014-04-19T11:41:44.002296+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

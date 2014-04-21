@@ -200,6 +200,79 @@ bespoke.sph.domain.ComboBoxPartial = function () {
         removeItem: removeItem
     };
 };
+///#source 1 1 /SphApp/partial/ChildEntityListView.js
+/// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../schemas/form.designer.g.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/durandal/system.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
+/// <reference path="../../App/durandal/amd/require.js" />
+
+var bespoke = bespoke || {};
+bespoke.sph = bespoke.sph || {};
+bespoke.sph.domain = bespoke.sph.domain || {};
+
+
+bespoke.sph.domain.ChildEntityListViewPartial = function (model) {
+    // ViewColumn
+    var system = require('durandal/system'),
+        addViewColumn = function () {
+            this.ViewColumnCollection.push(new bespoke.sph.domain.ViewColumn({ WebId: system.guid(),Header :'<New Column>'}));
+        },
+        removeViewColumn = function (obj) {
+            var self = this;
+            return function () {
+                self.ViewColumnCollection.remove(obj);
+            };
+
+        },
+        addSort = function () {
+            this.SortCollection.push(new bespoke.sph.domain.Sort(system.guid()));
+        },
+        removeSort = function (obj) {
+            var self = this;
+            return function () {
+                self.SortCollection.remove(obj);
+            };
+
+        },
+    editViewColumn = function (vc) {
+        return function () {
+            var clone = ko.mapping.fromJS(ko.mapping.toJS(vc));
+
+            require(['viewmodels/view.column.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.column(clone);
+                dialog.entity(model.Entity());
+
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            for (var g in vc) {
+                                if (typeof vc[g] === "function" && vc[g].name === "observable") {
+                                    vc[g](ko.unwrap(clone[g]));
+                                } else {
+                                    vc[g] = clone[g];
+                                }
+                            }
+                        }
+                    });
+
+            });
+
+        };
+    };
+    return {
+        addSort: addSort,
+        removeSort: removeSort,
+        addViewColumn: addViewColumn,
+        editViewColumn: editViewColumn,
+        removeViewColumn: removeViewColumn
+    };
+};
 ///#source 1 1 /SphApp/partial/ConstantField.js
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -441,8 +514,9 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
-/// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
+/// <reference path="../schemas/form.designer.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../../Scripts/durandal/system.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
@@ -524,6 +598,16 @@ bespoke.sph.domain.EntityViewPartial = function () {
 
     // Filter
     var system = require('durandal/system'),
+        addConditionalFormatting = function () {
+            this.ConditionalFormattingCollection.push(new bespoke.sph.domain.ConditionalFormatting(system.guid()));
+        },
+        removeConditionalFormatting = function (cf) {
+            var self = this;
+            return function () {
+                self.ConditionalFormattingCollection.remove(cf);
+            };
+
+        },
         addViewColumn = function () {
             this.ViewColumnCollection.push(new bespoke.sph.domain.ViewColumn(system.guid()));
         },
@@ -555,6 +639,8 @@ bespoke.sph.domain.EntityViewPartial = function () {
 
         };
     return {
+        addConditionalFormatting: addConditionalFormatting,
+        removeConditionalFormatting: removeConditionalFormatting,
         addViewColumn: addViewColumn,
         removeViewColumn: removeViewColumn,
         addSort: addSort,
@@ -590,6 +676,7 @@ bespoke.sph.domain.ExecutedActivityPartial = function () {
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -605,7 +692,10 @@ bespoke.sph.domain.FilterPartial = function () {
           showFieldDialog = function (accessor, field, path) {
               require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
                   dialog.field(field);
-
+                  if (typeof dialog.entity === "function") {
+                      //dialog.entity();
+                      console.log("found the entity dialog :" + dialog.entity.name);
+                  }
                   app2.showDialog(dialog)
                   .done(function (result) {
                       if (!result) return;
@@ -1260,8 +1350,9 @@ bespoke.sph.domain.SetterActionPartial = function () {
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
+/// <reference path="~/Scripts/durandal/system.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
@@ -1272,9 +1363,13 @@ bespoke.sph.domain.SetterActionPartial = function () {
 bespoke.sph.domain.SetterActionChildPartial = function () {
 
     var system = require('durandal/system'),
-        showFieldDialog = function (accessor, field, path) {
+        showFieldDialog = function (accessor, field, path, entity) {
             require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
                 dialog.field(field);
+                if (typeof dialog.entity === "function") {
+                    dialog.entity(entity);
+                    console.log("found the entity dialog :" + dialog.entity.name);
+                }
 
                 app2.showDialog(dialog)
                 .done(function (result) {
@@ -1286,9 +1381,9 @@ bespoke.sph.domain.SetterActionChildPartial = function () {
 
             });
         },
-        addField = function (accessor, type) {
+        addField = function (accessor, type, entity) {
             var field = new bespoke.sph.domain[type + 'Field'](system.guid());
-            showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
+            showFieldDialog(accessor, field, 'field.' + type.toLowerCase(), entity);
         },
         editField = function (field) {
             var self = this;
@@ -1488,6 +1583,34 @@ bespoke.sph.domain.VariablePartial = function () {
     return {
         hasError: hasError,
         errors: errors
+    };
+};
+///#source 1 1 /SphApp/partial/ViewColumn.js
+/// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../App/durandal/amd/require.js" />
+/// <reference path="../../App/durandal/system.js" />
+
+
+bespoke.sph.domain.ViewColumnPartial = function () {
+
+    // Filter
+    var system = require('durandal/system'),
+        addConditionalFormatting = function () {
+            this.ConditionalFormattingCollection.push(new bespoke.sph.domain.ConditionalFormatting(system.guid()));
+        },
+        removeConditionalFormatting = function (cf) {
+            var self = this;
+            return function () {
+                self.ConditionalFormattingCollection.remove(cf);
+            };
+
+        };
+    return {
+        addConditionalFormatting: addConditionalFormatting,
+        removeConditionalFormatting: removeConditionalFormatting
     };
 };
 ///#source 1 1 /SphApp/partial/WorkflowDefinition.js

@@ -9,6 +9,10 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "FullName",
         "Header": "Name",
         "Sort": "",
@@ -21,6 +25,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Dob",
         "Header": "Dob",
         "Sort": "",
@@ -33,6 +41,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "MaritalStatus",
         "Header": "Marital Status",
         "Sort": "",
@@ -45,6 +57,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Gender",
         "Header": "Gender",
         "Sort": "",
@@ -57,6 +73,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Race",
         "Header": "Race",
         "Sort": "",
@@ -69,6 +89,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Religion",
         "Header": "Religion",
         "Sort": "",
@@ -81,6 +105,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "PassportNo",
         "Header": "Admit",
         "Sort": "",
@@ -93,6 +121,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "PassportNo",
         "Header": "Discharge",
         "Sort": "",
@@ -116,6 +148,17 @@
       }
     ]
   },
+  "ConditionalFormattingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ConditionalFormatting, domain.sph",
+        "CssClass": "success",
+        "Condition": "Religion === 'Islam'",
+        "WebId": "c9a01851-9ad9-4804-aa9b-c0ca805d7b8c"
+      }
+    ]
+  },
   "EntityViewId": 1002,
   "IconClass": "",
   "IconStoreId": "e09bee11-a7c7-4982-897c-bf318f86175e",
@@ -132,6 +175,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-06T12:48:09.4120308+08:00",
+  "ChangedDate": "2014-04-18T08:33:07.5178071+08:00",
   "WebId": "5ae449e7-1260-411e-9a36-74631d5fa46f"
 }

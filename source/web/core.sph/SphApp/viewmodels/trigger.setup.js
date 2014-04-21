@@ -1,17 +1,19 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
+/// <reference path="../../Scripts/durandal/system.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app],
-    function (context, eximp, app) {
+define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app, objectbuilders.system],
+    function (context, eximp, app, system) {
 
         var trigger = ko.observable(new bespoke.sph.domain.Trigger()),
+            typeaheadEntity = ko.observable(),
             isBusy = ko.observable(false),
             id = ko.observable(),
             entities = ko.observableArray(),
@@ -26,10 +28,14 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
                 $.when(triggerTask, entitiesTask).done(function (t, list) {
                     entities(list);
                     if (t) {
-                        vm.trigger(t);
+                        trigger(t);
+                        typeaheadEntity(t.Entity());
                     } else {
-                        vm.trigger(new bespoke.sph.domain.Trigger());
+                        trigger(new bespoke.sph.domain.Trigger(system.guid()));
                     }
+                    trigger().Entity.subscribe(function (ent) {
+                        typeaheadEntity(ent);
+                    });
                     tcs.resolve(true);
                 });
 
@@ -52,34 +58,34 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
                     });
                 return tcs.promise();
             },
-        publishAsync = function () {
-            var tcs = new $.Deferred(),
-                data = ko.mapping.toJSON(vm.trigger);
-            isBusy(true);
+            publishAsync = function () {
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(vm.trigger);
+                isBusy(true);
 
-            context.post(data, "/Trigger/Publish")
-                .then(function (result) {
-                    isBusy(false);
-                    vm.trigger().TriggerId(result);
-                    tcs.resolve(result);
-                });
-            return tcs.promise();
-        },
+                context.post(data, "/Trigger/Publish")
+                    .then(function (result) {
+                        isBusy(false);
+                        vm.trigger().TriggerId(result);
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            },
 
             exportJson = function () {
                 return eximp.exportJson("trigger." + vm.trigger().TriggerId() + ".json", ko.mapping.toJSON(vm.trigger));
 
             },
 
-         importJson = function () {
-             return eximp.importJson()
-                 .done(function (json) {
-                     var clone = context.toObservable(JSON.parse(json));
-                     vm.trigger(clone);
-                     vm.trigger().TriggerId(0);
+            importJson = function () {
+                return eximp.importJson()
+                    .done(function (json) {
+                        var clone = context.toObservable(JSON.parse(json));
+                        vm.trigger(clone);
+                        vm.trigger().TriggerId(0);
 
-                 });
-         },
+                    });
+            },
             reload = function () {
                 return app.showMessage("This discard all your changed, do you wish to continue", "Reload", ["Yes", "No"])
                      .done(function (dialogResult) {
@@ -89,12 +95,15 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
                      });
             };
 
+       
+
         var vm = {
             isBusy: isBusy,
             activate: activate,
             attached: attached,
             trigger: trigger,
             entities: entities,
+            typeaheadEntity: typeaheadEntity,
             toolbar: {
                 saveCommand: save,
                 reloadCommand: reload,

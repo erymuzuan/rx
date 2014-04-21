@@ -117,6 +117,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                 });
 
                 $(document).on('keyup', function (e) {
+                    //console.log(e.keyCode);
                     if (e.ctrlKey && e.keyCode === 81) {
                         if (sliderVisible) {
                             hideSlider();
@@ -129,8 +130,10 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                                 });
                         }
                     }
-                    if (e.ctrlKey && e.keyCode === 188) {
-
+                    if (e.ctrlKey && (e.keyCode === 188 || e.keyCode === 192)) {
+                        if (_(config.roles).indexOf("developers") < 0) {
+                            return;
+                        }
                         require(['viewmodels/dev.quick.nav', 'durandal/app'], function (dialog, app2) {
                            
                             app2.showDialog(dialog)

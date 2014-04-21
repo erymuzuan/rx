@@ -71,12 +71,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
 
                   ],
                   "must_not": [
-                                     {
-                     "term":{
-                         "Status":"Discharged"
-                     }
-                 }
-
+                    
                   ]
                }
            }

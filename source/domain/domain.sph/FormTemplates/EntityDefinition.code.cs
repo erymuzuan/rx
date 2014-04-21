@@ -8,7 +8,10 @@ namespace Bespoke.Sph.Domain
 {
     public partial class EntityDefinition
     {
-
+        public override int GetId()
+        {
+            return this.EntityDefinitionId;
+        }
 
         private string GenerateCode()
         {
@@ -40,6 +43,18 @@ namespace Bespoke.Sph.Domain
         {{
             return ""{0}:"" + {1};
         }}", this.Name, this.RecordName);
+
+            code.AppendFormat(@"     
+        public override void SetId(int id)
+        {{
+            m_{0}Id = id;
+        }}", this.Name.ToCamelCase());
+            code.AppendFormat(@"     
+        public override int GetId()
+        {{
+            return m_{0}Id;
+        }}
+", this.Name.ToCamelCase());
 
             // properties for each members
             foreach (var member in this.MemberCollection)

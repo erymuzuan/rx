@@ -190,3 +190,14 @@ if($compressed -eq 'q')
 
 #compress
 & 7za a -t7z ".\$Build.7z" ".\sph.packages\output\*"
+
+#creates the update manifest
+$previous = $Build -1
+if(Test-Path .\deployment\$previous.ps1)
+{
+    Get-Content .\deployment\$previous.ps1 > .\deployment\$build.ps1
+}
+
+
+
+Write-Host -ForegroundColor Yellow "NOW edit the .\deployment\$build.ps1 to reflect any custom scripts needed to be run"

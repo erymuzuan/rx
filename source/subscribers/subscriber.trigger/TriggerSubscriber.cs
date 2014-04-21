@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -24,8 +26,15 @@ namespace Bespoke.Sph.CustomTriggers
             this.WriteMessage("Compiling new trigger");
             if (header.Crud == CrudOperation.Deleted)
             {
-                this.QueueUserWorkItem(DeleteTriggerAssembly, item);
+                this.QueueUserWorkItem(DeleteTrigger, item);
+                return;
             }
+            if (item.IsActive == false)
+            {
+                this.QueueUserWorkItem(DeleteTrigger, item);
+                return;
+            }
+
             this.WriteMessage("Restarting the subscriber, changed detected to {0}", item);
             var options = new CompilerOptions{IsDebug = true};
             var result = await item.CompileAsync(options);
@@ -37,12 +46,35 @@ namespace Bespoke.Sph.CustomTriggers
             this.QueueUserWorkItem(DeployTriggerAssembly, item);
         }
 
-        private void DeleteTriggerAssembly(Trigger trigger)
+        private async void DeleteTrigger(Trigger trigger)
         {
             Thread.Sleep(1000);
             var dll = Path.Combine(ConfigurationManager.SubscriberPath, string.Format("subscriber.trigger.{0}.dll", trigger.TriggerId));
             if (File.Exists(dll))
                 File.Delete(dll);
+            var pdb = Path.Combine(ConfigurationManager.SubscriberPath, string.Format("subscriber.trigger.{0}.pdb", trigger.TriggerId));
+            if (File.Exists(pdb))
+                File.Delete(pdb);
+            
+
+            Thread.Sleep(1000);
+            this.WriteMessage("Deleted the trigger dll");
+            dynamic connection = ObjectBuilder.GetObject("IBrokerConnection");
+            var url = string.Format("http://{0}:{1}", connection.Host, connection.ManagementPort);
+
+            var handler = new HttpClientHandler
+            {
+                Credentials = new NetworkCredential(connection.UserName, connection.Password)
+            };
+            using (var client = new HttpClient(handler){BaseAddress = new Uri(url)})
+            {
+                this.WriteMessage("Deleting the queue for trigger : " + trigger.Name);
+                var response = await client.DeleteAsync(string.Format("/api/queues/{1}/trigger_subs_{0}", trigger.TriggerId, ConfigurationManager.ApplicationName));
+                if (response.StatusCode != HttpStatusCode.NoContent)
+                {
+                    this.WriteError(new Exception(string.Format("Cannot delete queue trigger_subs_{0} for trigger {0}- return code is {1}", trigger.TriggerId, response.StatusCode)));
+                }
+            }
         }
 
 

@@ -70,8 +70,8 @@ Notice that `Address` is just another object that belongs to the `Patient` entit
 <tr><td>EntityDefinitionId</td><td> - The internal identifier key. This is used in many parts</td></tr>
 <tr><td>Name</td><td> - The name of the `EntityDefinition`, must be a valid identifier</td></tr>
 <tr><td>Plural</td><td> -The plural name for the `EntityDefinition` </td></tr>
-<tr><td>IconStoreId</td><td> - </td></tr>
-<tr><td>IconClass</td><td> - </td></tr>
+<tr><td>IconStoreId</td><td> - Set a icon image for your landing page, this should a PNG file. We recommend getting using Syncfusion Metro Studio for your image </td></tr>
+<tr><td>IconClass</td><td> - Icon for the item and navigation menu - pick one from fontawesome or bootstrap glyphicon </td></tr>
 <tr><td>RecordName</td><td> - The primary member where a reference is normally made, it's used as the primary way of identifying a record(instance of an `Entitydefinition`) apart from `Name`Id </td></tr>
 <tr><td>IsPublished</td><td> - The state wether the EntityDefinition is in development or has been published</td></tr>
 </tbody></table>

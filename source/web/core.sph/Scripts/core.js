@@ -358,28 +358,39 @@ ko.bindingHandlers.comboBoxLookupOptions = {
             caption = lookup.caption,
             context = require('services/datacontext');
 
-        context.getTuplesAsync({
-            entity: ko.unwrap(lookup.entity),
-            query: ko.unwrap(lookup.query),
-            field: ko.unwrap(lookup.valuePath),
-            field2: ko.unwrap(lookup.displayPath)
+        var setup = function(query) {
+            context.getTuplesAsync({
+                    entity: ko.unwrap(lookup.entity),
+                    query: query,
+                    field: ko.unwrap(lookup.valuePath),
+                    field2: ko.unwrap(lookup.displayPath)
 
-        })
-            .done(function (list) {
-                element.options.length = 0;
-                if (caption) {
-                    element.add(new Option(caption, ""));
-                }
-                _(list).each(function (v) {
-                    element.add(new Option(v.Item2, v.Item1));
-                });
-
-                $select.val(ko.unwrap(value))
-                    .on('change', function () {
-                        value($select.val());
+                })
+                .done(function(list) {
+                    element.options.length = 0;
+                    if (caption) {
+                        element.add(new Option(caption, ""));
+                    }
+                    _(list).each(function(v) {
+                        element.add(new Option(v.Item2, v.Item1));
                     });
 
-            });
+                    $select.val(ko.unwrap(value))
+                        .on('change', function() {
+                            value($select.val());
+                        });
+
+                });
+        };
+        setup(ko.unwrap(lookup.query));
+
+        if (typeof lookup.query === "function") {
+            if (typeof lookup.query.subscribe === "function") {
+                lookup.query.subscribe(function(v) {
+                    setup(ko.unwrap(v));
+                });
+            }
+        }
     },
     update: function (element, valueAccessor) {
         var lookup = ko.unwrap(valueAccessor()),
@@ -912,7 +923,8 @@ ko.bindingHandlers.unwrapClick = {
             e.preventDefault();
             var prop = allBindings.property,
                 accessor = allBindings.accessor,
-                type = allBindings.field;
+                type = allBindings.field,
+                entity = allBindings.entity;
             /* if we can't get to the function , i.e. it's still object not ko.observable
             
             */
@@ -924,10 +936,10 @@ ko.bindingHandlers.unwrapClick = {
                     accessor[prop] = ko.observable(accessor[prop]);
                 }
                 if (typeof accessor[prop] === "function") {
-                    action(accessor[prop], type);
+                    action(accessor[prop], type, entity);
                 }
             } else {
-                action(accessor, type);
+                action(accessor, type, entity);
             }
 
         });
@@ -1364,6 +1376,10 @@ ko.bindingHandlers.searchPaging = {
     }
 };
 ///#source 1 1 /Scripts/_ko.bootstrap.js
+/// <reference path="typeahead.bundle.js" />
+/// <reference path="knockout-3.1.0.debug.js" />
+/// <reference path="underscore.js" />
+
 ko.bindingHandlers.bootstrapDropDown = {
     init: function (element, valueAccesor) {
         var text = ko.unwrap(valueAccesor()) || '[Select your value]',
@@ -1400,7 +1416,7 @@ ko.bindingHandlers.bootstrapDropDown = {
 ko.bindingHandlers.tooltip = {
     init: function (element, valueAccesor) {
         var text = ko.unwrap(valueAccesor());
-        $(element).tooltip({title:text});
+        $(element).tooltip({ title: text });
     }
 };
 
@@ -1473,20 +1489,34 @@ ko.bindingHandlers.autocomplete = {
          entity = ko.unwrap(va.entity),
          field = ko.unwrap(va.field),
          query = ko.unwrap(va.query),
-        allBindings = allBindingsAccessor();
+         ttl = va.ttl || 300000,
+         allBindings = allBindingsAccessor(),
+         url = String.format("/list?table={0}&column={1}&filter={2}", entity, field, query),
+         suggestions = new Bloodhound({
+             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+             queryTokenizer: Bloodhound.tokenizers.whitespace,
+             prefetch: {
+                 url: url,
+                 tt1: ttl,
+                 filter: function (list) {
+                     return _(list).map(function (v) {
+                         return { name: v };
+                     });
+                 }
+             }
 
+         });
 
-        $(element).typeahead({
+        suggestions.initialize();
+        $(element).typeahead(null, {
             name: 'autocomplete_' + $(element).prop("id"),
-            limit: 5,
-            prefetch: {
-                url: String.format("/list?table={0}&column={1}&filter={2}", entity, field, query),
-                ttl: 1000 * 60
-            }
+            displayKey: "name",
+            source: suggestions.ttAdapter()
         })
-            .on('typeahead:closed', function () {
-                allBindings.value($(this).val());
-            });
+           .on('typeahead:closed', function () {
+               allBindings.value($(this).val());
+           });
+
     }
 };
 

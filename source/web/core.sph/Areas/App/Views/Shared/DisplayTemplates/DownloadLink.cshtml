@@ -4,7 +4,7 @@
 <!--ko if: $data['$type']() === "Bespoke.Sph.Domain.DownloadLink, domain.sph" -->
 <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement" class="form-group">
     <a href="#">
-        <i class="fa fa-cloud-download"></i>
+        <i data-bind="attr : {'class':IconClass}" ></i>
         <span data-bind="text:Label"></span>
     </a>
 </div>

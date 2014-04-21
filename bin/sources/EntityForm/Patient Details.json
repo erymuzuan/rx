@@ -6,48 +6,6 @@
       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
       "$values": [
         {
-          "$type": "Bespoke.Sph.Domain.Button, domain.sph",
-          "Command": "var tcs = new $.Deferred();\r\n$.ajax({\r\n            type: \"DELETE\",\r\n            url: \"/Patient/Remove/\" + entity().PatientId(),\r\n            contentType: \"application/json; charset=utf-8\",\r\n            dataType: \"json\",\r\n            error: tcs.reject,\r\n            success: tcs.resolve\r\n        });\r\n        \r\nreturn tcs.promise();",
-          "UseClick": false,
-          "CommandName": "deleteAsync",
-          "LoadingText": null,
-          "CompleteText": null,
-          "IconClass": "fa fa-times",
-          "IsToolbarItem": true,
-          "Operation": null,
-          "FieldValidation": {
-            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-            "IsRequired": false,
-            "MaxLength": 0,
-            "MinLength": 0,
-            "Pattern": null,
-            "Mode": "",
-            "Message": null,
-            "WebId": null
-          },
-          "Name": "Button",
-          "Label": "Delete",
-          "Tooltip": null,
-          "Path": "PassportNo",
-          "IsRequired": false,
-          "Size": "input-large",
-          "CssClass": "",
-          "Visible": "true",
-          "Enable": "true",
-          "ElementId": "6232651b-98c2-4a4f-8dd9-d4b913a2d313",
-          "HelpText": null,
-          "UseDisplayTemplate": false,
-          "LabelColLg": null,
-          "LabelColMd": null,
-          "LabelColSm": null,
-          "LabelColXs": null,
-          "InputColLg": null,
-          "InputColMd": null,
-          "InputColSm": null,
-          "InputColXs": null,
-          "WebId": null
-        },
-        {
           "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
           "DefaultValue": null,
           "AutoCompletionEntity": null,
@@ -192,6 +150,7 @@
             "ValuePath": null,
             "DisplayPath": null,
             "Query": null,
+            "IsComputedQuery": false,
             "WebId": null
           },
           "FieldValidation": {
@@ -263,6 +222,7 @@
             "ValuePath": null,
             "DisplayPath": null,
             "Query": null,
+            "IsComputedQuery": false,
             "WebId": null
           },
           "FieldValidation": {
@@ -310,21 +270,27 @@
               },
               {
                 "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
-                "Caption": "Bhuddism",
+                "Caption": "Buddhism",
                 "Value": "Buddhism",
                 "WebId": "2db94be0-9d52-4edb-8bab-c52a81c5b8ae"
               },
               {
                 "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
-                "Caption": "Chritianity",
-                "Value": "Chritianity",
+                "Caption": "Christianity",
+                "Value": "Christianity",
                 "WebId": "29a3fb5c-857c-49ba-9e65-5074e6ced926"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                "Caption": "Hinduism",
+                "Value": "Hinduism",
+                "WebId": "22bbaf12-5278-4aa2-a535-d78994daa1ee"
               },
               {
                 "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
                 "Caption": "Others",
                 "Value": "Others",
-                "WebId": "22bbaf12-5278-4aa2-a535-d78994daa1ee"
+                "WebId": "5727f534-781b-41d4-8bad-0a71ea94c8e2"
               }
             ]
           },
@@ -334,6 +300,7 @@
             "ValuePath": null,
             "DisplayPath": null,
             "Query": null,
+            "IsComputedQuery": false,
             "WebId": null
           },
           "FieldValidation": {
@@ -377,7 +344,7 @@
             "MaxLength": 0,
             "MinLength": 0,
             "Pattern": null,
-            "Mode": "",
+            "Mode": "number",
             "Message": null,
             "WebId": null
           },
@@ -475,6 +442,7 @@
             "ValuePath": null,
             "DisplayPath": null,
             "Query": null,
+            "IsComputedQuery": false,
             "WebId": null
           },
           "FieldValidation": {
@@ -497,6 +465,119 @@
           "Visible": "true",
           "Enable": "true",
           "ElementId": "3064a912-b562-4e70-bcf2-170b7a872303",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.ChildEntityListView, domain.sph",
+          "Entity": "Appointment",
+          "Query": "'Mrn eq \\'' + Mrn() + '\\''",
+          "ViewColumnCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+                "ConditionalFormattingCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+                  "$values": []
+                },
+                "Path": "Doctor",
+                "Header": "Doctor",
+                "Sort": "",
+                "IsLinkColumn": false,
+                "FormRoute": "",
+                "IconCssClass": "",
+                "IconStoreId": "",
+                "Format": "text:{0}",
+                "WebId": "4bff4343-4206-40a3-9017-47e462abb715"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+                "ConditionalFormattingCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+                  "$values": []
+                },
+                "Path": "DateTime",
+                "Header": "DateTime",
+                "Sort": "",
+                "IsLinkColumn": true,
+                "FormRoute": "appointment-details",
+                "IconCssClass": "fa fa-calendar-o",
+                "IconStoreId": "",
+                "Format": "date:{0}",
+                "WebId": "25419cea-cd39-41c6-8c0e-d48930ab2f30"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+                "ConditionalFormattingCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+                  "$values": []
+                },
+                "Path": "Location",
+                "Header": "Location",
+                "Sort": "",
+                "IsLinkColumn": false,
+                "FormRoute": "",
+                "IconCssClass": "",
+                "IconStoreId": "",
+                "Format": "text:{0}",
+                "WebId": "8101c425-5278-4374-96fc-3adf3f78f5f9"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+                "ConditionalFormattingCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+                  "$values": []
+                },
+                "Path": "Mrn",
+                "Header": "Mrn",
+                "Sort": "",
+                "IsLinkColumn": false,
+                "FormRoute": "",
+                "IconCssClass": "",
+                "IconStoreId": "",
+                "Format": "text:{0}",
+                "WebId": "3a061ffa-11dc-4901-bb1b-d98d2acadaa4"
+              }
+            ]
+          },
+          "SortCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "ConditionalFormattingCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "MaxLength": 0,
+            "MinLength": 0,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "WebId": null
+          },
+          "Name": "Child Entity Table",
+          "Label": "Appointments",
+          "Tooltip": null,
+          "Path": "Mrn",
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "950d0d7e-c32e-4013-a33a-2d81af111306",
           "HelpText": null,
           "UseDisplayTemplate": false,
           "LabelColLg": null,
@@ -535,7 +616,7 @@
   "Route": "patient-details",
   "Note": "",
   "IsAllowedNewItem": false,
-  "IconClass": "fa fa-h-square",
+  "IconClass": "fa fa-credit-card",
   "IconStoreId": "",
   "IsPublished": true,
   "IsDefault": true,
@@ -543,7 +624,7 @@
   "IsEmailAvailable": true,
   "IsPrintAvailable": true,
   "IsAuditTrailAvailable": true,
-  "IsRemoveAvailable": false,
+  "IsRemoveAvailable": true,
   "IsImportAvailable": false,
   "IsExportAvailable": false,
   "Operation": "save",
@@ -551,6 +632,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-03-22T20:23:09.7138554+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-16T15:04:00.5865447+08:00",
+  "ChangedDate": "2014-04-21T08:47:57.2623891+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

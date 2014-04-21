@@ -13,7 +13,7 @@
             <!-- ko foreach :router.navigationModel -->
             <li data-bind="css: { current: isActive }, attr :{'data-string':title}">
                 <a href="#" data-bind=" attr: { href: hash }">
-                    <i data-bind="attr : {'class' : 'fa ' + icon}"></i><span data-bind="text: title"></span>
+                    <i data-bind="attr : {'class' : icon}"></i><span data-bind="text: title"></span>
                 </a>
             </li>
             <!-- /ko -->

@@ -254,6 +254,44 @@
 			<xs:attribute name="ValuePath" type="xs:string" use="required"/>
 			<xs:attribute name="DisplayPath" type="xs:string" use="required"/>
 			<xs:attribute name="Query" type="xs:string" use="required"/>
+			<xs:attribute name="IsComputedQuery" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChildEntityListView">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:all>
+						<xs:element name="ViewColumnCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ViewColumn" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="SortCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="Sort" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ConditionalFormattingCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ConditionalFormatting" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="Entity" type="xs:string" use="required"/>
+					<xs:attribute name="Query" type="xs:string" use="required"/>
+					<xs:attribute name="IsAllowAddItem" type="xs:boolean" use="required"/>
+					<xs:attribute name="NewItemFormRoute" type="xs:string" use="optional"/>
+					<xs:attribute name="NewItemMappingSource" type="xs:string" use="optional"/>
+					<xs:attribute name="NewItemMappingDestination" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ListView">
@@ -427,6 +465,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="ConditionalFormattingCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ConditionalFormatting" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>
@@ -458,6 +503,15 @@
 	</xs:element>
 	<xs:element name="ViewColumn">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="ConditionalFormattingCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ConditionalFormatting" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
 			<xs:attribute name="Path" type="xs:string" use="required"/>
 			<xs:attribute name="Header" type="xs:string" use="required"/>
 			<xs:attribute name="Sort" type="xs:string" use="optional"/>
@@ -657,4 +711,10 @@
 			<xs:enumeration value="Department"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:element name="ConditionalFormatting">
+		<xs:complexType>
+			<xs:attribute name="CssClass" type="xs:string" use="required"/>
+			<xs:attribute name="Condition" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

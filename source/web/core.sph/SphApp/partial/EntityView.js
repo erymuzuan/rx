@@ -10,6 +10,16 @@ bespoke.sph.domain.EntityViewPartial = function () {
 
     // Filter
     var system = require('durandal/system'),
+        addConditionalFormatting = function () {
+            this.ConditionalFormattingCollection.push(new bespoke.sph.domain.ConditionalFormatting(system.guid()));
+        },
+        removeConditionalFormatting = function (cf) {
+            var self = this;
+            return function () {
+                self.ConditionalFormattingCollection.remove(cf);
+            };
+
+        },
         addViewColumn = function () {
             this.ViewColumnCollection.push(new bespoke.sph.domain.ViewColumn(system.guid()));
         },
@@ -41,6 +51,8 @@ bespoke.sph.domain.EntityViewPartial = function () {
 
         };
     return {
+        addConditionalFormatting: addConditionalFormatting,
+        removeConditionalFormatting: removeConditionalFormatting,
         addViewColumn: addViewColumn,
         removeViewColumn: removeViewColumn,
         addSort: addSort,

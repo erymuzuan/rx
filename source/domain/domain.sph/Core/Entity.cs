@@ -55,7 +55,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public void SetId(int id)
+        public virtual void SetId(int id)
         {
             var type = this.GetEntityType();
             var idp = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)

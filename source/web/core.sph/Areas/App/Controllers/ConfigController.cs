@@ -37,13 +37,17 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 DepartmentOptions = string.IsNullOrWhiteSpace(departmentOptions) ? "[]" : departmentOptions,
                 UserProfile = profile
             };
-            if (userName == "useradmin")
-            {
-                vm.StartModule = "users";
-            }
             if (null != profile)
             {
                 vm.StartModule = profile.StartModule;
+                vm.Routes.Add(new JsRoute
+                {
+                    GroupName = "default",
+                    Route = "",
+                    ModuleId = "viewmodels/" + profile.StartModule,
+                    ShowWhenLoggedIn = true
+
+                });
             }
 
             var routeConfig = Server.MapPath("~/routes.config.js");

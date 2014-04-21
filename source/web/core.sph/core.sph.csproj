@@ -58,9 +58,9 @@
     <Reference Include="DiffPlex">
       <HintPath>..\..\..\packages\DiffPlex.1.2.0\lib\Net40\DiffPlex.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer">
-      <HintPath>..\..\..\packages\Humanizer.1.21.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Humanizer, Version=1.22.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Humanizer.1.22.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer, Version=3.4.2.549, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -399,6 +399,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CheckBox.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\ChildEntityListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChildEntityListView.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\Shared\DisplayTemplates\ComboBox.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -498,6 +503,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\EditorTemplates\ChildEntityListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChildEntityListView.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\Shared\EditorTemplates\DownloadLink.generated.cs">
       <DependentUpon>DownloadLink.cshtml</DependentUpon>
@@ -952,6 +962,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CheckBox.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Shared\DisplayTemplates\ChildEntityListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChildEntityListView.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\DisplayTemplates\ComboBox.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1026,6 +1041,11 @@
       <DependentUpon>CheckBox.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Views\Shared\EditorTemplates\ChildEntityListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChildEntityListView.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shared\EditorTemplates\ComboBox.generated.cs">
       <DependentUpon>ComboBox.cshtml</DependentUpon>
@@ -1280,6 +1300,14 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ImageElement.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\ChildEntityListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\EditorTemplates\ChildEntityListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
     <Content Include="Scripts\bloodhound.js" />
@@ -1313,6 +1341,8 @@
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Scripts\typeahead.jquery.js" />
     <Content Include="Scripts\typeahead.jquery.min.js" />
+    <EmbeddedResource Include="Scripts\underscore-min.js" />
+    <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\_ko.bootstrap.min.js">
       <DependentUpon>_ko.bootstrap.js</DependentUpon>
     </Content>
@@ -1338,6 +1368,7 @@
     <Content Include="SphApp\partial\ButtonPartial.min.js">
       <DependentUpon>ButtonPartial.js</DependentUpon>
     </Content>
+    <Content Include="SphApp\partial\ChildEntityListView.js" />
     <Content Include="SphApp\partial\ComboBox.min.js">
       <DependentUpon>ComboBox.js</DependentUpon>
     </Content>
@@ -1361,6 +1392,7 @@
       <DependentUpon>EntityDefinition.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\EntityOperation.js" />
+    <Content Include="SphApp\partial\ViewColumn.js" />
     <Content Include="SphApp\partial\EntityView.js" />
     <Content Include="SphApp\partial\ExecutedActivity.min.js">
       <DependentUpon>ExecutedActivity.js</DependentUpon>
@@ -1433,9 +1465,6 @@
     </Content>
     <Content Include="SphApp\partial\Filter.js" />
     <Content Include="SphApp\partial\SearchDefinition.js" />
-    <Content Include="SphApp\partial\SetterAction.min - Copy.js">
-      <DependentUpon>SearchDefinition.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\SetterAction.min.js">
       <DependentUpon>SetterAction.js</DependentUpon>
     </Content>
@@ -2005,6 +2034,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\_workflow.management.consoles.js" />
     <EmbeddedResource Include="SphApp\viewmodels\workflow.overview.js" />
     <EmbeddedResource Include="SphApp\views\assembly.dialog.html" />
+    <EmbeddedResource Include="SphApp\viewmodels\view.column.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2026,6 +2056,7 @@
     <EmbeddedResource Include="SphApp\views\_view.columns.designer.html" />
     <EmbeddedResource Include="SphApp\views\_workflow.instances.console.html" />
     <EmbeddedResource Include="SphApp\views\_workflow.management.consoles.html" />
+    <EmbeddedResource Include="SphApp\views\view.column.dialog.html" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\Button.cshtml">
@@ -2159,6 +2190,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="Scripts\jquery-2.1.0.min.map" />
+    <EmbeddedResource Include="Scripts\underscore-min.map" />
     <None Include="Scripts\__core.js.bundle" />
     <EmbeddedResource Include="Scripts\core.min.js.map">
       <DependentUpon>core.min.js</DependentUpon>
@@ -2481,8 +2513,6 @@
     <EmbeddedResource Include="Scripts\text.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
-    <Content Include="Scripts\underscore.js" />
-    <EmbeddedResource Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_constants.js" />
     <EmbeddedResource Include="Scripts\_function.prototypes.js" />
     <EmbeddedResource Include="Scripts\_ko.workflow.js" />
@@ -2625,8 +2655,13 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="SphApp\partial\SetterAction.min.js - Copy.map">
-      <DependentUpon>SetterAction.min - Copy.js</DependentUpon>
+    <Content Include="Views\Shared\EditorTemplates\ChildEntityListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Shared\DisplayTemplates\ChildEntityListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
     </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

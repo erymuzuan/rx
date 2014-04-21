@@ -26,20 +26,37 @@
 
 <div class="form-group">
     <label>Lookup Entity</label>
-    <input type="text" class="form-control" data-bind="value:Entity" />
+    <select class="form-control" data-bind="value:Entity, 
+                tooltip :'The entity name for the lookup items',
+                options : $root.entityOptions,
+                optionsValue : 'value',
+                optionsText : 'text',
+                optionsCaption: '[Select Entity]'"></select>
 </div>
 <div class="form-group">
     <label>Value Path</label>
-    <input type="text" class="form-control" data-bind="value:ValuePath" />
+    <input type="text" class="form-control" data-bind="value:ValuePath,
+            entityTypeaheadPath: Entity,
+            tooltip :'The member name of the entity to be the value of the combobox item'" />
 </div>
 
 <div class="form-group">
     <label>Display Path</label>
-    <input type="text" class="form-control" data-bind="value:DisplayPath" />
+    <input type="text" class="form-control" data-bind="value:DisplayPath,
+                entityTypeaheadPath: Entity,
+                tooltip :'The member name of the entity to be the caption of the combobox item'" />
 </div>
 <div class="form-group">
+    <label for="IsComputedQuery">Computed Query</label>
+    <input id="IsComputedQuery" type="checkbox" data-bind="checked:IsComputedQuery, tooltip :'If you need to update the options when the Query value changed'" />
+    
+</div>
+
+
+
+<div class="form-group">
     <label>Query</label>
-    <input type="text" class="form-control" data-bind="value:Query" />
+    <input type="text" class="form-control" data-bind="value:Query, tooltip :'The filter query for the items from entity, if you need the query to be dynamically evaluated, check the ComputedQuery'" />
 </div>
 
 <!-- /ko -->

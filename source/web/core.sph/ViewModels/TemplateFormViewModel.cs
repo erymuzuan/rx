@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Web.ViewModels
             this.FormElements.Add(new DatePicker { Name = "Date", CssClass = "fa fa-calendar" });
             this.FormElements.Add(new DateTimePicker { Name = "DateTime", CssClass = "fa fa-clock-o" });
             this.FormElements.Add(new ListView { Name = "List", CssClass = "fa fa-list-ul" });
+            this.FormElements.Add(new ChildEntityListView { Name = "Child Entity Table", CssClass = "fa fa-list-alt" });
             this.FormElements.Add(new FileUploadElement { Name = "Upload file", CssClass = "fa fa-cloud-upload" });
             this.FormElements.Add(new DownloadLink { Name = "Download file", CssClass = "fa fa-cloud-download" });
             this.FormElements.Add(new ImageElement { Name = "Image", CssClass = "fa fa-picture-o" });

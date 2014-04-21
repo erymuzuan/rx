@@ -1,6 +1,6 @@
 <div class="row" data-bind="with : entity">
-    <img alt="logo" data-bind="attr:{src:'/image/thumbnail/' + IconStoreId() + '?height=50'}" class="pull-right" />
-    <h1 data-bind="text:Name"></h1>
+    <img alt="logo" data-bind="attr:{src:'/sph/image/store/' + IconStoreId() + '?height=50'}" class="pull-right" />
+    <h1 data-bind="text:Plural"></h1>
 </div>
 
 
@@ -16,7 +16,7 @@
             <ul data-bind="foreach :recentItems" class="metro-tile">
                 <li class="blightblue">
 
-                    <a data-bind="attr:{href : &#39;#patient-details/&#39; + PatientId}">
+                    <a data-bind="attr:{'href' : '#patient-details/' + PatientId}">
                         <i class="fa fa-user"></i>
                         <span data-bind="text:Mrn"></span>
                     </a>

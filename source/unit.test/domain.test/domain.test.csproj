@@ -43,8 +43,9 @@
     <Reference Include="Common.Logging.Core">
       <HintPath>..\..\..\packages\Common.Logging.Core.2.2.0\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer">
-      <HintPath>..\..\..\packages\Humanizer.1.21.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
+    <Reference Include="Humanizer, Version=1.8.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Humanizer.1.22.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="KellermanSoftware.Compare-NET-Objects, Version=2.1.0.0, Culture=neutral, PublicKeyToken=d970ace04cc85217, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

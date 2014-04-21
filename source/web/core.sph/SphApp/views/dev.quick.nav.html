@@ -26,6 +26,28 @@
                                     <!--/ko-->
                                 </span>
                             </a>
+                            <ul data-bind="foreach :triggers" class="nav nav-pills nav-stacked" style="margin-left: 20px">
+                                <li>
+                                    <a href="#" data-bind="attr : {'href':'#trigger.setup/' + TriggerId() }">
+                                        <span>
+                                            <i class="fa fa-bolt"></i>
+                                            <!-- ko text: Name-->
+                                            <!--/ko-->
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul data-bind="foreach :operations" class="nav nav-pills nav-stacked" style="margin-left: 20px">
+                                <li>
+                                    <a href="#" data-bind="attr : {'href':'#entity.operation.details/' + $parent.id() + '/' + Name() }">
+                                        <span>
+                                            <i class="fa fa-gavel"></i>
+                                            <!-- ko text: Name-->
+                                            <!--/ko-->
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
                             <ul data-bind="foreach :forms" class="nav nav-pills nav-stacked" style="margin-left: 20px">
                                 <li>
                                     <a href="#" data-bind="attr : {'href':'#entity.form.designer/' + $parent.id() + '/' + EntityFormId() }">
@@ -36,7 +58,8 @@
                                         </span>
                                     </a>
                                 </li>
-                            </ul><ul data-bind="foreach :views" class="nav nav-pills nav-stacked" style="margin-left: 20px">
+                            </ul>
+                            <ul data-bind="foreach :views" class="nav nav-pills nav-stacked" style="margin-left: 20px">
                                 <li>
                                     <a href="#" data-bind="attr : {'href':'#entity.view.designer/' + $parent.id() + '/' + EntityViewId() }">
                                         <span>
@@ -56,18 +79,6 @@
                             <a href="#" data-bind="attr : {'href':'#workflow.definition.visual/' + WorkflowDefinitionId() }">
                                 <span>
                                     <i class="fa fa-code-fork"></i>
-                                    <!-- ko text: Name-->
-                                    <!--/ko-->
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                    <h3>Triggers</h3>
-                    <ul class="nav nav-pills nav-stacked" data-bind="foreach :triggers">
-                        <li>
-                            <a href="#" data-bind="attr : {'href':'#trigger.setup/' + TriggerId() }">
-                                <span>
-                                    <i class="fa fa-bolt"></i>
                                     <!-- ko text: Name-->
                                     <!--/ko-->
                                 </span>

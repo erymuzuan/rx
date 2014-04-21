@@ -1,8 +1,6 @@
 define(['durandal/system'],
     function (system) {
 
-        var info = log.partial(undefined, null, null, true);
-        var error = logError.partial(undefined, null, null, true);
 
         var logger = {
             log: log,
@@ -13,10 +11,17 @@ define(['durandal/system'],
 
         return logger;
 
+        function info(message) {
+            logIt(message, null, null, true, 'info');
+        }
+
         function log(message, data, source, showToast) {
             logIt(message, data, source, showToast, 'info');
         }
 
+        function error(message) {
+            logIt(message, null, null, true, 'error');
+        }
         function logError(message, data, source, showToast) {
             logIt(message, data, source, showToast, 'error');
         }

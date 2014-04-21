@@ -42,6 +42,12 @@
                     } else {
 
                         view(new bespoke.sph.domain.EntityView({ WebId: system.guid() }));
+                        view().IconStoreId("sph-img-list");
+
+                        view().Name.subscribe(function (v) {
+                            view().Route(v.toLowerCase().replace(/\W+/g, "-"));
+
+                        });
                     }
                     view().EntityDefinitionId(id);
 
@@ -70,6 +76,7 @@
                                 logger.info(result.message);
                                 view().EntityViewId(result.id);
                                 errors.removeAll();
+                                view().IsPublished(true);
                             } else {
                                 errors(result.Errors);
                                 logger.error("There are errors in your entity, !!!");
@@ -95,7 +102,26 @@
                             tcs.resolve(result);
                         });
                     return tcs.promise();
-                };
+                },
+
+            depublishAsync = function () {
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(view);
+
+                context.post(data, "/EntityView/Depublish")
+                    .then(function (result) {
+                        if (result.success) {
+                            view().IsPublished(false);
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
+                            logger.error("There are errors in your view, !!!");
+                        }
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            };
 
             var vm = {
                 errors: errors,
@@ -119,10 +145,18 @@
                     },
                     {
                         caption: 'Publish',
-                        icon: 'fa fa-sign-out',
+                        icon: 'fa fa-sign-in',
                         command: publish,
                         enable: ko.computed(function () {
                             return view().EntityViewId() > 0;
+                        })
+                    },
+                    {
+                        caption: 'Depublish',
+                        icon: 'fa fa-sign-out',
+                        command: depublishAsync,
+                        enable: ko.computed(function () {
+                            return view().EntityViewId() > 0 && view().IsPublished();
                         })
                     }
                     ]),

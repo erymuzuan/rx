@@ -7,6 +7,7 @@
   <file>/SphApp/partial/BusinessRule.js</file>
   <file>/SphApp/partial/ButtonPartial.js</file>
   <file>/SphApp/partial/ComboBox.js</file>
+  <file>/SphApp/partial/ChildEntityListView.js</file>
   <file>/SphApp/partial/ConstantField.js</file>
   <file>/SphApp/partial/CreateEntityActivity.js</file>
   <file>/SphApp/partial/DataGridItem.js</file>
@@ -42,6 +43,7 @@
   <file>/SphApp/partial/Trigger.js</file>
   <file>/SphApp/partial/UpdateEntityActivity.js</file>
   <file>/SphApp/partial/Variable.js</file>
+  <file>/SphApp/partial/ViewColumn.js</file>
   <file>/SphApp/partial/WorkflowDefinition.js</file>
   <file>/SphApp/partial/WorkflowDesigner.js</file>
   <file>/SphApp/partial/WorkflowTriggerMap.js</file>

@@ -51,6 +51,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         });
                     }
                 });
+                ed.IconStoreId("sph-img-document");
 
                 entity(ed);
                 return Task.fromResult(true);
@@ -70,6 +71,18 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
+                            if (entity().EntityDefinitionId() === 0) {
+                                //reload forms and views 
+                                context.loadAsync("EntityForm", "EntityDefinitionId eq " + result.id)
+                                    .done(function (lo) {
+                                        forms(lo.itemCollection);
+                                    });
+                                context.loadAsync("EntityView", "EntityDefinitionId eq " + result.id)
+                                    .done(function (lo) {
+                                        views(lo.itemCollection);
+                                    });
+
+                            }
                             entity().EntityDefinitionId(result.id);
                             errors.removeAll();
                         } else {
@@ -86,6 +99,29 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 isBusy(true);
 
                 context.post(data, "/EntityDefinition/Publish")
+                    .then(function (result) {
+                        isBusy(false);
+                        if (result.success) {
+                            logger.info(result.message);
+                            entity().EntityDefinitionId(result.id);
+                            errors.removeAll();
+                        } else {
+
+                            errors(result.Errors);
+                            logger.error("There are errors in your schema, !!!");
+                        }
+                        tcs.resolve(result);
+                        entity().IsPublished(true);
+                    });
+                return tcs.promise();
+            },
+            depublishAsync = function () {
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(entity);
+                isBusy(true);
+
+                context.post(data, "/EntityDefinition/Depublish")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -129,9 +165,17 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     {
                         command: publishAsync,
                         caption: 'Publish',
-                        icon: "fa fa-sign-out",
+                        icon: "fa fa-sign-in",
                         enable: ko.computed(function () {
                             return entity().EntityDefinitionId() > 0;
+                        })
+                    },
+                    {
+                        command: depublishAsync,
+                        caption: 'Depublish',
+                        icon: "fa fa-sign-out",
+                        enable: ko.computed(function () {
+                            return entity().EntityDefinitionId() > 0 && entity().IsPublished();
                         })
                     }])
             }

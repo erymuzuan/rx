@@ -29,33 +29,6 @@ namespace Bespoke.Sph.Web.App_Start
             //await RegisterEntitySearchAndApiRoutesAsync(routes).ConfigureAwait(false);
         }
 
-        private static async Task RegisterEntitySearchAndApiRoutesAsync(RouteCollection routes)
-        {
-            var context = new SphDataContext();
-
-            var query = context.EntityDefinitions.Where(e => e.IsPublished == true);
-            var lo = await context.LoadAsync(query, includeTotalRows: true).ConfigureAwait(false);
-            var entityDefinitions = new ObjectCollection<EntityDefinition>(lo.ItemCollection);
-            while (lo.HasNextPage)
-            {
-                lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true).ConfigureAwait(false);
-                entityDefinitions.AddRange(lo.ItemCollection);
-            }
-            foreach (var ed in entityDefinitions)
-            {
-                routes.MapRoute(
-                    name: ed.Name + "_search",
-                    url: string.Format("search/{0}", ed.Name.ToLowerInvariant()),
-                    defaults: new {controller = ed.Name, action = "search"}
-                    );
-                routes.MapRoute(
-                    name: ed.Name + "_api",
-                    url: string.Format("api/{0}", ed.Name),
-                    defaults: new {controller = "api", action = "index", id = UrlParameter.Optional}
-                    );
-            }
-        }
-
         private static async Task RegisterFormRoutesAsync(RouteCollection routes)
         {
             var context = new SphDataContext();
@@ -116,51 +89,52 @@ namespace Bespoke.Sph.Web.App_Start
 
             var context = new SphDataContext();
             // ReSharper disable RedundantBoolCompare
-            var rdlTask = context.LoadAsync(context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user)), includeTotalRows: true);
-            var edTasks = context.LoadAsync(context.EntityDefinitions.Where(e => e.IsPublished == true), includeTotalRows: true);
-            var formTask = context.LoadAsync(context.EntityForms.Where(e => e.IsPublished == true), includeTotalRows: true);
-            var viewTask = context.LoadAsync(context.EntityViews.Where(e => e.IsPublished == true), includeTotalRows: true);
+            var formQuery = context.EntityForms.Where(e => e.IsPublished == true);
+            var viewQuery = context.EntityViews.Where(e => e.IsPublished == true);
+            var edQuery = context.EntityDefinitions.Where(e => e.IsPublished == true);
+            var rdlQuery = context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user));
+
+            var rdlTask = context.LoadAsync(rdlQuery, includeTotalRows: true);
+            var edTasks = context.LoadAsync(edQuery, includeTotalRows: true);
+            var formTask = context.LoadAsync(formQuery, includeTotalRows: true);
+            var viewTask = context.LoadAsync(viewQuery, includeTotalRows: true);
             // ReSharper restore RedundantBoolCompare
-            await Task.WhenAll(rdlTask, edTasks);
+            await Task.WhenAll(rdlTask, edTasks,formTask,viewTask);
 
 
-            var reportDefinitionLoadOperation = await rdlTask;
-            var entityDefinitionLoadOperation = await edTasks;
-            var viewsLoadOperation = await viewTask;
-            var formLoadOperation = await formTask;
+            var rdlLo = await rdlTask;
+            var edLo = await edTasks;
+            var viewLo = await viewTask;
+            var formsLo = await formTask;
             var routes = new List<JsRoute>();
 
-            var reportDefinitions = new ObjectCollection<ReportDefinition>(reportDefinitionLoadOperation.ItemCollection);
-            var entityDefinitions = new ObjectCollection<EntityDefinition>(entityDefinitionLoadOperation.ItemCollection);
-            var views = new ObjectCollection<EntityView>(viewsLoadOperation.ItemCollection);
-            var forms = new ObjectCollection<EntityForm>(formLoadOperation.ItemCollection);
+            var reportDefinitions = new ObjectCollection<ReportDefinition>(rdlLo.ItemCollection);
+            var entityDefinitions = new ObjectCollection<EntityDefinition>(edLo.ItemCollection);
+            var views = new ObjectCollection<EntityView>(viewLo.ItemCollection);
+            var forms = new ObjectCollection<EntityForm>(formsLo.ItemCollection);
 
 
-            while (entityDefinitionLoadOperation.HasNextPage)
+            while (edLo.HasNextPage)
             {
-                entityDefinitionLoadOperation = await context.LoadAsync(
-                        context.EntityDefinitions, entityDefinitionLoadOperation.CurrentPage + 1, includeTotalRows: true);
-                entityDefinitions.AddRange(entityDefinitionLoadOperation.ItemCollection);
+                edLo = await context.LoadAsync(edQuery, edLo.CurrentPage + 1, includeTotalRows: true);
+                entityDefinitions.AddRange(edLo.ItemCollection);
             }
 
-            while (formLoadOperation.HasNextPage)
+            while (formsLo.HasNextPage)
             {
-                formLoadOperation = await context.LoadAsync(
-                        context.EntityForms, formLoadOperation.CurrentPage + 1, includeTotalRows: true);
-                forms.AddRange(formLoadOperation.ItemCollection);
+                formsLo = await context.LoadAsync(formQuery, formsLo.CurrentPage + 1, includeTotalRows: true);
+                forms.AddRange(formsLo.ItemCollection);
             }
-            while (viewsLoadOperation.HasNextPage)
+            while (viewLo.HasNextPage)
             {
-                viewsLoadOperation = await context.LoadAsync(
-                        context.EntityViews, viewsLoadOperation.CurrentPage + 1, includeTotalRows: true);
-                views.AddRange(viewsLoadOperation.ItemCollection);
+                viewLo = await context.LoadAsync(viewQuery, viewLo.CurrentPage + 1, includeTotalRows: true);
+                views.AddRange(viewLo.ItemCollection);
             }
 
-            while (reportDefinitionLoadOperation.HasNextPage)
+            while (rdlLo.HasNextPage)
             {
-                reportDefinitionLoadOperation = await context.LoadAsync(
-                        context.ReportDefinitions, reportDefinitionLoadOperation.CurrentPage + 1, includeTotalRows: true);
-                reportDefinitions.AddRange(reportDefinitionLoadOperation.ItemCollection);
+                rdlLo = await context.LoadAsync(rdlQuery, rdlLo.CurrentPage + 1, includeTotalRows: true);
+                reportDefinitions.AddRange(rdlLo.ItemCollection);
             }
 
             RegisterCustomEntityDependencies(entityDefinitions);

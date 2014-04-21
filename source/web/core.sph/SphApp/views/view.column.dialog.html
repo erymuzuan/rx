@@ -1,0 +1,80 @@
+﻿
+<section class="view-model-modal" id="view-colum-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>View Column Property</h3>
+            </div>
+            <div class="modal-body" data-bind="with: column">
+
+                <form class="form-horizontal" id="view-colum-dialog-form">
+                    <div class="form-group">
+                        <label for="vc-path" class="col-md-2 control-label">Path</label>
+                        <div class="col-md-9">
+                            <input type="text" data-bind="value: Path"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Path to the member"
+                                   class="form-control" id="vc-path">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="vc-header" class="col-md-2 control-label">Header</label>
+                        <div class="col-md-9">
+                            <input type="text" data-bind="value: Header"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Header"
+                                   class="form-control" id="vc-header">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="column-format" class="col-md-2">Format</label>
+                        <div class="col-md-6">
+                            <select id="column-format" class="form-control" data-bind="value:Format">
+                                <option value="text:{0}">Text</option>
+                                <option value="date:{0}">Short date</option>
+                                <option value="date:{{ value:{0}, format:'DD MMM YYYY'}}">Long date</option>
+                                <option value="date:{{ value:{0}, format:'D/M/YYYY HH:mm'}}">Short date time</option>
+                                <option value="date:{{ value:{0}, format:'DD MMM YYYY HH:mm'}}">Long date time</option>
+                                <option value="money:{0}">Money</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="column-link">IsLink</label>
+                        <input id="column-link" type="checkbox" data-bind="checked:IsLinkColumn" />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="column-route" class="col-md-2">Route</label>
+                        <div class="col-md-6">
+                            <select id="column-route" class="form-control" data-bind="value:FormRoute,
+                                    enable:IsLinkColumn,
+                                    options: $root.forms,
+                                    optionsText : 'Name',
+                                    optionsValue : 'Route',
+                                    optionsCaption : '[Select the form]'"></select>
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-group" data-bind="visible:IsLinkColumn">
+                        <label for="vc-icon-class" class="col-md-2">Icon class</label>
+                        <div class="col-md-9">
+                            <i data-bind="iconPicker: IconCssClass, attr:{'class':IconCssClass() }" id="vc-icon-class"></i>
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="view-colum-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

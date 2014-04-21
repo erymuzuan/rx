@@ -17,6 +17,7 @@
 
             var errors = ko.observableArray(),
                 operationsOption = ko.observableArray(),
+                entityOptions = ko.observableArray(),
                 entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
                 form = ko.observable(new bespoke.sph.domain.EntityForm({WebId:system.guid()})),
                 activate = function (entityid, formid) {
@@ -29,19 +30,35 @@
                         query = String.format("EntityDefinitionId eq {0}", id),
                         tcs = new $.Deferred();
 
+
+                    context.getListAsync("EntityDefinition", null, "Name")
+                        .then(function(entities) {
+                            var list = _(entities).map(function(v) {
+                                return {
+                                    text : v,
+                                    value :v
+                                };
+                            });
+
+                            list.push({ text: 'UserProfile*', value: 'UserProfile' });
+                            list.push({ text: 'Designation*', value: 'Designation' });
+                            list.push({ text: 'Department*', value: 'Department' });
+                            entityOptions(list);
+                        });
+
                     context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
                             entity(b);
                             if (!fid) {
                                 tcs.resolve(true);
                             }
-                        var operations = (b.EntityOperationCollection()).map(function(v) {
-                            return v.Name();
+                            var operations = (b.EntityOperationCollection()).map(function(v) {
+                                return v.Name();
+                            });
+                            operations.push("save");
+                            operationsOption(operations);
+                            //b.loadSchema();
                         });
-                        operations.push("save");
-                        operationsOption(operations);
-                        //b.loadSchema();
-                    });
                     if (fid) {
                         context.loadOneAsync("EntityForm", "EntityFormId eq " + fid)
                         .done(function(f) {
@@ -282,12 +299,37 @@
 
                     context.post(data, "/Sph/EntityForm/Save")
                         .then(function(result) {
-
                             form().EntityFormId(result.id);
                             tcs.resolve(result);
                         });
                     return tcs.promise();
-                };
+                },
+
+            depublishAsync = function () {
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(form);
+
+                context.post(data, "/EntityForm/Depublish")
+                    .then(function (result) {
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
+                            var views = _(result.views).map(function(v) {
+                                return {
+                                    Message : v + " view has a link to this form!",
+                                    Code : ""
+                                }
+                            });
+                            errors(views);
+                            logger.error("There are errors in your form, depublish those views first to proceed, !!!");
+                        }
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            };
+
             var vm = {
                 errors: errors,
                 operationsOption: operationsOption,
@@ -299,6 +341,7 @@
                 removeFormElement : removeFormElement,
                 form: form,
                 entity : entity,
+                entityOptions : entityOptions,
                 okClick: okClick,
                 cancelClick: cancelClick,
                 importCommand :importCommand,
@@ -315,10 +358,18 @@
                     },
                     {
                         caption : 'Publish',
-                        icon : 'fa fa-sign-out',
+                        icon : 'fa fa-sign-in',
                         command : publish,
                         enable : ko.computed(function() {
                             return form().EntityFormId() > 0;
+                        })
+                    },
+                    {
+                        command: depublishAsync,
+                        caption: 'Depublish',
+                        icon: "fa fa-sign-out",
+                        enable: ko.computed(function () {
+                            return form().EntityFormId() > 0 && form().IsPublished();
                         })
                     }
                     ]),

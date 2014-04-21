@@ -1,0 +1,86 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ViewColumnCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "State",
+        "Header": "State",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "88ffe93f-92df-4b85-a704-f3801ec8bfb0"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Postcode",
+        "Header": "Postcode",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "86b792c7-9411-47cf-a393-89ed7f789b02"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "CreatedDate",
+        "Header": "Created ",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "date:{0}",
+        "WebId": "726f5625-b43f-4342-be8c-c207ed748487"
+      }
+    ]
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ConditionalFormattingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityViewId": 4006,
+  "IconClass": null,
+  "IconStoreId": "6cec83a4-b33c-4c33-a935-6d1ea30abf38",
+  "EntityDefinitionId": 5004,
+  "Name": "All Districts",
+  "Route": "districts-all",
+  "Note": null,
+  "Query": null,
+  "IsPublished": true,
+  "Visibilty": null,
+  "TileColour": "blightblue",
+  "CountMessage": null,
+  "Entity": null,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-19T10:10:13.4358193+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-19T10:13:00.1717352+08:00",
+  "WebId": "fc26755b-1a25-4c68-ad4e-ac486cbfb903"
+}

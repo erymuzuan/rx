@@ -1,0 +1,25 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
+  "SeriesCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Series, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityChartId": 8,
+  "EntityDefinitionId": 1,
+  "Entity": "Customer",
+  "Name": "Customers by rating",
+  "Type": "pie",
+  "EntityViewId": 0,
+  "Query": "{\"query\":{\"filtered\":{\"filter\":{\"bool\":{\"must\":[{\"range\":{\"Age\":{}}}],\"must_not\":[]}}}},\"sort\":[{\"FullName\":{\"order\":\"desc\"}}],\"aggs\":{\"category\":{\"histogram\":{\"field\":\"Rating\",\"interval\":1,\"min_doc_count\":0}}},\"from\":0,\"size\":20}",
+  "Aggregate": "histogram",
+  "Field": "Rating",
+  "DateInterval": "year",
+  "IsDashboardItem": true,
+  "DasboardItemPosition": 0,
+  "HistogramInterval": 1,
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-04-18T09:05:23.5789406+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-18T09:07:46.5738414+08:00",
+  "WebId": "281a8159-b403-49cc-b23c-8e50bc70567f"
+}

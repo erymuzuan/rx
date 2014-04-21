@@ -14,5 +14,8 @@ What you need before you starts developing with `Rx Developer`
 
 
 ## Downloading package
-Download your sph package at www.sph.my, Extract a package to your desired folder. Starts your control center
+Download your sph package at [`http://www.reactivedeveloper.com/download`](http://www.reactivedeveloper.com/download), Extract a package to your desired folder. Starts your control center
 
+
+## Configuring Rx Developer app
+Please refer to the documentation online on how to configure your machine for development. Go [`http://www.reactivedeveloper.com/download`](http://www.reactivedeveloper.com/download)

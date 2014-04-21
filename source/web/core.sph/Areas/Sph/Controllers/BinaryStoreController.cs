@@ -64,6 +64,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public async Task<ActionResult> Get(string id)
         {
+            if (id == "sph-img-list")
+                return Redirect("/images/list.png");
+
             var binaryStore = ObjectBuilder.GetObject<IBinaryStore>();
             var doc = await binaryStore.GetContentAsync(id);
             if (null == doc)

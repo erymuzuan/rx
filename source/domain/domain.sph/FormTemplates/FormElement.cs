@@ -22,6 +22,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(FileUploadElement))]
     [XmlInclude(typeof(ListView))]
     [XmlInclude(typeof(Button))]
+    [XmlInclude(typeof(ChildEntityListView))]
     public partial class FormElement : DomainObject
     {
         public virtual string GetKnockoutBindingExpression()

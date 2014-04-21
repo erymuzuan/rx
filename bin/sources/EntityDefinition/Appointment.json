@@ -1,0 +1,283 @@
+{
+  "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
+  "CodeNamespace": "Bespoke.Dev_6003.Domain",
+  "MemberCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "ReferenceNo",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": true,
+        "IsExcludeInAll": false,
+        "Boost": 2,
+        "WebId": "645fa515-b774-444d-bd1f-6ad381f293d8"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Mrn",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": true,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "WebId": "7c46ebe4-17e2-4c46-9803-de3c78f4448e"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "DateTime",
+        "TypeName": "System.DateTime, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": true,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "WebId": "ee373fe6-c7ff-4744-8c97-3389fff5e0ef"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Doctor",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "WebId": "bc5d65b2-0901-4ba6-bf9a-5e3864711eba"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Ward",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "WebId": "32bc890c-7320-40e4-8c81-78e8ee30b0dd"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Location",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": true,
+        "IsExcludeInAll": false,
+        "Boost": 1,
+        "WebId": "801a8663-8738-4068-b8cd-a574c12b3748"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Note",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "WebId": "316f3e81-d542-4902-8dd4-2aec110513a2"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Referral",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "WebId": "0a2d4daf-9137-44f5-aefc-03bff7005461"
+      }
+    ]
+  },
+  "BusinessRuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.BusinessRule, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.BusinessRule, domain.sph",
+        "RuleCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
+              "Left": {
+                "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                "XPath": "",
+                "NamespacePrefix": "",
+                "TypeName": "",
+                "Path": "DateTime",
+                "Name": "DateTime",
+                "Note": "",
+                "WebId": "16d31fcb-19b7-41b9-ae49-424aea63d941"
+              },
+              "Right": {
+                "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "Script": "DateTime.Today",
+                "Name": "Today",
+                "Note": "",
+                "WebId": "0d0e6f70-39aa-4fc2-9b2d-3b5a235a45a6"
+              },
+              "Operator": "Gt",
+              "WebId": "bb658f04-0e0c-4a2b-9803-fb53e195504b"
+            }
+          ]
+        },
+        "FilterCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Description": "Date must be in the future",
+        "Name": "Date",
+        "ErrorLocation": "",
+        "ErrorMessage": "Date must be in the future",
+        "WebId": "eb99df6b-9f16-48e3-9ff6-529fafa50023"
+      }
+    ]
+  },
+  "EntityOperationCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityOperation, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.EntityOperation, domain.sph",
+        "EntityPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Rules": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": [
+            "Date"
+          ]
+        },
+        "Permissions": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "SetterActionChildCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+              "Path": "ReferenceNo",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "Script": "string.Format(\"{0:yyMMdd}-{1}\", item.DateTime, item.Mrn)",
+                "Name": "AppointmentRef",
+                "Note": "",
+                "WebId": "1a0dfa8a-cc8d-48e0-b857-2ff757887754"
+              },
+              "WebId": "51201976-4ff9-4c66-a7d6-9d266b5aa2b0"
+            }
+          ]
+        },
+        "Name": "Register",
+        "SuccessMessage": "The appointment has been set",
+        "ShowSuccessMessage": false,
+        "NavigateSuccessUrl": "#patient",
+        "SuccessCommand": "",
+        "WebId": "b2dc31c8-955d-4d54-a9ef-6799e9775d96"
+      }
+    ]
+  },
+  "AuthorizedRoleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "EntityDefinitionId": 6003,
+  "Name": "Appointment",
+  "Plural": "Appointments",
+  "IconStoreId": "161593b6-1a0c-43f0-ab21-6f4804c8acbf",
+  "IconClass": "fa fa-calendar",
+  "RecordName": "ReferenceNo",
+  "IsPublished": true,
+  "IsShowOnNavigationBar": true,
+  "CreatedBy": null,
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-04-19T16:02:27.5380816+08:00",
+  "WebId": "3a0cd042-a29f-4d00-add4-768eb28db62d"
+}

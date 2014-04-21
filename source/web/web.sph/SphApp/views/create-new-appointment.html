@@ -1,0 +1,61 @@
+
+
+<h1>Create new appointment</h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+    
+    </div>
+    <div class="col-lg-2"></div>
+    <!-- /ko-->
+</div>
+<div class="row">
+
+    <div class="col-sm-8">
+        <form class="form-horizontal" data-bind="with : entity" id="create-new-appointment-form">
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="85bfdacc-2a0e-47ad-8a75-0a7697068614" class="col-md-4">Patient Mrn</label>
+        <div class="col-md-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Mrn, visible :true, autocomplete :{ entity:'Patient', field :'Mrn', query:'PatientId gt 0' }"
+                   id="85bfdacc-2a0e-47ad-8a75-0a7697068614" type="text" name="Mrn" />
+        </div>
+    </div>
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="14e74d94-d1fb-491a-9182-b02aae951d77" class="col-md-4">Location</label>
+        <div class="col-md-8">
+            <select data-bind="value: Location, enable :true" id="14e74d94-d1fb-491a-9182-b02aae951d77" name="Location" class=" input-large form-control">
+                    <option value="Room 1">Room 1</option>
+                    <option value="Room 2">Room 2</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="9fc98e9a-40e5-4684-a109-865d5e7f85f8" class="col-md-4">Doctor</label>
+        <div class="col-md-8">
+            <select data-bind="value: Doctor, enable :true" id="9fc98e9a-40e5-4684-a109-865d5e7f85f8" name="Doctor" class=" input-large form-control">
+                    <option value="Ali">Ali</option>
+                    <option value="Samad">Samad</option>
+                    <option value="Samuel">Samuel</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="6983ae4a-ea79-4371-8dbe-32931eb3d038" class="col-md-4">DateTime</label>
+        <div class="col-md-8">
+            <input class=" form-control input-large"
+                   data-bind="kendoDateTime: DateTime, enable :true" id="6983ae4a-ea79-4371-8dbe-32931eb3d038" type="text"
+                   name="DateTime" />
+        </div>
+    </div>
+        </form>
+    </div>
+</div>

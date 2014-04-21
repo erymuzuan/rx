@@ -45,9 +45,9 @@
     <Reference Include="Common.Logging.Core">
       <HintPath>..\..\..\packages\Common.Logging.Core.2.2.0\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer, Version=1.21.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+    <Reference Include="Humanizer, Version=1.22.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Humanizer.1.21.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
+      <HintPath>..\..\..\packages\Humanizer.1.22.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -91,7 +91,9 @@
     <Compile Include="Business\ChangeSubmission.cs" />
     <Compile Include="Core\ValidationResult.cs" />
     <Compile Include="FormTemplates\Button.cs" />
+    <Compile Include="FormTemplates\ChildEntityListView.cs" />
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
+    <Compile Include="FormTemplates\ConditionalFormatting.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />
     <Compile Include="FormTemplates\DefaultValue.cs" />
     <Compile Include="FormTemplates\DownloadLink.cs" />

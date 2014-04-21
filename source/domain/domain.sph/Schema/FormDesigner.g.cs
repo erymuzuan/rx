@@ -1460,6 +1460,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameQuery = "Query";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isComputedQuery;
+        public const string PropertyNameIsComputedQuery = "IsComputedQuery";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -1575,6 +1580,112 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsComputedQuery
+        {
+            set
+            {
+                if (m_isComputedQuery == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsComputedQuery, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isComputedQuery = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isComputedQuery;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ChildEntityListView", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ChildEntityListView
+    {
+
+        private string m_Entity;
+        [XmlAttribute]
+        public string Entity
+        {
+            get
+            {
+                return m_Entity;
+            }
+            set
+            {
+                m_Entity = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Query;
+        [XmlAttribute]
+        public string Query
+        {
+            get
+            {
+                return m_Query;
+            }
+            set
+            {
+                m_Query = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<ViewColumn> m_ViewColumnCollection = new ObjectCollection<ViewColumn>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ViewColumn", IsNullable = false)]
+        public ObjectCollection<ViewColumn> ViewColumnCollection
+        {
+            get { return m_ViewColumnCollection; }
+        }
+
+        private readonly ObjectCollection<Sort> m_SortCollection = new ObjectCollection<Sort>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Sort", IsNullable = false)]
+        public ObjectCollection<Sort> SortCollection
+        {
+            get { return m_SortCollection; }
+        }
+
+        private readonly ObjectCollection<ConditionalFormatting> m_ConditionalFormattingCollection = new ObjectCollection<ConditionalFormatting>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
+        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection
+        {
+            get { return m_ConditionalFormattingCollection; }
+        }
 
 
     }
@@ -3309,6 +3420,17 @@ namespace Bespoke.Sph.Domain
             get { return m_SortCollection; }
         }
 
+        private readonly ObjectCollection<ConditionalFormatting> m_ConditionalFormattingCollection = new ObjectCollection<ConditionalFormatting>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
+        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection
+        {
+            get { return m_ConditionalFormattingCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -3843,6 +3965,17 @@ namespace Bespoke.Sph.Domain
         private string m_format;
         public const string PropertyNameFormat = "Format";
 
+
+        private readonly ObjectCollection<ConditionalFormatting> m_ConditionalFormattingCollection = new ObjectCollection<ConditionalFormatting>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ConditionalFormatting", IsNullable = false)]
+        public ObjectCollection<ConditionalFormatting> ConditionalFormattingCollection
+        {
+            get { return m_ConditionalFormattingCollection; }
+        }
 
         ///<summary>
         /// 
@@ -5705,6 +5838,86 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_owner;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ConditionalFormatting", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ConditionalFormatting
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_cssClass;
+        public const string PropertyNameCssClass = "CssClass";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_condition;
+        public const string PropertyNameCondition = "Condition";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string CssClass
+        {
+            set
+            {
+                if (String.Equals(m_cssClass, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCssClass, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_cssClass = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_cssClass;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Condition
+        {
+            set
+            {
+                if (String.Equals(m_condition, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCondition, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_condition = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_condition;
             }
         }
 

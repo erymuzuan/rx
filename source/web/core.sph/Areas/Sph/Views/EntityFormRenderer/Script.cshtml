@@ -79,7 +79,7 @@
                                  entity().@(Model.EntityDefinition.Name)Id(result.id);
                                  errors.removeAll();
 
-                                @(Html.Raw(operation.GetConfirmationMessage()))
+                                 @(Html.Raw(operation.GetConfirmationMessage()))
                              } else {
                                  errors.removeAll();
                                  _(result.rules).each(function(v){
@@ -163,6 +163,26 @@
                     }
 
                     return tcs.promise();
+                },
+                remove = function() {
+                    var tcs = new $.Deferred();
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/@(Model.EntityDefinition.Name)/Remove/" + entity().@(Model.EntityDefinition.Name)Id(),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        error: tcs.reject,
+                        success: function() {
+                            tcs.resolve(true);
+                            app.showMessage("Your item has been successfully removed", "Removed", ["OK"])
+                              .done(function () {
+                                window.location = "#@(Model.EntityDefinition.Name.ToLowerInvariant())";
+                            });
+                        } 
+                    });
+
+
+                    return tcs.promise();
                 };
 
             var vm = {
@@ -171,68 +191,72 @@
                         var function = rule.Dehumanize().ToCamelCase();
                     <text>@function : @function,</text>
                     }
-                activate: activate,
-                config: config,
-                attached: attached,
-                entity: entity,
-                errors: errors,
-                save : save,
-                @foreach (var op in Model.EntityDefinition.EntityOperationCollection)
+        activate: activate,
+        config: config,
+        attached: attached,
+        entity: entity,
+        errors: errors,
+        save : save,
+        @foreach (var op in Model.EntityDefinition.EntityOperationCollection)
                 {
                         var function = op.Name.ToCamelCase();
                     <text>@function : @function,</text>
-                    
-                }
-                //
 
-                @foreach (var btn in Model.Form.FormDesign.FormElementCollection.OfType<Button>().Where(b => !string.IsNullOrWhiteSpace(b.CommandName)))
+                }
+        //
+
+        @foreach (var btn in Model.Form.FormDesign.FormElementCollection.OfType<Button>().Where(b => !string.IsNullOrWhiteSpace(b.CommandName)))
                 {
                     <text>@(btn.CommandName) : @(btn.CommandName) ,
-                    </text>
+        </text>
                 }
 
-                toolbar : {
-                    @if (Model.Form.IsEmailAvailable)
+        toolbar : {
+            @if (Model.Form.IsEmailAvailable)
                     {
                         <text>emailCommand : {
-                        entity : "@Model.EntityDefinition.Name",
-                        id :id
-                    },</text>
+                entity : "@Model.EntityDefinition.Name",
+                id :id
+            },</text>
                     }
-                    @if (Model.Form.IsPrintAvailable)
+            @if (Model.Form.IsPrintAvailable)
                     {
                         <text>printCommand :{
-                        entity : '@Model.EntityDefinition.Name',
-                        id : id
-                    },</text>
+                entity : '@Model.EntityDefinition.Name',
+                id : id
+            },</text>
                     }
-                    @if (Model.Form.IsWatchAvailable)
+            @if (Model.Form.IsRemoveAvailable)
+            {
+                <text>removeCommand :remove,</text>
+            }
+            @if (Model.Form.IsWatchAvailable)
                     {
                         <text>
-                    watchCommand: function() {
-                        return watcher.watch("@Model.EntityDefinition.Name", entity().@(Model.EntityDefinition.Name)Id())
-                            .done(function(){
-                                watching(true);
-                            });
-                    },
-                    unwatchCommand: function() {
-                        return watcher.unwatch("@Model.EntityDefinition.Name", entity().@(Model.EntityDefinition.Name)Id())
-                            .done(function(){
-                                watching(false);
-                            });
-                    },
-                    watching: watching,</text>
+            watchCommand: function() {
+                return watcher.watch("@Model.EntityDefinition.Name", entity().@(Model.EntityDefinition.Name)Id())
+                    .done(function(){
+                        watching(true);
+                    });
+            },
+            unwatchCommand: function() {
+                return watcher.unwatch("@Model.EntityDefinition.Name", entity().@(Model.EntityDefinition.Name)Id())
+                    .done(function(){
+                        watching(false);
+                    });
+            },
+            watching: watching,</text>
                     }
-                    @if (!string.IsNullOrWhiteSpace(@saveOperation))
+            @if (!string.IsNullOrWhiteSpace(@saveOperation))
                     {
                         <text>
-                    saveCommand : @saveOperation.ToCamelCase(),
-                        </text>
+            saveCommand : @saveOperation.ToCamelCase(),
+            </text>
                     }
-                    commands : ko.observableArray(@Html.Raw(commandsJs))
-                }
-            };
+            commands : ko.observableArray(@Html.Raw(commandsJs))
+        }
+    };
 
-            return vm;
-        });
+    return vm;
+    });
 </script>

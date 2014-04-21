@@ -15,6 +15,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (string.IsNullOrWhiteSpace(id))
                 return Redirect("/images/no-image.png");
 
+            if (id == "sph-img-list")
+                return Redirect("/images/list.png");
+            if (id == "sph-img-document")
+                return Redirect("/images/document.png");
+
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var content = await store.GetContentAsync(id);
             if (null == content)

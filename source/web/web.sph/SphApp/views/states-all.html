@@ -1,0 +1,92 @@
+<h1>All States</h1>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'State', list:list}">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>Abbreviation</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :list">
+                <tr data-bind="">
+                    <td>
+
+                        <a data-bind="attr : {href:'#state-details' + '/' + StateId },text: Name"></a>
+                    </td>
+                    <td data-bind="text:Country"></td>
+                    <td data-bind="text:Abbreviation"></td>
+                    <td data-bind="date:CreatedDate"></td>
+
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4" data-bind="with:chart">
+        <h3>Charts</h3>
+        <form class="form">
+            <div class="form-group">
+                <label for="chart-name">Charts</label>
+                <select class="form-control" name="chart.name" id="chart-name"
+                        data-bind="value: selectedChartId, options:charts, optionsText: 'Name', optionsValue : 'EntityChartId', optionsCaption:'[Select a chart]'"></select>
+            </div>
+            <div class="form-group">
+                <label for="chart-aggregate">Aggregate</label>
+                <select data-bind="value: aggregate" class="form-control" name="chart.aggregate" id="chart-aggregate">
+                    <option value="term">Term</option>
+                    <option value="histogram">Histogram</option>
+                    <option value="date_histogram">Date Histogram</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="field">Fields</label>
+                <select class="form-control" data-bind="value: field, options: fieldOptions, optionsCaption :'[Select a field]'" id="field"></select>
+            </div>
+            <div class="form-group" data-bind="visible : aggregate() === 'date_histogram'">
+                <label for="chart-date-interval">Date interval</label>
+                <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval" id="chart-date-interval">
+                    <option value="year">Year</option>
+                    <option value="quarter">Quarter</option>
+                    <option value="month">Month</option>
+                    <option value="week">Week</option>
+                    <option value="day">Day</option>
+                    <option value="hour"> Hour</option>
+                    <option value="minute">minute</option>
+                    <option value="second">second</option>
+                </select>
+            </div>
+            <div class="form-group" data-bind="visible : aggregate() === 'histogram'">
+                <label for="histogram-interval">Interval</label>
+                <input class="form-control" step="10" type="number" id="histogram-interval" data-bind="value:histogramInterval" />
+            </div>
+            <div class="form-group">
+                <label for="chart-type">Type</label>
+                <select class="form-control" name="chart-type" id="chart-type" data-bind="value:type">
+                    <option value="pie">Pie</option>
+                    <option value="line">Line</option>
+                    <option value="bar">Bar</option>
+                    <option value="column">Column</option>
+                </select>
+            </div>
+            <div class="btn-group">
+                <a class="btn" href="#" data-bind="command:saveAs, tooltip:''" title="Creates a copy of the chart and save as">
+                    <i class="fa fa-copy"></i>
+                </a>
+                <a class="btn" href="#" data-bind="command:save, visible: selectedChartId, tooltip:''" title="Edit and save current chart">
+                    <i class="fa fa-save"></i>
+                </a>
+                <a class="btn" href="#" data-bind="command:remove, visible: selectedChartId, tooltip:''" title="Remove current chart permanently">
+                    <i class="fa fa-times"></i>
+                </a>
+                <a class="btn" href="#" data-bind="command:pin, visible: selectedChartId, tooltip:''" title="Pin to dashboard">
+                    <i class="fa fa-thumb-tack"></i>
+                </a>
+            </div>
+        </form>
+        <div id="chart-State">
+        </div>
+    </div>
+</div>
