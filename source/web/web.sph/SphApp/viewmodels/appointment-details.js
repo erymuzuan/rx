@@ -116,17 +116,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             errors: errors,
             save: save,
             register: register,
-            //
-
-
             toolbar: {
                 removeCommand: remove,
                 canExecuteRemoveCommand: ko.computed(function () {
                     return entity().AppointmentId();
                 }),
-
                 saveCommand: save,
-
                 commands: ko.observableArray([])
             }
         };
