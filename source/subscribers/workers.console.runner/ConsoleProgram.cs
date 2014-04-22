@@ -16,7 +16,6 @@ namespace workers.console.runner
             var vhost = ParseArg("v") ?? "Dev";
             var userName = ParseArg("u") ?? "guest";
             var password = ParseArg("p") ?? "guest";
-            //var silent = ParseArgExist("quiet");
             var debug = ParseArgExist("debug");
             if (debug)
             {
@@ -51,7 +50,7 @@ namespace workers.console.runner
             }
             metadata.Select(d => d.FullName).ToList().ForEach(Console.WriteLine);
 
-            Console.CancelKeyPress += async (s, ce) =>
+            Console.CancelKeyPress += (s, ce) =>
             {
                 Console.WriteLine("Stop the workers [ENTER] +  y");
                 while (!Console.KeyAvailable)
@@ -68,23 +67,11 @@ namespace workers.console.runner
                     return;
                 }
                 Console.WriteLine("The workers is shutting down...");
-                await program.Stop();
+                program.Stop();
             };
 
             program.Start(metadata);
-            var quit = false;
             Console.WriteLine("Welcome to [SPH] Type ctrl + c to quit at any time.");
-            while (!quit)
-            {
-                string code = Console.ReadLine();
-                quit = string.Format("{0}", code).ToLower() == "quit";
-                if (quit)
-                {
-                    break;
-                }
-            }
-
-
             return 0;
         }
 

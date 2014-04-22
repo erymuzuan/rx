@@ -54,9 +54,9 @@ namespace workers.windowsservice.runner
 
         }
 
-        protected async override void OnStop()
+        protected override void OnStop()
         {
-            await m_program.Stop();
+            m_program.Stop();
         }
     }
 }

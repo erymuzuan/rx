@@ -4,9 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Humanizer;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -55,6 +53,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 try
                 {
                     var worker = StartAppDomain(metadata);
+                    if (null == worker)
+                    {
+                        this.NotificationService.WriteError("Cannot start {0}", metadata.FullName);
+                        continue;
+                    }
                     threads.Add(worker);
                 }
                 catch (Exception e)
@@ -82,17 +85,19 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         }
 
-        async void FswChanged(object sender, FileSystemEventArgs e)
+        void FswChanged(object sender, FileSystemEventArgs e)
         {
             //this.NotificationService.Write("Detected changes in FileSystem initiating stop\r\n{0} has {1}", e.Name, e.ChangeType);
-            await this.Stop();
+            this.Stop();
         }
 
         private Thread StartAppDomain(SubscriberMetadata metadata)
         {
+            var dll = Path.GetFileNameWithoutExtension(metadata.Assembly);
+            if (string.IsNullOrWhiteSpace(dll)) return null;
             var appdomain = this.CreateAppDomain(metadata);
             appdomain.UnhandledException += AppdomainUnhandledException;
-            var subscriber = appdomain.CreateInstanceAndUnwrap(Path.GetFileNameWithoutExtension(metadata.Assembly), metadata.FullName) as Subscriber;
+            var subscriber = appdomain.CreateInstanceAndUnwrap(dll, metadata.FullName) as Subscriber;
             var thread = new Thread(o =>
                 {
                     var o1 = (Subscriber)o;
@@ -157,13 +162,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
 
         private bool m_stopping;
-        public async Task Stop()
+        public void Stop()
         {
             if (m_stopping) return;
 
             m_stopping = true;
-            //this.NotificationService.Write("Let all the process to run for  5 seconds");
-            //await Task.Delay(5.Seconds());
             if (null != m_fsw)
             {
                 m_fsw.Changed -= FswChanged;
@@ -171,8 +174,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
 
             this.SubscriberCollection.ForEach(s => s.Stop());
-            this.NotificationService.Write("WAITING to STOP for 5 seconds");
-            await Task.Delay(5.Seconds());
+
             foreach (var appDomain in this.AppDomainCollection)
             {
                 this.NotificationService.Write("UNLOADING -> {0}", appDomain.FriendlyName);
@@ -187,9 +189,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             this.SubscriberCollection.Clear();
             this.AppDomainCollection.Clear();
-            //
-            this.NotificationService.Write("STARTING in 2 seconds");
-            await Task.Delay(2.Seconds());
+
 
             using (var work = new Isolated<Discoverer>())
             {

@@ -20,6 +20,9 @@ namespace Bespoke.Sph.WorkflowsExecution
 
         protected override Task ProcessMessage(WorkflowDefinition item, MessageHeaders header)
         {
+            this.WriteMessage("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            this.WriteMessage("Publishing {0} in progress....", item.Name);
+
             // NOTE : copy dlls, this will cause the appdomain to unload and we want it happend
             // after the Ack to the broker
             ThreadPool.QueueUserWorkItem( Deploy, item);
