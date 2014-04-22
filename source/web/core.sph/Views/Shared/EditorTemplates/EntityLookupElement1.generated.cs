@@ -284,7 +284,17 @@ WriteLiteral("\">\r\n");
             
             #line default
             #line hidden
-WriteLiteral("                <!-- ko text: Mrn -->\r\n");
+WriteLiteral("                <!-- ko text: ");
+
+
+            
+            #line 43 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+                         Write(Model.DisplayMemberPath.ConvertJavascriptObjectToFunction());
+
+            
+            #line default
+            #line hidden
+WriteLiteral(" -->\r\n");
 
 
 
