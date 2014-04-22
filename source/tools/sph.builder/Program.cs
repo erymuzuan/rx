@@ -74,6 +74,14 @@ namespace sph.builder
             var rsBuilder = new Builder<ReportDelivery>();
             rsBuilder.Initialize();
             rsBuilder.Restore().Wait();
+
+            var etBuilder = new Builder<EmailTemplate>();
+            etBuilder.Initialize();
+            etBuilder.Restore().Wait();
+
+            var dtBuilder = new DocumentTemplateBuilder();
+            dtBuilder.Initialize();
+            dtBuilder.Restore().Wait();
         }
 
 
