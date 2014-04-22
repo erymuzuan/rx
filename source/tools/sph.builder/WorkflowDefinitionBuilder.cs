@@ -17,6 +17,7 @@ namespace sph.builder
             pageBuilder.Initialize();
             this.Initialize();
             var workflowDefinitions = this.GetItems();
+            var pageId = 1;
             foreach (var wd in workflowDefinitions)
             {
                 Console.WriteLine("Compiling : {0} ", wd.Name);
@@ -28,7 +29,6 @@ namespace sph.builder
 
                 // save
                 var pages = await GetPublishPagesAsync(wd);
-                await this.DeletePreviousPagesAsync(wd);
                 //archive the WD
                 var store = ObjectBuilder.GetObject<IBinaryStore>();
                 var archived = new BinaryStore
@@ -43,6 +43,7 @@ namespace sph.builder
                 await store.AddAsync(archived);
                 foreach (var page in pages)
                 {
+                    page.PageId = pageId++;
                     await pageBuilder.InsertAsync(page);
                 }
 
@@ -143,25 +144,7 @@ namespace sph.builder
 
         }
 
-        private async Task DeletePreviousPagesAsync(WorkflowDefinition wd)
-        {
-            var context = new SphDataContext();
-            var pages = new List<Page>();
-            foreach (var act in wd.ActivityCollection.OfType<ScreenActivity>())
-            {
-                var act1 = act;
-                var page = await context.LoadOneAsync<Page>(p =>
-                                p.Version == wd.Version &&
-                                p.Tag == string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, act1.WebId));
-                if (null != page)
-                    pages.Add(page);
-            }
-            using (var session = context.OpenSession())
-            {
-                session.Delete(pages.Cast<Entity>().ToArray());
-                await session.SubmitChanges();
-            }
-        }
+       
 
     }
 }
