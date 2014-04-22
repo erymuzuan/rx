@@ -6,51 +6,6 @@
       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
       "$values": [
         {
-          "$type": "Bespoke.Sph.Domain.EntityLookupElement, domain.sph",
-          "Entity": "Patient",
-          "DisplayMemberPath": "FullName",
-          "ValueMemberPath": "Mrn",
-          "DisplayTemplate": null,
-          "LookupColumnCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-            "$values": [
-              "FullName",
-              "Mrn"
-            ]
-          },
-          "FieldValidation": {
-            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-            "IsRequired": false,
-            "MaxLength": 0,
-            "MinLength": 0,
-            "Pattern": null,
-            "Mode": "",
-            "Message": null,
-            "WebId": null
-          },
-          "Name": "Entity Lookup",
-          "Label": "Patient",
-          "Tooltip": "A demo test",
-          "Path": "Mrn",
-          "IsRequired": false,
-          "Size": "input-large",
-          "CssClass": "",
-          "Visible": "true",
-          "Enable": "true",
-          "ElementId": "patient-mrn",
-          "HelpText": null,
-          "UseDisplayTemplate": false,
-          "LabelColLg": null,
-          "LabelColMd": null,
-          "LabelColSm": null,
-          "LabelColXs": null,
-          "InputColLg": null,
-          "InputColMd": null,
-          "InputColSm": null,
-          "InputColXs": null,
-          "WebId": null
-        },
-        {
           "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
           "DefaultValue": null,
           "AutoCompletionEntity": "Patient",
@@ -286,6 +241,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-04-19T13:17:11.6079288+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-22T13:25:06.3868029+08:00",
+  "ChangedDate": "2014-04-21T18:19:10.0450506+08:00",
   "WebId": "5ecc4866-b762-4784-afea-17adc06d91e3"
 }

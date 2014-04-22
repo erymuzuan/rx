@@ -48,8 +48,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
 
                 return tcs.promise();
             },
+            chartSeriesClick = function(e) {
+                console.log(e);
+            },
             attached = function () {
-                chart.init('@Model.Definition.Name', query);
+                chart.init('@Model.Definition.Name', query, chartSeriesClick, @Model.View.EntityViewId);
             },
             query = {
                 "query": {

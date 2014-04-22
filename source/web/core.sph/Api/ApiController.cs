@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.SessionState;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
@@ -13,18 +14,28 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Web.Api
 {
     [NoCache]
+    [SessionState(SessionStateBehavior.Disabled)]
     public class ApiController : Controller
     {
         public static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
-        public async Task<ActionResult> EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<ActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return await ExecuteAsync<EmailTemplate>(filter, page, size, includeTotal);
+            return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
         }
+        public async Task<ActionResult> Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Designation>(filter, page, size, includeTotal);
+        }
+
         public async Task<ActionResult> DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<DocumentTemplate>(filter, page, size, includeTotal);
+        }
+        public async Task<ActionResult> EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<EmailTemplate>(filter, page, size, includeTotal);
         }
         public async Task<ActionResult> EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
@@ -44,17 +55,11 @@ namespace Bespoke.Sph.Web.Api
         {
             return await ExecuteAsync<EntityView>(filter, page, size, includeTotal);
         }
-
-        public async Task<ActionResult> Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        
+        public async Task<ActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return await ExecuteAsync<Designation>(filter, page, size, includeTotal);
+            return await ExecuteAsync<Message>(filter, page, size, includeTotal);
         }
-
-        public async Task<ActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
-        }
-
         public async Task<ActionResult> Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Page>(filter, page, size, includeTotal);
@@ -70,10 +75,6 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteAsync<ReportDefinition>(filter, page, size, includeTotal);
         }
 
-        public async Task<ActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Message>(filter, page, size, includeTotal);
-        }
 
         public async Task<ActionResult> SearchDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
@@ -84,29 +85,6 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteAsync<Setting>(filter, page, size, includeTotal);
         }
 
-        public async Task<ActionResult> UserProfile(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<UserProfile>(filter, page, size, includeTotal);
-        }
-
-        public async Task<ActionResult> Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Trigger>(filter, page, size, includeTotal);
-        }
-
-        public async Task<ActionResult> Watcher(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Watcher>(filter, page, size, includeTotal);
-        }
-
-        public async Task<ActionResult> WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<WorkflowDefinition>(filter, page, size, includeTotal);
-        }
-        public async Task<ActionResult> Workflow(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Workflow>(filter, page, size, includeTotal);
-        }
 
         public async Task<ActionResult> Tracker(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
@@ -123,6 +101,29 @@ namespace Bespoke.Sph.Web.Api
         }
 
 
+        public async Task<ActionResult> Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Trigger>(filter, page, size, includeTotal);
+        }
+
+
+        public async Task<ActionResult> UserProfile(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<UserProfile>(filter, page, size, includeTotal);
+        }
+        public async Task<ActionResult> Watcher(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Watcher>(filter, page, size, includeTotal);
+        }
+
+        public async Task<ActionResult> WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<WorkflowDefinition>(filter, page, size, includeTotal);
+        }
+        public async Task<ActionResult> Workflow(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Workflow>(filter, page, size, includeTotal);
+        }
         public async Task<ActionResult> Index(string id, string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             if (size > 200)

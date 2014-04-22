@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Builder.cs" />
     <Compile Include="EntityFormBuilder.cs" />
+    <Compile Include="DocumentTemplateBuilder.cs" />
     <Compile Include="EntityViewBuilder.cs" />
     <Compile Include="EntityDefinitionBuilder.cs" />
     <Compile Include="Program.cs" />
