@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -10,8 +13,11 @@ namespace sph.builder
     {
         public override async Task Restore()
         {
+            var pageBuilder = new Builder<Page>();
+            pageBuilder.Initialize();
             this.Initialize();
             var workflowDefinitions = this.GetItems();
+            var pageId = 1;
             foreach (var wd in workflowDefinitions)
             {
                 Console.WriteLine("Compiling : {0} ", wd.Name);
@@ -20,6 +26,26 @@ namespace sph.builder
 
                 await this.InsertAsync(wd);
                 this.Compile(wd);
+
+                // save
+                var pages = await GetPublishPagesAsync(wd);
+                //archive the WD
+                var store = ObjectBuilder.GetObject<IBinaryStore>();
+                var archived = new BinaryStore
+                {
+                    StoreId = string.Format("wd.{0}.{1}", wd.WorkflowDefinitionId, wd.Version),
+                    Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
+                    Extension = ".xml",
+                    FileName = string.Format("wd.{0}.{1}.xml", wd.WorkflowDefinitionId, wd.Version)
+
+                };
+                await store.DeleteAsync(archived.StoreId);
+                await store.AddAsync(archived);
+                foreach (var page in pages)
+                {
+                    page.PageId = pageId++;
+                    await pageBuilder.InsertAsync(page);
+                }
 
             }
         }
@@ -79,6 +105,46 @@ namespace sph.builder
             File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);
 
         }
+
+
+        private async Task<IEnumerable<Page>> GetPublishPagesAsync(WorkflowDefinition wd)
+        {
+            var context = new SphDataContext();
+            if (null == wd) throw new ArgumentNullException("wd");
+            var screens = wd.ActivityCollection.OfType<ScreenActivity>();
+            var pages = new List<Page>();
+            foreach (var scr in screens)
+            {
+                // copy the previous version pages if there's any
+                var scr1 = scr;
+                var tag = string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, scr1.WebId);
+                var currentVersion = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
+                var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
+                var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
+                var page = new Page
+                {
+                    Code = code,
+                    Name = scr1.Name,
+                    IsPartial = false,
+                    IsRazor = true,
+                    Tag = tag,
+                    Version = wd.Version,
+                    WebId = Guid.NewGuid().ToString(),
+                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId,
+                        wd.Version, scr1.ActionName)
+                };
+
+
+                pages.Add(page);
+
+            }
+
+
+            return pages;
+
+        }
+
+       
 
     }
 }

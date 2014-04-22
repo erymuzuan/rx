@@ -3,11 +3,19 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using NUnit.Framework;
 
+
 namespace domain.test.triggers
 {
     [TestFixture]
     class FunctionFieldTest
     {
+        [SetUp]
+        public void Setup()
+        {
+
+            var script = new RoslynScriptEngine();
+            ObjectBuilder.AddCacheList<IScriptEngine>(script);
+        }
 
         [Test]
         public void FuctionDateTimeValue()
@@ -21,52 +29,52 @@ namespace domain.test.triggers
         [Test]
         public void DocumentFieldEqFunction()
         {
-            var script = new RoslynScriptEngine();
-            var building = new Designation{ CreatedDate = DateTime.Today };
+            dynamic customer = this.GetCustomerInstance();
+            customer.CreatedDate = DateTime.Today;
+
             var rule = new Rule
             {
-                Left = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
+                Left = new DocumentField { Path = "CreatedDate", Type = typeof(DateTime) },
                 Operator = Operator.Eq,
-                Right = new FunctionField { Script = "return DateTime.Today;", ScriptEngine = script }
+                Right = new FunctionField { Script = "return DateTime.Today;" }
             };
 
-            var result = rule.Execute(new RuleContext(building));
+            var result = rule.Execute(new RuleContext(customer));
             Assert.IsTrue(result);
         }
         [Test]
         public void DocumentFieldEqFunctionExpression()
         {
-            var script = new RoslynScriptEngine();
-            var building = new Designation { CreatedDate = DateTime.Today.AddDays(-2) };
+            dynamic customer = this.GetCustomerInstance();
+            customer.CreatedDate = DateTime.Today.AddDays(-2);
+
             var rule = new Rule
             {
-                Left = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
+                Left = new DocumentField { Path = "CreatedDate", Type = typeof(DateTime) },
                 Operator = Operator.Eq,
-                Right = new FunctionField { Script = "DateTime.Today.AddDays(-2)", ScriptEngine = script }
+                Right = new FunctionField { Script = "DateTime.Today.AddDays(-2)" }
             };
 
-            var result = rule.Execute(new RuleContext(building));
+            var result = rule.Execute(new RuleContext(customer));
             Assert.IsTrue(result);
         }
 
         [Test]
         public void DocumentFieldEqFunctionWithItem()
         {
-            var script = new RoslynScriptEngine();
-            var app = new Designation
-            {
-                CreatedDate = DateTime.Today.AddDays(-2),
-                DesignationId = 1,
-                Name = "1234"
-            };
+            dynamic customer = this.GetCustomerInstance();
+            customer.CreatedDate = DateTime.Today.AddDays(-2);
+            customer.CustomerId = 1;
+            customer.FullName = "Wan Fatimah";
+
             var rule = new Rule
             {
-                Left = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
+                Left = new DocumentField { Path = "CreatedDate", Type = typeof(DateTime) },
                 Operator = Operator.Eq,
-                Right = new FunctionField { Script = "Console.WriteLine(item.RegistrationNo);return item.ApplicationDate;", ScriptEngine = script }
+                Right = new FunctionField { Script = "Console.WriteLine(item.FullName);return item.CreatedDate;" }
             };
 
-            var result = rule.Execute(new RuleContext(app));
+            var result = rule.Execute(new RuleContext(customer));
             Assert.IsTrue(result);
         }
     }

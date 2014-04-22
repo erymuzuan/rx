@@ -3,6 +3,74 @@
        [switch]$PreRelease = $false
      )
 
+function Create-FtpDirectory {
+  param(
+    [Parameter(Mandatory=$true)]
+    [string]
+    $sourceuri,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $username,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $password
+  )
+  if ($sourceUri -match '\\$|\\\w+$') { throw 'sourceuri should end with a file name' }
+  $ftprequest = [System.Net.FtpWebRequest]::Create($sourceuri);
+  $ftprequest.Method = [System.Net.WebRequestMethods+Ftp]::MakeDirectory
+  $ftprequest.UseBinary = $true
+
+  $ftprequest.Credentials = New-Object System.Net.NetworkCredential($username,$password)
+
+  $response = $ftprequest.GetResponse();
+
+  Write-Host Create Folder Complete, status $response.StatusDescription
+
+  $response.Close();
+}
+
+
+function Upload-FtpFile {
+  param(
+    [Parameter(Mandatory=$true)]
+    [string]
+    $sourceuri,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $username,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $password,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $path
+  )
+  
+  Write-Host "Uploadig $path ... please wait...."
+  if ($sourceUri -match '\\$|\\\w+$') { throw 'sourceuri should end with a file name' }
+  $ftprequest = [System.Net.FtpWebRequest]::Create($sourceuri);
+  $ftprequest.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile;
+  $ftprequest.UseBinary = $true
+
+  $ftprequest.Credentials = New-Object System.Net.NetworkCredential($username,$password)
+
+  #$sourceStream = new-object IO.StreamReader $path
+  #$fileContents = [Text.Encoding]::UTF8.GetBytes($sourceStream.ReadToEnd());
+  #$sourceStream.Close();
+  $fileContents = Get-Content $path -encoding byte
+  $ftprequest.ContentLength = $fileContents.Length;
+
+  $requestStream = $ftprequest.GetRequestStream();
+  $requestStream.Write($fileContents, 0, $fileContents.Length);
+  $requestStream.Close();
+
+  $response = $ftprequest.GetResponse();
+
+  Write-Host Upload File Complete, status $response.StatusDescription
+
+  $response.Close();
+}
+
 
 if($Build -eq 0)
 {
@@ -10,7 +78,7 @@ if($Build -eq 0)
     exit;
 }
 
-Write-Host "Have you compiled your solution and published web.sph ? (y/n)"
+Write-Host "Have you compiled your solution and published web.sph ? (y/n) : " -NoNewline -ForegroundColor Yellow
 $published = Read-Host
 if($published -ne "y")
 {
@@ -181,7 +249,20 @@ Write-Host ""
 
 Write-Host ""
 
-Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit"
+# remove unused and big files
+ls -Path "$output\control.center" -Filter *.xml | Remove-Item
+ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item
+
+
+Write-Host "Delete Roslyn dll ? [y/n] : " -ForegroundColor Yellow -NoNewline
+$deleteRoslyn = Read-Host
+if($deleteRoslyn -eq "y")
+{
+    ls -Path $output -Recurse -Filter Roslyn.Compilers.* | Remove-Item
+    ls -Path $output -Recurse -Filter Roslyn.Services.* | Remove-Item
+}
+
+Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit : " -ForegroundColor Yellow -NoNewline
 $compressed = Read-Host
 if($compressed -eq 'q')
 {
@@ -195,9 +276,37 @@ if($compressed -eq 'q')
 $previous = $Build -1
 if(Test-Path .\deployment\$previous.ps1)
 {
-    Get-Content .\deployment\$previous.ps1 > .\deployment\$build.ps1
+    (Get-Content .\deployment\$previous.ps1).Replace($previous, $Build) > .\deployment\$Build.ps1
 }
 
+#create the update files
+$today = (get-date).ToString("yyyy-MM-dd")
+$updateJson = @"
+{
+    "build": $previous,
+	"vnext" : $Build,
+    "date" : "$today",
+	"update-script" : "$Build.ps1"
+}
+"@
+$updateJson > .\deployment\$previous.json
+#release note
+"#Release Note for $Build" > .\deployment\$Build.md
 
+$ftpRoot = "ftp://www.bespoke.com.my/website/download"
+$ftpUserName = "bespoke"
+$ftpPassword = "gsxr750wt"
 
-Write-Host -ForegroundColor Yellow "NOW edit the .\deployment\$build.ps1 to reflect any custom scripts needed to be run"
+Write-Host -ForegroundColor Yellow "NOW edit the .\deployment\$Build.ps1 and the Release Note($Build.md) to reflect any custom scripts needed to be run"
+Write-Host "Press [ENTER] to continue uploaded  to ftp " -NoNewline -ForegroundColor Yellow
+Read-Host
+
+Create-FtpDirectory -sourceuri "$ftpRoot/$Build" -username $ftpUserName -password $ftpPassword
+Upload-FtpFile -sourceuri "$ftpRoot/$previous.json" -username $ftpUserName -password $ftpPassword -path .\deployment\$previous.json
+Upload-FtpFile -sourceuri "$ftpRoot/$Build/version.$Build.json" -username $ftpUserName -password $ftpPassword -path .\deployment\version.$Build.json
+Upload-FtpFile -sourceuri "$ftpRoot/$Build/$Build.html" -username $ftpUserName -password $ftpPassword -path .\deployment\$Build.html
+
+Upload-FtpFile -sourceuri "$ftpRoot/$Build/$Build.7z" -username $ftpUserName -password $ftpPassword -path .\$Build.7z
+#$build.ps1 to root
+Upload-FtpFile -sourceuri "$ftpRoot/$Build.ps1" -username $ftpUserName -password $ftpPassword -path .\deployment\$Build.ps1
+Upload-FtpFile -sourceuri "$ftpRoot/$Build/$Build.ps1" -username $ftpUserName -password $ftpPassword -path .\deployment\$Build.ps1

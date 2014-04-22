@@ -18,11 +18,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (int.TryParse(id, out eid))
             {
                 var ed = await context.LoadOneAsync<EntityDefinition>(w => w.EntityDefinitionId == eid);
+                if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + eid);
                 var list = ed.GetMembersPath();
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
 
             var ed2 = await context.LoadOneAsync<EntityDefinition>(w => w.Name == id);
+            if (null == ed2) return new HttpNotFoundResult("Cannot find EntityDefinition with Nmae = " + id);
+
             var list2 = ed2.GetMembersPath();
             return Json(list2, JsonRequestBehavior.AllowGet);
         }
