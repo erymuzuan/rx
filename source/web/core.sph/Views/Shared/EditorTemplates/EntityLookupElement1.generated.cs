@@ -132,8 +132,47 @@ WriteLiteral("]}\"\r\n       id=\"");
             
             #line default
             #line hidden
-WriteLiteral("\">\r\n        <!-- ko text: Mrn -->\r\n        <!-- /ko -->\r\n        <i class=\"fa fa-" +
-"search\"></i>\r\n    </a>\r\n");
+WriteLiteral("\">\r\n        <!-- ko lookupText: { entity : \'");
+
+
+            
+            #line 20 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+                                   Write(Model.Entity);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\', value : ");
+
+
+            
+            #line 20 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+                                                           Write(Model.Path.ConvertJavascriptObjectToFunction());
+
+            
+            #line default
+            #line hidden
+WriteLiteral(", valuePath :\'");
+
+
+            
+            #line 20 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+                                                                                                                        Write(Model.ValueMemberPath);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\', displayPath : \'");
+
+
+            
+            #line 20 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+                                                                                                                                                                Write(Model.DisplayMemberPath);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\'} -->\r\n        <!-- /ko -->\r\n        <i class=\"fa fa-search\"></i>\r\n    </a>\r\n");
 
 
             
@@ -280,29 +319,58 @@ WriteLiteral("\">\r\n");
                 else
                 {
 
+            
+            #line default
+            #line hidden
+WriteLiteral("                         <!-- ko lookupText: { entity : \'");
+
+
+            
+            #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+                                                    Write(Model.Entity);
 
             
             #line default
             #line hidden
-WriteLiteral("                <!-- ko text: ");
+WriteLiteral("\', value : ");
 
 
             
-            #line 43 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
-                         Write(Model.DisplayMemberPath.ConvertJavascriptObjectToFunction());
+            #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+                                                                            Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             
             #line default
             #line hidden
-WriteLiteral(" -->\r\n");
-
-
-
-WriteLiteral("                <!-- /ko -->\r\n");
+WriteLiteral(", valuePath :\'");
 
 
             
-            #line 45 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+            #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+                                                                                                                                         Write(Model.ValueMemberPath);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\', displayPath : \'");
+
+
+            
+            #line 42 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+                                                                                                                                                                                 Write(Model.DisplayMemberPath);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\'} -->\r\n");
+
+
+
+WriteLiteral("                            <!-- /ko -->\r\n");
+
+
+            
+            #line 44 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
                 }
 
             
@@ -312,7 +380,7 @@ WriteLiteral("                <i class=\"fa fa-search\"></i>\r\n            </a>
 
 
             
-            #line 49 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+            #line 48 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
          if (!string.IsNullOrWhiteSpace(Model.HelpText))
         {
 
@@ -323,7 +391,7 @@ WriteLiteral("            <span class=\"help-block\">");
 
 
             
-            #line 51 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+            #line 50 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
                                 Write(Model.HelpText);
 
             
@@ -333,7 +401,7 @@ WriteLiteral("</span>\r\n");
 
 
             
-            #line 52 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+            #line 51 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
         }
 
             
@@ -343,7 +411,7 @@ WriteLiteral("    </div>\r\n");
 
 
             
-            #line 54 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
+            #line 53 "..\..\Views\Shared\EditorTemplates\EntityLookupElement.cshtml"
 
 }
             

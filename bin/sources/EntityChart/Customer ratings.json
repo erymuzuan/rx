@@ -4,7 +4,7 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Series, domain.sph]], domain.sph",
     "$values": []
   },
-  "EntityChartId": 7,
+  "EntityChartId": 7056,
   "EntityDefinitionId": 1,
   "Entity": "Customer",
   "Name": "Customer ratings",
