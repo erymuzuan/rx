@@ -23,6 +23,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(ListView))]
     [XmlInclude(typeof(Button))]
     [XmlInclude(typeof(ChildEntityListView))]
+    [XmlInclude(typeof(EntityLookupElement))]
     public partial class FormElement : DomainObject
     {
         public virtual string GetKnockoutBindingExpression()

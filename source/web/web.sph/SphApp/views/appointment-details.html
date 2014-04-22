@@ -1,5 +1,3 @@
-
-
 <h1>Appointment details</h1>
 <div id="error-list" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
@@ -7,7 +5,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <i class="fa fa-exclamation"></i>
         <span data-bind="text:Message"></span>
-    
+
     </div>
     <div class="col-lg-2"></div>
     <!-- /ko-->
@@ -17,8 +15,75 @@
     <div class="col-sm-8">
         <form class="form-horizontal" data-bind="with : entity" id="appointment-details-form">
 
-<label class="col-md-4">Reference No</label>
-<span class="col-md-8" data-bind="text: ReferenceNo"></span>
+
+            <div data-bind="visible:true" class="form-group">
+                <label for="patient-mrn" class="col-md-4">Patient</label>
+
+                <div class="col-md-8">
+                    <a class="btn btn-link" title="Patients"
+                       data-bind="{lookup : {entity: 'Patient', member : 'Mrn', value : Mrn, columns : ['Mrn', 'FullName']}}"
+                       id="patient-mrn">
+                        <!-- ko text: Mrn -->
+                        <!-- /ko -->
+                        <i class="fa fa-search"></i>
+                    </a>
+                </div>
+            </div>
+
+
+            <div data-bind="visible:true" class="form-group">
+                <label class="col-md-4">Mrn</label>
+
+                <div class="col-md-8">
+                    <input class="fa fa-text-width form-control " title=""
+                           data-bind="value: Mrn, visible :true, autocomplete :{ entity:'Patient', field :'Mrn', query:'PatientId gt 0' }"
+                           id="" type="text" name="Mrn"/>
+                </div>
+            </div>
+
+
+            <div data-bind="visible:true" class="form-group">
+                <label for="fb38b3a3-739c-4628-a029-9369d0035aa3" class="col-md-4">Reference No</label>
+
+                <div class="col-md-8">
+                    <input class=" form-control input-large" title=""
+                           data-bind="value: ReferenceNo, enable :true"
+                           id="fb38b3a3-739c-4628-a029-9369d0035aa3" type="text" name="ReferenceNo"/>
+                </div>
+            </div>
+
+
+            <div data-bind="visible:true" class="form-group">
+                <label for="709d58fd-57f1-4cc3-9268-3b0b40ac7edf" class="col-md-4">Doctor</label>
+
+                <div class="col-md-8">
+                    <input class=" form-control input-large" title=""
+                           data-bind="value: Doctor, enable :true"
+                           id="709d58fd-57f1-4cc3-9268-3b0b40ac7edf" type="text" name="Doctor"/>
+                </div>
+            </div>
+
+
+            <div data-bind="visible:true" class="form-group">
+                <label for="6930f227-7969-408c-bba9-fa57e1d1c22a" class="col-md-4">Location</label>
+
+                <div class="col-md-8">
+                    <input class=" form-control input-large" title=""
+                           data-bind="value: Location, enable :true"
+                           id="6930f227-7969-408c-bba9-fa57e1d1c22a" type="text" name="Location"/>
+                </div>
+            </div>
+
+            <div class="form-group" data-bind="visible:true">
+                <label for="4d94f9bd-b878-47b2-856a-fb3cb2dbcf51" class="col-md-4">DateTime</label>
+
+                <div class="col-md-8">
+                    <input class=" form-control input-large"
+                           data-bind="kendoDateTime: DateTime, enable :true" id="4d94f9bd-b878-47b2-856a-fb3cb2dbcf51"
+                           type="text"
+                           name="DateTime"/>
+                </div>
+            </div>
         </form>
     </div>
 </div>

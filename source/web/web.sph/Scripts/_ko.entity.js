@@ -193,7 +193,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
             allBindings = allBindingsAccessor(),
             setup = function (entity) {
 
-                if(!entity){
+                if (!entity) {
                     console.log("Cannot determine entity for the typeahead intellisense");
                     return;
                 }
@@ -228,8 +228,8 @@ ko.bindingHandlers.entityTypeaheadPath = {
             };
 
         setup(id);
-        if(typeof value === "function" && typeof value.subscribe === "function"){
-            value.subscribe(function(entity){
+        if (typeof value === "function" && typeof value.subscribe === "function") {
+            value.subscribe(function (entity) {
                 $(element).typeahead('destroy');
                 setup(entity);
             })
@@ -397,4 +397,33 @@ bespoke.getSingletonObservableArray = function (key) {
 
     bespoke.observableArray[key] = ko.observableArray();
     return bespoke.observableArray[key];
+};
+
+
+ko.bindingHandlers.lookup = {
+    init: function (element, valueAccessor, allBindings) {
+        var $link = $(element),
+            options = valueAccessor(),
+            entity = ko.unwrap(options.entity),
+            member = ko.unwrap(options.member);
+
+        $link.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            require(['viewmodels/entity.lookup.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.options(options);
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            var item = dialog.selected();
+                            options.value(item[member]);
+                        }
+                    });
+
+            });
+
+        });
+    }
 };

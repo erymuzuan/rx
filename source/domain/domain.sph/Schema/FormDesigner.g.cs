@@ -1654,6 +1654,70 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private bool m_IsAllowAddItem;
+        [XmlAttribute]
+        public bool IsAllowAddItem
+        {
+            get
+            {
+                return m_IsAllowAddItem;
+            }
+            set
+            {
+                m_IsAllowAddItem = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_NewItemFormRoute;
+        [XmlAttribute]
+        public string NewItemFormRoute
+        {
+            get
+            {
+                return m_NewItemFormRoute;
+            }
+            set
+            {
+                m_NewItemFormRoute = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_NewItemMappingSource;
+        [XmlAttribute]
+        public string NewItemMappingSource
+        {
+            get
+            {
+                return m_NewItemMappingSource;
+            }
+            set
+            {
+                m_NewItemMappingSource = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_NewItemMappingDestination;
+        [XmlAttribute]
+        public string NewItemMappingDestination
+        {
+            get
+            {
+                return m_NewItemMappingDestination;
+            }
+            set
+            {
+                m_NewItemMappingDestination = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<ViewColumn> m_ViewColumnCollection = new ObjectCollection<ViewColumn>();
 
         ///<summary>
@@ -5921,6 +5985,93 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("EntityLookupElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class EntityLookupElement
+    {
+
+        private string m_Entity;
+        [XmlAttribute]
+        public string Entity
+        {
+            get
+            {
+                return m_Entity;
+            }
+            set
+            {
+                m_Entity = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_DisplayMemberPath;
+        [XmlAttribute]
+        public string DisplayMemberPath
+        {
+            get
+            {
+                return m_DisplayMemberPath;
+            }
+            set
+            {
+                m_DisplayMemberPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_ValueMemberPath;
+        [XmlAttribute]
+        public string ValueMemberPath
+        {
+            get
+            {
+                return m_ValueMemberPath;
+            }
+            set
+            {
+                m_ValueMemberPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_DispalyTemplate;
+        [XmlAttribute]
+        public string DispalyTemplate
+        {
+            get
+            {
+                return m_DispalyTemplate;
+            }
+            set
+            {
+                m_DispalyTemplate = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<string> m_LookupColumnCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> LookupColumnCollection
+        {
+            get { return m_LookupColumnCollection; }
+        }
 
 
     }

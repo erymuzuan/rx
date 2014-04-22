@@ -30,26 +30,24 @@
                     <input class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name" />
                 </div>
                 <div class="form-group">
+                    <label>Route</label>
+                    <input class="form-control" data-bind="value: Route" id="form-design-Route" type="text" name="FormDesign.Route" />
+                </div>
+                <div class="form-group">
                     <label for="form-design-operation">Operation</label>
-                    <select class="form-control" data-bind="options :$root.operationsOption, 
+                    <select class="form-control" data-bind="options :$root.operationsOption,
                             optionsCaption :'[Default - No Operation]',
-                            value: Operation" id="form-design-operation" name="FormDesign.Operation">
-                        
-                    </select>
+                            value: Operation" id="form-design-operation" name="FormDesign.Operation"></select>
+                </div>
+                <div class="form-group">
+                    <label for="form-design-icon-class">Icon class</label>
+                    <br />
+                    <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="form-design-icon-class"></i>
+
                 </div>
                 <div class="form-group">
                     <label>Note</label>
                     <input class="form-control" data-bind="value: Note" id="form-design-Description" type="text" name="FormDesign.Description" />
-                </div>
-                <div class="form-group">
-                    <label for="form-design-icon-class">Icon class</label>
-                    <br/>
-                    <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }"  id="form-design-icon-class"></i>
-
-                </div>
-                <div class="form-group">
-                    <label>Route</label>
-                    <input class="form-control" data-bind="value: Route" id="form-design-Route" type="text" name="FormDesign.Route" />
                 </div>
 
                 <div class="form-group">
@@ -233,6 +231,7 @@
                             typeof(DownloadLink),
                             typeof(ImageElement),
                             typeof(ChildEntityListView),
+                            typeof(EntityLookupElement),
                             typeof(ListView)
                         };
                     }

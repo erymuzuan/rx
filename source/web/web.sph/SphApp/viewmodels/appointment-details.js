@@ -119,8 +119,9 @@
 
 
         toolbar : {
+                removeCommand :remove,
                         
-            saveCommand : register,
+            saveCommand : save,
             
             commands : ko.observableArray([])
         }

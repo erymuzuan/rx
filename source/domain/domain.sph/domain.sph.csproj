@@ -103,6 +103,7 @@
     </Compile>
     <Compile Include="FormTemplates\EntityDefinition.cs" />
     <Compile Include="FormTemplates\EntityForm.cs" />
+    <Compile Include="FormTemplates\EntityLookupElement.cs" />
     <Compile Include="FormTemplates\EntityOperation.cs" />
     <Compile Include="FormTemplates\EntityPermission.cs" />
     <Compile Include="FormTemplates\EntityView.cs" />

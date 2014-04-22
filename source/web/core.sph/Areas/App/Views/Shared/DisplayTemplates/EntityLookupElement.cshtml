@@ -1,0 +1,17 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Domain.EntityLookupElement
+
+<!--ko if:ko.unwrap($type) === "Bespoke.Sph.Domain.EntityLookupElement, domain.sph" -->
+<div class="form-group" data-bind="css: { 'selected-form-element': isSelected },click: $root.selectFormElement">
+    @Html.Partial("_DesignerContextAction")
+    <label data-bind="text: Label" class="control-label col-lg-2"></label>
+    <div class="col-lg-4">
+        <input type="text" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' form-control '}" readonly="readonly" />
+
+        <span data-bind="text: HelpText" class="help-block"></span>
+    </div>
+    <div class="col-lg-1">
+        <i class="fa fa-search"></i>
+    </div>
+</div>
+<!--/ko-->

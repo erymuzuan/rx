@@ -434,6 +434,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EmailFormElement.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\EntityLookupElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityLookupElement.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\Shared\DisplayTemplates\FileUploadElement.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -523,6 +528,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ComboBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\EditorTemplates\EntityLookupElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityLookupElement.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\Shared\EditorTemplates\ImageElement.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1072,6 +1082,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Views\Shared\EditorTemplates\EntityLookupElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityLookupElement.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\EditorTemplates\FileUploadElement.generated.cs">
       <DependentUpon>FileUploadElement.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1307,6 +1322,14 @@
     <Content Include="Areas\App\Views\Shared\EditorTemplates\ChildEntityListView.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\EntityLookupElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EntityLookupElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\EditorTemplates\EntityLookupElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EntityLookupElement.generated.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
@@ -2662,6 +2685,10 @@
     <Content Include="Views\Shared\DisplayTemplates\ChildEntityListView.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Shared\EditorTemplates\EntityLookupElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EntityLookupElement.generated.cs</LastGenOutput>
     </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

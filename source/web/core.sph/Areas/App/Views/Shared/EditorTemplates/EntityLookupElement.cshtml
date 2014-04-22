@@ -1,0 +1,25 @@
+﻿@model Bespoke.Sph.Domain.EntityLookupElement
+
+<!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.EntityLookupElement, domain.sph" -->
+<div class="form-group">
+    <label for="fe-ele-entity">Entity</label>
+    <select class="form-control" data-bind="value: Entity,
+                options : $root.entityOptions,
+                optionsValue : 'value',
+                optionsText : 'text',
+                optionsCaption: '[Select Entity]'" id="fe-ele-entity" name="entity"></select>
+</div>
+<div class="form-group">
+    <label for="fe-ele-vmp">Value Member Path</label>
+    <input class="form-control" data-bind="value: ValueMemberPath,entityTypeaheadPath : Entity" id="fe-ele-vmp" type="text" name="ValueMemberPath" />
+</div>
+<div class="form-group">
+    <label for="fe-ele-dmp">Display Member Path</label>
+    <input class="form-control" data-bind="value: DisplayMemberPath,entityTypeaheadPath:Entity" id="fe-ele-dmp" type="text" name="DisplayMemberPath" />
+</div>
+<div class="form-group">
+    <label for="fe-ele-dt">Dispaly Template</label>
+    <input class="form-control" data-bind="value: DispalyTemplate" id="fe-ele-dt" type="text" name="DispalyTemplate" />
+</div>
+
+<!--/ko-->

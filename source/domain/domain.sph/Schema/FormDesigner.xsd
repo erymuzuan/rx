@@ -717,4 +717,25 @@
 			<xs:attribute name="Condition" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="EntityLookupElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:all>
+						<xs:element name="LookupColumnCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Column" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="Entity" type="xs:string" use="required"/>
+					<xs:attribute name="DisplayMemberPath" type="xs:string" use="required"/>
+					<xs:attribute name="ValueMemberPath" type="xs:string" use="required"/>
+					<xs:attribute name="DispalyTemplate" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
