@@ -186,67 +186,30 @@ ko.bindingHandlers.help = {
         });
     }
 };
-var MyIndex = function() {
-    function MyIndex(o) {
-        o = o || {};
-        if (!o.datumTokenizer || !o.queryTokenizer) {
-            throw 'datumTokenizer and queryTokenizer are both required';
-        }
-        this.datumTokenizer = o.datumTokenizer;
-        this.queryTokenizer = o.queryTokenizer;
-        this.reset();
-    }
+var substringMatcher = function(strs) {
+    return function findMatches(q, cb) {
+        var matches, substringRegex;
 
-    _.extend(MyIndex.prototype, {
-        bootstrap: function(o) {
-            this.data = o.data;
-        },
+        // an array that will be populated with substring matches
+        matches = [];
 
-        add: function(data) {
-            data = _.isArray(data) ? data : [data];
-            _.each(data, function(datum) {
-                if (!datum) {
-                    return;
-                }
-                var tokens = this.datumTokenizer(datum);
-                if (!tokens.length) {
-                    return;
-                }
-                this.data.push({
-                    datum: datum,
-                    tokens: tokens,
-                });
-            }, this);
-        },
+        // regex used to determine if a string contains the substring `q`
+        substrRegex = new RegExp(q, 'i');
 
-        get: function(query) {
-            var token_regex = _.map(this.queryTokenizer(query), function(token) { return new RegExp(token, 'i'); }),
-                matches;
-            _.each(token_regex, function(regex) {
-                var ids = _.chain(this.data).map(function(data, id) { return id; }).filter(function(id) {
-                    return _.detect(this.data[id].tokens, function(t) {
-                        return regex.test(t);
-                    });
-                }, this).value();
-                if (!ids.length) {
-                    return;
-                }
-                matches = matches ? _.intersection(matches, ids) : ids;
-            }, this);
-            return _.chain(matches).unique().map(function(id) { return this.data[id].datum; }, this).value();
-        },
+        // iterate through the pool of strings and for any string that
+        // contains the substring `q`, add it to the `matches` array
+        $.each(strs, function(i, str) {
+            if (substrRegex.test(str)) {
+                // the typeahead jQuery plugin expects suggestions to a
+                // JavaScript object, refer to typeahead docs for more info
+                matches.push({ value: str });
+            }
+        });
 
-        reset: function() {
-            this.data = [];
-        },
+        cb(matches);
+    };
+};
 
-        serialize: function() {
-            return { data: this.data };
-        }
-    });
-
-    return MyIndex;
-}();
 
 ko.bindingHandlers.typeaheadUrl = {
     init : function(element, valueAccessor,allBindingsAccessor){
@@ -257,8 +220,8 @@ ko.bindingHandlers.typeaheadUrl = {
             suggestions = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
-                index: MyIndex,
-                prefetch: {
+                limit: 10,
+                remote: {
                     url: url,
                     tt1: ttl,
                     filter: function (list) {
@@ -271,14 +234,12 @@ ko.bindingHandlers.typeaheadUrl = {
             });
 
         suggestions.initialize();
-        $(element).typeahead(null, {
-            name: 'EntityView_' + $(element).prop("id"),
-            displayKey: "name",
-            source: suggestions.ttAdapter()
-        })
-        .on('typeahead:closed', function () {
-            allBindings.value($(this).val());
-        });
+        $(element).typeahead(null,
+            {
+                name: 'EntityView_' + $(element).prop("id"),
+                displayKey: "name",
+                source: suggestions.ttAdapter()
+            });
     }
 };
 ko.bindingHandlers.entityTypeaheadPath = {
