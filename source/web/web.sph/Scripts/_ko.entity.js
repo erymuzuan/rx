@@ -186,6 +186,101 @@ ko.bindingHandlers.help = {
         });
     }
 };
+var MyIndex = function() {
+    function MyIndex(o) {
+        o = o || {};
+        if (!o.datumTokenizer || !o.queryTokenizer) {
+            throw 'datumTokenizer and queryTokenizer are both required';
+        }
+        this.datumTokenizer = o.datumTokenizer;
+        this.queryTokenizer = o.queryTokenizer;
+        this.reset();
+    }
+
+    _.extend(MyIndex.prototype, {
+        bootstrap: function(o) {
+            this.data = o.data;
+        },
+
+        add: function(data) {
+            data = _.isArray(data) ? data : [data];
+            _.each(data, function(datum) {
+                if (!datum) {
+                    return;
+                }
+                var tokens = this.datumTokenizer(datum);
+                if (!tokens.length) {
+                    return;
+                }
+                this.data.push({
+                    datum: datum,
+                    tokens: tokens,
+                });
+            }, this);
+        },
+
+        get: function(query) {
+            var token_regex = _.map(this.queryTokenizer(query), function(token) { return new RegExp(token, 'i'); }),
+                matches;
+            _.each(token_regex, function(regex) {
+                var ids = _.chain(this.data).map(function(data, id) { return id; }).filter(function(id) {
+                    return _.detect(this.data[id].tokens, function(t) {
+                        return regex.test(t);
+                    });
+                }, this).value();
+                if (!ids.length) {
+                    return;
+                }
+                matches = matches ? _.intersection(matches, ids) : ids;
+            }, this);
+            return _.chain(matches).unique().map(function(id) { return this.data[id].datum; }, this).value();
+        },
+
+        reset: function() {
+            this.data = [];
+        },
+
+        serialize: function() {
+            return { data: this.data };
+        }
+    });
+
+    return MyIndex;
+}();
+
+ko.bindingHandlers.typeaheadUrl = {
+    init : function(element, valueAccessor,allBindingsAccessor){
+        var types = ko.unwrap(valueAccessor()),
+            ttl =  300000,
+            allBindings = allBindingsAccessor(),
+            url = String.format("/list?table={0}&column={1}", types[0], "Route"),
+            suggestions = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                index: MyIndex,
+                prefetch: {
+                    url: url,
+                    tt1: ttl,
+                    filter: function (list) {
+                        return _(list).map(function (v) {
+                            return { name: v };
+                        });
+                    }
+                }
+
+            });
+
+        suggestions.initialize();
+        $(element).typeahead(null, {
+            name: 'EntityView_' + $(element).prop("id"),
+            displayKey: "name",
+            source: suggestions.ttAdapter()
+        })
+        .on('typeahead:closed', function () {
+            allBindings.value($(this).val());
+        });
+    }
+};
 ko.bindingHandlers.entityTypeaheadPath = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var value = valueAccessor(),
