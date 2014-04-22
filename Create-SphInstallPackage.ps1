@@ -231,12 +231,26 @@ Write-Host ""
 
 Write-Host ""
 
+# remove unused and big files
+ls -Path $WorkingCopy\control.center -Filter *.xml | Remove-Item
+ls -Path $WorkingCopy -Recurse -Filter Spring.Core.pdb | Remove-Item
+
+
+Write-Host "Delete Roslyn dll ? "
+$deleteRoslyn = Read-Host
+if($deleteRoslyn -eq "y")
+{
+    ls -Path $WorkingCopy -Recurse -Filter Roslyn.Compilers.* | Remove-Item
+    ls -Path $WorkingCopy -Recurse -Filter Roslyn.Services.* | Remove-Item
+}
+
 Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit"
 $compressed = Read-Host
 if($compressed -eq 'q')
 {
     exit;
 }
+
 
 #compress
 & 7za a -t7z ".\sph.package.1.0.$Build.7z" ".\sph.packages\output\*"
