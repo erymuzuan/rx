@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
             var item = context.Item;
             if (string.IsNullOrWhiteSpace(this.Path)) return this.GetXPathValue(item);
             //
-            var script = ObjectBuilder.GetObject<IScriptEngine>();
+            var script =  ObjectBuilder.GetObject<IScriptEngine>();
             var path = this.Path;
             if (path.StartsWith("["))
                 path = this.GetCustomFieldValue(this.Path);

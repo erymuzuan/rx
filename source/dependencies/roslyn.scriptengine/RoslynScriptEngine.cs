@@ -33,12 +33,13 @@ namespace Bespoke.Sph.RoslynScriptEngines
             }
             catch (Exception e)
             {
-                var message = new StringBuilder("Error adding reference to domain.sph.dll");
-                message.AppendLine("Script Engine base directory = " + scriptEngine.BaseDirectory);
-                message.AppendLine("AppDomain base directory = " + AppDomain.CurrentDomain.BaseDirectory);
-                message.AppendLine("Actual exception :");
-                message.AppendLine(e.Message);
-                throw new Exception(message.ToString());
+                var msg = new StringBuilder("Error adding reference to domain.sph.dll");
+                msg.AppendLine();
+                msg.AppendLine("Script Engine base directory = " + scriptEngine.BaseDirectory);
+                msg.AppendLine("AppDomain base directory = " + AppDomain.CurrentDomain.BaseDirectory);
+                msg.AppendLine("Actual exception :");
+                msg.AppendLine(e.Message);
+                throw new Exception(msg.ToString());
             }
 
             var customScript = string.Empty;

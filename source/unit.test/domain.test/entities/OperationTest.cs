@@ -37,10 +37,13 @@ namespace domain.test.entities
                 IsVerbose = verbose,
                 IsDebug = true
             };
+            var core = Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll");
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(core);
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
+            var destinationCore = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "core.sph.dll");
+            File.Copy(core, destinationCore, true);
 
             var result = ed.Compile(options);
             result.Errors.ForEach(Console.WriteLine);
@@ -156,7 +159,7 @@ namespace domain.test.entities
             ed.EntityOperationCollection.Add(release);
             ed.BusinessRuleCollection.Add(mustBeDeadRule);
 
-            var patient = this.CreateInstance(ed,true);
+            var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
@@ -175,7 +178,7 @@ namespace domain.test.entities
 
             dynamic vr = result.Data;
             var ttt = JsonSerializerService.ToJsonString(vr, Formatting.Indented);
-            StringAssert.Contains("\"success\": false",ttt);
+            StringAssert.Contains("\"success\": false", ttt);
             Console.WriteLine();
             //Assert.IsFalse(vr.success);
             //Assert.AreEqual(3, vr.rules.Length);
@@ -184,18 +187,18 @@ namespace domain.test.entities
         [Test]
         public async Task AddReleaseOperationWithSetter()
         {
-            var release = new EntityOperation { Name = "Release" ,WebId = Guid.NewGuid().ToString()};
+            var release = new EntityOperation { Name = "Release", WebId = Guid.NewGuid().ToString() };
             var statusSetter = new SetterActionChild
             {
                 Path = "Status",
-                Field = new ConstantField{ Type = typeof(string), Value = "Released",Name = "Released"},
+                Field = new ConstantField { Type = typeof(string), Value = "Released", Name = "Released" },
                 WebId = Guid.NewGuid().ToString()
             };
             var ed = this.CreatePatientDefinition();
             ed.EntityOperationCollection.Add(release);
             release.SetterActionChildCollection.Add(statusSetter);
 
-            var patient = this.CreateInstance(ed,true);
+            var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
@@ -215,7 +218,7 @@ namespace domain.test.entities
             dynamic vr = result.Data;
             Assert.IsNotNull(vr);
 
-            Assert.AreEqual("Released",patient.Status);
+            Assert.AreEqual("Released", patient.Status);
             //Assert.IsFalse(vr.success);
             //Assert.AreEqual(3, vr.rules.Length);
 
