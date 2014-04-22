@@ -8,9 +8,9 @@
         {
           "$type": "Bespoke.Sph.Domain.EntityLookupElement, domain.sph",
           "Entity": "Patient",
-          "DisplayMemberPath": "",
+          "DisplayMemberPath": "FullName",
           "ValueMemberPath": "Mrn",
-          "DispalyTemplate": null,
+          "DisplayTemplate": null,
           "LookupColumnCollection": {
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
             "$values": [
@@ -30,7 +30,7 @@
           },
           "Name": "Entity Lookup",
           "Label": "Patient",
-          "Tooltip": "This is getting real bad",
+          "Tooltip": "A demo test",
           "Path": "Mrn",
           "IsRequired": false,
           "Size": "input-large",
@@ -286,6 +286,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-04-19T13:17:11.6079288+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-22T11:26:38.6943384+08:00",
+  "ChangedDate": "2014-04-22T13:25:06.3868029+08:00",
   "WebId": "5ecc4866-b762-4784-afea-17adc06d91e3"
 }

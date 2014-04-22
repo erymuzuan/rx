@@ -22,6 +22,7 @@
 /// <reference path="../sphapp/services/jsonimportexport.js" />
 /// <reference path="../sphapp/viewmodels/advanced-search.js" />
 /// <reference path="../sphapp/viewmodels/icon.picker.js" />
+/// <reference path="../sphapp/viewmodels/members.selector.dialog.js" />
 /// <reference path="../sphapp/viewmodels/not.found.js" />
 /// <reference path="../sphapp/viewmodels/public.index.js" />
 /// <reference path="../sphapp/viewmodels/search.definition.dialog.js" />

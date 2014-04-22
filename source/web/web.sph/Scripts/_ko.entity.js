@@ -427,3 +427,34 @@ ko.bindingHandlers.lookup = {
         });
     }
 };
+ko.virtualElements.allowedBindings.lookupText = true;
+bespoke.lookupText = function (element, valueAccessor, allBindings) {
+        var options = valueAccessor(),
+            entity = ko.unwrap(options.entity),
+            displayPath = ko.unwrap(options.displayPath),
+            valuePath = ko.unwrap(options.valuePath),
+            val = ko.unwrap(options.value),
+            context = require('services/datacontext'),
+            setTextContent = function(element, textContent) {
+                var value = ko.utils.unwrapObservable(textContent);
+                if ((value === null) || (value === undefined))
+                    value = "";
+                var innerTextNode = ko.virtualElements.firstChild(element);
+                if (!innerTextNode || innerTextNode.nodeType != 3 || ko.virtualElements.nextSibling(innerTextNode)) {
+                    ko.virtualElements.setDomNodeChildren(element, [element.ownerDocument.createTextNode(value)]);
+                } else {
+                    innerTextNode.data = value;
+                }
+
+            };
+
+            context.getScalarAsync(entity, valuePath + " eq '" + val + "'", displayPath)
+            .done(function(text){ 
+                setTextContent(element, text);
+                console.log(text);
+            });
+    };
+ko.bindingHandlers.lookupText = {
+    init: bespoke.lookupText,
+    update: bespoke.lookupText
+};

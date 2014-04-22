@@ -25,9 +25,11 @@
 
         <div class="col-md-8">
             <a class="btn btn-link" 
-               data-bind="tooltip :'This is getting real bad',lookup : {entity: 'Patient', member : 'Mrn', value : Mrn, columns : ['FullName','Mrn']}"
+               data-bind="tooltip :'A demo test',lookup : {entity: 'Patient', member : 'Mrn', value : Mrn, columns : ['FullName','Mrn']}"
                id="patient-mrn">
-(<span data-bind="text: Mrn"></span>)                <i class="fa fa-search"></i>
+                         <!-- ko lookupText: { entity : 'Patient', value : Mrn, valuePath :'Mrn', displayPath : 'PatientId'} -->
+                            <!-- /ko -->
+                <i class="fa fa-search"></i>
             </a>
         </div>
     </div>
