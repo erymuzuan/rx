@@ -8,12 +8,15 @@
         {
           "$type": "Bespoke.Sph.Domain.EntityLookupElement, domain.sph",
           "Entity": "Patient",
-          "DisplayMemberPath": "FullName",
+          "DisplayMemberPath": "",
           "ValueMemberPath": "Mrn",
           "DispalyTemplate": null,
           "LookupColumnCollection": {
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-            "$values": []
+            "$values": [
+              "FullName",
+              "Mrn"
+            ]
           },
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -27,7 +30,7 @@
           },
           "Name": "Entity Lookup",
           "Label": "Patient",
-          "Tooltip": null,
+          "Tooltip": "This is getting real bad",
           "Path": "Mrn",
           "IsRequired": false,
           "Size": "input-large",
@@ -283,6 +286,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-04-19T13:17:11.6079288+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-22T08:28:43.3675886+08:00",
+  "ChangedDate": "2014-04-22T11:26:38.6943384+08:00",
   "WebId": "5ecc4866-b762-4784-afea-17adc06d91e3"
 }

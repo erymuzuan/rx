@@ -56,9 +56,19 @@ WriteLiteral(@"
     <input class=""form-control"" data-bind=""value: DisplayMemberPath,entityTypeaheadPath:Entity"" id=""fe-ele-dmp"" type=""text"" name=""DisplayMemberPath"" />
 </div>
 <div class=""form-group"">
-    <label for=""fe-ele-dt"">Dispaly Template</label>
-    <input class=""form-control"" data-bind=""value: DispalyTemplate"" id=""fe-ele-dt"" type=""text"" name=""DispalyTemplate"" />
+    <label for=""fe-ele-dt"">Display Template</label>
+    <textarea class=""form-control"" data-bind=""value: DisplayTemplate"" id=""fe-ele-dt"" name=""DispalyTemplate""></textarea>
+
+    <a href=""#"" data-bind=""click : editDisplayTemplate,disable:DisplayMemberPath()"">Edit</a>
 </div>
+<div class=""form-group"">
+    <label for=""fe-ele-cols"">Columns</label>
+    <span data-bind=""value: LookupColumnCollection"" id=""fe-ele-cols""></span>
+
+    <a href=""#"" data-bind=""click : editColumns"">Edit</a>
+</div>
+
+
 
 <!--/ko-->
 ");

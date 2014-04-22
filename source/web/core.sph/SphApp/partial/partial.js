@@ -150,20 +150,21 @@ bespoke.sph.domain.ButtonPartial = function () {
     var editCommand = function () {
         var self = this,
             w = window.open("/sph/editor/ace?mode=javascript", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
+            wdw = w.window || w,
             init = function () {
-                w.code = ko.unwrap(self.Command);
+                wdw.code = ko.unwrap(self.Command);
                 if (!w.code) {
                     w.code = "//insert your code here";
                 }
-                w.saved = function (code, close) {
+                wdw.saved = function (code, close) {
                     self.Command(code);
                     if (close) {
                         w.close();
                     }
                 };
             };
-        if (w.attachEvent) { // for ie
-            w.attachEvent('onload', init);
+        if (wdw.attachEvent) { // for ie
+            wdw.attachEvent('onload', init);
         } else {
             init();
         }
@@ -583,6 +584,60 @@ bespoke.sph.domain.EntityChartPartial = function (model) {
     return {
         pin: pin,
         unpin : unpin
+    };
+};
+///#source 1 1 /SphApp/partial/EntityLookupElement.js
+/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/moment.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
+/// <reference path="../../Scripts/bootstrap.js" />
+
+bespoke.sph.domain.EntityLookupElementPartial = function () {
+
+    var editDisplayTemplate = function () {
+        var self = this,
+            w = window.open("/sph/editor/ace?mode=javascript", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
+            wdw = w.window || w,
+            init = function () {
+                wdw.code = ko.unwrap(self.Command);
+                if (!w.code) {
+                    w.code = "//insert your code here";
+                }
+                wdw.saved = function (code, close) {
+                    self.DisplayTemplate(code);
+                    if (close) {
+                        w.close();
+                    }
+                };
+            };
+        if (wdw.attachEvent) { // for ie
+            wdw.attachEvent('onload', init);
+        } else {
+            init();
+        }
+    },
+        editColumns = function () {
+            var self = this;
+            require(['viewmodels/members.selector.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.entity(self.Entity());
+                app2.showDialog(dialog,self.Entity())
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.LookupColumnCollection(dialog.selectedMembers());
+                        }
+                    });
+
+            });
+        };
+    return {
+        editDisplayTemplate: editDisplayTemplate,
+        editColumns: editColumns
     };
 };
 ///#source 1 1 /SphApp/partial/EntityView.js

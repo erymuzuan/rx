@@ -628,6 +628,14 @@ bespoke.sph.domain.ChildEntityListView = function (optionOrWebid) {
 
     v.Query = ko.observable('');
 
+    v.IsAllowAddItem = ko.observable(false);
+
+    v.NewItemFormRoute = ko.observable('');
+
+    v.NewItemMappingSource = ko.observable('');
+
+    v.NewItemMappingDestination = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ChildEntityListView, domain.sph";
 
     v.ViewColumnCollection = ko.observableArray([]);
@@ -1322,6 +1330,42 @@ bespoke.sph.domain.ConditionalFormatting = function (optionOrWebid) {
         return _(model).extend(new bespoke.sph.domain.ConditionalFormattingPartial(model));
     }
     return model;
+};
+
+
+
+bespoke.sph.domain.EntityLookupElement = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
+
+    v.Entity = ko.observable('');
+
+    v.DisplayMemberPath = ko.observable('');
+
+    v.ValueMemberPath = ko.observable('');
+
+    v.DisplayTemplate = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.EntityLookupElement, domain.sph";
+
+    v.LookupColumnCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EntityLookupElementPartial) {
+        return _(v).extend(new bespoke.sph.domain.EntityLookupElementPartial(v));
+    }
+    return v;
 };
 
 

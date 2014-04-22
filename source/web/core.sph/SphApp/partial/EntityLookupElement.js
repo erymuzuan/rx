@@ -8,9 +8,9 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
-bespoke.sph.domain.ButtonPartial = function () {
+bespoke.sph.domain.EntityLookupElementPartial = function () {
 
-    var editCommand = function () {
+    var editDisplayTemplate = function () {
         var self = this,
             w = window.open("/sph/editor/ace?mode=javascript", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
             wdw = w.window || w,
@@ -20,7 +20,7 @@ bespoke.sph.domain.ButtonPartial = function () {
                     w.code = "//insert your code here";
                 }
                 wdw.saved = function (code, close) {
-                    self.Command(code);
+                    self.DisplayTemplate(code);
                     if (close) {
                         w.close();
                     }
@@ -31,8 +31,23 @@ bespoke.sph.domain.ButtonPartial = function () {
         } else {
             init();
         }
-    };
+    },
+        editColumns = function () {
+            var self = this;
+            require(['viewmodels/members.selector.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.entity(self.Entity());
+                app2.showDialog(dialog,self.Entity())
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.LookupColumnCollection(dialog.selectedMembers());
+                        }
+                    });
+
+            });
+        };
     return {
-        editCommand: editCommand
+        editDisplayTemplate: editDisplayTemplate,
+        editColumns: editColumns
     };
 };

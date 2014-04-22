@@ -6046,17 +6046,17 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private string m_DispalyTemplate;
+        private string m_DisplayTemplate;
         [XmlAttribute]
-        public string DispalyTemplate
+        public string DisplayTemplate
         {
             get
             {
-                return m_DispalyTemplate;
+                return m_DisplayTemplate;
             }
             set
             {
-                m_DispalyTemplate = value;
+                m_DisplayTemplate = value;
                 RaisePropertyChanged();
             }
         }

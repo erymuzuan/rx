@@ -733,7 +733,7 @@
 					<xs:attribute name="Entity" type="xs:string" use="required"/>
 					<xs:attribute name="DisplayMemberPath" type="xs:string" use="required"/>
 					<xs:attribute name="ValueMemberPath" type="xs:string" use="required"/>
-					<xs:attribute name="DispalyTemplate" type="xs:string" use="optional"/>
+					<xs:attribute name="DisplayTemplate" type="xs:string" use="optional"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
