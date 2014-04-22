@@ -341,6 +341,20 @@ public partial class CustomerController : System.Web.Mvc.Controller
            if(null == item) throw new ArgumentNullException("item");
            var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Customer");
            var brokenRules = new ObjectCollection<ValidationResult>();
+
+            var appliedRules1 = ed.BusinessRuleCollection.Where(b => b.Name == "Must be Malaysian");
+            ValidationResult result1 = item.ValidateBusinessRule(appliedRules1);
+
+            if(!result1.Success){
+                brokenRules.Add(result1);
+            }
+
+            var appliedRules2 = ed.BusinessRuleCollection.Where(b => b.Name == "Verify the age");
+            ValidationResult result2 = item.ValidateBusinessRule(appliedRules2);
+
+            if(!result2.Success){
+                brokenRules.Add(result2);
+            }
            if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
 
            var operation = ed.EntityOperationCollection.Single(o => o.WebId == "84d65cfd-a054-413f-8ea6-3fe2660a8564");

@@ -70,9 +70,33 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                         }
                     });
                 return tcs.promise();
-            };
+            },
+        publishAsync = function () {
+
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(entity);
+            isBusy(true);
+
+            context.post(data, "/EntityDefinition/Publish")
+                .then(function (result) {
+                    isBusy(false);
+                    if (result.success) {
+                        logger.info(result.message);
+                        entity().EntityDefinitionId(result.id);
+                        errors.removeAll();
+                    } else {
+
+                        errors(result.Errors);
+                        logger.error("There are errors in your schema, !!!");
+                    }
+                    tcs.resolve(result);
+                    entity().IsPublished(true);
+                });
+            return tcs.promise();
+        };
 
         var vm = {
+            errors: errors,
             roles: roles,
             entity: entity,
             operation: operation,
@@ -81,7 +105,16 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
             activate: activate,
             attached: attached,
             toolbar: {
-                saveCommand: save
+                saveCommand: save,
+                commands: ko.observableArray([
+                            {
+                                command: publishAsync,
+                                caption: 'Publish',
+                                icon: "fa fa-sign-in",
+                                enable: ko.computed(function () {
+                                    return entity().EntityDefinitionId() > 0;
+                                })
+                            }])
             }
         };
 

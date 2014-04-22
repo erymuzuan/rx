@@ -714,7 +714,10 @@
         },
         "Rules": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-          "$values": []
+          "$values": [
+            "Must be Malaysian",
+            "Verify the age"
+          ]
         },
         "Permissions": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
@@ -742,7 +745,7 @@
         "Name": "PromoteTo",
         "SuccessMessage": "Wholaaa 123",
         "ShowSuccessMessage": false,
-        "NavigateSuccessUrl": null,
+        "NavigateSuccessUrl": "#customer",
         "SuccessCommand": null,
         "WebId": "84d65cfd-a054-413f-8ea6-3fe2660a8564"
       },
@@ -833,6 +836,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-19T10:23:32.9177446+08:00",
+  "ChangedDate": "2014-04-22T18:55:03.9057886+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }
