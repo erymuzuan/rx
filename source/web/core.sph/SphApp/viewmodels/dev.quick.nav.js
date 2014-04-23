@@ -20,11 +20,12 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                     formsTask = context.loadAsync("EntityForm"),
                     viewsTask = context.loadAsync("EntityView"),
                     triggersTask = context.loadAsync("Trigger"),
+                    rdlTask = context.loadAsync("ReportDefinition"),
                     wdTask = context.loadAsync("WorkflowDefinition");
 
 
-                $.when(entitiesTask, formsTask, viewsTask, triggersTask, wdTask)
-                    .then(function (entitiesLo, formsLo, viewsLo, triggersLo, wdsLo) {
+                $.when(entitiesTask, formsTask, viewsTask, triggersTask, wdTask, rdlTask)
+                    .then(function (entitiesLo, formsLo, viewsLo, triggersLo, wdsLo, rdlLo) {
                         isBusy(false);
                         var entities = _(entitiesLo.itemCollection).map(function (v) {
                             return {
@@ -32,6 +33,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                                 id: v.EntityDefinitionId,
                                 route: '#entity.details/' + v.EntityDefinitionId(),
                                 operations : v.EntityOperationCollection(),
+                                rdl: _(rdlLo.itemCollection).filter(function (f) { return f.DataSource().EntityName() === v.Name(); }),
                                 triggers: _(triggersLo.itemCollection).filter(function (f) { return f.Entity() === v.Name(); }),
                                 forms: _(formsLo.itemCollection).filter(function (f) { return f.EntityDefinitionId() === v.EntityDefinitionId(); }),
                                 views: _(viewsLo.itemCollection).filter(function (f) { return f.EntityDefinitionId() === v.EntityDefinitionId(); })
