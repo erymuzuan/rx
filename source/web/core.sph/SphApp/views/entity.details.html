@@ -73,7 +73,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label for="icon-storeid" class="col-md-2 control-label">Icon/Logo</label>
                 <div class="col-md-6">
@@ -206,7 +206,10 @@
                 </tr>
             </tbody>
         </table>
-        <a class="btn btn-link" data-bind="click : addBusinessRule">+ Create new rule</a>
+        <a class="btn btn-link" data-bind="click : addBusinessRule">
+            <i class="fa fa-plus-circle"></i>
+            Add a business rule
+        </a>
     </div>
 </div>
 
@@ -244,7 +247,10 @@
                 </tr>
             </tbody>
         </table>
-        <a class="btn btn-link" data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().EntityDefinitionId() + '/0'}">+ Create new form</a>
+        <a class="btn btn-link" data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().EntityDefinitionId() + '/0'}">
+            <i class="fa fa-plus-circle"></i>
+            Add a form
+        </a>
 
     </div>
 </div>
@@ -279,7 +285,10 @@
                 </tr>
             </tbody>
         </table>
-        <a class="btn btn-link" data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().EntityDefinitionId() + '/0'}">+ Create new view</a>
+        <a class="btn btn-link" data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().EntityDefinitionId() + '/0'}">
+            <i class="fa fa-plus-circle"></i>
+            Add a view
+        </a>
     </div>
 </div>
 
@@ -317,7 +326,10 @@
                 </tr>
             </tbody>
         </table>
-        <a data-bind="attr : {'href':'#/entity.operation.details/' + $root.entity().EntityDefinitionId() + '/<New Operation>'}">+ Operation</a>
+        <a class="btn btn-link" data-bind="attr : {'href':'#/entity.operation.details/' + $root.entity().EntityDefinitionId() + '/<New Operation>'}">
+            <i class="fa fa-plus-circle"></i>
+            Add an operation
+        </a>
 
     </div>
 </div>

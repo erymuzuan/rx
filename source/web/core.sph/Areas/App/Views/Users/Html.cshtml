@@ -58,7 +58,11 @@
                     <tbody data-bind="foreach: profiles">
                         <tr>
                             <td>
-                                <a data-toggle="modal" href="#user-details-modal" data-bind="click: $root.editCommand, text: UserName"></a>
+                                <a data-toggle="modal" href="#user-details-modal" data-bind="click: $root.editCommand">
+                                    <i class="fa fa-user"></i>
+                                    <!-- ko text: UserName-->
+                                    <!-- /ko-->
+                                </a>
 
                             </td>
                             <td data-bind="text: FullName"></td>

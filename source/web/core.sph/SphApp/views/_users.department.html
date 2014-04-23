@@ -2,7 +2,7 @@
 
     <div class="col-lg-1 col-lg-offset-11">
 
-        <button  data-bind="command: saveCommand" class="btn btn-default" form="users-department-form" data-loading-text="diproses.." data-complete-text="Selesai" >
+        <button data-bind="command: saveCommand" class="btn btn-default" form="users-department-form" data-loading-text="diproses.." data-complete-text="Selesai">
             <i class="fa fa-save"></i>
             Save
         </button>
@@ -32,15 +32,15 @@
                 </tbody>
             </table>
 
+            <a href="#" id="add-user-button" data-bind="click: addCommand" data-toggle="modal" class="btn btn-link">
+
+                <i class="fa fa-plus-circle"></i>
+                Add a department
+            </a>
         </form>
     </div>
-    <div class="col-lg-1 col-lg-offset-11">
 
-        <a href="#" id="add-user-button" data-bind="click: addCommand" data-toggle="modal" class="btn btn-link pull-left">
-            + Department
-        </a>
 
-    </div>
 </div>
 
 
