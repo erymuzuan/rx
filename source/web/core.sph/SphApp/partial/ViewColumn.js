@@ -19,9 +19,17 @@ bespoke.sph.domain.ViewColumnPartial = function () {
                 self.ConditionalFormattingCollection.remove(cf);
             };
 
+        },
+        removeIconCssClass = function () {
+            this.IconCssClass('');
+        },
+        removeIconStoreId = function () {
+            this.IconStoreId('');
         };
     return {
         addConditionalFormatting: addConditionalFormatting,
-        removeConditionalFormatting: removeConditionalFormatting
+        removeConditionalFormatting: removeConditionalFormatting,
+        removeIconStoreId: removeIconStoreId,
+        removeIconCssClass: removeIconCssClass
     };
 };

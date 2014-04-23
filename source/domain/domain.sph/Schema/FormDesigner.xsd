@@ -50,6 +50,7 @@
 		<xs:attribute name="ElementId" type="xs:string" use="required"/>
 		<xs:attribute name="HelpText" type="xs:string" use="optional"/>
 		<xs:attribute name="UseDisplayTemplate" type="xs:boolean" use="required"/>
+		<xs:attribute name="ToolboxIconClass" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:element name="TextBox">
 		<xs:complexType>

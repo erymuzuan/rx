@@ -151,7 +151,7 @@
             <ul class="nav" data-bind="foreach: formElements">
                 <li>
                     <a class="btn btn-default" href="#add-field" data-bind="attr : {title:Tooltip}">
-                        <i data-bind="attr: { 'class': CssClass }" class="pull-left"></i>
+                        <i data-bind="attr: { 'class': ToolboxIconClass }" class="pull-left"></i>
                         <!-- ko text: Name -->
                         <!-- /ko-->
                     </a>
@@ -193,8 +193,8 @@
 
 
                     <div class="form-group">
-                        <label for="form-element-css-class">Css class</label>
-                        <input data-bind="cssAutoComplete: CssClass" id="form-element-css-class" type="text" name="CssClass" />
+                        <label for="fe-css-class">Css class</label>
+                        <input data-bind="value: CssClass" id="fe-css-class" type="text" name="CssClass" />
                     </div>
 
                     <div class="form-group">
@@ -211,7 +211,6 @@
                         <label for="form-element-elementId">Id</label>
                         <input class="form-control" data-bind="value: ElementId" id="form-element-elementId" type="text" name="ElementId" />
                     </div>
-
 
                 </div>
 

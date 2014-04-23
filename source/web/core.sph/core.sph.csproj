@@ -1257,9 +1257,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_RuleFieldDropDown.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\theme.matyie\workflow.triggers.css.map">
+    <EmbeddedResource Include="Content\theme.matyie\workflow.triggers.css.map">
       <DependentUpon>workflow.triggers.css</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\LabelItem.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>LabelItem.generated.cs</LastGenOutput>
@@ -1833,18 +1833,6 @@
     <Content Include="Content\theme.matyie\nav.min.css">
       <DependentUpon>nav.css</DependentUpon>
     </Content>
-    <Content Include="Content\theme.matyie\public.index.css">
-      <DependentUpon>public.index.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.matyie\public.index.min.css">
-      <DependentUpon>public.index.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.matyie\rentalapplication.css">
-      <DependentUpon>rentalapplication.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.matyie\rentalapplication.min.css">
-      <DependentUpon>rentalapplication.less</DependentUpon>
-    </Content>
     <Content Include="Content\theme.matyie\style.css" />
     <EmbeddedResource Include="Content\theme.matyie\theme.js" />
     <Content Include="Content\theme.matyie\report.css">
@@ -1858,12 +1846,6 @@
     </Content>
     <Content Include="Content\theme.matyie\site.min.css">
       <DependentUpon>site.css</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.matyie\space.css">
-      <DependentUpon>space.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.matyie\space.min.css">
-      <DependentUpon>space.less</DependentUpon>
     </Content>
     <Content Include="Content\theme.matyie\user.css">
       <DependentUpon>user.less</DependentUpon>
@@ -1994,8 +1976,6 @@
     <Content Include="Content\theme.matyie\header.less" />
     <Content Include="Content\theme.matyie\nav.less" />
     <Content Include="Content\theme.matyie\variables.less" />
-    <Content Include="Content\theme.matyie\rentalapplication.less" />
-    <Content Include="Content\theme.matyie\space.less" />
     <Content Include="Content\toastr.less" />
     <Content Include="Content\DataTables-1.9.4\media\images\Sorting icons.psd" />
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\printer.psd" />
@@ -2004,7 +1984,6 @@
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\collection.psd" />
     <Content Include="Content\theme.matyie\user.less" />
     <Content Include="Content\theme.matyie\report.less" />
-    <Content Include="Content\theme.matyie\public.index.less" />
     <Content Include="Content\theme.matyie\theme.min.js.map">
       <DependentUpon>theme.js</DependentUpon>
     </Content>

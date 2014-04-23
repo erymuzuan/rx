@@ -5,26 +5,33 @@
             <thead>
                 <tr>
                     <th>FullName</th>
-                    <th>FullName</th>
                     <th>Street1</th>
                     <th>State</th>
                     <th>Age</th>
                     <th>Gender</th>
-                    <th>Primary Contact</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach :list">
                 <tr data-bind="">
-                    <td>
+  
 
-                        <a data-bind="attr : {href:'#add-customer-form' + '/' + CustomerId },text: FullName"></a>
+                    <td>
+                        <a data-bind="attr : {href:'#customer-form-2' + '/' + CustomerId, title:'FullName' }">
+                            <i class="fa fa-table"></i>
+                                                        <img src="/sph/image/store/19750e36-fd87-4215-abb7-f84fae4bf865" alt="FullName" />
+                            <span data-bind="text:FullName"></span>
+                        </a>
                     </td>
-                    <td data-bind="text:FullName"></td>
-                    <td data-bind="text:Address.Street1"></td>
+                    <td>
+                        <a data-bind="attr : {href:'#customer-form-2' + '/' + CustomerId, title:'Street1' }">
+                            <i class="fa fa-book"></i>
+                                                        <img src="/sph/image/store/4f161e7d-cb33-4648-a72b-2244acffb1a3" alt="Street1" />
+                            <span data-bind="text:Address.Street1"></span>
+                        </a>
+                    </td>
                     <td data-bind="text:Address.State"></td>
                     <td data-bind="text:Age"></td>
                     <td data-bind="text:Gender"></td>
-                    <td data-bind="text:PrimaryContact"></td>
 
 
                 </tr>

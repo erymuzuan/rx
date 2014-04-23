@@ -147,16 +147,16 @@ WriteLiteral("\r\n<div id=\"form-designer-toolbox\" data-path=\"Areas\\App\\View
 "     <div id=\"add-field\" class=\"tab-pane\">\r\n            <ul class=\"nav\" data-bin" +
 "d=\"foreach: formElements\">\r\n                <li>\r\n                    <a class=\"" +
 "btn btn-default\" href=\"#add-field\" data-bind=\"attr : {title:Tooltip}\">\r\n        " +
-"                <i data-bind=\"attr: { \'class\': CssClass }\" class=\"pull-left\"></i" +
-">\r\n                        <!-- ko text: Name -->\r\n                        <!-- " +
-"/ko-->\r\n                    </a>\r\n                </li>\r\n            </ul>\r\n    " +
-"    </div>\r\n\r\n        <div id=\"fields-settings\" class=\"tab-pane\" data-bind=\"with" +
-": selectedFormElement\">\r\n            <form role=\"form\">\r\n                <div cl" +
-"ass=\"form-group\">\r\n                    <label for=\"form-element-label\">Label</la" +
-"bel>\r\n                    <input class=\"form-control\" data-bind=\"value: Label, v" +
-"alueUpdate: \'keyup\'\" id=\"form-element-label\" type=\"text\" name=\"Label\" />\r\n      " +
-"          </div>\r\n\r\n                <div class=\"form-group\">\r\n                  " +
-"  <label for=\"form-element-path\">Path</label>\r\n                    ");
+"                <i data-bind=\"attr: { \'class\': ToolboxIconClass }\" class=\"pull-l" +
+"eft\"></i>\r\n                        <!-- ko text: Name -->\r\n                     " +
+"   <!-- /ko-->\r\n                    </a>\r\n                </li>\r\n            </u" +
+"l>\r\n        </div>\r\n\r\n        <div id=\"fields-settings\" class=\"tab-pane\" data-bi" +
+"nd=\"with: selectedFormElement\">\r\n            <form role=\"form\">\r\n               " +
+" <div class=\"form-group\">\r\n                    <label for=\"form-element-label\">L" +
+"abel</label>\r\n                    <input class=\"form-control\" data-bind=\"value: " +
+"Label, valueUpdate: \'keyup\'\" id=\"form-element-label\" type=\"text\" name=\"Label\" />" +
+"\r\n                </div>\r\n\r\n                <div class=\"form-group\">\r\n          " +
+"          <label for=\"form-element-path\">Path</label>\r\n                    ");
 
 
 
@@ -179,29 +179,28 @@ WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[
 "                   <input class=\"form-control\" data-bind=\"value: HelpText, value" +
 "Update: \'keyup\'\" id=\"form-element-help-text\" type=\"text\" name=\"HelpText\" />\r\n   " +
 "                 </div>\r\n\r\n\r\n                    <div class=\"form-group\">\r\n     " +
-"                   <label for=\"form-element-css-class\">Css class</label>\r\n      " +
-"                  <input data-bind=\"cssAutoComplete: CssClass\" id=\"form-element-" +
-"css-class\" type=\"text\" name=\"CssClass\" />\r\n                    </div>\r\n\r\n       " +
-"             <div class=\"form-group\">\r\n                        <label for=\"form-" +
-"element-visible\">Visible</label>\r\n                        <input class=\"form-con" +
-"trol\" data-bind=\"value: Visible\" id=\"form-element-visible\" type=\"text\" name=\"Vis" +
-"ible\" />\r\n                    </div>\r\n                    <div class=\"form-group" +
-"\">\r\n                        <label for=\"form-element-enable\">Enable</label>\r\n   " +
-"                     <input class=\"form-control\" data-bind=\"value: Enable\" id=\"f" +
-"orm-element-enable\" type=\"text\" name=\"Enable\" />\r\n                    </div>\r\n\r\n" +
-"\r\n                    <div class=\"form-group\">\r\n                        <label f" +
-"or=\"form-element-elementId\">Id</label>\r\n                        <input class=\"fo" +
-"rm-control\" data-bind=\"value: ElementId\" id=\"form-element-elementId\" type=\"text\"" +
-" name=\"ElementId\" />\r\n                    </div>\r\n\r\n\r\n                </div>\r\n\r\n" +
-"                <div class=\"form-group\">\r\n                    <a href=\"#toolbox-" +
-"advanced-settings\" data-toggle=\"collapse\">\r\n                        <i class=\"fa" +
-" fa-chevron-down\"></i>\r\n                        Advanced settings\r\n             " +
-"       </a>\r\n                </div>\r\n                <div id=\"toolbox-advanced-s" +
-"ettings\" class=\"collapse\">\r\n");
+"                   <label for=\"fe-css-class\">Css class</label>\r\n                " +
+"        <input data-bind=\"value: CssClass\" id=\"fe-css-class\" type=\"text\" name=\"C" +
+"ssClass\" />\r\n                    </div>\r\n\r\n                    <div class=\"form-" +
+"group\">\r\n                        <label for=\"form-element-visible\">Visible</labe" +
+"l>\r\n                        <input class=\"form-control\" data-bind=\"value: Visibl" +
+"e\" id=\"form-element-visible\" type=\"text\" name=\"Visible\" />\r\n                    " +
+"</div>\r\n                    <div class=\"form-group\">\r\n                        <l" +
+"abel for=\"form-element-enable\">Enable</label>\r\n                        <input cl" +
+"ass=\"form-control\" data-bind=\"value: Enable\" id=\"form-element-enable\" type=\"text" +
+"\" name=\"Enable\" />\r\n                    </div>\r\n\r\n\r\n                    <div cla" +
+"ss=\"form-group\">\r\n                        <label for=\"form-element-elementId\">Id" +
+"</label>\r\n                        <input class=\"form-control\" data-bind=\"value: " +
+"ElementId\" id=\"form-element-elementId\" type=\"text\" name=\"ElementId\" />\r\n        " +
+"            </div>\r\n\r\n                </div>\r\n\r\n                <div class=\"form" +
+"-group\">\r\n                    <a href=\"#toolbox-advanced-settings\" data-toggle=\"" +
+"collapse\">\r\n                        <i class=\"fa fa-chevron-down\"></i>\r\n        " +
+"                Advanced settings\r\n                    </a>\r\n                </d" +
+"iv>\r\n                <div id=\"toolbox-advanced-settings\" class=\"collapse\">\r\n");
 
 
             
-            #line 225 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 224 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
@@ -221,7 +220,7 @@ WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[
             #line hidden
 
             
-            #line 238 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 237 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         FormElement fe1 = fe;
@@ -230,14 +229,14 @@ WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[
             #line default
             #line hidden
             
-            #line 241 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 240 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 241 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 240 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                  
                     }
 
@@ -257,7 +256,7 @@ WriteLiteral(@"                </div>
 
 
             
-            #line 252 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 251 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

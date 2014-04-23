@@ -1384,6 +1384,7 @@ bespoke.sph.domain.FormElement = function (optionOrWebid) {
         ElementId: ko.observable(''),
         HelpText: ko.observable(''),
         UseDisplayTemplate: ko.observable(false),
+        ToolboxIconClass: ko.observable(''),
         FieldValidation: ko.observable(new bespoke.sph.domain.FieldValidation()),
         LabelColLg: ko.observable(),
         LabelColMd: ko.observable(),

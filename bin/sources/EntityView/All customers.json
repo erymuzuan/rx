@@ -31,10 +31,10 @@
         "Path": "FullName",
         "Header": "FullName",
         "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "fa fa-building-o",
-        "IconStoreId": "fa fa-building-o",
+        "IsLinkColumn": true,
+        "FormRoute": "customer-form-2",
+        "IconCssClass": "fa fa-table",
+        "IconStoreId": "19750e36-fd87-4215-abb7-f84fae4bf865",
         "Format": "text:{0}",
         "WebId": "e2dd0f06-07e1-4a1e-8be3-b9464c21c984"
       },
@@ -47,10 +47,10 @@
         "Path": "Address.Street1",
         "Header": "Street1",
         "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "fa fa-building-o",
-        "IconStoreId": "fa fa-building-o",
+        "IsLinkColumn": true,
+        "FormRoute": "customer-form-2",
+        "IconCssClass": "fa fa-book",
+        "IconStoreId": "4f161e7d-cb33-4648-a72b-2244acffb1a3",
         "Format": "text:{0}",
         "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
       },
@@ -81,8 +81,8 @@
         "Sort": "",
         "IsLinkColumn": false,
         "FormRoute": null,
-        "IconCssClass": null,
-        "IconStoreId": null,
+        "IconCssClass": "fa fa-wheelchair",
+        "IconStoreId": "1589cc7a-0d0b-4873-9ffc-47bbc8e85a5e",
         "Format": "text:{0}",
         "WebId": "f544b246-5c19-4279-a8ae-447dc8f7e02d"
       },
@@ -101,22 +101,6 @@
         "IconStoreId": null,
         "Format": "text:{0}",
         "WebId": "61ee8ea4-4b48-433d-b60b-8ab5bb7184a0"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "PrimaryContact",
-        "Header": "Primary Contact",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "WebId": "7ca4a11d-6b64-4ef3-be84-6b75d6c48154"
       }
     ]
   },
@@ -151,6 +135,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-18T09:04:24.8595763+08:00",
+  "ChangedDate": "2014-04-24T07:14:35.4483906+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }
