@@ -1,28 +1,28 @@
-﻿<div class="row">
+﻿
 
-    <table class="table table-striped row" data-bind="filter: { path: 'table>tbody>tr' }">
-        <thead>
-            <tr>
-                <th>Designation</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: designationCollection">
-            <tr>
-                <td>
-                    <a data-bind="attr: { href: '#/role.settings/' + DesignationId() }, text: Name"></a>
-                </td>
-                <td data-bind="text: Description"></td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table table-striped"  data-bind="filter : {path:'tbody>tr'}">
+    <thead>
+        <tr>
+            <th>Designation</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: designationCollection">
+        <tr>
+            <td>
+                <a data-bind="attr: { href: '#/role.settings/' + DesignationId() }, text: Name"></a>
+            </td>
+            <td data-bind="text: Description"></td>
+        </tr>
+    </tbody>
+</table>
 
-    <div>
-        <a href="#/role.settings/0" id="add-designation" data-toggle="modal" class="btn btn-link">
+<div>
+    <a href="#/role.settings/0" id="add-designation" data-toggle="modal" class="btn btn-link">
 
-            <i class="fa fa-plus-circle"></i> Add a designation
-        </a>
-    </div>
-
-
+        <i class="fa fa-plus-circle"></i> Add a designation
+    </a>
 </div>
+
+
+

@@ -53,50 +53,36 @@ WriteLiteral("<h1>Users Management</h1>\r\n\r\n<div class=\"row\">\r\n    <ul cl
 "-toggle=\"tab\">Designations</a>\r\n        </li>\r\n        <li>\r\n            <a href" +
 "=\"#department-tab\" data-toggle=\"tab\">Departments</a>\r\n        </li>\r\n    </ul>\r\n" +
 "\r\n    <div class=\"tab-content\">\r\n        <div id=\"user-tab\" class=\"tab-pane acti" +
-"ve\">\r\n            <div class=\"search-panel row\" data-bind=\"with: searchTerm\">\r\n " +
-"               <form class=\"form-inline col-lg-12\">\r\n                    <div cl" +
-"ass=\"row\">\r\n                        <div class=\"form-group col-lg-3\">\r\n         " +
-"                   <label class=\"\">Department</label>\r\n                        <" +
-"/div>\r\n                        <div class=\"form-group\">\r\n                       " +
-"     <select class=\"form-control col-lg-3\" data-bind=\"options: $root.departmentO" +
-"ptions, value: department, optionsText: \'Name\', optionsValue: \'Name\'\"></select>\r" +
-"\n                        </div>\r\n                        <div class=\"form-group\"" +
-">\r\n                            <label class=\"control-label col-lg-1 sr-only\">Kat" +
-"a Kunci</label>\r\n                            <input placeholder=\"Keywords\" class" +
-"=\"form-control col-lg-2\" type=\"text\" data-bind=\"value: keyword\" required />\r\n   " +
-"                     </div>\r\n                        <div class=\"form-group col-" +
-"lg-2 pull-right\">\r\n                            <button type=\"submit\" class=\"btn " +
-"btn-default\" id=\"search-btn\">\r\n                                <i class=\"fa fa-s" +
-"earch pull-left\"></i>\r\n                                Search\r\n                 " +
-"           </button>\r\n                        </div>\r\n\r\n                    </di" +
-"v>\r\n\r\n                </form>\r\n            </div>\r\n            <div>\r\n          " +
-"      <table class=\"table table-striped\" data-bind=\"serverPaging: { entity: \'Use" +
-"rProfile\', query: \'UserProfileId gt 0\', list: profiles, map: map }\">\r\n          " +
-"          <thead>\r\n                        <tr>\r\n                            <th" +
-">UserName</th>\r\n                            <th>Full name</th>\r\n                " +
-"            <th>Department</th>\r\n                            <th>Designation</th" +
-">\r\n                            <th>Email</th>\r\n                            <th>P" +
-"assword</th>\r\n                        </tr>\r\n                    </thead>\r\n     " +
-"               <tbody data-bind=\"foreach: profiles\">\r\n                        <t" +
-"r>\r\n                            <td>\r\n                                <a data-to" +
-"ggle=\"modal\" href=\"#user-details-modal\" data-bind=\"click: $root.editCommand\">\r\n " +
-"                                   <i class=\"fa fa-user\"></i>\r\n                 " +
-"                   <!-- ko text: UserName-->\r\n                                  " +
-"  <!-- /ko-->\r\n                                </a>\r\n\r\n                         " +
-"   </td>\r\n                            <td data-bind=\"text: FullName\"></td>\r\n    " +
-"                        <td data-bind=\"text: Department\"></td>\r\n                " +
-"            <td data-bind=\"text: Designation\"></td>\r\n                           " +
-" <td data-bind=\"text: Email\"></td>\r\n                            <td>\r\n          " +
-"                      <a data-toggle=\"modal\" href=\"#user-change-password\" data-b" +
-"ind=\"click: $root.resetPasswordCommand\">Reset</a>\r\n                            <" +
-"/td>\r\n                        </tr>\r\n                    </tbody>\r\n             " +
-"   </table>\r\n            </div>\r\n        </div>\r\n        <div id=\"designation-ta" +
-"b\" class=\"tab-pane \">\r\n            <!--ko compose:\'viewmodels/_users.designation" +
-"\' -->\r\n            <!--/ko-->\r\n        </div>\r\n        <div id=\"department-tab\" " +
-"class=\"tab-pane \">\r\n            <!--ko compose:\'viewmodels/_users.department\' --" +
-">\r\n            <!--/ko-->\r\n        </div>\r\n    </div>\r\n</div>\r\n<!--ko compose:\'_" +
-"user.add.html\' -->\r\n<!--/ko-->\r\n<!--ko compose:\'_user.change.password.html\' -->\r" +
-"\n<!--/ko-->");
+"ve\">\r\n            <div>\r\n                <table class=\"table table-striped\" data" +
+"-bind=\"serverPaging: { entity: \'UserProfile\', query: \'UserProfileId gt 0\', list:" +
+" profiles, map: map },filter : {path:\'tbody>tr\'}\">\r\n                    <thead>\r" +
+"\n                        <tr>\r\n                            <th>UserName</th>\r\n  " +
+"                          <th>Full name</th>\r\n                            <th>De" +
+"partment</th>\r\n                            <th>Designation</th>\r\n               " +
+"             <th>Email</th>\r\n                            <th>Password</th>\r\n    " +
+"                    </tr>\r\n                    </thead>\r\n                    <tb" +
+"ody data-bind=\"foreach: profiles\">\r\n                        <tr>\r\n              " +
+"              <td>\r\n                                <a data-toggle=\"modal\" href=" +
+"\"#user-details-modal\" data-bind=\"click: $root.editCommand\">\r\n                   " +
+"                 <i class=\"fa fa-user\"></i>\r\n                                   " +
+" <!-- ko text: UserName-->\r\n                                    <!-- /ko-->\r\n   " +
+"                             </a>\r\n\r\n                            </td>\r\n        " +
+"                    <td data-bind=\"text: FullName\"></td>\r\n                      " +
+"      <td data-bind=\"text: Department\"></td>\r\n                            <td da" +
+"ta-bind=\"text: Designation\"></td>\r\n                            <td data-bind=\"te" +
+"xt: Email\"></td>\r\n                            <td>\r\n                            " +
+"    <a data-toggle=\"modal\" href=\"#user-change-password\" data-bind=\"click: $root." +
+"resetPasswordCommand\">Reset</a>\r\n                            </td>\r\n            " +
+"            </tr>\r\n                    </tbody>\r\n                </table>\r\n     " +
+"           <a href=\"#\" class=\"btn btn-link\" data-bind=\"click : add\">\r\n          " +
+"          <i class=\"fa fa-plus-circle\"></i>\r\n                    Add a user\r\n   " +
+"             </a>\r\n            </div>\r\n        </div>\r\n        <div id=\"designat" +
+"ion-tab\" class=\"tab-pane \">\r\n            <div>\r\n                <!--ko compose:\'" +
+"viewmodels/_users.designation\' -->\r\n                <!--/ko-->\r\n            </di" +
+"v>\r\n        </div>\r\n        <div id=\"department-tab\" class=\"tab-pane \">\r\n       " +
+"     <!--ko compose:\'viewmodels/_users.department\' -->\r\n            <!--/ko-->\r\n" +
+"        </div>\r\n    </div>\r\n</div>\r\n<!--ko compose:\'_user.add.html\' -->\r\n<!--/ko" +
+"-->\r\n<!--ko compose:\'_user.change.password.html\' -->\r\n<!--/ko-->");
 
 
         }

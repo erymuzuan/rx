@@ -153,19 +153,17 @@ WriteLiteral(",\r\n            printprofile = ko.observable(new bespoke.sph.doma
 "),\r\n            departmentOptions : ko.observableArray(),\r\n            userNameV" +
 "alidationStatus : ko.observable(),\r\n            emailValidationStatus : ko.obser" +
 "vable(),\r\n            editCommand: edit,\r\n            saveCommand: save,\r\n      " +
-"      password1: ko.observable(),\r\n            password2: ko.observable(),\r\n    " +
-"        resetPasswordCommand: resetPassword,\r\n            savePasswordCommand: s" +
-"avePassword,\r\n            map: map,\r\n            searchTerm: {\r\n                " +
-"department:ko.observable(),\r\n                keyword: ko.observable()\r\n         " +
-"   },\r\n            toolbar : ko.observable({\r\n                reloadCommand: fun" +
-"ction () {\r\n                    return activate();\r\n                },\r\n        " +
-"        printCommand: ko.observable({\r\n                    entity: ko.observable" +
-"(\"UserProfile\"),\r\n                    id: ko.observable(0),\r\n                   " +
-" item: printprofile,\r\n                }),\r\n                clicks : ko.observabl" +
-"eArray([\r\n                    {\r\n                        caption : \"Add User\",\r\n" +
-"                        icon : \"fa fa-plus\",\r\n                        command : " +
-"add\r\n                    }])\r\n            })\r\n        };\r\n        \r\n        \r\n  " +
-"      return vm;\r\n        \r\n\r\n    });\r\n</script>\r\n");
+"      add: add,\r\n            password1: ko.observable(),\r\n            password2:" +
+" ko.observable(),\r\n            resetPasswordCommand: resetPassword,\r\n           " +
+" savePasswordCommand: savePassword,\r\n            map: map,\r\n            searchTe" +
+"rm: {\r\n                department:ko.observable(),\r\n                keyword: ko." +
+"observable()\r\n            },\r\n            toolbar : ko.observable({\r\n           " +
+"     reloadCommand: function () {\r\n                    return activate();\r\n     " +
+"           },\r\n                printCommand: ko.observable({\r\n                  " +
+"  entity: ko.observable(\"UserProfile\"),\r\n                    id: ko.observable(0" +
+"),\r\n                    item: printprofile,\r\n                })\r\n            })\r" +
+"\n        };\r\n        \r\n        \r\n        return vm;\r\n        \r\n\r\n    });\r\n</scri" +
+"pt>\r\n");
 
 
         }
