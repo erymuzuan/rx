@@ -2698,14 +2698,14 @@
     <EmbeddedResource Include="SphApp\viewmodels\map.js" />
     <EmbeddedResource Include="SphApp\viewmodels\organization.detail.js" />
     <EmbeddedResource Include="SphApp\viewmodels\payment.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\setting.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\templates.js" />
     <EmbeddedResource Include="SphApp\viewmodels\shell.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_audittrail.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_users.designation.js" />
     <EmbeddedResource Include="SphApp\views\admindashboard.html" />
     <EmbeddedResource Include="SphApp\views\nav.html" />
     <EmbeddedResource Include="SphApp\views\organization.detail.html" />
-    <EmbeddedResource Include="SphApp\views\setting.html" />
+    <EmbeddedResource Include="SphApp\views\templates.html" />
     <EmbeddedResource Include="SphApp\views\shell.html" />
     <EmbeddedResource Include="SphApp\views\toolbar.html" />
     <EmbeddedResource Include="SphApp\views\_audittrail.list.html" />
