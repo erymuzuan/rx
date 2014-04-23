@@ -4,7 +4,7 @@
      )
 
 
-Write-Host "Have you compiled your solution and published web.sph ? (y/n)"
+Write-Host "Have you compiled your solution and published web.sph ? (y/n) : " -ForegroundColor Yellow -NoNewline
 $published = Read-Host
 if($published -ne "y")
 {
@@ -45,55 +45,55 @@ copy source\web\web.sph\bin\System.Web.WebPages.Razor.dll bin\subscribers
 copy source\web\web.sph\bin\System.Web.WebPages.dll bin\subscribers
 copy source\web\web.sph\bin\System.Web.Mvc.dll bin\subscribers
 
-$WorkingCopy = ".\sph.packages\output"
+$output = ".\sph.packages\output"
 #creates directory
-if(Test-Path($WorkingCopy))
+if(Test-Path($output))
 {
-    Remove-Item $WorkingCopy -Force -Recurse
-    Get-ChildItem -Path $WorkingCopy -Recurse |  Remove-Item $WorkingCopy -Force -Recurse
+    Remove-Item $output -Force -Recurse
+    Get-ChildItem -Path $output -Recurse |  Remove-Item $output -Force -Recurse
 }
 
-mkdir $WorkingCopy
-Write-Host "Creating $WorkingCopy directory"
+mkdir $output
+Write-Host "Creating $output directory"
 
-if((Test-Path("$WorkingCopy\sources")) -eq $false)
+if((Test-Path("$output\sources")) -eq $false)
 {
-    mkdir "$WorkingCopy\sources"
+    mkdir "$output\sources"
 }
-if((Test-Path("$WorkingCopy\output")) -eq $false)
+if((Test-Path("$output\output")) -eq $false)
 {
-    mkdir "$WorkingCopy\output"
+    mkdir "$output\output"
 }
-if((Test-Path("$WorkingCopy\schedulers")) -eq $false)
+if((Test-Path("$output\schedulers")) -eq $false)
 {
-    mkdir "$WorkingCopy\schedulers"
+    mkdir "$output\schedulers"
 }
-if((Test-Path("$WorkingCopy\subscribers")) -eq $false)
+if((Test-Path("$output\subscribers")) -eq $false)
 {
-    mkdir "$WorkingCopy\subscribers"
+    mkdir "$output\subscribers"
 }
-if((Test-Path("$WorkingCopy\subscribers.host")) -eq $false)
+if((Test-Path("$output\subscribers.host")) -eq $false)
 {
-    mkdir "$WorkingCopy\subscribers.host"
+    mkdir "$output\subscribers.host"
 }
-if((Test-Path("$WorkingCopy\web")) -eq $false)
+if((Test-Path("$output\web")) -eq $false)
 {
-    mkdir "$WorkingCopy\web"
+    mkdir "$output\web"
 }
 
-if((Test-Path("$WorkingCopy\tools")) -eq $false)
+if((Test-Path("$output\tools")) -eq $false)
 {
-    mkdir "$WorkingCopy\tools"
+    mkdir "$output\tools"
 }
 #setup
-copy .\sph.packages\Setup-SphApp.ps1 $WorkingCopy
+copy .\sph.packages\Setup-SphApp.ps1 $output
 
 #schedulers
 Get-ChildItem -Filter *.* -Path ".\bin\schedulers" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
-| Copy-Item -Destination "$WorkingCopy\schedulers" -Force
+| Copy-Item -Destination "$output\schedulers" -Force
 
 
 #subscribers
@@ -101,7 +101,7 @@ Get-ChildItem -Filter *.* -Path ".\bin\subscribers" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
-| Copy-Item -Destination "$WorkingCopy\subscribers" -Force
+| Copy-Item -Destination "$output\subscribers" -Force
 
 
 
@@ -110,14 +110,14 @@ Get-ChildItem -Filter *.* -Path ".\bin\subscribers.host" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
-| Copy-Item -Destination "$WorkingCopy\subscribers.host" -Force
+| Copy-Item -Destination "$output\subscribers.host" -Force
 
 #tools
 Get-ChildItem -Filter *.* -Path ".\bin\tools" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
-| Copy-Item -Destination "$WorkingCopy\tools" -Force -Recurse
+| Copy-Item -Destination "$output\tools" -Force -Recurse
 
 #web
 Get-ChildItem -Filter *.* -Path ".\bin\web" `
@@ -125,9 +125,9 @@ Get-ChildItem -Filter *.* -Path ".\bin\web" `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
 | ? { $_.Name.EndsWith(".md") -eq $false} `
-| Copy-Item -Destination "$WorkingCopy\web" -Force -Recurse
+| Copy-Item -Destination "$output\web" -Force -Recurse
 #App_data/empty.xsd
-copy .\source\web\web.sph\App_Data -Destination $WorkingCopy\Web -Force -Recurse
+copy .\source\web\web.sph\App_Data -Destination $output\Web -Force -Recurse
 
 
 #web.bin -- for dependencies
@@ -136,33 +136,33 @@ Get-ChildItem -Filter *.* -Path ".\source\web\web.sph\bin" `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".config") -eq $false} `
 | ? { $_.Name.EndsWith(".xml") -eq $false} `
-| Copy-Item -Destination "$WorkingCopy\web\bin" -Force
+| Copy-Item -Destination "$output\web\bin" -Force
 
 #set file content for settings and bat
-if((Test-Path("$WorkingCopy\StartWeb.bat")) -eq $false)
+if((Test-Path("$output\StartWeb.bat")) -eq $false)
 {
-    copy .\StartWeb.bat -Destination $WorkingCopy
-    $c2 = (gc "$WorkingCopy\StartWeb.bat").replace("web.sph","web.$ApplicationName")
-    Set-Content "$WorkingCopy\StartWeb.bat" -Value $c2
+    copy .\StartWeb.bat -Destination $output
+    $c2 = (gc "$output\StartWeb.bat").replace("web.sph","web.$ApplicationName")
+    Set-Content "$output\StartWeb.bat" -Value $c2
 }
 
-if((Test-Path("$WorkingCopy\StartAspnetAdminWeb.bat")) -eq $false)
+if((Test-Path("$output\StartAspnetAdminWeb.bat")) -eq $false)
 {
-    copy .\StartAspnetAdminWeb.bat -Destination $WorkingCopy
-    $c0 = (gc "$WorkingCopy\StartAspnetAdminWeb.bat").replace("c:\project\work\sph\source\web\web.sph","workingcopy-web")
-    Set-Content "$WorkingCopy\StartAspnetAdminWeb.bat" -Value $c0
+    copy .\StartAspnetAdminWeb.bat -Destination $output
+    $c0 = (gc "$output\StartAspnetAdminWeb.bat").replace("c:\project\work\sph\source\web\web.sph","workingcopy-web")
+    Set-Content "$output\StartAspnetAdminWeb.bat" -Value $c0
 }
 
 
 
 #delete all accidentally added config
-$rubbishConfigs = @("$WorkingCopy\subscribers\subscriber.workflow.dll.config"
-,"$WorkingCopy\schedulers\scheduler.delayactivity.config"
-,"$WorkingCopy\schedulers\razor.template.dll.config"
-,"$WorkingCopy\schedulers\scheduler.workflow.trigger.config"
-,"$WorkingCopy\schedulers\sql.repository.dll.config"
-,"$WorkingCopy\subscribers\razor.template.dll.config"
-,"$WorkingCopy\subscribers\sql.repository.dll.config"
+$rubbishConfigs = @("$output\subscribers\subscriber.workflow.dll.config"
+,"$output\schedulers\scheduler.delayactivity.config"
+,"$output\schedulers\razor.template.dll.config"
+,"$output\schedulers\scheduler.workflow.trigger.config"
+,"$output\schedulers\sql.repository.dll.config"
+,"$output\subscribers\razor.template.dll.config"
+,"$output\subscribers\sql.repository.dll.config"
 )
 foreach($ucon in $rubbishConfigs)
 {
@@ -172,45 +172,45 @@ foreach($ucon in $rubbishConfigs)
 }
 
 #iis express and config
-mkdir $WorkingCopy\config
+mkdir $output\config
 Get-ChildItem -Filter *.* -Path ".\sph.packages\config" `
-| Copy-Item -Destination "$WorkingCopy\config" -Force -Recurse
+| Copy-Item -Destination "$output\config" -Force -Recurse
 
-mkdir "$WorkingCopy\IIS Express"
+mkdir "$output\IIS Express"
 Get-ChildItem -Filter *.* -Path ".\sph.packages\IIS Express" `
-| Copy-Item -Destination "$WorkingCopy\IIS Express" -Force -Recurse
+| Copy-Item -Destination "$output\IIS Express" -Force -Recurse
 
 
 #elastic search
-mkdir $WorkingCopy\elasticsearch
+mkdir $output\elasticsearch
 Get-ChildItem -Filter *.* -Path ".\sph.packages\elasticsearch" `
-| Copy-Item -Destination "$WorkingCopy\elasticsearch" -Force -Recurse
+| Copy-Item -Destination "$output\elasticsearch" -Force -Recurse
 
 
 
 #rabbitmq_server
-mkdir $WorkingCopy\rabbitmq_server
+mkdir $output\rabbitmq_server
 Get-ChildItem -Filter *.* -Path ".\sph.packages\rabbitmq_server" `
-| Copy-Item -Destination "$WorkingCopy\rabbitmq_server" -Force -Recurse
+| Copy-Item -Destination "$output\rabbitmq_server" -Force -Recurse
 
 
 
 #control.center
-mkdir "$WorkingCopy\control.center"
+mkdir "$output\control.center"
 Get-ChildItem -Filter *.* -Path ".\sph.packages\control.center" `
-| Copy-Item -Destination "$WorkingCopy\control.center" -Force -Recurse
+| Copy-Item -Destination "$output\control.center" -Force -Recurse
 
 
 #databases and mapping
-mkdir $WorkingCopy\database
+mkdir $output\database
 Get-ChildItem -Filter *.* -Path ".\source\database" `
-| Copy-Item -Destination "$WorkingCopy\database" -Force -Recurse
-mkdir $WorkingCopy\database\mapping
+| Copy-Item -Destination "$output\database" -Force -Recurse
+mkdir $output\database\mapping
 Get-ChildItem -Filter *.* -Path ".\source\elasticsearch\mapping" `
-| Copy-Item -Destination "$WorkingCopy\database\mapping" -Force -Recurse
+| Copy-Item -Destination "$output\database\mapping" -Force -Recurse
 
-copy .\sph.packages\ControlCenter.bat $WorkingCopy
-copy .\sph.packages\mru.exe $WorkingCopy
+copy .\sph.packages\ControlCenter.bat $output
+copy .\sph.packages\mru.exe $output
 
 #remove the custom triggers
 Get-Item -Path .\sph.packages\output\subscribers\subscriber.trigger.* `
@@ -218,7 +218,7 @@ Get-Item -Path .\sph.packages\output\subscribers\subscriber.trigger.* `
 | ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
 | Remove-Item
 
-ls -Filter *.md -Path $WorkingCopy\web\docs | Remove-Item
+ls -Filter *.md -Path $output\web\docs | Remove-Item
 
 #version
 $versionJson = @"
@@ -226,25 +226,27 @@ $versionJson = @"
 "build": $Build
 }
 "@
-$versionJson > $WorkingCopy\version.json
+$versionJson > $output\version.json
 Write-Host ""
 
 Write-Host ""
 
 # remove unused and big files
-ls -Path $WorkingCopy\control.center -Filter *.xml | Remove-Item
-ls -Path $WorkingCopy -Recurse -Filter Spring.Core.pdb | Remove-Item
+ls -Path $output\control.center -Filter *.xml | Remove-Item
+
+ls -Path $output -Recurse -Filter GalaSoft.*.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Microsoft.*.pdb | Remove-Item
+ls -Path $output -Recurse -Filter sqlmembership.directoryservices.dll.config | Remove-Item
+ls -Path $output -Recurse -Filter DiffPlex.pdb | Remove-Item
+ls -Path $output -Recurse -Filter SQLSpatialTools.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Common.Logging.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Common.Logging.Core.pdb | Remove-Item
+ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item
 
 
-Write-Host "Delete Roslyn dll ? "
-$deleteRoslyn = Read-Host
-if($deleteRoslyn -eq "y")
-{
-    ls -Path $WorkingCopy -Recurse -Filter Roslyn.Compilers.* | Remove-Item
-    ls -Path $WorkingCopy -Recurse -Filter Roslyn.Services.* | Remove-Item
-}
-
-Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit"
+Write-Host "Please check for any errors, Press [Enter] to continue packaging into 7z or q to exit" -ForegroundColor Yellow -NoNewline
 $compressed = Read-Host
 if($compressed -eq 'q')
 {
