@@ -2039,6 +2039,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\workflow.overview.js" />
     <EmbeddedResource Include="SphApp\views\assembly.dialog.html" />
     <EmbeddedResource Include="SphApp\viewmodels\view.column.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\role.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2061,6 +2062,7 @@
     <EmbeddedResource Include="SphApp\views\_workflow.instances.console.html" />
     <EmbeddedResource Include="SphApp\views\_workflow.management.consoles.html" />
     <EmbeddedResource Include="SphApp\views\view.column.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\role.dialog.html" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\Button.cshtml">
