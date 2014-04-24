@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -7,13 +7,13 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../objectbuilders.js" />
-/// <reference path="../../Scripts/jsPlumb/jquery.jsPlumb.js" />
+/// <reference path="../../Scripts/jsPlumb/jquery.jsPlumb-1.5.4.js" />
 /// <reference path="../../Scripts/jsPlumb/jsPlumb.js" />
 /// <reference path="../../Scripts/_task.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, objectbuilders.app, objectbuilders.eximp],
-    function (context, logger, router, system, app, eximp) {
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, objectbuilders.app],
+    function (context, logger, router, system, app) {
 
         var isBusy = ko.observable(false),
             isPublishing = ko.observable(false),
@@ -421,7 +421,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 });
 
 
-                var paintedConnectors = [];
+                var paintedConnectors = [],
+                    hoveredActivity = null;
 
                 $(view).on('mouseenter', 'div.activity', function () {
                     var act = ko.dataFor(this),
@@ -430,6 +431,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         targets = [act.NextActivityWebId()];
                     cps.strokeStyle = "#007aff";// blue
                     cps2.strokeStyle = "#ff6a00";// orange
+
+                    hoveredActivity = act;
 
 
                     var cs = jsPlumb.select({ source: act.WebId() })
@@ -464,6 +467,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 });
 
                 $(view).on('mouseleave', 'div.activity', function () {
+
+                    hoveredActivity = null;
                     $('div.activity').each(function () {
                         var div2 = $(this);
                         div2.removeClass("source-activity")
@@ -484,6 +489,30 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 $(document).on('keyup', function (e) {
                     if (e.ctrlKey && e.altKey && e.keyCode === 88) {
                         $('#toolbox-panel').show();
+                    }
+                });
+
+                var clipboardItem = null;
+                $(view).on('copy', 'div.activity', function (e) {
+                    e.preventDefault();
+                    clipboardItem = hoveredActivity ;
+                    console.log("Copied " + clipboardItem.Name());
+                });
+                $(view).on('paste', 'div#container-canvas', function (e) {
+                    e.preventDefault();
+                    if (clipboardItem) {
+
+                        console.log("paste " + clipboardItem.Name());
+                        var act = context.toObservable(ko.mapping.toJS(clipboardItem)),
+                        x = act.WorkflowDesigner().X() + 20,
+                        y = act.WorkflowDesigner().Y() + 20;
+
+                        act.Name(act.Name() + wd().ActivityCollection().length);
+                        act.WorkflowDesigner().X(x);
+                        act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top);
+                        act.WebId(system.guid());
+                        wd().ActivityCollection.push(act);
+                        initializeActivity(act);
                     }
                 });
 
@@ -566,11 +595,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         if (result.success) {
                             wd().Version(result.version);
                             publishingMessage("Stopping all subscribers...");
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 publishingMessage("Deployment in progress");
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     publishingMessage("Starting the subscribers");
-                                    setTimeout(function() {
+                                    setTimeout(function () {
                                         isPublishing(false);
                                     }, 5 * 1000);
                                 }, 2 * 1000);
