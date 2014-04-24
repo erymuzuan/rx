@@ -84,11 +84,6 @@ namespace domain.test.workflows
             Assert.AreEqual(new[] { "_B_" }, resultA.NextActivities);
         }
 
-
-
-
-
-
         [Test]
         public async Task CompileAndRun()
         {
