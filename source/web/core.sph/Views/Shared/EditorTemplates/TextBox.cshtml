@@ -1,10 +1,25 @@
+@using System.Globalization
 @model Bespoke.Sph.Domain.TextBox
 @{
     var required = (Model.IsRequired || Model.FieldValidation.IsRequired) ? "required" : null;
+    var maxLength = (Model.FieldValidation.MaxLength > 0 ? Model.FieldValidation.MaxLength.ToString(CultureInfo.InvariantCulture) : null);
+    var pattern = (string.IsNullOrWhiteSpace(Model.FieldValidation.Pattern) ? null : Model.FieldValidation.Pattern);
 }
 @if (string.IsNullOrWhiteSpace(Model.Enable))
 {
     Model.Enable = "true";
+}
+
+@functions
+{
+
+    public static IHtmlString @Attribute(string value, string attr)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return new HtmlString("");
+        return new HtmlString(string.Format("{0}=\"{1}\"", attr, value));
+    }
+
 }
 
 @if (Model.IsCompact)
@@ -12,7 +27,8 @@
 
     <input @required class="@(Model.CssClass + " form-control " + Model.Size)" title="@Model.Tooltip"
            data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-           id="@Model.ElementId" type="text" name="@Model.Path" />
+           id="@Model.ElementId" type="text" name="@Model.Path" maxlength="@maxLength"
+           pattern="@Html.Raw(pattern)" />
 }
 else
 {
@@ -21,6 +37,8 @@ else
         <div class="@Model.InputPanelCssClass">
             <input @required class="@(Model.CssClass + " form-control " + Model.Size)" title="@Model.Tooltip"
                    data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
+                   @Attribute(maxLength, "maxlength")
+                   @Attribute(pattern, "pattern")
                    id="@Model.ElementId" type="text" name="@Model.Path" />
         </div>
         @if (!string.IsNullOrWhiteSpace(Model.HelpText))

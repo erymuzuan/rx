@@ -180,23 +180,24 @@ WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[
 "Update: \'keyup\'\" id=\"form-element-help-text\" type=\"text\" name=\"HelpText\" />\r\n   " +
 "                 </div>\r\n\r\n\r\n                    <div class=\"form-group\">\r\n     " +
 "                   <label for=\"fe-css-class\">Css class</label>\r\n                " +
-"        <input data-bind=\"value: CssClass\" id=\"fe-css-class\" type=\"text\" name=\"C" +
-"ssClass\" />\r\n                    </div>\r\n\r\n                    <div class=\"form-" +
-"group\">\r\n                        <label for=\"form-element-visible\">Visible</labe" +
-"l>\r\n                        <input class=\"form-control\" data-bind=\"value: Visibl" +
-"e\" id=\"form-element-visible\" type=\"text\" name=\"Visible\" />\r\n                    " +
-"</div>\r\n                    <div class=\"form-group\">\r\n                        <l" +
-"abel for=\"form-element-enable\">Enable</label>\r\n                        <input cl" +
-"ass=\"form-control\" data-bind=\"value: Enable\" id=\"form-element-enable\" type=\"text" +
-"\" name=\"Enable\" />\r\n                    </div>\r\n\r\n\r\n                    <div cla" +
-"ss=\"form-group\">\r\n                        <label for=\"form-element-elementId\">Id" +
-"</label>\r\n                        <input class=\"form-control\" data-bind=\"value: " +
-"ElementId\" id=\"form-element-elementId\" type=\"text\" name=\"ElementId\" />\r\n        " +
-"            </div>\r\n\r\n                </div>\r\n\r\n                <div class=\"form" +
-"-group\">\r\n                    <a href=\"#toolbox-advanced-settings\" data-toggle=\"" +
-"collapse\">\r\n                        <i class=\"fa fa-chevron-down\"></i>\r\n        " +
-"                Advanced settings\r\n                    </a>\r\n                </d" +
-"iv>\r\n                <div id=\"toolbox-advanced-settings\" class=\"collapse\">\r\n");
+"        <input class=\"form-control\" data-bind=\"value: CssClass\" id=\"fe-css-class" +
+"\" type=\"text\" name=\"CssClass\" />\r\n                    </div>\r\n\r\n                " +
+"    <div class=\"form-group\">\r\n                        <label for=\"form-element-v" +
+"isible\">Visible</label>\r\n                        <input class=\"form-control\" dat" +
+"a-bind=\"value: Visible\" id=\"form-element-visible\" type=\"text\" name=\"Visible\" />\r" +
+"\n                    </div>\r\n                    <div class=\"form-group\">\r\n     " +
+"                   <label for=\"form-element-enable\">Enable</label>\r\n            " +
+"            <input class=\"form-control\" data-bind=\"value: Enable\" id=\"form-eleme" +
+"nt-enable\" type=\"text\" name=\"Enable\" />\r\n                    </div>\r\n\r\n\r\n       " +
+"             <div class=\"form-group\">\r\n                        <label for=\"form-" +
+"element-elementId\">Id</label>\r\n                        <input class=\"form-contro" +
+"l\" data-bind=\"value: ElementId\" id=\"form-element-elementId\" type=\"text\" name=\"El" +
+"ementId\" />\r\n                    </div>\r\n\r\n                </div>\r\n\r\n           " +
+"     <div class=\"form-group\">\r\n                    <a href=\"#toolbox-advanced-se" +
+"ttings\" data-toggle=\"collapse\">\r\n                        <i class=\"fa fa-chevron" +
+"-down\"></i>\r\n                        Advanced settings\r\n                    </a>" +
+"\r\n                </div>\r\n                <div id=\"toolbox-advanced-settings\" cl" +
+"ass=\"collapse\">\r\n");
 
 
             
