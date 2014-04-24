@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Bespoke.Sph.SubscribersInfrastructure;
 using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
@@ -50,31 +51,17 @@ namespace workers.console.runner
             }
             metadata.Select(d => d.FullName).ToList().ForEach(Console.WriteLine);
 
+            var stopFlag = new AutoResetEvent(false);
             Console.CancelKeyPress += (s, ce) =>
             {
-                Console.WriteLine("Stop the workers [ENTER] +  y");
-                while (!Console.KeyAvailable)
-                {
-                    
-                }
-                var cki = Console.ReadKey();
-                if (cki.Key != ConsoleKey.Y)
-                {
-                    Console.WriteLine("----");
-                    Console.WriteLine(cki.KeyChar);
-                    Console.WriteLine(cki.Key);
-                    ce.Cancel = true;
-                    return;
-                }
                 Console.WriteLine("The workers is shutting down...");
                 program.Stop();
+                stopFlag.Set();
             };
 
             program.Start(metadata);
             Console.WriteLine("Welcome to [SPH] Type ctrl + c to quit at any time.");
-            while (true)
-            {
-            }
+            stopFlag.WaitOne();
             return 0;
         }
 
