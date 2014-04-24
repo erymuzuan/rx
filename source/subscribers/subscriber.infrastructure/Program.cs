@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using Bespoke.Sph.Domain;
+using Humanizer;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -87,8 +88,15 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         void FswChanged(object sender, FileSystemEventArgs e)
         {
-            //this.NotificationService.Write("Detected changes in FileSystem initiating stop\r\n{0} has {1}", e.Name, e.ChangeType);
+            this.NotificationService.Write("Detected changes in FileSystem initiating stop\r\n{0} has {1}", e.Name, e.ChangeType);
             this.Stop();
+            this.NotificationService.Write("Restarting in 2 seconds");
+            Thread.Sleep(2.Seconds());
+            using (var work = new Isolated<Discoverer>())
+            {
+                var metadata = work.Value.Find();
+                this.Start(metadata);
+            }
         }
 
         private Thread StartAppDomain(SubscriberMetadata metadata)
@@ -191,11 +199,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             this.AppDomainCollection.Clear();
 
 
-            using (var work = new Isolated<Discoverer>())
-            {
-                var metadata = work.Value.Find();
-                this.Start(metadata);
-            }
         }
     }
 }

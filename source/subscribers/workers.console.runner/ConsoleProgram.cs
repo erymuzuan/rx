@@ -72,6 +72,9 @@ namespace workers.console.runner
 
             program.Start(metadata);
             Console.WriteLine("Welcome to [SPH] Type ctrl + c to quit at any time.");
+            while (true)
+            {
+            }
             return 0;
         }
 
