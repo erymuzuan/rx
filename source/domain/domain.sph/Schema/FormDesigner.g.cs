@@ -6076,6 +6076,34 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("CurrencyElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class CurrencyElement
+    {
+
+        private string m_Currency;
+        [XmlAttribute]
+        public string Currency
+        {
+            get
+            {
+                return m_Currency;
+            }
+            set
+            {
+                m_Currency = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement

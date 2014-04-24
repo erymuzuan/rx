@@ -112,7 +112,7 @@ ko.bindingHandlers.money = {
     init: function (element, valueAccessor) {
         var value = valueAccessor(),
             textbox = $(element),
-            val = ko.unwrap(value),
+            val = parseFloat(ko.unwrap(value) || "0"),
             fm = val.toFixed(2).replace(/./g, function (c, i, a) {
                 return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
             });
@@ -129,7 +129,7 @@ ko.bindingHandlers.money = {
     update: function (element, valueAccessor) {
         var value = valueAccessor(),
              textbox = $(element),
-             val = parseFloat(ko.unwrap(value)),
+             val = parseFloat(ko.unwrap(value)||"0"),
              fm = val.toFixed(2).replace(/./g, function (c, i, a) {
                  return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
              });
@@ -690,10 +690,14 @@ ko.bindingHandlers.filter = {
         var value = valueAccessor(),
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
+            tooltip = value.tooltip || 'Type to filter current page or type and [ENTER] to search the whole view',
+            offset = ( typeof  value.offset === "undefined" ? 8 : parseInt(value.offset)),
+            colmd = "col-md-" + (12 - offset),
+            coloff = "col-md-offset-" + offset,
             $element = $(element),
-            $filterInput = $("<input data-toggle='tooltip' title='Type to filter current page or type and [ENTER] to search the whole view' type='search' class='search-query input-medium form-control' placeholder='Filter.. '>"),
+            $filterInput = $("<input data-toggle='tooltip' title='" + tooltip + "' type='search' class='search-query input-medium form-control' placeholder='Filter.. '>"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
-            $form = $("<form class='form-search col-lg-4 col-lg-offset-8'>" +
+            $form = $("<form class='form-search "+ colmd + " " + coloff + "'>" +
                 " <div class='input-group pull-right'>" +
                 "<span class='input-group-addon'>" +
                 " <span class='glyphicon glyphicon-remove'></span>" +

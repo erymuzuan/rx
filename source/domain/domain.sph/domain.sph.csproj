@@ -94,6 +94,7 @@
     <Compile Include="FormTemplates\ChildEntityListView.cs" />
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
     <Compile Include="FormTemplates\ConditionalFormatting.cs" />
+    <Compile Include="FormTemplates\CurrencyElement.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />
     <Compile Include="FormTemplates\DefaultValue.cs" />
     <Compile Include="FormTemplates\DownloadLink.cs" />

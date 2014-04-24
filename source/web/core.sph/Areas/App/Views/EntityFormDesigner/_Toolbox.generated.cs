@@ -145,18 +145,19 @@ WriteLiteral("\r\n<div id=\"form-designer-toolbox\" data-path=\"Areas\\App\\View
 "e=\"FormDesign.InputColXs\" />\r\n                    </div>\r\n\r\n                </di" +
 "v>\r\n\r\n\r\n                <!-- /ko -->\r\n\r\n            </form>\r\n        </div>\r\n   " +
 "     <div id=\"add-field\" class=\"tab-pane\">\r\n            <ul class=\"nav\" data-bin" +
-"d=\"foreach: formElements\">\r\n                <li>\r\n                    <a class=\"" +
-"btn btn-default\" href=\"#add-field\" data-bind=\"attr : {title:Tooltip}\">\r\n        " +
-"                <i data-bind=\"attr: { \'class\': ToolboxIconClass }\" class=\"pull-l" +
-"eft\"></i>\r\n                        <!-- ko text: Name -->\r\n                     " +
-"   <!-- /ko-->\r\n                    </a>\r\n                </li>\r\n            </u" +
-"l>\r\n        </div>\r\n\r\n        <div id=\"fields-settings\" class=\"tab-pane\" data-bi" +
-"nd=\"with: selectedFormElement\">\r\n            <form role=\"form\">\r\n               " +
-" <div class=\"form-group\">\r\n                    <label for=\"form-element-label\">L" +
-"abel</label>\r\n                    <input class=\"form-control\" data-bind=\"value: " +
-"Label, valueUpdate: \'keyup\'\" id=\"form-element-label\" type=\"text\" name=\"Label\" />" +
-"\r\n                </div>\r\n\r\n                <div class=\"form-group\">\r\n          " +
-"          <label for=\"form-element-path\">Path</label>\r\n                    ");
+"d=\"foreach: formElements, filter : {path:\'>li\', tooltip :\'elements filter\', offs" +
+"et : 0}\">\r\n                <li>\r\n                    <a class=\"btn btn-default\" " +
+"href=\"#add-field\" data-bind=\"attr : {title:Tooltip}\">\r\n                        <" +
+"i data-bind=\"attr: { \'class\': ToolboxIconClass }\" class=\"pull-left\"></i>\r\n      " +
+"                  <!-- ko text: Name -->\r\n                        <!-- /ko-->\r\n " +
+"                   </a>\r\n                </li>\r\n            </ul>\r\n        </div" +
+">\r\n\r\n        <div id=\"fields-settings\" class=\"tab-pane\" data-bind=\"with: selecte" +
+"dFormElement\">\r\n            <form role=\"form\">\r\n                <div class=\"form" +
+"-group\">\r\n                    <label for=\"form-element-label\">Label</label>\r\n   " +
+"                 <input class=\"form-control\" data-bind=\"value: Label, valueUpdat" +
+"e: \'keyup\'\" id=\"form-element-label\" type=\"text\" name=\"Label\" />\r\n               " +
+" </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label " +
+"for=\"form-element-path\">Path</label>\r\n                    ");
 
 
 
