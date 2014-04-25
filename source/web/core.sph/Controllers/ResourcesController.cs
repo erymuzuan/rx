@@ -86,7 +86,8 @@ namespace Bespoke.Sph.Web.Controllers
 
             if (id == "jsplumb.js")
                 id = "jsplumb.jsplumb.css";
-
+            if (id == "workflow.triggers.css.map")
+                id = "theme.matyie.workflow.triggers.css.map";
 
             return GetResource(id, "Content");
 

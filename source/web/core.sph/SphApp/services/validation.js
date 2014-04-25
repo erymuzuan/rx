@@ -17,7 +17,7 @@ define([],
                 m_form = form;
                 m_template = template;
                 
-                var validation = { rules: {}, messages: {} };
+                var validation = { debug : true, rules: {}, messages: {} };
                 _(template.FormDesign().FormElementCollection()).each(function (f) {
                     var path = f.Path(), v = f.FieldValidation();
                     if (!f.FieldValidation()) {
@@ -30,10 +30,10 @@ define([],
                     }
 
                     if (v.MaxLength()) {
-                        validation.rules[path].maxLength = v.MaxLength();
+                        validation.rules[path].maxlength = v.MaxLength();
                     }
                     if (v.MinLength()) {
-                        validation.rules[path].minLength = v.MinLength();
+                        validation.rules[path].minlength = v.MinLength();
                     }
                     if (v.Mode()) {
                         validation.rules[path][v.Mode()] = true;

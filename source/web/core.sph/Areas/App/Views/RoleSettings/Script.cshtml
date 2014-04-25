@@ -39,12 +39,38 @@
                         logger.info("Designation is successfully saved");
                     });
                 return tcs.promise();
-            };
+            },
+               addRole = function () {
+
+
+                   var tcs = new $.Deferred();
+
+                   require(['viewmodels/role.dialog', 'durandal/app'], function (dialog, app2) {
+                       app2.showDialog(dialog)
+                           .done(function (result) {
+                               if (!result) {
+                                   tcs.resolve(false);
+                                   return;
+                               };
+                               if (result === "OK") {
+                                   var data = ko.mapping.toJSON(dialog.role);
+                                   context.post(data, "/Sph/Admin/AddRole")
+                                       .then(function (fw) {
+                                           tcs.resolve(fw);
+                                           logger.info("Refresh your browser to relect the changes");
+                                       });
+                               }
+                           });
+
+                   });
+                   return tcs.promise();
+               };
 
             var vm = {
                 activate: activate,
+                addRole: addRole,
                 designation: ko.observable(),
-                toolbar:{saveCommand: save}
+                toolbar: { saveCommand: save }
             };
 
             return vm;

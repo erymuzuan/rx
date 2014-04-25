@@ -2,28 +2,20 @@
 
 <!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.TextBox, domain.sph" -->
 <div class="form-group">
-    <label for="form-element-textbox-minlength">Autocompletion Entity</label>
-    <select class="form-control" data-bind="value: AutoCompletionEntity,
+    <label for="fetb-entity">Autocompletion Entity</label>
+    <select id="fetb-entity" class="form-control" data-bind="value: AutoCompletionEntity,
                 options : $root.entityOptions,
                 optionsValue : 'value',
                 optionsText : 'text',
-                optionsCaption: '[Select Entity]'" id="form-element-textbox-entity" name="entity"></select>
+                optionsCaption: '[Select Entity]'" name="entity"></select>
 </div>
 <div class="form-group">
-    <label for="form-element-textbox-minlength">Autocompletion Field</label>
-    <input class="form-control" data-bind="value: AutoCompletionField,entityTypeaheadPath : AutoCompletionEntity" id="form-element-textbox-Field" type="text" name="Field" />
+    <label for="fetb-field">Autocompletion Field</label>
+    <input class="form-control" data-bind="value: AutoCompletionField,entityTypeaheadPath : AutoCompletionEntity,enable:AutoCompletionEntity()" id="fetb-field" type="text" name="Field" />
 </div>
 <div class="form-group">
-    <label for="form-element-textbox-minlength">Autocompletion Query</label>
-    <input class="form-control" data-bind="value: AutoCompletionQuery" id="form-element-textbox-Query" type="text" name="Query" />
-</div>
-<div class="form-group">
-    <label for="form-element-textbox-minlength">Min length</label>
-    <input class="form-control" data-bind="value: MinLength" id="form-element-textbox-minlength" type="text" name="MinLength" />
+    <label for="fetb-Query">Autocompletion Query</label>
+    <input class="form-control" data-bind="value: AutoCompletionQuery,enable:AutoCompletionEntity()" id="fetb-Query" type="text" name="Query" />
 </div>
 
-<div class="form-group">
-    <label for="form-element-textbox-maxlength">Max length</label>
-    <input class="form-control" data-bind="value: MaxLength" id="form-element-textbox-maxlength" type="text" name="MaxLength" />
-</div>
 <!--/ko-->

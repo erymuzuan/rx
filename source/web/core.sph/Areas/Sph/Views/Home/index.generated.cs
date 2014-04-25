@@ -90,10 +90,10 @@ WriteLiteral(@"</title>
 
 
 WriteLiteral(@"
-    <link href=""~/Content/css.css"" rel=""stylesheet"" />
-    <link href=""~/Content/nprogress.css"" rel=""stylesheet"" />
-    <link href=""~/Content/daterangepicker-bs3.css"" rel=""stylesheet"" />
-    <link href=""~/Content/site.css"" rel=""stylesheet"" />
+    <link href=""/Content/css.css"" rel=""stylesheet"" />
+    <link href=""/Content/nprogress.css"" rel=""stylesheet"" />
+    <link href=""/Content/daterangepicker-bs3.css"" rel=""stylesheet"" />
+    <link href=""/Content/site.css"" rel=""stylesheet"" />
     <meta name=""description"" content=""The description of my page"" />
 </head>
 <body>
@@ -123,35 +123,35 @@ WriteLiteral("\r\n    <script src=\"~/SphApp/objectbuilders.js\"></script>\r\n")
             
             #line default
             #line hidden
-WriteLiteral("        <script src=\"~/Scripts/vendor.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/vendor.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/Scripts/nprogress.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/nprogress.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/Scripts/jstree.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/jstree.min.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/Scripts/core.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/core.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/Scripts/_ko.entity.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/_ko.entity.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/SphApp/schemas/domain.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/SphApp/schemas/domain.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/SphApp/prototypes/prototypes.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/SphApp/prototypes/prototypes.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/SphApp/partial/partial.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/SphApp/partial/partial.js\"></script>\r\n");
 
 
 
@@ -160,12 +160,12 @@ WriteLiteral("        <script type=\"text/javascript\" src=\"/sph/entitydefiniti
 
 
 
-WriteLiteral("        <script src=\"~/Content/theme.");
+WriteLiteral("        <script src=\"/Content/theme.");
 
 
             
             #line 49 "..\..\Areas\Sph\Views\Home\index.cshtml"
-                                Write(theme);
+                               Write(theme);
 
             
             #line default
@@ -174,7 +174,7 @@ WriteLiteral("/theme.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/kendo/js/kendo.all.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/kendo/js/kendo.all.js\"></script>\r\n");
 
 
             
@@ -186,31 +186,31 @@ WriteLiteral("        <script src=\"~/kendo/js/kendo.all.js\"></script>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("        <script src=\"~/Scripts/vendor.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/vendor.min.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/Scripts/jstree.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/jstree.min.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/Scripts/core.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/core.min.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/Scripts/nprogress.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/nprogress.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/Sph/schemas/domain.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Sph/schemas/domain.min.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/Sph/prototypes/prototypes.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Sph/prototypes/prototypes.min.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/Sph/partial/partial.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Sph/partial/partial.min.js\"></script>\r\n");
 
 
 
@@ -233,7 +233,7 @@ WriteLiteral("/theme.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"~/kendo/js/kendo.all.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/kendo/js/kendo.all.js\"></script>\r\n");
 
 
             
@@ -243,8 +243,8 @@ WriteLiteral("        <script src=\"~/kendo/js/kendo.all.js\"></script>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n    <script type=\"text/javascript\" src=\"~/Scripts/require.js\" data-main=\"SphA" +
-"pp/main\"></script>\r\n\r\n\r\n\r\n    ");
+WriteLiteral("\r\n\r\n    <script type=\"text/javascript\" src=\"/Scripts/require.js\" data-main=\"SphAp" +
+"p/main\"></script>\r\n\r\n\r\n\r\n    ");
 
 
 

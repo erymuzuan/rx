@@ -11,29 +11,39 @@
 
 define(['services/datacontext', 'services/logger', 'plugins/router'],
 	function (context, logger) {
-	    var
-        isBusy = ko.observable(false),
-        activate = function () {
-            var query = String.format("Key eq 'Departments'");
-            var tcs = new $.Deferred();
-            context.loadOneAsync("Setting", query)
-                .done(function (s) {
-                    if (s) {
-                        var departments = JSON.parse(ko.mapping.toJS(s.Value));
-                        vm.departments(departments);
-                    }
-                    tcs.resolve(true);
-                });
+	    var isBusy = ko.observable(false),
+            activate = function () {
+                var query = String.format("Key eq 'Departments'");
+                var tcs = new $.Deferred();
+                context.loadOneAsync("Setting", query)
+                    .done(function (s) {
+                        if (s) {
+                            var departments = _(JSON.parse(ko.mapping.toJS(s.Value)))
+                            .filter(function (v) {
+                                return v.Name;
+                            });
+                            vm.departments(departments);
+                        }
+                        tcs.resolve(true);
+                    });
 
-            return tcs.promise();
-        },
-        addDepartment = function () {
-            var department ={Name : ko.observable()};
-            vm.departments.push(department);
-        },
-        removeDepartment = function (department) {
-            vm.departments.remove(department);
-        },
+                return tcs.promise();
+            },
+	        attached = function (view) {
+	            $(view).on('blur', 'input.department-field', function (e) {
+	                if ($(this).val()) {
+	                    saveDepartment();
+	                }
+	            });
+	        },
+            addDepartment = function () {
+                var department = { Name: ko.observable() };
+                vm.departments.push(department);
+            },
+            removeDepartment = function (department) {
+                vm.departments.remove(department);
+                saveDepartment();
+            },
             saveDepartment = function () {
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({
@@ -55,6 +65,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 	    var vm = {
 	        isBusy: isBusy,
 	        activate: activate,
+	        attached: attached,
 	        departments: ko.observableArray([]),
 	        addCommand: addDepartment,
 	        removeCommand: removeDepartment,

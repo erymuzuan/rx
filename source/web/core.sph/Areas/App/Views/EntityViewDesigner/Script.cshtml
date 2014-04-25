@@ -62,7 +62,7 @@
                 publish = function () {
 
                     // get the sorted element
-                    var columns = _($('ul#column-design>li:not(:first)')).map(function (div) {
+                    var columns = _($('ul#column-design>li:not(:last)')).map(function (div) {
                         return ko.dataFor(div);
                     });
                     view().ViewColumnCollection(columns);
@@ -88,7 +88,7 @@
                 },
                 save = function () {
                     // get the sorted element
-                    var columns = _($('ul#column-design>li:not(:first)')).map(function (div) {
+                    var columns = _($('ul#column-design>li:not(:last)')).map(function (div) {
                         return ko.dataFor(div);
                     });
                     view().ViewColumnCollection(columns);

@@ -107,7 +107,6 @@
     <Compile Include="CustomerEntityHelper.cs" />
     <Compile Include="DynamicEntityProvider.cs" />
     <Compile Include="entities\EntityDefinitionCodeTest.cs" />
-    <Compile Include="entities\GenerateCustomerData.cs" />
     <Compile Include="entities\OperationTest.cs" />
     <Compile Include="entities\ViewSortTest.cs" />
     <Compile Include="reports\DataGridTestFixture.cs" />
@@ -183,11 +182,6 @@
       <Project>{40892CEA-FD47-4C1F-B821-7939776E9B6B}</Project>
       <Name>subscriber.infrastructure</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="contract.2013000036.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="entities\querydsl.json" />

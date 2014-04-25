@@ -468,10 +468,6 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public int? MinLength { get; set; }
-
-        public int? MaxLength { get; set; }
-
 
     }
 
@@ -6076,6 +6072,34 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("CurrencyElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class CurrencyElement
+    {
+
+        private string m_Currency;
+        [XmlAttribute]
+        public string Currency
+        {
+            get
+            {
+                return m_Currency;
+            }
+            set
+            {
+                m_Currency = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement
@@ -6141,6 +6165,11 @@ namespace Bespoke.Sph.Domain
 
         private bool m_useDisplayTemplate;
         public const string PropertyNameUseDisplayTemplate = "UseDisplayTemplate";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_toolboxIconClass;
+        public const string PropertyNameToolboxIconClass = "ToolboxIconClass";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
@@ -6463,6 +6492,28 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_useDisplayTemplate;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string ToolboxIconClass
+        {
+            set
+            {
+                if (m_toolboxIconClass == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameToolboxIconClass, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_toolboxIconClass = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_toolboxIconClass;
             }
         }
 

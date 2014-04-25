@@ -37,25 +37,27 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.EditorTemplates
         public override void Execute()
         {
 
-WriteLiteral("\r\n<!--ko if: ko.unwrap($type) === \"Bespoke.Sph.Domain.TextBox, domain.sph\" -->\r\n<" +
-"div class=\"form-group\">\r\n    <label for=\"form-element-textbox-minlength\">Autocom" +
-"pletion Entity</label>\r\n    <select class=\"form-control\" data-bind=\"value: AutoC" +
-"ompletionEntity,\r\n                options : $root.entityOptions,\r\n              " +
-"  optionsValue : \'value\',\r\n                optionsText : \'text\',\r\n              " +
-"  optionsCaption: \'[Select Entity]\'\" id=\"form-element-textbox-entity\" name=\"enti" +
-"ty\"></select>\r\n</div>\r\n<div class=\"form-group\">\r\n    <label for=\"form-element-te" +
-"xtbox-minlength\">Autocompletion Field</label>\r\n    <input class=\"form-control\" d" +
-"ata-bind=\"value: AutoCompletionField,entityTypeaheadPath : AutoCompletionEntity\"" +
-" id=\"form-element-textbox-Field\" type=\"text\" name=\"Field\" />\r\n</div>\r\n<div class" +
-"=\"form-group\">\r\n    <label for=\"form-element-textbox-minlength\">Autocompletion Q" +
-"uery</label>\r\n    <input class=\"form-control\" data-bind=\"value: AutoCompletionQu" +
-"ery\" id=\"form-element-textbox-Query\" type=\"text\" name=\"Query\" />\r\n</div>\r\n<div c" +
-"lass=\"form-group\">\r\n    <label for=\"form-element-textbox-minlength\">Min length</" +
-"label>\r\n    <input class=\"form-control\" data-bind=\"value: MinLength\" id=\"form-el" +
-"ement-textbox-minlength\" type=\"text\" name=\"MinLength\" />\r\n</div>\r\n\r\n<div class=\"" +
-"form-group\">\r\n    <label for=\"form-element-textbox-maxlength\">Max length</label>" +
-"\r\n    <input class=\"form-control\" data-bind=\"value: MaxLength\" id=\"form-element-" +
-"textbox-maxlength\" type=\"text\" name=\"MaxLength\" />\r\n</div>\r\n<!--/ko-->\r\n");
+WriteLiteral(@"
+<!--ko if: ko.unwrap($type) === ""Bespoke.Sph.Domain.TextBox, domain.sph"" -->
+<div class=""form-group"">
+    <label for=""fetb-entity"">Autocompletion Entity</label>
+    <select id=""fetb-entity"" class=""form-control"" data-bind=""value: AutoCompletionEntity,
+                options : $root.entityOptions,
+                optionsValue : 'value',
+                optionsText : 'text',
+                optionsCaption: '[Select Entity]'"" name=""entity""></select>
+</div>
+<div class=""form-group"">
+    <label for=""fetb-field"">Autocompletion Field</label>
+    <input class=""form-control"" data-bind=""value: AutoCompletionField,entityTypeaheadPath : AutoCompletionEntity,enable:AutoCompletionEntity()"" id=""fetb-field"" type=""text"" name=""Field"" />
+</div>
+<div class=""form-group"">
+    <label for=""fetb-Query"">Autocompletion Query</label>
+    <input class=""form-control"" data-bind=""value: AutoCompletionQuery,enable:AutoCompletionEntity()"" id=""fetb-Query"" type=""text"" name=""Query"" />
+</div>
+
+<!--/ko-->
+");
 
 
         }

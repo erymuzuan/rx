@@ -19,32 +19,8 @@
 
     <div class="tab-content">
         <div id="user-tab" class="tab-pane active">
-            <div class="search-panel row" data-bind="with: searchTerm">
-                <form class="form-inline col-lg-12">
-                    <div class="row">
-                        <div class="form-group col-lg-3">
-                            <label class="">Department</label>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control col-lg-3" data-bind="options: $root.departmentOptions, value: department, optionsText: 'Name', optionsValue: 'Name'"></select>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-lg-1 sr-only">Kata Kunci</label>
-                            <input placeholder="Keywords" class="form-control col-lg-2" type="text" data-bind="value: keyword" required />
-                        </div>
-                        <div class="form-group col-lg-2 pull-right">
-                            <button type="submit" class="btn btn-default" id="search-btn">
-                                <i class="fa fa-search pull-left"></i>
-                                Search
-                            </button>
-                        </div>
-
-                    </div>
-
-                </form>
-            </div>
             <div>
-                <table class="table table-striped" data-bind="serverPaging: { entity: 'UserProfile', query: 'UserProfileId gt 0', list: profiles, map: map }">
+                <table class="table table-striped" data-bind="serverPaging: { entity: 'UserProfile', query: 'UserProfileId gt 0', list: profiles, map: map },filter : {path:'tbody>tr'}">
                     <thead>
                         <tr>
                             <th>UserName</th>
@@ -58,7 +34,11 @@
                     <tbody data-bind="foreach: profiles">
                         <tr>
                             <td>
-                                <a data-toggle="modal" href="#user-details-modal" data-bind="click: $root.editCommand, text: UserName"></a>
+                                <a data-toggle="modal" href="#user-details-modal" data-bind="click: $root.editCommand">
+                                    <i class="fa fa-user"></i>
+                                    <!-- ko text: UserName-->
+                                    <!-- /ko-->
+                                </a>
 
                             </td>
                             <td data-bind="text: FullName"></td>
@@ -71,11 +51,17 @@
                         </tr>
                     </tbody>
                 </table>
+                <a href="#" class="btn btn-link" data-bind="click : add">
+                    <i class="fa fa-plus-circle"></i>
+                    Add a user
+                </a>
             </div>
         </div>
         <div id="designation-tab" class="tab-pane ">
-            <!--ko compose:'viewmodels/_users.designation' -->
-            <!--/ko-->
+            <div>
+                <!--ko compose:'viewmodels/_users.designation' -->
+                <!--/ko-->
+            </div>
         </div>
         <div id="department-tab" class="tab-pane ">
             <!--ko compose:'viewmodels/_users.department' -->

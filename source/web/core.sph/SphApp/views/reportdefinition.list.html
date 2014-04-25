@@ -6,6 +6,7 @@
         <tr>
             <th>Execute</th>
             <th>Title</th>
+            <th>Entity</th>
             <th>Owner</th>
             <th>Private</th>
             <th>Active</th>
@@ -22,6 +23,7 @@
             <td>
                 <a data-bind="attr: { href: '#/reportdefinition.edit/' + ReportDefinitionId() }, text: Title"></a>
             </td>
+            <td data-bind="text:DataSource().EntityName"></td>
             <td data-bind="text:CreatedBy"></td>
             <td>
                 <i class="fa fa-check" data-bind="visible:IsPrivate"></i>

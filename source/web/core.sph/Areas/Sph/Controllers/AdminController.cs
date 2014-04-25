@@ -4,16 +4,33 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
+    [Authorize(Roles = "administrators")]
     public class AdminController : Controller
     {
-
-        public ActionResult AddRole(string role)
+        public ActionResult AddRole(string role, string description)
         {
             Roles.CreateRole(role);
+
+            var rolesConfig = Server.MapPath("~/roles.config.js");
+            var json = System.IO.File.ReadAllText(rolesConfig);
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.Indented
+            };
+            var roles = (JsonConvert.DeserializeObject<RoleModel[]>(json, settings)).ToList();
+
+            roles.Add(new RoleModel { Role = role, Name = role, Group = role, Description = description });
+            json = JsonConvert.SerializeObject(roles.ToArray(), settings);
+            System.IO.File.WriteAllText(rolesConfig, json);
+
+
             return Json(true);
         }
 

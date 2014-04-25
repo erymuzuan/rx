@@ -1,4 +1,4 @@
-#decision-activity-dialog div.modal-content {
+﻿#decision-activity-dialog div.modal-content {
   width: 800px;
 }
 #function-panel-modal div.modal-content {
@@ -91,5 +91,14 @@ div.workflow-publishing-progress {
 }
 div.workflow-publishing-progress img {
   float: right;
+}
+.radio label,
+.checkbox label {
+  display: inline-block;
+  font-weight: normal;
+  cursor: pointer;
+}
+div.checkbox-no-padding-left {
+  padding-left: 0px;
 }
 /*# sourceMappingURL=workflow.triggers.css.map */

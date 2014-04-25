@@ -50,15 +50,12 @@
 		<xs:attribute name="ElementId" type="xs:string" use="required"/>
 		<xs:attribute name="HelpText" type="xs:string" use="optional"/>
 		<xs:attribute name="UseDisplayTemplate" type="xs:boolean" use="required"/>
+		<xs:attribute name="ToolboxIconClass" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:element name="TextBox">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="FormElement">
-					<xs:all>
-						<xs:element name="MinLength" type="xs:int" nillable="true"/>
-						<xs:element name="MaxLength" type="xs:int" nillable="true"/>
-					</xs:all>
 					<xs:attribute name="DefaultValue" type="xs:string" use="optional"/>
 					<xs:attribute name="AutoCompletionEntity" type="xs:string" use="optional"/>
 					<xs:attribute name="AutoCompletionField" type="xs:string" use="optional"/>
@@ -734,6 +731,15 @@
 					<xs:attribute name="DisplayMemberPath" type="xs:string" use="required"/>
 					<xs:attribute name="ValueMemberPath" type="xs:string" use="required"/>
 					<xs:attribute name="DisplayTemplate" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CurrencyElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:attribute name="Currency" type="xs:string" use="optional"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

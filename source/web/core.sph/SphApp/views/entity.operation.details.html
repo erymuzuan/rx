@@ -30,7 +30,7 @@
             <label class="col-md-2">Rules</label>
             <div class="col-md-6">
                 <ul data-bind="foreach :$root.entity().BusinessRuleCollection" class="nav">
-                    <li>
+                    <li class="checkbox">
                         <label>
                             <input type="checkbox" data-bind="checked : $root.operation().Rules, value: Name" />
                             <!-- ko text : Name -->
@@ -45,7 +45,7 @@
             <label class="col-md-2">Permisssions</label>
             <div class="col-md-6">
                 <ul data-bind="foreach :$root.roles" class="nav">
-                    <li>
+                    <li class="checkbox">
                         <label>
                             <input type="checkbox" data-bind="checked : $root.operation().Permissions, value:$data" />
                             <!-- ko text : $data -->
@@ -61,7 +61,6 @@
             <label class="col-md-2">Field setters</label>
             <div class="col-md-9">
 
-                <a class="btn btn-mini pull-right" data-bind="click: addChildAction">+ Field</a>
                 <table id="setter-action-table" class="table table-striped">
                     <thead>
                         <tr>
@@ -129,6 +128,11 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <a class="btn btn-link" data-bind="click: addChildAction">
+                    <i class="fa fa-plus-circle"></i>
+                    Add a field
+                </a>
             </div>
         </div>
 

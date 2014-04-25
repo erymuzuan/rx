@@ -55,13 +55,13 @@
             <div class="form-group">
                 <label for="icon-storeid" class="col-lg-2 control-label">Icon/Logo</label>
                 <div class="col-lg-6">
-                    
+
                     <div data-bind="attr : {'class':TileColour}" style="padding: 10px;">
                         <div class="pull-left">
                             <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon">
                         </div>
                         <div>
-                            <span style="font-size: 32px; font-weight: bold; margin: 5px" >2631</span>
+                            <span style="font-size: 32px; font-weight: bold; margin: 5px">2631</span>
                         </div>
 
                         <div>
@@ -99,7 +99,6 @@
     </a>
 
     <div class="collapse collapsed" id="filters-ev-panel">
-        <button class="btn btn-link pull-right" data-bind="click : addFilter">+ Filter</button>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -142,6 +141,10 @@
             </tbody>
         </table>
 
+
+        <a class="btn btn-link" data-bind="click : addFilter">
+            <i class="fa fa-plus-circle"></i> Add a filter
+        </a>
     </div>
 </div>
 
@@ -155,7 +158,6 @@
     </a>
 
     <div class="collapse collapsed" id="sorts-ev-panel">
-        <button class="btn btn-link pull-right" data-bind="click : addSort">+ Sort</button>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -186,13 +188,16 @@
             </tbody>
         </table>
 
+        <a class="btn btn-link" data-bind="click : addSort">
+            <i class="fa fa-plus-circle"></i>
+            Add a sort
+        </a>
     </div>
 </div>
 
 <div>
-    
-    <!-- ko compose : {model: 'viewmodels/_view.columns.designer', activationData:$root.view()}-->
 
+    <!-- ko compose : {model: 'viewmodels/_view.columns.designer', activationData:$root.view()}-->
     <!--/ko-->
 
 </div>
@@ -205,7 +210,6 @@
     </a>
 
     <div class="collapse collapsed" id="cf-ev-panel">
-        <button class="btn btn-link pull-right" data-bind="click : addConditionalFormatting">+ Conditional Formatting</button>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -237,5 +241,11 @@
             </tbody>
         </table>
 
+        <a class="btn btn-link" data-bind="click : addConditionalFormatting">
+            <i class="fa fa-plus-circle"></i> Add a conditional formatting
+        </a>
     </div>
 </div>
+
+
+<div class="row" style="height: 200px;"></div>

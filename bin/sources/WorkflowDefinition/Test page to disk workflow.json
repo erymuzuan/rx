@@ -46,6 +46,8 @@
                 "Enable": null,
                 "ElementId": "1d8eb345-8782-4b21-9494-8972a9f1068a",
                 "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -85,6 +87,8 @@
                 "Enable": null,
                 "ElementId": "c56b4a93-7d30-449d-8da9-e2a8d5d95545",
                 "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -124,6 +128,8 @@
                 "Enable": null,
                 "ElementId": "eda67347-7aac-491a-b516-b965ffa5dcc4",
                 "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -143,6 +149,7 @@
                 "CompleteText": null,
                 "IconClass": "fa fa-building-o",
                 "IsToolbarItem": true,
+                "Operation": null,
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
@@ -164,6 +171,8 @@
                 "Enable": null,
                 "ElementId": "ff9db0d0-7943-47ed-82e9-7d4f5978cfd6",
                 "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -222,14 +231,14 @@
       {
         "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
         "From": "whomever@@admin.gov",
-        "Subject": "test",
-        "Body": "tettse",
-        "To": "erymuzuan@@gmail.com",
+        "Subject": "test @DateTime.Now",
+        "Body": "Set test email from to admin@@bespoke.com.my at @DateTime.Now",
+        "To": "admin@@bespoke.com.my",
         "UserName": "",
         "Cc": "",
         "Bcc": "",
         "IsHtmlEmail": false,
-        "MethodName": "ExecNotificationActivityEmailMe_e72aAsync",
+        "MethodName": "ExecNotificationActivityEmailAdmin_e72aAsync",
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
@@ -241,7 +250,7 @@
         },
         "IsInitiator": false,
         "NextActivityWebId": "89053589-7627-4c0b-aced-e01bef7ce32b",
-        "Name": "Email Me",
+        "Name": "Email admin",
         "WebId": "e72a1cb3-4936-42d4-bab6-ebbcdee1c579"
       },
       {
@@ -283,6 +292,10 @@
       }
     ]
   },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
   "WorkflowDefinitionId": 9002,
   "Name": "Test page to disk workflow",
   "Note": "",
@@ -292,6 +305,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-02-05T08:36:27.5492148+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-02-07T19:02:42.8437806+08:00",
+  "ChangedDate": "2014-04-24T11:23:29.7454079+08:00",
   "WebId": "3d5fca2c-c474-45c3-9b53-432dbeb76e2f"
 }

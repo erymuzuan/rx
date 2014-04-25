@@ -9,31 +9,34 @@
 
 
     <div class="collapse in" id="columns-ev-panel">
-        <button class="btn btn-link pull-right" data-bind="click : addViewColumn">+ Column</button>
 
-        <div class="col-md-8">
+        <div class="col-md-9">
             <ul id="column-design" class="nav nav-pills nav-tabs" style="">
-                <li class="label label-default" style="margin: 5px; padding: 6px; min-width: 100px;">
-                    <label data-bind="text:$root.entity().RecordName"></label>
-                </li>
+
                 <!-- ko foreach : ViewColumnCollection -->
-                <li class="label label-info" style="margin: 5px; padding: 6px; min-width: 100px;">
+                <li class="label label-info th" style="">
                     <label data-bind="text:Header"></label>
                 </li>
                 <!-- /ko -->
+                <li>
+                    <a class="btn btn-link" data-bind="click : addViewColumn, tooltip :'Add a new view column'">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a column
+                    </a>
+                </li>
             </ul>
         </div>
-        <div class="col-md-4" data-bind="with :$root.item, visible: $root.item().WebId()">
+        <div class="col-md-3" data-bind="with :$root.item, visible: $root.item().WebId()">
             <form class="form">
                 <div class="form-group">
                     <label for="column-path">Path</label>
                     <input id="column-path" class="form-control" type="text"
                            data-bind="value:Path,entityTypeaheadPath :$root.entity().EntityDefinitionId()" required
-                           pattern="^[A-Za-z][A-Za-z0-9_.]*$"/>
+                           pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
                 </div>
                 <div class="form-group">
                     <label for="column-header">Header</label>
-                    <input id="column-header" class="form-control" type="text" data-bind="value:Header" required/>
+                    <input id="column-header" class="form-control" type="text" data-bind="value:Header" required />
                 </div>
                 <div class="form-group">
                     <label for="column-format">Format</label>
@@ -49,27 +52,38 @@
                 </div>
                 <div class="form-group">
                     <label for="column-link">IsLink</label>
-                    <input id="column-link" type="checkbox" data-bind="checked:IsLinkColumn"/>
+                    <input id="column-link" type="checkbox" data-bind="checked:IsLinkColumn" />
 
                 </div>
                 <div class="form-group">
                     <label for="column-route">Route</label>
                     <select id="column-route" class="form-control" data-bind="value:FormRoute,
                                     enable:IsLinkColumn,
-                                    comboBoxLookupOptions : {
-                                        entity : 'EntityForm',
-                                        value : FormRoute,
-                                        valuePath : 'Route',
-                                        displayPath : 'Name',
-                                        query :$root.formsQuery
-                                    }"></select>
+                                    options : $root.formsOptions,
+                                    optionsText : 'Name',
+                                    optionsValue : 'Route',
+                                    optionsCaption : '[Select a form]'"></select>
 
                 </div>
-                <div class="form-group">
+                <div class="form-group" data-bind="enable:IsLinkColumn">
                     <label for="column-icon">Icon class</label>
-                    <input id="column-icon" class="form-control" type="text"
-                           data-bind="value:IconCssClass,enable:IsLinkColumn"/>
 
+                    <i class="btn btn-link" data-bind="enable:IsLinkColumn,iconPicker: IconCssClass, attr:{'class':IconCssClass() + ' fa-2x' }" id="column-icon">
+                    </i>
+                    <a href="#" data-bind="click : removeIconCssClass,visible: IconCssClass()">
+                        <i class="fa fa-times"></i>
+                    </a>
+
+                </div>
+                <div class="form-group" data-bind="visible:IconStoreId() && IsLinkColumn()">
+                    <img data-bind="attr : {'src':'/sph/image/store/' + IconStoreId()}" alt="image icon" />
+                    <a href="#" data-bind="click : removeIconStoreId, enable:IconStoreId">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label>Image Icon</label>
+                    <input type="file" name="files" data-bind="kendoUpload:IconStoreId, enable:IsLinkColumn" />
                 </div>
                 <div class="form-group">
                     <a href="#" class="btn btn-default" data-bind="click : $parent.removeViewColumn.call($parent,$data)">

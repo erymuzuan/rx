@@ -55,6 +55,8 @@ namespace Bespoke.Sph.Domain
                 return code.ToString();
             }
             code.AppendLinf("   private {0}{2} m_{1};", this.Type.FullName, this.Name.ToCamelCase(), this.GetNullable());
+            if (typeof(string) == this.Type || !this.IsNullable)
+                code.AppendLinf("   [XmlAttribute]");
             code.AppendLinf("   public {0}{2} {1}", this.Type.FullName, this.Name, this.GetNullable());
             code.AppendLine("   {");
             code.AppendLinf("       get{{ return m_{0};}}", this.Name.ToCamelCase());
@@ -66,9 +68,9 @@ namespace Bespoke.Sph.Domain
         private string GetNullable()
         {
             if (!this.IsNullable) return string.Empty;
-            if (typeof (string) == this.Type) return string.Empty;
-            if (typeof (object) == this.Type) return string.Empty;
-            if (typeof (Array) == this.Type) return string.Empty;
+            if (typeof(string) == this.Type) return string.Empty;
+            if (typeof(object) == this.Type) return string.Empty;
+            if (typeof(Array) == this.Type) return string.Empty;
             return "?";
         }
 
@@ -161,7 +163,7 @@ namespace Bespoke.Sph.Domain
             script.AppendLine("     WebId: ko.observable()");
 
             script.AppendLine(" };");
-            
+
             script.AppendLine(@" 
              if (optionOrWebid && typeof optionOrWebid === ""object"") {
                 for (var n in optionOrWebid) {

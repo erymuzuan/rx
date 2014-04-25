@@ -4,7 +4,6 @@
         <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : '@Model.Definition.Name', list:list}">
             <thead>
                 <tr>
-                    <th>@Model.Definition.RecordName</th>
                     @foreach(var col in Model.View.ViewColumnCollection)
                     {
                     <th>@col.Header</th>
@@ -13,12 +12,10 @@
             </thead>
             <tbody data-bind="foreach :list">
                 <tr data-bind="@Raw(Model.View.GenerateConditionalFormattingBinding())">
-                    <td>
-                        @{
+                    @{
                         var eid = Model.Definition.Name + "Id";
-                        }
-                        <a data-bind="attr : {href:'#@Model.Form.Route' + '/' + @eid },text: @Model.Definition.RecordName"></a>
-                    </td>
+                    }  
+
                     @foreach(var col in Model.View.ViewColumnCollection)
                     {
                     var format = string.IsNullOrWhiteSpace(col.Format) ? "text:{0}": col.Format;
@@ -32,7 +29,7 @@
                             }
                             @if(!string.IsNullOrWhiteSpace(col.IconStoreId))
                             {
-                            <img src="/sph/images/get/@col.IconStoreId" alt="@col.Header" />
+                            <img src="/sph/image/store/@col.IconStoreId" alt="@col.Header" />
                             }
                             <span data-bind="@binding"></span>
                         </a>

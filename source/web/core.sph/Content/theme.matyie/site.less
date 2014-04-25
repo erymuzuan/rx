@@ -21,7 +21,7 @@ body {
 a.dropdown {
     width: 110%;
 
-    >span.caret {
+    > span.caret {
         margin-top: 8px;
     }
 }
@@ -58,7 +58,7 @@ select.form-control {
 span.k-combobox {
     border: none;
     width: 200px;
-    padding-left:0px;
+    padding-left: 0px;
 
     span.k-picker-wrap {
         margin-top: -6px;
@@ -72,7 +72,7 @@ span.k-combobox {
 span.k-datepicker {
     border: none;
     width: 200px;
-    padding-left:0px;
+    padding-left: 0px;
 
     span.k-picker-wrap {
         margin-top: -6px;
@@ -128,7 +128,7 @@ span.k-autocomplete {
     }
 
     em {
-        font-weight:bold;
+        font-weight: bold;
     }
 }
 
@@ -147,9 +147,9 @@ span.k-autocomplete {
     }
 }
 
-    .google-maps img {
-        max-width: none;
-    }
+.google-maps img {
+    max-width: none;
+}
 
 
 table.table-striped {
@@ -158,15 +158,15 @@ table.table-striped {
         cursor: pointer;
     }
 
-        th.headerSortUp:after {
-            float: right;
-            content: url('/images/up8.png');
-        }
+    th.headerSortUp:after {
+        float: right;
+        content: url('/images/up8.png');
+    }
 
-        th.headerSortDown:after {
-            float: right;
-            content: url('/images/down8.png');
-        }
+    th.headerSortDown:after {
+        float: right;
+        content: url('/images/down8.png');
+    }
 }
 
 
@@ -192,9 +192,9 @@ table.table-striped {
     min-width: 300px;
 }
 
-    .context-action .modal-header {
-        color: #272b30;
-    }
+.context-action .modal-header {
+    color: #272b30;
+}
 
 .loader .page-progress-bar {
     margin: 14px 0 0 0;
@@ -204,30 +204,39 @@ table.table-striped {
     visibility: hidden;
 }
 
-    .loader.active {
-        visibility: visible;
-    }
+.loader.active {
+    visibility: visible;
+}
 
 ul.listview {
     border: 1px solid #b6b6b6;
     padding: 5px;
 }
 
-    ul.listview li div {
-        padding: 5px;
-    }
+ul.listview li div {
+    padding: 5px;
+}
 
 
 .selected {
     background-color: #e0e0e0;
     color: #ffffff;
 }
-.selected-th {
+
+li.th {
     background-color: #e0e0e0;
     color: #ffffff;
-    border:2px dashed #666666;
-    padding:4px !important;
+    border: 2px solid #52b9e9;
+    margin: 5px;
+    padding: 6px;
+    min-width: 100px;
 }
+li.selected-th {
+    background-color: #e0e0e0;
+    color: #ffffff;
+    border: 2px dashed #666666;
+}
+
 
 #template-form-designer {
     border: 5px dashed #C0C0C0;
@@ -235,17 +244,17 @@ ul.listview {
     padding: 15px;
 }
 
-    #template-form-designer > form > div {
-        -ms-opacity: 0.6;
-        opacity: 0.6;
-        margin: 5px;
-        padding: 5px;
-        border: 1px solid #FFF;
-    }
+#template-form-designer > form > div {
+    -ms-opacity: 0.6;
+    opacity: 0.6;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #FFF;
+}
 
-        #template-form-designer > form > div:hover {
-            border: 1px dashed#000000;
-        }
+#template-form-designer > form > div:hover {
+    border: 1px dashed#000000;
+}
 
 #report-designer {
     border: 5px dashed #C0C0C0;
@@ -262,26 +271,26 @@ ul.listview {
     background-color: #f7f7f7;
 }
 
-    .report-layout.active {
-        border: 3px dashed #e1e6fb;
-        padding: 8px;
-        margin: 5px;
-        background-color: #ffffff;
-    }
+.report-layout.active {
+    border: 3px dashed #e1e6fb;
+    padding: 8px;
+    margin: 5px;
+    background-color: #ffffff;
+}
 
-    .report-layout > span {
-        color: #ccc;
-        font-size: 18px;
-        position: absolute;
-        width: 10%;
-        height: 50%;
-        overflow: auto;
-        margin: auto;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-    }
+.report-layout > span {
+    color: #ccc;
+    font-size: 18px;
+    position: absolute;
+    width: 10%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
 
 .report-item {
     margin: 5px;
@@ -296,17 +305,17 @@ ul.listview {
     border-bottom: 1px dotted #cccccc;
 }
 
-    #report-info h2 {
-        margin: 0;
-        padding-bottom: 0;
-        font-size: 160%;
-        font-weight: bold;
-    }
+#report-info h2 {
+    margin: 0;
+    padding-bottom: 0;
+    font-size: 160%;
+    font-weight: bold;
+}
 
-    #report-info span {
-        margin-top: 0;
-        font-size: 90%;
-    }
+#report-info span {
+    margin-top: 0;
+    font-size: 90%;
+}
 
 #entity-columns {
     list-style: none;
@@ -339,16 +348,16 @@ ul.listview {
     position: relative;
 }
 
-    .selected-form-element label {
-        font-weight: bold;
-        color: #000;
-    }
+.selected-form-element label {
+    font-weight: bold;
+    color: #000;
+}
 
-    .selected-form-element > section.btn-group {
-        position: absolute;
-        top: 0%;
-        left: 96%;
-    }
+.selected-form-element > section.btn-group {
+    position: absolute;
+    top: 0%;
+    left: 96%;
+}
 
 .container > .content {
     background-color: #fff;
@@ -365,17 +374,17 @@ ul.listview {
 .login-slider {
 }
 
-    .login-slider .item {
-        height: 480px;
-    }
+.login-slider .item {
+    height: 480px;
+}
 
 .login-form {
     margin-left: 80px;
 }
 
-    .login-form .logo {
-        margin-top: 65px;
-    }
+.login-form .logo {
+    margin-top: 65px;
+}
 
 legend {
     margin-right: -50px;
@@ -388,9 +397,9 @@ legend {
     margin: 20px 0 0 -450px; /* CHANGE MARGINS TO ACCOMODATE THE NEW WIDTH (original = margin: -250px 0 0 -280px;) */
 }
 
-    #shell-logviewer-modal .modal {
-        max-height: 800px;
-    }
+#shell-logviewer-modal .modal {
+    max-height: 800px;
+}
 
 
 header div.navbar-inner {
@@ -451,10 +460,10 @@ header div.container {
     box-shadow: none;
 }
 
-    .well a:hover {
-        color: #fff;
-        text-decoration: none;
-    }
+.well a:hover {
+    color: #fff;
+    text-decoration: none;
+}
 
 .well-primary:hover {
     background: #3764f7;
@@ -487,9 +496,9 @@ select:invalid, input:invalid, textarea:invalid {
     background-position: left center;
 }
 
-    input:invalid:after, textarea:invalid:after {
-        content: url('/Images/red-bar.png') !important;
-    }
+input:invalid:after, textarea:invalid:after {
+    content: url('/Images/red-bar.png') !important;
+}
 
 .detail-header > span {
     font-family: 'Comic Sans MS', cursive;

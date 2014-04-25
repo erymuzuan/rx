@@ -47,6 +47,7 @@
                 "ElementId": "02acd562-79ec-4f52-9a0e-b007a9adc56a",
                 "HelpText": null,
                 "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -87,6 +88,7 @@
                 "ElementId": "60bf5128-9c1a-4d02-ae69-b5b538ebd459",
                 "HelpText": null,
                 "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -121,6 +123,7 @@
                 "ElementId": "84c3c0e5-d190-4518-9032-498d443e1674",
                 "HelpText": null,
                 "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -163,6 +166,7 @@
                 "ElementId": "submit-button",
                 "HelpText": null,
                 "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -248,12 +252,12 @@
         "ExecutingCode": null,
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 72,
-          "Y": 1,
+          "X": 136,
+          "Y": 66,
           "WebId": "ca184ac5-7e7c-445e-a784-7cd141a5d8e5"
         },
         "IsInitiator": true,
-        "NextActivityWebId": "ea06c952-510b-4915-a6d8-1f8ec72981d1",
+        "NextActivityWebId": "46c9ff17-fab0-4e37-8fd5-8523285e41a3",
         "Name": "Every Five minutes",
         "WebId": "edb22af4-9fc2-4f01-b0f1-8c949aea76fc"
       },
@@ -338,9 +342,9 @@
       {
         "$type": "Bespoke.Sph.Domain.DelayActivity, domain.sph",
         "IsAsync": true,
-        "Expression": "",
+        "Expression": "System.DateTime.Now.AddSeconds((this.WorkflowId % 30)+300)",
         "Miliseconds": 0,
-        "Seconds": 300,
+        "Seconds": 0,
         "Hour": 0,
         "Days": 0,
         "MethodName": "ExecDelayActivityDelayVerification_5d76Async",
@@ -383,22 +387,29 @@
         "WebId": "da9fdcd3-a029-4174-9167-eaf6c4c6363f"
       },
       {
-        "$type": "Bespoke.Sph.Domain.ExpressionActivity, domain.sph",
-        "Expression": "Console.WriteLine(\"Whooooooiii\");",
-        "MethodName": "ExecExpressionActivityExpression6_ea06Async",
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "Test @DateTime.Now",
+        "Body": "Test to message @DateTime.Now",
+        "To": "admin@@bespoke.com.my",
+        "UserName": "",
+        "Cc": "",
+        "Bcc": "",
+        "IsHtmlEmail": false,
+        "MethodName": "ExecNotificationActivityEmailTestMessage_46c9Async",
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 570,
-          "Y": 77,
-          "WebId": "4062b323-ee17-4e2d-92fa-c3daaf10dc87"
+          "X": 627,
+          "Y": 83,
+          "WebId": "3e00e938-fdf8-4442-b8f1-a460e359acf0"
         },
         "IsInitiator": false,
         "NextActivityWebId": "e56fda2b-5677-42e7-8da9-1e7fe0687d21",
-        "Name": "Expression6",
-        "WebId": "ea06c952-510b-4915-a6d8-1f8ec72981d1"
+        "Name": "Email test message",
+        "WebId": "46c9ff17-fab0-4e37-8fd5-8523285e41a3"
       }
     ]
   },
@@ -417,9 +428,13 @@
         "Name": "applicant",
         "TypeName": "Applicant",
         "DefaultValue": "",
-        "WebId": "c5f716db-73d3-4efc-9a1d-a9c64ac08549"
+        "WebId": "bd854584-ef3a-466a-9ac1-1bb4e8c0fa68"
       }
     ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
   },
   "WorkflowDefinitionId": 10002,
   "Name": "Simple Screen and wait",
@@ -430,6 +445,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-02-08T07:27:17.0040446+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-21T12:40:01.9786136+08:00",
+  "ChangedDate": "2014-04-24T11:27:45.5818589+08:00",
   "WebId": "0888d213-04f7-4fe1-a90c-444a09614e38"
 }

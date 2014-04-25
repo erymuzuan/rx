@@ -48,7 +48,7 @@
                                     app.showMessage("Wholaaa 123", "SPH Platform showcase", ["OK"])
 	                                    .done(function (dialogResult) {
                                             console.log();
-                                            
+                                            window.location='#customer'
 	                                    });
                                  
                              } else {
@@ -188,10 +188,11 @@
                                 context.post(data, "/Customer/Save")
                                    .then(function(result) {
                                        tcs.resolve(result);
+                                       entity().CustomerId(result.id);
+                                       app.showMessage("Your Customer has been successfully saved", "SPH Platform showcase", ["ok"]);
                                    });
                             }else{
                                 tcs.resolve(result);
-
                             }
                         });
                     
@@ -210,9 +211,9 @@
                             tcs.resolve(true);
                             app.showMessage("Your item has been successfully removed", "Removed", ["OK"])
                               .done(function () {
-                                window.location = "#customer";
-                            });
-                        } 
+                                  window.location = "#customer";
+                              });
+                        }
                     });
 
 
@@ -224,44 +225,47 @@
                     verifyTheGrade : verifyTheGrade,
                     verifyTheAge : verifyTheAge,
                     mustBeMalaysian : mustBeMalaysian,
-        activate: activate,
-        config: config,
-        attached: attached,
-        entity: entity,
-        errors: errors,
-        save : save,
+                activate: activate,
+                config: config,
+                attached: attached,
+                entity: entity,
+                errors: errors,
+                save : save,
                     promoteTo : promoteTo,
                     demote : demote,
                     createOrder : createOrder,
-        //
+                //
 
 
-        toolbar : {
+                toolbar : {
                         emailCommand : {
-                entity : "Customer",
-                id :id
-            },
+                        entity : "Customer",
+                        id :id
+                    },
                         printCommand :{
-                entity : 'Customer',
-                id : id
-            },
+                        entity : 'Customer',
+                        id : id
+                    },
                         
-            watchCommand: function() {
-                return watcher.watch("Customer", entity().CustomerId())
-                    .done(function(){
-                        watching(true);
-                    });
-            },
-            unwatchCommand: function() {
-                return watcher.unwatch("Customer", entity().CustomerId())
-                    .done(function(){
-                        watching(false);
-                    });
-            },
-            watching: watching,
-            commands : ko.observableArray([{ caption :"Demote", command : demote, icon:"fa fa-star-o" }])
-        }
-    };
+                    watchCommand: function() {
+                        return watcher.watch("Customer", entity().CustomerId())
+                            .done(function(){
+                                watching(true);
+                            });
+                    },
+                    unwatchCommand: function() {
+                        return watcher.unwatch("Customer", entity().CustomerId())
+                            .done(function(){
+                                watching(false);
+                            });
+                    },
+                    watching: watching,
+                        
+                    saveCommand : save,
+                    
+                    commands : ko.observableArray([{ caption :"Demote", command : demote, icon:"fa fa-star-o" }])
+                }
+            };
 
-    return vm;
-    });
+            return vm;
+        });

@@ -17,24 +17,42 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
             isBusy = ko.observable(false),
             id = ko.observable(),
             entities = ko.observableArray(),
+            operationOptions = ko.observableArray(),
+            operations = ko.observableArray(),
             activate = function (id2) {
                 id(parseInt(id2));
 
                 var query = String.format("TriggerId eq {0} ", id()),
                     tcs = new $.Deferred(),
                     triggerTask = context.loadOneAsync("Trigger", query),
-                    entitiesTask = context.getListAsync("EntityDefinition", "EntityDefinitionId gt 0", "Name");
+                    entitiesTask = context.getListAsync("EntityDefinition", "EntityDefinitionId gt 0", "Name"),
+                    loadOperationOptions = function (ent) {
+
+                        context.loadOneAsync("EntityDefinition", String.format("Name eq '{0}'", ent))
+                            .done(function (ed) {
+                                if (!ed) {
+                                    return;
+                                }
+                                operationOptions(_(ed.EntityOperationCollection()).map(function (v) { return v.Name(); }));
+                            
+
+                            });
+                    };
 
                 $.when(triggerTask, entitiesTask).done(function (t, list) {
                     entities(list);
                     if (t) {
                         trigger(t);
                         typeaheadEntity(t.Entity());
+                        operations(t.FiredOnOperations().split(','));
+                        loadOperationOptions(t.Entity());
                     } else {
                         trigger(new bespoke.sph.domain.Trigger(system.guid()));
+                        operations.removeAll();
                     }
                     trigger().Entity.subscribe(function (ent) {
                         typeaheadEntity(ent);
+                        loadOperationOptions(ent);
                     });
                     tcs.resolve(true);
                 });
@@ -43,9 +61,9 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
             },
             attached = function () {
 
-
             },
             save = function () {
+                vm.trigger().FiredOnOperations(operations().join());
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(vm.trigger);
                 isBusy(true);
@@ -59,6 +77,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                 return tcs.promise();
             },
             publishAsync = function () {
+                vm.trigger().FiredOnOperations(operations().join());
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(vm.trigger);
                 isBusy(true);
@@ -95,13 +114,15 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                      });
             };
 
-       
+
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
             attached: attached,
             trigger: trigger,
+            operationOptions: operationOptions,
+            operations: operations,
             entities: entities,
             typeaheadEntity: typeaheadEntity,
             toolbar: {

@@ -11,6 +11,7 @@ namespace Bespoke.Dev_1.Domain
    public class Customer : Entity
    {
    private int m_customerId;
+   [XmlAttribute]
    public int CustomerId
    {
        get{ return m_customerId;}
@@ -31,6 +32,7 @@ namespace Bespoke.Dev_1.Domain
         }
 //member:FullName
           private System.String m_fullName;
+   [XmlAttribute]
    public System.String FullName
    {
        get{ return m_fullName;}
@@ -55,6 +57,7 @@ namespace Bespoke.Dev_1.Domain
 
 //member:Gender
           private System.String m_gender;
+   [XmlAttribute]
    public System.String Gender
    {
        get{ return m_gender;}
@@ -63,6 +66,7 @@ namespace Bespoke.Dev_1.Domain
 
 //member:IsPriority
           private System.Boolean m_isPriority;
+   [XmlAttribute]
    public System.Boolean IsPriority
    {
        get{ return m_isPriority;}
@@ -79,6 +83,7 @@ namespace Bespoke.Dev_1.Domain
 
 //member:PhotoStoreId
           private System.String m_photoStoreId;
+   [XmlAttribute]
    public System.String PhotoStoreId
    {
        get{ return m_photoStoreId;}
@@ -87,6 +92,7 @@ namespace Bespoke.Dev_1.Domain
 
 //member:RegisteredDate
           private System.DateTime m_registeredDate;
+   [XmlAttribute]
    public System.DateTime RegisteredDate
    {
        get{ return m_registeredDate;}
@@ -95,6 +101,7 @@ namespace Bespoke.Dev_1.Domain
 
 //member:Rating
           private System.Int32 m_rating;
+   [XmlAttribute]
    public System.Int32 Rating
    {
        get{ return m_rating;}
@@ -103,6 +110,7 @@ namespace Bespoke.Dev_1.Domain
 
 //member:AnnualRevenue
           private System.Decimal m_annualRevenue;
+   [XmlAttribute]
    public System.Decimal AnnualRevenue
    {
        get{ return m_annualRevenue;}
@@ -111,6 +119,7 @@ namespace Bespoke.Dev_1.Domain
 
 //member:ProfileStoreId
           private System.String m_profileStoreId;
+   [XmlAttribute]
    public System.String ProfileStoreId
    {
        get{ return m_profileStoreId;}
@@ -119,6 +128,7 @@ namespace Bespoke.Dev_1.Domain
 
 //member:PrimaryContact
           private System.String m_primaryContact;
+   [XmlAttribute]
    public System.String PrimaryContact
    {
        get{ return m_primaryContact;}
@@ -135,6 +145,7 @@ namespace Bespoke.Dev_1.Domain
 
 //member:LogoStoreId
           private System.String m_logoStoreId;
+   [XmlAttribute]
    public System.String LogoStoreId
    {
        get{ return m_logoStoreId;}
@@ -148,6 +159,7 @@ namespace Bespoke.Dev_1.Domain
    public class Address: DomainObject
    {
    private System.String m_street1;
+   [XmlAttribute]
    public System.String Street1
    {
        get{ return m_street1;}
@@ -155,6 +167,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_street2;
+   [XmlAttribute]
    public System.String Street2
    {
        get{ return m_street2;}
@@ -162,6 +175,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_postcode;
+   [XmlAttribute]
    public System.String Postcode
    {
        get{ return m_postcode;}
@@ -169,6 +183,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_state;
+   [XmlAttribute]
    public System.String State
    {
        get{ return m_state;}
@@ -176,6 +191,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_locality;
+   [XmlAttribute]
    public System.String Locality
    {
        get{ return m_locality;}
@@ -183,6 +199,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_district;
+   [XmlAttribute]
    public System.String District
    {
        get{ return m_district;}
@@ -207,6 +224,7 @@ namespace Bespoke.Dev_1.Domain
    public class Contact: DomainObject
    {
    private System.String m_name;
+   [XmlAttribute]
    public System.String Name
    {
        get{ return m_name;}
@@ -214,6 +232,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_email;
+   [XmlAttribute]
    public System.String Email
    {
        get{ return m_email;}
@@ -221,6 +240,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_telephone;
+   [XmlAttribute]
    public System.String Telephone
    {
        get{ return m_telephone;}
@@ -234,6 +254,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_title;
+   [XmlAttribute]
    public System.String Title
    {
        get{ return m_title;}
@@ -247,6 +268,7 @@ namespace Bespoke.Dev_1.Domain
    public class Attachment: DomainObject
    {
    private System.String m_title;
+   [XmlAttribute]
    public System.String Title
    {
        get{ return m_title;}
@@ -254,6 +276,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_extension;
+   [XmlAttribute]
    public System.String Extension
    {
        get{ return m_extension;}
@@ -261,6 +284,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_note;
+   [XmlAttribute]
    public System.String Note
    {
        get{ return m_note;}
@@ -268,6 +292,7 @@ namespace Bespoke.Dev_1.Domain
    }
 
    private System.String m_storeId;
+   [XmlAttribute]
    public System.String StoreId
    {
        get{ return m_storeId;}
@@ -417,6 +442,26 @@ public partial class CustomerController : System.Web.Mvc.Controller
             {
                 session.Attach(item);
                 await session.SubmitChanges("CreateOrder");
+            }
+            return Json(new {success = true, status="OK", id = item.CustomerId});
+       }
+//exec:i7
+       [HttpPost]
+       public async Task<System.Web.Mvc.ActionResult> i7([RequestBody]Customer item)
+       {
+           var context = new Bespoke.Sph.Domain.SphDataContext();
+           if(null == item) throw new ArgumentNullException("item");
+           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Customer");
+           var brokenRules = new ObjectCollection<ValidationResult>();
+           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
+
+           var operation = ed.EntityOperationCollection.Single(o => o.WebId == "6ce2606f-d5e0-4365-8e0f-52644cae339a");
+           var rc = new RuleContext(item);
+           
+            using(var session = context.OpenSession())
+            {
+                session.Attach(item);
+                await session.SubmitChanges("i7");
             }
             return Json(new {success = true, status="OK", id = item.CustomerId});
        }

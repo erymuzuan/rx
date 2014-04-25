@@ -1,16 +1,37 @@
 [
   {
-    "Group": "Developers",
-    "Name": "Developers",
-    "Role": "developers",
-    "Description": "Developer",
-    "IsActive": true
+    "group": "Developers",
+    "name": "Developers",
+    "role": "developers",
+    "description": "Developer",
+    "isActive": true
   },
   {
-    "Group": "Administrators",
-    "Name": "Administrators",
-    "Role": "administrators",
-    "Description": "Administrators",
-    "IsActive": true
+    "group": "Administrators",
+    "name": "Administrators",
+    "role": "administrators",
+    "description": "Administrators",
+    "isActive": true
+  },
+  {
+    "group": "Agents",
+    "name": "agents",
+    "role": "agents",
+    "description": "Agents fr",
+    "isActive": false
+  },
+  {
+    "group": "Supervisors",
+    "name": "Supervisors",
+    "role": "Supervisors",
+    "description": "Sp",
+    "isActive": false
+  },
+  {
+    "group": "staff",
+    "name": "staff",
+    "role": "staff",
+    "description": "staffsddsf fsdfsd",
+    "isActive": false
   }
 ]

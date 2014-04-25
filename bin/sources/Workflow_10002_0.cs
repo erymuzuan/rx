@@ -45,8 +45,8 @@ namespace Bespoke.Sph.Workflows_10002_0
                    case "da9fdcd3-a029-4174-9167-eaf6c4c6363f" : 
                        result = await this.ExecNotificationActivityEmailLambatBuat_da9fAsync();
                        break;
-                   case "ea06c952-510b-4915-a6d8-1f8ec72981d1" : 
-                       result = await this.ExecExpressionActivityExpression6_ea06Async();
+                   case "46c9ff17-fab0-4e37-8fd5-8523285e41a3" : 
+                       result = await this.ExecNotificationActivityEmailTestMessage_46c9Async();
                        break;
            }
            result.Correlation = correlation;
@@ -89,7 +89,7 @@ namespace Bespoke.Sph.Workflows_10002_0
 
        this.State = "Ready";
        var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success };
-       result.NextActivities = new[]{"ea06c952-510b-4915-a6d8-1f8ec72981d1"};
+       result.NextActivities = new[]{"46c9ff17-fab0-4e37-8fd5-8523285e41a3"};
 
        return Task.FromResult(result);
    }
@@ -171,6 +171,11 @@ namespace Bespoke.Sph.Workflows_10002_0
      await this.FireListenTriggerExecListenActivityStartsVerification_e56fAsync("5d76fa1a-521e-432f-8d2a-ec36abf1d057");
        return result;
    }
+   public System.DateTime EvaluateExpressionExecDelayActivityDelayVerification_5d76Async()
+   {
+       var item = this;
+       return System.DateTime.Now.AddSeconds((this.WorkflowId % 30)+300);
+   }
 
 
 //exec:da9fdcd3-a029-4174-9167-eaf6c4c6363f
@@ -197,6 +202,26 @@ namespace Bespoke.Sph.Workflows_10002_0
        if (!string.IsNullOrWhiteSpace(bcc))
            mm.Bcc.Add(bcc);
        await client.SendMailAsync(mm).ConfigureAwait(false);
+
+
+       var context = new SphDataContext();
+       foreach(var et in to.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries))
+       {
+           var et1 = et;
+           var user = await context.LoadOneAsync<UserProfile>(u => u.Email == et1);
+           if(null == user)continue;
+           var message = new Message
+                           {
+                               Subject = subject,
+                               UserName = user.UserName,
+                               Body = body
+                           };
+           using (var session = context.OpenSession())
+           {
+               session.Attach(message);
+               await session.SubmitChanges("Email lambat buat").ConfigureAwait(false);
+           }
+       }
        return result;
    }
 
@@ -234,18 +259,85 @@ namespace Bespoke.Sph.Workflows_10002_0
 
 
 
-//exec:ea06c952-510b-4915-a6d8-1f8ec72981d1
-   public async Task<ActivityExecutionResult> ExecExpressionActivityExpression6_ea06Async()
+//exec:46c9ff17-fab0-4e37-8fd5-8523285e41a3
+   public async Task<ActivityExecutionResult> ExecNotificationActivityEmailTestMessage_46c9Async()
    {
-       await Task.Delay(50);
-       
        var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};
-       var item = this;
-       Console.WriteLine("Whooooooiii");
+       var act = this.GetActivity<NotificationActivity>("46c9ff17-fab0-4e37-8fd5-8523285e41a3");
        result.NextActivities = new[]{"e56fda2b-5677-42e7-8da9-1e7fe0687d21"};
-       
+       var @from = await this.TransformFromExecNotificationActivityEmailTestMessage_46c9Async(act.From);
+       var to = await this.TransformToExecNotificationActivityEmailTestMessage_46c9Async(act.To);
+       var subject = await this.TransformSubjectExecNotificationActivityEmailTestMessage_46c9Async(act.Subject);
+       var body = await this.TransformBodyExecNotificationActivityEmailTestMessage_46c9Async(act.Body);
+       var cc = await this.TransformBodyExecNotificationActivityEmailTestMessage_46c9Async(act.Cc);
+       var bcc = await this.TransformBodyExecNotificationActivityEmailTestMessage_46c9Async(act.Bcc);
+       System.Console.WriteLine("Sending email to : {0}", to);
+       var client = new System.Net.Mail.SmtpClient();
+       var mm = new System.Net.Mail.MailMessage();
+       mm.Subject = subject;
+       mm.Body = body;
+       mm.From = new System.Net.Mail.MailAddress(@from);
+       mm.To.Add(to);
+       if (!string.IsNullOrWhiteSpace(cc))
+           mm.CC.Add(cc);
+       if (!string.IsNullOrWhiteSpace(bcc))
+           mm.Bcc.Add(bcc);
+       await client.SendMailAsync(mm).ConfigureAwait(false);
+
+
+       var context = new SphDataContext();
+       foreach(var et in to.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries))
+       {
+           var et1 = et;
+           var user = await context.LoadOneAsync<UserProfile>(u => u.Email == et1);
+           if(null == user)continue;
+           var message = new Message
+                           {
+                               Subject = subject,
+                               UserName = user.UserName,
+                               Body = body
+                           };
+           using (var session = context.OpenSession())
+           {
+               session.Attach(message);
+               await session.SubmitChanges("Email test message").ConfigureAwait(false);
+           }
+       }
        return result;
    }
+
+   public async Task<string> TransformFromExecNotificationActivityEmailTestMessage_46c9Async(string template)
+   {
+        if (string.IsNullOrWhiteSpace(template)) return string.Empty;
+
+            var razor = ObjectBuilder.GetObject<ITemplateEngine>();
+            return await razor.GenerateAsync(template, this);
+   }
+
+   public async Task<string> TransformToExecNotificationActivityEmailTestMessage_46c9Async(string template)
+   {
+        if (string.IsNullOrWhiteSpace(template)) return string.Empty;
+
+            var razor = ObjectBuilder.GetObject<ITemplateEngine>();
+            return await razor.GenerateAsync(template, this);
+   }
+
+   public async Task<string> TransformSubjectExecNotificationActivityEmailTestMessage_46c9Async(string template)
+   {
+        if (string.IsNullOrWhiteSpace(template)) return string.Empty;
+
+            var razor = ObjectBuilder.GetObject<ITemplateEngine>();
+            return await razor.GenerateAsync(template, this);
+   }
+
+   public async Task<string> TransformBodyExecNotificationActivityEmailTestMessage_46c9Async(string template)
+   {
+        if (string.IsNullOrWhiteSpace(template)) return string.Empty;
+
+            var razor = ObjectBuilder.GetObject<ITemplateEngine>();
+            return await razor.GenerateAsync(template, this);
+   }
+
 
    }
    [XmlType("Vehicle",  Namespace="http://www.maim.gov.my/wakaf")]

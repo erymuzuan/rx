@@ -163,6 +163,7 @@
             emailValidationStatus : ko.observable(),
             editCommand: edit,
             saveCommand: save,
+            add: add,
             password1: ko.observable(),
             password2: ko.observable(),
             resetPasswordCommand: resetPassword,
@@ -180,13 +181,7 @@
                     entity: ko.observable("UserProfile"),
                     id: ko.observable(0),
                     item: printprofile,
-                }),
-                clicks : ko.observableArray([
-                    {
-                        caption : "Add User",
-                        icon : "icon-plus",
-                        command : add
-                    }])
+                })
             })
         };
         

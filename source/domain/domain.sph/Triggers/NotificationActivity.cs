@@ -33,22 +33,6 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       var bcc = await this.TransformBody{0}(act.Bcc);", this.MethodName);
 
             code.AppendLine("       System.Console.WriteLine(\"Sending email to : {0}\", to);");
-            if (!string.IsNullOrWhiteSpace(this.UserName))
-            {
-                code.AppendLine("       var context = new SphDataContext();");
-                code.AppendLine("       var message = new Message");
-                code.AppendLine("       {");
-                code.AppendLinf("           Subject = subject,");
-                code.AppendLinf("           UserName = \"{0}\",", this.UserName);
-                code.AppendLinf("           Body = body");
-                code.AppendLine("       };");
-                code.AppendLine("       using (var session = context.OpenSession())");
-                code.AppendLine("       {");
-                code.AppendLine("           session.Attach(message);");
-                code.AppendLinf("           await session.SubmitChanges(\"{0}\").ConfigureAwait(false);", this.Name);
-                code.AppendLine("       }");
-
-            }
             code.AppendLine("       var client = new System.Net.Mail.SmtpClient();");
             code.AppendLine("       var mm = new System.Net.Mail.MailMessage();");
             code.AppendLine("       mm.Subject = subject;");
@@ -60,6 +44,30 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       if (!string.IsNullOrWhiteSpace(bcc))");
             code.AppendLine("           mm.Bcc.Add(bcc);");
             code.AppendLine("       await client.SendMailAsync(mm).ConfigureAwait(false);");
+
+            code.AppendLine();
+            code.AppendLine();
+            code.AppendLine("       var context = new SphDataContext();");
+            code.AppendLine("       foreach(var et in to.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries))");
+            code.AppendLine("       {");
+            code.AppendLine("           var et1 = et;");
+            code.AppendLine("           var user = await context.LoadOneAsync<UserProfile>(u => u.Email == et1);");
+            code.AppendLine("           if(null == user)continue;");
+
+            code.AppendLine("           var message = new Message");
+            code.AppendLine("                           {");
+            code.AppendLinf("                               Subject = subject,");
+            code.AppendLinf("                               UserName = user.UserName,");
+            code.AppendLinf("                               Body = body");
+            code.AppendLine("                           };");
+            code.AppendLine("           using (var session = context.OpenSession())");
+            code.AppendLine("           {");
+            code.AppendLine("               session.Attach(message);");
+            code.AppendLinf("               await session.SubmitChanges(\"{0}\").ConfigureAwait(false);", this.Name);
+            code.AppendLine("           }");
+            code.AppendLine("       }");
+
+
 
             code.AppendLine("       return result;");
             code.AppendLine("   }");
@@ -75,7 +83,7 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-        private string GenerateTranformCode(Expression<Func<NotificationActivity, string>>  field)
+        private string GenerateTranformCode(Expression<Func<NotificationActivity, string>> field)
         {
             var code = new StringBuilder();
             var func = field.Compile();

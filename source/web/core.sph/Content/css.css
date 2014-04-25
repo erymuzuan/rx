@@ -7085,7 +7085,7 @@ input[type="date"] {
 }
 .radio label,
 .checkbox label {
-  display: inline;
+  display: inline-block;
   font-weight: normal;
   cursor: pointer;
 }
@@ -14483,54 +14483,6 @@ border:1px solid #eee;
 		margin-left: 200px;
 	}
 }
-#space-list-table a {
-  color: #0088cc;
-}
-.space-list-search-panel {
-  border-bottom: 1px solid black;
-}
-.btn-search {
-  display: inline-block;
-  padding: 7px 13px;
-  height: 20px;
-  margin-bottom: 10px;
-  margin-top: 17px;
-  vertical-align: middle;
-  cursor: pointer;
-}
-section#map-panel.modal {
-  width: 800px;
-}
-.space-gallery-panel {
-  padding: 10px;
-  background-color: #e2e2e2;
-}
-.space-gallery-panel a > img {
-  background-color: #808080;
-  height: 150px;
-  padding: 8px;
-  margin-top: 5px;
-}
-div#space-application-panel {
-  position: absolute;
-  top: 120px;
-  right: 90px;
-}
-#photo-dialog {
-  width: 800px;
-}
-#photo-dialog .modal-body {
-  max-height: 600px;
-  width: 760px;
-}
-.photo-dialog {
-  width: 800px;
-}
-.photo-dialog .modal-body {
-  height: 400px;
-  width: 760px;
-}
-
 body {
   background-color: #ffffff;
 }
@@ -14696,11 +14648,18 @@ ul.listview li div {
   background-color: #e0e0e0;
   color: #ffffff;
 }
-.selected-th {
+li.th {
+  background-color: #e0e0e0;
+  color: #ffffff;
+  border: 2px solid #52b9e9;
+  margin: 5px;
+  padding: 6px;
+  min-width: 100px;
+}
+li.selected-th {
   background-color: #e0e0e0;
   color: #ffffff;
   border: 2px dashed #666666;
-  padding: 4px !important;
 }
 #template-form-designer {
   border: 5px dashed #C0C0C0;
@@ -16332,6 +16291,15 @@ footer.main {
   border: 1px solid rgba(0, 0, 0, 0.05);
   background-color: rgba(0, 0, 0, 0.01);
 }
+div.collapse.padded {
+  padding-left: 20px;
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-left-color: #CCC;
+}
+div.collapse.padded table {
+  padding-right: 20px;
+}
 /*# sourceMappingURL=dashboard.css.map */
 .dataTables_filter {
   float: left;
@@ -16452,5 +16420,14 @@ div.workflow-publishing-progress {
 }
 div.workflow-publishing-progress img {
   float: right;
+}
+.radio label,
+.checkbox label {
+  display: inline-block;
+  font-weight: normal;
+  cursor: pointer;
+}
+div.checkbox-no-padding-left {
+  padding-left: 0px;
 }
 /*# sourceMappingURL=workflow.triggers.css.map */

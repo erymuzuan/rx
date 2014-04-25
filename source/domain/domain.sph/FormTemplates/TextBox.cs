@@ -11,6 +11,8 @@ namespace Bespoke.Sph.Domain
             var binding = "value";
             if (this.FieldValidation.Mode == "Number")
                 binding = "money";
+            if (this.FieldValidation.Mode == "Currency")
+                binding = "money";
             element.AppendFormat("<input type='text' data-bind='{2}:{0}' name='{1}'></input>", this.Path, this.Name, binding);
             return element.ToString();
         }

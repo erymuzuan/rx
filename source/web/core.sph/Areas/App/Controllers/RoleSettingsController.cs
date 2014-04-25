@@ -26,7 +26,6 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             vm.Routes.ClearAndAddRange(routes);
             return View(vm);
         }
-        //[Route("sphapp/viewmodels/role.settings.js")]
         public ActionResult Js()
         {
             var rolesConfig = Server.MapPath("~/roles.config.js");

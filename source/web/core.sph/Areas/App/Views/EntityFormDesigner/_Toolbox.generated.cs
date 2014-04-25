@@ -79,125 +79,127 @@ WriteLiteral("\r\n<div id=\"form-designer-toolbox\" data-path=\"Areas\\App\\View
 "orm-group\">\r\n                    <label>Note</label>\r\n                    <input" +
 " class=\"form-control\" data-bind=\"value: Note\" id=\"form-design-Description\" type=" +
 "\"text\" name=\"FormDesign.Description\" />\r\n                </div>\r\n\r\n             " +
-"   <div class=\"form-group\">\r\n                    <label>\r\n                      " +
-"  <input data-bind=\"checked: IsDefault\" id=\"form-design-isdefault\" type=\"checkbo" +
-"x\" name=\"FormDesign.IsDefault\" />\r\n                        Is default form\r\n    " +
-"                </label>\r\n                </div>\r\n                <div class=\"fo" +
-"rm-group\">\r\n                    <label>\r\n                        <input data-bin" +
-"d=\"checked: IsAllowedNewItem\" id=\"form-design-is-allow-new\" type=\"checkbox\" name" +
-"=\"FormDesign.IsAllowedNewItem\" />\r\n                        Allow new item\r\n     " +
+"   <div class=\"form-group checkbox checkbox-no-padding-left\">\r\n                 " +
+"   <label>\r\n                        <input data-bind=\"checked: IsDefault\" id=\"fo" +
+"rm-design-isdefault\" type=\"checkbox\" name=\"FormDesign.IsDefault\" />\r\n           " +
+"             Is default form\r\n                    </label>\r\n                </di" +
+"v>\r\n                <div class=\"form-group checkbox checkbox-no-padding-left\">\r\n" +
+"                    <label>\r\n                        <input data-bind=\"checked: " +
+"IsAllowedNewItem\" id=\"form-design-is-allow-new\" type=\"checkbox\" name=\"FormDesign" +
+".IsAllowedNewItem\" />\r\n                        Allow new item\r\n                 " +
+"   </label>\r\n                </div>\r\n                <div class=\"form-group chec" +
+"kbox checkbox-no-padding-left\">\r\n                    <label>\r\n                  " +
+"      <input data-bind=\"checked: IsRemoveAvailable\" id=\"form-design-is-remove-it" +
+"em\" type=\"checkbox\" name=\"FormDesign.IsRemoveAvailable\" />\r\n                    " +
+"    Allow remove item\r\n                    </label>\r\n                </div>\r\n   " +
+"             <div class=\"form-group checkbox checkbox-no-padding-left\">\r\n       " +
+"             <label>\r\n                        <input data-bind=\"checked: IsEmail" +
+"Available\" id=\"form-design-isemail\" type=\"checkbox\" name=\"FormDesign.IsEmailAvai" +
+"lable\" />\r\n                        Allow Email\r\n                    </label>\r\n  " +
+"              </div>\r\n\r\n                <div class=\"form-group checkbox checkbox" +
+"-no-padding-left\">\r\n                    <label>\r\n                        <input " +
+"data-bind=\"checked: IsPrintAvailable\" id=\"form-design-isprint\" type=\"checkbox\" n" +
+"ame=\"FormDesign.IsPrintAvailable\" />\r\n                        Allow Print\r\n     " +
 "               </label>\r\n                </div>\r\n                <div class=\"for" +
-"m-group\">\r\n                    <label>\r\n                        <input data-bind" +
-"=\"checked: IsRemoveAvailable\" id=\"form-design-is-remove-item\" type=\"checkbox\" na" +
-"me=\"FormDesign.IsRemoveAvailable\" />\r\n                        Allow remove item\r" +
-"\n                    </label>\r\n                </div>\r\n                <div clas" +
-"s=\"form-group\">\r\n                    <label>\r\n                        <input dat" +
-"a-bind=\"checked: IsEmailAvailable\" id=\"form-design-isemail\" type=\"checkbox\" name" +
-"=\"FormDesign.IsEmailAvailable\" />\r\n                        Allow Email\r\n        " +
-"            </label>\r\n                </div>\r\n\r\n                <div class=\"form" +
-"-group\">\r\n                    <label>\r\n                        <input data-bind=" +
-"\"checked: IsPrintAvailable\" id=\"form-design-isprint\" type=\"checkbox\" name=\"FormD" +
-"esign.IsPrintAvailable\" />\r\n                        Allow Print\r\n               " +
-"     </label>\r\n                </div>\r\n                <div class=\"form-group\">\r" +
-"\n                    <label>\r\n                        <input data-bind=\"checked:" +
-" IsWatchAvailable\" id=\"form-design-iswatch\" type=\"checkbox\" name=\"FormDesign.IsW" +
-"atchAvailable\" />\r\n                        Allow Watch\r\n                    </la" +
-"bel>\r\n                </div>\r\n                <div class=\"form-group\">\r\n        " +
-"            <label>\r\n                        <input data-bind=\"checked: IsAuditT" +
-"railAvailable\" id=\"form-design-IsAuditTrailAvailable\" type=\"checkbox\" name=\"Form" +
-"Design.IsAuditTrailAvailable\" />\r\n                        Audit trail\r\n         " +
-"           </label>\r\n                </div>\r\n\r\n                <!-- ko with : Fo" +
-"rmDesign -->\r\n\r\n\r\n                <div class=\"form-group\">\r\n                    " +
-"<a href=\"#label-cols\" data-toggle=\"collapse\"><i class=\"fa fa-chevron-down\"></i>L" +
-"abel columns span</a>\r\n                </div>\r\n                <div id=\"label-co" +
-"ls\" class=\"form-group collapse\">\r\n                    <div class=\"form-group\">\r\n" +
-"                        <label>Label Col Large</label>\r\n                        " +
-"<input class=\"form-control\" data-bind=\"value: LabelColLg\" id=\"form-design-LabelC" +
-"olLg\" type=\"number\" name=\"FormDesign.LabelColLg\" />\r\n                    </div>\r" +
-"\n                    <div class=\"form-group\">\r\n                        <label>La" +
-"bel Col Medium</label>\r\n                        <input class=\"form-control\" data" +
-"-bind=\"value: LabelColMd\" id=\"form-design-LabelColMd\" type=\"number\" name=\"FormDe" +
-"sign.LabelColMd\" />\r\n                    </div>\r\n                    <div class=" +
-"\"form-group\">\r\n                        <label>Label Col Small</label>\r\n         " +
-"               <input class=\"form-control\" data-bind=\"value: LabelColSm\" id=\"for" +
-"m-design-LabelColSm\" type=\"number\" name=\"FormDesign.LabelColSm\" />\r\n            " +
-"        </div>\r\n                    <div class=\"form-group\">\r\n                  " +
-"      <label>Label Col x-small</label>\r\n                        <input class=\"fo" +
-"rm-control\" data-bind=\"value: LabelColXs\" id=\"form-design-LabelColXs\" type=\"numb" +
-"er\" name=\"FormDesign.LabelColXs\" />\r\n                    </div>\r\n               " +
-" </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <a href" +
-"=\"#input-cols\" data-toggle=\"collapse\"><i class=\"fa fa-chevron-down\"></i>Input co" +
-"lumns span</a>\r\n                </div>\r\n                <div id=\"input-cols\" cla" +
-"ss=\"collapse form-group\">\r\n                    <div class=\"form-group\">\r\n       " +
-"                 <label>Input Col Large</label>\r\n                        <input " +
-"class=\"form-control\" data-bind=\"value: InputColLg\" id=\"form-design-InputColLg\" t" +
-"ype=\"number\" name=\"FormDesign.InputColLg\" />\r\n                    </div>\r\n      " +
-"              <div class=\"form-group\">\r\n                        <label>Input Col" +
-" Medium</label>\r\n                        <input class=\"form-control\" data-bind=\"" +
-"value: InputColMd\" id=\"form-design-InputColMd\" type=\"number\" name=\"FormDesign.In" +
-"putColMd\" />\r\n                    </div>\r\n                    <div class=\"form-g" +
-"roup\">\r\n                        <label>Input Col Small</label>\r\n                " +
-"        <input class=\"form-control\" data-bind=\"value: InputColSm\" id=\"form-desig" +
-"n-InputColSm\" type=\"number\" name=\"FormDesign.InputColSm\" />\r\n                   " +
-" </div>\r\n                    <div class=\"form-group\">\r\n                        <" +
-"label>Input Col x-small</label>\r\n                        <input class=\"form-cont" +
-"rol\" data-bind=\"value: InputColXs\" id=\"form-design-InputColXs\" type=\"number\" nam" +
-"e=\"FormDesign.InputColXs\" />\r\n                    </div>\r\n\r\n                </di" +
-"v>\r\n\r\n\r\n                <!-- /ko -->\r\n\r\n            </form>\r\n        </div>\r\n   " +
-"     <div id=\"add-field\" class=\"tab-pane\">\r\n            <ul class=\"nav\" data-bin" +
-"d=\"foreach: formElements\">\r\n                <li>\r\n                    <a class=\"" +
-"btn btn-default\" href=\"#add-field\" data-bind=\"attr : {title:Tooltip}\">\r\n        " +
-"                <i data-bind=\"attr: { \'class\': CssClass }\" class=\"pull-left\"></i" +
-">\r\n                        <!-- ko text: Name -->\r\n                        <!-- " +
-"/ko-->\r\n                    </a>\r\n                </li>\r\n            </ul>\r\n    " +
-"    </div>\r\n\r\n        <div id=\"fields-settings\" class=\"tab-pane\" data-bind=\"with" +
-": selectedFormElement\">\r\n            <form role=\"form\">\r\n                <div cl" +
-"ass=\"form-group\">\r\n                    <label for=\"form-element-label\">Label</la" +
-"bel>\r\n                    <input class=\"form-control\" data-bind=\"value: Label, v" +
-"alueUpdate: \'keyup\'\" id=\"form-element-label\" type=\"text\" name=\"Label\" />\r\n      " +
-"          </div>\r\n\r\n                <div class=\"form-group\">\r\n                  " +
-"  <label for=\"form-element-path\">Path</label>\r\n                    ");
-
-
-
-WriteLiteral("\r\n                    <input class=\"form-control\" pattern=\"^[A-Za-z_][A-Za-z0-9_." +
-"]*$\" data-bind=\"value: Path, entityTypeaheadPath : $root.entity().EntityDefiniti" +
-"onId()\" id=\"form-element-path\" type=\"text\" name=\"Path\" />\r\n                </div" +
-">\r\n                <div class=\"form-group\" style=\"padding-top: 25px\">\r\n         " +
-"           <label for=\"use-display-template\">\r\n                        Use displ" +
-"ay template\r\n                    </label>\r\n                    <input data-bind=" +
-"\"checked: UseDisplayTemplate\" id=\"use-display-template\" type=\"checkbox\" name=\"Us" +
-"eDisplayTemplate\" />\r\n                </div>\r\n                <div class=\"form-g" +
-"roup\">\r\n                    <a href=\"#toolbox-more-settings\" data-toggle=\"collap" +
-"se\"><i class=\"fa fa-chevron-down\"></i>More settings</a>\r\n                </div>\r" +
-"\n                <div id=\"toolbox-more-settings\" class=\"collapse\">\r\n            " +
-"        <div class=\"form-group\">\r\n                        <label for=\"form-eleme" +
-"nt-tooltip\">Tooltip</label>\r\n                        <input class=\"form-control\"" +
-" data-bind=\"value: Tooltip\" id=\"form-element-tooltip\" type=\"text\" name=\"Tooltip\"" +
-" />\r\n                    </div>\r\n\r\n                    <div class=\"form-group\">\r" +
-"\n                        <label for=\"form-element-help-text\">Help</label>\r\n     " +
-"                   <input class=\"form-control\" data-bind=\"value: HelpText, value" +
-"Update: \'keyup\'\" id=\"form-element-help-text\" type=\"text\" name=\"HelpText\" />\r\n   " +
-"                 </div>\r\n\r\n\r\n                    <div class=\"form-group\">\r\n     " +
-"                   <label for=\"form-element-css-class\">Css class</label>\r\n      " +
-"                  <input data-bind=\"cssAutoComplete: CssClass\" id=\"form-element-" +
-"css-class\" type=\"text\" name=\"CssClass\" />\r\n                    </div>\r\n\r\n       " +
-"             <div class=\"form-group\">\r\n                        <label for=\"form-" +
-"element-visible\">Visible</label>\r\n                        <input class=\"form-con" +
-"trol\" data-bind=\"value: Visible\" id=\"form-element-visible\" type=\"text\" name=\"Vis" +
-"ible\" />\r\n                    </div>\r\n                    <div class=\"form-group" +
-"\">\r\n                        <label for=\"form-element-enable\">Enable</label>\r\n   " +
-"                     <input class=\"form-control\" data-bind=\"value: Enable\" id=\"f" +
-"orm-element-enable\" type=\"text\" name=\"Enable\" />\r\n                    </div>\r\n\r\n" +
-"\r\n                    <div class=\"form-group\">\r\n                        <label f" +
-"or=\"form-element-elementId\">Id</label>\r\n                        <input class=\"fo" +
-"rm-control\" data-bind=\"value: ElementId\" id=\"form-element-elementId\" type=\"text\"" +
-" name=\"ElementId\" />\r\n                    </div>\r\n\r\n\r\n                </div>\r\n\r\n" +
-"                <div class=\"form-group\">\r\n                    <a href=\"#toolbox-" +
-"advanced-settings\" data-toggle=\"collapse\">\r\n                        <i class=\"fa" +
-" fa-chevron-down\"></i>\r\n                        Advanced settings\r\n             " +
-"       </a>\r\n                </div>\r\n                <div id=\"toolbox-advanced-s" +
-"ettings\" class=\"collapse\">\r\n");
+"m-group checkbox checkbox-no-padding-left\">\r\n                    <label>\r\n      " +
+"                  <input data-bind=\"checked: IsWatchAvailable\" id=\"form-design-i" +
+"swatch\" type=\"checkbox\" name=\"FormDesign.IsWatchAvailable\" />\r\n                 " +
+"       Allow Watch\r\n                    </label>\r\n                </div>\r\n      " +
+"          <div class=\"form-group checkbox checkbox-no-padding-left\">\r\n          " +
+"          <label>\r\n                        <input data-bind=\"checked: IsAuditTra" +
+"ilAvailable\" id=\"form-design-IsAuditTrailAvailable\" type=\"checkbox\" name=\"FormDe" +
+"sign.IsAuditTrailAvailable\" />\r\n                        Audit trail\r\n           " +
+"         </label>\r\n                </div>\r\n\r\n                <!-- ko with : Form" +
+"Design -->\r\n\r\n\r\n                <div class=\"form-group\">\r\n                    <a" +
+" href=\"#label-cols\" data-toggle=\"collapse\"><i class=\"fa fa-chevron-down\"></i>Lab" +
+"el columns span</a>\r\n                </div>\r\n                <div id=\"label-cols" +
+"\" class=\"form-group collapse\">\r\n                    <div class=\"form-group\">\r\n  " +
+"                      <label>Label Col Large</label>\r\n                        <i" +
+"nput class=\"form-control\" data-bind=\"value: LabelColLg\" id=\"form-design-LabelCol" +
+"Lg\" type=\"number\" name=\"FormDesign.LabelColLg\" />\r\n                    </div>\r\n " +
+"                   <div class=\"form-group\">\r\n                        <label>Labe" +
+"l Col Medium</label>\r\n                        <input class=\"form-control\" data-b" +
+"ind=\"value: LabelColMd\" id=\"form-design-LabelColMd\" type=\"number\" name=\"FormDesi" +
+"gn.LabelColMd\" />\r\n                    </div>\r\n                    <div class=\"f" +
+"orm-group\">\r\n                        <label>Label Col Small</label>\r\n           " +
+"             <input class=\"form-control\" data-bind=\"value: LabelColSm\" id=\"form-" +
+"design-LabelColSm\" type=\"number\" name=\"FormDesign.LabelColSm\" />\r\n              " +
+"      </div>\r\n                    <div class=\"form-group\">\r\n                    " +
+"    <label>Label Col x-small</label>\r\n                        <input class=\"form" +
+"-control\" data-bind=\"value: LabelColXs\" id=\"form-design-LabelColXs\" type=\"number" +
+"\" name=\"FormDesign.LabelColXs\" />\r\n                    </div>\r\n                <" +
+"/div>\r\n\r\n                <div class=\"form-group\">\r\n                    <a href=\"" +
+"#input-cols\" data-toggle=\"collapse\"><i class=\"fa fa-chevron-down\"></i>Input colu" +
+"mns span</a>\r\n                </div>\r\n                <div id=\"input-cols\" class" +
+"=\"collapse form-group\">\r\n                    <div class=\"form-group\">\r\n         " +
+"               <label>Input Col Large</label>\r\n                        <input cl" +
+"ass=\"form-control\" data-bind=\"value: InputColLg\" id=\"form-design-InputColLg\" typ" +
+"e=\"number\" name=\"FormDesign.InputColLg\" />\r\n                    </div>\r\n        " +
+"            <div class=\"form-group\">\r\n                        <label>Input Col M" +
+"edium</label>\r\n                        <input class=\"form-control\" data-bind=\"va" +
+"lue: InputColMd\" id=\"form-design-InputColMd\" type=\"number\" name=\"FormDesign.Inpu" +
+"tColMd\" />\r\n                    </div>\r\n                    <div class=\"form-gro" +
+"up\">\r\n                        <label>Input Col Small</label>\r\n                  " +
+"      <input class=\"form-control\" data-bind=\"value: InputColSm\" id=\"form-design-" +
+"InputColSm\" type=\"number\" name=\"FormDesign.InputColSm\" />\r\n                    <" +
+"/div>\r\n                    <div class=\"form-group\">\r\n                        <la" +
+"bel>Input Col x-small</label>\r\n                        <input class=\"form-contro" +
+"l\" data-bind=\"value: InputColXs\" id=\"form-design-InputColXs\" type=\"number\" name=" +
+"\"FormDesign.InputColXs\" />\r\n                    </div>\r\n\r\n                </div>" +
+"\r\n\r\n\r\n                <!-- /ko -->\r\n\r\n            </form>\r\n        </div>\r\n     " +
+"   <div id=\"add-field\" class=\"tab-pane\">\r\n            <ul class=\"nav\" data-bind=" +
+"\"foreach: formElements, filter : {path:\'>li\', tooltip :\'elements filter\', offset" +
+" : 0}\">\r\n                <li>\r\n                    <a class=\"btn btn-default\" hr" +
+"ef=\"#add-field\" data-bind=\"attr : {title:Tooltip}\">\r\n                        <i " +
+"data-bind=\"attr: { \'class\': ToolboxIconClass }\" class=\"pull-left\"></i>\r\n        " +
+"                <!-- ko text: Name -->\r\n                        <!-- /ko-->\r\n   " +
+"                 </a>\r\n                </li>\r\n            </ul>\r\n        </div>\r" +
+"\n\r\n        <div id=\"fields-settings\" class=\"tab-pane\" data-bind=\"with: selectedF" +
+"ormElement\">\r\n            <form role=\"form\">\r\n                <div class=\"form-g" +
+"roup\">\r\n                    <label for=\"form-element-label\">Label</label>\r\n     " +
+"               <input class=\"form-control\" data-bind=\"value: Label, valueUpdate:" +
+" \'keyup\'\" id=\"form-element-label\" type=\"text\" name=\"Label\" />\r\n                <" +
+"/div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label fo" +
+"r=\"form-element-path\">Path</label>\r\n                    <input class=\"form-contr" +
+"ol\" pattern=\"^[A-Za-z_][A-Za-z0-9_.]*$\" data-bind=\"value: Path, entityTypeaheadP" +
+"ath : $root.entity().EntityDefinitionId()\" id=\"form-element-path\" type=\"text\" na" +
+"me=\"Path\" />\r\n                </div>\r\n                <br/>\r\n                <di" +
+"v class=\"form-group checkbox checkbox-no-padding-left\">\r\n                    <la" +
+"bel for=\"use-display-template\" class=\"sr-only\">Use display template</label>\r\n   " +
+"                 <label for=\"use-display-template\">\r\n                        <in" +
+"put data-bind=\"checked: UseDisplayTemplate\" id=\"use-display-template\" type=\"chec" +
+"kbox\" name=\"UseDisplayTemplate\" />\r\n                        Use display template" +
+"\r\n                    </label>\r\n                </div>\r\n                <div cla" +
+"ss=\"form-group\">\r\n                    <a href=\"#toolbox-more-settings\" data-togg" +
+"le=\"collapse\"><i class=\"fa fa-chevron-down\"></i>More settings</a>\r\n             " +
+"   </div>\r\n                <div id=\"toolbox-more-settings\" class=\"collapse\">\r\n  " +
+"                  <div class=\"form-group\">\r\n                        <label for=\"" +
+"form-element-tooltip\">Tooltip</label>\r\n                        <input class=\"for" +
+"m-control\" data-bind=\"value: Tooltip\" id=\"form-element-tooltip\" type=\"text\" name" +
+"=\"Tooltip\" />\r\n                    </div>\r\n\r\n                    <div class=\"for" +
+"m-group\">\r\n                        <label for=\"form-element-help-text\">Help</lab" +
+"el>\r\n                        <input class=\"form-control\" data-bind=\"value: HelpT" +
+"ext, valueUpdate: \'keyup\'\" id=\"form-element-help-text\" type=\"text\" name=\"HelpTex" +
+"t\" />\r\n                    </div>\r\n\r\n\r\n                    <div class=\"form-grou" +
+"p\">\r\n                        <label for=\"fe-css-class\">Css class</label>\r\n      " +
+"                  <input class=\"form-control\" data-bind=\"value: CssClass\" id=\"fe" +
+"-css-class\" type=\"text\" name=\"CssClass\" />\r\n                    </div>\r\n\r\n      " +
+"              <div class=\"form-group\">\r\n                        <label for=\"form" +
+"-element-visible\">Visible</label>\r\n                        <input class=\"form-co" +
+"ntrol\" data-bind=\"value: Visible\" id=\"form-element-visible\" type=\"text\" name=\"Vi" +
+"sible\" />\r\n                    </div>\r\n                    <div class=\"form-grou" +
+"p\">\r\n                        <label for=\"form-element-enable\">Enable</label>\r\n  " +
+"                      <input class=\"form-control\" data-bind=\"value: Enable\" id=\"" +
+"form-element-enable\" type=\"text\" name=\"Enable\" />\r\n                    </div>\r\n\r" +
+"\n\r\n                    <div class=\"form-group\">\r\n                        <label " +
+"for=\"form-element-elementId\">Id</label>\r\n                        <input class=\"f" +
+"orm-control\" data-bind=\"value: ElementId\" id=\"form-element-elementId\" type=\"text" +
+"\" name=\"ElementId\" />\r\n                    </div>\r\n\r\n                </div>\r\n\r\n " +
+"               <div class=\"form-group\">\r\n                    <a href=\"#toolbox-a" +
+"dvanced-settings\" data-toggle=\"collapse\">\r\n                        <i class=\"fa " +
+"fa-chevron-down\"></i>\r\n                        Advanced settings\r\n              " +
+"      </a>\r\n                </div>\r\n                <div id=\"toolbox-advanced-se" +
+"ttings\" class=\"collapse\">\r\n");
 
 
             

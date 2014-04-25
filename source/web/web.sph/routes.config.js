@@ -86,14 +86,14 @@
   {
       "role": "administrators",
       "groupName": "Settings",
-      "route": "setting",
-      "moduleId": "viewmodels/setting",
-      "title": "General settings",
+      "route": "templates",
+      "moduleId": "viewmodels/templates",
+      "title": "Templates",
       "nav": false,
       "icon": "fa fa-gear",
-      "caption": "Setting",
+      "caption": "Termplates",
       "settings": {
-          "caption": "Settings"
+          "caption": "templates"
       },
       "isAdminPage": true,
       "showWhenLoggedIn": false,
