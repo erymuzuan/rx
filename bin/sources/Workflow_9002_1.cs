@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Workflows_9002_1
                        result = await this.ExecScreenActivityPermohonan_3448Async();
                        break;
                    case "e72a1cb3-4936-42d4-bab6-ebbcdee1c579" : 
-                       result = await this.ExecNotificationActivityEmailMe_e72aAsync();
+                       result = await this.ExecNotificationActivityEmailAdmin_e72aAsync();
                        break;
                    case "89053589-7627-4c0b-aced-e01bef7ce32b" : 
                        result = await this.ExecEndActivityEnd2_8905Async();
@@ -72,17 +72,17 @@ namespace Bespoke.Sph.Workflows_9002_1
 
 
 //exec:e72a1cb3-4936-42d4-bab6-ebbcdee1c579
-   public async Task<ActivityExecutionResult> ExecNotificationActivityEmailMe_e72aAsync()
+   public async Task<ActivityExecutionResult> ExecNotificationActivityEmailAdmin_e72aAsync()
    {
        var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};
        var act = this.GetActivity<NotificationActivity>("e72a1cb3-4936-42d4-bab6-ebbcdee1c579");
        result.NextActivities = new[]{"89053589-7627-4c0b-aced-e01bef7ce32b"};
-       var @from = await this.TransformFromExecNotificationActivityEmailMe_e72aAsync(act.From);
-       var to = await this.TransformToExecNotificationActivityEmailMe_e72aAsync(act.To);
-       var subject = await this.TransformSubjectExecNotificationActivityEmailMe_e72aAsync(act.Subject);
-       var body = await this.TransformBodyExecNotificationActivityEmailMe_e72aAsync(act.Body);
-       var cc = await this.TransformBodyExecNotificationActivityEmailMe_e72aAsync(act.Cc);
-       var bcc = await this.TransformBodyExecNotificationActivityEmailMe_e72aAsync(act.Bcc);
+       var @from = await this.TransformFromExecNotificationActivityEmailAdmin_e72aAsync(act.From);
+       var to = await this.TransformToExecNotificationActivityEmailAdmin_e72aAsync(act.To);
+       var subject = await this.TransformSubjectExecNotificationActivityEmailAdmin_e72aAsync(act.Subject);
+       var body = await this.TransformBodyExecNotificationActivityEmailAdmin_e72aAsync(act.Body);
+       var cc = await this.TransformBodyExecNotificationActivityEmailAdmin_e72aAsync(act.Cc);
+       var bcc = await this.TransformBodyExecNotificationActivityEmailAdmin_e72aAsync(act.Bcc);
        System.Console.WriteLine("Sending email to : {0}", to);
        var client = new System.Net.Mail.SmtpClient();
        var mm = new System.Net.Mail.MailMessage();
@@ -95,10 +95,30 @@ namespace Bespoke.Sph.Workflows_9002_1
        if (!string.IsNullOrWhiteSpace(bcc))
            mm.Bcc.Add(bcc);
        await client.SendMailAsync(mm).ConfigureAwait(false);
+
+
+       var context = new SphDataContext();
+       foreach(var et in to.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries))
+       {
+           var et1 = et;
+           var user = await context.LoadOneAsync<UserProfile>(u => u.Email == et1);
+           if(null == user)continue;
+           var message = new Message
+                           {
+                               Subject = subject,
+                               UserName = user.UserName,
+                               Body = body
+                           };
+           using (var session = context.OpenSession())
+           {
+               session.Attach(message);
+               await session.SubmitChanges("Email admin").ConfigureAwait(false);
+           }
+       }
        return result;
    }
 
-   public async Task<string> TransformFromExecNotificationActivityEmailMe_e72aAsync(string template)
+   public async Task<string> TransformFromExecNotificationActivityEmailAdmin_e72aAsync(string template)
    {
         if (string.IsNullOrWhiteSpace(template)) return string.Empty;
 
@@ -106,7 +126,7 @@ namespace Bespoke.Sph.Workflows_9002_1
             return await razor.GenerateAsync(template, this);
    }
 
-   public async Task<string> TransformToExecNotificationActivityEmailMe_e72aAsync(string template)
+   public async Task<string> TransformToExecNotificationActivityEmailAdmin_e72aAsync(string template)
    {
         if (string.IsNullOrWhiteSpace(template)) return string.Empty;
 
@@ -114,7 +134,7 @@ namespace Bespoke.Sph.Workflows_9002_1
             return await razor.GenerateAsync(template, this);
    }
 
-   public async Task<string> TransformSubjectExecNotificationActivityEmailMe_e72aAsync(string template)
+   public async Task<string> TransformSubjectExecNotificationActivityEmailAdmin_e72aAsync(string template)
    {
         if (string.IsNullOrWhiteSpace(template)) return string.Empty;
 
@@ -122,7 +142,7 @@ namespace Bespoke.Sph.Workflows_9002_1
             return await razor.GenerateAsync(template, this);
    }
 
-   public async Task<string> TransformBodyExecNotificationActivityEmailMe_e72aAsync(string template)
+   public async Task<string> TransformBodyExecNotificationActivityEmailAdmin_e72aAsync(string template)
    {
         if (string.IsNullOrWhiteSpace(template)) return string.Empty;
 

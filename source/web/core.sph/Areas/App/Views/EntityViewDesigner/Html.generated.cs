@@ -191,7 +191,8 @@ WriteLiteral("</td>\r\n                    <td>\r\n                        <a hr
 "pan>\r\n                        </a>\r\n                    </td>\r\n                <" +
 "/tr>\r\n            </tbody>\r\n        </table>\r\n\r\n        <a class=\"btn btn-link\" " +
 "data-bind=\"click : addConditionalFormatting\">\r\n            <i class=\"fa fa-plus-" +
-"circle\"></i> Add a conditional formatting\r\n        </a>\r\n    </div>\r\n</div>");
+"circle\"></i> Add a conditional formatting\r\n        </a>\r\n    </div>\r\n</div>\r\n\r\n\r" +
+"\n<div class=\"row\" style=\"height: 200px;\"></div>");
 
 
         }

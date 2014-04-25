@@ -468,10 +468,6 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public int? MinLength { get; set; }
-
-        public int? MaxLength { get; set; }
-
 
     }
 

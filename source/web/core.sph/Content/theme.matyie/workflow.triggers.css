@@ -98,4 +98,7 @@ div.workflow-publishing-progress img {
   font-weight: normal;
   cursor: pointer;
 }
+div.checkbox-no-padding-left {
+  padding-left: 0px;
+}
 /*# sourceMappingURL=workflow.triggers.css.map */

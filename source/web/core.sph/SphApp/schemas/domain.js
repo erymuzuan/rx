@@ -63,8 +63,6 @@ bespoke.sph.domain.TextBox = function (optionOrWebid) {
 
     v["$type"] = "Bespoke.Sph.Domain.TextBox, domain.sph";
 
-    v.MinLength = ko.observable();//nillable
-    v.MaxLength = ko.observable();//nillable
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -1364,6 +1362,35 @@ bespoke.sph.domain.EntityLookupElement = function (optionOrWebid) {
 
     if (bespoke.sph.domain.EntityLookupElementPartial) {
         return _(v).extend(new bespoke.sph.domain.EntityLookupElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.CurrencyElement = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
+
+    v.Currency = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.CurrencyElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CurrencyElementPartial) {
+        return _(v).extend(new bespoke.sph.domain.CurrencyElementPartial(v));
     }
     return v;
 };

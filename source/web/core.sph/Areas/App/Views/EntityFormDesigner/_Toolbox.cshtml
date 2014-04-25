@@ -50,44 +50,44 @@
                     <input class="form-control" data-bind="value: Note" id="form-design-Description" type="text" name="FormDesign.Description" />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
                         <input data-bind="checked: IsDefault" id="form-design-isdefault" type="checkbox" name="FormDesign.IsDefault" />
                         Is default form
                     </label>
                 </div>
-                <div class="form-group">
+                <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
                         <input data-bind="checked: IsAllowedNewItem" id="form-design-is-allow-new" type="checkbox" name="FormDesign.IsAllowedNewItem" />
                         Allow new item
                     </label>
                 </div>
-                <div class="form-group">
+                <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
                         <input data-bind="checked: IsRemoveAvailable" id="form-design-is-remove-item" type="checkbox" name="FormDesign.IsRemoveAvailable" />
                         Allow remove item
                     </label>
                 </div>
-                <div class="form-group">
+                <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
                         <input data-bind="checked: IsEmailAvailable" id="form-design-isemail" type="checkbox" name="FormDesign.IsEmailAvailable" />
                         Allow Email
                     </label>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
                         <input data-bind="checked: IsPrintAvailable" id="form-design-isprint" type="checkbox" name="FormDesign.IsPrintAvailable" />
                         Allow Print
                     </label>
                 </div>
-                <div class="form-group">
+                <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
                         <input data-bind="checked: IsWatchAvailable" id="form-design-iswatch" type="checkbox" name="FormDesign.IsWatchAvailable" />
                         Allow Watch
                     </label>
                 </div>
-                <div class="form-group">
+                <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
                         <input data-bind="checked: IsAuditTrailAvailable" id="form-design-IsAuditTrailAvailable" type="checkbox" name="FormDesign.IsAuditTrailAvailable" />
                         Audit trail
@@ -168,14 +168,15 @@
 
                 <div class="form-group">
                     <label for="form-element-path">Path</label>
-                    @**@
                     <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().EntityDefinitionId()" id="form-element-path" type="text" name="Path" />
                 </div>
-                <div class="form-group" style="padding-top: 25px">
+                <br/>
+                <div class="form-group checkbox checkbox-no-padding-left">
+                    <label for="use-display-template" class="sr-only">Use display template</label>
                     <label for="use-display-template">
+                        <input data-bind="checked: UseDisplayTemplate" id="use-display-template" type="checkbox" name="UseDisplayTemplate" />
                         Use display template
                     </label>
-                    <input data-bind="checked: UseDisplayTemplate" id="use-display-template" type="checkbox" name="UseDisplayTemplate" />
                 </div>
                 <div class="form-group">
                     <a href="#toolbox-more-settings" data-toggle="collapse"><i class="fa fa-chevron-down"></i>More settings</a>

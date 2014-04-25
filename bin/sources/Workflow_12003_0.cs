@@ -129,6 +129,26 @@ if(null == this.Patient)
        if (!string.IsNullOrWhiteSpace(bcc))
            mm.Bcc.Add(bcc);
        await client.SendMailAsync(mm).ConfigureAwait(false);
+
+
+       var context = new SphDataContext();
+       foreach(var et in to.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries))
+       {
+           var et1 = et;
+           var user = await context.LoadOneAsync<UserProfile>(u => u.Email == et1);
+           if(null == user)continue;
+           var message = new Message
+                           {
+                               Subject = subject,
+                               UserName = user.UserName,
+                               Body = body
+                           };
+           using (var session = context.OpenSession())
+           {
+               session.Attach(message);
+               await session.SubmitChanges("Tell my boss").ConfigureAwait(false);
+           }
+       }
        return result;
    }
 
