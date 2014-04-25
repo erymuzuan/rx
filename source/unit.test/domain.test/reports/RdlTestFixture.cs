@@ -7,7 +7,6 @@ using System.Xml.Linq;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.SqlReportDataSource;
 using Bespoke.Sph.Domain;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace domain.test.reports

@@ -32,6 +32,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   {");
 
             code.AppendLinf("   private int m_{0}Id;", this.Name.ToCamelCase());
+            code.AppendLinf("   [XmlAttribute]");
             code.AppendLinf("   public int {0}Id", this.Name);
             code.AppendLine("   {");
             code.AppendLinf("       get{{ return m_{0}Id;}}", this.Name.ToCamelCase());

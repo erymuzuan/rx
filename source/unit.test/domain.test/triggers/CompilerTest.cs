@@ -31,21 +31,24 @@ namespace domain.test.triggers
             Assert.IsNotNull(customer);
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
-           
+
 
             var trigger = new Trigger
             {
                 Entity = ed.Name,
                 IsFiredOnAdded = true,
-                IsFiredOnChanged = true, IsFiredOnDeleted = true,
+                IsFiredOnChanged = true,
+                IsFiredOnDeleted = true,
                 FiredOnOperations = "Save,Publish",
                 TriggerId = 33
             };
             var options = new CompilerOptions
             {
                 IsVerbose = true,
-                IsDebug = true
+                IsDebug = true,
+                SourceCodeDirectory = AppDomain.CurrentDomain.BaseDirectory
             };
+            Console.WriteLine(options.SourceCodeDirectory);
             var result = await trigger.CompileAsync(options);
             result.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(result.Result);
@@ -81,7 +84,13 @@ namespace domain.test.triggers
 
         public EntityDefinition CreateCustomerDefinition()
         {
-            var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", EntityDefinitionId = 72};
+            var ent = new EntityDefinition
+            {
+                Name = "Customer",
+                Plural = "Customers",
+                RecordName = "FullName",
+                EntityDefinitionId = 72
+            };
             ent.MemberCollection.Add(new Member
             {
                 Name = "FullName",

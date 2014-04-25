@@ -1,18 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Bespoke.Sph.Domain;
+using Bespoke.Dev_1.Domain;
 
 namespace assembly.test
 {
-    public class BudgetServiceAgent
-    {
-        public async Task<object> GetBudgetAsync(int id)
-        {
-            await Task.Delay(500);
-            return 50000;
-        }
-         
-    }
-
     public class AssemblyClassToTest
     {
         public string SayHello(string name)
@@ -23,24 +13,24 @@ namespace assembly.test
         {
             return string.Format(greet + " " + name);
         }
-        public string SayBuildingName(Designation masjid, string greet)
+        public string SayCustomerName(Customer customer, string greet)
         {
-            return string.Format( greet + " " + masjid.Name);
+            return string.Format( greet + " " + customer.FullName);
         }
-        public async Task<object> GreetAsync(Designation masjid, string greet)
+        public async Task<object> GreetAsync(Customer customer, string greet)
         {
             await Task.Delay(500);
-            return string.Format( greet + " " + masjid.Name);
+            return string.Format( greet + " " + customer.FullName);
         }
-        public async Task<object> GreetAsync(Designation masjid, string greet, bool warning)
+        public async Task<object> GreetAsync(Customer customer, string greet, bool warning)
         {
             await Task.Delay(500);
-            return string.Format( greet + " warning " + masjid.Name);
+            return string.Format( greet + " warning " + customer.FullName);
         }
-        public async Task<object> GreetAsync(Designation masjid, string greet, string warning)
+        public async Task<object> GreetAsync(Customer customer, string greet, string warning)
         {
             await Task.Delay(500);
-            return string.Format( greet + " warning " + masjid.Name);
+            return string.Format( greet + " warning " + customer.FullName);
         }
     }
 }

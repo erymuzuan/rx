@@ -59,9 +59,9 @@ namespace domain.test.entities
         }
 
 
-        public EntityDefinition CreatePatientDefinition()
+        public EntityDefinition CreatePatientDefinition(string name = "Patient")
         {
-            var ent = new EntityDefinition { Name = "Patient", Plural = "Patients", RecordName = "FullName" };
+            var ent = new EntityDefinition { Name = name, Plural = "Patients", RecordName = "FullName" };
             ent.MemberCollection.Add(new Member
             {
                 Name = "FullName",
@@ -114,7 +114,7 @@ namespace domain.test.entities
             var release = new EntityOperation { Name = "Release" };
             release.Rules.Add("VerifyRegisteredDate");
 
-            var ed = this.CreatePatientDefinition();
+            var ed = this.CreatePatientDefinition("PatientForRelease");
             ed.EntityOperationCollection.Add(release);
 
             var patient = this.CreateInstance(ed, true);
@@ -126,7 +126,7 @@ namespace domain.test.entities
             {
                 Console.WriteLine(type);
             }
-            var controllerType = dll.GetType(patientType.Namespace + ".PatientController");
+            var controllerType = dll.GetType(patientType.Namespace + ".PatientForReleaseController");
             Assert.IsNotNull(controllerType);
 
             var releaseActionMethodInfo = controllerType.GetMethod("Release");
@@ -155,7 +155,7 @@ namespace domain.test.entities
                 Right = new DocumentField { Path = "DeathDateTime" }
             });
 
-            var ed = this.CreatePatientDefinition();
+            var ed = this.CreatePatientDefinition("PatientWithBusinessRule");
             ed.EntityOperationCollection.Add(release);
             ed.BusinessRuleCollection.Add(mustBeDeadRule);
 
@@ -166,7 +166,7 @@ namespace domain.test.entities
             Type patientType = patient.GetType();
             var dll = patientType.Assembly;
 
-            var controllerType = dll.GetType(patientType.Namespace + ".PatientController");
+            var controllerType = dll.GetType(patientType.Namespace + ".PatientWithBusinessRuleController");
             dynamic controller = Activator.CreateInstance(controllerType);
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
@@ -194,7 +194,7 @@ namespace domain.test.entities
                 Field = new ConstantField { Type = typeof(string), Value = "Released", Name = "Released" },
                 WebId = Guid.NewGuid().ToString()
             };
-            var ed = this.CreatePatientDefinition();
+            var ed = this.CreatePatientDefinition("PatientReleaseOperationWithSetter");
             ed.EntityOperationCollection.Add(release);
             release.SetterActionChildCollection.Add(statusSetter);
 
@@ -205,7 +205,7 @@ namespace domain.test.entities
             Type patientType = patient.GetType();
             var dll = patientType.Assembly;
 
-            var controllerType = dll.GetType(patientType.Namespace + ".PatientController");
+            var controllerType = dll.GetType(patientType.Namespace + ".PatientReleaseOperationWithSetterController");
             dynamic controller = Activator.CreateInstance(controllerType);
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
