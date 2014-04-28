@@ -106,7 +106,7 @@ bespoke.sph.domain.BusinessRulePartial = function (model) {
             return function () {
                 self.FilterCollection.remove(br);
             };
-        }
+        },
         addRule = function () {
             var self = this,
                 br = new bespoke.sph.domain.Rule(system.guid());
@@ -457,7 +457,20 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
             };
         },
         addBusinessRule = function () {
-            this.BusinessRuleCollection.push(new bespoke.sph.domain.BusinessRule({ WebId: system.guid(), Name: '<New Rule>' }));
+            var br = new bespoke.sph.domain.BusinessRule({ WebId: system.guid() });
+            var self = this;
+
+            require(['viewmodels/business.rule.dialog', 'durandal/app'], function (dialog, app) {
+                dialog.rule(br);
+                app.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result == "OK") {
+                            self.BusinessRuleCollection.push(br);
+                        }
+                    });
+            });
+
         },
         editBusinessRule = function (rule) {
             var self = this;

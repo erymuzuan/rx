@@ -25,8 +25,20 @@ namespace sph.builder
                 if (!exist) continue;
 
                 await this.InsertAsync(wd);
-                this.Compile(wd);
-
+                try
+                {
+                    this.Compile(wd);
+                }
+                catch (Exception e)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Failed to compile workflow {0}", wd.Name);
+                    Console.WriteLine(e.Message);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(e.StackTrace);
+                    Console.ResetColor();
+                    continue;
+                }
                 // save
                 var pages = await GetPublishPagesAsync(wd);
                 //archive the WD

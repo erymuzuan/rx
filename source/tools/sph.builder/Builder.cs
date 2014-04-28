@@ -80,8 +80,25 @@ namespace sph.builder
 
             var parms = from c in m_columns
                         select new SqlParameter("@" + c.Name.Replace(".", "_"), this.GetParameterValue(c, item));
-            await SPH_CONNECTION.ExecuteNonQueryAsync(sql, parms.ToArray()).ConfigureAwait(false);
 
+            try
+            {
+                await SPH_CONNECTION.ExecuteNonQueryAsync(sql, parms.ToArray()).ConfigureAwait(false);
+            }
+            catch (SqlException e)
+            {
+                if (e.Message.Contains("PRIMARY KEY"))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Failed to insert {1} : {0}",item, typeof(T).Name);
+                    Console.WriteLine(e.Message);
+                    Console.ResetColor();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
         }
 

@@ -152,7 +152,7 @@ WriteLiteral(@"
 WriteLiteral(@"
                                 </td>
                                 <td>
-                                    <a class=""btn btn-mini"" rel=""nofollow"" href=""#"" data-bind=""click : $parent.removeRule.call($parent,$data)"">
+                                    <a class=""btn btn-mini"" rel=""nofollow"" href=""#"" data-bind=""click : $parent.removeFilter.call($parent,$data)"">
                                         <i class=""fa fa-times""></i>
                                     </a>
                                 </td>

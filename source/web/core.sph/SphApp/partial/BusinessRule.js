@@ -28,7 +28,7 @@ bespoke.sph.domain.BusinessRulePartial = function (model) {
             return function () {
                 self.FilterCollection.remove(br);
             };
-        }
+        },
         addRule = function () {
             var self = this,
                 br = new bespoke.sph.domain.Rule(system.guid());
