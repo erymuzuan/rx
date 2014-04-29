@@ -1,0 +1,78 @@
+<!doctype html>
+<html manifest="appcache.manifest">
+<head>
+    <title>Patients list - offline</title>
+    <link rel="stylesheet" href="/content/css.min.css" />
+    <link rel="stylesheet" href="/content/site.css" />
+</head>
+<body>
+
+<div id="toolbar-panel">
+      <a id="addbutton" class="btn btn-default" href="patient-registration.html">
+            <i class="fa fa-plus"></i>
+            Patient Registration
+        </a>
+</div>
+   <h1>All patients</h1>
+    <div class="row">
+        <div class="col-md-8">
+
+            <table class="table table-striped"
+                   data-bind="filter : {path:'tbody>tr'}">
+                <thead>
+                <tr>
+                    <th>Mrn</th>
+                    <th>Name</th>
+                    <th>Dob</th>
+                    <th>Marital Status</th>
+                    <th>Gender</th>
+                    <th>Race</th>
+                    <th>Religion</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody data-bind="foreach :list">
+                <tr data-bind="css : {'success':Religion === 'Islam'}">
+                    <td>
+                        <a data-bind="attr : {href:'patient-registration.html' + '#' + WebId() },text: FullName"></a>
+                    </td>
+                    <td data-bind="text:FullName"></td>
+                    <td data-bind="date:Dob"></td>
+                    <td data-bind="text:MaritalStatus"></td>
+                    <td data-bind="text:Gender"></td>
+                    <td data-bind="text:Race"></td>
+                    <td data-bind="text:Religion"></td>
+                    <td>
+                        <button class="btn btn-default" data-bind="click : $root.sendOperation.call($data,'Register'), enable: $root.online">
+                            <i class="fa fa-check"></i>
+                            <span>Register</span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="/scripts/vendor.min.js"></script>
+    <script type="text/javascript" src="/scripts/core.min.js"> </script>
+    <script type="text/javascript" src="/scripts/_ko.entity.js"> </script>
+    <script src="/scripts/localforage/localforage.min.js"></script>
+    <script src="/kendo/js/kendo.core.js"></script>
+    <script src="/kendo/js/kendo.fx.js"></script>
+    <script src="/kendo/js/kendo.calendar.js"></script>
+    <script src="/kendo/js/kendo.binder.js"></script>
+    <script src="/kendo/js/kendo.data.js"></script>
+    <script src="/kendo/js/kendo.timepicker.js"></script>
+    <script src="/kendo/js/kendo.datepicker.js"></script>
+    <script src="/kendo/js/kendo.datetimepicker.js"></script>
+    <script src="/kendo/js/kendo.pager.js"></script>
+    <script src="/kendo/js/kendo.pager.js"></script>
+    <script src="/kendo/js/kendo.upload.js"></script>
+    <script src="/kendo/js/kendo.popup.js"></script>
+    <script type="text/javascript" src="/sph/entitydefinition/schemas"></script>
+    <script src="/sphapp/objectbuilders.js" type="text/javascript"></script>
+    <script src="/scripts/require.js" type="text/javascript" data-main="patient.js"></script>
+</body>
+</html>

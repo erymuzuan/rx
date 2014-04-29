@@ -1184,9 +1184,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\css.min.css">
+    <EmbeddedResource Include="Content\css.min.css">
       <DependentUpon>css.css</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <EmbeddedResource Include="Content\jstree\32px.png" />
     <EmbeddedResource Include="Content\jstree\40px.png" />
     <Content Include="Content\jstree\style.css" />

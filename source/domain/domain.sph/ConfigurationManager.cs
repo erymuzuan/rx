@@ -13,6 +13,15 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public static bool EnableOfflineForm
+        {
+            get
+            {
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:EnableOfflineForm"] ?? "false";
+                return bool.Parse(pn);
+            }
+        }
+
         public static string BaseUrl
         {
             get

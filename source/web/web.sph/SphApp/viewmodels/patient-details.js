@@ -3,6 +3,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         var entity = ko.observable(new bespoke.dev_2002.domain.Patient({WebId: system.guid()})),
             errors = ko.observableArray(),
+            online = ko.observable(window.navigator.onLine),
             form = ko.observable(new bespoke.sph.domain.EntityForm()),
             watching = ko.observable(false),
             id = ko.observable(),
