@@ -41,13 +41,13 @@ require(['services/datacontext', 'jquery', 'services/app', 'services/system', ob
                     context.post(ko.mapping.toJSON(item), "/Patient/" + operation)
                     .then(function (result) {
                         if (result.success) {
-                            logger.info(result.message);
-                            //item.PatientId(result.id);
                             errors.removeAll();
 
                             app.showMessage("Ok done", "SPH Platform showcase", ["OK"])
                                 .done(function (dialogResult) {
-                                    removeFromOffline(item).then(tcs.resolve)
+                                    removeFromOffline(item).then(tcs.resolve);
+                                    logger.info("Your data has been successfully sent to the server with this id " + result.id);
+                            
                                 });
 
                         } else {

@@ -6,14 +6,27 @@
     <link rel="stylesheet" href="/content/site.css" />
 </head>
 <body>
-
+<header id="header"></header>
 <div id="toolbar-panel">
       <a id="addbutton" class="btn btn-default" href="patient-registration.html">
             <i class="fa fa-plus"></i>
             Patient Registration
         </a>
 </div>
+
    <h1>All patients</h1>
+       <div id="error-list" class="row" data-bind="visible:errors().length">
+        <!-- ko foreach : errors -->
+        <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <i class="fa fa-exclamation"></i>
+            <span data-bind="text:Message"></span>
+
+        </div>
+        <div class="col-lg-2"></div>
+        <!-- /ko-->
+    </div>
+
     <div class="row">
         <div class="col-md-8">
 
@@ -73,6 +86,7 @@
     <script src="/kendo/js/kendo.popup.js"></script>
     <script type="text/javascript" src="/sph/entitydefinition/schemas"></script>
     <script src="/sphapp/objectbuilders.js" type="text/javascript"></script>
-    <script src="/scripts/require.js" type="text/javascript" data-main="patient.js"></script>
+    <script src="/scripts/require.js" type="text/javascript" data-main="patient"></script>
+    <script type="text/javascript" src="offline.js"></script>
 </body>
 </html>

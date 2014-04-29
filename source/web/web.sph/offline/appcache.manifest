@@ -5,9 +5,11 @@ CACHE MANIFEST
 
 
 #-------------- FILES
+offline.js
 patient.html
 patient.js
 patient-registration.html
+patient-registration.js
 /content/css.min.css
 /content/site.css
 /fonts/fontawesome-webfont.woff?v=4.0.3
