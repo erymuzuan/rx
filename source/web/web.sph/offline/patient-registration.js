@@ -18,7 +18,7 @@ define('knockout', ko);
 require(['services/datacontext', 'jquery', 'services/app', 'services/system'], function (context, jquery, app, system) {
     var entity = ko.observable(new bespoke.dev_2002.domain.Patient({ WebId: system.guid() })),
         errors = ko.observableArray(),
-        save= function () {
+        save = function () {
                 var tcs = new $.Deferred();
                 localforage.getItem('patients').then(function(r){
                     var sr = r || "[]",
