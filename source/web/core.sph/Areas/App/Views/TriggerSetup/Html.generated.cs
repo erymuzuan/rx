@@ -193,17 +193,18 @@ WriteLiteral("\n                    </td>\n                    <td>\n           
 "             <tr>\n                    <td>\n                        <a type=\"butt" +
 "on\" class=\"btn btn-link\" data-bind=\"click : $parent.editAction.call($parent,$dat" +
 "a)\" href=\"#\">\n\n                            <img data-bind=\"fieldImage : $type\" c" +
-"lass=\"pull-left\" alt=\".\" />\n                            &nbsp;\n                 " +
-"           <!-- ko text : Title -->\n                            <!-- /ko -->\n   " +
-"                     </a>\n                    </td>\n                    <td>\n   " +
-"                     <input type=\"text\" class=\"input-action-note form-control\" d" +
-"ata-bind=\"value: Note\" />\n                    </td>\n                    <td>\n   " +
-"                     <input class=\"input-action-isactive\" data-bind=\"checked: Is" +
-"Active\" id=\"IsActive\" type=\"checkbox\" name=\"IsActive\" />\n                    </t" +
-"d>\n                    <td>\n                        <a class=\"btn btn-mini\" rel=" +
-"\"nofollow\" href=\"#\" data-bind=\"click: $parent.removeAction.call($parent,$data)\">" +
-"<i class=\"fa fa-times\"></i></a>\n                    </td>\n                </tr>\n" +
-"            </tbody>\n        </table>\n    </div>\n</form>\n");
+"lass=\"pull-left\" style=\"margin-right: 10px\" alt=\".\" />\n                         " +
+"   &nbsp;\n                            <!-- ko text : Title -->\n                 " +
+"           <!-- /ko -->\n                        </a>\n                    </td>\n " +
+"                   <td>\n                        <input type=\"text\" class=\"input-" +
+"action-note form-control\" data-bind=\"value: Note\" />\n                    </td>\n " +
+"                   <td>\n                        <input class=\"input-action-isact" +
+"ive\" data-bind=\"checked: IsActive\" id=\"IsActive\" type=\"checkbox\" name=\"IsActive\"" +
+" />\n                    </td>\n                    <td>\n                        <" +
+"a class=\"btn btn-mini\" rel=\"nofollow\" href=\"#\" data-bind=\"click: $parent.removeA" +
+"ction.call($parent,$data)\"><i class=\"fa fa-times\"></i></a>\n                    <" +
+"/td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n</fo" +
+"rm>\n");
 
 
         }

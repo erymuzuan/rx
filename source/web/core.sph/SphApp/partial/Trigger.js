@@ -30,6 +30,7 @@ bespoke.sph.domain.TriggerPartial = function () {
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
+                            action.IsActive(true);
                             self.ActionCollection.push(action);
                         }
                     });

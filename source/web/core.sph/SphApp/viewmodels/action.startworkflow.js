@@ -12,7 +12,8 @@
 define(['services/datacontext', 'services/logger', 'plugins/dialog'],
     function (context, logger, dialog) {
 
-        var wdOptions = ko.observableArray(),
+        var action = ko.observable(new bespoke.sph.domain.StartWorkflowAction()),
+            wdOptions = ko.observableArray(),
             activate = function () {
                 var query = "IsActive eq 1";
                 var tcs = new $.Deferred();
@@ -24,8 +25,13 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                     });
                 return tcs.promise();
 
-            }, okClick = function (data, ev) {
+            },
+            okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
+                    var wd = _(wdOptions()).find(function(v) {
+                        return ko.unwrap(v.WorkflowDefinitionId) == ko.unwrap(action().WorkflowDefinitionId);
+                    });
+                    action().Title(ko.unwrap(wd.Name));
                     dialog.close(this, "OK");
                 }
 
@@ -35,7 +41,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             };
 
         var vm = {
-            action: ko.observable(new bespoke.sph.domain.StartWorkflowAction()),
+            action: action,
             activate: activate,
             wdOptions: wdOptions,
             okClick: okClick,
