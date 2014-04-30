@@ -10,7 +10,7 @@
     <tbody data-bind="foreach: designationCollection">
         <tr>
             <td>
-                <a data-bind="attr: { href: '#/role.settings/' + DesignationId() }, text: Name"></a>
+                <a data-bind="attr: { href: '#role.settings/' + DesignationId() }, text: Name"></a>
             </td>
             <td data-bind="text: Description"></td>
         </tr>
@@ -18,7 +18,7 @@
 </table>
 
 <div>
-    <a href="#/role.settings/0" id="add-designation" data-toggle="modal" class="btn btn-link">
+    <a href="#role.settings/0" id="add-designation" data-toggle="modal" class="btn btn-link">
 
         <i class="fa fa-plus-circle"></i> Add a designation
     </a>
