@@ -13,6 +13,11 @@ namespace sph.builder
             await base.Restore();
 
             var folder = ConfigurationManager.WorkflowSourceDirectory + @"\DocumentTemplate";
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+                return;
+            }
             foreach (var file in Directory.GetFiles(folder, "*.json"))
             {
                 var json = File.ReadAllText(file);
