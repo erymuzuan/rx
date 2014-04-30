@@ -164,46 +164,46 @@ WriteLiteral(@"
             #line hidden
 WriteLiteral("\n                    </td>\n                    <td>\n                        <a re" +
 "l=\"nofollow\" href=\"#\" data-bind=\"click : $parent.removeRule.call($parent,$data)\"" +
-">\n                            Remove\n                        </a>\n              " +
-"      </td>\n                </tr>\n            </tbody>\n        </table>\n        " +
-"<a href=\"#\" class=\"btn btn-link\" data-bind=\"click: addRule\">\n\n            <i cla" +
-"ss=\"fa fa-plus-circle\"></i> Add a filter rule\n        </a>\n    </div>\n\n    <a da" +
-"ta-toggle=\"collapse\" href=\"#actions-panel\">\n        <h3>\n            <i class=\"f" +
-"a fa-chevron-down\"></i>\n\n            Action\n        </h3>\n    </a>\n\n    <div id=" +
-"\"actions-panel\" class=\"collapsed collapse\">\n        <div id=\"action-panel\">\n    " +
-"        <div class=\"btn-group\">\n                <a class=\"btn btn-link dropdown-" +
-"toggle\" data-toggle=\"drop-down\">\n\n                    <i class=\"fa fa-plus-circl" +
-"e\"></i>\n                    Add an action &nbsp;<span class=\"caret\"></span>\n    " +
-"            </a>\n                <ul class=\"dropdown-menu\">\n                    " +
-"<li>\n                        <a class=\"btn btn-link\" data-bind=\"click: addAction" +
-"(\'Email\')\">\n                            <i class=\"fa fa-envelope\"></i>\n         " +
-"                   Add Email Action\n                        </a>\n               " +
-"     </li>\n                    <li>\n                        <a class=\"btn btn-li" +
-"nk\" data-bind=\"click: addAction(\'Setter\')\">\n                            <i class" +
-"=\"fa fa-gear\"></i>\n                            Add Setter Action\n               " +
-"         </a>\n                    </li>\n                    <li>\n               " +
-"         <a class=\"btn btn-link\" data-bind=\"click: addAction(\'StartWorkflow\')\">\n" +
-"                            <i class=\"fa fa-gears\"></i>\n                        " +
-"    Start Workflow\n                        </a>\n                    </li>\n\n     " +
-"           </ul>\n            </div>\n\n        </div>\n        <table class=\"table " +
-"table-striped\">\n            <thead>\n                <tr>\n                    <th" +
-">Title</th>\n                    <th>Note</th>\n                    <th>Is active<" +
-"/th>\n                    <th></th>\n                </tr>\n            </thead>\n  " +
-"          <tbody data-bind=\"foreach: ActionCollection\">\n                <tr>\n   " +
-"                 <td>\n                        <a type=\"button\" class=\"btn btn-li" +
-"nk\" data-bind=\"click : $parent.editAction.call($parent,$data)\" href=\"#\">\n\n      " +
-"                      <img data-bind=\"fieldImage : $type\" class=\"pull-left\" alt=" +
-"\".\" />\n                            &nbsp;\n                            <!-- ko te" +
-"xt : Title -->\n                            <!-- /ko -->\n                        " +
-"</a>\n                    </td>\n                    <td>\n                        " +
-"<input type=\"text\" class=\"input-action-note form-control\" data-bind=\"value: Note" +
-"\" />\n                    </td>\n                    <td>\n                        " +
-"<input class=\"input-action-isactive\" data-bind=\"checked: IsActive\" id=\"IsActive\"" +
-" type=\"checkbox\" name=\"IsActive\" />\n                    </td>\n                  " +
-"  <td>\n                        <a class=\"btn btn-mini\" rel=\"nofollow\" href=\"#\" d" +
-"ata-bind=\"click: $parent.removeAction.call($parent,$data)\"><i class=\"fa fa-times" +
-"\"></i></a>\n                    </td>\n                </tr>\n            </tbody>\n" +
-"        </table>\n    </div>\n</form>\n");
+">\n                            <i class=\"fa fa-times\"></i>\n                      " +
+"  </a>\n                    </td>\n                </tr>\n            </tbody>\n    " +
+"    </table>\n        <a href=\"#\" class=\"btn btn-link\" data-bind=\"click: addRule\"" +
+">\n\n            <i class=\"fa fa-plus-circle\"></i> Add a filter rule\n        </a>\n" +
+"    </div>\n\n    <a data-toggle=\"collapse\" href=\"#actions-panel\">\n        <h3>\n  " +
+"          <i class=\"fa fa-chevron-down\"></i>\n\n            Action\n        </h3>\n " +
+"   </a>\n\n    <div id=\"actions-panel\" class=\"collapsed collapse\">\n        <div id" +
+"=\"action-panel\">\n            <div class=\"btn-group\">\n                <a class=\"b" +
+"tn btn-link dropdown-toggle\" data-toggle=\"drop-down\">\n\n                    <i cl" +
+"ass=\"fa fa-plus-circle\"></i>\n                    Add an action &nbsp;<span class" +
+"=\"caret\"></span>\n                </a>\n                <ul class=\"dropdown-menu\">" +
+"\n                    <li>\n                        <a class=\"btn btn-link\" data-b" +
+"ind=\"click: addAction(\'Email\')\">\n                            <i class=\"fa fa-env" +
+"elope\"></i>\n                            Add Email Action\n                       " +
+" </a>\n                    </li>\n                    <li>\n                       " +
+" <a class=\"btn btn-link\" data-bind=\"click: addAction(\'Setter\')\">\n               " +
+"             <i class=\"fa fa-gear\"></i>\n                            Add Setter A" +
+"ction\n                        </a>\n                    </li>\n                   " +
+" <li>\n                        <a class=\"btn btn-link\" data-bind=\"click: addActio" +
+"n(\'StartWorkflow\')\">\n                            <i class=\"fa fa-gears\"></i>\n   " +
+"                         Start Workflow\n                        </a>\n           " +
+"         </li>\n\n                </ul>\n            </div>\n\n        </div>\n       " +
+" <table class=\"table table-striped\">\n            <thead>\n                <tr>\n  " +
+"                  <th>Title</th>\n                    <th>Note</th>\n             " +
+"       <th>Is active</th>\n                    <th></th>\n                </tr>\n  " +
+"          </thead>\n            <tbody data-bind=\"foreach: ActionCollection\">\n   " +
+"             <tr>\n                    <td>\n                        <a type=\"butt" +
+"on\" class=\"btn btn-link\" data-bind=\"click : $parent.editAction.call($parent,$dat" +
+"a)\" href=\"#\">\n\n                            <img data-bind=\"fieldImage : $type\" c" +
+"lass=\"pull-left\" alt=\".\" />\n                            &nbsp;\n                 " +
+"           <!-- ko text : Title -->\n                            <!-- /ko -->\n   " +
+"                     </a>\n                    </td>\n                    <td>\n   " +
+"                     <input type=\"text\" class=\"input-action-note form-control\" d" +
+"ata-bind=\"value: Note\" />\n                    </td>\n                    <td>\n   " +
+"                     <input class=\"input-action-isactive\" data-bind=\"checked: Is" +
+"Active\" id=\"IsActive\" type=\"checkbox\" name=\"IsActive\" />\n                    </t" +
+"d>\n                    <td>\n                        <a class=\"btn btn-mini\" rel=" +
+"\"nofollow\" href=\"#\" data-bind=\"click: $parent.removeAction.call($parent,$data)\">" +
+"<i class=\"fa fa-times\"></i></a>\n                    </td>\n                </tr>\n" +
+"            </tbody>\n        </table>\n    </div>\n</form>\n");
 
 
         }

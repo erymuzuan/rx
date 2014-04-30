@@ -108,6 +108,31 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                     });
                 return tcs.promise();
             },
+            remove = function () {
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(vm.trigger);
+
+                app.showMessage("Are you sure you want to remove this trigger, this action cannot be undone", "Rx Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+
+                            context.post(data, "/Trigger/Remove")
+                                .then(function (result) {
+                                    isBusy(false);
+                                    vm.trigger().IsActive(false);
+                                    tcs.resolve(result);
+                                    logger.info("Your trigger has been succesfully removed");
+                                    window.location = "#trigger.list";
+                                });
+                        } else {
+                            tcs.resolve(false);
+                        }
+                    });
+
+
+
+                return tcs.promise();
+            },
 
             exportJson = function () {
                 return eximp.exportJson("trigger." + vm.trigger().TriggerId() + ".json", ko.mapping.toJSON(vm.trigger));
@@ -146,6 +171,10 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
             toolbar: {
                 saveCommand: save,
                 reloadCommand: reload,
+                removeCommand: remove,
+                canExecuteRemoveCommand: ko.computed(function () {
+                    return trigger().TriggerId() > 0;
+                }),
                 exportCommand: exportJson,
                 commands: ko.observableArray([
                     {

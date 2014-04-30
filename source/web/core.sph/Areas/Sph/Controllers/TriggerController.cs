@@ -7,6 +7,7 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
+    [Authorize(Roles = "administrators,developers")]
     public class TriggerController : Controller
     {
 
@@ -25,6 +26,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             return Json(trigger.TriggerId);
         }
+
         public async Task<ActionResult> Depublish()
         {
             var trigger = this.GetRequestJson<Trigger>();
@@ -34,6 +36,22 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             using (var session = context.OpenSession())
             {
                 session.Attach(trigger);
+                await session.SubmitChanges("Depublish");
+            }
+
+
+            return Json(trigger.TriggerId);
+        }
+
+        public async Task<ActionResult> Remove()
+        {
+            var trigger = this.GetRequestJson<Trigger>();
+            trigger.IsActive = false;
+            if(trigger.TriggerId == 0)throw new InvalidOperationException("You cannot depublish unsaved trigger");
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Delete(trigger);
                 await session.SubmitChanges("Depublish");
             }
 
