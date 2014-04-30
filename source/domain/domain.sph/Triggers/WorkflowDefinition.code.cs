@@ -39,6 +39,19 @@ namespace Bespoke.Sph.Domain
             {
                 code.AppendLinf("           this.{0} = new {1}();", variable.Name, variable.TypeName);
             }
+            foreach (var variable in this.VariableDefinitionCollection.OfType<SimpleVariable>().Where(v => !string.IsNullOrWhiteSpace(v.DefaultValue)))
+            {
+                if (variable.Type == typeof(string))
+                    code.AppendLinf("           this.{0} = \"{1}\";", variable.Name, variable.DefaultValue);
+                if (variable.Type == typeof(int))
+                    code.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
+                if (variable.Type == typeof(decimal))
+                    code.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
+                if (variable.Type == typeof(bool))
+                    code.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
+                if (variable.Type == typeof(DateTime))
+                    code.AppendLinf("           this.{0} = DateTime.Parse(\"{1}\");", variable.Name, variable.DefaultValue);
+            }
             code.AppendLine("       }");// end contructor
 
             // start

@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace domain.test.workflows
@@ -24,6 +25,36 @@ namespace domain.test.workflows
             store.Setup(x => x.GetContent(m_schemaStoreId))
                 .Returns(doc);
             ObjectBuilder.AddCacheList(store.Object);
+        }
+
+        [Test]
+        public void GenerateVariableWithDefaultValues()
+        {
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = m_schemaStoreId };
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string), DefaultValue = "<New application>"});
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
+            var screen = new ScreenActivity { Name = "Test", WebId = "A", IsInitiator = true, NextActivityWebId = "B" };
+            wd.ActivityCollection.Add(screen);
+            wd.ActivityCollection.Add(new EndActivity { Name = "Habis test", WebId = "B" });
+
+            var options = new CompilerOptions { IsDebug = true, IsVerbose = true, SourceCodeDirectory = @"c:\temp\sph"};
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(typeof(JsonConvert).Assembly.Location);
+
+            var result  = wd.Compile(options);
+            var sourceFile = Path.Combine(options.SourceCodeDirectory,
+                  string.Format("Workflow_{0}_{1}.cs", wd.WorkflowDefinitionId, wd.Version));
+            var code = File.ReadAllText(sourceFile);
+            foreach (var e in result.Errors)
+            {
+                Console.WriteLine(e.Message);
+            }
+            Assert.IsTrue(result.Result);
+            StringAssert.Contains("public partial class Vehicle", code);
+            StringAssert.Contains("<New application>", code);
+
         }
 
         [Test]

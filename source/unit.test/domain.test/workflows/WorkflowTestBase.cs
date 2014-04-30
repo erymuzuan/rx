@@ -102,7 +102,7 @@ namespace domain.test.workflows
             var options = new CompilerOptions
             {
                 IsDebug = true,
-                SourceCodeDirectory = @"d:\temp\sph",
+                SourceCodeDirectory = @"c:\temp\sph",
                 IsVerbose = verbose
             };
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
