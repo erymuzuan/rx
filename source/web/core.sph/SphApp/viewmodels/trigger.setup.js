@@ -9,8 +9,8 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app, objectbuilders.system],
-    function (context, eximp, app, system) {
+define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app, objectbuilders.system, objectbuilders.logger],
+    function (context, eximp, app, system, logger) {
 
         var trigger = ko.observable(new bespoke.sph.domain.Trigger()),
             typeaheadEntity = ko.observable(),
@@ -34,7 +34,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                                     return;
                                 }
                                 operationOptions(_(ed.EntityOperationCollection()).map(function (v) { return v.Name(); }));
-                            
+
 
                             });
                     };
@@ -86,7 +86,25 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                     .then(function (result) {
                         isBusy(false);
                         vm.trigger().TriggerId(result);
+                        vm.trigger().IsActive(true);
                         tcs.resolve(result);
+                        logger.info("Your trigger has been succesfully published, and will be added to the exchange shortly");
+                    });
+                return tcs.promise();
+            },
+            depublishAsync = function () {
+                vm.trigger().FiredOnOperations(operations().join());
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(vm.trigger);
+                isBusy(true);
+
+                context.post(data, "/Trigger/Depublish")
+                    .then(function (result) {
+                        isBusy(false);
+                        vm.trigger().IsActive(false);
+                        vm.trigger().TriggerId(result);
+                        tcs.resolve(result);
+                        logger.info("Your trigger has been succesfully depublished, and will be removed from the exchange shortly");
                     });
                 return tcs.promise();
             },
@@ -138,6 +156,14 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                     {
                         command: publishAsync,
                         caption: 'Publish',
+                        icon: "fa fa-sign-in",
+                        enable: ko.computed(function () {
+                            return trigger().TriggerId() > 0;
+                        })
+                    },
+                    {
+                        command: depublishAsync,
+                        caption: 'Depublish',
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
                             return trigger().TriggerId() > 0;

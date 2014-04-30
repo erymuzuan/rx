@@ -14,11 +14,27 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var trigger = this.GetRequestJson<Trigger>();
             if(trigger.TriggerId == 0)throw new InvalidOperationException("You cannot publish unsaved trigger");
+            trigger.IsActive = true;
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
                 session.Attach(trigger);
                 await session.SubmitChanges("Publish");
+            }
+
+
+            return Json(trigger.TriggerId);
+        }
+        public async Task<ActionResult> Depublish()
+        {
+            var trigger = this.GetRequestJson<Trigger>();
+            trigger.IsActive = false;
+            if(trigger.TriggerId == 0)throw new InvalidOperationException("You cannot depublish unsaved trigger");
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(trigger);
+                await session.SubmitChanges("Depublish");
             }
 
 

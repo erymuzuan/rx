@@ -88,51 +88,46 @@ WriteLiteral(@"
 
 
 
-WriteLiteral("\r\n\r\n\r\n        <div class=\"form-group\">\r\n            <label for=\"Note\" class=\"col-" +
-"sm-2 control-label\">Note</label>\r\n            <div class=\"col-sm-6\">\r\n          " +
-"      <textarea class=\"form-control\" data-bind=\"value: Note\" id=\"Note\" name=\"Not" +
-"e\"></textarea>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"form-g" +
-"roup\">\r\n            <label for=\"isActive\" class=\"col-sm-2 control-label\">Is Acti" +
-"ve</label>\r\n            <div class=\"col-sm-6 checkbox\">\r\n                <label>" +
-"\r\n                    <input data-bind=\"checked: IsActive\" id=\"isActive\" type=\"c" +
-"heckbox\" name=\"IsActive\" />\r\n                </label>\r\n            </div>\r\n     " +
-"   </div>\r\n        <div class=\"form-group\">\r\n            <label class=\"control-l" +
-"abel col-sm-2\">CRUD</label>\r\n            <div class=\"col-sm-6\">\r\n               " +
-" <div class=\"checkbox col-sm-3 checkbox-no-padding-left\">\r\n                    <" +
-"label>\r\n                        <input data-bind=\"checked: IsFiredOnAdded\" id=\"f" +
-"ired-on-added\" type=\"checkbox\" name=\"IsFiredOnAdded\" />\r\n                       " +
-" Added\r\n                    </label>\r\n                </div>\r\n                <d" +
-"iv class=\"checkbox col-sm-3 checkbox-no-padding-left\">\r\n                    <lab" +
-"el>\r\n                        <input data-bind=\"checked: IsFiredOnChanged\" id=\"fi" +
-"red-on-changed\" type=\"checkbox\" name=\"IsFireOnChanged\" />\r\n                     " +
-"   Changed\r\n                    </label>\r\n                </div>\r\n              " +
-"  <div class=\"checkbox col-sm-3 checkbox-no-padding-left\">\r\n                    " +
-"<label>\r\n                        <input data-bind=\"checked: IsFiredOnDeleted\" id" +
-"=\"fire-on-deleted\" type=\"checkbox\" name=\"IsFireOnDeleted\" />\r\n                  " +
-"      Deleted\r\n                    </label>\r\n                </div>\r\n           " +
-" </div>\r\n        </div>\r\n\r\n        <div class=\"form-group clear clearfix\" style=" +
-"\"clear: both\">\r\n            <label class=\"control-label col-sm-2\" data-bind=\"too" +
-"ltip:\'When this operation is invoked, then fire this trigger\'\">Operation</label>" +
-"\r\n            <div class=\"col-sm-6\" id=\"operation-options\">\r\n                <!-" +
-"- ko foreach: $root.operationOptions -->\r\n                <div class=\"checkbox c" +
-"ol-sm-3 checkbox-no-padding-left\">\r\n                    <label>\r\n               " +
-"         <input type=\"checkbox\" data-bind=\"value:$data, checked: $root.operation" +
-"s\" />\r\n                        <!-- ko text: $data-->\r\n                        <" +
-"!-- /ko -->\r\n                    </label>\r\n                </div>\r\n             " +
-"   <!-- /ko -->\r\n            </div>\r\n        </div>\r\n        <div class=\"form-gr" +
-"oup\">\r\n\r\n        </div>\r\n    </div>\r\n\r\n    <a data-toggle=\"collapse\" href=\"#rule" +
-"s-panel\">\r\n        <h3>\r\n            <i class=\"fa fa-chevron-down\"></i>\r\n       " +
-"     Rules\r\n        </h3>\r\n    </a>\r\n    <div id=\"rules-panel\" class=\"collapsed " +
-"collapse\">\r\n        <table id=\"rules-table\" class=\"table table-striped\">\r\n      " +
-"      <thead>\r\n                <tr>\r\n                    <th>Left</th>\r\n        " +
-"            <th>Operator</th>\r\n                    <th>Right</th>\r\n             " +
-"       <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbod" +
-"y data-bind=\"foreach: RuleCollection\">\r\n                <tr>\r\n                  " +
-"  <td>\r\n                        ");
+WriteLiteral("\n\n\n        <div class=\"form-group\">\n            <label for=\"Note\" class=\"col-sm-2" +
+" control-label\">Note</label>\n            <div class=\"col-sm-6\">\n                " +
+"<textarea class=\"form-control\" data-bind=\"value: Note\" id=\"Note\" name=\"Note\"></t" +
+"extarea>\n            </div>\n        </div>\n\n        <div class=\"form-group\">\n   " +
+"         <label class=\"control-label col-sm-2\">CRUD</label>\n            <div cla" +
+"ss=\"col-sm-6\">\n                <div class=\"checkbox col-sm-3 checkbox-no-padding" +
+"-left\">\n                    <label>\n                        <input data-bind=\"ch" +
+"ecked: IsFiredOnAdded\" id=\"fired-on-added\" type=\"checkbox\" name=\"IsFiredOnAdded\"" +
+" />\n                        Added\n                    </label>\n                <" +
+"/div>\n                <div class=\"checkbox col-sm-3 checkbox-no-padding-left\">\n " +
+"                   <label>\n                        <input data-bind=\"checked: Is" +
+"FiredOnChanged\" id=\"fired-on-changed\" type=\"checkbox\" name=\"IsFireOnChanged\" />\n" +
+"                        Changed\n                    </label>\n                </d" +
+"iv>\n                <div class=\"checkbox col-sm-3 checkbox-no-padding-left\">\n   " +
+"                 <label>\n                        <input data-bind=\"checked: IsFi" +
+"redOnDeleted\" id=\"fire-on-deleted\" type=\"checkbox\" name=\"IsFireOnDeleted\" />\n   " +
+"                     Deleted\n                    </label>\n                </div>" +
+"\n            </div>\n        </div>\n\n        <div class=\"form-group clear clearfi" +
+"x\" style=\"clear: both\">\n            <label class=\"control-label col-sm-2\" data-b" +
+"ind=\"tooltip:\'When this operation is invoked, then fire this trigger\'\">Operation" +
+"</label>\n            <div class=\"col-sm-6\" id=\"operation-options\">\n             " +
+"   <!-- ko foreach: $root.operationOptions -->\n                <div class=\"check" +
+"box col-sm-3 checkbox-no-padding-left\">\n                    <label>\n            " +
+"            <input type=\"checkbox\" data-bind=\"value:$data, checked: $root.operat" +
+"ions\" />\n                        <!-- ko text: $data-->\n                        " +
+"<!-- /ko -->\n                    </label>\n                </div>\n               " +
+" <!-- /ko -->\n            </div>\n        </div>\n        <div class=\"form-group\">" +
+"\n\n        </div>\n    </div>\n\n    <a data-toggle=\"collapse\" href=\"#rules-panel\">\n" +
+"        <h3>\n            <i class=\"fa fa-chevron-down\"></i>\n            Rules\n  " +
+"      </h3>\n    </a>\n    <div id=\"rules-panel\" class=\"collapsed collapse\">\n     " +
+"   <table id=\"rules-table\" class=\"table table-striped\">\n            <thead>\n    " +
+"            <tr>\n                    <th>Left</th>\n                    <th>Opera" +
+"tor</th>\n                    <th>Right</th>\n                    <th></th>\n      " +
+"          </tr>\n            </thead>\n            <tbody data-bind=\"foreach: Rule" +
+"Collection\">\n                <tr>\n                    <td>\n                     " +
+"   ");
 
 
             
-            #line 111 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
+            #line 103 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
                    Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Left" }));
 
             
@@ -161,55 +156,54 @@ WriteLiteral(@"
 
 
             
-            #line 130 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
+            #line 122 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
                    Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Right" }));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                    </td>\r\n                    <td>\r\n                        <a" +
-" rel=\"nofollow\" href=\"#\" data-bind=\"click : $parent.removeRule.call($parent,$dat" +
-"a)\">\r\n                            Remove\r\n                        </a>\r\n        " +
-"            </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>" +
-"\r\n        <a href=\"#\" class=\"btn btn-link\" data-bind=\"click: addRule\">\r\n\r\n      " +
-"      <i class=\"fa fa-plus-circle\"></i> Add a filter rule\r\n        </a>\r\n    </d" +
-"iv>\r\n\r\n    <a data-toggle=\"collapse\" href=\"#actions-panel\">\r\n        <h3>\r\n     " +
-"       <i class=\"fa fa-chevron-down\"></i>\r\n\r\n            Action\r\n        </h3>\r\n" +
-"    </a>\r\n\r\n    <div id=\"actions-panel\" class=\"collapsed collapse\">\r\n        <di" +
-"v id=\"action-panel\">\r\n            <div class=\"btn-group\">\r\n                <a cl" +
-"ass=\"btn btn-link dropdown-toggle\" data-toggle=\"drop-down\">\r\n\r\n                 " +
-"   <i class=\"fa fa-plus-circle\"></i>\r\n                    Add an action &nbsp;<s" +
-"pan class=\"caret\"></span>\r\n                </a>\r\n                <ul class=\"drop" +
-"down-menu\">\r\n                    <li>\r\n                        <a class=\"btn btn" +
-"-link\" data-bind=\"click: addAction(\'Email\')\">\r\n                            <i cl" +
-"ass=\"fa fa-envelope\"></i>\r\n                            Add Email Action\r\n       " +
-"                 </a>\r\n                    </li>\r\n                    <li>\r\n    " +
-"                    <a class=\"btn btn-link\" data-bind=\"click: addAction(\'Setter\'" +
-")\">\r\n                            <i class=\"fa fa-gear\"></i>\r\n                   " +
-"         Add Setter Action\r\n                        </a>\r\n                    </" +
-"li>\r\n                    <li>\r\n                        <a class=\"btn btn-link\" d" +
-"ata-bind=\"click: addAction(\'StartWorkflow\')\">\r\n                            <i cl" +
-"ass=\"fa fa-gears\"></i>\r\n                            Start Workflow\r\n            " +
-"            </a>\r\n                    </li>\r\n\r\n                </ul>\r\n          " +
-"  </div>\r\n\r\n        </div>\r\n        <table class=\"table table-striped\">\r\n       " +
-"     <thead>\r\n                <tr>\r\n                    <th>Title</th>\r\n        " +
-"            <th>Note</th>\r\n                    <th>Is active</th>\r\n             " +
-"       <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbod" +
-"y data-bind=\"foreach: ActionCollection\">\r\n                <tr>\r\n                " +
-"    <td>\r\n                        <a type=\"button\" class=\"btn btn-link\" data-bin" +
-"d=\"click : $parent.editAction.call($parent,$data)\" href=\"#\">\r\n\r\n                " +
-"            <img data-bind=\"fieldImage : $type\" class=\"pull-left\" alt=\".\" />\r\n  " +
-"                          &nbsp;\r\n                            <!-- ko text : Tit" +
-"le -->\r\n                            <!-- /ko -->\r\n                        </a>\r\n" +
-"                    </td>\r\n                    <td>\r\n                        <in" +
-"put type=\"text\" class=\"input-action-note form-control\" data-bind=\"value: Note\" /" +
-">\r\n                    </td>\r\n                    <td>\r\n                        " +
+WriteLiteral("\n                    </td>\n                    <td>\n                        <a re" +
+"l=\"nofollow\" href=\"#\" data-bind=\"click : $parent.removeRule.call($parent,$data)\"" +
+">\n                            Remove\n                        </a>\n              " +
+"      </td>\n                </tr>\n            </tbody>\n        </table>\n        " +
+"<a href=\"#\" class=\"btn btn-link\" data-bind=\"click: addRule\">\n\n            <i cla" +
+"ss=\"fa fa-plus-circle\"></i> Add a filter rule\n        </a>\n    </div>\n\n    <a da" +
+"ta-toggle=\"collapse\" href=\"#actions-panel\">\n        <h3>\n            <i class=\"f" +
+"a fa-chevron-down\"></i>\n\n            Action\n        </h3>\n    </a>\n\n    <div id=" +
+"\"actions-panel\" class=\"collapsed collapse\">\n        <div id=\"action-panel\">\n    " +
+"        <div class=\"btn-group\">\n                <a class=\"btn btn-link dropdown-" +
+"toggle\" data-toggle=\"drop-down\">\n\n                    <i class=\"fa fa-plus-circl" +
+"e\"></i>\n                    Add an action &nbsp;<span class=\"caret\"></span>\n    " +
+"            </a>\n                <ul class=\"dropdown-menu\">\n                    " +
+"<li>\n                        <a class=\"btn btn-link\" data-bind=\"click: addAction" +
+"(\'Email\')\">\n                            <i class=\"fa fa-envelope\"></i>\n         " +
+"                   Add Email Action\n                        </a>\n               " +
+"     </li>\n                    <li>\n                        <a class=\"btn btn-li" +
+"nk\" data-bind=\"click: addAction(\'Setter\')\">\n                            <i class" +
+"=\"fa fa-gear\"></i>\n                            Add Setter Action\n               " +
+"         </a>\n                    </li>\n                    <li>\n               " +
+"         <a class=\"btn btn-link\" data-bind=\"click: addAction(\'StartWorkflow\')\">\n" +
+"                            <i class=\"fa fa-gears\"></i>\n                        " +
+"    Start Workflow\n                        </a>\n                    </li>\n\n     " +
+"           </ul>\n            </div>\n\n        </div>\n        <table class=\"table " +
+"table-striped\">\n            <thead>\n                <tr>\n                    <th" +
+">Title</th>\n                    <th>Note</th>\n                    <th>Is active<" +
+"/th>\n                    <th></th>\n                </tr>\n            </thead>\n  " +
+"          <tbody data-bind=\"foreach: ActionCollection\">\n                <tr>\n   " +
+"                 <td>\n                        <a type=\"button\" class=\"btn btn-li" +
+"nk\" data-bind=\"click : $parent.editAction.call($parent,$data)\" href=\"#\">\n\n      " +
+"                      <img data-bind=\"fieldImage : $type\" class=\"pull-left\" alt=" +
+"\".\" />\n                            &nbsp;\n                            <!-- ko te" +
+"xt : Title -->\n                            <!-- /ko -->\n                        " +
+"</a>\n                    </td>\n                    <td>\n                        " +
+"<input type=\"text\" class=\"input-action-note form-control\" data-bind=\"value: Note" +
+"\" />\n                    </td>\n                    <td>\n                        " +
 "<input class=\"input-action-isactive\" data-bind=\"checked: IsActive\" id=\"IsActive\"" +
-" type=\"checkbox\" name=\"IsActive\" />\r\n                    </td>\r\n                " +
-"    <td>\r\n                        <a class=\"btn btn-mini\" rel=\"nofollow\" href=\"#" +
-"\" data-bind=\"click: $parent.removeAction.call($parent,$data)\"><i class=\"fa fa-ti" +
-"mes\"></i></a>\r\n                    </td>\r\n                </tr>\r\n            </t" +
-"body>\r\n        </table>\r\n    </div>\r\n</form>\r\n");
+" type=\"checkbox\" name=\"IsActive\" />\n                    </td>\n                  " +
+"  <td>\n                        <a class=\"btn btn-mini\" rel=\"nofollow\" href=\"#\" d" +
+"ata-bind=\"click: $parent.removeAction.call($parent,$data)\"><i class=\"fa fa-times" +
+"\"></i></a>\n                    </td>\n                </tr>\n            </tbody>\n" +
+"        </table>\n    </div>\n</form>\n");
 
 
         }

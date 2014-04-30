@@ -5,6 +5,10 @@
         <tr>
             <th>Name</th>
             <th>Entity</th>
+            <th>Added</th>
+            <th>Changed</th>
+            <th>Deleted</th>
+            <th>Operation</th>
             <th>Active</th>
         </tr>
     </thead>
@@ -14,7 +18,19 @@
                 <a data-bind="attr: { href: '#/trigger.setup/' + TriggerId() }, text: Name" ></a>
             </td>
             <td data-bind="text:Entity"></td>
-            <td data-bind="text:IsActive"></td>
+            <td>
+                <i class="fa fa-check" data-bind="visible:IsFiredOnAdded"></i>
+            </td>
+            <td>
+                <i class="fa fa-check" data-bind="visible:IsFiredOnChanged"></i>
+            </td>
+            <td>
+                <i class="fa fa-check" data-bind="visible:IsFiredOnDeleted"></i>
+            </td>
+            <td data-bind="text:FiredOnOperations"></td>
+            <td>
+                <i class="fa fa-check" data-bind="visible:IsActive"></i>
+            </td>
         </tr>
     </tbody>
 </table>
