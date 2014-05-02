@@ -50,7 +50,7 @@ private void Register(Patient patient)
 
 <p>So in the case of patient registration, a message will be created with <code>Patient.changed.Register</code> as the topic. Patient do not need to know anything about the other services, but it's completely the other way around. If Billing is interested to get a notification for a patient registration, it could register to the message broker with <code>Patient.changed.Register</code> as the topic. As a message arrived with the topic, a copy of the message will be sent to the Billing.</p>
 
-<p><img src="http://i.imgur.com/rbElfmm.png" alt="Trigger" /><br />
+<p><img src="http://i.imgur.com/nqb4HkE.png" alt="Trigger" /><br />
 Basic trigger properties to listen to Patient register event</p>
 
 <h2>Rules</h2>
