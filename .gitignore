@@ -64,3 +64,4 @@ _ReSharper.commercial-space
 *.7z
 /test.txt
 /sph.packages/subscribers.host
+/source/web/web.sph/kendo/
