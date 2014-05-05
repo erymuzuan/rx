@@ -11,6 +11,7 @@ namespace Bespoke.Dev_2002.Domain
    public class Patient : Entity
    {
    private int m_patientId;
+   [XmlAttribute]
    public int PatientId
    {
        get{ return m_patientId;}
@@ -31,6 +32,7 @@ namespace Bespoke.Dev_2002.Domain
         }
 //member:Mrn
           private System.String m_mrn;
+   [XmlAttribute]
    public System.String Mrn
    {
        get{ return m_mrn;}
@@ -39,6 +41,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:FullName
           private System.String m_fullName;
+   [XmlAttribute]
    public System.String FullName
    {
        get{ return m_fullName;}
@@ -47,6 +50,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Dob
           private System.DateTime m_dob;
+   [XmlAttribute]
    public System.DateTime Dob
    {
        get{ return m_dob;}
@@ -55,6 +59,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Gender
           private System.String m_gender;
+   [XmlAttribute]
    public System.String Gender
    {
        get{ return m_gender;}
@@ -63,6 +68,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Religion
           private System.String m_religion;
+   [XmlAttribute]
    public System.String Religion
    {
        get{ return m_religion;}
@@ -71,6 +77,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Race
           private System.String m_race;
+   [XmlAttribute]
    public System.String Race
    {
        get{ return m_race;}
@@ -79,6 +86,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:RegisteredDate
           private System.DateTime m_registeredDate;
+   [XmlAttribute]
    public System.DateTime RegisteredDate
    {
        get{ return m_registeredDate;}
@@ -87,6 +95,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:IdentificationNo
           private System.String m_identificationNo;
+   [XmlAttribute]
    public System.String IdentificationNo
    {
        get{ return m_identificationNo;}
@@ -95,6 +104,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:PassportNo
           private System.String m_passportNo;
+   [XmlAttribute]
    public System.String PassportNo
    {
        get{ return m_passportNo;}
@@ -103,6 +113,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Nationality
           private System.String m_nationality;
+   [XmlAttribute]
    public System.String Nationality
    {
        get{ return m_nationality;}
@@ -127,6 +138,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Occupation
           private System.String m_occupation;
+   [XmlAttribute]
    public System.String Occupation
    {
        get{ return m_occupation;}
@@ -135,6 +147,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Status
           private System.String m_status;
+   [XmlAttribute]
    public System.String Status
    {
        get{ return m_status;}
@@ -143,6 +156,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Age
           private System.Int32 m_age;
+   [XmlAttribute]
    public System.Int32 Age
    {
        get{ return m_age;}
@@ -151,6 +165,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Income
           private System.Decimal m_income;
+   [XmlAttribute]
    public System.Decimal Income
    {
        get{ return m_income;}
@@ -159,6 +174,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Empty
           private System.String m_empty;
+   [XmlAttribute]
    public System.String Empty
    {
        get{ return m_empty;}
@@ -167,6 +183,7 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:Spouse
           private System.String m_spouse;
+   [XmlAttribute]
    public System.String Spouse
    {
        get{ return m_spouse;}
@@ -175,18 +192,11 @@ namespace Bespoke.Dev_2002.Domain
 
 //member:MaritalStatus
           private System.String m_maritalStatus;
+   [XmlAttribute]
    public System.String MaritalStatus
    {
        get{ return m_maritalStatus;}
        set{ m_maritalStatus = value;}
-   }
-
-//member:OldIC
-          private System.String m_oldIC;
-   public System.String OldIC
-   {
-       get{ return m_oldIC;}
-       set{ m_oldIC = value;}
    }
 
    }
@@ -214,6 +224,7 @@ namespace Bespoke.Dev_2002.Domain
    public class NextOfKin: DomainObject
    {
    private System.String m_fullName;
+   [XmlAttribute]
    public System.String FullName
    {
        get{ return m_fullName;}
@@ -221,6 +232,7 @@ namespace Bespoke.Dev_2002.Domain
    }
 
    private System.String m_relationship;
+   [XmlAttribute]
    public System.String Relationship
    {
        get{ return m_relationship;}
@@ -228,6 +240,7 @@ namespace Bespoke.Dev_2002.Domain
    }
 
    private System.String m_mobilePhone;
+   [XmlAttribute]
    public System.String MobilePhone
    {
        get{ return m_mobilePhone;}
@@ -235,6 +248,7 @@ namespace Bespoke.Dev_2002.Domain
    }
 
    private System.String m_email;
+   [XmlAttribute]
    public System.String Email
    {
        get{ return m_email;}
@@ -242,6 +256,7 @@ namespace Bespoke.Dev_2002.Domain
    }
 
    private System.String m_telephone;
+   [XmlAttribute]
    public System.String Telephone
    {
        get{ return m_telephone;}
@@ -259,6 +274,7 @@ namespace Bespoke.Dev_2002.Domain
    public class HomeAddress: DomainObject
    {
    private System.String m_street;
+   [XmlAttribute]
    public System.String Street
    {
        get{ return m_street;}
@@ -266,6 +282,7 @@ namespace Bespoke.Dev_2002.Domain
    }
 
    private System.String m_street2;
+   [XmlAttribute]
    public System.String Street2
    {
        get{ return m_street2;}
@@ -273,6 +290,7 @@ namespace Bespoke.Dev_2002.Domain
    }
 
    private System.String m_postcode;
+   [XmlAttribute]
    public System.String Postcode
    {
        get{ return m_postcode;}
@@ -280,6 +298,7 @@ namespace Bespoke.Dev_2002.Domain
    }
 
    private System.String m_city;
+   [XmlAttribute]
    public System.String City
    {
        get{ return m_city;}
@@ -287,6 +306,7 @@ namespace Bespoke.Dev_2002.Domain
    }
 
    private System.String m_state;
+   [XmlAttribute]
    public System.String State
    {
        get{ return m_state;}
@@ -294,6 +314,7 @@ namespace Bespoke.Dev_2002.Domain
    }
 
    private System.String m_country;
+   [XmlAttribute]
    public System.String Country
    {
        get{ return m_country;}
@@ -321,8 +342,6 @@ namespace Bespoke.Dev_2002.Domain
 //class:Spouse
 
 //class:MaritalStatus
-
-//class:OldIC
 
 public partial class PatientController : System.Web.Mvc.Controller
 {

@@ -59,7 +59,14 @@
   },
   "SortCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
+        "Path": "DateTime",
+        "Direction": "Asc",
+        "WebId": "7ca7c165-b50e-4f1d-bb20-43b98a84a2e5"
+      }
+    ]
   },
   "ConditionalFormattingCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
@@ -81,6 +88,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-04-19T13:17:11.6129028+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-19T15:53:36.7212467+08:00",
+  "ChangedDate": "2014-04-29T18:07:41.7523115+08:00",
   "WebId": "9b12e461-e5d6-45ea-811c-bd5f27a2cb6f"
 }

@@ -635,27 +635,6 @@
         "IsExcludeInAll": false,
         "Boost": 0,
         "WebId": "8adc580b-efb3-46d8-b40b-f4828b81398d"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
-        "FullName": null,
-        "MemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "FieldPermissionCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": "OldIC",
-        "TypeName": "System.String, mscorlib",
-        "IsNullable": true,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": false,
-        "IsExcludeInAll": false,
-        "Boost": 2,
-        "WebId": "ea2dda9c-1e1a-476c-a0af-61870b979b4e"
       }
     ]
   },
@@ -713,21 +692,21 @@
                 "XPath": "",
                 "NamespacePrefix": "",
                 "TypeName": "",
-                "Path": "MaritalStatus",
-                "Name": "MaritalStatus",
+                "Path": "Name",
+                "Name": "Name",
                 "Note": "",
-                "WebId": "bb019a80-a80d-4266-9592-c15ea8fd813b"
+                "WebId": "f62b5e6f-ceda-4e35-9090-81861771bfc0"
               },
               "Right": {
                 "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
                 "TypeName": "System.String, mscorlib",
-                "Value": "Single",
-                "Name": "Single",
+                "Value": "bin",
+                "Name": "bin",
                 "Note": "",
-                "WebId": "3f251526-3e9b-4a18-9a94-99fb2cb20521"
+                "WebId": "7542c281-200a-44a6-8104-cdbb0da4b335"
               },
-              "Operator": "Eq",
-              "WebId": "8c1a203c-a748-420c-bb89-bfb9f2f60bf5"
+              "Operator": "Substringof",
+              "WebId": "94bf0a96-54bc-4aef-8f83-bfdf16ec6ced"
             }
           ]
         },
@@ -741,29 +720,29 @@
                 "XPath": "",
                 "NamespacePrefix": "",
                 "TypeName": "",
-                "Path": "Age",
-                "Name": "Age",
+                "Path": "Religion",
+                "Name": "Religion",
                 "Note": "",
-                "WebId": "383d3b32-1708-4b41-8940-dbc3c1287116"
+                "WebId": "fd8b3f51-c50c-4839-98d9-5dbed346e9d3"
               },
               "Right": {
                 "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-                "TypeName": "System.Int32, mscorlib",
-                "Value": 10,
-                "Name": "10",
+                "TypeName": "System.String, mscorlib",
+                "Value": "Islam",
+                "Name": "Islam",
                 "Note": "",
-                "WebId": "22796ba8-b3ab-4db7-bf84-9f3239212206"
+                "WebId": "48055759-fa93-4bef-b03e-1b1c04427b60"
               },
-              "Operator": "Le",
-              "WebId": "52a9afdf-fcc7-4c6f-b206-ab9f4583a0d6"
+              "Operator": "Eq",
+              "WebId": "c66bc14b-1df5-419a-94c5-892ecdb46dc3"
             }
           ]
         },
-        "Description": "Too young to get married",
-        "Name": "ChildMarriage",
+        "Description": "www",
+        "Name": "Islam mesti ada bin",
         "ErrorLocation": "",
-        "ErrorMessage": "Too young to get married",
-        "WebId": "d7cb6bd5-5a17-4ec8-a6a6-20865d67246b"
+        "ErrorMessage": "Bin or binti",
+        "WebId": "fa74fc7e-b865-4678-b29f-e4cfa0b675f7"
       }
     ]
   },
@@ -965,6 +944,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-18T10:26:00.8851813+08:00",
+  "ChangedDate": "2014-04-28T08:28:20.3116947+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }
