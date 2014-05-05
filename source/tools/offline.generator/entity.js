@@ -41,7 +41,7 @@ require(['services/offline-datacontext', 'jquery', 'services/app', 'services/sys
                                 var message = "Your data has been successfully sent to the server with this id " + result.id;
                                 logger.info(message);
                                 removeFromOffline(item).then(tcs.resolve);
-                                app.showMessage(message, "@(Model.ApplicationFullNameName)", ["OK"]);
+                                app.showMessage(message, "@(Model.ApplicationFullName)", ["OK"]);
 
 
 

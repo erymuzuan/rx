@@ -8,27 +8,31 @@ namespace offline.generator
     {
         static void Main()
         {
-            var width = Console.BufferWidth-1;
+            var width = Console.BufferWidth - 1;
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine(new string('*', width));
             Console.WriteLine("|{0}|", new String(' ', width - 2));
 
-            WriteMessage("Reactive Developer");
+            WriteMessage("Rx Developer");
             WriteMessage("This tool is use to create a offline assets");
             WriteMessage("(c) Bespoke Technology 2014");
             WriteMessage("Command line switches");
             WriteMessage("/o:<output folder> where the output will be generated");
             WriteMessage("/e:<EntityDefinition> the name of the EntityDefinition");
-            WriteMessage("/q Quiet mode - non interactive");
+            WriteMessage("/q Quiet mode - non interactive(optional)");
             Console.WriteLine("|{0}|", new String(' ', width - 2));
             Console.WriteLine(new string('*', width));
             var entity = ParseArg("e");
-
             Console.ResetColor();
+            if (string.IsNullOrWhiteSpace(entity))
+                return;
+            if (string.IsNullOrWhiteSpace(ParseArg("o")))
+                return;
+
 
             Run(entity).Wait();
             Console.ResetColor();
-            if (ParseArgExist("q"))return;
+            if (ParseArgExist("q")) return;
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Press [ENTER] to exit : ");
@@ -38,9 +42,12 @@ namespace offline.generator
 
         private static void WriteMessage(string message)
         {
-            var width = Console.BufferWidth-1;
+            var width = Console.BufferWidth - 1;
             var margin = (width - 2 - message.Length) / 2;
-            Console.WriteLine("|{0}{1}{0}|", new String(' ', margin), message);
+            if (message.Length % 2 == 0)
+                Console.WriteLine("|{0}{1} {0}|", new String(' ', margin), message);
+            else
+                Console.WriteLine("|{0}{1}{0}|", new String(' ', margin), message);
         }
 
         private static async Task Run(string entity)
