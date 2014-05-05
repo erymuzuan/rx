@@ -111,6 +111,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.test", "source\unit.tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "control.center", "source\tools\control.center\control.center.csproj", "{DF17CFE9-7689-47E4-9378-69D1E5F36EEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "offline.generator", "source\tools\offline.generator\offline.generator.csproj", "{7AC6CC32-81CB-450F-A494-9FFBDA05C626}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -269,6 +271,10 @@ Global
 		{DF17CFE9-7689-47E4-9378-69D1E5F36EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF17CFE9-7689-47E4-9378-69D1E5F36EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF17CFE9-7689-47E4-9378-69D1E5F36EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AC6CC32-81CB-450F-A494-9FFBDA05C626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AC6CC32-81CB-450F-A494-9FFBDA05C626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AC6CC32-81CB-450F-A494-9FFBDA05C626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AC6CC32-81CB-450F-A494-9FFBDA05C626}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -312,5 +318,6 @@ Global
 		{4DB11B5C-2618-4E36-A2FF-2AA4CB328483} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{020B92C2-BEA9-479A-A083-69F3ED53523E} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{DF17CFE9-7689-47E4-9378-69D1E5F36EEE} = {DB65484E-BE1F-4944-B216-4A57026360EB}
+		{7AC6CC32-81CB-450F-A494-9FFBDA05C626} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 	EndGlobalSection
 EndGlobal

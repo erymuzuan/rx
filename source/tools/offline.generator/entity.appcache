@@ -1,0 +1,53 @@
+CACHE MANIFEST
+# v1.33
+# ------------- DATA
+
+
+
+#-------------- FILES
+offline.js
+patient.html
+patient.js
+patient-registration.html
+patient-registration.js
+/content/css.min.css
+/content/site.css
+/fonts/fontawesome-webfont.woff?v=4.0.3
+/fonts/fontawesome-webfont.ttf?v=4.0.3
+/fonts/fontawesome-webfont.svg?v=4.0.3
+
+/sphapp/objectbuilders.js
+/sphapp/services/offline-datacontext.js
+/scripts/vendor.min.js
+
+/sphapp/objectbuilders.js
+/kendo/js/kendo.core.js
+/kendo/js/kendo.fx.js
+/kendo/js/kendo.popup.js
+/kendo/js/kendo.calendar.js
+/kendo/js/kendo.binder.js
+/kendo/js/kendo.data.js
+/kendo/js/kendo.datepicker.js
+/kendo/js/kendo.datetimepicker.js
+/kendo/js/kendo.timepicker.js
+/kendo/js/kendo.pager.js
+/kendo/js/kendo.pager.js
+/kendo/js/kendo.upload.js
+
+/sph/entitydefinition/schemas
+/scripts/require.js
+
+/scripts/vendor.min.js.map
+/scripts/core.min.js
+/scripts/core.min.js.map
+/SphApp/services/system.js
+/SphApp/services/logger.js
+/Scripts/durandal/knockout.js
+/Scripts/_ko.kendo.js
+/kendo/styles/Metro/sprite.png
+/scripts/_ko.entity.js
+/Scripts/durandal/system.js
+/SphApp/services/app.js
+
+NETWORK:
+*

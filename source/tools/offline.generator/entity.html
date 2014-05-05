@@ -1,0 +1,94 @@
+<!doctype html>
+<html manifest="patient.appcache">
+<head>
+    <title>@Model.Name list - offline</title>
+    <link rel="stylesheet" href="/content/css.min.css" />
+    <link rel="stylesheet" href="/content/site.css" />
+</head>
+<body>
+    <header id="header"></header>
+    <div id="toolbar-panel">
+        @foreach(var form in Model.AllowedNewForms)
+        {
+        <a id="@form.Name" class="btn btn-default" href="@(form.Route).html">
+            <i class="@form.IconClass"></i>
+            @form.Name
+        </a>
+        }
+    </div>
+
+    <h1>All @Model.Plural</h1>
+    <div id="error-list" class="row" data-bind="visible:errors().length">
+        <!-- ko foreach : errors -->
+        <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <i class="fa fa-exclamation"></i>
+            <span data-bind="text:Message"></span>
+
+        </div>
+        <div class="col-lg-2"></div>
+        <!-- /ko-->
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <table class="table table-striped"
+                   data-bind="filter : {path:'tbody>tr'}">
+                <thead>
+                    <tr>
+
+                        <th>@Model.Definition.RecordName</th>
+                        @foreach(var col in Model.Definition.MemberCollection)
+                        {
+                        <th>@col.Name</th>
+                        }
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach :list">
+                    <tr>
+                        <td>
+                            <a data-bind="attr : {href:'@(Model.DefaultForm.Route).html' + '#' + WebId() },text: @Model.Definition.RecordName"></a>
+                        </td>
+                        @foreach(var col in Model.Definition.MemberCollection)
+                        {
+                        <td data-bind="text:@col.Name"></td>
+                        }
+                        <td>
+                            @foreach(var op in Model.Definition.EntityOperationCollection)
+                            {
+                            <button class="btn btn-default" data-bind="click : $root.sendOperation.call($data,'@op.Name'), enable: $root.online">
+                                <i class="fa fa-check"></i>
+                                <span>@op.Name</span>
+                            </button>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="/scripts/vendor.min.js"></script>
+    <script type="text/javascript" src="/scripts/core.min.js"> </script>
+    <script type="text/javascript" src="/scripts/_ko.entity.js"> </script>
+    <script src="/kendo/js/kendo.core.js"></script>
+    <script src="/kendo/js/kendo.fx.js"></script>
+    <script src="/kendo/js/kendo.calendar.js"></script>
+    <script src="/kendo/js/kendo.binder.js"></script>
+    <script src="/kendo/js/kendo.data.js"></script>
+    <script src="/kendo/js/kendo.timepicker.js"></script>
+    <script src="/kendo/js/kendo.datepicker.js"></script>
+    <script src="/kendo/js/kendo.datetimepicker.js"></script>
+    <script src="/kendo/js/kendo.pager.js"></script>
+    <script src="/kendo/js/kendo.pager.js"></script>
+    <script src="/kendo/js/kendo.upload.js"></script>
+    <script src="/kendo/js/kendo.popup.js"></script>
+    <script type="text/javascript" src="/sph/entitydefinition/schemas"></script>
+    <script src="/sphapp/objectbuilders.js" type="text/javascript"></script>
+    <script src="/scripts/require.js" type="text/javascript" data-main="patient"></script>
+    <script type="text/javascript" src="offline.js"></script>
+</body>
+</html>
