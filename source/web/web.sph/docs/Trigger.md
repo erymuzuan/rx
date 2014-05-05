@@ -50,7 +50,7 @@ So in the case of patient registration, a message will be created with `Patient.
 
 
 
-![Trigger](http://i.imgur.com/rbElfmm.png)
+![Trigger](http://i.imgur.com/nqb4HkE.png)
 Basic trigger properties to listen to Patient register event
 
 ##Rules

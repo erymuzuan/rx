@@ -4,65 +4,42 @@ bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 require.config({
-baseUrl: "/SphApp",
-waitSeconds: 15,
-paths: {
-    'durandal': '/Scripts/durandal',
-    'plugins': '/Scripts/durandal/plugins'
-    }
+    baseUrl: "/SphApp",
+    waitSeconds: 15
 });
-define('jquery', function () { return jQuery; });
+define('jquery', function () {
+    return jQuery;
+});
 define('knockout', ko);
 
 
-require(['services/datacontext', 'jquery', 'services/app', 'services/system'], function (context, jquery, app, system) {
+require(['services/offline-datacontext', 'services/system'], function (context, system) {
     var entity = ko.observable(new bespoke.dev_2002.domain.Patient({ WebId: system.guid() })),
         errors = ko.observableArray(),
         save = function () {
-                var tcs = new $.Deferred();
-                localforage.getItem('patients').then(function(r){
-                    var sr = r || "[]",
-                        patients = ko.mapping.fromJSON(sr);
-
-                    var item = _(patients()).find(function(v){
-                        return ko.unwrap(v.WebId) === ko.unwrap(entity().WebId);
-                    });
-                    if(item){
-                        patients.remove(item);
-                    }
-                    patients.push(entity());
-                    
-                    var json = ko.mapping.toJSON(patients);    
-
-                    localforage.setItem('patients', json).then( function(){
-                     app.showMessage("Your item has been saved in local storage", "SPH Platform showcase", ["OK"])
-                        .done(function () {
-                            tcs.resolve(true);
-                        });
-                    });
+            return context.openAsync({database: 'dev', store: 'Patient'})
+                .then(function () {
+                    return  context.saveAsync(entity);
                 });
 
-                return tcs.promise();
-            },
+        },
         vm = {
             errors: errors,
             entity: entity,
-            validate: function () { },
-            save : save
+            validate: function () {
+            },
+            save: save
         };
-    if(window.location.hash){
-        var id = window.location.hash.replace('#','');
-        localforage.getItem('patients').then(function(r){
-            var sr = r || "[]",
-                patients = ko.mapping.fromJSON(sr);
-            var item = _(patients()).find(function(v){
-                return ko.unwrap(v.WebId) == id;
+    if (window.location.hash) {
+        var id = window.location.hash.replace('#', '');
+        console.log("Load " + id);
+        context.openAsync({database: 'dev', store: 'Patient'})
+            .then(function(){
+                return context.loadOneAsync(id);
             })
-            if(item){
-                entity(item);
-            }
-                    
-        });
+            .then(function(e){
+                entity(e);
+            });
     }
 
     ko.applyBindings(vm);
