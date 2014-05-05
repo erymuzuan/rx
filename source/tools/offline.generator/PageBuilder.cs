@@ -64,6 +64,7 @@ namespace offline.generator
                 item.Plural,
                 item.EntityDefinitionId,
                 ApplicationName = ConfigurationManager.ApplicationName.ToCamelCase(),
+                ConfigurationManager.ApplicationFullName,
                 Definition = item,
                 Forms = this.FormCollection,
                 DefaultForm = form,

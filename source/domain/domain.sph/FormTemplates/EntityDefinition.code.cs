@@ -97,7 +97,7 @@ namespace Bespoke.Sph.Domain
             script.AppendLinf("bespoke.{0}.domain = bespoke.{0}.domain ||{{}};", jsNamespace);
 
             script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, this.Name);
-            script.AppendLine(" var system = require('durandal/system'),");
+            script.AppendLine(" var system = require('services/system'),");
             script.AppendLine(" model = {");
             script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.CodeNamespace, this.Name, assemblyName);
             script.AppendLinf("     {0}Id : ko.observable(),", this.Name);

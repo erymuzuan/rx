@@ -13,13 +13,17 @@ define('jquery', function () {
 define('knockout', ko);
 
 
-require(['services/offline-datacontext', 'services/system'], function (context, system) {
+require(['services/offline-datacontext', 'services/system', 'services/app'], function (context, system,app) {
     var entity = ko.observable(new bespoke.@(Model.ApplicationName)_@(Model.EntityDefinitionId).domain.@(Model.Entity)({ WebId: system.guid() })),
         errors = ko.observableArray(),
         save = function () {
             return context.openAsync({database: '@(Model.ApplicationName)', store: '@(Model.Entity)'})
                 .then(function () {
                     return  context.saveAsync(entity);
+                })
+                .then(function(){
+                    var message = "Your data has been successfully saved locally";
+                    app.showMessage(message, "SPH Platform showcase", ["OK"]);
                 });
 
         },
