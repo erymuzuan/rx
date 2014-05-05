@@ -12,12 +12,10 @@ namespace offline.generator
            
             Console.WriteLine(new string('*', width));
             Console.WriteLine("|{0}|", new String(' ', width-2));
-            Console.WriteLine("|{0}|", new String(' ', width-2));
 
             WriteMessage("This tool is use to create a offline assets");
             WriteMessage("this tool is used without support");
 
-            Console.WriteLine("|{0}|", new String(' ', width-2));
             Console.WriteLine("|{0}|", new String(' ', width-2));
             Console.WriteLine(new string('*', width));
             var entity = ParseArg("e");
@@ -41,6 +39,7 @@ namespace offline.generator
             Console.WriteLine("Loading {0}",entity);
             await builder.LoadAsync();
             await builder.BuildDasboard(output);
+            await builder.BuildForms(output);
         }
         private static string ParseArg(string name)
         {

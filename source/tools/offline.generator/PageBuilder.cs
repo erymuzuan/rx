@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
@@ -68,7 +68,7 @@ namespace offline.generator
                 Views = this.ViewCollection
             };
 
-            var html = Path.Combine(outputFolder,  item.Name.ToLower() + ".html");
+            var html = Path.Combine(outputFolder, item.Name.ToLower() + ".html");
             using (var stream = new FileStream("entity.html", FileMode.Open))
             using (var reader = new StreamReader(stream))
             {
@@ -80,13 +80,61 @@ namespace offline.generator
 
 
             var js = Path.Combine(outputFolder, item.Name.ToLower() + ".js");
-            using (var stream = new FileStream( "entity.js", FileMode.Open))
+            using (var stream = new FileStream("entity.js", FileMode.Open))
             using (var reader = new StreamReader(stream))
             {
                 var raw = reader.ReadToEnd();
                 var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                 File.WriteAllText(js, script);
 
+            }
+        }
+
+        public async Task BuildForms(string output)
+        {
+            var outputFolder = output;
+            if (!Path.IsPathRooted(output))
+                outputFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, output);
+
+            foreach (var form in this.FormCollection)
+            {
+                var formMarkup = "";
+                using (var client = new HttpClient())
+                {
+                    var uri = ConfigurationManager.BaseUrl + "/Sph/EntityFormRenderer/Html/" + form.Route;
+                    formMarkup = await client.GetStringAsync(uri);
+
+                }
+                var vm = new
+                {
+                    form.Name,
+                    form.Route,
+                    form.EntityFormId,
+                    form.EntityDefinitionId,
+                    Entity = this.Entity.Name,
+                    Form = form,
+                    ApplicationName = ConfigurationManager.ApplicationName.ToCamelCase(),
+                    FormMarkup = formMarkup
+                };
+                var html = Path.Combine(outputFolder, form.Route + ".html");
+                using (var stream = new FileStream("form.html", FileMode.Open))
+                using (var reader = new StreamReader(stream))
+                {
+                    var raw = reader.ReadToEnd();
+                    var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
+                    File.WriteAllText(html, markup);
+                }
+
+
+                var js = Path.Combine(outputFolder, form.Route + ".js");
+                using (var stream = new FileStream("form.js", FileMode.Open))
+                using (var reader = new StreamReader(stream))
+                {
+                    var raw = reader.ReadToEnd();
+                    var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
+                    File.WriteAllText(js, script);
+
+                }
             }
         }
     }

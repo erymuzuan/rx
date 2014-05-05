@@ -14,10 +14,10 @@ define('knockout', ko);
 
 
 require(['services/offline-datacontext', 'services/system'], function (context, system) {
-    var entity = ko.observable(new bespoke.dev_2002.domain.Patient({ WebId: system.guid() })),
+    var entity = ko.observable(new bespoke.@(Model.ApplicationName)_@(Model.EntityDefinitionId).domain.@(Model.Entity)({ WebId: system.guid() })),
         errors = ko.observableArray(),
         save = function () {
-            return context.openAsync({database: 'dev', store: 'Patient'})
+            return context.openAsync({database: '@(Model.ApplicationName)', store: '@(Model.Entity)'})
                 .then(function () {
                     return  context.saveAsync(entity);
                 });
@@ -33,7 +33,7 @@ require(['services/offline-datacontext', 'services/system'], function (context, 
     if (window.location.hash) {
         var id = window.location.hash.replace('#', '');
         console.log("Load " + id);
-        context.openAsync({database: 'dev', store: 'Patient'})
+        context.openAsync({database: '@(Model.ApplicationName)', store: '@(Model.Entity)'})
             .then(function(){
                 return context.loadOneAsync(id);
             })

@@ -70,7 +70,7 @@ require(['services/offline-datacontext', 'jquery', 'services/app', 'services/sys
         ko.applyBindings(vm);
 
 
-        context.openAsync({database: 'dev', store: '@Model.Name'})
+        context.openAsync({database: '@(Model.ApplicationName)', store: '@Model.Name'})
             .then(function () {
                 console.log("Successfully open the database");
                 return context.loadAsync();

@@ -1,121 +1,19 @@
 <!doctype html>
-<html manifest="patient.appcache">
+<html manifest="@(Model.Name.ToLower()).appcache">
 <head>
-    <title>Patient Registration</title>
+    <title>@(Model.Form.Name)</title>
     <link rel="stylesheet" href="/content/css.min.css" />
     <link rel="stylesheet" href="/content/site.css" />
 </head>
 <body>
     <header id="header"></header>
     <div id="toolbar-panel">
-      <a id="saveButton" data-bind="command : $root.save" class="btn btn-default" >
+        <a id="saveButton" data-bind="command : $root.save" class="btn btn-default">
             <i class="fa fa-save"></i>
             Save
         </a>
     </div>
-
-    <h1>Patient registration</h1>
-    <div id="error-list" class="row" data-bind="visible:errors().length">
-        <!-- ko foreach : errors -->
-        <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <i class="fa fa-exclamation"></i>
-            <span data-bind="text:Message"></span>
-
-        </div>
-        <div class="col-lg-2"></div>
-        <!-- /ko-->
-    </div>
-    <div class="row">
-        <div class="col-sm-8">
-            <form class="form-horizontal" data-bind="with : entity" id="patient-registration-form">
-
-                <div data-bind="visible:true" class="form-group">
-                    <label for="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" class="col-md-4">FullName</label>
-                    <div class="col-md-8">
-                        <input class=" form-control" title=""
-                               data-bind="value: FullName, enable :true"
-                               id="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" type="text" name="FullName" />
-                    </div>
-                </div>
-
-                <div data-bind="visible:true" class="form-group">
-                    <label for="d9f52c01-887a-4ae6-a0fd-c83002987323" class="col-md-4">ID</label>
-                    <div class="col-md-8">
-                        <input class=" form-control" title=""
-                               data-bind="value: IdentificationNo, enable :true"
-                               id="d9f52c01-887a-4ae6-a0fd-c83002987323" type="text" name="IdentificationNo" />
-                    </div>
-                </div>
-                <div class="form-group" data-bind="visible : true">
-                    <label for="d1aa9295-8b31-4eec-a357-fe22540040b8" class="col-md-4">Dob</label>
-                    <div class="col-md-8">
-                        <input class=" form-control"
-                               data-bind="kendoDate: Dob, enable :true" id="d1aa9295-8b31-4eec-a357-fe22540040b8" type="text"
-                               name="Dob" />
-                    </div>
-                </div>
-                <div class="form-group" data-bind="visible:true">
-                    <label for="d34ae9f4-8b4b-4dc5-88c2-dea34a95f56e" class="col-md-4">Gender</label>
-                    <div class="col-md-8">
-                        <select data-bind="value: Gender, enable :true" id="d34ae9f4-8b4b-4dc5-88c2-dea34a95f56e" name="Gender" class=" form-control">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Inderterminate">Inderterminate</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group" data-bind="visible:true">
-                    <label for="22dc3ef6-2060-4cb1-9393-228bbd706764" class="col-md-4">Race</label>
-                    <div class="col-md-8">
-                        <select data-bind="value: Race, enable :true" id="22dc3ef6-2060-4cb1-9393-228bbd706764" name="Race" class=" form-control">
-                            <option value="Malay">Malay</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="Indian">Indian</option>
-                            <option value="Others">Others</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group" data-bind="visible:true">
-                    <label for="205ef0d1-5c5b-4d47-bf76-4c29fafd33fd" class="col-md-4">Religion</label>
-                    <div class="col-md-8">
-                        <select data-bind="value: Religion, enable :true" id="205ef0d1-5c5b-4d47-bf76-4c29fafd33fd" name="Religion" class=" form-control">
-                            <option value="Islam">Islam</option>
-                            <option value="Buddhism">Bhuddism</option>
-                            <option value="Chritianity">Chritianity</option>
-                            <option value="Others">Others</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group" data-bind="visible:true">
-                    <label for="910ee6ef-1143-4c9b-b3a5-0da570e8d1f2" class="col-md-4">Income</label>
-                    <div class="col-md-8">
-                        <input step="0" class=" form-control" data-bind="money: Income, visible :true, enable :true"
-                               id="910ee6ef-1143-4c9b-b3a5-0da570e8d1f2" type="text" name="Income" />
-                    </div>
-                </div>
-                <div class="form-group" data-bind="visible:true">
-                    <label for="b957c5fe-7a6a-4ebc-8fd3-214078641322" class="col-md-4">Age</label>
-                    <div class="col-md-8">
-                        <input step="0" class=" form-control" data-bind="value: Age, visible :true, enable :true"
-                               id="b957c5fe-7a6a-4ebc-8fd3-214078641322" type="number" name="Age" />
-                    </div>
-                </div>
-
-                <div class="form-group" data-bind="visible:true">
-                    <label for="3064a912-b562-4e70-bcf2-170b7a872303" class="col-md-4">Marital Status</label>
-                    <div class="col-md-8">
-                        <select data-bind="value: MaritalStatus, enable :true" id="3064a912-b562-4e70-bcf2-170b7a872303" name="MaritalStatus" class=" form-control">
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
-                            <option value="Divorced">Divorced</option>
-                            <option value="Widow">Widow</option>
-                        </select>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    @Raw(Model.FormMarkup)
 
 
     <script type="text/javascript" src="/scripts/vendor.min.js"></script>
@@ -135,7 +33,7 @@
     <script src="/kendo/js/kendo.popup.js"></script>
     <script type="text/javascript" src="/sph/entitydefinition/schemas"></script>
     <script src="/sphapp/objectbuilders.js" type="text/javascript"></script>
-    <script src="/scripts/require.js" type="text/javascript" data-main="patient-registration"></script>
+    <script src="/scripts/require.js" type="text/javascript" data-main="@(Model.Form.Route)"></script>
     <script type="text/javascript" src="offline.js"></script>
 
 </body>
