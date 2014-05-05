@@ -31,14 +31,17 @@ namespace offline.generator
 
         public async Task LoadAsync()
         {
+            Console.WriteLine("Loading {0}...", this.Entity);
             var context = new SphDataContext();
             this.Entity = await context.LoadOneAsync<EntityDefinition>(e => e.Name == m_entityName);
 
+            Console.WriteLine("Loading forms...");
             // forms
             var formQuery = context.EntityForms.Where(f => f.EntityDefinitionId == this.Entity.EntityDefinitionId);
             var formLo = await context.LoadAsync(formQuery);
             this.FormCollection.AddRange(formLo.ItemCollection);
 
+            Console.WriteLine("Loading views...");
             // views
             var viewQuery = context.EntityViews.Where(f => f.EntityDefinitionId == this.Entity.EntityDefinitionId);
             var viewLo = await context.LoadAsync(viewQuery);
@@ -72,6 +75,7 @@ namespace offline.generator
             using (var stream = new FileStream("entity.html", FileMode.Open))
             using (var reader = new StreamReader(stream))
             {
+                Console.WriteLine("Building dashboard html...");
                 var raw = reader.ReadToEnd();
                 var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                 File.WriteAllText(html, markup);
@@ -83,6 +87,7 @@ namespace offline.generator
             using (var stream = new FileStream("entity.js", FileMode.Open))
             using (var reader = new StreamReader(stream))
             {
+                Console.WriteLine("Building dashboard script...");
                 var raw = reader.ReadToEnd();
                 var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                 File.WriteAllText(js, script);
@@ -92,6 +97,7 @@ namespace offline.generator
             using (var stream = new FileStream("entity.appcache", FileMode.Open))
             using (var reader = new StreamReader(stream))
             {
+                Console.WriteLine("Building appcache...");
                 var raw = reader.ReadToEnd();
                 var manifest = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                 File.WriteAllText(appcache, manifest);
@@ -110,6 +116,7 @@ namespace offline.generator
                 var formMarkup = "";
                 using (var client = new HttpClient())
                 {
+                    Console.WriteLine("Rendering {0}...", form.Route);
                     var uri = ConfigurationManager.BaseUrl + "/Sph/EntityFormRenderer/Html/" + form.Route;
                     formMarkup = await client.GetStringAsync(uri);
 
@@ -129,6 +136,7 @@ namespace offline.generator
                 using (var stream = new FileStream("form.html", FileMode.Open))
                 using (var reader = new StreamReader(stream))
                 {
+                    Console.WriteLine("Building {0} form html...", form.Route);
                     var raw = reader.ReadToEnd();
                     var markup = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                     File.WriteAllText(html, markup);
@@ -139,6 +147,7 @@ namespace offline.generator
                 using (var stream = new FileStream("form.js", FileMode.Open))
                 using (var reader = new StreamReader(stream))
                 {
+                    Console.WriteLine("Building {0} form script...", form.Route);
                     var raw = reader.ReadToEnd();
                     var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                     File.WriteAllText(js, script);
