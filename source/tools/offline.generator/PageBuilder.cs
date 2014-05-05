@@ -86,6 +86,15 @@ namespace offline.generator
                 var raw = reader.ReadToEnd();
                 var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
                 File.WriteAllText(js, script);
+            }
+
+            var appcache = Path.Combine(outputFolder, item.Name.ToLower() + ".appcache");
+            using (var stream = new FileStream("entity.appcache", FileMode.Open))
+            using (var reader = new StreamReader(stream))
+            {
+                var raw = reader.ReadToEnd();
+                var manifest = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, vm);
+                File.WriteAllText(appcache, manifest);
 
             }
         }

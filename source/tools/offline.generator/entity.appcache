@@ -1,15 +1,18 @@
 CACHE MANIFEST
-# v1.33
+# @(DateTime.Now.ToString("s"))
 # ------------- DATA
 
 
 
 #-------------- FILES
 offline.js
-patient.html
-patient.js
-patient-registration.html
-patient-registration.js
+@(Model.Name.ToLower()).html
+@(Model.Name.ToLower()).js
+@foreach(var form in Model.AllowedNewForms)
+{
+@:@(form.Route).html
+@:@(form.Route).js
+}
 /content/css.min.css
 /content/site.css
 /fonts/fontawesome-webfont.woff?v=4.0.3
