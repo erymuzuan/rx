@@ -20,8 +20,8 @@ require(['services/offline-datacontext', 'services/system', 'services/app'], fun
             return context.openAsync({database: 'dev', store: 'Patient'})
                 .then(function () {
                     return  context.saveAsync(entity);
-                }).then(function(){
-
+                })
+                .then(function(){
                     var message = "Your data has been successfully saved locally";
                     app.showMessage(message, "SPH Platform showcase", ["OK"]);
                 });

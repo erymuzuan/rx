@@ -18,7 +18,7 @@ define('knockout', ko);
 
 
 require(['services/offline-datacontext', 'jquery', 'services/app', 'services/system', objectbuilders.logger],
-    function (context, jquery, app, system, logger) {
+    function (context, jquery, app, system, logger, db) {
         var list = ko.observableArray(),
             online = ko.observable(window.navigator.onLine),
             errors = ko.observableArray(),
@@ -37,10 +37,13 @@ require(['services/offline-datacontext', 'jquery', 'services/app', 'services/sys
                         .then(function (result) {
                             if (result.success) {
                                 errors.removeAll();
+                                
                                 var message = "Your data has been successfully sent to the server with this id " + result.id;
                                 logger.info(message);
                                 removeFromOffline(item).then(tcs.resolve);
-                                app.showMessage(message, "SPH Platform showcase", ["OK"]);
+                                app.showMessage(message, "SPH Platform Showcase", ["OK"]);
+
+
 
                             } else {
                                 errors.removeAll();
