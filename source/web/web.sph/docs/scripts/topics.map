@@ -16,6 +16,17 @@
     "templates":"DocumentTemplate.html",
     "document.template.details":"DocumentTemplate.html",
     "email.template.details":"EmailTemplate.html",
+    "rdl-configuration-panel":"RdlConfiguration.html",
+    "reportdefinition.edit":"ReportDefinition.html",
+    "reportdefinition.list":"ReportDefinition.html",
+    "reportdelivery.schedule":"ReportDelivery.html",
+    "page.list":"Page.html",
+
+    "daily-schedule-dialog" :"DailySchedule.html",
+    "weekly-schedule-dialog" :"WeeklySchedule.html",
+    "monthly-schedule-dialog" :"MonthlySchedule.html",
+
+    "page-detail-dialog" :"Page.html",
 
     "decision-activity-dialog" : "DecisionActivity.html",
     "activity-screen-modal" : "ScreenActivity.html",
