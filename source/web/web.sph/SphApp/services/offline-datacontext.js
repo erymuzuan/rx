@@ -125,18 +125,18 @@ define([], function () {
         _options = null,
         openAsync = function (options) {
             _options = options;
-            var version = 1;
+            var version = 2;
             var promise = new Promise(function (resolve, reject) {
 
 
-                var request = indexedDB.open(options.database, version);
+                var request = indexedDB.open(options.store.toLowerCase() + '_db', version);
 
                 request.onupgradeneeded = function (e) {
                     db = e.target.result;
                     e.target.transaction.onerror = indexedDB.onerror;
 
                     if (db.objectStoreNames.contains(options.store)) {
-                        db.deleteObjectStore("todo");
+                        db.deleteObjectStore(options.store);
                     }
                     var store = db.createObjectStore(options.store, {autoIncrement: true});
                 };
@@ -147,6 +147,7 @@ define([], function () {
                 };
 
                 request.onerror = request.onblocked = function (e) {
+                    console.log(e);
                     reject("Couldn't open DB");
                 };
             });
@@ -208,7 +209,7 @@ define([], function () {
             var promise = new Promise(function (resolve, reject) {
                 var trans = db.transaction([_options.store], 'readwrite');
                 var store = trans.objectStore(_options.store);
-                console.log("Saving..", item);
+                console.log("Saving..", ko.unwrap(item));
 
                 var clone = JSON.parse(ko.mapping.toJSON(item));
                 var request = store.put(clone);
@@ -218,9 +219,8 @@ define([], function () {
                     resolve();
                 };
 
-                //error callback
                 request.onerror = function (e) {
-                    console.log(e.value);
+                    console.log(e);
                     reject("Couldn't add the passed item");
                 };
             });
@@ -244,11 +244,18 @@ define([], function () {
             }
         },
         loadOneAsync = function(webId){
+            var c = openAsync(_options)
+                .then(function(){
+                    return loadOneAsync1(webId);
+                });
+            return c;
+        },
+        loadOneAsync1 = function(webId){
             var promise = new Promise(function (resolve, reject) {
-                var trans = db.transaction([_options.store], 'readonly');
-                var store = trans.objectStore(_options.store);
+                var trans1 = db.transaction([_options.store], 'readonly');
+                var store1 = trans1.objectStore(_options.store);
 
-                var request = store.get(webId);
+                var request = store1.get(webId);
 
                 request.onsuccess = function (e) {
                     console.log(e);

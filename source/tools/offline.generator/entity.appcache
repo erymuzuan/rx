@@ -6,6 +6,7 @@ CACHE MANIFEST
 
 #-------------- FILES
 offline.js
+header.html
 @(Model.Name.ToLower()).html
 @(Model.Name.ToLower()).js
 @foreach(var form in Model.AllowedNewForms)
@@ -18,9 +19,16 @@ offline.js
 /fonts/fontawesome-webfont.woff?v=4.0.3
 /fonts/fontawesome-webfont.ttf?v=4.0.3
 /fonts/fontawesome-webfont.svg?v=4.0.3
+/fonts/glyphicons-halflings-regular.woff
+/fonts/glyphicons-halflings-regular.ttf
+/fonts/glyphicons-halflings-regular.svg
+/Images/sph_32x32.png
+/Images/user_24_white.png
+
 
 /sphapp/objectbuilders.js
 /sphapp/services/offline-datacontext.js
+/SphApp/services/offline-datacontext.js
 /scripts/vendor.min.js
 
 /sphapp/objectbuilders.js

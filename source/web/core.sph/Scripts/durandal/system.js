@@ -9,7 +9,7 @@
  * @requires require
  * @requires jquery
  */
-define(['require', 'jquery'], function(require, $) {
+define(['require', 'jquery', 'services/system'], function(require, $) {
     var isDebugging = false,
         nativeKeys = Object.keys,
         hasOwnProperty = Object.prototype.hasOwnProperty,
