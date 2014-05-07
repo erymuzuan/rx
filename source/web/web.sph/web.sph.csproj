@@ -425,6 +425,9 @@
     <Content Include="docs\IBinaryStore.html">
       <DependentUpon>IBinaryStore.md</DependentUpon>
     </Content>
+    <Content Include="docs\IconPicker.html">
+      <DependentUpon>IconPicker.md</DependentUpon>
+    </Content>
     <Content Include="docs\ICustomScript.html">
       <DependentUpon>ICustomScript.md</DependentUpon>
     </Content>
@@ -628,6 +631,9 @@
     <Content Include="docs\ReceiveActivity.html">
       <DependentUpon>ReceiveActivity.md</DependentUpon>
     </Content>
+    <Content Include="docs\ReferencedAssembly.html">
+      <DependentUpon>ReferencedAssembly.md</DependentUpon>
+    </Content>
     <Content Include="docs\ReportDefinition.html">
       <DependentUpon>ReportDefinition.md</DependentUpon>
     </Content>
@@ -664,6 +670,12 @@
     <Content Include="docs\ScriptFunctoid.html">
       <DependentUpon>ScriptFunctoid.md</DependentUpon>
     </Content>
+    <Content Include="docs\scripts\main.min.js">
+      <DependentUpon>main.js</DependentUpon>
+    </Content>
+    <Content Include="docs\ReferencedAssembly.md" />
+    <Content Include="docs\IconPicker.md" />
+    <None Include="docs\scripts\topics.map" />
     <Content Include="docs\scripts\main.js" />
     <Content Include="docs\scripts\types.js" />
     <Content Include="docs\SearchResult.html">
@@ -1588,6 +1600,9 @@
     </Content>
     <Content Include="kendo\js\cultures\kendo.culture.ms.min.js.map">
       <DependentUpon>kendo.culture.ms.min.js</DependentUpon>
+    </Content>
+    <Content Include="docs\scripts\main.min.js.map">
+      <DependentUpon>main.min.js</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />

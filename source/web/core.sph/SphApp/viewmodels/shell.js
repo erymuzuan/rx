@@ -19,6 +19,11 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                     var topic = window.location.hash;
                     window.open("/docs/" + topic);
                 });
+                $(document).on('click', 'a#help-dialog', function (e) {
+                    e.preventDefault();
+                    var topic = $('.view-model-modal').attr("id");
+                    window.open("/docs/#" + topic);
+                });
                 // BUG:#1499
                 if (window.location.href.indexOf("/sph#") === -1) {
                     window.location = "/sph#" + config.startModule;
@@ -47,6 +52,8 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                         });
                         $('.modal-header').css("cursor", "move");
                         console.log('draggagle modal');
+                        $('div.modal-header>button').
+                            after('<a class="pull-right" id="help-dialog" data-dialog="" href="#" title="see help on this topic" style="margin-right:10px; color:gray"><i class="fa fa-question-circle"></i></a>');
                     }
                 });
 

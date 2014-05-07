@@ -1,6 +1,7 @@
 ﻿/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
-
+/// <reference path="core.sph/Scripts/typeahead.bundle.js" />
+/// <reference path="core.sph/Scripts/bloodhound.js" />
 define(['types'], function (types) {
 
     var nav = function (href2) {
@@ -10,29 +11,18 @@ define(['types'], function (types) {
                 return;
             }
             $('#applicationHost img').addClass('img-thumbnail');
-            $('#applicationHost a').prepend('<i class="fa fa-link">');
+            $('#applicationHost a').prepend('<i class="fa fa-link"></i>');
         });
     },
         mapTopic = function (topicHash) {
-            topicHash = topicHash.toLowerCase();
-            if (topicHash.indexOf("trigger.setup") > -1)return "Trigger.html";
+            var tcs = new $.Deferred();
+            topicHash = topicHash.toLowerCase().replace(/#\/?/g, '').replace(new RegExp(/\/.*$/g), '');
+            $.get("scripts/topics.map", function (script) {
+                var ooo = JSON.parse(script);
+                tcs.resolve(ooo[topicHash]);
+            });
+            return tcs.promise();
 
-            if (topicHash.indexOf("entity.details") > -1)return "EntityDefinition.html";
-            if (topicHash.indexOf("entity.form.designer") > -1)return "EntityForm.html";
-            if (topicHash.indexOf("entity.view.designer") > -1)return "EntityView.html";
-            if (topicHash.indexOf("entity.operation.details") > -1)return "EntityOperation.html";
-            if (topicHash.indexOf("entityview") > -1) return "EntityView.html";
-            if (topicHash.indexOf("entityform") > -1) return "EntityForm.html";
-            if (topicHash.indexOf("entitydefinition") > -1) return "EntityDefinition.html";
-            if (topicHash.indexOf("entityoperation") > -1) return "EntityOperation.html";
-
-            if (topicHash.indexOf("reportdefinition") > -1)return "ReportDefinition.html";
-            if (topicHash.indexOf("reportdelivery") > -1)return "reportdelivery.html";
-
-            if (topicHash.indexOf("workflowdefinition.visual") > -1) return "WorkflowDefinition.html";
-            if (topicHash.indexOf("workflow.definition.visual") > -1)return "WorkflowDesigner.html";
-            if (topicHash.indexOf("workflow.debugger") > -1)return "Breakpoint.html";
-            return "Overview.html";
         },
         topic = window.location.hash;
     $('#applicationHost').load('/docs/overview.html');
@@ -88,13 +78,13 @@ define(['types'], function (types) {
             source: members.ttAdapter()
         })
         .on('typeahead:closed', function () {
-            console.log($(this).val());
-
             $('#applicationHost').load($(this).val() + ".html");
         });
 
     if (topic) {
-        var g = mapTopic(topic);
-        nav(g);
+        mapTopic(topic)
+        .then(function (g) {
+            nav(g);
+        });
     }
 });

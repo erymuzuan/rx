@@ -1,6 +1,7 @@
 ﻿/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
