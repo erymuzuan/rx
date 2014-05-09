@@ -69,6 +69,10 @@
                 var opFunc = operation.Name.ToCamelCase();
                 <text>@opFunc = function(){
 
+                     if (!validation.valid()) {
+                         return Task.fromResult(false);
+                     }
+
                      var tcs = new $.Deferred(),
                          data = ko.mapping.toJSON(entity);
 

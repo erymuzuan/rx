@@ -23,6 +23,9 @@ define([],
                     if (!f.FieldValidation()) {
                         return;
                     }
+                    if (v.Mode() == "digit") {
+                        v.Mode("digits");
+                    }
 
                     validation.rules[path] = { required: v.IsRequired() };
                     if (v.Message()) {

@@ -36,28 +36,28 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormDesigner
         }
         public override void Execute()
         {
-WriteLiteral("<form class=\"form-horizontal\" data-bind=\"with : FieldValidation\" role=\"form\">\r\n\r\n" +
-"    <div class=\"checkbox\">\r\n        <label>\r\n            <input data-bind=\"check" +
-"ed: IsRequired\" id=\"validation-isrequired\" type=\"checkbox\" name=\"IsRequired\" />\r" +
-"\n            Is required\r\n        </label>\r\n    </div>\r\n\r\n    <div class=\"form-g" +
-"roup\">\r\n        <label for=\"validation-pattern\">Pattern</label>\r\n        <input " +
-"data-bind=\"value:Pattern\" type=\"text\" class=\"form-control\" id=\"validation-patter" +
-"n\" placeholder=\"regex pattern\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n     " +
-"   <label for=\"validation-minlength\">Min Length</label>\r\n        <input data-bin" +
-"d=\"value:MinLength\" type=\"number\" class=\"form-control\" id=\"validation-minlength\"" +
-">\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n        <label for=\"validation-ma" +
-"xlength\">Max Length</label>\r\n        <input data-bind=\"value:MaxLength\" type=\"nu" +
-"mber\" class=\"form-control\" id=\"validation-maxlength\">\r\n    </div>\r\n\r\n    <div cl" +
-"ass=\"form-group\">\r\n        <label for=\"validation-mode\">Mode</label>\r\n        <s" +
-"elect class=\"form-control\" id=\"validation-mode\" data-bind=\"value:Mode\">\r\n       " +
-"     <option value=\"\">Text</option>\r\n            <option value=\"email\">Email</op" +
-"tion>\r\n            <option value=\"url\">Url</option>\r\n            <option value=\"" +
-"digit\">Digit</option>\r\n            <option value=\"number\">Number</option>\r\n     " +
-"       <option value=\"date\">Date</option>\r\n            <option value=\"creditcard" +
-"\">Credit card </option>\r\n        </select>\r\n    </div>\r\n\r\n    <div class=\"form-g" +
-"roup\">\r\n        <label for=\"validation-message\">Message</label>\r\n        <input " +
-"data-bind=\"value:Message\" type=\"text\" class=\"form-control\" id=\"validation-messag" +
-"e\" placeholder=\"Error message\">\r\n    </div>\r\n</form>\r\n");
+WriteLiteral("<form class=\"form-horizontal\" data-bind=\"with : FieldValidation\" role=\"form\">\n\n  " +
+"  <div class=\"checkbox\">\n        <label>\n            <input data-bind=\"checked: " +
+"IsRequired\" id=\"validation-isrequired\" type=\"checkbox\" name=\"IsRequired\" />\n    " +
+"        Is required\n        </label>\n    </div>\n\n    <div class=\"form-group\">\n  " +
+"      <label for=\"validation-pattern\">Pattern</label>\n        <input data-bind=\"" +
+"value:Pattern\" type=\"text\" class=\"form-control\" id=\"validation-pattern\" placehol" +
+"der=\"regex pattern\">\n    </div>\n    <div class=\"form-group\">\n        <label for=" +
+"\"validation-minlength\">Min Length</label>\n        <input data-bind=\"value:MinLen" +
+"gth\" type=\"number\" class=\"form-control\" id=\"validation-minlength\">\n    </div>\n\n " +
+"   <div class=\"form-group\">\n        <label for=\"validation-maxlength\">Max Length" +
+"</label>\n        <input data-bind=\"value:MaxLength\" type=\"number\" class=\"form-co" +
+"ntrol\" id=\"validation-maxlength\">\n    </div>\n\n    <div class=\"form-group\">\n     " +
+"   <label for=\"validation-mode\">Mode</label>\n        <select class=\"form-control" +
+"\" id=\"validation-mode\" data-bind=\"value:Mode\">\n            <option value=\"\">Text" +
+"</option>\n            <option value=\"email\">Email</option>\n            <option v" +
+"alue=\"url\">Url</option>\n            <option value=\"digits\">Digits</option>\n     " +
+"       <option value=\"number\">Number</option>\n            <option value=\"date\">D" +
+"ate</option>\n            <option value=\"creditcard\">Credit card </option>\n      " +
+"  </select>\n    </div>\n\n    <div class=\"form-group\">\n        <label for=\"validat" +
+"ion-message\">Message</label>\n        <input data-bind=\"value:Message\" type=\"text" +
+"\" class=\"form-control\" id=\"validation-message\" placeholder=\"Error message\">\n    " +
+"</div>\n</form>\n");
 
 
         }
