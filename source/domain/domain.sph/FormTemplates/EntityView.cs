@@ -19,12 +19,12 @@ namespace Bespoke.Sph.Domain
                                    string.Format("[Filter] : {0} => '{1}' does not have term or field", f.Term, f.Field)
                                );
             var conditionalFormattingErrors = from f in this.ConditionalFormattingCollection
-                             where string.IsNullOrWhiteSpace(f.Condition) || f.Condition.Contains("\"")
-                             select new BuildError
-                             (
-                                 this.WebId,
-                                 "[ConditionalFormatting] : Condition cannot contains \" or empty"
-                             );
+                                              where string.IsNullOrWhiteSpace(f.Condition) || f.Condition.Contains("\"")
+                                              select new BuildError
+                                              (
+                                                  this.WebId,
+                                                  "[ConditionalFormatting] : Condition cannot contains \" or empty"
+                                              );
             var sortErrors = from f in this.SortCollection
                              where string.IsNullOrWhiteSpace(f.Path)
                              select new BuildError
@@ -172,10 +172,15 @@ namespace Bespoke.Sph.Domain
                     foreach (var t in filters)
                     {
                         count++;
+                        var ov = string.Format("{0}", t.Field.GetValue(context));
+                        DateTime dv;
+                        if (DateTime.TryParse(ov, out dv))
+                            ov = string.Format("\"{0:O}\"",dv);
+
                         if (t.Operator == Operator.Ge)
-                            query.AppendFormat("\"from\":{0}", t.Field.GetValue(context));
+                            query.AppendFormat("\"from\":{0}", ov);
                         if (t.Operator == Operator.Le)
-                            query.AppendFormat("\"to\":{0}", t.Field.GetValue(context));
+                            query.AppendFormat("\"to\":{0}", ov);
 
                         if (count < filters.Length)
                             query.Append(",");
