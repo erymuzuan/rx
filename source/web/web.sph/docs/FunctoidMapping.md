@@ -20,6 +20,5 @@
 ## See also
 
 [PropertyMapping](PropertyMapping.html)
-[PropertyMapping](PropertyMapping.html)
 [SimpleMapping](SimpleMapping.html)
 [FunctoidMapping](FunctoidMapping.html)

@@ -1,6 +1,6 @@
 #MapElement
 ##Overview
-
+Reserved For Spatial Enttity
 
 
 ##Properties
@@ -19,7 +19,6 @@
 
 ## See also
 
-[FormElement](FormElement.html)
 [FormElement](FormElement.html)
 [Button](Button.html)
 [DateTimePicker](DateTimePicker.html)

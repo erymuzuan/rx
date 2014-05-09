@@ -1,6 +1,6 @@
 #Functoid
 ##Overview
-
+A set of function used in property mapping between a source and a destination, Functoid allow developers to easily customised their mapping accordingly with a set of built in Functoid as well as script Functoid
 
 
 ##Properties
@@ -17,4 +17,3 @@
 
 
 ## See also
-

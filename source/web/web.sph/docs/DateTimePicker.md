@@ -1,25 +1,14 @@
 #DateTimePicker
 ##Overview
 
-
-![ListView](http://i.imgur.com/irz9aYD.png)
+DatePicker is a basic text input which allows your user to use a calendar like date picker to ease the datetime member type data entry. DatePicker will always store your date as text in sortable format i.e. `yyyy-MM-dd HH:mm` eg `2012-02-08 16:04` without the time part
 
 ##Properties
-<table class="table table-condensed table-bordered">
-    <thead>
-<tr>
-<th>Property</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-</tbody></table>
 
 
 
 ## See also
 
-[FormElement](FormElement.html)
 [FormElement](FormElement.html)
 [Button](Button.html)
 [DateTimePicker](DateTimePicker.html)

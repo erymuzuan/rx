@@ -1,6 +1,6 @@
 #ListenActivity
 ##Overview
-
+ListenActivity is one of the Async activity available for your workflow
 
 
 ##Properties
@@ -20,7 +20,6 @@
 
 ## See also
 
-[Activity](Activity.html)
 [Activity](Activity.html)
 [CreateEntityActivity](CreateEntityActivity.html)
 [DecisionActivity](DecisionActivity.html)

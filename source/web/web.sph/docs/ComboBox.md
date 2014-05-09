@@ -1,7 +1,10 @@
 #ComboBox
 ##Overview
+A basic drop down list control, render as select HTML element with a set of configurable option sets, either at run time or design time.
+To use a design time option set, use the ComboBoxItemCollection property which allow you to add a list of key value pair item.
 
 
+For options which depends on other EntityDefinition, you could select the Entity and set the filter query
 
 ##Properties
 <table class="table table-condensed table-bordered">
@@ -12,15 +15,14 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>ComboBoxItemCollection</td><td> - </td></tr>
-<tr><td>ComboBoxLookup</td><td> - </td></tr>
+<tr><td>ComboBoxItemCollection</td><td> - Design time options for the select element</td></tr>
+
 </tbody></table>
 
 
 
 ## See also
 
-[FormElement](FormElement.html)
 [FormElement](FormElement.html)
 [Button](Button.html)
 [DateTimePicker](DateTimePicker.html)
