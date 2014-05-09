@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.EntityFormRenderer
 
 
 
-WriteLiteral("\n\n");
+WriteLiteral("\r\n\r\n");
 
 
             
@@ -119,8 +119,8 @@ WriteLiteral(@"),
             
             #line default
             #line hidden
-WriteLiteral(" eq {0}\", entityId),\n                        tcs = new $.Deferred(),\n            " +
-"            itemTask = context.loadOneAsync(\"");
+WriteLiteral(" eq {0}\", entityId),\r\n                        tcs = new $.Deferred(),\r\n          " +
+"              itemTask = context.loadOneAsync(\"");
 
 
             
@@ -130,8 +130,8 @@ WriteLiteral(" eq {0}\", entityId),\n                        tcs = new $.Deferre
             
             #line default
             #line hidden
-WriteLiteral("\", query),\n                        formTask = context.loadOneAsync(\"EntityForm\", " +
-"\"Route eq \'");
+WriteLiteral("\", query),\r\n                        formTask = context.loadOneAsync(\"EntityForm\"," +
+" \"Route eq \'");
 
 
             
@@ -141,7 +141,7 @@ WriteLiteral("\", query),\n                        formTask = context.loadOneAsy
             
             #line default
             #line hidden
-WriteLiteral("\'\"),\n                        watcherTask = watcher.getIsWatchingAsync(\"");
+WriteLiteral("\'\"),\r\n                        watcherTask = watcher.getIsWatchingAsync(\"");
 
 
             
@@ -169,9 +169,9 @@ WriteLiteral(@""", entityId);
             
             #line default
             #line hidden
-WriteLiteral(");\n                        }\n                        form(f);\n                   " +
-"     watching(w);\n\n                        tcs.resolve(true);\n                  " +
-"  });\n\n                    return tcs.promise();\n                },\n");
+WriteLiteral(");\r\n                        }\r\n                        form(f);\r\n                " +
+"        watching(w);\r\n\r\n                        tcs.resolve(true);\r\n            " +
+"        });\r\n\r\n                    return tcs.promise();\r\n                },\r\n");
 
 
             
@@ -222,9 +222,9 @@ WriteLiteral("/");
             
             #line default
             #line hidden
-WriteLiteral("\" )\n                         .then(function (result) {\n                          " +
-"   if (result.success) {\n                                 logger.info(result.mes" +
-"sage);\n                                 entity().");
+WriteLiteral("\" )\r\n                         .then(function (result) {\r\n                        " +
+"     if (result.success) {\r\n                                 logger.info(result." +
+"message);\r\n                                 entity().");
 
 
             
@@ -234,8 +234,8 @@ WriteLiteral("\" )\n                         .then(function (result) {\n        
             
             #line default
             #line hidden
-WriteLiteral("Id(result.id);\n                                 errors.removeAll();\n\n            " +
-"                     ");
+WriteLiteral("Id(result.id);\r\n                                 errors.removeAll();\r\n\r\n         " +
+"                        ");
 
 
             
@@ -258,7 +258,7 @@ WriteLiteral(@"
                      return tcs.promise();
                  },");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
@@ -268,8 +268,8 @@ WriteLiteral("\n");
             
             #line default
             #line hidden
-WriteLiteral("                attached = function (view) {\n                    // validation\n  " +
-"                  validation.init($(\'#");
+WriteLiteral("                attached = function (view) {\r\n                    // validation\r\n" +
+"                    validation.init($(\'#");
 
 
             
@@ -279,7 +279,7 @@ WriteLiteral("                attached = function (view) {\n                    
             
             #line default
             #line hidden
-WriteLiteral("\'), form());\n\n                },\n\n");
+WriteLiteral("\'), form());\r\n\r\n                },\r\n\r\n");
 
 
             
@@ -301,9 +301,9 @@ WriteLiteral("                  ");
             
             #line default
             #line hidden
-WriteLiteral(" = function(){\n\n                    var tcs = new $.Deferred(),\n                 " +
-"       data = ko.mapping.toJSON(entity);\n\n                    context.post(data," +
-" \"/Sph/BusinessRule/Validate?");
+WriteLiteral(" = function(){\r\n\r\n                    var tcs = new $.Deferred(),\r\n              " +
+"          data = ko.mapping.toJSON(entity);\r\n\r\n                    context.post(" +
+"data, \"/Sph/BusinessRule/Validate?");
 
 
             
@@ -313,11 +313,11 @@ WriteLiteral(" = function(){\n\n                    var tcs = new $.Deferred(),\
             
             #line default
             #line hidden
-WriteLiteral("\" )\n                        .then(function (result) {\n                           " +
-" tcs.resolve(result);\n                        });\n                    return tcs" +
-".promise();\n                },");
+WriteLiteral("\" )\r\n                        .then(function (result) {\r\n                         " +
+"   tcs.resolve(result);\r\n                        });\r\n                    return" +
+" tcs.promise();\r\n                },");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
@@ -351,7 +351,7 @@ WriteLiteral("                  ");
             
             #line default
             #line hidden
-WriteLiteral(" = function(){\n                    ");
+WriteLiteral(" = function(){\r\n                    ");
 
 
             
@@ -361,9 +361,9 @@ WriteLiteral(" = function(){\n                    ");
             
             #line default
             #line hidden
-WriteLiteral("\n                },");
+WriteLiteral("\r\n                },");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
@@ -395,7 +395,7 @@ WriteLiteral(@"                save = function() {
             #line hidden
 WriteLiteral("                        ");
 
-WriteLiteral("\n\n                    context.post(data, \"");
+WriteLiteral("\r\n\r\n                    context.post(data, \"");
 
 
             
@@ -405,8 +405,8 @@ WriteLiteral("\n\n                    context.post(data, \"");
             
             #line default
             #line hidden
-WriteLiteral("\")\n                        .then(function(result) {\n                            i" +
-"f(result.success){\n                                context.post(data, \"");
+WriteLiteral("\")\r\n                        .then(function(result) {\r\n                           " +
+" if(result.success){\r\n                                context.post(data, \"");
 
 
             
@@ -416,9 +416,9 @@ WriteLiteral("\")\n                        .then(function(result) {\n           
             
             #line default
             #line hidden
-WriteLiteral("\")\n                                   .then(function(result) {\n                  " +
-"                     tcs.resolve(result);\n                                      " +
-" entity().");
+WriteLiteral("\")\r\n                                   .then(function(result) {\r\n                " +
+"                       tcs.resolve(result);\r\n                                   " +
+"    entity().");
 
 
             
@@ -428,7 +428,7 @@ WriteLiteral("\")\n                                   .then(function(result) {\n
             
             #line default
             #line hidden
-WriteLiteral("Id(result.id);\n                                       app.showMessage(\"Your ");
+WriteLiteral("Id(result.id);\r\n                                       app.showMessage(\"Your ");
 
 
             
@@ -448,15 +448,26 @@ WriteLiteral(" has been successfully saved\", \"");
             
             #line default
             #line hidden
-WriteLiteral("\", [\"ok\"]);\n                                   });\n                            }e" +
-"lse{\n                                tcs.resolve(result);\n                      " +
-"      }\n                        });\n                    ");
+WriteLiteral(@""", [""ok""]);
+                                   });
+                            }else{
+                                var ve = _(result.validationErrors).map(function(v){
+                                    return {
+                                        Message : v.message
+                                    };
+                                });
+                                errors(ve);
+                                logger.error(""There are errors in your entity, !!!"");
+                                tcs.resolve(result);
+                            }
+                        });
+                    ");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
-            #line 158 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 165 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
                     else
                     {
@@ -466,32 +477,32 @@ WriteLiteral("\n");
             #line hidden
 WriteLiteral("                        ");
 
-WriteLiteral("\n\n                    context.post(data, \"");
+WriteLiteral("\r\n\r\n                    context.post(data, \"");
 
 
             
-            #line 163 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 170 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                    Write(saveUrl);
 
             
             #line default
             #line hidden
-WriteLiteral("\")\n                        .then(function(result) {\n                            t" +
-"cs.resolve(result);\n                            entity().");
+WriteLiteral("\")\r\n                        .then(function(result) {\r\n                           " +
+" tcs.resolve(result);\r\n                            entity().");
 
 
             
-            #line 166 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 173 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                  Write(Model.EntityDefinition.Name);
 
             
             #line default
             #line hidden
-WriteLiteral("Id(result.id);\n                            app.showMessage(\"Your ");
+WriteLiteral("Id(result.id);\r\n                            app.showMessage(\"Your ");
 
 
             
-            #line 167 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 174 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                              Write(Model.EntityDefinition.Name);
 
             
@@ -501,32 +512,32 @@ WriteLiteral(" has been successfully saved\", \"");
 
 
             
-            #line 167 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 174 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                                                                                          Write(ConfigurationManager.ApplicationFullName);
 
             
             #line default
             #line hidden
-WriteLiteral("\", [\"ok\"]);\n\n                        });\n                    ");
+WriteLiteral("\", [\"ok\"]);\r\n\r\n                        });\r\n                    ");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
-            #line 171 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 178 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
 
             
             #line default
             #line hidden
-WriteLiteral("\n                    return tcs.promise();\n                },\n                rem" +
-"ove = function() {\n                    var tcs = new $.Deferred();\n             " +
-"       $.ajax({\n                        type: \"DELETE\",\n                        " +
-"url: \"/");
+WriteLiteral("\r\n                    return tcs.promise();\r\n                },\r\n                " +
+"remove = function() {\r\n                    var tcs = new $.Deferred();\r\n        " +
+"            $.ajax({\r\n                        type: \"DELETE\",\r\n                 " +
+"       url: \"/");
 
 
             
-            #line 179 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 186 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                            Write(Model.EntityDefinition.Name);
 
             
@@ -536,7 +547,7 @@ WriteLiteral("/Remove/\" + entity().");
 
 
             
-            #line 179 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 186 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                                                               Write(Model.EntityDefinition.Name);
 
             
@@ -554,19 +565,19 @@ WriteLiteral(@"Id(),
 
 
             
-            #line 187 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 194 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                                   Write(Model.EntityDefinition.Name.ToLowerInvariant());
 
             
             #line default
             #line hidden
-WriteLiteral("\";\n                              });\n                        }\n                  " +
-"  });\n\n\n                    return tcs.promise();\n                };\n\n          " +
-"  var vm = {\n");
+WriteLiteral("\";\r\n                              });\r\n                        }\r\n               " +
+"     });\r\n\r\n\r\n                    return tcs.promise();\r\n                };\r\n\r\n " +
+"           var vm = {\r\n");
 
 
             
-            #line 197 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 204 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                  foreach (var rule in Model.Form.Rules)
                     {
                         var function = rule.Dehumanize().ToCamelCase();
@@ -578,7 +589,7 @@ WriteLiteral("                    ");
 
 
             
-            #line 200 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 207 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      Write(function);
 
             
@@ -588,7 +599,7 @@ WriteLiteral(" : ");
 
 
             
-            #line 200 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 207 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                  Write(function);
 
             
@@ -596,23 +607,23 @@ WriteLiteral(" : ");
             #line hidden
 WriteLiteral(",");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
-            #line 201 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 208 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
 
             
             #line default
             #line hidden
-WriteLiteral("                activate: activate,\n                config: config,\n             " +
-"   attached: attached,\n                entity: entity,\n                errors: e" +
-"rrors,\n                save : save,\n");
+WriteLiteral("                activate: activate,\r\n                config: config,\r\n           " +
+"     attached: attached,\r\n                entity: entity,\r\n                error" +
+"s: errors,\r\n                save : save,\r\n");
 
 
             
-            #line 208 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 215 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                  foreach (var op in Model.EntityDefinition.EntityOperationCollection)
                 {
                         var function = op.Name.ToCamelCase();
@@ -624,7 +635,7 @@ WriteLiteral("                    ");
 
 
             
-            #line 211 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 218 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      Write(function);
 
             
@@ -634,7 +645,7 @@ WriteLiteral(" : ");
 
 
             
-            #line 211 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 218 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                  Write(function);
 
             
@@ -642,22 +653,22 @@ WriteLiteral(" : ");
             #line hidden
 WriteLiteral(",");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
-            #line 212 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 219 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
 
                 }
 
             
             #line default
             #line hidden
-WriteLiteral("                //\n\n");
+WriteLiteral("                //\r\n\r\n");
 
 
             
-            #line 216 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 223 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                  foreach (var btn in Model.Form.FormDesign.FormElementCollection.OfType<Button>().Where(b => !string.IsNullOrWhiteSpace(b.CommandName)))
                 {
 
@@ -668,7 +679,7 @@ WriteLiteral("                    ");
 
 
             
-            #line 218 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 225 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                       Write(btn.CommandName);
 
             
@@ -678,29 +689,29 @@ WriteLiteral(" : ");
 
 
             
-            #line 218 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 225 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                            Write(btn.CommandName);
 
             
             #line default
             #line hidden
-WriteLiteral(" ,\n                ");
+WriteLiteral(" ,\r\n                ");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
-            #line 220 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 227 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                 }
 
             
             #line default
             #line hidden
-WriteLiteral("\n                toolbar : {\n");
+WriteLiteral("\r\n                toolbar : {\r\n");
 
 
             
-            #line 223 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 230 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      if (Model.Form.IsEmailAvailable)
                     {
 
@@ -709,40 +720,7 @@ WriteLiteral("\n                toolbar : {\n");
             #line hidden
 WriteLiteral("                        ");
 
-WriteLiteral("emailCommand : {\n                        entity : \"");
-
-
-            
-            #line 226 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
-                             Write(Model.EntityDefinition.Name);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\",\n                        id :id\n                    },");
-
-WriteLiteral("\n");
-
-
-            
-            #line 229 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
-                    }
-
-            
-            #line default
-            #line hidden
-
-            
-            #line 230 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
-                     if (Model.Form.IsPrintAvailable)
-                    {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                        ");
-
-WriteLiteral("printCommand :{\n                        entity : \'");
+WriteLiteral("emailCommand : {\r\n                        entity : \"");
 
 
             
@@ -752,9 +730,9 @@ WriteLiteral("printCommand :{\n                        entity : \'");
             
             #line default
             #line hidden
-WriteLiteral("\',\n                        id : id\n                    },");
+WriteLiteral("\",\r\n                        id :id\r\n                    },");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
@@ -767,6 +745,39 @@ WriteLiteral("\n");
 
             
             #line 237 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+                     if (Model.Form.IsPrintAvailable)
+                    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        ");
+
+WriteLiteral("printCommand :{\r\n                        entity : \'");
+
+
+            
+            #line 240 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+                             Write(Model.EntityDefinition.Name);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\',\r\n                        id : id\r\n                    },");
+
+WriteLiteral("\r\n");
+
+
+            
+            #line 243 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+                    }
+
+            
+            #line default
+            #line hidden
+
+            
+            #line 244 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      if (Model.Form.IsRemoveAvailable)
             {
 
@@ -775,24 +786,24 @@ WriteLiteral("\n");
             #line hidden
 WriteLiteral("                ");
 
-WriteLiteral("removeCommand :remove,\n                    canExecuteRemoveCommand : ko.computed(" +
-"function(){\n                        return entity().");
+WriteLiteral("removeCommand :remove,\r\n                    canExecuteRemoveCommand : ko.computed" +
+"(function(){\r\n                        return entity().");
 
 
             
-            #line 241 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 248 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                     Write(Model.EntityDefinition.Name);
 
             
             #line default
             #line hidden
-WriteLiteral("Id();\n                    }),");
+WriteLiteral("Id();\r\n                    }),");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
-            #line 243 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 250 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
             }
 
             
@@ -800,7 +811,7 @@ WriteLiteral("\n");
             #line hidden
 
             
-            #line 244 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 251 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      if (Model.Form.IsWatchAvailable)
                     {
 
@@ -809,12 +820,12 @@ WriteLiteral("\n");
             #line hidden
 WriteLiteral("                        ");
 
-WriteLiteral("\n                    watchCommand: function() {\n                        return wa" +
-"tcher.watch(\"");
+WriteLiteral("\r\n                    watchCommand: function() {\r\n                        return " +
+"watcher.watch(\"");
 
 
             
-            #line 248 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 255 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                          Write(Model.EntityDefinition.Name);
 
             
@@ -824,20 +835,23 @@ WriteLiteral("\", entity().");
 
 
             
-            #line 248 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 255 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                                                                   Write(Model.EntityDefinition.Name);
 
             
             #line default
             #line hidden
-WriteLiteral("Id())\n                            .done(function(){\n                             " +
-"   watching(true);\n                            });\n                    },\n      " +
-"              unwatchCommand: function() {\n                        return watche" +
-"r.unwatch(\"");
+WriteLiteral(@"Id())
+                            .done(function(){
+                                watching(true);
+                            });
+                    },
+                    unwatchCommand: function() {
+                        return watcher.unwatch(""");
 
 
             
-            #line 254 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 261 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                            Write(Model.EntityDefinition.Name);
 
             
@@ -847,21 +861,21 @@ WriteLiteral("\", entity().");
 
 
             
-            #line 254 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 261 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                                                                     Write(Model.EntityDefinition.Name);
 
             
             #line default
             #line hidden
-WriteLiteral("Id())\n                            .done(function(){\n                             " +
-"   watching(false);\n                            });\n                    },\n     " +
-"               watching: watching,");
+WriteLiteral("Id())\r\n                            .done(function(){\r\n                           " +
+"     watching(false);\r\n                            });\r\n                    },\r\n" +
+"                    watching: watching,");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
-            #line 260 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 267 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
 
             
@@ -869,7 +883,7 @@ WriteLiteral("\n");
             #line hidden
 
             
-            #line 261 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 268 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                      if (!string.IsNullOrWhiteSpace(@saveOperation))
                     {
 
@@ -878,23 +892,23 @@ WriteLiteral("\n");
             #line hidden
 WriteLiteral("                        ");
 
-WriteLiteral("\n                    saveCommand : ");
+WriteLiteral("\r\n                    saveCommand : ");
 
 
             
-            #line 264 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 271 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                              Write(saveOperation.ToCamelCase());
 
             
             #line default
             #line hidden
-WriteLiteral(",\n                    ");
+WriteLiteral(",\r\n                    ");
 
-WriteLiteral("\n");
+WriteLiteral("\r\n");
 
 
             
-            #line 266 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 273 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                     }
 
             
@@ -904,13 +918,14 @@ WriteLiteral("                    commands : ko.observableArray(");
 
 
             
-            #line 267 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
+            #line 274 "..\..\Areas\Sph\Views\EntityFormRenderer\Script.cshtml"
                                              Write(Html.Raw(commandsJs));
 
             
             #line default
             #line hidden
-WriteLiteral(")\n                }\n            };\n\n            return vm;\n        });\n</script>");
+WriteLiteral(")\r\n                }\r\n            };\r\n\r\n            return vm;\r\n        });\r\n</sc" +
+"ript>");
 
 
         }

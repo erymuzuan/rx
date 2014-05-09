@@ -5,7 +5,7 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
@@ -16,8 +16,8 @@ define([],
             init = function (form, template) {
                 m_form = form;
                 m_template = template;
-                
-                var validation = { debug : true, rules: {}, messages: {} };
+
+                var validation = { debug: true, rules: {}, messages: {} };
                 _(template.FormDesign().FormElementCollection()).each(function (f) {
                     var path = f.Path(), v = f.FieldValidation();
                     if (!f.FieldValidation()) {
@@ -40,6 +40,15 @@ define([],
                     }
                     if (v.Mode()) {
                         validation.rules[path][v.Mode()] = true;
+                    }
+
+                    // TODO : for ListView which contains child FormElementCollection
+                    //#1812
+                    if (typeof f.ListViewColumnCollection === "function") {
+                        var cols = ko.unwrap(f.ListViewColumnCollection);
+                        _(cols).each(function(c) {
+                            console.log(typeof ko.unwrap(c.Input));
+                        });
                     }
 
 
