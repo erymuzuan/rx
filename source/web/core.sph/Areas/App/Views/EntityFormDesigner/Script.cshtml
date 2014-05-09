@@ -1,6 +1,5 @@
 ﻿@using Newtonsoft.Json
 @model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
-
 @{
     Layout = null;
     var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Formatting = Formatting.Indented };
@@ -9,7 +8,6 @@
 <script src="~/Scripts/knockout-3.1.0.debug.js"></script>
 <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
 <script src="~/SphApp/schemas/form.designer.g.js"></script>
-
 <script type="text/javascript" data-script="true">
 
     define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
@@ -68,6 +66,11 @@
                             form(f);
                             tcs.resolve(true);
                         });
+                    } else {
+                        form(new bespoke.sph.domain.EntityForm(system.guid()));
+                        setTimeout(function() {
+                            tcs.resolve(true);
+                        } , 500);
                     }
                     form().Name.subscribe(function(v) {
                         if (!form().Route()) {
