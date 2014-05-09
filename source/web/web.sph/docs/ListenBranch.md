@@ -1,6 +1,6 @@
 #ListenBranch
 ##Overview
-
+ListenBranch represent a single child Activity in a ListenActivity
 
 
 ##Properties
@@ -12,8 +12,8 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>IsWaitingAsync</td><td> - </td></tr>
-<tr><td>IsDestroyed</td><td> - </td></tr>
+<tr><td>IsWaitingAsync</td><td> - Internal used only</td></tr>
+<tr><td>IsDestroyed</td><td> - Once the activity is cancelled</td></tr>
 </tbody></table>
 
 
@@ -21,23 +21,4 @@
 ## See also
 
 [Activity](Activity.html)
-[Activity](Activity.html)
-[CreateEntityActivity](CreateEntityActivity.html)
-[DecisionActivity](DecisionActivity.html)
-[DecisionBranch](DecisionBranch.html)
-[DelayActivity](DelayActivity.html)
-[DeleteEntityActivity](DeleteEntityActivity.html)
-[EndActivity](EndActivity.html)
-[ExpressionActivity](ExpressionActivity.html)
-[ScreenActivity](ScreenActivity.html)
-[NotificationActivity](NotificationActivity.html)
-[UpdateEntityActivity](UpdateEntityActivity.html)
-[ReceiveActivity](ReceiveActivity.html)
-[SendActivity](SendActivity.html)
 [ListenActivity](ListenActivity.html)
-[ParallelActivity](ParallelActivity.html)
-[JoinActivity](JoinActivity.html)
-[ThrowActivity](ThrowActivity.html)
-[ParallelBranch](ParallelBranch.html)
-[ListenBranch](ListenBranch.html)
-[ScheduledTriggerActivity](ScheduledTriggerActivity.html)

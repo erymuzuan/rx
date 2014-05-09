@@ -1,6 +1,6 @@
 #WebsiteFormElement
 ##Overview
-
+Generates input HTML element type is set to url, you can also use TextBox and set the validation to url
 
 
 ##Properties
@@ -18,7 +18,6 @@
 
 ## See also
 
-[FormElement](FormElement.html)
 [FormElement](FormElement.html)
 [Button](Button.html)
 [DateTimePicker](DateTimePicker.html)

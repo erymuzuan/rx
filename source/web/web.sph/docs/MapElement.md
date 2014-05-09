@@ -1,6 +1,6 @@
 #MapElement
 ##Overview
-Reserved For Spatial Enttity
+Reserved For Spatial Entity
 
 
 ##Properties

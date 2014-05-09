@@ -1,6 +1,12 @@
 #ListenActivity
 ##Overview
-ListenActivity is one of the Async activity available for your workflow
+ListenActivity is one of the Async activity available for your workflow, it starts by initiating it's child activities which in turns are async activity themselves. What it does is to create a race for it's children and let the winners takes all.
+
+Once of the child activity is fired, it will quickly cancel all other activities. Lets talk about a simple race condition where ListenActivity could be useful.
+
+Consider a purchasing manager that needs to get a quotation from 3 different suppliers, since this is an urgent purchase, no other consideration will be taken apart from the first one to reply , they will get the job.
+
+You may create 3 separate ScreenActivity for each suppliers, these activities must be the children of a ListenActivity.
 
 
 ##Properties
@@ -12,8 +18,8 @@ ListenActivity is one of the Async activity available for your workflow
 </tr>
 </thead>
 <tbody>
-<tr><td>ListenBranchCollection</td><td> - </td></tr>
-<tr><td>IsAsync</td><td> - </td></tr>
+<tr><td>ListenBranchCollection</td><td> - The children activities</td></tr>
+<tr><td>IsAsync</td><td> - Internal used only</td></tr>
 </tbody></table>
 
 

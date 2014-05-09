@@ -1,6 +1,6 @@
 #IBinaryStore
 ##Overview
-
+The interface to store you binary data, the default implementation is of type SqlBinaryStore which stores your binary data in a SQL Server table.
 
 
 ##Properties
@@ -17,4 +17,3 @@
 
 
 ## See also
-

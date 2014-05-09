@@ -1,6 +1,6 @@
 #XmlSerializerService
 ##Overview
-
+A helper class to do all things XML serializer, used by the SQL persistence layer in core framework
 
 
 ##Properties

@@ -1,6 +1,6 @@
 #HourlySchedule
 ##Overview
-
+Lets you schedule your task on hourly basis.
 
 
 ##Properties
@@ -18,7 +18,6 @@
 
 ## See also
 
-[IntervalSchedule](IntervalSchedule.html)
 [IntervalSchedule](IntervalSchedule.html)
 [WeeklySchedule](WeeklySchedule.html)
 [DailySchedule](DailySchedule.html)
