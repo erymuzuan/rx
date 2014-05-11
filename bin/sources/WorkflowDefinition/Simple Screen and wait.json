@@ -23,16 +23,16 @@
                 "AutoCompletionEntity": null,
                 "AutoCompletionField": null,
                 "AutoCompletionQuery": null,
-                "MinLength": null,
-                "MaxLength": null,
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
-                  "MaxLength": 0,
-                  "MinLength": 0,
                   "Pattern": null,
                   "Mode": null,
                   "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": 0,
+                  "MaxLength": 0,
                   "WebId": null
                 },
                 "Name": "Single Line Text",
@@ -64,16 +64,16 @@
                 "AutoCompletionEntity": null,
                 "AutoCompletionField": null,
                 "AutoCompletionQuery": null,
-                "MinLength": null,
-                "MaxLength": null,
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
-                  "MaxLength": 0,
-                  "MinLength": 0,
                   "Pattern": null,
                   "Mode": null,
                   "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": 0,
+                  "MaxLength": 0,
                   "WebId": null
                 },
                 "Name": "Single Line Text",
@@ -104,11 +104,13 @@
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
-                  "MaxLength": 0,
-                  "MinLength": 0,
                   "Pattern": null,
                   "Mode": null,
                   "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": 0,
+                  "MaxLength": 0,
                   "WebId": null
                 },
                 "Name": "Date",
@@ -147,11 +149,13 @@
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
-                  "MaxLength": 0,
-                  "MinLength": 0,
                   "Pattern": null,
                   "Mode": null,
                   "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": 0,
+                  "MaxLength": 0,
                   "WebId": null
                 },
                 "Name": "Button",
@@ -257,7 +261,7 @@
           "WebId": "ca184ac5-7e7c-445e-a784-7cd141a5d8e5"
         },
         "IsInitiator": true,
-        "NextActivityWebId": "46c9ff17-fab0-4e37-8fd5-8523285e41a3",
+        "NextActivityWebId": "68db1ac2-9b0a-4859-8dbf-92a67930bdf1",
         "Name": "Every Five minutes",
         "WebId": "edb22af4-9fc2-4f01-b0f1-8c949aea76fc"
       },
@@ -410,6 +414,31 @@
         "NextActivityWebId": "e56fda2b-5677-42e7-8da9-1e7fe0687d21",
         "Name": "Email test message",
         "WebId": "46c9ff17-fab0-4e37-8fd5-8523285e41a3"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
+        "From": "admin@@sph.my",
+        "Subject": "Test @DateTime.Now",
+        "Body": "Test to message @DateTime.Now",
+        "To": "admin@@bespoke.com.my",
+        "UserName": "",
+        "Cc": "",
+        "Bcc": "",
+        "IsHtmlEmail": false,
+        "MethodName": "ExecNotificationActivityEmailTestMessage_68dbAsync",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 385,
+          "Y": 37,
+          "WebId": "3e00e938-fdf8-4442-b8f1-a460e359acf0"
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "46c9ff17-fab0-4e37-8fd5-8523285e41a3",
+        "Name": "Email test message",
+        "WebId": "68db1ac2-9b0a-4859-8dbf-92a67930bdf1"
       }
     ]
   },
@@ -445,6 +474,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-02-08T07:27:17.0040446+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-24T11:27:45.5818589+08:00",
+  "ChangedDate": "2014-04-25T06:46:58.779552+08:00",
   "WebId": "0888d213-04f7-4fe1-a90c-444a09614e38"
 }

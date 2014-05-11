@@ -1026,16 +1026,6 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_maxLength;
-        public const string PropertyNameMaxLength = "MaxLength";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_minLength;
-        public const string PropertyNameMinLength = "MinLength";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_pattern;
         public const string PropertyNamePattern = "Pattern";
 
@@ -1048,6 +1038,30 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_message;
         public const string PropertyNameMessage = "Message";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private float? m_min;
+        public const string PropertyNameMin = "Min";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private float? m_max;
+        public const string PropertyNameMax = "Max";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_minLength;
+        public const string PropertyNameMinLength = "MinLength";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_maxLength;
+        public const string PropertyNameMaxLength = "MaxLength";
+
 
 
         ///<summary>
@@ -1075,64 +1089,6 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isRequired;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int MaxLength
-        {
-            set
-            {
-                if (m_maxLength == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameMaxLength, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_maxLength = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_maxLength;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int MinLength
-        {
-            set
-            {
-                if (m_minLength == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameMinLength, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_minLength = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_minLength;
             }
         }
 
@@ -1223,6 +1179,94 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public float? Min
+        {
+            set
+            {
+                if (m_min == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMin, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_min = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_min; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public float? Max
+        {
+            set
+            {
+                if (m_max == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMax, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_max = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_max; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? MinLength
+        {
+            set
+            {
+                if (m_minLength == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMinLength, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_minLength = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_minLength; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? MaxLength
+        {
+            set
+            {
+                if (m_maxLength == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMaxLength, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_maxLength = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_maxLength; }
+        }
 
 
     }

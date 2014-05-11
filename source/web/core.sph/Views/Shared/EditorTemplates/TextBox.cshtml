@@ -1,8 +1,7 @@
-@using System.Globalization
 @model Bespoke.Sph.Domain.TextBox
 @{
     var required = (Model.IsRequired || Model.FieldValidation.IsRequired) ? "required" : null;
-    var maxLength = (Model.FieldValidation.MaxLength > 0 ? Model.FieldValidation.MaxLength.ToString(CultureInfo.InvariantCulture) : null);
+    var maxLength = Model.FieldValidation.MaxLength;
     var pattern = (string.IsNullOrWhiteSpace(Model.FieldValidation.Pattern) ? null : Model.FieldValidation.Pattern);
 }
 @if (string.IsNullOrWhiteSpace(Model.Enable))
@@ -16,6 +15,13 @@
     public static IHtmlString @Attribute(string value, string attr)
     {
         if (string.IsNullOrWhiteSpace(value))
+            return new HtmlString("");
+        return new HtmlString(string.Format("{0}=\"{1}\"", attr, value));
+    }
+
+    public static IHtmlString @Attribute(int? value, string attr)
+    {
+        if (null == value)
             return new HtmlString("");
         return new HtmlString(string.Format("{0}=\"{1}\"", attr, value));
     }
@@ -39,6 +45,7 @@ else
                    data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
                    @Attribute(maxLength, "maxlength")
                    @Attribute(pattern, "pattern")
+                   @Html.Raw(Model.FieldValidation.GetHtmlAttributes())
                    id="@Model.ElementId" type="text" name="@Model.Path" />
         </div>
         @if (!string.IsNullOrWhiteSpace(Model.HelpText))

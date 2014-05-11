@@ -32,29 +32,58 @@
 	"buffers":
 	[
 		{
-			"file": "/D/project/work/cycling/source/web/web.cycling/Views/Shared/_LayoutPage.cshtml",
+			"file": "/D/temp/offline/appointment.appcache",
 			"settings":
 			{
-				"buffer_size": 5054,
+				"buffer_size": 1121,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/bespoke1/Documents/IISExpress/config/applicationhost.config",
+			"file": "/D/temp/offline/appointment.html",
 			"settings":
 			{
-				"buffer_size": 100449,
+				"buffer_size": 4069,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "using System;\nusing System.Collections.Generic;\nusing System.Diagnostics;\nusing System.Linq;\nusing System.Threading.Tasks;\nusing Lucene.Net.Analysis;\nusing Lucene.Net.Index;\nusing Lucene.Net.QueryParsers;\nusing Lucene.Net.Search;\nusing Lucene.Net.Store;\nusing Lucene.Net.Store.Azure;\nusing Microsoft.WindowsAzure;\nusing Microsoft.WindowsAzure.Storage;\nusing Version = Lucene.Net.Util.Version;\n\nnamespace rxdocs.Models\n{\n    public class LuceneBlogEngine : IDisposable\n    {\n        private Analyzer m_analyzer;\n        private Directory m_directory;\n        private IndexSearcher m_searcher;\n        public string IndexDirectoryPath { set; get; }\n\n\n        public LuceneBlogEngine()\n        {\n            Initialized();\n        }\n\n        private void Initialized()\n        {\n            CloudStorageAccount cloudStorageAccount;\n            CloudStorageAccount.TryParse(CloudConfigurationManager.GetSetting(\"blobStorage\"), out cloudStorageAccount);\n            m_directory = new AzureDirectory(cloudStorageAccount, ConfigurationManager.LuceneIndex);\n\n            m_analyzer = new SimpleAnalyzer(); //StandardAnalyzer(Version.LUCENE_29);\n            if (null == m_searcher)\n                m_searcher = new IndexSearcher(m_directory, true);\n        }\n\n        public Task<Blog> LoadOneAsync(string route)\n        {\n            this.Initialized();\n            var query = new TermQuery(new Term(\"route\", route));\n            var docs = m_searcher.Search(query, 100);\n            var hits = docs.ScoreDocs;\n\n            int results = docs.TotalHits;\n            Debug.WriteLine(\"Found {0} results for {1}\", results, query);\n            var list = new List<Blog>();\n            for (var i = 0; i < results; i++)\n            {\n                if (i >= hits.Length) continue;\n                var doc = m_searcher.Doc(hits[i].Doc);\n                var score = hits[i].Score;\n                var content = doc.Get(\"content\");\n                DateTime date;\n                var blog = new Blog\n                {\n                    Score = score,\n                    Title = doc.Get(\"title\"),\n                    Summary = doc.Get(\"summary\"),\n                    Content = content,\n                    Tags = doc.GetValues(\"tags\"),\n                    Route = doc.Get(\"route\"),\n                    Author = doc.Get(\"author\"),\n                    Markdown = doc.Get(\"markdown\")\n\n                };\n                if (DateTime.TryParse(doc.Get(\"publisheddatetime_string\"), out date))\n                {\n                    blog.PublishedDateTime = date;\n                }\n\n                if (DateTime.TryParse(doc.Get(\"changeddatetime_string\"), out date))\n                {\n                    blog.ChangedDateTime = date;\n                }\n\n                list.Add(blog);\n            }\n\n            return Task.FromResult(list.FirstOrDefault());\n        }\n\n        public Task<IEnumerable<Blog>> SearchAsync(string text)\n        {\n            Debug.WriteLine(\"Searching....\");\n            Debug.WriteLine(text);\n            this.Initialized();\n\n\n            var parser = new QueryParser(Version.LUCENE_30, \"content\", m_analyzer);\n            var query = parser.Parse(text);\n\n            var sort = new Sort(new SortField(\"date\", SortField.LONG, true));\n            var filter = new QueryWrapperFilter(query);\n            //var docs = searcher.Search( query, filter, 100, sort )\n            var docs = m_searcher.Search(query, filter, 100, sort);\n            var hits = docs.ScoreDocs;\n\n            var results = docs.TotalHits;\n            Debug.WriteLine(\"Found {0} results for {1}\", results, query);\n            var list = new List<Blog>();\n            for (var i = 0; i < results; i++)\n            {\n                if (i >= hits.Length) continue;\n                var doc = m_searcher.Doc(hits[i].Doc);\n                var score = hits[i].Score;\n                DateTime date;\n                var blog = new Blog\n                {\n                    Score = score,\n                    Title = doc.Get(\"title\"),\n                    Summary = doc.Get(\"summary\"),\n                    Tags = doc.GetValues(\"tags\"),\n                    Route = doc.Get(\"route\")\n\n                };\n                if (DateTime.TryParse(doc.Get(\"dates\"), out date))\n                {\n                    blog.PublishedDateTime = date;\n                }\n\n                list.Add(blog);\n            }\n\n            return Task.FromResult(list.AsEnumerable());\n        }\n\n        public void Close()\n        {\n            if (null != m_searcher)\n            {\n                m_searcher.Dispose();\n            }\n            if (null != m_directory)\n            {\n                m_directory.Dispose();\n            }\n            if (null != m_analyzer)\n            {\n                m_analyzer.Close();\n\n            }\n\n            m_searcher = null;\n            m_directory = null;\n            m_analyzer = null;\n\n\n        }\n\n        //public static void DoStreamingSearch(Searcher searcher, Query query)\n        //{\n        //    Collector streamingHitCollector = new AnonymousClassCollector();\n        //    searcher.Search(query, streamingHitCollector);\n        //}\n\n\n\n\n        public void Dispose()\n        {\n            this.Close();\n        }\n    }\n}\n",
-			"file": "/C/Users/bespoke1/Desktop/LuceneBlogEngine.cs",
-			"file_size": -1,
-			"file_write_time": -1,
+			"file": "/D/temp/offline/appointment-details.html",
 			"settings":
 			{
-				"buffer_size": 5226,
+				"buffer_size": 5227,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/temp/offline/appointment.js",
+			"settings":
+			{
+				"buffer_size": 3279,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/temp/offline/appointment-details.js",
+			"settings":
+			{
+				"buffer_size": 1500,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/temp/offline/create-new-appointment.html",
+			"settings":
+			{
+				"buffer_size": 4334,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/temp/offline/create-new-appointment.js",
+			"settings":
+			{
+				"buffer_size": 1500,
 				"line_ending": "Windows"
 			}
 		}
@@ -86,6 +115,11 @@
 	},
 	"file_history":
 	[
+		"/D/temp/offline/appointment-details.html",
+		"/D/temp/offline/patient.html",
+		"/C/Users/bespoke1/Desktop/LuceneBlogEngine.cs",
+		"/D/project/work/cycling/source/web/web.cycling/Views/Shared/_LayoutPage.cshtml",
+		"/C/Users/bespoke1/Documents/IISExpress/config/applicationhost.config",
 		"/C/Users/bespoke1/AppData/Roaming/Microsoft/VisualStudio/12.0/ActivityLog.xml",
 		"/C/project/work/sph/deployment/10282.md",
 		"/C/project/work/sph/deployment/version.10284.json",
@@ -171,91 +205,177 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 6,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/D/project/work/cycling/source/web/web.cycling/Views/Shared/_LayoutPage.cshtml",
+					"file": "/D/temp/offline/appointment.appcache",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5054,
+						"buffer_size": 1121,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4656,
-								4656
+								923,
+								923
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 576.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/D/temp/offline/appointment.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4069,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1626,
+								1626
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
-							"word_wrap": false
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2544.0,
+						"translation.y": 936.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/D/temp/offline/appointment-details.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5227,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								338,
+								338
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/D/temp/offline/appointment.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3279,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/D/temp/offline/appointment-details.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1500,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "/C/Users/bespoke1/Documents/IISExpress/config/applicationhost.config",
+					"buffer": 5,
+					"file": "/D/temp/offline/create-new-appointment.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 100449,
+						"buffer_size": 4334,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								39792,
-								39792
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/XML/XML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 17440.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/C/Users/bespoke1/Desktop/LuceneBlogEngine.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5226,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1948,
-								1917
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.tmLanguage",
+							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
@@ -264,6 +384,36 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/D/temp/offline/create-new-appointment.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1500,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								229,
+								229
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 432.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				}
 			]

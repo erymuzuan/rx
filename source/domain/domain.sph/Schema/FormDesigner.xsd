@@ -194,9 +194,13 @@
 	</xs:element>
 	<xs:element name="FieldValidation">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="Min" type="xs:float" nillable="true"/>
+				<xs:element name="Max" type="xs:float" nillable="true"/>
+				<xs:element name="MinLength" type="xs:int" nillable="true"/>
+				<xs:element name="MaxLength" type="xs:int" nillable="true"/>
+			</xs:all>
 			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
-			<xs:attribute name="MaxLength" type="xs:int" use="required"/>
-			<xs:attribute name="MinLength" type="xs:int" use="required"/>
 			<xs:attribute name="Pattern" type="xs:string" use="required"/>
 			<xs:attribute name="Mode" type="xs:string" use="required"/>
 			<xs:attribute name="Message" type="xs:string" use="required"/>

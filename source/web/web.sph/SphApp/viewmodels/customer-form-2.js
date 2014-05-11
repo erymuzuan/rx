@@ -34,6 +34,10 @@
                 },
                 promoteTo = function(){
 
+                     if (!validation.valid()) {
+                         return Task.fromResult(false);
+                     }
+
                      var tcs = new $.Deferred(),
                          data = ko.mapping.toJSON(entity);
 
@@ -63,6 +67,10 @@
                      return tcs.promise();
                  },
                 demote = function(){
+
+                     if (!validation.valid()) {
+                         return Task.fromResult(false);
+                     }
 
                      var tcs = new $.Deferred(),
                          data = ko.mapping.toJSON(entity);
@@ -94,6 +102,10 @@
                  },
                 createOrder = function(){
 
+                     if (!validation.valid()) {
+                         return Task.fromResult(false);
+                     }
+
                      var tcs = new $.Deferred(),
                          data = ko.mapping.toJSON(entity);
 
@@ -110,6 +122,34 @@
                                             console.log();
                                             
 	                                    });
+                                 
+                             } else {
+                                 errors.removeAll();
+                                 _(result.rules).each(function(v){
+                                     errors(v.ValidationErrors);
+                                 });
+                                 logger.error("There are errors in your entity, !!!");
+                             }
+                             tcs.resolve(result);
+                         });
+                     return tcs.promise();
+                 },
+                i7 = function(){
+
+                     if (!validation.valid()) {
+                         return Task.fromResult(false);
+                     }
+
+                     var tcs = new $.Deferred(),
+                         data = ko.mapping.toJSON(entity);
+
+                     context.post(data, "/Customer/i7" )
+                         .then(function (result) {
+                             if (result.success) {
+                                 logger.info(result.message);
+                                 entity().CustomerId(result.id);
+                                 errors.removeAll();
+
                                  
                              } else {
                                  errors.removeAll();
@@ -180,6 +220,7 @@
                     promoteTo : promoteTo,
                     demote : demote,
                     createOrder : createOrder,
+                    i7 : i7,
                 //
 
 

@@ -13,12 +13,21 @@
     </div>
     <div class="form-group">
         <label for="validation-minlength">Min Length</label>
-        <input data-bind="value:MinLength" type="number" class="form-control" id="validation-minlength">
+        <input pattern="[0-9]{1,8}" data-bind="value:MinLength" type="text" class="form-control" id="validation-minlength">
     </div>
 
     <div class="form-group">
         <label for="validation-maxlength">Max Length</label>
-        <input data-bind="value:MaxLength" type="number" class="form-control" id="validation-maxlength">
+        <input pattern="[0-9]{1,8}" data-bind="value:MaxLength" type="text" class="form-control" id="validation-maxlength">
+    </div>
+    <div class="form-group">
+        <label for="validation-minlength">Min Value</label>
+        <input pattern="[0-9.]{1,8}" data-bind="value:Min" type="text" class="form-control" id="validation-min">
+    </div>
+
+    <div class="form-group">
+        <label for="validation-maxlength">Max Value</label>
+        <input pattern="[0-9.]{1,8}" data-bind="value:Max" type="text" class="form-control" id="validation-max">
     </div>
 
     <div class="form-group">

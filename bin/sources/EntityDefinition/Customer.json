@@ -818,6 +818,31 @@
         "NavigateSuccessUrl": "",
         "SuccessCommand": "",
         "WebId": "31952c83-2fdc-4d33-8360-8ac6750a0cb9"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EntityOperation, domain.sph",
+        "EntityPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Rules": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "Permissions": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "SetterActionChildCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "i7",
+        "SuccessMessage": "",
+        "ShowSuccessMessage": false,
+        "NavigateSuccessUrl": "",
+        "SuccessCommand": "",
+        "WebId": "6ce2606f-d5e0-4365-8e0f-52644cae339a"
       }
     ]
   },
@@ -836,6 +861,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-24T11:30:31.4179868+08:00",
+  "ChangedDate": "2014-04-25T09:08:06.673809+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }
