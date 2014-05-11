@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
@@ -156,5 +157,6 @@ namespace Bespoke.Sph.Domain
             if (path.Contains("().")) return path;
             return path.Replace(".", "().");
         }
+
     }
 }
