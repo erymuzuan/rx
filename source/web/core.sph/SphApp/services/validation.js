@@ -60,6 +60,11 @@ define([],
         var vm = {
             init: init,
             valid: function () {
+
+                if (typeof m_form[0].checkValidity === "function") {
+                    return m_form.valid() && m_form[0].checkValidity();
+                }
+
                 return m_form.valid();
             },
             validationOptions: ko.observable()

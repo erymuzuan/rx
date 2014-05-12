@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
@@ -22,6 +23,7 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(this.Enable))
                 this.Enable = "true";
 
+
             var path = this.Path.ConvertJavascriptObjectToFunction();
 
             var binding = "value";
@@ -44,9 +46,10 @@ namespace Bespoke.Sph.Domain
                     query);
             }
 
+            var unique = this.IsUniqueName ? ",uniqueName:true" : "";
             if (this.IsCompact)
-                return string.Format("{2}: {0}, visible :{1}, enable :{3}", path, this.Visible, binding, this.Enable);
-            return string.Format("{1}: {0}, enable :{2}", path, binding, this.Enable);
+                return string.Format("{2}: {0}, visible :{1}, enable :{3} {4}", path, this.Visible, binding, this.Enable, unique);
+            return string.Format("{1}: {0}, enable :{2} {3}", path, binding, this.Enable, unique);
         }
     }
 }

@@ -127,61 +127,71 @@ WriteLiteral("\" title=\"");
             
             #line default
             #line hidden
-WriteLiteral("\"\r\n           data-bind=\"");
+WriteLiteral("\"\r\n            data-bind=\"");
 
 
             
             #line 35 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
-                  Write(Html.Raw(Model.GetKnockoutBindingExpression()));
+                   Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
             #line default
             #line hidden
-WriteLiteral("\"\r\n           id=\"");
+WriteLiteral("\"\r\n            ");
 
 
             
             #line 36 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
-          Write(Model.ElementId);
+       Write(Html.Raw(Model.FieldValidation.GetHtmlAttributes()));
 
             
             #line default
             #line hidden
-WriteLiteral("\" type=\"text\" name=\"");
-
-
-            
-            #line 36 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
-                                              Write(Model.Path);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\" maxlength=\"");
-
-
-            
-            #line 36 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
-                                                                      Write(maxLength);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\"\r\n           pattern=\"");
+WriteLiteral("\r\n            ");
 
 
             
             #line 37 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
-               Write(Html.Raw(pattern));
+       Write(Attribute(Model.ElementId, "id"));
 
             
             #line default
             #line hidden
-WriteLiteral("\" />\r\n");
+WriteLiteral(" \r\n            type=\"text\" \r\n            name=\"");
 
 
             
-            #line 38 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 39 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+             Write(Model.Path);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\" \r\n            ");
+
+
+            
+            #line 40 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+       Write(Attribute(maxLength, "maxlength"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n            ");
+
+
+            
+            #line 41 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+       Write(Attribute(pattern, "pattern"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral(" />\r\n");
+
+
+            
+            #line 42 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
 }
 else
 {
@@ -193,7 +203,7 @@ WriteLiteral("    <div data-bind=\"visible:");
 
 
             
-            #line 41 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 45 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
                        Write(Model.Visible);
 
             
@@ -203,7 +213,7 @@ WriteLiteral("\" class=\"form-group\">\r\n        <label for=\"");
 
 
             
-            #line 42 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 46 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
                Write(Model.ElementId);
 
             
@@ -213,7 +223,7 @@ WriteLiteral("\" class=\"");
 
 
             
-            #line 42 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 46 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
                                         Write(Model.LabelCssClass);
 
             
@@ -223,7 +233,7 @@ WriteLiteral("\">");
 
 
             
-            #line 42 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 46 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
                                                               Write(Model.Label);
 
             
@@ -233,7 +243,7 @@ WriteLiteral("</label>\r\n        <div class=\"");
 
 
             
-            #line 43 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 47 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
                Write(Model.InputPanelCssClass);
 
             
@@ -243,7 +253,7 @@ WriteLiteral("\">\r\n            <input ");
 
 
             
-            #line 44 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 48 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
               Write(required);
 
             
@@ -253,7 +263,7 @@ WriteLiteral(" class=\"");
 
 
             
-            #line 44 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 48 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
                                 Write(Model.CssClass + " form-control " + Model.Size);
 
             
@@ -263,7 +273,7 @@ WriteLiteral("\" title=\"");
 
 
             
-            #line 44 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 48 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
                                                                                          Write(Model.Tooltip);
 
             
@@ -273,7 +283,7 @@ WriteLiteral("\"\r\n                   data-bind=\"");
 
 
             
-            #line 45 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 49 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
                           Write(Html.Raw(Model.GetKnockoutBindingExpression()));
 
             
@@ -283,7 +293,7 @@ WriteLiteral("\"\r\n                   ");
 
 
             
-            #line 46 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 50 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
               Write(Attribute(maxLength, "maxlength"));
 
             
@@ -293,7 +303,7 @@ WriteLiteral("\r\n                   ");
 
 
             
-            #line 47 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 51 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
               Write(Attribute(pattern, "pattern"));
 
             
@@ -303,28 +313,28 @@ WriteLiteral("\r\n                   ");
 
 
             
-            #line 48 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 52 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
               Write(Html.Raw(Model.FieldValidation.GetHtmlAttributes()));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                   id=\"");
+WriteLiteral("\r\n                   ");
 
 
             
-            #line 49 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
-                  Write(Model.ElementId);
+            #line 53 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+              Write(Attribute(Model.ElementId,"id"));
 
             
             #line default
             #line hidden
-WriteLiteral("\" type=\"text\" name=\"");
+WriteLiteral(" type=\"text\" name=\"");
 
 
             
-            #line 49 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
-                                                      Write(Model.Path);
+            #line 53 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+                                                                 Write(Model.Path);
 
             
             #line default
@@ -333,7 +343,7 @@ WriteLiteral("\" />\r\n        </div>\r\n");
 
 
             
-            #line 51 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 55 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
          if (!string.IsNullOrWhiteSpace(Model.HelpText))
         {
 
@@ -344,7 +354,7 @@ WriteLiteral("            <span class=\"help-block\">");
 
 
             
-            #line 53 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 57 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
                                 Write(Model.HelpText);
 
             
@@ -354,7 +364,7 @@ WriteLiteral("</span>\r\n");
 
 
             
-            #line 54 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 58 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
         }
 
             
@@ -364,7 +374,7 @@ WriteLiteral("    </div>\r\n");
 
 
             
-            #line 56 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
+            #line 60 "..\..\Views\Shared\EditorTemplates\TextBox.cshtml"
 
 }
             

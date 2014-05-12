@@ -50,7 +50,12 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             },
             attached = function (view) {
                 var self = this;
-                $('#dev-quck-nav-dialog').on('click', 'a', function (e) {
+                $('#dev-quick-nav-dialog').on('click', 'a', function (e) {
+                    e.preventDefault();
+                });
+                $('#dev-quick-nav-dialog').on('dblclick', 'a', function (e) {
+                    e.preventDefault();
+                    window.location = this.href;
                     dialog.close(self, "OK");
                 });
 

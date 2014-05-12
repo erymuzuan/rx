@@ -14,12 +14,12 @@
   "Aggregate": "histogram",
   "Field": "Age",
   "DateInterval": "year",
-  "IsDashboardItem": true,
+  "IsDashboardItem": false,
   "DasboardItemPosition": 0,
   "HistogramInterval": 10,
   "CreatedBy": "admin",
   "CreatedDate": "2014-04-02T09:57:32.8091094+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-18T11:33:05.0133875+08:00",
+  "ChangedDate": "2014-05-12T07:26:49.5348596+08:00",
   "WebId": "8643ac6b-cf2c-4488-872b-624b51358a39"
 }

@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
 
 
 
-WriteLiteral("\r\n");
+WriteLiteral("\n");
 
 
             
@@ -63,7 +63,7 @@ WriteLiteral("\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n<div data-bind=\"visible:");
+WriteLiteral("\n<div data-bind=\"visible:");
 
 
             
@@ -73,8 +73,8 @@ WriteLiteral("\r\n<div data-bind=\"visible:");
             
             #line default
             #line hidden
-WriteLiteral("\">\r\n    <button class=\"btn btn-default pull-right\" data-bind=\"click : addChildIte" +
-"m(");
+WriteLiteral("\">\n    <button class=\"btn btn-default pull-right\" data-bind=\"click : addChildItem" +
+"(");
 
 
             
@@ -104,8 +104,8 @@ WriteLiteral(")\">");
             
             #line default
             #line hidden
-WriteLiteral("</button>\r\n    <table class=\"table table-condensed table-striped\">\r\n        <thea" +
-"d>\r\n            <tr>\r\n");
+WriteLiteral("</button>\n    <table class=\"table table-condensed table-striped\">\n        <thead>" +
+"\n            <tr>\n");
 
 
             
@@ -126,7 +126,7 @@ WriteLiteral("                    <th>");
             
             #line default
             #line hidden
-WriteLiteral("</th>\r\n");
+WriteLiteral("</th>\n");
 
 
             
@@ -136,8 +136,8 @@ WriteLiteral("</th>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("                <th></th>\r\n            </tr>\r\n        </thead>\r\n        <tbody da" +
-"ta-bind=\"foreach :");
+WriteLiteral("                <th></th>\n            </tr>\n        </thead>\n        <tbody data-" +
+"bind=\"foreach :");
 
 
             
@@ -147,7 +147,7 @@ WriteLiteral("                <th></th>\r\n            </tr>\r\n        </thead>
             
             #line default
             #line hidden
-WriteLiteral("\">\r\n            <tr>\r\n");
+WriteLiteral("\">\n            <tr>\n");
 
 
             
@@ -158,55 +158,54 @@ WriteLiteral("\">\r\n            <tr>\r\n");
                     col.Input.Path = col.Path;
                     if (string.IsNullOrWhiteSpace(col.Input.Visible))
                     {
-
                         col.Input.Visible = "true";
                     }
                     if (string.IsNullOrWhiteSpace(col.Input.Enable))
                     {
-
                         col.Input.Enable = "true";
                     }
                     col.Input.IsCompact = true;
-                    col.Input.ElementId = Guid.NewGuid().ToString();
+                    col.Input.ElementId = string.Empty;
+                    col.Input.IsUniqueName = true;
 
 
             
             #line default
             #line hidden
-WriteLiteral("                    <td>\r\n                        ");
+WriteLiteral("                    <td>\n                        ");
 
 
             
-            #line 42 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 41 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                    Write(Html.EditorFor(f => col1.Input));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                    </td>\r\n");
+WriteLiteral("\n                    </td>\n");
 
 
             
-            #line 44 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 43 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                 }
 
             
             #line default
             #line hidden
-WriteLiteral("                <td>\r\n                    <a title=\"remove\" href=\"#\" data-bind=\"c" +
-"lick : $parent.removeChildItem.call($parent,$parent.");
+WriteLiteral("                <td>\n                    <a title=\"remove\" href=\"#\" data-bind=\"cl" +
+"ick : $parent.removeChildItem.call($parent,$parent.");
 
 
             
-            #line 46 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 45 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                                                                                                           Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             
             #line default
             #line hidden
-WriteLiteral(", $data)\">\r\n                        <span class=\"glyphicon glyphicon-remove\"></sp" +
-"an>\r\n                    </a>\r\n                </td>\r\n            </tr>\r\n       " +
-" </tbody>\r\n    </table>\r\n</div>\r\n");
+WriteLiteral(", $data)\">\n                        <span class=\"glyphicon glyphicon-remove\"></spa" +
+"n>\n                    </a>\n                </td>\n            </tr>\n        </tb" +
+"ody>\n    </table>\n</div>\n");
 
 
         }

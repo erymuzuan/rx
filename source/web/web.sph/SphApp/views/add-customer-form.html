@@ -21,11 +21,12 @@
 
     <div class="col-md-8">
         <input required class=" form-control input-large" title=""
-               data-bind="value: FullName, enable :true"
+               data-bind="value: FullName, enable :true "
 
                pattern="^[A-Za-z_][A-Za-z0-9_ ']*$"
                data-rule-required="true"
-               data-rule-message="cannot be more than 125 and must be a vallid"
+               data-rule-message="Must be between 5 and 20 characters only"
+
                id="53671b97-faf0-4343-bea4-1642fd40424f" type="text" name="FullName"/>
     </div>
 </div>
@@ -44,17 +45,16 @@
 
 
 <div data-bind="visible:true" class="form-group">
-    <label for="age" class="col-md-4">Age</label>
+    <label for="14d1a541-0106-4776-a1aa-fcf75d070dec" class="col-md-4">Age</label>
 
     <div class="col-md-8">
         <input required class=" form-control input-large" title=""
-               data-bind="value: Age, enable :true"
+               data-bind="value: Age, enable :true "
 
-
+               pattern="[0-9]{1,2}"
                data-rule-required="true"
-               data-rule-digits="true" data-rule-message="ooii bagi la umur betulk" data-rule-min="0"
-               data-rule-max="120.5"
-               id="age" type="text" name="Age"/>
+
+               id="14d1a541-0106-4776-a1aa-fcf75d070dec" type="text" name="Age"/>
     </div>
 </div>
 
@@ -111,16 +111,22 @@
             <td>
 
 
-                <input class=" form-control " title=""
-                       data-bind="value: Title, visible :true, enable :true"
-                       id="49a55daa-101c-4b18-b14c-2ad97c68f1ae" type="text" name="Title" maxlength=""
-                       pattern=""/>
+                <input required class=" form-control " title=""
+                       data-bind="value: Title, visible :true, enable :true ,uniqueName:true"
+                       data-rule-required="true"
+                       data-rule-message="between 4 and 10"
+                       data-rule-maxlength="25"
+                       data-rule-minlength="5"
+                       type="text"
+                       name="Title"
+                       maxlength="25"
+                        />
 
             </td>
             <td>
 
-                <select data-bind="value: Extension, visible :true, enable :true"
-                        id="12db04ff-096f-4297-b0ba-75da4c4fb42b" name="Extension" class="  form-control">
+                <select data-bind="value: Extension, visible :true, enable :true" id="" name="Extension"
+                        class="  form-control">
                     <option value=".docx">Word 2007</option>
                     <option value=".xlsx">Excel 2007</option>
                     <option value=".pdf">PDF</option>
@@ -131,7 +137,7 @@
 
                 <input class=" form-control " title=""
                        data-bind="kendoUpload : StoreId, visible :true"
-                       id="a9765528-1b16-40a8-8880-5022aed1ede6" type="file" name="files"/>
+                       id="" type="file" name="files"/>
 
             </td>
             <td>
@@ -160,7 +166,7 @@
 
     <div class="col-md-8">
         <input class=" form-control input-large" title=""
-               data-bind="value: Contact().Name, enable :true"
+               data-bind="value: Contact().Name, enable :true "
 
 
                id="4fd5b435-4058-4db2-a506-b5fc161f1751" type="text" name="Contact().Name"/>
@@ -204,7 +210,7 @@
 
     <div class="col-md-8">
         <input class=" form-control input-large" title=""
-               data-bind="value: Revenue, enable :true"
+               data-bind="value: Revenue, enable :true "
 
 
                data-rule-number="true"

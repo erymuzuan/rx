@@ -14,12 +14,12 @@
   "Aggregate": "histogram",
   "Field": "Income",
   "DateInterval": "year",
-  "IsDashboardItem": true,
+  "IsDashboardItem": false,
   "DasboardItemPosition": 0,
   "HistogramInterval": 5000,
   "CreatedBy": "admin",
   "CreatedDate": "2014-04-18T11:02:27.5842367+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-18T11:02:27.5842367+08:00",
+  "ChangedDate": "2014-05-12T07:27:15.3811274+08:00",
   "WebId": "f465f887-ba45-4bf0-9186-cec4d2bb40d7"
 }

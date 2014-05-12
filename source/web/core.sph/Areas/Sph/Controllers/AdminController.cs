@@ -10,7 +10,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
-    [Authorize(Roles = "administrators")]
+    [Authorize]
     public class AdminController : Controller
     {
         public ActionResult AddRole(string role, string description)
@@ -112,8 +112,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> UpdateUser(UserProfile profile)
         {
             var context = new SphDataContext();
-            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.UserName == profile.UserName)
-                ?? new UserProfile { UserName = User.Identity.Name };
+            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.UserName == User.Identity.Name)
+                ?? new UserProfile ();
+            userprofile.UserName = User.Identity.Name;
             userprofile.Email = profile.Email;
             userprofile.Telephone = profile.Telephone;
             userprofile.FullName = profile.FullName;

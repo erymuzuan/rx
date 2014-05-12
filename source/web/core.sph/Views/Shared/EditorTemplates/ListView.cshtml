@@ -27,16 +27,15 @@
                     col.Input.Path = col.Path;
                     if (string.IsNullOrWhiteSpace(col.Input.Visible))
                     {
-
                         col.Input.Visible = "true";
                     }
                     if (string.IsNullOrWhiteSpace(col.Input.Enable))
                     {
-
                         col.Input.Enable = "true";
                     }
                     col.Input.IsCompact = true;
-                    col.Input.ElementId = Guid.NewGuid().ToString();
+                    col.Input.ElementId = string.Empty;
+                    col.Input.IsUniqueName = true;
 
                     <td>
                         @Html.EditorFor(f => col1.Input)

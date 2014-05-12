@@ -494,11 +494,13 @@ bespoke.sph.domain.FieldValidation = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
         IsRequired: ko.observable(false),
-        MaxLength: ko.observable(0),
-        MinLength: ko.observable(0),
         Pattern: ko.observable(''),
         Mode: ko.observable(''),
         Message: ko.observable(''),
+        Min: ko.observable(),
+        Max: ko.observable(),
+        MinLength: ko.observable(),
+        MaxLength: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1413,6 +1415,7 @@ bespoke.sph.domain.FormElement = function (optionOrWebid) {
         HelpText: ko.observable(''),
         UseDisplayTemplate: ko.observable(false),
         ToolboxIconClass: ko.observable(''),
+        IsUniqueName: ko.observable(false),
         FieldValidation: ko.observable(new bespoke.sph.domain.FieldValidation()),
         LabelColLg: ko.observable(),
         LabelColMd: ko.observable(),

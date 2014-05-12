@@ -6217,6 +6217,11 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
+        private bool m_isUniqueName;
+        public const string PropertyNameIsUniqueName = "IsUniqueName";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
         private int? m_labelColLg;
         public const string PropertyNameLabelColLg = "LabelColLg";
 
@@ -6558,6 +6563,28 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_toolboxIconClass;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public bool IsUniqueName
+        {
+            set
+            {
+                if (m_isUniqueName == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsUniqueName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isUniqueName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isUniqueName;
             }
         }
 

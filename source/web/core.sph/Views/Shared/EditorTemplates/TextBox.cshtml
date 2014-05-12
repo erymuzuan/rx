@@ -32,9 +32,13 @@
 {
 
     <input @required class="@(Model.CssClass + " form-control " + Model.Size)" title="@Model.Tooltip"
-           data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-           id="@Model.ElementId" type="text" name="@Model.Path" maxlength="@maxLength"
-           pattern="@Html.Raw(pattern)" />
+            data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
+            @Html.Raw(Model.FieldValidation.GetHtmlAttributes())
+            @Attribute(Model.ElementId, "id") 
+            type="text" 
+            name="@Model.Path" 
+            @Attribute(maxLength, "maxlength")
+            @Attribute(pattern, "pattern") />
 }
 else
 {
@@ -46,7 +50,7 @@ else
                    @Attribute(maxLength, "maxlength")
                    @Attribute(pattern, "pattern")
                    @Html.Raw(Model.FieldValidation.GetHtmlAttributes())
-                   id="@Model.ElementId" type="text" name="@Model.Path" />
+                   @Attribute(Model.ElementId,"id") type="text" name="@Model.Path" />
         </div>
         @if (!string.IsNullOrWhiteSpace(Model.HelpText))
         {
