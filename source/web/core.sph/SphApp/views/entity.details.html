@@ -80,7 +80,7 @@
                     <label for="icon-storeid">
                         <img data-bind="attr : {src:'/sph/image/Store/' + IconStoreId()}" alt="Logo" />
                     </label>
-                    <input type="file" data-bind="kendoUpload: IconStoreId" name="files" class="form-control" id="icon-storeid" />
+                    <input type="file" data-bind="kendoUpload: {value:IconStoreId, extensions:['.png']}" name="files" class="form-control" id="icon-storeid" />
                 </div>
             </div>
 

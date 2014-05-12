@@ -37,7 +37,6 @@ If you need to fire a trigger when a field value has changed, regardless of its 
 ## See also
 
 [Field](Field.html)
-[Field](Field.html)
 [AssemblyField](AssemblyField.html)
 [FunctionField](FunctionField.html)
 [ConstantField](ConstantField.html)

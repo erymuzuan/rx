@@ -853,7 +853,7 @@
   "EntityDefinitionId": 1,
   "Name": "Customer",
   "Plural": "Customers",
-  "IconStoreId": "b26cdf5f-302e-47da-baa3-065f70896e81",
+  "IconStoreId": "e5a64533-4b4e-4f33-ad30-7fbb73d1ed67",
   "IconClass": "glyphicon glyphicon-user",
   "RecordName": "FullName",
   "IsPublished": true,
@@ -861,6 +861,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-25T09:08:06.673809+08:00",
+  "ChangedDate": "2014-05-12T19:27:36.2179441+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }
