@@ -36,7 +36,7 @@ namespace Bespoke.Sph.CustomTriggers
             }
 
             this.WriteMessage("Restarting the subscriber, changed detected to {0}", item);
-            var options = new CompilerOptions{IsDebug = true};
+            var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory };
             var result = await item.CompileAsync(options);
             this.WriteMessage("Compile result {0}", result.Result);
             result.Errors.ForEach(e => this.WriteError(new Exception(e.Message)));
@@ -55,7 +55,7 @@ namespace Bespoke.Sph.CustomTriggers
             var pdb = Path.Combine(ConfigurationManager.SubscriberPath, string.Format("subscriber.trigger.{0}.pdb", trigger.TriggerId));
             if (File.Exists(pdb))
                 File.Delete(pdb);
-            
+
 
             Thread.Sleep(1000);
             this.WriteMessage("Deleted the trigger dll");
@@ -66,7 +66,7 @@ namespace Bespoke.Sph.CustomTriggers
             {
                 Credentials = new NetworkCredential(connection.UserName, connection.Password)
             };
-            using (var client = new HttpClient(handler){BaseAddress = new Uri(url)})
+            using (var client = new HttpClient(handler) { BaseAddress = new Uri(url) })
             {
                 this.WriteMessage("Deleting the queue for trigger : " + trigger.Name);
                 var response = await client.DeleteAsync(string.Format("/api/queues/{1}/trigger_subs_{0}", trigger.TriggerId, ConfigurationManager.ApplicationName));
@@ -89,7 +89,7 @@ namespace Bespoke.Sph.CustomTriggers
 
             File.Copy(dllFullPath, ConfigurationManager.SubscriberPath + @"\" + dll, true);
             File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);
-        
+
         }
 
     }
