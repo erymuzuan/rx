@@ -48,8 +48,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
 
                 return tcs.promise();
             },
+            chartSeriesClick = function(e) {
+                console.log(e);
+            },
             attached = function () {
-                chart.init('Patient', query);
+                chart.init('Patient', query, chartSeriesClick, 1003);
             },
             query = {
                 "query": {

@@ -179,6 +179,13 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
     "$values": []
   },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": null,
+    "IsPublic": true,
+    "WebId": null
+  },
   "EntityViewId": 1005,
   "IconClass": "",
   "IconStoreId": "6609ea01-9ed5-4e1a-8414-2c5babb0175b",
@@ -195,6 +202,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-12T08:59:45.2961392+08:00",
+  "ChangedDate": "2014-05-12T13:47:06.0637073+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }

@@ -159,6 +159,13 @@
       }
     ]
   },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": null,
+    "IsPublic": true,
+    "WebId": null
+  },
   "EntityViewId": 1002,
   "IconClass": "",
   "IconStoreId": "e09bee11-a7c7-4982-897c-bf318f86175e",
@@ -175,6 +182,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-12T09:00:05.1855913+08:00",
+  "ChangedDate": "2014-05-12T13:46:44.095209+08:00",
   "WebId": "5ae449e7-1260-411e-9a36-74631d5fa46f"
 }

@@ -6,6 +6,14 @@ namespace Bespoke.Sph.Domain
 {
     partial class Performer : DomainObject
     {
+        public override bool Validate()
+        {
+            if (this.IsPublic) return true;
+            if (string.IsNullOrWhiteSpace(this.UserProperty)) return false;
+            if (string.IsNullOrWhiteSpace(this.Value)) return false;
+
+            return true;
+        }
 
         public async Task<string[]> GetUsersAsync<T>(T item)
         {

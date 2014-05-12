@@ -49,6 +49,8 @@ namespace Bespoke.Sph.Domain
                              );
             if (string.IsNullOrWhiteSpace(this.Route))
                 result.Errors.Add(new BuildError(this.WebId, "Route is missing"));
+            if (!this.Performer.Validate())
+                result.Errors.Add(new BuildError(this.WebId, "You have not set the permission correctly"));
 
 
             var context = new SphDataContext();

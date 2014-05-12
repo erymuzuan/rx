@@ -4,8 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -58,6 +58,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { success = true, status = "OK", id = view.EntityViewId });
         }
 
+        [NoCache]
         public async Task<ActionResult> Count(int id)
         {
             var context = new SphDataContext();
@@ -90,6 +91,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
         [Authorize]
+        [NoCache]
         public async Task<ActionResult> Dashboard(string id)
         {
             var user = User.Identity.Name;
@@ -121,7 +123,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             return Content("[" +
 
-               string.Join(",", list.Select(c => c.ToJsonString(Formatting.Indented)))
+               string.Join(",", list.Select(c => c.ToJsonString(Newtonsoft.Json.Formatting.Indented)))
                 + "]");
         }
     }
