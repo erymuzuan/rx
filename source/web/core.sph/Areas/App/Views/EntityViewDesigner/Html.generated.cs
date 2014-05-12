@@ -61,80 +61,80 @@ WriteLiteral("<h1 data-bind=\"with : entity\">View Designer for <span data-bind=
 "i class=\"fa fa-exclamation\"></i>\r\n        <span data-bind=\"text:Message\"></span>" +
 "\r\n        <!-- ko if : Code -->\r\n        <strong class=\"icon-read-more\" data-bin" +
 "d=\"bootstrapPopover : Code\"> ..more</strong>\r\n        <!-- /ko-->\r\n    </div>\r\n " +
-"   <div class=\"col-lg-2\"></div>\r\n    <!-- /ko-->\r\n</div>\r\n<div class=\"row\">\r\n   " +
+"   <div class=\"col-sm-2\"></div>\r\n    <!-- /ko-->\r\n</div>\r\n<div class=\"row\">\r\n   " +
 " <a data-toggle=\"collapse\" href=\"#general-ev-panel\">\r\n        <h3>\r\n            " +
 "<i class=\"fa fa-chevron-down\"></i>\r\n            General options\r\n        </h3>\r\n" +
-"    </a>\r\n    <div class=\"collapse in\" id=\"general-ev-panel\">\r\n\r\n        <form c" +
-"lass=\"form-horizontal\" data-bind=\"with : view\">\r\n            <div class=\"form-gr" +
-"oup\">\r\n                <label for=\"view-name\" class=\"col-lg-2 control-label\">Nam" +
-"e</label>\r\n                <div class=\"col-lg-6\">\r\n                    <input ty" +
-"pe=\"text\" data-bind=\"value: Name, valueUpdate: \'keyup\'\"\r\n                       " +
-"    required pattern=\"^[A-Za-z_][A-Za-z0-9_ ]*$\"\r\n                           pla" +
-"ceholder=\"Name for the view\"\r\n                           class=\"form-control\" id" +
-"=\"view-name\">\r\n                </div>\r\n            </div>\r\n            <div clas" +
-"s=\"form-group\">\r\n                <label for=\"view-route\" class=\"col-lg-2 control" +
-"-label\">Route</label>\r\n                <div class=\"col-lg-6\">\r\n                 " +
-"   <input type=\"text\" data-bind=\"value: Route\"\r\n                           requi" +
-"red pattern=\"^[A-Za-z_][A-Za-z0-9_-]*$\"\r\n                           placeholder=" +
-"\"route url\"\r\n                           class=\"form-control\" id=\"view-route\">\r\n " +
-"               </div>\r\n            </div>\r\n            <div class=\"form-group\">\r" +
-"\n                <label for=\"view-note\" class=\"col-lg-2 control-label\">Note</lab" +
-"el>\r\n                <div class=\"col-lg-6\">\r\n                    <textarea data-" +
-"bind=\"value: Note, valueUpdate: \'keyup\'\"\r\n                              placehol" +
-"der=\"Note about the view\"\r\n                              class=\"form-control\" id" +
-"=\"view-note\"></textarea>\r\n                </div>\r\n            </div>\r\n          " +
-"  <div class=\"form-group\">\r\n                <label for=\"icon-storeid\" class=\"col" +
-"-lg-2 control-label\">Icon/Logo</label>\r\n                <div class=\"col-lg-6\">\r\n" +
-"\r\n                    <div data-bind=\"attr : {\'class\':TileColour}\" style=\"paddin" +
-"g: 10px;\">\r\n                        <div class=\"pull-left\">\r\n                   " +
-"         <img data-bind=\"attr:{src: \'/sph/image/store/\' + IconStoreId() }\" alt=\"" +
-"Icon\">\r\n                        </div>\r\n                        <div>\r\n         " +
-"                   <span style=\"font-size: 32px; font-weight: bold; margin: 5px\"" +
-">2631</span>\r\n                        </div>\r\n\r\n                        <div>\r\n " +
-"                           <h5 data-bind=\"text: Name\"></h5>\r\n                   " +
-"         <label data-bind=\"text: Note\"></label>\r\n                        </div>\r" +
-"\n                    </div>\r\n\r\n                    <input type=\"file\" data-bind=" +
-"\"kendoUpload: IconStoreId\" name=\"files\" class=\"form-control\" id=\"icon-storeid\">\r" +
-"\n                </div>\r\n            </div>\r\n\r\n            <div class=\"form-grou" +
-"p\">\r\n                <label for=\"ev-tl-color\" class=\"col-lg-2 control-label\">Til" +
-"e Color</label>\r\n                <div class=\"col-lg-6\">\r\n                    <se" +
-"lect class=\"form-control\" id=\"ev-tl-color\" data-bind=\"value:TileColour\">\r\n      " +
-"                  <option value=\"bblue\">Blue</option>\r\n                        <" +
-"option value=\"blightblue\">Light blue</option>\r\n                        <option v" +
-"alue=\"bred\">Red</option>\r\n                        <option value=\"bgreen\">Green</" +
-"option>\r\n                        <option value=\"borange\">Orange</option>\r\n      " +
-"                  <option value=\"bviolet\">Violet</option>\r\n                    <" +
-"/select>\r\n                </div>\r\n            </div>\r\n        </form>\r\n    </div" +
-">\r\n</div>\r\n<div class=\"row\" data-bind=\"with : view\">\r\n    <a data-toggle=\"collap" +
-"se\" href=\"#filters-ev-panel\">\r\n        <h3>\r\n            <i class=\"fa fa-chevron" +
-"-down\"></i>\r\n            Filters\r\n        </h3>\r\n    </a>\r\n\r\n    <div class=\"col" +
-"lapse collapsed\" id=\"filters-ev-panel\">\r\n        <table class=\"table table-strip" +
-"ed\">\r\n            <thead>\r\n                <tr>\r\n                    <th>Term</t" +
-"h>\r\n                    <th>Operator</th>\r\n                    <th>Value</th>\r\n " +
-"                   <th></th>\r\n                </tr>\r\n            </thead>\r\n     " +
-"       <tbody data-bind=\"foreach :FilterCollection\">\r\n                <tr>\r\n    " +
-"                <td>\r\n                        <input class=\"form-control\" type=\"" +
-"text\"\r\n                               data-bind=\"value:Term,entityTypeaheadPath " +
-":$root.entity().EntityDefinitionId()\"\r\n                               required p" +
-"attern=\"^[A-Za-z][A-Za-z0-9_.]*$\" />\r\n                    </td>\r\n               " +
-"     <td>\r\n                        <select name=\"rule-operator\" class=\"form-cont" +
-"rol\" data-bind=\"value: Operator\">\r\n                            <option value=\"Eq" +
-"\">=</option>\r\n                            <option value=\"Neq\">!=</option>\r\n     " +
-"                       <option value=\"Le\">&lt;=</option>\r\n                      " +
-"      <option value=\"Lt\">&lt;</option>\r\n                            <option valu" +
-"e=\"Ge\">&gt;=</option>\r\n                            <option value=\"Gt\">&gt;</opti" +
-"on>\r\n                            <option value=\"Substringof\">Substringof</option" +
-">\r\n                            <option value=\"StartsWith\">StartsWith</option>\r\n " +
-"                           <option value=\"EndsWith\">EndsWith</option>\r\n         " +
-"                   <option value=\"NotContains\">Not Substringof</option>\r\n       " +
-"                     <option value=\"NotStartsWith\">Not StartsWith</option>\r\n    " +
-"                        <option value=\"NotEndsWith\">Not EndsWith</option>\r\n     " +
-"                   </select>\r\n                    </td>\r\n                    <td" +
-">                    ");
+"    </a>\r\n    <div class=\"collapse in\" id=\"general-ev-panel\">\r\n        <form cla" +
+"ss=\"form-horizontal\" data-bind=\"with : view\">\r\n            <div class=\"form-grou" +
+"p\">\r\n                <label for=\"view-name\" class=\"col-sm-2 control-label\">Name<" +
+"/label>\r\n                <div class=\"col-sm-6\">\r\n                    <input type" +
+"=\"text\" data-bind=\"value: Name, valueUpdate: \'keyup\'\"\r\n                         " +
+"  required pattern=\"^[A-Za-z_][A-Za-z0-9_ ]*$\"\r\n                           place" +
+"holder=\"Name for the view\"\r\n                           class=\"form-control\" id=\"" +
+"view-name\">\r\n                </div>\r\n            </div>\r\n            <div class=" +
+"\"form-group\">\r\n                <label for=\"view-route\" class=\"col-sm-2 control-l" +
+"abel\">Route</label>\r\n                <div class=\"col-sm-6\">\r\n                   " +
+" <input type=\"text\" data-bind=\"value: Route\"\r\n                           require" +
+"d pattern=\"^[A-Za-z_][A-Za-z0-9_-]*$\"\r\n                           placeholder=\"r" +
+"oute url\"\r\n                           class=\"form-control\" id=\"view-route\">\r\n   " +
+"             </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n " +
+"               <label for=\"view-note\" class=\"col-sm-2 control-label\">Note</label" +
+">\r\n                <div class=\"col-sm-6\">\r\n                    <textarea data-bi" +
+"nd=\"value: Note, valueUpdate: \'keyup\'\"\r\n                              placeholde" +
+"r=\"Note about the view\"\r\n                              class=\"form-control\" id=\"" +
+"view-note\"></textarea>\r\n                </div>\r\n            </div>\r\n            " +
+"<div class=\"form-group\">\r\n                <label for=\"icon-storeid\" class=\"col-s" +
+"m-2 control-label\">Icon/Logo</label>\r\n                <div class=\"col-sm-6\">\r\n  " +
+"                  <div data-bind=\"attr : {\'class\':TileColour}\" style=\"padding: 1" +
+"0px;\">\r\n                        <div class=\"pull-left\">\r\n                       " +
+"     <img data-bind=\"attr:{src: \'/sph/image/store/\' + IconStoreId() }\" alt=\"Icon" +
+"\">\r\n                        </div>\r\n                        <div>\r\n             " +
+"               <span style=\"font-size: 32px; font-weight: bold; margin: 5px\">263" +
+"1</span>\r\n                        </div>\r\n                        <div>\r\n       " +
+"                     <h5 data-bind=\"text: Name\"></h5>\r\n                         " +
+"   <label data-bind=\"text: Note\"></label>\r\n                        </div>\r\n     " +
+"               </div>\r\n                    <input type=\"file\" data-bind=\"kendoUp" +
+"load: IconStoreId\" name=\"files\" class=\"form-control\" id=\"icon-storeid\">\r\n       " +
+"         </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n     " +
+"           <label for=\"ev-tl-color\" class=\"col-sm-2 control-label\">Tile Color</l" +
+"abel>\r\n                <div class=\"col-sm-6\">\r\n                    <select class" +
+"=\"form-control\" id=\"ev-tl-color\" data-bind=\"value:TileColour\">\r\n                " +
+"        <option value=\"bblue\">Blue</option>\r\n                        <option val" +
+"ue=\"blightblue\">Light blue</option>\r\n                        <option value=\"bred" +
+"\">Red</option>\r\n                        <option value=\"bgreen\">Green</option>\r\n " +
+"                       <option value=\"borange\">Orange</option>\r\n                " +
+"        <option value=\"bviolet\">Violet</option>\r\n                    </select>\r\n" +
+"                </div>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r" +
+"\n<div class=\"row\" data-bind=\"with : view\">\r\n    <a data-toggle=\"collapse\" href=\"" +
+"#filters-ev-panel\">\r\n        <h3>\r\n            <i class=\"fa fa-chevron-down\"></i" +
+">\r\n            Filters\r\n        </h3>\r\n    </a>\r\n    <div class=\"collapse collap" +
+"sed\" id=\"filters-ev-panel\">\r\n        <table class=\"table table-striped\">\r\n      " +
+"      <thead>\r\n                <tr>\r\n                    <th>Term</th>\r\n        " +
+"            <th>Operator</th>\r\n                    <th>Value</th>\r\n             " +
+"       <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbod" +
+"y data-bind=\"foreach :FilterCollection\">\r\n                <tr>\r\n                " +
+"    <td>\r\n                        <input class=\"form-control\" type=\"text\"\r\n     " +
+"                          data-bind=\"value:Term,entityTypeaheadPath :$root.entit" +
+"y().EntityDefinitionId()\"\r\n                               required pattern=\"^[A-" +
+"Za-z][A-Za-z0-9_.]*$\" />\r\n                    </td>\r\n                    <td>\r\n " +
+"                       <select name=\"rule-operator\" class=\"form-control\" data-bi" +
+"nd=\"value: Operator\">\r\n                            <option value=\"Eq\">=</option>" +
+"\r\n                            <option value=\"Neq\">!=</option>\r\n                 " +
+"           <option value=\"Le\">&lt;=</option>\r\n                            <optio" +
+"n value=\"Lt\">&lt;</option>\r\n                            <option value=\"Ge\">&gt;=" +
+"</option>\r\n                            <option value=\"Gt\">&gt;</option>\r\n       " +
+"                     <option value=\"Substringof\">Substringof</option>\r\n         " +
+"                   <option value=\"StartsWith\">StartsWith</option>\r\n             " +
+"               <option value=\"EndsWith\">EndsWith</option>\r\n                     " +
+"       <option value=\"NotContains\">Not Substringof</option>\r\n                   " +
+"         <option value=\"NotStartsWith\">Not StartsWith</option>\r\n                " +
+"            <option value=\"NotEndsWith\">Not EndsWith</option>\r\n                 " +
+"       </select>\r\n                    </td>\r\n                    <td>           " +
+"         ");
 
 
             
-            #line 134 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 128 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
                                        Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" }));
 
             
@@ -144,55 +144,79 @@ WriteLiteral("</td>\r\n                    <td>\r\n                        <a hr
 "lick : $parent.removeFilter.call($parent,$data)\">\r\n                            <" +
 "span class=\"glyphicon glyphicon-remove\"></span>\r\n                        </a>\r\n " +
 "                   </td>\r\n                </tr>\r\n            </tbody>\r\n        <" +
-"/table>\r\n\r\n\r\n        <a class=\"btn btn-link\" data-bind=\"click : addFilter\">\r\n   " +
-"         <i class=\"fa fa-plus-circle\"></i> Add a filter\r\n        </a>\r\n    </div" +
-">\r\n</div>\r\n\r\n\r\n<div class=\"row\" data-bind=\"with : view\">\r\n    <a data-toggle=\"co" +
-"llapse\" href=\"#sorts-ev-panel\">\r\n        <h3>\r\n            <i class=\"fa fa-chevr" +
-"on-down\"></i>\r\n            Sorts\r\n        </h3>\r\n    </a>\r\n\r\n    <div class=\"col" +
-"lapse collapsed\" id=\"sorts-ev-panel\">\r\n        <table class=\"table table-striped" +
-"\">\r\n            <thead>\r\n                <tr>\r\n                    <th>Path</th>" +
-"\r\n                    <th>Direction</th>\r\n                    <th></th>\r\n       " +
-"         </tr>\r\n            </thead>\r\n            <tbody data-bind=\"foreach :Sor" +
-"tCollection\">\r\n                <tr>\r\n                    <td>\r\n                 " +
-"       <input class=\"form-control\" type=\"text\"\r\n                               d" +
-"ata-bind=\"value:Path,entityTypeaheadPath :$root.entity().EntityDefinitionId()\"\r\n" +
-"                               required pattern=\"^[A-Za-z][A-Za-z0-9_.]*$\" />\r\n " +
-"                   </td>\r\n                    <td>\r\n                        <sel" +
-"ect name=\"rule-operator\" class=\"form-control\" data-bind=\"value: Direction\">\r\n   " +
-"                         <option value=\"Asc\">Ascending</option>\r\n               " +
-"             <option value=\"Desc\">Desc</option>\r\n                        </selec" +
-"t>\r\n                    </td>\r\n                    <td>\r\n                       " +
-" <a href=\"#\" data-bind=\"click : $parent.removeSort.call($parent,$data)\">\r\n      " +
-"                      <span class=\"glyphicon glyphicon-remove\"></span>\r\n        " +
-"                </a>\r\n                    </td>\r\n                </tr>\r\n        " +
-"    </tbody>\r\n        </table>\r\n\r\n        <a class=\"btn btn-link\" data-bind=\"cli" +
-"ck : addSort\">\r\n            <i class=\"fa fa-plus-circle\"></i>\r\n            Add a" +
-" sort\r\n        </a>\r\n    </div>\r\n</div>\r\n\r\n<div>\r\n\r\n    <!-- ko compose : {model" +
-": \'viewmodels/_view.columns.designer\', activationData:$root.view()}-->\r\n    <!--" +
-"/ko-->\r\n\r\n</div>\r\n<div class=\"row\" data-bind=\"with : view\">\r\n    <a data-toggle=" +
-"\"collapse\" href=\"#cf-ev-panel\">\r\n        <h3>\r\n            <i class=\"fa fa-chevr" +
-"on-down\"></i>\r\n            Conditional Formatting\r\n        </h3>\r\n    </a>\r\n\r\n  " +
-"  <div class=\"collapse collapsed\" id=\"cf-ev-panel\">\r\n        <table class=\"table" +
-" table-striped\">\r\n            <thead>\r\n                <tr>\r\n                   " +
-" <th>Css Class</th>\r\n                    <th>Condition</th>\r\n                   " +
-" <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody data" +
-"-bind=\"foreach :ConditionalFormattingCollection\">\r\n                <tr>\r\n       " +
-"             <td>\r\n                        <select name=\"rule-operator\" class=\"f" +
-"orm-control\" data-bind=\"value: CssClass\">\r\n                            <option v" +
-"alue=\"active\">active</option>\r\n                            <option value=\"succes" +
-"s\">success</option>\r\n                            <option value=\"warning\">warning" +
-"</option>\r\n                            <option value=\"danger\">danger</option>\r\n " +
-"                           <option value=\"info\">info</option>\r\n                 " +
-"       </select>\r\n                    </td>\r\n                    <td>\r\n         " +
-"               <input type=\"text\" required class=\"form-control\" data-bind=\"value" +
-":Condition\" />\r\n                    </td>\r\n                    <td>\r\n           " +
-"             <a href=\"#\" data-bind=\"click : $parent.removeConditionalFormatting." +
-"call($parent,$data)\">\r\n                            <span class=\"fa fa-times\"></s" +
-"pan>\r\n                        </a>\r\n                    </td>\r\n                <" +
-"/tr>\r\n            </tbody>\r\n        </table>\r\n\r\n        <a class=\"btn btn-link\" " +
-"data-bind=\"click : addConditionalFormatting\">\r\n            <i class=\"fa fa-plus-" +
-"circle\"></i> Add a conditional formatting\r\n        </a>\r\n    </div>\r\n</div>\r\n\r\n\r" +
-"\n<div class=\"row\" style=\"height: 200px;\"></div>");
+"/table>\r\n\r\n        <a class=\"btn btn-link\" data-bind=\"click : addFilter\">\r\n     " +
+"       <i class=\"fa fa-plus-circle\"></i> Add a filter\r\n        </a>\r\n    </div>\r" +
+"\n</div>\r\n\r\n<div class=\"row\" data-bind=\"with : view\">\r\n    <a data-toggle=\"collap" +
+"se\" href=\"#sorts-ev-panel\">\r\n        <h3>\r\n            <i class=\"fa fa-chevron-d" +
+"own\"></i>\r\n            Sorts\r\n        </h3>\r\n    </a>\r\n    <div class=\"collapse " +
+"collapsed\" id=\"sorts-ev-panel\">\r\n        <table class=\"table table-striped\">\r\n  " +
+"          <thead>\r\n                <tr>\r\n                    <th>Path</th>\r\n    " +
+"                <th>Direction</th>\r\n                    <th></th>\r\n             " +
+"   </tr>\r\n            </thead>\r\n            <tbody data-bind=\"foreach :SortColle" +
+"ction\">\r\n                <tr>\r\n                    <td>\r\n                       " +
+" <input class=\"form-control\" type=\"text\"\r\n                               data-bi" +
+"nd=\"value:Path,entityTypeaheadPath :$root.entity().EntityDefinitionId()\"\r\n      " +
+"                         required pattern=\"^[A-Za-z][A-Za-z0-9_.]*$\" />\r\n       " +
+"             </td>\r\n                    <td>\r\n                        <select na" +
+"me=\"rule-operator\" class=\"form-control\" data-bind=\"value: Direction\">\r\n         " +
+"                   <option value=\"Asc\">Ascending</option>\r\n                     " +
+"       <option value=\"Desc\">Desc</option>\r\n                        </select>\r\n  " +
+"                  </td>\r\n                    <td>\r\n                        <a hr" +
+"ef=\"#\" data-bind=\"click : $parent.removeSort.call($parent,$data)\">\r\n            " +
+"                <span class=\"glyphicon glyphicon-remove\"></span>\r\n              " +
+"          </a>\r\n                    </td>\r\n                </tr>\r\n            </" +
+"tbody>\r\n        </table>\r\n        <a class=\"btn btn-link\" data-bind=\"click : add" +
+"Sort\">\r\n            <i class=\"fa fa-plus-circle\"></i>\r\n            Add a sort\r\n " +
+"       </a>\r\n    </div>\r\n</div>\r\n<div>\r\n    <!-- ko compose : {model: \'viewmodel" +
+"s/_view.columns.designer\', activationData:$root.view()}-->\r\n    <!--/ko-->\r\n</di" +
+"v>\r\n<div class=\"row\" data-bind=\"with : view\">\r\n    <a data-toggle=\"collapse\" hre" +
+"f=\"#cf-ev-panel\">\r\n        <h3>\r\n            <i class=\"fa fa-chevron-down\"></i>\r" +
+"\n            Conditional Formatting\r\n        </h3>\r\n    </a>\r\n    <div class=\"co" +
+"llapse collapsed\" id=\"cf-ev-panel\">\r\n        <table class=\"table table-striped\">" +
+"\r\n            <thead>\r\n                <tr>\r\n                    <th>Css Class</" +
+"th>\r\n                    <th>Condition</th>\r\n                    <th></th>\r\n    " +
+"            </tr>\r\n            </thead>\r\n            <tbody data-bind=\"foreach :" +
+"ConditionalFormattingCollection\">\r\n                <tr>\r\n                    <td" +
+">\r\n                        <select name=\"rule-operator\" class=\"form-control\" dat" +
+"a-bind=\"value: CssClass\">\r\n                            <option value=\"active\">ac" +
+"tive</option>\r\n                            <option value=\"success\">success</opti" +
+"on>\r\n                            <option value=\"warning\">warning</option>\r\n     " +
+"                       <option value=\"danger\">danger</option>\r\n                 " +
+"           <option value=\"info\">info</option>\r\n                        </select>" +
+"\r\n                    </td>\r\n                    <td>\r\n                        <" +
+"input type=\"text\" required class=\"form-control\" data-bind=\"value:Condition\" />\r\n" +
+"                    </td>\r\n                    <td>\r\n                        <a " +
+"href=\"#\" data-bind=\"click : $parent.removeConditionalFormatting.call($parent,$da" +
+"ta)\">\r\n                            <span class=\"fa fa-times\"></span>\r\n          " +
+"              </a>\r\n                    </td>\r\n                </tr>\r\n          " +
+"  </tbody>\r\n        </table>\r\n        <a class=\"btn btn-link\" data-bind=\"click :" +
+" addConditionalFormatting\">\r\n            <i class=\"fa fa-plus-circle\"></i> Add a" +
+" conditional formatting\r\n        </a>\r\n    </div>\r\n</div>\r\n<div class=\"row\" data" +
+"-bind=\"with : view\">\r\n\r\n    <a data-toggle=\"collapse\" href=\"#performer-ev-panel\"" +
+">\r\n        <h3>\r\n            <i class=\"fa fa-chevron-down\"></i>\r\n            Per" +
+"mission\r\n        </h3>\r\n    </a>\r\n    <div id=\"performer-ev-panel\" class=\"collap" +
+"se collapsed\" data-bind=\"with: Performer\">\r\n        <form class=\"form-horizontal" +
+"\">\r\n            <div class=\"form-group\">\r\n                <div class=\"col-sm-off" +
+"set-2 col-sm-10\">\r\n                    <div class=\"checkbox\">\r\n                 " +
+"       <label>\r\n                            <input data-bind=\"checked: IsPublic\"" +
+" id=\"performer-ispublic\" type=\"checkbox\" name=\"IsPublic\" />\r\n                   " +
+"         Is Public\r\n                        </label>\r\n                    </div>" +
+"\r\n                </div>\r\n            </div>\r\n            <div class=\"form-group" +
+"\">\r\n                <label for=\"performer-property\" class=\"col-sm-2 control-labe" +
+"l\">User Property</label>\r\n                <div class=\"col-sm-6\">\r\n              " +
+"      <select class=\"form-control\" id=\"performer-property\" data-bind=\"value:User" +
+"Property, disable:IsPublic\">\r\n                        <option value=\"\">[Please S" +
+"elect]</option>\r\n                        <option value=\"Roles\">Roles</option>\r\n " +
+"                       <option value=\"UserName\">UserName</option>\r\n             " +
+"           <option value=\"Department\">Department</option>\r\n                     " +
+"   <option value=\"Designation\">Designation</option>\r\n                    </selec" +
+"t>\r\n                </div>\r\n            </div>\r\n            <div class=\"form-gro" +
+"up\">\r\n                <label for=\"performer-value\" class=\"col-sm-2 control-label" +
+"\">Value</label>\r\n                <div class=\"col-sm-6\">\r\n                    <in" +
+"put type=\"text\" class=\"form-control expression-field\" id=\"performer-value\" data-" +
+"bind=\"value:Value, disable:IsPublic\" />\r\n                </div>\r\n            </d" +
+"iv>\r\n        </form>\r\n    </div>\r\n</div>\r\n<div class=\"row\" style=\"height: 200px;" +
+"\"></div>");
 
 
         }

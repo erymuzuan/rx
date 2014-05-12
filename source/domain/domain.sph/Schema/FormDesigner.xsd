@@ -474,6 +474,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="Performer"/>
 			</xs:all>
 			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>

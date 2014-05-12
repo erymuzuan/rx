@@ -24,6 +24,10 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "FullName",
         "Header": "Nama",
         "Sort": "",
@@ -36,6 +40,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "IdentificationNo",
         "Header": "Id",
         "Sort": "",
@@ -48,6 +56,10 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Dob",
         "Header": "DOB",
         "Sort": "",
@@ -71,6 +83,10 @@
       }
     ]
   },
+  "ConditionalFormattingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+    "$values": []
+  },
   "EntityViewId": 1004,
   "IconClass": "",
   "IconStoreId": "e1afad33-98f4-418b-a874-5685ed571450",
@@ -87,6 +103,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-09T07:34:04.8705784+08:00",
+  "ChangedDate": "2014-05-12T08:59:15.4352698+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -20,7 +22,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return Json(new { success = true, status = "OK", id = ef.EntityViewId });
         }
-        
+
         public async Task<ActionResult> Depublish()
         {
             var context = new SphDataContext();
@@ -36,6 +38,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
 
         }
+
         public async Task<ActionResult> Publish()
         {
             var view = this.GetRequestJson<EntityView>();
@@ -62,7 +65,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.EntityDefinitionId == view.EntityDefinitionId);
             var type = ed.Name.ToLowerInvariant();
 
-            var json =( @" {
+            var json = (@" {
                 ""query"": {
                     ""filtered"": {
                         ""filter"":" + view.GenerateElasticSearchFilterDsl() + @"
@@ -84,6 +87,42 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return Content(await content.ReadAsStringAsync());
 
             }
+        }
+
+        [Authorize]
+        public async Task<ActionResult> Dashboard(string id)
+        {
+            var user = User.Identity.Name;
+            var context = new SphDataContext();
+            var entity = await context.LoadOneAsync<EntityDefinition>(e => e.Name == id);
+            var query = context.EntityViews.Where(v => v.EntityDefinitionId == entity.EntityDefinitionId
+                && v.IsPublished == true);
+            var lo = await context.LoadAsync(query, includeTotalRows: true);
+            var views = new ObjectCollection<EntityView>();
+            views.AddRange(lo.ItemCollection);
+            while (lo.HasNextPage)
+            {
+                lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true);
+                views.AddRange(lo.ItemCollection);
+            }
+
+            var list = new ObjectCollection<EntityView>();
+            foreach (var v in views)
+            {
+                if (v.Performer.IsPublic)
+                {
+                    list.Add(v);
+                    continue;
+                }
+                var users = await v.Performer.GetUsersAsync(v);
+                if (users.Contains(user))
+                    list.Add(v);
+            }
+
+            return Content("[" +
+
+               string.Join(",", list.Select(c => c.ToJsonString(Formatting.Indented)))
+                + "]");
         }
     }
 }

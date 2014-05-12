@@ -13,7 +13,7 @@
         <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
         <!-- /ko-->
     </div>
-    <div class="col-lg-2"></div>
+    <div class="col-sm-2"></div>
     <!-- /ko-->
 </div>
 <div class="row">
@@ -24,11 +24,10 @@
         </h3>
     </a>
     <div class="collapse in" id="general-ev-panel">
-
         <form class="form-horizontal" data-bind="with : view">
             <div class="form-group">
-                <label for="view-name" class="col-lg-2 control-label">Name</label>
-                <div class="col-lg-6">
+                <label for="view-name" class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-6">
                     <input type="text" data-bind="value: Name, valueUpdate: 'keyup'"
                            required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
                            placeholder="Name for the view"
@@ -36,8 +35,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="view-route" class="col-lg-2 control-label">Route</label>
-                <div class="col-lg-6">
+                <label for="view-route" class="col-sm-2 control-label">Route</label>
+                <div class="col-sm-6">
                     <input type="text" data-bind="value: Route"
                            required pattern="^[A-Za-z_][A-Za-z0-9_-]*$"
                            placeholder="route url"
@@ -45,17 +44,16 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="view-note" class="col-lg-2 control-label">Note</label>
-                <div class="col-lg-6">
+                <label for="view-note" class="col-sm-2 control-label">Note</label>
+                <div class="col-sm-6">
                     <textarea data-bind="value: Note, valueUpdate: 'keyup'"
                               placeholder="Note about the view"
                               class="form-control" id="view-note"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label for="icon-storeid" class="col-lg-2 control-label">Icon/Logo</label>
-                <div class="col-lg-6">
-
+                <label for="icon-storeid" class="col-sm-2 control-label">Icon/Logo</label>
+                <div class="col-sm-6">
                     <div data-bind="attr : {'class':TileColour}" style="padding: 10px;">
                         <div class="pull-left">
                             <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon">
@@ -63,20 +61,17 @@
                         <div>
                             <span style="font-size: 32px; font-weight: bold; margin: 5px">2631</span>
                         </div>
-
                         <div>
                             <h5 data-bind="text: Name"></h5>
                             <label data-bind="text: Note"></label>
                         </div>
                     </div>
-
                     <input type="file" data-bind="kendoUpload: IconStoreId" name="files" class="form-control" id="icon-storeid">
                 </div>
             </div>
-
             <div class="form-group">
-                <label for="ev-tl-color" class="col-lg-2 control-label">Tile Color</label>
-                <div class="col-lg-6">
+                <label for="ev-tl-color" class="col-sm-2 control-label">Tile Color</label>
+                <div class="col-sm-6">
                     <select class="form-control" id="ev-tl-color" data-bind="value:TileColour">
                         <option value="bblue">Blue</option>
                         <option value="blightblue">Light blue</option>
@@ -97,7 +92,6 @@
             Filters
         </h3>
     </a>
-
     <div class="collapse collapsed" id="filters-ev-panel">
         <table class="table table-striped">
             <thead>
@@ -141,13 +135,11 @@
             </tbody>
         </table>
 
-
         <a class="btn btn-link" data-bind="click : addFilter">
             <i class="fa fa-plus-circle"></i> Add a filter
         </a>
     </div>
 </div>
-
 
 <div class="row" data-bind="with : view">
     <a data-toggle="collapse" href="#sorts-ev-panel">
@@ -156,7 +148,6 @@
             Sorts
         </h3>
     </a>
-
     <div class="collapse collapsed" id="sorts-ev-panel">
         <table class="table table-striped">
             <thead>
@@ -187,19 +178,15 @@
                 </tr>
             </tbody>
         </table>
-
         <a class="btn btn-link" data-bind="click : addSort">
             <i class="fa fa-plus-circle"></i>
             Add a sort
         </a>
     </div>
 </div>
-
 <div>
-
     <!-- ko compose : {model: 'viewmodels/_view.columns.designer', activationData:$root.view()}-->
     <!--/ko-->
-
 </div>
 <div class="row" data-bind="with : view">
     <a data-toggle="collapse" href="#cf-ev-panel">
@@ -208,7 +195,6 @@
             Conditional Formatting
         </h3>
     </a>
-
     <div class="collapse collapsed" id="cf-ev-panel">
         <table class="table table-striped">
             <thead>
@@ -240,12 +226,50 @@
                 </tr>
             </tbody>
         </table>
-
         <a class="btn btn-link" data-bind="click : addConditionalFormatting">
             <i class="fa fa-plus-circle"></i> Add a conditional formatting
         </a>
     </div>
 </div>
+<div class="row" data-bind="with : view">
 
-
+    <a data-toggle="collapse" href="#performer-ev-panel">
+        <h3>
+            <i class="fa fa-chevron-down"></i>
+            Permission
+        </h3>
+    </a>
+    <div id="performer-ev-panel" class="collapse collapsed" data-bind="with: Performer">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
+                            Is Public
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="performer-property" class="col-sm-2 control-label">User Property</label>
+                <div class="col-sm-6">
+                    <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
+                        <option value="">[Please Select]</option>
+                        <option value="Roles">Roles</option>
+                        <option value="UserName">UserName</option>
+                        <option value="Department">Department</option>
+                        <option value="Designation">Designation</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="performer-value" class="col-sm-2 control-label">Value</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:IsPublic" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="row" style="height: 200px;"></div>

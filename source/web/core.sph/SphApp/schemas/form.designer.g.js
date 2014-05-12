@@ -911,6 +911,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         ViewColumnCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
         ConditionalFormattingCollection: ko.observableArray([]),
+        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
