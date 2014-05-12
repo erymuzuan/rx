@@ -94,43 +94,43 @@ WriteLiteral("<h1 data-bind=\"with : entity\">View Designer for <span data-bind=
 "                     <h5 data-bind=\"text: Name\"></h5>\r\n                         " +
 "   <label data-bind=\"text: Note\"></label>\r\n                        </div>\r\n     " +
 "               </div>\r\n                    <input type=\"file\" data-bind=\"kendoUp" +
-"load: IconStoreId\" name=\"files\" class=\"form-control\" id=\"icon-storeid\">\r\n       " +
-"         </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n     " +
-"           <label for=\"ev-tl-color\" class=\"col-sm-2 control-label\">Tile Color</l" +
-"abel>\r\n                <div class=\"col-sm-6\">\r\n                    <select class" +
-"=\"form-control\" id=\"ev-tl-color\" data-bind=\"value:TileColour\">\r\n                " +
-"        <option value=\"bblue\">Blue</option>\r\n                        <option val" +
-"ue=\"blightblue\">Light blue</option>\r\n                        <option value=\"bred" +
-"\">Red</option>\r\n                        <option value=\"bgreen\">Green</option>\r\n " +
-"                       <option value=\"borange\">Orange</option>\r\n                " +
-"        <option value=\"bviolet\">Violet</option>\r\n                    </select>\r\n" +
-"                </div>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r" +
-"\n<div class=\"row\" data-bind=\"with : view\">\r\n    <a data-toggle=\"collapse\" href=\"" +
-"#filters-ev-panel\">\r\n        <h3>\r\n            <i class=\"fa fa-chevron-down\"></i" +
-">\r\n            Filters\r\n        </h3>\r\n    </a>\r\n    <div class=\"collapse collap" +
-"sed\" id=\"filters-ev-panel\">\r\n        <table class=\"table table-striped\">\r\n      " +
-"      <thead>\r\n                <tr>\r\n                    <th>Term</th>\r\n        " +
-"            <th>Operator</th>\r\n                    <th>Value</th>\r\n             " +
-"       <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbod" +
-"y data-bind=\"foreach :FilterCollection\">\r\n                <tr>\r\n                " +
-"    <td>\r\n                        <input class=\"form-control\" type=\"text\"\r\n     " +
-"                          data-bind=\"value:Term,entityTypeaheadPath :$root.entit" +
-"y().EntityDefinitionId()\"\r\n                               required pattern=\"^[A-" +
-"Za-z][A-Za-z0-9_.]*$\" />\r\n                    </td>\r\n                    <td>\r\n " +
-"                       <select name=\"rule-operator\" class=\"form-control\" data-bi" +
-"nd=\"value: Operator\">\r\n                            <option value=\"Eq\">=</option>" +
-"\r\n                            <option value=\"Neq\">!=</option>\r\n                 " +
-"           <option value=\"Le\">&lt;=</option>\r\n                            <optio" +
-"n value=\"Lt\">&lt;</option>\r\n                            <option value=\"Ge\">&gt;=" +
-"</option>\r\n                            <option value=\"Gt\">&gt;</option>\r\n       " +
-"                     <option value=\"Substringof\">Substringof</option>\r\n         " +
-"                   <option value=\"StartsWith\">StartsWith</option>\r\n             " +
-"               <option value=\"EndsWith\">EndsWith</option>\r\n                     " +
-"       <option value=\"NotContains\">Not Substringof</option>\r\n                   " +
-"         <option value=\"NotStartsWith\">Not StartsWith</option>\r\n                " +
-"            <option value=\"NotEndsWith\">Not EndsWith</option>\r\n                 " +
-"       </select>\r\n                    </td>\r\n                    <td>           " +
-"         ");
+"load: {value: IconStoreId, extensions : [\'.png\', \'.gif\']}\" name=\"files\" class=\"f" +
+"orm-control\" id=\"icon-storeid\">\r\n                </div>\r\n            </div>\r\n   " +
+"         <div class=\"form-group\">\r\n                <label for=\"ev-tl-color\" clas" +
+"s=\"col-sm-2 control-label\">Tile Color</label>\r\n                <div class=\"col-s" +
+"m-6\">\r\n                    <select class=\"form-control\" id=\"ev-tl-color\" data-bi" +
+"nd=\"value:TileColour\">\r\n                        <option value=\"bblue\">Blue</opti" +
+"on>\r\n                        <option value=\"blightblue\">Light blue</option>\r\n   " +
+"                     <option value=\"bred\">Red</option>\r\n                        " +
+"<option value=\"bgreen\">Green</option>\r\n                        <option value=\"bo" +
+"range\">Orange</option>\r\n                        <option value=\"bviolet\">Violet</" +
+"option>\r\n                    </select>\r\n                </div>\r\n            </di" +
+"v>\r\n        </form>\r\n    </div>\r\n</div>\r\n<div class=\"row\" data-bind=\"with : view" +
+"\">\r\n    <a data-toggle=\"collapse\" href=\"#filters-ev-panel\">\r\n        <h3>\r\n     " +
+"       <i class=\"fa fa-chevron-down\"></i>\r\n            Filters\r\n        </h3>\r\n " +
+"   </a>\r\n    <div class=\"collapse collapsed\" id=\"filters-ev-panel\">\r\n        <ta" +
+"ble class=\"table table-striped\">\r\n            <thead>\r\n                <tr>\r\n   " +
+"                 <th>Term</th>\r\n                    <th>Operator</th>\r\n         " +
+"           <th>Value</th>\r\n                    <th></th>\r\n                </tr>\r" +
+"\n            </thead>\r\n            <tbody data-bind=\"foreach :FilterCollection\">" +
+"\r\n                <tr>\r\n                    <td>\r\n                        <input" +
+" class=\"form-control\" type=\"text\"\r\n                               data-bind=\"val" +
+"ue:Term,entityTypeaheadPath :$root.entity().EntityDefinitionId()\"\r\n             " +
+"                  required pattern=\"^[A-Za-z][A-Za-z0-9_.]*$\" />\r\n              " +
+"      </td>\r\n                    <td>\r\n                        <select name=\"rul" +
+"e-operator\" class=\"form-control\" data-bind=\"value: Operator\">\r\n                 " +
+"           <option value=\"Eq\">=</option>\r\n                            <option va" +
+"lue=\"Neq\">!=</option>\r\n                            <option value=\"Le\">&lt;=</opt" +
+"ion>\r\n                            <option value=\"Lt\">&lt;</option>\r\n            " +
+"                <option value=\"Ge\">&gt;=</option>\r\n                            <" +
+"option value=\"Gt\">&gt;</option>\r\n                            <option value=\"Subs" +
+"tringof\">Substringof</option>\r\n                            <option value=\"Starts" +
+"With\">StartsWith</option>\r\n                            <option value=\"EndsWith\">" +
+"EndsWith</option>\r\n                            <option value=\"NotContains\">Not S" +
+"ubstringof</option>\r\n                            <option value=\"NotStartsWith\">N" +
+"ot StartsWith</option>\r\n                            <option value=\"NotEndsWith\">" +
+"Not EndsWith</option>\r\n                        </select>\r\n                    </" +
+"td>\r\n                    <td>                    ");
 
 
             

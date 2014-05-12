@@ -514,6 +514,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\Shared\EditorTemplates\FileUploadElement.generated.cs">
+      <DependentUpon>FileUploadElement.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\App\Views\Shared\EditorTemplates\ChildEntityListView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1350,6 +1355,10 @@
     </Content>
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Areas\App\Views\Shared\EditorTemplates\FileUploadElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
     <Content Include="Scripts\bloodhound.js" />

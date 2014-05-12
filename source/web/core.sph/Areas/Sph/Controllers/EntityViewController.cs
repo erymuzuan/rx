@@ -9,6 +9,7 @@ using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
+    [Authorize]
     public class EntityViewController : Controller
     {
         public async Task<ActionResult> Save()
@@ -90,7 +91,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
         }
 
-        [Authorize]
         [NoCache]
         public async Task<ActionResult> Dashboard(string id)
         {

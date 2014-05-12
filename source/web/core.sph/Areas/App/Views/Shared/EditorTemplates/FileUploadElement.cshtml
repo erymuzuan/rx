@@ -1,0 +1,12 @@
+﻿@model Bespoke.Sph.Domain.FileUploadElement
+
+<!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.FileUploadElement, domain.sph" -->
+
+<div class="form-group">
+    <label for="upload-extensions">Allowed  file extensions</label>
+    <input class="form-control" data-bind="value: AllowedExtensions"
+           placeholder="For more than one  extension use , e.g. .docx,.xlsx"
+           id="upload-extensions" type="text" name="CommandName" />
+</div>
+
+<!--/ko-->

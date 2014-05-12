@@ -129,7 +129,7 @@ ko.bindingHandlers.money = {
     update: function (element, valueAccessor) {
         var value = valueAccessor(),
              textbox = $(element),
-             val = parseFloat(ko.unwrap(value)||"0"),
+             val = parseFloat(ko.unwrap(value) || "0"),
              fm = val.toFixed(2).replace(/./g, function (c, i, a) {
                  return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
              });
@@ -232,7 +232,14 @@ ko.bindingHandlers.kendoUpload = {
     init: function (element, valueAccessor) {
         var context = require(objectbuilders.datacontext),
              logger = require(objectbuilders.logger),
-            value = valueAccessor();
+             value = valueAccessor(),
+             options = valueAccessor(),
+                 extensions = [];
+        if (typeof options === "object") {
+            value = options.value;
+            extensions = options.extensions;
+        }
+
         $(element).attr("name", "files").kendoUpload({
             async: {
                 saveUrl: "/BinaryStore/Upload",
@@ -242,6 +249,17 @@ ko.bindingHandlers.kendoUpload = {
             multiple: false,
             error: function (e) {
                 logger.logError(e, e, this, true);
+            },
+            select: function (e) {
+                if (extensions.length === 0) {
+                    return;
+                }
+                _(e.files).each(function (v) {
+                    if (extensions.indexOf(v.extension) < 0) {
+                        logger.error("Only " + extensions.join(",") + " files can be uploaded");
+                        e.preventDefault();
+                    }
+                });
             },
             success: function (e) {
                 logger.info('Your file has been ' + e.operation);
@@ -691,13 +709,13 @@ ko.bindingHandlers.filter = {
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
             tooltip = value.tooltip || 'Type to filter current page or type and [ENTER] to search the whole view',
-            offset = ( typeof  value.offset === "undefined" ? 8 : parseInt(value.offset)),
+            offset = (typeof value.offset === "undefined" ? 8 : parseInt(value.offset)),
             colmd = "col-md-" + (12 - offset),
             coloff = "col-md-offset-" + offset,
             $element = $(element),
             $filterInput = $("<input data-toggle='tooltip' title='" + tooltip + "' type='search' class='search-query input-medium form-control' placeholder='Filter.. '>"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
-            $form = $("<form class='form-search "+ colmd + " " + coloff + "'>" +
+            $form = $("<form class='form-search " + colmd + " " + coloff + "'>" +
                 " <div class='input-group pull-right'>" +
                 "<span class='input-group-addon'>" +
                 " <span class='glyphicon glyphicon-remove'></span>" +
