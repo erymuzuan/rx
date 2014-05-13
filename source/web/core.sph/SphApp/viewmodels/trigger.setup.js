@@ -44,6 +44,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                     if (t) {
                         trigger(t);
                         typeaheadEntity(t.Entity());
+                        window.typeaheadEntity = t.Entity();
                         operations(t.FiredOnOperations().split(','));
                         loadOperationOptions(t.Entity());
                     } else {
@@ -52,6 +53,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                     }
                     trigger().Entity.subscribe(function (ent) {
                         typeaheadEntity(ent);
+                        window.typeaheadEntity = ent;
                         loadOperationOptions(ent);
                     });
                     tcs.resolve(true);

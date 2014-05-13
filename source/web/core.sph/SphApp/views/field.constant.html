@@ -8,23 +8,23 @@
             <div class="modal-body" data-bind="with : field">
                 <form id="constant-field-form" class="form-horizontal">
                     <div class="form-group">
-                        <label for="constant-field-name" class="col-lg-2 control-label">Name</label>
+                        <label for="constant-field-value" class="col-lg-2 control-label">Value</label>
                         <div class="col-lg-9">
-                            <input class="form-control" data-bind="value: Name" id="constant-field-name" type="text" name="constant-field-name" />
+                            <input required="" class="form-control" data-bind="value: Value" id="constant-field-value" type="text" name="constant-field-value" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="constant-field-note" class="col-lg-2 control-label">Note</label>
+                        <label for="constant-field-name" class="col-lg-2 control-label">Name</label>
                         <div class="col-lg-9">
-                            <input class="form-control" data-bind="value: Note" id="constant-field-note" type="text" name="constant-field-note" />
+                            <input required class="form-control" data-bind="value: Name" id="constant-field-name" type="text" name="constant-field-name" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="constant-field-typename" class="col-lg-2 control-label">Type</label>
                         <div class="col-lg-9">
-                            <select class="form-control" id="constant-field-typename" name="constant-field-typename" data-bind="value: TypeName">
-                                <option value="System.String, mscorlib">Text</option>
-                                <option value="System.DateTime">Date</option>
+                            <select required class="form-control" id="constant-field-typename" name="constant-field-typename" data-bind="value: TypeName">
+                                <option value="System.String, mscorlib">String</option>
+                                <option value="System.DateTime">DateTime</option>
                                 <option value="System.Int32, mscorlib">Integer</option>
                                 <option value="System.Decimal">Decimal</option>
                                 <option value="System.Boolean, mscorlib">Boolean</option>
@@ -32,9 +32,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="constant-field-value" class="col-lg-2 control-label">Value</label>
+                        <label for="constant-field-note" class="col-lg-2 control-label">Note</label>
                         <div class="col-lg-9">
-                            <input class="form-control" data-bind="value: Value" id="constant-field-value" type="text" name="constant-field-value" />
+                            <input class="form-control" data-bind="value: Note" id="constant-field-note" type="text" name="constant-field-note" />
                         </div>
                     </div>
                 </form>

@@ -16,17 +16,17 @@
                             <select class="form-control" id="wd-option" data-bind="value: WorkflowDefinitionId, options: $root.wdOptions,optionsText:'Name', optionsValue: 'WorkflowDefinitionId'"></select>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="wf-version" class="col-lg-2 control-label">Version</label>
                         <div class="col-lg-6">
-                            <input type="number" data-bind="value: Version" 
+                            <input type="text" pattern="[0-9]{1,8}" data-bind="value: Version"
                                    required min="0"
                                    placeholder="Version"
                                    class="form-control" id="wf-version">
                         </div>
                     </div>
-                    <a href="#" class="pull-right" data-bind="click : addMapping">+ Mapping</a>
+
                     <table class="table">
                         <thead>
                             <tr>
@@ -38,7 +38,7 @@
                         <tbody data-bind="foreach :WorkflowTriggerMapCollection">
                             <tr>
                                 <td>
-                                    <input class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$"  data-bind="value:VariablePath, uniqueName:true" />
+                                    <input data-bind="value:VariablePath, uniqueName:true, typeahead : $parent.WorkflowDefinitionId()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
                                 </td>
                                 <td>
 
@@ -47,19 +47,35 @@
                                             <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                                             <!-- ko text : Name -->
                                             <!-- /ko -->
-                                            <span class="caret"></span>
+                                            <i class="fa fa-caret-down"></i>
                                         </a>
 
                                         <ul class="dropdown-menu">
-                                        
+                                            <li data-bind="with : Field">
+                                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.Field)">
+                                                    <i class="fa fa-edit"></i>
+                                                    Edit Field
+                                                </a>
+                                            </li>
+
                                             <li>
-                                                <a class="btn-add-document-setter-field" data-bind="unwrapClick: addField,field : 'Document', accessor : $data.Field" href="#">+ Document Field</a>
+                                                <a data-bind="unwrapClick: addField,field : 'Document', accessor : $data.Field" href="#">
+                                                    <img src="/images/DocumentField.png" alt="DocumentField" class="pull-left" />
+                                                    + Document Field
+                                                </a>
                                             </li>
                                             <li>
-                                                <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">+ Constant Field</a>
+                                                <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">
+                                                    <img src="/images/ConstantField.png" alt=" constantfield" class="pull-left" />
+
+                                                    + Constant Field
+                                                </a>
                                             </li>
                                             <li>
-                                                <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">+ Function Field</a>
+                                                <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">
+                                                    <img src="/images/FunctionField.png" alt=" FunctionField" class="pull-left" />
+                                                    + Function Field
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -70,6 +86,12 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <a class="btn btn-link" data-bind="click : addMapping" href="#startwf-dialog">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a mapping
+                    </a>
+
                 </form>
             </div>
             <div class="modal-footer">

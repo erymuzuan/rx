@@ -32,58 +32,10 @@
 	"buffers":
 	[
 		{
-			"file": "/D/temp/offline/appointment.appcache",
+			"file": "bin/sources/Patient  test for property changed.cs",
 			"settings":
 			{
-				"buffer_size": 1121,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/temp/offline/appointment.html",
-			"settings":
-			{
-				"buffer_size": 4069,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/temp/offline/appointment-details.html",
-			"settings":
-			{
-				"buffer_size": 5227,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/temp/offline/appointment.js",
-			"settings":
-			{
-				"buffer_size": 3279,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/temp/offline/appointment-details.js",
-			"settings":
-			{
-				"buffer_size": 1500,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/temp/offline/create-new-appointment.html",
-			"settings":
-			{
-				"buffer_size": 4334,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/temp/offline/create-new-appointment.js",
-			"settings":
-			{
-				"buffer_size": 1500,
+				"buffer_size": 2082,
 				"line_ending": "Windows"
 			}
 		}
@@ -115,7 +67,13 @@
 	},
 	"file_history":
 	[
+		"/D/temp/offline/create-new-appointment.js",
+		"/D/temp/offline/create-new-appointment.html",
+		"/D/temp/offline/appointment-details.js",
+		"/D/temp/offline/appointment.js",
 		"/D/temp/offline/appointment-details.html",
+		"/D/temp/offline/appointment.html",
+		"/D/temp/offline/appointment.appcache",
 		"/D/temp/offline/patient.html",
 		"/C/Users/bespoke1/Desktop/LuceneBlogEngine.cs",
 		"/D/project/work/cycling/source/web/web.cycling/Views/Shared/_LayoutPage.cshtml",
@@ -205,212 +163,34 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/D/temp/offline/appointment.appcache",
-					"semi_transient": false,
+					"file": "bin/sources/Patient  test for property changed.cs",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 1121,
+						"buffer_size": 2082,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								923,
-								923
+								378,
+								378
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 576.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/D/temp/offline/appointment.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4069,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1626,
-								1626
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"syntax": "Packages/C#/C#.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 936.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/D/temp/offline/appointment-details.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5227,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								338,
-								338
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/D/temp/offline/appointment.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3279,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/D/temp/offline/appointment-details.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1500,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/D/temp/offline/create-new-appointment.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4334,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/D/temp/offline/create-new-appointment.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1500,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								229,
-								229
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
-						"translation.y": 432.0,
+						"translation.y": 624.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

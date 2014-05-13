@@ -8,22 +8,21 @@
             <div class="modal-body" data-bind="with : field">
                 <form class="form-horizontal" id="document-field-form">
                     <div class="form-group">
+                        <label for="doc-field-path" class="col-lg-2 control-label">Path</label>
+                        <div class="col-lg-9">
+                            <input required data-bind="value:Path,entityTypeaheadPath:$parent.entity" class="form-control" placeholder="Path to the property" id="doc-field-path" name="doc-field-path" />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="doc-field-name" class="col-lg-2 control-label">Name</label>
                         <div class="col-lg-9">
-                            <input class="form-control" placeholder="field's name" data-bind="value: Name" id="doc-field-name" type="text" name="doc-field-name" />
+                            <input required class="form-control" placeholder="field's name" data-bind="value: Name" id="doc-field-name" type="text" name="doc-field-name" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="doc-field-note" class="col-lg-2 control-label">Note</label>
                         <div class="col-lg-9">
                             <input class="form-control" placeholder="note" data-bind="value: Note" id="doc-field-note" type="text" name="doc-field-note" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="doc-field-path" class="col-lg-2 control-label">Path</label>
-                        <div class="col-lg-9">
-                            <input data-bind="value:Path,entityTypeaheadPath:$root.entity" class="form-control" placeholder="Path to the property" id="doc-field-path" name="doc-field-path" />
-                            <span class="help-block">You can use <code>Path.Subpath</code>  convention</span>
                         </div>
                     </div>
 

@@ -283,7 +283,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
                 });
             };
 
-        setup(id);
+        setup(id || window.typeaheadEntity);
         if (typeof value === "function" && typeof value.subscribe === "function") {
             value.subscribe(function (entity) {
                 $(element).typeahead('destroy');
