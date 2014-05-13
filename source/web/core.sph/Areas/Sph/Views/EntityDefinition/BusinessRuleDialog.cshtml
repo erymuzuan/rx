@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label for="Name" class="col-lg-2 control-label">Name</label>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control" id="Name" placeholder="Rule name...." data-bind="value:Name">
+                            <input required type="text" class="form-control" id="Name" placeholder="Rule name...." data-bind="value:Name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -41,7 +41,7 @@
                     <div class="form-group">
                         <label for="br-message" class="col-lg-2 control-label">Message</label>
                         <div class="col-lg-9">
-                            <input type="text" class="form-control" id="br-message" placeholder="Message" data-bind="value:ErrorMessage">
+                            <input required type="text" class="form-control" id="br-message" placeholder="Message" data-bind="value:ErrorMessage">
                         </div>
                     </div>
 
@@ -49,7 +49,6 @@
 
                         Filters
                     </h3>
-                    <a class="btn btn-link pull-right" data-bind="click: addFilter">+ Filter</a>
                     <table id="filters-table" class="table table-striped">
                         <thead>
                             <tr>
@@ -91,12 +90,15 @@
                             </tr>
                         </tbody>
                     </table>
-
+                    
+                    <a class="btn btn-link" data-bind="click : addFilter" href="#filters-table">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a filter
+                    </a>
                     <h3>
 
                         Rules
                     </h3>
-                    <a class="btn btn-link pull-right" data-bind="click: addRule">+ Rule</a>
                     <table id="rules-table" class="table table-striped">
                         <thead>
                             <tr>
@@ -138,6 +140,10 @@
                             </tr>
                         </tbody>
                     </table>
+                    <a class="btn btn-link" data-bind="click : addRule" href="#rules-table">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a rule
+                    </a>
                 </form>
             </div>
             <div class="modal-footer">

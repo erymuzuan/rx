@@ -8,20 +8,20 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
     function (system, router, logger, context, config) {
 
         var activate = function () {
-                return router.map(config.routes)
-                    .buildNavigationModel()
-                    .mapUnknownRoutes('viewmodels/not.found', 'not.found')
-                    .activate();
-            },
+            return router.map(config.routes)
+                .buildNavigationModel()
+                .mapUnknownRoutes('viewmodels/not.found', 'not.found')
+                .activate();
+        },
             attached = function (view) {
-                $(view).on('click', 'a#help', function(e) {
+                $(view).on('click', 'a#help', function (e) {
                     e.preventDefault();
                     var topic = window.location.hash;
                     window.open("/docs/" + topic);
                 });
                 $(document).on('click', 'a#help-dialog', function (e) {
                     e.preventDefault();
-                    var topic = $('.view-model-modal').attr("id");
+                    var topic = $(this).data("dialog");
                     window.open("/docs/#" + topic);
                 });
                 // BUG:#1499
@@ -43,7 +43,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
 
                 $(document).on('mouseenter', '.view-model-modal .modal-header', function (e) {
                     e.preventDefault();
-                    var elem = $(this).parentsUntil('.view-model-modal'),
+                    var elem = $(this).parents('.view-model-modal'),
                         draggable = elem.data('draggable') || elem.data('ui-draggable') || elem.data('uiDraggable');
 
                     if (!draggable) {
@@ -52,8 +52,8 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                         });
                         $('.modal-header').css("cursor", "move");
                         console.log('draggagle modal');
-                        $('div.modal-header>button').
-                            after('<a class="pull-right" id="help-dialog" data-dialog="" href="#" title="see help on this topic" style="margin-right:10px; color:gray"><i class="fa fa-question-circle"></i></a>');
+                        elem.find('div.modal-header>button').
+                            after('<a class="pull-right" id="help-dialog" data-dialog="' + elem.attr('id') + '" href="#" title="see help on this topic" style="margin-right:10px; color:gray"><i class="fa fa-question-circle"></i></a>');
                     }
                 });
 
@@ -108,7 +108,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                     sliderVisible = $menu.is(':visible');
 
 
-                $(view).on('click','#drawer-menu', function (e) {
+                $(view).on('click', '#drawer-menu', function (e) {
                     e.preventDefault();
                     if (sliderVisible) {
                         hideSlider();
@@ -142,7 +142,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                             return;
                         }
                         require(['viewmodels/dev.quick.nav', 'durandal/app'], function (dialog, app2) {
-                           
+
                             app2.showDialog(dialog)
                                 .done(function (result) {
                                     console.log(result);
@@ -255,8 +255,8 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                             if (result === "OK") {
 
                             }
-                        tcs.resolve(true);
-                    });
+                            tcs.resolve(true);
+                        });
 
                 });
                 return tcs.promise();

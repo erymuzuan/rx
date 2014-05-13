@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -28,6 +28,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
                             entity(b);
+                            window.typeaheadEntity = b.Name();
                             tcs.resolve(true);
                         });
                     // load forms and views
@@ -50,6 +51,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                             entity().Plural(v);
                         });
                     }
+                    window.typeaheadEntity = name;
                 });
                 ed.IconStoreId("sph-img-document");
 

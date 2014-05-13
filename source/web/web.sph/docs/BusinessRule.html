@@ -16,9 +16,13 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>FilterCollection</td><td> - The list of rules that must be satisfied before the rules could be run, if no filter is specified the rule will be run every time, but if there are filters specified and if one of the filter fail to satifiy, the rule will not run.</td></tr>
+<tr><td>FilterCollection</td><td>
+    - The list of rules that must be satisfied before the BusinessRule could be run, if no filter is specified the rule will be run every time.
+    <br/>
+    When filters are specified, these filters will be evaluated and if one of the filter fail to satifiy, the rule will not run.
+</td></tr>
 <tr><td>RuleCollection</td><td> - The list of Rule</td></tr>
-<tr><td>Description</td><td> -Developer descriptive note </td></tr>
+<tr><td>Description</td><td> - Developer descriptive note </td></tr>
 <tr><td>Name</td><td> - Developer descriptive identifier</td></tr>
 <tr><td>ErrorLocation</td><td> - Where the error will be show - NOT IMPLEMENTED </td></tr>
 <tr><td>ErrorMessage</td><td> - The message will be displayed if the rule is not satisfied</td></tr>

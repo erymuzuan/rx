@@ -71,7 +71,7 @@ WriteLiteral(@"
                     <div class=""form-group"">
                         <label for=""Name"" class=""col-lg-2 control-label"">Name</label>
                         <div class=""col-lg-6"">
-                            <input type=""text"" class=""form-control"" id=""Name"" placeholder=""Rule name...."" data-bind=""value:Name"">
+                            <input required type=""text"" class=""form-control"" id=""Name"" placeholder=""Rule name...."" data-bind=""value:Name"">
                         </div>
                     </div>
                     <div class=""form-group"">
@@ -89,7 +89,7 @@ WriteLiteral(@"
                     <div class=""form-group"">
                         <label for=""br-message"" class=""col-lg-2 control-label"">Message</label>
                         <div class=""col-lg-9"">
-                            <input type=""text"" class=""form-control"" id=""br-message"" placeholder=""Message"" data-bind=""value:ErrorMessage"">
+                            <input required type=""text"" class=""form-control"" id=""br-message"" placeholder=""Message"" data-bind=""value:ErrorMessage"">
                         </div>
                     </div>
 
@@ -97,7 +97,6 @@ WriteLiteral(@"
 
                         Filters
                     </h3>
-                    <a class=""btn btn-link pull-right"" data-bind=""click: addFilter"">+ Filter</a>
                     <table id=""filters-table"" class=""table table-striped"">
                         <thead>
                             <tr>
@@ -114,7 +113,7 @@ WriteLiteral(@"
 
 
             
-            #line 65 "..\..\Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml"
+            #line 64 "..\..\Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml"
                                Write(Html.Partial("_RuleFieldDropDown", new TypeModel { Path = "Left" }));
 
             
@@ -143,7 +142,7 @@ WriteLiteral(@"
 
 
             
-            #line 84 "..\..\Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml"
+            #line 83 "..\..\Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml"
                                Write(Html.Partial("_RuleFieldDropDown", new TypeModel { Path = "Right" }));
 
             
@@ -159,12 +158,15 @@ WriteLiteral(@"
                             </tr>
                         </tbody>
                     </table>
-
+                    
+                    <a class=""btn btn-link"" data-bind=""click : addFilter"" href=""#filters-table"">
+                        <i class=""fa fa-plus-circle""></i>
+                        Add a filter
+                    </a>
                     <h3>
 
                         Rules
                     </h3>
-                    <a class=""btn btn-link pull-right"" data-bind=""click: addRule"">+ Rule</a>
                     <table id=""rules-table"" class=""table table-striped"">
                         <thead>
                             <tr>
@@ -181,7 +183,7 @@ WriteLiteral(@"
 
 
             
-            #line 112 "..\..\Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml"
+            #line 114 "..\..\Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml"
                                Write(Html.Partial("_RuleFieldDropDown", new TypeModel { Path = "Left" }));
 
             
@@ -210,7 +212,7 @@ WriteLiteral(@"
 
 
             
-            #line 131 "..\..\Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml"
+            #line 133 "..\..\Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.cshtml"
                                Write(Html.Partial("_RuleFieldDropDown", new TypeModel { Path = "Right" }));
 
             
@@ -226,6 +228,10 @@ WriteLiteral(@"
                             </tr>
                         </tbody>
                     </table>
+                    <a class=""btn btn-link"" data-bind=""click : addRule"" href=""#rules-table"">
+                        <i class=""fa fa-plus-circle""></i>
+                        Add a rule
+                    </a>
                 </form>
             </div>
             <div class=""modal-footer"">
