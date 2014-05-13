@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Domain
                                select new BuildError
                                (
                                    this.WebId,
-                                   string.Format("[Column] : {0} does not have path", f.Path)
+                                   string.Format("[Column] : {1}({0}) does not have path", f.Path, f.Header)
                                );
             var linkErrors = from f in this.ViewColumnCollection
                              where string.IsNullOrWhiteSpace(f.FormRoute)
@@ -45,7 +45,7 @@ namespace Bespoke.Sph.Domain
                              select new BuildError
                              (
                                  this.WebId,
-                                 string.Format("[Column] : {0} does not have for route", f.Path)
+                                 string.Format("[Column] : {1}({0})  does not have for route", f.Path, f.Header)
                              );
             if (string.IsNullOrWhiteSpace(this.Route))
                 result.Errors.Add(new BuildError(this.WebId, "Route is missing"));
