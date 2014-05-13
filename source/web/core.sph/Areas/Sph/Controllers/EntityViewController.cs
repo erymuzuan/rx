@@ -111,6 +111,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var list = new ObjectCollection<EntityView>();
             foreach (var v in views)
             {
+                if (!v.Performer.Validate()) continue;
                 if (v.Performer.IsPublic)
                 {
                     list.Add(v);
