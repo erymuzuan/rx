@@ -17,6 +17,16 @@ namespace Bespoke.Sph.ElasticSearchLogger
         public async Task LogAsync(string operation, string message, Severity severity = Severity.Info, LogEntry entry = LogEntry.Application)
         {
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
+            string user;
+            try
+            {
+                user = ad.CurrentUserName;
+            }
+            catch
+            {
+                user = "Fail to get username";
+            }
+
             var item = new Log
             {
                 Operation = operation,
@@ -24,7 +34,7 @@ namespace Bespoke.Sph.ElasticSearchLogger
                 Severity = severity,
                 Entry = entry,
                 DateTime = DateTime.Now,
-                UserName = ad.CurrentUserName
+                UserName = user
             };
             var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
