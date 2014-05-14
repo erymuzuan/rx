@@ -176,9 +176,9 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "    initDesigner();\r\n                    $(\'#add-field>ul>li\').draggable({\r\n    " +
 "                    helper: \'clone\',\r\n                        connectToSortable:" +
 " \"#template-form-designer>form\"\r\n                    });\r\n\r\n\r\n                  " +
-"  $(\'section.context-action-panel\').on(\'click\', \'buton.close\', function() {\r\n   " +
-"                     $(this).parents(\'div.context-action\').hide();\r\n            " +
-"        });\r\n                },\r\n                supportsHtml5Storage = function" +
+"  $(\'div.context-action-panel\').on(\'click\', \'buton.close\', function() {\r\n       " +
+"                 $(this).parents(\'div.context-action\').hide();\r\n                " +
+"    });\r\n\r\n\r\n                },\r\n                supportsHtml5Storage = function" +
 " () {\r\n                    try {\r\n                        return \'localStorage\' " +
 "in window && window[\'localStorage\'] !== null;\r\n                    } catch (e) {" +
 "\r\n                        return false;\r\n                    }\r\n                " +

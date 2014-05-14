@@ -19,7 +19,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             errors = ko.observableArray(),
             forms = ko.observableArray(),
             views = ko.observableArray(),
-            member = ko.observable(new bespoke.sph.domain.Member()),
+            member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
             activate = function (entityid) {
                 var id = parseInt(entityid);
                 if (id) {
