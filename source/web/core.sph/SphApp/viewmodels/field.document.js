@@ -18,13 +18,16 @@ define(['plugins/dialog'],
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
-            attached = function () {
+            attached = function (view) {
                 var model = field();
                 model.Path.subscribe(function (v) {
                     if (!ko.unwrap(model.Name)) {
                         model.Name(v);
                     }
                 });
+                setTimeout(function () {
+                    $(view).find('#doc-field-path').focus();
+                }, 100);
             };
 
         var vm = {

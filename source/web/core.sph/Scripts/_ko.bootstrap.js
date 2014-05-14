@@ -1,6 +1,7 @@
 ﻿/// <reference path="typeahead.bundle.js" />
 /// <reference path="knockout-3.1.0.debug.js" />
 /// <reference path="underscore.js" />
+/// <reference path="jquery-2.1.0.intellisense.js" />
 
 ko.bindingHandlers.bootstrapDropDown = {
     init: function (element, valueAccesor) {
@@ -30,7 +31,10 @@ ko.bindingHandlers.bootstrapDropDown = {
         anchor.click(dropDown);
 
         if (!anchor.html()) {
-            anchor.html(text + '<i class="fa fa-caret-down pull-right"></i>');
+            if (text.toString() === "[object Object]") {
+                text = "[Select you value]";
+            }
+            anchor.html(text + ' <i class="fa fa-caret-down"></i>');
         }
     }
 };

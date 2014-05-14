@@ -146,7 +146,7 @@
             </div>
             <div class="form-group">
                 <label class="checkbox" data-bind="tooltip:'To use full text index, terms will be broken and analyzed. Do not check for items you want to use in aggregates(i.e. term search)'">
-                    <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed || TypeName() !== 'System.String, mscorlib'" id="member-analyzed" type="checkbox" name="IsAnalyzed" />
+                    <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed() || TypeName() !== 'System.String, mscorlib'" id="member-analyzed" type="checkbox" name="IsAnalyzed" />
                     Should analyzed(only for string)
                 </label>
             </div>
@@ -156,7 +156,7 @@
                     Do not include in all
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
                 <label for="member-boost" class="control-label">Boost</label>
 
                 <input type="number" data-bind="value: Boost, disable: IsNotIndexed"
@@ -166,7 +166,7 @@
 
             </div>
 
-            <div class="form-group">
+            <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
                 <label for="member-default-value" class="control-label">Default Value</label>
                 <div class="btn-group" id="member-default-value">
                     <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
@@ -187,7 +187,6 @@
                         <li>
                             <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.DefaultValue" href="#">
                                 <img src="/images/ConstantField.png" alt=" constantfield" class="pull-left" />
-
                                 + Constant Field
                             </a>
                         </li>

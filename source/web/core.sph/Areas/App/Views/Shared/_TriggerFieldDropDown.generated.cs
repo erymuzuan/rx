@@ -65,7 +65,7 @@ WriteLiteral(@", bootstrapDropDown : '[Select a field]'"" class=""btn btn-link d
         <!-- ko ifnot : Name -->
            Your field
         <!-- /ko -->
-        <i class=""fa fa-caret-down pull-right""></i>
+        <i class=""fa fa-caret-down""></i>
     </a>
     <ul class=""dropdown-menu"">
         <li data-bind=""with : ");
