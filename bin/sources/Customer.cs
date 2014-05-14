@@ -10,13 +10,27 @@ namespace Bespoke.Dev_1.Domain
 {
    public class Customer : Entity
    {
-   private int m_customerId;
-   [XmlAttribute]
-   public int CustomerId
-   {
-       get{ return m_customerId;}
-       set{ m_customerId = value;}
-   }
+       private int m_customerId;
+       [XmlAttribute]
+       public int CustomerId
+       {
+           get{ return m_customerId;}
+           set{ m_customerId = value;}
+       }
+       public Customer()
+       {
+           var rc = new RuleContext(this);
+
+           var mj1 = "{\"$type\":\"Bespoke.Sph.Domain.ConstantField, domain.sph\",\"TypeName\":\"System.String, mscorlib\",\"Value\":\"Male\",\"Name\":\"Male\",\"Note\":\"\",\"WebId\":\"bcccb11c-fb6f-4b91-9591-14951a451a42\"}";
+           var field1 = mj1.DeserializeFromJson<ConstantField>();
+           var val1 = field1.GetValue(rc);
+           m_gender = (System.String)val1;
+
+           var mj2 = "{\"$type\":\"Bespoke.Sph.Domain.ConstantField, domain.sph\",\"TypeName\":\"System.String, mscorlib\",\"Value\":\"Sales\",\"Name\":\"Sales\",\"Note\":\"\",\"WebId\":\"95df2857-f940-4066-95b7-bc5ccc6bc155\"}";
+           var field2 = mj2.DeserializeFromJson<ConstantField>();
+           var val2 = field2.GetValue(rc);
+           m_department = (System.String)val2;
+       }
      
         public override string ToString()
         {
@@ -31,126 +45,135 @@ namespace Bespoke.Dev_1.Domain
             return m_customerId;
         }
 //member:FullName
-          private System.String m_fullName;
-   [XmlAttribute]
-   public System.String FullName
-   {
-       get{ return m_fullName;}
-       set{ m_fullName = value;}
-   }
+      private System.String m_fullName;
+      [XmlAttribute]
+      public System.String FullName
+      {
+          get{ return m_fullName;}
+          set{ m_fullName = value;}
+      }
 
 //member:Address
-          private Address m_address = new Address();
-   public Address Address
-   {
-       get{ return m_address;}
-       set{ m_address = value;}
-   }
+      private Address m_address = new Address();
+      public Address Address
+      {
+          get{ return m_address;}
+          set{ m_address = value;}
+      }
 
 //member:Age
-          private System.Int32? m_age;
-   public System.Int32? Age
-   {
-       get{ return m_age;}
-       set{ m_age = value;}
-   }
+      private System.Int32? m_age;
+      public System.Int32? Age
+      {
+          get{ return m_age;}
+          set{ m_age = value;}
+      }
 
 //member:Gender
-          private System.String m_gender;
-   [XmlAttribute]
-   public System.String Gender
-   {
-       get{ return m_gender;}
-       set{ m_gender = value;}
-   }
+      private System.String m_gender;
+      [XmlAttribute]
+      public System.String Gender
+      {
+          get{ return m_gender;}
+          set{ m_gender = value;}
+      }
 
 //member:IsPriority
-          private System.Boolean m_isPriority;
-   [XmlAttribute]
-   public System.Boolean IsPriority
-   {
-       get{ return m_isPriority;}
-       set{ m_isPriority = value;}
-   }
+      private System.Boolean m_isPriority;
+      [XmlAttribute]
+      public System.Boolean IsPriority
+      {
+          get{ return m_isPriority;}
+          set{ m_isPriority = value;}
+      }
 
 //member:Contact
-          private Contact m_contact = new Contact();
-   public Contact Contact
-   {
-       get{ return m_contact;}
-       set{ m_contact = value;}
-   }
+      private Contact m_contact = new Contact();
+      public Contact Contact
+      {
+          get{ return m_contact;}
+          set{ m_contact = value;}
+      }
 
 //member:PhotoStoreId
-          private System.String m_photoStoreId;
-   [XmlAttribute]
-   public System.String PhotoStoreId
-   {
-       get{ return m_photoStoreId;}
-       set{ m_photoStoreId = value;}
-   }
+      private System.String m_photoStoreId;
+      [XmlAttribute]
+      public System.String PhotoStoreId
+      {
+          get{ return m_photoStoreId;}
+          set{ m_photoStoreId = value;}
+      }
 
 //member:RegisteredDate
-          private System.DateTime m_registeredDate;
-   [XmlAttribute]
-   public System.DateTime RegisteredDate
-   {
-       get{ return m_registeredDate;}
-       set{ m_registeredDate = value;}
-   }
+      private System.DateTime m_registeredDate;
+      [XmlAttribute]
+      public System.DateTime RegisteredDate
+      {
+          get{ return m_registeredDate;}
+          set{ m_registeredDate = value;}
+      }
 
 //member:Rating
-          private System.Int32 m_rating;
-   [XmlAttribute]
-   public System.Int32 Rating
-   {
-       get{ return m_rating;}
-       set{ m_rating = value;}
-   }
+      private System.Int32 m_rating;
+      [XmlAttribute]
+      public System.Int32 Rating
+      {
+          get{ return m_rating;}
+          set{ m_rating = value;}
+      }
 
 //member:AnnualRevenue
-          private System.Decimal m_annualRevenue;
-   [XmlAttribute]
-   public System.Decimal AnnualRevenue
-   {
-       get{ return m_annualRevenue;}
-       set{ m_annualRevenue = value;}
-   }
+      private System.Decimal m_annualRevenue;
+      [XmlAttribute]
+      public System.Decimal AnnualRevenue
+      {
+          get{ return m_annualRevenue;}
+          set{ m_annualRevenue = value;}
+      }
 
 //member:ProfileStoreId
-          private System.String m_profileStoreId;
-   [XmlAttribute]
-   public System.String ProfileStoreId
-   {
-       get{ return m_profileStoreId;}
-       set{ m_profileStoreId = value;}
-   }
+      private System.String m_profileStoreId;
+      [XmlAttribute]
+      public System.String ProfileStoreId
+      {
+          get{ return m_profileStoreId;}
+          set{ m_profileStoreId = value;}
+      }
 
 //member:PrimaryContact
-          private System.String m_primaryContact;
-   [XmlAttribute]
-   public System.String PrimaryContact
-   {
-       get{ return m_primaryContact;}
-       set{ m_primaryContact = value;}
-   }
+      private System.String m_primaryContact;
+      [XmlAttribute]
+      public System.String PrimaryContact
+      {
+          get{ return m_primaryContact;}
+          set{ m_primaryContact = value;}
+      }
 
 //member:Revenue
-          private System.Decimal? m_revenue;
-   public System.Decimal? Revenue
-   {
-       get{ return m_revenue;}
-       set{ m_revenue = value;}
-   }
+      private System.Decimal? m_revenue;
+      public System.Decimal? Revenue
+      {
+          get{ return m_revenue;}
+          set{ m_revenue = value;}
+      }
 
 //member:LogoStoreId
-          private System.String m_logoStoreId;
-   [XmlAttribute]
-   public System.String LogoStoreId
-   {
-       get{ return m_logoStoreId;}
-       set{ m_logoStoreId = value;}
-   }
+      private System.String m_logoStoreId;
+      [XmlAttribute]
+      public System.String LogoStoreId
+      {
+          get{ return m_logoStoreId;}
+          set{ m_logoStoreId = value;}
+      }
+
+//member:Department
+      private System.String m_department;
+      [XmlAttribute]
+      public System.String Department
+      {
+          get{ return m_department;}
+          set{ m_department = value;}
+      }
 
    }
 //class:FullName
@@ -158,53 +181,53 @@ namespace Bespoke.Dev_1.Domain
 //class:Address
    public class Address: DomainObject
    {
-   private System.String m_street1;
-   [XmlAttribute]
-   public System.String Street1
-   {
-       get{ return m_street1;}
-       set{ m_street1 = value;}
-   }
+      private System.String m_street1;
+      [XmlAttribute]
+      public System.String Street1
+      {
+          get{ return m_street1;}
+          set{ m_street1 = value;}
+      }
 
-   private System.String m_street2;
-   [XmlAttribute]
-   public System.String Street2
-   {
-       get{ return m_street2;}
-       set{ m_street2 = value;}
-   }
+      private System.String m_street2;
+      [XmlAttribute]
+      public System.String Street2
+      {
+          get{ return m_street2;}
+          set{ m_street2 = value;}
+      }
 
-   private System.String m_postcode;
-   [XmlAttribute]
-   public System.String Postcode
-   {
-       get{ return m_postcode;}
-       set{ m_postcode = value;}
-   }
+      private System.String m_postcode;
+      [XmlAttribute]
+      public System.String Postcode
+      {
+          get{ return m_postcode;}
+          set{ m_postcode = value;}
+      }
 
-   private System.String m_state;
-   [XmlAttribute]
-   public System.String State
-   {
-       get{ return m_state;}
-       set{ m_state = value;}
-   }
+      private System.String m_state;
+      [XmlAttribute]
+      public System.String State
+      {
+          get{ return m_state;}
+          set{ m_state = value;}
+      }
 
-   private System.String m_locality;
-   [XmlAttribute]
-   public System.String Locality
-   {
-       get{ return m_locality;}
-       set{ m_locality = value;}
-   }
+      private System.String m_locality;
+      [XmlAttribute]
+      public System.String Locality
+      {
+          get{ return m_locality;}
+          set{ m_locality = value;}
+      }
 
-   private System.String m_district;
-   [XmlAttribute]
-   public System.String District
-   {
-       get{ return m_district;}
-       set{ m_district = value;}
-   }
+      private System.String m_district;
+      [XmlAttribute]
+      public System.String District
+      {
+          get{ return m_district;}
+          set{ m_district = value;}
+      }
 
    }
 
@@ -223,43 +246,43 @@ namespace Bespoke.Dev_1.Domain
 //class:Contact
    public class Contact: DomainObject
    {
-   private System.String m_name;
-   [XmlAttribute]
-   public System.String Name
-   {
-       get{ return m_name;}
-       set{ m_name = value;}
-   }
+      private System.String m_name;
+      [XmlAttribute]
+      public System.String Name
+      {
+          get{ return m_name;}
+          set{ m_name = value;}
+      }
 
-   private System.String m_email;
-   [XmlAttribute]
-   public System.String Email
-   {
-       get{ return m_email;}
-       set{ m_email = value;}
-   }
+      private System.String m_email;
+      [XmlAttribute]
+      public System.String Email
+      {
+          get{ return m_email;}
+          set{ m_email = value;}
+      }
 
-   private System.String m_telephone;
-   [XmlAttribute]
-   public System.String Telephone
-   {
-       get{ return m_telephone;}
-       set{ m_telephone = value;}
-   }
+      private System.String m_telephone;
+      [XmlAttribute]
+      public System.String Telephone
+      {
+          get{ return m_telephone;}
+          set{ m_telephone = value;}
+      }
 
-   private readonly ObjectCollection<Attachment> m_attachmentCollection = new ObjectCollection<Attachment>();
-   public ObjectCollection<Attachment> AttachmentCollection
-   {
-       get{ return m_attachmentCollection;}
-   }
+      private readonly ObjectCollection<Attachment> m_attachmentCollection = new ObjectCollection<Attachment>();
+      public ObjectCollection<Attachment> AttachmentCollection
+      {
+          get{ return m_attachmentCollection;}
+      }
 
-   private System.String m_title;
-   [XmlAttribute]
-   public System.String Title
-   {
-       get{ return m_title;}
-       set{ m_title = value;}
-   }
+      private System.String m_title;
+      [XmlAttribute]
+      public System.String Title
+      {
+          get{ return m_title;}
+          set{ m_title = value;}
+      }
 
    }
 
@@ -267,37 +290,37 @@ namespace Bespoke.Dev_1.Domain
 
    public class Attachment: DomainObject
    {
-   private System.String m_title;
-   [XmlAttribute]
-   public System.String Title
-   {
-       get{ return m_title;}
-       set{ m_title = value;}
-   }
+      private System.String m_title;
+      [XmlAttribute]
+      public System.String Title
+      {
+          get{ return m_title;}
+          set{ m_title = value;}
+      }
 
-   private System.String m_extension;
-   [XmlAttribute]
-   public System.String Extension
-   {
-       get{ return m_extension;}
-       set{ m_extension = value;}
-   }
+      private System.String m_extension;
+      [XmlAttribute]
+      public System.String Extension
+      {
+          get{ return m_extension;}
+          set{ m_extension = value;}
+      }
 
-   private System.String m_note;
-   [XmlAttribute]
-   public System.String Note
-   {
-       get{ return m_note;}
-       set{ m_note = value;}
-   }
+      private System.String m_note;
+      [XmlAttribute]
+      public System.String Note
+      {
+          get{ return m_note;}
+          set{ m_note = value;}
+      }
 
-   private System.String m_storeId;
-   [XmlAttribute]
-   public System.String StoreId
-   {
-       get{ return m_storeId;}
-       set{ m_storeId = value;}
-   }
+      private System.String m_storeId;
+      [XmlAttribute]
+      public System.String StoreId
+      {
+          get{ return m_storeId;}
+          set{ m_storeId = value;}
+      }
 
    }
 
@@ -322,6 +345,8 @@ namespace Bespoke.Dev_1.Domain
 //class:Revenue
 
 //class:LogoStoreId
+
+//class:Department
 
 public partial class CustomerController : System.Web.Mvc.Controller
 {

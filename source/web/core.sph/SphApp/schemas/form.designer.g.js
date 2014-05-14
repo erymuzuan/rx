@@ -819,6 +819,7 @@ bespoke.sph.domain.Member = function (optionOrWebid) {
         Boost: ko.observable(0),
         MemberCollection: ko.observableArray([]),
         FieldPermissionCollection: ko.observableArray([]),
+        DefaultValue: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

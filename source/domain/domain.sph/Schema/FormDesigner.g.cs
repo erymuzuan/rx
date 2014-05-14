@@ -2474,6 +2474,12 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameBoost = "Boost";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Field m_defaultValue;
+        public const string PropertyNameDefaultValue = "DefaultValue";
+
+
+
         private readonly ObjectCollection<Member> m_MemberCollection = new ObjectCollection<Member>();
 
         ///<summary>
@@ -2727,6 +2733,28 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public Field DefaultValue
+        {
+            set
+            {
+                if (m_defaultValue == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefaultValue, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_defaultValue = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_defaultValue; }
+        }
 
 
     }

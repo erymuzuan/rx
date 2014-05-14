@@ -23,6 +23,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 5,
+        "DefaultValue": null,
         "WebId": null
       },
       {
@@ -50,6 +51,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "5083b32a-54bf-4450-9c6c-86dad9c4f98d"
             },
             {
@@ -71,6 +73,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "4f1a8f1e-66f5-4723-b3fa-f0f7ae4e9ed2"
             },
             {
@@ -92,6 +95,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "76551b87-3db3-4fe5-9e8a-1680a64a59c5"
             },
             {
@@ -113,6 +117,7 @@
               "IsFilterable": true,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "6e2340a4-45fc-4bd6-991d-e1fb9db4f899"
             },
             {
@@ -134,6 +139,7 @@
               "IsFilterable": true,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "17d90245-37e2-4d4c-a083-b837bd08e604"
             },
             {
@@ -155,6 +161,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "4c7c0387-0aeb-4abe-a25f-5501a4f193ec"
             }
           ]
@@ -171,6 +178,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": null
       },
       {
@@ -192,6 +200,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "1e8da355-7cd0-4453-93b5-54c3e18b3258"
       },
       {
@@ -213,6 +222,14 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 3,
+        "DefaultValue": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Male",
+          "Name": "Male",
+          "Note": "",
+          "WebId": "bcccb11c-fb6f-4b91-9591-14951a451a42"
+        },
         "WebId": "d7b037e4-a131-436a-ab7f-25dcdf8224e2"
       },
       {
@@ -234,6 +251,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "5c338151-6810-4fb7-9a27-220c530b6d4e"
       },
       {
@@ -261,6 +279,7 @@
               "IsFilterable": true,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "e8e5c79d-3647-426e-8d40-068c89c97762"
             },
             {
@@ -282,6 +301,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 1,
+              "DefaultValue": null,
               "WebId": "0542635a-9813-4c93-9dc3-a43eb7c484d2"
             },
             {
@@ -303,6 +323,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "6fc0cde4-911e-45f4-b81a-9919013f9648"
             },
             {
@@ -330,6 +351,7 @@
                     "IsFilterable": false,
                     "IsExcludeInAll": false,
                     "Boost": 0,
+                    "DefaultValue": null,
                     "WebId": "591f6458-a710-45c5-a9aa-731f977c0de1"
                   },
                   {
@@ -351,6 +373,7 @@
                     "IsFilterable": false,
                     "IsExcludeInAll": false,
                     "Boost": 0,
+                    "DefaultValue": null,
                     "WebId": "363f0a6f-24c3-49d1-8e71-3287877be282"
                   },
                   {
@@ -372,6 +395,7 @@
                     "IsFilterable": false,
                     "IsExcludeInAll": false,
                     "Boost": 0,
+                    "DefaultValue": null,
                     "WebId": "266bb168-de09-4b60-bd7e-f3efc4b019a1"
                   },
                   {
@@ -393,6 +417,7 @@
                     "IsFilterable": false,
                     "IsExcludeInAll": false,
                     "Boost": 0,
+                    "DefaultValue": null,
                     "WebId": "317b01d8-744f-4241-90db-a9f836979be5"
                   }
                 ]
@@ -409,6 +434,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "acf88a85-e860-478f-a641-af2bfd9c73a2"
             },
             {
@@ -430,6 +456,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "248d0c8f-b1a1-419a-b5c1-0564b6346915"
             }
           ]
@@ -446,6 +473,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "bcc56519-0f33-4dfb-8e38-5b878250029a"
       },
       {
@@ -467,6 +495,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "287e1501-c229-4815-a935-ebdf1bdf7576"
       },
       {
@@ -488,6 +517,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
+        "DefaultValue": null,
         "WebId": "f6528f8a-40bc-4a9e-a70b-130230026913"
       },
       {
@@ -509,6 +539,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
+        "DefaultValue": null,
         "WebId": "42a88b57-cdc1-49f0-8189-b32493c23609"
       },
       {
@@ -530,6 +561,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 1,
+        "DefaultValue": null,
         "WebId": "dc87329a-bc36-43a0-8a76-da4df86b0577"
       },
       {
@@ -551,6 +583,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "a483f810-5eef-4d4a-89be-281e0056423c"
       },
       {
@@ -572,6 +605,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
+        "DefaultValue": null,
         "WebId": "4255e9cb-0a64-4c00-9969-2cd1285325bf"
       },
       {
@@ -593,6 +627,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 1,
+        "DefaultValue": null,
         "WebId": "7f1d3dee-8399-414f-bf96-f41e9b16c67e"
       },
       {
@@ -614,7 +649,37 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 1,
+        "DefaultValue": null,
         "WebId": "4b5c0030-dc95-4ccd-a140-1853d5905dc0"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Department",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": true,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": true,
+        "IsExcludeInAll": false,
+        "Boost": 1,
+        "DefaultValue": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "Sales",
+          "Name": "Sales",
+          "Note": "",
+          "WebId": "95df2857-f940-4066-95b7-bc5ccc6bc155"
+        },
+        "WebId": "16548593-5417-4918-9325-ab065f436d44"
       }
     ]
   },
@@ -673,27 +738,51 @@
                 "XPath": "",
                 "NamespacePrefix": "",
                 "TypeName": "",
-                "Path": "Address.State",
-                "Name": "State",
+                "Path": "FullName",
+                "Name": "FullName",
                 "Note": "",
-                "WebId": "fe28189d-1a75-46b7-b3d8-6197a81f8d5b"
+                "WebId": "c42b1a9c-a674-408c-a56a-08f43f334569"
               },
               "Right": {
                 "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
                 "TypeName": "System.String, mscorlib",
-                "Value": "Malaysia",
-                "Name": "Malaysian",
-                "Note": "0",
-                "WebId": "ed85c72d-789a-4dea-80c9-182e22d9c383"
+                "Value": "1",
+                "Name": "1",
+                "Note": "",
+                "WebId": "78b9056e-f19d-4d41-be95-5b5b95534066"
               },
-              "Operator": "Substringof",
-              "WebId": "511a4bb2-8cab-42dd-ba37-0acfeb49c6ac"
+              "Operator": "NotContains",
+              "WebId": "cedc966d-3960-405c-a37e-be07d1ebd7ff"
             }
           ]
         },
         "FilterCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
-          "$values": []
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
+              "Left": {
+                "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                "XPath": "",
+                "NamespacePrefix": "",
+                "TypeName": "",
+                "Path": "Address.State",
+                "Name": "Address.State",
+                "Note": "",
+                "WebId": "d8cd6407-520f-43ff-af20-61a33f14720d"
+              },
+              "Right": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "Singapore",
+                "Name": "Singapore",
+                "Note": "",
+                "WebId": "60f54362-a732-4ae2-8996-7ce2f04e15cd"
+              },
+              "Operator": "Eq",
+              "WebId": "d39f1872-49a6-4644-ab2e-108d07597f65"
+            }
+          ]
         },
         "Description": "Just the revenues",
         "Name": "Must be Malaysian",
@@ -861,6 +950,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-12T19:27:36.2179441+08:00",
+  "ChangedDate": "2014-05-14T08:42:45.0955162+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

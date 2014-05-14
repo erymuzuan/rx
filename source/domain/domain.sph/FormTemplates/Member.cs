@@ -30,38 +30,38 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public string GeneratedCode()
+        public string GeneratedCode(string padding = "      ")
         {
             if (null == this.Type)
                 throw new InvalidOperationException(this + " doesn't have a type");
             var code = new StringBuilder();
             if (typeof(object) == this.Type)
             {
-                code.AppendLinf("   private {0} m_{1} = new {0}();", this.Name, this.Name.ToCamelCase());
-                code.AppendLinf("   public {0} {1}", this.Name, this.Name);
-                code.AppendLine("   {");
-                code.AppendLinf("       get{{ return m_{0};}}", this.Name.ToCamelCase());
-                code.AppendLinf("       set{{ m_{0} = value;}}", this.Name.ToCamelCase());
-                code.AppendLine("   }");
+                code.AppendLinf(padding + "private {0} m_{1} = new {0}();", this.Name, this.Name.ToCamelCase());
+                code.AppendLinf(padding + "public {0} {1}", this.Name, this.Name);
+                code.AppendLine(padding + "{");
+                code.AppendLinf(padding + "    get{{ return m_{0};}}", this.Name.ToCamelCase());
+                code.AppendLinf(padding + "    set{{ m_{0} = value;}}", this.Name.ToCamelCase());
+                code.AppendLine(padding + "}");
                 return code.ToString();
             }
             if (typeof(Array) == this.Type)
             {
-                code.AppendLinf("   private readonly ObjectCollection<{0}> m_{1} = new ObjectCollection<{0}>();", this.Name.Replace("Collection", ""), this.Name.ToCamelCase());
-                code.AppendLinf("   public ObjectCollection<{0}> {1}", this.Name.Replace("Collection", ""), this.Name);
-                code.AppendLine("   {");
-                code.AppendLinf("       get{{ return m_{0};}}", this.Name.ToCamelCase());
-                code.AppendLine("   }");
+                code.AppendLinf(padding + "private readonly ObjectCollection<{0}> m_{1} = new ObjectCollection<{0}>();", this.Name.Replace("Collection", ""), this.Name.ToCamelCase());
+                code.AppendLinf(padding + "public ObjectCollection<{0}> {1}", this.Name.Replace("Collection", ""), this.Name);
+                code.AppendLine(padding + "{");
+                code.AppendLinf(padding + "    get{{ return m_{0};}}", this.Name.ToCamelCase());
+                code.AppendLine(padding + "}");
                 return code.ToString();
             }
-            code.AppendLinf("   private {0}{2} m_{1};", this.Type.FullName, this.Name.ToCamelCase(), this.GetNullable());
+            code.AppendLinf(padding + "private {0}{2} m_{1};", this.Type.FullName, this.Name.ToCamelCase(), this.GetNullable());
             if (typeof(string) == this.Type || !this.IsNullable)
-                code.AppendLinf("   [XmlAttribute]");
-            code.AppendLinf("   public {0}{2} {1}", this.Type.FullName, this.Name, this.GetNullable());
-            code.AppendLine("   {");
-            code.AppendLinf("       get{{ return m_{0};}}", this.Name.ToCamelCase());
-            code.AppendLinf("       set{{ m_{0} = value;}}", this.Name.ToCamelCase());
-            code.AppendLine("   }");
+                code.AppendLinf(padding + "[XmlAttribute]");
+            code.AppendLinf(padding + "public {0}{2} {1}", this.Type.FullName, this.Name, this.GetNullable());
+            code.AppendLine(padding + "{");
+            code.AppendLinf(padding + "    get{{ return m_{0};}}", this.Name.ToCamelCase());
+            code.AppendLinf(padding + "    set{{ m_{0} = value;}}", this.Name.ToCamelCase());
+            code.AppendLine(padding + "}");
             return code.ToString();
         }
 

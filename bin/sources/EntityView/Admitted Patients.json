@@ -28,47 +28,15 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
           "$values": []
         },
-        "Path": "FullName",
-        "Header": "Name",
+        "Path": "CreatedDate",
+        "Header": "Created date",
         "Sort": "",
         "IsLinkColumn": false,
         "FormRoute": null,
         "IconCssClass": "",
         "IconStoreId": "",
-        "Format": "text:{0}",
-        "WebId": "e0d1465c-b071-4cec-acfb-0001a355dc9c"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "Gender",
-        "Header": "Gender",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "WebId": "2887fcc4-53eb-4c33-8ff9-a5425c9a358e"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "Race",
-        "Header": "Race",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "WebId": "8137e975-0bcc-46c8-9f5d-abe76cde9576"
+        "Format": "date:{0}",
+        "WebId": "2fff8d5b-31e0-49ea-bc6f-319a87d69f7d"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -92,6 +60,22 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
           "$values": []
         },
+        "Path": "FullName",
+        "Header": "Name",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "e0d1465c-b071-4cec-acfb-0001a355dc9c"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Age",
         "Header": "Age",
         "Sort": "",
@@ -101,6 +85,22 @@
         "IconStoreId": "",
         "Format": "text:{0}",
         "WebId": "a131040f-c6f4-4823-acbf-4aaa2d2603b3"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Gender",
+        "Header": "Gender",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "WebId": "2887fcc4-53eb-4c33-8ff9-a5425c9a358e"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -146,9 +146,9 @@
   },
   "Performer": {
     "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": "UserName",
-    "Value": "admin",
-    "IsPublic": false,
+    "UserProperty": "",
+    "Value": null,
+    "IsPublic": true,
     "WebId": null
   },
   "EntityViewId": 1003,
@@ -167,6 +167,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-12T13:44:44.0031921+08:00",
+  "ChangedDate": "2014-05-13T19:51:21.1468356+08:00",
   "WebId": "de22c2e4-722b-41ad-b327-33ffa94280fe"
 }

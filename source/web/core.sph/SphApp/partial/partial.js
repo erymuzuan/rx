@@ -1098,13 +1098,46 @@ bespoke.sph.domain.MemberPartial = function () {
                 });
 
             };
+        },
+        showFieldDialog = function (accessor, field, path) {
+            require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
+                dialog.field(field);
+
+
+                app2.showDialog(dialog)
+                .done(function (result) {
+                    if (!result) return;
+                    if (result === "OK") {
+                        accessor(field);
+                    }
+                });
+
+            });
+        },
+        addField = function (accessor, type) {
+            var field = new bespoke.sph.domain[type + 'Field'](system.guid());
+            showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
+        },
+        editField = function (field) {
+            var self = this;
+            return function () {
+                var fieldType = ko.unwrap(field.$type),
+                    clone = ko.mapping.fromJS(ko.mapping.toJS(field)),
+                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Field,/,
+                    type = pattern.exec(fieldType)[1];
+
+
+                showFieldDialog(self.Field, clone, 'field.' + type.toLowerCase());
+            };
         };
     return {
         editPermission: editPermission,
         addMember: addMember,
         editMember: editMember,
         editMemberMap: editMemberMap,
-        removeMember: removeMember
+        removeMember: removeMember,
+        addField: addField,
+        editField: editField
     };
 };
 ///#source 1 1 /SphApp/partial/MethodArg.js

@@ -31,14 +31,32 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   public class " + this.Name + " : Entity");
             code.AppendLine("   {");
 
-            code.AppendLinf("   private int m_{0}Id;", this.Name.ToCamelCase());
-            code.AppendLinf("   [XmlAttribute]");
-            code.AppendLinf("   public int {0}Id", this.Name);
-            code.AppendLine("   {");
-            code.AppendLinf("       get{{ return m_{0}Id;}}", this.Name.ToCamelCase());
-            code.AppendLinf("       set{{ m_{0}Id = value;}}", this.Name.ToCamelCase());
-            code.AppendLine("   }");
+            code.AppendLinf("       private int m_{0}Id;", this.Name.ToCamelCase());
+            code.AppendLinf("       [XmlAttribute]");
+            code.AppendLinf("       public int {0}Id", this.Name);
+            code.AppendLine("       {");
+            code.AppendLinf("           get{{ return m_{0}Id;}}", this.Name.ToCamelCase());
+            code.AppendLinf("           set{{ m_{0}Id = value;}}", this.Name.ToCamelCase());
+            code.AppendLine("       }");
 
+
+            // ctor
+
+            code.AppendLine("       public " + this.Name + "()");
+            code.AppendLine("       {");
+            code.AppendLinf("           var rc = new RuleContext(this);");
+            var count = 0;
+            foreach (var member in this.MemberCollection)
+            {
+                if (null == member.DefaultValue) continue;
+                count++;
+                code.AppendLine();
+                code.AppendLinf("           var mj{1} = \"{0}\";", member.DefaultValue.ToJsonString().Replace("\"", "\\\""), count);
+                code.AppendLinf("           var field{0} = mj{0}.DeserializeFromJson<{1}>();",count, member.DefaultValue.GetType().Name);
+                code.AppendLinf("           var val{0} = field{0}.GetValue(rc);", count);
+                code.AppendLinf("           m_{0} = ({1})val{2};", member.Name.ToCamelCase(), member.Type.FullName, count);
+            }
+            code.AppendLine("       }");
             code.AppendFormat(@"     
         public override string ToString()
         {{
@@ -61,7 +79,7 @@ namespace Bespoke.Sph.Domain
             foreach (var member in this.MemberCollection)
             {
                 code.AppendLinf("//member:{0}", member.Name);
-                code.AppendLine("       " + member.GeneratedCode());
+                code.AppendLine(member.GeneratedCode());
             }
 
 
@@ -316,8 +334,8 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("           var brokenRules = new ObjectCollection<ValidationResult>();");
             code.AppendLine("           var rules = id.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);");
-        
-                code.AppendFormat(@"
+
+            code.AppendFormat(@"
            foreach(var r in rules)
            {{
                 var appliedRules = ed.BusinessRuleCollection.Where(b => b.Name == r);

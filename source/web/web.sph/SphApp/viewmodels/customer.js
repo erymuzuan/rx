@@ -24,13 +24,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 var query = String.format("Name eq '{0}'", 'Customer'),
                   tcs = new $.Deferred(),
                   chartsQuery = String.format("Entity eq 'Customer' and IsDashboardItem eq 1"),
-                  viewsQuery = String.format("EntityDefinitionId eq '1' and IsPublished eq 1"),
                   formsQuery = String.format("EntityDefinitionId eq '1' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
                   edTask = context.loadOneAsync("EntityDefinition", query),
                   chartsTask = context.loadAsync("EntityChart", chartsQuery),
                   formsTask = context.loadAsync("EntityForm", formsQuery),
                   reportTask = context.loadAsync("ReportDefinition", "[DataSource.EntityName] eq 'Customer'"),
-                  viewsTask = context.loadAsync("EntityView", viewsQuery);
+                  viewsTask = $.get("/Sph/EntityView/Dashboard/Customer");
 
 
                 $.when(edTask, formsTask, viewsTask, reportTask, chartsTask)
@@ -48,7 +47,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                      });
                      charts(chartsLo.itemCollection);
                      reports(reportsLo.itemCollection);
-                     views(viewsLo.itemCollection);
+
+                     var vj = _(JSON.parse(viewsLo[0])).map(function (v) {
+                         return context.toObservable(v);
+                     });
+                     views(vj);
+
                      // get counts
                      _(views()).each(function (v) {
                          v.CountMessage("....");
