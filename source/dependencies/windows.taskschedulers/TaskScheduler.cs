@@ -49,6 +49,7 @@ namespace Bespoke.Sph.WindowsTaskScheduler
                 var td = ts.NewTask();
                 td.Settings.Compatibility = TaskCompatibility.V2;
                 td.RegistrationInfo.Source = "sph";
+                td.Settings.Hidden = true;
                 td.RegistrationInfo.Description = "Scheduled task for Delay Activity for " + info;
 
                 // one time trigger
