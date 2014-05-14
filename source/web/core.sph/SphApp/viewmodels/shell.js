@@ -57,25 +57,6 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                     }
                 });
 
-                $(document).on('click', 'button.btn-context-action,a.btn-context-action', function (e) {
-                    e.preventDefault();
-                    var $a = $(this);
-                    var $panel = $a.parent().find('.context-action');
-
-                    var closeButton = function (evt1) {
-                        evt1.preventDefault();
-                        $panel.hide();
-
-                    };
-
-                    $panel.css({
-                        "right": e.offsetX || "0px"
-                    })
-                        .show();
-
-                    $("button.close").one("click", closeButton);
-
-                });
                 $(document).on('click', 'a.dropdown-toggle', dropDown);
 
                 $(document).on('click', 'table.table-striped th', function (e) {

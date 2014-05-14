@@ -193,9 +193,11 @@
                     });
 
 
-                    $('section.context-action-panel').on('click', 'buton.close', function() {
+                    $('div.context-action-panel').on('click', 'buton.close', function() {
                         $(this).parents('div.context-action').hide();
                     });
+
+
                 },
                 supportsHtml5Storage = function () {
                     try {

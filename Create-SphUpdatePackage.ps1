@@ -290,6 +290,16 @@ $updateJson = @"
 }
 "@
 $updateJson > .\deployment\$previous.json
+
+$versionBuildJson = @"
+{
+    
+    "build": $Build,
+    "date" : "$today"
+}
+"@
+$versionBuildJson > .\deployment\version.$Build.json
+
 #release note
 "#Release Note for $Build" > .\deployment\$Build.md
 
@@ -304,6 +314,13 @@ Read-Host
 Create-FtpDirectory -sourceuri "$ftpRoot/$Build" -username $ftpUserName -password $ftpPassword
 Upload-FtpFile -sourceuri "$ftpRoot/$previous.json" -username $ftpUserName -password $ftpPassword -path .\deployment\$previous.json
 Upload-FtpFile -sourceuri "$ftpRoot/$Build/version.$Build.json" -username $ftpUserName -password $ftpPassword -path .\deployment\version.$Build.json
+
+if((Test-Path .\deployment\$Build.html) -eq $false)
+{
+    Write-Host -ForegroundColor Yellow "Cannot find $Build.html for your release note, please use the markdown files provided to generate the Release note"
+    Read-Host
+}
+
 Upload-FtpFile -sourceuri "$ftpRoot/$Build/$Build.html" -username $ftpUserName -password $ftpPassword -path .\deployment\$Build.html
 
 Upload-FtpFile -sourceuri "$ftpRoot/$Build/$Build.7z" -username $ftpUserName -password $ftpPassword -path .\$Build.7z
