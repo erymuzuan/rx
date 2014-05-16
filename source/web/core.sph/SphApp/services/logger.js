@@ -37,7 +37,7 @@ define(['durandal/system'],
                 if (toastType === 'error') {
                     toastr.error(message);
                 } else {
-                    toastr.info(message);
+                    toastr.success(message);
                 }
 
             }
