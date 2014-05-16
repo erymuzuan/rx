@@ -16,31 +16,48 @@
     define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
         function (context, logger, router, system, app, eximp, dialog) {
 
-            var activate = function (wdid, screenid) {
-                var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting)),
-                    oels = _(elements.$values).map(function (v){return context.toObservable(v);});
-                vm.formElements(oels);
+            var runningInDialog = ko.observable(),
+                entityOptions = ko.observableArray(),
+                activate = function (wdid, screenid) {
+                    var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting)),
+                        oels = _(elements.$values).map(function (v){return context.toObservable(v);});
+                    vm.formElements(oels);
+                    
+                    context.getListAsync("EntityDefinition", null, "Name")
+                        .then(function(entities) {
+                            var list = _(entities).map(function(v) {
+                                return {
+                                    text : v,
+                                    value :v
+                                };
+                            });
 
-                if (wdid) {
-                    var id = parseInt(wdid),
-                        query = String.format("WorkflowDefinitionId eq {0}", id),
-                        tcs = new $.Deferred();
-
-                    context.loadOneAsync("WorkflowDefinition", query)
-                        .done(function (b) {
-                            vm.wd(b);
-                            tcs.resolve(true);
-                            b.loadSchema();
-                            var act = _(b.ActivityCollection()).find(function(v) { return v.WebId() == screenid; });
-                            vm.activity(act);
-
+                            list.push({ text: 'UserProfile*', value: 'UserProfile' });
+                            list.push({ text: 'Designation*', value: 'Designation' });
+                            list.push({ text: 'Department*', value: 'Department' });
+                            entityOptions(list);
                         });
-                    return tcs.promise();
-                }
-                return Task.fromResult(true);
-            },
-                attached = function(view) {
 
+                    if (wdid) {
+                        var id = parseInt(wdid),
+                            query = String.format("WorkflowDefinitionId eq {0}", id),
+                            tcs = new $.Deferred();
+
+                        context.loadOneAsync("WorkflowDefinition", query)
+                            .done(function (b) {
+                                vm.wd(b);
+                                tcs.resolve(true);
+                                b.loadSchema();
+                                var act = _(b.ActivityCollection()).find(function(v) { return v.WebId() == screenid; });
+                                vm.activity(act);
+
+                            });
+                        return tcs.promise();
+                    }
+                    return Task.fromResult(true);
+                },
+                attached = function(view) {
+                    runningInDialog(window.location.href.indexOf("screen.editor") < 0);
                     if (!vm.activity().InvitationMessageBody())
                         vm.activity().InvitationMessageBody("@@Model.Screen.Name task is assigned to you go here @@Model.Url");
                     if (!vm.activity().InvitationMessageSubject())
@@ -208,22 +225,24 @@
 
                 },
                 importCommand = function() {
+                   
                     return eximp.importJson()
-                 .done(function (json) {
-                     try {
+                        .done(function (json) {
+                             try {
+                                 var obj = JSON.parse(json),
+                                     clone = context.toObservable(obj);
 
-                         var obj = JSON.parse(json),
-                             clone = context.toObservable(obj);
+                                 vm.activity().FormDesign(clone.FormDesign());
 
-                         vm.activity().FormDesign(clone.FormDesign());
-
-                     } catch (error) {
-                         logger.logError('Fail template import tidak sah', error, this, true);
-                     }
-                 });
+                             } catch (error) {
+                                 logger.logError('Fail template import tidak sah', error, this, true);
+                             }
+                         });
                 };
 
             var vm = {
+                runningInDialog: runningInDialog,
+                entityOptions: entityOptions,
                 attached: attached,
                 activate: activate,
                 formElements: ko.observableArray(),
@@ -236,11 +255,7 @@
                 cancelClick: cancelClick,
                 importCommand :importCommand,
                 toolbar : {
-                    commands :ko.observableArray([{
-                        caption : 'Create Pull Request',
-                        icon : 'fa fa-folder-open-o',
-                        command : open
-                    }
+                    commands :ko.observableArray([
                     ]),
                     exportCommand : exportScreen
                 }
@@ -267,6 +282,8 @@
                                     }
 
                                     return;
+                                } else {
+                                    localStorage.removeItem(screen.WebId());
                                 }
                             });
                     }, 2500);

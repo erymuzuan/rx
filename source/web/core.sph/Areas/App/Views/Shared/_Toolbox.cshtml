@@ -33,11 +33,11 @@
                 @if (Model.IsImportVisible)
                 {
                     <div class="form-group">
-                        <button class="btn btn-info" data-bind="command : $root.importCommand">
+                        <button class="btn btn-default" data-bind="command : $root.importCommand, visible : $root.runningInDialog">
                             <i class="fa fa-upload"></i>
                             Import
                         </button>
-                        <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="attr : {'href':'#/screen.editor/' + $root.wd().WorkflowDefinitionId() + '/' + $root.activity().WebId()}">
+                        <a href="#" class="btn btn-link" data-dismiss="modal" target="_blank" data-bind="attr : {'href':'#/screen.editor/' + $root.wd().WorkflowDefinitionId() + '/' + $root.activity().WebId()}, visible : $root.runningInDialog">
                             <i class="fa fa-edit"></i>
                             Edit
                         </a>
@@ -94,7 +94,7 @@
             <ul class="nav" data-bind="foreach: formElements">
                 <li>
                     <a class="btn btn-default" href="#add-field" data-bind="attr : {title:Tooltip}">
-                        <i data-bind="attr: { 'class': CssClass }" class="pull-left"></i>
+                        <i data-bind="attr: { 'class': ToolboxIconClass }" class="pull-left"></i>
                         <!-- ko text: Name -->
                         <!-- /ko-->
                     </a>
