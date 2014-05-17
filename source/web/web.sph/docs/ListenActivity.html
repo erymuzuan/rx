@@ -1,6 +1,14 @@
-<h1>ListenActivity</h1>
+﻿<h1>ListenActivity</h1>
 
 <h2>Overview</h2>
+
+<p><a href="ListenActivity.html"><code>ListenActivity</code></a> is one of the Async activity available for your workflow, it starts by initiating it's child activities which in turns are async activity themselves. What it does is to create a race for it's children and let the winners takes all.</p>
+
+<p>Once of the child activity is fired, it will quickly cancel all other activities. Lets talk about a simple race condition where ListenActivity could be useful.</p>
+
+<p>Consider a purchasing manager that needs to get a quotation from 3 different suppliers, since this is an urgent purchase, no other consideration will be taken apart from the first one to reply , they will get the job.</p>
+
+<p>You may create 3 separate ScreenActivity for each suppliers, these activities must be the children of a ListenActivity.</p>
 
 <h2>Properties</h2>
 
@@ -12,14 +20,13 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>ListenBranchCollection</td><td> - </td></tr>
-<tr><td>IsAsync</td><td> - </td></tr>
+<tr><td>ListenBranchCollection</td><td> - The children activities</td></tr>
+<tr><td>IsAsync</td><td> - Internal used only</td></tr>
 </tbody></table>
 
 <h2>See also</h2>
 
 <p><a href="Activity.html">Activity</a><br />
-<a href="Activity.html">Activity</a><br />
 <a href="CreateEntityActivity.html">CreateEntityActivity</a><br />
 <a href="DecisionActivity.html">DecisionActivity</a><br />
 <a href="DecisionBranch.html">DecisionBranch</a><br />

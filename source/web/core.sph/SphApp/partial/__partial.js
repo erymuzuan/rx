@@ -1739,6 +1739,7 @@ bespoke.sph.domain.ViewColumnPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
@@ -1805,6 +1806,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
                     app2.showDialog(dialog)
                         .done(function (result) {
+                            $('div.modalBlockout,div.modalHost').remove();
                             if (!result) return;
                             if (result === "OK") {
                                 for (var g in activity) {
@@ -1875,12 +1877,12 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
             };
         },
-         removeVariable = function (variable) {
-             var self = this;
-             return function () {
-                 self.VariableDefinitionCollection.remove(variable);
-             };
-         },
+        removeVariable = function (variable) {
+            var self = this;
+            return function () {
+                self.VariableDefinitionCollection.remove(variable);
+            };
+        },
         addReferencedAssembly = function () {
             var self = this;
             require(['viewmodels/assembly.dialog', 'durandal/app'], function (dialog, app2) {
@@ -1888,7 +1890,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
-                            _(dialog.selectedAssemblies()).each(function(v) {
+                            _(dialog.selectedAssemblies()).each(function (v) {
                                 self.ReferencedAssemblyCollection.push(v);
                             });
                         }
@@ -1901,12 +1903,12 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         editReferencedAssembly = function (dll) {
             alert('not implemented' + dll);
         },
-         removeReferencedAssembly = function (dll) {
-             var self = this;
-             return function () {
-                 self.ReferencedAssemblyCollection.remove(dll);
-             };
-         },
+        removeReferencedAssembly = function (dll) {
+            var self = this;
+            return function () {
+                self.ReferencedAssemblyCollection.remove(dll);
+            };
+        },
         loadSchema = function (storeId) {
             var id = storeId || this.SchemaStoreId();
             $.get("/WorkflowDefinition/GetXsdElementName/" + id)

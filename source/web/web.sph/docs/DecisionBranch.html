@@ -1,6 +1,9 @@
-<h1>DecisionBranch</h1>
+﻿<h1>DecisionBranch</h1>
 
 <h2>Overview</h2>
+
+<p>Use by <a href="DecisionActivity.html"><code>DecisionActivity</code></a> for evaluation of it's branches.<br />
+Each branch must contains a valid C# expression that returns a <code>Boolean</code> except when it's set as default branch.</p>
 
 <h2>Properties</h2>
 
@@ -12,8 +15,8 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>IsDefault</td><td> - </td></tr>
-<tr><td>Expression</td><td> - </td></tr>
+<tr><td>IsDefault</td><td> - There's must be one default branch, if all other branches evaluated to false</td></tr>
+<tr><td>Expression</td><td> - The expression to be evaluated</td></tr>
 </tbody></table>
 
 <h2>See also</h2>

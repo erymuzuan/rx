@@ -1,7 +1,7 @@
 #ReceiveActivity
 ##Overview
-
-
+**FUTURE USED**
+Allow you to set an async activity to receive a message from external systems
 
 ##Properties
 <table class="table table-condensed table-bordered">
@@ -19,7 +19,6 @@
 
 ## See also
 
-[Activity](Activity.html)
 [Activity](Activity.html)
 [CreateEntityActivity](CreateEntityActivity.html)
 [DecisionActivity](DecisionActivity.html)

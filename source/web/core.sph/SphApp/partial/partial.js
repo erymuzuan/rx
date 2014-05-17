@@ -1,4 +1,4 @@
-﻿///#source 1 1 /SphApp/partial/Activity.js
+﻿///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\Activity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -25,7 +25,7 @@ bespoke.sph.domain.ActivityPartial = function () {
         errors: errors
     };
 };
-///#source 1 1 /SphApp/partial/AssemblyField.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\AssemblyField.js
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
@@ -38,9 +38,9 @@ bespoke.sph.domain.AssemblyFieldPartial = function () {
         addParameter = function () {
             this.MethodArgCollection.push(new bespoke.sph.domain.MethodArg(system.guid()));
         },
-        removeParameter = function(p) {
+        removeParameter = function (p) {
             var self = this;
-            return function() {
+            return function () {
                 self.MethodArgCollection.remove(p);
             };
         };
@@ -49,7 +49,7 @@ bespoke.sph.domain.AssemblyFieldPartial = function () {
         removeParameter: removeParameter
     };
 };
-///#source 1 1 /SphApp/partial/BarChartItem.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\BarChartItem.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -60,12 +60,12 @@ bespoke.sph.domain.AssemblyFieldPartial = function () {
 
 bespoke.sph.domain.BarChartItemPartial = function () {
     var system = require('durandal/system'),
-        addSeries = function() {
+        addSeries = function () {
             this.ChartSeriesCollection.push(new bespoke.sph.domain.ChartSeries(system.guid()));
         },
         removeSeries = function (series) {
             var self = this;
-            return function() {
+            return function () {
                 self.ChartSeriesCollection.remove(series);
             };
 
@@ -75,7 +75,7 @@ bespoke.sph.domain.BarChartItemPartial = function () {
         removeSeries: removeSeries
     };
 };
-///#source 1 1 /SphApp/partial/BusinessRule.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\BusinessRule.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -134,7 +134,7 @@ bespoke.sph.domain.BusinessRulePartial = function (model) {
     };
 };
 
-///#source 1 1 /SphApp/partial/ButtonPartial.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ButtonPartial.js
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
@@ -173,7 +173,7 @@ bespoke.sph.domain.ButtonPartial = function () {
         editCommand: editCommand
     };
 };
-///#source 1 1 /SphApp/partial/ComboBox.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ComboBox.js
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -201,7 +201,7 @@ bespoke.sph.domain.ComboBoxPartial = function () {
         removeItem: removeItem
     };
 };
-///#source 1 1 /SphApp/partial/ChildEntityListView.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ChildEntityListView.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -221,7 +221,7 @@ bespoke.sph.domain.ChildEntityListViewPartial = function (model) {
     // ViewColumn
     var system = require('durandal/system'),
         addViewColumn = function () {
-            this.ViewColumnCollection.push(new bespoke.sph.domain.ViewColumn({ WebId: system.guid(),Header :'<New Column>'}));
+            this.ViewColumnCollection.push(new bespoke.sph.domain.ViewColumn({ WebId: system.guid(), Header: '<New Column>' }));
         },
         removeViewColumn = function (obj) {
             var self = this;
@@ -274,7 +274,7 @@ bespoke.sph.domain.ChildEntityListViewPartial = function (model) {
         removeViewColumn: removeViewColumn
     };
 };
-///#source 1 1 /SphApp/partial/ConstantField.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ConstantField.js
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
@@ -286,14 +286,14 @@ bespoke.sph.domain.ConstantFieldPartial = function (model) {
         Value: ko.observable()
     };
 
-    vm.Value.subscribe(function(v) {
+    vm.Value.subscribe(function (v) {
         if (!ko.unwrap(model.Name)) {
             model.Name(v);
         }
     });
     return vm;
 };
-///#source 1 1 /SphApp/partial/CreateEntityActivity.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\CreateEntityActivity.js
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -324,7 +324,7 @@ bespoke.sph.domain.CreateEntityActivityPartial = function () {
         removePropertyMapping: removePropertyMapping
     };
 };
-///#source 1 1 /SphApp/partial/DataGridItem.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\DataGridItem.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -366,7 +366,7 @@ bespoke.sph.domain.DataGridItemPartial = function () {
         removeDataGridGroupDefinition: removeDataGridGroupDefinition
     };
 };
-///#source 1 1 /SphApp/partial/DecisionActivity.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\DecisionActivity.js
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -380,16 +380,16 @@ bespoke.sph.domain.DataGridItemPartial = function () {
 
 bespoke.sph.domain.DecisionActivityPartial = function () {
     var system = require('durandal/system'),
-        addBranch = function() {
+        addBranch = function () {
             this.DecisionBranchCollection.push(new bespoke.sph.domain.DecisionBranch(system.guid()));
         },
-        removeBranch = function(branch) {
+        removeBranch = function (branch) {
             var self = this;
-            return function() {
+            return function () {
                 self.DecisionBranchCollection.remove(branch);
             };
         },
-        multipleEndPoints = function() {
+        multipleEndPoints = function () {
             return this.DecisionBranchCollection();
         };
     return {
@@ -398,7 +398,7 @@ bespoke.sph.domain.DecisionActivityPartial = function () {
         multipleEndPoints: multipleEndPoints
     };
 };
-///#source 1 1 /SphApp/partial/DelayActivity.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\DelayActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
@@ -409,10 +409,10 @@ bespoke.sph.domain.DecisionActivityPartial = function () {
 bespoke.sph.domain.DelayActivityPartial = function () {
 
     return {
-        isAsync:true
+        isAsync: true
     };
 };
-///#source 1 1 /SphApp/partial/EntityDefinition.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\EntityDefinition.js
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../objectbuilders.js" />
@@ -531,7 +531,7 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
         editMemberMap: editMemberMap
     };
 };
-///#source 1 1 /SphApp/partial/EntityOperation.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\EntityOperation.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -550,11 +550,11 @@ bespoke.sph.domain.EntityOperationPartial = function () {
     var system = require('durandal/system'),
         removeChildAction = function (child) {
             var self = this;
-            return function() {
+            return function () {
                 self.SetterActionChildCollection.remove(child);
             };
         },
-        addChildAction = function() {
+        addChildAction = function () {
             var child = new bespoke.sph.domain.SetterActionChild(system.guid());
             child.Field({ Name: ko.observable("+ Field") });
             this.SetterActionChildCollection.push(child);
@@ -569,7 +569,7 @@ bespoke.sph.domain.EntityOperationPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/EntityChart.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\EntityChart.js
 
 bespoke.sph.domain.EntityChartPartial = function (model) {
     var context = require(objectbuilders.datacontext),
@@ -587,7 +587,7 @@ bespoke.sph.domain.EntityChartPartial = function (model) {
 
             return tcs.promise();
         },
-        unpin = function() {
+        unpin = function () {
             if (typeof model.IsDashboardItem === "function") {
                 model.IsDashboardItem(false);
             } else {
@@ -603,10 +603,10 @@ bespoke.sph.domain.EntityChartPartial = function (model) {
         };
     return {
         pin: pin,
-        unpin : unpin
+        unpin: unpin
     };
 };
-///#source 1 1 /SphApp/partial/EntityLookupElement.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\EntityLookupElement.js
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
@@ -645,7 +645,7 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
             var self = this;
             require(['viewmodels/members.selector.dialog', 'durandal/app'], function (dialog, app2) {
                 dialog.entity(self.Entity());
-                app2.showDialog(dialog,self.Entity())
+                app2.showDialog(dialog, self.Entity())
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
@@ -660,7 +660,7 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
         editColumns: editColumns
     };
 };
-///#source 1 1 /SphApp/partial/EntityView.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\EntityView.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -724,7 +724,7 @@ bespoke.sph.domain.EntityViewPartial = function () {
         removeFilter: removeFilter
     };
 };
-///#source 1 1 /SphApp/partial/ExecutedActivity.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ExecutedActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -747,7 +747,7 @@ bespoke.sph.domain.ExecutedActivityPartial = function () {
         errors: errors
     };
 };
-///#source 1 1 /SphApp/partial/Filter.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\Filter.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -807,7 +807,7 @@ bespoke.sph.domain.FilterPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/FormElement.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\FormElement.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/form.designer.g.js" />
@@ -815,13 +815,13 @@ bespoke.sph.domain.FilterPartial = function () {
 
 
 bespoke.sph.domain.FormElementPartial = function () {
-    
+
     return {
     };
 };
 
 
-///#source 1 1 /SphApp/partial/HtmlElement.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\HtmlElement.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -855,7 +855,7 @@ bespoke.sph.domain.HtmlElementPartial = function () {
         editHtml: editHtml
     };
 };
-///#source 1 1 /SphApp/partial/IFormTemplate.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\IFormTemplate.js
 
 bespoke.sph.domain.FormTemplatePartial = function () {
 
@@ -863,7 +863,7 @@ bespoke.sph.domain.FormTemplatePartial = function () {
     };
     return vm;
 }
-///#source 1 1 /SphApp/partial/IntervalSchedule.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\IntervalSchedule.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -876,10 +876,10 @@ bespoke.sph.domain.IntervalSchedulePartial = function () {
         name = ko.observable();
     return {
         icon: icon,
-        name : name
+        name: name
     };
 };
-///#source 1 1 /SphApp/partial/LineChartItem.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\LineChartItem.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -889,12 +889,12 @@ bespoke.sph.domain.IntervalSchedulePartial = function () {
 
 bespoke.sph.domain.LineChartItemPartial = function () {
     var system = require('durandal/system'),
-        addSeries = function() {
+        addSeries = function () {
             this.ChartSeriesCollection.push(new bespoke.sph.domain.ChartSeries(system.guid()));
         },
         removeSeries = function (series) {
             var self = this;
-            return function() {
+            return function () {
                 self.ChartSeriesCollection.remove(series);
             };
 
@@ -904,7 +904,7 @@ bespoke.sph.domain.LineChartItemPartial = function () {
         removeSeries: removeSeries
     };
 };
-///#source 1 1 /SphApp/partial/ListenActivity.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ListenActivity.js
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -936,7 +936,7 @@ bespoke.sph.domain.ListenActivityPartial = function () {
         multipleEndPoints: multipleEndPoints
     };
 };
-///#source 1 1 /SphApp/partial/ListView.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ListView.js
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -957,10 +957,10 @@ bespoke.sph.domain.ListViewPartial = function (model) {
                     input = bespoke.sph.domain[type](system.guid());
 
 
-                column.Path.subscribe(function(v) {
+                column.Path.subscribe(function (v) {
                     input.Path(v);
                 });
-                column.Label.subscribe(function(v) {
+                column.Label.subscribe(function (v) {
                     input.Label(v);
                 });
 
@@ -977,7 +977,7 @@ bespoke.sph.domain.ListViewPartial = function (model) {
 
         };
 
-    _(model.ListViewColumnCollection()).each(function(v) {
+    _(model.ListViewColumnCollection()).each(function (v) {
         v.Input().isSelected = ko.observable(false);
     });
 
@@ -986,7 +986,7 @@ bespoke.sph.domain.ListViewPartial = function (model) {
         removeListViewColumn: removeListViewColumn
     };
 };
-///#source 1 1 /SphApp/partial/ListViewColumn.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ListViewColumn.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1028,7 +1028,7 @@ bespoke.sph.domain.ListViewColumnPartial = function (model) {
         icon: icon
     };
 };
-///#source 1 1 /SphApp/partial/Member.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\Member.js
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../schemassystem.js" />
@@ -1140,7 +1140,7 @@ bespoke.sph.domain.MemberPartial = function () {
         editField: editField
     };
 };
-///#source 1 1 /SphApp/partial/MethodArg.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\MethodArg.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1197,7 +1197,7 @@ bespoke.sph.domain.MethodArgPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/NotificationActivity.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\NotificationActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1205,15 +1205,15 @@ bespoke.sph.domain.MethodArgPartial = function () {
 /// <reference path="../../App/durandal/system.js" />
 
 
-bespoke.sph.domain.NotificationActivityPartial = function(model) {
-    
+bespoke.sph.domain.NotificationActivityPartial = function (model) {
+
     if (!model.From()) {
         model.From("admin@@sph.my");
     }
     return {
     };
 };
-///#source 1 1 /SphApp/partial/ParallelActivity.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ParallelActivity.js
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -1226,16 +1226,16 @@ bespoke.sph.domain.NotificationActivityPartial = function(model) {
 
 bespoke.sph.domain.ParallelActivityPartial = function () {
     var system = require('durandal/system'),
-        addBranch = function() {
+        addBranch = function () {
             this.ParallelBranchCollection.push(new bespoke.sph.domain.ParallelBranch(system.guid()));
         },
-        removeBranch = function(branch) {
+        removeBranch = function (branch) {
             var self = this;
-            return function() {
+            return function () {
                 self.ParallelBranchCollection.remove(branch);
             };
         },
-        multipleEndPoints = function() {
+        multipleEndPoints = function () {
             return this.ParallelBranchCollection();
         };
     return {
@@ -1244,7 +1244,7 @@ bespoke.sph.domain.ParallelActivityPartial = function () {
         multipleEndPoints: multipleEndPoints
     };
 };
-///#source 1 1 /SphApp/partial/report.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\report.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -1272,12 +1272,12 @@ bespoke.sph.domain.MonthlySchedulePartial = function () {
     return {
         name: ko.observable("Monthly Schedule"),
         icon: ko.observable("fa fa-calendar-o"),
-        dateOptions : _.range(1,31)
+        dateOptions: _.range(1, 31)
     };
 };
 
 
-///#source 1 1 /SphApp/partial/ReportDelivery.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ReportDelivery.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1290,7 +1290,7 @@ bespoke.sph.domain.ReportDeliveryPartial = function () {
     return new bespoke.sph.domain.IntervalScheduleContainer();
 
 };
-///#source 1 1 /SphApp/partial/Rule.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\Rule.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1347,7 +1347,7 @@ bespoke.sph.domain.RulePartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/ScheduledTriggerActivity.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ScheduledTriggerActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
@@ -1362,11 +1362,11 @@ bespoke.sph.domain.RulePartial = function () {
 bespoke.sph.domain.ScheduledTriggerActivityPartial = function (model) {
 
     var b = new bespoke.sph.domain.IntervalScheduleContainer();
-    
+
     return b;
 };
 
-///#source 1 1 /SphApp/partial/ScreenActivity.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ScreenActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1381,7 +1381,7 @@ bespoke.sph.domain.ScreenActivityPartial = function () {
         canStart: true
     };
 };
-///#source 1 1 /SphApp/partial/SearchDefinition.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\SearchDefinition.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1399,11 +1399,11 @@ bespoke.sph.domain.SearchDefinitionPartial = function () {
     var system = require('durandal/system'),
         removeFilter = function (child) {
             var self = this;
-            return function() {
+            return function () {
                 self.FilterCollection.remove(child);
             };
         },
-        addFilter = function() {
+        addFilter = function () {
             var child = new bespoke.sph.domain.Filter(system.guid());
             this.FilterCollection.push(child);
         };
@@ -1417,7 +1417,7 @@ bespoke.sph.domain.SearchDefinitionPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/SetterAction.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\SetterAction.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1435,11 +1435,11 @@ bespoke.sph.domain.SetterActionPartial = function () {
     var system = require('durandal/system'),
         removeChildAction = function (child) {
             var self = this;
-            return function() {
+            return function () {
                 self.SetterActionChildCollection.remove(child);
             };
         },
-        addChildAction = function() {
+        addChildAction = function () {
             var child = new bespoke.sph.domain.SetterActionChild(system.guid());
             child.Field({ Name: ko.observable("+ Field") });
             this.SetterActionChildCollection.push(child);
@@ -1454,7 +1454,7 @@ bespoke.sph.domain.SetterActionPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/SetterActionChild.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\SetterActionChild.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1515,7 +1515,7 @@ bespoke.sph.domain.SetterActionChildPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/StartWorkflowAction.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\StartWorkflowAction.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1533,11 +1533,11 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
     var system = require('durandal/system'),
         removeMapping = function (map) {
             var self = this;
-            return function() {
+            return function () {
                 self.WorkflowTriggerMapCollection.remove(map);
             };
         },
-        addMapping = function() {
+        addMapping = function () {
             var child = new bespoke.sph.domain.WorkflowTriggerMap(system.guid());
             child.Field({ Name: ko.observable("+ Field") });
             this.WorkflowTriggerMapCollection.push(child);
@@ -1552,7 +1552,7 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/Trigger.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\Trigger.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1569,9 +1569,9 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
 bespoke.sph.domain.TriggerPartial = function () {
 
     var system = require('durandal/system'),
-        removeAction = function(action) {
+        removeAction = function (action) {
             var self = this;
-            return function() {
+            return function () {
                 self.ActionCollection.remove(action);
             };
         },
@@ -1579,7 +1579,7 @@ bespoke.sph.domain.TriggerPartial = function () {
             var self = this;
             return function () {
                 var action = new bespoke.sph.domain[type + 'Action'](system.guid());
-                
+
                 require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.action(action);
                     app2.showDialog(dialog)
@@ -1592,7 +1592,7 @@ bespoke.sph.domain.TriggerPartial = function () {
                     });
 
                 });
-                
+
             };
         },
         editAction = function (action) {
@@ -1605,7 +1605,7 @@ bespoke.sph.domain.TriggerPartial = function () {
 
                 require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.action(clone);
-                    
+
                     app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
@@ -1626,7 +1626,7 @@ bespoke.sph.domain.TriggerPartial = function () {
          },
         removeRule = function (rule) {
             var self = this;
-            return function() {
+            return function () {
                 self.RuleCollection.remove(rule);
             };
         };
@@ -1643,7 +1643,7 @@ bespoke.sph.domain.TriggerPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/UpdateEntityActivity.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\UpdateEntityActivity.js
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -1674,7 +1674,7 @@ bespoke.sph.domain.UpdateEntityActivityPartial = function () {
         removePropertyMapping: removePropertyMapping
     };
 };
-///#source 1 1 /SphApp/partial/Variable.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\Variable.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -1695,7 +1695,7 @@ bespoke.sph.domain.VariablePartial = function () {
         errors: errors
     };
 };
-///#source 1 1 /SphApp/partial/ViewColumn.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\ViewColumn.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -1731,7 +1731,7 @@ bespoke.sph.domain.ViewColumnPartial = function () {
         removeIconCssClass: removeIconCssClass
     };
 };
-///#source 1 1 /SphApp/partial/WorkflowDefinition.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\WorkflowDefinition.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1739,6 +1739,7 @@ bespoke.sph.domain.ViewColumnPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
@@ -1805,6 +1806,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
                     app2.showDialog(dialog)
                         .done(function (result) {
+                            $('div.modalBlockout,div.modalHost').remove();
                             if (!result) return;
                             if (result === "OK") {
                                 for (var g in activity) {
@@ -1875,12 +1877,12 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
             };
         },
-         removeVariable = function (variable) {
-             var self = this;
-             return function () {
-                 self.VariableDefinitionCollection.remove(variable);
-             };
-         },
+        removeVariable = function (variable) {
+            var self = this;
+            return function () {
+                self.VariableDefinitionCollection.remove(variable);
+            };
+        },
         addReferencedAssembly = function () {
             var self = this;
             require(['viewmodels/assembly.dialog', 'durandal/app'], function (dialog, app2) {
@@ -1888,7 +1890,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
-                            _(dialog.selectedAssemblies()).each(function(v) {
+                            _(dialog.selectedAssemblies()).each(function (v) {
                                 self.ReferencedAssemblyCollection.push(v);
                             });
                         }
@@ -1901,12 +1903,12 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         editReferencedAssembly = function (dll) {
             alert('not implemented' + dll);
         },
-         removeReferencedAssembly = function (dll) {
-             var self = this;
-             return function () {
-                 self.ReferencedAssemblyCollection.remove(dll);
-             };
-         },
+        removeReferencedAssembly = function (dll) {
+            var self = this;
+            return function () {
+                self.ReferencedAssemblyCollection.remove(dll);
+            };
+        },
         loadSchema = function (storeId) {
             var id = storeId || this.SchemaStoreId();
             $.get("/WorkflowDefinition/GetXsdElementName/" + id)
@@ -1937,7 +1939,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/WorkflowDesigner.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\WorkflowDesigner.js
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
@@ -1948,11 +1950,11 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
 
 bespoke.sph.domain.WorkflowDesignerPartial = function () {
-  
+
     return {
     };
 };
-///#source 1 1 /SphApp/partial/WorkflowTriggerMap.js
+///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\partial\WorkflowTriggerMap.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />

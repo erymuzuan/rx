@@ -1,6 +1,6 @@
 #ListenBranch
 ##Overview
-ListenBranch represent a single child Activity in a ListenActivity
+ListenBranch represent a single child Activity in a [`ListenActivity`](ListenActivity.html)
 
 
 ##Properties

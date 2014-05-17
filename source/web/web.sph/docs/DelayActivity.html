@@ -1,6 +1,12 @@
-<h1>DelayActivity</h1>
+﻿<h1>DelayActivity</h1>
 
 <h2>Overview</h2>
+
+<p>Creates a one time trigger that happen in the future. It's synonym with <code>Tread.Sleep</code> without consuming system resources such as a Thread.</p>
+
+<p>Internally a Windows Schedule Task is created, that run the <code>scheduler.delayactivity.exe</code> in your schedulers folder, with 2 parameters, 1 is for the <a href="Workflow.html"><code>Workflow</code></a> instance id(WorkflowId) and the 2nd one is the <code>WebId</code> for the <a href="DelayActivity.html"><code>DelayActivity</code></a></p>
+
+<p><img src="http://i.imgur.com/xQFlN1C.png" alt="delay" /></p>
 
 <h2>Properties</h2>
 
@@ -12,18 +18,19 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>IsAsync</td><td> - </td></tr>
-<tr><td>Expression</td><td> - </td></tr>
-<tr><td>Miliseconds</td><td> - </td></tr>
-<tr><td>Seconds</td><td> - </td></tr>
-<tr><td>Hour</td><td> - </td></tr>
-<tr><td>Days</td><td> - </td></tr>
+<tr><td>IsAsync</td><td> - Used internally, always return true</td></tr>
+<tr><td>Expression</td><td>
+    - Must be a valid C# expression that returns a DateTime object sometime in the future. <br />
+NOTE : If you have an expression defined then you must not specify other fields</td></tr>
+<tr><td>Miliseconds</td><td> - Timespan in miliseconds from the initialization</td></tr>
+<tr><td>Seconds</td><td> - Timespan in seconds from the initialization</td></tr>
+<tr><td>Hour</td><td> - Timespan in hours from the initialization</td></tr>
+<tr><td>Days</td><td> - Timespan in days from the initialization</td></tr>
 </tbody></table>
 
 <h2>See also</h2>
 
 <p><a href="Activity.html">Activity</a><br />
-<a href="Activity.html">Activity</a><br />
 <a href="CreateEntityActivity.html">CreateEntityActivity</a><br />
 <a href="DecisionActivity.html">DecisionActivity</a><br />
 <a href="DecisionBranch.html">DecisionBranch</a><br />
