@@ -1,7 +1,7 @@
 #CreateEntityActivity
 ##Overview
 
-
+Allow you to add new item to your custom `Entity`.
 
 ##Properties
 <table class="table table-condensed table-bordered">
@@ -12,9 +12,9 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>EntityType</td><td> - </td></tr>
-<tr><td>ReturnValuePath</td><td> - </td></tr>
-<tr><td>PropertyMappingCollection</td><td> - </td></tr>
+<tr><td>EntityType</td><td> - The name of the EntityDefinition</td></tr>
+<tr><td>ReturnValuePath</td><td> - Int32 Where the {Entity}Id is stored once it's been inserted</td></tr>
+<tr><td>PropertyMappingCollection</td><td> - The list of mapping from the Workflow variables to the Entity members</td></tr>
 </tbody></table>
 
 
@@ -22,13 +22,10 @@
 ## See also
 
 [Activity](Activity.html)
-[Activity](Activity.html)
 [CreateEntityActivity](CreateEntityActivity.html)
 [DecisionActivity](DecisionActivity.html)
-[DecisionBranch](DecisionBranch.html)
 [DelayActivity](DelayActivity.html)
 [DeleteEntityActivity](DeleteEntityActivity.html)
-[EndActivity](EndActivity.html)
 [ExpressionActivity](ExpressionActivity.html)
 [ScreenActivity](ScreenActivity.html)
 [NotificationActivity](NotificationActivity.html)
@@ -38,7 +35,5 @@
 [ListenActivity](ListenActivity.html)
 [ParallelActivity](ParallelActivity.html)
 [JoinActivity](JoinActivity.html)
-[ThrowActivity](ThrowActivity.html)
 [ParallelBranch](ParallelBranch.html)
-[ListenBranch](ListenBranch.html)
 [ScheduledTriggerActivity](ScheduledTriggerActivity.html)

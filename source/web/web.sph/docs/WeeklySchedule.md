@@ -1,6 +1,7 @@
 #WeeklySchedule
 ##Overview
 
+Allows you to set up a schedule task which run on monthly basis, this schedule also allows you to fully customized the behaviour in which the schedules will run.
 
 
 ##Properties
@@ -29,8 +30,6 @@
 ## See also
 
 [IntervalSchedule](IntervalSchedule.html)
-[IntervalSchedule](IntervalSchedule.html)
 [WeeklySchedule](WeeklySchedule.html)
 [DailySchedule](DailySchedule.html)
-[HourlySchedule](HourlySchedule.html)
 [MonthlySchedule](MonthlySchedule.html)
