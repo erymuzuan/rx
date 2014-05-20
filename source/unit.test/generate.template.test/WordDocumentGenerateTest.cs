@@ -8,10 +8,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace generate.template.test
 {
     [TestClass]
-    public class UnitTest1
+    public class WordDocumentGenerateTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void WithCustomEntity()
         {
             var contract = new Designation
             {
