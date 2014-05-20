@@ -65,6 +65,11 @@
                                     optionsCaption : '[Select a form]'"></select>
 
                 </div>
+                <div class="form-group">
+                    <label for="column-rvf">Route Value Field</label>
+                    <input id="column-rvf" class="form-control" data-bind="enable:IsLinkColumn,value:RouteValueField, entityTypeaheadPath :$root.entity().EntityDefinitionId()" />
+
+                </div>
                 <div class="form-group" data-bind="enable:IsLinkColumn">
                     <label for="column-icon">Icon class</label>
 

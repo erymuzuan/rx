@@ -177,7 +177,7 @@ namespace Bespoke.Sph.Domain
                         var ov = string.Format("{0}", t.Field.GetValue(context));
                         DateTime dv;
                         if (DateTime.TryParse(ov, out dv))
-                            ov = string.Format("\"{0:O}\"",dv);
+                            ov = string.Format("\"{0:O}\"", dv);
 
                         if (t.Operator == Operator.Ge)
                             query.AppendFormat("\"from\":{0}", ov);
@@ -213,6 +213,14 @@ namespace Bespoke.Sph.Domain
         public override int GetId()
         {
             return this.EntityViewId;
+        }
+
+        public string GenerateRoute()
+        {
+            if (!this.RouteParameterCollection.Any())
+                return string.Format("{0}", this.Route.ToLowerInvariant());
+            return string.Format("{0}", this.Route.ToLowerInvariant())
+                + "/:" + string.Join("/:", this.RouteParameterCollection.Select(r => r.Name));
         }
     }
 }

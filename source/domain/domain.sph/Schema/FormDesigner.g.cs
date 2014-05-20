@@ -2891,6 +2891,17 @@ namespace Bespoke.Sph.Domain
             get { return m_Rules; }
         }
 
+        private readonly ObjectCollection<RouteParameter> m_RouteParameterCollection = new ObjectCollection<RouteParameter>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("RouteParameter", IsNullable = false)]
+        public ObjectCollection<RouteParameter> RouteParameterCollection
+        {
+            get { return m_RouteParameterCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -3580,6 +3591,17 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        private readonly ObjectCollection<RouteParameter> m_RouteParameterCollection = new ObjectCollection<RouteParameter>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("RouteParameter", IsNullable = false)]
+        public ObjectCollection<RouteParameter> RouteParameterCollection
+        {
+            get { return m_RouteParameterCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -4115,6 +4137,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameFormat = "Format";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_routeValueField;
+        public const string PropertyNameRouteValueField = "RouteValueField";
+
+
         private readonly ObjectCollection<ConditionalFormatting> m_ConditionalFormattingCollection = new ObjectCollection<ConditionalFormatting>();
 
         ///<summary>
@@ -4352,6 +4379,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_format;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string RouteValueField
+        {
+            set
+            {
+                if (String.Equals(m_routeValueField, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRouteValueField, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_routeValueField = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_routeValueField;
             }
         }
 
@@ -6182,6 +6238,86 @@ namespace Bespoke.Sph.Domain
             {
                 m_Currency = value;
                 RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("RouteParameter", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class RouteParameter
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_type;
+        public const string PropertyNameType = "Type";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Type
+        {
+            set
+            {
+                if (String.Equals(m_type, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_type = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_type;
             }
         }
 

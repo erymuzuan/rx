@@ -13,7 +13,6 @@ namespace Bespoke.Sph.Domain
             var errors = from f in this.FormDesign.FormElementCollection
                          where f.IsPathIsRequired
                              && string.IsNullOrWhiteSpace(f.Path) && (f.Name != "HTML Section")
-
                          select new BuildError
                          (
                              this.WebId,

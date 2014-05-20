@@ -1591,6 +1591,9 @@
     <Content Include="SphApp\partial\__partial.js">
       <DependentUpon>__partial.js.bundle</DependentUpon>
     </Content>
+    <Content Include="SphApp\partial\__partial.min.js">
+      <DependentUpon>__partial.js</DependentUpon>
+    </Content>
     <Content Include="SphApp\prototypes\FieldContainer.js" />
     <Content Include="SphApp\prototypes\IntervalScheduleContainer.js" />
     <EmbeddedResource Include="SphApp\prototypes\prototypes.js">
@@ -2726,6 +2729,9 @@
     <Content Include="Views\Shared\EditorTemplates\CurrencyElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CurrencyElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="SphApp\partial\__partial.min.js.map">
+      <DependentUpon>__partial.min.js</DependentUpon>
     </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

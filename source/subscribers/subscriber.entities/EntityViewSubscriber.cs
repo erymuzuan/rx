@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -38,7 +39,8 @@ namespace subscriber.entities
                 View = view, 
                 Form = form,
                 FilterDsl = view.GenerateElasticSearchFilterDsl(),
-                SortDsl = view.GenerateEsSortDsl()
+                SortDsl = view.GenerateEsSortDsl(),
+                Routes = string.Join(",",view.RouteParameterCollection.Select(r => r.Name))
             };
 
 

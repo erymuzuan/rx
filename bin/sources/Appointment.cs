@@ -10,12 +10,17 @@ namespace Bespoke.Dev_6003.Domain
 {
    public class Appointment : Entity
    {
-   private int m_appointmentId;
-   public int AppointmentId
-   {
-       get{ return m_appointmentId;}
-       set{ m_appointmentId = value;}
-   }
+       private int m_appointmentId;
+       [XmlAttribute]
+       public int AppointmentId
+       {
+           get{ return m_appointmentId;}
+           set{ m_appointmentId = value;}
+       }
+       public Appointment()
+       {
+           var rc = new RuleContext(this);
+       }
      
         public override string ToString()
         {
@@ -30,68 +35,76 @@ namespace Bespoke.Dev_6003.Domain
             return m_appointmentId;
         }
 //member:ReferenceNo
-          private System.String m_referenceNo;
-   public System.String ReferenceNo
-   {
-       get{ return m_referenceNo;}
-       set{ m_referenceNo = value;}
-   }
+      private System.String m_referenceNo;
+      [XmlAttribute]
+      public System.String ReferenceNo
+      {
+          get{ return m_referenceNo;}
+          set{ m_referenceNo = value;}
+      }
 
 //member:Mrn
-          private System.String m_mrn;
-   public System.String Mrn
-   {
-       get{ return m_mrn;}
-       set{ m_mrn = value;}
-   }
+      private System.String m_mrn;
+      [XmlAttribute]
+      public System.String Mrn
+      {
+          get{ return m_mrn;}
+          set{ m_mrn = value;}
+      }
 
 //member:DateTime
-          private System.DateTime m_dateTime;
-   public System.DateTime DateTime
-   {
-       get{ return m_dateTime;}
-       set{ m_dateTime = value;}
-   }
+      private System.DateTime m_dateTime;
+      [XmlAttribute]
+      public System.DateTime DateTime
+      {
+          get{ return m_dateTime;}
+          set{ m_dateTime = value;}
+      }
 
 //member:Doctor
-          private System.String m_doctor;
-   public System.String Doctor
-   {
-       get{ return m_doctor;}
-       set{ m_doctor = value;}
-   }
+      private System.String m_doctor;
+      [XmlAttribute]
+      public System.String Doctor
+      {
+          get{ return m_doctor;}
+          set{ m_doctor = value;}
+      }
 
 //member:Ward
-          private System.String m_ward;
-   public System.String Ward
-   {
-       get{ return m_ward;}
-       set{ m_ward = value;}
-   }
+      private System.String m_ward;
+      [XmlAttribute]
+      public System.String Ward
+      {
+          get{ return m_ward;}
+          set{ m_ward = value;}
+      }
 
 //member:Location
-          private System.String m_location;
-   public System.String Location
-   {
-       get{ return m_location;}
-       set{ m_location = value;}
-   }
+      private System.String m_location;
+      [XmlAttribute]
+      public System.String Location
+      {
+          get{ return m_location;}
+          set{ m_location = value;}
+      }
 
 //member:Note
-          private System.String m_note;
-   public System.String Note
-   {
-       get{ return m_note;}
-       set{ m_note = value;}
-   }
+      private System.String m_note;
+      [XmlAttribute]
+      public System.String Note
+      {
+          get{ return m_note;}
+          set{ m_note = value;}
+      }
 
 //member:Referral
-          private System.String m_referral;
-   public System.String Referral
-   {
-       get{ return m_referral;}
-       set{ m_referral = value;}
-   }
+      private System.String m_referral;
+      [XmlAttribute]
+      public System.String Referral
+      {
+          get{ return m_referral;}
+          set{ m_referral = value;}
+      }
 
    }
 //class:ReferenceNo

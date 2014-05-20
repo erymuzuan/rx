@@ -1141,8 +1141,8 @@ ko.bindingHandlers.filter = {
             if (!filter) {
                 return tcs.promise();
             }
-            if (pagedSearch && typeof pagedSearch.query === "object" && typeof pagedSearch.query.filterAndSearch === "function") {
-                return pagedSearch.query.filterAndSearch(filter);
+            if (pagedSearch && typeof pagedSearch.query !== "undefined" && typeof pagedSearch.query.filterAndSearch === "function") {
+              return pagedSearch.query.filterAndSearch(filter);
             }
             return tcs.promise();
         });

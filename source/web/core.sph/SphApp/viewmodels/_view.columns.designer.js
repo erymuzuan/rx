@@ -1,6 +1,3 @@
-/**
- * Created by bespoke1 on 28/03/2014.
- */
 define([objectbuilders.datacontext], function (context) {
 
     var
@@ -14,12 +11,21 @@ define([objectbuilders.datacontext], function (context) {
             var tcs = new $.Deferred(),
                 query = String.format("EntityDefinitionId eq {0}", vw.EntityDefinitionId()),
                 entityTask = context.loadOneAsync("EntityDefinition", query),
+                viewsTask = context.loadAsync("EntityView", "IsPublished eq 1"),
                 formsTask = context.loadAsync("EntityForm", query);
 
-            $.when(entityTask, formsTask).done(function (b, flo) {
+            $.when(entityTask, formsTask, viewsTask).done(function (b, flo, vlo) {
                 _entity(b);
                 formsOptions(flo.itemCollection);
+
+
+                formsOptions.push({Name : '[or select a view]', Route : 'invalid'});
+                _(vlo.itemCollection).each(function (v) {
+                    formsOptions.push(v);
+                });
+
                 tcs.resolve(true);
+
             });
             return tcs.promise();
         },

@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(view);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", id = view.EntityViewId });
+            return Json(new { success = true, status = "OK", id = view.EntityViewId, message = "Your view has been successfully published" });
         }
 
         [NoCache]
@@ -112,6 +112,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             foreach (var v in views)
             {
                 if (!v.Performer.Validate()) continue;
+                if (v.RouteParameterCollection.Any()) continue;
+
                 if (v.Performer.IsPublic)
                 {
                     list.Add(v);

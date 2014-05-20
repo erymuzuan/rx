@@ -5,8 +5,8 @@
                data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
             <thead>
             <tr>
-                <th>Mrn</th>
                 <th>Name</th>
+                <th>Appointment</th>
                 <th>Dob</th>
                 <th>Marital Status</th>
                 <th>Gender</th>
@@ -18,11 +18,14 @@
             </thead>
             <tbody data-bind="foreach :list">
             <tr data-bind="css : {'success':Religion === 'Islam'}">
-                <td>
 
-                    <a data-bind="attr : {href:'#patient-details' + '/' + PatientId },text: Mrn"></a>
-                </td>
                 <td data-bind="text:FullName"></td>
+                <td>
+                    <a data-bind="attr : {href:'#appointment-for-patients' + '/' + Mrn, title:'Appointment' }">
+                        <i class="fa fa-calendar-o"></i>
+                        <span data-bind="text:Mrn"></span>
+                    </a>
+                </td>
                 <td data-bind="date:Dob"></td>
                 <td data-bind="text:MaritalStatus"></td>
                 <td data-bind="text:Gender"></td>
