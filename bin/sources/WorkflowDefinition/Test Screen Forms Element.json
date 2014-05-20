@@ -23,16 +23,16 @@
                 "AutoCompletionEntity": "UserProfile",
                 "AutoCompletionField": "Username",
                 "AutoCompletionQuery": "UserProfileId gt 0",
-                "MinLength": null,
-                "MaxLength": null,
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
-                  "MaxLength": 0,
-                  "MinLength": 0,
                   "Pattern": null,
                   "Mode": null,
                   "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": null,
+                  "MaxLength": null,
                   "WebId": null
                 },
                 "Name": "Single Line Text",
@@ -46,6 +46,9 @@
                 "Enable": null,
                 "ElementId": "4eaedd69-e330-468b-814b-5b6442f8d480",
                 "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
+                "IsUniqueName": false,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -68,16 +71,19 @@
                   "ValuePath": "Username",
                   "DisplayPath": "FullName",
                   "Query": "Department eq 'Test'",
+                  "IsComputedQuery": false,
                   "WebId": null
                 },
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
-                  "MaxLength": 0,
-                  "MinLength": 0,
                   "Pattern": null,
                   "Mode": null,
                   "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": null,
+                  "MaxLength": null,
                   "WebId": null
                 },
                 "Name": "Select List",
@@ -91,6 +97,9 @@
                 "Enable": null,
                 "ElementId": "d823622d-0fec-47cc-8045-dac95e2b2043",
                 "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
+                "IsUniqueName": false,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -104,6 +113,7 @@
               {
                 "$type": "Bespoke.Sph.Domain.ListView, domain.sph",
                 "ChildItemType": "Car",
+                "IsChildItemFunction": false,
                 "ListViewColumnCollection": {
                   "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ListViewColumn, domain.sph]], domain.sph",
                   "$values": [
@@ -117,16 +127,16 @@
                         "AutoCompletionEntity": null,
                         "AutoCompletionField": null,
                         "AutoCompletionQuery": null,
-                        "MinLength": null,
-                        "MaxLength": null,
                         "FieldValidation": {
                           "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                           "IsRequired": false,
-                          "MaxLength": 0,
-                          "MinLength": 0,
                           "Pattern": "",
                           "Mode": "",
                           "Message": "",
+                          "Min": null,
+                          "Max": null,
+                          "MinLength": null,
+                          "MaxLength": null,
                           "WebId": null
                         },
                         "Name": "",
@@ -140,6 +150,9 @@
                         "Enable": "",
                         "ElementId": "",
                         "HelpText": "",
+                        "UseDisplayTemplate": false,
+                        "ToolboxIconClass": null,
+                        "IsUniqueName": false,
                         "LabelColLg": null,
                         "LabelColMd": null,
                         "LabelColSm": null,
@@ -157,11 +170,13 @@
                 "FieldValidation": {
                   "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
                   "IsRequired": false,
-                  "MaxLength": 0,
-                  "MinLength": 0,
                   "Pattern": null,
                   "Mode": null,
                   "Message": null,
+                  "Min": null,
+                  "Max": null,
+                  "MinLength": null,
+                  "MaxLength": null,
                   "WebId": null
                 },
                 "Name": "List",
@@ -175,6 +190,9 @@
                 "Enable": null,
                 "ElementId": "b2c65b23-2db6-4b46-acd7-6ea8efcfc28c",
                 "HelpText": null,
+                "UseDisplayTemplate": false,
+                "ToolboxIconClass": null,
+                "IsUniqueName": false,
                 "LabelColLg": null,
                 "LabelColMd": null,
                 "LabelColSm": null,
@@ -293,6 +311,10 @@
         "WebId": "f3c353cb-868a-43fc-92e1-d27513db5314"
       }
     ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
   },
   "WorkflowDefinitionId": 7002,
   "Name": "Test Screen Forms Element",

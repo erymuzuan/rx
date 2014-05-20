@@ -1193,6 +1193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Content\jstree\32px.png" />
     <EmbeddedResource Include="Content\jstree\40px.png" />
+    <Content Include="Content\jsplumb\__jsplumb.css">
+      <DependentUpon>__jsplumb.css.bundle</DependentUpon>
+    </Content>
     <Content Include="Content\jstree\style.css" />
     <EmbeddedResource Include="Content\jstree\style.min.css" />
     <EmbeddedResource Include="Content\jstree\throbber.gif" />
@@ -1300,6 +1303,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PieChartItem.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\__css.css">
+      <DependentUpon>__css.css.bundle</DependentUpon>
+    </Content>
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -1379,6 +1385,9 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsPlumb\__bundle.js">
+      <DependentUpon>__bundle.js.bundle</DependentUpon>
+    </Content>
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <EmbeddedResource Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
@@ -1405,6 +1414,12 @@
     </Content>
     <Content Include="Scripts\_pager.min.js">
       <DependentUpon>_pager.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\__core.js">
+      <DependentUpon>__core.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="Scripts\__vendor.js">
+      <DependentUpon>__vendor.js.bundle</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\Activity.min.js">
       <DependentUpon>Activity.js</DependentUpon>
@@ -1573,6 +1588,12 @@
     <Content Include="SphApp\partial\WorkflowTriggerMap.min.js">
       <DependentUpon>WorkflowTriggerMap.js</DependentUpon>
     </Content>
+    <Content Include="SphApp\partial\__partial.js">
+      <DependentUpon>__partial.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\__partial.min.js">
+      <DependentUpon>__partial.js</DependentUpon>
+    </Content>
     <Content Include="SphApp\prototypes\FieldContainer.js" />
     <Content Include="SphApp\prototypes\IntervalScheduleContainer.js" />
     <EmbeddedResource Include="SphApp\prototypes\prototypes.js">
@@ -1588,6 +1609,9 @@
       <DependentUpon>domain.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\schemas\report.builder.g.js" />
+    <Content Include="SphApp\prototypes\__prototypes.js">
+      <DependentUpon>__prototypes.js.bundle</DependentUpon>
+    </Content>
     <Content Include="SphApp\schemas\sph.domain.g.js" />
     <EmbeddedResource Include="SphApp\schemas\trigger.workflow.g.js" />
     <EmbeddedResource Include="SphApp\services\app.js" />
@@ -2034,6 +2058,9 @@
     <EmbeddedResource Include="SphApp\viewmodels\log.details.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\management.console.js" />
     <EmbeddedResource Include="SphApp\viewmodels\assembly.dialog.js" />
+    <Content Include="SphApp\schemas\__domain.js">
+      <DependentUpon>__domain.js.bundle</DependentUpon>
+    </Content>
     <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
@@ -2702,6 +2729,9 @@
     <Content Include="Views\Shared\EditorTemplates\CurrencyElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CurrencyElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="SphApp\partial\__partial.min.js.map">
+      <DependentUpon>__partial.min.js</DependentUpon>
     </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

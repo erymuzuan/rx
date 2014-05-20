@@ -21,6 +21,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "date:{{ value:{0}, format:'D/M/YYYY HH:mm'}}",
+        "RouteValueField": null,
         "WebId": "8560bcb4-afdb-4978-88ca-1f8e4d440732"
       },
       {
@@ -37,6 +38,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "4c87187c-f4cc-4f1c-a313-903610505aae"
       },
       {
@@ -53,23 +55,28 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "a09b77fa-fddd-4971-b99a-5893fba66350"
       }
     ]
   },
   "SortCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
-    "$values": [
-      {
-        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
-        "Path": "DateTime",
-        "Direction": "Asc",
-        "WebId": "7ca7c165-b50e-4f1d-bb20-43b98a84a2e5"
-      }
-    ]
+    "$values": []
   },
   "ConditionalFormattingCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": null,
+    "IsPublic": true,
+    "WebId": null
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
   "EntityViewId": 5005,
@@ -88,6 +95,6 @@
   "CreatedBy": "admin",
   "CreatedDate": "2014-04-19T13:17:11.6129028+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-29T18:07:41.7523115+08:00",
+  "ChangedDate": "2014-05-20T09:41:20.8735789+08:00",
   "WebId": "9b12e461-e5d6-45ea-811c-bd5f27a2cb6f"
 }

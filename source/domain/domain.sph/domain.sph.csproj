@@ -147,6 +147,7 @@
     <Compile Include="FormTemplates\FormElement.cs" />
     <Compile Include="FormTemplates\HtmlElement.cs" />
     <Compile Include="FormTemplates\NumberTextBox.cs" />
+    <Compile Include="FormTemplates\RouteParameter.cs" />
     <Compile Include="FormTemplates\SearchDefinition.cs" />
     <Compile Include="FormTemplates\SectionFormElement.cs" />
     <Compile Include="FormTemplates\Series.cs" />

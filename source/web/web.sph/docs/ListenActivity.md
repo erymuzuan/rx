@@ -1,6 +1,6 @@
 #ListenActivity
 ##Overview
-ListenActivity is one of the Async activity available for your workflow, it starts by initiating it's child activities which in turns are async activity themselves. What it does is to create a race for it's children and let the winners takes all.
+[`ListenActivity`](ListenActivity.html) is one of the Async activity available for your workflow, it starts by initiating it's child activities which in turns are async activity themselves. What it does is to create a race for it's children and let the winners takes all.
 
 Once of the child activity is fired, it will quickly cancel all other activities. Lets talk about a simple race condition where ListenActivity could be useful.
 

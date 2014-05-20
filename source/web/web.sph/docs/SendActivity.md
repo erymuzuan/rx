@@ -1,6 +1,7 @@
 #SendActivity
 ##Overview
-
+*Future Used*
+Allows you to send a message to external systems
 
 
 ##Properties
@@ -19,7 +20,6 @@
 
 ## See also
 
-[Activity](Activity.html)
 [Activity](Activity.html)
 [CreateEntityActivity](CreateEntityActivity.html)
 [DecisionActivity](DecisionActivity.html)

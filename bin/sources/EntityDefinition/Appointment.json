@@ -23,6 +23,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 2,
+        "DefaultValue": null,
         "WebId": "645fa515-b774-444d-bd1f-6ad381f293d8"
       },
       {
@@ -44,6 +45,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "7c46ebe4-17e2-4c46-9803-de3c78f4448e"
       },
       {
@@ -65,6 +67,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "ee373fe6-c7ff-4744-8c97-3389fff5e0ef"
       },
       {
@@ -86,6 +89,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "bc5d65b2-0901-4ba6-bf9a-5e3864711eba"
       },
       {
@@ -107,6 +111,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "32bc890c-7320-40e4-8c81-78e8ee30b0dd"
       },
       {
@@ -128,6 +133,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
+        "DefaultValue": null,
         "WebId": "801a8663-8738-4068-b8cd-a574c12b3748"
       },
       {
@@ -149,6 +155,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "316f3e81-d542-4902-8dd4-2aec110513a2"
       },
       {
@@ -170,6 +177,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "0a2d4daf-9137-44f5-aefc-03bff7005461"
       }
     ]
@@ -278,6 +286,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-19T16:02:27.5380816+08:00",
+  "ChangedDate": "2014-05-20T09:40:08.7050677+08:00",
   "WebId": "3a0cd042-a29f-4d00-add4-768eb28db62d"
 }

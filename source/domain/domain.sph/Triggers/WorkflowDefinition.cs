@@ -135,7 +135,6 @@ namespace Bespoke.Sph.Domain
                     OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.WorkflowDefinitionId, this.Version)),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
-
                 };
 
                 parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);

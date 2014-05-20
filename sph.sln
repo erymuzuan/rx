@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30324.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
 EndProject
@@ -112,6 +112,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "control.center", "source\tools\control.center\control.center.csproj", "{DF17CFE9-7689-47E4-9378-69D1E5F36EEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "offline.generator", "source\tools\offline.generator\offline.generator.csproj", "{7AC6CC32-81CB-450F-A494-9FFBDA05C626}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "postgres.repository", "source\dependencies\postgres.repository\postgres.repository.csproj", "{E76D3897-C660-4F65-A1B7-2E398B699D23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -275,6 +277,10 @@ Global
 		{7AC6CC32-81CB-450F-A494-9FFBDA05C626}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AC6CC32-81CB-450F-A494-9FFBDA05C626}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AC6CC32-81CB-450F-A494-9FFBDA05C626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E76D3897-C660-4F65-A1B7-2E398B699D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E76D3897-C660-4F65-A1B7-2E398B699D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E76D3897-C660-4F65-A1B7-2E398B699D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E76D3897-C660-4F65-A1B7-2E398B699D23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -319,5 +325,6 @@ Global
 		{020B92C2-BEA9-479A-A083-69F3ED53523E} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{DF17CFE9-7689-47E4-9378-69D1E5F36EEE} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{7AC6CC32-81CB-450F-A494-9FFBDA05C626} = {DB65484E-BE1F-4944-B216-4A57026360EB}
+		{E76D3897-C660-4F65-A1B7-2E398B699D23} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 	EndGlobalSection
 EndGlobal

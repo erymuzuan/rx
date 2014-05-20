@@ -422,6 +422,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="RouteParameterCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="RouteParameter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="EntityFormId" type="xs:int" use="required"/>
 			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
@@ -476,6 +483,13 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="Performer"/>
+				<xs:element name="RouteParameterCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="RouteParameter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>
@@ -524,6 +538,7 @@
 			<xs:attribute name="IconCssClass" type="xs:string" use="required"/>
 			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
 			<xs:attribute name="Format" type="xs:string" use="required"/>
+			<xs:attribute name="RouteValueField" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:simpleType name="Operator">
@@ -749,6 +764,12 @@
 					<xs:attribute name="Currency" type="xs:string" use="optional"/>
 				</xs:extension>
 			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RouteParameter">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

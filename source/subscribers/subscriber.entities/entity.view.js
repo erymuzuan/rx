@@ -16,7 +16,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             view = ko.observable(),
             list = ko.observableArray([]),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
-            activate = function () {
+            query = ko.observable(),
+            activate = function (@Model.Routes) {
+                query({
+                    "query": {
+                        "filtered": {
+                            "filter": @Raw(Model.FilterDsl)
+                        }
+                    },
+                    "sort" : @Raw(Model.SortDsl)
+                });
                 var edQuery = String.format("Name eq '{0}'", '@Model.Definition.Name'),
                   tcs = new $.Deferred(),
                   formsQuery = String.format("EntityDefinitionId eq @Model.Definition.EntityDefinitionId and IsPublished eq 1 and IsAllowedNewItem eq 1"),
@@ -53,14 +62,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             },
             attached = function () {
                 chart.init('@Model.Definition.Name', query, chartSeriesClick, @Model.View.EntityViewId);
-            },
-            query = {
-                "query": {
-                    "filtered": {
-                        "filter": @Raw(Model.FilterDsl)
-                    }
-                },
-                "sort" : @Raw(Model.SortDsl)
             };
 
         var vm = {

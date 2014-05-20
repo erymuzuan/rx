@@ -1,6 +1,11 @@
-<h1>DecisionActivity</h1>
+﻿<h1>DecisionActivity</h1>
 
 <h2>Overview</h2>
+
+<p><code>If-elseif-else</code> construct for your workflow, using <a href="DecisionBranch.html"><code>DecisionBranch</code></a> to evaluate the next path of Activity to be executed</p>
+
+<p>Each branch will be evaluated squentially in the order that you put, and if the expression is evaluated to <code>true</code>, then the branch will be excuted, ignoring the subsequent branches. If none were evaluated to true, then the default branch will be executed<br />
+<img src="http://i.imgur.com/Fa1Pxdb.png" alt="Decicision dialog" /></p>
 
 <h2>Properties</h2>
 
@@ -12,13 +17,12 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>DecisionBranchCollection</td><td> - </td></tr>
+<tr><td>DecisionBranchCollection</td><td> - The list of branches</td></tr>
 </tbody></table>
 
 <h2>See also</h2>
 
 <p><a href="Activity.html">Activity</a><br />
-<a href="Activity.html">Activity</a><br />
 <a href="CreateEntityActivity.html">CreateEntityActivity</a><br />
 <a href="DecisionActivity.html">DecisionActivity</a><br />
 <a href="DecisionBranch.html">DecisionBranch</a><br />

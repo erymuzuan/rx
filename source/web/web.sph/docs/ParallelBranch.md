@@ -1,6 +1,6 @@
 #ParallelBranch
 ##Overview
-
+Represent each branch in a parallel workflow execution, started by a [`ParallelActivity`](ParallelActivity.html). Each branch will have it's own `CorrelationId` to keep track of any async response from any async activities received.
 
 
 ##Properties
@@ -12,7 +12,7 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>ActivityCollection</td><td> - </td></tr>
+<tr><td>ActivityCollection</td><td> - List of activities in the branch execution</td></tr>
 </tbody></table>
 
 
@@ -20,23 +20,5 @@
 ## See also
 
 [Activity](Activity.html)
-[Activity](Activity.html)
-[CreateEntityActivity](CreateEntityActivity.html)
-[DecisionActivity](DecisionActivity.html)
-[DecisionBranch](DecisionBranch.html)
-[DelayActivity](DelayActivity.html)
-[DeleteEntityActivity](DeleteEntityActivity.html)
-[EndActivity](EndActivity.html)
-[ExpressionActivity](ExpressionActivity.html)
-[ScreenActivity](ScreenActivity.html)
-[NotificationActivity](NotificationActivity.html)
-[UpdateEntityActivity](UpdateEntityActivity.html)
-[ReceiveActivity](ReceiveActivity.html)
-[SendActivity](SendActivity.html)
-[ListenActivity](ListenActivity.html)
 [ParallelActivity](ParallelActivity.html)
 [JoinActivity](JoinActivity.html)
-[ThrowActivity](ThrowActivity.html)
-[ParallelBranch](ParallelBranch.html)
-[ListenBranch](ListenBranch.html)
-[ScheduledTriggerActivity](ScheduledTriggerActivity.html)

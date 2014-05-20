@@ -153,7 +153,7 @@ namespace Bespoke.Sph.Web.App_Start
                              select new JsRoute
                              {
                                  Title = t.Name,
-                                 Route = string.Format("{0}", t.Route.ToLowerInvariant()),
+                                 Route = t.GenerateRoute(),
                                  Caption = t.Name,
                                  Icon = t.IconClass,
                                  ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),

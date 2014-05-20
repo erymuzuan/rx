@@ -868,6 +868,7 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         Entity: ko.observable(''),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         Rules: ko.observableArray([]),
+        RouteParameterCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -913,6 +914,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         SortCollection: ko.observableArray([]),
         ConditionalFormattingCollection: ko.observableArray([]),
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
+        RouteParameterCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -978,6 +980,7 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
         IconCssClass: ko.observable(''),
         IconStoreId: ko.observable(''),
         Format: ko.observable(''),
+        RouteValueField: ko.observable(''),
         ConditionalFormattingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -1396,6 +1399,35 @@ bespoke.sph.domain.CurrencyElement = function (optionOrWebid) {
         return _(v).extend(new bespoke.sph.domain.CurrencyElementPartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sph.domain.RouteParameter = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.RouteParameter, domain.sph",
+        Name: ko.observable(''),
+        Type: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.RouteParameterPartial) {
+        return _(model).extend(new bespoke.sph.domain.RouteParameterPartial(model));
+    }
+    return model;
 };
 
 

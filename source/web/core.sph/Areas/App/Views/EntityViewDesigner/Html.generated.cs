@@ -215,8 +215,30 @@ WriteLiteral("</td>\r\n                    <td>\r\n                        <a hr
 "\">Value</label>\r\n                <div class=\"col-sm-6\">\r\n                    <in" +
 "put type=\"text\" class=\"form-control expression-field\" id=\"performer-value\" data-" +
 "bind=\"value:Value, disable:IsPublic\" />\r\n                </div>\r\n            </d" +
-"iv>\r\n        </form>\r\n    </div>\r\n</div>\r\n<div class=\"row\" style=\"height: 200px;" +
-"\"></div>");
+"iv>\r\n        </form>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row\" data-bind=\"with : v" +
+"iew\">\r\n\r\n    <a data-toggle=\"collapse\" href=\"#route-parameters-ev-panel\">\r\n     " +
+"   <h3>\r\n            <i class=\"fa fa-chevron-down\"></i>\r\n            Route Param" +
+"eters\r\n        </h3>\r\n    </a>\r\n    <div id=\"route-parameters-ev-panel\" class=\"c" +
+"ollapse collapsed\">\r\n\r\n        <table class=\"table table-striped\">\r\n            " +
+"<thead>\r\n                <tr>\r\n                    <th>Type</th>\r\n              " +
+"      <th>Name</th>\r\n                    <th></th>\r\n                </tr>\r\n     " +
+"       </thead>\r\n            <tbody data-bind=\"foreach :RouteParameterCollection" +
+"\">\r\n                <tr>\r\n                    <td>\r\n                        <sel" +
+"ect name=\"rule-operator\" class=\"form-control\" data-bind=\"value: Type, uniqueName" +
+": true\">\r\n                            <option value=\"Number\">Integer</option>\r\n " +
+"                           <option value=\"boolean\">Boolean</option>\r\n           " +
+"                 <option value=\"string\">String</option>\r\n                       " +
+"     <option value=\"float\">Decimal</option>\r\n                        </select>\r\n" +
+"                    </td>\r\n                    <td>\r\n                        <in" +
+"put pattern=\"^[A-Za-z][A-Za-z0-9_]*$\" type=\"text\" required class=\"form-control\" " +
+"data-bind=\"value:Name, uniqueName:true\" />\r\n                    </td>\r\n         " +
+"           <td>\r\n                        <a href=\"#\" data-bind=\"click : $parent." +
+"removeRouteParameter.call($parent,$data)\">\r\n                            <span cl" +
+"ass=\"fa fa-times\"></span>\r\n                        </a>\r\n                    </t" +
+"d>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n        <a cl" +
+"ass=\"btn btn-link\" data-bind=\"click : addRouteParameter\">\r\n            <i class=" +
+"\"fa fa-plus-circle\"></i> Add a route parameter\r\n        </a>\r\n    </div>\r\n</div>" +
+"\r\n<div class=\"row\" style=\"height: 200px;\"></div>");
 
 
         }

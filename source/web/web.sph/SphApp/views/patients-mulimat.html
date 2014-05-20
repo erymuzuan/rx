@@ -4,7 +4,6 @@
         <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
             <thead>
                 <tr>
-                    <th>Mrn</th>
                     <th>Status</th>
                     <th>Nama</th>
                     <th>Passport</th>
@@ -16,10 +15,8 @@
             </thead>
             <tbody data-bind="foreach :list">
                 <tr data-bind="">
-                    <td>
+  
 
-                        <a data-bind="attr : {href:'#patient-details' + '/' + PatientId },text: Mrn"></a>
-                    </td>
                     <td data-bind="text:Status"></td>
                     <td data-bind="text:FullName"></td>
                     <td data-bind="text:PassportNo"></td>
