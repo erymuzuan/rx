@@ -1165,12 +1165,6 @@
     <EmbeddedResource Include="Images\form.element.NumberTextBox.png" />
     <EmbeddedResource Include="Images\razor.png" />
     <EmbeddedResource Include="Images\StartWorkflowAction.png" />
-    <EmbeddedResource Include="Scripts\core.js">
-      <DependentUpon>__core.js.bundle</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\core.min.js">
-      <DependentUpon>core.js</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\vendor.js">
       <DependentUpon>__vendor.js.bundle</DependentUpon>
     </EmbeddedResource>
@@ -1365,8 +1359,14 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="kendo\js\kendo.all.min.js.map">
+      <DependentUpon>kendo.all.min.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
+    <EmbeddedResource Include="kendo\js\kendo.all.min.js">
+      <DependentUpon>kendo.all.js</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Scripts\bloodhound.js" />
     <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1415,9 +1415,12 @@
     <Content Include="Scripts\_pager.min.js">
       <DependentUpon>_pager.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\__core.js">
+    <EmbeddedResource Include="Scripts\__core.js">
       <DependentUpon>__core.js.bundle</DependentUpon>
-    </Content>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\__core.min.js">
+      <DependentUpon>__core.js</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Scripts\__vendor.js">
       <DependentUpon>__vendor.js.bundle</DependentUpon>
     </Content>
@@ -2253,9 +2256,6 @@
     <EmbeddedResource Include="Scripts\underscore-min.map" />
     <Content Include="Scripts\toastr.min.js.map" />
     <None Include="Scripts\__core.js.bundle" />
-    <EmbeddedResource Include="Scripts\core.min.js.map">
-      <DependentUpon>core.min.js</DependentUpon>
-    </EmbeddedResource>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <EmbeddedResource Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
     <EmbeddedResource Include="Scripts\jquery.contextMenu.js" />
@@ -2733,6 +2733,9 @@
     <Content Include="SphApp\partial\__partial.min.js.map">
       <DependentUpon>__partial.min.js</DependentUpon>
     </Content>
+    <EmbeddedResource Include="Scripts\__core.min.js.map">
+      <DependentUpon>__core.min.js</DependentUpon>
+    </EmbeddedResource>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -3519,9 +3522,9 @@
       <DependentUpon>partial.min.js</DependentUpon>
     </Content>
     <None Include="SphApp\prototypes\__prototypes.js.bundle" />
-    <Content Include="SphApp\prototypes\prototypes.min.js.map">
+    <EmbeddedResource Include="SphApp\prototypes\prototypes.min.js.map">
       <DependentUpon>prototypes.min.js</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <None Include="SphApp\schemas\__domain.js.bundle" />
     <EmbeddedResource Include="SphApp\schemas\domain.min.js.map">
       <DependentUpon>domain.min.js</DependentUpon>

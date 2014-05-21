@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
     public class ConfigController : BaseAppController
     {
         [RazorScriptFilter]
+        [NoCache]
         public async Task<ActionResult> Js()
         {
             this.Response.Cache.SetCacheability(HttpCacheability.NoCache);

@@ -135,7 +135,7 @@ WriteLiteral("        <script src=\"/Scripts/jstree.min.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"/Scripts/core.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/__core.js\"></script>\r\n");
 
 
 
@@ -190,27 +190,31 @@ WriteLiteral("        <script src=\"/Scripts/vendor.min.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"/Scripts/jstree.min.js\"></script>\r\n");
-
-
-
-WriteLiteral("        <script src=\"/Scripts/core.min.js\"></script>\r\n");
-
-
-
 WriteLiteral("        <script src=\"/Scripts/nprogress.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"/Sph/schemas/domain.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/jstree.min.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"/Sph/prototypes/prototypes.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/__core.min.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"/Sph/partial/partial.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/_ko.entity.js\"></script>\r\n");
+
+
+
+WriteLiteral("        <script src=\"/SphApp/schemas/domain.min.js\"></script>\r\n");
+
+
+
+WriteLiteral("        <script src=\"/SphApp/prototypes/prototypes.min.js\"></script>\r\n");
+
+
+
+WriteLiteral("        <script src=\"/SphApp/partial/partial.min.js\"></script>\r\n");
 
 
 
@@ -223,7 +227,7 @@ WriteLiteral("        <script src=\"~/Content/theme.");
 
 
             
-            #line 62 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 63 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                 Write(theme);
 
             
@@ -233,11 +237,11 @@ WriteLiteral("/theme.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"/kendo/js/kendo.all.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/kendo/js/kendo.all.min.js\"></script>\r\n");
 
 
             
-            #line 64 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 65 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             
