@@ -1,4 +1,4 @@
-<h1>AssemblyField</h1>
+﻿<h1>AssemblyField</h1>
 
 <h2>Overview</h2>
 
@@ -8,8 +8,69 @@
 
 <p>If your method is an async method, you must return Task&lt;object>. </p>
 
-<p>Since the Field.GetValue is a synchronous method, it will wrap inside Wait and ContinueWith, so problem might arise with the thread waiting for the await. So make sure any async call is wrap with ConfigureAwait(false). <br />
+<p>Since the Field.GetValue is a synchronous method, it will wrap inside <code>Wait</code> and <code>ContinueWith</code>, so problem might arise with the thread waiting for the await. So make sure any async call is wrap with <code>ConfigureAwait(false)</code>. <br />
 The word of warning : You might run into deadlock issue in this situation</p>
+
+<p>Here is simple example of C# class</p>
+
+<pre>
+using System;
+
+namespace Bespoke
+{
+    public class Util
+    {
+        public string GetLookupValue(string value)
+        {
+            // may read it from database somewhere
+            return value + "01 is the lookup for " + value;
+        }
+    }
+
+}
+</pre>
+
+<p>then compile it using csc.exe</p>
+
+<pre>
+csc /t:library Util.cs
+</pre>
+
+<p><img src="http://i.imgur.com/37yZLKh.png" alt="Field setting" /></p>
+
+<h2>Using custom assembly that refer to your Entity</h2>
+
+<p>Not all you do is a simple lookup function with a simple type arguement, there may be time that you need to include the full object to your type.</p>
+
+<pre>
+using System;
+namespace Bespoke
+{
+    public class Util
+    {
+        public string GetOldRecordName(Bespoke.Dev_2002.Domain.Patient patient)
+        {
+            // may read it from database somewhere
+            return patient.Mrn + "_old";
+        }
+    }
+
+}
+</pre>
+
+<p>Now compile your dll using this switch</p>
+
+<pre>
+csc /t:library /r:c:\his\output\Dev.Patient.dll /r:c:\his\subscribers\domain.sph.dll .\code.cs
+</pre>
+
+<p>Assuming that your project name is <code>Dev</code> and it sits in <code>c:\his</code>. Change the namespace accordingly.</p>
+
+<p>To get the full power of C# editor we recommend you to download  <a href="http://go.microsoft.com/?linkid=9832222&amp;clcid=0x409">Visual Studio 2013 Express</a>, that allows you to create a library project , get it.</p>
+
+<p>Other alternative are<br />
+*  <a href="http://www.icsharpcode.net/OpenSource/SD/Download/">SharpDevelop</a><br />
+*  <a href="http://monodevelop.com/">MonoDevelop</a></p>
 
 <h2>Properties</h2>
 
@@ -32,6 +93,7 @@ The word of warning : You might run into deadlock issue in this situation</p>
 <h2>See also</h2>
 
 <p><a href="Field.html">Field</a><br />
+<a href="MethodArg.html">MethodArg</a><br />
 <a href="AssemblyField.html">AssemblyField</a><br />
 <a href="FunctionField.html">FunctionField</a><br />
 <a href="ConstantField.html">ConstantField</a><br />

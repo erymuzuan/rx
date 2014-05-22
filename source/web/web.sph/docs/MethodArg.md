@@ -1,6 +1,6 @@
 #MethodArg
 ##Overview
-
+Used in [`AssemblyField`](AssemblyField.html) method invocation to represent each arguement for the method to be called.
 
 
 ##Properties
@@ -12,10 +12,10 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>Name</td><td> - </td></tr>
-<tr><td>TypeName</td><td> - </td></tr>
-<tr><td>ValueProvider</td><td> - </td></tr>
-<tr><td>Type</td><td> - </td></tr>
+<tr><td>Name</td><td> - The name for the arguement</td></tr>
+<tr><td>TypeName</td><td> - The full type name of the arg e.g. System.String, mscorlib</td></tr>
+<tr><td>ValueProvider</td><td> - The value of the arguement </td></tr>
+<tr><td>Type</td><td> - Used internally</td></tr>
 </tbody></table>
 
 

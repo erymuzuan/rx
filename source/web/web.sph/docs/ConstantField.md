@@ -2,6 +2,8 @@
 ##Overview
 Probably the simplest of all the [`Field`](Field.html), the `GetValue` method returns the value as specified at design time, i.e. is a `constant`
 
+The string value must be convertible to the TypeName specified
+
 
 ##Properties
 <table class="table table-condensed table-bordered">
@@ -21,7 +23,6 @@ Probably the simplest of all the [`Field`](Field.html), the `GetValue` method re
 
 ## See also
 
-[Field](Field.html)
 [Field](Field.html)
 [AssemblyField](AssemblyField.html)
 [FunctionField](FunctionField.html)
