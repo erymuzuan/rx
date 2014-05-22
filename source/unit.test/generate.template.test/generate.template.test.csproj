@@ -51,13 +51,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs">
+    <Compile Include="WordDocumentGenerateTest.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="DATETIME.docx" />
     <None Include="KontrakPerjanjianRuangSewa.docx" />
   </ItemGroup>
   <ItemGroup>
