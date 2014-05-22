@@ -138,6 +138,17 @@
 
         <h3>Success Action</h3>
         <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: ShowSuccessMessage" id="show-success-message" type="checkbox" name="ShowSuccessMessage" />
+                        Show success message box
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
             <label for="success-message" class="col-lg-2 control-label">Success Message</label>
             <div class="col-lg-8">
                 <textarea data-bind="value: SuccessMessage"

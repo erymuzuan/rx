@@ -32,44 +32,18 @@
 	"buffers":
 	[
 		{
-			"file": "bin/sources/Patient  test for property changed.cs",
+			"file": "source/subscribers/subscriber.entities/entity.view.js",
 			"settings":
 			{
-				"buffer_size": 2082,
+				"buffer_size": 3339,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "bin/sources/Customer.cs",
+			"file": "source/subscribers/subscriber.entities/entity.view.html",
 			"settings":
 			{
-				"buffer_size": 16840,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "5523-3301-0038-7586 100,000.00 01 JUN 14 2,540.32 127.02",
-			"settings":
-			{
-				"buffer_size": 56,
-				"line_ending": "Windows",
-				"name": "5523-3301-0038-7586 100,000.00 01 JUN 14 2,540.32"
-			}
-		},
-		{
-			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\nusing System.Web.Mvc;\nusing Bespoke.Sph.Web.Helpers;\n\nnamespace Bespoke.Dev_0.Domain\n{\n   public class Customer : Entity\n   {\n       private int m_customerId;\n       [XmlAttribute]\n       public int CustomerId\n       {\n           get{ return m_customerId;}\n           set{ m_customerId = value;}\n       }\n       public Customer()\n       {\n           var rc = new RuleContext(this);\n\n           var mj1 = \"{\\\"$type\\\":\\\"Bespoke.Sph.Domain.ConstantField, domain.sph\\\",\\\"TypeName\\\":\\\"System.String, mscorlib\\\",\\\"Value\\\":\\\"<Name>\\\",\\\"Name\\\":null,\\\"Note\\\":null,\\\"WebId\\\":null}\";\n           var field1 = mj1.DeserializeFromJson<ConstantField>();\n           var val1 = field1.GetValue(rc);\n           m_name = (System.String)val1;\n\n           var mj2 = \"{\\\"$type\\\":\\\"Bespoke.Sph.Domain.ConstantField, domain.sph\\\",\\\"TypeName\\\":\\\"System.Int32, mscorlib\\\",\\\"Value\\\":1,\\\"Name\\\":null,\\\"Note\\\":null,\\\"WebId\\\":null}\";\n           var field2 = mj2.DeserializeFromJson<ConstantField>();\n           var val2 = field2.GetValue(rc);\n           m_rating = (System.Int32)val2;\n       }\n     \n        public override string ToString()\n        {\n            return \"Customer:\" + Name;\n        }     \n        public override void SetId(int id)\n        {\n            m_customerId = id;\n        }     \n        public override int GetId()\n        {\n            return m_customerId;\n        }\n//member:Name\n      private System.String m_name;\n      [XmlAttribute]\n      public System.String Name\n      {\n          get{ return m_name;}\n          set{ m_name = value;}\n      }\n\n//member:Title\n      private System.String m_title;\n      [XmlAttribute]\n      public System.String Title\n      {\n          get{ return m_title;}\n          set{ m_title = value;}\n      }\n\n//member:Rating\n      private System.Int32 m_rating;\n      [XmlAttribute]\n      public System.Int32 Rating\n      {\n          get{ return m_rating;}\n          set{ m_rating = value;}\n      }\n\n//member:Address\n      private Address m_address = new Address();\n      public Address Address\n      {\n          get{ return m_address;}\n          set{ m_address = value;}\n      }\n\n//member:ContactCollection\n      private readonly ObjectCollection<Contact> m_contactCollection = new ObjectCollection<Contact>();\n      public ObjectCollection<Contact> ContactCollection\n      {\n          get{ return m_contactCollection;}\n      }\n\n   }\n//class:Name\n\n//class:Title\n\n//class:Rating\n\n//class:Address\n   public class Address: DomainObject\n   {\n      private System.String m_street1;\n      [XmlAttribute]\n      public System.String Street1\n      {\n          get{ return m_street1;}\n          set{ m_street1 = value;}\n      }\n\n      private System.String m_state;\n      [XmlAttribute]\n      public System.String State\n      {\n          get{ return m_state;}\n          set{ m_state = value;}\n      }\n\n   }\n\n\n\n//class:ContactCollection\n   public class Contact: DomainObject\n   {\n      private System.String m_name;\n      [XmlAttribute]\n      public System.String Name\n      {\n          get{ return m_name;}\n          set{ m_name = value;}\n      }\n\n      private System.String m_telephone;\n      [XmlAttribute]\n      public System.String Telephone\n      {\n          get{ return m_telephone;}\n          set{ m_telephone = value;}\n      }\n\n   }\n\n\n\npublic partial class CustomerController : System.Web.Mvc.Controller\n{\n//exec:Search\n       public async Task<System.Web.Mvc.ActionResult> Search()\n       {\n\n            var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);\n            var request = new System.Net.Http.StringContent(json);\n            var url = \"dev/customer/_search\";\n\n            using(var client = new System.Net.Http.HttpClient())\n            {\n                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);\n                var response = await client.PostAsync(url, request);\n                var content = response.Content as System.Net.Http.StreamContent;\n                if (null == content) throw new Exception(\"Cannot execute query on es \" + request);\n                this.Response.ContentType = \"application/json; charset=utf-8\";\n                return Content(await content.ReadAsStringAsync());\n            }\n                   }\n//exec:Save\n       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]Customer item)\n       {\n\n            if(null == item) throw new ArgumentNullException(\"item\");\n            var context = new Bespoke.Sph.Domain.SphDataContext();\n            using(var session = context.OpenSession())\n            {\n                session.Attach(item);\n                await session.SubmitChanges(\"save\");\n            }\n            this.Response.ContentType = \"application/json; charset=utf-8\";\n            return Json(new {success = true, status=\"OK\", id = item.CustomerId});\n       }\n//exec:validate\n       [HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[RequestBody]Customer item)\n       {\n           var context = new Bespoke.Sph.Domain.SphDataContext();\n           if(null == item) throw new ArgumentNullException(\"item\");\n           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == \"Customer\");\n           var brokenRules = new ObjectCollection<ValidationResult>();\n           var rules = id.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);\n\n           foreach(var r in rules)\n           {\n                var appliedRules = ed.BusinessRuleCollection.Where(b => b.Name == r);\n                ValidationResult result = item.ValidateBusinessRule(appliedRules);\n\n                if(!result.Success){\n                    brokenRules.Add(result);\n                }\n           }\n           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});\n\n   \n            return Json(new {success = true, status=\"OK\", id = item.CustomerId});\n       }\n//exec:Remove\n       [HttpDelete]\n       public async Task<System.Web.Mvc.ActionResult> Remove(int id)\n       {\n\n            var repos = ObjectBuilder.GetObject<IRepository<Customer>>();\n            var item = await repos.LoadOneAsync(id);\n            if(null == item)\n                return new HttpNotFoundResult();\n\n            var context = new Bespoke.Sph.Domain.SphDataContext();\n            using(var session = context.OpenSession())\n            {\n                session.Delete(item);\n                await session.SubmitChanges(\"delete\");\n            }\n            this.Response.ContentType = \"application/json; charset=utf-8\";\n            return Json(new {success = true, status=\"OK\", id = item.CustomerId});\n       }\n//exec:Schemas\n       public async Task<System.Web.Mvc.ActionResult> Schemas()\n       {\n           var context = new SphDataContext();\n           var ed = await context.LoadOneAsync<EntityDefinition>(t => t.Name == \"Customer\");\n           var script = await ed.GenerateCustomXsdJavascriptClassAsync();\n           this.Response.ContentType = \"application/javascript\";\n           return Content(script);\n       }\n}\n}\n\n\n",
-			"settings":
-			{
-				"buffer_size": 7131,
-				"line_ending": "Windows",
-				"name": "using Bespoke.Sph.Domain;"
-			}
-		},
-		{
-			"contents": "<div class=\"btn-group\">\n\n    <a data-bind=\"with : ValueProvider, bootstrapDropDown : {}\" class=\"btn btn-link dropdown\" href=\"#\">\n        <img data-bind=\"fieldImage : $type\" class=\"pull-left\" alt=\".\" />\n        <!-- ko text : Name -->\n        <!-- /ko -->\n        <span class=\"caret\"></span>\n    </a>\n\n\n    <ul class=\"dropdown-menu\">\n        <li data-bind=\"with : ValueProvider\">\n            <a class=\"btn-add-setter-field\" data-bind=\"visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent,$data)\">\n                <i class=\"fa fa-edit\"></i>\n                Edit Field\n            </a>\n        </li>\n        <li>\n            <a class=\"btn-add-document-setter-field\" data-bind=\"unwrapClick: addField,field : 'Document', accessor : $data.ValueProvider\" href=\"#\">+ Document Field</a>\n        </li>\n        <li>\n            <a class=\"btn-add-constant-setter-field\" data-bind=\"unwrapClick: addField,field : 'Constant', accessor : $data.ValueProvider\" href=\"#\">+ Constant Field</a>\n        </li>\n        <li>\n            <a class=\"btn-add-function-setter-field\" data-bind=\"unwrapClick: addField,field : 'Function', accessor : $data.ValueProvider\" href=\"#\">+ Function Field</a>\n        </li>\n\n    </ul>\n</div>",
-			"settings":
-			{
-				"buffer_size": 1220,
+				"buffer_size": 5878,
 				"line_ending": "Windows"
 			}
 		}
@@ -101,6 +75,25 @@
 	},
 	"file_history":
 	[
+		"/C/project/work/sph/bin/web/docs/Entity.html",
+		"/C/project/work/sph/source/subscribers/subscriber.entities/entity.view.html",
+		"/C/project/work/sph/source/web/core.sph/Scripts/vendor.min.js.map",
+		"/C/Users/bespoke1/Downloads/rxsqlweb-0001.rdp",
+		"/C/Users/bespoke1/Downloads/download.dlm",
+		"/C/project/work/sph/source/database/Schema/SphSchema.sql",
+		"/C/project/work/sph/source/database/Table/Sph.AuditTrail.sql",
+		"/C/Windows/Microsoft.NET/Framework/v4.0.30319/InstallMembership.sql",
+		"/C/SQLAzureMW/BCPData/Station.Shift.dat",
+		"/C/Users/bespoke1/Downloads/rx-stationms.azurewebsites.net.PublishSettings",
+		"/C/project/work/sph/bin/sources/EntityDefinition/.json",
+		"/C/project/work/sph/source/web/web.sph/SphApp/webstorm/schemas.js",
+		"/C/project/work/sph/bin/schedulers/scheduler.delayactivity.exe.config",
+		"/C/project/work/sph/packages/Microsoft.Composition.1.0.20/lib/portable-net45+win8/System.Composition.Hosting.XML",
+		"/C/project/work/sph/start-subscriber-console-runner.ps1",
+		"/C/project/work/sph/sph.sln",
+		"/C/project/work/sph/source/subscribers/subscriber.infrastructure/EventLogNotification.cs",
+		"/C/project/work/sph/WebEssentials-Settings.json",
+		"/C/project/work/sph/bin/sources/Customer.cs",
 		"/D/temp/offline/create-new-appointment.js",
 		"/D/temp/offline/create-new-appointment.html",
 		"/D/temp/offline/appointment-details.js",
@@ -142,7 +135,7 @@
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 38.0
 	},
 	"find_in_files":
 	{
@@ -156,6 +149,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"@dbop",
+			"@dbname",
+			"eid",
 			"	AZROL	Resolved",
 			"	Ruzzaima	Resolved",
 			"	Ruzzaima	Closed",
@@ -197,156 +193,67 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "bin/sources/Patient  test for property changed.cs",
-					"semi_transient": true,
+					"file": "source/subscribers/subscriber.entities/entity.view.js",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2082,
+						"buffer_size": 3339,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1061,
-								1061
+								988,
+								988
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C#/C#.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "bin/sources/Customer.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 16840,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								247,
-								280
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 198.0,
+						"translation.y": 330.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 1,
+					"file": "source/subscribers/subscriber.entities/entity.view.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 56,
+						"buffer_size": 5878,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								56
+								1691,
+								1691
 							]
 						],
 						"settings":
 						{
-							"auto_name": "5523-3301-0038-7586 100,000.00 01 JUN 14 2,540.32",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7131,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								207,
-								207
-							]
-						],
-						"settings":
-						{
-							"auto_name": "using Bespoke.Sph.Domain;",
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 155.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1220,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								320,
-								320
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -398,6 +305,18 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"ent.vi",
+				"source\\subscribers\\subscriber.entities\\entity.view.html"
+			],
+			[
+				"schema",
+				"source\\database\\Schema\\SphSchema.sql"
+			],
+			[
+				"en.vi",
+				"source\\subscribers\\subscriber.entities\\entity.view.js"
+			],
 			[
 				"patient.",
 				"bin\\sources\\Patient.cs"

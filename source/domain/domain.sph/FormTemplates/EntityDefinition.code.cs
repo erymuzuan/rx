@@ -312,7 +312,7 @@ namespace Bespoke.Sph.Domain
                 session.Attach(item);
                 await session.SubmitChanges(""{1}"");
             }}
-            return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name, operation.Name);
+            return Json(new {{success = true, message=""{2}"", status=""OK"", id = item.{0}Id}});", this.Name, operation.Name, operation.SuccessMessage);
 
                 code.AppendLine();
                 code.AppendLine("       }");

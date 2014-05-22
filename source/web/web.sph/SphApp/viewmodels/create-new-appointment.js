@@ -34,6 +34,10 @@
                 },
                 register = function(){
 
+                     if (!validation.valid()) {
+                         return Task.fromResult(false);
+                     }
+
                      var tcs = new $.Deferred(),
                          data = ko.mapping.toJSON(entity);
 
@@ -44,13 +48,7 @@
                                  entity().AppointmentId(result.id);
                                  errors.removeAll();
 
-                                  
-                                    app.showMessage("The appointment has been set", "SPH Platform showcase", ["OK"])
-	                                    .done(function (dialogResult) {
-                                            console.log();
-                                            window.location='#patient'
-	                                    });
-                                 
+                                 window.location='#appointment-confirmation/' + entity().AppointmentId();
                              } else {
                                  errors.removeAll();
                                  _(result.rules).each(function(v){
@@ -81,6 +79,9 @@
                     context.post(data, "/Appointment/Save")
                         .then(function(result) {
                             tcs.resolve(result);
+                            entity().AppointmentId(result.id);
+                            app.showMessage("Your Appointment has been successfully saved", "SPH Platform showcase", ["ok"]);
+
                         });
                     
 
@@ -98,9 +99,9 @@
                             tcs.resolve(true);
                             app.showMessage("Your item has been successfully removed", "Removed", ["OK"])
                               .done(function () {
-                                window.location = "#appointment";
-                            });
-                        } 
+                                  window.location = "#appointment";
+                              });
+                        }
                     });
 
 
@@ -108,23 +109,23 @@
                 };
 
             var vm = {
-        activate: activate,
-        config: config,
-        attached: attached,
-        entity: entity,
-        errors: errors,
-        save : save,
+                activate: activate,
+                config: config,
+                attached: attached,
+                entity: entity,
+                errors: errors,
+                save : save,
                     register : register,
-        //
+                //
 
 
-        toolbar : {
+                toolbar : {
                         
-            saveCommand : register,
-            
-            commands : ko.observableArray([])
-        }
-    };
+                    saveCommand : register,
+                    
+                    commands : ko.observableArray([])
+                }
+            };
 
-    return vm;
-    });
+            return vm;
+        });

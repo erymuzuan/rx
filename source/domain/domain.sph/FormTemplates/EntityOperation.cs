@@ -26,7 +26,6 @@ namespace Bespoke.Sph.Domain
 
         public string GetConfirmationMessage()
         {
-            if (string.IsNullOrWhiteSpace(this.SuccessMessage)) return string.Empty;
             var nav = string.Empty;
             if (!string.IsNullOrWhiteSpace(this.NavigateSuccessUrl))
             {
@@ -35,13 +34,19 @@ namespace Bespoke.Sph.Domain
                 {
                     nav = "window.location" + this.NavigateSuccessUrl;
                 }
+                if (string.IsNullOrWhiteSpace(this.SuccessMessage))
+                    return nav;
             }
 
+            if (string.IsNullOrWhiteSpace(this.SuccessMessage)
+                && string.IsNullOrWhiteSpace(this.NavigateSuccessUrl))
+                return string.Empty;
+
+            if (!this.ShowSuccessMessage) return nav;
 
             return string.Format(@" 
                                     app.showMessage(""{0}"", ""{1}"", [""OK""])
-	                                    .done(function (dialogResult) {{
-                                            console.log();
+	                                    .done(function () {{
                                             {2}
 	                                    }});
                                  ", this.SuccessMessage, ConfigurationManager.ApplicationFullName, nav);
