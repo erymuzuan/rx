@@ -106,32 +106,38 @@ Write(Html.Partial("_Toolbar"));
             
             #line default
             #line hidden
-WriteLiteral("\r\n    <pre id=\"editor\">\r\n// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\r\n</pre>\r\n\r\n " +
-"   <script src=\"/Scripts/ace/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></sc" +
-"ript>\r\n    <script src=\"/Scripts/jquery-2.1.0.min.js\" type=\"text/javascript\" cha" +
-"rset=\"utf-8\"></script>\r\n    <script src=\"/Scripts/bootstrap.min.js\" type=\"text/j" +
-"avascript\" charset=\"utf-8\"></script>\r\n    <script src=\"/Scripts/knockout-3.1.0.j" +
-"s\" type=\"text/javascript\" charset=\"utf-8\"></script>\r\n    <script src=\"/Scripts/k" +
-"nockout.mapping-latest.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\r\n   " +
-" <script src=\"/Scripts/_function.prototypes.js\" type=\"text/javascript\" charset=\"" +
-"utf-8\"></script>\r\n    <script src=\"/Scripts/_utils.js\" type=\"text/javascript\" ch" +
-"arset=\"utf-8\"></script>\r\n    <script src=\"/SphApp/objectbuilders.js\" type=\"text/" +
-"javascript\"></script>\r\n    <script src=\"/Scripts/require.js\" type=\"text/javascri" +
-"pt\"></script>\r\n    <script src=\"/Scripts/underscore.js\" type=\"text/javascript\"><" +
-"/script>\r\n    <script type=\"text/javascript\">\r\n\r\n        var bespoke = bespoke |" +
-"| {};\r\n        bespoke.sph = bespoke.sph || {};\r\n        bespoke.sph.domain = be" +
-"spoke.sph.domain || {};\r\n\r\n\r\n        require.config({\r\n            baseUrl: \"/Sp" +
-"hApp\",\r\n            waitSeconds: 15,\r\n            paths: {\r\n                \'dur" +
-"andal\': \'/Scripts/durandal\',\r\n                \'plugins\': \'/Scripts/durandal/plug" +
-"ins\'\r\n            }\r\n        });\r\n        define(\'jquery\', function () { return " +
-"jQuery; });\r\n        define(\'knockout\', ko);\r\n    </script>\r\n\r\n    <script type=" +
-"\"text/javascript\">\r\n\r\n        require([\'services/datacontext\', \'jquery\', \'servic" +
-"es/app\'], function (context, jquery, app) {\r\n\r\n            var editor = ace.edit" +
-"(\"editor\");\r\n            editor.setTheme(\"ace/theme/");
+WriteLiteral("\r\n    <pre id=\"editor\">\r\n// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\r\n</pre>\r\n   " +
+" <script src=\"/Scripts/ace/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></scri" +
+"pt>\r\n    <script src=\"/Scripts/ace/ext-language_tools.js\"></script>\r\n    <script" +
+" src=\"/Scripts/ace/snippets/javascript.js\"></script>\r\n    <script src=\"/Scripts/" +
+"ace/snippets/csharp.js\"></script>\r\n    <script src=\"/Scripts/ace/snippets/css.js" +
+"\"></script>\r\n    <script src=\"/Scripts/jquery-2.1.0.min.js\" type=\"text/javascrip" +
+"t\" charset=\"utf-8\"></script>\r\n    <script src=\"/Scripts/bootstrap.min.js\" type=\"" +
+"text/javascript\" charset=\"utf-8\"></script>\r\n    <script src=\"/Scripts/knockout-3" +
+".1.0.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\r\n    <script src=\"/Scr" +
+"ipts/knockout.mapping-latest.js\" type=\"text/javascript\" charset=\"utf-8\"></script" +
+">\r\n    <script src=\"/Scripts/_function.prototypes.js\" type=\"text/javascript\" cha" +
+"rset=\"utf-8\"></script>\r\n    <script src=\"/Scripts/_utils.js\" type=\"text/javascri" +
+"pt\" charset=\"utf-8\"></script>\r\n    <script src=\"/SphApp/objectbuilders.js\" type=" +
+"\"text/javascript\"></script>\r\n    <script src=\"/Scripts/require.js\" type=\"text/ja" +
+"vascript\"></script>\r\n    <script src=\"/Scripts/underscore.js\" type=\"text/javascr" +
+"ipt\"></script>\r\n    <script type=\"text/javascript\">\r\n\r\n        var bespoke = bes" +
+"poke || {};\r\n        bespoke.sph = bespoke.sph || {};\r\n        bespoke.sph.domai" +
+"n = bespoke.sph.domain || {};\r\n\r\n\r\n        require.config({\r\n            baseUrl" +
+": \"/SphApp\",\r\n            waitSeconds: 15,\r\n            paths: {\r\n              " +
+"  \'durandal\': \'/Scripts/durandal\',\r\n                \'plugins\': \'/Scripts/duranda" +
+"l/plugins\'\r\n            }\r\n        });\r\n        define(\'jquery\', function () { r" +
+"eturn jQuery; });\r\n        define(\'knockout\', ko);\r\n    </script>\r\n\r\n    <script" +
+" type=\"text/javascript\">\r\n\r\n        require([\'services/datacontext\', \'jquery\', \'" +
+"services/app\'], function (context, jquery, app) {\r\n            ace.require(\"ace/" +
+"ext/language_tools\");\r\n            var editor = ace.edit(\"editor\");\r\n           " +
+" editor.setOptions({\r\n                enableBasicAutocompletion: true,\r\n        " +
+"        enableSnippets: true,\r\n                enableLiveAutocompletion: false\r\n" +
+"            });\r\n            editor.setTheme(\"ace/theme/");
 
 
             
-            #line 76 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 84 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
                                   Write(theme);
 
             
@@ -141,7 +147,7 @@ WriteLiteral("\");\r\n");
 
 
             
-            #line 77 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 85 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
               
             var mode = this.Request.QueryString["mode"] ?? "csharp";
         
@@ -153,7 +159,7 @@ WriteLiteral("            editor.getSession().setMode(\"ace/mode/");
 
 
             
-            #line 80 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 88 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
                                              Write(mode);
 
             
@@ -173,35 +179,85 @@ WriteLiteral("\");\r\n            editor.gotoLine(1);\r\n\r\n            editor.
 "                 if (window.saved)\r\n                        window.saved(editor." +
 "getValue(), true);\r\n\r\n                },\r\n                copy = function () {\r\n" +
 "\r\n                },\r\n                paste = function () {\r\n\r\n                }" +
-", search = function () {\r\n\r\n                },\r\n                gotoLine = funct" +
-"ion (number) {\r\n\r\n                },\r\n                vm = {\r\n                  " +
-"  paste: paste,\r\n                    searchText: ko.observable(),\r\n             " +
-"       copy: copy,\r\n                    save: save,\r\n                    search:" +
-" search,\r\n                    saveAndClose: saveAndClose,\r\n                    g" +
-"otoLine: gotoLine,\r\n                    snippets: ko.observableArray(),\r\n       " +
-"             logs: ko.observableArray(),\r\n                    openSnippetEditor:" +
-" function () {\r\n                        require([\'viewmodels/snippets.dialog\'], " +
-"function (dialog) {\r\n                            app.showModal(dialog)\r\n        " +
-"                        .done(function () {\r\n\r\n                                }" +
-");\r\n                            setTimeout(function() {\r\n                       " +
-"         $(\'div.modal-backdrop\').remove();\r\n                            }, 500);" +
-"\r\n                        });\r\n                    }\r\n\r\n                };\r\n    " +
-"        ko.applyBindings(vm, document.getElementById(\'header-navbar\'));\r\n\r\n\r\n\r\n " +
-"           $(\'#theme\').change(function () {\r\n                editor.setTheme(\"ac" +
-"e/theme/\" + $(this).val());\r\n                $.post(\'/Editor/SaveSetting\', { \'ac" +
-"e-theme\': $(this).val() });\r\n            });\r\n            $(\'#font-size\').change" +
-"(function () {\r\n                $(\'#editor\').css(\"font-size\", $(this).val() + \"p" +
-"x\");\r\n                $.post(\'/Editor/SaveSetting\', { \'ace-font-size\': $(this).v" +
-"al() });\r\n            });\r\n            $(\'#snippets-list\').on(\'click\',\'a\',functi" +
-"on () {\r\n                var snp = ko.dataFor(this);\r\n                editor.ins" +
-"ert(snp.code);\r\n            });\r\n\r\n            // let it run\r\n            setTim" +
-"eout(function () {\r\n                if (window.code) {\r\n                    edit" +
-"or.setValue(window.code);\r\n                }\r\n                if (typeof window." +
-"field === \"object\") {\r\n                    editor.setValue(window.field.Script()" +
-");\r\n                }\r\n                editor.gotoLine(1);\r\n\r\n            }, 600" +
-");\r\n            editor.gotoLine(1);\r\n\r\n            $.get(\'/sph/editor/snippets\')" +
-".done(function (snippets) {\r\n                vm.snippets(snippets);\r\n           " +
-" });\r\n\r\n\r\n        });\r\n    </script>\r\n\r\n</body>\r\n</html>\r\n");
+", search = function () {\r\n\r\n                },\r\n                open = function(" +
+") {\r\n                    \r\n                },\r\n                gotoLine = functi" +
+"on (number) {\r\n\r\n                },\r\n                vm = {\r\n                   " +
+" paste: paste,\r\n                    searchText: ko.observable(),\r\n              " +
+"      open: open,\r\n                    copy: copy,\r\n                    save: sa" +
+"ve,\r\n                    search: search,\r\n                    saveAndClose: save" +
+"AndClose,\r\n                    gotoLine: gotoLine,\r\n                    snippets" +
+": ko.observableArray(),\r\n                    logs: ko.observableArray(),\r\n      " +
+"              openSnippetEditor: function () {\r\n                        require(" +
+"[\'viewmodels/snippets.dialog\'], function (dialog) {\r\n                           " +
+" app.showModal(dialog)\r\n                                .done(function () {\r\n\r\n " +
+"                               });\r\n                            setTimeout(funct" +
+"ion() {\r\n                                $(\'div.modal-backdrop\').remove();\r\n    " +
+"                        }, 500);\r\n                        });\r\n                 " +
+"   }\r\n\r\n                };\r\n            ko.applyBindings(vm, document.getElement" +
+"ById(\'header-navbar\'));\r\n\r\n\r\n\r\n            $(\'#theme\').change(function () {\r\n   " +
+"             editor.setTheme(\"ace/theme/\" + $(this).val());\r\n                $.p" +
+"ost(\'/Editor/SaveSetting\', { \'ace-theme\': $(this).val() });\r\n            });\r\n  " +
+"          $(\'#font-size\').change(function () {\r\n                $(\'#editor\').css" +
+"(\"font-size\", $(this).val() + \"px\");\r\n                $.post(\'/Editor/SaveSettin" +
+"g\', { \'ace-font-size\': $(this).val() });\r\n            });\r\n            $(\'#snipp" +
+"ets-list\').on(\'click\',\'a\',function () {\r\n                var snp = ko.dataFor(th" +
+"is);\r\n                editor.insert(snp.code);\r\n            });\r\n\r\n            /" +
+"/ let it run\r\n            setTimeout(function () {\r\n                if (window.c" +
+"ode) {\r\n                    editor.setValue(window.code);\r\n                }\r\n  " +
+"              if (typeof window.field === \"object\") {\r\n                    edito" +
+"r.setValue(window.field.Script());\r\n                }\r\n                editor.go" +
+"toLine(1);\r\n\r\n            }, 600);\r\n            editor.gotoLine(1);\r\n\r\n         " +
+"   $.get(\'/sph/editor/snippets/");
+
+
+            
+            #line 185 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+                                   Write(mode);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\').done(function (snippets) {\r\n                vm.snippets(snippets);\r\n\r\n        " +
+"        var snippetManager = ace.require(\"ace/snippets\").snippetManager;\r\n\r\n    " +
+"            ace.config.loadModule(\"ace/snippets/");
+
+
+            
+            #line 190 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+                                               Write(mode);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(@""", function (m) {
+                    if (m) {
+                        snippetManager.files.javascript = m;
+                        m.snippets = snippetManager.parseSnippetFile(m.snippetText);
+
+                        _(snippets).each(function(v) {
+                            m.snippets.push({
+                                content: v.code,
+                                name: v.title,
+                                tabTrigger: v.title
+                            });
+                        });
+
+                        snippetManager.register(m.snippets, m.scope);
+                    }
+                });
+
+            });
+
+       
+
+
+
+        });
+    </script>
+
+</body>
+</html>
+");
 
 
         }

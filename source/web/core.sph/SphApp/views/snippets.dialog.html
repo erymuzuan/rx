@@ -10,6 +10,13 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-3">
+                        <select class="form-control" data-bind="value:lang">
+                            <option value="">[Select language]</option>
+                            <option value="javascript">javascript</option>
+                            <option value="csharp">c#</option>
+                            <option value="html">html</option>
+                            <option value="css">css</option>
+                        </select>
                         <a href="#" data-bind="click : add" title="Add new snippet">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
@@ -24,7 +31,11 @@
                         <form role="form" id="snippets-dialog-form">
                             <div class="form-group">
                                 <label>Title</label>
-                                <input class="form-control" type="text" name="" data-bind="value:title" />
+                                <input required pattern="^[A-Za-z][A-Za-z0-9_]*$" class="form-control" type="text" name="" data-bind="value:title" />
+                            </div>
+                            <div class="form-group">
+                                <label>Note</label>
+                                <input class="form-control" type="text" name="" data-bind="value:note" />
                             </div>
                             <div class="form-group">
                                 <label>Code</label>
@@ -33,14 +44,16 @@
                             <a href="#" data-bind="click : $parent.deleteItem" title="delete this snippet">
                                 <span class="glyphicon glyphicon-remove" style="color: red"></span>
                             </a>
+                            <a href="#" data-bind="click : $parent.saveItem" title="save this snippet">
+                                <span class="glyphicon glyphicon-save" style="color: grey"></span>
+                            </a>
                         </form>
                     </div>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <input form="snippets-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
-                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Close</a>
             </div>
         </div>
     </div>

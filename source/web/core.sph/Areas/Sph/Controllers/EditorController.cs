@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -27,21 +29,27 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
         [NoCache]
-        public ActionResult Snippets()
+        public ActionResult Snippets(string id)
         {
-            var file = Server.MapPath("~/code.snippets.json");
-            var json = System.IO.File.ReadAllText(file);
+            var folder = Server.MapPath("~/App_Data/snippets/" + id);
+            var snippets = from f in System.IO.Directory.GetFiles(folder, "*.json")
+                           let json = System.IO.File.ReadAllText(f)
+                           select json;
+
             this.Response.ContentType = "application/json";
-            return Content(json);
+            return Content("[" + string.Join(",", snippets) + "]");
         }
 
-        public ActionResult SaveSnippets()
+        public ActionResult SaveSnippet()
         {
-            var snippets = JsonConvert.DeserializeObject(this.GetRequestBody());
-            var file = Server.MapPath("~/code.snippets.json");
-
-            System.IO.File.WriteAllText(file, JsonConvert.SerializeObject(snippets, Formatting.Indented));
-            return Json(new {status = "OK", success =true});
+            var snippet = this.GetRequestJson<Snippet>();
+            var file = Server.MapPath(string.Format("~/App_Data/snippets/{0}/{1}.json", snippet.Lang, snippet.Title));
+            var settings = new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            System.IO.File.WriteAllText(file, JsonConvert.SerializeObject(snippet, Formatting.Indented, settings));
+            return Json(new { status = "OK", success = true });
         }
     }
 }

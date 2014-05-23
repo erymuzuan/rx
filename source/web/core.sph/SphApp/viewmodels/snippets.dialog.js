@@ -12,46 +12,46 @@
 define(['services/datacontext', 'plugins/dialog'],
     function (context, dialog) {
 
-        var activate = function () {
-            var tcs = new $.Deferred();
-            $.getJSON('/sph/editor/snippets')
-                .done(function (snippets) {
-                    var list = _(snippets).map(function (v) {
-                        var t = {};
-                        for (var name in v) {
-                            t[name] = ko.observable(v[name]);
-                        }
-                        return t;
-                    });
-                    vm.snippets(list);
-                    tcs.resolve(true);
-                });
-            return tcs.promise();
-        },
-            okClick = function (data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target)) {
-                    dialog.close(this, "OK");
-                }
+        var lang = ko.observable(''),
+            activate = function () {
+
                 var tcs = new $.Deferred();
-                var json = ko.mapping.toJSON(vm.snippets);
-                context.post(json, "/sph/editor/SaveSnippets")
-                    .then(function (result) {
-                        tcs.resolve(result);
-                    });
+                lang.subscribe(function (lg) {
+                    $.getJSON('/sph/editor/snippets/' + lg)
+                        .done(function (snippets) {
+                            var list = _(snippets).map(function (v) {
+                                var t = {};
+                                for (var name in v) {
+                                    t[name] = ko.observable(v[name]);
+                                }
+                                return t;
+                            });
+                            vm.snippets(list);
+                        });
+                });
+                setTimeout(tcs.resolve, 500);
+                return tcs.promise();
+            },
+            saveItem = function () {
+
+                var tcs = new $.Deferred(),
+                    json = ko.mapping.toJSON(vm.snippet);
+                context.post(json, "/sph/editor/SaveSnippet")
+                    .then(tcs.resolve);
                 return tcs.promise();
 
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
-            attached = function (view) {
+            attached = function () {
 
                 $('#snippets-list-ul').on('click', 'li>a', function () {
                     vm.snippet(ko.dataFor(this));
                 });
             },
             add = function () {
-                var snippet = { title: ko.observable(), code: ko.observable(), lang: ko.observable() };
+                var snippet = { title: ko.observable(), code: ko.observable(), note: ko.observable(), lang: lang(), };
                 vm.snippets.push(snippet);
                 vm.snippet(snippet);
             },
@@ -61,13 +61,14 @@ define(['services/datacontext', 'plugins/dialog'],
 
 
         var vm = {
-            snippet: ko.observable({ title: ko.observable(), code: ko.observable(), lang: ko.observable() }),
+            snippet: ko.observable({ title: ko.observable(), code: ko.observable(), note: ko.observable(), lang: ko.observable() }),
             snippets: ko.observableArray(),
+            lang: lang,
             attached: attached,
             activate: activate,
             add: add,
+            saveItem: saveItem,
             deleteItem: deleteItem,
-            okClick: okClick,
             cancelClick: cancelClick
         };
 

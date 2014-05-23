@@ -727,6 +727,7 @@
     <Compile Include="ViewModels\ReportBuilderViewModel.cs" />
     <Compile Include="ViewModels\RoleModel.cs" />
     <Compile Include="ViewModels\RoleSettingViewModel.cs" />
+    <Compile Include="ViewModels\Snippet.cs" />
     <Compile Include="ViewModels\TemplateFormViewModel.cs" />
     <Compile Include="ViewModels\TriggerPathPickerHtmlViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
@@ -2307,7 +2308,7 @@
     <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
     <Content Include="Scripts\ace\ext-emmet.js" />
     <Content Include="Scripts\ace\ext-keybinding_menu.js" />
-    <Content Include="Scripts\ace\ext-language_tools.js" />
+    <EmbeddedResource Include="Scripts\ace\ext-language_tools.js" />
     <Content Include="Scripts\ace\ext-modelist.js" />
     <Content Include="Scripts\ace\ext-old_ie.js" />
     <Content Include="Scripts\ace\ext-searchbox.js" />
@@ -2439,8 +2440,8 @@
     <Content Include="Scripts\ace\snippets\cobol.js" />
     <Content Include="Scripts\ace\snippets\coffee.js" />
     <Content Include="Scripts\ace\snippets\coldfusion.js" />
-    <Content Include="Scripts\ace\snippets\csharp.js" />
-    <Content Include="Scripts\ace\snippets\css.js" />
+    <EmbeddedResource Include="Scripts\ace\snippets\csharp.js" />
+    <EmbeddedResource Include="Scripts\ace\snippets\css.js" />
     <Content Include="Scripts\ace\snippets\curly.js" />
     <Content Include="Scripts\ace\snippets\c_cpp.js" />
     <Content Include="Scripts\ace\snippets\d.js" />
@@ -2466,7 +2467,7 @@
     <Content Include="Scripts\ace\snippets\jack.js" />
     <Content Include="Scripts\ace\snippets\jade.js" />
     <Content Include="Scripts\ace\snippets\java.js" />
-    <Content Include="Scripts\ace\snippets\javascript.js" />
+    <EmbeddedResource Include="Scripts\ace\snippets\javascript.js" />
     <Content Include="Scripts\ace\snippets\json.js" />
     <Content Include="Scripts\ace\snippets\jsoniq.js" />
     <Content Include="Scripts\ace\snippets\jsp.js" />

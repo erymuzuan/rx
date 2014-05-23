@@ -38,8 +38,11 @@
     <pre id="editor">
 // PLEASE WAIT WHILE YOUR SCRIPT IS LOADING
 </pre>
-
     <script src="/Scripts/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/ace/ext-language_tools.js"></script>
+    <script src="/Scripts/ace/snippets/javascript.js"></script>
+    <script src="/Scripts/ace/snippets/csharp.js"></script>
+    <script src="/Scripts/ace/snippets/css.js"></script>
     <script src="/Scripts/jquery-2.1.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/knockout-3.1.0.js" type="text/javascript" charset="utf-8"></script>
@@ -71,8 +74,13 @@
     <script type="text/javascript">
 
         require(['services/datacontext', 'jquery', 'services/app'], function (context, jquery, app) {
-
+            ace.require("ace/ext/language_tools");
             var editor = ace.edit("editor");
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: false
+            });
             editor.setTheme("ace/theme/@theme");
             @{
             var mode = this.Request.QueryString["mode"] ?? "csharp";
@@ -114,12 +122,16 @@
                 }, search = function () {
 
                 },
+                open = function() {
+                    
+                },
                 gotoLine = function (number) {
 
                 },
                 vm = {
                     paste: paste,
                     searchText: ko.observable(),
+                    open: open,
                     copy: copy,
                     save: save,
                     search: search,
@@ -170,9 +182,32 @@
             }, 600);
             editor.gotoLine(1);
 
-            $.get('/sph/editor/snippets').done(function (snippets) {
+            $.get('/sph/editor/snippets/@mode').done(function (snippets) {
                 vm.snippets(snippets);
+
+                var snippetManager = ace.require("ace/snippets").snippetManager;
+
+                ace.config.loadModule("ace/snippets/@mode", function (m) {
+                    if (m) {
+                        snippetManager.files.javascript = m;
+                        m.snippets = snippetManager.parseSnippetFile(m.snippetText);
+
+                        _(snippets).each(function(v) {
+                            m.snippets.push({
+                                content: v.code,
+                                name: v.title,
+                                tabTrigger: v.title
+                            });
+                        });
+
+                        snippetManager.register(m.snippets, m.scope);
+                    }
+                });
+
             });
+
+       
+
 
 
         });
