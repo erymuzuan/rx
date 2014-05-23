@@ -266,7 +266,7 @@
               "Field": {
                 "$type": "Bespoke.Sph.Domain.AssemblyField, domain.sph",
                 "Location": "h:\\temp\\Msic.dll",
-                "TypeName": "Msic.Util",
+                "TypeName": "Bespoke.Util",
                 "Method": "TranslateMsicCode",
                 "IsAsync": false,
                 "AsyncTimeout": 0,
@@ -323,6 +323,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-22T20:13:46.3033125+08:00",
+  "ChangedDate": "2014-05-23T06:45:42.8328509+08:00",
   "WebId": "3a0cd042-a29f-4d00-add4-768eb28db62d"
 }

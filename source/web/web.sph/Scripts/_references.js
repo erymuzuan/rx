@@ -1,6 +1,5 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="_ko.entity.js" />
-/// <reference path="../code.snippets.js" />
 /// <reference path="../roles.config.js" />
 /// <reference path="../routes.config.js" />
 /// <reference path="bootstrap.js" />

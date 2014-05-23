@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -9,26 +9,25 @@
 
 
 
-define(['services/datacontext',  'plugins/dialog'],
+define(['services/datacontext', 'plugins/dialog'],
     function (context, dialog) {
 
         var activate = function () {
-            var tcs = new $.Deferred();
-            $.getJSON('/code.snippets.js')
-                .done(function (snippets) {
-                    var list = _(snippets).map(function (v) {
-                        var t = {};
-                        for (var name in v) {
-                            t[name] = ko.observable(v[name]);
-                        }
-                        return t;
-
+                var tcs = new $.Deferred();
+                $.getJSON('/code.snippets.js')
+                    .done(function (snippets) {
+                        var list = _(snippets).map(function (v) {
+                            var t = {};
+                            for (var name in v) {
+                                t[name] = ko.observable(v[name]);
+                            }
+                            return t;
+                        });
+                        vm.snippets(list);
+                        tcs.resolve(true);
                     });
-                    vm.snippets(list);
-                    tcs.resolve(true);
-                });
-            return tcs.promise();
-        },
+                return tcs.promise();
+            },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
@@ -36,7 +35,7 @@ define(['services/datacontext',  'plugins/dialog'],
                 var tcs = new $.Deferred();
                 var json = ko.mapping.toJSON(vm.snippets);
                 context.post(json, "/Editor/SaveSnippets")
-                    .then(function(result) {
+                    .then(function (result) {
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -51,12 +50,12 @@ define(['services/datacontext',  'plugins/dialog'],
                     vm.snippet(ko.dataFor(this));
                 });
             },
-            add = function() {
+            add = function () {
                 var snippet = { title: ko.observable(), code: ko.observable(), lang: ko.observable() };
                 vm.snippets.push(snippet);
                 vm.snippet(snippet);
             },
-            deleteItem = function(item) {
+            deleteItem = function (item) {
                 vm.snippets.remove(item);
             };
 

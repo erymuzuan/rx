@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -24,11 +26,21 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return View(vm);
         }
 
+        [NoCache]
+        public ActionResult Snippets()
+        {
+            var file = Server.MapPath("~/code.snippets.json");
+            var json = System.IO.File.ReadAllText(file);
+            this.Response.ContentType = "application/json";
+            return Content(json);
+        }
+
         public ActionResult SaveSnippets()
         {
-            var snippets = this.GetRequestBody();
-            var json = Server.MapPath("~/code.snippets.js");
-            System.IO.File.WriteAllText(json,snippets);
+            var snippets = JsonConvert.DeserializeObject(this.GetRequestBody());
+            var file = Server.MapPath("~/code.snippets.json");
+
+            System.IO.File.WriteAllText(file, JsonConvert.SerializeObject(snippets, Formatting.Indented));
             return Json(new {status = "OK", success =true});
         }
     }
