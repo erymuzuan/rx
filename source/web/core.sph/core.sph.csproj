@@ -2334,7 +2334,7 @@
     <Content Include="Scripts\ace\mode-coffee.js" />
     <Content Include="Scripts\ace\mode-coldfusion.js" />
     <EmbeddedResource Include="Scripts\ace\mode-csharp.js" />
-    <Content Include="Scripts\ace\mode-css.js" />
+    <EmbeddedResource Include="Scripts\ace\mode-css.js" />
     <Content Include="Scripts\ace\mode-curly.js" />
     <Content Include="Scripts\ace\mode-c_cpp.js" />
     <Content Include="Scripts\ace\mode-d.js" />

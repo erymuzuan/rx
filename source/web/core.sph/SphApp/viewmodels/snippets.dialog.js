@@ -13,28 +13,28 @@ define(['services/datacontext', 'plugins/dialog'],
     function (context, dialog) {
 
         var activate = function () {
-                var tcs = new $.Deferred();
-                $.getJSON('/code.snippets.js')
-                    .done(function (snippets) {
-                        var list = _(snippets).map(function (v) {
-                            var t = {};
-                            for (var name in v) {
-                                t[name] = ko.observable(v[name]);
-                            }
-                            return t;
-                        });
-                        vm.snippets(list);
-                        tcs.resolve(true);
+            var tcs = new $.Deferred();
+            $.getJSON('/sph/editor/snippets')
+                .done(function (snippets) {
+                    var list = _(snippets).map(function (v) {
+                        var t = {};
+                        for (var name in v) {
+                            t[name] = ko.observable(v[name]);
+                        }
+                        return t;
                     });
-                return tcs.promise();
-            },
+                    vm.snippets(list);
+                    tcs.resolve(true);
+                });
+            return tcs.promise();
+        },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
                 }
                 var tcs = new $.Deferred();
                 var json = ko.mapping.toJSON(vm.snippets);
-                context.post(json, "/Editor/SaveSnippets")
+                context.post(json, "/sph/editor/SaveSnippets")
                     .then(function (result) {
                         tcs.resolve(result);
                     });

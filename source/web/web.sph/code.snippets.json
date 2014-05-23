@@ -1,20 +1,12 @@
 [
-  {
-    "lang": "js",
-    "title": "button",
-    "code": "<button></button>"
-  },
-  {
-    "lang": "js",
-    "title": "add item",
-    "code": "this is my code"
-  },
-  {
-    "title": "test",
-    "code": "deleteItem\ndeleteItemdeleteItem\n\n\ndeleteItem"
-  },
-  {
-    "title": "dialog",
-    "code": "require(['viewmodels/dialog-path' , 'durandal/app'], function (dialog, app2) {\n    app2.showDialog(dialog)\n        .done(function (result) {\n            if (!result) return;\n            if (result === \"OK\") {\n\n                \n            }\n        });\n\n});"
-  }
+    {
+        "lang": "javascript",
+        "title": "dialog",
+        "code": "require(['viewmodels/dialog-path' , 'durandal/app'], function (dialog, app2) {\n    app2.showDialog(dialog)\n        .done(function (result) {\n            if (!result) return;\n            if (result === \"OK\") {\n\n                \n            }\n        });\n\n});"
+    },
+    {
+        "lang": "javascript",
+        "title": "messagebox",
+        "code": " app.showMessage(\"message\", \"Title\", [\"OK\"])\n  .done(function () {\n\n  });"
+    }
 ]
