@@ -47,7 +47,7 @@ WriteLiteral(@"<header class=""navbar navbar-static-top "" id=""top"" role=""ban
         </div>
         <nav id=""header-navbar"" class=""collapse navbar-collapse"" role=""navigation"" style=""background-color: white"">
             <ul class=""nav navbar-nav navbar-right"">
-                
+
                 <li>
                     <a data-bind=""click : save""><i class=""fa fa-save""></i>Save</a>
                 </li>
@@ -70,14 +70,14 @@ WriteLiteral(@"<header class=""navbar navbar-static-top "" id=""top"" role=""ban
             
             #line default
             #line hidden
-WriteLiteral(@""" data-target=""#help"" data-toggle=""modal"">Help</a></li>
+WriteLiteral(@""" target=""_blank"">Help</a></li>
 
                 <li class=""dropdown"">
                     <a href=""#"" class=""dropdown-toggle"" data-toggle=""dropdown"">Insert Snippets <b class=""caret""></b></a>
                     <ul class=""dropdown-menu"" id=""snippets-list"">
                         <!-- ko foreach : snippets -->
 
-                        <li><a href=""#"" data-bind=""text:title""></a></li>
+                        <li><a href=""#"" data-bind=""text:title, attr :{title : note}""></a></li>
 
                         <!-- /ko -->
                         <li class=""divider""></li>
