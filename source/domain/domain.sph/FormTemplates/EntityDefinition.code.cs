@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,50 +15,59 @@ namespace Bespoke.Sph.Domain
             return this.EntityDefinitionId;
         }
 
-        private string GenerateCode()
+        private string GetCodeHeader()
         {
-            var code = new StringBuilder();
-            code.AppendLine("using " + typeof(Entity).Namespace + ";");
-            code.AppendLine("using " + typeof(Int32).Namespace + ";");
-            code.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            code.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            code.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            code.AppendLine("using System.Web.Mvc;");
-            code.AppendLine("using Bespoke.Sph.Web.Helpers;");
-            code.AppendLine();
 
-            code.AppendLine("namespace " + this.CodeNamespace);
-            code.AppendLine("{");
+            var header = new StringBuilder();
+            header.AppendLine("using " + typeof(Entity).Namespace + ";");
+            header.AppendLine("using " + typeof(Int32).Namespace + ";");
+            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
+            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
+            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
+            header.AppendLine("using System.Web.Mvc;");
+            header.AppendLine("using Bespoke.Sph.Web.Helpers;");
+            header.AppendLine();
+
+            header.AppendLine("namespace " + this.CodeNamespace);
+            header.AppendLine("{");
+            return header.ToString();
+
+        }
+
+        public Dictionary<string, string> GenerateCode()
+        {
+            var header = this.GetCodeHeader();
+            var code = new StringBuilder(header);
 
             code.AppendLine("   public class " + this.Name + " : Entity");
             code.AppendLine("   {");
 
-            code.AppendLinf("       private int m_{0}Id;", this.Name.ToCamelCase());
             code.AppendLinf("       [XmlAttribute]");
-            code.AppendLinf("       public int {0}Id", this.Name);
-            code.AppendLine("       {");
-            code.AppendLinf("           get{{ return m_{0}Id;}}", this.Name.ToCamelCase());
-            code.AppendLinf("           set{{ m_{0}Id = value;}}", this.Name.ToCamelCase());
-            code.AppendLine("       }");
+            code.AppendLinf("       public int {0}Id {{get; set;}}", this.Name);
 
 
             // ctor
-
             code.AppendLine("       public " + this.Name + "()");
             code.AppendLine("       {");
             code.AppendLinf("           var rc = new RuleContext(this);");
             var count = 0;
             foreach (var member in this.MemberCollection)
             {
+                if (member.Type == typeof (object))
+                {
+                    code.AppendLinf("           this.{0} = new {0}();", member.Name);
+                }
                 if (null == member.DefaultValue) continue;
                 count++;
                 code.AppendLine();
                 code.AppendLinf("           var mj{1} = \"{0}\";", member.DefaultValue.ToJsonString().Replace("\"", "\\\""), count);
-                code.AppendLinf("           var field{0} = mj{0}.DeserializeFromJson<{1}>();",count, member.DefaultValue.GetType().Name);
+                code.AppendLinf("           var field{0} = mj{0}.DeserializeFromJson<{1}>();", count, member.DefaultValue.GetType().Name);
                 code.AppendLinf("           var val{0} = field{0}.GetValue(rc);", count);
-                code.AppendLinf("           m_{0} = ({1})val{2};", member.Name.ToCamelCase(), member.Type.FullName, count);
+                code.AppendLinf("           this.{0} = ({1})val{2};", member.Name, member.Type.FullName, count);
             }
             code.AppendLine("       }");
+
+
             code.AppendFormat(@"     
         public override string ToString()
         {{
@@ -66,39 +77,57 @@ namespace Bespoke.Sph.Domain
             code.AppendFormat(@"     
         public override void SetId(int id)
         {{
-            m_{0}Id = id;
-        }}", this.Name.ToCamelCase());
+            this.{0}Id = id;
+        }}", this.Name);
             code.AppendFormat(@"     
         public override int GetId()
         {{
-            return m_{0}Id;
+            return this.{0}Id;
         }}
-", this.Name.ToCamelCase());
+", this.Name);
 
             // properties for each members
             foreach (var member in this.MemberCollection)
             {
-                code.AppendLinf("//member:{0}", member.Name);
+                code.AppendLinf("       //member:{0}", member.Name);
                 code.AppendLine(member.GeneratedCode());
             }
 
 
             code.AppendLine("   }");// end class
+            code.AppendLine("}");// end namespace
+
+            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.ToString() } };
+
             // classes for members
-            foreach (var member in this.MemberCollection)
+            foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
-                code.AppendLinf("//class:{0}", member.Name);
-                code.AppendLine(member.GeneratedCustomClass());
+                var mc = header + member.GeneratedCustomClass() + "\r\n}";
+                sourceCodes.Add(member.Name + ".cs", mc);
             }
 
-            // search
-            this.GenerateController(code);
+            var controller = this.GenerateController();
+            sourceCodes.Add(this.Name + "Controller.cs", controller);
 
 
-            code.AppendLine("}");// end namespace
-            return code.ToString();
+            return sourceCodes;
         }
 
+
+        public string[] SaveSources(Dictionary<string, string> sources)
+        {
+            var folder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, this.Name);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            foreach (var cs in sources.Keys)
+            {
+                var file = Path.Combine(folder, cs);
+                File.WriteAllText(file, sources[cs]);
+            }
+            return sources.Keys.ToArray()
+                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.WorkflowSourceDirectory, this.Name, f))
+                    .ToArray();
+        }
         public string CodeNamespace
         {
             get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.EntityDefinitionId); }
@@ -173,11 +202,14 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(script.ToString());
         }
 
-        private void GenerateController(StringBuilder code)
+        private string GenerateController()
         {
+            var header = this.GetCodeHeader();
+            var code = new StringBuilder(header);
+
             code.AppendLinf("public partial class {0}Controller : System.Web.Mvc.Controller", this.Name);
             code.AppendLine("{");
-            code.AppendLinf("//exec:Search");
+            code.AppendLinf("       //exec:Search");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
             code.AppendLine("       {");
             code.AppendFormat(@"
@@ -195,10 +227,12 @@ namespace Bespoke.Sph.Domain
                 return Content(await content.ReadAsStringAsync());
             }}
             ", this.Name.ToLower(), ConfigurationManager.ApplicationName.ToLower());
+            code.AppendLine();
             code.AppendLine("       }");
+            code.AppendLine();
 
             // SAVE
-            code.AppendLinf("//exec:Save");
+            code.AppendLinf("       //exec:Save");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]{0} item)", this.Name);
             code.AppendLine("       {");
             code.AppendLinf(@"
@@ -220,7 +254,7 @@ namespace Bespoke.Sph.Domain
             this.AppendValidationCode(code);
 
             // REMOVE
-            code.AppendLinf("//exec:Remove");
+            code.AppendLinf("       //exec:Remove");
             code.AppendLinf("       [HttpDelete]");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(int id)");
             code.AppendLine("       {");
@@ -242,7 +276,7 @@ namespace Bespoke.Sph.Domain
 
             //SCHEMAS
 
-            code.AppendLinf("//exec:Schemas");
+            code.AppendLinf("       //exec:Schemas");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Schemas()");
             code.AppendLine("       {");
             code.AppendLine("           var context = new SphDataContext();");
@@ -254,7 +288,11 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           return Content(script);");
             code.AppendLine("       }");
 
-            code.AppendLine("}");
+            code.AppendLine("}");// end class
+
+            code.AppendLine("}"); // end namespace
+            return code.ToString();
+
 
         }
 
@@ -265,7 +303,7 @@ namespace Bespoke.Sph.Domain
                 var everybody = operation.Permissions.Contains("Everybody");
                 var anonymous = operation.Permissions.Contains("Anonymous");
                 // SAVE
-                code.AppendLinf("//exec:{0}", operation.Name);
+                code.AppendLinf("       //exec:{0}", operation.Name);
                 code.AppendLine("       [HttpPost]");
                 if (everybody)
                     code.AppendLine("       [Authorize]");
@@ -323,7 +361,7 @@ namespace Bespoke.Sph.Domain
         private void AppendValidationCode(StringBuilder code)
         {
             // validates
-            code.AppendLinf("//exec:validate");
+            code.AppendLinf("       //exec:validate");
             code.AppendLine("       [HttpPost]");
 
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[RequestBody]{0} item)", this.Name);

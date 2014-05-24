@@ -6,69 +6,17 @@ using System.Xml.Serialization;
 using System.Web.Mvc;
 using Bespoke.Sph.Web.Helpers;
 
-namespace Bespoke.Dev_5003.Domain
+namespace Bespoke.Dev_1.Domain
 {
-   public class State : Entity
-   {
-   private int m_stateId;
-   public int StateId
-   {
-       get{ return m_stateId;}
-       set{ m_stateId = value;}
-   }
-     
-        public override string ToString()
-        {
-            return "State:" + Name;
-        }     
-        public override void SetId(int id)
-        {
-            m_stateId = id;
-        }     
-        public override int GetId()
-        {
-            return m_stateId;
-        }
-//member:Name
-          private System.String m_name;
-   public System.String Name
-   {
-       get{ return m_name;}
-       set{ m_name = value;}
-   }
-
-//member:Abbreviation
-          private System.String m_abbreviation;
-   public System.String Abbreviation
-   {
-       get{ return m_abbreviation;}
-       set{ m_abbreviation = value;}
-   }
-
-//member:Country
-          private System.String m_country;
-   public System.String Country
-   {
-       get{ return m_country;}
-       set{ m_country = value;}
-   }
-
-   }
-//class:Name
-
-//class:Abbreviation
-
-//class:Country
-
-public partial class StateController : System.Web.Mvc.Controller
+public partial class LeadController : System.Web.Mvc.Controller
 {
-//exec:Search
+       //exec:Search
        public async Task<System.Web.Mvc.ActionResult> Search()
        {
 
             var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
             var request = new System.Net.Http.StringContent(json);
-            var url = "dev/state/_search";
+            var url = "dev/lead/_search";
 
             using(var client = new System.Net.Http.HttpClient())
             {
@@ -79,9 +27,11 @@ public partial class StateController : System.Web.Mvc.Controller
                 this.Response.ContentType = "application/json; charset=utf-8";
                 return Content(await content.ReadAsStringAsync());
             }
-                   }
-//exec:Save
-       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]State item)
+            
+       }
+
+       //exec:Save
+       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]Lead item)
        {
 
             if(null == item) throw new ArgumentNullException("item");
@@ -92,15 +42,15 @@ public partial class StateController : System.Web.Mvc.Controller
                 await session.SubmitChanges("save");
             }
             this.Response.ContentType = "application/json; charset=utf-8";
-            return Json(new {success = true, status="OK", id = item.StateId});
+            return Json(new {success = true, status="OK", id = item.LeadId});
        }
-//exec:validate
+       //exec:validate
        [HttpPost]
-       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[RequestBody]State item)
+       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[RequestBody]Lead item)
        {
            var context = new Bespoke.Sph.Domain.SphDataContext();
            if(null == item) throw new ArgumentNullException("item");
-           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "State");
+           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == "Lead");
            var brokenRules = new ObjectCollection<ValidationResult>();
            var rules = id.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);
 
@@ -116,14 +66,14 @@ public partial class StateController : System.Web.Mvc.Controller
            if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});
 
    
-            return Json(new {success = true, status="OK", id = item.StateId});
+            return Json(new {success = true, status="OK", id = item.LeadId});
        }
-//exec:Remove
+       //exec:Remove
        [HttpDelete]
        public async Task<System.Web.Mvc.ActionResult> Remove(int id)
        {
 
-            var repos = ObjectBuilder.GetObject<IRepository<State>>();
+            var repos = ObjectBuilder.GetObject<IRepository<Lead>>();
             var item = await repos.LoadOneAsync(id);
             if(null == item)
                 return new HttpNotFoundResult();
@@ -135,13 +85,13 @@ public partial class StateController : System.Web.Mvc.Controller
                 await session.SubmitChanges("delete");
             }
             this.Response.ContentType = "application/json; charset=utf-8";
-            return Json(new {success = true, status="OK", id = item.StateId});
+            return Json(new {success = true, status="OK", id = item.LeadId});
        }
-//exec:Schemas
+       //exec:Schemas
        public async Task<System.Web.Mvc.ActionResult> Schemas()
        {
            var context = new SphDataContext();
-           var ed = await context.LoadOneAsync<EntityDefinition>(t => t.Name == "State");
+           var ed = await context.LoadOneAsync<EntityDefinition>(t => t.Name == "Lead");
            var script = await ed.GenerateCustomXsdJavascriptClassAsync();
            this.Response.ContentType = "application/javascript";
            return Content(script);

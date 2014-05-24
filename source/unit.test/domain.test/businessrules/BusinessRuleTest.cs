@@ -243,7 +243,10 @@ namespace domain.test.businessrules
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
 
-            var result = ed.Compile(options);
+            var codes = ed.GenerateCode();
+            var sources = ed.SaveSources(codes);
+            var result = ed.Compile(options, sources);
+
             result.Errors.ForEach(Console.WriteLine);
 
             // try to instantiate the EntityDefinition

@@ -91,7 +91,9 @@ namespace sph.builder
             options.AddReference(Path.GetFullPath(webDir + @"\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath(webDir + @"\bin\Newtonsoft.Json.dll"));
 
-            var result = ed.Compile(options);
+            var codes = ed.GenerateCode();
+            var sources = ed.SaveSources(codes);
+            var result = ed.Compile(options, sources);
             result.Errors.ForEach(Console.WriteLine);
 
             var assembly = Assembly.LoadFrom(result.Output);

@@ -132,8 +132,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
 
+            var codes = ed.GenerateCode();
+            var sources = ed.SaveSources(codes);
+            var result = ed.Compile(options, sources);
 
-            var result = ed.Compile(options);
             result.Errors.ForEach(Console.WriteLine);
             if (!result.Result)
                 return Json(result);

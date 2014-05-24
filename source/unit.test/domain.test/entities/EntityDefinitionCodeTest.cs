@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -63,8 +64,9 @@ namespace domain.test.entities
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-
-            var result = ent.Compile(options);
+            var codes = ent.GenerateCode();
+            var sources = ent.SaveSources(codes);
+            var result = ent.Compile(options, sources);
             result.Errors.ForEach(Console.WriteLine);
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
@@ -114,8 +116,10 @@ namespace domain.test.entities
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
+            var codes = ent.GenerateCode();
+            var sources = ent.SaveSources(codes);
 
-            var result = ent.Compile(options);
+            var result = ent.Compile(options, sources);
             result.Errors.ForEach(Console.WriteLine);
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));

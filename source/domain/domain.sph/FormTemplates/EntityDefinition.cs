@@ -139,7 +139,7 @@ namespace Bespoke.Sph.Domain
                 typeof(Workflow).Name, 
                 typeof(WorkflowDefinition).Name, 
                 typeof(EntityForm).Name, typeof(Message).Name};
-            if(reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
+            if (reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
                 result.Errors.Add(new BuildError(this.WebId, string.Format("The name [{0}] is reserved for the system", this.Name)));
 
             foreach (var operation in this.EntityOperationCollection)
@@ -155,17 +155,13 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public WorkflowCompilerResult Compile(CompilerOptions options)
+        public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
-            var code = this.GenerateCode();
-            Debug.WriteLineIf(options.IsVerbose, code);
-
-            var sourceFile = string.Empty;
-            if (!string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
+            if (files.Length == 0)
+                throw new ArgumentException("No source files supplied for compilation", "files");
+            foreach (var cs in files)
             {
-                sourceFile = Path.Combine(options.SourceCodeDirectory,
-                    string.Format("{0}.cs", this.Name));
-                File.WriteAllText(sourceFile, code);
+                Debug.WriteLineIf(options.IsVerbose, cs);
             }
 
             using (var provider = new CSharpCodeProvider())
@@ -194,52 +190,25 @@ namespace Bespoke.Sph.Domain
                 {
                     parameters.ReferencedAssemblies.Add(ass);
                 }
-                var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
-                    : provider.CompileAssemblyFromSource(parameters, code);
+                var result = provider.CompileAssemblyFromFile(parameters, files);
                 var cr = new WorkflowCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)
                 };
                 cr.Result = result.Errors.Count == 0;
-                cr.Errors.AddRange(this.GetCompileErrors(result, code));
-
+                var errors = from CompilerError x in result.Errors
+                             select new BuildError(this.WebId, x.ErrorText)
+                             {
+                                 Line = x.Line,
+                                 FileName = x.FileName
+                             };
+                cr.Errors.AddRange(errors);
                 return cr;
             }
         }
 
-        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
-        {
-            var temp = Path.GetTempFileName() + ".cs";
-            File.WriteAllText(temp, code);
-            var sources = File.ReadAllLines(temp);
-            var list = (from object er in result.Errors.OfType<CompilerError>()
-                        select this.GetSourceError(er as CompilerError, sources));
-            File.Delete(temp);
 
-            return list;
-        }
-
-        private BuildError GetSourceError(CompilerError er, string[] sources)
-        {
-            var member = string.Empty;
-            for (var i = 0; i < er.Line; i++)
-            {
-                if (sources[i].StartsWith("//exec:"))
-                    member = sources[i].Replace("//exec:", string.Empty);
-            }
-            var message = er.ErrorText;
-
-            if (er.Line == 0)
-                return new BuildError(member, message);
-
-            return new BuildError(member, message)
-            {
-                Code = sources[er.Line - 1],
-                Line = er.Line
-            };
-
-        }
 
         private Member GetMember(string path)
         {

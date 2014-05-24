@@ -37,12 +37,7 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             if (typeof(object) == this.Type)
             {
-                code.AppendLinf(padding + "private {0} m_{1} = new {0}();", this.Name, this.Name.ToCamelCase());
-                code.AppendLinf(padding + "public {0} {1}", this.Name, this.Name);
-                code.AppendLine(padding + "{");
-                code.AppendLinf(padding + "    get{{ return m_{0};}}", this.Name.ToCamelCase());
-                code.AppendLinf(padding + "    set{{ m_{0} = value;}}", this.Name.ToCamelCase());
-                code.AppendLine(padding + "}");
+                code.AppendLinf(padding + "public {0} {1} {{get;set;}}", this.Name, this.Name);
                 return code.ToString();
             }
             if (typeof(Array) == this.Type)
@@ -54,15 +49,21 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine(padding + "}");
                 return code.ToString();
             }
-            code.AppendLinf(padding + "private {0}{2} m_{1};", this.Type.FullName, this.Name.ToCamelCase(), this.GetNullable());
             if (typeof(string) == this.Type || !this.IsNullable)
                 code.AppendLinf(padding + "[XmlAttribute]");
-            code.AppendLinf(padding + "public {0}{2} {1}", this.Type.FullName, this.Name, this.GetNullable());
-            code.AppendLine(padding + "{");
-            code.AppendLinf(padding + "    get{{ return m_{0};}}", this.Name.ToCamelCase());
-            code.AppendLinf(padding + "    set{{ m_{0} = value;}}", this.Name.ToCamelCase());
-            code.AppendLine(padding + "}");
+            code.AppendLinf(padding + "public {0}{2} {1}{{get;set;}}", this.GetCsharpType(), this.Name, this.GetNullable());
             return code.ToString();
+        }
+
+        private string GetCsharpType()
+        {
+            var type = this.Type;
+            if (typeof(String) == type) return "string";
+            if (typeof(int) == type) return "int";
+            if (typeof(decimal) == type) return "decimal";
+            if (typeof(float) == type) return "float";
+            if (typeof(bool) == type) return "bool";
+            return type.FullName;
         }
 
         private string GetNullable()
@@ -90,6 +91,32 @@ namespace Bespoke.Sph.Domain
             {
 
                 code.AppendLine("   {");
+                // ctor
+                code.AppendLine("       public " + this.Name.Replace("Collection", "") + "()");
+                code.AppendLine("       {");
+                //code.AppendLinf("           var rc = new RuleContext(this);");
+                //var count = 0;
+                foreach (var member in this.MemberCollection)
+                {
+                    if (member.Type == typeof(object))
+                    {
+                        code.AppendLinf("           this.{0} = new {0}();", member.Name);
+                    }
+                    /*
+                    if (null == member.DefaultValue) continue;
+                    count++;
+                    code.AppendLine();
+                    code.AppendLinf("           var mj{1} = \"{0}\";", member.DefaultValue.ToJsonString().Replace("\"", "\\\""), count);
+                    code.AppendLinf("           var field{0} = mj{0}.DeserializeFromJson<{1}>();", count, member.DefaultValue.GetType().Name);
+                    code.AppendLinf("           var val{0} = field{0}.GetValue(rc);", count);
+                    code.AppendLinf("           this.{0} = ({1})val{2};", member.Name, member.Type.FullName, count);
+                
+                     * 
+                     */
+                }
+                code.AppendLine("       }");
+
+
                 foreach (var member in this.MemberCollection)
                 {
                     code.AppendLine(member.GeneratedCode());

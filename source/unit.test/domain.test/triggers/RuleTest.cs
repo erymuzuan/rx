@@ -8,6 +8,11 @@ namespace domain.test.triggers
     [TestFixture]
     class RuleTest
     {
+        [SetUp]
+        public void Init()
+        {
+            ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+        }
         [Test]
         public void EndWith()
         {
@@ -201,15 +206,6 @@ namespace domain.test.triggers
 
 
 
-        [Test]
-        public void GetXPathDateValueOnDocumentField()
-        {
-            var customer = this.GetCustomerInstance();
-            customer.CreatedDate = DateTime.Today;
-            var field = new DocumentField { XPath = "//bs:Customer/@CreatedDate", Type = typeof(DateTime) };
-            var val = field.GetValue(new RuleContext(customer));
-            Assert.AreEqual(DateTime.Today, val);
-        }
 
         [Test]
         public void ExecuteLinqValueOnDocumentField()
@@ -222,15 +218,6 @@ namespace domain.test.triggers
             Assert.AreEqual(1000m, val);
         }
 
-        [Test]
-        public void GetXPathValueOnDocumentField()
-        {
-            var customer = this.GetCustomerInstance();
-            customer.CustomerId = 501;
-            var field = new DocumentField { XPath = "//bs:Customer/@CustomerId", Type = typeof(int) };
-            var val = field.GetValue(new RuleContext(customer));
-            Assert.AreEqual(501, val);
-        }
 
 
 
@@ -242,7 +229,7 @@ namespace domain.test.triggers
             customer.Rating = 6;
             customer.CustomerId = 15;
 
-            var doc = new DocumentField { XPath = "bs:Customer/@Rating", Type = typeof(int) };
+            var doc = new DocumentField { Path = "Rating", Type = typeof(int) };
             var rule = new Rule
                 {
                     Left = doc,
@@ -263,7 +250,7 @@ namespace domain.test.triggers
             customer.CustomerId = 50;
             var rule = new Rule
                 {
-                    Left = new DocumentField { XPath = "//bs:Customer/@CustomerId", Type = typeof(int) },
+                    Left = new DocumentField { Path = "CustomerId", Type = typeof(int) },
                     Operator = Operator.Le,
                     Right = new ConstantField { Value = 500 }
                 };
@@ -279,7 +266,7 @@ namespace domain.test.triggers
             customer.CreatedDate = new DateTime(2010, 5, 5);
             var rule = new Rule
                 {
-                    Left = new DocumentField { XPath = "//bs:Customer/@CreatedDate", Type = typeof(DateTime) },
+                    Left = new DocumentField { Path = "CreatedDate", Type = typeof(DateTime) },
                     Operator = Operator.Lt,
                     Right = new ConstantField { Value = new DateTime(2012, 5, 5) }
                 };
@@ -294,7 +281,7 @@ namespace domain.test.triggers
             customer. CreatedDate = new DateTime(2010, 5, 5) ;
             var rule = new Rule
                 {
-                    Left = new DocumentField { XPath = "//bs:Customer/@CreatedDate", Type = typeof(DateTime) },
+                    Left = new DocumentField { Path = "CreatedDate", Type = typeof(DateTime) },
                     Operator = Operator.Eq,
                     Right = new ConstantField { Value = new DateTime(2010, 5, 5) }
                 };
@@ -310,7 +297,7 @@ namespace domain.test.triggers
             customer.CustomerId = 300 ;
             var rule = new Rule
                 {
-                    Left = new DocumentField { XPath = "//bs:Customer/@CustomerId", Type = typeof(int) },
+                    Left = new DocumentField { Path = "CustomerId", Type = typeof(int) },
                     Operator = Operator.Lt,
                     Right = new ConstantField { Value = 400 }
                 };

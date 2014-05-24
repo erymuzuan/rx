@@ -26,9 +26,9 @@ namespace domain.test.triggers
         [Test]
         public async Task Compile()
         {
-            var ed = this.CreateCustomerDefinition();
-            var customer = this.CreateInstance(ed);
-            Assert.IsNotNull(customer);
+            var ed = this.CreateAccountDefinition();
+            var account = this.CreateInstance(ed);
+            Assert.IsNotNull(account);
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
@@ -67,8 +67,9 @@ namespace domain.test.triggers
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-
-            var result = ed.Compile(options);
+            var codes = ed.GenerateCode();
+            var sources = ed.SaveSources(codes);
+            var result = ed.Compile(options, sources); 
             result.Errors.ForEach(Console.WriteLine);
 
             // try to instantiate the EntityDefinition
@@ -76,29 +77,29 @@ namespace domain.test.triggers
             var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.EntityDefinitionId, ed.Name);
 
             var edType = assembly.GetType(edTypeName);
-            Assert.IsNotNull(edType, edTypeName + " is null");
+            Assert.IsNotNull(edType, edTypeName + " is null in " + result.Output);
 
             return Activator.CreateInstance(edType);
         }
 
 
-        public EntityDefinition CreateCustomerDefinition()
+        public EntityDefinition CreateAccountDefinition()
         {
             var ent = new EntityDefinition
             {
-                Name = "Customer",
-                Plural = "Customers",
-                RecordName = "FullName",
+                Name = "Account",
+                Plural = "Accounts",
+                RecordName = "AccountNo",
                 EntityDefinitionId = 72
             };
             ent.MemberCollection.Add(new Member
             {
-                Name = "FullName",
+                Name = "AccountNo",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             }); ent.MemberCollection.Add(new Member
             {
-                Name = "Title",
+                Name = "Name",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             });

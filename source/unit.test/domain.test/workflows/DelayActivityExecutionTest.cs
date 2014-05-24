@@ -9,8 +9,6 @@ namespace domain.test.workflows
 {
     public class DelayActivityExecutionTest : WorkflowTestBase
     {
-
-
         [Test]
         public async Task DelayInit()
         {

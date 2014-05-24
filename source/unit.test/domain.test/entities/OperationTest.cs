@@ -45,7 +45,11 @@ namespace domain.test.entities
             var destinationCore = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "core.sph.dll");
             File.Copy(core, destinationCore, true);
 
-            var result = ed.Compile(options);
+
+            var codes = ed.GenerateCode();
+            var sources = ed.SaveSources(codes);
+            var result = ed.Compile(options, sources);
+
             result.Errors.ForEach(Console.WriteLine);
 
             // try to instantiate the EntityDefinition
