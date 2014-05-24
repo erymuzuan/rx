@@ -1045,6 +1045,9 @@
     <Content Include="images\form.element.TextBox.png" />
     <Content Include="images\list.png" />
     <Content Include="images\logo_sph.png" />
+    <Content Include="offline\header.html" />
+    <Content Include="offline\IndexedDB.js" />
+    <Content Include="offline\offline.js" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
