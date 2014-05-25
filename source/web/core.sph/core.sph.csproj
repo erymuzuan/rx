@@ -1357,6 +1357,9 @@
     <Content Include="kendo\js\kendo.all.min.js.map">
       <DependentUpon>kendo.all.min.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\complete.ly.1.0.1.min.js.map">
+      <DependentUpon>complete.ly.1.0.1.min.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
     <EmbeddedResource Include="kendo\js\kendo.all.min.js">
@@ -1366,6 +1369,7 @@
     <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\complete.ly.1.0.1.js" />
     <Content Include="Scripts\complete.ly.1.0.1.min.js" />
     <Content Include="Scripts\daterangepicker.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />

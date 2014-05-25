@@ -27,6 +27,7 @@
                     context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
                             entity(b);
+                            window.typeaheadEntity = b.Name();
                             if (!vid) {
                                 tcs.resolve(true);
                             }
