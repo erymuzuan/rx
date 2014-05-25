@@ -1166,12 +1166,6 @@
     <EmbeddedResource Include="Images\form.element.NumberTextBox.png" />
     <EmbeddedResource Include="Images\razor.png" />
     <EmbeddedResource Include="Images\StartWorkflowAction.png" />
-    <EmbeddedResource Include="Scripts\vendor.js">
-      <DependentUpon>__vendor.js.bundle</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\vendor.min.js">
-      <DependentUpon>vendor.js</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SphApp\async.js" />
     <EmbeddedResource Include="SphApp\goog.js" />
     <EmbeddedResource Include="SphApp\main.js" />
@@ -1372,6 +1366,7 @@
     <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\complete.ly.1.0.1.min.js" />
     <Content Include="Scripts\daterangepicker.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
@@ -1422,9 +1417,12 @@
     <EmbeddedResource Include="Scripts\__core.min.js">
       <DependentUpon>__core.js</DependentUpon>
     </EmbeddedResource>
-    <Content Include="Scripts\__vendor.js">
+    <EmbeddedResource Include="Scripts\__vendor.js">
       <DependentUpon>__vendor.js.bundle</DependentUpon>
-    </Content>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\__vendor.min.js">
+      <DependentUpon>__vendor.js</DependentUpon>
+    </EmbeddedResource>
     <Content Include="SphApp\partial\Activity.min.js">
       <DependentUpon>Activity.js</DependentUpon>
     </Content>
@@ -2737,6 +2735,10 @@
     <EmbeddedResource Include="Scripts\__core.min.js.map">
       <DependentUpon>__core.min.js</DependentUpon>
     </EmbeddedResource>
+    <Content Include="Scripts\__vendor.js.bundle" />
+    <EmbeddedResource Include="Scripts\__vendor.min.js.map">
+      <DependentUpon>__vendor.min.js</DependentUpon>
+    </EmbeddedResource>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -3400,10 +3402,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Help.generated.cs</LastGenOutput>
     </Content>
-    <None Include="Scripts\__vendor.js.bundle" />
-    <EmbeddedResource Include="Scripts\vendor.min.js.map">
-      <DependentUpon>vendor.min.js</DependentUpon>
-    </EmbeddedResource>
     <Content Include="SphApp\partial\Activity.min.js.map">
       <DependentUpon>Activity.min.js</DependentUpon>
     </Content>

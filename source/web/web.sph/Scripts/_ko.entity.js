@@ -186,7 +186,7 @@ ko.bindingHandlers.help = {
         });
     }
 };
-var substringMatcher = function(strs) {
+var substringMatcher = function (strs) {
     return function findMatches(q, cb) {
         var matches, substringRegex;
 
@@ -194,12 +194,12 @@ var substringMatcher = function(strs) {
         matches = [];
 
         // regex used to determine if a string contains the substring `q`
-        substrRegex = new RegExp(q, 'i');
+        substringRegex = new RegExp(q, 'i');
 
         // iterate through the pool of strings and for any string that
         // contains the substring `q`, add it to the `matches` array
-        $.each(strs, function(i, str) {
-            if (substrRegex.test(str)) {
+        $.each(strs, function (i, str) {
+            if (substringRegex.test(str)) {
                 // the typeahead jQuery plugin expects suggestions to a
                 // JavaScript object, refer to typeahead docs for more info
                 matches.push({ value: str });
@@ -212,9 +212,9 @@ var substringMatcher = function(strs) {
 
 
 ko.bindingHandlers.typeaheadUrl = {
-    init : function(element, valueAccessor,allBindingsAccessor){
+    init: function (element, valueAccessor, allBindingsAccessor) {
         var types = ko.unwrap(valueAccessor()),
-            ttl =  300000,
+            ttl = 300000,
             allBindings = allBindingsAccessor(),
             url = String.format("/list?table={0}&column={1}", types[0], "Route"),
             suggestions = new Bloodhound({
@@ -245,50 +245,92 @@ ko.bindingHandlers.typeaheadUrl = {
 ko.bindingHandlers.entityTypeaheadPath = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var value = valueAccessor(),
-            id = ko.unwrap(valueAccessor()),
+            context = require(objectbuilders.datacontext),
+            config = require(objectbuilders.config),
             allBindings = allBindingsAccessor(),
-            setup = function (entity) {
+            idOrName = ko.unwrap(valueAccessor()) || window.typeaheadEntity,
+            setup = function (options) {
 
-                if (!entity) {
-                    console.log("Cannot determine entity for the typeahead intellisense");
-                    return;
-                }
-                $.get('/Sph/EntityDefinition/GetVariablePath/' + entity).done(function (results) {
-                    var paths = _(results).map(function (v) {
-                            return { path: v };
-                        }),
-                        members = new Bloodhound({
-                            datumTokenizer: function (d) {
-                                return d.path.split(/s+/);
-                            },
-                            queryTokenizer: function (s) {
-                                return s.split(/\./);
-                            },
-                            local: paths
-                        });
-                    members.initialize();
+                var ed = ko.mapping.toJS(bespoke[config.applicationName.toLowerCase() + "_" + options.id].domain[options.name]());
+                var input = $(element),
+                         div = $('<div></div>').css({
+                             'height': '28px'
+                         });
+                input.hide().before(div);
 
-                    $(element).typeahead({
-                            minLength: 0,
-                            highlight: true,
-                        },
-                        {
-                            name: 'ed_paths' + id,
-                            displayKey: 'path',
-                            source: members.ttAdapter()
-                        })
-                        .on('typeahead:closed', function () {
-                            allBindings.value($(this).val());
-                        });
+                var c = completely(div[0], {
+                    fontSize: '12px',
+                    color: '#555;',
+                    fontFamily: '"Open Sans", Arial, Helvetica, sans-serif'
                 });
+
+                c.setText(ko.unwrap(allBindings.value));
+                for (var ix in ed) {
+                    if (ix === "$type") continue;
+                    if (ix === "addChildItem") continue;
+                    if (ix === "removeChildItem") continue;
+                    c.options.push('' + ix);
+                }
+                c.options.sort();
+
+                var currentObject = ed;
+                c.onChange = function (text) {
+                    if (text.lastIndexOf(".") === text.length - 1) {
+                        c.options = [];
+                        var props = text.split(".");
+
+                        currentObject = ed;
+                        _(props).each(function (v) {
+                            if (v === "") { return; }
+                            currentObject = currentObject[v];
+                        });
+                        console.log("currentObject", currentObject);
+                        for (var i in currentObject) {
+                            if (i === "$type") continue;
+                            if (i === "addChildItem") continue;
+                            if (i === "removeChildItem") continue;
+                            c.options.push('' + i);
+                        }
+                        c.options.sort();
+                        c.startFrom = text.lastIndexOf('.') + 1;
+                    }
+                    c.repaint();
+                };
+
+                c.repaint();
+                setTimeout(function () {
+                    c.input.focus();
+                }, 0);
+                $(c.input)
+                    .blur(function () {
+                        allBindings.value($(this).val());
+                    }).parent().find('input')
+                    .css({ "padding": "6px 12px", "height": "28px" });
+
+                if ($(element).prop('required')) {
+                    $(c.input).prop('required', true);
+                }
+
+
             };
 
-        setup(id || window.typeaheadEntity);
+        if (parseInt(idOrName)) {
+            context.getScalarAsync('EntityDefinition', 'EntityDefinitionId eq ' + idOrName, 'Name')
+                .done(function (name) {
+                    setup({ name: name, id: parseInt(idOrName) });
+                });
+        } else {
+            context.getScalarAsync('EntityDefinition', "Name eq '" + idOrName + "'", 'EntityDefinitionId')
+                .done(function (id) {
+                    setup({ name: idOrName, id: parseInt(id) });
+                });
+        }
+
         if (typeof value === "function" && typeof value.subscribe === "function") {
             value.subscribe(function (entity) {
                 $(element).typeahead('destroy');
                 setup(entity);
-            })
+            });
         }
     }
 };
@@ -319,17 +361,17 @@ ko.bindingHandlers.cssTypeahead = {
         members.initialize();
 
         $(element).typeahead({
-                minLength: 0,
-                highlight: true,
-                updater: function () {
-                    return this.$element.val().replace(/[^,]*$/, '') + item + ',';
-                },
-                matcher: function (item) {
-                    var tquery = extractor(this.query);
-                    if (!tquery) return false;
-                    return ~item.toLowerCase().indexOf(tquery.toLowerCase())
-                }
+            minLength: 0,
+            highlight: true,
+            updater: function () {
+                return this.$element.val().replace(/[^,]*$/, '') + item + ',';
             },
+            matcher: function (item) {
+                var tquery = extractor(this.query);
+                if (!tquery) return false;
+                return ~item.toLowerCase().indexOf(tquery.toLowerCase())
+            }
+        },
             {
                 name: 'css-class',
                 displayKey: 'path',
@@ -485,31 +527,31 @@ ko.bindingHandlers.lookup = {
 };
 ko.virtualElements.allowedBindings.lookupText = true;
 bespoke.lookupText = function (element, valueAccessor, allBindings) {
-        var options = valueAccessor(),
-            entity = ko.unwrap(options.entity),
-            displayPath = ko.unwrap(options.displayPath),
-            valuePath = ko.unwrap(options.valuePath),
-            val = ko.unwrap(options.value),
-            context = require('services/datacontext'),
-            setTextContent = function(element, textContent) {
-                var value = ko.utils.unwrapObservable(textContent);
-                if ((value === null) || (value === undefined))
-                    value = "";
-                var innerTextNode = ko.virtualElements.firstChild(element);
-                if (!innerTextNode || innerTextNode.nodeType != 3 || ko.virtualElements.nextSibling(innerTextNode)) {
-                    ko.virtualElements.setDomNodeChildren(element, [element.ownerDocument.createTextNode(value)]);
-                } else {
-                    innerTextNode.data = value;
-                }
+    var options = valueAccessor(),
+        entity = ko.unwrap(options.entity),
+        displayPath = ko.unwrap(options.displayPath),
+        valuePath = ko.unwrap(options.valuePath),
+        val = ko.unwrap(options.value),
+        context = require('services/datacontext'),
+        setTextContent = function (element, textContent) {
+            var value = ko.utils.unwrapObservable(textContent);
+            if ((value === null) || (value === undefined))
+                value = "";
+            var innerTextNode = ko.virtualElements.firstChild(element);
+            if (!innerTextNode || innerTextNode.nodeType != 3 || ko.virtualElements.nextSibling(innerTextNode)) {
+                ko.virtualElements.setDomNodeChildren(element, [element.ownerDocument.createTextNode(value)]);
+            } else {
+                innerTextNode.data = value;
+            }
 
-            };
+        };
 
-            context.getScalarAsync(entity, valuePath + " eq '" + val + "'", displayPath)
-            .done(function(text){ 
-                setTextContent(element, text);
-                console.log(text);
-            });
-    };
+    context.getScalarAsync(entity, valuePath + " eq '" + val + "'", displayPath)
+    .done(function (text) {
+        setTextContent(element, text);
+        console.log(text);
+    });
+};
 ko.bindingHandlers.lookupText = {
     init: bespoke.lookupText,
     update: bespoke.lookupText

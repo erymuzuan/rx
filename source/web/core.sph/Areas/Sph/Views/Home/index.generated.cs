@@ -123,7 +123,7 @@ WriteLiteral("\r\n    <script src=\"~/SphApp/objectbuilders.js\"></script>\r\n")
             
             #line default
             #line hidden
-WriteLiteral("        <script src=\"/Scripts/vendor.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/__vendor.js\"></script>\r\n");
 
 
 
@@ -186,7 +186,7 @@ WriteLiteral("        <script src=\"/kendo/js/kendo.all.js\"></script>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("        <script src=\"/Scripts/vendor.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/Scripts/__vendor.min.js\"></script>\r\n");
 
 
 
