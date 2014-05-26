@@ -31,22 +31,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "source/subscribers/subscriber.entities/entity.view.js",
-			"settings":
-			{
-				"buffer_size": 3339,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "source/subscribers/subscriber.entities/entity.view.html",
-			"settings":
-			{
-				"buffer_size": 5878,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -75,8 +59,27 @@
 	},
 	"file_history":
 	[
-		"/C/project/work/sph/bin/web/docs/Entity.html",
+		"/C/project/work/sph/deployment/Ed.csproj",
+		"/C/project/work/sph/.gitignore",
+		"/C/project/work/sph/bin/sources/Customer/Customer.csproj",
+		"/C/project/work/sph/bin/sources/Customer/packages.config",
+		"/C/project/work/sph/bin/sources/Customer/Customer.sln",
+		"/C/project/work/sph/bin/sources/Customer/Address.cs",
+		"/C/project/work/sph/bin/sources/Account/Account.cs",
+		"/C/project/work/sph/bin/sources/Account/ContactCollection.cs",
+		"/C/project/work/sph/deployment/packages.config",
+		"/C/project/work/sph/bin/sources/Dev.Sph.sln",
+		"/C/project/work/sph/bin/sources/Account/Account.csproj",
+		"/C/project/work/sph/bin/sources/Customer/Customer.cs",
+		"/C/project/work/sph/bin/sources/Customer/build.bat",
+		"/H/temp/Msic.cs",
+		"/D/project/work/ace/demo/autocompletion.html",
+		"/C/project/work/sph/bin/sources/Customer/CustomerController.cs",
+		"/C/project/work/sph/bin/sources/Patient.cs",
+		"/C/project/work/sph/bin/sources/Appointment.cs",
+		"/C/project/work/sph/source/subscribers/subscriber.entities/entity.view.js",
 		"/C/project/work/sph/source/subscribers/subscriber.entities/entity.view.html",
+		"/C/project/work/sph/bin/web/docs/Entity.html",
 		"/C/project/work/sph/source/web/core.sph/Scripts/vendor.min.js.map",
 		"/C/Users/bespoke1/Downloads/rxsqlweb-0001.rdp",
 		"/C/Users/bespoke1/Downloads/download.dlm",
@@ -108,7 +111,6 @@
 		"/C/Users/bespoke1/AppData/Roaming/Microsoft/VisualStudio/12.0/ActivityLog.xml",
 		"/C/project/work/sph/deployment/10282.md",
 		"/C/project/work/sph/deployment/version.10284.json",
-		"/C/project/work/sph/bin/sources/Patient.cs",
 		"/D/temp/sph/version.json",
 		"/D/temp/MiniBlog/Website/Web.config",
 		"/C/project/work/sph/bin/web/docs/ParallelActivity.html",
@@ -149,6 +151,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"html",
+			"Custo",
+			"parameters.ReferencedAssemblies.Add(typeof(",
+			"\n		public string GetOldRecordName(Bespoke.Dev_2002.Domain.Patient patient)\n		{\n            // may read it from database somewhere\n			return patient.Mrn + \"_old\";\n		}",
 			"@dbop",
 			"@dbname",
 			"eid",
@@ -178,7 +184,7 @@
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": true,
+		"regex": false,
 		"replace_history":
 		[
 			"",
@@ -193,69 +199,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "source/subscribers/subscriber.entities/entity.view.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3339,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								988,
-								988
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 330.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "source/subscribers/subscriber.entities/entity.view.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5878,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1691,
-								1691
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -297,7 +242,7 @@
 	"project": "sph.sublime-project",
 	"replace":
 	{
-		"height": 74.0
+		"height": 70.0
 	},
 	"save_all_on_build": true,
 	"select_file":
