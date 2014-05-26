@@ -78,6 +78,10 @@ namespace Bespoke.Sph.Web.App_Start
                 {
                    Debug.WriteLine(e);
                 }
+                catch (Exception e)
+                {
+                   Debug.WriteLine(e);
+                }
             }
 
         }
