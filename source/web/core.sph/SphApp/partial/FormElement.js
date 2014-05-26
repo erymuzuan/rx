@@ -4,8 +4,13 @@
 
 
 
-bespoke.sph.domain.FormElementPartial = function () {
-    
+bespoke.sph.domain.FormElementPartial = function (model) {
+    model.Path.subscribe(function(p) {
+        if (ko.unwrap(model.Label).indexOf("Label ") > -1) {
+            model.Label(p);
+        }
+    });
+
     return {
     };
 };

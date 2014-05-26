@@ -151,7 +151,7 @@ WriteLiteral("        <script src=\"/SphApp/prototypes/prototypes.js\"></script>
 
 
 
-WriteLiteral("        <script src=\"/SphApp/partial/partial.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/SphApp/partial/__partial.js\"></script>\r\n");
 
 
 
@@ -214,7 +214,7 @@ WriteLiteral("        <script src=\"/SphApp/prototypes/prototypes.min.js\"></scr
 
 
 
-WriteLiteral("        <script src=\"/SphApp/partial/partial.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/SphApp/partial/__partial.min.js\"></script>\r\n");
 
 
 

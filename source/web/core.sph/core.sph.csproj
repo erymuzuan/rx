@@ -1514,12 +1514,6 @@
     <Content Include="SphApp\partial\ParallelActivity.min.js">
       <DependentUpon>ParallelActivity.js</DependentUpon>
     </Content>
-    <EmbeddedResource Include="SphApp\partial\partial.js">
-      <DependentUpon>__partial.js.bundle</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SphApp\partial\partial.min.js">
-      <DependentUpon>partial.js</DependentUpon>
-    </EmbeddedResource>
     <Content Include="SphApp\partial\report.min.js">
       <DependentUpon>report.js</DependentUpon>
     </Content>
@@ -1594,12 +1588,12 @@
     <Content Include="SphApp\partial\WorkflowTriggerMap.min.js">
       <DependentUpon>WorkflowTriggerMap.js</DependentUpon>
     </Content>
-    <Content Include="SphApp\partial\__partial.js">
+    <EmbeddedResource Include="SphApp\partial\__partial.js">
       <DependentUpon>__partial.js.bundle</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\__partial.min.js">
+    </EmbeddedResource>
+    <EmbeddedResource Include="SphApp\partial\__partial.min.js">
       <DependentUpon>__partial.js</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <Content Include="SphApp\prototypes\FieldContainer.js" />
     <Content Include="SphApp\prototypes\IntervalScheduleContainer.js" />
     <EmbeddedResource Include="SphApp\prototypes\prototypes.js">
@@ -2733,9 +2727,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CurrencyElement.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="SphApp\partial\__partial.min.js.map">
+    <EmbeddedResource Include="SphApp\partial\__partial.min.js.map">
       <DependentUpon>__partial.min.js</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\__core.min.js.map">
       <DependentUpon>__core.min.js</DependentUpon>
     </EmbeddedResource>
@@ -3521,9 +3515,6 @@
       <DependentUpon>WorkflowTriggerMap.min.js</DependentUpon>
     </Content>
     <None Include="SphApp\partial\__partial.js.bundle" />
-    <Content Include="SphApp\partial\partial.min.js.map">
-      <DependentUpon>partial.min.js</DependentUpon>
-    </Content>
     <None Include="SphApp\prototypes\__prototypes.js.bundle" />
     <EmbeddedResource Include="SphApp\prototypes\prototypes.min.js.map">
       <DependentUpon>prototypes.min.js</DependentUpon>

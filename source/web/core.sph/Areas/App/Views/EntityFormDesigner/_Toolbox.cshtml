@@ -13,6 +13,7 @@
         <li>
             <a href="#fields-settings" data-toggle="tab">Properties</a>
         </li>
+
         <li>
             <a href="#fields-validation" data-toggle="tab">Validations</a>
         </li>
@@ -161,14 +162,14 @@
 
         <div id="fields-settings" class="tab-pane" data-bind="with: selectedFormElement">
             <form role="form">
-                <div class="form-group">
-                    <label for="form-element-label">Label</label>
-                    <input class="form-control" data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
-                </div>
 
                 <div class="form-group">
                     <label for="form-element-path">Path</label>
                     <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().EntityDefinitionId()" id="form-element-path" type="text" name="Path" />
+                </div>
+                <div class="form-group">
+                    <label for="form-element-label">Label</label>
+                    <input class="form-control" data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
                 </div>
                 <br/>
                 <div class="form-group checkbox checkbox-no-padding-left">
