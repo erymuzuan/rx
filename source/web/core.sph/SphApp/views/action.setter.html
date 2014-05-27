@@ -2,8 +2,6 @@
 <div class="view-model-modal" id="setter-action-modal">
     <div class="modal-dialog">
         <div class="modal-content">
-
-
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
                 <h3>Update entity</h3>
@@ -24,7 +22,6 @@
                         </div>
                     </div>
                 </form>
-                <a class="btn btn-mini pull-right" data-bind="click: addChildAction">+ Field</a>
                 <table id="setter-action-table" class="table table-striped">
                     <thead>
                         <tr>
@@ -36,7 +33,7 @@
                     <tbody data-bind="foreach: SetterActionChildCollection">
                         <tr>
                             <td>
-                                <input class="input-setter-path form-control" type="text" data-bind="value: Path" id="setter-action-child-path" />
+                                <input class="input-setter-path form-control" type="text" data-bind="value: Path, entityTypeaheadPath:window.entityTypeahead" id="setter-action-child-path" />
                             </td>
                             <td>
 
@@ -46,25 +43,25 @@
                                         <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                                         <!-- ko text : Name -->
                                         <!-- /ko -->
-                                        <span class="caret"></span>
+                                        <i class="fa fa-caret-down"></i>
                                     </a>
 
 
                                     <ul class="dropdown-menu">
                                         <li data-bind="with : Field">
-                                            <a class="btn-add-setter-field" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent,$data)">
+                                            <a href="#action-setter-form"  data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent,$data)">
                                                 <i class="fa fa-edit"></i>
                                                 Edit Field
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="btn-add-document-setter-field" data-bind="unwrapClick: addField,field : 'Document', accessor : $data.Field" href="#">+ Document Field</a>
+                                            <a  data-bind="unwrapClick: addField,field : 'Document', accessor : $data.Field" href="#">+ Document Field</a>
                                         </li>
                                         <li>
-                                            <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">+ Constant Field</a>
+                                            <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">+ Constant Field</a>
                                         </li>
                                         <li>
-                                            <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">+ Function Field</a>
+                                            <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">+ Function Field</a>
                                         </li>
 
                                     </ul>
@@ -76,6 +73,11 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <a class="btn btn-link" data-bind="click: addChildAction">
+                    <i class="fa fa-plus-circle"></i>
+                    Add a field
+                </a>
 
             </div>
             <div class="modal-footer">

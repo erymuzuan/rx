@@ -197,6 +197,15 @@
                         $(this).parents('div.context-action').hide();
                     });
 
+                    vm.selectedFormElement.subscribe(function(model) {
+                        model.Path.subscribe(function(p) {
+                            if (ko.unwrap(model.Label).indexOf("Label ") > -1) {
+                                model.Label(p.replace("."," ")
+                                    .replace(/([A-Z])/g," $1").trim());
+                            }
+                        });
+                    });
+
 
                 },
                 supportsHtml5Storage = function () {
