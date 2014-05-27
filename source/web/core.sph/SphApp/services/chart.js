@@ -39,7 +39,11 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
             }
 
             _entity(entity);
-            _query = query;
+            if (typeof query === "function") {
+                _query = query();
+            } else {
+                _query = query;
+            }
             _click = click;
             context.loadAsync("EntityChart", query1)
                 .done(function (lo) {

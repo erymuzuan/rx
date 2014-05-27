@@ -298,10 +298,8 @@ ko.bindingHandlers.entityTypeaheadPath = {
                 };
 
                 c.repaint();
-                setTimeout(function () {
-                    c.input.focus();
-                }, 0);
                 $(c.input)
+                    .attr('autocomplete', 'off')
                     .blur(function () {
                         allBindings.value($(this).val());
                     }).parent().find('input')
@@ -310,7 +308,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
                 if ($(element).prop('required')) {
                     $(c.input).prop('required', true);
                 }
-
+              
 
             };
 
