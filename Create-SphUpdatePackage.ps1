@@ -46,7 +46,7 @@ function Upload-FtpFile {
     $path
   )
   
-  Write-Host "Uploadig $path ... please wait...."
+  Write-Host "Uploading $path ... please wait...."
   if ($sourceUri -match '\\$|\\\w+$') { throw 'sourceuri should end with a file name' }
   $ftprequest = [System.Net.FtpWebRequest]::Create($sourceuri);
   $ftprequest.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile;
@@ -303,8 +303,8 @@ $versionBuildJson > .\deployment\version.$Build.json
 #release note
 "#Release Note for $Build" > .\deployment\$Build.md
 
-$ftpRoot = "ftp://www.bespoke.com.my/website/download"
-$ftpUserName = "bespoke"
+$ftpRoot = "ftp://ftp.bespoke.com.my"
+$ftpUserName = "erymuzuan"
 $ftpPassword = "gsxr750wt"
 
 Write-Host -ForegroundColor Yellow "NOW edit the .\deployment\$Build.ps1 and the Release Note($Build.md) to reflect any custom scripts needed to be run"
