@@ -11,7 +11,7 @@ namespace sph.builder
 {
     internal class WorkflowDefinitionBuilder : Builder<WorkflowDefinition>
     {
-        public override async Task Restore()
+        public override async Task RestoreAllAsync()
         {
             var pageBuilder = new Builder<Page>();
             pageBuilder.Initialize();

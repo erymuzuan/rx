@@ -11,13 +11,16 @@ namespace sph.builder
 {
     public class Builder<T> where T : Entity
     {
-        public virtual async Task Restore()
+        public virtual async Task RestoreAllAsync()
         {
             foreach (var item in this.GetItems())
             {
                 await this.InsertAsync(item);
-
             }
+        }
+        public virtual async Task RestoreAsync(T item)
+        {
+            await this.InsertAsync(item);
         }
 
         private Column[] m_columns;
@@ -62,8 +65,15 @@ namespace sph.builder
                        .ToArray();
 
 
+
+        }
+
+        public void Clean()
+        {
+            var name = typeof(T).Name;
             SPH_CONNECTION.ExecuteNonQuery(string.Format("TRUNCATE TABLE [Sph].[{0}]", name));
 
+            // TODO : clear the ElasticSearch too
         }
 
         public async Task InsertAsync(T item)
@@ -90,7 +100,7 @@ namespace sph.builder
                 if (e.Message.Contains("PRIMARY KEY"))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Failed to insert {1} : {0}",item, typeof(T).Name);
+                    Console.WriteLine("Failed to insert {1} : {0}", item, typeof(T).Name);
                     Console.WriteLine(e.Message);
                     Console.ResetColor();
                 }

@@ -8,9 +8,9 @@ namespace sph.builder
     public class EntityFormBuilder : Builder<EntityForm>
     {
 
-        public override async Task Restore()
+        public override async Task RestoreAllAsync()
         {
-            await base.Restore();
+            await base.RestoreAllAsync();
 
             var folder = ConfigurationManager.WorkflowSourceDirectory + @"\EntityForm";
             foreach (var file in Directory.GetFiles(folder, "*.json"))

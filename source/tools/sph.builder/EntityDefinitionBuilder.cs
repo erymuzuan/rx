@@ -12,7 +12,7 @@ namespace sph.builder
     public class EntityDefinitionBuilder : Builder<EntityDefinition>
     {
 
-        public override async Task Restore()
+        public override async Task RestoreAllAsync()
         {
             var folder = ConfigurationManager.WorkflowSourceDirectory + @"\EntityDefinition";
             using (var client = new HttpClient())
@@ -24,6 +24,7 @@ namespace sph.builder
 
             }
             this.Initialize();
+            this.Clean();
             Console.WriteLine("Reading from " + folder);
             foreach (var file in Directory.GetFiles(folder, "*.json"))
             {
@@ -31,30 +32,36 @@ namespace sph.builder
                 var json = File.ReadAllText(file);
                 var ed = json.DeserializeFromJson<EntityDefinition>();
 
-                await InsertAsync(ed);
-                var type = CompileEntityDefinition(ed);
-                Console.WriteLine("Compiled : {0}", type);
-
-                var sqlSub = new SqlTableSubscriber{NotificicationService = new ConsoleNotification()};
-                await sqlSub.ProcessMessageAsync(ed);
-
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                    // mapping - get a clone to differ than the on the disk
-                    var clone = ed.Clone();
-                    clone.MemberCollection.Add(new Member{Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true});
-                    
-                    var subs = new EntityIndexerMappingSubscriber{ NotificicationService = new ConsoleNotification()};
-                    await subs.PutMappingAsync(clone);
-                }
-                await InsertIconAsync(ed);
-
-                Console.WriteLine("Deploying : {0}", ed.Name);
-                DeployCustomEntity(ed);
+                await this.RestoreAsync(ed);
             }
             Console.WriteLine("Done Custom Entities");
-            // now copy all the output to this tools
+
+        }
+
+        public async override Task RestoreAsync(EntityDefinition ed)
+        {
+            await SPH_CONNECTION.ExecuteNonQueryAsync("DELETE FROM [Sph].[EntityDefinition] WHERE [EntityDefinitionId] = " + ed.EntityDefinitionId);
+            await InsertAsync(ed);
+            var type = CompileEntityDefinition(ed);
+            Console.WriteLine("Compiled : {0}", type);
+
+            var sqlSub = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
+            await sqlSub.ProcessMessageAsync(ed);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                // mapping - get a clone to differ than the on the disk
+                var clone = ed.Clone();
+                clone.MemberCollection.Add(new Member { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
+
+                var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification() };
+                await subs.PutMappingAsync(clone);
+            }
+            await InsertIconAsync(ed);
+
+            Console.WriteLine("Deploying : {0}", ed.Name);
+            DeployCustomEntity(ed);
 
         }
 
@@ -65,7 +72,7 @@ namespace sph.builder
             var folder = Path.Combine(wc, typeof(EntityDefinition).Name);
             var icon = Path.Combine(folder, ed.Name + ".png");
             if (!File.Exists(icon)) return;
-            
+
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var schema = new BinaryStore
             {

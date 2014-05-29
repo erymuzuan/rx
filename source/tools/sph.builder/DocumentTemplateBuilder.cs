@@ -8,9 +8,9 @@ namespace sph.builder
     public class DocumentTemplateBuilder : Builder<DocumentTemplate>
     {
 
-        public override async Task Restore()
+        public override async Task RestoreAllAsync()
         {
-            await base.Restore();
+            await base.RestoreAllAsync();
 
             var folder = ConfigurationManager.WorkflowSourceDirectory + @"\DocumentTemplate";
             if (!Directory.Exists(folder))

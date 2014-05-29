@@ -9,7 +9,7 @@ namespace sph.builder
     public class TriggerBuilder : Builder<Trigger>
     {
 
-        public override async Task Restore()
+        public override async Task RestoreAllAsync()
         {
             this.Initialize();
             var triggers = this.GetItems();
