@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Newtonsoft.Json.Linq;
 
 namespace subscriber.version.control
 {
@@ -35,8 +37,25 @@ namespace subscriber.version.control
             }
         }
 
+        private void RemoveExistingSource(Entity item)
+        {
+            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var type = item.GetType();
+            var folder = Path.Combine(wc, type.Name);
+            var files = Directory.GetFiles(folder, "*.json");
+            foreach (var f in files)
+            {
+                var o = JObject.Parse(File.ReadAllText(f));
+                var id = o.SelectToken("$." + type.Name + "Id").Value<int>();
+                if (id != item.GetId()) continue;
+                File.Delete(f);
+                return;
+            }
+        }
+
         protected override async Task ProcessMessage(Entity item, MessageHeaders header)
         {
+            RemoveExistingSource(item);
             var type = item.GetType();
 
             if (type == typeof(ReportDefinition))
