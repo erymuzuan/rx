@@ -221,6 +221,10 @@ namespace Bespoke.Sph.SqlRepository
                 sql.AppendLine();
                 sql.AppendFormat("ORDER BY [{0}Id]", elementType.Name);
             }
+
+            if (elementType.Namespace != typeof(Entity).Namespace)
+                sql.Replace("FROM [Sph].", string.Format("FROM [{0}].", ConfigurationManager.ApplicationName));
+
             var translator = ObjectBuilder.GetObject<IPagingTranslator>();
             sql = new StringBuilder(translator.Tranlate(sql.ToString(), page, size));
 

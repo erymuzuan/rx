@@ -15,6 +15,7 @@ using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain
 {
+    [DebuggerDisplay("Name = {Name}")]
     public partial class EntityDefinition : Entity
     {
         private void ValidateMember(Member member, BuildValidationResult result)
@@ -45,6 +46,11 @@ namespace Bespoke.Sph.Domain
             {
                 this.ValidateMember(m, result);
             }
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
 
         public string[] GetMembersPath()
