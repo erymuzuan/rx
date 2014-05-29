@@ -81,6 +81,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                     })
                 .end()
                 .focus();
+                setTimeout(function() { $filterInput.focus(); }, 200);
 
                 if ($filterInput.val()) {
                     dofilter();
