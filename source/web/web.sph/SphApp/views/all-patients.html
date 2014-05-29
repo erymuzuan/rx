@@ -1,6 +1,9 @@
 <h1>All patients</h1>
 <div class="row">
     <div class="col-md-8">
+        <button class="btn btn-default pull-right" data-bind="visible: chartFiltered, click: clearChartFilter">
+            <i class="fa fa-times"></i>
+            Clear chart's filter</button>
         <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
             <thead>
                 <tr>

@@ -17,6 +17,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             list = ko.observableArray([]),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             query = ko.observable(),
+            chartFiltered = ko.observable(false),
             activate = function () {
                 query({
                     "query": {
@@ -111,6 +112,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 context.searchAsync("Patient", q)
                     .done(function (lo) {
                         list(lo.itemCollection);
+                        chartFiltered(true);
                         setTimeout(function () {
                             isBusy(false);
                         }, 500);
@@ -118,6 +120,17 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             },
             attached = function () {
                 chart.init('Patient', query, chartSeriesClick, 1002);
+            },
+            clearChartFilter = function(){
+                chartFiltered(false);
+                var link = $('div.k-pager-wrap a.k-link').not('a.k-state-disabled').first();
+                link.trigger('click');
+                if(link.text() === "2")
+                {
+                    setTimeout(function(){
+                        $('div.k-pager-wrap a.k-link').not('a.k-state-disabled').first().trigger('click');
+                    }, 500);
+                }
             };
 
         var vm = {
@@ -125,6 +138,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             view: view,
             chart: chart,
             isBusy: isBusy,
+            chartFiltered : chartFiltered,
+            clearChartFilter:clearChartFilter,
             entity: entity,
             activate: activate,
             attached: attached,
