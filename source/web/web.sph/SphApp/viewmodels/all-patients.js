@@ -13,11 +13,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
     function (context, logger, router, chart, config) {
 
         var isBusy = ko.observable(false),
+            chartFiltered = ko.observable(false),
             view = ko.observable(),
             list = ko.observableArray([]),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             query = ko.observable(),
-            chartFiltered = ko.observable(false),
             activate = function () {
                 query({
                     "query": {
@@ -69,7 +69,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 return tcs.promise();
             },
             chartSeriesClick = function (e) {
-                console.log(e);
+
                 isBusy(true);
                 var q = ko.mapping.toJS(query),
                     cat = {
@@ -78,13 +78,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                     },
                     histogram = {
                         "range": {
-
                         }
                     },
                     date_histogram = {
                         "range": {
                         }
                     };
+
                 if (e.aggregate === "histogram") {
                     histogram.range[e.field] = {
                         "gte": parseFloat(e.category),
@@ -95,6 +95,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 }
                 if (e.aggregate === "date_histogram") {
                     logger.error('Filtering by date range is not supported just yet');
+                    isBusy(false);
                     return;
                     date_histogram.range[e.field] = {
                         "gte": parseFloat(e.category),
@@ -103,7 +104,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
 
                     q.query.filtered.filter.bool.must.push(date_histogram);
                 }
-                if(e.aggregate === "term"){
+                if (e.aggregate === "term") {
                     cat.term[e.field] = e.category;
                     q.query.filtered.filter.bool.must.push(cat);
                 }
@@ -121,13 +122,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             attached = function () {
                 chart.init('Patient', query, chartSeriesClick, 1002);
             },
-            clearChartFilter = function(){
+            clearChartFilter = function () {
                 chartFiltered(false);
                 var link = $('div.k-pager-wrap a.k-link').not('a.k-state-disabled').first();
                 link.trigger('click');
-                if(link.text() === "2")
-                {
-                    setTimeout(function(){
+                if (link.text() === "2") {
+                    setTimeout(function () {
                         $('div.k-pager-wrap a.k-link').not('a.k-state-disabled').first().trigger('click');
                     }, 500);
                 }
@@ -138,12 +138,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             view: view,
             chart: chart,
             isBusy: isBusy,
-            chartFiltered : chartFiltered,
-            clearChartFilter:clearChartFilter,
             entity: entity,
             activate: activate,
             attached: attached,
             list: list,
+            clearChartFilter: clearChartFilter,
+            chartFiltered: chartFiltered,
             query: query,
             toolbar: {
                 commands: ko.observableArray([])
