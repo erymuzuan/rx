@@ -64,9 +64,40 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                     cat = {
                         "term": {
                         }
+                    },
+                    histogram = {
+                        "range": {
+                        }
+                    },
+                    date_histogram = {
+                        "range": {
+                        }
                     };
-                cat.term[e.field] = e.category;
-                q.query.filtered.filter.bool.must.push(cat);
+
+                if (e.aggregate === "histogram") {
+                    histogram.range[e.field] = {
+                        "gte": parseFloat(e.category),
+                        "lt": ( parseFloat(e.category) + e.query.aggs.category.histogram.interval )
+                    };
+
+                    q.query.filtered.filter.bool.must.push(histogram);
+                }
+                if (e.aggregate === "date_histogram") {
+                    logger.error('Filtering by date range is not supported just yet');
+                    isBusy(false);
+                    return;
+                    date_histogram.range[e.field] = {
+                        "gte": parseFloat(e.category),
+                        "lt": ( parseFloat(e.category) + e.query.aggs.category.date_histogram.interval )
+                    };
+
+                    q.query.filtered.filter.bool.must.push(date_histogram);
+                }
+                if(e.aggregate === "term"){
+                    cat.term[e.field] = e.category;
+                    q.query.filtered.filter.bool.must.push(cat);
+                }
+
 
 
                 context.searchAsync("@Model.Definition.Name", q)

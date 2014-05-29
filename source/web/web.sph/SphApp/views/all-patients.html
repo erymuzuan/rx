@@ -1,125 +1,57 @@
 <h1>All patients</h1>
 <div class="row">
     <div class="col-md-8">
-        <table class="table table-striped"
-               data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
             <thead>
-            <tr>
-                <th>Name</th>
-                <th>Appointment</th>
-                <th>Dob</th>
-                <th>Marital Status</th>
-                <th>Gender</th>
-                <th>Race</th>
-                <th>Religion</th>
-                <th>Admit</th>
-                <th>Discharge</th>
-            </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Appointment</th>
+                    <th>Age</th>
+                    <th>Dob</th>
+                    <th>Marital Status</th>
+                    <th>Gender</th>
+                    <th>Race</th>
+                    <th>Religion</th>
+                    <th>Admit</th>
+                    <th>Discharge</th>
+                </tr>
             </thead>
             <tbody data-bind="foreach :list">
-            <tr data-bind="css : {'success':Religion === 'Islam'}">
+                <tr data-bind="css : {'success':Religion === 'Islam'}">
 
-                <td data-bind="text:FullName"></td>
-                <td>
-                    <a data-bind="attr : {href:'#appointment-for-patients' + '/' + Mrn, title:'Appointment' }">
-                        <i class="fa fa-calendar-o"></i>
-                        <span data-bind="text:Mrn"></span>
-                    </a>
-                </td>
-                <td data-bind="date:Dob"></td>
-                <td data-bind="text:MaritalStatus"></td>
-                <td data-bind="text:Gender"></td>
-                <td data-bind="text:Race"></td>
-                <td data-bind="text:Religion"></td>
-                <td>
-                    <a data-bind="attr : {href:'#admission-form' + '/' + PatientId, title:'Admit' }">
-                        <i class="fa fa-hospital-o fa-2x"></i>
-                        <span data-bind="text:PassportNo"></span>
-                    </a>
-                </td>
-                <td>
-                    <a data-bind="attr : {href:'#patient-discharge-form' + '/' + PatientId, title:'Discharge' }">
-                        <i class="fa fa-wheelchair o fa-2x"></i>
-                        <span data-bind="text:PassportNo"></span>
-                    </a>
-                </td>
+                    <td data-bind="text:FullName"></td>
+                    <td>
+                        <a data-bind="attr : {href:'#appointment-for-patients' + '/' + Mrn, title:'Appointment' }">
+                            <i class="fa fa-calendar-o"></i>
+                                                        <span data-bind="text:Mrn"></span>
+                        </a>
+                    </td>
+                    <td data-bind="text:Age"></td>
+                    <td data-bind="date:Dob"></td>
+                    <td data-bind="text:MaritalStatus"></td>
+                    <td data-bind="text:Gender"></td>
+                    <td data-bind="text:Race"></td>
+                    <td data-bind="text:Religion"></td>
+                    <td>
+                        <a data-bind="attr : {href:'#admission-form' + '/' + PatientId, title:'Admit' }">
+                            <i class="fa fa-hospital-o fa-2x"></i>
+                                                        <span data-bind="text:PassportNo"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a data-bind="attr : {href:'#patient-discharge-form' + '/' + PatientId, title:'Discharge' }">
+                            <i class="fa fa-wheelchair o fa-2x"></i>
+                                                        <span data-bind="text:PassportNo"></span>
+                        </a>
+                    </td>
 
 
-            </tr>
+                </tr>
             </tbody>
         </table>
+        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
     </div>
-    <div class="col-md-4" data-bind="with:chart">
-        <h3>Charts</h3>
 
-        <form class="form">
-            <div class="form-group">
-                <label for="chart-name">Charts</label>
-                <select class="form-control" name="chart.name" id="chart-name"
-                        data-bind="value: selectedChartId, options:charts, optionsText: 'Name', optionsValue : 'EntityChartId', optionsCaption:'[Select a chart]'"></select>
-            </div>
-            <div class="form-group">
-                <label for="chart-aggregate">Aggregate</label>
-                <select data-bind="value: aggregate" class="form-control" name="chart.aggregate" id="chart-aggregate">
-                    <option value="term">Term</option>
-                    <option value="histogram">Histogram</option>
-                    <option value="date_histogram">Date Histogram</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="field">Fields</label>
-                <select class="form-control"
-                        data-bind="value: field, options: fieldOptions, optionsCaption :'[Select a field]'"
-                        id="field"></select>
-            </div>
-            <div class="form-group" data-bind="visible : aggregate() === 'date_histogram'">
-                <label for="chart-date-interval">Date interval</label>
-                <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval"
-                        id="chart-date-interval">
-                    <option value="year">Year</option>
-                    <option value="quarter">Quarter</option>
-                    <option value="month">Month</option>
-                    <option value="week">Week</option>
-                    <option value="day">Day</option>
-                    <option value="hour"> Hour</option>
-                    <option value="minute">minute</option>
-                    <option value="second">second</option>
-                </select>
-            </div>
-            <div class="form-group" data-bind="visible : aggregate() === 'histogram'">
-                <label for="histogram-interval">Interval</label>
-                <input class="form-control" step="10" type="number" id="histogram-interval"
-                       data-bind="value:histogramInterval"/>
-            </div>
-            <div class="form-group">
-                <label for="chart-type">Type</label>
-                <select class="form-control" name="chart-type" id="chart-type" data-bind="value:type">
-                    <option value="pie">Pie</option>
-                    <option value="line">Line</option>
-                    <option value="bar">Bar</option>
-                    <option value="column">Column</option>
-                </select>
-            </div>
-            <div class="btn-group">
-                <a class="btn" href="#" data-bind="command:saveAs, tooltip:''"
-                   title="Creates a copy of the chart and save as">
-                    <i class="fa fa-copy"></i>
-                </a>
-                <a class="btn" href="#" data-bind="command:save, visible: selectedChartId, tooltip:''"
-                   title="Edit and save current chart">
-                    <i class="fa fa-save"></i>
-                </a>
-                <a class="btn" href="#" data-bind="command:remove, visible: selectedChartId, tooltip:''"
-                   title="Remove current chart permanently">
-                    <i class="fa fa-times"></i>
-                </a>
-                <a class="btn" href="#" data-bind="command:pin, visible: selectedChartId, tooltip:''"
-                   title="Pin to dashboard">
-                    <i class="fa fa-thumb-tack"></i>
-                </a>
-            </div>
-        </form>
-        <div id="chart-Patient">
-        </div>
-    </div>
+    <!-- ko compose : {view : '_chart.panel'}-->
+    <!-- /ko -->
 </div>
