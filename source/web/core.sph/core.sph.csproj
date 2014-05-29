@@ -993,6 +993,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ComboBox.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Shared\DisplayTemplates\CurrencyElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CurrencyElement.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\DisplayTemplates\DatePicker.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2738,6 +2743,10 @@
     <EmbeddedResource Include="Scripts\__vendor.min.js.map">
       <DependentUpon>__vendor.min.js</DependentUpon>
     </EmbeddedResource>
+    <Content Include="Views\Shared\DisplayTemplates\CurrencyElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CurrencyElement.generated.cs</LastGenOutput>
+    </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

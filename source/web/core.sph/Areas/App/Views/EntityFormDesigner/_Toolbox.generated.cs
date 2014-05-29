@@ -155,51 +155,51 @@ WriteLiteral("\r\n<div id=\"form-designer-toolbox\" data-path=\"Areas\\App\\View
 "                <!-- ko text: Name -->\r\n                        <!-- /ko-->\r\n   " +
 "                 </a>\r\n                </li>\r\n            </ul>\r\n        </div>\r" +
 "\n\r\n        <div id=\"fields-settings\" class=\"tab-pane\" data-bind=\"with: selectedF" +
-"ormElement\">\r\n            <form role=\"form\">\r\n                <div class=\"form-g" +
-"roup\">\r\n                    <label for=\"form-element-label\">Label</label>\r\n     " +
-"               <input class=\"form-control\" data-bind=\"value: Label, valueUpdate:" +
-" \'keyup\'\" id=\"form-element-label\" type=\"text\" name=\"Label\" />\r\n                <" +
-"/div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label fo" +
-"r=\"form-element-path\">Path</label>\r\n                    <input class=\"form-contr" +
-"ol\" pattern=\"^[A-Za-z_][A-Za-z0-9_.]*$\" data-bind=\"value: Path, entityTypeaheadP" +
-"ath : $root.entity().EntityDefinitionId()\" id=\"form-element-path\" type=\"text\" na" +
-"me=\"Path\" />\r\n                </div>\r\n                <br/>\r\n                <di" +
-"v class=\"form-group checkbox checkbox-no-padding-left\">\r\n                    <la" +
-"bel for=\"use-display-template\" class=\"sr-only\">Use display template</label>\r\n   " +
-"                 <label for=\"use-display-template\">\r\n                        <in" +
-"put data-bind=\"checked: UseDisplayTemplate\" id=\"use-display-template\" type=\"chec" +
-"kbox\" name=\"UseDisplayTemplate\" />\r\n                        Use display template" +
-"\r\n                    </label>\r\n                </div>\r\n                <div cla" +
-"ss=\"form-group\">\r\n                    <a href=\"#toolbox-more-settings\" data-togg" +
-"le=\"collapse\"><i class=\"fa fa-chevron-down\"></i>More settings</a>\r\n             " +
-"   </div>\r\n                <div id=\"toolbox-more-settings\" class=\"collapse\">\r\n  " +
-"                  <div class=\"form-group\">\r\n                        <label for=\"" +
-"form-element-tooltip\">Tooltip</label>\r\n                        <input class=\"for" +
-"m-control\" data-bind=\"value: Tooltip\" id=\"form-element-tooltip\" type=\"text\" name" +
-"=\"Tooltip\" />\r\n                    </div>\r\n\r\n                    <div class=\"for" +
-"m-group\">\r\n                        <label for=\"form-element-help-text\">Help</lab" +
-"el>\r\n                        <input class=\"form-control\" data-bind=\"value: HelpT" +
-"ext, valueUpdate: \'keyup\'\" id=\"form-element-help-text\" type=\"text\" name=\"HelpTex" +
-"t\" />\r\n                    </div>\r\n\r\n\r\n                    <div class=\"form-grou" +
-"p\">\r\n                        <label for=\"fe-css-class\">Css class</label>\r\n      " +
-"                  <input class=\"form-control\" data-bind=\"value: CssClass\" id=\"fe" +
-"-css-class\" type=\"text\" name=\"CssClass\" />\r\n                    </div>\r\n\r\n      " +
-"              <div class=\"form-group\">\r\n                        <label for=\"form" +
-"-element-visible\">Visible</label>\r\n                        <input class=\"form-co" +
-"ntrol\" data-bind=\"value: Visible\" id=\"form-element-visible\" type=\"text\" name=\"Vi" +
-"sible\" />\r\n                    </div>\r\n                    <div class=\"form-grou" +
-"p\">\r\n                        <label for=\"form-element-enable\">Enable</label>\r\n  " +
-"                      <input class=\"form-control\" data-bind=\"value: Enable\" id=\"" +
-"form-element-enable\" type=\"text\" name=\"Enable\" />\r\n                    </div>\r\n\r" +
-"\n\r\n                    <div class=\"form-group\">\r\n                        <label " +
-"for=\"form-element-elementId\">Id</label>\r\n                        <input class=\"f" +
-"orm-control\" data-bind=\"value: ElementId\" id=\"form-element-elementId\" type=\"text" +
-"\" name=\"ElementId\" />\r\n                    </div>\r\n\r\n                </div>\r\n\r\n " +
-"               <div class=\"form-group\">\r\n                    <a href=\"#toolbox-a" +
-"dvanced-settings\" data-toggle=\"collapse\">\r\n                        <i class=\"fa " +
-"fa-chevron-down\"></i>\r\n                        Advanced settings\r\n              " +
-"      </a>\r\n                </div>\r\n                <div id=\"toolbox-advanced-se" +
-"ttings\" class=\"collapse\">\r\n");
+"ormElement\">\r\n            <form role=\"form\">\r\n                \r\n                " +
+"<div class=\"form-group\">\r\n                    <label for=\"form-element-path\">Pat" +
+"h</label>\r\n                    <input class=\"form-control\" pattern=\"^[A-Za-z_][A" +
+"-Za-z0-9_.]*$\" data-bind=\"value: Path, entityTypeaheadPath : $root.entity().Enti" +
+"tyDefinitionId()\" id=\"form-element-path\" type=\"text\" name=\"Path\" />\r\n           " +
+"     </div>\r\n                <div class=\"form-group\">\r\n                    <labe" +
+"l for=\"form-element-label\">Label</label>\r\n                    <input class=\"form" +
+"-control\" data-bind=\"value: Label, valueUpdate: \'keyup\'\" id=\"form-element-label\"" +
+" type=\"text\" name=\"Label\" />\r\n                </div>\r\n                <br/>\r\n   " +
+"             <div class=\"form-group checkbox checkbox-no-padding-left\">\r\n       " +
+"             <label for=\"use-display-template\" class=\"sr-only\">Use display templ" +
+"ate</label>\r\n                    <label for=\"use-display-template\">\r\n           " +
+"             <input data-bind=\"checked: UseDisplayTemplate\" id=\"use-display-temp" +
+"late\" type=\"checkbox\" name=\"UseDisplayTemplate\" />\r\n                        Use " +
+"display template\r\n                    </label>\r\n                </div>\r\n        " +
+"        <div class=\"form-group\">\r\n                    <a href=\"#toolbox-more-set" +
+"tings\" data-toggle=\"collapse\"><i class=\"fa fa-chevron-down\"></i>More settings</a" +
+">\r\n                </div>\r\n                <div id=\"toolbox-more-settings\" class" +
+"=\"collapse\">\r\n                    <div class=\"form-group\">\r\n                    " +
+"    <label for=\"form-element-tooltip\">Tooltip</label>\r\n                        <" +
+"input class=\"form-control\" data-bind=\"value: Tooltip\" id=\"form-element-tooltip\" " +
+"type=\"text\" name=\"Tooltip\" />\r\n                    </div>\r\n\r\n                   " +
+" <div class=\"form-group\">\r\n                        <label for=\"form-element-help" +
+"-text\">Help</label>\r\n                        <input class=\"form-control\" data-bi" +
+"nd=\"value: HelpText, valueUpdate: \'keyup\'\" id=\"form-element-help-text\" type=\"tex" +
+"t\" name=\"HelpText\" />\r\n                    </div>\r\n\r\n\r\n                    <div " +
+"class=\"form-group\">\r\n                        <label for=\"fe-css-class\">Css class" +
+"</label>\r\n                        <input class=\"form-control\" data-bind=\"value: " +
+"CssClass\" id=\"fe-css-class\" type=\"text\" name=\"CssClass\" />\r\n                    " +
+"</div>\r\n\r\n                    <div class=\"form-group\">\r\n                        " +
+"<label for=\"form-element-visible\">Visible</label>\r\n                        <inpu" +
+"t class=\"form-control\" data-bind=\"value: Visible\" id=\"form-element-visible\" type" +
+"=\"text\" name=\"Visible\" />\r\n                    </div>\r\n                    <div " +
+"class=\"form-group\">\r\n                        <label for=\"form-element-enable\">En" +
+"able</label>\r\n                        <input class=\"form-control\" data-bind=\"val" +
+"ue: Enable\" id=\"form-element-enable\" type=\"text\" name=\"Enable\" />\r\n             " +
+"       </div>\r\n\r\n\r\n                    <div class=\"form-group\">\r\n               " +
+"         <label for=\"form-element-elementId\">Id</label>\r\n                       " +
+" <input class=\"form-control\" data-bind=\"value: ElementId\" id=\"form-element-eleme" +
+"ntId\" type=\"text\" name=\"ElementId\" />\r\n                    </div>\r\n\r\n           " +
+"     </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <a " +
+"href=\"#toolbox-advanced-settings\" data-toggle=\"collapse\">\r\n                     " +
+"   <i class=\"fa fa-chevron-down\"></i>\r\n                        Advanced settings" +
+"\r\n                    </a>\r\n                </div>\r\n                <div id=\"too" +
+"lbox-advanced-settings\" class=\"collapse\">\r\n");
 
 
             

@@ -28,36 +28,36 @@ namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/TextAreaElement.cshtml")]
-    public partial class TextAreaElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.TextAreaElement>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/CurrencyElement.cshtml")]
+    public partial class CurrencyElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.CurrencyElement>
     {
-        public TextAreaElement()
+        public CurrencyElement()
         {
         }
         public override void Execute()
         {
 
-WriteLiteral("<div class=\"form-group\">\r\n    <label class=\"col-md-4\">");
+WriteLiteral("<div class=\"form-group\">\r\n\r\n    <label class=\"col-md-4\">");
 
 
             
-            #line 3 "..\..\Views\Shared\DisplayTemplates\TextAreaElement.cshtml"
+            #line 4 "..\..\Views\Shared\DisplayTemplates\CurrencyElement.cshtml"
                        Write(Model.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n    <span class=\"col-md-8\" data-bind=\"text: ");
+WriteLiteral("</label>\r\n    <span class=\"col-md-8\" data-bind=\"money: ");
 
 
             
-            #line 4 "..\..\Views\Shared\DisplayTemplates\TextAreaElement.cshtml"
-                                       Write(Model.Path);
+            #line 5 "..\..\Views\Shared\DisplayTemplates\CurrencyElement.cshtml"
+                                        Write(Model.Path);
 
             
             #line default
             #line hidden
-WriteLiteral("\"></span>\r\n</div>");
+WriteLiteral("\"></span>\r\n\r\n</div>");
 
 
         }

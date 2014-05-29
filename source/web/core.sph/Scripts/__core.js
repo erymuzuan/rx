@@ -520,6 +520,11 @@ ko.bindingHandlers.money = {
                 return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
             });
 
+        if (element.tagName.toLowerCase() === "span") {
+            textbox.text(fm);
+            return;
+        }
+
         textbox.val(fm);
 
         textbox.on('blur', function () {
