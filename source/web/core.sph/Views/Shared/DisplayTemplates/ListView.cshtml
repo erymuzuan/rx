@@ -1,5 +1,4 @@
 ﻿@using System.Web.Mvc.Html
-@using Bespoke.Sph.Domain
 @model Bespoke.Sph.Domain.ListView
 
 
@@ -25,7 +24,7 @@
                     col.Input.IsCompact = true;
                     col.Input.ElementId = Guid.NewGuid().ToString();
 
-                    var download = col.Input as DownloadLink;
+                    var download = col.Input as Bespoke.Sph.Domain.DownloadLink;
                     if (null != download)
                     {
                         var pathd = string.Format("'/sph/binarystore/get/' + {0}()", download.Path);
@@ -40,7 +39,7 @@
                         </td>
                         continue;
                     }
-                    var image = col.Input as ImageElement;
+                    var image = col.Input as Bespoke.Sph.Domain.ImageElement;
                     if(null != image)
                     {
                         var path = string.Format("'/sph/image/store/' + {0}()", image.Path);

@@ -32,12 +32,6 @@ namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
     using System.Web.UI;
     using System.Web.WebPages;
     
-    #line 2 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
-    using Bespoke.Sph.Domain;
-    
-    #line default
-    #line hidden
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Shared/DisplayTemplates/ListView.cshtml")]
     public partial class ListView : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.ListView>
@@ -49,12 +43,11 @@ namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
         {
 
 
-
 WriteLiteral("\r\n\r\n<div data-bind=\"visible:");
 
 
             
-            #line 6 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 5 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                    Write(Model.Visible);
 
             
@@ -64,7 +57,7 @@ WriteLiteral("\">\r\n    <span> ");
 
 
             
-            #line 7 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 6 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
       Write(Model.Label);
 
             
@@ -75,7 +68,7 @@ WriteLiteral("</span>\r\n    <table class=\"table table-condensed table-striped\
 
 
             
-            #line 11 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 10 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                  foreach (var col in Model.ListViewColumnCollection)
                 {
 
@@ -86,7 +79,7 @@ WriteLiteral("                    <th>");
 
 
             
-            #line 13 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 12 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                    Write(col.Label);
 
             
@@ -96,7 +89,7 @@ WriteLiteral("</th>\r\n");
 
 
             
-            #line 14 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 13 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                 }
 
             
@@ -106,7 +99,7 @@ WriteLiteral("            </tr>\r\n        </thead>\r\n        <tbody data-bind=
 
 
             
-            #line 17 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 16 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                               Write(Model.Path);
 
             
@@ -116,7 +109,7 @@ WriteLiteral("\">\r\n            <tr>\r\n");
 
 
             
-            #line 19 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 18 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                  foreach (var col in Model.ListViewColumnCollection)
                 {
                     var col1 = col;
@@ -126,7 +119,7 @@ WriteLiteral("\">\r\n            <tr>\r\n");
                     col.Input.IsCompact = true;
                     col.Input.ElementId = Guid.NewGuid().ToString();
 
-                    var download = col.Input as DownloadLink;
+                    var download = col.Input as Bespoke.Sph.Domain.DownloadLink;
                     if (null != download)
                     {
                         var pathd = string.Format("'/sph/binarystore/get/' + {0}()", download.Path);
@@ -143,7 +136,7 @@ WriteLiteral("                        <td>\r\n                            <a dat
 
 
             
-            #line 37 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 36 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                                     Write(Html.Raw(pathd));
 
             
@@ -153,7 +146,7 @@ WriteLiteral("}\" download>\r\n                                ");
 
 
             
-            #line 38 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 37 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                            Write(download.Label);
 
             
@@ -163,10 +156,10 @@ WriteLiteral("\r\n                            </a>\r\n                        </
 
 
             
-            #line 41 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 40 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                         continue;
                     }
-                    var image = col.Input as ImageElement;
+                    var image = col.Input as Bespoke.Sph.Domain.ImageElement;
                     if(null != image)
                     {
                         var path = string.Format("'/sph/image/store/' + {0}()", image.Path);
@@ -178,7 +171,7 @@ WriteLiteral("                        <td>\r\n                            <img a
 
 
             
-            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 47 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                  Write(image.Label);
 
             
@@ -188,7 +181,7 @@ WriteLiteral("\" title=\"");
 
 
             
-            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 47 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                                       Write(image.Tooltip);
 
             
@@ -198,7 +191,7 @@ WriteLiteral("\" width=\"");
 
 
             
-            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 47 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                                                              Write(image.Width);
 
             
@@ -208,7 +201,7 @@ WriteLiteral("\" height=\"");
 
 
             
-            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 47 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                                                                                    Write(image.Height);
 
             
@@ -218,7 +211,7 @@ WriteLiteral("\" data-bind=\"attr : {\'src\':");
 
 
             
-            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 47 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                                                                                                                            Write(Html.Raw(path));
 
             
@@ -228,7 +221,7 @@ WriteLiteral("}, visible:");
 
 
             
-            #line 48 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 47 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                                                                                                                                                      Write(Html.Raw(image.Visible));
 
             
@@ -238,7 +231,7 @@ WriteLiteral("\" />\r\n                        </td>\r\n");
 
 
             
-            #line 50 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 49 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                         continue;
                     }
                     
@@ -250,7 +243,7 @@ WriteLiteral("                    <td data-bind=\"text:");
 
 
             
-            #line 53 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 52 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                                    Write(col.Path);
 
             
@@ -260,7 +253,7 @@ WriteLiteral("\"></td>\r\n");
 
 
             
-            #line 54 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
+            #line 53 "..\..\Views\Shared\DisplayTemplates\ListView.cshtml"
                 }
 
             

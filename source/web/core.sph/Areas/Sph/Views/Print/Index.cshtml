@@ -11,27 +11,27 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>SPH: @Model.Item.ToString()</title>
-    <link href="~/Content/css.css" rel="stylesheet" />
+    <title>@Bespoke.Sph.Domain.ConfigurationManager.ApplicationName : @Model.Item.ToString()</title>
+    <link href="~/Content/__css.css" rel="stylesheet" />
 </head>
 <body>
 
     <div id="print-details">
         <h1>@Model.Name</h1>
         <div class="container">
-           
-            @foreach (var fe in Model.FormDesign.FormElementCollection)
-            {
-                var fe1 = fe;
-                <div class="row">
+            <form class="form-horizontal">
+                @foreach (var fe in Model.FormDesign.FormElementCollection)
+                {
+                    var fe1 = fe;
                     @Html.DisplayFor(m => fe1)
-                </div>
-            }
+                }
+
+            </form>
         </div>
 
     </div>
-    <script src="~/Scripts/vendor.js"></script>
-    <script src="~/Scripts/core.js"></script>
+    <script src="~/Scripts/__vendor.js"></script>
+    <script src="~/Scripts/__core.js"></script>
     <script type="text/javascript">
         $(function () {
             var item = ko.mapping.fromJSON('@Html.Raw(JsonConvert.SerializeObject(Model.Item))');

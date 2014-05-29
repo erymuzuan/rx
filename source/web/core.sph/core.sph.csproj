@@ -1175,18 +1175,13 @@
     <EmbeddedResource Include="SphApp\goog.js" />
     <EmbeddedResource Include="SphApp\main.js" />
     <EmbeddedResource Include="SphApp\objectbuilders.js" />
-    <EmbeddedResource Include="Content\css.css">
-      <DependentUpon>__css.css.bundle</DependentUpon>
-    </EmbeddedResource>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <EmbeddedResource Include="Content\css.min.css">
-      <DependentUpon>css.css</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Content\jstree\32px.png" />
     <EmbeddedResource Include="Content\jstree\40px.png" />
+    <Content Include="Content\daterangepicker-bs3.css" />
     <Content Include="Content\jsplumb\__jsplumb.css">
       <DependentUpon>__jsplumb.css.bundle</DependentUpon>
     </Content>
@@ -1297,9 +1292,12 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PieChartItem.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\__css.css">
+    <EmbeddedResource Include="Content\__css.css">
       <DependentUpon>__css.css.bundle</DependentUpon>
-    </Content>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\__css.min.css">
+      <DependentUpon>__css.css</DependentUpon>
+    </EmbeddedResource>
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -1365,6 +1363,7 @@
     <Content Include="Scripts\complete.ly.1.0.1.min.js.map">
       <DependentUpon>complete.ly.1.0.1.min.js</DependentUpon>
     </Content>
+    <Content Include="Content\__css.css.bundle" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
     <EmbeddedResource Include="kendo\js\kendo.all.min.js">
@@ -2250,7 +2249,6 @@
     <Content Include="Content\theme.matyie\nav.css.map">
       <DependentUpon>nav.css</DependentUpon>
     </Content>
-    <None Include="Content\__css.css.bundle" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
