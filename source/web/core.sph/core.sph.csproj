@@ -2117,6 +2117,7 @@
     <EmbeddedResource Include="SphApp\views\_workflow.management.consoles.html" />
     <EmbeddedResource Include="SphApp\views\view.column.dialog.html" />
     <EmbeddedResource Include="SphApp\views\role.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\_chart.panel.html" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\Button.cshtml">

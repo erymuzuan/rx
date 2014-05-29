@@ -118,7 +118,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                         categories = _(buckets).map(function (v) {
                             return v.key_as_string || v.key.toString();
                         }),
-                        chart = $("div#chart-" + _entity()).empty().kendoChart({
+                        chart = $("div#chart-container").empty().kendoChart({
                             theme: "metro",
                             title: {
                                 text: _entity() + " count by " + _field()

@@ -58,7 +58,22 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 return tcs.promise();
             },
             chartSeriesClick = function(e) {
-                console.log(e);
+               
+                isBusy(true);
+                var q = ko.mapping.toJS(query),
+                    cat = {
+                        "term": {
+                        }
+                    };
+                cat.term[e.field] = e.category;
+                q.query.filtered.filter.bool.must.push(cat);
+
+
+                context.searchAsync("@Model.Definition.Name", q)
+                    .done(function (lo) {
+                        list(lo.itemCollection);
+                        setTimeout(function () { isBusy(false); }, 500);
+                    });
             },
             attached = function () {
                 chart.init('@Model.Definition.Name', query, chartSeriesClick, @Model.View.EntityViewId);
