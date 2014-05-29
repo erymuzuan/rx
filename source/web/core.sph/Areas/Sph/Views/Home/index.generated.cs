@@ -108,15 +108,11 @@ WriteLiteral(@"
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </div>\r\n\r\n    ");
-
-
-
-WriteLiteral("\r\n    <script src=\"~/SphApp/objectbuilders.js\"></script>\r\n");
+WriteLiteral("\r\n    </div>\r\n\r\n    <script src=\"~/SphApp/objectbuilders.js\"></script>\r\n");
 
 
             
-            #line 38 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 32 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -151,7 +147,7 @@ WriteLiteral("        <script src=\"/SphApp/prototypes/prototypes.js\"></script>
 
 
 
-WriteLiteral("        <script src=\"/SphApp/partial/partial.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/SphApp/partial/__partial.js\"></script>\r\n");
 
 
 
@@ -164,7 +160,7 @@ WriteLiteral("        <script src=\"/Content/theme.");
 
 
             
-            #line 49 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 43 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                Write(theme);
 
             
@@ -178,7 +174,7 @@ WriteLiteral("        <script src=\"/kendo/js/kendo.all.js\"></script>\r\n");
 
 
             
-            #line 51 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 45 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -214,7 +210,7 @@ WriteLiteral("        <script src=\"/SphApp/prototypes/prototypes.min.js\"></scr
 
 
 
-WriteLiteral("        <script src=\"/SphApp/partial/partial.min.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/SphApp/partial/__partial.min.js\"></script>\r\n");
 
 
 
@@ -227,7 +223,7 @@ WriteLiteral("        <script src=\"~/Content/theme.");
 
 
             
-            #line 63 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 57 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                 Write(theme);
 
             
@@ -241,7 +237,7 @@ WriteLiteral("        <script src=\"/kendo/js/kendo.all.min.js\"></script>\r\n")
 
 
             
-            #line 65 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 59 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             

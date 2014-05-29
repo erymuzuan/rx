@@ -30,28 +30,34 @@ namespace Bespoke.Sph.Domain
         public IQueryable<Workflow> Workflows { get; set; }
         public IQueryable<Page> Pages { get; set; }
 
+        private readonly QueryProvider m_provider;
         public SphDataContext()
         {
-            var provider = ObjectBuilder.GetObject<QueryProvider>();
+            m_provider = ObjectBuilder.GetObject<QueryProvider>();
 
-            this.DocumentTemplates = new Query<DocumentTemplate>(provider);
-            this.EmailTemplates = new Query<EmailTemplate>(provider);
-            this.EntityCharts = new Query<EntityChart>(provider);
-            this.EntityDefinitions = new Query<EntityDefinition>(provider);
-            this.EntityForms = new Query<EntityForm>(provider);
-            this.EntityViews = new Query<EntityView>(provider);
-            this.AuditTrails = new Query<AuditTrail>(provider);
-            this.Organizations = new Query<Organization>(provider);
-            this.ReportDefinitions = new Query<ReportDefinition>(provider);
-            this.Roles = new Query<Role>(provider);
-            this.Settings = new Query<Setting>(provider);
-            this.UserProfiles = new Query<UserProfile>(provider);
-            this.Triggers = new Query<Trigger>(provider);
-            this.Watchers = new Query<Watcher>(provider);
-            this.Workflows = new Query<Workflow>(provider);
-            this.WorkflowDefinitions = new Query<WorkflowDefinition>(provider);
-            this.Pages = new Query<Page>(provider);
+            this.DocumentTemplates = new Query<DocumentTemplate>(m_provider);
+            this.EmailTemplates = new Query<EmailTemplate>(m_provider);
+            this.EntityCharts = new Query<EntityChart>(m_provider);
+            this.EntityDefinitions = new Query<EntityDefinition>(m_provider);
+            this.EntityForms = new Query<EntityForm>(m_provider);
+            this.EntityViews = new Query<EntityView>(m_provider);
+            this.AuditTrails = new Query<AuditTrail>(m_provider);
+            this.Organizations = new Query<Organization>(m_provider);
+            this.ReportDefinitions = new Query<ReportDefinition>(m_provider);
+            this.Roles = new Query<Role>(m_provider);
+            this.Settings = new Query<Setting>(m_provider);
+            this.UserProfiles = new Query<UserProfile>(m_provider);
+            this.Triggers = new Query<Trigger>(m_provider);
+            this.Watchers = new Query<Watcher>(m_provider);
+            this.Workflows = new Query<Workflow>(m_provider);
+            this.WorkflowDefinitions = new Query<WorkflowDefinition>(m_provider);
+            this.Pages = new Query<Page>(m_provider);
         }
+
+        public IQueryable<T> CreateQueryable<T>()
+        {
+            return new Query<T>(m_provider);
+        } 
 
 
         public PersistenceSession OpenSession()
