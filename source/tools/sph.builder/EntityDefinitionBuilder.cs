@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -26,22 +27,34 @@ namespace sph.builder
             this.Initialize();
             this.Clean();
             Console.WriteLine("Reading from " + folder);
-            foreach (var file in Directory.GetFiles(folder, "*.json"))
-            {
-                Console.WriteLine("Building from :{0} ", file);
-                var json = File.ReadAllText(file);
-                var ed = json.DeserializeFromJson<EntityDefinition>();
 
-                await this.RestoreAsync(ed);
-            }
+            var tasks = from f in Directory.GetFiles(folder, "*.json")
+                let json = File.ReadAllText(f)
+                let ed = json.DeserializeFromJson<EntityDefinition>()
+                select this.RestoreAsync(ed);
+
+            await Task.WhenAll(tasks);
+
             Console.WriteLine("Done Custom Entities");
 
         }
 
+        private async Task DeleteElasticSearchType(EntityDefinition ed)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName.ToLowerInvariant() + "/" + ed.Name.ToLowerInvariant() );
+                Console.WriteLine("DELETE {1} type : {0}", response.StatusCode, ed.Name.ToLowerInvariant());
+            }
+        }
+
+
         public async override Task RestoreAsync(EntityDefinition ed)
         {
-            await SPH_CONNECTION.ExecuteNonQueryAsync("DELETE FROM [Sph].[EntityDefinition] WHERE [EntityDefinitionId] = " + ed.EntityDefinitionId);
+            await this.DeleteElasticSearchType(ed);
             await InsertAsync(ed);
+
             var type = CompileEntityDefinition(ed);
             Console.WriteLine("Compiled : {0}", type);
 

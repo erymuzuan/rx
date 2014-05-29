@@ -13,11 +13,11 @@ namespace sph.builder
     {
         public virtual async Task RestoreAllAsync()
         {
-            foreach (var item in this.GetItems())
-            {
-                await this.InsertAsync(item);
-            }
+            var tasks = from t in this.GetItems()
+                        select InsertAsync(t);
+            await Task.WhenAll(tasks);
         }
+
         public virtual async Task RestoreAsync(T item)
         {
             await this.InsertAsync(item);
@@ -79,6 +79,7 @@ namespace sph.builder
         public async Task InsertAsync(T item)
         {
             var name = typeof(T).Name;
+            await SPH_CONNECTION.ExecuteNonQueryAsync(string.Format("DELETE FROM [Sph].[{0}] WHERE [{0}Id] = {1}", name, item.GetId()));
 
             var sql = this.SetIdentityOn +
                 string.Format(@"INSERT INTO [Sph].[{0}](", name) +

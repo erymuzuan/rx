@@ -17,17 +17,20 @@ namespace sph.builder
             {
                 await this.InsertAsync(trigger);
                 await this.Compile(trigger);
-
             }
+        }
+
+        public override async Task RestoreAsync(Trigger item)
+        {
+            await this.InsertAsync(item);
+            await this.Compile(item);
         }
 
         private async Task Compile(Trigger item)
         {
-
             var options = new CompilerOptions { IsDebug = true };
             var result = await item.CompileAsync(options);
             result.Errors.ForEach(Console.WriteLine);
-
 
             this.QueueUserWorkItem(DeployTriggerAssembly, item);
         }
