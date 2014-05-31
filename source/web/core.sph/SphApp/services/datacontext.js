@@ -144,9 +144,14 @@ function (logger, system, ko2) {
                     destination[gp] = source[gp];
                 }
             }
-        };
+        },
+      updateOnlineStatus = function (event) {
+          var condition = navigator.onLine ? "online" : "offline";
+          logger.info("Event: " + event.type + "; Status: " + condition);
+      };
 
-
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
     return {
         searchAsync: searchAsync,
         loadAsync: loadAsync,
@@ -166,6 +171,24 @@ function (logger, system, ko2) {
     };
 
     function post(json, url) {
+
+        if (navigator.onLine) {
+            logger.error("You have lost the connection to the server, your data will be stored in temporary storage");
+            var text = localStorage.getItem("offline-post"),
+                index = [];
+            if (text) {
+                index = JSON.parse(index);
+            }
+            index.push({
+                location: window.location,
+                url: url
+            });
+
+            localStorage.setItem("offline-post", JSON.stringify(index));
+            localStorage.setItem(url + ";" + window.location, JSON.stringify(index));
+            return Task.fromResult(0);
+        }
+
         var tcs = new $.Deferred();
         $.ajax({
             type: "POST",
