@@ -1050,7 +1050,6 @@
     <Content Include="offline\offline.js" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
-    <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-chromevox.js" />
     <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
@@ -1091,6 +1090,10 @@
     <Content Include="Scripts\complete.ly.1.0.1.min.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
+    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

@@ -58,9 +58,9 @@
     <Reference Include="DiffPlex">
       <HintPath>..\..\..\packages\DiffPlex.1.2.0\lib\Net40\DiffPlex.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer, Version=1.25.4.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Humanizer.1.25.4\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
+    <Reference Include="Humanizer">
+      <HintPath>..\..\..\packages\Humanizer.1.26.1\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ImageResizer">
       <HintPath>..\..\..\packages\ImageResizer.3.4.3\lib\ImageResizer.dll</HintPath>
@@ -103,9 +103,9 @@
       <HintPath>..\..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
-    <Reference Include="RazorGenerator.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\RazorGenerator.Mvc.2.2.2\lib\net40\RazorGenerator.Mvc.dll</HintPath>
+    <Reference Include="RazorGenerator.Mvc">
+      <HintPath>..\..\..\packages\RazorGenerator.Mvc.2.2.3\lib\net40\RazorGenerator.Mvc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Spring.Core, Version=2.0.0.40000, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1182,6 +1182,8 @@
     <EmbeddedResource Include="Content\jstree\32px.png" />
     <EmbeddedResource Include="Content\jstree\40px.png" />
     <Content Include="Content\daterangepicker-bs3.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\jsplumb\__jsplumb.css">
       <DependentUpon>__jsplumb.css.bundle</DependentUpon>
     </Content>
@@ -1298,6 +1300,7 @@
     <EmbeddedResource Include="Content\__css.min.css">
       <DependentUpon>__css.css</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -1351,8 +1354,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CurrencyElement.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\toastr.scss" />
-    <Content Include="Content\toastr.less" />
     <Content Include="Areas\App\Views\Shared\EditorTemplates\FileUploadElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
@@ -1364,7 +1365,6 @@
       <DependentUpon>complete.ly.1.0.1.min.js</DependentUpon>
     </Content>
     <Content Include="Content\__css.css.bundle" />
-    <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
     <EmbeddedResource Include="kendo\js\kendo.all.min.js">
       <DependentUpon>kendo.all.js</DependentUpon>
@@ -1376,13 +1376,21 @@
     <Content Include="Scripts\complete.ly.1.0.1.js" />
     <Content Include="Scripts\complete.ly.1.0.1.min.js" />
     <Content Include="Scripts\daterangepicker.js" />
-    <Content Include="Scripts\jquery-2.1.0.js" />
-    <Content Include="Scripts\jquery-2.1.0.min.js" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="fonts\FontAwesome.otf" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
+    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <EmbeddedResource Include="Scripts\jquery.signalR-2.0.3.js" />
     <EmbeddedResource Include="Scripts\jquery.signalR-2.0.3.min.js" />
     <Content Include="Scripts\jquery.tablescroll.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -1395,12 +1403,12 @@
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <EmbeddedResource Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
-    <EmbeddedResource Include="Scripts\r.js" />
-    <EmbeddedResource Include="Scripts\require.js" />
     <Content Include="Scripts\moment-with-langs.js" />
     <Content Include="Scripts\moment-with-langs.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <EmbeddedResource Include="Scripts\r.js" />
+    <EmbeddedResource Include="Scripts\require.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\typeahead.bundle.js" />
@@ -1836,8 +1844,6 @@
     <Content Include="Content\DataTables-1.9.4\media\images\sort_desc_disabled.png" />
     <Content Include="Content\Diff.css" />
     <Content Include="Content\durandal.css" />
-    <Content Include="Content\font-awesome.css" />
-    <EmbeddedResource Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\ios-startup-image-landscape.png" />
     <Content Include="Content\images\ios-startup-image-portrait.png" />
     <Content Include="Content\img\1.png" />
@@ -1929,7 +1935,6 @@
     </Content>
     <Content Include="Content\_semantic.home.css" />
     <Content Include="Content\_semantic.workflow.triggers.css" />
-    <EmbeddedResource Include="fonts\fontawesome-webfont.svg" />
     <EmbeddedResource Include="Images\add_icon.png" />
     <EmbeddedResource Include="Images\add_user.png" />
     <EmbeddedResource Include="Images\arrow.png" />
@@ -2233,10 +2238,6 @@
     </None>
     <Content Include="Content\jsplumb\OpenSans.woff" />
     <Content Include="Content\jsplumb\OpenSans-Regular.ttf" />
-    <EmbeddedResource Include="fonts\fontawesome-webfont.woff" />
-    <EmbeddedResource Include="fonts\fontawesome-webfont.ttf" />
-    <EmbeddedResource Include="fonts\fontawesome-webfont.eot" />
-    <EmbeddedResource Include="fonts\FontAwesome.otf" />
     <Content Include="Content\theme.matyie\site.css.map">
       <DependentUpon>site.css</DependentUpon>
     </Content>
@@ -2253,7 +2254,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="Scripts\jquery-2.1.0.min.map" />
     <EmbeddedResource Include="Scripts\underscore-min.map" />
     <Content Include="Scripts\toastr.min.js.map" />
     <None Include="Scripts\__core.js.bundle" />
