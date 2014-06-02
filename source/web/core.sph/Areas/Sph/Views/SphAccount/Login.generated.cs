@@ -68,7 +68,7 @@ WriteLiteral("<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta chars
 WriteLiteral(@" - SPH</title>
     <link href=""~/favicon.ico"" rel=""shortcut icon"" type=""image/x-icon"" />
     <meta name=""viewport"" content=""width=device-width"" />
-    <link href=""~/Content/css.css"" rel=""stylesheet"" />
+    <link href=""~/Content/__css.css"" rel=""stylesheet"" />
 
 </head>
 <body>
@@ -234,7 +234,7 @@ WriteLiteral(@"        </section>
     </div>
 
 
-    <script src=""~/Scripts/vendor.min.js""></script>
+    <script src=""~/Scripts/__vendor.min.js""></script>
     <script type=""text/javascript"">
         $(function () {
             $('.carousel').carousel({

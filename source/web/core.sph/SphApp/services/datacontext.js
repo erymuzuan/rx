@@ -172,12 +172,12 @@ function (logger, system, ko2) {
 
     function post(json, url) {
 
-        if (navigator.onLine) {
+        if (navigator.onLine === false) {
             logger.error("You have lost the connection to the server, your data will be stored in temporary storage");
             var text = localStorage.getItem("offline-post"),
                 index = [];
             if (text) {
-                index = JSON.parse(index);
+                index = JSON.parse(text);
             }
             index.push({
                 location: window.location,
