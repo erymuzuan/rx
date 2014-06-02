@@ -2,6 +2,20 @@
   {
       "role": null,
       "groupName": "Main",
+      "route": "offline.storage",
+      "moduleId": "viewmodels/offline.storage",
+      "title": "Offline items",
+      "nav": true,
+      "icon": "fa fa-home",
+      "caption": "Home",
+      "settings": null,
+      "isAdminPage": false,
+      "showWhenLoggedIn": true,
+      "error": ""
+  },
+  {
+      "role": null,
+      "groupName": "Main",
       "route": "public.index",
       "moduleId": "viewmodels/public.index",
       "title": "Home",

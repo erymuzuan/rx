@@ -1403,6 +1403,9 @@
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <EmbeddedResource Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
+    <EmbeddedResource Include="Scripts\modernizr-2.7.2.min.js">
+      <DependentUpon>modernizr-2.7.2.js</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Scripts\moment-with-langs.js" />
     <Content Include="Scripts\moment-with-langs.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -2256,6 +2259,9 @@
     </None>
     <EmbeddedResource Include="Scripts\underscore-min.map" />
     <Content Include="Scripts\toastr.min.js.map" />
+    <EmbeddedResource Include="Scripts\modernizr-2.7.2.min.js.map">
+      <DependentUpon>modernizr-2.7.2.min.js</DependentUpon>
+    </EmbeddedResource>
     <None Include="Scripts\__core.js.bundle" />
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <EmbeddedResource Include="Scripts\jquery-ui-1.10.3.custom.min.js" />

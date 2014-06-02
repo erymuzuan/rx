@@ -1,7 +1,8 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/loadoperation.js" />
+/// <reference path="../../Scripts/modernizr-2.7.2.js" />
 /// <reference path="logger.js" />
 /// <reference path="../objectbuilders.js" />
 /// <reference path="/SphApp/schemas/sph.domain.g.js" />
@@ -172,7 +173,7 @@ function (logger, system, ko2) {
 
     function post(json, url) {
 
-        if (navigator.onLine === false) {
+        if (Modernizr.localstorage && navigator.onLine === false) {
             logger.error("You have lost the connection to the server, your data will be stored in temporary storage");
             var text = localStorage.getItem("offline-post"),
                 index = [];

@@ -89,6 +89,7 @@ WriteLiteral(@"</title>
     <link href=""/Content/nprogress.css"" rel=""stylesheet"" />
     <link href=""/Content/daterangepicker-bs3.css"" rel=""stylesheet"" />
     <link href=""/Content/site.css"" rel=""stylesheet"" />
+    <script src=""~/Scripts/modernizr-2.7.2.min.js""></script>
     <meta name=""description"" content=""The description of my page"" />
 </head>
 <body>
@@ -97,7 +98,7 @@ WriteLiteral(@"</title>
 
 
             
-            #line 27 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 28 "..\..\Areas\Sph\Views\Home\index.cshtml"
    Write(Html.Partial("_splash"));
 
             
@@ -107,7 +108,7 @@ WriteLiteral("\r\n    </div>\r\n\r\n    <script src=\"~/SphApp/objectbuilders.js
 
 
             
-            #line 31 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 32 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -155,7 +156,7 @@ WriteLiteral("        <script src=\"/Content/theme.");
 
 
             
-            #line 42 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 43 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                Write(theme);
 
             
@@ -169,7 +170,7 @@ WriteLiteral("        <script src=\"/kendo/js/kendo.all.js\"></script>\r\n");
 
 
             
-            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 45 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -218,7 +219,7 @@ WriteLiteral("        <script src=\"~/Content/theme.");
 
 
             
-            #line 56 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 57 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                 Write(theme);
 
             
@@ -232,7 +233,7 @@ WriteLiteral("        <script src=\"/kendo/js/kendo.all.min.js\"></script>\r\n")
 
 
             
-            #line 58 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 59 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             
