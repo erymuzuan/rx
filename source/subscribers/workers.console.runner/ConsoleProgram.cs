@@ -64,9 +64,7 @@ namespace workers.console.runner
             stopFlag.WaitOne();
             return 0;
         }
-
-
-
+        
         private static string ParseArg(string name)
         {
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -74,6 +72,7 @@ namespace workers.console.runner
             if (null == val) return null;
             return val.Replace("/" + name + ":", string.Empty);
         }
+
         private static bool ParseArgExist(string name)
         {
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
