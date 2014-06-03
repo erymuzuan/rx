@@ -63,16 +63,6 @@
                            class="form-control" id="plural">
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-6">
-                    <div class="checkbox">
-                        <label>
-                            <input data-bind="checked: IsShowOnNavigationBar" id="show-on-nav-bar" type="checkbox" name="IsShowOnNavigationBar" />
-                            Show on navigation bar menu
-                        </label>
-                    </div>
-                </div>
-            </div>
 
             <div class="form-group">
                 <label for="icon-storeid" class="col-md-2 control-label">Icon/Logo</label>
@@ -364,5 +354,63 @@
             Add an operation
         </a>
 
+    </div>
+</div>
+
+
+
+<div class="row" data-bind="with : entity">
+
+    <a data-toggle="collapse" href="#performer-ev-panel">
+        <h3>
+            <i class="fa fa-chevron-down"></i>
+            Permission
+        </h3>
+    </a>
+    <div id="performer-ev-panel" class="collapse collapsed" data-bind="with: Performer">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: $root.entity().IsShowOnNavigationBar" id="show-on-nav-bar" type="checkbox" name="IsShowOnNavigationBar" />
+                            Show on navigation bar menu
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
+                            Is Public
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="performer-property" class="col-sm-2 control-label">User Property</label>
+                <div class="col-sm-6">
+                    <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
+                        <option value="">[Please Select]</option>
+                        <option value="Roles">Roles</option>
+                        <option value="UserName">UserName</option>
+                        <option value="Department">Department</option>
+                        <option value="Designation">Designation</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="performer-value" class="col-sm-2 control-label">Value</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:IsPublic" />
+                </div>
+            </div>
+        </form>
     </div>
 </div>

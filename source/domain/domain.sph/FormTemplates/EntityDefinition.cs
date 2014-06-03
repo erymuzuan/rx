@@ -96,6 +96,8 @@ namespace Bespoke.Sph.Domain
             if (this.MemberCollection.All(m => m.Name != this.RecordName))
                 result.Errors.Add(new BuildError(this.WebId, "Record name is not registered in your schema as a first level member"));
 
+            if (!this.Performer.Validate())
+                result.Errors.Add(new BuildError(this.WebId, "You have not set the permission correctly"));
 
             var defaultForm = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true && f.EntityDefinitionId == this.EntityDefinitionId);
             if (null == defaultForm)

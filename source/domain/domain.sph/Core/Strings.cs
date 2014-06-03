@@ -14,6 +14,12 @@ namespace Bespoke.Sph.Domain
     {
         public const string DEFAULT_NAMESPACE = "http://www.bespoke.com.my/";
 
+        public static string WriteLine2(this string value)
+        {
+            Console.WriteLine(value);
+            return value;
+        }
+
         public static bool IsEqual<T>(this T value, T value2) where T : struct ,IConvertible
         {
             if (!typeof(T).IsEnum)

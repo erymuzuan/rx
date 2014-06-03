@@ -2190,6 +2190,23 @@ namespace Bespoke.Sph.Domain
             get { return m_AuthorizedRoleCollection; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Performer m_performer
+                = new Performer();
+
+        public const string PropertyNamePerformer = "Performer";
+        [DebuggerHidden]
+
+        public Performer Performer
+        {
+            get { return m_performer; }
+            set
+            {
+                m_performer = value;
+                OnPropertyChanged();
+            }
+        }
+
         ///<summary>
         /// 
         ///</summary>

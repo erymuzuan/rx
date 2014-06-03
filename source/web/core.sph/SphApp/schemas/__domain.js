@@ -783,6 +783,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         BusinessRuleCollection: ko.observableArray([]),
         EntityOperationCollection: ko.observableArray([]),
         AuthorizedRoleCollection: ko.observableArray([]),
+        Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

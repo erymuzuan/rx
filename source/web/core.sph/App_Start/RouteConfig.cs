@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Web.App_Start
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("glimpse.axd");
             //routes.MapMvcAttributeRoutes();
-            
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
@@ -46,7 +46,7 @@ namespace Bespoke.Sph.Web.App_Start
                 routes.MapRoute(
                     name: form.Route,
                     url: string.Format("App/viewmodels/{0}.js", form.Route),
-                    defaults: new {controller = "EntityForm", action = "Form", Area = "Sph", id = form.Route}
+                    defaults: new { controller = "EntityForm", action = "Form", Area = "Sph", id = form.Route }
                     );
             }
         }
@@ -76,11 +76,11 @@ namespace Bespoke.Sph.Web.App_Start
                 }
                 catch (FileNotFoundException e)
                 {
-                   Debug.WriteLine(e);
+                    Debug.WriteLine(e);
                 }
                 catch (Exception e)
                 {
-                   Debug.WriteLine(e);
+                    Debug.WriteLine(e);
                 }
             }
 
@@ -103,7 +103,7 @@ namespace Bespoke.Sph.Web.App_Start
             var formTask = context.LoadAsync(formQuery, includeTotalRows: true);
             var viewTask = context.LoadAsync(viewQuery, includeTotalRows: true);
             // ReSharper restore RedundantBoolCompare
-            await Task.WhenAll(rdlTask, edTasks,formTask,viewTask);
+            await Task.WhenAll(rdlTask, edTasks, formTask, viewTask);
 
 
             var rdlLo = await rdlTask;
@@ -143,6 +143,15 @@ namespace Bespoke.Sph.Web.App_Start
 
             RegisterCustomEntityDependencies(entityDefinitions);
 
+            // get valid users for ed
+            var edDashboardUserTasks = from ed in entityDefinitions
+                                       let p = ed.Performer
+                                       where p.IsPublic
+                                       || (!string.IsNullOrWhiteSpace(p.UserProperty)
+                                       && !string.IsNullOrWhiteSpace(p.Value))
+                                       select ed.Performer.GetUsersAsync(ed);
+            var edDashboardUsers = await Task.WhenAll(edDashboardUserTasks);
+
             var formRoutes = from t in forms
                              select new JsRoute
                              {
@@ -163,8 +172,19 @@ namespace Bespoke.Sph.Web.App_Start
                                  ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
                                  Nav = false
                              };
-            var edRoutes = from t in entityDefinitions
-                           select new JsRoute
+
+            var edRoutes = entityDefinitions
+                .Where(t => t.Performer.Validate())
+                .Select((t, i) => new
+                {
+                    Index = i,
+                    Entity = t,
+                    Permission = t.Performer,
+                    Users = edDashboardUsers[i]
+                })
+                .Where(t => t.Permission.IsPublic || t.Users.Contains(user))
+                .Select(t => t.Entity)
+                .Select(t => new JsRoute
                            {
                                Title = t.Plural,
                                Route = string.Format("{0}", t.Name.ToLowerInvariant()),
@@ -172,7 +192,7 @@ namespace Bespoke.Sph.Web.App_Start
                                Icon = t.IconClass,
                                ModuleId = string.Format("viewmodels/{0}", t.Name.ToLowerInvariant()),
                                Nav = t.IsShowOnNavigationBar
-                           };
+                           });
 
             var rdlRoutes = from t in reportDefinitions
                             select new JsRoute
