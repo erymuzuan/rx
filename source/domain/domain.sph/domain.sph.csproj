@@ -160,6 +160,12 @@
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="Transform\ConstantFunctoid.cs" />
+    <Compile Include="Transform\DirectMap.cs" />
+    <Compile Include="Transform\FunctoidMap.cs" />
+    <Compile Include="Transform\Map.cs" />
+    <Compile Include="Transform\StringConcateFunctoid.cs" />
+    <Compile Include="Transform\TransformDefinition.cs" />
     <Compile Include="Triggers\Activity.cs" />
     <Compile Include="Triggers\ActivityExecutionResult.cs" />
     <Compile Include="Triggers\AssemblyAction.cs" />

@@ -1,0 +1,27 @@
+﻿{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "mapping schemas",
+	"type": "object",
+	"properties": {
+		"source": {
+			"type": "string"
+		},
+		"destination": {
+			"type": "string"
+		},
+		"map": {
+			"type": "array",
+            "properties": {
+                "source": {
+                    "type": "string"
+                },
+                "detination": {
+                    "type": "string"
+                },
+                "functoid" : {
+                    "type": "string"                    
+                }
+            }
+		}
+	}
+}

@@ -1,0 +1,35 @@
+﻿{
+    "$schema": "/mapping.schema.json",
+    "source": "Patient",
+    "destination": "oracle",
+    "maps": [
+        {
+            "type": "direct",
+            "sources": [ "PatientId" ],
+            "destination": "PatientId"
+        },
+        {
+            "$type" : "functoid",
+            "type": "string.concate",
+            "sources": [
+                {
+                    "field": "FirstName"
+                },
+                {
+                    "function": {
+                        "script": "return \" \";"
+                    }
+                },
+                {
+                    "field" :  "LastName"
+                }
+            ],
+            "destination": "FULL_NAME"
+        },
+        {
+            "type" : "constant",
+            "value" :  "2000",
+            "destination" : ""
+        }
+    ]
+}

@@ -27,6 +27,10 @@ namespace domain.test
             customer.Address.Street1 = NAuto.GetRandomString(8, 18, CharacterSetType.Alpha, Spaces.Middle);
             return customer;
         }
+        public static dynamic CreateInstance(Type type)
+        {
+            return Activator.CreateInstance(type);
+        }
 
         public static Type CompileEntityDefinition(EntityDefinition ed)
         {
@@ -50,7 +54,7 @@ namespace domain.test
 
             var dll = string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, ed.Name);
             var assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + @"\" + dll);
-            var type = assembly.GetType("Bespoke.Dev_1.Domain.Customer");
+            var type = assembly.GetType("Bespoke.Dev_" + ed.EntityDefinitionId+".Domain." + ed.Name);
             return type;
         }
 
