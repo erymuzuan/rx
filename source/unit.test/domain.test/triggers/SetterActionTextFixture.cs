@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace domain.test.triggers
 {
+    [TestFixture]
     class SetterActionTextFixture
     {
         [Test]

@@ -26,9 +26,9 @@ namespace Bespoke.Sph.Domain
                     .ToList();
             forbiddenNames.AddRange(new[] { this.Name + "Id", "WebId", "CreatedDate", "CreatedBy", "ChangedBy", "ChangedDate" });
 
-            const string pattern = "^[A-Za-z][A-Za-z0-9_]*$";
+            const string PATTERN = "^[A-Za-z][A-Za-z0-9_]*$";
             var message = string.Format("[Member] \"{0}\" is not valid identifier", member.Name);
-            var validName = new Regex(pattern);
+            var validName = new Regex(PATTERN);
             if (!validName.Match(member.Name).Success)
                 result.Errors.Add(new BuildError(member.WebId) { Message = message });
             if (forbiddenNames.Contains(member.Name))

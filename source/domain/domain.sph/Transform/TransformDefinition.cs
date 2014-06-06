@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public async Task<string> TransformAsync(object source)
+        public async Task<object> TransformAsync(object source)
         {
             var sb = new StringBuilder("{");
             sb.AppendLine();
