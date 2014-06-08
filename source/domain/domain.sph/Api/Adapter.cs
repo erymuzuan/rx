@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Domain.Api
     public abstract class Adapter
     {
         private EntityDefinition m_ed;
-        public async Task<object> CompileAsync()
+        public async Task<Type> CompileAsync()
         {
             m_ed = await this.GetSchemaDefinitionAsync();
             var es = this.Name.Dehumanize() + "schema.json";
@@ -24,6 +24,8 @@ namespace Bespoke.Sph.Domain.Api
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
+            options.AddReference(typeof(System.Data.UpdateStatus));
+            options.AddReference(typeof(System.Configuration.ConfigurationManager));
             
             options.EmbeddedResourceCollection.Add(es);
             var codes = m_ed.GenerateCode();

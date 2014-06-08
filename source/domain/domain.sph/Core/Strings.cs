@@ -139,6 +139,10 @@ namespace Bespoke.Sph.Domain
         {
             return string.Format("{0}, {1}", type.FullName, type.Assembly.GetName().Name);
         }
+        public static object ToDbNull(this object value)
+        {
+            return value ?? DBNull.Value;
+        }
 
         public static string ConvertToUnsecureString(this SecureString securePassword)
         {
