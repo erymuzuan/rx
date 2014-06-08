@@ -57,13 +57,7 @@ namespace Bespoke.Sph.Domain
 
         private string GetCsharpType()
         {
-            var type = this.Type;
-            if (typeof(String) == type) return "string";
-            if (typeof(int) == type) return "int";
-            if (typeof(decimal) == type) return "decimal";
-            if (typeof(float) == type) return "float";
-            if (typeof(bool) == type) return "bool";
-            return type.FullName;
+            return this.Type.ToCSharp();
         }
 
         private string GetNullable()

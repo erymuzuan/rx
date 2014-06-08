@@ -139,6 +139,28 @@ namespace Bespoke.Sph.Domain
         {
             return string.Format("{0}, {1}", type.FullName, type.Assembly.GetName().Name);
         }
+        public static string ToCSharp(this Type type)
+        {
+            if (type == typeof(DateTime)) return "DateTime";
+            if (type == typeof (string))return "string";
+            if (type == typeof (int))return "int";
+            if (type == typeof (bool))return "bool";
+            if (type == typeof(decimal)) return "decimal";
+            if (type == typeof(float)) return "float";
+            if (type == typeof(double)) return "double";
+            if (type == typeof(short)) return "short";
+            if (type == typeof(long)) return "long";
+
+            if (type == typeof(DateTime?)) return "DateTime?";
+            if (type == typeof(int?)) return "int?";
+            if (type == typeof(bool?)) return "bool?";
+            if (type == typeof(decimal?)) return "decimal?";
+            if (type == typeof(float?)) return "float?";
+            if (type == typeof(double?)) return "double?";
+            if (type == typeof(short?)) return "short?";
+            if (type == typeof(long?)) return "long?";
+            return type.FullName;
+        }
         public static object ToDbNull(this object value)
         {
             return value ?? DBNull.Value;

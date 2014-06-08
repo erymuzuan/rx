@@ -13,52 +13,14 @@ namespace Bespoke.Sph.Integrations.Adapters
     public class OracleAdapter : Adapter
     {
         public string ConnectionString { get; set; }
-        private Type GetClrType(Column column)
+        private EntityDefinition m_ed;
+
+        public string Table { get; set; }
+        public string Schema { get; set; }
+        public string CodeNamespace
         {
-
-            var lowered = column.DataType.ToLowerInvariant();
-
-            if (lowered == "number" && column.Scale == 2
-                && column.Precision == 8)
-                return typeof(double);
-            if (lowered == "number" && column.Scale == 0
-                && column.Precision == 4)
-                return typeof(short);
-            if (lowered == "number" && column.Scale > 0)
-                return typeof(decimal);
-
-            switch (lowered)
-            {
-                case "xml":
-                case "char":
-                case "char2":
-                case "varchar2":
-                case "nchar":
-                case "ntext":
-                case "text":
-                case "uniqueidentifier":
-                case "nvarchar":
-                case "varchar": return typeof(string);
-                case "bigint": return typeof(long);
-                case "tinyint": return typeof(short);
-                case "number":
-                case "int": return typeof(int);
-                case "datetimeoffset":
-                case "time":
-                case "date":
-                case "datetime":
-                case "datetime2":
-                case "smalldatetime": return typeof(DateTime);
-                case "bit": return typeof(bool);
-                case "numeric":
-                case "smallmoney":
-                case "money": return typeof(decimal);
-                case "real":
-                case "float": return typeof(double);
-            }
-            return null;
+            get { return string.Format("{0}.Adapters.{1}", ConfigurationManager.ApplicationName, this.Schema); }
         }
-
         private string OraclePrimaryKeySql
         {
             get
@@ -92,20 +54,6 @@ namespace Bespoke.Sph.Integrations.Adapters
                 return @"select column_name, data_type, nullable, data_precision, data_scale from all_tab_columns where table_name = '" + this.Table + "'";
             }
         }
-        private EntityDefinition m_ed;
-
-        class Column
-        {
-            public string Name { get; set; }
-            public bool IsPrimaryKey { get; set; }
-            public string DataType { get; set; }
-            public bool IsNullable { get; set; }
-            public bool IsComputed { get; set; }
-            public bool IsIdentity { get; set; }
-            public int Length { get; set; }
-            public decimal? Scale { get; set; }
-            public decimal? Precision { get; set; }
-        }
 
 
         public async Task OpenAsync(bool verbose = false)
@@ -137,6 +85,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                 await conn.OpenAsync();
                 using (var reader = await cmd.ExecuteReaderAsync() as OracleDataReader)
                 {
+                    if (null == reader)
+                        throw new InvalidOperationException("Cannot get OracleDataReader");
                     var first = true;
                     while (await reader.ReadAsync())
                     {
@@ -160,15 +110,15 @@ namespace Bespoke.Sph.Integrations.Adapters
                             IsNullable = reader.GetOracleString(2) == "Y"
                         };
                         var precision = reader["data_precision"];
-                        if (precision != System.DBNull.Value)
+                        if (precision != DBNull.Value)
                             col.Precision = (decimal)precision;
 
 
                         var scale = reader["data_scale"];
-                        if (scale != System.DBNull.Value)
+                        if (scale != DBNull.Value)
                             col.Scale = (decimal?)scale;
 
-                        if (null != GetClrType(col))
+                        if (null != col.GetClrType())
                             m_columnCollection.Add(col);
 
                     }
@@ -181,18 +131,11 @@ namespace Bespoke.Sph.Integrations.Adapters
                               Name = c.Name,
                               IsNullable = c.IsNullable,
                               IsFilterable = true,
-                              Type = GetClrType(c)
+                              Type = c.GetClrType()
                           };
             m_ed.MemberCollection.AddRange(members);
         }
 
-
-        public string Table { get; set; }
-        public string Schema { get; set; }
-        public string CodeNamespace
-        {
-            get { return string.Format("{0}.Adapters.{1}", ConfigurationManager.ApplicationName, this.Schema); }
-        }
 
         private string GetCodeHeader(params string[] namespaces)
         {
@@ -235,23 +178,50 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   public class " + adapterName);
             code.AppendLine("   {");
 
-            code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
+            code.AppendLine(GenerateInsertMethod(name));
+            code.AppendLine(GenerateUpdateMethod(name));
+            code.AppendLine(GenerateDeleteMethod(name));
+            code.AppendLine(GenerateConvertMethod(name));
+            code.AppendLine(GenerateConnectionStringProperty());
+
+            var record = m_ed.MemberCollection.Single(m => m.Name == m_ed.RecordName);
+            code.AppendLine(GenerateSelectOne(name, record));
+            code.AppendLine(GenerateSelectMethod(name, record));
+
+
+            code.AppendLine("   }");// end class
+            code.AppendLine("}");// end namespace
+
+
+            sources.Add(adapterName + ".cs", code.ToString());
+
+            return Task.FromResult(sources);
+
+        }
+
+        private string GenerateDeleteMethod(string name)
+        {
+            var code = new StringBuilder();
+            code.AppendLinf("       public async Task<object> DeleteAsync({0} item)", name);
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetInsertCommand());
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetDeleteCommand());
             code.AppendLine("           {");
-            foreach (var col in m_columnCollection.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
-            {
-                var nullable = col.IsNullable ? ".ToDbNull()" : string.Empty;
-                code.AppendLinf("               cmd.Parameters.Add(\"{0}\", item.{0}{1});", col.Name, nullable);
-            }
+
+            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", item.{0});", m_ed.RecordName);
+
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
             code.AppendLine("           }");
 
             code.AppendLine("       }");
+            return code.ToString();
+        }
 
+        private string GenerateUpdateMethod(string name)
+        {
+            var code = new StringBuilder();
             code.AppendLinf("       public async Task<object> UpdateAsync({0} item)", name);
             code.AppendLine("       {");
 
@@ -267,24 +237,34 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           }");
 
             code.AppendLine("       }");
+            return code.ToString();
+        }
 
-            //Delete
-            code.AppendLinf("       public async Task<object> DeleteAsync({0} item)", name);
+        private string GenerateInsertMethod(string name)
+        {
+            var code = new StringBuilder();
+            code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
             code.AppendLine("       {");
 
-            code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetDeleteCommand());
+            code.AppendLine("           using(var conn = new OracleConnection(this.ConnectionString))");
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetInsertCommand());
             code.AppendLine("           {");
-
-            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", item.{0});", m_ed.RecordName);
-
+            foreach (var col in m_columnCollection.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
+            {
+                var nullable = col.IsNullable ? ".ToDbNull()" : string.Empty;
+                code.AppendLinf("               cmd.Parameters.Add(\"{0}\", item.{0}{1});", col.Name, nullable);
+            }
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
             code.AppendLine("           }");
 
             code.AppendLine("       }");
+            return code.ToString();
+        }
 
-            //Delete
+        private static string GenerateConvertMethod(string name)
+        {
+            var code = new StringBuilder();
             code.AppendLinf("       public T? Convert<T>(object val) where T : struct", name);
             code.AppendLine("       {");
 
@@ -295,7 +275,12 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
             code.AppendLine("       }");
-            //Delete
+            return code.ToString();
+        }
+
+        private string GenerateConnectionStringProperty()
+        {
+            var code = new StringBuilder();
             code.AppendLinf("       public string ConnectionString");
             code.AppendLine("       {");
 
@@ -307,9 +292,13 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           }");
             code.AppendLine("       }");
 
-            var record = m_ed.MemberCollection.Single(m => m.Name == m_ed.RecordName);
-            //load one
-            code.AppendLinf("       public async Task<{0}> LoadOneAsync({1} id)", name, record.Type.FullName);
+            return code.ToString();
+        }
+
+        private string GenerateSelectOne(string name, Member record)
+        {
+            var code = new StringBuilder();
+            code.AppendLinf("       public async Task<{0}> LoadOneAsync({1} id)", name, record.Type.ToCSharp());
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
@@ -326,11 +315,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLinf("                       var item = new {0}();", name);
             foreach (var column in m_columnCollection)
             {
-                if (column.IsNullable && GetClrType(column) != typeof(string))
-                    code.AppendLinf("                       item.{0} = Convert<{1}>(reader[\"{0}\"]);", column.Name, GetClrType(column));
+                if (column.IsNullable && column.GetClrType() != typeof(string))
+                    code.AppendLinf("                       item.{0} = Convert<{1}>(reader[\"{0}\"]);", column.Name, column.GetCSharpType());
                 else
-                    code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, GetClrType(column));
-
+                    code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
             }
             code.AppendLinf("                       return item;", name);
             code.AppendLine("                   }");
@@ -339,16 +327,22 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           }");
 
             code.AppendLine("       }");
+
+            return code.ToString();
+        }
+
+        private string GenerateSelectMethod(string name, Member record)
+        {
+            var code = new StringBuilder();
             //load async
-            code.AppendLinf("       public async Task<IEnumerable<{0}>> LoadAsync({1} id)", name, record.Type.FullName);
+            code.AppendLinf("       public async Task<IEnumerable<{0}>> LoadAsync(string filter)", name, record.Type.ToCSharp());
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetSelectOneCommand());
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0} \" + filter, conn))", this.GetSelectCommand() );
             code.AppendLine("           {");
 
             code.AppendLinf("               var list = new List<{0}>();", name);
-            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", m_ed.RecordName);
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               using(var reader = await cmd.ExecuteReaderAsync())");
@@ -358,11 +352,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLinf("                       var item = new {0}();", name);
             foreach (var column in m_columnCollection)
             {
-                if (column.IsNullable && GetClrType(column) != typeof(string))
-                    code.AppendLinf("                       item.{0} = Convert<{1}>(reader[\"{0}\"]);", column.Name, GetClrType(column));
+                if (column.IsNullable && column.GetClrType() != typeof(string))
+                    code.AppendLinf("                       item.{0} = Convert<{1}>(reader[\"{0}\"]);", column.Name, column.GetCSharpType());
                 else
-                    code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, GetClrType(column));
-
+                    code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
             }
             code.AppendLinf("                       list.Add(item);");
             code.AppendLine("                   }");
@@ -372,15 +365,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code.AppendLine("       }");
 
-
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
-
-
-            sources.Add(adapterName + ".cs", code.ToString());
-
-            return Task.FromResult(sources);
-
+            return code.ToString();
         }
 
         public string GetUpdateCommand()
@@ -438,6 +423,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             sql.AppendFormat("WHERE {0} = :{0}", m_ed.RecordName);
 
             return sql.ToString();
+        }
+        public string GetSelectCommand()
+        {
+            return string.Format("SELECT * FROM {0}.{1} ", this.Schema, this.Table);
         }
 
         protected override Task<EntityDefinition> GetSchemaDefinitionAsync()
