@@ -86,6 +86,13 @@ namespace Bespoke.Sph.Domain
             setting.Formatting = format;
             return JsonConvert.SerializeObject(value, setting);
         }
+        public static string ToJsonString<T>(this T value, bool pretty)
+        {
+            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            setting.Formatting = pretty ? Formatting.Indented : Formatting.None;
+            return JsonConvert.SerializeObject(value, setting);
+        }
 
 
     }

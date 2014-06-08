@@ -19,6 +19,12 @@ namespace Bespoke.Sph.Domain
             get { return m_referencedAssembliesCollection; }
         }
 
+        private readonly ObjectCollection<string> m_embededResourceCollection = new ObjectCollection<string>();
+
+        public ObjectCollection<string> EmbeddedResourceCollection
+        {
+            get { return m_embededResourceCollection; }
+        }
         /// <summary>
         /// A helper to add referenced assembly location
         /// </summary>

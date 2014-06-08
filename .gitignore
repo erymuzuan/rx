@@ -81,3 +81,12 @@ _ReSharper.commercial-space
 !/source/web/web.sph/offline/offline.html
 /bin/sources/packages
 /source/web/web.sph/Views/Customer
+/bin/sources/Station_Shift
+/bin/sources/Station_Sale
+/bin/sources/Shift
+/bin/sources/Sales_Customer
+/bin/sources/Purchasing_Vendor
+/bin/sources/HR_COUNTRIES
+/bin/sources/dbo_aspnet_Membership
+/sources/_COUNTRIES
+/bin/sources/Survey

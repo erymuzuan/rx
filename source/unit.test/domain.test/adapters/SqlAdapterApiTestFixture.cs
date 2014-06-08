@@ -22,7 +22,9 @@ namespace domain.test.adapters
             {
                 ConnectionString = @"Data Source=(localdb)\ProjectsV12;Initial Catalog=AdventureWorks;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False",
                 Schema = "Purchasing",
-                Table = "Vendor"
+                Table = "Vendor",
+                Name = "Sample SQL Adapter",
+                Description = "A test"
             };
             await sql.OpenAsync();
 
