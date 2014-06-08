@@ -135,7 +135,7 @@ WriteLiteral("        <script src=\"/Scripts/_ko.entity.js\"></script>\r\n");
 
 
 
-WriteLiteral("        <script src=\"/SphApp/schemas/domain.js\"></script>\r\n");
+WriteLiteral("        <script src=\"/SphApp/schemas/__domain.js\"></script>\r\n");
 
 
 

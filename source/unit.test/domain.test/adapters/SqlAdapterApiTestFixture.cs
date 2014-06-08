@@ -20,7 +20,7 @@ namespace domain.test.adapters
         {
             var sql = new SqlServerAdapter
             {
-                ConnectionString = @"Data Source=(localdb)\ProjectsV12;Initial Catalog=AdventureWorks2012;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False",
+                ConnectionString = @"Data Source=(localdb)\ProjectsV12;Initial Catalog=AdventureWorks;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False",
                 Schema = "Purchasing",
                 Table = "Vendor"
             };

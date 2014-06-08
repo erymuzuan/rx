@@ -173,22 +173,6 @@ function (logger, system, ko2) {
 
     function post(json, url) {
 
-        if (Modernizr.localstorage && navigator.onLine === false) {
-            logger.error("You have lost the connection to the server, your data will be stored in temporary storage");
-            var text = localStorage.getItem("offline-post"),
-                index = [];
-            if (text) {
-                index = JSON.parse(text);
-            }
-            index.push({
-                location: window.location,
-                url: url
-            });
-
-            localStorage.setItem("offline-post", JSON.stringify(index));
-            localStorage.setItem(url + ";" + window.location, JSON.stringify(index));
-            return Task.fromResult(0);
-        }
 
         var tcs = new $.Deferred();
         $.ajax({

@@ -18,22 +18,18 @@
         <form class="form-horizontal" data-bind="with : entity" id="patient-registration-form">
 
 
+
     <div data-bind="visible:true" class="form-group">
-        <label for="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" class="col-md-4">FullName</label>
+        <label for="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" class="col-md-4">Nama Penuh</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
-                   data-bind="value: FullName, enable :true"
+                   data-bind="value: FullName, enable :true "
+                   maxlength="0"
+                   
+                    data-rule-maxlength="0"
+ data-rule-minlength="0"
+
                    id="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" type="text" name="FullName" />
-        </div>
-    </div>
-
-
-    <div data-bind="visible:true" class="form-group">
-        <label for="d9f52c01-887a-4ae6-a0fd-c83002987323" class="col-md-4">ID</label>
-        <div class="col-md-8">
-            <input  class=" form-control input-large" title=""
-                   data-bind="value: IdentificationNo, enable :true"
-                   id="d9f52c01-887a-4ae6-a0fd-c83002987323" type="text" name="IdentificationNo" />
         </div>
     </div>
     <div class="form-group" data-bind="visible : true">

@@ -88,9 +88,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             m_ed = new EntityDefinition { Name = this.Schema + "_" + this.Table };
             m_columnCollection = new ObjectCollection<SqlColumn>();
-            var insertCommand = new StringBuilder("INSERT INTO ");
-            insertCommand.AppendFormat("[{0}].[{1}] VALUES(", this.Schema, this.Table);
-
+          
             var updateCommand = new StringBuilder("UPDATE ");
             updateCommand.AppendFormat("[{0}].[{1}] SET", this.Schema, this.Table);
 
@@ -138,6 +136,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                             IsIdentity = reader.GetBoolean(5),
                             IsComputed = reader.GetBoolean(6)
                         };
+                        col.IsPrimaryKey = col.Name == m_ed.RecordName;
                         if (null != GetClrType(col.DataType))
                             m_columnCollection.Add(col);
 
@@ -154,15 +153,8 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                             Type = GetClrType(c.DataType)
                         };
             m_ed.MemberCollection.AddRange(members);
-            var cols = m_columnCollection.Where(c => !c.IsIdentity).Where(c => !c.IsComputed).Select(c => c.Name).ToArray();
-            insertCommand.AppendLine(string.Join(",\r\n", cols.Select(c => "[" + c + "]").ToArray()));
-            insertCommand.AppendLine(")");
-            insertCommand.AppendLine("VALUES(");
-            insertCommand.AppendLine(string.Join(",\r\n", cols.Select(c => "@" + c).ToArray()));
-            insertCommand.AppendLine(")");
 
 
-            this.InsertCommand = insertCommand.ToString();
         }
 
 
@@ -218,7 +210,23 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new SqlConnection(@\"{0}\"))", this.ConnectionString);
-            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.InsertCommand);
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetInsertCommand());
+            code.AppendLine("           {");
+            foreach (var col in m_columnCollection.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
+            {
+                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", item.{0});", col.Name);
+            }
+            code.AppendLine("               await conn.OpenAsync();");
+            code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
+            code.AppendLine("           }");
+
+            code.AppendLine("       }");
+
+            code.AppendLinf("       public async Task<object> UpdateAsync({0} item)", name);
+            code.AppendLine("       {");
+
+            code.AppendLinf("           using(var conn = new SqlConnection(@\"{0}\"))", this.ConnectionString);
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetUpdateCommand());
             code.AppendLine("           {");
             foreach (var col in m_columnCollection.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
             {
@@ -241,7 +249,42 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         }
 
-        public string InsertCommand { get; set; }
+        public string GetUpdateCommand()
+        {
+            var sql = new StringBuilder("UPDATE  ");
+            sql.AppendFormat("[{0}].[{1}] SET ", this.Schema, this.Table);
+            
+            var cols = m_columnCollection
+                .Where(c => !c.IsIdentity)
+                .Where(c => !c.IsComputed)
+                .Select(c => c.Name)
+                .ToArray();
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "[" + c + "] = @" + c).ToArray()));
+            sql.AppendLinf(" WHERE [{0}] = @{0}", m_ed.RecordName);
+
+            return sql.ToString();
+
+        }
+        public string GetInsertCommand()
+        {
+            var sql = new StringBuilder("INSERT INTO ");
+            sql.AppendFormat("[{0}].[{1}] VALUES(", this.Schema, this.Table);
+
+
+            var cols = m_columnCollection
+                .Where(c => !c.IsIdentity)
+                .Where(c => !c.IsComputed)
+                .Select(c => c.Name)
+                .ToArray();
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "[" + c + "]").ToArray()));
+            sql.AppendLine(")");
+            sql.AppendLine("VALUES(");
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "@" + c).ToArray()));
+            sql.AppendLine(")");
+
+            return sql.ToString();
+
+        }
 
         protected override Task<EntityDefinition> GetSchemaDefinitionAsync()
         {

@@ -2070,9 +2070,9 @@
     <EmbeddedResource Include="SphApp\viewmodels\log.details.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\management.console.js" />
     <EmbeddedResource Include="SphApp\viewmodels\assembly.dialog.js" />
-    <Content Include="SphApp\schemas\__domain.js">
+    <EmbeddedResource Include="SphApp\schemas\__domain.js">
       <DependentUpon>__domain.js.bundle</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
