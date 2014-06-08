@@ -13,7 +13,14 @@ namespace Bespoke.Sph.Domain.Api
 {
     public abstract class Adapter
     {
-        private EntityDefinition m_ed;
+        public string Table { get; set; }
+        public string Schema { get; set; }
+    
+        public virtual string CodeNamespace
+        {
+            get { return string.Format("{0}.Adapters.{1}", ConfigurationManager.ApplicationName, this.Schema); }
+        }
+        private TableDefinition m_ed;
         public async Task<Type> CompileAsync()
         {
             m_ed = await this.GetSchemaDefinitionAsync();
@@ -40,7 +47,7 @@ namespace Bespoke.Sph.Domain.Api
             Debug.WriteIf(!result.Result, result.ToJsonString(Formatting.Indented));
 
             var assembly = Assembly.LoadFrom(result.Output);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, m_ed.EntityDefinitionId, m_ed.Name);
+            var edTypeName = string.Format("{0}.Adapters.{1}.{2}", ConfigurationManager.ApplicationName, this.Schema, m_ed.Name);
 
             var edType = assembly.GetType(edTypeName);
             return edType;
@@ -51,7 +58,7 @@ namespace Bespoke.Sph.Domain.Api
         {
 
             var assembly = Assembly.LoadFrom(dll);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, m_ed.EntityDefinitionId, m_ed.Name);
+            var edTypeName = string.Format("{0}.Adapters.{1}.{2}", ConfigurationManager.ApplicationName, this.Schema, m_ed.Name);
 
             var edType = assembly.GetType(edTypeName);
             return edType;
@@ -61,7 +68,7 @@ namespace Bespoke.Sph.Domain.Api
         {
 
             var assembly = Assembly.LoadFrom(dll);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, m_ed.EntityDefinitionId, m_ed.Name);
+            var edTypeName = string.Format("{0}.Adapters.{1}.{2}", ConfigurationManager.ApplicationName, this.Schema, m_ed.Name);
 
             var edType = assembly.GetType(edTypeName);
             return edType;
@@ -73,6 +80,6 @@ namespace Bespoke.Sph.Domain.Api
         public string Description { get; set; }
 
         protected abstract Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces);
-        protected abstract Task<EntityDefinition> GetSchemaDefinitionAsync();
+        protected abstract Task<TableDefinition> GetSchemaDefinitionAsync();
     }
 }

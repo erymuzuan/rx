@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Humanizer;
 using Oracle.ManagedDataAccess.Client;
 using System.Linq;
 using System.Text;
@@ -13,14 +14,8 @@ namespace Bespoke.Sph.Integrations.Adapters
     public class OracleAdapter : Adapter
     {
         public string ConnectionString { get; set; }
-        private EntityDefinition m_ed;
+        private TableDefinition m_ed;
 
-        public string Table { get; set; }
-        public string Schema { get; set; }
-        public string CodeNamespace
-        {
-            get { return string.Format("{0}.Adapters.{1}", ConfigurationManager.ApplicationName, this.Schema); }
-        }
         private string OraclePrimaryKeySql
         {
             get
@@ -58,7 +53,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public async Task OpenAsync(bool verbose = false)
         {
-            m_ed = new EntityDefinition { Name = this.Schema + "_" + this.Table };
+            m_ed = new TableDefinition { Name = this.Table, CodeNamespace = this.CodeNamespace };
             m_columnCollection = new ObjectCollection<Column>();
 
             using (var conn = new OracleConnection(ConnectionString))
@@ -168,8 +163,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
             options.AddReference(typeof(OracleConnection));
-            var name = this.Schema + "_" + this.Table;
-            var adapterName = this.Schema + "_" + this.Table + "Adapter";
+            var name =  this.Table;
+            var adapterName =  this.Table + "Adapter";
             var sources = new Dictionary<string, string>();
 
             var header = this.GetCodeHeader(namespaces);
@@ -202,7 +197,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         private string GenerateDeleteMethod(string name)
         {
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<object> DeleteAsync({0} item)", name);
+            code.AppendLinf("       public async Task<int> DeleteAsync({0} item)", name);
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
@@ -222,7 +217,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         private string GenerateUpdateMethod(string name)
         {
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<object> UpdateAsync({0} item)", name);
+            code.AppendLinf("       public async Task<int> UpdateAsync({0} item)", name);
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
@@ -243,7 +238,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         private string GenerateInsertMethod(string name)
         {
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
+            code.AppendLinf("       public async Task<int> InsertAsync({0} item)", name);
             code.AppendLine("       {");
 
             code.AppendLine("           using(var conn = new OracleConnection(this.ConnectionString))");
@@ -339,7 +334,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0} \" + filter, conn))", this.GetSelectCommand() );
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0} \" + filter, conn))", this.GetSelectCommand());
             code.AppendLine("           {");
 
             code.AppendLinf("               var list = new List<{0}>();", name);
@@ -429,7 +424,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             return string.Format("SELECT * FROM {0}.{1} ", this.Schema, this.Table);
         }
 
-        protected override Task<EntityDefinition> GetSchemaDefinitionAsync()
+        protected override Task<TableDefinition> GetSchemaDefinitionAsync()
         {
             return Task.FromResult(m_ed);
         }

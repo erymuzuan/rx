@@ -29,7 +29,7 @@ namespace oracle.adapter.test
             Assert.IsNotNull(emp);
 
             emp.EMPLOYEE_ID = 2556;
-            emp.FIRST_NAME = "erymuzuan";
+            emp.FIRST_NAME = Guid.NewGuid().ToString().Substring(0,8);
             emp.LAST_NAME = "mustapa";
             emp.EMAIL = "erymuzuan@gmail.com.my";
             emp.PHONE_NUMBER = "0123889200";
@@ -38,7 +38,7 @@ namespace oracle.adapter.test
             emp.SALARY = 2000;
             emp.DEPARTMENT_ID = 210;
 
-            var oraType = employeeType.Assembly.GetType("Dev.Adapters.HR.HR_EMPLOYEESAdapter");
+            var oraType = employeeType.Assembly.GetType("Dev.Adapters.HR.EMPLOYEESAdapter");
             Assert.IsNotNull(oraType);
             dynamic oradb = Activator.CreateInstance(oraType);
 

@@ -79,7 +79,7 @@
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
     <Compile Include="Api\Adapter.cs" />
-    <Compile Include="Api\SqlServerAdapter.cs" />
+    <Compile Include="Api\TableDefinition.cs" />
     <Compile Include="Business\Address.cs" />
     <Compile Include="Business\Designation.cs" />
     <Compile Include="Business\EmailTemplate.cs" />
