@@ -1,90 +1,87 @@
-﻿using System;
-using System.Collections.Generic;
-using Oracle.ManagedDataAccess.Client;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using System;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Xml.Serialization;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class OracleAdapter : Adapter
+    public class SqlServerAdapter : Adapter
     {
         public string ConnectionString { get; set; }
+
+        public override string CodeNamespace
+        {
+            get { return string.Format("{0}.Adapters.{1}", ConfigurationManager.ApplicationName, this.Schema); }
+        }
+
+        private const string PkSql = @"
+SELECT  
+    B.COLUMN_NAME
+FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, 
+    INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B
+WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
+    AND A.TABLE_NAME = @Table
+    AND A.CONSTRAINT_SCHEMA = @Schema";
+
+        private const string Sql = @"SELECT 
+        '[' + s.name + '].[' + o.name + ']' as 'Table'
+        ,c.name as 'Column'
+        ,t.name as 'Type' 
+        ,c.max_length as 'length'
+        ,c.is_nullable as 'IsNullable'    
+	    ,c.is_identity as 'IsIdentity'
+        ,c.is_computed as 'IsComputed'
+    FROM 
+        sys.objects o INNER JOIN sys.all_columns c
+        ON c.object_id = o.object_id
+        INNER JOIN sys.types t 
+        ON c.system_type_id = t.system_type_id
+        INNER JOIN sys.schemas s
+        ON s.schema_id = o.schema_id
+    WHERE 
+        o.type = 'U'
+        AND s.name = @Schema
+        AND o.Name = @Table
+        AND t.name <> N'sysname'
+    ORDER 
+        BY o.type";
         private TableDefinition m_ed;
-
-        private string OraclePrimaryKeySql
-        {
-            get
-            {
-                return "SELECT cols.column_name " +
-                       "FROM all_constraints cons, all_cons_columns cols " +
-                       "WHERE cols.table_name = '" + this.Table
-                       + "'AND cons.constraint_type = 'P' " +
-                       "AND cons.constraint_name = cols.constraint_name " +
-                       "AND cons.owner = cols.owner " +
-                       "ORDER BY cols.table_name, cols.position";
-            }
-        }
-        private string OracleSchemaSql
-        {
-            get
-            {
-                return "SELECT cols.owner " +
-                       "FROM all_constraints cons, all_cons_columns cols " +
-                       "WHERE cols.table_name = '" + this.Table
-                       + "'AND cons.constraint_type = 'P' " +
-                       "AND cons.constraint_name = cols.constraint_name " +
-                       "AND cons.owner = cols.owner " +
-                       "ORDER BY cols.table_name, cols.position";
-            }
-        }
-        private string TableSql
-        {
-            get
-            {
-                return @"select column_name, data_type, nullable, data_precision, data_scale from all_tab_columns where table_name = '" + this.Table + "'";
-            }
-        }
-
 
         public async Task OpenAsync(bool verbose = false)
         {
-            m_ed = new TableDefinition { Name = this.Table, CodeNamespace = this.CodeNamespace };
-            m_columnCollection = new ObjectCollection<Column>();
+            m_ed = new TableDefinition { Name = this.Table };
+            m_columnCollection = new ObjectCollection<SqlColumn>();
 
-            using (var conn = new OracleConnection(ConnectionString))
-            using (var cmd = new OracleCommand(OracleSchemaSql, conn))
+            var updateCommand = new StringBuilder("UPDATE ");
+            updateCommand.AppendFormat("[{0}].[{1}] SET", this.Schema, this.Table);
+
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var cmd = new SqlCommand(PkSql, conn))
             {
-                await conn.OpenAsync();
-
-                var f = await cmd.ExecuteScalarAsync() as string;
-                this.Schema = f;
-
-            }
-            using (var conn = new OracleConnection(ConnectionString))
-            using (var cmd = new OracleCommand(OraclePrimaryKeySql, conn))
-            {
+                cmd.Parameters.AddWithValue("@Schema", this.Schema);
+                cmd.Parameters.AddWithValue("@Table", this.Table);
                 await conn.OpenAsync();
 
                 var f = await cmd.ExecuteScalarAsync() as string;
                 m_ed.RecordName = f;
             }
-
-            using (var conn = new OracleConnection(ConnectionString))
-            using (var cmd = new OracleCommand(TableSql, conn))
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var cmd = new SqlCommand(Sql, conn))
             {
+                cmd.Parameters.AddWithValue("@Schema", this.Schema);
+                cmd.Parameters.AddWithValue("@Table", this.Table);
                 await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync() as OracleDataReader)
+                using (var reader = await cmd.ExecuteReaderAsync())
                 {
-                    if (null == reader)
-                        throw new InvalidOperationException("Cannot get OracleDataReader");
                     var first = true;
                     while (await reader.ReadAsync())
                     {
-                        if (verbose && first)
+                        if (first && verbose)
                         {
                             for (int i = 0; i < reader.FieldCount; i++)
                             {
@@ -97,21 +94,16 @@ namespace Bespoke.Sph.Integrations.Adapters
                             }
                         }
                         first = false;
-                        var col = new Column
+                        var col = new SqlColumn
                         {
-                            Name = reader.GetOracleString(0).ToString(),
-                            DataType = reader.GetOracleString(1).Value,
-                            IsNullable = reader.GetOracleString(2) == "Y"
+                            Name = reader.GetString(1),
+                            DataType = reader.GetString(2),
+                            Length = reader.GetInt16(3),
+                            IsNullable = reader.GetBoolean(4),
+                            IsIdentity = reader.GetBoolean(5),
+                            IsComputed = reader.GetBoolean(6)
                         };
-                        var precision = reader["data_precision"];
-                        if (precision != DBNull.Value)
-                            col.Precision = (decimal)precision;
-
-
-                        var scale = reader["data_scale"];
-                        if (scale != DBNull.Value)
-                            col.Scale = (decimal?)scale;
-
+                        col.IsPrimaryKey = col.Name == m_ed.RecordName;
                         if (null != col.GetClrType())
                             m_columnCollection.Add(col);
 
@@ -128,7 +120,11 @@ namespace Bespoke.Sph.Integrations.Adapters
                               Type = c.GetClrType()
                           };
             m_ed.MemberCollection.AddRange(members);
+
+
         }
+
+
 
 
         private string GetCodeHeader(params string[] namespaces)
@@ -140,7 +136,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             header.AppendLine("using " + typeof(Task<>).Namespace + ";");
             header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
-            header.AppendLine("using " + typeof(OracleConnection).Namespace + ";");
+            header.AppendLine("using " + typeof(SqlConnection).Namespace + ";");
             header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
             header.AppendLine("using System.Web.Mvc;");
             header.AppendLine("using Bespoke.Sph.Web.Helpers;");
@@ -156,31 +152,29 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         }
 
-        private ObjectCollection<Column> m_columnCollection;
+        private ObjectCollection<SqlColumn> m_columnCollection;
 
 
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
-            options.AddReference(typeof(OracleConnection));
-            var name =  this.Table;
-            var adapterName =  this.Table + "Adapter";
+            options.AddReference(typeof(SqlConnection));
+            var name = this.Table;
+            var adapterName = this.Table + "Adapter";
             var sources = new Dictionary<string, string>();
 
             var header = this.GetCodeHeader(namespaces);
             var code = new StringBuilder(header);
+            var record = m_ed.MemberCollection.Single(m => m.Name == m_ed.RecordName);
 
             code.AppendLine("   public class " + adapterName);
             code.AppendLine("   {");
 
+            code.AppendLine(GenerateDeleteMethod(record));
             code.AppendLine(GenerateInsertMethod(name));
             code.AppendLine(GenerateUpdateMethod(name));
-            code.AppendLine(GenerateDeleteMethod(name));
-            code.AppendLine(GenerateConvertMethod(name));
-            code.AppendLine(GenerateConnectionStringProperty());
-
-            var record = m_ed.MemberCollection.Single(m => m.Name == m_ed.RecordName);
-            code.AppendLine(GenerateSelectOne(name, record));
             code.AppendLine(GenerateSelectMethod(name, record));
+            code.AppendLine(GenerateSelectOne(name, record));
+            code.AppendLine(GenerateConnectionStringProperty());
 
 
             code.AppendLine("   }");// end class
@@ -193,84 +187,27 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         }
 
-        private string GenerateDeleteMethod(string name)
-        {
-            var code = new StringBuilder();
-            code.AppendLinf("       public async Task<int> DeleteAsync({0} item)", name);
-            code.AppendLine("       {");
-
-            code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetDeleteCommand());
-            code.AppendLine("           {");
-
-            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", item.{0});", m_ed.RecordName);
-
-            code.AppendLine("               await conn.OpenAsync();");
-            code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
-            code.AppendLine("           }");
-
-            code.AppendLine("       }");
-            return code.ToString();
-        }
-
         private string GenerateUpdateMethod(string name)
         {
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<int> UpdateAsync({0} item)", name);
+            code.AppendLinf("       public async Task<object> UpdateAsync({0} item)", name);
             code.AppendLine("       {");
 
-            code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetUpdateCommand());
+            code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetUpdateCommand());
             code.AppendLine("           {");
             foreach (var col in m_columnCollection.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
             {
-                code.AppendLinf("               cmd.Parameters.Add(\"{0}\", item.{0});", col.Name);
+                var nullable = col.IsNullable ? ".ToDbNull()" : "";
+                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", item.{0}{1});", col.Name, nullable);
             }
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
             code.AppendLine("           }");
-
             code.AppendLine("       }");
             return code.ToString();
         }
 
-        private string GenerateInsertMethod(string name)
-        {
-            var code = new StringBuilder();
-            code.AppendLinf("       public async Task<int> InsertAsync({0} item)", name);
-            code.AppendLine("       {");
-
-            code.AppendLine("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetInsertCommand());
-            code.AppendLine("           {");
-            foreach (var col in m_columnCollection.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
-            {
-                var nullable = col.IsNullable ? ".ToDbNull()" : string.Empty;
-                code.AppendLinf("               cmd.Parameters.Add(\"{0}\", item.{0}{1});", col.Name, nullable);
-            }
-            code.AppendLine("               await conn.OpenAsync();");
-            code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
-            code.AppendLine("           }");
-
-            code.AppendLine("       }");
-            return code.ToString();
-        }
-
-        private static string GenerateConvertMethod(string name)
-        {
-            var code = new StringBuilder();
-            code.AppendLinf("       public T? Convert<T>(object val) where T : struct", name);
-            code.AppendLine("       {");
-
-            code.AppendLine("           if(val == null) return default(T);");
-            code.AppendLine("           Console.WriteLine(\"{0} -> {1}\", val.GetType(),val);");
-            code.AppendLine("           if(val == System.DBNull.Value) return default(T);");
-            code.AppendLine("           return (T)val;");
-
-
-            code.AppendLine("       }");
-            return code.ToString();
-        }
 
         private string GenerateConnectionStringProperty()
         {
@@ -288,15 +225,28 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             return code.ToString();
         }
+        public string GetSelectOneCommand()
+        {
+            var sql = new StringBuilder("SELECT * FROM ");
+            sql.AppendFormat("{0}.{1} ", this.Schema, this.Table);
 
+
+            sql.AppendFormat("WHERE {0} = :{0}", m_ed.RecordName);
+
+            return sql.ToString();
+        }
+        public string GetSelectCommand()
+        {
+            return string.Format("SELECT * FROM {0}.{1} ", this.Schema, this.Table);
+        }
         private string GenerateSelectOne(string name, Member record)
         {
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1} id)", name, record.Type.ToCSharp());
             code.AppendLine("       {");
 
-            code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetSelectOneCommand());
+            code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetSelectOneCommand());
             code.AppendLine("           {");
 
             code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", m_ed.RecordName);
@@ -332,8 +282,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLinf("       public async Task<IEnumerable<{0}>> LoadAsync(string filter)", name, record.Type.ToCSharp());
             code.AppendLine("       {");
 
-            code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0} \" + filter, conn))", this.GetSelectCommand());
+            code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0} \" + filter, conn))", this.GetSelectCommand());
             code.AppendLine("           {");
 
             code.AppendLinf("               var list = new List<{0}>();", name);
@@ -362,6 +312,60 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
+        public string GetDeleteCommand()
+        {
+            var sql = new StringBuilder("DELETE FROM ");
+            sql.AppendFormat("[{0}].[{1}] ", this.Schema, this.Table);
+
+
+            sql.AppendFormat("WHERE {0} = @{0}", m_ed.RecordName);
+
+            return sql.ToString();
+        }
+        private string GenerateDeleteMethod(Member record)
+        {
+            var code = new StringBuilder();
+            code.AppendLinf("       public async Task<int> DeleteAsync({0} id)", record.Type.ToCSharp());
+            code.AppendLine("       {");
+
+            code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetDeleteCommand());
+            code.AppendLine("           {");
+
+            code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", id);", m_ed.RecordName);
+
+            code.AppendLine("               await conn.OpenAsync();");
+            code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
+            code.AppendLine("           }");
+
+            code.AppendLine("       }");
+            return code.ToString();
+        }
+
+
+        private string GenerateInsertMethod(string name)
+        {
+            var code = new StringBuilder();
+
+            code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
+            code.AppendLine("       {");
+
+            code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetInsertCommand());
+            code.AppendLine("           {");
+            foreach (var col in m_columnCollection.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
+            {
+                var nullable = col.IsNullable ? ".ToDbNull()" : "";
+                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", item.{0}{1});", col.Name, nullable);
+            }
+            code.AppendLine("               await conn.OpenAsync();");
+            code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
+            code.AppendLine("           }");
+
+            code.AppendLine("       }");
+            return code.ToString();
+        }
+
         public string GetUpdateCommand()
         {
             var sql = new StringBuilder("UPDATE  ");
@@ -372,7 +376,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
                 .ToArray();
-            sql.AppendLine(string.Join(",", cols.Select(c => "" + c + " = :" + c).ToArray()));
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "[" + c + "] = @" + c).ToArray()));
             sql.AppendLinf(" WHERE [{0}] = @{0}", m_ed.RecordName);
 
             return sql.ToString();
@@ -381,7 +385,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GetInsertCommand()
         {
             var sql = new StringBuilder("INSERT INTO ");
-            sql.AppendFormat("{0}.{1} (", this.Schema, this.Table);
+            sql.AppendFormat("[{0}].[{1}] (", this.Schema, this.Table);
 
 
             var cols = m_columnCollection
@@ -389,38 +393,14 @@ namespace Bespoke.Sph.Integrations.Adapters
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
                 .ToArray();
-            sql.AppendLine(string.Join(",", cols.ToArray()));
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "[" + c + "]").ToArray()));
             sql.AppendLine(")");
             sql.AppendLine("VALUES(");
-            sql.AppendLine(string.Join(",", cols.Select(c => ":" + c).ToArray()));
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "@" + c).ToArray()));
             sql.AppendLine(")");
 
             return sql.ToString();
-        }
 
-        public string GetDeleteCommand()
-        {
-            var sql = new StringBuilder("DELETE FROM ");
-            sql.AppendFormat("{0}.{1} ", this.Schema, this.Table);
-
-
-            sql.AppendFormat("WHERE {0} = :{0}", m_ed.RecordName);
-
-            return sql.ToString();
-        }
-        public string GetSelectOneCommand()
-        {
-            var sql = new StringBuilder("SELECT * FROM ");
-            sql.AppendFormat("{0}.{1} ", this.Schema, this.Table);
-
-
-            sql.AppendFormat("WHERE {0} = :{0}", m_ed.RecordName);
-
-            return sql.ToString();
-        }
-        public string GetSelectCommand()
-        {
-            return string.Format("SELECT * FROM {0}.{1} ", this.Schema, this.Table);
         }
 
         protected override Task<TableDefinition> GetSchemaDefinitionAsync()
@@ -428,4 +408,5 @@ namespace Bespoke.Sph.Integrations.Adapters
             return Task.FromResult(m_ed);
         }
     }
+
 }

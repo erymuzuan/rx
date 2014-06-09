@@ -82,6 +82,8 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       {");
             code.AppendLinf(@"
             // TODO
+            var context = new {0}Adapter();
+            await context.DeleteAsync(id);
             this.Response.ContentType = ""application/json; charset=utf-8"";
             this.Response.StatusCode = 202;
             return Json(new {{success = true, status=""OK"", id = id}});", this.Name);

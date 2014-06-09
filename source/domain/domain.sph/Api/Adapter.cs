@@ -24,6 +24,7 @@ namespace Bespoke.Sph.Domain.Api
         public async Task<Type> CompileAsync()
         {
             m_ed = await this.GetSchemaDefinitionAsync();
+            m_ed.CodeNamespace = this.CodeNamespace;
             var es = this.Name.Dehumanize() + "schema.json";
             File.WriteAllText(es, m_ed.ToJsonString(true));
 
@@ -43,8 +44,8 @@ namespace Bespoke.Sph.Domain.Api
 
             var result = m_ed.Compile(options, sources.Concat(adapterSources).ToArray());
 
-            result.Errors.ForEach(Console.WriteLine);
-            Debug.WriteIf(!result.Result, result.ToJsonString(Formatting.Indented));
+            if(!result.Result)
+                throw new Exception(string.Join("\r\n", result.Errors.Select(e => e.ToString())));
 
             var assembly = Assembly.LoadFrom(result.Output);
             var edTypeName = string.Format("{0}.Adapters.{1}.{2}", ConfigurationManager.ApplicationName, this.Schema, m_ed.Name);
