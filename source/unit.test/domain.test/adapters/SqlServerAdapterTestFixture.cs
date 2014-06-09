@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Integrations.Adapters;
@@ -8,7 +9,7 @@ using NUnit.Framework;
 namespace domain.test.adapters
 {
     [TestFixture]
-    public class SqlAdapterApiTestFixture
+    public class SqlServerAdapterTestFixture
     {
         [TestFixtureSetUp]
         public void Init()
@@ -41,9 +42,14 @@ namespace domain.test.adapters
             prs.Title = "Prog";
             prs.NameStyle = true;
             prs.ModifiedDate = DateTime.Now;
-            prs.rowguid = Guid.NewGuid().ToString();
+            prs.rowguid = Guid.NewGuid();
             prs.EmailPromotion = 1;
             prs.Suffix = "Mr";
+            prs.BusinessEntityID = sql.ConnectionString.GetDatabaseScalarValue<int>("SELECT MAX(BusinessEntityID) FROM Person.BusinessEntity") + 1;
+
+            sql.ConnectionString.ExecuteNonQuery("INSERT INTO Person.BusinessEntity(rowguid, ModifiedDate) VALUES(@rowguid, @ModifiedDate)",
+                new SqlParameter("@rowguid", prs.rowguid),
+                new SqlParameter("@ModifiedDate", DateTime.Now));
      
 
             var adapterType = personType.Assembly.GetType("Dev.Adapters.Person.PersonAdapter");

@@ -28,8 +28,7 @@ namespace domain.test
 
         public static T GetDatabaseScalarValue<T>(this string connectionStringName, string sql, params SqlParameter[] parameters)
         {
-
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = GetConnectionString(connectionStringName);
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -46,7 +45,15 @@ namespace domain.test
 
                 return (T)result;
             }
+        }
 
+        private static string GetConnectionString(string connectionStringName)
+        {
+            var csn = ConfigurationManager.ConnectionStrings[connectionStringName];
+            var connectionString = connectionStringName;
+            if (null != csn)
+                connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            return connectionString;
         }
 
         public static T? GetNullableScalarValue<T>(string sql, string connectionStringName, params SqlParameter[] parameters) where T : struct
@@ -176,7 +183,7 @@ namespace domain.test
 
         public static void ExecuteNonQuery(this string connectionStringName, string sql, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString = GetConnectionString(connectionStringName);
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {

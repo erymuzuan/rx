@@ -166,6 +166,21 @@ namespace Bespoke.Sph.Domain
             return value ?? DBNull.Value;
         }
 
+
+        public static T? ReadNullable<T>(this object val) where T : struct
+        {
+            if (val == null) return default(T);
+            Console.WriteLine("{0} -> {1}", val.GetType(), val);
+            if (val == DBNull.Value) return default(T);
+            return (T)val;
+        }
+        public static string ReadNullableString(this object val)
+        {
+            if (val == null) return null;
+            if (val == DBNull.Value) return null;
+            return (string)val;
+        }
+
         public static string ConvertToUnsecureString(this SecureString securePassword)
         {
             if (securePassword == null)

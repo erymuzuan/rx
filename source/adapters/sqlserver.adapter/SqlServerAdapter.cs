@@ -173,7 +173,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLine(GenerateInsertMethod(name));
             code.AppendLine(GenerateUpdateMethod(name));
             code.AppendLine(GenerateSelectMethod(name, record));
-            code.AppendLine(GenerateSelectOne(name, record));
+            code.AppendLine(GenerateSelectOneMethod(name, record));
             code.AppendLine(GenerateConnectionStringProperty());
 
 
@@ -231,7 +231,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             sql.AppendFormat("{0}.{1} ", this.Schema, this.Table);
 
 
-            sql.AppendFormat("WHERE {0} = :{0}", m_ed.RecordName);
+            sql.AppendFormat("WHERE {0} = @{0}", m_ed.RecordName);
 
             return sql.ToString();
         }
@@ -239,7 +239,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             return string.Format("SELECT * FROM {0}.{1} ", this.Schema, this.Table);
         }
-        private string GenerateSelectOne(string name, Member record)
+        private string GenerateSelectOneMethod(string name, Member record)
         {
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1} id)", name, record.Type.ToCSharp());
@@ -249,7 +249,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetSelectOneCommand());
             code.AppendLine("           {");
 
-            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", m_ed.RecordName);
+            code.AppendLinf("               cmd.Parameters.Add(\"@{0}\", id);", m_ed.RecordName);
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               using(var reader = await cmd.ExecuteReaderAsync())");
@@ -257,13 +257,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
             code.AppendLinf("                       var item = new {0}();", name);
-            foreach (var column in m_columnCollection)
-            {
-                if (column.IsNullable && column.GetClrType() != typeof(string))
-                    code.AppendLinf("                       item.{0} = Convert<{1}>(reader[\"{0}\"]);", column.Name, column.GetCSharpType());
-                else
-                    code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
-            }
+            code.AppendLine(PopulateItemFromReader());
             code.AppendLinf("                       return item;", name);
             code.AppendLine("                   }");
             code.AppendLine("               }");
@@ -294,13 +288,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
             code.AppendLinf("                       var item = new {0}();", name);
-            foreach (var column in m_columnCollection)
-            {
-                if (column.IsNullable && column.GetClrType() != typeof(string))
-                    code.AppendLinf("                       item.{0} = Convert<{1}>(reader[\"{0}\"]);", column.Name, column.GetCSharpType());
-                else
-                    code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
-            }
+            code.AppendLine(PopulateItemFromReader());
             code.AppendLinf("                       list.Add(item);");
             code.AppendLine("                   }");
             code.AppendLine("               }");
@@ -308,6 +296,29 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLine("           }");
 
             code.AppendLine("       }");
+
+            return code.ToString();
+        }
+
+        private string PopulateItemFromReader()
+        {
+            var code = new StringBuilder();
+            foreach (var column in m_columnCollection)
+            {
+                if (column.IsNullable && column.GetClrType() != typeof(string))
+                {
+                    code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullable<{1}>();", column.Name,
+                        column.GetCSharpType());
+                    continue;
+                }
+                if (column.IsNullable && column.GetClrType() == typeof(string))
+                {
+                    code.AppendLinf("                       item.{0} = reader[\"{0}\"].ReadNullableString();", column.Name);
+                    continue;
+                }
+
+                code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
+            }
 
             return code.ToString();
         }
