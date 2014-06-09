@@ -174,13 +174,13 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code.AppendLine(GenerateInsertMethod(name));
             code.AppendLine(GenerateUpdateMethod(name));
-            code.AppendLine(GenerateDeleteMethod(name));
             code.AppendLine(GenerateConvertMethod(name));
             code.AppendLine(GenerateConnectionStringProperty());
 
             var record = m_ed.MemberCollection.Single(m => m.Name == m_ed.RecordName);
             code.AppendLine(GenerateSelectOne(name, record));
             code.AppendLine(GenerateSelectMethod(name, record));
+            code.AppendLine(GenerateDeleteMethod(record));
 
 
             code.AppendLine("   }");// end class
@@ -193,17 +193,17 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         }
 
-        private string GenerateDeleteMethod(string name)
+        private string GenerateDeleteMethod(Member record)
         {
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<int> DeleteAsync({0} item)", name);
+            code.AppendLinf("       public async Task<int> DeleteAsync({0} id)", record.Type.ToCSharp());
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
             code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetDeleteCommand());
             code.AppendLine("           {");
 
-            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", item.{0});", m_ed.RecordName);
+            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", m_ed.RecordName);
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");

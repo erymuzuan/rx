@@ -43,7 +43,7 @@ namespace oracle.adapter.test
             dynamic oradb = Activator.CreateInstance(oraType);
 
             // delete
-            await oradb.DeleteAsync(emp);
+            await oradb.DeleteAsync(emp.EMPLOYEE_ID);
 
             await oradb.InsertAsync(emp);
 

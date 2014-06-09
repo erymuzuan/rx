@@ -167,6 +167,7 @@
     <Compile Include="Transform\FunctoidMap.cs" />
     <Compile Include="Transform\Map.cs" />
     <Compile Include="Transform\StringConcateFunctoid.cs" />
+    <Compile Include="Transform\TransformDefinition.code.cs" />
     <Compile Include="Transform\TransformDefinition.cs" />
     <Compile Include="Triggers\Activity.cs" />
     <Compile Include="Triggers\ActivityExecutionResult.cs" />
