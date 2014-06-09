@@ -76,9 +76,10 @@ namespace Bespoke.Sph.Domain.Api
 
 
             // REMOVE
+            var record = this.MemberCollection.Single(m => m.Name == this.RecordName);
             code.AppendLinf("       //exec:Remove");
             code.AppendLinf("       [HttpDelete]");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(int id)");
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove({0} id)", record.Type.ToCSharp());
             code.AppendLine("       {");
             code.AppendLinf(@"
             // TODO
