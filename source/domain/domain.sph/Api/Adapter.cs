@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain.Api
     {
         public string Table { get; set; }
         public string Schema { get; set; }
-    
+
         public virtual string CodeNamespace
         {
             get { return string.Format("{0}.Adapters.{1}", ConfigurationManager.ApplicationName, this.Schema); }
@@ -34,17 +34,19 @@ namespace Bespoke.Sph.Domain.Api
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
             options.AddReference(typeof(System.Data.UpdateStatus));
             options.AddReference(typeof(System.Configuration.ConfigurationManager));
-            
+
+            var sourceFolder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, this.Name);
+
             options.EmbeddedResourceCollection.Add(es);
             var codes = m_ed.GenerateCode();
-            var sources = m_ed.SaveSources(codes);
+            var sources = m_ed.SaveSources(codes, sourceFolder);
 
             var adapterCodes = await this.GenerateSourceCodeAsync(options, m_ed.CodeNamespace);
-            var adapterSources = m_ed.SaveSources(adapterCodes);
+            var adapterSources = m_ed.SaveSources(adapterCodes, sourceFolder);
 
             var result = m_ed.Compile(options, sources.Concat(adapterSources).ToArray());
 
-            if(!result.Result)
+            if (!result.Result)
                 throw new Exception(string.Join("\r\n", result.Errors.Select(e => e.ToString())));
 
             var assembly = Assembly.LoadFrom(result.Output);

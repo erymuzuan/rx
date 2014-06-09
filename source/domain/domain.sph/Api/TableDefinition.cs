@@ -177,9 +177,8 @@ namespace Bespoke.Sph.Domain.Api
         public string RecordName { get; set; }
 
 
-        public string[] SaveSources(Dictionary<string, string> sources)
+        public string[] SaveSources(Dictionary<string, string> sources, string folder)
         {
-            var folder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, this.Name);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             foreach (var cs in sources.Keys)
@@ -188,7 +187,7 @@ namespace Bespoke.Sph.Domain.Api
                 File.WriteAllText(file, sources[cs]);
             }
             return sources.Keys.ToArray()
-                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.WorkflowSourceDirectory, this.Name, f))
+                    .Select(f => Path.Combine(folder,f))
                     .ToArray();
         }
 
