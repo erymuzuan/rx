@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Humanizer;
@@ -13,42 +14,88 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         public async Task<ActionResult> Schemas(string cs)
         {
-            using (var conn = new OracleConnection(cs))
-            using (var cmd = new OracleCommand("select USERNAME from SYS.ALL_USERS order by USERNAME", conn))
+            try
             {
-                await conn.OpenAsync();
-                using (var reader = (OracleDataReader)await cmd.ExecuteReaderAsync())
+                using (var conn = new OracleConnection(cs))
+                using (var cmd = new OracleCommand("select USERNAME from SYS.ALL_USERS order by USERNAME", conn))
                 {
-                    var list = new List<string>();
-                    while (await reader.ReadAsync())
+                    await conn.OpenAsync();
+                    using (var reader = (OracleDataReader)await cmd.ExecuteReaderAsync())
                     {
-                        list.Add(reader.GetOracleString(0).Value);
+                        var list = new List<string>();
+                        while (await reader.ReadAsync())
+                        {
+                            list.Add(reader.GetOracleString(0).Value);
+                        }
+                        return Json(new { success = true, status = "OK", schemas = list.ToArray() }, JsonRequestBehavior.AllowGet);
                     }
-                    return Json(list.ToArray(), JsonRequestBehavior.AllowGet);
-                }
 
+                }
+            }
+            catch (OracleException e)
+            {
+                return Json(new { success = false, status = false, message = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
         public async Task<ActionResult> Tables(string id, string cs)
         {
             var schema = id;
-            var sql =
-                string.Format(
-                    "select TABLE_NAME from SYS.ALL_TABLES WHERE OWNER = '{0}' order by TABLE_NAME",
-                    schema);
+            var sql = string.Format("select TABLE_NAME from SYS.ALL_TABLES WHERE OWNER = '{0}' order by TABLE_NAME", schema);
+            const string RELSQL = @"
+SELECT FK.TABLE_NAME AS CHILD_TABLE
+     , SRC.TABLE_NAME AS PARENT_TABLE
+     , FK.CONSTRAINT_NAME AS FK_CONSTRAINT
+     , SRC.CONSTRAINT_NAME AS REFERENCED_CONSTRAINT
+FROM ALL_CONSTRAINTS FK
+JOIN ALL_CONSTRAINTS SRC ON FK.R_CONSTRAINT_NAME = SRC.CONSTRAINT_NAME
+WHERE FK.CONSTRAINT_TYPE = 'R'
+  AND SRC.OWNER = '{1}'
+  AND (SRC.TABLE_NAME = '{0}' OR FK.TABLE_NAME = '{0}')";
+
             using (var conn = new OracleConnection(cs))
-            using (var cmd = new OracleCommand(sql, conn))
+            using (var tableCommand = new OracleCommand(sql, conn))
             {
+                var tableNames = new List<string>();
                 await conn.OpenAsync();
-                using (var reader = (OracleDataReader)await cmd.ExecuteReaderAsync())
+                using (var tableReader = (OracleDataReader)await tableCommand.ExecuteReaderAsync())
                 {
-                    var list = new List<string>();
-                    while (await reader.ReadAsync())
+                    while (await tableReader.ReadAsync())
                     {
-                        list.Add(reader.GetOracleString(0).Value);
+                        tableNames.Add(tableReader.GetOracleString(0).Value);
                     }
-                    return Json(list.ToArray(), JsonRequestBehavior.AllowGet);
                 }
+                var tables = new List<object>();
+                foreach (var t in tableNames)
+                {
+
+                    using (var cmd = new OracleCommand(string.Format(RELSQL, t, schema), conn))
+                    {
+                        using (var reader = (OracleDataReader)await cmd.ExecuteReaderAsync())
+                        {
+                            var list = new List<dynamic>();
+                            while (await reader.ReadAsync())
+                            {
+                                dynamic r = new
+                                {
+                                    src_table_name = reader.GetOracleString(0).Value,
+                                    fk_table_name = reader.GetOracleString(1).Value,
+                                    parent = reader.GetOracleString(1).Value.Singularize(),
+                                    src_constraint_name = reader.GetOracleString(2).Value,
+                                    fk_constraint_name = reader.GetOracleString(3).Value,
+                                };
+                                list.Add(r);
+                            }
+                            tables.Add(new
+                            {
+                                name = t,
+                                parentOptions = list.Where(a => a.src_table_name.ToLowerInvariant() == t.ToLowerInvariant()).ToArray(),
+                                childrenOptions = list.Where(a => a.src_table_name.ToLowerInvariant() != t.ToLowerInvariant()).ToArray()
+                            });
+                        }
+                    }
+                }
+
+                return Json(new { success = true, status = "OK", tables = tables.ToArray() }, JsonRequestBehavior.AllowGet);
 
             }
         }

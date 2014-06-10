@@ -9,17 +9,26 @@
 
 
 define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context) {
+    function (context, logger) {
 
         var adapter = ko.observable(
             {
-                connectionString: ko.observable(),
+                server: ko.observable("i90009638.cloudapp.net"),
+                userName: ko.observable("system"),
+                password: ko.observable("gsxr750wt"),
+                sid: ko.observable("XE"),
+                port: ko.observable(1521),
                 schema: ko.observable(),
                 name: ko.observable(),
                 description: ko.observable(),
                 tables: ko.observableArray()
             }),
+            connectionString = function () {
+                return String.format("Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={0})(PORT={1})))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={2})));User Id={3};Password={4};",
+                    adapter().server(), adapter().port(), adapter().sid(), adapter().userName(), adapter().password());
+            },
             loadingSchemas = ko.observable(),
+            connected = ko.observable(false),
             loadingTables = ko.observable(),
             schemaOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
@@ -28,59 +37,29 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
             },
             attached = function (view) {
-                adapter().connectionString.subscribe(function (cs) {
-                    loadingSchemas(true);
-                    $.get("/oracleadapter/schemas?cs=" + cs)
-                        .done(function (result) {
-                            loadingSchemas(false);
-                            schemaOptions(result);
-                        });
-                });
+
                 adapter().schema.subscribe(function (schema) {
                     loadingTables(true);
-                    var cs = adapter().connectionString();
+                    var cs = connectionString();
                     $.get("/oracleadapter/tables/" + schema + "?cs=" + cs)
                         .done(function (result) {
                             loadingTables(false);
-                            var tables = _(result).map(function (v) {
-                                return {
-                                    name: v,
-                                    parents: ko.observableArray(),
-                                    children: ko.observableArray()
-                                };
+                            var tables = _(result.tables).each(function (v) {
+                                // extend it
+                                v.parents = ko.observableArray();
+                                v.children = ko.observableArray();
                             });
                             tableOptions(tables);
                         });
                 });
 
-                $(view).on('click', 'input[type=checkbox]', function () {
+                $(view).on('click', 'input.table-checkbox', function () {
                     var table = ko.dataFor(this);
-                    console.log(table.name);
-                    var o = {
-                        connectionString: adapter().connectionString(),
-                        schema: adapter().schema(),
-                        table: table.name
-                    };
-                    var tcs = new $.Deferred();
-                    var data = JSON.stringify(o);
-                    isBusy(true);
-
-                    context.post(data, "/oracleadapter/relationships")
-                        .then(function (result) {
-                            isBusy(false);
-                            var children = _(result).filter(function (v) {
-                                return v.fk_table_name === table.name;
-                            });
-                            table.children(children);
-                            var parents = _(result).filter(function (v) {
-                                return v.src_table_name === table.name;
-                            });
-                            table.parents(parents);
-
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
-
+                    if ($(this).is(':checked')) {
+                        adapter().tables.push(table);
+                    } else {
+                        adapter().tables.remove(table);
+                    }
                 });
             },
             generate = function () {
@@ -94,18 +73,53 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                         tcs.resolve(result);
                     });
                 return tcs.promise();
+            },
+            connect = function () {
+                var tcs = new $.Deferred();
+                var cs = connectionString();
+                loadingSchemas(true);
+                $.get("/oracleadapter/schemas?cs=" + cs)
+                    .done(function (result) {
+                        loadingSchemas(false);
+                        if (result.success) {
+                            connected(true);
+                            schemaOptions(result.schemas);
+                            logger.info("You are now connected, please select your schema");
+                        } else {
+                            connected(false);
+                            logger.error(result.message);
+                        }
+                        tcs.resolve(true);
+                    });
+
+                return tcs.promise();
             };
 
         var vm = {
             loadingSchemas: loadingSchemas,
             loadingTables: loadingTables,
+            connected: connected,
             generate: generate,
             adapter: adapter,
             schemaOptions: schemaOptions,
             tableOptions: tableOptions,
             isBusy: isBusy,
             activate: activate,
-            attached: attached
+            attached: attached,
+            toolbar: {
+                commands: ko.observableArray([
+                    {
+                        caption: 'Connect',
+                        icon: 'fa fa-exchange',
+                        command: connect
+                    },
+                    {
+                        caption: 'Publsih',
+                        icon: 'fa fa-sign-in',
+                        command: generate
+                    }
+                ])
+            }
         };
 
         return vm;
