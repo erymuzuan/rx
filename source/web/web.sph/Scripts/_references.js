@@ -55,6 +55,7 @@
 /// <reference path="localforage/localforage.js" />
 /// <reference path="../sphapp/services/cultures.my.js" />
 /// <reference path="../sphapp/services/jsonimportexport.js" />
+/// <reference path="../sphapp/viewmodels/adapter.oracle.js" />
 /// <reference path="../sphapp/viewmodels/advanced-search.js" />
 /// <reference path="../sphapp/viewmodels/icon.picker.js" />
 /// <reference path="../sphapp/viewmodels/members.selector.dialog.js" />

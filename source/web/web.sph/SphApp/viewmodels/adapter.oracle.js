@@ -19,6 +19,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 description: ko.observable(),
                 tables: ko.observableArray()
             }),
+            loadingSchemas = ko.observable(),
+            loadingTables = ko.observable(),
             schemaOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
             isBusy = ko.observable(false),
@@ -27,19 +29,19 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             },
             attached = function (view) {
                 adapter().connectionString.subscribe(function (cs) {
-                    isBusy(true);
+                    loadingSchemas(true);
                     $.get("/oracleadapter/schemas?cs=" + cs)
                         .done(function (result) {
-                            isBusy(false);
+                            loadingSchemas(false);
                             schemaOptions(result);
                         });
                 });
                 adapter().schema.subscribe(function (schema) {
-                    isBusy(true);
+                    loadingTables(true);
                     var cs = adapter().connectionString();
                     $.get("/oracleadapter/tables/" + schema + "?cs=" + cs)
                         .done(function (result) {
-                            isBusy(false);
+                            loadingTables(false);
                             var tables = _(result).map(function (v) {
                                 return {
                                     name: v,
@@ -95,6 +97,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             };
 
         var vm = {
+            loadingSchemas: loadingSchemas,
+            loadingTables: loadingTables,
             generate: generate,
             adapter: adapter,
             schemaOptions: schemaOptions,

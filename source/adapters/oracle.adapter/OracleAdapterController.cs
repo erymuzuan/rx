@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Humanizer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Oracle.ManagedDataAccess.Client;
@@ -86,6 +87,7 @@ WHERE FK.CONSTRAINT_TYPE = 'R'
                         {
                             src_table_name = reader.GetOracleString(0).Value,
                             fk_table_name = reader.GetOracleString(1).Value,
+                            parent = reader.GetOracleString(1).Value.Singularize(),
                             src_constraint_name = reader.GetOracleString(2).Value,
                             fk_constraint_name = reader.GetOracleString(3).Value,
                         };
