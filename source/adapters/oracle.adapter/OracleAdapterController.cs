@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Oracle.ManagedDataAccess.Client;
 
@@ -45,7 +46,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                     {
                         list.Add(reader.GetOracleString(0).Value);
                     }
-                    return Json(list.ToArray(),JsonRequestBehavior.AllowGet);
+                    return Json(list.ToArray(), JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -65,19 +66,26 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var json = this.GetRequestBody();
             var o = JObject.Parse(json);
-            var ora = new OracleAdapter
-            {
-                ConnectionString =o.SelectToken("$.ConnectionString").Value<string>(),
-                Table = o.SelectToken("$.Table").Value<string>(),
-                Name = o.SelectToken("$.Name").Value<string>(),
-                Description = o.SelectToken("$.Description").Value<string>(),
-                Schema = o.SelectToken("$.Schema").Value<string>()
-            };
-            await ora.OpenAsync();
 
-            var employeeType = await ora.CompileAsync();
+            var tables = o.SelectToken("$.tables").Values<string>();
+            var list = new List<string>();
+            foreach (var table in tables)
+            {
+                var ora = new OracleAdapter
+                {
+                    ConnectionString = o.SelectToken("$.connectionString").Value<string>(),
+                    Table = table,
+                    Name = o.SelectToken("$.name").Value<string>(),
+                    Description = o.SelectToken("$.description").Value<string>(),
+                    Schema = o.SelectToken("$.schema").Value<string>()
+                };
+                await ora.OpenAsync();
+                var type = await ora.CompileAsync();
+                list.Add(type.ToString());
+
+            }
             this.Response.ContentType = "application/json";
-            return Content(employeeType.ToString());
+            return Content(JsonConvert.SerializeObject(list.ToArray()));
         }
     }
 }
