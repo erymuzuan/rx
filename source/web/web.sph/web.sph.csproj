@@ -1121,12 +1121,14 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="SphApp\services\cultures.my.js" />
     <Content Include="SphApp\services\jsonimportexport.js" />
+    <Content Include="SphApp\viewmodels\adapter.oracle.js" />
     <Content Include="SphApp\viewmodels\advanced-search.js" />
     <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
     <Content Include="SphApp\viewmodels\icon.picker.js" />
     <Content Include="SphApp\viewmodels\members.selector.dialog.js" />
     <Content Include="SphApp\viewmodels\not.found.js" />
     <Content Include="SphApp\viewmodels\search.definition.dialog.js" />
+    <Content Include="SphApp\views\adapter.oracle.html" />
     <Content Include="SphApp\views\advanced-search.html" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
     <Content Include="SphApp\views\icon.picker.html" />
@@ -1158,6 +1160,7 @@
     <Folder Include="App_Start\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\OracleAdapter\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

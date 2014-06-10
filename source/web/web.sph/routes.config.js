@@ -15,6 +15,20 @@
   },
   {
       "role": null,
+      "groupName": "Adapter",
+      "route": "adapter.oracle",
+      "moduleId": "viewmodels/adapter.oracle",
+      "title": "Oracle Adapter",
+      "nav": false,
+      "icon": "fa fa-database",
+      "caption": "Oracle",
+      "settings": null,
+      "isAdminPage": false,
+      "showWhenLoggedIn": true,
+      "error": ""
+  },
+  {
+      "role": null,
       "groupName": "Main",
       "route": "public.index",
       "moduleId": "viewmodels/public.index",
