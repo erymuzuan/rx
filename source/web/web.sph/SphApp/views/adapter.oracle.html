@@ -1,12 +1,12 @@
 ﻿<h1> Oracle Adapter</h1>
 <div class="row" data-bind="with : adapter">
     <form class="form-horizontal">
-        
+
         <div class="form-group">
             <label for="name" class="col-lg-2 control-label">Name</label>
             <div class="col-lg-6">
-                <input type="text" data-bind="value: Name" 
-                       required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$" 
+                <input type="text" data-bind="value: name"
+                       required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
                        placeholder="Name for the adapter"
                        class="form-control" id="name">
             </div>
@@ -14,16 +14,16 @@
         <div class="form-group">
             <label for="desc" class="col-lg-2 control-label">Description</label>
             <div class="col-lg-6">
-                <textarea  data-bind="value: Description"
-                           placeholder=""
-                           class="form-control" id="desc"></textarea>
+                <textarea data-bind="value: description"
+                          placeholder=""
+                          class="form-control" id="desc"></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <label for="cs" class="col-lg-2 control-label">Connection string</label>
             <div class="col-lg-6">
-                <input type="text" data-bind="value: ConnectionString"
+                <input type="text" data-bind="value: connectionString"
                        required=""
                        placeholder="Oracle connection string"
                        class="form-control" id="cs">
@@ -33,17 +33,24 @@
         <div class="form-group">
             <label for="schema" class="col-lg-2 control-label">Schema</label>
             <div class="col-lg-6">
-                <select class="form-control" id="schema" data-bind="value : Schema, options:$root.schemaOptions, optionsCaption:'[Select a schema]'"></select>
+                <select class="form-control" id="schema" data-bind="value : schema, options:$root.schemaOptions, optionsCaption:'[Select a schema]'"></select>
             </div>
         </div>
         <div class="form-group">
-            <label for="table" class="col-lg-2 control-label">Table</label>
+            <label class="col-lg-2 control-label">Table</label>
             <div class="col-lg-6">
-                <select class="form-control" id="table" data-bind="value : Table, options:$root.tableOptions, optionsCaption:'[Select a table]'"></select>
+                <!-- ko foreach : $root.tableOptions-->
+                <label>
+                    <input type="checkbox" data-bind="value: $data, checked : $root.adapter().tables, attr : {title: $data}" />
+                    <!-- ko text: $data-->
+                    <!-- /ko-->
+                </label>
+                <br />
+                <!-- /ko-->
             </div>
         </div>
         <div class="form-group">
-            <label for="table" class="col-lg-2 control-label sr-only">Generate</label>
+            <label class="col-lg-2 control-label sr-only">Generate</label>
             <div class="col-lg-6">
                 <button class="btn btn-default" data-bind="command : $root.generate">
                     <i class="fa fa-database"></i>

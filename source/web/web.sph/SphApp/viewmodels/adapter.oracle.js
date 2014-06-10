@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -13,11 +13,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
         var adapter = ko.observable(
             {
-                ConnectionString: ko.observable(),
-                Schema: ko.observable(),
-                Name: ko.observable(),
-                Description: ko.observable(),
-                Table: ko.observable()
+                connectionString: ko.observable(),
+                schema: ko.observable(),
+                name: ko.observable(),
+                description: ko.observable(),
+                tables: ko.observableArray()
             }),
             schemaOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
@@ -26,7 +26,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
             },
             attached = function () {
-                adapter().ConnectionString.subscribe(function (cs) {
+                adapter().connectionString.subscribe(function (cs) {
                     isBusy(true);
                     $.get("/oracleadapter/schemas?cs=" + cs)
                         .done(function (result) {
@@ -34,9 +34,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                             schemaOptions(result);
                         });
                 });
-                adapter().Schema.subscribe(function (schema) {
+                adapter().schema.subscribe(function (schema) {
                     isBusy(true);
-                    var cs = adapter().ConnectionString();
+                    var cs = adapter().connectionString();
                     $.get("/oracleadapter/tables/" + schema + "?cs=" + cs)
                         .done(function (result) {
                             isBusy(false);
