@@ -1,4 +1,18 @@
 ﻿<h1> Oracle Adapter</h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
+
 <div class="row" data-bind="with : adapter">
     <form class="form-horizontal">
 
@@ -33,7 +47,7 @@
         <div class="form-group">
             <label for="userName" class="col-sm-2 control-label">User Id</label>
             <div class="col-sm-6">
-                <input type="text" data-bind="value: userName" 
+                <input type="text" data-bind="value: userId" 
                        required
                        placeholder="User Id to connect to the Oracle Server"
                        class="form-control" id="userName">

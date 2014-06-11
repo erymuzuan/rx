@@ -81,10 +81,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Column.cs" />
+    <Compile Include="Connection.cs" />
     <Compile Include="OracleAdapter.cs" />
+    <Compile Include="OracleAdapter.p.cs" />
     <Compile Include="OracleAdapterController.cs" />
     <Compile Include="OracleHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestBodyModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">

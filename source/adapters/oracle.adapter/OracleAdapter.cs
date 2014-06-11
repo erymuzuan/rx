@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text.RegularExpressions;
 using Oracle.ManagedDataAccess.Client;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,8 @@ using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class OracleAdapter : Adapter
+    public partial class OracleAdapter : Adapter
     {
-        public string ConnectionString { get; set; }
         private readonly ObjectCollection<TableDefinition> m_tableDefinitions = new ObjectCollection<TableDefinition>();
 
         private string GetOraclePrimaryKeySql(string table)
@@ -529,5 +529,23 @@ namespace Bespoke.Sph.Integrations.Adapters
             var td = m_tableDefinitions.Single(t => t.Name == table);
             return Task.FromResult(td);
         }
+
+
+        public Task<BuildValidationResult> ValidateAsync()
+        {
+            var result = new BuildValidationResult();
+            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_]*$");
+            if (string.IsNullOrWhiteSpace(this.Name)|| !validName.Match(this.Name).Success)
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
+            if (string.IsNullOrWhiteSpace(this.Schema))
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Please select a schema" });
+            if (!this.Tables.Any())
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Please select at least one table" });
+
+
+            result.Result = result.Errors.Count == 0;
+            return Task.FromResult(result);
+        }
+
     }
 }

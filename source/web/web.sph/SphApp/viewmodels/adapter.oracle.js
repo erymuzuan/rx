@@ -14,7 +14,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
         var adapter = ko.observable(
             {
                 server: ko.observable("i90009638.cloudapp.net"),
-                userName: ko.observable("system"),
+                userId: ko.observable("system"),
                 password: ko.observable("gsxr750wt"),
                 sid: ko.observable("XE"),
                 port: ko.observable(1521),
@@ -23,13 +23,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 description: ko.observable(),
                 tables: ko.observableArray()
             }),
-            connectionString = function () {
-                return String.format("Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={0})(PORT={1})))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={2})));User Id={3};Password={4};",
-                    adapter().server(), adapter().port(), adapter().sid(), adapter().userName(), adapter().password());
-            },
             loadingSchemas = ko.observable(),
             connected = ko.observable(false),
             loadingTables = ko.observable(),
+            errors = ko.observableArray(),
             schemaOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
             isBusy = ko.observable(false),
@@ -38,10 +35,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             },
             attached = function (view) {
 
-                adapter().schema.subscribe(function (schema) {
+                adapter().schema.subscribe(function () {
                     loadingTables(true);
-                    var cs = connectionString();
-                    $.get("/oracleadapter/tables/" + schema + "?cs=" + cs)
+                    context.post(ko.mapping.toJSON(adapter), "/oracleadapter/tables/")
                         .done(function (result) {
                             loadingTables(false);
                             var tables = _(result.tables).each(function (v) {
@@ -70,15 +66,23 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 context.post(data, "/oracleadapter/generate")
                     .done(function (result) {
                         isBusy(false);
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
+
+                            errors(result.Errors);
+                            logger.error("There are errors in your adapter setting, !!!");
+                        }
                         tcs.resolve(result);
+
                     });
                 return tcs.promise();
             },
             connect = function () {
                 var tcs = new $.Deferred();
-                var cs = connectionString();
                 loadingSchemas(true);
-                $.get("/oracleadapter/schemas?cs=" + cs)
+                context.post(ko.mapping.toJSON(adapter), "/oracleadapter/schemas")
                     .done(function (result) {
                         loadingSchemas(false);
                         if (result.success) {
@@ -93,9 +97,22 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                     });
 
                 return tcs.promise();
+            },
+            save = function () {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(adapter);
+                isBusy(true);
+
+                context.post(data, "/oracleadapter/save")
+                    .then(function (result) {
+                        isBusy(false);
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             };
 
         var vm = {
+            errors: errors,
             loadingSchemas: loadingSchemas,
             loadingTables: loadingTables,
             connected: connected,
@@ -107,6 +124,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             activate: activate,
             attached: attached,
             toolbar: {
+                saveCommand: save,
                 commands: ko.observableArray([
                     {
                         caption: 'Connect',
@@ -114,9 +132,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                         command: connect
                     },
                     {
-                        caption: 'Publsih',
+                        caption: 'Publish',
                         icon: 'fa fa-sign-in',
-                        command: generate
+                        command: generate,
+                        enable: connected
                     }
                 ])
             }
