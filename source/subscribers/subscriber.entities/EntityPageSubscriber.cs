@@ -31,10 +31,10 @@ namespace subscriber.entities
             };
 
             var assembly = Assembly.GetExecutingAssembly();
-            const string resourceName = "subscriber.entities.entity.page";
+            const string RESOURCE_NAME = "subscriber.entities.entity.page";
 
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + item.Name.ToLower() + ".html");
-            using (var stream = assembly.GetManifestResourceStream(resourceName + ".html"))
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME + ".html"))
             using (var reader = new StreamReader(stream))
             {
                 var raw = reader.ReadToEnd();
@@ -45,7 +45,7 @@ namespace subscriber.entities
 
 
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + item.Name.ToLower() + ".js");
-            using (var stream = assembly.GetManifestResourceStream(resourceName + ".js"))
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME + ".js"))
             using (var reader = new StreamReader(stream))
             {
                 var raw = reader.ReadToEnd();

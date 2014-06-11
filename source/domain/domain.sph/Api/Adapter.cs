@@ -106,7 +106,7 @@ namespace Bespoke.Sph.Domain.Api
                 var es = string.Format("{0}.{1}.schema.json", this.Name.ToLowerInvariant(), table);
                 File.WriteAllText(es, td.ToJsonString(true));
                 options.EmbeddedResourceCollection.Add(es);
-                var codes = td.GenerateCode();
+                var codes = td.GenerateCode(this);
                 var tdSources = this.SaveSources(codes, sourceFolder);
                 sources.AddRange(tdSources);
 
@@ -114,7 +114,16 @@ namespace Bespoke.Sph.Domain.Api
 
             var adapterCodes = await this.GenerateSourceCodeAsync(options, this.CodeNamespace);
             var adapterSources = this.SaveSources(adapterCodes, sourceFolder);
+            var odataTranslatorCode =await this.GenerateOdataTranslatorSourceCodeAsync();
+            var odataSource = this.SaveSources(new Dictionary<string, string>
+            {
+                {
+                    odataTranslatorCode.Item1,
+                    odataTranslatorCode.Item2
+                }
+            }, sourceFolder);
             sources.AddRange(adapterSources);
+            sources.AddRange(odataSource);
 
 
             var result = this.Compile(options, sources.ToArray());
@@ -127,6 +136,7 @@ namespace Bespoke.Sph.Domain.Api
         }
 
         protected abstract Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces);
+        protected abstract Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync();
         protected abstract Task<TableDefinition> GetSchemaDefinitionAsync(string table);
     }
 }

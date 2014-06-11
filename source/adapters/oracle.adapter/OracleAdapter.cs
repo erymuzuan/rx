@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Oracle.ManagedDataAccess.Client;
 using System.Linq;
@@ -164,6 +166,11 @@ namespace Bespoke.Sph.Integrations.Adapters
         private readonly Dictionary<string, ObjectCollection<Column>> m_columnCollection = new Dictionary<string, ObjectCollection<Column>>();
 
 
+        public override string OdataTranslator
+        {
+            get { return "OdataOracleTranslator"; }
+        }
+
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
             options.AddReference(typeof(OracleConnection));
@@ -203,6 +210,22 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             return Task.FromResult(sources);
 
+        }
+
+        protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OdataOracleTranslator.cs";
+
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME ))
+            using (var reader = new StreamReader(stream))
+            {
+                var code = reader.ReadToEnd();
+                code = code.Replace("NAMESPACE", this.CodeNamespace);
+                var source = new Tuple<string, string>("OdataOracleTranslator.cs", code);
+                return Task.FromResult(source);
+
+            }
         }
 
         private string GenerateHelperClass()

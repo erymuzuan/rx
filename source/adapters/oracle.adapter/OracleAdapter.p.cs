@@ -16,8 +16,12 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             get
             {
-                var cs = String.Format("Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={0})(PORT={1})))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={2})));User Id={3};Password={4};",
-                                        this.Server, this.Port, this.Sid, this.UserId, this.Password);
+                var host = string.Empty;
+                if (!string.IsNullOrWhiteSpace(this.Server))
+                    host = string.Format("(HOST={0})", this.Server);
+                var port = this.Port == 0 ? 1521 : this.Port;
+                var cs = String.Format("Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP){0}(PORT={1})))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={2})));User Id={3};Password={4};",
+                    host, port, this.Sid, this.UserId, this.Password);
                 return cs;
 
             }

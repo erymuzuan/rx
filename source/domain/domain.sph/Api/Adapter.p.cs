@@ -21,5 +21,6 @@ namespace Bespoke.Sph.Domain.Api
         [XmlAttribute]
         public string WebId { get; set; }
 
+        public abstract string OdataTranslator { get; }
     }
 }

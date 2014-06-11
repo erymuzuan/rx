@@ -20,7 +20,7 @@ namespace oracle.adapter.test
                 await conn.OpenAsync();
                 var val = (await cmd.ExecuteScalarAsync());
                 Console.WriteLine(val.GetType().FullName);
-                return (T) val;
+                return (T)val;
             }
         }
 
@@ -29,10 +29,10 @@ namespace oracle.adapter.test
         {
             var ora = new OracleAdapter
             {
-                ConnectionString = "Data Source=(DESCRIPTION="
-             + "(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=i90009638.cloudapp.net)(PORT=1521)))"
-             + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=XE)));"
-             + "User Id=SYSTEM;Password=gsxr750wt;",
+                Server = "i90009638.cloudapp.net",
+                UserId = "system",
+                Password = "gsxr750wt",
+                Sid = "XE",
                 Tables = new[] { new AdapterTable { Name = "PPB" } },
                 Name = "NEWSSSIT_MonthlySurvey",
                 Description = "PPM Survey",
@@ -53,17 +53,17 @@ namespace oracle.adapter.test
             tables[0] = new AdapterTable
             {
                 Name = "EMPLOYEES",
-                Parents = new []{"DEPARTMETS"},
+                Parents = new[] { "DEPARTMETS" },
                 Children = new[] { "JOB_HISTORY" }
             };
-            tables[1] = new AdapterTable{Name = "JOBS"};
-            tables[2] = new AdapterTable{Name = "DEPARTMENTS"};
+            tables[1] = new AdapterTable { Name = "JOBS" };
+            tables[2] = new AdapterTable { Name = "DEPARTMENTS" };
             var ora = new OracleAdapter
             {
-                ConnectionString = "Data Source=(DESCRIPTION="
-             + "(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=i90009638.cloudapp.net)(PORT=1521)))"
-             + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=XE)));"
-             + "User Id=SYSTEM;Password=gsxr750wt;",
+                Server = "i90009638.cloudapp.net",
+                UserId = "system",
+                Password = "gsxr750wt",
+                Sid = "XE",
                 Tables = tables,
                 Name = "HR_EMPLOYEES",
                 Description = "Ora HR Countries",

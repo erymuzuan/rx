@@ -82,6 +82,7 @@
   <ItemGroup>
     <Compile Include="Column.cs" />
     <Compile Include="Connection.cs" />
+    <EmbeddedResource Include="OdataOracleTranslator.cs" />
     <Compile Include="OracleAdapter.cs" />
     <Compile Include="OracleAdapter.p.cs" />
     <Compile Include="OracleAdapterController.cs" />

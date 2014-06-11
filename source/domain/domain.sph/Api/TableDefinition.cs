@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain.Api
 {
     public partial class TableDefinition
     {
-        private string GenerateController()
+        private string GenerateController(Adapter adapter)
         {
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
@@ -17,23 +18,54 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLinf("   public partial class {0}Controller : System.Web.Mvc.Controller", this.Name);
             code.AppendLine("   {");
             code.AppendLinf("       //exec:Search");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Index(string filter = null, int page = 1, int size = 40, bool includeTotal = false)");
             code.AppendLine("       {");
-            code.AppendFormat(@"
-            var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
-            var request = new System.Net.Http.StringContent(json);
-            var url = ""{1}/{0}/_search"";
+            code.AppendLinf(@"
+           if (size > 200)
+                throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
-            using(var client = new System.Net.Http.HttpClient())
+            var typeName = ""{1}"";
+
+            var orderby = this.Request.QueryString[""$orderby""];
+            var translator = new {0}<{1}>(null, typeName);
+            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? ""{1}Id gt 0"" : filter, orderby);
+            var rows = 0;
+
+            var context = new {1}Adapter();
+
+            var nextPageToken = string.Empty;
+            var list = await context.LoadAsync(sql);//, page, size);
+            if (includeTotal || page > 1)
             {{
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as System.Net.Http.StreamContent;
-                if (null == content) throw new Exception(""Cannot execute query on es "" + request);
-                this.Response.ContentType = ""application/json; charset=utf-8"";
-                return Content(await content.ReadAsStringAsync());
+                var translator2 = new {0}<{1}>(""{0}Id"", typeName);
+                var sumSql = translator2.Count(filter);
+                rows =5000;// await context.ExecuteScalarAsync(sumSql);
+
+                if (rows >= list.Count())
+                    nextPageToken = string.Format(
+                        ""/Api/{{3}}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size, typeName);
             }}
-            ", this.Name.ToLower(), ConfigurationManager.ApplicationName.ToLower());
+
+            string previousPageToken = DateTime.Now.ToShortTimeString();
+            var json = new
+            {{
+                results = list.ToArray(),
+                rows,
+                page,
+                nextPageToken,
+                previousPageToken,
+                size
+            }};
+            var setting = new JsonSerializerSettings
+                {{
+                    TypeNameHandling = TypeNameHandling.Objects
+                }};
+
+            this.Response.ContentType = ""application/json"";
+            return Content(JsonConvert.SerializeObject(json, Formatting.Indented, setting));
+            ", adapter.OdataTranslator, this.Name);
+
+
             code.AppendLine();
             code.AppendLine("       }");
             code.AppendLine();
@@ -49,7 +81,7 @@ namespace Bespoke.Sph.Domain.Api
             await context.InsertAsync(item);
             this.Response.ContentType = ""application/json; charset=utf-8"";
             this.Response.StatusCode = 202;
-            return Json(new {{success = true, status=""OK"", id = item.{0}}});", this.RecordName,this.Name);
+            return Json(new {{success = true, status=""OK"", id = item.{0}}});", this.RecordName, this.Name);
             code.AppendLine("       }");
 
 
@@ -64,7 +96,7 @@ namespace Bespoke.Sph.Domain.Api
             await context.UpdateAsync(item);
             this.Response.ContentType = ""application/json; charset=utf-8"";
             this.Response.StatusCode = 202;
-            return Json(new {{success = true, status=""OK"", id = item.{0}}});", this.RecordName,this.Name);
+            return Json(new {{success = true, status=""OK"", id = item.{0}}});", this.RecordName, this.Name);
             code.AppendLine("       }");
 
 
@@ -83,9 +115,9 @@ namespace Bespoke.Sph.Domain.Api
             return Json(new {{success = true, status=""OK"", id = id}});", this.Name);
             code.AppendLine("       }");
 
-         
 
-   
+
+
 
             code.AppendLine("   }");// end class
 
@@ -95,7 +127,6 @@ namespace Bespoke.Sph.Domain.Api
 
         }
 
-
         private string GetCodeHeader()
         {
 
@@ -104,6 +135,7 @@ namespace Bespoke.Sph.Domain.Api
             header.AppendLine("using " + typeof(Int32).Namespace + ";");
             header.AppendLine("using " + typeof(Task<>).Namespace + ";");
             header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
+            header.AppendLine("using " + typeof(JsonConvert).Namespace + ";");
             header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
             header.AppendLine("using System.Web.Mvc;");
             header.AppendLine("using Bespoke.Sph.Web.Helpers;");
@@ -115,7 +147,7 @@ namespace Bespoke.Sph.Domain.Api
 
         }
 
-        public Dictionary<string, string> GenerateCode()
+        public Dictionary<string, string> GenerateCode(Adapter adapter)
         {
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
@@ -154,7 +186,7 @@ namespace Bespoke.Sph.Domain.Api
                 sourceCodes.Add(member.Name + ".cs", mc);
             }
 
-            var controller = this.GenerateController();
+            var controller = this.GenerateController(adapter);
             sourceCodes.Add(this.Name + "Controller.cs", controller);
 
 
@@ -163,7 +195,6 @@ namespace Bespoke.Sph.Domain.Api
 
         public string Name { get; set; }
         public string CodeNamespace { get; set; }
-
 
         public string WebId { get; set; }
     }
