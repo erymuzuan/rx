@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Integrations.Adapters;
 using NUnit.Framework;
@@ -30,22 +32,21 @@ namespace oracle.adapter.test
              + "(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=i90009638.cloudapp.net)(PORT=1521)))"
              + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=XE)));"
              + "User Id=SYSTEM;Password=gsxr750wt;",
-                Table = "PPB",
+                Tables = new []{"PPB"},
                 Name = "NEWSSSIT_MonthlySurvey",
                 Description = "PPM Survey",
                 Schema = "NEWSSSIT"
             };
             await ora.OpenAsync();
 
-            var ppn = await ora.CompileAsync();
-            dynamic ppb = Activator.CreateInstance(ppn);
-            Assert.IsNotNull(ppb);
+            var result = await ora.CompileAsync();
+            Assert.IsTrue(File.Exists(result.Output));
 
 
 
         }
         [Test]
-        public async Task TestOra()
+        public async Task HrSchema()
         {
             var ora = new OracleAdapter
             {
@@ -53,14 +54,16 @@ namespace oracle.adapter.test
              + "(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=i90009638.cloudapp.net)(PORT=1521)))"
              + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=XE)));"
              + "User Id=SYSTEM;Password=gsxr750wt;",
-                Table = "EMPLOYEES",
+                Tables = new []{"EMPLOYEES","JOBS","DEPARTMENTS"},
                 Name = "HR_EMPLOYEES",
                 Description = "Ora HR Countries",
                 Schema = "HR"
             };
             await ora.OpenAsync();
 
-            var employeeType = await ora.CompileAsync();
+            var result = await ora.CompileAsync();
+            var dll = Assembly.LoadFile(result.Output);
+            var employeeType = dll.GetType("Dev.Adapters.HR.EMPLOYEES");
             dynamic emp = Activator.CreateInstance(employeeType);
             Assert.IsNotNull(emp);
 

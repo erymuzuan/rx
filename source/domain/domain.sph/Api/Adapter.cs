@@ -1,32 +1,93 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Serialization;
-using Humanizer;
-using Newtonsoft.Json;
+using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain.Api
 {
-    public abstract class Adapter
+    public  abstract partial class Adapter
     {
-        public string Table { get; set; }
-        public string Schema { get; set; }
-
-        public virtual string CodeNamespace
+        public string[] SaveSources(Dictionary<string, string> sources, string folder)
         {
-            get { return string.Format("{0}.Adapters.{1}", ConfigurationManager.ApplicationName, this.Schema); }
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            foreach (var cs in sources.Keys)
+            {
+                var file = Path.Combine(folder, cs);
+                File.WriteAllText(file, sources[cs]);
+            }
+            return sources.Keys.ToArray()
+                    .Select(f => Path.Combine(folder, f))
+                    .ToArray();
         }
-        private TableDefinition m_ed;
-        public async Task<Type> CompileAsync()
+
+        public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
-            m_ed = await this.GetSchemaDefinitionAsync();
-            m_ed.CodeNamespace = this.CodeNamespace;
-            var es = this.Name.Dehumanize() + "schema.json";
-            File.WriteAllText(es, m_ed.ToJsonString(true));
+            if (files.Length == 0)
+                throw new ArgumentException("No source files supplied for compilation", "files");
+            foreach (var cs in files)
+            {
+                Debug.WriteLineIf(options.IsVerbose, cs);
+            }
+
+            using (var provider = new CSharpCodeProvider())
+            {
+                var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
+                var parameters = new CompilerParameters
+                {
+                    OutputAssembly = Path.Combine(outputPath, string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, this.Name)),
+                    GenerateExecutable = false,
+                    IncludeDebugInformation = true
+
+                };
+
+                parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
+
+                foreach (var es in options.EmbeddedResourceCollection)
+                {
+                    parameters.EmbeddedResources.Add(es);
+                }
+                foreach (var ass in options.ReferencedAssembliesLocation)
+                {
+                    parameters.ReferencedAssemblies.Add(ass);
+                }
+                var result = provider.CompileAssemblyFromFile(parameters, files);
+                var cr = new WorkflowCompilerResult
+                {
+                    Result = true,
+                    Output = Path.GetFullPath(parameters.OutputAssembly)
+                };
+                cr.Result = result.Errors.Count == 0;
+                var errors = from CompilerError x in result.Errors
+                             select new BuildError(this.WebId, x.ErrorText)
+                             {
+                                 Line = x.Line,
+                                 FileName = x.FileName
+                             };
+                cr.Errors.AddRange(errors);
+                return cr;
+            }
+        }
+
+        public async Task<WorkflowCompilerResult> CompileAsync()
+        {
 
             var options = new CompilerOptions();
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
@@ -36,53 +97,36 @@ namespace Bespoke.Sph.Domain.Api
             options.AddReference(typeof(System.Configuration.ConfigurationManager));
 
             var sourceFolder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, this.Name);
+            var sources = new List<string>();
 
-            options.EmbeddedResourceCollection.Add(es);
-            var codes = m_ed.GenerateCode();
-            var sources = m_ed.SaveSources(codes, sourceFolder);
+            foreach (var table in this.Tables)
+            {
+                var td = await this.GetSchemaDefinitionAsync(table);
+                td.CodeNamespace = this.CodeNamespace;
+                var es = string.Format("{0}.{1}.schema.json", this.Name.ToLowerInvariant(), table);
+                File.WriteAllText(es, td.ToJsonString(true));
+                options.EmbeddedResourceCollection.Add(es);
+                var codes = td.GenerateCode();
+                var tdSources = this.SaveSources(codes, sourceFolder);
+                sources.AddRange(tdSources);
 
-            var adapterCodes = await this.GenerateSourceCodeAsync(options, m_ed.CodeNamespace);
-            var adapterSources = m_ed.SaveSources(adapterCodes, sourceFolder);
+            }
 
-            var result = m_ed.Compile(options, sources.Concat(adapterSources).ToArray());
+            var adapterCodes = await this.GenerateSourceCodeAsync(options, this.CodeNamespace);
+            var adapterSources = this.SaveSources(adapterCodes, sourceFolder);
+            sources.AddRange(adapterSources);
+
+
+            var result = this.Compile(options, sources.ToArray());
 
             if (!result.Result)
                 throw new Exception(string.Join("\r\n", result.Errors.Select(e => e.ToString())));
 
-            var assembly = Assembly.LoadFrom(result.Output);
-            var edTypeName = string.Format("{0}.Adapters.{1}.{2}", ConfigurationManager.ApplicationName, this.Schema, m_ed.Name);
-
-            var edType = assembly.GetType(edTypeName);
-            return edType;
+            return result;
 
         }
-
-        public Type GetAdapterType(string dll)
-        {
-
-            var assembly = Assembly.LoadFrom(dll);
-            var edTypeName = string.Format("{0}.Adapters.{1}.{2}", ConfigurationManager.ApplicationName, this.Schema, m_ed.Name);
-
-            var edType = assembly.GetType(edTypeName);
-            return edType;
-        }
-
-        public Type GetEntityType(string dll)
-        {
-
-            var assembly = Assembly.LoadFrom(dll);
-            var edTypeName = string.Format("{0}.Adapters.{1}.{2}", ConfigurationManager.ApplicationName, this.Schema, m_ed.Name);
-
-            var edType = assembly.GetType(edTypeName);
-            return edType;
-        }
-
-        [XmlAttribute]
-        public string Name { get; set; }
-        [XmlAttribute]
-        public string Description { get; set; }
 
         protected abstract Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces);
-        protected abstract Task<TableDefinition> GetSchemaDefinitionAsync();
+        protected abstract Task<TableDefinition> GetSchemaDefinitionAsync(string table);
     }
 }

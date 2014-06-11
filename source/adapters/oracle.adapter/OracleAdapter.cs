@@ -14,121 +14,125 @@ namespace Bespoke.Sph.Integrations.Adapters
     public class OracleAdapter : Adapter
     {
         public string ConnectionString { get; set; }
-        private TableDefinition m_ed;
+        private ObjectCollection<TableDefinition> m_tableDefinitions = new ObjectCollection<TableDefinition>();
 
-        private string OraclePrimaryKeySql
+        private string GetOraclePrimaryKeySql(string table)
         {
-            get
-            {
-                return "SELECT cols.column_name " +
-                       "FROM all_constraints cons, all_cons_columns cols " +
-                       "WHERE cols.table_name = '" + this.Table
-                       + "'AND cons.constraint_type = 'P' " +
-                       "AND cons.constraint_name = cols.constraint_name " +
-                       "AND cons.owner = cols.owner " +
-                       "ORDER BY cols.table_name, cols.position";
-            }
+            return "SELECT cols.column_name " +
+                   "FROM all_constraints cons, all_cons_columns cols " +
+                   "WHERE cols.table_name = '" + table
+                   + "'AND cons.constraint_type = 'P' " +
+                   "AND cons.constraint_name = cols.constraint_name " +
+                   "AND cons.owner = cols.owner " +
+                   "ORDER BY cols.table_name, cols.position";
+
         }
-        private string OracleSchemaSql
+        private string GetOracleSchemaSql(string table)
         {
-            get
-            {
-                return "SELECT cols.owner " +
-                       "FROM all_constraints cons, all_cons_columns cols " +
-                       "WHERE cols.table_name = '" + this.Table
-                       + "'AND cons.constraint_type = 'P' " +
-                       "AND cons.constraint_name = cols.constraint_name " +
-                       "AND cons.owner = cols.owner " +
-                       "ORDER BY cols.table_name, cols.position";
-            }
+
+            return "SELECT cols.owner " +
+                   "FROM all_constraints cons, all_cons_columns cols " +
+                   "WHERE cols.table_name = '" + table
+                   + "'AND cons.constraint_type = 'P' " +
+                   "AND cons.constraint_name = cols.constraint_name " +
+                   "AND cons.owner = cols.owner " +
+                   "ORDER BY cols.table_name, cols.position";
+
         }
-        private string TableSql
+        private string GetTableSql(string table)
         {
-            get
-            {
-                return @"select column_name, data_type, nullable, data_precision, data_scale from all_tab_columns where table_name = '" + this.Table + "'";
-            }
+
+            return @"select column_name, data_type, nullable, data_precision, data_scale from all_tab_columns where table_name = '" + table + "'";
+
         }
 
 
         public async Task OpenAsync(bool verbose = false)
         {
-            m_ed = new TableDefinition { Name = this.Table, CodeNamespace = this.CodeNamespace };
-            m_columnCollection = new ObjectCollection<Column>();
-
-            using (var conn = new OracleConnection(ConnectionString))
-            using (var cmd = new OracleCommand(OracleSchemaSql, conn))
+            foreach (var table in this.Tables)
             {
-                await conn.OpenAsync();
+                var td = new TableDefinition { Name = table, CodeNamespace = this.CodeNamespace };
+                m_columnCollection.Add(table, new ObjectCollection<Column>());
+                m_tableDefinitions.Add(td);
 
-                var f = await cmd.ExecuteScalarAsync() as string;
-                this.Schema = f;
-
-            }
-            using (var conn = new OracleConnection(ConnectionString))
-            using (var cmd = new OracleCommand(OraclePrimaryKeySql, conn))
-            {
-                await conn.OpenAsync();
-
-                var f = await cmd.ExecuteScalarAsync() as string;
-                m_ed.RecordName = f;
-            }
-
-            using (var conn = new OracleConnection(ConnectionString))
-            using (var cmd = new OracleCommand(TableSql, conn))
-            {
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync() as OracleDataReader)
+                using (var conn = new OracleConnection(ConnectionString))
+                using (var cmd = new OracleCommand(GetOracleSchemaSql(table), conn))
                 {
-                    if (null == reader)
-                        throw new InvalidOperationException("Cannot get OracleDataReader");
-                    var first = true;
-                    while (await reader.ReadAsync())
+                    await conn.OpenAsync();
+
+                    var f = await cmd.ExecuteScalarAsync() as string;
+                    this.Schema = f;
+
+                }
+                using (var conn = new OracleConnection(ConnectionString))
+                using (var cmd = new OracleCommand(GetOraclePrimaryKeySql(table), conn))
+                {
+                    await conn.OpenAsync();
+
+                    var f = await cmd.ExecuteScalarAsync() as string;
+                    td.RecordName = f;
+                }
+
+                using (var conn = new OracleConnection(ConnectionString))
+                using (var cmd = new OracleCommand(GetTableSql(table), conn))
+                {
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync() as OracleDataReader)
                     {
-                        if (verbose && first)
+                        if (null == reader)
+                            throw new InvalidOperationException("Cannot get OracleDataReader");
+                        var first = true;
+                        while (await reader.ReadAsync())
                         {
-                            for (int i = 0; i < reader.FieldCount; i++)
+                            if (verbose && first)
                             {
-                                Console.Write("{0,-15}\t", reader.GetName(i));
+                                for (int i = 0; i < reader.FieldCount; i++)
+                                {
+                                    Console.Write("{0,-15}\t", reader.GetName(i));
+                                }
+                                Console.WriteLine();
+                                for (int i = 0; i < reader.FieldCount; i++)
+                                {
+                                    Console.Write("{0,-15}\t", reader[i]);
+                                }
                             }
-                            Console.WriteLine();
-                            for (int i = 0; i < reader.FieldCount; i++)
+                            first = false;
+                            var col = new Column
                             {
-                                Console.Write("{0,-15}\t", reader[i]);
-                            }
+                                Name = reader.GetOracleString(0).ToString(),
+                                DataType = reader.GetOracleString(1).Value,
+                                IsNullable = reader.GetOracleString(2) == "Y"
+                            };
+                            var precision = reader["data_precision"];
+                            if (precision != DBNull.Value)
+                                col.Precision = (decimal)precision;
+
+
+                            var scale = reader["data_scale"];
+                            if (scale != DBNull.Value)
+                                col.Scale = (decimal?)scale;
+
+                            if (null != col.GetClrType())
+                                m_columnCollection[table].Add(col);
+
                         }
-                        first = false;
-                        var col = new Column
-                        {
-                            Name = reader.GetOracleString(0).ToString(),
-                            DataType = reader.GetOracleString(1).Value,
-                            IsNullable = reader.GetOracleString(2) == "Y"
-                        };
-                        var precision = reader["data_precision"];
-                        if (precision != DBNull.Value)
-                            col.Precision = (decimal)precision;
-
-
-                        var scale = reader["data_scale"];
-                        if (scale != DBNull.Value)
-                            col.Scale = (decimal?)scale;
-
-                        if (null != col.GetClrType())
-                            m_columnCollection.Add(col);
-
                     }
                 }
+
+                var members = from c in m_columnCollection[table]
+                              select new Member
+                              {
+                                  Name = c.Name,
+                                  IsNullable = c.IsNullable,
+                                  IsFilterable = true,
+                                  Type = c.GetClrType()
+                              };
+                td.MemberCollection.AddRange(members);
+
+
+
             }
 
-            var members = from c in m_columnCollection
-                          select new Member
-                          {
-                              Name = c.Name,
-                              IsNullable = c.IsNullable,
-                              IsFilterable = true,
-                              Type = c.GetClrType()
-                          };
-            m_ed.MemberCollection.AddRange(members);
         }
 
 
@@ -157,38 +161,43 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         }
 
-        private ObjectCollection<Column> m_columnCollection;
+        private readonly Dictionary<string, ObjectCollection<Column>> m_columnCollection = new Dictionary<string, ObjectCollection<Column>>();
 
 
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
             options.AddReference(typeof(OracleConnection));
-            var name = this.Table;
-            var adapterName = this.Table + "Adapter";
             var sources = new Dictionary<string, string>();
+            foreach (var table in this.Tables)
+            {
+                var table1 = table;
+                var td = m_tableDefinitions.Single(a => a.Name == table1);
+                var name = table;
+                var adapterName = table + "Adapter";
 
-            var header = this.GetCodeHeader(namespaces);
-            var code = new StringBuilder(header);
+                var header = this.GetCodeHeader(namespaces);
+                var code = new StringBuilder(header);
 
-            code.AppendLine("   public class " + adapterName);
-            code.AppendLine("   {");
+                code.AppendLine("   public class " + adapterName);
+                code.AppendLine("   {");
 
-            code.AppendLine(GenerateInsertMethod(name));
-            code.AppendLine(GenerateUpdateMethod(name));
-            code.AppendLine(GenerateConvertMethod(name));
-            code.AppendLine(GenerateConnectionStringProperty());
+                code.AppendLine(GenerateInsertMethod(name, table));
+                code.AppendLine(GenerateUpdateMethod(name, table));
+                code.AppendLine(GenerateConvertMethod(name));
+                code.AppendLine(GenerateConnectionStringProperty());
 
-            var record = m_ed.MemberCollection.Single(m => m.Name == m_ed.RecordName);
-            code.AppendLine(GenerateSelectOne(name, record));
-            code.AppendLine(GenerateSelectMethod(name, record));
-            code.AppendLine(GenerateDeleteMethod(record));
-
-
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
+                var record = td.MemberCollection.Single(m => m.Name == td.RecordName);
+                code.AppendLine(GenerateSelectOne(name, record, table));
+                code.AppendLine(GenerateSelectMethod(name, record, table));
+                code.AppendLine(GenerateDeleteMethod(record, table));
 
 
-            sources.Add(adapterName + ".cs", code.ToString());
+                code.AppendLine("   }");// end class
+                code.AppendLine("}");// end namespace
+
+
+                sources.Add(adapterName + ".cs", code.ToString());
+            }
             sources.Add("Column.cs", this.GenerateColumnClass());
             sources.Add("OracleHelpers.cs", this.GenerateHelperClass());
 
@@ -281,17 +290,18 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateDeleteMethod(Member record)
+        private string GenerateDeleteMethod(Member record, string table)
         {
+            var td = m_tableDefinitions.Single(t => t.Name == table);
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<int> DeleteAsync({0} id)", record.Type.ToCSharp());
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetDeleteCommand());
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetDeleteCommand(table));
             code.AppendLine("           {");
 
-            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", m_ed.RecordName);
+            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", td.RecordName);
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
@@ -301,16 +311,17 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateUpdateMethod(string name)
+        private string GenerateUpdateMethod(string name, string table)
         {
             var code = new StringBuilder();
+            var columns = m_columnCollection[table];
             code.AppendLinf("       public async Task<int> UpdateAsync({0} item)", name);
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetUpdateCommand());
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetUpdateCommand(table));
             code.AppendLine("           {");
-            foreach (var col in m_columnCollection.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
+            foreach (var col in columns.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
             {
                 var nullable = col.IsNullable ? ".ToDbNull()" : "";
                 code.AppendLinf("               cmd.Parameters.Add(\"{0}\", item.{0}{1});", col.Name, nullable);
@@ -323,14 +334,15 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateInsertMethod(string name)
+        private string GenerateInsertMethod(string name, string table)
         {
             var code = new StringBuilder();
+            var colums = m_columnCollection[table];
             code.AppendLinf("       public async Task<int> InsertAsync({0} item)", name);
             code.AppendLine("       {");
 
             code.AppendLine("           var columns = new List<Column>()");
-            foreach (var col in m_columnCollection.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
+            foreach (var col in colums.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
             {
                 var nullable = col.IsNullable ? ".ToDbNull()" : string.Empty;
                 code.AppendLinf("               .AddWithValue(\"{0}\", item.{0}{1})", col.Name, nullable);
@@ -340,7 +352,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendFormat(@"            string sql = string.Format(""INSERT INTO {0}.{1}({{0}}) values ({{1}})"",
                string.Join("","", columns.Select(c => c.Name).ToArray()),
                string.Join("","", columns.Select(c => "":"" + c.Name).ToArray())
-            );", this.Schema, this.Table);
+            );", this.Schema, table);
             code.AppendLine();
             code.AppendLine();
             code.AppendLine("           using(var conn = new OracleConnection(this.ConnectionString))");
@@ -393,17 +405,18 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateSelectOne(string name, Member record)
+        private string GenerateSelectOne(string name, Member record, string table)
         {
             var code = new StringBuilder();
+            var td = m_tableDefinitions.Single(t => t.Name == table);
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1} id)", name, record.Type.ToCSharp());
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetSelectOneCommand());
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetSelectOneCommand(table));
             code.AppendLine("           {");
 
-            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", m_ed.RecordName);
+            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", td.RecordName);
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               using(var reader = await cmd.ExecuteReaderAsync())");
@@ -411,7 +424,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
             code.AppendLinf("                       var item = new {0}();", name);
-            foreach (var column in m_columnCollection)
+            foreach (var column in m_columnCollection[table])
             {
                 if (column.IsNullable && column.GetClrType() != typeof(string))
                     code.AppendLinf("                       item.{0} = Convert<{1}>(reader[\"{0}\"]);", column.Name, column.GetCSharpType());
@@ -429,7 +442,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateSelectMethod(string name, Member record)
+        private string GenerateSelectMethod(string name, Member record, string table)
         {
             var code = new StringBuilder();
             //load async
@@ -437,7 +450,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0} \" + filter, conn))", this.GetSelectCommand());
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0} \" + filter, conn))", this.GetSelectCommand(table));
             code.AppendLine("           {");
 
             code.AppendLinf("               var list = new List<{0}>();", name);
@@ -448,7 +461,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
             code.AppendLinf("                       var item = new {0}();", name);
-            foreach (var column in m_columnCollection)
+            foreach (var column in m_columnCollection[table])
             {
                 if (column.IsNullable && column.GetClrType() != typeof(string))
                     code.AppendLinf("                       item.{0} = Convert<{1}>(reader[\"{0}\"]);", column.Name, column.GetCSharpType());
@@ -466,51 +479,55 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        public string GetUpdateCommand()
+        public string GetUpdateCommand(string table)
         {
+            var td = m_tableDefinitions.Single(t => t.Name == table);
             var sql = new StringBuilder("UPDATE  ");
-            sql.AppendFormat("{0}.{1} SET ", this.Schema, this.Table);
+            sql.AppendFormat("{0}.{1} SET ", this.Schema, table);
 
-            var cols = m_columnCollection
+            var cols = m_columnCollection[table]
                 .Where(c => !c.IsIdentity)
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
                 .ToArray();
             sql.AppendLine(string.Join(",", cols.Select(c => "" + c + " = :" + c).ToArray()));
-            sql.AppendLinf(" WHERE {0} = :{0}", m_ed.RecordName);
+            sql.AppendLinf(" WHERE {0} = :{0}", td.RecordName);
 
             return sql.ToString();
 
         }
 
-        public string GetDeleteCommand()
+        public string GetDeleteCommand(string table)
         {
+            var td = m_tableDefinitions.Single(t => t.Name == table);
             var sql = new StringBuilder("DELETE FROM ");
-            sql.AppendFormat("{0}.{1} ", this.Schema, this.Table);
+            sql.AppendFormat("{0}.{1} ", this.Schema, table);
 
 
-            sql.AppendFormat("WHERE {0} = :{0}", m_ed.RecordName);
+            sql.AppendFormat("WHERE {0} = :{0}", td.RecordName);
 
             return sql.ToString();
         }
-        public string GetSelectOneCommand()
+        public string GetSelectOneCommand(string table)
         {
+            var td = m_tableDefinitions.Single(t => t.Name == table);
             var sql = new StringBuilder("SELECT * FROM ");
-            sql.AppendFormat("{0}.{1} ", this.Schema, this.Table);
+            sql.AppendFormat("{0}.{1} ", this.Schema, table);
 
 
-            sql.AppendFormat("WHERE {0} = :{0}", m_ed.RecordName);
+            sql.AppendFormat("WHERE {0} = :{0}", td.RecordName);
 
             return sql.ToString();
         }
-        public string GetSelectCommand()
+        public string GetSelectCommand(string table)
         {
-            return string.Format("SELECT * FROM {0}.{1} ", this.Schema, this.Table);
+            return string.Format("SELECT * FROM {0}.{1} ", this.Schema, table);
         }
 
-        protected override Task<TableDefinition> GetSchemaDefinitionAsync()
+        protected override Task<TableDefinition> GetSchemaDefinitionAsync(string table)
         {
-            return Task.FromResult(m_ed);
+            var td = m_tableDefinitions.Single(t => t.Name == table);
+            return Task.FromResult(td);
         }
     }
 }

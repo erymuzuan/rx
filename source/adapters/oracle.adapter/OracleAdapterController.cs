@@ -163,21 +163,20 @@ WHERE FK.CONSTRAINT_TYPE = 'R'
 
             var tables = o.SelectToken("$.tables").Values<string>();
             var list = new List<string>();
-            foreach (var table in tables)
-            {
-                var ora = new OracleAdapter
-                {
-                    ConnectionString = o.SelectToken("$.connectionString").Value<string>(),
-                    Table = table,
-                    Name = o.SelectToken("$.name").Value<string>(),
-                    Description = o.SelectToken("$.description").Value<string>(),
-                    Schema = o.SelectToken("$.schema").Value<string>()
-                };
-                await ora.OpenAsync();
-                var type = await ora.CompileAsync();
-                list.Add(type.ToString());
 
-            }
+            var ora = new OracleAdapter
+            {
+                ConnectionString = o.SelectToken("$.connectionString").Value<string>(),
+                Tables = tables.ToArray(),
+                Name = o.SelectToken("$.name").Value<string>(),
+                Description = o.SelectToken("$.description").Value<string>(),
+                Schema = o.SelectToken("$.schema").Value<string>()
+            };
+            await ora.OpenAsync();
+            var type = await ora.CompileAsync();
+            list.Add(type.ToString());
+
+
             this.Response.ContentType = "application/json";
             return Content(JsonConvert.SerializeObject(list.ToArray()));
         }
