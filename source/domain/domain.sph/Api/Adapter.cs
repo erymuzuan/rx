@@ -101,7 +101,7 @@ namespace Bespoke.Sph.Domain.Api
 
             foreach (var table in this.Tables)
             {
-                var td = await this.GetSchemaDefinitionAsync(table);
+                var td = await this.GetSchemaDefinitionAsync(table.Name);
                 td.CodeNamespace = this.CodeNamespace;
                 var es = string.Format("{0}.{1}.schema.json", this.Name.ToLowerInvariant(), table);
                 File.WriteAllText(es, td.ToJsonString(true));

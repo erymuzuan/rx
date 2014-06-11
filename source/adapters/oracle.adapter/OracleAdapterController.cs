@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Domain.Api;
 using Humanizer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -167,7 +168,7 @@ WHERE FK.CONSTRAINT_TYPE = 'R'
             var ora = new OracleAdapter
             {
                 ConnectionString = o.SelectToken("$.connectionString").Value<string>(),
-                Tables = tables.ToArray(),
+                Tables = new AdapterTable[]{},
                 Name = o.SelectToken("$.name").Value<string>(),
                 Description = o.SelectToken("$.description").Value<string>(),
                 Schema = o.SelectToken("$.schema").Value<string>()

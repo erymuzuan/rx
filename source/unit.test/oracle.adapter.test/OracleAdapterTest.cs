@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
 using NUnit.Framework;
 using Oracle.ManagedDataAccess.Client;
@@ -32,7 +33,7 @@ namespace oracle.adapter.test
              + "(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=i90009638.cloudapp.net)(PORT=1521)))"
              + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=XE)));"
              + "User Id=SYSTEM;Password=gsxr750wt;",
-                Tables = new []{"PPB"},
+                Tables = new[] { new AdapterTable { Name = "PPB" } },
                 Name = "NEWSSSIT_MonthlySurvey",
                 Description = "PPM Survey",
                 Schema = "NEWSSSIT"
@@ -48,13 +49,22 @@ namespace oracle.adapter.test
         [Test]
         public async Task HrSchema()
         {
+            var tables = new AdapterTable[3];
+            tables[0] = new AdapterTable
+            {
+                Name = "EMPLOYEES",
+                Parents = new []{"DEPARTMETS"},
+                Children = new[] { "JOB_HISTORY" }
+            };
+            tables[1] = new AdapterTable{Name = "JOBS"};
+            tables[2] = new AdapterTable{Name = "DEPARTMENTS"};
             var ora = new OracleAdapter
             {
                 ConnectionString = "Data Source=(DESCRIPTION="
              + "(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=i90009638.cloudapp.net)(PORT=1521)))"
              + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=XE)));"
              + "User Id=SYSTEM;Password=gsxr750wt;",
-                Tables = new []{"EMPLOYEES","JOBS","DEPARTMENTS"},
+                Tables = tables,
                 Name = "HR_EMPLOYEES",
                 Description = "Ora HR Countries",
                 Schema = "HR"

@@ -2,9 +2,21 @@
 
 namespace Bespoke.Sph.Domain.Api
 {
+    public class AdapterTable
+    {
+        public string Name { get; set; }
+        public string[] Parents { get; set; }
+        public string[] Children { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
     public abstract partial class Adapter
     {
-        public string[] Tables { get; set; }
+        public AdapterTable[] Tables { get; set; }
         public string Schema { get; set; }
 
         public virtual string CodeNamespace

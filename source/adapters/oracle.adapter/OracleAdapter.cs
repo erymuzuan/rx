@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     public class OracleAdapter : Adapter
     {
         public string ConnectionString { get; set; }
-        private ObjectCollection<TableDefinition> m_tableDefinitions = new ObjectCollection<TableDefinition>();
+        private readonly ObjectCollection<TableDefinition> m_tableDefinitions = new ObjectCollection<TableDefinition>();
 
         private string GetOraclePrimaryKeySql(string table)
         {
@@ -51,12 +51,12 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             foreach (var table in this.Tables)
             {
-                var td = new TableDefinition { Name = table, CodeNamespace = this.CodeNamespace };
-                m_columnCollection.Add(table, new ObjectCollection<Column>());
+                var td = new TableDefinition { Name = table.Name, CodeNamespace = this.CodeNamespace };
+                m_columnCollection.Add(table.Name, new ObjectCollection<Column>());
                 m_tableDefinitions.Add(td);
 
                 using (var conn = new OracleConnection(ConnectionString))
-                using (var cmd = new OracleCommand(GetOracleSchemaSql(table), conn))
+                using (var cmd = new OracleCommand(GetOracleSchemaSql(table.Name), conn))
                 {
                     await conn.OpenAsync();
 
@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
                 }
                 using (var conn = new OracleConnection(ConnectionString))
-                using (var cmd = new OracleCommand(GetOraclePrimaryKeySql(table), conn))
+                using (var cmd = new OracleCommand(GetOraclePrimaryKeySql(table.Name), conn))
                 {
                     await conn.OpenAsync();
 
@@ -74,7 +74,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
 
                 using (var conn = new OracleConnection(ConnectionString))
-                using (var cmd = new OracleCommand(GetTableSql(table), conn))
+                using (var cmd = new OracleCommand(GetTableSql(table.Name), conn))
                 {
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync() as OracleDataReader)
@@ -113,13 +113,13 @@ namespace Bespoke.Sph.Integrations.Adapters
                                 col.Scale = (decimal?)scale;
 
                             if (null != col.GetClrType())
-                                m_columnCollection[table].Add(col);
+                                m_columnCollection[table.Name].Add(col);
 
                         }
                     }
                 }
 
-                var members = from c in m_columnCollection[table]
+                var members = from c in m_columnCollection[table.Name]
                               select new Member
                               {
                                   Name = c.Name,
@@ -171,9 +171,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var table in this.Tables)
             {
                 var table1 = table;
-                var td = m_tableDefinitions.Single(a => a.Name == table1);
-                var name = table;
-                var adapterName = table + "Adapter";
+                var td = m_tableDefinitions.Single(a => a.Name == table1.Name);
+                var name = table.Name;
+                var adapterName = name + "Adapter";
 
                 var header = this.GetCodeHeader(namespaces);
                 var code = new StringBuilder(header);
@@ -181,21 +181,21 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLine("   public class " + adapterName);
                 code.AppendLine("   {");
 
-                code.AppendLine(GenerateInsertMethod(name, table));
-                code.AppendLine(GenerateUpdateMethod(name, table));
+                code.AppendLine(GenerateInsertMethod(name));
+                code.AppendLine(GenerateUpdateMethod(name));
                 code.AppendLine(GenerateConvertMethod(name));
                 code.AppendLine(GenerateConnectionStringProperty());
 
                 var record = td.MemberCollection.Single(m => m.Name == td.RecordName);
-                code.AppendLine(GenerateSelectOne(name, record, table));
-                code.AppendLine(GenerateSelectMethod(name, record, table));
-                code.AppendLine(GenerateDeleteMethod(record, table));
+                code.AppendLine(GenerateSelectOne(name, record));
+                code.AppendLine(GenerateSelectMethod(name, record));
+                code.AppendLine(GenerateDeleteMethod(record, name));
 
 
                 code.AppendLine("   }");// end class
                 code.AppendLine("}");// end namespace
 
-
+                Console.WriteLine(adapterName);
                 sources.Add(adapterName + ".cs", code.ToString());
             }
             sources.Add("Column.cs", this.GenerateColumnClass());
@@ -311,11 +311,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateUpdateMethod(string name, string table)
+        private string GenerateUpdateMethod(string table)
         {
             var code = new StringBuilder();
             var columns = m_columnCollection[table];
-            code.AppendLinf("       public async Task<int> UpdateAsync({0} item)", name);
+            code.AppendLinf("       public async Task<int> UpdateAsync({0} item)", table);
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
@@ -334,11 +334,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateInsertMethod(string name, string table)
+        private string GenerateInsertMethod(string table)
         {
             var code = new StringBuilder();
             var colums = m_columnCollection[table];
-            code.AppendLinf("       public async Task<int> InsertAsync({0} item)", name);
+            code.AppendLinf("       public async Task<int> InsertAsync({0} item)", table);
             code.AppendLine("       {");
 
             code.AppendLine("           var columns = new List<Column>()");
@@ -405,15 +405,15 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateSelectOne(string name, Member record, string table)
+        private string GenerateSelectOne(string name, Member record)
         {
             var code = new StringBuilder();
-            var td = m_tableDefinitions.Single(t => t.Name == table);
+            var td = m_tableDefinitions.Single(t => t.Name == name);
             code.AppendLinf("       public async Task<{0}> LoadOneAsync({1} id)", name, record.Type.ToCSharp());
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetSelectOneCommand(table));
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetSelectOneCommand(name));
             code.AppendLine("           {");
 
             code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", td.RecordName);
@@ -424,7 +424,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
             code.AppendLinf("                       var item = new {0}();", name);
-            foreach (var column in m_columnCollection[table])
+            foreach (var column in m_columnCollection[name])
             {
                 if (column.IsNullable && column.GetClrType() != typeof(string))
                     code.AppendLinf("                       item.{0} = Convert<{1}>(reader[\"{0}\"]);", column.Name, column.GetCSharpType());
@@ -442,7 +442,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateSelectMethod(string name, Member record, string table)
+        private string GenerateSelectMethod(string name, Member record)
         {
             var code = new StringBuilder();
             //load async
@@ -450,7 +450,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0} \" + filter, conn))", this.GetSelectCommand(table));
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0} \" + filter, conn))", this.GetSelectCommand(name));
             code.AppendLine("           {");
 
             code.AppendLinf("               var list = new List<{0}>();", name);
@@ -461,7 +461,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
             code.AppendLinf("                       var item = new {0}();", name);
-            foreach (var column in m_columnCollection[table])
+            foreach (var column in m_columnCollection[name])
             {
                 if (column.IsNullable && column.GetClrType() != typeof(string))
                     code.AppendLinf("                       item.{0} = Convert<{1}>(reader[\"{0}\"]);", column.Name, column.GetCSharpType());
