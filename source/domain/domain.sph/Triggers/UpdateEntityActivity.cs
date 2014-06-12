@@ -38,20 +38,15 @@ namespace Bespoke.Sph.Domain
             else
                 code.AppendLinf("       var item = await context.LoadOneAsync<{0}>(e => e.{1}Id == {2});", type.FullName, type.Name, this.EntityIdPath);
 
-            code.AppendLinf("if(item.{0}Id == 0)throw new InvalidOperationException(\"{0}Id is 0\");",type.Name);
-            
+            code.AppendLinf("if(item.{0}Id == 0)throw new InvalidOperationException(\"{0}Id is 0\");", type.Name);
+
             code.AppendLinf("       var self = this.WorkflowDefinition.ActivityCollection.OfType<UpdateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
 
-            var count = 1;
             foreach (var mapping in this.PropertyMappingCollection)
             {
-                code.AppendLinf("       var functoid{1} =  self.PropertyMappingCollection.SingleOrDefault(m => m.WebId == \"{0}\") as FunctoidMapping;", mapping.WebId, count);
-                code.AppendLinf("       if(null != functoid{0})", count);
-                code.AppendLinf("           item.{0} = functoid{2}.Functoid.Convert<string,string>(this.{1});", mapping.Destination, mapping.Source, count);
-                code.AppendLine("       else");
                 code.AppendLinf("           item.{0} = this.{1};", mapping.Destination, mapping.Source);
-
-                count++;
+                if(null != mapping as FunctoidMapping)
+                    throw new Exception("Functoid mapping is not yet supported");
             }
             code.AppendLine("      using (var session = context.OpenSession())");
             code.AppendLine("      {");
