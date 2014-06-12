@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mysql.adapter", "source\ada
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "razor.template", "source\dependencies\razor.template\razor.template.csproj", "{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sqlserver.adapter.test", "source\unit.test\sqlserver.adapter.test\sqlserver.adapter.test.csproj", "{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,5 +94,6 @@ Global
 		{66FE46F2-986C-4B7C-A440-CCC1AE37784B} = {5F30D78D-96BC-4D5B-8DE8-5184328B110E}
 		{83839DC2-9B27-4DAE-8111-0FB481FBA0A8} = {5F30D78D-96BC-4D5B-8DE8-5184328B110E}
 		{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 EndGlobal

@@ -56,6 +56,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\adapters\oracle.adapter\oracle.adapter.csproj">
+      <Project>{4D432CD3-BAB4-40E9-AFD2-3187B791E9AA}</Project>
+      <Name>oracle.adapter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>

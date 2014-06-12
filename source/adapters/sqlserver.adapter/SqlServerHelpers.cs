@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Linq;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Integrations.Adapters

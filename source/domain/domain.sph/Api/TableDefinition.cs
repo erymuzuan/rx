@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Domain.Api
 
             var orderby = this.Request.QueryString[""$orderby""];
             var translator = new {0}<{1}>(null, typeName);
-            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? ""{1}Id gt 0"" : filter, orderby);
+            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? ""{2} gt 0"" : filter, orderby);
             var rows = 0;
 
             var context = new {1}Adapter();
@@ -56,14 +56,11 @@ namespace Bespoke.Sph.Domain.Api
                 previousPageToken,
                 size
             }};
-            var setting = new JsonSerializerSettings
-                {{
-                    TypeNameHandling = TypeNameHandling.Objects
-                }};
+            var setting = new JsonSerializerSettings{{TypeNameHandling = TypeNameHandling.Objects}};
 
             this.Response.ContentType = ""application/json"";
             return Content(JsonConvert.SerializeObject(json, Formatting.Indented, setting));
-            ", adapter.OdataTranslator, this.Name);
+            ", adapter.OdataTranslator, this.Name, this.RecordName);
 
 
             code.AppendLine();
