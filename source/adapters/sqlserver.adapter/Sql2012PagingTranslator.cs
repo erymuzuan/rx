@@ -2,7 +2,7 @@
 
 namespace __NAMESPACE__
 {
-    public class Sql2012PagingTranslator 
+    public class SqlPagingTranslator 
     {
         public string Tranlate(string sql, int page, int size)
         {

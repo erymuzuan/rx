@@ -220,6 +220,21 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
             }
         }
+        protected override Task<Tuple<string, string>> GeneratePagingSourceCodeAsync()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.Sql2012PagingTranslator.cs";
+
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
+            using (var reader = new StreamReader(stream))
+            {
+                var code = reader.ReadToEnd();
+                code = code.Replace("__NAMESPACE__", this.CodeNamespace);
+                var source = new Tuple<string, string>("SqlPagingTranslator.cs", code);
+                return Task.FromResult(source);
+
+            }
+        }
 
         private string GenerateUpdateMethod(string name)
         {
@@ -311,10 +326,10 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             var code = new StringBuilder();
             //load async
-            code.AppendLinf("       public async Task<IEnumerable<{0}>> LoadAsync(string filter, int page = 1, size = 40, bool includeTotal = false)", name, record.Type.ToCSharp());
+            code.AppendLinf("       public async Task<IEnumerable<{0}>> LoadAsync(string filter, int page = 1, int size = 40, bool includeTotal = false)", name, record.Type.ToCSharp());
             code.AppendLine("       {");
 
-            code.AppendLinf("           var sql =@\"{0} \" + filter ", this.GetSelectCommand(name));
+            code.AppendLinf("           var sql =@\"{0} \" + filter;", this.GetSelectCommand(name));
             code.AppendLinf(@"          if (!sql.ToString().Contains(""ORDER""))
                                                 sql +=""\r\nORDER BY [{0}]"";", record.Name);
             code.AppendLinf(@"

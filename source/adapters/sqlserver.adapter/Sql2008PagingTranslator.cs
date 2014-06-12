@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace __NAMESPACE__
 {
-    public class Sql2008PagingTranslator 
+    public class SqlPagingTranslator 
     {
         public string Tranlate(string sql, int page, int size)
         {
