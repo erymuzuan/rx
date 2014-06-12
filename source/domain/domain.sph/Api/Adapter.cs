@@ -13,7 +13,7 @@ using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain.Api
 {
-    public  abstract partial class Adapter
+    public abstract partial class Adapter
     {
         public string[] SaveSources(Dictionary<string, string> sources, string folder)
         {
@@ -114,7 +114,8 @@ namespace Bespoke.Sph.Domain.Api
 
             var adapterCodes = await this.GenerateSourceCodeAsync(options, this.CodeNamespace);
             var adapterSources = this.SaveSources(adapterCodes, sourceFolder);
-            var odataTranslatorCode =await this.GenerateOdataTranslatorSourceCodeAsync();
+            
+            var odataTranslatorCode = await this.GenerateOdataTranslatorSourceCodeAsync();
             var odataSource = this.SaveSources(new Dictionary<string, string>
             {
                 {
@@ -122,8 +123,17 @@ namespace Bespoke.Sph.Domain.Api
                     odataTranslatorCode.Item2
                 }
             }, sourceFolder);
-            sources.AddRange(adapterSources);
             sources.AddRange(odataSource);
+            
+            var pagingCode = await this.GeneratePagingSourceCodeAsync();
+            var pagingSource = this.SaveSources(new Dictionary<string, string>
+            {
+                {
+                    pagingCode.Item1,
+                    pagingCode.Item2
+                }
+            }, sourceFolder);
+            sources.AddRange(pagingSource);
 
 
             var result = this.Compile(options, sources.ToArray());
@@ -137,6 +147,7 @@ namespace Bespoke.Sph.Domain.Api
 
         protected abstract Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces);
         protected abstract Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync();
+        protected abstract Task<Tuple<string, string>> GeneratePagingSourceCodeAsync();
         protected abstract Task<TableDefinition> GetSchemaDefinitionAsync(string table);
     }
 }
