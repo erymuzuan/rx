@@ -1,0 +1,92 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit.test", "unit.test", "{C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5D5FA217-25F5-4EF5-BADA-7691B883E274}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domain", "domain", "{FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F1AD165B-1A46-4B5A-9711-D73FF7104796}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{DB65484E-BE1F-4944-B216-4A57026360EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domain.test", "source\unit.test\domain.test\domain.test.csproj", "{E3A54166-4231-47E7-BA4C-A391CDD6937D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "roslyn.scriptengine", "source\dependencies\roslyn.scriptengine\roslyn.scriptengine.csproj", "{E32D7760-5A94-4A0F-8354-52223C593A8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domain.sph", "source\domain\domain.sph\domain.sph.csproj", "{7BF1DE5A-3756-4A31-8B82-491C71D263D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adapters", "adapters", "{5F30D78D-96BC-4D5B-8DE8-5184328B110E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oracle.adapter", "source\adapters\oracle.adapter\oracle.adapter.csproj", "{4D432CD3-BAB4-40E9-AFD2-3187B791E9AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oracle.adapter.test", "source\unit.test\oracle.adapter.test\oracle.adapter.test.csproj", "{139E3D20-B79C-478D-B3BB-BC9BB01F32D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sqlserver.adapter", "source\adapters\sqlserver.adapter\sqlserver.adapter.csproj", "{66FE46F2-986C-4B7C-A440-CCC1AE37784B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mysql.adapter", "source\adapters\mysql.adapter\mysql.adapter.csproj", "{83839DC2-9B27-4DAE-8111-0FB481FBA0A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "razor.template", "source\dependencies\razor.template\razor.template.csproj", "{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3A54166-4231-47E7-BA4C-A391CDD6937D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3A54166-4231-47E7-BA4C-A391CDD6937D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3A54166-4231-47E7-BA4C-A391CDD6937D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3A54166-4231-47E7-BA4C-A391CDD6937D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E32D7760-5A94-4A0F-8354-52223C593A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E32D7760-5A94-4A0F-8354-52223C593A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E32D7760-5A94-4A0F-8354-52223C593A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E32D7760-5A94-4A0F-8354-52223C593A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BF1DE5A-3756-4A31-8B82-491C71D263D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BF1DE5A-3756-4A31-8B82-491C71D263D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BF1DE5A-3756-4A31-8B82-491C71D263D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BF1DE5A-3756-4A31-8B82-491C71D263D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D432CD3-BAB4-40E9-AFD2-3187B791E9AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D432CD3-BAB4-40E9-AFD2-3187B791E9AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D432CD3-BAB4-40E9-AFD2-3187B791E9AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D432CD3-BAB4-40E9-AFD2-3187B791E9AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{139E3D20-B79C-478D-B3BB-BC9BB01F32D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{139E3D20-B79C-478D-B3BB-BC9BB01F32D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{139E3D20-B79C-478D-B3BB-BC9BB01F32D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{139E3D20-B79C-478D-B3BB-BC9BB01F32D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FE46F2-986C-4B7C-A440-CCC1AE37784B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FE46F2-986C-4B7C-A440-CCC1AE37784B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FE46F2-986C-4B7C-A440-CCC1AE37784B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66FE46F2-986C-4B7C-A440-CCC1AE37784B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83839DC2-9B27-4DAE-8111-0FB481FBA0A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83839DC2-9B27-4DAE-8111-0FB481FBA0A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83839DC2-9B27-4DAE-8111-0FB481FBA0A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83839DC2-9B27-4DAE-8111-0FB481FBA0A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E3A54166-4231-47E7-BA4C-A391CDD6937D} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{E32D7760-5A94-4A0F-8354-52223C593A8E} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{7BF1DE5A-3756-4A31-8B82-491C71D263D7} = {FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}
+		{4D432CD3-BAB4-40E9-AFD2-3187B791E9AA} = {5F30D78D-96BC-4D5B-8DE8-5184328B110E}
+		{139E3D20-B79C-478D-B3BB-BC9BB01F32D0} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{66FE46F2-986C-4B7C-A440-CCC1AE37784B} = {5F30D78D-96BC-4D5B-8DE8-5184328B110E}
+		{83839DC2-9B27-4DAE-8111-0FB481FBA0A8} = {5F30D78D-96BC-4D5B-8DE8-5184328B110E}
+		{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+	EndGlobalSection
+EndGlobal
