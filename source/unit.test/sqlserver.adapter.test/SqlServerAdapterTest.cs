@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.IO;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -79,6 +81,21 @@ namespace sqlserver.adapter.test
             var loadAfterDeleted = await adapter.LoadOneAsync(prs.BusinessEntityID);
             Assert.IsNull(loadAfterDeleted);
 
+
+            // now test the API
+            File.Copy(result.Output, ConfigurationManager.WebPath + @"\bin\" + Path.GetFileName(result.Output),true);
+            Console.WriteLine("copying files");
+            await Task.Delay(1000);
+            const string URL = "person?filter=LastName eq 'mustapa'&includeTotal=true&page=2&size=5";
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:4436");
+
+                var response = await client.GetStringAsync(URL);
+                Console.WriteLine(response);
+
+            }
         }
     }
 }

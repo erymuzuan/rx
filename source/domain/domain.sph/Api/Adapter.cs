@@ -114,7 +114,8 @@ namespace Bespoke.Sph.Domain.Api
 
             var adapterCodes = await this.GenerateSourceCodeAsync(options, this.CodeNamespace);
             var adapterSources = this.SaveSources(adapterCodes, sourceFolder);
-            
+            sources.AddRange(adapterSources);
+
             var odataTranslatorCode = await this.GenerateOdataTranslatorSourceCodeAsync();
             var odataSource = this.SaveSources(new Dictionary<string, string>
             {

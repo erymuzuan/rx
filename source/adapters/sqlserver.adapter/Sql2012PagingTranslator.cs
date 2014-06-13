@@ -4,7 +4,7 @@ namespace __NAMESPACE__
 {
     public class SqlPagingTranslator 
     {
-        public string Tranlate(string sql, int page, int size)
+        public string Translate(string sql, int page, int size)
         {
             var skipToken = (page - 1) * size;
             var output = new StringBuilder(sql);

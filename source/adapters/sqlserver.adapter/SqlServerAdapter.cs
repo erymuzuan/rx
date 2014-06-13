@@ -24,7 +24,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             get { return "OdataSqlTranslator"; }
         }
 
-       
+
 
         private const string PkSql = @"
 SELECT  
@@ -64,7 +64,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             foreach (var table in this.Tables)
             {
 
-                var td = new TableDefinition { Name = table.Name };
+                var td = new TableDefinition { Name = table.Name , Schema = this.Schema};
                 var columns = new ObjectCollection<SqlColumn>();
 
                 var updateCommand = new StringBuilder("UPDATE ");
@@ -149,6 +149,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             header.AppendLine("using " + typeof(Task<>).Namespace + ";");
             header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
+            header.AppendLine("using " + typeof(StringBuilder).Namespace + ";");
             header.AppendLine("using " + typeof(SqlConnection).Namespace + ";");
             header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
             header.AppendLine("using System.Web.Mvc;");
@@ -186,6 +187,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 code.AppendLine("   public class " + adapterName);
                 code.AppendLine("   {");
 
+                code.AppendLine(GenerateExecuteScalarMethod());
                 code.AppendLine(GenerateDeleteMethod(record, name));
                 code.AppendLine(GenerateInsertMethod(name));
                 code.AppendLine(GenerateUpdateMethod(name));
@@ -203,6 +205,29 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
             }
             return Task.FromResult(sources);
+        }
+
+        private string GenerateExecuteScalarMethod()
+        {
+            var code = new StringBuilder();
+            code.AppendLine("       public async Task<T> ExecuteScalarAsync<T>(string sql)");
+            code.AppendLine("       {");
+
+            code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
+            code.AppendLine("           using(var cmd = new SqlCommand(sql, conn))");
+            code.AppendLine("           {");
+
+            code.AppendLine("               await conn.OpenAsync();");
+            code.AppendLine("               var dbval = await cmd.ExecuteScalarAsync();");
+            code.AppendLine("               if(dbval == System.DBNull.Value)");
+            code.AppendLine("                   return default(T);");
+            code.AppendLine("               return (T)dbval;");
+            code.AppendLine("           }");
+
+            code.AppendLine("       }");
+
+            return code.ToString();
+
         }
 
         protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
@@ -326,21 +351,24 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             var code = new StringBuilder();
             //load async
-            code.AppendLinf("       public async Task<IEnumerable<{0}>> LoadAsync(string filter, int page = 1, int size = 40, bool includeTotal = false)", name, record.Type.ToCSharp());
+            code.AppendLinf("       public async Task<LoadOperation<{0}>> LoadAsync(string sql, int page = 1, int size = 40, bool includeTotal = false)", name, record.Type.ToCSharp());
             code.AppendLine("       {");
 
-            code.AppendLinf("           var sql =@\"{0} \" + filter;", this.GetSelectCommand(name));
-            code.AppendLinf(@"          if (!sql.ToString().Contains(""ORDER""))
-                                                sql +=""\r\nORDER BY [{0}]"";", record.Name);
-            code.AppendLinf(@"
-                                        var translator = new SqlPagingTranslator();
-                                        sql = new StringBuilder(translator.Tranlate(sql, page, size));");
-
+            code.AppendLine("           if (!sql.ToString().Contains(\"ORDER\"))");
+            code.AppendLinf("               sql +=\"\\r\\nORDER BY [{0}]\";", record.Name);
+            code.AppendLine("           var translator = new SqlPagingTranslator();");
+            code.AppendLine("           sql = translator.Translate(sql, page, size);");
+            code.AppendLine();
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new SqlCommand( sql.ToString(), conn))", this.GetSelectCommand(name));
+            code.AppendLinf("           using(var cmd = new SqlCommand( sql, conn))", this.GetSelectCommand(name));
             code.AppendLine("           {");
 
-            code.AppendLinf("               var list = new List<{0}>();", name);
+            code.AppendLinf("               var lo = new LoadOperation<{0}>", name);
+            code.AppendLine("                            {");
+            code.AppendLine("                               CurrentPage = page,");
+            code.AppendLine("                               Filter = sql,");
+            code.AppendLine("                               PageSize = size,");
+            code.AppendLine("                            };");
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               using(var reader = await cmd.ExecuteReaderAsync())");
@@ -349,10 +377,10 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLine("                   {");
             code.AppendLinf("                       var item = new {0}();", name);
             code.AppendLine(PopulateItemFromReader(name));
-            code.AppendLinf("                       list.Add(item);");
+            code.AppendLinf("                       lo.ItemCollection.Add(item);");
             code.AppendLine("                   }");
             code.AppendLine("               }");
-            code.AppendLine("               return list;");
+            code.AppendLine("               return lo;");
             code.AppendLine("           }");
 
             code.AppendLine("       }");

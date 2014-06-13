@@ -5,7 +5,7 @@ namespace __NAMESPACE__
 {
     public class SqlPagingTranslator 
     {
-        public string Tranlate(string sql, int page, int size)
+        public string Translate(string sql, int page, int size)
         {
             var predicate = string.Empty;
             const string columnPattern = "^SELECT (?<column>.*?)FROM";

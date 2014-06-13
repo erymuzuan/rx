@@ -12,6 +12,7 @@ namespace Bespoke.Sph.Domain
         public Exception Exception { get; set; }
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
+        public string Filter { get; set; }
         public IQueryable<T> Query { get; set; }
         public int? TotalRows { get; set; }
         public int? NextSkipToken { get; set; }

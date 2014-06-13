@@ -2,6 +2,7 @@
 {
     public partial class TableDefinition
     {
+        public string Schema { get; set; }
         private readonly ObjectCollection<Member> m_memberCollection = new ObjectCollection<Member>();
         private readonly ObjectCollection<TableDefinition> m_childTableCollection = new ObjectCollection<TableDefinition>();
         private readonly ObjectCollection<TableDefinition> m_parentTableCollection = new ObjectCollection<TableDefinition>();

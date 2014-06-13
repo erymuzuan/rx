@@ -49,16 +49,7 @@ namespace __NAMESPACE__
                 ;
         }
 
-        public string Schema
-        {
-            get
-            {
-                var type = Type.GetType(typeof(Entity).Namespace + "." + m_table + ", domain.sph");
-                if (null != type)
-                    return "Sph";
-                return ConfigurationManager.ApplicationName;
-            }
-        }
+        public string Schema { get; set; }
 
         public string Min(string filter)
         {

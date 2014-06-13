@@ -24,43 +24,44 @@ namespace Bespoke.Sph.Domain.Api
            if (size > 200)
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
-            var typeName = ""{1}"";
-
             var orderby = this.Request.QueryString[""$orderby""];
-            var translator = new {0}<{1}>(null, typeName);
+            var translator = new {0}<{1}>(null,""{1}"" ){{Schema = ""{3}""}};
             var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? ""{2} gt 0"" : filter, orderby);
             var rows = 0;
 
             var context = new {1}Adapter();
 
             var nextPageToken = string.Empty;
-            var list = await context.LoadAsync(sql);//, page, size);
+            var lo = await context.LoadAsync(sql, page, size);
             if (includeTotal || page > 1)
             {{
-                var translator2 = new {0}<{1}>(""{0}Id"", typeName);
+                var translator2 = new {0}<{1}>(""{0}Id"", ""{1}""){{Schema = ""{3}""}};
                 var sumSql = translator2.Count(filter);
-                rows =5000;// await context.ExecuteScalarAsync(sumSql);
+                rows = await context.ExecuteScalarAsync<int>(sumSql);
+                //return Content(sumSql);
 
-                if (rows >= list.Count())
+                if (rows >= lo.ItemCollection.Count())
                     nextPageToken = string.Format(
-                        ""/Api/{{3}}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size, typeName);
+                        ""/Api/{1}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size);
             }}
 
             string previousPageToken = DateTime.Now.ToShortTimeString();
             var json = new
             {{
-                results = list.ToArray(),
                 rows,
                 page,
                 nextPageToken,
                 previousPageToken,
-                size
+                size,
+                filter,
+                sql,
+                results = lo.ItemCollection.ToArray()
             }};
-            var setting = new JsonSerializerSettings{{TypeNameHandling = TypeNameHandling.Objects}};
+            var setting = new JsonSerializerSettings{{}};
 
             this.Response.ContentType = ""application/json"";
             return Content(JsonConvert.SerializeObject(json, Formatting.Indented, setting));
-            ", adapter.OdataTranslator, this.Name, this.RecordName);
+            ", adapter.OdataTranslator, this.Name, this.RecordName, this.Schema);
 
 
             code.AppendLine();
@@ -149,7 +150,7 @@ namespace Bespoke.Sph.Domain.Api
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
 
-            code.AppendLine("   public class " + this.Name + "");
+            code.AppendLine("   public class " + this.Name + ":DomainObject");
             code.AppendLine("   {");
 
 
