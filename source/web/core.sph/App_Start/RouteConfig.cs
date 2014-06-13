@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Web.App_Start
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("glimpse.axd");
-            //routes.MapMvcAttributeRoutes();
+            routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(
                 name: "Default",

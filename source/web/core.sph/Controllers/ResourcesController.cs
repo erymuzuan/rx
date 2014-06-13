@@ -76,8 +76,6 @@ namespace Bespoke.Sph.Web.Controllers
         public ActionResult Images(string id)
         {
             return GetResource(id, "Images");
-
-
         }
 
         [ActionName("Content")]

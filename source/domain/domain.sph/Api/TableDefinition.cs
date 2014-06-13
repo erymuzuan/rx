@@ -15,9 +15,10 @@ namespace Bespoke.Sph.Domain.Api
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
 
+            code.AppendLinf("   [RoutePrefix(\"api/{0}/{1}\")]", this.Schema.ToLowerInvariant(), this.Name.ToLowerInvariant());
             code.AppendLinf("   public partial class {0}Controller : System.Web.Mvc.Controller", this.Name);
             code.AppendLine("   {");
-            code.AppendLinf("       //exec:Search");
+            code.AppendLine("       [Route]");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Index(string filter = null, int page = 1, int size = 40, bool includeTotal = false)");
             code.AppendLine("       {");
             code.AppendLinf(@"
@@ -30,7 +31,6 @@ namespace Bespoke.Sph.Domain.Api
             var rows = 0;
 
             var context = new {1}Adapter();
-
             var nextPageToken = string.Empty;
             var lo = await context.LoadAsync(sql, page, size);
             if (includeTotal || page > 1)
@@ -42,7 +42,7 @@ namespace Bespoke.Sph.Domain.Api
 
                 if (rows >= lo.ItemCollection.Count())
                     nextPageToken = string.Format(
-                        ""/Api/{1}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size);
+                        ""/api/{3}/{1}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size);
             }}
 
             string previousPageToken = DateTime.Now.ToShortTimeString();
@@ -53,8 +53,6 @@ namespace Bespoke.Sph.Domain.Api
                 nextPageToken,
                 previousPageToken,
                 size,
-                filter,
-                sql,
                 results = lo.ItemCollection.ToArray()
             }};
             var setting = new JsonSerializerSettings{{}};
@@ -68,8 +66,8 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       }");
             code.AppendLine();
 
-            // SAVE
-            code.AppendLinf("       //exec:Save");
+            // insert
+            code.AppendLine("       [Route]");
             code.AppendLinf("       [HttpPut]");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Insert([RequestBody]{0} item)", this.Name);
             code.AppendLine("       {");
@@ -83,8 +81,8 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       }");
 
 
-            // SAVE
-            code.AppendLinf("       //exec:Save");
+            // update
+            code.AppendLine("       [Route]");
             code.AppendLinf("       [HttpPost]");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]{0} item)", this.Name);
             code.AppendLine("       {");
@@ -98,14 +96,13 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       }");
 
 
-            // REMOVE
+            // delete
             var record = this.MemberCollection.Single(m => m.Name == this.RecordName);
-            code.AppendLinf("       //exec:Remove");
+            code.AppendLine("       [Route]");
             code.AppendLinf("       [HttpDelete]");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove({0} id)", record.Type.ToCSharp());
             code.AppendLine("       {");
             code.AppendLinf(@"
-            // TODO
             var context = new {0}Adapter();
             await context.DeleteAsync(id);
             this.Response.ContentType = ""application/json; charset=utf-8"";

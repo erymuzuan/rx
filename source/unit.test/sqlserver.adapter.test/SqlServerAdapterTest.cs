@@ -86,7 +86,7 @@ namespace sqlserver.adapter.test
             File.Copy(result.Output, ConfigurationManager.WebPath + @"\bin\" + Path.GetFileName(result.Output),true);
             Console.WriteLine("copying files");
             await Task.Delay(1000);
-            const string URL = "person?filter=LastName eq 'mustapa'&includeTotal=true&page=2&size=5";
+            const string URL = "api/person/person?filter=Title eq 'Ms.'&includeTotal=true&page=2&size=5";
 
             using (var client = new HttpClient())
             {
