@@ -30,10 +30,17 @@ namespace Bespoke.Sph.Domain.Api
 
         }
 
+
+        private string GetRouteConstraint(Type type)
+        {
+            if (type == typeof(string)) return string.Empty;
+            if (type == typeof(short)) return ":int";
+            return ":" + type.ToCSharp();
+        }
+
         private void GenerateGetAction(StringBuilder code, Member record)
         {
-            // delete
-            code.AppendLinf("       [Route(\"{{id:{0}}}\")]", record.Type.ToCSharp());
+            code.AppendLinf("       [Route(\"{{id{0}}}\")]", this.GetRouteConstraint(record.Type));
             code.AppendLinf("       [HttpGet]");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Get({0} id)", record.Type.ToCSharp());
             code.AppendLine("       {");
@@ -48,11 +55,10 @@ namespace Bespoke.Sph.Domain.Api
 ", this.Name);
             code.AppendLine("       }");
         }
-
         private void GenerateDeleteAction(StringBuilder code, Member record)
         {
-            // delete
-            code.AppendLine("       [Route(\"{id:int}\")]");
+
+            code.AppendLinf("       [Route(\"{{id{0}}}\")]", this.GetRouteConstraint(record.Type));
             code.AppendLinf("       [HttpDelete]");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove({0} id)", record.Type.ToCSharp());
             code.AppendLine("       {");
@@ -64,6 +70,7 @@ namespace Bespoke.Sph.Domain.Api
             return Json(new {{success = true, status=""OK"", id = id}});", this.Name);
             code.AppendLine("       }");
         }
+
 
         private void GenerateUpdateAction(StringBuilder code)
         {

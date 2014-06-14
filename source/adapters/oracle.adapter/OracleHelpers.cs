@@ -56,6 +56,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (lowered == "number" && column.Scale == 0
                 && column.Precision == 4)
                 return typeof(short);
+            if (lowered == "number" && column.Scale == 2
+                && column.Precision == 2)
+                return typeof(float);
             if (lowered == "number" && column.Scale > 0)
                 return typeof(decimal);
 

@@ -17,6 +17,22 @@ namespace Bespoke.Sph.Integrations.Adapters
     public partial class OracleAdapter : Adapter
     {
         private readonly ObjectCollection<TableDefinition> m_tableDefinitions = new ObjectCollection<TableDefinition>();
+        
+        protected override Task<Tuple<string, string>> GeneratePagingSourceCodeAsync()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OraclePagingTranslator.txt";
+
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
+            using (var reader = new StreamReader(stream))
+            {
+                var code = reader.ReadToEnd();
+                code = code.Replace("__NAMESPACE__", this.CodeNamespace);
+                var source = new Tuple<string, string>("OraclePagingTranslator.cs", code);
+                return Task.FromResult(source);
+
+            }
+        }
 
         private string GetOraclePrimaryKeySql(string table)
         {
@@ -53,7 +69,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             foreach (var table in this.Tables)
             {
-                var td = new TableDefinition { Name = table.Name, CodeNamespace = this.CodeNamespace };
+                var td = new TableDefinition { Schema = this.Schema, Name = table.Name, CodeNamespace = this.CodeNamespace };
                 m_columnCollection.Add(table.Name, new ObjectCollection<Column>());
                 m_tableDefinitions.Add(td);
 
@@ -188,6 +204,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLine("   public class " + adapterName);
                 code.AppendLine("   {");
 
+                code.AppendLine(GenerateExecuteScalarMethod());
                 code.AppendLine(GenerateInsertMethod(name));
                 code.AppendLine(GenerateUpdateMethod(name));
                 code.AppendLine(GenerateConvertMethod(name));
@@ -215,13 +232,13 @@ namespace Bespoke.Sph.Integrations.Adapters
         protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OdataOracleTranslator.cs";
+            const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OdataOracleTranslator.txt";
 
             using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME ))
             using (var reader = new StreamReader(stream))
             {
                 var code = reader.ReadToEnd();
-                code = code.Replace("NAMESPACE", this.CodeNamespace);
+                code = code.Replace("__NAMESPACE__", this.CodeNamespace);
                 var source = new Tuple<string, string>("OdataOracleTranslator.cs", code);
                 return Task.FromResult(source);
 
@@ -402,7 +419,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("       {");
 
             code.AppendLine("           if(val == null) return default(T?);");
-            code.AppendLine("           System.Diagnostics.Debug.WriteLine(\"{0} -> {1}\", val.GetType(),val);");
+            code.AppendLine("           System.Console.WriteLine(\"{0}:{1} ->{2}\", val.GetType(),val, typeof(T).FullName);");
             code.AppendLine("           if(val == System.DBNull.Value) return default(T?);");
             code.AppendLine("           return (T)val;");
 
@@ -464,19 +481,53 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             return code.ToString();
         }
+        private string GenerateExecuteScalarMethod()
+        {
+            var code = new StringBuilder();
+            code.AppendLine("       public async Task<T> ExecuteScalarAsync<T>(string sql)");
+            code.AppendLine("       {");
+
+            code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
+            code.AppendLine("           using(var cmd = new OracleCommand(sql, conn))");
+            code.AppendLine("           {");
+
+            code.AppendLine("               await conn.OpenAsync();");
+            code.AppendLine("               var dbval = await cmd.ExecuteScalarAsync();");
+            code.AppendLine("               if(dbval == System.DBNull.Value)");
+            code.AppendLine("                   return default(T);");
+            code.AppendLine("               return (T)dbval;");
+            code.AppendLine("           }");
+
+            code.AppendLine("       }");
+
+            return code.ToString();
+
+        }
+
 
         private string GenerateSelectMethod(string name, Member record)
         {
             var code = new StringBuilder();
             //load async
-            code.AppendLinf("       public async Task<IEnumerable<{0}>> LoadAsync(string filter)", name, record.Type.ToCSharp());
+            code.AppendLinf("       public async Task<LoadOperation<{0}>> LoadAsync(string sql, int page = 1, int size = 40, bool includeTotal = false)", name, record.Type.ToCSharp());
             code.AppendLine("       {");
 
-            code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0} \" + filter, conn))", this.GetSelectCommand(name));
-            code.AppendLine("           {");
+            code.AppendLine("           if (!sql.ToString().Contains(\"ORDER\"))");
+            code.AppendLinf("               sql +=\"\\r\\nORDER BY {0}\";", record.Name);
+            code.AppendLine("           var translator = new OraclePagingTranslator();");
+            code.AppendLine("           sql = translator.Translate(sql, page, size);");
+            code.AppendLine("           Console.WriteLine(sql);");
 
-            code.AppendLinf("               var list = new List<{0}>();", name);
+            code.AppendLine("           using(var conn = new OracleConnection(this.ConnectionString))");
+            code.AppendLine("           using(var cmd = new OracleCommand(sql, conn))");
+            code.AppendLine("           {");
+            code.AppendLinf("               var lo = new LoadOperation<{0}>", name);
+            code.AppendLine("                            {");
+            code.AppendLine("                               CurrentPage = page,");
+            code.AppendLine("                               Filter = sql,");
+            code.AppendLine("                               PageSize = size,");
+            code.AppendLine("                            };");
+
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               using(var reader = await cmd.ExecuteReaderAsync())");
@@ -491,10 +542,10 @@ namespace Bespoke.Sph.Integrations.Adapters
                 else
                     code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", column.Name, column.GetCSharpType());
             }
-            code.AppendLinf("                       list.Add(item);");
+            code.AppendLinf("                       lo.ItemCollection.Add(item);");
             code.AppendLine("                   }");
             code.AppendLine("               }");
-            code.AppendLine("               return list;");
+            code.AppendLine("               return lo;");
             code.AppendLine("           }");
 
             code.AppendLine("       }");
