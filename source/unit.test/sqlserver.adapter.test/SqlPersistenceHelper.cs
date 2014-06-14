@@ -7,6 +7,7 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Integrations.Adapters;
 
 namespace sqlserver.adapter.test
 {
@@ -26,9 +27,9 @@ namespace sqlserver.adapter.test
             Thread.CurrentPrincipal = principal;
         }
 
-        public static T GetDatabaseScalarValue<T>(this string connectionStringName, string sql, params SqlParameter[] parameters)
+        public static T GetDatabaseScalarValue<T>(this SqlServerAdapter adapter, string sql, params SqlParameter[] parameters)
         {
-            var connectionString = GetConnectionString(connectionStringName);
+            var connectionString = adapter.ConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -181,9 +182,9 @@ namespace sqlserver.adapter.test
         }
 
 
-        public static void ExecuteNonQuery(this string connectionStringName, string sql, params SqlParameter[] parameters)
+        public static void ExecuteNonQuery(this SqlServerAdapter adapter, string sql, params SqlParameter[] parameters)
         {
-            var connectionString = GetConnectionString(connectionStringName);
+            var connectionString = adapter.ConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -195,9 +196,9 @@ namespace sqlserver.adapter.test
             }
         }
 
-        public static async Task ExecuteNonQueryAsync(this string connectionStringName, string sql, params SqlParameter[] parameters)
+        public static async Task ExecuteNonQueryAsync(this SqlServerAdapter adapter, string sql, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            var connectionString =adapter.ConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
