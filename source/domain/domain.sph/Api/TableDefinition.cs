@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Domain.Api
 {
@@ -115,7 +117,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLinf(
                 "       public async Task<System.Web.Mvc.ActionResult> Index(string filter = null, int page = 1, int size = 40, bool includeTotal = false)");
             code.AppendLine("       {");
-            code.AppendLinf(@"
+            code.AppendFormat(@"
            if (size > 200)
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
@@ -129,16 +131,18 @@ namespace Bespoke.Sph.Domain.Api
             var lo = await context.LoadAsync(sql, page, size);
             if (includeTotal || page > 1)
             {{
-                var translator2 = new {0}<{1}>(""{0}Id"", ""{1}""){{Schema = ""{3}""}};
+                var translator2 = new {0}<{1}>(null, ""{1}""){{Schema = ""{3}""}};
                 var countSql = translator2.Count(filter);
                 count = await context.ExecuteScalarAsync<int>(countSql);
 
                 if (count >= lo.ItemCollection.Count())
                     nextPageToken = string.Format(
-                        ""/api/{3}/{1}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size);
+                        ""/api/{5}/{4}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size);
             }}
 
-            string previousPageToken = DateTime.Now.ToShortTimeString();
+            string previousPageToken = string.Format(""/api/{5}/{4}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page - 1, size);
+            if(page == 1)
+                previousPageToken = null;
             var json = new
             {{
                 count,
@@ -148,11 +152,12 @@ namespace Bespoke.Sph.Domain.Api
                 size,
                 results = lo.ItemCollection.ToArray()
             }};
-            var setting = new JsonSerializerSettings{{}};
+            var setting = new JsonSerializerSettings();
+            setting.Converters.Add(new StringEnumConverter());
 
             this.Response.ContentType = ""application/json"";
             return Content(JsonConvert.SerializeObject(json, Formatting.Indented, setting));
-            ", adapter.OdataTranslator, this.Name, this.RecordName, this.Schema);
+            ", adapter.OdataTranslator, this.Name, this.RecordName, this.Schema, this.Name.ToLowerInvariant(), this.Schema.ToLowerInvariant());
 
 
             code.AppendLine();
@@ -169,6 +174,8 @@ namespace Bespoke.Sph.Domain.Api
             header.AppendLine("using " + typeof(Task<>).Namespace + ";");
             header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             header.AppendLine("using " + typeof(JsonConvert).Namespace + ";");
+            header.AppendLine("using " + typeof(CamelCasePropertyNamesContractResolver).Namespace + ";");
+            header.AppendLine("using " + typeof(StringEnumConverter).Namespace + ";");
             header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
             header.AppendLine("using System.Web.Mvc;");
             header.AppendLine("using Bespoke.Sph.Web.Helpers;");

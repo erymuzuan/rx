@@ -491,10 +491,13 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           using(var cmd = new OracleCommand(sql, conn))");
             code.AppendLine("           {");
 
+            code.AppendLine("               Console.WriteLine(sql);");
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               var dbval = await cmd.ExecuteScalarAsync();");
             code.AppendLine("               if(dbval == System.DBNull.Value)");
             code.AppendLine("                   return default(T);");
+
+            code.AppendLine("               Console.WriteLine(\"{0}:{1}->{2}\", dbval.GetType().FullName,dbval,typeof(T).FullName);");
             code.AppendLine("               return (T)dbval;");
             code.AppendLine("           }");
 

@@ -6,6 +6,7 @@ namespace __NAMESPACE__
     {
         private readonly string m_column;
         private readonly string m_table;
+        public string Schema { get; set; }
 
         public OdataOracleTranslator(string column, string table)
         {
@@ -44,8 +45,6 @@ namespace __NAMESPACE__
                    Translate(filter);
         }
 
-        public string Schema { get; set; }
-
         public string Min(string filter)
         {
             return string.Format("SELECT MIN({0}) FROM {2}.{1} ", m_column, m_table, this.Schema) +
@@ -60,7 +59,7 @@ namespace __NAMESPACE__
         }
         public string Count(string filter)
         {
-            return string.Format("SELECT COUNT(*) FROM {1}.{0}  ", m_table, this.Schema) +
+            return string.Format("SELECT CAST(COUNT(*) AS NUMBER(8,0))  FROM {1}.{0}  ", m_table, this.Schema) +
                    Translate(filter)
                 ;
         }

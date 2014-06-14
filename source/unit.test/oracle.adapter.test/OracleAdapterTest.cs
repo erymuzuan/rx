@@ -192,7 +192,7 @@ namespace oracle.adapter.test
                 var response = await client.PostAsync("/api/hr/employees", content);
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
-                var id =await ora.GetScalarAsync<int>("SELECT MAX(EMPLOYEE_ID) FROM EMPLOYEE_ID");
+                var id =await ora.GetScalarAsync<decimal>("SELECT MAX(EMPLOYEE_ID) FROM HR.EMPLOYEES EMPLOYEE_ID");
                 Assert.AreEqual(emp.EMPLOYEE_ID, id);
             }
 
