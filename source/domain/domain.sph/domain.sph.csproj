@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="Api\Adapter.cs" />
     <Compile Include="Api\AdapterTable.cs" />
+    <Compile Include="Api\TableDefinition.controller.cs" />
     <Compile Include="Api\TableDefinition.cs" />
     <Compile Include="Api\TableDefinition.p.cs">
       <DependentUpon>TableDefinition.cs</DependentUpon>
