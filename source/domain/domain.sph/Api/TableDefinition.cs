@@ -40,7 +40,7 @@ namespace Bespoke.Sph.Domain.Api
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
 
-            code.AppendLine("   public class " + this.Name + ":DomainObject");
+            code.AppendLine("   public class " + this.Name + " : DomainObject");
             code.AppendLine("   {");
 
 
@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Domain.Api
         public override string ToString()
         {{
             return ""{0}:"" + {1};
-        }}", this.Name, this.RecordName);
+        }}", this.Name, this.PrimaryKey.Name);
 
 
             // properties for each members

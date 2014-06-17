@@ -74,10 +74,11 @@ namespace oracle.adapter.test
             var tables = new AdapterTable[3];
             tables[0] = new AdapterTable
             {
-                Name = "EMPLOYEES",
-                Parents = new[] { "DEPARTMETS" },
-                Children = new[] { "JOB_HISTORY" }
+                Name = "EMPLOYEES"
             };
+            tables[0].ChildRelationCollection.Add(new TableRelation { Table = "JOB_HISTORY" });
+            tables[0].ParentCollection.Add(new TableRelation { Table = "DEPARTMENTS" });
+
             tables[1] = new AdapterTable { Name = "JOBS" };
             tables[2] = new AdapterTable { Name = "DEPARTMENTS" };
             var ora = new OracleAdapter
@@ -136,38 +137,46 @@ namespace oracle.adapter.test
         }
 
         [Test]
+        public async Task HttpApiJobHistoriesChild()
+        {
+            var ora = GetHrOracleAdapter();
+            ora.Tables[0].ChildRelationCollection.Add(new TableRelation
+            {
+                Table = "JOB_HISTORY",
+                Column = "EMPLOYEE_ID",
+                ForeignColumn = "EMPLOYEE_ID",
+                Constraint = "JHIST_EMP_FK"
+            });
+            await CompileAsync(ora);
+            var id = ora.GetScalarAsync<int>(@"SELECT * FROM (SELECT t0.EMPLOYEE_ID
+FROM HR.JOB_HISTORY t0
+ORDER BY  DBMS_RANDOM.RANDOM) WHERE ROWNUM<=1");
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:4436");
+
+                var response = await client.GetAsync("/api/hr/employees/" + id + "/jobhistories");
+                Console.WriteLine(await response.Content.ReadAsStringAsync());
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            }
+
+        }
+
+        [Test]
+        public async Task TableWithoutPrimaryKey()
+        {
+            var ora = GetHrOracleAdapter();
+            ora.Name += "_NPK";
+            ora.Tables = new[] { new AdapterTable { Name = "JOB_HISTORY" } };
+            await CompileAsync(ora);
+
+        }
+
+        [Test]
         public async Task HrHttpApi()
         {
-            var tables = new AdapterTable[3];
-            tables[0] = new AdapterTable
-            {
-                Name = "EMPLOYEES",
-                Parents = new[] { "DEPARTMETS" },
-                Children = new[] { "JOB_HISTORY" }
-
-            };
-            tables[1] = new AdapterTable { Name = "JOBS" };
-            tables[2] = new AdapterTable { Name = "DEPARTMENTS" };
-            var ora = new OracleAdapter
-            {
-                Server = "i90009638.cloudapp.net",
-                UserId = "system",
-                Password = "gsxr750wt",
-                Sid = "XE",
-                Tables = tables,
-                Name = "HR_EMPLOYEES",
-                Description = "Ora HR Countries",
-                Schema = "HR"
-            };
-            await ora.OpenAsync();
-
-            var result = await ora.CompileAsync();
-            Assert.IsTrue(result.Result);
-
-            var bin = ConfigurationManager.WebPath + @"\bin\Dev.HR_EMPLOYEES.dll";
-            var pdb = ConfigurationManager.WebPath + @"\bin\Dev.HR_EMPLOYEES.pdb";
-            File.Copy(result.Output, bin, true);
-            File.Copy(result.Output.Replace(".dll", ".pdb"), pdb, true);
+            var ora = GetHrOracleAdapter();
+            await CompileAsync(ora);
 
             dynamic emp = new ExpandoObject();
 
@@ -196,6 +205,42 @@ namespace oracle.adapter.test
                 Assert.AreEqual(emp.EMPLOYEE_ID, id);
             }
 
+        }
+
+        private static async Task CompileAsync(OracleAdapter ora)
+        {
+            await ora.OpenAsync();
+            var result = await ora.CompileAsync();
+            Assert.IsTrue(result.Result);
+
+            var bin = ConfigurationManager.WebPath + @"\bin\Dev.HR_EMPLOYEES.dll";
+            var pdb = ConfigurationManager.WebPath + @"\bin\Dev.HR_EMPLOYEES.pdb";
+            File.Copy(result.Output, bin, true);
+            File.Copy(result.Output.Replace(".dll", ".pdb"), pdb, true);
+        }
+
+        private static OracleAdapter GetHrOracleAdapter()
+        {
+            var tables = new AdapterTable[3];
+            tables[0] = new AdapterTable { Name = "EMPLOYEES" };
+          
+            tables[0].ParentCollection.Add(new TableRelation { Table = "DEPARTMENTS" });
+
+            tables[1] = new AdapterTable { Name = "JOBS" };
+            tables[2] = new AdapterTable { Name = "DEPARTMENTS" };
+
+            var ora = new OracleAdapter
+            {
+                Server = "i90009638.cloudapp.net",
+                UserId = "system",
+                Password = "gsxr750wt",
+                Sid = "XE",
+                Tables = tables,
+                Name = "HR_EMPLOYEES",
+                Description = "Ora HR Countries",
+                Schema = "HR"
+            };
+            return ora;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Bespoke.Sph.Domain.Api
+﻿using System.Linq;
+
+namespace Bespoke.Sph.Domain.Api
 {
     public partial class TableDefinition
     {
@@ -21,6 +23,23 @@
         {
             get { return m_memberCollection; }
         }
-        public string RecordName { get; set; }
+
+        public Member PrimaryKey
+        {
+
+            get { return this.MemberCollection.FirstOrDefault(a => this.PrimaryKeyCollection.Contains(a.Name)); }
+        }
+
+        private readonly ObjectCollection<string> m_primaryKeyCollection = new ObjectCollection<string>();
+
+        public ObjectCollection<string> PrimaryKeyCollection
+        {
+            get { return m_primaryKeyCollection; }
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

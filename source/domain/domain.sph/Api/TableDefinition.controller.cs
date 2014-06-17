@@ -9,20 +9,21 @@ namespace Bespoke.Sph.Domain.Api
 
         private string GenerateController(Adapter adapter)
         {
-            var record = this.MemberCollection.Single(m => m.Name == this.RecordName);
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
 
             GenerateListAction(adapter, code);
-            GenerateInsertAction(code);
-            GenerateUpdateAction(code);
-            GenerateDeleteAction(code, record);
-            GenerateGetAction(code, record);
+            code.AppendLine(GenerateInsertAction());
+            code.AppendLine(GenerateUpdateAction());
 
+            code.AppendLine(GenerateDeleteAction());
+            code.AppendLine(GenerateGetAction());
             foreach (var child in this.ChildTableCollection)
             {
-                GenerateChildListAction(adapter,code, record, child);
+                //GenerateChildListAction(adapter, code, child);
             }
+
+
 
             code.AppendLine("   }");// end class
 
@@ -40,42 +41,59 @@ namespace Bespoke.Sph.Domain.Api
             return ":" + type.ToCSharp();
         }
 
-        private void GenerateGetAction(StringBuilder code, Member record)
+        private string GenerateGetAction()
         {
-            code.AppendLinf("       [Route(\"{{id{0}}}\")]", this.GetRouteConstraint(record.Type));
+            var pks = this.MemberCollection.Where(m => this.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var routeConstraint = pks.Select(m => "{" + m.Name + this.GetRouteConstraint(m.Type) + "}");
+            var arguments = pks.Select(m => m.Type.ToCSharp() + " " + m.Name);
+            var parameters = pks.Select(m => m.Name);
+
+
+            var code = new StringBuilder();
+
+            code.AppendLinf("       [Route(\"{{{0}}}\")]", string.Join("/", routeConstraint));
             code.AppendLinf("       [HttpGet]");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Get({0} id)", record.Type.ToCSharp());
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Get({0})", string.Join(",", arguments));
             code.AppendLine("       {");
             code.AppendLinf(@"
             var context = new {0}Adapter();
-            var item  =await context.LoadOneAsync(id);
+            var item  =await context.LoadOneAsync({1});
             this.Response.ContentType = ""application/json"";
             this.Response.StatusCode = 200;
             if(null == item)
                 return Content(JsonConvert.SerializeObject(new {{success = false, status = ""NotFound"", statusCode=404, url=""/api/docs/404"", message =""item not found""}}));
             return Content(JsonConvert.SerializeObject(new {{success = true, status = ""OK"", item}}));
-", this.Name);
+", this.Name, string.Join(",", parameters));
             code.AppendLine("       }");
+
+            return code.ToString();
         }
 
-        private void GenerateDeleteAction(StringBuilder code, Member record)
+        private string GenerateDeleteAction()
         {
-
-            code.AppendLinf("       [Route(\"{{id{0}}}\")]", this.GetRouteConstraint(record.Type));
+            var code = new StringBuilder();
+            var pks = this.MemberCollection.Where(m => this.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var routeConstraint = pks.Select(m => "{" + m.Name + this.GetRouteConstraint(m.Type) + "}");
+            var arguments = pks.Select(m => m.Type.ToCSharp() + " " + m.Name);
+            var parameters = pks.Select(m => m.Name);
+            code.AppendLinf("       [Route(\"{0}\")]", string.Join("/", routeConstraint.ToArray()));
             code.AppendLinf("       [HttpDelete]");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove({0} id)", record.Type.ToCSharp());
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove({0})", string.Join(",", arguments));
             code.AppendLine("       {");
-            code.AppendLinf(@"
+            code.AppendFormat(@"
             var context = new {0}Adapter();
-            await context.DeleteAsync(id);
+            await context.DeleteAsync({1});
             this.Response.ContentType = ""application/json"";
             this.Response.StatusCode = 202;
-            return Json(new {{success = true, status=""OK"", id = id}});", this.Name);
+            return Json(new {{success = true, status=""OK""}});", this.Name, string.Join(",", parameters));
             code.AppendLine("       }");
+            return code.ToString();
         }
 
-        private void GenerateUpdateAction(StringBuilder code)
+        private string GenerateUpdateAction()
         {
+            var code = new StringBuilder();
+
             // update
             code.AppendLine("       [Route]");
             code.AppendLinf("       [HttpPut]");
@@ -83,29 +101,34 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("       {");
             code.AppendLinf(@"
             if(null == item) throw new ArgumentNullException(""item"");
-            var context = new {1}Adapter();
+            var context = new {0}Adapter();
             await context.UpdateAsync(item);
             this.Response.ContentType = ""application/json; charset=utf-8"";
             this.Response.StatusCode = 202;
-            return Json(new {{success = true, status=""OK"", id = item.{0}}});", this.RecordName, this.Name);
+            return Json(new {{success = true, status=""OK""}});", this.Name);
             code.AppendLine("       }");
+
+            return code.ToString();
         }
 
-        private void GenerateInsertAction(StringBuilder code)
+        private string GenerateInsertAction()
         {
+            var code = new StringBuilder();
             // insert
             code.AppendLine("       [Route]");
             code.AppendLinf("       [HttpPost]");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Insert([RequestBody]{0} item)", this.Name);
             code.AppendLine("       {");
-            code.AppendLinf(@"
+            code.AppendFormat(@"
             if(null == item) throw new ArgumentNullException(""item"");
-            var context = new {1}Adapter();
+            var context = new {0}Adapter();
             await context.InsertAsync(item);
             this.Response.ContentType = ""application/json; charset=utf-8"";
             this.Response.StatusCode = 202;
-            return Json(new {{success = true, status=""OK"", id = item.{0}}});", this.RecordName, this.Name);
+            return Json(new {{success = true, status=""OK"", item}});", this.Name);
             code.AppendLine("       }");
+
+            return code.ToString();
         }
 
         private void GenerateListAction(Adapter adapter, StringBuilder code)
@@ -157,7 +180,7 @@ namespace Bespoke.Sph.Domain.Api
 
             this.Response.ContentType = ""application/json"";
             return Content(JsonConvert.SerializeObject(json, Formatting.Indented, setting));
-            ", adapter.OdataTranslator, this.Name, this.RecordName, this.Schema, this.Name.ToLowerInvariant(), this.Schema.ToLowerInvariant());
+            ", adapter.OdataTranslator, this.Name, this.PrimaryKey, this.Schema, this.Name.ToLowerInvariant(), this.Schema.ToLowerInvariant());
 
 
             code.AppendLine();
@@ -167,21 +190,19 @@ namespace Bespoke.Sph.Domain.Api
 
         private void GenerateChildListAction(Adapter adapter, StringBuilder code, Member record, TableDefinition child)
         {
-            code.AppendLinf("   [RoutePrefix(\"api/{0}/{1}\")]", this.Schema.ToLowerInvariant(), this.Name.ToLowerInvariant());
-            code.AppendLinf("   public partial class {0}Controller : System.Web.Mvc.Controller", this.Name);
-            code.AppendLine("   {");
+
             code.AppendFormat("       [Route(\"{{id{0}}}/{1}\")]", this.GetRouteConstraint(record.Type), child.Name);
             code.AppendLinf(
                 "       public async Task<System.Web.Mvc.ActionResult> List{0}(string filter = null, int page = 1, int size = 40, bool includeTotal = false)",
-                child);
+                child.Name);
             code.AppendLine("       {");
             code.AppendFormat(@"
            if (size > 200)
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
             var orderby = this.Request.QueryString[""$orderby""];
-            var translator = new {0}<{1}>(null,""{1}"" ){{Schema = ""{3}""}};
-            var sql = ""SELECT * FROM {3}.{1} WHERE {5} = {5}"";
+            var translator = new {0}<{1}>(null,""{1}"" ){{Schema = ""{2}""}};
+            var sql = ""SELECT * FROM {2}.{1} WHERE {4} = {4}"";
             var count = 0;
 
             var context = new {1}Adapter();
@@ -189,16 +210,16 @@ namespace Bespoke.Sph.Domain.Api
             var lo = await context.LoadAsync(sql, page, size);
             if (includeTotal || page > 1)
             {{
-                var translator2 = new {0}<{1}>(null, ""{1}""){{Schema = ""{3}""}};
+                var translator2 = new {0}<{1}>(null, ""{1}""){{Schema = ""{2}""}};
                 var countSql = translator2.Count(filter);
                 count = await context.ExecuteScalarAsync<int>(countSql);
 
                 if (count >= lo.ItemCollection.Count())
                     nextPageToken = string.Format(
-                        ""/api/{5}/{4}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size);
+                        ""/api/{4}/{3}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size);
             }}
 
-            string previousPageToken = string.Format(""/api/{5}/{4}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page - 1, size);
+            string previousPageToken = string.Format(""/api/{4}/{3}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page - 1, size);
             if(page == 1)
                 previousPageToken = null;
             var json = new
@@ -215,7 +236,7 @@ namespace Bespoke.Sph.Domain.Api
 
             this.Response.ContentType = ""application/json"";
             return Content(JsonConvert.SerializeObject(json, Formatting.Indented, setting));
-            ", adapter.OdataTranslator, this.Name, this.RecordName, this.Schema, this.Name.ToLowerInvariant(), this.Schema.ToLowerInvariant());
+            ", adapter.OdataTranslator, this.Name, this.Schema, this.Name.ToLowerInvariant(), this.Schema.ToLowerInvariant());
 
 
             code.AppendLine();
