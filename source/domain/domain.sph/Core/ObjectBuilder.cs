@@ -5,6 +5,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.Reflection;
 using Spring.Context.Support;
+using Spring.Objects.Factory;
 
 namespace Bespoke.Sph.Domain
 {
@@ -24,7 +25,8 @@ namespace Bespoke.Sph.Domain
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
             catalog.Catalogs.Add(new DirectoryCatalog("."));
-            catalog.Catalogs.Add(new DirectoryCatalog(".\\bin"));
+            if (System.IO.Directory.Exists(".\\bin"))
+                catalog.Catalogs.Add(new DirectoryCatalog(".\\bin"));
 
             m_container = new CompositionContainer(catalog);
             var batch = new CompositionBatch();
@@ -72,15 +74,23 @@ namespace Bespoke.Sph.Domain
             if (m_cacheList.ContainsKey(key))
                 return m_cacheList[key] as T;
 
-            var springObject = ContextRegistry.GetContext().GetObject<T>();
-            if (null != springObject)
+            try
             {
-                lock (m_lock)
+                var springObject = ContextRegistry.GetContext().GetObject<T>();
+                if (null != springObject)
                 {
-                    if (!m_cacheList.ContainsKey(typeof(T)))
-                        m_cacheList.Add(typeof(T), springObject);
+                    lock (m_lock)
+                    {
+                        if (!m_cacheList.ContainsKey(typeof(T)))
+                            m_cacheList.Add(typeof(T), springObject);
+                    }
+                    return springObject;
                 }
-                return springObject;
+
+            }
+            catch (NoSuchObjectDefinitionException)
+            {
+
             }
             if (null == m_container)
             {
