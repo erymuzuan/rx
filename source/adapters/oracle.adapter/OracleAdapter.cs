@@ -17,14 +17,16 @@ namespace Bespoke.Sph.Integrations.Adapters
     public partial class OracleAdapter : Adapter
     {
         private readonly ObjectCollection<TableDefinition> m_tableDefinitions = new ObjectCollection<TableDefinition>();
-        
+
         protected override Task<Tuple<string, string>> GeneratePagingSourceCodeAsync()
         {
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OraclePagingTranslator.txt";
 
             using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
+            // ReSharper disable AssignNullToNotNullAttribute
             using (var reader = new StreamReader(stream))
+            // ReSharper restore AssignNullToNotNullAttribute
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
@@ -51,7 +53,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             return "SELECT cols.owner " +
                    "FROM all_constraints cons, all_cons_columns cols " +
                    "WHERE cols.table_name = '" + table
-                   + "'AND cons.constraint_type = 'P' " +
+                   + "' AND cons.constraint_type = 'P' " +
                    "AND cons.constraint_name = cols.constraint_name " +
                    "AND cons.owner = cols.owner " +
                    "ORDER BY cols.table_name, cols.position";
@@ -72,6 +74,12 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var td = new TableDefinition { Schema = this.Schema, Name = table.Name, CodeNamespace = this.CodeNamespace };
                 m_columnCollection.Add(table.Name, new ObjectCollection<Column>());
                 m_tableDefinitions.Add(td);
+                td.ChildTableCollection.ClearAndAddRange(from a in table.ChildRelationCollection
+                                                         select new TableDefinition
+                                                         {
+                                                             Name = a.Table,
+                                                             CodeNamespace = this.CodeNamespace
+                                                         });
 
                 using (var conn = new OracleConnection(ConnectionString))
                 using (var cmd = new OracleCommand(GetOracleSchemaSql(table.Name), conn))
@@ -86,9 +94,15 @@ namespace Bespoke.Sph.Integrations.Adapters
                 using (var cmd = new OracleCommand(GetOraclePrimaryKeySql(table.Name), conn))
                 {
                     await conn.OpenAsync();
+                    using (var reader = (OracleDataReader)await cmd.ExecuteReaderAsync())
+                    {
+                        while (reader.Read())
+                        {
+                            td.PrimaryKeyCollection.Add(reader.GetOracleString(0).Value);
+                        }
 
-                    var f = await cmd.ExecuteScalarAsync() as string;
-                    td.RecordName = f;
+                    }
+
                 }
 
                 using (var conn = new OracleConnection(ConnectionString))
@@ -205,15 +219,16 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLine("   {");
 
                 code.AppendLine(GenerateExecuteScalarMethod());
-                code.AppendLine(GenerateInsertMethod(name));
-                code.AppendLine(GenerateUpdateMethod(name));
-                code.AppendLine(GenerateConvertMethod(name));
+                code.AppendLine(GenerateInsertMethod(td));
+                code.AppendLine(GenerateUpdateMethod(td));
+                code.AppendLine(GenerateConvertMethod(td));
                 code.AppendLine(GenerateConnectionStringProperty());
 
-                var record = td.MemberCollection.Single(m => m.Name == td.RecordName);
-                code.AppendLine(GenerateSelectOne(name, record));
-                code.AppendLine(GenerateSelectMethod(name, record));
-                code.AppendLine(GenerateDeleteMethod(record, name));
+                code.AppendLine(GenerateSelectOne(td));
+                code.AppendLine(GenerateSelectMethod(td));
+                code.AppendLine(GenerateDeleteMethod(td));
+
+
 
 
                 code.AppendLine("   }");// end class
@@ -234,8 +249,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OdataOracleTranslator.txt";
 
-            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME ))
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
+            // ReSharper disable AssignNullToNotNullAttribute
             using (var reader = new StreamReader(stream))
+            // ReSharper restore AssignNullToNotNullAttribute
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
@@ -330,18 +347,21 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateDeleteMethod(Member record, string table)
+        private string GenerateDeleteMethod(TableDefinition table)
         {
-            var td = m_tableDefinitions.Single(t => t.Name == table);
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<int> DeleteAsync({0} id)", record.Type.ToCSharp());
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var arguements = pks.Select(k => k.Type.ToCSharp() + " " + k.Name);
+            code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
             code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetDeleteCommand(table));
             code.AppendLine("           {");
-
-            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", td.RecordName);
+            foreach (var pk in pks)
+            {
+                code.AppendLinf("               cmd.Parameters.Add(\"{0}\", {0});", pk.Name);
+            }
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
@@ -351,10 +371,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateUpdateMethod(string table)
+        private string GenerateUpdateMethod(TableDefinition table)
         {
             var code = new StringBuilder();
-            var columns = m_columnCollection[table];
+            var columns = m_columnCollection[table.Name];
             code.AppendLinf("       public async Task<int> UpdateAsync({0} item)", table);
             code.AppendLine("       {");
 
@@ -374,11 +394,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateInsertMethod(string table)
+        private string GenerateInsertMethod(TableDefinition table)
         {
             var code = new StringBuilder();
-            var colums = m_columnCollection[table];
-            code.AppendLinf("       public async Task<int> InsertAsync({0} item)", table);
+            var colums = m_columnCollection[table.Name];
+            code.AppendLinf("       public async Task<int> InsertAsync({0} item)", table.Name);
             code.AppendLine("       {");
 
             code.AppendLine("           var columns = new List<Column>()");
@@ -412,10 +432,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private static string GenerateConvertMethod(string name)
+        private static string GenerateConvertMethod(TableDefinition table)
         {
             var code = new StringBuilder();
-            code.AppendLinf("       public T? Convert<T>(object val) where T : struct", name);
+            code.AppendLinf("       public T? Convert<T>(object val) where T : struct", table.Name);
             code.AppendLine("       {");
 
             code.AppendLine("           if(val == null) return default(T?);");
@@ -445,18 +465,23 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string GenerateSelectOne(string name, Member record)
+        private string GenerateSelectOne(TableDefinition table)
         {
             var code = new StringBuilder();
-            var td = m_tableDefinitions.Single(t => t.Name == name);
-            code.AppendLinf("       public async Task<{0}> LoadOneAsync({1} id)", name, record.Type.ToCSharp());
+            var name = table.Name;
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var arguements = pks.Select(k => k.Type.ToCSharp() + " " + k.Name);
+            code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguements));
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new OracleConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetSelectOneCommand(name));
+            code.AppendLinf("           using(var cmd = new OracleCommand(@\"{0}\", conn))", this.GetSelectOneCommand(table));
             code.AppendLine("           {");
 
-            code.AppendLinf("               cmd.Parameters.Add(\"{0}\", id);", td.RecordName);
+            foreach (var pk in pks)
+            {
+                code.AppendLinf("               cmd.Parameters.Add(\"{0}\", {0});", pk.Name);
+            }
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               using(var reader = await cmd.ExecuteReaderAsync())");
@@ -508,15 +533,16 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        private string GenerateSelectMethod(string name, Member record)
+        private string GenerateSelectMethod(TableDefinition table)
         {
             var code = new StringBuilder();
+            var name = table.Name;
             //load async
-            code.AppendLinf("       public async Task<LoadOperation<{0}>> LoadAsync(string sql, int page = 1, int size = 40, bool includeTotal = false)", name, record.Type.ToCSharp());
+            code.AppendLinf("       public async Task<LoadOperation<{0}>> LoadAsync(string sql, int page = 1, int size = 40, bool includeTotal = false)", name);
             code.AppendLine("       {");
 
             code.AppendLine("           if (!sql.ToString().Contains(\"ORDER\"))");
-            code.AppendLinf("               sql +=\"\\r\\nORDER BY {0}\";", record.Name);
+            code.AppendLinf("               sql +=\"\\r\\nORDER BY {0}\";", table.PrimaryKeyCollection.FirstOrDefault() ?? table.MemberCollection.Select(m => m.Name).First());
             code.AppendLine("           var translator = new OraclePagingTranslator();");
             code.AppendLine("           sql = translator.Translate(sql, page, size);");
             code.AppendLine("           Console.WriteLine(sql);");
@@ -556,43 +582,48 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        public string GetUpdateCommand(string table)
+        public string GetUpdateCommand(TableDefinition table)
         {
-            var td = m_tableDefinitions.Single(t => t.Name == table);
             var sql = new StringBuilder("UPDATE  ");
             sql.AppendFormat("{0}.{1} SET ", this.Schema, table);
 
-            var cols = m_columnCollection[table]
+            var cols = m_columnCollection[table.Name]
                 .Where(c => !c.IsIdentity)
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
                 .ToArray();
             sql.AppendLine(string.Join(",", cols.Select(c => "" + c + " = :" + c).ToArray()));
-            sql.AppendLinf(" WHERE {0} = :{0}", td.RecordName);
+            sql.AppendLine(" WHERE ");
+
+            var predicate = table.PrimaryKeyCollection.Select(k => k + " = :" + k);
+            sql.AppendLine(string.Join(" AND ", predicate));
 
             return sql.ToString();
 
         }
 
-        public string GetDeleteCommand(string table)
+        public string GetDeleteCommand(TableDefinition table)
         {
-            var td = m_tableDefinitions.Single(t => t.Name == table);
             var sql = new StringBuilder("DELETE FROM ");
             sql.AppendFormat("{0}.{1} ", this.Schema, table);
+            sql.AppendLine("WHERE");
+
+            var predicate = table.PrimaryKeyCollection.Select(k => k + " = :" + k);
+            sql.AppendLine(string.Join(" AND ", predicate));
 
 
-            sql.AppendFormat("WHERE {0} = :{0}", td.RecordName);
 
             return sql.ToString();
         }
-        public string GetSelectOneCommand(string table)
+
+        public string GetSelectOneCommand(TableDefinition table)
         {
-            var td = m_tableDefinitions.Single(t => t.Name == table);
             var sql = new StringBuilder("SELECT * FROM ");
             sql.AppendFormat("{0}.{1} ", this.Schema, table);
+            sql.AppendLine("WHERE");
 
-
-            sql.AppendFormat("WHERE {0} = :{0}", td.RecordName);
+            var predicate = table.PrimaryKeyCollection.Select(k => k + " = :" + k);
+            sql.AppendLine(string.Join(" AND ", predicate));
 
             return sql.ToString();
         }
@@ -612,7 +643,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var result = new BuildValidationResult();
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_]*$");
-            if (string.IsNullOrWhiteSpace(this.Name)|| !validName.Match(this.Name).Success)
+            if (string.IsNullOrWhiteSpace(this.Name) || !validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
             if (string.IsNullOrWhiteSpace(this.Schema))
                 result.Errors.Add(new BuildError(this.WebId) { Message = "Please select a schema" });
