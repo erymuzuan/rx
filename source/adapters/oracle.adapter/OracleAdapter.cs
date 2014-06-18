@@ -78,7 +78,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                                                          select new TableDefinition
                                                          {
                                                              Name = a.Table,
-                                                             CodeNamespace = this.CodeNamespace
+                                                             CodeNamespace = this.CodeNamespace,
+                                                             Schema = this.Schema
                                                          });
 
                 using (var conn = new OracleConnection(ConnectionString))

@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Domain.Api
 
             var code = new StringBuilder();
 
-            code.AppendLinf("       [Route(\"{{{0}}}\")]", string.Join("/", routeConstraint));
+            code.AppendLinf("       [Route(\"{0}\")]", string.Join("/", routeConstraint));
             code.AppendLinf("       [HttpGet]");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Get({0})", string.Join(",", arguments));
             code.AppendLine("       {");

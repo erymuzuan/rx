@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Net;
@@ -148,15 +149,21 @@ namespace oracle.adapter.test
                 ForeignColumn = "EMPLOYEE_ID",
                 Constraint = "JHIST_EMP_FK"
             });
+            var tables = new List<AdapterTable>(ora.Tables) {new AdapterTable
+            {
+                Name = "JOB_HISTORY"
+            }};
+            ora.Tables = tables.ToArray();
+
             await CompileAsync(ora);
-            var id = ora.GetScalarAsync<int>(@"SELECT * FROM (SELECT t0.EMPLOYEE_ID
+            var id =await ora.GetScalarAsync<int>(@"SELECT * FROM (SELECT t0.EMPLOYEE_ID
 FROM HR.JOB_HISTORY t0
 ORDER BY  DBMS_RANDOM.RANDOM) WHERE ROWNUM<=1");
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://localhost:4436");
 
-                var response = await client.GetAsync("/api/hr/employees/" + id + "/jobhistories");
+                var response = await client.GetAsync("/api/hr/employees/" + id + "/job_history");
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
@@ -33,6 +32,11 @@ namespace Bespoke.Sph.Domain
         {
             if (string.IsNullOrWhiteSpace(text))
                 return string.Empty;
+            if (text.Replace("_", string.Empty).ToCharArray().All(char.IsUpper))
+            {
+                return new string(text.ToCamelCaseHelperWithAllUpper().Where(c => c != char.MinValue).ToArray());
+            }
+
             return new string(text.ToCamelCaseHelper().ToArray());
         }
         private static IEnumerable<char> ToCamelCaseHelper(this string text)
@@ -49,6 +53,33 @@ namespace Bespoke.Sph.Domain
                 {
                     yield return c;
                 }
+            }
+        }
+        private static IEnumerable<char> ToCamelCaseHelperWithAllUpper(this string text)
+        {
+            bool _ = false;
+            bool x = false;
+            foreach (var c in text)
+            {
+                if (x) yield return char.MinValue;
+                if (c == '_')
+                {
+                    _ = true;
+                    yield return char.MinValue;
+                }
+                else
+                {
+                    if (_)
+                    {
+                        _ = false;
+                        x = true;
+                        yield return c;
+                    }
+                    yield return char.ToLower(c);
+
+                }
+
+
             }
         }
 
@@ -102,8 +133,8 @@ namespace Bespoke.Sph.Domain
         }
         public static string RegexSingleValue(string input, string pattern, string group)
         {
-            const RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline;
-            var matches = Regex.Matches(input, pattern, option);
+            const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Singleline;
+            var matches = Regex.Matches(input, pattern, OPTIONS);
             return matches.Count == 1 ? matches[0].Groups[@group].Value.Trim() : null;
         }
         public static string ToSDate(this string value)
@@ -127,8 +158,6 @@ namespace Bespoke.Sph.Domain
                     case 5:
                         sb.Append("-");
                         break;
-                    default:
-                        break;
                 }
             }
 
@@ -142,9 +171,9 @@ namespace Bespoke.Sph.Domain
         public static string ToCSharp(this Type type)
         {
             if (type == typeof(DateTime)) return "DateTime";
-            if (type == typeof (string))return "string";
-            if (type == typeof (int))return "int";
-            if (type == typeof (bool))return "bool";
+            if (type == typeof(string)) return "string";
+            if (type == typeof(int)) return "int";
+            if (type == typeof(bool)) return "bool";
             if (type == typeof(decimal)) return "decimal";
             if (type == typeof(float)) return "float";
             if (type == typeof(double)) return "double";
