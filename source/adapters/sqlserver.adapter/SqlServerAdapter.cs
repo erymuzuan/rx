@@ -64,7 +64,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             foreach (var table in this.Tables)
             {
 
-                var td = new TableDefinition { Name = table.Name , Schema = this.Schema};
+                var td = new TableDefinition { Name = table.Name, Schema = this.Schema };
                 var columns = new ObjectCollection<SqlColumn>();
 
                 var updateCommand = new StringBuilder("UPDATE ");
@@ -77,8 +77,13 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                     cmd.Parameters.AddWithValue("@Table", table.Name);
                     await conn.OpenAsync();
 
-                    var f = await cmd.ExecuteScalarAsync() as string;
-                    td.RecordName = f;
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            td.PrimaryKeyCollection.Add(reader.GetString(0));
+                        }
+                    }
                 }
                 using (var conn = new SqlConnection(ConnectionString))
                 using (var cmd = new SqlCommand(Sql, conn))
@@ -113,7 +118,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                                 IsIdentity = reader.GetBoolean(5),
                                 IsComputed = reader.GetBoolean(6)
                             };
-                            col.IsPrimaryKey = col.Name == td.RecordName;
+                            col.IsPrimaryKey = td.PrimaryKeyCollection.Contains(col.Name);
                             if (null != col.GetClrType())
                                 columns.Add(col);
 
@@ -173,26 +178,24 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
             var sources = new Dictionary<string, string>();
-            foreach (var table in this.Tables)
+            foreach (var at in this.Tables)
             {
-                var td = m_tableDefinitionCollection.Single(t => t.Name == table.Name);
+                var table = m_tableDefinitionCollection.Single(t => t.Name == at.Name);
                 options.AddReference(typeof(SqlConnection));
-                var name = table.Name;
                 var adapterName = table + "Adapter";
 
                 var header = this.GetCodeHeader(namespaces);
                 var code = new StringBuilder(header);
-                var record = td.MemberCollection.Single(m => m.Name == td.RecordName);
 
                 code.AppendLine("   public class " + adapterName);
                 code.AppendLine("   {");
 
                 code.AppendLine(GenerateExecuteScalarMethod());
-                code.AppendLine(GenerateDeleteMethod(record, name));
-                code.AppendLine(GenerateInsertMethod(name));
-                code.AppendLine(GenerateUpdateMethod(name));
-                code.AppendLine(GenerateSelectMethod(name, record));
-                code.AppendLine(GenerateSelectOneMethod(name, record));
+                code.AppendLine(GenerateDeleteMethod(table));
+                code.AppendLine(GenerateInsertMethod(table));
+                code.AppendLine(GenerateUpdateMethod(table));
+                code.AppendLine(GenerateSelectMethod(table));
+                code.AppendLine(GenerateSelectOneMethod(table));
                 code.AppendLine(GenerateConnectionStringProperty());
 
 
@@ -236,7 +239,9 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.OdataSqlTranslator.cs";
 
             using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
+            // ReSharper disable AssignNullToNotNullAttribute
             using (var reader = new StreamReader(stream))
+            // ReSharper restore AssignNullToNotNullAttribute
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
@@ -251,7 +256,9 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             const string RESOURCE_NAME = "Bespoke.Sph.Integrations.Adapters.Sql2012PagingTranslator.cs";
 
             using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
+            // ReSharper disable AssignNullToNotNullAttribute
             using (var reader = new StreamReader(stream))
+            // ReSharper restore AssignNullToNotNullAttribute
             {
                 var code = reader.ReadToEnd();
                 code = code.Replace("__NAMESPACE__", this.CodeNamespace);
@@ -261,15 +268,16 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             }
         }
 
-        private string GenerateUpdateMethod(string name)
+        private string GenerateUpdateMethod(TableDefinition table)
         {
+            var name = table.Name;
             var columns = m_tableColumns[name];
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<object> UpdateAsync({0} item)", name);
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetUpdateCommand(name));
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetUpdateCommand(table));
             code.AppendLine("           {");
             foreach (var col in columns.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
             {
@@ -301,42 +309,51 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             return code.ToString();
         }
 
-        public string GetSelectOneCommand(string table)
+        public string GetSelectOneCommand(TableDefinition table)
         {
-            var td = m_tableDefinitionCollection.Single(t => t.Name == table);
             var sql = new StringBuilder("SELECT * FROM ");
             sql.AppendFormat("{0}.{1} ", this.Schema, table);
+            sql.AppendLine("WHERE ");
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
+            var parameters = pks.Select(k => string.Format("[{0}] = @{0}", k.Name));
 
 
-            sql.AppendFormat("WHERE {0} = @{0}", td.RecordName);
+            sql.AppendLine(string.Join(" AND ", parameters));
 
             return sql.ToString();
         }
-        public string GetSelectCommand(string table)
+        public string GetSelectCommand(TableDefinition table)
         {
             return string.Format("SELECT * FROM {0}.{1} ", this.Schema, table);
         }
-        private string GenerateSelectOneMethod(string name, Member record)
+
+        private string GenerateSelectOneMethod(TableDefinition table)
         {
-            var td = m_tableDefinitionCollection.Single(t => t.Name == name);
+
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var arguments = pks.Select(k => string.Format("{0} {1}", k.Type.ToCSharp(), k.Name));
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<{0}> LoadOneAsync({1} id)", name, record.Type.ToCSharp());
+            code.AppendLinf("       public async Task<{0}> LoadOneAsync({1})", table.Name, string.Join(", ", arguments));
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetSelectOneCommand(name));
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetSelectOneCommand(table));
             code.AppendLine("           {");
+            foreach (var pk in pks)
+            {
 
-            code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", id);", td.RecordName);
+                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", {0});", pk.Name);
+            }
+
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               using(var reader = await cmd.ExecuteReaderAsync())");
             code.AppendLine("               {");
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
-            code.AppendLinf("                       var item = new {0}();", name);
-            code.AppendLine(PopulateItemFromReader(name));
-            code.AppendLinf("                       return item;", name);
+            code.AppendLinf("                       var item = new {0}();", table.Name);
+            code.AppendLine(PopulateItemFromReader(table.Name));
+            code.AppendLine("                       return item;");
             code.AppendLine("                   }");
             code.AppendLine("               }");
             code.AppendLine("               return null;");
@@ -347,23 +364,25 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             return code.ToString();
         }
 
-        private string GenerateSelectMethod(string name, Member record)
+        private string GenerateSelectMethod(TableDefinition table)
         {
             var code = new StringBuilder();
+
+
             //load async
-            code.AppendLinf("       public async Task<LoadOperation<{0}>> LoadAsync(string sql, int page = 1, int size = 40, bool includeTotal = false)", name, record.Type.ToCSharp());
+            code.AppendFormat("       public async Task<LoadOperation<{0}>> LoadAsync(string sql, int page = 1, int size = 40, bool includeTotal = false)", table.Name);
             code.AppendLine("       {");
 
             code.AppendLine("           if (!sql.ToString().Contains(\"ORDER\"))");
-            code.AppendLinf("               sql +=\"\\r\\nORDER BY [{0}]\";", record.Name);
+            code.AppendLinf("               sql +=\"\\r\\nORDER BY [{0}]\";", table.PrimaryKeyCollection.FirstOrDefault() ?? table.MemberCollection.Select(m => m.Name).First());
             code.AppendLine("           var translator = new SqlPagingTranslator();");
             code.AppendLine("           sql = translator.Translate(sql, page, size);");
             code.AppendLine();
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new SqlCommand( sql, conn))", this.GetSelectCommand(name));
+            code.AppendLinf("           using(var cmd = new SqlCommand( sql, conn))", this.GetSelectCommand(table));
             code.AppendLine("           {");
 
-            code.AppendLinf("               var lo = new LoadOperation<{0}>", name);
+            code.AppendLinf("               var lo = new LoadOperation<{0}>", table.Name);
             code.AppendLine("                            {");
             code.AppendLine("                               CurrentPage = page,");
             code.AppendLine("                               Filter = sql,");
@@ -375,8 +394,8 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             code.AppendLine("               {");
             code.AppendLine("                   while(await reader.ReadAsync())");
             code.AppendLine("                   {");
-            code.AppendLinf("                       var item = new {0}();", name);
-            code.AppendLine(PopulateItemFromReader(name));
+            code.AppendLinf("                       var item = new {0}();", table.Name);
+            code.AppendLine(PopulateItemFromReader(table.Name));
             code.AppendLinf("                       lo.ItemCollection.Add(item);");
             code.AppendLine("                   }");
             code.AppendLine("               }");
@@ -412,29 +431,35 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             return code.ToString();
         }
 
-        public string GetDeleteCommand(string table)
+        public string GetDeleteCommand(TableDefinition table)
         {
-            var td = m_tableDefinitionCollection.Single(t => t.Name == table);
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var parameters = pks.Select(k => string.Format("[{0}] = @{0}", k.Name));
             var sql = new StringBuilder("DELETE FROM ");
             sql.AppendFormat("[{0}].[{1}] ", this.Schema, table);
+            sql.AppendLine("WHERE");
+            sql.AppendLine(string.Join(" AND ", parameters));
 
-
-            sql.AppendFormat("WHERE {0} = @{0}", td.RecordName);
 
             return sql.ToString();
         }
-        private string GenerateDeleteMethod(Member record, string table)
+        private string GenerateDeleteMethod(TableDefinition table)
         {
-            var td = m_tableDefinitionCollection.Single(t => t.Name == table);
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
+            var arguements = pks.Select(k => string.Format("{0} {1}", k.Type.ToCSharp(), k.Name.ToCamelCase()));
             var code = new StringBuilder();
-            code.AppendLinf("       public async Task<int> DeleteAsync({0} id)", record.Type.ToCSharp());
+            code.AppendLinf("       public async Task<int> DeleteAsync({0})", string.Join(", ", arguements));
             code.AppendLine("       {");
 
             code.AppendLinf("           using(var conn = new SqlConnection(this.ConnectionString))");
             code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetDeleteCommand(table));
             code.AppendLine("           {");
 
-            code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", id);", td.RecordName);
+            foreach (var pk in pks)
+            {
+                code.AppendLine();
+                code.AppendFormat("               cmd.Parameters.AddWithValue(\"@{0}\", {1});", pk.Name, pk.Name.ToCamelCase());
+            }
 
             code.AppendLine("               await conn.OpenAsync();");
             code.AppendLine("               return await cmd.ExecuteNonQueryAsync();");
@@ -445,15 +470,16 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         }
 
 
-        private string GenerateInsertMethod(string name)
+        private string GenerateInsertMethod(TableDefinition table)
         {
+            var name = table.Name;
             var code = new StringBuilder();
             var columns = m_tableColumns[name];
             code.AppendLinf("       public async Task<object> InsertAsync({0} item)", name);
             code.AppendLine("       {");
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetInsertCommand(name));
+            code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetInsertCommand(table));
             code.AppendLine("           {");
             foreach (var col in columns.Where(c => !c.IsIdentity).Where(c => !c.IsComputed))
             {
@@ -468,10 +494,11 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             return code.ToString();
         }
 
-        public string GetUpdateCommand(string table)
+        public string GetUpdateCommand(TableDefinition table)
         {
-            var columns = m_tableColumns[table];
-            var td = m_tableDefinitionCollection.Single(t => t.Name == table);
+            var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
+            var parameters = pks.Select(m => string.Format("[{0}] = @{0}", m.Name));
+            var columns = m_tableColumns[table.Name];
             var sql = new StringBuilder("UPDATE  ");
             sql.AppendFormat("[{0}].[{1}] SET ", this.Schema, table);
 
@@ -480,19 +507,21 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
                 .ToArray();
-            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "[" + c + "] = @" + c).ToArray()));
-            sql.AppendLinf(" WHERE [{0}] = @{0}", td.RecordName);
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => string.Format("[{0}] = @{0}", c)).ToArray()));
+            sql.AppendLine(" WHERE ");
+
+            sql.AppendLine(string.Join(", ", parameters));
 
             return sql.ToString();
 
         }
-        public string GetInsertCommand(string table)
+        public string GetInsertCommand(TableDefinition table)
         {
             var sql = new StringBuilder("INSERT INTO ");
             sql.AppendFormat("[{0}].[{1}] (", this.Schema, table);
 
 
-            var cols = m_tableColumns[table]
+            var cols = m_tableColumns[table.Name]
                 .Where(c => !c.IsIdentity)
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
