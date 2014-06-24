@@ -164,10 +164,6 @@
     <None Include="workflows\tracker.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\adapters\sqlserver.adapter\sqlserver.adapter.csproj">
-      <Project>{66FE46F2-986C-4B7C-A440-CCC1AE37784B}</Project>
-      <Name>sqlserver.adapter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\dependencies\razor.template\razor.template.csproj">
       <Project>{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}</Project>
       <Name>razor.template</Name>

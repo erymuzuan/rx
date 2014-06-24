@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -56,7 +57,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             this.NotificicationService.Write(format, args);
         }
-        
+
         protected virtual void OnStart()
         {
 
@@ -125,7 +126,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
                 catch (FileNotFoundException e)
                 {
-                    //  Console.WriteLine(e);
+                    Debug.WriteLine(e);
                 }
             }
 
