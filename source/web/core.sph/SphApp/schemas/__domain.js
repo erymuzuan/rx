@@ -1,4 +1,4 @@
-﻿///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\schemas\form.designer.g.js
+﻿///#source 1 1 /SphApp/schemas/form.designer.g.js
 
 /// <reference path="~/scripts/knockout-3.1.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
@@ -1531,7 +1531,7 @@ bespoke.sph.domain.OwnerType = function () {
 }();
 
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\schemas\report.builder.g.js
+///#source 1 1 /SphApp/schemas/report.builder.g.js
 
 /// <reference path="~/scripts/knockout-3.1.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
@@ -2341,7 +2341,7 @@ bespoke.sph.domain.IntervalSchedule = function (optionOrWebid) {
 };
 
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\schemas\sph.domain.g.js
+///#source 1 1 /SphApp/schemas/sph.domain.g.js
 
 /// <reference path="~/scripts/knockout-3.1.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
@@ -2910,7 +2910,7 @@ bespoke.sph.domain.DocumentTemplate = function (optionOrWebid) {
 };
 
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\schemas\trigger.workflow.g.js
+///#source 1 1 /SphApp/schemas/trigger.workflow.g.js
 
 /// <reference path="~/scripts/knockout-3.1.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />

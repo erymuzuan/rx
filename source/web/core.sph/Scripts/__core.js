@@ -1,4 +1,4 @@
-﻿///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\string.js
+﻿///#source 1 1 /Scripts/string.js
 // String.js - liberated from MicrosoftAjax.js on 03/28/10 by Sky Sanders 
 
 /*
@@ -145,7 +145,7 @@
     };
 
 })(window);
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_pager.js
+///#source 1 1 /Scripts/_pager.js
 /// <reference path="toastr.js" />
 /// <reference path="_ko.kendo.js" />
 /// <reference path="../kendo/js/kendo.pager.js" />
@@ -238,7 +238,7 @@ bespoke.utils.ServerPager = function (options) {
     return self2;
 
 };
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_ko.workflow.js
+///#source 1 1 /Scripts/_ko.workflow.js
 /// <reference path="jstree.min.js" />
 /// <reference path="jstree.min.js" />
 /// <reference path="typeahead.bundle.js" />
@@ -400,7 +400,7 @@ ko.bindingHandlers.comboBoxLookupOptions = {
 };
 
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_ko.kendo.js
+///#source 1 1 /Scripts/_ko.kendo.js
 /// <reference path="knockout-2.3.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
@@ -1402,7 +1402,7 @@ ko.bindingHandlers.searchPaging = {
 
     }
 };
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_ko.bootstrap.js
+///#source 1 1 /Scripts/_ko.bootstrap.js
 /// <reference path="typeahead.bundle.js" />
 /// <reference path="knockout-3.1.0.debug.js" />
 /// <reference path="underscore.js" />
@@ -1565,7 +1565,7 @@ ko.bindingHandlers.scroll = {
     }
 };
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_function.prototypes.js
+///#source 1 1 /Scripts/_function.prototypes.js
 (function () {
     Function.prototype.partial = function () {
         var fn = this, args = Array.prototype.slice.call(arguments);
@@ -1581,7 +1581,7 @@ ko.bindingHandlers.scroll = {
     };
 
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_constants.js
+///#source 1 1 /Scripts/_constants.js
 (function (window) {
     window.bespoke = window.bespoke || {};
     window.bespoke.ServerOperationStatus = {        
@@ -1595,7 +1595,7 @@ ko.bindingHandlers.scroll = {
 
 })(window);
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_uiready.js
+///#source 1 1 /Scripts/_uiready.js
 /// <reference path="bootstrap.js" />
 /// <reference path="google-maps-3-vs-1-0-vsdoc.js" />
 /// <reference path="bootstrap-datepicker.js" />
@@ -1615,7 +1615,7 @@ var _uiready = function () {
 
 }();
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_utils.js
+///#source 1 1 /Scripts/_utils.js
 (function (window, $) {
     window.bespoke = window.bespoke || {};
     bespoke.utils = bespoke.utils || {};
@@ -1636,7 +1636,7 @@ var _uiready = function () {
 
 
 })(window, jQuery);
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_task.js
+///#source 1 1 /Scripts/_task.js
 (function (window, $) {
     window.Task = window.Task || {};
     window.Task.fromResult = function (returnValue, delay) {
@@ -1653,7 +1653,7 @@ var _uiready = function () {
 
 })(window, jQuery);
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_theme.js
+///#source 1 1 /Scripts/_theme.js
 
 ko.bindingHandlers.theme = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
@@ -1670,7 +1670,7 @@ ko.bindingHandlers.theme = {
 
     }
 };
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\_references.js
+///#source 1 1 /Scripts/_references.js
 /// <reference path="jquery-2.1.1.js" />
 /// <reference path="modernizr-2.7.2.js" />
 /// <reference path="jquery-ui-1.10.4.js" />

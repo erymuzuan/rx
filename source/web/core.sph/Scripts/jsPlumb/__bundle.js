@@ -1,4 +1,4 @@
-﻿///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jquery.ui.touch-punch.min.js
+﻿///#source 1 1 /Scripts/jquery.ui.touch-punch.min.js
 /*
  * jQuery UI Touch Punch 0.2.2
  *
@@ -10,7 +10,7 @@
  *  jquery.ui.mouse.js
  */
 (function(b){b.support.touch="ontouchend" in document;if(!b.support.touch){return;}var c=b.ui.mouse.prototype,e=c._mouseInit,a;function d(g,h){if(g.originalEvent.touches.length>1){return;}g.preventDefault();var i=g.originalEvent.changedTouches[0],f=document.createEvent("MouseEvents");f.initMouseEvent(h,true,true,window,1,i.screenX,i.screenY,i.clientX,i.clientY,false,false,false,false,0,null);g.target.dispatchEvent(f);}c._touchStart=function(g){var f=this;if(a||!f._mouseCapture(g.originalEvent.changedTouches[0])){return;}a=true;f._touchMoved=false;d(g,"mouseover");d(g,"mousemove");d(g,"mousedown");};c._touchMove=function(f){if(!a){return;}this._touchMoved=true;d(f,"mousemove");};c._touchEnd=function(f){if(!a){return;}d(f,"mouseup");d(f,"mouseout");if(!this._touchMoved){d(f,"click");}a=false;};c._mouseInit=function(){var f=this;f.element.bind("touchstart",b.proxy(f,"_touchStart")).bind("touchmove",b.proxy(f,"_touchMove")).bind("touchend",b.proxy(f,"_touchEnd"));e.call(f);};})(jQuery);
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\util.js
+///#source 1 1 /Scripts/jsPlumb/util.js
 /*
  * jsPlumb
  * 
@@ -450,7 +450,7 @@
     }
 
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\dom-adapter.js
+///#source 1 1 /Scripts/jsPlumb/dom-adapter.js
 /*
  * jsPlumb
  * 
@@ -752,7 +752,7 @@
 */
 
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\jsPlumb.js
+///#source 1 1 /Scripts/jsPlumb/jsPlumb.js
 /**
  * @module jsPlumb
  * @description Provides a way to visually connect elements on an HTML page, using either SVG, Canvas
@@ -3751,7 +3751,7 @@
 	
 })();
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\endpoint.js
+///#source 1 1 /Scripts/jsPlumb/endpoint.js
 
 ;(function() {
         
@@ -4749,7 +4749,7 @@
         }
     });
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\connection.js
+///#source 1 1 /Scripts/jsPlumb/connection.js
 ;(function() {
 
     var makeConnector = function(_jsPlumb, renderMode, connectorName, connectorArgs) {
@@ -5253,7 +5253,7 @@
         
     }); // END Connection class            
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\anchors.js
+///#source 1 1 /Scripts/jsPlumb/anchors.js
 /*
  * jsPlumb
  * 
@@ -6327,7 +6327,7 @@
 		return a;
 	};
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\defaults.js
+///#source 1 1 /Scripts/jsPlumb/defaults.js
 /*
  * jsPlumb
  * 
@@ -7837,7 +7837,7 @@
  // ********************************* END OF OVERLAY DEFINITIONS ***********************************************************************
     
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\connectors-flowchart.js
+///#source 1 1 /Scripts/jsPlumb/connectors-flowchart.js
 /*
  * jsPlumb
  * 
@@ -8200,7 +8200,7 @@
     jsPlumbUtil.extend(Flowchart, jsPlumb.Connectors.AbstractConnector);
     jsPlumb.registerConnectorType(Flowchart, "Flowchart");
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\renderers-canvas.js
+///#source 1 1 /Scripts/jsPlumb/renderers-canvas.js
 /*
  * jsPlumb
  * 
@@ -8736,7 +8736,7 @@
     };		
     jsPlumbUtil.extend(jsPlumb.Overlays.canvas.Diamond, [ jsPlumb.Overlays.Diamond, CanvasOverlay ] );
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\renderers-svg.js
+///#source 1 1 /Scripts/jsPlumb/renderers-svg.js
 /*
  * jsPlumb
  * 
@@ -9365,7 +9365,7 @@
     };
     jsPlumbUtil.extend(jsPlumb.Overlays.svg.GuideLines, jsPlumb.Overlays.GuideLines);
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\renderers-vml.js
+///#source 1 1 /Scripts/jsPlumb/renderers-vml.js
 /*
  * jsPlumb
  * 
@@ -9895,7 +9895,7 @@
 // ******************************* /vml overlays *****************************************************    
     
 })();
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\jquery.jsPlumb.js
+///#source 1 1 /Scripts/jsPlumb/jquery.jsPlumb.js
 /*
  * jsPlumb
  * 
@@ -10287,7 +10287,7 @@ TODO: REMOVE!
 })(jQuery);
 
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\jsplumb-geom-0.1.js
+///#source 1 1 /Scripts/jsPlumb/jsplumb-geom-0.1.js
 /**
  * jsPlumbGeom v0.1
  *
@@ -10474,7 +10474,7 @@ TODO: REMOVE!
 		    return [{x:toPoint.x + x, y:toPoint.y + y}, {x:toPoint.x - x, y:toPoint.y - y}];
 		};	
 }).call(this);
-///#source 1 1 C:\project\work\sph\source\web\core.sph\Scripts\jsPlumb\jsBezier-0.6-min.js
+///#source 1 1 /Scripts/jsPlumb/jsBezier-0.6-min.js
 (function(){"undefined"==typeof Math.sgn&&(Math.sgn=function(a){return 0==a?0:0<a?1:-1});var q={subtract:function(a,b){return{x:a.x-b.x,y:a.y-b.y}},dotProduct:function(a,b){return a.x*b.x+a.y*b.y},square:function(a){return Math.sqrt(a.x*a.x+a.y*a.y)},scale:function(a,b){return{x:a.x*b,y:a.y*b}}},B=Math.pow(2,-65),x=function(a,b){for(var f=[],d=b.length-1,g=2*d-1,h=[],e=[],m=[],k=[],l=[[1,0.6,0.3,0.1],[0.4,0.6,0.6,0.4],[0.1,0.3,0.6,1]],c=0;c<=d;c++)h[c]=q.subtract(b[c],a);for(c=0;c<=d-1;c++)e[c]=q.subtract(b[c+
 1],b[c]),e[c]=q.scale(e[c],3);for(c=0;c<=d-1;c++)for(var n=0;n<=d;n++)m[c]||(m[c]=[]),m[c][n]=q.dotProduct(e[c],h[n]);for(c=0;c<=g;c++)k[c]||(k[c]=[]),k[c].y=0,k[c].x=parseFloat(c)/g;g=d-1;for(h=0;h<=d+g;h++){c=Math.max(0,h-g);for(e=Math.min(h,d);c<=e;c++)j=h-c,k[c+j].y+=m[j][c]*l[j][c]}d=b.length-1;k=u(k,2*d-1,f,0);g=q.subtract(a,b[0]);m=q.square(g);for(c=l=0;c<k;c++)g=q.subtract(a,v(b,d,f[c],null,null)),g=q.square(g),g<m&&(m=g,l=f[c]);g=q.subtract(a,b[d]);g=q.square(g);g<m&&(m=g,l=1);return{location:l,
 distance:m}},u=function(a,b,f,d){var g=[],h=[],e=[],m=[],k=0,l,c;c=Math.sgn(a[0].y);for(var n=1;n<=b;n++)l=Math.sgn(a[n].y),l!=c&&k++,c=l;switch(k){case 0:return 0;case 1:if(64<=d)return f[0]=(a[0].x+a[b].x)/2,1;var r,p,k=a[0].y-a[b].y;c=a[b].x-a[0].x;n=a[0].x*a[b].y-a[b].x*a[0].y;l=max_distance_below=0;for(r=1;r<b;r++)p=k*a[r].x+c*a[r].y+n,p>l?l=p:p<max_distance_below&&(max_distance_below=p);p=c;r=0*p-1*k;l=(1*(n-l)-0*p)*(1/r);p=c;c=n-max_distance_below;r=0*p-1*k;k=(1*c-0*p)*(1/r);c=Math.min(l,k);

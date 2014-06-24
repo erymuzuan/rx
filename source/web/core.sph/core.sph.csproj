@@ -1188,6 +1188,9 @@
     <Content Include="Content\jsplumb\__jsplumb.css">
       <DependentUpon>__jsplumb.css.bundle</DependentUpon>
     </Content>
+    <Content Include="Content\jsplumb\__jsplumb.min.css">
+      <DependentUpon>__jsplumb.css</DependentUpon>
+    </Content>
     <Content Include="Content\jstree\style.css" />
     <EmbeddedResource Include="Content\jstree\style.min.css" />
     <EmbeddedResource Include="Content\jstree\throbber.gif" />
@@ -1400,6 +1403,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jsPlumb\__bundle.js">
       <DependentUpon>__bundle.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jsPlumb\__bundle.min.js">
+      <DependentUpon>__bundle.js</DependentUpon>
     </Content>
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <EmbeddedResource Include="Scripts\knockout-3.1.0.js" />
@@ -1627,6 +1633,9 @@
     <EmbeddedResource Include="SphApp\schemas\report.builder.g.js" />
     <Content Include="SphApp\prototypes\__prototypes.js">
       <DependentUpon>__prototypes.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="SphApp\prototypes\__prototypes.min.js">
+      <DependentUpon>__prototypes.js</DependentUpon>
     </Content>
     <Content Include="SphApp\schemas\sph.domain.g.js" />
     <EmbeddedResource Include="SphApp\schemas\trigger.workflow.g.js" />
@@ -2074,6 +2083,9 @@
     <EmbeddedResource Include="SphApp\schemas\__domain.js">
       <DependentUpon>__domain.js.bundle</DependentUpon>
     </EmbeddedResource>
+    <Content Include="SphApp\schemas\__domain.min.js">
+      <DependentUpon>__domain.js</DependentUpon>
+    </Content>
     <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
@@ -2263,6 +2275,9 @@
     <EmbeddedResource Include="Scripts\modernizr-2.7.2.min.js.map">
       <DependentUpon>modernizr-2.7.2.min.js</DependentUpon>
     </EmbeddedResource>
+    <Content Include="Scripts\jsPlumb\__bundle.min.js.map">
+      <DependentUpon>__bundle.min.js</DependentUpon>
+    </Content>
     <None Include="Scripts\__core.js.bundle" />
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <EmbeddedResource Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
@@ -2751,6 +2766,12 @@
     <Content Include="Views\Shared\DisplayTemplates\CurrencyElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CurrencyElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="SphApp\prototypes\__prototypes.min.js.map">
+      <DependentUpon>__prototypes.min.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\schemas\__domain.min.js.map">
+      <DependentUpon>__domain.min.js</DependentUpon>
     </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

@@ -1,21 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<bundle minify="true" runOnBuild="true" output="bundle.js">
-  <!--The order of the <file> elements determines the order of them when bundled.-->
-  <file>/Scripts/jquery.ui.touch-punch.min.js</file>
-  <file>/Scripts/jsPlumb/util.js</file>
-  <file>/Scripts/jsPlumb/dom-adapter.js</file>
-  <file>/Scripts/jsPlumb/jsPlumb.js</file>
-  
-  <file>/Scripts/jsPlumb/endpoint.js</file>
-  <file>/Scripts/jsPlumb/connection.js</file>
-  <file>/Scripts/jsPlumb/anchors.js</file>
-  <file>/Scripts/jsPlumb/defaults.js</file>
-  
-  <file>/Scripts/jsPlumb/connectors-flowchart.js</file>
-  <file>/Scripts/jsPlumb/renderers-canvas.js</file>
-  <file>/Scripts/jsPlumb/renderers-svg.js</file>
-  <file>/Scripts/jsPlumb/renderers-vml.js</file>
-  <file>/Scripts/jsPlumb/jquery.jsPlumb.js</file>
-  <file>/Scripts/jsPlumb/jsplumb-geom-0.1.js</file>
-  <file>/Scripts/jsPlumb/jsBezier-0.6-min.js</file>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<bundle xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://vswebessentials.com/schemas/v1/bundle.xsd">
+  <settings>
+    <!--Determines if the bundle file should be automatically optimized after creation/update.-->
+    <minify>true</minify>
+    <!--Determin whether to generate/re-generate this bundle on building the solution.-->
+    <runOnBuild>true</runOnBuild>
+    <!--Specifies a custom subfolder to save files to. By default, compiled output will be placed in the same folder and nested under the original file.-->
+    <outputDirectory />
+  </settings>
+  <!--The order of the <file> elements determines the order of the files in the bundle.-->
+  <files>
+    <file>/Scripts/jquery.ui.touch-punch.min.js</file>
+    <file>/Scripts/jsPlumb/util.js</file>
+    <file>/Scripts/jsPlumb/dom-adapter.js</file>
+    <file>/Scripts/jsPlumb/jsPlumb.js</file>
+    <file>/Scripts/jsPlumb/endpoint.js</file>
+    <file>/Scripts/jsPlumb/connection.js</file>
+    <file>/Scripts/jsPlumb/anchors.js</file>
+    <file>/Scripts/jsPlumb/defaults.js</file>
+    <file>/Scripts/jsPlumb/connectors-flowchart.js</file>
+    <file>/Scripts/jsPlumb/renderers-canvas.js</file>
+    <file>/Scripts/jsPlumb/renderers-svg.js</file>
+    <file>/Scripts/jsPlumb/renderers-vml.js</file>
+    <file>/Scripts/jsPlumb/jquery.jsPlumb.js</file>
+    <file>/Scripts/jsPlumb/jsplumb-geom-0.1.js</file>
+    <file>/Scripts/jsPlumb/jsBezier-0.6-min.js</file>
+  </files>
 </bundle>

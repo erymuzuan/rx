@@ -1,4 +1,4 @@
-﻿///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\prototypes\BusinessRuleBase.js
+﻿///#source 1 1 /SphApp/prototypes/BusinessRuleBase.js
 /// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
 /// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
@@ -42,7 +42,7 @@ bespoke.sph.domain.BusinessRuleBase = function () {
 
 };
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\prototypes\FieldContainer.js
+///#source 1 1 /SphApp/prototypes/FieldContainer.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -100,7 +100,7 @@ bespoke.sph.domain.FieldContainer = function () {
     return vm;
 };
 
-///#source 1 1 C:\project\work\sph\source\web\core.sph\SphApp\prototypes\IntervalScheduleContainer.js
+///#source 1 1 /SphApp/prototypes/IntervalScheduleContainer.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
