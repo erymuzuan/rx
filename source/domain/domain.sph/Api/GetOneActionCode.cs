@@ -7,6 +7,11 @@ namespace Bespoke.Sph.Domain.Api
     [Export(typeof(ControllerAction))]
     public class GetOneActionCode : ControllerAction
     {
+        public override string ActionName
+        {
+            get { return "Get"; }
+        }
+
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();

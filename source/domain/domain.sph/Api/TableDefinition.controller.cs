@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Domain.Api
             var code = new StringBuilder(header);
 
             code.AppendLinf("   [RoutePrefix(\"api/{0}/{1}\")]", this.Schema.ToLowerInvariant(), this.Name.ToLowerInvariant());
-            code.AppendLinf("   public partial class {0}Controller : System.Web.Mvc.Controller", this.Name);
+            code.AppendLinf("   public partial class {0}Controller : System.Web.Http.ApiController", this.Name);
             code.AppendLine("   {");
 
             var executed = new List<Type>();

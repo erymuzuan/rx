@@ -11,7 +11,21 @@ namespace Bespoke.Sph.Domain.Api
             return ":" + type.ToCSharp();
         }
 
-     
+        public abstract string ActionName { get; }
+
+        public virtual bool IsAsync
+        {
+            get { return false; }
+        }
+        public virtual string Route
+        {
+            get { return null; }
+        }
+        public virtual Type ReturnType
+        {
+            get { return typeof(string); }
+        }
+
         public abstract string GenerateCode(TableDefinition table, Adapter adapter);
     }
 }

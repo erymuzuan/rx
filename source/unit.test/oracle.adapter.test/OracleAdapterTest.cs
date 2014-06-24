@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
@@ -133,8 +134,6 @@ namespace oracle.adapter.test
             var emp3 = await oradb.LoadOneAsync(emp.EMPLOYEE_ID);
             Assert.IsNotNull(emp3);
             Assert.AreEqual("erymuzuan", emp3.FIRST_NAME);
-
-
 
         }
 
