@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -10,14 +11,67 @@ using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
+    [Authorize(Roles = "developers")]
     public class EditorController : Controller
     {
         public ActionResult Help()
         {
             return View();
         }
-        public ActionResult Ace()
+
+        public ActionResult Save(string file, string code)
         {
+            var filed = Server.MapPath(file);
+            System.IO.File.WriteAllText(filed, code);
+            return Json(new {success = true, status = "OK"});
+        }
+        public ActionResult Code(string id)
+        {
+            var file = Server.MapPath(id);
+            if (!System.IO.File.Exists(file))
+                System.IO.File.WriteAllText(file, "");
+            var js = System.IO.File.ReadAllText(file);
+            return Content(js);
+        }
+
+        public ActionResult File(string id)
+        {
+            var ext = System.IO.Path.GetExtension(id);
+            string mode;
+
+            switch (ext)
+            {
+                case ".html":
+                case ".htm":
+                    mode = "html";
+                    break;
+                case ".cs":
+                    mode = "csharp";
+                    break;
+                case ".css":
+                    mode = "css";
+                    break;
+                case ".js":
+                    mode = "javascript";
+                    break;
+                default:
+                    throw new Exception("Don't know any for " + ext);
+            }
+            var vm = new
+            {
+                File = id,
+                Mode = mode
+            };
+            return View(vm);
+        }
+
+
+        public ActionResult Ace(string file = null)
+        {
+            if (null != file)
+            {
+                return View(new { File = file });
+            }
             return View();
         }
         public async Task<ActionResult> Page(int id)
@@ -44,7 +98,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var snippet = this.GetRequestJson<Snippet>();
             var file = Server.MapPath(string.Format("~/App_Data/snippets/{0}/{1}.json", snippet.Lang, snippet.Title));
-            var settings = new JsonSerializerSettings()
+            var settings = new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };

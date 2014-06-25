@@ -193,24 +193,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"FormDesign.Description\"");
 
-WriteLiteral(" />\r\n                </div>\r\n                <div");
-
-WriteLiteral(" class=\"form-group\"");
-
-WriteLiteral(">\r\n                    <label>Partial viewmodel.js</label>\r\n                    <" +
-"input");
-
-WriteLiteral(" class=\"form-control\"");
-
-WriteLiteral(" data-bind=\"value: Partial\"");
-
-WriteLiteral(" id=\"form-design-partial\"");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(" name=\"entform.partial\"");
-
-WriteLiteral(" />\r\n                </div>\r\n\r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n          \r\n                <div");
 
 WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
 
@@ -534,7 +517,7 @@ WriteLiteral(">\r\n            <form");
 
 WriteLiteral(" role=\"form\"");
 
-WriteLiteral(">\r\n                \r\n                <div");
+WriteLiteral(">\r\n\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -577,7 +560,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"Label\"");
 
-WriteLiteral(" />\r\n                </div>\r\n                <br/>\r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n                <br />\r\n                <div");
 
 WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
 
@@ -767,13 +750,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 229 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 225 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 229 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 225 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
@@ -794,13 +777,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 243 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 239 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 243 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 239 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         FormElement fe1 = fe;
@@ -809,14 +792,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 246 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 242 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 246 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 242 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                  
                     }
 
@@ -845,7 +828,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 257 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 253 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

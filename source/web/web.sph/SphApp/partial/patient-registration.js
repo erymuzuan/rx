@@ -1,6 +1,8 @@
 define([], function(){
 	var name = ko.observable(),
 		options = ko.observableArray(),
+		
+		
 
 		activate = function(patient){
 			console.clear();

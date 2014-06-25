@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Editor
     using System;
     using System.Collections.Generic;
     
-    #line 1 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+    #line 1 "..\..\Areas\Sph\Views\Editor\File.cshtml"
     using System.Configuration;
     
     #line default
@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Editor
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     
-    #line 2 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+    #line 2 "..\..\Areas\Sph\Views\Editor\File.cshtml"
     using System.Web.Mvc.Html;
     
     #line default
@@ -39,20 +39,22 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Editor
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Editor/Ace.cshtml")]
-    public partial class Ace : System.Web.Mvc.WebViewPage<dynamic>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Editor/File.cshtml")]
+    public partial class File : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public Ace()
+        public File()
         {
         }
         public override void Execute()
         {
             
-            #line 5 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 5 "..\..\Areas\Sph\Views\Editor\File.cshtml"
   
     Layout = null;
     var theme = ConfigurationManager.AppSettings["sph:AceTheme"] ?? "crimson_editor";
     var fontSize = ConfigurationManager.AppSettings["sph:AceFontSize"] ?? "18";
+    var mode = Model.Mode;
+
 
             
             #line default
@@ -105,7 +107,7 @@ WriteLiteral(@">
             font-size: ");
 
             
-            #line 32 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 34 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                    Write(fontSize);
 
             
@@ -116,7 +118,7 @@ WriteLiteral("px;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n");
 WriteLiteral("    ");
 
             
-            #line 37 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 39 "..\..\Areas\Sph\Views\Editor\File.cshtml"
 Write(Html.Partial("_Toolbar"));
 
             
@@ -128,10 +130,10 @@ WriteLiteral(" id=\"editor\"");
 
 WriteLiteral(">\r\n// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\r\n</pre>\r\n");
 
-WriteLiteral("    ");
+WriteLiteral("   ");
 
             
-            #line 41 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 43 "..\..\Areas\Sph\Views\Editor\File.cshtml"
 Write(Html.Partial("_VendorScripts"));
 
             
@@ -177,83 +179,100 @@ WriteLiteral(@">
             editor.setTheme(""ace/theme/");
 
             
-            #line 71 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 73 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                   Write(theme);
 
             
             #line default
             #line hidden
-WriteLiteral("\");\r\n");
+WriteLiteral("\");\r\n\r\n            editor.getSession().setMode(\"ace/mode/");
 
             
-            #line 72 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
-            
-            
-            #line default
-            #line hidden
-            
-            #line 72 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
-              
-            var mode = this.Request.QueryString["mode"] ?? "csharp";
-        
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n            editor.getSession().setMode(\"ace/mode/");
-
-            
-            #line 75 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 75 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                              Write(mode);
 
             
             #line default
             #line hidden
-WriteLiteral("\");\r\n            editor.gotoLine(1);\r\n\r\n            editor.commands.addCommand({\r" +
-"\n                name: \'GotoLine\',\r\n                bindKey: { win: \'Ctrl-G\', ma" +
-"c: \'Command-G\' },\r\n                exec: function () {\r\n                    requ" +
-"ire([\'viewmodels/ace.goto.line\'], function (dialog) {\r\n                        a" +
-"pp.showModal(dialog)\r\n                            .done(function (result) {\r\n   " +
-"                             if (result === \"OK\") {\r\n                           " +
-"         editor.gotoLine(dialog.line());\r\n                                }\r\n   " +
-"                         });\r\n                    });\r\n                },\r\n     " +
-"           readOnly: true\r\n            });\r\n\r\n            var save = function ()" +
-" {\r\n                if (window.saved)\r\n                    window.saved(editor.g" +
-"etValue());\r\n\r\n            },\r\n                saveAndClose = function () {\r\n   " +
-"                 if (window.saved)\r\n                        window.saved(editor." +
-"getValue(), true);\r\n\r\n                },\r\n                copy = function () {\r\n" +
-"\r\n                },\r\n                paste = function () {\r\n\r\n                }" +
-", search = function () {\r\n\r\n                },\r\n                open = function(" +
-") {\r\n                    \r\n                },\r\n                gotoLine = functi" +
-"on (number) {\r\n\r\n                },\r\n                vm = {\r\n                   " +
-" paste: paste,\r\n                    searchText: ko.observable(),\r\n              " +
-"      open: open,\r\n                    copy: copy,\r\n                    save: sa" +
-"ve,\r\n                    search: search,\r\n                    saveAndClose: save" +
-"AndClose,\r\n                    gotoLine: gotoLine,\r\n                    snippets" +
-": ko.observableArray(),\r\n                    logs: ko.observableArray(),\r\n      " +
-"              openSnippetEditor: function () {\r\n                        require(" +
-"[\'viewmodels/snippets.dialog\'], function (dialog) {\r\n                           " +
-" app.showModal(dialog)\r\n                                .done(function () {\r\n\r\n " +
-"                               });\r\n                            setTimeout(funct" +
-"ion() {\r\n                                $(\'div.modal-backdrop\').remove();\r\n    " +
-"                        }, 500);\r\n                        });\r\n                 " +
-"   }\r\n\r\n                };\r\n            ko.applyBindings(vm, document.getElement" +
-"ById(\'header-navbar\'));\r\n\r\n\r\n\r\n            $(\'#theme\').change(function () {\r\n   " +
-"             editor.setTheme(\"ace/theme/\" + $(this).val());\r\n                $.p" +
-"ost(\'/Editor/SaveSetting\', { \'ace-theme\': $(this).val() });\r\n            });\r\n  " +
-"          $(\'#font-size\').change(function () {\r\n                $(\'#editor\').css" +
-"(\"font-size\", $(this).val() + \"px\");\r\n                $.post(\'/Editor/SaveSettin" +
-"g\', { \'ace-font-size\': $(this).val() });\r\n            });\r\n            $(\'#snipp" +
-"ets-list\').on(\'click\',\'a\',function () {\r\n                var snp = ko.dataFor(th" +
-"is);\r\n                editor.insert(snp.code);\r\n            });\r\n\r\n            /" +
-"/ let it run\r\n            setTimeout(function () {\r\n                if (window.c" +
-"ode) {\r\n                    editor.setValue(window.code);\r\n                }\r\n  " +
-"              if (typeof window.field === \"object\") {\r\n                    edito" +
-"r.setValue(window.field.Script());\r\n                }\r\n                editor.go" +
-"toLine(1);\r\n\r\n            }, 600);\r\n            editor.gotoLine(1);\r\n\r\n         " +
-"   $.get(\'/sph/editor/snippets/");
+WriteLiteral(@""");
+            editor.gotoLine(1);
+
+            editor.commands.addCommand({
+                name: 'GotoLine',
+                bindKey: { win: 'Ctrl-G', mac: 'Command-G' },
+                exec: function () {
+                    require(['viewmodels/ace.goto.line'], function (dialog) {
+                        app.showModal(dialog)
+                            .done(function (result) {
+                                if (result === ""OK"") {
+                                    editor.gotoLine(dialog.line());
+                                }
+                            });
+                    });
+                },
+                readOnly: true
+            });
+
+            var isBusy = ko.observable(),
+                save = function () {
+
+                var tcs = new $.Deferred();
+                var data = JSON.stringify({
+                    file: '");
 
             
-            #line 172 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 99 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+                      Write(Model.File);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\',\r\n                    code: editor.getValue()\r\n                });\r\n           " +
+"     isBusy(true);\r\n\r\n                context.post(data, \"/sph/editor/save\")\r\n  " +
+"                  .then(function (result) {\r\n                        isBusy(fals" +
+"e);\r\n\r\n\r\n                        tcs.resolve(result);\r\n                    });\r\n" +
+"                return tcs.promise();\r\n            },\r\n                saveAndCl" +
+"ose = function () {\r\n\r\n                    save().done(function() {\r\n           " +
+"             window.close();\r\n                    });\r\n\r\n                },\r\n   " +
+"             copy = function () {\r\n\r\n                },\r\n                paste =" +
+" function () {\r\n\r\n                }, search = function () {\r\n\r\n                }" +
+",\r\n                open = function () {\r\n\r\n                },\r\n                g" +
+"otoLine = function (number) {\r\n\r\n                },\r\n                vm = {\r\n   " +
+"                 paste: paste,\r\n                    searchText: ko.observable()," +
+"\r\n                    open: open,\r\n                    copy: copy,\r\n            " +
+"        save: save,\r\n                    search: search,\r\n                    sa" +
+"veAndClose: saveAndClose,\r\n                    gotoLine: gotoLine,\r\n            " +
+"        snippets: ko.observableArray(),\r\n                    logs: ko.observable" +
+"Array(),\r\n                    openSnippetEditor: function () {\r\n                " +
+"        require([\'viewmodels/snippets.dialog\'], function (dialog) {\r\n           " +
+"                 app.showModal(dialog)\r\n                                .done(fu" +
+"nction () {\r\n\r\n                                });\r\n                            " +
+"setTimeout(function () {\r\n                                $(\'div.modal-backdrop\'" +
+").remove();\r\n                            }, 500);\r\n                        });\r\n" +
+"                    }\r\n\r\n                };\r\n            ko.applyBindings(vm, do" +
+"cument.getElementById(\'header-navbar\'));\r\n\r\n\r\n\r\n            $(\'#theme\').change(f" +
+"unction () {\r\n                editor.setTheme(\"ace/theme/\" + $(this).val());\r\n  " +
+"              $.post(\'/Editor/SaveSetting\', { \'ace-theme\': $(this).val() });\r\n  " +
+"          });\r\n            $(\'#font-size\').change(function () {\r\n               " +
+" $(\'#editor\').css(\"font-size\", $(this).val() + \"px\");\r\n                $.post(\'/" +
+"Editor/SaveSetting\', { \'ace-font-size\': $(this).val() });\r\n            });\r\n    " +
+"        $(\'#snippets-list\').on(\'click\', \'a\', function () {\r\n                var " +
+"snp = ko.dataFor(this);\r\n                editor.insert(snp.code);\r\n            }" +
+");\r\n\r\n            // let it run\r\n            $.get(\'/sph/editor/code?id=");
+
+            
+            #line 176 "..\..\Areas\Sph\Views\Editor\File.cshtml"
+                                  Write(Model.File);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\').done(function (text) {\r\n                editor.setValue(text);\r\n              " +
+"  editor.gotoLine(1);\r\n\r\n            });\r\n            editor.gotoLine(1);\r\n\r\n   " +
+"         $.get(\'/sph/editor/snippets/");
+
+            
+            #line 183 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                    Write(mode);
 
             
@@ -264,7 +283,7 @@ WriteLiteral("\').done(function (snippets) {\r\n                vm.snippets(snip
 "            ace.config.loadModule(\"ace/snippets/");
 
             
-            #line 177 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 188 "..\..\Areas\Sph\Views\Editor\File.cshtml"
                                                Write(mode);
 
             
@@ -275,7 +294,7 @@ WriteLiteral(@""", function (m) {
                         snippetManager.files.javascript = m;
                         m.snippets = snippetManager.parseSnippetFile(m.snippetText);
 
-                        _(snippets).each(function(v) {
+                        _(snippets).each(function (v) {
                             m.snippets.push({
                                 content: v.code,
                                 name: v.title,
@@ -289,7 +308,7 @@ WriteLiteral(@""", function (m) {
 
             });
 
-       
+
 
 
 

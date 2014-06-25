@@ -49,11 +49,7 @@
                     <label>Note</label>
                     <input class="form-control" data-bind="value: Note" id="form-design-Description" type="text" name="FormDesign.Description" />
                 </div>
-                <div class="form-group">
-                    <label>Partial viewmodel.js</label>
-                    <input class="form-control" data-bind="value: Partial" id="form-design-partial" type="text" name="entform.partial" />
-                </div>
-
+          
                 <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
                         <input data-bind="checked: IsDefault" id="form-design-isdefault" type="checkbox" name="FormDesign.IsDefault" />
@@ -165,7 +161,7 @@
 
         <div id="fields-settings" class="tab-pane" data-bind="with: selectedFormElement">
             <form role="form">
-                
+
                 <div class="form-group">
                     <label for="form-element-path">Path</label>
                     <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().EntityDefinitionId()" id="form-element-path" type="text" name="Path" />
@@ -174,7 +170,7 @@
                     <label for="form-element-label">Label</label>
                     <input class="form-control" data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
                 </div>
-                <br/>
+                <br />
                 <div class="form-group checkbox checkbox-no-padding-left">
                     <label for="use-display-template" class="sr-only">Use display template</label>
                     <label for="use-display-template">

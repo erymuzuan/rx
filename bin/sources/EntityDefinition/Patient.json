@@ -23,6 +23,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 6,
+        "DefaultValue": null,
         "WebId": "8bcd9193-40eb-4555-8110-6f04c7d6209a"
       },
       {
@@ -44,6 +45,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 5,
+        "DefaultValue": null,
         "WebId": "16d2daae-ea30-4ea4-b125-a426014d8422"
       },
       {
@@ -65,6 +67,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "846da964-0c28-440a-926d-e08293392892"
       },
       {
@@ -86,6 +89,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "735865c9-2a2a-47fa-96cc-9ca12eab432d"
       },
       {
@@ -107,6 +111,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "25e424ca-090e-4572-860d-225fc188448e"
       },
       {
@@ -128,6 +133,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "7f16952d-f2d3-4553-8f89-d6b8447c510f"
       },
       {
@@ -149,6 +155,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "a23f7302-b927-45da-8724-c992d20302ea"
       },
       {
@@ -170,6 +177,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 5,
+        "DefaultValue": null,
         "WebId": "8a54ac46-286e-4e75-bf1a-274666dcffa0"
       },
       {
@@ -191,6 +199,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 5,
+        "DefaultValue": null,
         "WebId": "40cad2f8-1345-49a9-b210-01e8ec3c641f"
       },
       {
@@ -212,6 +221,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "d0581eed-a29e-4723-ba15-85ae6cfe6712"
       },
       {
@@ -239,6 +249,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "d5f801b0-d07d-4bd3-b0a9-451ea8c50a2f"
             },
             {
@@ -260,6 +271,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "db2f4611-86d3-4aad-9458-c5d30d770f47"
             },
             {
@@ -281,6 +293,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "6a4f773a-261b-41bf-b9e2-329ed5ec064b"
             },
             {
@@ -302,6 +315,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "e815f1c0-cc63-44df-a5ce-fa1a0879da97"
             },
             {
@@ -323,6 +337,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "583f40e6-986b-453c-a84c-88e3f4eeb37d"
             }
           ]
@@ -339,6 +354,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "c1b8c2a6-a5bc-4ce0-bb0f-020261f4d460"
       },
       {
@@ -366,6 +382,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "76267898-ff46-437f-920b-27ce07462229"
             },
             {
@@ -387,6 +404,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "d5ae2ee2-2a59-4b26-ba02-a577bb206da8"
             },
             {
@@ -408,6 +426,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "2322e7a8-d310-4ad2-b0f7-f16de872f825"
             },
             {
@@ -429,6 +448,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "7b96048e-b9ba-4ea7-9a10-1044da7f4fbc"
             },
             {
@@ -450,6 +470,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "937ea191-8392-488d-97d0-3601ebef18c4"
             },
             {
@@ -471,6 +492,7 @@
               "IsFilterable": false,
               "IsExcludeInAll": false,
               "Boost": 0,
+              "DefaultValue": null,
               "WebId": "36cd02ff-4cfb-42a2-8f4f-e79b716da6bc"
             }
           ]
@@ -487,6 +509,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "d6a20639-6a60-4cb7-a3c4-eec37c521bf5"
       },
       {
@@ -508,6 +531,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "66a6e80c-dd5e-4505-8731-09069afeeba5"
       },
       {
@@ -529,6 +553,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "1b1c8004-db3e-461c-bebd-e61eefcf64ac"
       },
       {
@@ -550,6 +575,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "0d42f390-a2e9-4c11-809d-ab46de6df9c1"
       },
       {
@@ -571,6 +597,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "76c418fa-88c5-4d5f-9f5e-e05984c58818"
       },
       {
@@ -592,6 +619,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "4d9f6fa6-a355-4900-ae58-1740c9f88cf3"
       },
       {
@@ -613,6 +641,7 @@
         "IsFilterable": false,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "892023c1-b8af-496f-a96d-50991e682d16"
       },
       {
@@ -634,7 +663,30 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "8adc580b-efb3-46d8-b40b-f4828b81398d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        "FullName": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "OldIC",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": true,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 2,
+        "DefaultValue": null,
+        "WebId": "ea2dda9c-1e1a-476c-a0af-61870b979b4e"
       }
     ]
   },
@@ -692,21 +744,21 @@
                 "XPath": "",
                 "NamespacePrefix": "",
                 "TypeName": "",
-                "Path": "Name",
-                "Name": "Name",
+                "Path": "MaritalStatus",
+                "Name": "MaritalStatus",
                 "Note": "",
-                "WebId": "f62b5e6f-ceda-4e35-9090-81861771bfc0"
+                "WebId": "bb019a80-a80d-4266-9592-c15ea8fd813b"
               },
               "Right": {
                 "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
                 "TypeName": "System.String, mscorlib",
-                "Value": "bin",
-                "Name": "bin",
+                "Value": "Single",
+                "Name": "Single",
                 "Note": "",
-                "WebId": "7542c281-200a-44a6-8104-cdbb0da4b335"
+                "WebId": "3f251526-3e9b-4a18-9a94-99fb2cb20521"
               },
-              "Operator": "Substringof",
-              "WebId": "94bf0a96-54bc-4aef-8f83-bfdf16ec6ced"
+              "Operator": "Eq",
+              "WebId": "8c1a203c-a748-420c-bb89-bfb9f2f60bf5"
             }
           ]
         },
@@ -720,29 +772,29 @@
                 "XPath": "",
                 "NamespacePrefix": "",
                 "TypeName": "",
-                "Path": "Religion",
-                "Name": "Religion",
+                "Path": "Age",
+                "Name": "Age",
                 "Note": "",
-                "WebId": "fd8b3f51-c50c-4839-98d9-5dbed346e9d3"
+                "WebId": "383d3b32-1708-4b41-8940-dbc3c1287116"
               },
               "Right": {
                 "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-                "TypeName": "System.String, mscorlib",
-                "Value": "Islam",
-                "Name": "Islam",
+                "TypeName": "System.Int32, mscorlib",
+                "Value": 10,
+                "Name": "10",
                 "Note": "",
-                "WebId": "48055759-fa93-4bef-b03e-1b1c04427b60"
+                "WebId": "22796ba8-b3ab-4db7-bf84-9f3239212206"
               },
-              "Operator": "Eq",
-              "WebId": "c66bc14b-1df5-419a-94c5-892ecdb46dc3"
+              "Operator": "Le",
+              "WebId": "52a9afdf-fcc7-4c6f-b206-ab9f4583a0d6"
             }
           ]
         },
-        "Description": "www",
-        "Name": "Islam mesti ada bin",
+        "Description": "Too young to get married",
+        "Name": "ChildMarriage",
         "ErrorLocation": "",
-        "ErrorMessage": "Bin or binti",
-        "WebId": "fa74fc7e-b865-4678-b29f-e4cfa0b675f7"
+        "ErrorMessage": "Too young to get married",
+        "WebId": "d7cb6bd5-5a17-4ec8-a6a6-20865d67246b"
       }
     ]
   },
@@ -933,6 +985,13 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": null,
+    "IsPublic": true,
+    "WebId": null
+  },
   "EntityDefinitionId": 2002,
   "Name": "Patient",
   "Plural": "Patients",
@@ -944,6 +1003,6 @@
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-28T08:28:20.3116947+08:00",
+  "ChangedDate": "2014-06-25T07:28:20.9829498+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

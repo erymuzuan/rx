@@ -96,3 +96,5 @@ _ReSharper.commercial-space
 /SQLQuery10.sql
 /bin/sources/AdventureWorksPersons
 /bin/sources/HR_EMPLOYEES_NPK
+/source/web/js-beautify/jsb/.idea
+/source/web/js-beautify/jsb/node_modules

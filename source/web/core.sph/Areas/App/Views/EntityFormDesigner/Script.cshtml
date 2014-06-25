@@ -342,7 +342,15 @@
                         tcs.resolve(result);
                     });
                 return tcs.promise();
-            };
+            },
+                editCode = function() {
+                    var partial = "sphapp/partial/" + form().Route();
+                    window.open( "/sph/editor/file?id=/" + partial + ".js", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                    form().Partial(partial);
+
+                    return Task.fromResult(true);
+
+                };
 
             var vm = {
                 errors: errors,
@@ -384,6 +392,14 @@
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
                             return form().EntityFormId() > 0 && form().IsPublished();
+                        })
+                    },
+                    {
+                        command: editCode,
+                        caption: 'Edit Code',
+                        icon: "fa fa-code",
+                        enable: ko.computed(function () {
+                            return form().Route();
                         })
                     }
                     ]),

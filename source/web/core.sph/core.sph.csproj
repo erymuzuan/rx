@@ -619,6 +619,11 @@
     <Compile Include="Areas\Sph\Controllers\WorkflowDefinitionController.cs" />
     <Compile Include="Areas\Sph\Controllers\WorkflowController.cs" />
     <Compile Include="Areas\Sph\Controllers\WorkflowMonitorController.cs" />
+    <Compile Include="Areas\Sph\Views\Editor\File.generated.cs">
+      <DependentUpon>File.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\Sph\Views\Editor\Ace.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -633,6 +638,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Page.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Editor\_VendorScripts.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_VendorScripts.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Views\EntityDefinition\BusinessRuleDialog.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1197,7 +1207,7 @@
     <EmbeddedResource Include="Content\jstree\40px.png" />
     <Content Include="Content\daterangepicker-bs3.css" />
     <Content Include="Content\font-awesome.css" />
-    <Content Include="Content\font-awesome.min.css" />
+    <EmbeddedResource Include="Content\font-awesome.min.css" />
     <Content Include="Content\jsplumb\__jsplumb.css">
       <DependentUpon>__jsplumb.css.bundle</DependentUpon>
     </Content>
@@ -1399,6 +1409,14 @@
     <EmbeddedResource Include="fonts\FontAwesome.otf" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Areas\Sph\Views\Editor\File.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>File.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Editor\_VendorScripts.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_VendorScripts.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
