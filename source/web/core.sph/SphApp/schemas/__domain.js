@@ -868,6 +868,7 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         IsExportAvailable: ko.observable(false),
         Operation: ko.observable(''),
         Entity: ko.observable(''),
+        Partial: ko.observable(''),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         Rules: ko.observableArray([]),
         RouteParameterCollection: ko.observableArray([]),
@@ -1428,6 +1429,34 @@ bespoke.sph.domain.RouteParameter = function (optionOrWebid) {
 
     if (bespoke.sph.domain.RouteParameterPartial) {
         return _(model).extend(new bespoke.sph.domain.RouteParameterPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.PartialJs = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.PartialJs, domain.sph",
+        Path: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.PartialJsPartial) {
+        return _(model).extend(new bespoke.sph.domain.PartialJsPartial(model));
     }
     return model;
 };

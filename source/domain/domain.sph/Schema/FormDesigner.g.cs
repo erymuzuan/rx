@@ -2881,6 +2881,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_partial;
+        public const string PropertyNamePartial = "Partial";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();
 
@@ -3466,6 +3471,33 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string Partial
+        {
+            set
+            {
+                if (String.Equals(m_partial, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePartial, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_partial = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_partial;
             }
         }
 
@@ -6335,6 +6367,52 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_type;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("PartialJs", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class PartialJs
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_path;
+        public const string PropertyNamePath = "Path";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Path
+        {
+            set
+            {
+                if (String.Equals(m_path, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_path = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_path;
             }
         }
 

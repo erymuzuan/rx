@@ -1,6 +1,10 @@
 
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config, objectbuilders.app],
-        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
+        objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
+        objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
+        objectbuilders.app ,'partial/patient.registration'],
+        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app
+            ,partial) {
 
             var entity = ko.observable(new bespoke.dev_2002.domain.Patient({WebId:system.guid()})),
                 errors = ko.observableArray(),
@@ -26,9 +30,20 @@
                         }
                         form(f);
                         watching(w);
-
-                        tcs.resolve(true);
+                            
+                            if(typeof partial.activate === "function"){
+                                var pt = partial.activate(entity());
+                                if(typeof pt.done === "function"){
+                                    pt.done(tcs.resolve);
+                                }else{
+                                    tcs.resolve(true);
+                                }
+                            }
+                            
+                        
                     });
+
+
 
                     return tcs.promise();
                 },
@@ -148,9 +163,17 @@
                     // validation
                     validation.init($('#patient-registration-form'), form());
 
+
+                        
+                    if(typeof partial.attached === "function"){
+                        partial.attached(view);
+                    }
+
+                    
+
                 },
 
-                  validate = function(){
+                                  validate = function(){
                     var tcs = new $.Deferred();
 context.post( ko.mapping.toJSON(entity),'/patient/validate/Dob,ChildMarriage')
 .done(function(result){
@@ -214,7 +237,10 @@ return tcs.promise();
                 };
 
             var vm = {
-                activate: activate,
+                            
+                            partial : partial,
+                            
+                                    activate: activate,
                 config: config,
                 attached: attached,
                 entity: entity,
@@ -230,7 +256,7 @@ return tcs.promise();
                 
 
                 toolbar : {
-                        
+                                                                                                        
                     saveCommand : register,
                     
                     commands : ko.observableArray([])

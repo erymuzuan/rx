@@ -26,13 +26,19 @@
 
     var formId = @Model.Form.Route + "-form";
     var saveOperation = Model.Form.Operation;
-}
+    var partialPath = string.IsNullOrWhiteSpace(Model.Form.Partial) ? string.Empty: ",'" + Model.Form.Partial + "'" ;
+    var partialVariable = string.IsNullOrWhiteSpace(Model.Form.Partial) ? string.Empty : ",partial" ;
+}:
 
 <h2>title</h2>
 <script type="text/javascript" src="~/Scripts/knockout-3.1.0.debug.js"></script>
 <script type="text/javascript" data-script="true">
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config, objectbuilders.app],
-        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
+        objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
+        objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
+        objectbuilders.app @Html.Raw(partialPath)],
+        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app
+            @partialVariable) {
 
             var entity = ko.observable(new @Html.Raw(typeCtor)),
                 errors = ko.observableArray(),
@@ -58,9 +64,27 @@
                         }
                         form(f);
                         watching(w);
-
-                        tcs.resolve(true);
+                        @if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
+                        {
+                            <text>
+                            if(typeof partial.activate === "function"){
+                                var pt = partial.activate(entity());
+                                if(typeof pt.done === "function"){
+                                    pt.done(tcs.resolve);
+                                }else{
+                                    tcs.resolve(true);
+                                }
+                            }
+                            </text>
+                        }
+                        else
+                        {
+                            @:tcs.resolve(true);
+                        }
+                        
                     });
+
+
 
                     return tcs.promise();
                 },
@@ -99,6 +123,17 @@
                 attached = function (view) {
                     // validation
                     validation.init($('#@formId'), form());
+
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
+                    {
+                        <text>
+                    if(typeof partial.attached === "function"){
+                        partial.attached(view);
+                    }
+
+                    </text>
+                    }
 
                 },
 
@@ -201,7 +236,13 @@
                 };
 
             var vm = {
-                @foreach (var rule in Model.Form.Rules)
+                  @if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
+                  {
+                            <text>
+                            partial : partial,
+                            </text>
+                    }
+                    @foreach (var rule in Model.Form.Rules)
                     {
                         var function = rule.Dehumanize().ToCamelCase();
                     <text>@function : @function,</text>

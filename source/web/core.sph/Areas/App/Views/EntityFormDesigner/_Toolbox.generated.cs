@@ -27,6 +27,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormDesigner
     
     #line default
     #line hidden
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
@@ -37,6 +38,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormDesigner
     
     #line default
     #line hidden
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityFormDesigner/_Toolbox.cshtml")]
@@ -47,163 +49,731 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormDesigner
         }
         public override void Execute()
         {
+WriteLiteral("<div");
 
+WriteLiteral(" id=\"form-designer-toolbox\"");
 
+WriteLiteral(" data-path=\"Areas\\App\\Views\\EntityFormDesigner\\_Toolbox.cshtml\"");
 
-WriteLiteral("\r\n<div id=\"form-designer-toolbox\" data-path=\"Areas\\App\\Views\\EntityFormDesigner\\_" +
-"Toolbox.cshtml\">\r\n    <ul class=\"nav nav-tabs\" data-bind2=\"filter : {path:\'>li\'}" +
-"\">\r\n        <li class=\"active\">\r\n            <a href=\"#form-general2\" data-toggl" +
-"e=\"tab\">General</a>\r\n        </li>\r\n        <li>\r\n            <a href=\"#add-fiel" +
-"d\" data-toggle=\"tab\">Add a field</a>\r\n        </li>\r\n        <li>\r\n            <" +
-"a href=\"#fields-settings\" data-toggle=\"tab\">Properties</a>\r\n        </li>\r\n     " +
-"   <li>\r\n            <a href=\"#fields-validation\" data-toggle=\"tab\">Validations<" +
-"/a>\r\n        </li>\r\n\r\n        <li>\r\n            <a href=\"#business-rules\" data-t" +
-"oggle=\"tab\">Business Rules</a>\r\n        </li>\r\n\r\n    </ul>\r\n    <div class=\"tab-" +
-"content\">\r\n        <div id=\"form-general2\" class=\"tab-pane active\" data-bind=\"wi" +
-"th : form\">\r\n            <form role=\"form\">\r\n                <div class=\"form-gr" +
-"oup\">\r\n                    <label>Name</label>\r\n                    <input class" +
-"=\"form-control\" data-bind=\"value: Name\" id=\"form-design-name\" type=\"text\" name=\"" +
-"FormDesign.Name\" />\r\n                </div>\r\n                <div class=\"form-gr" +
-"oup\">\r\n                    <label>Route</label>\r\n                    <input clas" +
-"s=\"form-control\" data-bind=\"value: Route\" id=\"form-design-Route\" type=\"text\" nam" +
-"e=\"FormDesign.Route\" />\r\n                </div>\r\n                <div class=\"for" +
-"m-group\">\r\n                    <label for=\"form-design-operation\">Operation</lab" +
-"el>\r\n                    <select class=\"form-control\" data-bind=\"options :$root." +
-"operationsOption,\r\n                            optionsCaption :\'[Default - No Op" +
-"eration]\',\r\n                            value: Operation\" id=\"form-design-operat" +
-"ion\" name=\"FormDesign.Operation\"></select>\r\n                </div>\r\n            " +
-"    <div class=\"form-group\">\r\n                    <label for=\"form-design-icon-c" +
-"lass\">Icon class</label>\r\n                    <br />\r\n                    <i dat" +
-"a-bind=\"iconPicker: IconClass, attr:{\'class\':IconClass() + \' fa-2x\' }\" id=\"form-" +
-"design-icon-class\"></i>\r\n\r\n                </div>\r\n                <div class=\"f" +
-"orm-group\">\r\n                    <label>Note</label>\r\n                    <input" +
-" class=\"form-control\" data-bind=\"value: Note\" id=\"form-design-Description\" type=" +
-"\"text\" name=\"FormDesign.Description\" />\r\n                </div>\r\n\r\n             " +
-"   <div class=\"form-group checkbox checkbox-no-padding-left\">\r\n                 " +
-"   <label>\r\n                        <input data-bind=\"checked: IsDefault\" id=\"fo" +
-"rm-design-isdefault\" type=\"checkbox\" name=\"FormDesign.IsDefault\" />\r\n           " +
-"             Is default form\r\n                    </label>\r\n                </di" +
-"v>\r\n                <div class=\"form-group checkbox checkbox-no-padding-left\">\r\n" +
-"                    <label>\r\n                        <input data-bind=\"checked: " +
-"IsAllowedNewItem\" id=\"form-design-is-allow-new\" type=\"checkbox\" name=\"FormDesign" +
-".IsAllowedNewItem\" />\r\n                        Allow new item\r\n                 " +
-"   </label>\r\n                </div>\r\n                <div class=\"form-group chec" +
-"kbox checkbox-no-padding-left\">\r\n                    <label>\r\n                  " +
-"      <input data-bind=\"checked: IsRemoveAvailable\" id=\"form-design-is-remove-it" +
-"em\" type=\"checkbox\" name=\"FormDesign.IsRemoveAvailable\" />\r\n                    " +
-"    Allow remove item\r\n                    </label>\r\n                </div>\r\n   " +
-"             <div class=\"form-group checkbox checkbox-no-padding-left\">\r\n       " +
-"             <label>\r\n                        <input data-bind=\"checked: IsEmail" +
-"Available\" id=\"form-design-isemail\" type=\"checkbox\" name=\"FormDesign.IsEmailAvai" +
-"lable\" />\r\n                        Allow Email\r\n                    </label>\r\n  " +
-"              </div>\r\n\r\n                <div class=\"form-group checkbox checkbox" +
-"-no-padding-left\">\r\n                    <label>\r\n                        <input " +
-"data-bind=\"checked: IsPrintAvailable\" id=\"form-design-isprint\" type=\"checkbox\" n" +
-"ame=\"FormDesign.IsPrintAvailable\" />\r\n                        Allow Print\r\n     " +
-"               </label>\r\n                </div>\r\n                <div class=\"for" +
-"m-group checkbox checkbox-no-padding-left\">\r\n                    <label>\r\n      " +
-"                  <input data-bind=\"checked: IsWatchAvailable\" id=\"form-design-i" +
-"swatch\" type=\"checkbox\" name=\"FormDesign.IsWatchAvailable\" />\r\n                 " +
-"       Allow Watch\r\n                    </label>\r\n                </div>\r\n      " +
-"          <div class=\"form-group checkbox checkbox-no-padding-left\">\r\n          " +
-"          <label>\r\n                        <input data-bind=\"checked: IsAuditTra" +
-"ilAvailable\" id=\"form-design-IsAuditTrailAvailable\" type=\"checkbox\" name=\"FormDe" +
-"sign.IsAuditTrailAvailable\" />\r\n                        Audit trail\r\n           " +
-"         </label>\r\n                </div>\r\n\r\n                <!-- ko with : Form" +
-"Design -->\r\n\r\n\r\n                <div class=\"form-group\">\r\n                    <a" +
-" href=\"#label-cols\" data-toggle=\"collapse\"><i class=\"fa fa-chevron-down\"></i>Lab" +
-"el columns span</a>\r\n                </div>\r\n                <div id=\"label-cols" +
-"\" class=\"form-group collapse\">\r\n                    <div class=\"form-group\">\r\n  " +
-"                      <label>Label Col Large</label>\r\n                        <i" +
-"nput class=\"form-control\" data-bind=\"value: LabelColLg\" id=\"form-design-LabelCol" +
-"Lg\" type=\"number\" name=\"FormDesign.LabelColLg\" />\r\n                    </div>\r\n " +
-"                   <div class=\"form-group\">\r\n                        <label>Labe" +
-"l Col Medium</label>\r\n                        <input class=\"form-control\" data-b" +
-"ind=\"value: LabelColMd\" id=\"form-design-LabelColMd\" type=\"number\" name=\"FormDesi" +
-"gn.LabelColMd\" />\r\n                    </div>\r\n                    <div class=\"f" +
-"orm-group\">\r\n                        <label>Label Col Small</label>\r\n           " +
-"             <input class=\"form-control\" data-bind=\"value: LabelColSm\" id=\"form-" +
-"design-LabelColSm\" type=\"number\" name=\"FormDesign.LabelColSm\" />\r\n              " +
-"      </div>\r\n                    <div class=\"form-group\">\r\n                    " +
-"    <label>Label Col x-small</label>\r\n                        <input class=\"form" +
-"-control\" data-bind=\"value: LabelColXs\" id=\"form-design-LabelColXs\" type=\"number" +
-"\" name=\"FormDesign.LabelColXs\" />\r\n                    </div>\r\n                <" +
-"/div>\r\n\r\n                <div class=\"form-group\">\r\n                    <a href=\"" +
-"#input-cols\" data-toggle=\"collapse\"><i class=\"fa fa-chevron-down\"></i>Input colu" +
-"mns span</a>\r\n                </div>\r\n                <div id=\"input-cols\" class" +
-"=\"collapse form-group\">\r\n                    <div class=\"form-group\">\r\n         " +
-"               <label>Input Col Large</label>\r\n                        <input cl" +
-"ass=\"form-control\" data-bind=\"value: InputColLg\" id=\"form-design-InputColLg\" typ" +
-"e=\"number\" name=\"FormDesign.InputColLg\" />\r\n                    </div>\r\n        " +
-"            <div class=\"form-group\">\r\n                        <label>Input Col M" +
-"edium</label>\r\n                        <input class=\"form-control\" data-bind=\"va" +
-"lue: InputColMd\" id=\"form-design-InputColMd\" type=\"number\" name=\"FormDesign.Inpu" +
-"tColMd\" />\r\n                    </div>\r\n                    <div class=\"form-gro" +
-"up\">\r\n                        <label>Input Col Small</label>\r\n                  " +
-"      <input class=\"form-control\" data-bind=\"value: InputColSm\" id=\"form-design-" +
-"InputColSm\" type=\"number\" name=\"FormDesign.InputColSm\" />\r\n                    <" +
-"/div>\r\n                    <div class=\"form-group\">\r\n                        <la" +
-"bel>Input Col x-small</label>\r\n                        <input class=\"form-contro" +
-"l\" data-bind=\"value: InputColXs\" id=\"form-design-InputColXs\" type=\"number\" name=" +
-"\"FormDesign.InputColXs\" />\r\n                    </div>\r\n\r\n                </div>" +
-"\r\n\r\n\r\n                <!-- /ko -->\r\n\r\n            </form>\r\n        </div>\r\n     " +
-"   <div id=\"add-field\" class=\"tab-pane\">\r\n            <ul class=\"nav\" data-bind=" +
-"\"foreach: formElements, filter : {path:\'>li\', tooltip :\'elements filter\', offset" +
-" : 0}\">\r\n                <li>\r\n                    <a class=\"btn btn-default\" hr" +
-"ef=\"#add-field\" data-bind=\"attr : {title:Tooltip}\">\r\n                        <i " +
-"data-bind=\"attr: { \'class\': ToolboxIconClass }\" class=\"pull-left\"></i>\r\n        " +
-"                <!-- ko text: Name -->\r\n                        <!-- /ko-->\r\n   " +
-"                 </a>\r\n                </li>\r\n            </ul>\r\n        </div>\r" +
-"\n\r\n        <div id=\"fields-settings\" class=\"tab-pane\" data-bind=\"with: selectedF" +
-"ormElement\">\r\n            <form role=\"form\">\r\n                \r\n                " +
-"<div class=\"form-group\">\r\n                    <label for=\"form-element-path\">Pat" +
-"h</label>\r\n                    <input class=\"form-control\" pattern=\"^[A-Za-z_][A" +
-"-Za-z0-9_.]*$\" data-bind=\"value: Path, entityTypeaheadPath : $root.entity().Enti" +
-"tyDefinitionId()\" id=\"form-element-path\" type=\"text\" name=\"Path\" />\r\n           " +
-"     </div>\r\n                <div class=\"form-group\">\r\n                    <labe" +
-"l for=\"form-element-label\">Label</label>\r\n                    <input class=\"form" +
-"-control\" data-bind=\"value: Label, valueUpdate: \'keyup\'\" id=\"form-element-label\"" +
-" type=\"text\" name=\"Label\" />\r\n                </div>\r\n                <br/>\r\n   " +
-"             <div class=\"form-group checkbox checkbox-no-padding-left\">\r\n       " +
-"             <label for=\"use-display-template\" class=\"sr-only\">Use display templ" +
-"ate</label>\r\n                    <label for=\"use-display-template\">\r\n           " +
-"             <input data-bind=\"checked: UseDisplayTemplate\" id=\"use-display-temp" +
-"late\" type=\"checkbox\" name=\"UseDisplayTemplate\" />\r\n                        Use " +
-"display template\r\n                    </label>\r\n                </div>\r\n        " +
-"        <div class=\"form-group\">\r\n                    <a href=\"#toolbox-more-set" +
-"tings\" data-toggle=\"collapse\"><i class=\"fa fa-chevron-down\"></i>More settings</a" +
-">\r\n                </div>\r\n                <div id=\"toolbox-more-settings\" class" +
-"=\"collapse\">\r\n                    <div class=\"form-group\">\r\n                    " +
-"    <label for=\"form-element-tooltip\">Tooltip</label>\r\n                        <" +
-"input class=\"form-control\" data-bind=\"value: Tooltip\" id=\"form-element-tooltip\" " +
-"type=\"text\" name=\"Tooltip\" />\r\n                    </div>\r\n\r\n                   " +
-" <div class=\"form-group\">\r\n                        <label for=\"form-element-help" +
-"-text\">Help</label>\r\n                        <input class=\"form-control\" data-bi" +
-"nd=\"value: HelpText, valueUpdate: \'keyup\'\" id=\"form-element-help-text\" type=\"tex" +
-"t\" name=\"HelpText\" />\r\n                    </div>\r\n\r\n\r\n                    <div " +
-"class=\"form-group\">\r\n                        <label for=\"fe-css-class\">Css class" +
-"</label>\r\n                        <input class=\"form-control\" data-bind=\"value: " +
-"CssClass\" id=\"fe-css-class\" type=\"text\" name=\"CssClass\" />\r\n                    " +
-"</div>\r\n\r\n                    <div class=\"form-group\">\r\n                        " +
-"<label for=\"form-element-visible\">Visible</label>\r\n                        <inpu" +
-"t class=\"form-control\" data-bind=\"value: Visible\" id=\"form-element-visible\" type" +
-"=\"text\" name=\"Visible\" />\r\n                    </div>\r\n                    <div " +
-"class=\"form-group\">\r\n                        <label for=\"form-element-enable\">En" +
-"able</label>\r\n                        <input class=\"form-control\" data-bind=\"val" +
-"ue: Enable\" id=\"form-element-enable\" type=\"text\" name=\"Enable\" />\r\n             " +
-"       </div>\r\n\r\n\r\n                    <div class=\"form-group\">\r\n               " +
-"         <label for=\"form-element-elementId\">Id</label>\r\n                       " +
-" <input class=\"form-control\" data-bind=\"value: ElementId\" id=\"form-element-eleme" +
-"ntId\" type=\"text\" name=\"ElementId\" />\r\n                    </div>\r\n\r\n           " +
-"     </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <a " +
-"href=\"#toolbox-advanced-settings\" data-toggle=\"collapse\">\r\n                     " +
-"   <i class=\"fa fa-chevron-down\"></i>\r\n                        Advanced settings" +
-"\r\n                    </a>\r\n                </div>\r\n                <div id=\"too" +
-"lbox-advanced-settings\" class=\"collapse\">\r\n");
+WriteLiteral(">\r\n    <ul");
 
+WriteLiteral(" class=\"nav nav-tabs\"");
+
+WriteLiteral(" data-bind2=\"filter : {path:\'>li\'}\"");
+
+WriteLiteral(">\r\n        <li");
+
+WriteLiteral(" class=\"active\"");
+
+WriteLiteral(">\r\n            <a");
+
+WriteLiteral(" href=\"#form-general2\"");
+
+WriteLiteral(" data-toggle=\"tab\"");
+
+WriteLiteral(">General</a>\r\n        </li>\r\n        <li>\r\n            <a");
+
+WriteLiteral(" href=\"#add-field\"");
+
+WriteLiteral(" data-toggle=\"tab\"");
+
+WriteLiteral(">Add a field</a>\r\n        </li>\r\n        <li>\r\n            <a");
+
+WriteLiteral(" href=\"#fields-settings\"");
+
+WriteLiteral(" data-toggle=\"tab\"");
+
+WriteLiteral(">Properties</a>\r\n        </li>\r\n        <li>\r\n            <a");
+
+WriteLiteral(" href=\"#fields-validation\"");
+
+WriteLiteral(" data-toggle=\"tab\"");
+
+WriteLiteral(">Validations</a>\r\n        </li>\r\n\r\n        <li>\r\n            <a");
+
+WriteLiteral(" href=\"#business-rules\"");
+
+WriteLiteral(" data-toggle=\"tab\"");
+
+WriteLiteral(">Business Rules</a>\r\n        </li>\r\n\r\n    </ul>\r\n    <div");
+
+WriteLiteral(" class=\"tab-content\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" id=\"form-general2\"");
+
+WriteLiteral(" class=\"tab-pane active\"");
+
+WriteLiteral(" data-bind=\"with : form\"");
+
+WriteLiteral(">\r\n            <form");
+
+WriteLiteral(" role=\"form\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label>Name</label>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: Name\"");
+
+WriteLiteral(" id=\"form-design-name\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"FormDesign.Name\"");
+
+WriteLiteral(" />\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label>Route</label>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: Route\"");
+
+WriteLiteral(" id=\"form-design-Route\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"FormDesign.Route\"");
+
+WriteLiteral(" />\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"form-design-operation\"");
+
+WriteLiteral(">Operation</label>\r\n                    <select");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"options :$root.operationsOption,\r\n                            options" +
+"Caption :\'[Default - No Operation]\',\r\n                            value: Operati" +
+"on\"");
+
+WriteLiteral(" id=\"form-design-operation\"");
+
+WriteLiteral(" name=\"FormDesign.Operation\"");
+
+WriteLiteral("></select>\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"form-design-icon-class\"");
+
+WriteLiteral(">Icon class</label>\r\n                    <br />\r\n                    <i");
+
+WriteLiteral(" data-bind=\"iconPicker: IconClass, attr:{\'class\':IconClass() + \' fa-2x\' }\"");
+
+WriteLiteral(" id=\"form-design-icon-class\"");
+
+WriteLiteral("></i>\r\n\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label>Note</label>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: Note\"");
+
+WriteLiteral(" id=\"form-design-Description\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"FormDesign.Description\"");
+
+WriteLiteral(" />\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label>Partial viewmodel.js</label>\r\n                    <" +
+"input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: Partial\"");
+
+WriteLiteral(" id=\"form-design-partial\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"entform.partial\"");
+
+WriteLiteral(" />\r\n                </div>\r\n\r\n                <div");
+
+WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
+
+WriteLiteral(">\r\n                    <label>\r\n                        <input");
+
+WriteLiteral(" data-bind=\"checked: IsDefault\"");
+
+WriteLiteral(" id=\"form-design-isdefault\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"FormDesign.IsDefault\"");
+
+WriteLiteral(" />\r\n                        Is default form\r\n                    </label>\r\n     " +
+"           </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
+
+WriteLiteral(">\r\n                    <label>\r\n                        <input");
+
+WriteLiteral(" data-bind=\"checked: IsAllowedNewItem\"");
+
+WriteLiteral(" id=\"form-design-is-allow-new\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"FormDesign.IsAllowedNewItem\"");
+
+WriteLiteral(" />\r\n                        Allow new item\r\n                    </label>\r\n      " +
+"          </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
+
+WriteLiteral(">\r\n                    <label>\r\n                        <input");
+
+WriteLiteral(" data-bind=\"checked: IsRemoveAvailable\"");
+
+WriteLiteral(" id=\"form-design-is-remove-item\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"FormDesign.IsRemoveAvailable\"");
+
+WriteLiteral(" />\r\n                        Allow remove item\r\n                    </label>\r\n   " +
+"             </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
+
+WriteLiteral(">\r\n                    <label>\r\n                        <input");
+
+WriteLiteral(" data-bind=\"checked: IsEmailAvailable\"");
+
+WriteLiteral(" id=\"form-design-isemail\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"FormDesign.IsEmailAvailable\"");
+
+WriteLiteral(" />\r\n                        Allow Email\r\n                    </label>\r\n         " +
+"       </div>\r\n\r\n                <div");
+
+WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
+
+WriteLiteral(">\r\n                    <label>\r\n                        <input");
+
+WriteLiteral(" data-bind=\"checked: IsPrintAvailable\"");
+
+WriteLiteral(" id=\"form-design-isprint\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"FormDesign.IsPrintAvailable\"");
+
+WriteLiteral(" />\r\n                        Allow Print\r\n                    </label>\r\n         " +
+"       </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
+
+WriteLiteral(">\r\n                    <label>\r\n                        <input");
+
+WriteLiteral(" data-bind=\"checked: IsWatchAvailable\"");
+
+WriteLiteral(" id=\"form-design-iswatch\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"FormDesign.IsWatchAvailable\"");
+
+WriteLiteral(" />\r\n                        Allow Watch\r\n                    </label>\r\n         " +
+"       </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
+
+WriteLiteral(">\r\n                    <label>\r\n                        <input");
+
+WriteLiteral(" data-bind=\"checked: IsAuditTrailAvailable\"");
+
+WriteLiteral(" id=\"form-design-IsAuditTrailAvailable\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"FormDesign.IsAuditTrailAvailable\"");
+
+WriteLiteral(" />\r\n                        Audit trail\r\n                    </label>\r\n         " +
+"       </div>\r\n\r\n                <!-- ko with : FormDesign -->\r\n\r\n\r\n            " +
+"    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <a");
+
+WriteLiteral(" href=\"#label-cols\"");
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>Label columns span</a>\r\n                </div>\r\n                <div");
+
+WriteLiteral(" id=\"label-cols\"");
+
+WriteLiteral(" class=\"form-group collapse\"");
+
+WriteLiteral(">\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label>Label Col Large</label>\r\n                      " +
+"  <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: LabelColLg\"");
+
+WriteLiteral(" id=\"form-design-LabelColLg\"");
+
+WriteLiteral(" type=\"number\"");
+
+WriteLiteral(" name=\"FormDesign.LabelColLg\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label>Label Col Medium</label>\r\n                     " +
+"   <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: LabelColMd\"");
+
+WriteLiteral(" id=\"form-design-LabelColMd\"");
+
+WriteLiteral(" type=\"number\"");
+
+WriteLiteral(" name=\"FormDesign.LabelColMd\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label>Label Col Small</label>\r\n                      " +
+"  <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: LabelColSm\"");
+
+WriteLiteral(" id=\"form-design-LabelColSm\"");
+
+WriteLiteral(" type=\"number\"");
+
+WriteLiteral(" name=\"FormDesign.LabelColSm\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label>Label Col x-small</label>\r\n                    " +
+"    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: LabelColXs\"");
+
+WriteLiteral(" id=\"form-design-LabelColXs\"");
+
+WriteLiteral(" type=\"number\"");
+
+WriteLiteral(" name=\"FormDesign.LabelColXs\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n                </div>\r\n\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <a");
+
+WriteLiteral(" href=\"#input-cols\"");
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>Input columns span</a>\r\n                </div>\r\n                <div");
+
+WriteLiteral(" id=\"input-cols\"");
+
+WriteLiteral(" class=\"collapse form-group\"");
+
+WriteLiteral(">\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label>Input Col Large</label>\r\n                      " +
+"  <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: InputColLg\"");
+
+WriteLiteral(" id=\"form-design-InputColLg\"");
+
+WriteLiteral(" type=\"number\"");
+
+WriteLiteral(" name=\"FormDesign.InputColLg\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label>Input Col Medium</label>\r\n                     " +
+"   <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: InputColMd\"");
+
+WriteLiteral(" id=\"form-design-InputColMd\"");
+
+WriteLiteral(" type=\"number\"");
+
+WriteLiteral(" name=\"FormDesign.InputColMd\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label>Input Col Small</label>\r\n                      " +
+"  <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: InputColSm\"");
+
+WriteLiteral(" id=\"form-design-InputColSm\"");
+
+WriteLiteral(" type=\"number\"");
+
+WriteLiteral(" name=\"FormDesign.InputColSm\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label>Input Col x-small</label>\r\n                    " +
+"    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: InputColXs\"");
+
+WriteLiteral(" id=\"form-design-InputColXs\"");
+
+WriteLiteral(" type=\"number\"");
+
+WriteLiteral(" name=\"FormDesign.InputColXs\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n\r\n                </div>\r\n\r\n\r\n                <!" +
+"-- /ko -->\r\n\r\n            </form>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" id=\"add-field\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral(">\r\n            <ul");
+
+WriteLiteral(" class=\"nav\"");
+
+WriteLiteral(" data-bind=\"foreach: formElements, filter : {path:\'>li\', tooltip :\'elements filte" +
+"r\', offset : 0}\"");
+
+WriteLiteral(">\r\n                <li>\r\n                    <a");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" href=\"#add-field\"");
+
+WriteLiteral(" data-bind=\"attr : {title:Tooltip}\"");
+
+WriteLiteral(">\r\n                        <i");
+
+WriteLiteral(" data-bind=\"attr: { \'class\': ToolboxIconClass }\"");
+
+WriteLiteral(" class=\"pull-left\"");
+
+WriteLiteral("></i>\r\n                        <!-- ko text: Name -->\r\n                        <!" +
+"-- /ko-->\r\n                    </a>\r\n                </li>\r\n            </ul>\r\n " +
+"       </div>\r\n\r\n        <div");
+
+WriteLiteral(" id=\"fields-settings\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral(" data-bind=\"with: selectedFormElement\"");
+
+WriteLiteral(">\r\n            <form");
+
+WriteLiteral(" role=\"form\"");
+
+WriteLiteral(">\r\n                \r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"form-element-path\"");
+
+WriteLiteral(">Path</label>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_.]*$\"");
+
+WriteLiteral(" data-bind=\"value: Path, entityTypeaheadPath : $root.entity().EntityDefinitionId(" +
+")\"");
+
+WriteLiteral(" id=\"form-element-path\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"Path\"");
+
+WriteLiteral(" />\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"form-element-label\"");
+
+WriteLiteral(">Label</label>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: Label, valueUpdate: \'keyup\'\"");
+
+WriteLiteral(" id=\"form-element-label\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"Label\"");
+
+WriteLiteral(" />\r\n                </div>\r\n                <br/>\r\n                <div");
+
+WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"use-display-template\"");
+
+WriteLiteral(" class=\"sr-only\"");
+
+WriteLiteral(">Use display template</label>\r\n                    <label");
+
+WriteLiteral(" for=\"use-display-template\"");
+
+WriteLiteral(">\r\n                        <input");
+
+WriteLiteral(" data-bind=\"checked: UseDisplayTemplate\"");
+
+WriteLiteral(" id=\"use-display-template\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"UseDisplayTemplate\"");
+
+WriteLiteral(" />\r\n                        Use display template\r\n                    </label>\r\n" +
+"                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <a");
+
+WriteLiteral(" href=\"#toolbox-more-settings\"");
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>More settings</a>\r\n                </div>\r\n                <div");
+
+WriteLiteral(" id=\"toolbox-more-settings\"");
+
+WriteLiteral(" class=\"collapse\"");
+
+WriteLiteral(">\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label");
+
+WriteLiteral(" for=\"form-element-tooltip\"");
+
+WriteLiteral(">Tooltip</label>\r\n                        <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: Tooltip\"");
+
+WriteLiteral(" id=\"form-element-tooltip\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"Tooltip\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label");
+
+WriteLiteral(" for=\"form-element-help-text\"");
+
+WriteLiteral(">Help</label>\r\n                        <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: HelpText, valueUpdate: \'keyup\'\"");
+
+WriteLiteral(" id=\"form-element-help-text\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"HelpText\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n\r\n\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label");
+
+WriteLiteral(" for=\"fe-css-class\"");
+
+WriteLiteral(">Css class</label>\r\n                        <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: CssClass\"");
+
+WriteLiteral(" id=\"fe-css-class\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"CssClass\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label");
+
+WriteLiteral(" for=\"form-element-visible\"");
+
+WriteLiteral(">Visible</label>\r\n                        <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: Visible\"");
+
+WriteLiteral(" id=\"form-element-visible\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"Visible\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label");
+
+WriteLiteral(" for=\"form-element-enable\"");
+
+WriteLiteral(">Enable</label>\r\n                        <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: Enable\"");
+
+WriteLiteral(" id=\"form-element-enable\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"Enable\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n\r\n\r\n                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                        <label");
+
+WriteLiteral(" for=\"form-element-elementId\"");
+
+WriteLiteral(">Id</label>\r\n                        <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: ElementId\"");
+
+WriteLiteral(" id=\"form-element-elementId\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"ElementId\"");
+
+WriteLiteral(" />\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <div" +
+"");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <a");
+
+WriteLiteral(" href=\"#toolbox-advanced-settings\"");
+
+WriteLiteral(" data-toggle=\"collapse\"");
+
+WriteLiteral(">\r\n                        <i");
+
+WriteLiteral(" class=\"fa fa-chevron-down\"");
+
+WriteLiteral("></i>\r\n                        Advanced settings\r\n                    </a>\r\n     " +
+"           </div>\r\n                <div");
+
+WriteLiteral(" id=\"toolbox-advanced-settings\"");
+
+WriteLiteral(" class=\"collapse\"");
+
+WriteLiteral(">\r\n");
 
             
-            #line 225 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 229 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                    
+            
+            #line default
+            #line hidden
+            
+            #line 229 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new[]
                         {
@@ -218,13 +788,19 @@ WriteLiteral("\r\n<div id=\"form-designer-toolbox\" data-path=\"Areas\\App\\View
                             typeof(ListView)
                         };
                     
-
             
             #line default
             #line hidden
+WriteLiteral("\r\n");
 
             
-            #line 239 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 243 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                    
+            
+            #line default
+            #line hidden
+            
+            #line 243 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         FormElement fe1 = fe;
@@ -233,60 +809,71 @@ WriteLiteral("\r\n<div id=\"form-designer-toolbox\" data-path=\"Areas\\App\\View
             #line default
             #line hidden
             
-            #line 242 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 246 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 242 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 246 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                  
                     }
 
             
             #line default
             #line hidden
-WriteLiteral(@"                </div>
+WriteLiteral("                </div>\r\n\r\n                <button");
 
-                <button data-bind=""click: $root.removeFormElement"" class=""btn btn-warning"" title=""remove this element"">Remove</button>
-                <!-- END OF EDITOR TOOLBOX -->
-            </form>
+WriteLiteral(" data-bind=\"click: $root.removeFormElement\"");
 
-        </div>
+WriteLiteral(" class=\"btn btn-warning\"");
 
-        <div id=""fields-validation"" class=""tab-pane"" data-bind=""with : selectedFormElement"">
-            ");
+WriteLiteral(" title=\"remove this element\"");
 
+WriteLiteral(">Remove</button>\r\n                <!-- END OF EDITOR TOOLBOX -->\r\n            </f" +
+"orm>\r\n\r\n        </div>\r\n\r\n        <div");
+
+WriteLiteral(" id=\"fields-validation\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral(" data-bind=\"with : selectedFormElement\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("            ");
 
             
-            #line 253 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 257 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             
             #line default
             #line hidden
-WriteLiteral(@"
-        </div>
+WriteLiteral("\r\n        </div>\r\n\r\n        <div");
 
-        <div id=""business-rules"" class=""tab-pane"">
-            <span>Apply these business rules to the form</span>
-            <ul data-bind=""foreach :entity().BusinessRuleCollection"" class=""nav"">
-                <li>
-                    <label>
-                        <input type=""checkbox"" data-bind=""checked : $root.form().Rules, value: Name"" />
-                        <!-- ko text : Name -->
-                        <!-- /ko -->
+WriteLiteral(" id=\"business-rules\"");
 
-                    </label>
-                </li>
-            </ul>
-        </div>
+WriteLiteral(" class=\"tab-pane\"");
 
-    </div>
-</div>
-");
+WriteLiteral(">\r\n            <span>Apply these business rules to the form</span>\r\n            <" +
+"ul");
 
+WriteLiteral(" data-bind=\"foreach :entity().BusinessRuleCollection\"");
+
+WriteLiteral(" class=\"nav\"");
+
+WriteLiteral(">\r\n                <li>\r\n                    <label>\r\n                        <in" +
+"put");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" data-bind=\"checked : $root.form().Rules, value: Name\"");
+
+WriteLiteral(" />\r\n                        <!-- ko text : Name -->\r\n                        <!-" +
+"- /ko -->\r\n\r\n                    </label>\r\n                </li>\r\n            </" +
+"ul>\r\n        </div>\r\n\r\n    </div>\r\n</div>\r\n");
 
         }
     }
