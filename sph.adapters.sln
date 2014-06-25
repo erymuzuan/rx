@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F1AD16
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{DB65484E-BE1F-4944-B216-4A57026360EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domain.test", "source\unit.test\domain.test\domain.test.csproj", "{E3A54166-4231-47E7-BA4C-A391CDD6937D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "roslyn.scriptengine", "source\dependencies\roslyn.scriptengine\roslyn.scriptengine.csproj", "{E32D7760-5A94-4A0F-8354-52223C593A8E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domain.sph", "source\domain\domain.sph\domain.sph.csproj", "{7BF1DE5A-3756-4A31-8B82-491C71D263D7}"
@@ -45,10 +43,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E3A54166-4231-47E7-BA4C-A391CDD6937D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3A54166-4231-47E7-BA4C-A391CDD6937D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3A54166-4231-47E7-BA4C-A391CDD6937D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3A54166-4231-47E7-BA4C-A391CDD6937D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E32D7760-5A94-4A0F-8354-52223C593A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E32D7760-5A94-4A0F-8354-52223C593A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E32D7760-5A94-4A0F-8354-52223C593A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,7 +80,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E3A54166-4231-47E7-BA4C-A391CDD6937D} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{E32D7760-5A94-4A0F-8354-52223C593A8E} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{7BF1DE5A-3756-4A31-8B82-491C71D263D7} = {FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}
 		{4D432CD3-BAB4-40E9-AFD2-3187B791E9AA} = {5F30D78D-96BC-4D5B-8DE8-5184328B110E}

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -59,6 +60,7 @@ namespace Bespoke.Sph.Domain.Api
                 parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(MediaTypeFormatter).Assembly.Location);
 
                 foreach (var es in options.EmbeddedResourceCollection)
                 {
@@ -105,8 +107,13 @@ namespace Bespoke.Sph.Domain.Api
                 var td = await this.GetSchemaDefinitionAsync(table.Name);
                 td.CodeNamespace = this.CodeNamespace;
                 var es = string.Format("{0}.{1}.schema.json", this.Name.ToLowerInvariant(), table);
-                File.WriteAllText(es, td.ToJsonString(true));
-                options.EmbeddedResourceCollection.Add(es);
+
+                if (!options.EmbeddedResourceCollection.Contains(es))
+                {
+                    File.WriteAllText(es, td.ToJsonString(true));
+                    options.EmbeddedResourceCollection.Add(es);
+                }
+
                 var codes = td.GenerateCode(this);
                 var tdSources = this.SaveSources(codes, sourceFolder);
                 sources.AddRange(tdSources);
@@ -126,7 +133,7 @@ namespace Bespoke.Sph.Domain.Api
                 }
             }, sourceFolder);
             sources.AddRange(odataSource);
-            
+
             var pagingCode = await this.GeneratePagingSourceCodeAsync();
             var pagingSource = this.SaveSources(new Dictionary<string, string>
             {

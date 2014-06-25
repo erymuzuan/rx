@@ -25,6 +25,11 @@ namespace mysql.adapter
             }
         }
 
+        protected override Task<Tuple<string, string>> GeneratePagingSourceCodeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override Task<TableDefinition> GetSchemaDefinitionAsync(string table)
         {
             throw new NotImplementedException();

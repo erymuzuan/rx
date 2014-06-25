@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
@@ -162,7 +163,7 @@ namespace sqlserver.adapter.test
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://localhost:4436");
-                var content = new StringContent(JsonSerializerService.ToJsonString(prs, true));
+                var content = new StringContent(JsonSerializerService.ToJsonString(prs, true), Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("/api/person/person", content);
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
@@ -185,7 +186,7 @@ namespace sqlserver.adapter.test
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://localhost:4436");
-                var content = new StringContent(JsonSerializerService.ToJsonString(prs, true));
+                var content = new StringContent(JsonSerializerService.ToJsonString(prs, true), Encoding.UTF8, "application/json");
                 var response = await client.PutAsync("/api/person/person", content);
                 Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
             }
@@ -208,6 +209,8 @@ namespace sqlserver.adapter.test
             {
                 client.BaseAddress = new Uri("http://localhost:4436");
                 var response = await client.DeleteAsync("api/person/person/" + id);
+
+
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
                 var deleted = m_sql.GetDatabaseScalarValue<int>(

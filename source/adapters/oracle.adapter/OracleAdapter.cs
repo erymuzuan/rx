@@ -71,6 +71,9 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             foreach (var table in this.Tables)
             {
+                var table1 = table;
+                if(m_tableDefinitions.Contains(t => t.Name == table1.Name))continue;
+
                 var td = new TableDefinition { Schema = this.Schema, Name = table.Name, CodeNamespace = this.CodeNamespace };
                 m_columnCollection.Add(table.Name, new ObjectCollection<Column>());
                 m_tableDefinitions.Add(td);
@@ -212,6 +215,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var td = m_tableDefinitions.Single(a => a.Name == table1.Name);
                 var name = table.Name;
                 var adapterName = name + "Adapter";
+                if(sources.ContainsKey(adapterName + ".cs"))continue;
 
                 var header = this.GetCodeHeader(namespaces);
                 var code = new StringBuilder(header);

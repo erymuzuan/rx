@@ -15,77 +15,95 @@ namespace Bespoke.Sph.Web.Api
 {
     [NoCache]
     [SessionState(SessionStateBehavior.Disabled)]
+    [RoutePrefix("api")]
     public class ApiController : Controller
     {
         public static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
+        [Route("audittrail")]
         public async Task<ActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
         }
+        [Route("Designation")]
         public async Task<ActionResult> Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Designation>(filter, page, size, includeTotal);
         }
 
+        [Route("DocumentTemplate")]
         public async Task<ActionResult> DocumentTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<DocumentTemplate>(filter, page, size, includeTotal);
         }
+        [Route("EmailTemplate")]
         public async Task<ActionResult> EmailTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<EmailTemplate>(filter, page, size, includeTotal);
         }
+        [Route("EntityDefinition")]
         public async Task<ActionResult> EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<EntityDefinition>(filter, page, size, includeTotal);
         }
 
+        [Route("EntityChart")]
         public async Task<ActionResult> EntityChart(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<EntityChart>(filter, page, size, includeTotal);
         }
+        [Route("EntityForm")]
         public async Task<ActionResult> EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<EntityForm>(filter, page, size, includeTotal);
         }
 
+        [Route("EntityView")]
         public async Task<ActionResult> EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<EntityView>(filter, page, size, includeTotal);
         }
-        
+
+        [Route("Message")]
         public async Task<ActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Message>(filter, page, size, includeTotal);
         }
+
+        [Route("Page")]
         public async Task<ActionResult> Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Page>(filter, page, size, includeTotal);
         }
 
+        [Route("ReportDelivery")]
         public async Task<ActionResult> ReportDelivery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<ReportDelivery>(filter, page, size, includeTotal);
         }
 
+        [Route("ReportDefinition")]
         public async Task<ActionResult> ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<ReportDefinition>(filter, page, size, includeTotal);
         }
 
 
+        [Route("SearchDefinition")]
         public async Task<ActionResult> SearchDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<SearchDefinition>(filter, page, size, includeTotal);
         }
+
+        [Route("Setting")]
         public async Task<ActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Setting>(filter, page, size, includeTotal);
         }
 
 
+        [Route("Tracker")]
         public async Task<ActionResult> Tracker(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             Action<IEnumerable<Tracker>> process = list =>
@@ -101,35 +119,43 @@ namespace Bespoke.Sph.Web.Api
         }
 
 
+        [Route("Trigger")]
         public async Task<ActionResult> Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Trigger>(filter, page, size, includeTotal);
         }
 
-
+        [Route("UserProfile")]
         public async Task<ActionResult> UserProfile(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<UserProfile>(filter, page, size, includeTotal);
         }
+
+        [Route("Watcher")]
         public async Task<ActionResult> Watcher(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Watcher>(filter, page, size, includeTotal);
         }
 
+        [Route("WorkflowDefinition")]
         public async Task<ActionResult> WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<WorkflowDefinition>(filter, page, size, includeTotal);
         }
+
+
+        [Route("Workflow")]
         public async Task<ActionResult> Workflow(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Workflow>(filter, page, size, includeTotal);
         }
-        public async Task<ActionResult> Index(string id, string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+
+        [Route("index/{typeName}")]
+        public async Task<ActionResult> Index(string typeName, string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             if (size > 200)
                 throw new ArgumentException("Your are not allowed to do more than 200", "size");
 
-            var typeName = id;
 
             var orderby = this.Request.QueryString["$orderby"];
             var translator = new CustomEntityRestSqlTranslator(null, typeName);

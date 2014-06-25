@@ -9,12 +9,13 @@ namespace Bespoke.Sph.Domain.Api
     {
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
-            var code = new StringBuilder();
+            if (table.PrimaryKeyCollection.Count != 1) return string.Empty;
 
-            foreach (var child in table.ChildTableCollection)
-            {
-                code.AppendLine(GenerateChildListAction(table, adapter, child));
-            }
+            var code = new StringBuilder();
+            var lines = from c in table.ChildTableCollection
+                select this.GenerateChildListAction(table, adapter, c);
+            lines.ToList().ForEach(l => code.AppendLine(l));
+
 
             return code.ToString();
         }
@@ -34,7 +35,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendFormat("       [Route(\"{{{0}}}/{1}\")]", string.Join("/", routes), child.Name);
             code.AppendLine();
             code.AppendFormat(
-                "       public async Task<System.Web.Mvc.ActionResult> Get{0}By{1}({2}, int page = 1, int size = 40, bool includeTotal = false)",
+                "       public async Task<object> Get{0}By{1}({2}, int page = 1, int size = 40, bool includeTotal = false)",
                 child.Name, table.Name, string.Join(",",args));
             code.AppendLine("       {");
 
@@ -44,7 +45,6 @@ namespace Bespoke.Sph.Domain.Api
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
             var filter = ""WHERE {5}"";
-            var orderby = this.Request.QueryString[""$orderby""];
             var translator = new {0}<{1}>(null,""{1}"" ){{Schema = ""{2}""}};
             var sql = ""SELECT * FROM {2}.{1} WHERE {5}"";
             var count = 0;
@@ -75,11 +75,7 @@ namespace Bespoke.Sph.Domain.Api
                 size,
                 results = lo.ItemCollection.ToArray()
             }};
-            var setting = new JsonSerializerSettings();
-            setting.Converters.Add(new StringEnumConverter());
-
-            this.Response.ContentType = ""application/json"";
-            return Content(JsonConvert.SerializeObject(json, Formatting.Indented, setting));
+            return json;
             ", adapter.OdataTranslator, child.Name, child.Schema, child.Name.ToLowerInvariant(),
              child.Schema.ToLowerInvariant(),
              filter, table.Name,

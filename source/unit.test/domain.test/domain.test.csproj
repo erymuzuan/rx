@@ -103,7 +103,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="adapters\SqlServerAdapterTestFixture.cs" />
     <Compile Include="businessrules\BusinessRuleTest.cs" />
     <Compile Include="change.tracker\CustomEntityChangeTest.cs" />
     <Compile Include="CustomerEntityHelper.cs" />

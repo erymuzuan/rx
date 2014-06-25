@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -25,8 +26,10 @@ namespace Bespoke.Sph.Domain.Api
             header.AppendLine("using " + typeof(CamelCasePropertyNamesContractResolver).Namespace + ";");
             header.AppendLine("using " + typeof(StringEnumConverter).Namespace + ";");
             header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using System.Web.Mvc;");
-            header.AppendLine("using Bespoke.Sph.Web.Helpers;");
+            header.AppendLine("using " + typeof(MediaTypeFormatter).Namespace + ";");
+            header.AppendLine("using System.Web.Http;");
+            header.AppendLine("using System.Net;");
+            header.AppendLine("using System.Net.Http;");
             header.AppendLine();
 
             header.AppendLine("namespace " + this.CodeNamespace);

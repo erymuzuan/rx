@@ -11,19 +11,20 @@ namespace Bespoke.Sph.Domain.Api
         {
             var code = new StringBuilder();
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var routeConstraint = pks.Select(m => "{" + m.Name + this.GetRouteConstraint(m.Type) + "}");
-            var arguments = pks.Select(m => m.Type.ToCSharp() + " " + m.Name);
-            var parameters = pks.Select(m => m.Name);
+            var routeConstraint = pks.Select(m => "{" + m.Name.ToCamelCase() + this.GetRouteConstraint(m.Type) + "}");
+            var arguments = pks.Select(m => m.Type.ToCSharp() + " " + m.Name.ToCamelCase());
+            var parameters = pks.Select(m => m.Name.ToCamelCase());
+
             code.AppendLinf("       [Route(\"{0}\")]", string.Join("/", routeConstraint.ToArray()));
             code.AppendLinf("       [HttpDelete]");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove({0})", string.Join(",", arguments));
+            code.AppendLinf("       public async Task<HttpResponseMessage> Remove({0})", string.Join(",", arguments));
             code.AppendLine("       {");
             code.AppendFormat(@"
             var context = new {0}Adapter();
             await context.DeleteAsync({1});
-            this.Response.ContentType = ""application/json"";
-            this.Response.StatusCode = 202;
-            return Json(new {{success = true, status=""OK""}});", table.Name, string.Join(",", parameters));
+
+            var  response = Request.CreateResponse(HttpStatusCode.Accepted,new {{success = true, status=""OK""}} );
+            return response;", table.Name, string.Join(",", parameters));
             code.AppendLine();
             code.AppendLine("       }");
             return code.ToString();

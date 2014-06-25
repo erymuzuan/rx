@@ -4,9 +4,10 @@ using System.Dynamic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
@@ -74,7 +75,7 @@ namespace oracle.adapter.test
         [Test]
         public async Task HrSchema()
         {
-            var tables = new AdapterTable[3];
+            var tables = new AdapterTable[4];
             tables[0] = new AdapterTable
             {
                 Name = "EMPLOYEES"
@@ -84,6 +85,7 @@ namespace oracle.adapter.test
 
             tables[1] = new AdapterTable { Name = "JOBS" };
             tables[2] = new AdapterTable { Name = "DEPARTMENTS" };
+            tables[3] = new AdapterTable { Name = "JOB_HISTORY" };
             var ora = new OracleAdapter
             {
                 Server = "i90009638.cloudapp.net",
@@ -199,12 +201,19 @@ ORDER BY  DBMS_RANDOM.RANDOM) WHERE ROWNUM<=1");
             emp.DEPARTMENT_ID = 210;
 
             // HTTP API - insert
-            using (var client = new HttpClient())
+            var handler = new HttpClientHandler
             {
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
+               
+            };
+            using (var client = new HttpClient(handler))
+            {
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
                 client.BaseAddress = new Uri("http://localhost:4436");
+
                 var json = JsonConvert.SerializeObject(emp, Formatting.Indented);
                 Console.WriteLine(json);
-                var content = new StringContent(json);
+                var content = new StringContent(json,Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("/api/hr/employees", content);
                 Console.WriteLine(await response.Content.ReadAsStringAsync());
                 Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
@@ -228,13 +237,14 @@ ORDER BY  DBMS_RANDOM.RANDOM) WHERE ROWNUM<=1");
 
         private static OracleAdapter GetHrOracleAdapter()
         {
-            var tables = new AdapterTable[3];
+            var tables = new AdapterTable[4];
             tables[0] = new AdapterTable { Name = "EMPLOYEES" };
           
             tables[0].ParentCollection.Add(new TableRelation { Table = "DEPARTMENTS" });
 
             tables[1] = new AdapterTable { Name = "JOBS" };
             tables[2] = new AdapterTable { Name = "DEPARTMENTS" };
+            tables[3] = new AdapterTable { Name = "JOB_HISTORY" };
 
             var ora = new OracleAdapter
             {

@@ -9,15 +9,15 @@ namespace Bespoke.Sph.Domain.Api
         public override string GenerateCode(TableDefinition table, Adapter adapter)
         {
             var code = new StringBuilder();
-            code.AppendLine("       [Route]");
+            code.AppendLine("       [Route(\"\")]");
+            code.AppendLine("       [HttpGet]");
             code.AppendLinf(
-                "       public async Task<System.Web.Mvc.ActionResult> Index(string filter = null, int page = 1, int size = 40, bool includeTotal = false)");
+                "       public async Task<object> List(string filter = null, int page = 1, int size = 40, bool includeTotal = false, string orderby = null)");
             code.AppendLine("       {");
             code.AppendFormat(@"
            if (size > 200)
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
 
-            var orderby = this.Request.QueryString[""$orderby""];
             var translator = new {0}<{1}>(null,""{1}"" ){{Schema = ""{3}""}};
             var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? ""{2} gt 0"" : filter, orderby);
             var count = 0;
@@ -33,10 +33,10 @@ namespace Bespoke.Sph.Domain.Api
 
                 if (count >= lo.ItemCollection.Count())
                     nextPageToken = string.Format(
-                        ""/api/{5}/{4}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size);
+                        ""/api/{5}/{4}/?filter={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page + 1, size);
             }}
 
-            string previousPageToken = string.Format(""/api/{5}/{4}/?filer={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page - 1, size);
+            string previousPageToken = string.Format(""/api/{5}/{4}/?filter={{0}}&includeTotal=true&page={{1}}&size={{2}}"", filter, page - 1, size);
             if(page == 1)
                 previousPageToken = null;
             var json = new
@@ -48,12 +48,8 @@ namespace Bespoke.Sph.Domain.Api
                 size,
                 results = lo.ItemCollection.ToArray()
             }};
-            var setting = new JsonSerializerSettings();
-            setting.Converters.Add(new StringEnumConverter());
-
-            this.Response.ContentType = ""application/json"";
-            return Content(JsonConvert.SerializeObject(json, Formatting.Indented, setting));
-            ", adapter.OdataTranslator, table.Name, table.PrimaryKey, table.Schema, table.Name.ToLowerInvariant(), table.Schema.ToLowerInvariant());
+            return json;
+            ", adapter.OdataTranslator, table.Name, table.PrimaryKey.Name, table.Schema, table.Name.ToLowerInvariant(), table.Schema.ToLowerInvariant());
 
 
             code.AppendLine();

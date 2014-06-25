@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Domain.Api
             return ":" + type.ToCSharp();
         }
 
-        public abstract string ActionName { get; }
+        public virtual string ActionName { get { return string.Empty; } }
 
         public virtual bool IsAsync
         {
