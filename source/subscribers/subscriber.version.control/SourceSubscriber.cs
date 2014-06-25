@@ -45,7 +45,13 @@ namespace subscriber.version.control
             var files = Directory.GetFiles(folder, "*.json");
             foreach (var f in files)
             {
-                var o = JObject.Parse(File.ReadAllText(f));
+                var text = File.ReadAllText(f);
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    File.Delete(f);
+                    continue;
+                }
+                var o = JObject.Parse(text);
                 var id = o.SelectToken("$." + type.Name + "Id").Value<int>();
                 if (id != item.GetId()) continue;
                 File.Delete(f);
