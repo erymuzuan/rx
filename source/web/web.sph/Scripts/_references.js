@@ -69,3 +69,4 @@
 /// <reference path="ace/snippets/javascript.js" />
 /// <reference path="../sphapp/viewmodels/activity.mapping.js" />
 /// <reference path="../sphapp/viewmodels/transform.definition.edit.js" />
+/// <reference path="../sphapp/viewmodels/transform.definition.prop.dialog.js" />
