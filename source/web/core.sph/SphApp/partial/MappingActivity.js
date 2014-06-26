@@ -8,23 +8,22 @@
 
 
 
-bespoke.sph.domain.UpdateEntityActivityPartial = function () {
+bespoke.sph.domain.MappingActivityPartial = function () {
     var system = require('durandal/system'),
-        addPropertyMapping = function (type) {
+        addMappingSource = function () {
             var self = this;
-            return function () {
-                var mapping = new bespoke.sph.domain[type + 'Mapping'](system.guid());
-                self.PropertyMappingCollection.push(mapping);
-            };
+            var mapping = new bespoke.sph.domain['MappingSource'](system.guid());
+            self.MappingSourceCollection.push(mapping);
+
         },
-        removePropertyMapping = function (mapping) {
+        removeMappingSource = function (mapping) {
             var self = this;
             return function () {
-                self.PropertyMappingCollection.remove(mapping);
+                self.MappingSourceCollection.remove(mapping);
             };
         };
     return {
-        addPropertyMapping: addPropertyMapping,
-        removePropertyMapping: removePropertyMapping
+        addMappingSource: addMappingSource,
+        removeMappingSource: removeMappingSource
     };
 };

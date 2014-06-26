@@ -3,20 +3,22 @@ background-image: url("sph.wf.32.png");
     background-repeat: no-repeat;   
     list-style: none outside none;
 }	
-.activity32-CreateEntityActivity{background-position: 0px 0px; width: 32px; height: 32px; }
-.activity32-NotificationActivity{background-position: 0px -42px; width: 32px; height: 32px; }
-.activity32-ScreenActivity{background-position: 0px -84px; width: 32px; height: 32px; }
-.activity32-DecisionActivity{background-position: 0px -126px; width: 32px; height: 32px; }
-.activity32-ListenActivity{background-position: 0px -168px; width: 32px; height: 32px; }
-.activity32-ParallelActivity{background-position: 0px -210px; width: 32px; height: 32px; }
-.activity32-EndActivity{background-position: 0px -252px; width: 32px; height: 32px; }
-.activity32-SendActivity{background-position: 0px -294px; width: 32px; height: 32px; }
-.activity32-ReceiveActivity{background-position: 0px -336px; width: 32px; height: 32px; }
-.activity32-DelayActivity{background-position: 0px -378px; width: 32px; height: 32px; }
-.activity32-UpdateEntityActivity{background-position: 0px -420px; width: 32px; height: 32px; }
-.activity32-DeleteEntityActivity{background-position: 0px -462px; width: 32px; height: 32px; }
-.activity32-ExpressionActivity{background-position: 0px -504px; width: 32px; height: 32px; }
-.activity32-ScheduledTriggerActivity{background-position: 0px -546px; width: 32px; height: 32px; }
-.activity32-JoinActivity{background-position: 0px -588px; width: 32px; height: 32px; }
-.activity32-BusinessRuleActivity{background-position: 0px -630px; width: 32px; height: 32px; }
-.activity32-StartWorkflowActivity{background-position: 0px -672px; width: 32px; height: 32px; }
+.activity32-MappingActivity{background-position:0px 0px ; width: 48px ; height: 48px; }
+.activity32-CreateEntityActivity{background-position:-58px -8px ; width: 32px ; height: 32px; }
+.activity32-NotificationActivity{background-position:-100px -8px ; width: 32px ; height: 32px; }
+.activity32-ScreenActivity{background-position:-142px -8px ; width: 32px ; height: 32px; }
+.activity32-DecisionActivity{background-position:-184px -8px ; width: 32px ; height: 32px; }
+.activity32-ListenActivity{background-position:-226px -8px ; width: 32px ; height: 32px; }
+.activity32-ParallelActivity{background-position:-268px -8px ; width: 32px ; height: 32px; }
+.activity32-EndActivity{background-position:-310px -8px ; width: 32px ; height: 32px; }
+.activity32-SendActivity{background-position:-352px -8px ; width: 32px ; height: 32px; }
+.activity32-ReceiveActivity{background-position:-394px -8px ; width: 32px ; height: 32px; }
+.activity32-DelayActivity{background-position:-436px -8px ; width: 32px ; height: 32px; }
+.activity32-UpdateEntityActivity{background-position:-478px -8px ; width: 32px ; height: 32px; }
+.activity32-DeleteEntityActivity{background-position:-520px -8px ; width: 32px ; height: 32px; }
+.activity32-ExpressionActivity{background-position:-562px -8px ; width: 32px ; height: 32px; }
+.activity32-ScheduledTriggerActivity{background-position:-604px -8px ; width: 32px ; height: 32px; }
+.activity32-JoinActivity{background-position:-646px -8px ; width: 32px ; height: 32px; }
+.activity32-BusinessRuleActivity{background-position:-688px -8px ; width: 32px ; height: 32px; }
+.activity32-StartWorkflowActivity{background-position:-730px -8px ; width: 32px ; height: 32px; }
+

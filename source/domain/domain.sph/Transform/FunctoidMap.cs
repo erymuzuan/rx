@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
-    public class FunctoidMap : Map
+    public partial class FunctoidMap : Map
     {
         public Functoid Functoid { get; set; }
 

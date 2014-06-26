@@ -1133,6 +1133,7 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="SphApp\services\cultures.my.js" />
     <Content Include="SphApp\services\jsonimportexport.js" />
+    <Content Include="SphApp\viewmodels\activity.mapping.js" />
     <Content Include="SphApp\viewmodels\adapter.oracle.js" />
     <Content Include="SphApp\viewmodels\advanced-search.js" />
     <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
@@ -1140,6 +1141,8 @@
     <Content Include="SphApp\viewmodels\members.selector.dialog.js" />
     <Content Include="SphApp\viewmodels\not.found.js" />
     <Content Include="SphApp\viewmodels\search.definition.dialog.js" />
+    <Content Include="SphApp\viewmodels\transform.definition.edit.js" />
+    <Content Include="SphApp\views\activity.mapping.html" />
     <Content Include="SphApp\views\adapter.oracle.html" />
     <Content Include="SphApp\views\advanced-search.html" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
@@ -1148,6 +1151,7 @@
     <Content Include="SphApp\views\not.found.html" />
     <Content Include="SphApp\views\offline.storage.html" />
     <Content Include="SphApp\views\search.definition.dialog.html" />
+    <Content Include="SphApp\views\transform.definition.edit.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

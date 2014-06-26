@@ -738,4 +738,67 @@
 			<xs:attribute name="Location" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="MappingActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="MappingSourceCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="MappingSource" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="MappingDefinition" type="xs:string" use="required"/>
+					<xs:attribute name="DestinationType" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MappingSource">
+		<xs:complexType>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+			<xs:attribute name="Variable" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TransformDefinition">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="MapCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Map" type="Map" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="TransformDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Map">
+		<xs:attribute name="Destination" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:element name="DirectMap">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Map">
+					<xs:attribute name="Source" type="xs:string" use="required"/>
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FunctoidMap">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Map">
+					<xs:attribute name="__uuid" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

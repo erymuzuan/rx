@@ -21,6 +21,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
             populateToolbox = function () {
                 var elements = [],
+                    mapping = new bespoke.sph.domain.MappingActivity("@Guid.NewGuid()"),
                     screen = new bespoke.sph.domain.ScreenActivity("@Guid.NewGuid()"),
                     expr = new bespoke.sph.domain.ExpressionActivity("@Guid.NewGuid()"),
                     decision = new bespoke.sph.domain.DecisionActivity("@Guid.NewGuid()"),
@@ -133,6 +134,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 delay.Note = "Wait for a certain time";
                 delay.CssClass = "pull-left activity32 activity32-DelayActivity";
                 elements.push(delay);
+
+
+                mapping.Name("Mapping");
+                mapping.IsEnabled = ko.observable(true);
+                mapping.Note = "Creates a mapping for transform";
+                mapping.CssClass = "pull-left activity32 activity32-MappingActivity";
+                elements.push(mapping);
 
                 end.Name("End");
                 end.IsEnabled = ko.observable(true);

@@ -68,6 +68,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
+                            logger.info(result.result.Output);
                             errors.removeAll();
                         } else {
 

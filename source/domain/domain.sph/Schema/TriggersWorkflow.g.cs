@@ -4287,6 +4287,338 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("MappingActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class MappingActivity
+    {
+
+        private string m_MappingDefinition;
+        [XmlAttribute]
+        public string MappingDefinition
+        {
+            get
+            {
+                return m_MappingDefinition;
+            }
+            set
+            {
+                m_MappingDefinition = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_DestinationType;
+        [XmlAttribute]
+        public string DestinationType
+        {
+            get
+            {
+                return m_DestinationType;
+            }
+            set
+            {
+                m_DestinationType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<MappingSource> m_MappingSourceCollection = new ObjectCollection<MappingSource>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("MappingSource", IsNullable = false)]
+        public ObjectCollection<MappingSource> MappingSourceCollection
+        {
+            get { return m_MappingSourceCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("MappingSource", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class MappingSource
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_variable;
+        public const string PropertyNameVariable = "Variable";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Variable
+        {
+            set
+            {
+                if (String.Equals(m_variable, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameVariable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_variable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_variable;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("TransformDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class TransformDefinition
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_transformDefinitionId;
+        public const string PropertyNameTransformDefinitionId = "TransformDefinitionId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_description;
+        public const string PropertyNameDescription = "Description";
+
+
+        private readonly ObjectCollection<Map> m_MapCollection = new ObjectCollection<Map>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Map> MapCollection
+        {
+            get { return m_MapCollection; }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int TransformDefinitionId
+        {
+            set
+            {
+                if (m_transformDefinitionId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTransformDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_transformDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_transformDefinitionId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Description
+        {
+            set
+            {
+                if (String.Equals(m_description, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_description = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_description;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DirectMap", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DirectMap
+    {
+
+        private string m_Source;
+        [XmlAttribute]
+        public string Source
+        {
+            get
+            {
+                return m_Source;
+            }
+            set
+            {
+                m_Source = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_TypeName;
+        [XmlAttribute]
+        public string TypeName
+        {
+            get
+            {
+                return m_TypeName;
+            }
+            set
+            {
+                m_TypeName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("FunctoidMap", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FunctoidMap
+    {
+
+        private string m___uuid;
+        [XmlAttribute]
+        public string __uuid
+        {
+            get
+            {
+                return m___uuid;
+            }
+            set
+            {
+                m___uuid = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("Field", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Field
@@ -4787,6 +5119,47 @@ namespace Bespoke.Sph.Domain
 
 
         // public properties members
+
+
+
+    }
+
+
+
+    [XmlType("Map", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Map
+    {
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_destination;
+        public const string PropertyNameDestination = "Destination";
+
+
+        // public properties members
+
+
+
+        [XmlAttribute]
+        public string Destination
+        {
+            set
+            {
+                if (m_destination == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDestination, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_destination = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_destination;
+            }
+        }
 
 
 

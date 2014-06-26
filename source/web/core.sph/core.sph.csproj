@@ -1520,6 +1520,7 @@
     </Content>
     <Content Include="SphApp\partial\EntityLookupElement.js" />
     <Content Include="SphApp\partial\EntityOperation.js" />
+    <Content Include="SphApp\partial\MappingActivity.js" />
     <Content Include="SphApp\partial\ViewColumn.js" />
     <Content Include="SphApp\partial\EntityView.js" />
     <Content Include="SphApp\partial\ExecutedActivity.min.js">

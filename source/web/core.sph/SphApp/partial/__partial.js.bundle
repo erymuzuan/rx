@@ -33,6 +33,7 @@
     <file>/SphApp/partial/ListenActivity.js</file>
     <file>/SphApp/partial/ListView.js</file>
     <file>/SphApp/partial/ListViewColumn.js</file>
+    <file>/SphApp/partial/MappingActivity.js</file>
     <file>/SphApp/partial/Member.js</file>
     <file>/SphApp/partial/MethodArg.js</file>
     <file>/SphApp/partial/NotificationActivity.js</file>

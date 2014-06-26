@@ -116,7 +116,6 @@ WHERE FK.CONSTRAINT_TYPE = 'R'
             await ora.OpenAsync();
             var result = await ora.CompileAsync();
 
-
             this.Response.ContentType = "application/json";
             return Json(new
             {

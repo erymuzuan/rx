@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using Spring.Context.Support;
 using Spring.Objects.Factory;
@@ -17,6 +18,7 @@ namespace Bespoke.Sph.Domain
 
         public static void RegisterSpring(params string[] uri)
         {
+
         }
 
         public static void ComposeMefCatalog(object part)
@@ -26,7 +28,29 @@ namespace Bespoke.Sph.Domain
             catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
             catalog.Catalogs.Add(new DirectoryCatalog("."));
             if (System.IO.Directory.Exists(".\\bin"))
-                catalog.Catalogs.Add(new DirectoryCatalog(".\\bin"));
+            {
+                // for web
+                foreach (var file in System.IO.Directory.GetFiles(".\\bin", "*.dll"))
+                {
+                    var name = System.IO.Path.GetFileName(file) ?? "";
+                    if (name.StartsWith("Microsoft")) continue;
+                    if (name.StartsWith("DotNetOpenAuth")) continue;
+                    if (name.StartsWith("System")) continue;
+                    if (name.StartsWith("Owin")) continue;
+                    if (name.StartsWith("RabbitMQ.Client")) continue;
+                    if (name.StartsWith("Roslyn")) continue;
+                    if (name.StartsWith("Spring")) continue;
+                    if (name.StartsWith("WebGrease")) continue;
+                    if (name.StartsWith("WebActivatorEx")) continue;
+                    if (name.StartsWith("WebMatrix")) continue;
+                    if (name.StartsWith("workflows")) continue;
+                    if (name.StartsWith("DiffPlex")) continue;
+                    if (name.StartsWith("Antlr3.Runtime")) continue;
+                    if (name.StartsWith("Common.Logging")) continue;
+                    catalog.Catalogs.Add(new AssemblyCatalog(file));
+                }
+
+            }
 
             m_container = new CompositionContainer(catalog);
             var batch = new CompositionBatch();
@@ -37,6 +61,12 @@ namespace Bespoke.Sph.Domain
             {
                 m_container.Compose(batch);
 
+            }
+            catch (ReflectionTypeLoadException rtle)
+            {
+                rtle.LoaderExceptions.ToList()
+                    .ForEach(Console.WriteLine);
+                //Debugger.Break();
             }
             catch (CompositionException compositionException)
             {

@@ -466,6 +466,20 @@
   {
       "role": "developers",
       "groupName": "Workflow",
+      "route": "transform.definition.edit/:id",
+      "moduleId": "viewmodels/transform.definition.edit",
+      "title": "Transform Visual Designer",
+      "nav": false,
+      "icon": null,
+      "caption": "Mapping transform",
+      "settings": null,
+      "isAdminPage": false,
+      "showWhenLoggedIn": false,
+      "error": ""
+  },
+  {
+      "role": "developers",
+      "groupName": "Workflow",
       "route": "page.list/:id",
       "moduleId": "viewmodels/page.list",
       "title": "Page list",

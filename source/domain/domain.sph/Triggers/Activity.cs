@@ -11,6 +11,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(DecisionActivity))]
     [XmlInclude(typeof(NotificationActivity))]
     [XmlInclude(typeof(EndActivity))]
+    [XmlInclude(typeof(MappingActivity))]
     [XmlInclude(typeof(CreateEntityActivity))]
     [XmlInclude(typeof(UpdateEntityActivity))]
     [XmlInclude(typeof(DeleteEntityActivity))]

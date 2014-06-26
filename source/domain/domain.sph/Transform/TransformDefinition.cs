@@ -15,30 +15,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class TransformDefinition : Entity
     {
-        private int m_transformDefinitionId;
-
-        [XmlAttribute]
-        public int TransformDefinitionId
-        {
-            get { return m_transformDefinitionId; }
-            set
-            {
-                m_transformDefinitionId = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Name { get; set; }
-        public string Description { get; set; }
-
-        private readonly ObjectCollection<Map> m_mapCollection = new ObjectCollection<Map>();
-
-        public ObjectCollection<Map> MapCollection
-        {
-            get { return m_mapCollection; }
-        }
-
-
+        
         public async Task<object> TransformAsync(object source)
         {
             var sb = new StringBuilder("{");

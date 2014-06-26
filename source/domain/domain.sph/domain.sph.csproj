@@ -193,7 +193,9 @@
     <Compile Include="Transform\FunctoidMap.cs" />
     <Compile Include="Transform\Map.cs" />
     <Compile Include="Transform\StringConcateFunctoid.cs" />
-    <Compile Include="Transform\TransformDefinition.code.cs" />
+    <Compile Include="Transform\TransformDefinition.code.cs">
+      <DependentUpon>TransformDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transform\TransformDefinition.cs" />
     <Compile Include="Triggers\Activity.cs" />
     <Compile Include="Triggers\ActivityExecutionResult.cs" />
@@ -288,6 +290,8 @@
     <Compile Include="Triggers\JoinActivity.cs" />
     <Compile Include="Triggers\ListenActivity.cs" />
     <Compile Include="Triggers\ListenBranch.cs" />
+    <Compile Include="Triggers\MappingActivity.cs" />
+    <Compile Include="Triggers\MappingSource.cs" />
     <Compile Include="Triggers\MethodArg.cs" />
     <Compile Include="Triggers\NotificationActivity.cs" />
     <Compile Include="Triggers\Page.cs" />

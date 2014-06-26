@@ -1581,6 +1581,158 @@ bespoke.sph.domain.ReferencedAssembly = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.MappingActivity = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Activity(optionOrWebid);
+
+    v.MappingDefinition = ko.observable('');
+
+    v.DestinationType = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.MappingActivity, domain.sph";
+
+    v.MappingSourceCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.MappingActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.MappingActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.MappingSource = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.MappingSource, domain.sph",
+        TypeName: ko.observable(''),
+        Variable: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.MappingSourcePartial) {
+        return _(model).extend(new bespoke.sph.domain.MappingSourcePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+        TransformDefinitionId: ko.observable(0),
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        MapCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.TransformDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.TransformDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.DirectMap = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Map(optionOrWebid);
+
+    v.Source = ko.observable('');
+
+    v.TypeName = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.DirectMap, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DirectMapPartial) {
+        return _(v).extend(new bespoke.sph.domain.DirectMapPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Map(optionOrWebid);
+
+    v.__uuid = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.FunctoidMap, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FunctoidMapPartial) {
+        return _(v).extend(new bespoke.sph.domain.FunctoidMapPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.Field = function (optionOrWebid) {
 
     var model = {
@@ -1742,6 +1894,32 @@ bespoke.sph.domain.Functoid = function (optionOrWebid) {
 
     if (bespoke.sph.domain.FunctoidPartial) {
         return _(model).extend(new bespoke.sph.domain.FunctoidPartial(model));
+    }
+    return model;
+};
+
+
+bespoke.sph.domain.Map = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Map, domain.sph",
+        Destination: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+    if (bespoke.sph.domain.MapPartial) {
+        return _(model).extend(new bespoke.sph.domain.MapPartial(model));
     }
     return model;
 };

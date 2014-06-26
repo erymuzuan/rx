@@ -4,10 +4,8 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public class DirectMap : Map
+    public partial class DirectMap : Map
     {
-        public string Source { get; set; }
-        public string TypeName { get; set; }
         [JsonIgnore]
         public Type Type
         {
