@@ -1,0 +1,93 @@
+﻿<h1>Integration Adapters </h1>
+<div class="row">
+
+    <div>
+        <div class="btn-group">
+            <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
+                Add Adapter&nbsp;<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a style="text-align: left" class="btn btn-link" href="#adapter.oracle" data-bind2="click: addPropertyMapping('Simple')">
+                        <i class="fa fa-database fa-align-left"></i>
+                        Oracle Database
+                    </a>
+                </li>
+                <li>
+                    <a style="text-align: left" class="btn btn-link" data-bind2="click: addPropertyMapping('Functoid')">
+                        <i class="fa fa-windows"></i>
+                        Microsoft SQL Server
+                    </a>
+                </li>
+                <li>
+                    <a style="text-align: left" class="btn btn-link" data-bind2="click: addPropertyMapping('Functoid')">
+                        <i class="fa fa-database"></i>
+                        IBM DB2
+                    </a>
+                </li>
+                <li>
+                    <a style="text-align: left" class="btn btn-link" data-bind2="click: addPropertyMapping('Functoid')">
+                        <img alt="MySql" src="/images/mysql-24-black.png" />
+                        MySQL
+                    </a>
+                </li>
+                <li>
+                    <a style="text-align: left" class="btn btn-link" data-bind2="click: addPropertyMapping('Functoid')">
+                        <i class="fa fa-database"></i>
+                        PostgresSQL
+                    </a>
+                </li>
+                <li>
+                    <a style="text-align: left" class="btn btn-link" data-bind2="click: addPropertyMapping('Functoid')">
+                        <i class="fa fa-file-archive-o"></i>
+                        File System
+                    </a>
+                </li>
+                <li>
+                    <a style="text-align: left" class="btn btn-link" data-bind2="click: addPropertyMapping('Functoid')">
+                        <i class="fa fa-share-alt"></i>
+                        FTP
+                    </a>
+                </li>
+                <li>
+                    <a style="text-align: left" class="btn btn-link" data-bind2="click: addPropertyMapping('Functoid')">
+                        <i class="fa fa-html5"></i>
+                        HTTP Web API
+                    </a>
+                </li>
+                <li>
+                    <a style="text-align: left" class="btn btn-link" data-bind2="click: addPropertyMapping('Functoid')">
+                        <i class="fa fa-code"></i>
+                        XML Web Service
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind2="foreach :PropertyMappingCollection">
+            <tr>
+                <td>
+                    <a href="#adapter.oracle">HrEmployees</a>
+                </td>
+                <td>Oracle</td>
+                <td>Sample Oracle 11g XE</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>AdventureWorksPerson</td>
+                <td>Microsoft SQL Server</td>
+                <td>Sample Microsoft Sql Server 2014</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

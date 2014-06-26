@@ -198,6 +198,20 @@
       "error": ""
   },
   {
+      "role": "developers",
+      "groupName": "Workflow",
+      "route": "adapter.definition.list",
+      "moduleId": "viewmodels/adapter.definition.list",
+      "title": "Adapters",
+      "nav": false,
+      "icon": "fa fa-bolt",
+      "caption": "Adapters",
+      "settings": null,
+      "isAdminPage": true,
+      "showWhenLoggedIn": false,
+      "error": ""
+  },
+  {
       "role": "everybody",
       "groupName": null,
       "route": "message.detail/:id",
