@@ -344,8 +344,8 @@
                 return tcs.promise();
             },
                 editCode = function() {
-                    var partial = "sphapp/partial/" + form().Route();
-                    window.open( "/sph/editor/file?id=/" + partial + ".js", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                    var partial = "partial/" + form().Route();
+                    window.open( "/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
                     form().Partial(partial);
 
                     return Task.fromResult(true);
