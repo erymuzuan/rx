@@ -4,8 +4,8 @@
 /// <reference path="../../Scripts/require.js" />
 
 
-define(['durandal/system', 'plugins/router', 'services/logger', 'services/datacontext', objectbuilders.config, objectbuilders.cultures],
-    function (system, router, logger, context, config) {
+define(['durandal/system','services/system', 'plugins/router', 'services/logger', 'services/datacontext', objectbuilders.config, objectbuilders.cultures],
+    function (system,system2, router, logger, context, config) {
 
         var activate = function () {
             return router.map(config.routes)
