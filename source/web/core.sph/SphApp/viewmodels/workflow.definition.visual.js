@@ -100,13 +100,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 notification.CssClass = "pull-left activity32 activity32-NotificationActivity";
                 elements.push(notification);
 
-                receive.IsEnabled = ko.observable(false);
+                receive.IsEnabled = ko.observable(true);
                 receive.Name("Receive");
                 receive.Note = "Receive a message from another system";
                 receive.CssClass = "pull-left activity32 activity32-ReceiveActivity";
                 elements.push(receive);
 
-                send.IsEnabled = ko.observable(false);
+                send.IsEnabled = ko.observable(true);
                 send.Name("Send");
                 send.Note = "Send a message to another system";
                 send.CssClass = "pull-left activity32 activity32-SendActivity";

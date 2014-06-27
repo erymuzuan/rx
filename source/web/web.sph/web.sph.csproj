@@ -1135,6 +1135,8 @@
     <Content Include="SphApp\services\cultures.my.js" />
     <Content Include="SphApp\services\jsonimportexport.js" />
     <Content Include="SphApp\viewmodels\activity.mapping.js" />
+    <Content Include="SphApp\viewmodels\activity.receive.js" />
+    <Content Include="SphApp\viewmodels\activity.send.js" />
     <Content Include="SphApp\viewmodels\adapter.definition.list.js" />
     <Content Include="SphApp\viewmodels\adapter.oracle.js" />
     <Content Include="SphApp\viewmodels\advanced-search.js" />
@@ -1146,6 +1148,8 @@
     <Content Include="SphApp\viewmodels\transform.definition.edit.js" />
     <Content Include="SphApp\viewmodels\transform.definition.prop.dialog.js" />
     <Content Include="SphApp\views\activity.mapping.html" />
+    <Content Include="SphApp\views\activity.receive.html" />
+    <Content Include="SphApp\views\activity.send.html" />
     <Content Include="SphApp\views\adapter.definition.list.html" />
     <Content Include="SphApp\views\adapter.oracle.html" />
     <Content Include="SphApp\views\advanced-search.html" />

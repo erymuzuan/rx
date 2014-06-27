@@ -284,9 +284,9 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "or(\"There are errors in your form, depublish those views first to proceed, !!!\")" +
 ";\r\n                        }\r\n                        tcs.resolve(result);\r\n    " +
 "                });\r\n                return tcs.promise();\r\n            },\r\n    " +
-"            editCode = function() {\r\n                    var partial = \"sphapp/p" +
-"artial/\" + form().Route();\r\n                    window.open( \"/sph/editor/file?i" +
-"d=/\" + partial + \".js\", \'_blank\', \'height=600px,width=600px,toolbar=0,location=0" +
+"            editCode = function() {\r\n                    var partial = \"partial/" +
+"\" + form().Route();\r\n                    window.open( \"/sph/editor/file?id=/spha" +
+"pp/\" + partial + \".js\", \'_blank\', \'height=600px,width=600px,toolbar=0,location=0" +
 "\');\r\n                    form().Partial(partial);\r\n\r\n                    return " +
 "Task.fromResult(true);\r\n\r\n                };\r\n\r\n            var vm = {\r\n        " +
 "        errors: errors,\r\n                operationsOption: operationsOption,\r\n  " +
