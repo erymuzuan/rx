@@ -2886,6 +2886,16 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_caption;
+        public const string PropertyNameCaption = "Caption";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_layout;
+        public const string PropertyNameLayout = "Layout";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();
 
@@ -2922,6 +2932,17 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<RouteParameter> RouteParameterCollection
         {
             get { return m_RouteParameterCollection; }
+        }
+
+        private readonly ObjectCollection<FormLayout> m_FormLayoutCollection = new ObjectCollection<FormLayout>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("FormLayout", IsNullable = false)]
+        public ObjectCollection<FormLayout> FormLayoutCollection
+        {
+            get { return m_FormLayoutCollection; }
         }
 
         ///<summary>
@@ -3501,6 +3522,348 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string Caption
+        {
+            set
+            {
+                if (String.Equals(m_caption, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCaption, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_caption = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_caption;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string Layout
+        {
+            set
+            {
+                if (String.Equals(m_layout, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLayout, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_layout = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_layout;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("FormLayout", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FormLayout
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_position;
+        public const string PropertyNamePosition = "Position";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isForm;
+        public const string PropertyNameIsForm = "IsForm";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isAuditTrail;
+        public const string PropertyNameIsAuditTrail = "IsAuditTrail";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_content;
+        public const string PropertyNameContent = "Content";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_xsmallCol;
+        public const string PropertyNameXsmallCol = "XsmallCol";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_mediumCol;
+        public const string PropertyNameMediumCol = "MediumCol";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_smallCol;
+        public const string PropertyNameSmallCol = "SmallCol";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_largeCol;
+        public const string PropertyNameLargeCol = "LargeCol";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Position
+        {
+            set
+            {
+                if (String.Equals(m_position, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePosition, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_position = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_position;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsForm
+        {
+            set
+            {
+                if (m_isForm == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsForm, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isForm = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isForm;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsAuditTrail
+        {
+            set
+            {
+                if (m_isAuditTrail == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAuditTrail, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAuditTrail = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAuditTrail;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Content
+        {
+            set
+            {
+                if (String.Equals(m_content, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameContent, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_content = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_content; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? XsmallCol
+        {
+            set
+            {
+                if (m_xsmallCol == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameXsmallCol, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_xsmallCol = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_xsmallCol; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? MediumCol
+        {
+            set
+            {
+                if (m_mediumCol == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMediumCol, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_mediumCol = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_mediumCol; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? SmallCol
+        {
+            set
+            {
+                if (m_smallCol == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSmallCol, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_smallCol = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_smallCol; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? LargeCol
+        {
+            set
+            {
+                if (m_largeCol == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLargeCol, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_largeCol = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_largeCol; }
+        }
 
 
     }

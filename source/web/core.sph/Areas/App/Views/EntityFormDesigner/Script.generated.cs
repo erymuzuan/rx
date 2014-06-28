@@ -288,36 +288,43 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "\" + form().Route();\r\n                    window.open( \"/sph/editor/file?id=/spha" +
 "pp/\" + partial + \".js\", \'_blank\', \'height=600px,width=600px,toolbar=0,location=0" +
 "\');\r\n                    form().Partial(partial);\r\n\r\n                    return " +
-"Task.fromResult(true);\r\n\r\n                };\r\n\r\n            var vm = {\r\n        " +
-"        errors: errors,\r\n                operationsOption: operationsOption,\r\n  " +
-"              attached: attached,\r\n                activate: activate,\r\n        " +
-"        formElements: ko.observableArray(),\r\n                selectedFormElement" +
-": ko.observable(),\r\n                selectFormElement : selectFormElement,\r\n    " +
-"            removeFormElement : removeFormElement,\r\n                form: form,\r" +
-"\n                entity : entity,\r\n                entityOptions : entityOptions" +
-",\r\n                okClick: okClick,\r\n                cancelClick: cancelClick,\r" +
-"\n                importCommand :importCommand,\r\n                toolbar : {\r\n   " +
-"                 commands :ko.observableArray([{\r\n                        captio" +
-"n: \'Clone\',\r\n                        icon: \'fa fa-copy\',\r\n                      " +
-"  command: function () {\r\n                            form().Name(form().Name() " +
-"+ \' Copy (1)\');\r\n                            form().Route(\'\');\r\n                " +
-"            form().EntityFormId(0);\r\n                            return Task.fro" +
-"mResult(0);\r\n                        }\r\n                    },\r\n                " +
-"    {\r\n                        caption : \'Publish\',\r\n                        ico" +
-"n : \'fa fa-sign-in\',\r\n                        command : publish,\r\n              " +
-"          enable : ko.computed(function() {\r\n                            return " +
-"form().EntityFormId() > 0;\r\n                        })\r\n                    },\r\n" +
-"                    {\r\n                        command: depublishAsync,\r\n       " +
-"                 caption: \'Depublish\',\r\n                        icon: \"fa fa-sig" +
-"n-out\",\r\n                        enable: ko.computed(function () {\r\n            " +
-"                return form().EntityFormId() > 0 && form().IsPublished();\r\n     " +
-"                   })\r\n                    },\r\n                    {\r\n          " +
-"              command: editCode,\r\n                        caption: \'Edit Code\',\r" +
-"\n                        icon: \"fa fa-code\",\r\n                        enable: ko" +
-".computed(function () {\r\n                            return form().Route();\r\n   " +
-"                     })\r\n                    }\r\n                    ]),\r\n       " +
-"             saveCommand : save\r\n                }\r\n            };\r\n\r\n          " +
-"  return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"Task.fromResult(true);\r\n\r\n                },\r\n                editLayout = funct" +
+"ion() {\r\n                    window.open( \"http://www.layoutit.com/build?\", \'_bl" +
+"ank\', \'height=600px,width=600px,toolbar=0,location=0\');\r\n                \r\n     " +
+"               return Task.fromResult(true);\r\n                };\r\n\r\n            " +
+"var vm = {\r\n                errors: errors,\r\n                operationsOption: o" +
+"perationsOption,\r\n                attached: attached,\r\n                activate:" +
+" activate,\r\n                formElements: ko.observableArray(),\r\n               " +
+" selectedFormElement: ko.observable(),\r\n                selectFormElement : sele" +
+"ctFormElement,\r\n                removeFormElement : removeFormElement,\r\n        " +
+"        form: form,\r\n                entity : entity,\r\n                entityOpt" +
+"ions : entityOptions,\r\n                okClick: okClick,\r\n                cancel" +
+"Click: cancelClick,\r\n                importCommand :importCommand,\r\n            " +
+"    toolbar : {\r\n                    commands :ko.observableArray([{\r\n          " +
+"              caption: \'Clone\',\r\n                        icon: \'fa fa-copy\',\r\n  " +
+"                      command: function () {\r\n                            form()" +
+".Name(form().Name() + \' Copy (1)\');\r\n                            form().Route(\'\'" +
+");\r\n                            form().EntityFormId(0);\r\n                       " +
+"     return Task.fromResult(0);\r\n                        }\r\n                    " +
+"},\r\n                    {\r\n                        caption : \'Publish\',\r\n       " +
+"                 icon : \'fa fa-sign-in\',\r\n                        command : publ" +
+"ish,\r\n                        enable : ko.computed(function() {\r\n               " +
+"             return form().EntityFormId() > 0;\r\n                        })\r\n    " +
+"                },\r\n                    {\r\n                        command: depu" +
+"blishAsync,\r\n                        caption: \'Depublish\',\r\n                    " +
+"    icon: \"fa fa-sign-out\",\r\n                        enable: ko.computed(functio" +
+"n () {\r\n                            return form().EntityFormId() > 0 && form().I" +
+"sPublished();\r\n                        })\r\n                    },\r\n             " +
+"       {\r\n                        command: editCode,\r\n                        ca" +
+"ption: \'Edit Code\',\r\n                        icon: \"fa fa-code\",\r\n              " +
+"          enable: ko.computed(function () {\r\n                            return " +
+"form().Route();\r\n                        })\r\n                    },\r\n           " +
+"         {\r\n                        command: editLayout,\r\n                      " +
+"  caption: \'Edit Layout\',\r\n                        icon: \"fa  fa-file-text-o\",\r\n" +
+"                        enable: ko.computed(function () {\r\n                     " +
+"       return form().Route();\r\n                        })\r\n                    }" +
+"\r\n                    ]),\r\n                    saveCommand : save\r\n             " +
+"   }\r\n            };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }

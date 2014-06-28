@@ -1,0 +1,10 @@
+﻿@model Bespoke.Sph.Web.ViewModels.FormRendererViewModel
+
+@if (Model.Form.IsAuditTrailAvailable)
+{
+    <h3>Audit Trail</h3>
+        <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().@(Model.EntityDefinition.Name)Id(), entity : '@(Model.EntityDefinition.Name)'}} -->
+        <!--/ko-->
+
+
+}

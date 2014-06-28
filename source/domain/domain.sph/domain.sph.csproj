@@ -139,6 +139,7 @@
     <Compile Include="FormTemplates\FieldValidation.cs" />
     <Compile Include="FormTemplates\FileUploadElement.cs" />
     <Compile Include="FormTemplates\Filter.cs" />
+    <Compile Include="FormTemplates\FormLayout.cs" />
     <Compile Include="FormTemplates\ImageElement.cs" />
     <Compile Include="FormTemplates\ListView.cs" />
     <Compile Include="FormTemplates\ListViewColumn.cs" />

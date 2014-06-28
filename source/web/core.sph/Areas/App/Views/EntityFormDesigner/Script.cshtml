@@ -350,6 +350,11 @@
 
                     return Task.fromResult(true);
 
+                },
+                editLayout = function() {
+                    window.open( "http://www.layoutit.com/build?", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                
+                    return Task.fromResult(true);
                 };
 
             var vm = {
@@ -398,6 +403,14 @@
                         command: editCode,
                         caption: 'Edit Code',
                         icon: "fa fa-code",
+                        enable: ko.computed(function () {
+                            return form().Route();
+                        })
+                    },
+                    {
+                        command: editLayout,
+                        caption: 'Edit Layout',
+                        icon: "fa  fa-file-text-o",
                         enable: ko.computed(function () {
                             return form().Route();
                         })

@@ -430,6 +430,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="FormLayoutCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="FormLayout" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="EntityFormId" type="xs:int" use="required"/>
 			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
@@ -451,6 +458,23 @@
 			<xs:attribute name="Operation" type="xs:string" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="Partial" type="xs:string" use="optional"/>
+			<xs:attribute name="Caption" type="xs:string" use="optional"/>
+			<xs:attribute name="Layout" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FormLayout">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Content" type="xs:string"/>
+				<xs:element name="XsmallCol" type="xs:int" nillable="true"/>
+				<xs:element name="MediumCol" type="xs:int" nillable="true"/>
+				<xs:element name="SmallCol" type="xs:int" nillable="true"/>
+				<xs:element name="LargeCol" type="xs:int" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Position" type="xs:string" use="required"/>
+			<xs:attribute name="IsForm" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsAuditTrail" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EntityView">
