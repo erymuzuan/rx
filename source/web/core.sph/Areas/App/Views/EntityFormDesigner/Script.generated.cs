@@ -284,47 +284,52 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "or(\"There are errors in your form, depublish those views first to proceed, !!!\")" +
 ";\r\n                        }\r\n                        tcs.resolve(result);\r\n    " +
 "                });\r\n                return tcs.promise();\r\n            },\r\n    " +
-"            editCode = function() {\r\n                    var partial = \"partial/" +
-"\" + form().Route();\r\n                    window.open( \"/sph/editor/file?id=/spha" +
-"pp/\" + partial + \".js\", \'_blank\', \'height=600px,width=600px,toolbar=0,location=0" +
-"\');\r\n                    form().Partial(partial);\r\n\r\n                    return " +
-"Task.fromResult(true);\r\n\r\n                },\r\n                editLayout = funct" +
-"ion() {\r\n                    window.open( \"http://www.layoutit.com/build?\", \'_bl" +
-"ank\', \'height=600px,width=600px,toolbar=0,location=0\');\r\n                \r\n     " +
-"               return Task.fromResult(true);\r\n                };\r\n\r\n            " +
-"var vm = {\r\n                errors: errors,\r\n                operationsOption: o" +
-"perationsOption,\r\n                attached: attached,\r\n                activate:" +
-" activate,\r\n                formElements: ko.observableArray(),\r\n               " +
-" selectedFormElement: ko.observable(),\r\n                selectFormElement : sele" +
-"ctFormElement,\r\n                removeFormElement : removeFormElement,\r\n        " +
-"        form: form,\r\n                entity : entity,\r\n                entityOpt" +
-"ions : entityOptions,\r\n                okClick: okClick,\r\n                cancel" +
-"Click: cancelClick,\r\n                importCommand :importCommand,\r\n            " +
-"    toolbar : {\r\n                    commands :ko.observableArray([{\r\n          " +
-"              caption: \'Clone\',\r\n                        icon: \'fa fa-copy\',\r\n  " +
-"                      command: function () {\r\n                            form()" +
-".Name(form().Name() + \' Copy (1)\');\r\n                            form().Route(\'\'" +
-");\r\n                            form().EntityFormId(0);\r\n                       " +
-"     return Task.fromResult(0);\r\n                        }\r\n                    " +
-"},\r\n                    {\r\n                        caption : \'Publish\',\r\n       " +
-"                 icon : \'fa fa-sign-in\',\r\n                        command : publ" +
-"ish,\r\n                        enable : ko.computed(function() {\r\n               " +
-"             return form().EntityFormId() > 0;\r\n                        })\r\n    " +
-"                },\r\n                    {\r\n                        command: depu" +
-"blishAsync,\r\n                        caption: \'Depublish\',\r\n                    " +
-"    icon: \"fa fa-sign-out\",\r\n                        enable: ko.computed(functio" +
-"n () {\r\n                            return form().EntityFormId() > 0 && form().I" +
-"sPublished();\r\n                        })\r\n                    },\r\n             " +
-"       {\r\n                        command: editCode,\r\n                        ca" +
-"ption: \'Edit Code\',\r\n                        icon: \"fa fa-code\",\r\n              " +
-"          enable: ko.computed(function () {\r\n                            return " +
-"form().Route();\r\n                        })\r\n                    },\r\n           " +
-"         {\r\n                        command: editLayout,\r\n                      " +
-"  caption: \'Edit Layout\',\r\n                        icon: \"fa  fa-file-text-o\",\r\n" +
-"                        enable: ko.computed(function () {\r\n                     " +
-"       return form().Route();\r\n                        })\r\n                    }" +
-"\r\n                    ]),\r\n                    saveCommand : save\r\n             " +
-"   }\r\n            };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"        partialEditor = null,\r\n            editCode = function() {\r\n            " +
+"    if (null == partialEditor || partialEditor.closed) {\r\n                    va" +
+"r partial = \"partial/\" + form().Route();\r\n                    partialEditor =  w" +
+"indow.open( \"/sph/editor/file?id=/sphapp/\" + partial + \".js\", \'_blank\', \'height=" +
+"600px,width=600px,toolbar=0,location=0\');\r\n                    form().Partial(pa" +
+"rtial);\r\n                } else {\r\n                    partialEditor.focus();\r\n " +
+"               }\r\n\r\n                return Task.fromResult(true);\r\n\r\n           " +
+" },\r\n            layoutEditor = null,\r\n            editLayout = function() {\r\n  " +
+"              if (null == layoutEditor || layoutEditor.closed) {\r\n              " +
+"      layoutEditor = window.open( \"/layout.editor/\", \'_blank\', \'height=600px,wid" +
+"th=600px,toolbar=0,location=0\');\r\n\r\n                } else {\r\n                  " +
+"  layoutEditor.focus();\r\n                }\r\n\r\n                return Task.fromRe" +
+"sult(true);\r\n            };\r\n\r\n            var vm = {\r\n                errors: e" +
+"rrors,\r\n                operationsOption: operationsOption,\r\n                att" +
+"ached: attached,\r\n                activate: activate,\r\n                formEleme" +
+"nts: ko.observableArray(),\r\n                selectedFormElement: ko.observable()" +
+",\r\n                selectFormElement : selectFormElement,\r\n                remov" +
+"eFormElement : removeFormElement,\r\n                form: form,\r\n                " +
+"entity : entity,\r\n                entityOptions : entityOptions,\r\n              " +
+"  okClick: okClick,\r\n                cancelClick: cancelClick,\r\n                " +
+"importCommand :importCommand,\r\n                toolbar : {\r\n                    " +
+"commands :ko.observableArray([{\r\n                        caption: \'Clone\',\r\n    " +
+"                    icon: \'fa fa-copy\',\r\n                        command: functi" +
+"on () {\r\n                            form().Name(form().Name() + \' Copy (1)\');\r\n" +
+"                            form().Route(\'\');\r\n                            form(" +
+").EntityFormId(0);\r\n                            return Task.fromResult(0);\r\n    " +
+"                    }\r\n                    },\r\n                    {\r\n          " +
+"              caption : \'Publish\',\r\n                        icon : \'fa fa-sign-i" +
+"n\',\r\n                        command : publish,\r\n                        enable " +
+": ko.computed(function() {\r\n                            return form().EntityForm" +
+"Id() > 0;\r\n                        })\r\n                    },\r\n                 " +
+"   {\r\n                        command: depublishAsync,\r\n                        " +
+"caption: \'Depublish\',\r\n                        icon: \"fa fa-sign-out\",\r\n        " +
+"                enable: ko.computed(function () {\r\n                            r" +
+"eturn form().EntityFormId() > 0 && form().IsPublished();\r\n                      " +
+"  })\r\n                    },\r\n                    {\r\n                        com" +
+"mand: editCode,\r\n                        caption: \'Edit Code\',\r\n                " +
+"        icon: \"fa fa-code\",\r\n                        enable: ko.computed(functio" +
+"n () {\r\n                            return form().Route();\r\n                    " +
+"    })\r\n                    },\r\n                    {\r\n                        c" +
+"ommand: editLayout,\r\n                        caption: \'Edit Layout\',\r\n          " +
+"              icon: \"fa  fa-file-text-o\",\r\n                        enable: ko.co" +
+"mputed(function () {\r\n                            return form().Route();\r\n      " +
+"                  })\r\n                    }\r\n                    ]),\r\n          " +
+"          saveCommand : save\r\n                }\r\n            };\r\n\r\n            r" +
+"eturn vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }

@@ -22,25 +22,33 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/DisplayTemplates/CurrencyElement.cshtml")]
-    public partial class CurrencyElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.CurrencyElement>
+    public partial class _CurrencyElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.CurrencyElement>
     {
-        public CurrencyElement()
+        public _CurrencyElement()
         {
         }
         public override void Execute()
         {
+WriteLiteral("<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.CurrencyElement, domain.sph\" " +
+"-->\r\n<div");
 
-WriteLiteral("\r\n<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.CurrencyElement, domain.sph" +
-"\" -->\r\n<div class=\"form-group\" data-bind=\"css: { \'selected-form-element\': isSele" +
-"cted }, click: $root.selectFormElement\">\r\n     ");
+WriteLiteral(" class=\"form-group\"");
 
+WriteLiteral(" data-bind=\"css: { \'selected-form-element\': isSelected }, click: $root.selectForm" +
+"Element\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("     ");
 
             
             #line 5 "..\..\Areas\App\Views\Shared\DisplayTemplates\CurrencyElement.cshtml"
@@ -49,11 +57,24 @@ Write(Html.Partial("_DesignerContextAction"));
             
             #line default
             #line hidden
-WriteLiteral("\r\n   <label data-bind=\"text: Label\" class=\"control-label col-lg-2\"></label>\r\n    " +
-"<div class=\"col-lg-4\">\r\n        <input type=\"text\" data-bind=\"attr: { \'title\': T" +
-"ooltip, \'class\': CssClass() + \' \' + Size() }\" />\r\n    </div>\r\n</div>\r\n<!--/ko-->" +
-"\r\n");
+WriteLiteral("\r\n   <label");
 
+WriteLiteral(" data-bind=\"text: Label\"");
+
+WriteLiteral(" class=\"control-label col-lg-2\"");
+
+WriteLiteral("></label>\r\n    <div");
+
+WriteLiteral(" class=\"col-lg-4\"");
+
+WriteLiteral(">\r\n        <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"attr: { \'title\': Tooltip, \'class\': CssClass() + \' \' + Size() ,placeho" +
+"lder:\' [ \' + Path() + \' ] \'}\"");
+
+WriteLiteral(" />\r\n    </div>\r\n</div>\r\n<!--/ko-->\r\n");
 
         }
     }

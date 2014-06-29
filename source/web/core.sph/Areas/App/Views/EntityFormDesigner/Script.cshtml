@@ -343,19 +343,30 @@
                     });
                 return tcs.promise();
             },
-                editCode = function() {
+            partialEditor = null,
+            editCode = function() {
+                if (null == partialEditor || partialEditor.closed) {
                     var partial = "partial/" + form().Route();
-                    window.open( "/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                    partialEditor =  window.open( "/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
                     form().Partial(partial);
+                } else {
+                    partialEditor.focus();
+                }
 
-                    return Task.fromResult(true);
+                return Task.fromResult(true);
 
-                },
-                editLayout = function() {
-                    window.open( "http://www.layoutit.com/build?", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
-                
-                    return Task.fromResult(true);
-                };
+            },
+            layoutEditor = null,
+            editLayout = function() {
+                if (null == layoutEditor || layoutEditor.closed) {
+                    layoutEditor = window.open( "/layout.editor/", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+
+                } else {
+                    layoutEditor.focus();
+                }
+
+                return Task.fromResult(true);
+            };
 
             var vm = {
                 errors: errors,

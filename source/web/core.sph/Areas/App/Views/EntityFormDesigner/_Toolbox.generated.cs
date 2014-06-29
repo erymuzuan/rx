@@ -806,7 +806,7 @@ WriteLiteral("\r\n");
             
             #line default
             #line hidden
-WriteLiteral("                </div>\r\n\r\n                <button");
+WriteLiteral("                </div>\r\n\r\n                <a");
 
 WriteLiteral(" data-bind=\"click: $root.removeFormElement\"");
 
@@ -814,8 +814,8 @@ WriteLiteral(" class=\"btn btn-warning\"");
 
 WriteLiteral(" title=\"remove this element\"");
 
-WriteLiteral(">Remove</button>\r\n                <!-- END OF EDITOR TOOLBOX -->\r\n            </f" +
-"orm>\r\n\r\n        </div>\r\n\r\n        <div");
+WriteLiteral(">Remove</a>\r\n                <!-- END OF EDITOR TOOLBOX -->\r\n            </form>\r" +
+"\n\r\n        </div>\r\n\r\n        <div");
 
 WriteLiteral(" id=\"fields-validation\"");
 
