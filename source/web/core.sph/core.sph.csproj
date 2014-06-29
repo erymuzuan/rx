@@ -1357,12 +1357,6 @@
       <DependentUpon>__css.css</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fonts\fontawesome-webfont.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\ImageElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ImageElement.generated.cs</LastGenOutput>
@@ -1414,10 +1408,13 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="kendo\js\kendo.all.min.js.map">
       <DependentUpon>kendo.all.min.js</DependentUpon>
     </Content>
     <Content Include="Scripts\almond-custom.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\complete.ly.1.0.1.min.js.map">
       <DependentUpon>complete.ly.1.0.1.min.js</DependentUpon>
     </Content>
@@ -1428,8 +1425,6 @@
     </EmbeddedResource>
     <Content Include="Scripts\bloodhound.js" />
     <Content Include="Scripts\bloodhound.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\complete.ly.1.0.1.js" />
     <Content Include="Scripts\complete.ly.1.0.1.min.js" />
     <Content Include="Scripts\daterangepicker.js" />
@@ -1467,6 +1462,11 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html2ColsCustomLeft.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <EmbeddedResource Include="Scripts\durandal\activator.js" />
     <EmbeddedResource Include="Scripts\durandal\app.js" />
