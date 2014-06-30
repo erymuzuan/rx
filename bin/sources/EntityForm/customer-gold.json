@@ -24,13 +24,17 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
   "EntityFormId": 1002,
   "EntityDefinitionId": 1,
   "Name": "customer-gold",
   "Route": "customer",
   "Note": "",
   "IsAllowedNewItem": false,
-  "IconClass": "",
+  "IconClass": "fa fa-barcode",
   "IconStoreId": "",
   "IsPublished": false,
   "IsDefault": false,
@@ -41,9 +45,12 @@
   "IsRemoveAvailable": false,
   "IsImportAvailable": false,
   "IsExportAvailable": false,
+  "Operation": null,
+  "Entity": null,
+  "Partial": "sphapp/partial/customer",
   "CreatedBy": "admin",
   "CreatedDate": "2014-02-27T18:47:31.3382699+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-03-01T08:34:10.0261659+08:00",
+  "ChangedDate": "2014-06-27T18:50:25.1759219+08:00",
   "WebId": "e429c10c-8d0d-43ac-a318-ce965bcbd7ee"
 }

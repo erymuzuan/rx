@@ -2,7 +2,7 @@
     define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
         objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
         objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
-        objectbuilders.app ,'partial/patient.registration'],
+        objectbuilders.app ,'partial/patient-registration'],
         function (context, logger, router, system, validation, eximp, dialog, watcher,config,app
             ,partial) {
 
