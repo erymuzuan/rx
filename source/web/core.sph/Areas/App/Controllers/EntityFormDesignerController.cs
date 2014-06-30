@@ -8,6 +8,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
     public class EntityFormDesignerController : BaseAppController
     {
         [RazorScriptFilter]
+        //[Route("~/sphapp/viewmodels/entity.form.designer.js")]
         public ActionResult Js()
         {
             var vm = new TemplateFormViewModel();
@@ -23,6 +24,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 f => f.GetType() == typeof(FormElement));
             return View(vm);
         }
+       // [Route("~/sphapp/view/entity.form.designer.html")]
         public ActionResult Html()
         {
             var vm = new TemplateFormViewModel
