@@ -530,6 +530,7 @@
 			<xs:attribute name="TileColour" type="xs:string" use="required"/>
 			<xs:attribute name="CountMessage" type="xs:string" use="optional"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="Partial" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Filter">

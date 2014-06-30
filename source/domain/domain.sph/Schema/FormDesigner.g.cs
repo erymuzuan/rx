@@ -3942,6 +3942,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameEntity = "Entity";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_partial;
+        public const string PropertyNamePartial = "Partial";
+
+
         private readonly ObjectCollection<Filter> m_FilterCollection = new ObjectCollection<Filter>();
 
         ///<summary>
@@ -4385,6 +4390,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Partial
+        {
+            set
+            {
+                if (String.Equals(m_partial, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePartial, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_partial = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_partial;
             }
         }
 

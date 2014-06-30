@@ -869,9 +869,12 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         Operation: ko.observable(''),
         Entity: ko.observable(''),
         Partial: ko.observable(''),
+        Caption: ko.observable(''),
+        Layout: ko.observable(''),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         Rules: ko.observableArray([]),
         RouteParameterCollection: ko.observableArray([]),
+        FormLayoutCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -895,6 +898,42 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.FormLayout = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FormLayout, domain.sph",
+        Name: ko.observable(''),
+        Position: ko.observable(''),
+        IsForm: ko.observable(false),
+        IsAuditTrail: ko.observable(false),
+        Content: ko.observable(),
+        XsmallCol: ko.observable(),
+        MediumCol: ko.observable(),
+        SmallCol: ko.observable(),
+        LargeCol: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FormLayoutPartial) {
+        return _(model).extend(new bespoke.sph.domain.FormLayoutPartial(model));
+    }
+    return model;
+};
+
+
+
 bespoke.sph.domain.EntityView = function (optionOrWebid) {
 
     var model = {
@@ -912,6 +951,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         TileColour: ko.observable(''),
         CountMessage: ko.observable(''),
         Entity: ko.observable(''),
+        Partial: ko.observable(''),
         FilterCollection: ko.observableArray([]),
         ViewColumnCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
