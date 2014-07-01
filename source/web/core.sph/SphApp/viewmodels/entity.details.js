@@ -31,16 +31,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                             window.typeaheadEntity = b.Name();
                             tcs.resolve(true);
                         });
-                    // load forms and views
-                    context.loadAsync("EntityForm", "EntityDefinitionId eq " + id)
-                        .done(function (lo) {
-                            forms(lo.itemCollection);
-                        });
-                    context.loadAsync("EntityView", "EntityDefinitionId eq " + id)
-                        .done(function (lo) {
-                            views(lo.itemCollection);
-                        });
-
 
                     return tcs.promise();
                 }

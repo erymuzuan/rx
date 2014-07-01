@@ -401,10 +401,10 @@ ko.bindingHandlers.comboBoxLookupOptions = {
 
 
 ///#source 1 1 /Scripts/_ko.kendo.js
-/// <reference path="knockout-2.3.0.debug.js" />
+/// <reference path="knockout-3.1.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
-/// <reference path="~/Scripts/jquery-2.1.0.intellisense.js" />
+/// <reference path="~/Scripts/jquery-2.1.1.intellisense.js" />
 /// <reference path="~/Scripts/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />

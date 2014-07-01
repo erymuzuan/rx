@@ -244,7 +244,7 @@
         </h3>
     </a>
     <div class="collapse collapsed" id="forms-table">
-        <table class="table table-striped">
+        <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityForm', query :'EntityDefinitionId eq ' + $root.entity().EntityDefinitionId(), list: forms}">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -286,7 +286,7 @@
         </h3>
     </a>
     <div class="collapse collapsed" id="view-table">
-        <table class="table table-striped">
+        <table class="table table-striped" data-bind="serverPaging :{entity: 'EntityView', query :'EntityDefinitionId eq ' + $root.entity().EntityDefinitionId(), list: views}">
             <thead>
                 <tr>
                     <th>Name</th>
