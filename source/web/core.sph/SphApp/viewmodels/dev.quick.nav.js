@@ -17,11 +17,11 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             activate = function () {
                 var tcs = new $.Deferred(),
                     entitiesTask = context.loadAsync("EntityDefinition"),
-                    formsTask = context.loadAsync("EntityForm"),
-                    viewsTask = context.loadAsync("EntityView"),
-                    triggersTask = context.loadAsync("Trigger"),
-                    rdlTask = context.loadAsync("ReportDefinition"),
-                    wdTask = context.loadAsync("WorkflowDefinition");
+                    formsTask = context.loadAsync({ entity:"EntityForm", size:200 }),
+                    viewsTask = context.loadAsync({ entity: "EntityView", size: 200 }),
+                    triggersTask = context.loadAsync({ entity:"Trigger", size:200 }),
+                    rdlTask = context.loadAsync({ entity:"ReportDefinition", size:200 }),
+                    wdTask = context.loadAsync({ entity:"WorkflowDefinition", size:200 });
 
 
                 $.when(entitiesTask, formsTask, viewsTask, triggersTask, wdTask, rdlTask)
