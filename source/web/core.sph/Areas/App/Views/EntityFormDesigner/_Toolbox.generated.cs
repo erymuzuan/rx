@@ -115,7 +115,7 @@ WriteLiteral(">\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n                    <label>Name</label>\r\n                    <input");
+WriteLiteral(">\r\n                    <label>Name</label>\r\n                    <input required");
 
 WriteLiteral(" class=\"form-control\"");
 
@@ -131,7 +131,7 @@ WriteLiteral(" />\r\n                </div>\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n                    <label>Route</label>\r\n                    <input");
+WriteLiteral(">\r\n                    <label>Route</label>\r\n                    <input required");
 
 WriteLiteral(" class=\"form-control\"");
 
