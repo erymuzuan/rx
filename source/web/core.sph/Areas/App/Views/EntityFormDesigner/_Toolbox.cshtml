@@ -38,6 +38,12 @@
                     <input class="form-control" data-bind="value: Caption" id="form-design-caption" type="text" name="FormDesign.Caption" />
                 </div>
                 <div class="form-group">
+                    <label for="form-design-layout">Layout</label>
+                    <select class="form-control" data-bind="options :$root.layoutOptions,
+                            optionsCaption :'[Default Layout]',
+                            value: Layout" id="form-design-layout" name="FormDesign.Layout"></select>
+                </div>
+                <div class="form-group">
                     <label for="form-design-operation">Operation</label>
                     <select class="form-control" data-bind="options :$root.operationsOption,
                             optionsCaption :'[Default - No Operation]',

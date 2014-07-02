@@ -41,6 +41,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             switch (ext)
             {
+                case ".cshtml":
                 case ".html":
                 case ".htm":
                     mode = "html";
@@ -55,7 +56,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     mode = "javascript";
                     break;
                 default:
-                    throw new Exception("Don't know any for " + ext);
+                    throw new Exception("Don't know any extension mode for " + ext);
             }
             var vm = new
             {

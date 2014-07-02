@@ -15,6 +15,7 @@
 
             var errors = ko.observableArray(),
                 operationsOption = ko.observableArray(),
+                layoutOptions = ko.observableArray(),
                 entityOptions = ko.observableArray(),
                 entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
                 form = ko.observable(new bespoke.sph.domain.EntityForm({WebId:system.guid()})),
@@ -57,6 +58,11 @@
                             operationsOption(operations);
                             //b.loadSchema();
                         });
+
+                    $.get("/app/entityformdesigner/layoutoptions").done(function(options) {
+                        layoutOptions(options);
+                    });
+
                     if (fid) {
                         context.loadOneAsync("EntityForm", "EntityFormId eq " + fid)
                         .done(function(f) {
@@ -359,7 +365,7 @@
             layoutEditor = null,
             editLayout = function() {
                 if (null == layoutEditor || layoutEditor.closed) {
-                    layoutEditor = window.open( "/layout.editor/", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                    layoutEditor =  window.open( "/sph/editor/file?id=/views/entityformrenderer/" + form().Layout() + ".cshtml", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
 
                 } else {
                     layoutEditor.focus();
@@ -370,6 +376,7 @@
 
             var vm = {
                 errors: errors,
+                layoutOptions: layoutOptions,
                 operationsOption: operationsOption,
                 attached: attached,
                 activate: activate,

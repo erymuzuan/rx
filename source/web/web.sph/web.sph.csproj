@@ -1169,6 +1169,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\underscore-min.map" />
     <Content Include="SphApp\viewmodels\offline.storage.js" />
+    <Content Include="Views\EntityFormRenderer\TestCustomLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
