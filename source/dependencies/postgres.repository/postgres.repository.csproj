@@ -33,11 +33,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Devart.Data">
-      <HintPath>..\..\..\packages\dotConnect.Express.for.PostgreSQL.7.3.171\lib\Devart.Data.dll</HintPath>
+      <HintPath>..\..\..\packages\dotConnect.Express.for.PostgreSQL.7.3.191\lib\Devart.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Devart.Data.PostgreSql">
-      <HintPath>..\..\..\packages\dotConnect.Express.for.PostgreSQL.7.3.171\lib\Devart.Data.PostgreSql.dll</HintPath>
+      <HintPath>..\..\..\packages\dotConnect.Express.for.PostgreSQL.7.3.191\lib\Devart.Data.PostgreSql.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
