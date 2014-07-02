@@ -27,57 +27,36 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
     
     #line default
     #line hidden
-    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
-    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/DisplayTemplates/ImageElement.cshtml")]
-    public partial class _ImageElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.ImageElement>
+    public partial class ImageElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.ImageElement>
     {
-        public _ImageElement()
+        public ImageElement()
         {
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.ImageElement, domain.sph\" -->" +
-"\r\n<div");
 
-WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(" data-bind=\"css: { \'selected-form-element\': isSelected }, click: $root.selectForm" +
-"Element\"");
+WriteLiteral(@"
+<!--ko if: $data['$type']() === ""Bespoke.Sph.Domain.ImageElement, domain.sph"" -->
+<div class=""form-group"" data-bind=""css: { 'selected-form-element': isSelected }, click: $root.selectFormElement"">
+    <label data-bind=""text: Label"" class=""control-label col-lg-2""></label>
+    <div class=""col-lg-4"" style=""position: relative"">
+        <img alt=""designer"" src=""/Images/no-image.png"" />
+        <span data-bind=""text:' [ ' + Path() + ' ] '"" style=""position: absolute; top:53px;left:60px ""></span>
+    </div>
+    <span data-bind=""text: HelpText"" class=""help-block""></span>
+</div>
 
-WriteLiteral(">\r\n    <label");
 
-WriteLiteral(" data-bind=\"text: Label\"");
+<!--/ko-->");
 
-WriteLiteral(" class=\"control-label col-lg-2\"");
-
-WriteLiteral("></label>\r\n    <div");
-
-WriteLiteral(" class=\"col-lg-4\"");
-
-WriteLiteral(">\r\n        <img");
-
-WriteLiteral(" alt=\"designer\"");
-
-WriteLiteral(" src=\"/Images/no-image.png\"");
-
-WriteLiteral(" />\r\n        <span");
-
-WriteLiteral(" data-bind=\"text:\' [ \' + Path() + \' ] \'\"");
-
-WriteLiteral("></span>\r\n    </div>\r\n    <span");
-
-WriteLiteral(" data-bind=\"text: HelpText\"");
-
-WriteLiteral(" class=\"help-block\"");
-
-WriteLiteral("></span>\r\n</div>\r\n\r\n\r\n<!--/ko-->");
 
         }
     }
