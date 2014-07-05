@@ -57,7 +57,7 @@ namespace Bespoke.Sph.SqlRepository
                     int count1 = count;
                     var entityType = this.GetEntityType(item);
 
-                    var id = (int)item.GetType().GetProperty(entityType.Name + "Id").GetValue(item);
+                    var id = item.GetId();
 
 
                     var metadataType = metadataProvider.GetTable(entityType.Name);
@@ -166,7 +166,7 @@ namespace Bespoke.Sph.SqlRepository
 
         private string GetSchema(Type type)
         {
-            if (type.Namespace == typeof(Entity).Namespace) return "Sph";
+            if (type.Namespace.StartsWith(typeof(Entity).Namespace)) return "Sph";
             return ConfigurationManager.ApplicationName;
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Web.Helpers
 {
@@ -55,6 +56,9 @@ namespace Bespoke.Sph.Web.Helpers
             {
                 var type = Type.GetType(typeof(Entity).Namespace + "." + m_table + ", domain.sph");
                 if (null != type)
+                    return "Sph";
+                var type2 = Type.GetType(typeof(Adapter).Namespace + "." + m_table + ", domain.sph");
+                if (null != type2)
                     return "Sph";
                 return ConfigurationManager.ApplicationName;
             }

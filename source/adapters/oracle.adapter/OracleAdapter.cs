@@ -14,6 +14,7 @@ using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
+    [EntityType(typeof(Adapter))]
     public partial class OracleAdapter : Adapter
     {
         private readonly ObjectCollection<TableDefinition> m_tableDefinitions = new ObjectCollection<TableDefinition>();

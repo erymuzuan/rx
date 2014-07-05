@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json;
@@ -26,6 +27,12 @@ namespace Bespoke.Sph.Web.Api
         {
             return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
         }
+        [Route("adapter")]
+        public async Task<ActionResult> Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Adapter>(filter, page, size, includeTotal);
+        }
+
         [Route("Designation")]
         public async Task<ActionResult> Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {

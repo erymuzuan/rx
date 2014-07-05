@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -13,7 +13,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
         var
             isBusy = ko.observable(false),
+            adapters = ko.observableArray(),
             activate = function () {
+               
 
             },
             attached = function (view) {
@@ -21,6 +23,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             };
 
         var vm = {
+            adapters : adapters,
             isBusy: isBusy,
             activate: activate,
             attached: attached

@@ -8,7 +8,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a style="text-align: left" class="btn btn-link" href="#adapter.oracle" data-bind2="click: addPropertyMapping('Simple')">
+                    <a style="text-align: left" class="btn btn-link" href="#adapter.oracle/0" data-bind2="click: addPropertyMapping('Simple')">
                         <i class="fa fa-database fa-align-left"></i>
                         Oracle Database
                     </a>
@@ -64,7 +64,7 @@
             </ul>
         </div>
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped" data-bind="serverPaging :{entity : 'Adapter', list: adapters}">
         <thead>
             <tr>
                 <th>Name</th>
@@ -73,19 +73,13 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody data-bind2="foreach :PropertyMappingCollection">
+        <tbody data-bind="foreach : adapters">
             <tr>
                 <td>
-                    <a href="#adapter.oracle">HrEmployees</a>
+                    <a href="#" data-bind="attr : {'href':'#adapter.oracle/' + AdapterId()},text: Name" >HrEmployees</a>
                 </td>
-                <td>Oracle</td>
-                <td>Sample Oracle 11g XE</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>AdventureWorksPerson</td>
-                <td>Microsoft SQL Server</td>
-                <td>Sample Microsoft Sql Server 2014</td>
+                <td data-bind2="text: Type">Oracle</td>
+                <td data-bind="text:Description"></td>
                 <td></td>
             </tr>
         </tbody>

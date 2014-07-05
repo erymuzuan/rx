@@ -16,7 +16,7 @@
   {
       "role": null,
       "groupName": "Adapter",
-      "route": "adapter.oracle",
+      "route": "adapter.oracle/:id",
       "moduleId": "viewmodels/adapter.oracle",
       "title": "Oracle Adapter",
       "nav": false,

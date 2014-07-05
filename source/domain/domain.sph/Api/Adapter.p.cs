@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.Domain.Api
 {
-    public abstract partial class Adapter
+    public abstract partial class Adapter :Entity 
     {
         public AdapterTable[] Tables { get; set; }
         public string Schema { get; set; }
@@ -18,9 +18,19 @@ namespace Bespoke.Sph.Domain.Api
         [XmlAttribute]
         public string Description { get; set; }
 
-        [XmlAttribute]
-        public string WebId { get; set; }
 
         public abstract string OdataTranslator { get; }
+        [XmlAttribute]
+        public int AdapterId { get; set; }
+
+        public override int GetId()
+        {
+            return AdapterId;
+        }
+
+        public override void SetId(int id)
+        {
+            AdapterId = id;
+        }
     }
 }

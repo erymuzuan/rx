@@ -52,17 +52,26 @@ namespace Bespoke.Sph.SqlRepository
             m_connectionString = connectionString;
         }
 
+        private string Schema
+        {
+            get
+            {
+                var elementType = typeof(T);
+                var schema = elementType.Namespace.StartsWith(typeof(Entity).Namespace)
+                    ? "Sph"
+                    : ConfigurationManager.ApplicationName;
+
+                return schema;
+            }
+        }
 
         public async Task<T> LoadOneAsync(int id)
         {
             var elementType = typeof(T);
-            var schema = elementType.Namespace == typeof(Entity).Namespace
-                ? "Sph"
-                : ConfigurationManager.ApplicationName;
             var sql = string.Format("SELECT [{0}Id],{1} FROM [{2}].[{0}] WHERE [{0}Id] = @id"
                 , elementType.Name
                 , this.DataColumn
-                , schema);
+                , this.Schema);
 
 
 
@@ -222,7 +231,7 @@ namespace Bespoke.Sph.SqlRepository
                 sql.AppendFormat("ORDER BY [{0}Id]", elementType.Name);
             }
 
-            if (elementType.Namespace != typeof(Entity).Namespace)
+            if (!elementType.Namespace.StartsWith(typeof(Entity).Namespace))
                 sql.Replace("FROM [Sph].", string.Format("FROM [{0}].", ConfigurationManager.ApplicationName));
 
             var translator = ObjectBuilder.GetObject<IPagingTranslator>();

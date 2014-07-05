@@ -20,7 +20,7 @@
             <label for="name" class="col-sm-2 control-label">Name</label>
 
             <div class="col-sm-6">
-                <input type="text" data-bind="value: name"
+                <input type="text" data-bind="value: Name"
                        required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
                        placeholder="Name for the adapter"
                        class="form-control" id="name">
@@ -30,7 +30,7 @@
             <label for="desc" class="col-sm-2 control-label">Description</label>
 
             <div class="col-sm-6">
-                <textarea data-bind="value: description"
+                <textarea data-bind="value: Description"
                           placeholder=""
                           class="form-control" id="desc"></textarea>
             </div>
@@ -42,7 +42,7 @@
             <label for="server" class="col-sm-2 control-label">Server</label>
 
             <div class="col-sm-6">
-                <input type="text" data-bind="value: server"
+                <input type="text" data-bind="value: Server"
                        required
                        placeholder="Oracle server DNS name or IP"
                        class="form-control" id="server">
@@ -52,7 +52,7 @@
             <label for="userName" class="col-sm-2 control-label">User Id</label>
 
             <div class="col-sm-6">
-                <input type="text" data-bind="value: userId"
+                <input type="text" data-bind="value: UserId"
                        required
                        placeholder="User Id to connect to the Oracle Server"
                        class="form-control" id="userName">
@@ -63,7 +63,7 @@
             <label for="password" class="col-sm-2 control-label">Password</label>
 
             <div class="col-sm-6">
-                <input type="password" data-bind="value: password"
+                <input type="password" data-bind="value: Password"
                        required
                        placeholder="Password"
                        class="form-control" id="password">
@@ -74,7 +74,7 @@
             <label for="sid" class="col-sm-2 control-label">SID</label>
 
             <div class="col-sm-6">
-                <input type="text" data-bind="value: sid"
+                <input type="text" data-bind="value: Sid"
                        required
                        placeholder="SID"
                        class="form-control" id="sid">
@@ -85,7 +85,7 @@
             <label for="port" class="col-sm-2 control-label">Port</label>
 
             <div class="col-sm-6">
-                <input type="text" data-bind="value: port"
+                <input type="text" data-bind="value: Port"
                        required pattern="[0-9]{1,5}"
                        placeholder="Port"
                        class="form-control" id="port">
@@ -99,7 +99,7 @@
 
             <div class="col-sm-6">
                 <select class="form-control" id="schema"
-                        data-bind="value : schema, options:$root.schemaOptions, optionsCaption:'[Select a schema]', enable : $root.connected"></select>
+                        data-bind="value : Schema, options:$root.schemaOptions, optionsCaption:'[Select a schema]', enable : $root.connected"></select>
 
             </div>
             <div class="col-sm-1">

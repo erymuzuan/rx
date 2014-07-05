@@ -592,6 +592,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Sph\Controllers\AdapterController.cs" />
     <Compile Include="Areas\Sph\Controllers\BaseSphController.cs" />
     <Compile Include="Areas\Sph\Controllers\BusinessRuleController.cs" />
     <Compile Include="Areas\Sph\Controllers\DocumentTemplateController.cs" />
@@ -2861,6 +2862,7 @@
     <Folder Include="Areas\App\Models\" />
     <Folder Include="Areas\App\Views\ReportDefinition\" />
     <Folder Include="Areas\Sph\Models\" />
+    <Folder Include="Areas\Sph\Views\Adapter\" />
     <Folder Include="Areas\Sph\Views\Base\" />
     <Folder Include="Areas\Sph\Views\BusinessRule\" />
     <Folder Include="Areas\Sph\Views\EmailTemplate\" />

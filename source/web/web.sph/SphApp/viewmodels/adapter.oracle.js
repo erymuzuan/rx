@@ -11,18 +11,7 @@
 define(['services/datacontext', 'services/logger', 'plugins/router'],
     function (context, logger) {
 
-        var adapter = ko.observable(
-            {
-                server: ko.observable("i90009638.cloudapp.net"),
-                userId: ko.observable("system"),
-                password: ko.observable("gsxr750wt"),
-                sid: ko.observable("XE"),
-                port: ko.observable(1521),
-                schema: ko.observable(),
-                name: ko.observable(),
-                description: ko.observable(),
-                tables: ko.observableArray()
-            }),
+        var adapter = ko.observable(),
             loadingSchemas = ko.observable(),
             connected = ko.observable(false),
             loadingTables = ko.observable(),
@@ -30,12 +19,37 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             schemaOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
             isBusy = ko.observable(false),
-            activate = function () {
+            activate = function (id) {
+                var query = String.format("AdapterId eq {0}", id);
+                var tcs = new $.Deferred();
+                context.loadOneAsync("Adapter", query)
+                    .done(function (b) {
+                        if (b) {
+                            adapter(b);
+                        } else {
+                            adapter(
+                            {
+                                $type: "Bespoke.Sph.Integrations.Adapters.OracleAdapter, oracle.adapter",
+                                Server: ko.observable("i90009638.cloudapp.net"),
+                                UserId: ko.observable("system"),
+                                Password: ko.observable("gsxr750wt"),
+                                Sid: ko.observable("XE"),
+                                Port: ko.observable(1521),
+                                Schema: ko.observable(),
+                                Name: ko.observable(),
+                                Description: ko.observable(),
+                                Tables: ko.observableArray()
+                            });
+                        }
+                        tcs.resolve(true);
+                    });
+
+                return tcs.promise();
 
             },
             attached = function (view) {
 
-                adapter().schema.subscribe(function () {
+                adapter().Schema.subscribe(function () {
                     loadingTables(true);
                     context.post(ko.mapping.toJSON(adapter), "/oracleadapter/tables/")
                         .done(function (result) {
@@ -100,11 +114,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 return tcs.promise();
             },
             save = function () {
-                var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(adapter);
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
-                context.post(data, "/oracleadapter/save")
+                context.post(data, "/sph/adapter/save")
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);
