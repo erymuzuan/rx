@@ -1514,8 +1514,8 @@
     <Content Include="Scripts\moment.min.js" />
     <EmbeddedResource Include="Scripts\r.js" />
     <EmbeddedResource Include="Scripts\require.js" />
-    <Content Include="Scripts\toastr.js" />
-    <Content Include="Scripts\toastr.min.js" />
+    <EmbeddedResource Include="Scripts\toastr.js" />
+    <EmbeddedResource Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\typeahead.bundle.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Scripts\typeahead.jquery.js" />
