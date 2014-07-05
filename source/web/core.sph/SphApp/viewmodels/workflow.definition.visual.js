@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -401,8 +401,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     y = arg.clientY;
 
                 act.Name(act.Name() + wd().ActivityCollection().length);
-                act.WorkflowDesigner().X(x);
-                act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top);
+                act.WorkflowDesigner().X(x - 60);
+                act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top + $(window).scrollTop() - 30);
                 act.WebId(system.guid());
                 wd().ActivityCollection.push(act);
                 initializeActivity(act);
