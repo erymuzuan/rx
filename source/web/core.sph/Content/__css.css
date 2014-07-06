@@ -15471,9 +15471,10 @@ table.table-striped th.headerSortDown:after {
 .context-action {
   display: none;
   position: absolute;
-  z-index: 9999;
+  z-index: 99999;
   background-color: #ffffff;
   min-width: 300px;
+  right: 0px;
 }
 .context-action .modal-header {
   color: #272b30;
@@ -15536,7 +15537,6 @@ li.selected-th {
   padding: 8px;
   margin: 5px;
   min-height: 150px;
-  position: relative;
   background-color: #f7f7f7;
 }
 .report-layout.active {

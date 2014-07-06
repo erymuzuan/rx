@@ -7,7 +7,6 @@
     </div>
     <div class="form-group">
     </div>
-    <a class="btn-link pull-right btn" href="#" data-bind="click: $root.addFilter">+ Filter</a>
     <table class="table table-striped" data-bind="scroll : 5">
         <thead>
             <tr>
@@ -48,10 +47,14 @@
             </tr>
         </tbody>
     </table>
+    <a class="btn-link btn" href="#" data-bind="click: $root.addFilter">
+        <i class="fa fa-plus-circle"></i>
+        Add a query filter
+    </a>
     <div class="form-group">
         <label for="data-source-query" class="control-label">Query</label>
         <div class="controls">
-            <textarea class="form-control" rows="8" data-bind="value: Query" id="data-source-query" name="Query"></textarea>
+            <textarea placeholder="Write your custom SQL query" class="form-control" rows="8" data-bind="value: Query" id="data-source-query" name="Query"></textarea>
         </div>
     </div>
 </form>

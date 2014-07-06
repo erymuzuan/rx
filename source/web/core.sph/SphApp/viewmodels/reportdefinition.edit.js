@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -65,6 +65,14 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                 designer.attached(view);
                 $('a.btn-close-configuration-dialog').click(function () {
                     loadSelectedEntityColumns(vm.reportDefinition().DataSource().EntityFieldCollection());
+                });
+
+                $(view).on('click', 'button.btn-context-action', function () {
+                    var ctp = $(this).siblings('div.context-action');
+                    ctp.show()
+                    .find('button.close').one('click', function () {
+                        ctp.hide();
+                    });
                 });
 
             },

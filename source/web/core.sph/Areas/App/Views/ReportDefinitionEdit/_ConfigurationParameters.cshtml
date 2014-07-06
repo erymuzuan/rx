@@ -1,7 +1,5 @@
 ﻿@using Bespoke.Sph.Domain
 
-<button class="btn btn-link pull-right" data-bind="click : $root.addParameter">+ Parameter</button>
-
 
 <table class="table table-striped" data-bind="with : DataSource">
     <colgroup>
@@ -51,3 +49,11 @@
         </tr>
     </tbody>
 </table>
+
+
+<a class="btn btn-link" data-bind="click : $root.addParameter">
+    <i class="fa fa-plus-circle"></i>
+    Add a query parameter
+</a>
+
+<div style="min-height: 30px"></div>
