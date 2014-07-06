@@ -53,7 +53,7 @@ namespace Bespoke.Sph.Web.Controllers
 
                 return RedirectToAction("Html", controller, new { area = "App" });
             }
-            return new HttpNotFoundResult("Cannot find " + id + "in resources");
+            return new HttpNotFoundResult("Cannot find " + id + " in core.sph.dll embedded resources");
 
         }
 
