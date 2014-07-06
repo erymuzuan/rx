@@ -15,6 +15,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             selectedAssemblies = ko.observableArray(),
             assemblies = ko.observableArray(),
             activate = function () {
+                selectedAssemblies([]);
                 var tcs = new $.Deferred();
                 $.get('/Sph/WorkflowDefinition/GetLoadedAssemblies').done(assemblies).done(tcs.resolve);
 

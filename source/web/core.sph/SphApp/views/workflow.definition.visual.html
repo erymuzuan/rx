@@ -126,7 +126,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Note">Note</label>
-                        <textarea cols="4" rows="5" data-bind="value:Note" class="form-control" id="Note" placeholder="Note....." ></textarea>
+                        <textarea cols="4" rows="5" data-bind="value:Note" class="form-control" id="Note" placeholder="Note....."></textarea>
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
@@ -156,9 +156,9 @@
                     </div>
                 </form>
             </div>
-            
+
             <div id="assemblies" class="tab-pane" data-bind="with : wd">
-                <a href="#" data-bind="click : addReferencedAssembly" class="pull-right btn btn-link">+Add Assembly</a>
+   
                 <table class="table table-striped table-condensed">
                     <thead>
                         <tr>
@@ -179,6 +179,11 @@
                         </tr>
                     </tbody>
                 </table>
+                
+                <a href="#" data-bind="click : addReferencedAssembly" class="btn btn-link">
+                    <i class="fa fa-plus-circle"></i>
+                    Add an assembly
+                </a>
             </div>
         </div>
     </div>
