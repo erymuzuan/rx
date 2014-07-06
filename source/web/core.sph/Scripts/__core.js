@@ -1147,7 +1147,7 @@ ko.bindingHandlers.filter = {
                 return tcs.promise();
             }
             if (pagedSearch && typeof pagedSearch.query !== "undefined" && typeof pagedSearch.query.filterAndSearch === "function") {
-              return pagedSearch.query.filterAndSearch(filter);
+                return pagedSearch.query.filterAndSearch(filter);
             }
             return tcs.promise();
         });
@@ -1359,15 +1359,15 @@ ko.bindingHandlers.searchPaging = {
                     q2 = {
                         "from": 0,
                         "size": 20,
-                        "query": {
-                            "query_string": {
-                                "default_field": "_all",
-                                "query": text
-                            }
-                        }
-
+                        "query":{}
                     };
                 q2.query.filtered = q.query.filtered;
+                q2.query.filtered.query = {
+                    "query_string": {
+                        "default_field": "_all",
+                        "query": text
+                    }
+                };
                 q2.sort = q.sort;
                 pager.destroy();
                 pager = null;
