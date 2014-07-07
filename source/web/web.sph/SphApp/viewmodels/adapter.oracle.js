@@ -28,18 +28,18 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                             adapter(b);
                         } else {
                             adapter(
-                            {
-                                $type: "Bespoke.Sph.Integrations.Adapters.OracleAdapter, oracle.adapter",
-                                Server: ko.observable("i90009638.cloudapp.net"),
-                                UserId: ko.observable("system"),
-                                Password: ko.observable("gsxr750wt"),
-                                Sid: ko.observable("XE"),
-                                Port: ko.observable(1521),
-                                Schema: ko.observable(),
-                                Name: ko.observable(),
-                                Description: ko.observable(),
-                                Tables: ko.observableArray()
-                            });
+                                {
+                                    $type: "Bespoke.Sph.Integrations.Adapters.OracleAdapter, oracle.adapter",
+                                    Server: ko.observable("i90009638.cloudapp.net"),
+                                    UserId: ko.observable("system"),
+                                    Password: ko.observable("gsxr750wt"),
+                                    Sid: ko.observable("XE"),
+                                    Port: ko.observable(1521),
+                                    Schema: ko.observable(),
+                                    Name: ko.observable(),
+                                    Description: ko.observable(),
+                                    Tables: ko.observableArray()
+                                });
                         }
                         tcs.resolve(true);
                     });

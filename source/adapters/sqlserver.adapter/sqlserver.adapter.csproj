@@ -46,7 +46,9 @@
     <Compile Include="SqlColumn.cs" />
     <Compile Include="SqlServerAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlServerAdapter.p.cs" />
+    <Compile Include="SqlServerAdapter.p.cs">
+      <DependentUpon>SqlServerAdapter.cs</DependentUpon>
+    </Compile>
     <Compile Include="SqlServerHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
