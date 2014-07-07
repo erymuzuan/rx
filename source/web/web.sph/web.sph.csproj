@@ -1140,7 +1140,10 @@
     <Content Include="SphApp\viewmodels\activity.receive.js" />
     <Content Include="SphApp\viewmodels\activity.send.js" />
     <Content Include="SphApp\viewmodels\adapter.definition.list.js" />
+    <Content Include="SphApp\viewmodels\adapter.ftp.js" />
+    <Content Include="SphApp\viewmodels\adapter.httpjson.js" />
     <Content Include="SphApp\viewmodels\adapter.oracle.js" />
+    <Content Include="SphApp\viewmodels\adapter.sqlserver.js" />
     <Content Include="SphApp\viewmodels\advanced-search.js" />
     <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
     <Content Include="SphApp\viewmodels\icon.picker.js" />
@@ -1153,7 +1156,10 @@
     <Content Include="SphApp\views\activity.receive.html" />
     <Content Include="SphApp\views\activity.send.html" />
     <Content Include="SphApp\views\adapter.definition.list.html" />
+    <Content Include="SphApp\views\adapter.ftp.html" />
+    <Content Include="SphApp\views\adapter.httpjson.html" />
     <Content Include="SphApp\views\adapter.oracle.html" />
+    <Content Include="SphApp\views\adapter.sqlserver.html" />
     <Content Include="SphApp\views\advanced-search.html" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
     <Content Include="SphApp\views\icon.picker.html" />
