@@ -511,14 +511,24 @@ ko.bindingHandlers.kendoComboBox = {
 };
 
 
+ko.bindingHandlers.decimal = {};
 ko.bindingHandlers.money = {
-    init: function (element, valueAccessor) {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+
         var value = valueAccessor(),
+            allBindings = allBindingsAccessor(),
+            decimal = function () {
+                if (typeof allBindings.decimal === "undefined") {
+                    return 2;
+                }
+                return parseInt(allBindings.decimal);
+            },
             textbox = $(element),
             val = parseFloat(ko.unwrap(value) || "0"),
-            fm = val.toFixed(2).replace(/./g, function (c, i, a) {
+            fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
                 return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
             });
+
 
         if (element.tagName.toLowerCase() === "span") {
             textbox.text(fm);
@@ -534,11 +544,18 @@ ko.bindingHandlers.money = {
         });
 
     },
-    update: function (element, valueAccessor) {
+    update: function (element, valueAccessor, allBindingsAccessor) {
         var value = valueAccessor(),
+            allBindings = allBindingsAccessor(),
+            decimal = function () {
+                if (typeof allBindings.decimal === "undefined") {
+                    return 2;
+                }
+                return parseInt(allBindings.decimal);
+            },
              textbox = $(element),
              val = parseFloat(ko.unwrap(value) || "0"),
-             fm = val.toFixed(2).replace(/./g, function (c, i, a) {
+             fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
                  return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
              });
 
@@ -1359,7 +1376,7 @@ ko.bindingHandlers.searchPaging = {
                     q2 = {
                         "from": 0,
                         "size": 20,
-                        "query":{}
+                        "query": {}
                     };
                 q2.query.filtered = q.query.filtered;
                 q2.query.filtered.query = {
