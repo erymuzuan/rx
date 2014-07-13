@@ -91,7 +91,9 @@
     <Compile Include="Connection.cs" />
     <Compile Include="OdataOracleTranslator.cs" />
     <Compile Include="OracleAdapter.cs" />
-    <Compile Include="OracleAdapter.p.cs" />
+    <Compile Include="OracleAdapter.p.cs">
+      <DependentUpon>OracleAdapter.cs</DependentUpon>
+    </Compile>
     <Compile Include="OracleAdapterController.cs" />
     <Compile Include="OracleHelpers.cs" />
     <Compile Include="OraclePagingTranslator.cs" />

@@ -13,7 +13,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
         var adapter = ko.observable(),
             isBusy = ko.observable(false),
+            loadingSchemas = ko.observable(false),
+            loadingDatabases = ko.observable(false),
             connected = ko.observable(false),
+            databaseOptions = ko.observableArray(),
+            schemaOptions = ko.observableArray(),
             activate = function(sid) {
                 if(parseInt(sid) === 0){
                     adapter({
@@ -33,7 +37,26 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
             },
             connect = function(){
+                var tcs = new $.Deferred();
+                loadingSchemas(true);
+                loadingDatabases(true);
+                context.post(ko.mapping.toJSON(adapter), "/sqlserveradapter/databases")
+                    .done(function (result) {
+                        loadingSchemas(false);
+                        loadingDatabases(false);
+                        if (result.success) {
+                            connected(true);
+                            schemaOptions(result.schemas);
+                            databaseOptions(result.databases);
+                            logger.info("You are now connected, please select your schema");
+                        } else {
+                            connected(false);
+                            logger.error(result.message);
+                        }
+                        tcs.resolve(true);
+                    });
 
+                return tcs.promise();
             },
             generate = function(){
 
