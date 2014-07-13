@@ -18,7 +18,7 @@ namespace Bespoke.Sph.ElasticSearch
         // subscribe to all , not so efficient
         public override string[] RoutingKeys
         {
-            get { return new[] { "#.added.#","#.changed.#","#.delete.#" }; }
+            get { return new[] { "#.added.#", "#.changed.#", "#.delete.#" }; }
         }
 
 
@@ -30,34 +30,39 @@ namespace Bespoke.Sph.ElasticSearch
 
             var content = new StringContent(json);
             var id = item.GetId();
-            if (item.GetType().Namespace == typeof (Entity).Namespace) return;// just custom entity
+            if (item.GetType().Namespace == typeof(Entity).Namespace) return;// just custom entity
 
 
             var url = string.Format("{0}/{1}/{2}/{3}", ConfigurationManager.ElasticSearchHost,
                 ConfigurationManager.ApplicationName.ToLowerInvariant(),
-                item.GetType().Name.ToLowerInvariant(), 
+                item.GetType().Name.ToLowerInvariant(),
                 id);
 
-            var client = new HttpClient();
-            HttpResponseMessage response = null;
-            if (headers.Crud == CrudOperation.Added)
+            using (var client = new HttpClient())
             {
-                response = await client.PutAsync(url, content);
-            }
-            if (headers.Crud == CrudOperation.Changed)
-            {
-                response = await client.PostAsync(url, content);
-            }
-            if (headers.Crud == CrudOperation.Deleted)
-            {
-                response = await client.DeleteAsync(url);
+                HttpResponseMessage response = null;
+                if (headers.Crud == CrudOperation.Added)
+                {
+                    response = await client.PutAsync(url, content);
+                }
+                if (headers.Crud == CrudOperation.Changed)
+                {
+                    response = await client.PostAsync(url, content);
+                }
+                if (headers.Crud == CrudOperation.Deleted)
+                {
+                    response = await client.DeleteAsync(url);
+                }
+
+
+                if (null != response)
+                {
+                    Debug.Write(".");
+                }
+
             }
 
 
-            if (null != response)
-            {
-                Debug.Write(".");
-            }
         }
 
     }
