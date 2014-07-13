@@ -1,4 +1,4 @@
-﻿packages/*
+packages/*
 /packages/
 /bin/*
 !/bin/sources
@@ -99,3 +99,5 @@ _ReSharper.commercial-space
 /source/web/js-beautify/jsb/.idea
 /source/web/js-beautify/jsb/node_modules
 /source/web/web.sph/SphApp/public
+SQLQuery[0-9]{1,2}.sql
+SQLQuery1[0-9].sql
