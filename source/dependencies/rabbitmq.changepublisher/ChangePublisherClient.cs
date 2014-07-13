@@ -12,16 +12,18 @@ using System.Linq;
 namespace Bespoke.Sph.RabbitMqPublisher
 {
     [Export(typeof(IEntityChangePublisher))]
-    public class ChangePublisherClient : IEntityChangePublisher
+    public class ChangePublisherClient : IEntityChangePublisher, IDisposable
     {
-        private readonly IBrokerConnection m_connection;
+        private readonly IBrokerConnection m_connectionInfo;
+        private IConnection m_connection;
+        private IModel m_channel;
         public const int PERSISTENT_DELIVERY_MODE = 2;
 
         public string Exchange { get; set; }
 
-        public ChangePublisherClient(IBrokerConnection connection)
+        public ChangePublisherClient(IBrokerConnection connectionInfo)
         {
-            m_connection = connection;
+            m_connectionInfo = connectionInfo;
             this.Exchange = "sph.topic";
         }
 
@@ -43,61 +45,101 @@ namespace Bespoke.Sph.RabbitMqPublisher
             await SendMessage("deleted", operation, deletedCollection.ToArray(), headers);
         }
 
-        private async Task SendMessage(string action, string operation, IEnumerable<Entity> items, Dictionary<string, object> headers, IEnumerable<AuditTrail> logs = null)
+        private void InitConnection()
         {
+
             var factory = new ConnectionFactory
             {
-                UserName = m_connection.UserName,
-                Password = m_connection.Password,
-                HostName = m_connection.Host,
-                Port = m_connection.Port,
-                VirtualHost = m_connection.VirtualHost
+                UserName = m_connectionInfo.UserName,
+                Password = m_connectionInfo.Password,
+                HostName = m_connectionInfo.Host,
+                Port = m_connectionInfo.Port,
+                VirtualHost = m_connectionInfo.VirtualHost
             };
-            using (var conn = factory.CreateConnection())
-            using (var channel = conn.CreateModel())
+            m_connection = factory.CreateConnection();
+            m_channel = m_connection.CreateModel();
+
+
+            m_channel.ExchangeDeclare(this.Exchange, ExchangeType.Topic, true);
+
+        }
+
+        public void Close()
+        {
+            if (null != m_connection)
             {
-                channel.ExchangeDeclare(this.Exchange, ExchangeType.Topic, true);
-                foreach (var item in items)
+                m_connection.Close();
+                m_connection.Dispose();
+                m_connection = null;
+            }
+
+            if (null != m_channel)
+            {
+                m_channel.Close();
+                m_channel.Dispose();
+                m_channel = null;
+            }
+        }
+
+        private bool IsOpened
+        {
+            get
+            {
+                if (null == m_connection) return false;
+                if (null == m_channel) return false;
+                if (null == m_connection) return false;
+                if (!m_channel.IsOpen) return false;
+                if (!m_connection.IsOpen) return false;
+
+                return true;
+            }
+        }
+
+        private async Task SendMessage(string action, string operation, IEnumerable<Entity> items, Dictionary<string, object> headers, IEnumerable<AuditTrail> logs = null)
+        {
+          if(!this.IsOpened)
+              InitConnection();
+
+            foreach (var item in items)
+            {
+                var entityType = this.GetEntityType(item);
+                var log = string.Empty;
+                var id = item.GetId();
+                if (null != logs && id > 0)
                 {
-                    var entityType = this.GetEntityType(item);
-                    var log = string.Empty;
-                    var id = item.GetId();
-                    if (null != logs && id > 0)
+                    var audit = logs.SingleOrDefault(l => l.Type == entityType.Name && l.EntityId == id);
+                    if (null != audit)
+                        log = audit.ToJsonString();
+                }
+                var routingKey = string.Format("{0}.{1}.{2}", entityType.Name, action, operation);
+                var item1 = item;
+                var json = item1.ToJsonString();
+                var body = await CompressAsync(json);
+
+                var props = m_channel.CreateBasicProperties();
+                props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
+                props.ContentType = "application/json";
+                props.Headers = new Dictionary<string, object> { { "operation", operation }, { "crud", action }, { "log", log } };
+                if (null != headers)
+                {
+                    foreach (var k in headers.Keys)
                     {
-                        var audit = logs.SingleOrDefault(l => l.Type == entityType.Name && l.EntityId == id);
-                        if (null != audit)
-                            log = audit.ToJsonString();
+                        props.Headers.Add(k, headers[k]);
+
                     }
-                    var routingKey = string.Format("{0}.{1}.{2}", entityType.Name, action, operation);
-                    var item1 = item;
-                    var json = item1.ToJsonString();
-                    var body = await CompressAsync(json);
-
-                    var props = channel.CreateBasicProperties();
-                    props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
-                    props.ContentType = "application/json";
-                    props.Headers = new Dictionary<string, object> { { "operation", operation }, { "crud", action }, { "log", log } };
-                    if (null != headers)
-                    {
-                        foreach (var k in headers.Keys)
-                        {
-                            props.Headers.Add(k, headers[k]);
-                            
-                        }
-                    }
-
-                    channel.BasicPublish(this.Exchange, routingKey, props, body);
-
                 }
 
+                m_channel.BasicPublish(this.Exchange, routingKey, props, body);
+
             }
+
+
         }
 
 
 
         private async Task<byte[]> CompressAsync(string value)
         {
-
             var content = new byte[value.Length];
             int index = 0;
             foreach (char item in value)
@@ -106,18 +148,15 @@ namespace Bespoke.Sph.RabbitMqPublisher
             }
 
 
-            var ms = new MemoryStream();
-            var sw = new GZipStream(ms, CompressionMode.Compress);
+            using (var ms = new MemoryStream())
+            using (var sw = new GZipStream(ms, CompressionMode.Compress))
+            {
+                await sw.WriteAsync(content, 0, content.Length);
+                //NOTE : DO NOT FLUSH cause bytes will go missing...
+                sw.Close();
 
-            await sw.WriteAsync(content, 0, content.Length);
-            //NOTE : DO NOT FLUSH cause bytes will go missing...
-            sw.Close();
-
-            content = ms.ToArray();
-
-            ms.Close();
-            sw.Dispose();
-            ms.Dispose();
+                content = ms.ToArray();
+            }
             return content;
         }
 
@@ -131,6 +170,9 @@ namespace Bespoke.Sph.RabbitMqPublisher
         }
 
 
-
+        public void Dispose()
+        {
+            this.Close();
+        }
     }
 }
