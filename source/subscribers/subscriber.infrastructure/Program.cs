@@ -69,6 +69,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             if (null != m_fsw)
             {
                 m_fsw.Changed -= FswChanged;
+                m_fsw.Deleted -= FswChanged;
+                m_fsw.Created -= FswChanged;
                 m_fsw.Dispose();
             }
 

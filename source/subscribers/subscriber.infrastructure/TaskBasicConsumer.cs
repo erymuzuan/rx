@@ -12,7 +12,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         }
 
-        public EventHandler<ReceivedMessageArgs> Received;
+        public event EventHandler<ReceivedMessageArgs> Received;
  
         public override void HandleBasicDeliver(string consumerTag
             , ulong deliveryTag
