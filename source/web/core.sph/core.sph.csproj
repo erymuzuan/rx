@@ -58,9 +58,9 @@
     <Reference Include="DiffPlex">
       <HintPath>..\..\..\packages\DiffPlex.1.2.0\lib\Net40\DiffPlex.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer">
-      <HintPath>..\..\..\packages\Humanizer.1.27.0\lib\portable-win+net40+sl50+wp8\Humanizer.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Humanizer, Version=1.27.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Humanizer.1.28.0\lib\portable-win+net40+sl50+wp8+wpa81\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer">
       <HintPath>..\..\..\packages\ImageResizer.3.4.3\lib\ImageResizer.dll</HintPath>
@@ -1412,6 +1412,12 @@
     <Content Include="kendo\js\kendo.all.min.js.map">
       <DependentUpon>kendo.all.min.js</DependentUpon>
     </Content>
+    <Content Include="kendo\js\kendo.dataviz.chart.min.js">
+      <DependentUpon>kendo.dataviz.chart.js</DependentUpon>
+    </Content>
+    <Content Include="kendo\js\kendo.dataviz.core.min.js">
+      <DependentUpon>kendo.dataviz.core.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\almond-custom.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1467,6 +1473,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="kendo\js\kendo.dataviz.chart.min.js.map">
+      <DependentUpon>kendo.dataviz.chart.min.js</DependentUpon>
+    </Content>
+    <Content Include="kendo\js\kendo.dataviz.core.min.js.map">
+      <DependentUpon>kendo.dataviz.core.min.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <EmbeddedResource Include="Scripts\durandal\activator.js" />
     <EmbeddedResource Include="Scripts\durandal\app.js" />
@@ -1490,9 +1502,10 @@
     <EmbeddedResource Include="Scripts\jquery.signalR-2.1.0.min.js" />
     <Content Include="Scripts\jquery.tablescroll.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
@@ -2365,7 +2378,6 @@
     <Content Include="Scripts\jquery.tablesorter.min.js" />
     <EmbeddedResource Include="Scripts\jquery.ui.position.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
     <EmbeddedResource Include="Scripts\jsPlumb\anchors.js" />
     <EmbeddedResource Include="Scripts\jsPlumb\bundle.js">
       <DependentUpon>__bundle.js.bundle</DependentUpon>
