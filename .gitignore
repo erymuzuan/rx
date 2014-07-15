@@ -101,3 +101,5 @@ _ReSharper.commercial-space
 /source/web/web.sph/SphApp/public
 SQLQuery[0-9]{1,2}.sql
 SQLQuery1[0-9].sql
+bin/test*
+bin/test*/

@@ -104,6 +104,7 @@
     <Compile Include="Api\TableDefinition.p.cs">
       <DependentUpon>TableDefinition.cs</DependentUpon>
     </Compile>
+    <Compile Include="Api\TableRelation.cs" />
     <Compile Include="Api\UpdateActionCode.cs" />
     <Compile Include="Business\Address.cs" />
     <Compile Include="Business\Designation.cs" />

@@ -63,12 +63,37 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                         });
                 });
 
-                $(view).on('click', 'input.table-checkbox', function () {
-                    var table = ko.dataFor(this);
-                    if ($(this).is(':checked')) {
-                        adapter().tables.push(table);
+
+                $(view).on('click', 'input[type=checkbox].table-checkbox', function () {
+                    var chb = $(this),
+                        table = ko.dataFor(this),
+                        at = {
+                            $type: "Bespoke.Sph.Domain.Api.AdapterTable, domain.sph",
+                            Name: ko.unwrap(table.name),
+                            ChildRelationCollection: _(table.children()).map(function (v) {
+                                return {
+                                    $type: "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
+                                    Table: ko.unwrap(v),
+                                    Schema : ko.unwrap(adapter().Schema)
+                                };
+
+                            }),
+                            ParentCollection: _(table.parents()).map(function (v) {
+                                return {
+                                    $type: "Bespoke.Sph.Domain.Api.TableRelation, domain.sph",
+                                    Table: ko.unwrap(v),
+                                    Schema : ko.unwrap(adapter().Schema)
+                                };
+                            })
+                        };
+
+                    if (chb.is(':checked')) {
+                        adapter().Tables.push(at);
                     } else {
-                        adapter().tables.remove(table);
+                        var t = _(adapter().Tables()).find(function(v){
+                            return v.Name === at.Name;
+                        });
+                        adapter().Tables.remove(t);
                     }
                 });
             },
