@@ -9,7 +9,7 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
+define(['services/datacontext', 'services/logger', 'plugins/router', 'chart'],
     function (context, logger, router) {
 
         var isBusy = ko.observable(false),
@@ -24,7 +24,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 var query = String.format("Name eq '{0}'", 'Patient'),
                     tcs = new $.Deferred(),
                     chartsQuery = String.format("Entity eq 'Patient' and IsDashboardItem eq 1"),
-                    viewsQuery = String.format("EntityDefinitionId eq '2002' and IsPublished eq 1"),
                     formsQuery = String.format("EntityDefinitionId eq '2002' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
                     edTask = context.loadOneAsync("EntityDefinition", query),
                     chartsTask = context.loadAsync("EntityChart", chartsQuery),

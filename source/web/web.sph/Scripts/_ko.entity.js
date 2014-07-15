@@ -212,10 +212,9 @@ var substringMatcher = function (strs) {
 
 
 ko.bindingHandlers.typeaheadUrl = {
-    init: function (element, valueAccessor, allBindingsAccessor) {
+    init: function (element, valueAccessor) {
         var types = ko.unwrap(valueAccessor()),
             ttl = 300000,
-            allBindings = allBindingsAccessor(),
             url = String.format("/list?table={0}&column={1}", types[0], "Route"),
             suggestions = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
@@ -335,8 +334,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
 ko.bindingHandlers.cssTypeahead = {
     init: function (element, valueAccessor, allBindingsAccessor) {
-        var id = ko.unwrap(valueAccessor()),
-            allBindings = allBindingsAccessor(),
+        var allBindings = allBindingsAccessor(),
             results = ["fa", "fa-user", "fa-user-o"],
             extractor = function (query) {
                 var result = /([^,]+)$/.exec(query);
@@ -367,7 +365,7 @@ ko.bindingHandlers.cssTypeahead = {
             matcher: function (item) {
                 var tquery = extractor(this.query);
                 if (!tquery) return false;
-                return ~item.toLowerCase().indexOf(tquery.toLowerCase())
+                return ~item.toLowerCase().indexOf(tquery.toLowerCase());
             }
         },
             {
@@ -497,10 +495,9 @@ bespoke.getSingletonObservableArray = function (key) {
 
 
 ko.bindingHandlers.lookup = {
-    init: function (element, valueAccessor, allBindings) {
+    init: function (element, valueAccessor) {
         var $link = $(element),
             options = valueAccessor(),
-            entity = ko.unwrap(options.entity),
             member = ko.unwrap(options.member);
 
         $link.click(function (e) {
@@ -524,20 +521,20 @@ ko.bindingHandlers.lookup = {
     }
 };
 ko.virtualElements.allowedBindings.lookupText = true;
-bespoke.lookupText = function (element, valueAccessor, allBindings) {
+bespoke.lookupText = function (element, valueAccessor) {
     var options = valueAccessor(),
         entity = ko.unwrap(options.entity),
         displayPath = ko.unwrap(options.displayPath),
         valuePath = ko.unwrap(options.valuePath),
         val = ko.unwrap(options.value),
         context = require('services/datacontext'),
-        setTextContent = function (element, textContent) {
+        setTextContent = function (ele, textContent) {
             var value = ko.utils.unwrapObservable(textContent);
             if ((value === null) || (value === undefined))
                 value = "";
-            var innerTextNode = ko.virtualElements.firstChild(element);
+            var innerTextNode = ko.virtualElements.firstChild(ele);
             if (!innerTextNode || innerTextNode.nodeType != 3 || ko.virtualElements.nextSibling(innerTextNode)) {
-                ko.virtualElements.setDomNodeChildren(element, [element.ownerDocument.createTextNode(value)]);
+                ko.virtualElements.setDomNodeChildren(ele, [ele.ownerDocument.createTextNode(value)]);
             } else {
                 innerTextNode.data = value;
             }

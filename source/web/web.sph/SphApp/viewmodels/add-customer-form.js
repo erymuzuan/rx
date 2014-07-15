@@ -1,6 +1,10 @@
 
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config, objectbuilders.app],
-        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
+        objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
+        objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
+        objectbuilders.app ],
+        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app
+            ) {
 
             var entity = ko.observable(new bespoke.dev_1.domain.Customer({WebId:system.guid()})),
                 errors = ko.observableArray(),
@@ -26,9 +30,11 @@
                         }
                         form(f);
                         watching(w);
-
-                        tcs.resolve(true);
+                            tcs.resolve(true);
+                        
                     });
+
+
 
                     return tcs.promise();
                 },
@@ -48,13 +54,7 @@
                                  entity().CustomerId(result.id);
                                  errors.removeAll();
 
-                                  
-                                    app.showMessage("Wholaaa 123", "SPH Platform showcase", ["OK"])
-	                                    .done(function (dialogResult) {
-                                            console.log();
-                                            window.location='#customer'
-	                                    });
-                                 
+                                 window.location='#customer'
                              } else {
                                  errors.removeAll();
                                  _(result.rules).each(function(v){
@@ -82,13 +82,7 @@
                                  entity().CustomerId(result.id);
                                  errors.removeAll();
 
-                                  
-                                    app.showMessage("You had been demoted", "SPH Platform showcase", ["OK"])
-	                                    .done(function (dialogResult) {
-                                            console.log();
-                                            window.location='/sph#customer'
-	                                    });
-                                 
+                                 window.location='/sph#customer'
                              } else {
                                  errors.removeAll();
                                  _(result.rules).each(function(v){
@@ -116,12 +110,6 @@
                                  entity().CustomerId(result.id);
                                  errors.removeAll();
 
-                                  
-                                    app.showMessage("Just a test op", "SPH Platform showcase", ["OK"])
-	                                    .done(function (dialogResult) {
-                                            console.log();
-                                            
-	                                    });
                                  
                              } else {
                                  errors.removeAll();
@@ -165,6 +153,8 @@
                 attached = function (view) {
                     // validation
                     validation.init($('#add-customer-form-form'), form());
+
+
 
                 },
 
@@ -212,7 +202,7 @@
                         });
                     return tcs.promise();
                 },
-                save = function() {
+                                save = function() {
                     if (!validation.valid()) {
                         return Task.fromResult(false);
                     }
@@ -268,7 +258,7 @@
                 };
 
             var vm = {
-                    checkTheRevenue : checkTheRevenue,
+                                        checkTheRevenue : checkTheRevenue,
                     verifyTheGrade : verifyTheGrade,
                     verifyTheAge : verifyTheAge,
                     mustBeMalaysian : mustBeMalaysian,
@@ -290,11 +280,11 @@
                         entity : "Customer",
                         id :id
                     },
-                        printCommand :{
+                                            printCommand :{
                         entity : 'Customer',
                         id : id
                     },
-                        
+                                                                
                     watchCommand: function() {
                         return watcher.watch("Customer", entity().CustomerId())
                             .done(function(){
@@ -308,7 +298,7 @@
                             });
                     },
                     watching: watching,
-                        
+                                            
                     saveCommand : save,
                     
                     commands : ko.observableArray([{ caption :"Demote", command : demote, icon:"fa fa-star-o" }])

@@ -23,18 +23,23 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Home
     using System.Linq;
     using System.Net;
     using System.Text;
+    
+    #line 2 "..\..\Areas\Sph\Views\Home\index.cshtml"
     using System.Web;
+    
+    #line default
+    #line hidden
     using System.Web.Helpers;
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     
-    #line 2 "..\..\Areas\Sph\Views\Home\index.cshtml"
+    #line 3 "..\..\Areas\Sph\Views\Home\index.cshtml"
     using System.Web.Mvc.Html;
     
     #line default
     #line hidden
     
-    #line 3 "..\..\Areas\Sph\Views\Home\index.cshtml"
+    #line 4 "..\..\Areas\Sph\Views\Home\index.cshtml"
     using System.Web.Optimization;
     
     #line default
@@ -57,8 +62,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Home
 
 
 
+
             
-            #line 4 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 5 "..\..\Areas\Sph\Views\Home\index.cshtml"
   
     Layout = null;
     var theme = ConfigurationManager.AppSettings["theme"];
@@ -71,7 +77,7 @@ WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>");
 
 
             
-            #line 11 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 12 "..\..\Areas\Sph\Views\Home\index.cshtml"
       Write(Bespoke.Sph.Domain.ConfigurationManager.ApplicationName);
 
             
@@ -98,7 +104,7 @@ WriteLiteral(@"</title>
 
 
             
-            #line 28 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 29 "..\..\Areas\Sph\Views\Home\index.cshtml"
    Write(Html.Partial("_splash"));
 
             
@@ -108,7 +114,7 @@ WriteLiteral("\r\n    </div>\r\n\r\n    <script src=\"~/SphApp/objectbuilders.js
 
 
             
-            #line 32 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 33 "..\..\Areas\Sph\Views\Home\index.cshtml"
      if (HttpContext.Current.IsDebuggingEnabled)
     {
 
@@ -156,7 +162,7 @@ WriteLiteral("        <script src=\"/Content/theme.");
 
 
             
-            #line 43 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 44 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                Write(theme);
 
             
@@ -170,7 +176,7 @@ WriteLiteral("        <script src=\"/kendo/js/kendo.all.js\"></script>\r\n");
 
 
             
-            #line 45 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 46 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
     else
     {
@@ -219,7 +225,7 @@ WriteLiteral("        <script src=\"~/Content/theme.");
 
 
             
-            #line 57 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 58 "..\..\Areas\Sph\Views\Home\index.cshtml"
                                 Write(theme);
 
             
@@ -233,7 +239,7 @@ WriteLiteral("        <script src=\"/kendo/js/kendo.all.min.js\"></script>\r\n")
 
 
             
-            #line 59 "..\..\Areas\Sph\Views\Home\index.cshtml"
+            #line 60 "..\..\Areas\Sph\Views\Home\index.cshtml"
     }
 
             
