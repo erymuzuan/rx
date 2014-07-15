@@ -729,7 +729,7 @@
           "CssClass": null,
           "Visible": "true",
           "Enable": "true",
-          "ElementId": null,
+          "ElementId": "rev1",
           "HelpText": null,
           "UseDisplayTemplate": false,
           "ToolboxIconClass": "fa fa-dollar",
@@ -1064,6 +1064,14 @@
       "Must be Malaysian"
     ]
   },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "FormLayoutCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormLayout, domain.sph]], domain.sph",
+    "$values": []
+  },
   "EntityFormId": 1,
   "EntityDefinitionId": 1,
   "Name": "Add New Customer",
@@ -1083,9 +1091,12 @@
   "IsExportAvailable": false,
   "Operation": "save",
   "Entity": null,
+  "Partial": null,
+  "Caption": "Add new customer form",
+  "Layout": "TestCustomLayout",
   "CreatedBy": "admin",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-12T17:42:11.4549186+08:00",
+  "ChangedDate": "2014-07-11T15:44:47.9175289+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }
