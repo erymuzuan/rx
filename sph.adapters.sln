@@ -37,6 +37,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "razor.template", "source\de
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sqlserver.adapter.test", "source\unit.test\sqlserver.adapter.test\sqlserver.adapter.test.csproj", "{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "http.adapter", "source\adapters\http.adapter\http.adapter.csproj", "{E9B0A836-06F6-4B09-8B53-BFEE0B75224F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "http.adapter.test", "source\unit.test\http.adapter.test\http.adapter.test.csproj", "{56197651-69AB-403A-B789-D8D770BD91EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9B0A836-06F6-4B09-8B53-BFEE0B75224F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9B0A836-06F6-4B09-8B53-BFEE0B75224F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9B0A836-06F6-4B09-8B53-BFEE0B75224F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9B0A836-06F6-4B09-8B53-BFEE0B75224F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56197651-69AB-403A-B789-D8D770BD91EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56197651-69AB-403A-B789-D8D770BD91EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56197651-69AB-403A-B789-D8D770BD91EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56197651-69AB-403A-B789-D8D770BD91EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,5 +100,7 @@ Global
 		{83839DC2-9B27-4DAE-8111-0FB481FBA0A8} = {5F30D78D-96BC-4D5B-8DE8-5184328B110E}
 		{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{E9B0A836-06F6-4B09-8B53-BFEE0B75224F} = {5F30D78D-96BC-4D5B-8DE8-5184328B110E}
+		{56197651-69AB-403A-B789-D8D770BD91EE} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 EndGlobal

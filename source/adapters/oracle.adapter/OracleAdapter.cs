@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using ParameterDirection = System.Data.ParameterDirection;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
