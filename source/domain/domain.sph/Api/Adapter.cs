@@ -125,24 +125,32 @@ namespace Bespoke.Sph.Domain.Api
             sources.AddRange(adapterSources);
 
             var odataTranslatorCode = await this.GenerateOdataTranslatorSourceCodeAsync();
-            var odataSource = this.SaveSources(new Dictionary<string, string>
+            if (null != odataTranslatorCode)
             {
+                var odataSource = this.SaveSources(new Dictionary<string, string>
                 {
-                    odataTranslatorCode.Item1,
-                    odataTranslatorCode.Item2
-                }
-            }, sourceFolder);
-            sources.AddRange(odataSource);
+                    {
+                        odataTranslatorCode.Item1,
+                        odataTranslatorCode.Item2
+                    }
+                }, sourceFolder);
+                sources.AddRange(odataSource);
+                
+            }
 
             var pagingCode = await this.GeneratePagingSourceCodeAsync();
-            var pagingSource = this.SaveSources(new Dictionary<string, string>
-            {
+            if (null != pagingCode)
                 {
-                    pagingCode.Item1,
-                    pagingCode.Item2
-                }
-            }, sourceFolder);
-            sources.AddRange(pagingSource);
+                var pagingSource = this.SaveSources(new Dictionary<string, string>
+                {
+                    {
+                        pagingCode.Item1,
+                        pagingCode.Item2
+                    }
+                }, sourceFolder);
+                sources.AddRange(pagingSource);
+                
+            }
 
 
             var result = this.Compile(options, sources.ToArray());

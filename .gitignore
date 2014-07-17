@@ -103,3 +103,4 @@ SQLQuery[0-9]{1,2}.sql
 SQLQuery1[0-9].sql
 bin/test*
 bin/test*/
+/bin/sources/HttpLocalhostTestAdapter
