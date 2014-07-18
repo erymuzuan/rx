@@ -100,6 +100,12 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           var content = response.Content as StreamContent;");
             code.AppendLine("           if(null == content) throw new Exception(\"Fail to read from response\");");
             code.AppendLine("           this.ResponseText = await content.ReadAsStringAsync();");
+
+            foreach (var m in this.ResponseMemberCollection.OfType<RegexMember>().Where(m => !string.IsNullOrWhiteSpace(m.Group) && !string.IsNullOrWhiteSpace(m.Pattern)))
+            {
+                code.AppendLinf("           this.{0} = Strings.RegexSingleValue(this.ResponseText, @\"{1}\", \"{0}\");", m.Group, m.Pattern);
+            }
+
             code.AppendLine("       }");
 
             // properties for each members
@@ -123,13 +129,13 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   {");
 
 
-                code.AppendLine("       public string PostData");
-                code.AppendLine("       {");
-                code.AppendLine("           get{");
-                code.AppendLine(PostDataCodeGenerator.Create(this).GenerateCode(this));
-                code.AppendLine("           }");
-                code.AppendLine("       }");
-            
+            code.AppendLine("       public string PostData");
+            code.AppendLine("       {");
+            code.AppendLine("           get{");
+            code.AppendLine(PostDataCodeGenerator.Create(this).GenerateCode(this));
+            code.AppendLine("           }");
+            code.AppendLine("       }");
+
 
             // properties for each members
             foreach (var member in this.RequestMemberCollection)
@@ -158,10 +164,10 @@ namespace Bespoke.Sph.Integrations.Adapters
                 return new PostDataForGet();
             if (operation.RequestMemberCollection.Count == 0)
                 return new PostDataCodeGenerator();
-            if(operation.HttpMethod == "POST" && operation.RequestHeaders["Content-Type"].Contains("multipart"))
+            if (operation.HttpMethod == "POST" && operation.RequestHeaders["Content-Type"].Contains("multipart"))
                 return new PostDataForPostMultipartEncoded();
 
-            if(operation.HttpMethod == "POST")
+            if (operation.HttpMethod == "POST")
                 return new PostDataForPostUrlEncoded();
 
             return null;
@@ -199,11 +205,11 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLine();
                 code.AppendLine();
                 code.AppendLinf("{{{0}}}", count++);
-                
+
             }
             code.AppendLine("--" + boundary + "--\",");
 
-            var names = string.Join(",", operation.RequestMemberCollection.Select(x => x.Name ));
+            var names = string.Join(",", operation.RequestMemberCollection.Select(x => x.Name));
             code.AppendLine(names);
             code.AppendLine(");");
 

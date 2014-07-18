@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,8 +19,9 @@ namespace http.adapter.test
         public string Schema { get; set; }
         public HttpAdapter Adapter { get; set; }
 
-        private async Task<string> CompileRilekHar()
+        public ParseHtmlResponseTestFixture()
         {
+
             this.Schema = "UnitTest";
             this.Adapter = new HttpAdapter
             {
@@ -29,7 +31,10 @@ namespace http.adapter.test
                 Tables = new AdapterTable[] { },
                 BaseAddress = "https://www.rilek.com.my/"
             };
+        }
 
+        private async Task OpenAsync()
+        {
             await this.Adapter.OpenAsync();
             foreach (var op in this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
             {
@@ -41,6 +46,12 @@ namespace http.adapter.test
                 op.IsLoginOperation = op.Name == "users_login";
                 op.IsLoginRequired = op.HttpMethod == "POST" && op.Name != "users_login";
             }
+
+        }
+        private async Task<string> CompileRilekHar()
+        {
+            if (this.Adapter.OperationDefinitionCollection.Count == 0)
+                await this.OpenAsync();
             var result = await this.Adapter.CompileAsync();
             Assert.IsTrue(File.Exists(result.Output));
             return result.Output;
@@ -112,6 +123,53 @@ Check Summon
             }
         }
 
+        [TestMethod]
+        public async Task PopulatePostResponse()
+        {
+            await this.OpenAsync();
+            var pdrm =
+                this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>()
+                    .First(a => a.Name == "rilek_pdrm" && a.HttpMethod == "POST");
+            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "DateTime", Type = typeof(DateTime) });
+            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "FullName", Type = typeof(string), Group = "FullName", Pattern = @"Total Amount \(RM\)</th> </tr> </thead> <tbody> <tr> <td>[0-9]{1,2} [A-Za-z]{3} [0-9]{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}</td> <td>(?<FullName>.*?)</td> " });
+            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "MyKad", Type = typeof(string) });
+            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "Count", Type = typeof(string) });
+            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "TotalAmount", Type = typeof(string) });
+
+            var summon = new Member { Name = "SummonCollection", Type = typeof(Array) };
+            summon.MemberCollection.Add(new RegexMember { Name = "No", Type = typeof(string) });
+            summon.MemberCollection.Add(new RegexMember { Name = "VehicleNo", Type = typeof(string) });
+            summon.MemberCollection.Add(new RegexMember { Name = "OffenceDate", Type = typeof(string) });
+            summon.MemberCollection.Add(new RegexMember { Name = "District", Type = typeof(string) });
+            summon.MemberCollection.Add(new RegexMember { Name = "Location", Type = typeof(string) });
+            summon.MemberCollection.Add(new RegexMember { Name = "Offence", Type = typeof(string) });
+            summon.MemberCollection.Add(new RegexMember { Name = "OrginalAmount", Type = typeof(string) });
+            summon.MemberCollection.Add(new RegexMember { Name = "CurrentAmount", Type = typeof(string) });
+            summon.MemberCollection.Add(new RegexMember { Name = "EnforcementDate", Type = typeof(string) });
+
+            var dll = Assembly.LoadFile(await CompileRilekHar());
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
+            var loginType = dll.GetType("Dev.Adapters.UnitTest.POSTusers_loginRequest");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest.POSTrilek_pdrmRequest");
+
+            dynamic login = Activator.CreateInstance(loginType);
+            login.email = "erymuzuan@gmail.com";
+            login.password = "Yk25inHw";
+            login.btnLogin = "Login";
+
+            dynamic request = Activator.CreateInstance(requestType);
+            request.search_by = "0";
+            request.id_no = "500222035278";
+            request.vehicle_no = "";
+            request.search = "Check Summon";
+
+            dynamic rilek = Activator.CreateInstance(type);
+            rilek.LoginCredential = login;
+            var response = await rilek.POSTrilek_pdrmAsync(request);
+            StringAssert.Contains(response.ResponseText, "CHE ESHAH");
+            Assert.AreEqual("CHE ESHAH BINTI MAHMOOD", response.FullName);
+
+        }
         [TestMethod]
         public async Task GetPostRequestWithMultipartEncoded()
         {
