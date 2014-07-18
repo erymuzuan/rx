@@ -104,3 +104,4 @@ SQLQuery1[0-9].sql
 bin/test*
 bin/test*/
 /bin/sources/HttpLocalhostTestAdapter
+bin/sources/RilekSamanPdrmAdapter/

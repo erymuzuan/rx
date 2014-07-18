@@ -5,6 +5,10 @@ namespace Bespoke.Sph.Integrations.Adapters
     public partial class HttpOperationDefinition
     {
         private string m_url;
+        public bool IsLoginPage { get; set; }
+        public bool IsLoginOperation { get; set; }
+        public bool IsLoginRequired { get; set; }
+
         public string HttpMethod { get; set; }
         public Dictionary<string, string> RequestHeaders { get; private set; }
 

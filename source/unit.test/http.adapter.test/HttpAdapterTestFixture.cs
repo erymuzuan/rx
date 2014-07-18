@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,7 +63,6 @@ namespace http.adapter.test
                         new StringContent("inUserName=test321&inPassword=6555555&submitf=Login", Encoding.UTF8,
                             "application/x-www-form-urlencoded")
                 };
-                ;
                 var response = await client.SendAsync(requestMessage);
 
                 var content2 = response.Content as StreamContent;

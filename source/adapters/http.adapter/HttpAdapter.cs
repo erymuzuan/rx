@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +13,10 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class HttpAdapter : Adapter
+    public partial class HttpAdapter : Adapter
     {
         private string GetCodeHeader(params string[] namespaces)
         {
-
             var header = new StringBuilder();
             header.AppendLine("using " + typeof(Entity).Namespace + ";");
             header.AppendLine("using " + typeof(Int32).Namespace + ";");
@@ -25,6 +25,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
             header.AppendLine("using " + typeof(HttpClient).Namespace + ";");
             header.AppendLine("using " + typeof(Encoding).Namespace + ";");
+            header.AppendLine("using " + typeof(CookieContainer).Namespace + ";");
             header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
             header.AppendLine("using System.Web.Mvc;");
             header.AppendLine("using Bespoke.Sph.Web.Helpers;");
@@ -44,21 +45,49 @@ namespace Bespoke.Sph.Integrations.Adapters
             options.AddReference(typeof(HttpClient));
             var sources = new Dictionary<string, string>();
 
-
             var header = this.GetCodeHeader(namespaces);
             var code = new StringBuilder(header);
 
             code.AppendLine("   public class " + this.Name);
             code.AppendLine("   {");
+            code.AppendLine("       private CookieContainer m_cookieContainer = new CookieContainer();");
+            code.AppendLinf("       const string BASE_ADDRESS = \"{0}\";", this.BaseAddress);
+
+            // login page
+            if (this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Any(o => o.IsLoginRequired) &&
+                this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Count(o => o.IsLoginOperation) != 1)
+            {
+                throw new InvalidOperationException("You have to have a user login(authentication) operation");
+            }
+            else if (this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Any(o => o.IsLoginRequired))
+            {
+                var login = this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Single(a => a.IsLoginOperation);
+                code.AppendLinf("       public {0}{1}Request LoginCredential {{get;set;}}", login.HttpMethod, login.Name);
+            }
+
+            var added = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
             {
                 var name = op.Name;
+                var methodName = string.Format("{0}{1}", op.HttpMethod, op.Name);
+                if (added.Contains(methodName))
+                    continue;
+                added.Add(methodName);
+
                 var adapterName = name + "Adapter";
                 if (sources.ContainsKey(adapterName + ".cs")) continue;
-                code.AppendLinf("       public async Task<{1}{0}Response> {1}{2}Async({1}{0}Request request)", op.Name, op.HttpMethod, op.Name);
+                code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)", methodName);
                 code.AppendLine("       {");
-                code.AppendLinf("           const string url = \"{0}\";", op.Url);
-                code.AppendLine("           using(var client = new HttpClient())");
+                code.AppendLinf("           const string url = \"{0}\";", op.Url.Replace(BaseAddress, ""));
+
+                if (op.IsLoginRequired)
+                {
+                    var login = this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Single(a => a.IsLoginOperation);
+                    code.AppendLinf("           await this.{0}{1}Async(this.LoginCredential);", login.HttpMethod, login.Name);
+                }
+
+                code.AppendLine("           using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })");
+                code.AppendLine("           using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})");
                 code.AppendLine("           {");
                 switch (op.HttpMethod)
                 {
@@ -72,7 +101,10 @@ namespace Bespoke.Sph.Integrations.Adapters
                         if (op.RequestHeaders.ContainsKey("Content-Type"))
                         {
                             code.AppendLine("               var requestMessage = new  HttpRequestMessage(HttpMethod.Post,url);");
-                            code.AppendLinf("               requestMessage.Content = new StringContent(request.PostData, Encoding.UTF8, \"{0}\");", op.RequestHeaders["Content-Type"]);
+                            code.AppendLine("               requestMessage.Content = new StringContent(request.PostData, Encoding.UTF8);");
+                            code.AppendLine("               requestMessage.Content.Headers.Remove(\"Content-Type\");");
+                            code.AppendLinf("               requestMessage.Content.Headers.TryAddWithoutValidation(\"Content-Type\", \"{0}\");", op.RequestHeaders["Content-Type"]);
+
                             code.AppendLine("               var response = await client.SendAsync(requestMessage);");
                             code.AppendLine("               ");
 
@@ -102,8 +134,14 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLine("       }");
 
                 op.CodeNamespace = this.CodeNamespace;
-                sources.Add(op.HttpMethod + op.Name + "Request.cs", op.GenerateRequestCode());
-                sources.Add(op.HttpMethod + op.Name + "Response.cs", op.GenerateResponseCode());
+
+                var requestSource = op.HttpMethod + op.Name + "Request.cs";
+                if (!sources.ContainsKey(requestSource))
+                    sources.Add(requestSource, op.GenerateRequestCode());
+
+                var responseSource = op.HttpMethod + op.Name + "Response.cs";
+                if (!sources.ContainsKey(responseSource))
+                    sources.Add(responseSource, op.GenerateResponseCode());
             }
 
             code.AppendLine("   }");// end class
@@ -133,7 +171,6 @@ namespace Bespoke.Sph.Integrations.Adapters
             get { throw new NotImplementedException(); }
         }
 
-        public string Har { get; set; }
 
         public Task OpenAsync()
         {

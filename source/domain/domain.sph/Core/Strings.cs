@@ -131,12 +131,24 @@ namespace Bespoke.Sph.Domain
             if (null == value) return string.Empty;
             return string.Format("{0}", value);
         }
+
         public static string RegexSingleValue(string input, string pattern, string group)
         {
             const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Singleline;
             var matches = Regex.Matches(input, pattern, OPTIONS);
             return matches.Count == 1 ? matches[0].Groups[@group].Value.Trim() : null;
         }
+
+        public static string[] RegexValues(string input, string pattern, string group)
+        {
+            const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Singleline;
+            var matches = Regex.Matches(input, pattern, OPTIONS);
+            var ff = from Match v in matches
+                select v.Groups[@group].Value.Trim();
+            return ff.ToArray();
+        }
+
+
         public static string ToSDate(this string value)
         {
             if (string.IsNullOrEmpty(value)) return value;

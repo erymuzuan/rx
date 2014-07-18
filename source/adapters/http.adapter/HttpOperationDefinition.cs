@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Bespoke.Sph.Domain;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -22,6 +22,20 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public HttpOperationDefinition(JToken jt)
         {
+
+            this.RequestHeaders = new Dictionary<string, string>();
+            var headers = from p in jt.SelectTokens("request.headers").SelectMany(x => x)
+                          select new
+                          {
+                              name = p.SelectToken("name").Value<string>(),
+                              value = p.SelectToken("value").Value<string>()
+                          };
+            foreach (var h in headers)
+            {
+                this.RequestHeaders.Add(h.name, h.value);
+            }
+
+            // post data
             var postData = from p in jt.SelectTokens("request.postData.params").SelectMany(x => x)
                            select new Member
                            {
@@ -29,19 +43,22 @@ namespace Bespoke.Sph.Integrations.Adapters
                                Type = typeof(string)
                            };
             this.RequestMemberCollection.AddRange(postData);
-            this.RequestHeaders = new Dictionary<string, string>();
 
-
-            var headers = from p in jt.SelectTokens("request.headers").SelectMany(x => x)
-                           select new 
-                           {
-                               name = p.SelectToken("name").Value<string>(),
-                               value = p.SelectToken("value").Value<string>()
-                           };
-            foreach (var h in headers)
+            // for multipart/form-data
+            var mimeType = jt.SelectToken("request.postData.mimeType");
+            if (null != mimeType && mimeType.Value<string>() == "multipart/form-data")
             {
-                this.RequestHeaders.Add(h.name, h.value);
+                var text = jt.SelectToken("request.postData.text").Value<string>();
+                var formFields = from f in Strings.RegexValues(text, @"name=\""(?<fname>.*?)\""", "fname")
+                                 select new Member
+                           {
+                               Name = f,
+                               Type = typeof(string)
+                           };
+                this.RequestMemberCollection.AddRange(formFields);
+
             }
+
         }
 
 
@@ -106,18 +123,13 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   {");
 
 
-            if (this.HttpMethod != "GET")
-            {
-
                 code.AppendLine("       public string PostData");
                 code.AppendLine("       {");
                 code.AppendLine("           get{");
-
-                var names = string.Join("+\"&", this.RequestMemberCollection.Select(x => x.Name + "=\" + " + x.Name));
-                code.AppendLine("               return \"" + names + ";");
+                code.AppendLine(PostDataCodeGenerator.Create(this).GenerateCode(this));
                 code.AppendLine("           }");
                 code.AppendLine("       }");
-            }
+            
 
             // properties for each members
             foreach (var member in this.RequestMemberCollection)
@@ -130,6 +142,73 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
             return code.ToString();
+        }
+    }
+
+    public class PostDataCodeGenerator
+    {
+        public virtual string GenerateCode(HttpOperationDefinition operation)
+        {
+            return "return string.Empty;";
+        }
+
+        public static PostDataCodeGenerator Create(HttpOperationDefinition operation)
+        {
+            if (operation.HttpMethod == "GET")
+                return new PostDataForGet();
+            if (operation.RequestMemberCollection.Count == 0)
+                return new PostDataCodeGenerator();
+            if(operation.HttpMethod == "POST" && operation.RequestHeaders["Content-Type"].Contains("multipart"))
+                return new PostDataForPostMultipartEncoded();
+
+            if(operation.HttpMethod == "POST")
+                return new PostDataForPostUrlEncoded();
+
+            return null;
+        }
+    }
+
+    public class PostDataForGet : PostDataCodeGenerator
+    {
+        public override string GenerateCode(HttpOperationDefinition operation)
+        {
+            return "return string.Empty;";
+        }
+    }
+    public class PostDataForPostUrlEncoded : PostDataCodeGenerator
+    {
+        public override string GenerateCode(HttpOperationDefinition operation)
+        {
+            var names = string.Join(" + \"&", operation.RequestMemberCollection.Select(x => x.Name + "=\" + " + x.Name));
+            return "               return \"" + names + ";";
+        }
+    }
+    public class PostDataForPostMultipartEncoded : PostDataCodeGenerator
+    {
+        public override string GenerateCode(HttpOperationDefinition operation)
+        {
+            var contentType = operation.RequestHeaders["Content-Type"];
+            var boundary = Strings.RegexSingleValue(contentType, "boundary=(?<boundary>.*?)$", "boundary");
+
+            var code = new StringBuilder("return string.Format(@\"");
+            var count = 0;
+            foreach (var member in operation.RequestMemberCollection)
+            {
+                code.AppendLine("--" + boundary);
+                code.AppendFormat("Content-Disposition: form-data; name=\"\"{0}\"\"", member.Name);
+                code.AppendLine();
+                code.AppendLine();
+                code.AppendLinf("{{{0}}}", count++);
+                
+            }
+            code.AppendLine("--" + boundary + "--\",");
+
+            var names = string.Join(",", operation.RequestMemberCollection.Select(x => x.Name ));
+            code.AppendLine(names);
+            code.AppendLine(");");
+
+            return code.ToString();
+
         }
     }
 }
