@@ -24,6 +24,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
             header.AppendLine("using " + typeof(HttpClient).Namespace + ";");
+            header.AppendLine("using " + typeof(Encoding).Namespace + ";");
             header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
             header.AppendLine("using System.Web.Mvc;");
             header.AppendLine("using Bespoke.Sph.Web.Helpers;");
@@ -68,8 +69,20 @@ namespace Bespoke.Sph.Integrations.Adapters
                         code.AppendLine("               var response = await client.DeleteAsync(url);");
                         break;
                     case "POST":
-                        code.AppendLine("               var content = new StringContent(\"TODO\");");
-                        code.AppendLine("               var response = await client.PostAsync(url, content);");
+                        if (op.RequestHeaders.ContainsKey("Content-Type"))
+                        {
+                            code.AppendLine("               var requestMessage = new  HttpRequestMessage(HttpMethod.Post,url);");
+                            code.AppendLinf("               requestMessage.Content = new StringContent(request.PostData, Encoding.UTF8, \"{0}\");", op.RequestHeaders["Content-Type"]);
+                            code.AppendLine("               var response = await client.SendAsync(requestMessage);");
+                            code.AppendLine("               ");
+
+                        }
+                        else
+                        {
+
+                            code.AppendLine("               var content = new StringContent(request.PostData);");
+                            code.AppendLine("               var response = await client.PostAsync(url, content);");
+                        }
                         break;
                     case "PUT":
                         code.AppendLine("               var content = new StringContent(\"TODO\");");
@@ -127,7 +140,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var jo = JObject.Parse(File.ReadAllText(this.Har));
             var entries = jo.SelectTokens("$.log.entries").SelectMany(x => x);
             var operations = from j in entries
-                             select new HttpOperationDefinition
+                             select new HttpOperationDefinition(j)
                              {
                                  Url = j.SelectToken("request.url").Value<string>(),
                                  HttpMethod = j.SelectToken("request.method").Value<string>()

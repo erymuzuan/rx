@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,25 +8,39 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class HttpOperationDefinition : OperationDefinition
+    public partial class HttpOperationDefinition : OperationDefinition
     {
-        private string m_url;
-        public string HttpMethod { get; set; }
-
-        public string Url
+        public HttpOperationDefinition()
         {
-            get { return m_url; }
-            set
-            {
 
-                if (string.IsNullOrWhiteSpace(this.Name))
-                {
-                }
-                m_url = value;
+        }
+
+        public HttpOperationDefinition(JToken jt)
+        {
+            var postData = from p in jt.SelectTokens("request.postData.params").SelectMany(x => x)
+                           select new Member
+                           {
+                               Name = p.SelectToken("name").Value<string>(),
+                               Type = typeof(string)
+                           };
+            this.RequestMemberCollection.AddRange(postData);
+            this.RequestHeaders = new Dictionary<string, string>();
+
+
+            var headers = from p in jt.SelectTokens("request.headers").SelectMany(x => x)
+                           select new 
+                           {
+                               name = p.SelectToken("name").Value<string>(),
+                               value = p.SelectToken("value").Value<string>()
+                           };
+            foreach (var h in headers)
+            {
+                this.RequestHeaders.Add(h.name, h.value);
             }
         }
 
@@ -91,7 +106,18 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   {");
 
 
+            if (this.HttpMethod != "GET")
+            {
 
+                code.AppendLine("       public string PostData");
+                code.AppendLine("       {");
+                code.AppendLine("           get{");
+
+                var names = string.Join("+\"&", this.RequestMemberCollection.Select(x => x.Name + "=\" + " + x.Name));
+                code.AppendLine("               return \"" + names + ";");
+                code.AppendLine("           }");
+                code.AppendLine("       }");
+            }
 
             // properties for each members
             foreach (var member in this.RequestMemberCollection)

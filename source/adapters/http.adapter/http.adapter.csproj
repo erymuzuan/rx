@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="HttpAdapter.cs" />
     <Compile Include="HttpOperationDefinition.cs" />
+    <Compile Include="HttpOperationDefinition.p.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
