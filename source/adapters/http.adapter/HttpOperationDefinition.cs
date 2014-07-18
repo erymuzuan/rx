@@ -89,7 +89,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var code = new StringBuilder();
             code.AppendLine(this.GetCodeHeader());
-            code.AppendLine("   public class " + this.HttpMethod + this.Name + "Response : DomainObject");
+            code.AppendLine("   public class " + (this.HttpMethod + "_" + this.Name).ToCsharpIdentitfier() + "Response : DomainObject");
             code.AppendLine("   {");
 
             code.AppendLine("       public string ResponseText{ get; private set;}");
@@ -125,7 +125,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var code = new StringBuilder();
             code.AppendLine(this.GetCodeHeader());
-            code.AppendLine("   public class " + this.HttpMethod + this.Name + "Request : DomainObject");
+            code.AppendLine("   public class " + (this.HttpMethod + "_" + this.Name).ToCsharpIdentitfier() + "Request : DomainObject");
             code.AppendLine("   {");
 
 
@@ -148,73 +148,6 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
             return code.ToString();
-        }
-    }
-
-    public class PostDataCodeGenerator
-    {
-        public virtual string GenerateCode(HttpOperationDefinition operation)
-        {
-            return "return string.Empty;";
-        }
-
-        public static PostDataCodeGenerator Create(HttpOperationDefinition operation)
-        {
-            if (operation.HttpMethod == "GET")
-                return new PostDataForGet();
-            if (operation.RequestMemberCollection.Count == 0)
-                return new PostDataCodeGenerator();
-            if (operation.HttpMethod == "POST" && operation.RequestHeaders["Content-Type"].Contains("multipart"))
-                return new PostDataForPostMultipartEncoded();
-
-            if (operation.HttpMethod == "POST")
-                return new PostDataForPostUrlEncoded();
-
-            return null;
-        }
-    }
-
-    public class PostDataForGet : PostDataCodeGenerator
-    {
-        public override string GenerateCode(HttpOperationDefinition operation)
-        {
-            return "return string.Empty;";
-        }
-    }
-    public class PostDataForPostUrlEncoded : PostDataCodeGenerator
-    {
-        public override string GenerateCode(HttpOperationDefinition operation)
-        {
-            var names = string.Join(" + \"&", operation.RequestMemberCollection.Select(x => x.Name + "=\" + " + x.Name));
-            return "               return \"" + names + ";";
-        }
-    }
-    public class PostDataForPostMultipartEncoded : PostDataCodeGenerator
-    {
-        public override string GenerateCode(HttpOperationDefinition operation)
-        {
-            var contentType = operation.RequestHeaders["Content-Type"];
-            var boundary = Strings.RegexSingleValue(contentType, "boundary=(?<boundary>.*?)$", "boundary");
-
-            var code = new StringBuilder("return string.Format(@\"");
-            var count = 0;
-            foreach (var member in operation.RequestMemberCollection)
-            {
-                code.AppendLine("--" + boundary);
-                code.AppendFormat("Content-Disposition: form-data; name=\"\"{0}\"\"", member.Name);
-                code.AppendLine();
-                code.AppendLine();
-                code.AppendLinf("{{{0}}}", count++);
-
-            }
-            code.AppendLine("--" + boundary + "--\",");
-
-            var names = string.Join(",", operation.RequestMemberCollection.Select(x => x.Name));
-            code.AppendLine(names);
-            code.AppendLine(");");
-
-            return code.ToString();
-
         }
     }
 }

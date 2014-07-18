@@ -59,73 +59,48 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 throw new InvalidOperationException("You have to have a user login(authentication) operation");
             }
-            else if (this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Any(o => o.IsLoginRequired))
+            if (this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Any(o => o.IsLoginRequired))
             {
                 var login = this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Single(a => a.IsLoginOperation);
-                code.AppendLinf("       public {0}{1}Request LoginCredential {{get;set;}}", login.HttpMethod, login.Name);
+                code.AppendLinf("       public {0}Request LoginCredential {{get;set;}}", (login.HttpMethod + "_" + login.Name).ToCsharpIdentitfier());
             }
 
             var added = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
             {
                 var name = op.Name;
-                var methodName = string.Format("{0}{1}", op.HttpMethod, op.Name);
+                var methodName = string.Format("{0}_{1}_", op.HttpMethod, op.Name);
                 if (added.Contains(methodName))
                     continue;
                 added.Add(methodName);
 
                 var adapterName = name + "Adapter";
                 if (sources.ContainsKey(adapterName + ".cs")) continue;
-                code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)", methodName);
+                code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)", methodName.ToCsharpIdentitfier());
                 code.AppendLine("       {");
                 code.AppendLinf("           const string url = \"{0}\";", op.Url.Replace(BaseAddress, ""));
 
                 if (op.IsLoginRequired)
                 {
                     var login = this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Single(a => a.IsLoginOperation);
-                    code.AppendLinf("           await this.{0}{1}Async(this.LoginCredential);", login.HttpMethod, login.Name);
+                    code.AppendLinf("           await this.{0}Async(this.LoginCredential);", (login.HttpMethod + "_" + login.Name).ToCsharpIdentitfier());
                 }
 
                 code.AppendLine("           using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })");
-                code.AppendLine("           using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})");
+                if (op.Timeout.HasValue)
+                    code.AppendLinf("           using(var client = new HttpClient(handler){{BaseAddress = new Uri(BASE_ADDRESS), Timeout = {0}})", op.Timeout);
+                else
+                    code.AppendLine("           using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})");
+
                 code.AppendLine("           {");
-                switch (op.HttpMethod)
+
+                var sendCode = HttpClientSendCodeGenerator.Create(op).GenerateCode(op);
+                foreach (var c in sendCode.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None))
                 {
-                    case "GET":
-                        code.AppendLine("               var response = await client.GetAsync(url);");
-                        break;
-                    case "DELETE":
-                        code.AppendLine("               var response = await client.DeleteAsync(url);");
-                        break;
-                    case "POST":
-                        if (op.RequestHeaders.ContainsKey("Content-Type"))
-                        {
-                            code.AppendLine("               var requestMessage = new  HttpRequestMessage(HttpMethod.Post,url);");
-                            code.AppendLine("               requestMessage.Content = new StringContent(request.PostData, Encoding.UTF8);");
-                            code.AppendLine("               requestMessage.Content.Headers.Remove(\"Content-Type\");");
-                            code.AppendLinf("               requestMessage.Content.Headers.TryAddWithoutValidation(\"Content-Type\", \"{0}\");", op.RequestHeaders["Content-Type"]);
-
-                            code.AppendLine("               var response = await client.SendAsync(requestMessage);");
-                            code.AppendLine("               ");
-
-                        }
-                        else
-                        {
-
-                            code.AppendLine("               var content = new StringContent(request.PostData);");
-                            code.AppendLine("               var response = await client.PostAsync(url, content);");
-                        }
-                        break;
-                    case "PUT":
-                        code.AppendLine("               var content = new StringContent(\"TODO\");");
-                        code.AppendLine("               var response = await client.PutAsync(url, content);");
-                        break;
-                    case "PATCH":
-                        code.AppendLine("               var content = new StringContent(\"TODO\");");
-                        code.AppendLine("               var response = await client.PatchAsync(url, content);");
-                        break;
+                    code.AppendLine("               " + c);
                 }
-                code.AppendLinf("               var result =  new {0}{1}Response();", op.HttpMethod, op.Name);
+
+                code.AppendLinf("               var result =  new {0}Response();", methodName.ToCsharpIdentitfier());
                 code.AppendLine("               await result.LoadAsync(response);");
                 code.AppendLine("               return result;");
                 code.AppendLine();
@@ -135,11 +110,11 @@ namespace Bespoke.Sph.Integrations.Adapters
 
                 op.CodeNamespace = this.CodeNamespace;
 
-                var requestSource = op.HttpMethod + op.Name + "Request.cs";
+                var requestSource = (op.HttpMethod + "_" + op.Name).ToCsharpIdentitfier() + "Request.cs";
                 if (!sources.ContainsKey(requestSource))
                     sources.Add(requestSource, op.GenerateRequestCode());
 
-                var responseSource = op.HttpMethod + op.Name + "Response.cs";
+                var responseSource = (op.HttpMethod + "_" + op.Name).ToCsharpIdentitfier() + "Response.cs";
                 if (!sources.ContainsKey(responseSource))
                     sources.Add(responseSource, op.GenerateResponseCode());
             }

@@ -50,14 +50,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthentionType.cs" />
     <Compile Include="HttpAdapter.cs" />
     <Compile Include="HttpAdapter.p.cs">
       <DependentUpon>HttpAdapter.cs</DependentUpon>
     </Compile>
+    <Compile Include="HttpClientSendCodeGenerator.cs" />
+    <Compile Include="DeleteCodeGenerator.cs" />
+    <Compile Include="GetCodeGenerator.cs" />
     <Compile Include="HttpOperationDefinition.cs" />
     <Compile Include="HttpOperationDefinition.p.cs">
       <DependentUpon>HttpOperationDefinition.cs</DependentUpon>
     </Compile>
+    <Compile Include="PatchCodeGenerator.cs" />
+    <Compile Include="PostCodeGenerator.cs" />
+    <Compile Include="PostWithContentTypeCodeGenerator.cs" />
+    <Compile Include="PutCodeGenerator.cs" />
+    <Compile Include="PostDataCodeGenerator.cs" />
+    <Compile Include="PostDataForGet.cs" />
+    <Compile Include="PostDataForPostMultipartEncoded.cs" />
+    <Compile Include="PostDataForPostUrlEncoded.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexMember.cs" />
   </ItemGroup>

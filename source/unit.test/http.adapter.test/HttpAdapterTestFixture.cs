@@ -18,13 +18,14 @@ namespace http.adapter.test
         public HttpAdapter Adapter { get; set; }
         private async Task<string> CompilePetronasSapHar()
         {
-            this.Schema = "UnitTest";
+            this.Schema = "Sap";
             this.Adapter = new HttpAdapter
             {
-                Name = "HttpLocalhostTestAdapter",
+                Name = "PetronasSapAdapter",
                 Schema = this.Schema,
-                Har = @".\localhost.har",
-                Tables = new AdapterTable[] { }
+                Har = @".\petronas.sap.har",
+                Tables = new AdapterTable[] { },
+                BaseAddress = "https://eservice.mystation.com.my/"
             };
 
             await this.Adapter.OpenAsync();
@@ -43,11 +44,11 @@ namespace http.adapter.test
         {
             var dll = Assembly.LoadFile(await CompilePetronasSapHar());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.GETlogin_doRequest", Adapter.Schema));
+            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.GetLoginDoRequest", Adapter.Schema));
             dynamic localhost = Activator.CreateInstance(type);
             dynamic request = Activator.CreateInstance(requestType);
 
-            var response = await localhost.GETlogin_doAsync(request);
+            var response = await localhost.GetLoginDoAsync(request);
             StringAssert.Contains(response.ResponseText, "inUserName");
         }
 
@@ -76,14 +77,14 @@ namespace http.adapter.test
         {
             var dll = Assembly.LoadFile(await CompilePetronasSapHar());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.POSTlogin_doRequest", Adapter.Schema));
+            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.PostLoginDoRequest", Adapter.Schema));
             dynamic localhost = Activator.CreateInstance(type);
             dynamic request = Activator.CreateInstance(requestType);
             request.inUserName = "test321";
             request.inPassword = "6555555";
             request.submitf = "Login";
 
-            var response = await localhost.POSTlogin_doAsync(request);
+            var response = await localhost.PostLoginDoAsync(request);
             StringAssert.Contains(response.ResponseText, "Invalid User Name");
         }
     }

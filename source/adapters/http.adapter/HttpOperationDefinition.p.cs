@@ -8,6 +8,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public bool IsLoginPage { get; set; }
         public bool IsLoginOperation { get; set; }
         public bool IsLoginRequired { get; set; }
+        public long? Timeout { get; set; }
 
         public string HttpMethod { get; set; }
         public Dictionary<string, string> RequestHeaders { get; private set; }

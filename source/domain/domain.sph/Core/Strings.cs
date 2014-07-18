@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
+using Humanizer;
 
 namespace Bespoke.Sph.Domain
 {
@@ -28,6 +29,10 @@ namespace Bespoke.Sph.Domain
             return value.Equals(value2);
         }
 
+        public static string ToCsharpIdentitfier(this string text)
+        {
+            return text.ToLower().Humanize().Transform(To.TitleCase).Replace(" ", "");
+        }
         public static string ToCamelCase(this string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -39,6 +44,8 @@ namespace Bespoke.Sph.Domain
 
             return new string(text.ToCamelCaseHelper().ToArray());
         }
+
+
         private static IEnumerable<char> ToCamelCaseHelper(this string text)
         {
             bool first = true;
@@ -55,6 +62,8 @@ namespace Bespoke.Sph.Domain
                 }
             }
         }
+
+
         private static IEnumerable<char> ToCamelCaseHelperWithAllUpper(this string text)
         {
             bool _ = false;

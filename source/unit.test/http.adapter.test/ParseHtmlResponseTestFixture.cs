@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
+using Humanizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace http.adapter.test
@@ -149,8 +150,8 @@ Check Summon
 
             var dll = Assembly.LoadFile(await CompileRilekHar());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var loginType = dll.GetType("Dev.Adapters.UnitTest.POSTusers_loginRequest");
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.POSTrilek_pdrmRequest");
+            var loginType = dll.GetType("Dev.Adapters.UnitTest.PostUsersLoginRequest");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostRilekPdrmRequest");
 
             dynamic login = Activator.CreateInstance(loginType);
             login.email = "erymuzuan@gmail.com";
@@ -165,7 +166,7 @@ Check Summon
 
             dynamic rilek = Activator.CreateInstance(type);
             rilek.LoginCredential = login;
-            var response = await rilek.POSTrilek_pdrmAsync(request);
+            var response = await rilek.PostRilekPdrmAsync(request);
             StringAssert.Contains(response.ResponseText, "CHE ESHAH");
             Assert.AreEqual("CHE ESHAH BINTI MAHMOOD", response.FullName);
 
@@ -175,8 +176,8 @@ Check Summon
         {
             var dll = Assembly.LoadFile(await CompileRilekHar());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var loginType = dll.GetType("Dev.Adapters.UnitTest.POSTusers_loginRequest");
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.POSTrilek_pdrmRequest");
+            var loginType = dll.GetType("Dev.Adapters.UnitTest.PostUsersLoginRequest");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostRilekPdrmRequest");
 
             dynamic login = Activator.CreateInstance(loginType);
             login.email = "erymuzuan@gmail.com";
@@ -191,7 +192,7 @@ Check Summon
 
             dynamic rilek = Activator.CreateInstance(type);
             rilek.LoginCredential = login;
-            var response = await rilek.POSTrilek_pdrmAsync(request);
+            var response = await rilek.PostRilekPdrmAsync(request);
             StringAssert.Contains(response.ResponseText, "CHE ESHAH");
 
         }
@@ -201,15 +202,27 @@ Check Summon
         {
             var dll = Assembly.LoadFile(await CompileRilekHar());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.POSTrilek_pdrmRequest");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostUsersLoginRequest");
             dynamic localhost = Activator.CreateInstance(type);
             dynamic request = Activator.CreateInstance(requestType);
-            request.inUserName = "test321";
-            request.inPassword = "6555555";
-            request.submitf = "Login";
+            request.email = "test321@tst.com";
+            request.password = "6555555";
+            request.btnLogin = "Login";
 
-            var response = await localhost.POSTrilek_pdrmAsync(request);
-            StringAssert.Contains(response.ResponseText, "Invalid User Name");
+            var response = await localhost.PostUsersLoginAsync(request);
+            StringAssert.Contains(response.ResponseText, "Incorrect Login");
+        }
+        [TestMethod]
+        public void   Dehumanize()
+        {
+            const string M = "POST_users_login_Request";
+            Assert.AreEqual("PostUsersLoginRequest", M.ToLower().Humanize().Transform(To.TitleCase).Replace(" ",""));
+        }
+        [TestMethod]
+        public void   DehumanizeToChasrp()
+        {
+            const string M = "POST_UsersLogin_Request";
+            Assert.AreEqual("PostUsersLoginRequest", M.ToLower().Humanize().Transform(To.TitleCase).Replace(" ",""));
         }
     }
 }
