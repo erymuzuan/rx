@@ -13,7 +13,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
         var operation = ko.observable(),
             isBusy = ko.observable(false),
+            adapterId = ko.observable(),
             activate = function (id, uuid) {
+                adapterId(parseInt(id));
                 var tcs = new $.Deferred();
 
                 $.get("/httpadapter/operation/" + id + "/" + uuid)
@@ -28,8 +30,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             attached = function (view) {
 
             },
-            save = function(){
+            save = function () {
+                var tcs = new $.Deferred();
+                $.ajax({
+                    type: "PATCH",
+                    data: ko.mapping.toJSON(operation),
+                    url: '/httpadapter/' + adapterId(),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    error: tcs.reject,
+                    success: tcs.resolve
+                });
 
+
+                return tcs.promise();
             };
 
         var vm = {
@@ -37,9 +51,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             isBusy: isBusy,
             activate: activate,
             attached: attached,
-            toolbar :{
-                saveCommand : save,
-                commands : ko.observableArray([
+            toolbar: {
+                saveCommand: save,
+                commands: ko.observableArray([
 
                 ])
 

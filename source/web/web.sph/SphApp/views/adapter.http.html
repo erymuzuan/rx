@@ -33,7 +33,13 @@
             <label for="authentication-mode" class="col-lg-2 control-label">Authentication Mode</label>
             <div class="col-lg-6">
                 <select class="form-control" id="authentication-mode" data-bind="value:AuthenticationMode">
-                    <option value=""></option>
+                    <option value="None">None</option>
+                    <option value="Form">Form</option>
+                    <option value="Basic">Basic</option>
+                    <option value="Digest">Digest</option>
+                    <option value="Ntlm">NTLM</option>
+                    <option value="OauthV1">Oauth 1.0</option>
+                    <option value="OauthV2">Oauth 2.0</option>
                 </select>
             </div>
         </div>
@@ -71,11 +77,11 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach :OperationDefinitionCollection">
+            <tbody data-bind="foreach : OperationDefinitionCollection">
                 <tr>
                     <td data-bind="text:HttpMethod"></td>
                     <td>
-                        <a data-bind="attr : {'href':'#adapter.http.operation/' + $parent.Har() +'/'+ Uuid },text: Url" ></a>
+                        <a data-bind="attr : {'href':'#adapter.http.operation/' + $parent.AdapterId() +'/'+ ko.unwrap(Uuid) },text: Url" ></a>
                     </td>
                     <td data-bind="text:Name"></td>
                     <td data-bind="text:MethodName"></td>

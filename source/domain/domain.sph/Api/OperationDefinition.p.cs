@@ -2,6 +2,7 @@
 {
     public partial class OperationDefinition
     {
+        public string WebId { get; set; }
         public string Name { get; set; }
         public string MethodName { get; set; }
         public bool IsOneWay { get; set; }

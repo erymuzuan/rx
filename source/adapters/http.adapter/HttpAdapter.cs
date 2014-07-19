@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
+    [EntityType(typeof(Adapter))]
     public partial class HttpAdapter : Adapter
     {
         private string GetCodeHeader(params string[] namespaces)

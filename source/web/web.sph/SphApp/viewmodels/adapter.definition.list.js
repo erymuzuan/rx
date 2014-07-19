@@ -11,7 +11,10 @@
 define(['services/datacontext', 'services/logger', 'plugins/router'],
     function (context, logger, router) {
 
-        var
+        var getAdapterType = function(adapter){
+
+                return /^.*?,(.*?).adapter/.exec(ko.unwrap(adapter.$type))[1].trim();
+            },
             isBusy = ko.observable(false),
             adapters = ko.observableArray(),
             activate = function () {
@@ -23,6 +26,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             };
 
         var vm = {
+            getAdapterType : getAdapterType,
             adapters : adapters,
             isBusy: isBusy,
             activate: activate,

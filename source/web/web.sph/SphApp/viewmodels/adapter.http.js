@@ -14,8 +14,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
         var adapter = ko.observable(),
             isBusy = ko.observable(false),
             activate = function (id) {
-                var query = String.format("AdapterId eq {0}", id);
-                var tcs = new $.Deferred();
+                var query = String.format("AdapterId eq {0}", id),
+                    tcs = new $.Deferred();
                 context.loadOneAsync("Adapter", query)
                     .done(function (b) {
                         if (b) {
@@ -54,12 +54,15 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 adapter().OperationDefinitionCollection.remove(op);
             },
             save = function () {
-                var tcs = new $.Deferred();
-                context.post(ko.mapping.toJSON(adapter), '/httpadapter')
-                    .done(function (d) {
-                        tcs.resolve(d);
-                    });
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(adapter);
+                isBusy(true);
 
+                context.post(data, "/sph/adapter/save")
+                    .then(function (result) {
+                        isBusy(false);
+                        tcs.resolve(result);
+                    });
                 return tcs.promise();
             },
             publish = function () {
