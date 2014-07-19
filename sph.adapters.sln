@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencie
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit.test", "unit.test", "{C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5D5FA217-25F5-4EF5-BADA-7691B883E274}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domain", "domain", "{FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F1AD165B-1A46-4B5A-9711-D73FF7104796}"
@@ -16,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F1AD16
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{DB65484E-BE1F-4944-B216-4A57026360EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "roslyn.scriptengine", "source\dependencies\roslyn.scriptengine\roslyn.scriptengine.csproj", "{E32D7760-5A94-4A0F-8354-52223C593A8E}"
 EndProject
@@ -40,6 +36,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "http.adapter", "source\adapters\http.adapter\http.adapter.csproj", "{E9B0A836-06F6-4B09-8B53-BFEE0B75224F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "http.adapter.test", "source\unit.test\http.adapter.test\http.adapter.test.csproj", "{56197651-69AB-403A-B789-D8D770BD91EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{60B15311-0786-4A7C-A8BD-270816CBF627}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core.sph", "source\web\core.sph\core.sph.csproj", "{A2B488B2-A536-49DF-9741-B87BDD745D8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.sph", "source\web\web.sph\web.sph.csproj", "{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,14 @@ Global
 		{56197651-69AB-403A-B789-D8D770BD91EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56197651-69AB-403A-B789-D8D770BD91EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56197651-69AB-403A-B789-D8D770BD91EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2B488B2-A536-49DF-9741-B87BDD745D8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2B488B2-A536-49DF-9741-B87BDD745D8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2B488B2-A536-49DF-9741-B87BDD745D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2B488B2-A536-49DF-9741-B87BDD745D8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,5 +112,7 @@ Global
 		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{E9B0A836-06F6-4B09-8B53-BFEE0B75224F} = {5F30D78D-96BC-4D5B-8DE8-5184328B110E}
 		{56197651-69AB-403A-B789-D8D770BD91EE} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{A2B488B2-A536-49DF-9741-B87BDD745D8F} = {60B15311-0786-4A7C-A8BD-270816CBF627}
+		{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18} = {60B15311-0786-4A7C-A8BD-270816CBF627}
 	EndGlobalSection
 EndGlobal

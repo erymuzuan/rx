@@ -105,3 +105,4 @@ bin/test*
 bin/test*/
 /bin/sources/HttpLocalhostTestAdapter
 bin/sources/RilekSamanPdrmAdapter/
+bin/sources/WebApiAspNet/

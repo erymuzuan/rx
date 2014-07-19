@@ -94,6 +94,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code.AppendLine("       public string ResponseText{ get; private set;}");
 
+        
 
             code.AppendLinf("       public async Task LoadAsync(HttpResponseMessage response)", this.HttpMethod, this.Name);
             code.AppendLine("       {");
@@ -127,6 +128,14 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine(this.GetCodeHeader());
             code.AppendLine("   public class " + (this.HttpMethod + "_" + this.Name).ToCsharpIdentitfier() + "Request : DomainObject");
             code.AppendLine("   {");
+
+            if (!string.IsNullOrWhiteSpace(this.GetRequestRoute))
+            {
+                code.AppendLine("       public string GenerateUrl(string url)");
+                code.AppendLine("       {");
+                code.AppendLine("           return \"" + this.GetRequestRoute.Replace("{", "\" + Uri.EscapeUriString(").Replace("}", ") + \"") + "\";");
+                code.AppendLine("       }");
+            }
 
 
             code.AppendLine("       public string PostData");

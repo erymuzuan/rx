@@ -20,19 +20,24 @@ namespace Dev.Adapters.Sap
        public async Task<GetLoginDoResponse> GetLoginDoAsync(GetLoginDoRequest request)
        {
            const string url = "myicss/login.do";
+
            using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })
            using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})
            {
                var response = await client.GetAsync(url);
-               var result =  new GetLoginDoResponse();
-               await result.LoadAsync(response);
-               return result;
-
+               if(response.IsSuccessStatusCode)
+               {
+                   var result =  new GetLoginDoResponse();
+                   await result.LoadAsync(response);
+                   return result;
+               }
+               return null;
            }
        }
        public async Task<PostLoginDoResponse> PostLoginDoAsync(PostLoginDoRequest request)
        {
            const string url = "myicss/login.do";
+
            using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })
            using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})
            {
@@ -43,28 +48,36 @@ namespace Dev.Adapters.Sap
                var response = await client.SendAsync(requestMessage);
                
                
-               var result =  new PostLoginDoResponse();
-               await result.LoadAsync(response);
-               return result;
-
+               if(response.IsSuccessStatusCode)
+               {
+                   var result =  new PostLoginDoResponse();
+                   await result.LoadAsync(response);
+                   return result;
+               }
+               return null;
            }
        }
        public async Task<GetDisorderitemDoResponse> GetDisorderitemDoAsync(GetDisorderitemDoRequest request)
        {
            const string url = "myicss/disorderitem.do";
+
            using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })
            using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})
            {
                var response = await client.GetAsync(url);
-               var result =  new GetDisorderitemDoResponse();
-               await result.LoadAsync(response);
-               return result;
-
+               if(response.IsSuccessStatusCode)
+               {
+                   var result =  new GetDisorderitemDoResponse();
+                   await result.LoadAsync(response);
+                   return result;
+               }
+               return null;
            }
        }
        public async Task<PostDisorderitemDoResponse> PostDisorderitemDoAsync(PostDisorderitemDoRequest request)
        {
            const string url = "myicss/disorderitem.do";
+
            using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })
            using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})
            {
@@ -75,10 +88,13 @@ namespace Dev.Adapters.Sap
                var response = await client.SendAsync(requestMessage);
                
                
-               var result =  new PostDisorderitemDoResponse();
-               await result.LoadAsync(response);
-               return result;
-
+               if(response.IsSuccessStatusCode)
+               {
+                   var result =  new PostDisorderitemDoResponse();
+                   await result.LoadAsync(response);
+                   return result;
+               }
+               return null;
            }
        }
    }

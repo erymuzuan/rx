@@ -70,46 +70,30 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var op in this.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
             {
                 var name = op.Name;
+                var adapterName = name + "Adapter";
+                op.CodeNamespace = this.CodeNamespace;
                 var methodName = string.Format("{0}_{1}_", op.HttpMethod, op.Name);
-                if (added.Contains(methodName))
-                    continue;
+
+                if (added.Contains(methodName)) continue;
                 added.Add(methodName);
 
-                var adapterName = name + "Adapter";
                 if (sources.ContainsKey(adapterName + ".cs")) continue;
-                code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)", methodName.ToCsharpIdentitfier());
-                code.AppendLine("       {");
-                code.AppendLinf("           const string url = \"{0}\";", op.Url.Replace(BaseAddress, ""));
 
-                if (op.IsLoginRequired)
-                {
-                    var login = this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Single(a => a.IsLoginOperation);
-                    code.AppendLinf("           await this.{0}Async(this.LoginCredential);", (login.HttpMethod + "_" + login.Name).ToCsharpIdentitfier());
-                }
 
-                code.AppendLine("           using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })");
-                if (op.Timeout.HasValue)
-                    code.AppendLinf("           using(var client = new HttpClient(handler){{BaseAddress = new Uri(BASE_ADDRESS), Timeout = {0}})", op.Timeout);
-                else
-                    code.AppendLine("           using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})");
-
-                code.AppendLine("           {");
+                CreateMethodCode(code, methodName, op);
+                code.AppendLine(OperationLoginCode(op));
+                CreateHttpClientCode(code, op);
 
                 var sendCode = HttpClientSendCodeGenerator.Create(op).GenerateCode(op);
                 foreach (var c in sendCode.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None))
                 {
                     code.AppendLine("               " + c);
                 }
-
-                code.AppendLinf("               var result =  new {0}Response();", methodName.ToCsharpIdentitfier());
-                code.AppendLine("               await result.LoadAsync(response);");
-                code.AppendLine("               return result;");
-                code.AppendLine();
+                CreateResponseCode(op, code, methodName);
 
                 code.AppendLine("           }");
                 code.AppendLine("       }");
 
-                op.CodeNamespace = this.CodeNamespace;
 
                 var requestSource = (op.HttpMethod + "_" + op.Name).ToCsharpIdentitfier() + "Request.cs";
                 if (!sources.ContainsKey(requestSource))
@@ -125,6 +109,54 @@ namespace Bespoke.Sph.Integrations.Adapters
             sources.Add(this.Name + ".cs", code.ToString());
 
             return Task.FromResult(sources);
+        }
+
+        private void CreateMethodCode(StringBuilder code, string methodName, HttpOperationDefinition op)
+        {
+            code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)",
+                methodName.ToCsharpIdentitfier());
+            code.AppendLine("       {");
+            code.AppendLinf("           const string url = \"{0}\";", op.Url.Replace(BaseAddress, ""));
+        }
+
+        private static void CreateResponseCode(HttpOperationDefinition op, StringBuilder code, string methodName)
+        {
+            if (op.EnsureSuccessStatusCode)
+                code.AppendLine("               response.EnsureSuccessStatusCode();");
+
+            code.AppendLine("               if(response.IsSuccessStatusCode)");
+            code.AppendLine("               {");
+
+            code.AppendLinf("                   var result =  new {0}Response();", methodName.ToCsharpIdentitfier());
+            code.AppendLine("                   await result.LoadAsync(response);");
+            code.AppendLine("                   return result;");
+            code.AppendLine("               }");
+            code.AppendLine("               return null;");
+        }
+
+        private static void CreateHttpClientCode(StringBuilder code, HttpOperationDefinition op)
+        {
+            code.AppendLine("           using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })");
+            if (op.Timeout.HasValue)
+                code.AppendLinf(
+                    "           using(var client = new HttpClient(handler){{BaseAddress = new Uri(BASE_ADDRESS), Timeout = {0}})",
+                    op.Timeout);
+            else
+                code.AppendLine("           using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})");
+
+            code.AppendLine("           {");
+        }
+
+        private string OperationLoginCode(HttpOperationDefinition op)
+        {
+            var code = new StringBuilder();
+            if (op.IsLoginRequired)
+            {
+                var login = this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Single(a => a.IsLoginOperation);
+                code.AppendLinf("           await this.{0}Async(this.LoginCredential);",
+                    (login.HttpMethod + "_" + login.Name).ToCsharpIdentitfier());
+            }
+            return code.ToString();
         }
 
         protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
