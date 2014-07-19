@@ -14,13 +14,33 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
         var operation = ko.observable(),
             isBusy = ko.observable(false),
             adapterId = ko.observable(),
+            requestSchema = ko.observable(),
+            responseSchema = ko.observable(),
+            member = ko.observable(),
             activate = function (id, uuid) {
                 adapterId(parseInt(id));
                 var tcs = new $.Deferred();
 
                 $.get("/httpadapter/operation/" + id + "/" + uuid)
                     .done(function (op) {
-                        operation(op);
+                        operation(context.toObservable(op));
+
+                        _(operation().RequestMemberCollection()).each(function(v){
+                            if(!ko.unwrap(v.TypeName)){
+                                v.TypeName('System.String, mscorlib');
+                            }
+                        });
+
+                        requestSchema({
+                            Name : ko.observable('Request'),
+                            MemberCollection: ko.observableArray(operation().RequestMemberCollection())
+                        });
+                        responseSchema({
+                            Name : ko.observable('Response'),
+                            MemberCollection: ko.observableArray(operation().ResponseMemberCollection())
+                        });
+
+
                         tcs.resolve(op);
                     });
 
@@ -47,6 +67,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             };
 
         var vm = {
+            requestSchema: requestSchema,
+            responseSchema: responseSchema,
+            member: member,
             operation: operation,
             isBusy: isBusy,
             activate: activate,
