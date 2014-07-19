@@ -1,0 +1,86 @@
+﻿<h1>Web Page Operation Details</h1>
+<div class="row">
+    <form class="form-horizontal" data-bind="with : operation">
+        
+        <div class="form-group">
+            <label for="http-method" class="col-lg-2 control-label">HTTP Method</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: HttpMethod" 
+                       required="" readonly="readonly"
+                       class="form-control" id="http-method">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="url" class="col-lg-2 control-label">Url</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: Url" 
+                       required 
+                       readonly="readonly"
+                       class="form-control" id="url">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-lg-2 control-label">Name</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: Name" 
+                       required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$" 
+                       placeholder="Operation name"
+                       class="form-control" id="name">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="method-name" class="col-lg-2 control-label">Method Name</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: MethodName" 
+                       required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$" 
+                       placeholder="Method name in the adapter class"
+                       class="form-control" id="method-name">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="timeout" class="col-lg-2 control-label">Timeout</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: Timeout" 
+                       required="" pattern="^[0-9]*$" 
+                       placeholder="Timeout in miliseconds"
+                       class="form-control" id="timeout">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsLoginOperation" id="login-operation" type="checkbox" name="IsLoginOperation" />
+                        Login Operation
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsLoginPage" id="login-required" type="checkbox" name="IsLoginPage" />
+                        Login Page
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsLoginRequired" id="login-required" type="checkbox" name="IsLoginRequired" />
+                        Login Required
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+</div>

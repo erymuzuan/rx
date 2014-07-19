@@ -9,21 +9,41 @@
 
 
 define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function(context, logger, router) {
+    function (context, logger, router) {
 
-        var
+        var operation = ko.observable(),
             isBusy = ko.observable(false),
-            activate = function() {
+            activate = function (id, uuid) {
+                var tcs = new $.Deferred();
+
+                $.get("/httpadapter/operation/" + id + "/" + uuid)
+                    .done(function (op) {
+                        operation(op);
+                        tcs.resolve(op);
+                    });
+
+                return tcs.promise();
 
             },
-            attached = function(view) {
+            attached = function (view) {
+
+            },
+            save = function(){
 
             };
 
         var vm = {
+            operation: operation,
             isBusy: isBusy,
             activate: activate,
-            attached: attached
+            attached: attached,
+            toolbar :{
+                saveCommand : save,
+                commands : ko.observableArray([
+
+                ])
+
+            }
         };
 
         return vm;

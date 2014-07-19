@@ -98,7 +98,9 @@
     <Compile Include="Api\InsertActionCode.cs" />
     <Compile Include="Api\ListActionCode.cs" />
     <Compile Include="Api\OperationDefinition.cs" />
-    <Compile Include="Api\OperationDefinition.p.cs" />
+    <Compile Include="Api\OperationDefinition.p.cs">
+      <DependentUpon>OperationDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Api\ParameterDefinition.cs" />
     <Compile Include="Api\ParameterDefinition.p.cs" />
     <Compile Include="Api\TableDefinition.controller.cs">

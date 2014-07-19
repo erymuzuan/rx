@@ -32,5 +32,7 @@
         {
             throw new System.NotImplementedException();
         }
+
+        public string Uuid { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Integrations.Adapters
 {
-    public enum AuthentionType
+    public enum AuthenticationMode
     {
         None,
         Basic,

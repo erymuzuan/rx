@@ -1141,7 +1141,8 @@
     <Content Include="SphApp\viewmodels\activity.send.js" />
     <Content Include="SphApp\viewmodels\adapter.definition.list.js" />
     <Content Include="SphApp\viewmodels\adapter.ftp.js" />
-    <Content Include="SphApp\viewmodels\adapter.httpjson.js" />
+    <Content Include="SphApp\viewmodels\adapter.http.js" />
+    <Content Include="SphApp\viewmodels\adapter.http.operation.js" />
     <Content Include="SphApp\viewmodels\adapter.oracle.js" />
     <Content Include="SphApp\viewmodels\adapter.sqlserver.js" />
     <Content Include="SphApp\viewmodels\advanced-search.js" />
@@ -1157,7 +1158,8 @@
     <Content Include="SphApp\views\activity.send.html" />
     <Content Include="SphApp\views\adapter.definition.list.html" />
     <Content Include="SphApp\views\adapter.ftp.html" />
-    <Content Include="SphApp\views\adapter.httpjson.html" />
+    <Content Include="SphApp\views\adapter.http.html" />
+    <Content Include="SphApp\views\adapter.http.operation.html" />
     <Content Include="SphApp\views\adapter.oracle.html" />
     <Content Include="SphApp\views\adapter.sqlserver.html" />
     <Content Include="SphApp\views\advanced-search.html" />

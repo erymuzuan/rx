@@ -143,7 +143,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public override string OdataTranslator
         {
-            get { throw new NotImplementedException(); }
+            get { return null; }
         }
 
 
@@ -155,8 +155,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                              select new HttpOperationDefinition(j)
                              {
                                  Url = j.SelectToken("request.url").Value<string>(),
-                                 HttpMethod = j.SelectToken("request.method").Value<string>()
-
+                                 HttpMethod = j.SelectToken("request.method").Value<string>(),
+                                 Uuid = Guid.NewGuid().ToString()
                              };
 
             this.OperationDefinitionCollection.AddRange(operations);
