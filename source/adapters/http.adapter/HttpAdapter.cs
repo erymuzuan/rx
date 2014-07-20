@@ -140,10 +140,11 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         private static void CreateHttpClientCode(StringBuilder code, HttpOperationDefinition op)
         {
+            
             code.AppendLine("           using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })");
             if (op.Timeout.HasValue)
                 code.AppendLinf(
-                    "           using(var client = new HttpClient(handler){{BaseAddress = new Uri(BASE_ADDRESS), Timeout = {0}})",
+                    "           using(var client = new HttpClient(handler){{BaseAddress = new Uri(BASE_ADDRESS), Timeout = TimeSpan.FromMilliseconds({0})}})",
                     op.Timeout);
             else
                 code.AppendLine("           using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})");

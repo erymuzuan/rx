@@ -25,18 +25,18 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                     .done(function (op) {
                         operation(context.toObservable(op));
 
-                        _(operation().RequestMemberCollection()).each(function(v){
-                            if(!ko.unwrap(v.TypeName)){
+                        _(operation().RequestMemberCollection()).each(function (v) {
+                            if (!ko.unwrap(v.TypeName)) {
                                 v.TypeName('System.String, mscorlib');
                             }
                         });
 
                         requestSchema({
-                            Name : ko.observable('Request'),
+                            Name: ko.observable('Request'),
                             MemberCollection: ko.observableArray(operation().RequestMemberCollection())
                         });
                         responseSchema({
-                            Name : ko.observable('Response'),
+                            Name: ko.observable('Response'),
                             MemberCollection: ko.observableArray(operation().ResponseMemberCollection())
                         });
 

@@ -16,7 +16,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string RequestRouting { get; set; }
 
         public string HttpMethod { get; set; }
-        public Dictionary<string, string> RequestHeaders { get; private set; }
+        //note : must not be private set else json.net would not be able to deserialize
+        public Dictionary<string, string> RequestHeaders { get; set; }
 
         public string Url
         {

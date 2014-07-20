@@ -133,7 +133,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 code.AppendLine("       public string GenerateUrl(string url)");
                 code.AppendLine("       {");
-                code.AppendLine("           return \"" + this.RequestRouting.Replace("{", "\" + Uri.EscapeUriString(").Replace("}", ") + \"") + "\";");
+                code.AppendLine("           return \"" + this.RequestRouting.Replace("{", "\" + Uri.EscapeUriString(").Replace("}", ".ToEmptyString()) + \"") + "\";");
                 code.AppendLine("       }");
             }
 

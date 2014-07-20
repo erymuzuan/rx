@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 
@@ -54,14 +55,47 @@ namespace Bespoke.Sph.Integrations.Adapters
             return response;
         }
 
-        public async Task<IHttpActionResult> Post([FromBody]HttpAdapter ora)
+        [Route("publish")]
+        public async Task<IHttpActionResult> Publish([JsonBody]HttpAdapter adapter)
         {
-            var validationErrors = (await ora.ValidateAsync()).ToArray();
+            var validationErrors = (await adapter.ValidateAsync()).ToArray();
+            if (validationErrors.Any())
+                return Json(validationErrors);
+            adapter.Tables = new AdapterTable[]{};
+            var result = await adapter.CompileAsync();
+
+            var context = new SphDataContext();
+            var adapters = context.CreateQueryable<Adapter>();
+            var query = adapters.Where(x => x.AdapterId == adapter.AdapterId);
+            var ha = (await context.LoadAsync(query)).ItemCollection.SingleOrDefault();
+            if (null == ha)
+                return NotFound();
+            
+            using (var session = context.OpenSession())
+            {
+                session.Attach(ha);
+                await session.SubmitChanges();
+            }
+
+
+            return Ok(new
+            {
+                success = true,
+                status = "OK",
+                result,
+                message = "Your adapter has been successfully published",
+                id = adapter.Name
+            });
+        }
+
+        public async Task<IHttpActionResult> Post([FromBody]HttpAdapter adapter)
+        {
+            var validationErrors = (await adapter.ValidateAsync()).ToArray();
             if (validationErrors.Any())
                 return Json(validationErrors);
 
-            await ora.OpenAsync();
-            var result = await ora.CompileAsync();
+            await adapter.OpenAsync();
+            var result = await adapter.CompileAsync();
 
             return Ok(new
             {
@@ -69,7 +103,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 status = "OK",
                 result,
                 message = "Your entity has been successfully published",
-                id = ora.Name
+                id = adapter.Name
             });
         }
 

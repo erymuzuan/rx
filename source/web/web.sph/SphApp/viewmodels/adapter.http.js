@@ -25,7 +25,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                                 {
                                     $type: "Bespoke.Sph.Integrations.Adapters.HttpAdapter, http.adapter",
                                     Har: ko.observable(),
-                                    AdapterId : ko.observable(0),
+                                    AdapterId: ko.observable(0),
                                     BaseAddress: ko.observable(""),
                                     AuthenticationMode: ko.observable("Form"),
                                     Schema: ko.observable(),
@@ -61,12 +61,22 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 context.post(data, "/sph/adapter/save")
                     .then(function (result) {
                         isBusy(false);
+                        adapter().AdapterId(result.id);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
             },
             publish = function () {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(adapter);
+                isBusy(true);
 
+                context.post(data, "/httpadapter/publish")
+                    .then(function (result) {
+                        isBusy(false);
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             };
 
         var vm = {
