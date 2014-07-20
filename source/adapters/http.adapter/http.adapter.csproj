@@ -75,10 +75,12 @@
     <Compile Include="HttpOperationDefinition.p.cs">
       <DependentUpon>HttpOperationDefinition.cs</DependentUpon>
     </Compile>
+    <Compile Include="JsonBodyAttribute.cs" />
     <Compile Include="JsonContent.cs" />
     <Compile Include="PatchCodeGenerator.cs" />
     <Compile Include="PostCodeGenerator.cs" />
     <Compile Include="PostWithContentTypeCodeGenerator.cs" />
+    <Compile Include="PrincipalParameterBinding.cs" />
     <Compile Include="PutCodeGenerator.cs" />
     <Compile Include="PostDataCodeGenerator.cs" />
     <Compile Include="PostDataForGet.cs" />

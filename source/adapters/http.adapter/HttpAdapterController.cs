@@ -74,7 +74,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         [Route("{id}")]
-        public async Task<HttpResponseMessage> Patch(int id, [FromBody]HttpOperationDefinition operation)
+        public async Task<HttpResponseMessage> Patch(int id, [JsonBody]HttpOperationDefinition operation)
         {
             var context = new SphDataContext();
             var adapters = context.CreateQueryable<Adapter>();
