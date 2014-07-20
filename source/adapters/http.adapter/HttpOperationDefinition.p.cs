@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public HttpStatusCode ExpectedStatusCode { get; set; }
         public bool FollowRedirect { get; set; }
         public long? Timeout { get; set; }
-        public string GetRequestRoute { get; set; }
+        public string RequestRouting { get; set; }
 
         public string HttpMethod { get; set; }
         public Dictionary<string, string> RequestHeaders { get; private set; }

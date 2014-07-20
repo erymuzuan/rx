@@ -23,6 +23,16 @@
                        class="form-control" id="url">
             </div>
         </div>
+       
+        <div class="form-group">
+            <label for="get-route" class="col-lg-2 control-label">Request Routing</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: RequestRouting"
+                       title="Use /{param1}?param2={param2} to specify routing"
+                       placeholder="request route- parameters in the url/querystring"
+                       class="form-control" id="get-route">
+            </div>
+        </div>
 
         <div class="form-group">
             <label for="name" class="col-lg-2 control-label">Name</label>
@@ -61,7 +71,7 @@
                 <div class="checkbox">
                     <label>
                         <input data-bind="checked: IsLoginOperation" id="login-operation" type="checkbox"
-                               name="IsLoginOperation"/>
+                               name="IsLoginOperation" />
                         Login Operation
                     </label>
                 </div>
@@ -72,7 +82,7 @@
             <div class="col-md-offset-2 col-md-6">
                 <div class="checkbox">
                     <label>
-                        <input data-bind="checked: IsLoginPage" id="login-page" type="checkbox" name="IsLoginPage"/>
+                        <input data-bind="checked: IsLoginPage" id="login-page" type="checkbox" name="IsLoginPage" />
                         Login Page
                     </label>
                 </div>
@@ -84,7 +94,7 @@
                 <div class="checkbox">
                     <label>
                         <input data-bind="checked: IsLoginRequired" id="login-required" type="checkbox"
-                               name="IsLoginRequired"/>
+                               name="IsLoginRequired" />
                         Login Required
                     </label>
                 </div>

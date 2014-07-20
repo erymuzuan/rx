@@ -66,7 +66,7 @@ namespace http.adapter.test
             var articleOp =
                 this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>()
                     .First(x => x.Url.Contains("/web-api/overview"));
-            articleOp.GetRequestRoute = "/web-api/overview/{category}/{title}";
+            articleOp.RequestRouting = "/web-api/overview/{category}/{title}";
             articleOp.Name = "Web_Api_Article";
             articleOp.MethodName = "Web_Api_Article";
             articleOp.RequestMemberCollection.Add(new Member{Name = "title", Type = typeof(string)});

@@ -129,11 +129,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   public class " + (this.HttpMethod + "_" + this.Name).ToCsharpIdentitfier() + "Request : DomainObject");
             code.AppendLine("   {");
 
-            if (!string.IsNullOrWhiteSpace(this.GetRequestRoute))
+            if (!string.IsNullOrWhiteSpace(this.RequestRouting))
             {
                 code.AppendLine("       public string GenerateUrl(string url)");
                 code.AppendLine("       {");
-                code.AppendLine("           return \"" + this.GetRequestRoute.Replace("{", "\" + Uri.EscapeUriString(").Replace("}", ") + \"") + "\";");
+                code.AppendLine("           return \"" + this.RequestRouting.Replace("{", "\" + Uri.EscapeUriString(").Replace("}", ") + \"") + "\";");
                 code.AppendLine("       }");
             }
 

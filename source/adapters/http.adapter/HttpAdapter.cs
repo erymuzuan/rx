@@ -84,6 +84,10 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLine(OperationLoginCode(op));
                 CreateHttpClientCode(code, op);
 
+                code.AppendLine(!string.IsNullOrWhiteSpace(op.RequestRouting)
+                    ? "               var url = request.GenerateUrl(REQUEST_URL);"
+                    : "               var url = REQUEST_URL;");
+
                 var sendCode = HttpClientSendCodeGenerator.Create(op).GenerateCode(op);
                 foreach (var c in sendCode.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None))
                 {
@@ -116,7 +120,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)",
                 methodName.ToCsharpIdentitfier());
             code.AppendLine("       {");
-            code.AppendLinf("           const string url = \"{0}\";", op.Url.Replace(BaseAddress, ""));
+            code.AppendLinf("           const string REQUEST_URL = \"{0}\";", op.Url.Replace(BaseAddress, ""));
         }
 
         private static void CreateResponseCode(HttpOperationDefinition op, StringBuilder code, string methodName)
