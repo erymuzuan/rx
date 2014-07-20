@@ -1,6 +1,9 @@
 ﻿using System;
+using System.CodeDom;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -134,7 +137,17 @@ namespace Bespoke.Sph.Domain
             return value;
         }
 
-
+        public static string ToLiteral(this string input)
+        {
+            using (var writer = new StringWriter())
+            {
+                using (var provider = CodeDomProvider.CreateProvider("CSharp"))
+                {
+                    provider.GenerateCodeFromExpression(new CodePrimitiveExpression(input), writer, null);
+                    return writer.ToString();
+                }
+            }
+        }
         public static string ToEmptyString(this object value)
         {
             if (null == value) return string.Empty;
@@ -153,7 +166,7 @@ namespace Bespoke.Sph.Domain
             const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Singleline;
             var matches = Regex.Matches(input, pattern, OPTIONS);
             var ff = from Match v in matches
-                select v.Groups[@group].Value.Trim();
+                     select v.Groups[@group].Value.Trim();
             return ff.ToArray();
         }
 

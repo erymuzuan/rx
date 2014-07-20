@@ -104,7 +104,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             foreach (var m in this.ResponseMemberCollection.OfType<RegexMember>().Where(m => !string.IsNullOrWhiteSpace(m.Group) && !string.IsNullOrWhiteSpace(m.Pattern)))
             {
-                code.AppendLinf("           this.{0} = Strings.RegexSingleValue(this.ResponseText, @\"{1}\", \"{0}\");", m.Group, m.Pattern);
+                code.AppendLinf("           this.{0} = Strings.RegexSingleValue(this.ResponseText, {1}, \"{0}\");", m.Group, m.Pattern.ToLiteral());
             }
 
             code.AppendLine("       }");

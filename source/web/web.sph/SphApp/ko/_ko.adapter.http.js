@@ -36,7 +36,7 @@
                     _(jsTreeData.children).each(recurseChildMember);
                     $(element)
                         .on('select_node.jstree', function (node, selected) {
-                            if (selected.node.data) {
+                            if (selected.node.data && typeof selected.node.data.Name === "function") {
                                 member(selected.node.data);
 
                                 // subscribe to Name change
