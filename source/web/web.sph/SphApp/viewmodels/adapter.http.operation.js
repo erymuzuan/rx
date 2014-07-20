@@ -8,7 +8,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
+define(['services/datacontext', 'services/logger', 'plugins/router','ko/_ko.adapter.http'],
     function (context, logger, router) {
 
         var operation = ko.observable(),
@@ -17,6 +17,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             requestSchema = ko.observable(),
             responseSchema = ko.observable(),
             member = ko.observable(),
+            responseMember = ko.observable(),
             activate = function (id, uuid) {
                 adapterId(parseInt(id));
                 var tcs = new $.Deferred();
@@ -69,6 +70,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
         var vm = {
             requestSchema: requestSchema,
             responseSchema: responseSchema,
+            responseMember: responseMember,
             member: member,
             operation: operation,
             isBusy: isBusy,

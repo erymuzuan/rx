@@ -36,6 +36,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                             adapter().Har.subscribe(function (har) {
                                 // call the server to get the list of operations
                                 isBusy(true);
+                                if (!har)return;
                                 $.get("/httpadapter/operations/" + har).done(function (results) {
                                     adapter().OperationDefinitionCollection(results);
                                     isBusy(false);

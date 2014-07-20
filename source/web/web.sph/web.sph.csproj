@@ -1130,6 +1130,7 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\_ko.entity.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="SphApp\ko\_ko.adapter.http.js" />
     <Content Include="SphApp\partial\admission-form.js" />
     <Content Include="SphApp\gulpfile.js" />
     <Content Include="SphApp\partial\patient-discharge-form.js" />
