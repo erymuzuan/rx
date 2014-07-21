@@ -1,4 +1,6 @@
-﻿namespace Bespoke.Sph.Domain.Api
+﻿using System.Collections.Generic;
+
+namespace Bespoke.Sph.Domain.Api
 {
     public partial class OperationDefinition
     {
@@ -25,11 +27,11 @@
             get { return m_responseMemberCollection; }
         }
 
-        public virtual string GenerateRequestCode()
+        public virtual Dictionary<string, string> GenerateRequestCode()
         {
             throw new System.NotImplementedException();
         }
-        public virtual string GenerateResponseCode()
+        public virtual Dictionary<string, string> GenerateResponseCode()
         {
             throw new System.NotImplementedException();
         }

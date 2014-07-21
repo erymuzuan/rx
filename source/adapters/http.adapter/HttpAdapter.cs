@@ -41,6 +41,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             return header.ToString();
 
         }
+
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
             options.AddReference(typeof(HttpClient));
@@ -54,58 +55,25 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("       private CookieContainer m_cookieContainer = new CookieContainer();");
             code.AppendLinf("       const string BASE_ADDRESS = \"{0}\";", this.BaseAddress);
 
-            // login page
-            if (this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Any(o => o.IsLoginRequired) &&
-                this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Count(o => o.IsLoginOperation) != 1)
-            {
-                throw new InvalidOperationException("You have to have a user login(authentication) operation");
-            }
-            if (this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Any(o => o.IsLoginRequired))
-            {
-                var login = this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Single(a => a.IsLoginOperation);
-                code.AppendLinf("       public {0}Request LoginCredential {{get;set;}}", (login.HttpMethod + "_" + login.Name).ToCsharpIdentitfier());
-            }
+            AddLoginSource(code);
 
-            var added = new List<string>();
+            var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
             {
-                var name = op.Name;
-                var adapterName = name + "Adapter";
                 op.CodeNamespace = this.CodeNamespace;
                 var methodName = string.Format("{0}_{1}_", op.HttpMethod, op.Name);
 
-                if (added.Contains(methodName)) continue;
-                added.Add(methodName);
+                if (addedActions.Contains(methodName)) continue;
+                addedActions.Add(methodName);
 
-                if (sources.ContainsKey(adapterName + ".cs")) continue;
+                //
+                code.AppendLine(op.GenerateActionCode(this, methodName));
 
+                var requestSources = op.GenerateRequestCode();
+                AddSources(requestSources, sources);
 
-                CreateMethodCode(code, methodName, op);
-                code.AppendLine(OperationLoginCode(op));
-                CreateHttpClientCode(code, op);
-
-                code.AppendLine(!string.IsNullOrWhiteSpace(op.RequestRouting)
-                    ? "               var url = request.GenerateUrl(REQUEST_URL);"
-                    : "               var url = REQUEST_URL;");
-
-                var sendCode = HttpClientSendCodeGenerator.Create(op).GenerateCode(op);
-                foreach (var c in sendCode.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None))
-                {
-                    code.AppendLine("               " + c);
-                }
-                CreateResponseCode(op, code, methodName);
-
-                code.AppendLine("           }");
-                code.AppendLine("       }");
-
-
-                var requestSource = (op.HttpMethod + "_" + op.Name).ToCsharpIdentitfier() + "Request.cs";
-                if (!sources.ContainsKey(requestSource))
-                    sources.Add(requestSource, op.GenerateRequestCode());
-
-                var responseSource = (op.HttpMethod + "_" + op.Name).ToCsharpIdentitfier() + "Response.cs";
-                if (!sources.ContainsKey(responseSource))
-                    sources.Add(responseSource, op.GenerateResponseCode());
+                var responseSources = op.GenerateResponseCode();
+                AddSources(responseSources, sources);
             }
 
             code.AppendLine("   }");// end class
@@ -115,54 +83,35 @@ namespace Bespoke.Sph.Integrations.Adapters
             return Task.FromResult(sources);
         }
 
-        private void CreateMethodCode(StringBuilder code, string methodName, HttpOperationDefinition op)
+        private void AddLoginSource(StringBuilder code)
         {
-            code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)",
-                methodName.ToCsharpIdentitfier());
-            code.AppendLine("       {");
-            code.AppendLinf("           const string REQUEST_URL = \"{0}\";", op.Url.Replace(BaseAddress, ""));
-        }
-
-        private static void CreateResponseCode(HttpOperationDefinition op, StringBuilder code, string methodName)
-        {
-            if (op.EnsureSuccessStatusCode)
-                code.AppendLine("               response.EnsureSuccessStatusCode();");
-
-            code.AppendLine("               if(response.IsSuccessStatusCode)");
-            code.AppendLine("               {");
-
-            code.AppendLinf("                   var result =  new {0}Response();", methodName.ToCsharpIdentitfier());
-            code.AppendLine("                   await result.LoadAsync(response);");
-            code.AppendLine("                   return result;");
-            code.AppendLine("               }");
-            code.AppendLine("               return null;");
-        }
-
-        private static void CreateHttpClientCode(StringBuilder code, HttpOperationDefinition op)
-        {
-            
-            code.AppendLine("           using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })");
-            if (op.Timeout.HasValue)
-                code.AppendLinf(
-                    "           using(var client = new HttpClient(handler){{BaseAddress = new Uri(BASE_ADDRESS), Timeout = TimeSpan.FromMilliseconds({0})}})",
-                    op.Timeout);
-            else
-                code.AppendLine("           using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})");
-
-            code.AppendLine("           {");
-        }
-
-        private string OperationLoginCode(HttpOperationDefinition op)
-        {
-            var code = new StringBuilder();
-            if (op.IsLoginRequired)
+            if (this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Any(o => o.IsLoginRequired) &&
+                this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Count(o => o.IsLoginOperation) != 1)
+            {
+                throw new InvalidOperationException("You have to have a user login(authentication) operation");
+            }
+            if (this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Any(o => o.IsLoginRequired))
             {
                 var login = this.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Single(a => a.IsLoginOperation);
-                code.AppendLinf("           await this.{0}Async(this.LoginCredential);",
+                code.AppendLinf("       public {0}Request LoginCredential {{get;set;}}",
                     (login.HttpMethod + "_" + login.Name).ToCsharpIdentitfier());
             }
-            return code.ToString();
         }
+
+        private static void AddSources(Dictionary<string, string> classes, Dictionary<string, string> sources)
+        {
+            foreach (var cs in classes.Keys)
+            {
+                if (!sources.ContainsKey(cs))
+                {
+                    sources.Add(cs, classes[cs]);
+                    continue;
+                }
+                if (sources[cs] != classes[cs])
+                    throw new InvalidOperationException("You are generating 2 different sources for " + cs);
+            }
+        }
+
 
         protected override Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync()
         {

@@ -137,9 +137,9 @@ Check Summon
             pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "Count", Type = typeof(string) });
             pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "TotalAmount", Type = typeof(string) });
 
-            var summon = new Member { Name = "SummonCollection", Type = typeof(Array) };
+            var summon = new RegexMember { Name = "SummonCollection", Type = typeof(Array) };
             summon.MemberCollection.Add(new RegexMember { Name = "No", Type = typeof(string) });
-            summon.MemberCollection.Add(new RegexMember { Name = "VehicleNo", Type = typeof(string) });
+            summon.MemberCollection.Add(new RegexMember { Name = "VehicleNo", Type = typeof(string), Group = "plate", Pattern = "[0-9]{2}[A-Z]{2}[0-9]{6}</td> <td>(?<plate>.*?)</td> <td>[0-9]{1,2} [A-Za-z]{3} [0-9]{4}" });
             summon.MemberCollection.Add(new RegexMember { Name = "OffenceDate", Type = typeof(string) });
             summon.MemberCollection.Add(new RegexMember { Name = "District", Type = typeof(string) });
             summon.MemberCollection.Add(new RegexMember { Name = "Location", Type = typeof(string) });
@@ -147,6 +147,7 @@ Check Summon
             summon.MemberCollection.Add(new RegexMember { Name = "OrginalAmount", Type = typeof(string) });
             summon.MemberCollection.Add(new RegexMember { Name = "CurrentAmount", Type = typeof(string) });
             summon.MemberCollection.Add(new RegexMember { Name = "EnforcementDate", Type = typeof(string) });
+            pdrm.ResponseMemberCollection.Add(summon);
 
             var dll = Assembly.LoadFile(await CompileRilekHar());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
@@ -169,6 +170,8 @@ Check Summon
             var response = await rilek.PostRilekPdrmAsync(request);
             StringAssert.Contains(response.ResponseText, "CHE ESHAH");
             Assert.AreEqual("CHE ESHAH BINTI MAHMOOD", response.FullName);
+            Assert.AreEqual(1, response.SummonCollection.Count);
+            Assert.AreEqual("DAL3249X", response.SummonCollection[0].VehicleNo);
 
         }
         [TestMethod]
@@ -213,16 +216,16 @@ Check Summon
             StringAssert.Contains(response.ResponseText, "Incorrect Login");
         }
         [TestMethod]
-        public void   Dehumanize()
+        public void Dehumanize()
         {
             const string M = "POST_users_login_Request";
-            Assert.AreEqual("PostUsersLoginRequest", M.ToLower().Humanize().Transform(To.TitleCase).Replace(" ",""));
+            Assert.AreEqual("PostUsersLoginRequest", M.ToLower().Humanize().Transform(To.TitleCase).Replace(" ", ""));
         }
         [TestMethod]
-        public void   DehumanizeToChasrp()
+        public void DehumanizeToChasrp()
         {
             const string M = "POST_UsersLogin_Request";
-            Assert.AreEqual("PostUsersLoginRequest", M.ToLower().Humanize().Transform(To.TitleCase).Replace(" ",""));
+            Assert.AreEqual("PostUsersLoginRequest", M.ToLower().Humanize().Transform(To.TitleCase).Replace(" ", ""));
         }
     }
 }
