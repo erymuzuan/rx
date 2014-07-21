@@ -8,7 +8,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router','ko/_ko.adapter.http'],
+define(['services/datacontext', 'services/logger', 'plugins/router', 'ko/_ko.adapter.http'],
     function (context, logger, router) {
 
         var operation = ko.observable(),
@@ -51,24 +51,29 @@ define(['services/datacontext', 'services/logger', 'plugins/router','ko/_ko.adap
             attached = function (view) {
 
             },
-            pickRegex = function(m) {
+            pickRegex = function (m) {
                 var w = window.open("/regex.picker.html", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
                 if (typeof w.window === "object") {
 
                     w.window.member = m;
+                    w.window.operation = operation();
+                    w.window.adapterId = adapterId();
                     w.window.saved = function (pattern, group) {
+                        m.Pattern(pattern);
+                        m.Group(group);
+                        w.close();
+                    };
+                } else {
+
+                    w.member = m;
+                    w.adapterId = adapterId();
+                    w.saved = function (pattern, group) {
                         m.Pattern(pattern);
                         m.Group(group);
                         w.close();
                     };
                 }
 
-                w.window.member = m;
-                w.window.saved = function (pattern, group) {
-                    m.Pattern(pattern);
-                    m.Group(group);
-                    w.close();
-                };
             },
             save = function () {
                 var tcs = new $.Deferred();
@@ -87,7 +92,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router','ko/_ko.adap
             };
 
         var vm = {
-            pickRegex:pickRegex,
+            pickRegex: pickRegex,
             requestSchema: requestSchema,
             responseSchema: responseSchema,
             responseMember: responseMember,

@@ -2,15 +2,97 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Regex Picker</title>
+    <style>
+        .selected-item {
+            border: 2px orange solid;
+        }
+
+        #toolbar input[type=text] {
+            width: 90%;
+            margin: 5px;
+            height: 29px;
+            color: #444343;
+            font-size: 14px;
+            font-family: 'Segoe UI',Tahoma,Arial,Helvetica,sans-serif;
+        }
+        #toolbar label {
+            margin: 5px;
+            height: 29px;
+            min-width: 120px;
+            color: #444343;
+            font-size: 14px;
+            font-family: 'Segoe UI',Tahoma,Arial,Helvetica,sans-serif;
+        }
+    </style>
 </head>
-    <body>
-        <div id="main">
-            
-        </div>
-        
+<body>
+    <div id="toolbar">
+        <form data-bind="with : operation">
+            <div>
+                <label>Url</label>
+                <input type="text" readonly="readonly" data-bind="value: Url()" />
+            </div>
+            <div>
+                <label>Pattern</label>
+                <input type="text" data-bind="value:$root.pattern" />
+            </div>
+            <div>
+                <label>Group</label>
+                <input type="text" data-bind="value:$root.group" />
+            </div>
+        </form>
+        <button data-bind="click : saved">Save</button>
+    </div>
+    <div id="main">
 
-        <script type="text/javascript">
+    </div>
 
-        </script>
-    </body>
+
+    <script src="/Scripts/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/knockout-3.1.0.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/knockout.mapping-latest.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/underscore.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+
+        $(function () {
+            console.log(window.member);
+            console.log(window.adapterId);
+            console.log(window.operation);
+            var vm = {
+                operation: window.operation,
+                adapterId: ko.observable(window.adapterId),
+                pattern: ko.observable(),
+                html: ko.observable(),
+                group: ko.observable(),
+                saved: function() {
+
+                    if (typeof window.saved === "function") {
+                        window.saved(vm.pattern(), vm.group());
+                    }
+                }
+            };
+
+
+            $.get("/httpadapter/text/" + vm.adapterId() + "/" + window.operation.HttpMethod() + "?url=" + window.operation.Url())
+                .done(function (html) {
+                    $('#main').html(html);
+                });
+            var previous = null;
+            $('#main').on('click', '*', function (e, t) {
+                e.preventDefault();
+                if (previous)
+                    previous.removeClass('selected-item');
+                previous = $(e.target);
+                vm.pattern(previous.parent().html());
+                previous.addClass('selected-item');
+            });
+
+            ko.applyBindings(vm);
+
+
+        })();
+    </script>
+</body>
 </html>

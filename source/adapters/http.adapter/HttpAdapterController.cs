@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -108,7 +109,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             });
         }
 
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<HttpResponseMessage> Patch(int id, [JsonBody]HttpOperationDefinition operation)
         {
             var context = new SphDataContext();
@@ -144,32 +145,43 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
         [HttpGet]
-        [Route("text/{harStoreId}/{method}")]
-        public async Task<HttpResponseMessage> Text(string harStoreId, string method, [FromUri]string url)
+        [Route("text/{id:int}/{method}")]
+        public async Task<IHttpActionResult> Text(int id, string method, [FromUri]string url)
         {
+            var context = new SphDataContext();
+            var adapters = context.CreateQueryable<Adapter>();
+            var query = adapters.Where(x => x.AdapterId == id);
+            var ha = (await context.LoadAsync(query)).ItemCollection.SingleOrDefault() as HttpAdapter;
+            if (null == ha)
+                return NotFound();
+
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var json = await store.GetContentAsync(harStoreId);
-            if (null == json)
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-            
-            var jo = JObject.Parse(Encoding.UTF8.GetString(json.Content));
-            var entries = jo.SelectTokens("$.log.entries").SelectMany(x => x);
-            var operations = from j in entries
-                             select new HttpOperationDefinition(j)
-                             {
-                                 Url = j.SelectToken("request.url").Value<string>(),
-                                 HttpMethod = j.SelectToken("request.method").Value<string>(),
-                                 Uuid = Guid.NewGuid().ToString(),
-                                 WebId = j.SelectToken("response.content.text").Value<string>()
-                             };
-            var d = operations.SingleOrDefault(o => o.HttpMethod == method && o.Url == url);
-            if (null != d)
+            var blob = await store.GetContentAsync(ha.Har);
+            if (null == blob)
+                return NotFound();
+
+            using (var stream = new MemoryStream(blob.Content))
+            using (var sr = new StreamReader(stream))
+            using (JsonReader reader = new JsonTextReader(sr))
             {
-                var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(d.WebId) };
-                return message;
+
+                var jo = JToken.ReadFrom(reader);
+                var entries = jo.SelectTokens("$.log.entries").SelectMany(x => x);
+                var operations = from j in entries
+                                 select new HttpOperationDefinition(j)
+                                 {
+                                     Url = j.SelectToken("request.url").Value<string>(),
+                                     HttpMethod = j.SelectToken("request.method").Value<string>(),
+                                     Uuid = Guid.NewGuid().ToString(),
+                                     WebId = j.SelectToken("response.content.text").Value<string>()
+                                 };
+                var d = operations.SingleOrDefault(o => o.HttpMethod == method && o.Url == url);
+                if (null != d)
+                    return Content( HttpStatusCode.OK, d.WebId);
+
             }
-            var m = new HttpResponseMessage(HttpStatusCode.NotFound);
-            return m;
+
+            return NotFound();
 
         }
     }
