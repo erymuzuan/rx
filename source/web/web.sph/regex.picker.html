@@ -7,13 +7,14 @@
             border: 2px orange solid;
         }
 
-        #toolbar input[type=text] {
+        #toolbar input[type=text], textarea {
             width: 90%;
             margin: 5px;
             height: 29px;
             color: #444343;
             font-size: 14px;
             font-family: 'Segoe UI',Tahoma,Arial,Helvetica,sans-serif;
+            margin-left: 120px;
         }
         #toolbar label {
             margin: 5px;
@@ -34,13 +35,16 @@
             </div>
             <div>
                 <label>Pattern</label>
-                <input type="text" data-bind="value:$root.pattern" />
+                <textarea id="pattern"  data-bind="value:$root.pattern"  style="min-width: 600px"></textarea>
+                <a href="#toolbar" data-bind="click : $root.expand">+</a>
+                <a href="#toolbar" data-bind="click : $root.addGroup">Add Group</a>
             </div>
             <div>
                 <label>Group</label>
                 <input type="text" data-bind="value:$root.group" />
             </div>
         </form>
+        <button data-bind="click : test">Test</button>
         <button data-bind="click : saved">Save</button>
     </div>
     <div id="main">
@@ -55,22 +59,81 @@
     <script src="/Scripts/underscore.js" type="text/javascript"></script>
     <script type="text/javascript">
 
+        $.fn.insertAtCaret = function (text) {
+            return this.each(function () {
+                var sel, startPos, endPos, scrollTop;
+                if (document.selection && this.tagName == 'TEXTAREA') {
+                    //IE textarea support
+                    this.focus();
+                    sel = document.selection.createRange();
+                    sel.text = text;
+                    this.focus();
+                } else if (this.selectionStart || this.selectionStart == '0') {
+                    //MOZILLA/NETSCAPE support
+                    startPos = this.selectionStart;
+                    endPos = this.selectionEnd;
+                    scrollTop = this.scrollTop;
+                    this.value = this.value.substring(0, startPos) + text + this.value.substring(endPos, this.value.length);
+                    this.focus();
+                    this.selectionStart = startPos + text.length;
+                    this.selectionEnd = startPos + text.length;
+                    this.scrollTop = scrollTop;
+                } else {
+                    // IE input[type=text] and other browsers
+                    this.value += text;
+                    this.focus();
+                    this.value = this.value;    // forces cursor to end
+                }
+            });
+        };
 
         $(function () {
-            console.log(window.member);
-            console.log(window.adapterId);
-            console.log(window.operation);
+
+            var ele = null;
             var vm = {
                 operation: window.operation,
                 adapterId: ko.observable(window.adapterId),
-                pattern: ko.observable(),
+                pattern: ko.observable(window.member.Pattern()),
                 html: ko.observable(),
-                group: ko.observable(),
+                group: ko.observable(window.member.Group()),
+                test: function () {
+                    var json = JSON.stringify( {
+                        html: $('#main').html(),
+                        pattern: vm.pattern(),
+                        group : vm.group()
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        data: json,
+                        url: "/httpadapter/test",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        error: function(e) {
+                            console.log("error", e);
+                        },
+                        success: function (results) {
+                            console.log(results);
+                        }
+                    });
+
+
+                },
                 saved: function() {
 
                     if (typeof window.saved === "function") {
                         window.saved(vm.pattern(), vm.group());
                     }
+                },
+                expand :function() {
+                    if (ele) {
+                        ele = ele.parent();
+                        vm.pattern(ele.clone().wrap('<p>').parent().html());
+                    }
+                },
+                addGroup: function () {
+                    vm.group(window.member.Name());
+                    //$('#pattern').insertAtCaret('(?<' + window.member.Name() + '>.*?)');
                 }
             };
 
@@ -79,14 +142,12 @@
                 .done(function (html) {
                     $('#main').html(html);
                 });
-            var previous = null;
             $('#main').on('click', '*', function (e, t) {
                 e.preventDefault();
-                if (previous)
-                    previous.removeClass('selected-item');
-                previous = $(e.target);
-                vm.pattern(previous.parent().html());
-                previous.addClass('selected-item');
+               
+                ele = $(e.target);
+                vm.pattern(ele.clone().wrap('<p>').parent().html());
+                //ele.addClass('selected-item');
             });
 
             ko.applyBindings(vm);

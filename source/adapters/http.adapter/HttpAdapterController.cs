@@ -168,6 +168,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var jo = JToken.ReadFrom(reader);
                 var entries = jo.SelectTokens("$.log.entries").SelectMany(x => x);
                 var operations = from j in entries
+                                 where j.SelectToken("response.content.text") != null
                                  select new HttpOperationDefinition(j)
                                  {
                                      Url = j.SelectToken("request.url").Value<string>(),
@@ -175,7 +176,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                                      Uuid = Guid.NewGuid().ToString(),
                                      WebId = j.SelectToken("response.content.text").Value<string>()
                                  };
-                var d = operations.SingleOrDefault(o => o.HttpMethod == method && o.Url == url);
+                var d = operations.LastOrDefault(o => o.HttpMethod == method && o.Url == url);
                 if (null != d)
                     return Content( HttpStatusCode.OK, d.WebId);
 
@@ -183,6 +184,16 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             return NotFound();
 
+        }
+
+        [HttpPost]
+        [Route("test")]
+        public HttpResponseMessage TestRegex([FromBody]TestViewModel test)
+        {
+            var matches = Strings.RegexValues(test.Html, test.Pattern, test.Group);
+            var json = JsonConvert.SerializeObject(matches);
+            var message = new HttpResponseMessage {Content = new JsonContent(json)};
+           return message;
         }
     }
 }

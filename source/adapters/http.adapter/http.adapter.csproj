@@ -88,6 +88,7 @@
     <Compile Include="PostDataForPostUrlEncoded.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexMember.cs" />
+    <Compile Include="TestViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
