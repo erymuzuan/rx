@@ -51,6 +51,25 @@ define(['services/datacontext', 'services/logger', 'plugins/router','ko/_ko.adap
             attached = function (view) {
 
             },
+            pickRegex = function(m) {
+                var w = window.open("/regex.picker.html", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                if (typeof w.window === "object") {
+
+                    w.window.member = m;
+                    w.window.saved = function (pattern, group) {
+                        m.Pattern(pattern);
+                        m.Group(group);
+                        w.close();
+                    };
+                }
+
+                w.window.member = m;
+                w.window.saved = function (pattern, group) {
+                    m.Pattern(pattern);
+                    m.Group(group);
+                    w.close();
+                };
+            },
             save = function () {
                 var tcs = new $.Deferred();
                 $.ajax({
@@ -68,6 +87,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router','ko/_ko.adap
             };
 
         var vm = {
+            pickRegex:pickRegex,
             requestSchema: requestSchema,
             responseSchema: responseSchema,
             responseMember: responseMember,

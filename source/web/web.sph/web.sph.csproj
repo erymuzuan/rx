@@ -1061,6 +1061,7 @@
     <Content Include="offline\header.html" />
     <Content Include="offline\IndexedDB.js" />
     <Content Include="offline\offline.js" />
+    <Content Include="regex.picker.html" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
     <Content Include="Scripts\ace\ace.js" />

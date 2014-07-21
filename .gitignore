@@ -107,3 +107,5 @@ bin/test*/
 bin/sources/RilekSamanPdrmAdapter/
 bin/sources/WebApiAspNet/
 bin/sources/AspNetWebApiArticlesAdapter/
+bin/sources/AspNetArticles2/
+bin/sources/JPA_DEMO/
