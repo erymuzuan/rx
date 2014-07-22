@@ -78,6 +78,8 @@
                                             child.$type = ko.observable('Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter');
                                             child.Pattern = ko.observable();
                                             child.Group = ko.observable();
+                                            child.DateFormat = ko.observable();
+                                            child.NumberFormat = ko.observable();
 
                                             var ref = $(element).jstree(true),
                                                 sel = ref.get_selected();

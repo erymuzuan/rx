@@ -23,7 +23,7 @@
                        class="form-control" id="url">
             </div>
         </div>
-       
+
         <div class="form-group">
             <label for="get-route" class="col-lg-2 control-label">Request Routing</label>
             <div class="col-lg-6">
@@ -221,6 +221,21 @@
             <div class="form-group">
                 <label for="member-group">Group</label>
                 <input class="form-control" id="member-group" name="member.group" type="text" required data-bind="value: Group" />
+            </div>
+
+            <div class="form-group" data-bind="visible:TypeName() === 'System.DateTime, mscorlib'">
+                <label for="member-dategformat" class="control-label">Date Format</label>
+                <input type="text" data-bind="value: DateFormat"
+                       placeholder=".Net date format styles"
+                       class="form-control" id="member-dategformat">
+            </div>
+
+            <div class="form-group" data-bind="visible: ko.unwrap(TypeName) === 'System.Decimal, mscorlib'">
+                <label for="member-numberformat" class="control-label">Number Format</label>
+                <input type="text" data-bind="value: NumberFormat"
+                       placeholder=".Net number format styles"
+                       class="form-control" id="member-numberformat">
+
             </div>
 
         </form>
