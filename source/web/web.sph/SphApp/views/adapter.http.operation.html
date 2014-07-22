@@ -136,7 +136,12 @@
                 </select>
 
             </div>
-
+            <div class="form-group">
+                <label class="checkbox">
+                    <input data-bind="checked: IsNullable" id="member-nullable1" type="checkbox" name="IsNullable" />
+                    Nullable
+                </label>
+            </div>
 
             <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
                 <label for="member-default-value" class="control-label">Default Value</label>
@@ -208,7 +213,12 @@
                 </select>
 
             </div>
-
+            <div class="form-group">
+                <label class="checkbox">
+                    <input data-bind="checked: IsNullable" id="member-nullable" type="checkbox" name="IsNullable" />
+                    Nullable
+                </label>
+            </div>
             <div class="form-group">
                 <label for="member-pattern">Pattern</label>
                 <input class="form-control" id="member-pattern" name="member.pattern" type="text" required data-bind="value: Pattern" />

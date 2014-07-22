@@ -131,6 +131,9 @@ Check Summon
             var pdrm =
                 this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>()
                     .First(a => a.Name == "rilek_pdrm" && a.HttpMethod == "POST");
+
+            var biodata = new RegexMember {Type = typeof (object), Name = "Biodata"};
+            pdrm.ResponseMemberCollection.Add(biodata);
             pdrm.ResponseMemberCollection.Add(new RegexMember
             {
                 Name = "DateTime",
@@ -139,24 +142,60 @@ Check Summon
                 DateFormat = "dd MMM yyyy HH:mm:ss",
                 Pattern = @"Total Amount \(RM\)</th> </tr> </thead> <tbody> <tr> <td>(?<date>[0-9]{1,2} [A-Za-z]{3} [0-9]{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2})</td>"
             });
-            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "FullName", Type = typeof(string), Group = "FullName", Pattern = @"Total Amount \(RM\)</th> </tr> </thead> <tbody> <tr> <td>[0-9]{1,2} [A-Za-z]{3} [0-9]{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}</td> <td>(?<FullName>.*?)</td> " });
-            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "MyKad", Type = typeof(string), Group = "id", Pattern = "<td>[0-9]{12}</td>" });
-            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "Count", Type = typeof(int), Group = "c", Pattern = "<td>[0-9]{12}</td> <td style=\"text-align:center;\">(?<c>[0-9]{1,})</td>" });
+            biodata.MemberCollection.Add(new RegexMember
+            {
+                Name = "FullName",
+                Type = typeof(string),
+                Group = "FullName",
+                Pattern = @"Total Amount \(RM\)</th> </tr> </thead> <tbody> <tr> <td>[0-9]{1,2} [A-Za-z]{3} [0-9]{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}</td> <td>(?<FullName>.*?)</td> "
+            });
+            biodata.MemberCollection.Add(new RegexMember
+            {
+                Name = "MyKad",
+                Type = typeof(string),
+                Group = "id",
+                Pattern = "<td>[0-9]{12}</td>"
+            });
+            pdrm.ResponseMemberCollection.Add(new RegexMember
+            {
+                Name = "Count",
+                Type = typeof(int),
+                Group = "c",
+                Pattern = "<td>[0-9]{12}</td> <td style=\"text-align:center;\">(?<c>[0-9]{1,})</td>"
+            });
             pdrm.ResponseMemberCollection.Add(new RegexMember
             {
                 Name = "TotalAmount",
                 IsNullable = true,
                 Type = typeof(decimal),
-                Group = "t",
+                Group = "total",
                 Pattern = "<td>[0-9]{12}</td> <td style=\"text-align:center;\">[0-9]{1,}</td> " +
-                "<td style=\"text-align:center; font-weight:bold;\">(?<t>[0-9.]{1,})</td> </tr>"
+                "<td style=\"text-align:center; font-weight:bold;\">(?<total>[0-9.]{1,})</td> </tr>"
             });
 
             var summon = new RegexMember { Name = "SummonCollection", Type = typeof(Array) };
             summon.MemberCollection.Add(new RegexMember { Name = "No", Type = typeof(string) });
-            summon.MemberCollection.Add(new RegexMember { Name = "VehicleNo", Type = typeof(string), Group = "plate", Pattern = "[0-9]{2}[A-Z]{2}[0-9]{6}</td> <td>(?<plate>.*?)</td> <td>[0-9]{1,2} [A-Za-z]{3} [0-9]{4}" });
-            summon.MemberCollection.Add(new RegexMember { Name = "OffenceDate", Type = typeof(string) });
-            summon.MemberCollection.Add(new RegexMember { Name = "District", Type = typeof(string) });
+            summon.MemberCollection.Add(new RegexMember
+            {
+                Name = "VehicleNo",
+                Type = typeof(string),
+                Group = "plate",
+                Pattern = "[0-9]{2}[A-Z]{2}[0-9]{6}</td> <td>(?<plate>.*?)</td> <td>[0-9]{1,2} [A-Za-z]{3} [0-9]{4}"
+            });
+            summon.MemberCollection.Add(new RegexMember
+            {
+                Name = "OffenceDate",
+                Type = typeof(DateTime),
+                Group = "date",
+                Pattern = @"</td> <td>(?<date>\d\d [A-Za-z]{3} \d\d\d\d \d\d:\d\d:\d\d)</td>",
+                DateFormat = "dd MMM yyyy HH:mm:ss"
+            });
+            summon.MemberCollection.Add(new RegexMember
+            {
+                Name = "District", Type = typeof(string),
+                Group = "district",
+                Pattern = @"</td> <td>(?<date>\d\d [A-Za-z]{3} \d\d\d\d \d\d:\d\d:\d\d)</td> <td>(?<district>.*?)</td>"
+            });
             summon.MemberCollection.Add(new RegexMember { Name = "Location", Type = typeof(string) });
             summon.MemberCollection.Add(new RegexMember { Name = "Offence", Type = typeof(string) });
             summon.MemberCollection.Add(new RegexMember { Name = "OrginalAmount", Type = typeof(string) });
@@ -184,12 +223,15 @@ Check Summon
             rilek.LoginCredential = login;
             var response = await rilek.PostRilekPdrmAsync(request);
             StringAssert.Contains(response.ResponseText, "CHE ESHAH");
-            Assert.AreEqual("CHE ESHAH BINTI MAHMOOD", response.FullName);
+            Assert.AreEqual("CHE ESHAH BINTI MAHMOOD", response.Biodata.FullName);
             Assert.AreEqual(1, response.SummonCollection.Count);
             Assert.AreEqual("DAL3429", response.SummonCollection[0].VehicleNo);
 
             Assert.AreEqual(70.00m, response.TotalAmount);
             Assert.AreEqual(DateTime.Today, response.DateTime.Date);
+
+            Assert.AreEqual("KUALA LIPIS", response.SummonCollection[0].District);
+            Assert.AreEqual(DateTime.Parse("2006-08-13 11:58:00"), response.SummonCollection[0].OffenceDate);
 
         }
         [TestMethod]
@@ -215,6 +257,8 @@ Check Summon
             rilek.LoginCredential = login;
             var response = await rilek.PostRilekPdrmAsync(request);
             StringAssert.Contains(response.ResponseText, "CHE ESHAH");
+
+
 
         }
 

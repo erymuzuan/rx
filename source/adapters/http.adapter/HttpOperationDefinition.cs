@@ -109,25 +109,17 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             foreach (var m in this.ResponseMemberCollection.OfType<RegexMember>().Where(m => !string.IsNullOrWhiteSpace(m.Group) && !string.IsNullOrWhiteSpace(m.Pattern)))
             {
-                if (m.Type == typeof(string))
-                    code.AppendLinf("           this.{0} = Strings.RegexSingleValue(this.ResponseText, {1}, \"{2}\");", m.Name, m.Pattern.ToLiteral(), m.Group);
-
-                if (m.Type == typeof(decimal) && m.IsNullable)
-                    code.AppendLinf("           this.{0} = Strings.RegexDecimalValue(this.ResponseText, {1}, \"{2}\");", m.Name, m.Pattern.ToLiteral(), m.Group);
-                if (m.Type == typeof(decimal) && !m.IsNullable)
-                    code.AppendLinf("           this.{0} = Strings.RegexDecimalValue(this.ResponseText, {1}, \"{2}\") ?? decimal.Zero;", m.Name, m.Pattern.ToLiteral(), m.Group);
-
-                if (m.Type == typeof(int) && m.IsNullable)
-                    code.AppendLinf("           this.{0} = Strings.RegexInt32Value(this.ResponseText, {1}, \"{2}\");", m.Name, m.Pattern.ToLiteral(), m.Group);
-                if (m.Type == typeof(int) && !m.IsNullable)
-                    code.AppendLinf("           this.{0} = Strings.RegexInt32Value(this.ResponseText, {1}, \"{2}\") ?? 0;", m.Name, m.Pattern.ToLiteral(), m.Group);
-
-
-                if (m.Type == typeof(DateTime) && m.IsNullable)
-                    code.AppendLinf("           this.{0} = Strings.RegexDateTimeValue(this.ResponseText, {1}, \"{2}\", \"{2}\");", m.Name, m.Pattern.ToLiteral(), m.Group, m.DateFormat);
-                if (m.Type == typeof(DateTime) && !m.IsNullable)
-                    code.AppendLinf("           this.{0} = Strings.RegexDateTimeValue(this.ResponseText, {1}, \"{2}\", \"{3}\") ?? DateTime.MinValue;", m.Name, m.Pattern.ToLiteral(), m.Group, m.DateFormat);
-
+                code.AppendLine(m.GenerateParseCode("this"));
+            }
+            //objects
+            foreach (var m in this.ResponseMemberCollection.OfType<RegexMember>().Where(m => m.Type == typeof(object)))
+            {
+                var m1 = m;
+                code.AppendLinf("           //{0}", m1.Name);
+                code.AppendLinf("           this.{0} = new {0}();", m1.Name);
+                var objectsChildren = from mc in m.MemberCollection.OfType<RegexMember>()
+                                      select mc.GenerateParseCode( "this." + m1.Name);
+                objectsChildren.ToList().ForEach(x => code.AppendLine(x));
 
             }
 
@@ -135,22 +127,25 @@ namespace Bespoke.Sph.Integrations.Adapters
             var count = 1;
             foreach (var m in this.ResponseMemberCollection.OfType<RegexMember>().Where(m => m.Type == typeof(Array)))
             {
+                var count1 = count;
                 var first = m.MemberCollection.OfType<RegexMember>().FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Group) && !string.IsNullOrWhiteSpace(x.Pattern));
                 if (null == first) continue;
 
-                code.AppendLine("// " + m.Name);
+                code.AppendLine("           // " + m.Name);
                 code.AppendLinf("           var values{2} = Strings.RegexValues(this.ResponseText, {1}, \"{0}\");", first.Group, first.Pattern.ToLiteral(), count);
                 code.AppendLinf("           var colls{1} = new ObjectCollection<{0}>(Enumerable.Range(0,values{1}.Length).Select(x => new {0}() ));", m.Name.Replace("Collection", ""), count);
 
 
                 code.AppendLinf("           for(int i = 0 ; i < values{0}.Length; i++)", count);
                 code.AppendLine("           {");
-                foreach (var cm in m.MemberCollection.OfType<RegexMember>().Where(x => !string.IsNullOrWhiteSpace(x.Group) && !string.IsNullOrWhiteSpace(x.Pattern)))
-                {
-                    if (cm.Type == typeof(string))
-                        code.AppendLinf("               colls{3}[i].{0} = Strings.RegexValues(this.ResponseText, {1}, \"{2}\")[i];", cm.Name, cm.Pattern.ToLiteral(), cm.Group, count);
 
-                }
+                var collectionChildrenCodes = from cm in m.MemberCollection.OfType<RegexMember>()
+                                              where !string.IsNullOrWhiteSpace(cm.Group)
+                                                    && !string.IsNullOrWhiteSpace(cm.Pattern)
+                                              select cm.GenerateParseCode("   colls" + count1 + "[i]");
+                collectionChildrenCodes.ToList().ForEach(x => code.AppendLine(x));
+
+
                 code.AppendLine("           }");
                 code.AppendLinf("           this.{0}.AddRange(colls{1});", m.Name, count);
                 count++;
