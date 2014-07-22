@@ -154,6 +154,31 @@ namespace Bespoke.Sph.Domain
             return string.Format("{0}", value);
         }
 
+        public static DateTime? RegexDateTimeValue(string input, string pattern, string group, params  string[] formats)
+        {
+            var val = RegexSingleValue(input, pattern, group);
+            DateTime dv;
+            if (DateTime.TryParseExact(val, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dv))
+                return dv;
+            return null;
+        }
+        public static int? RegexInt32Value(string input, string pattern, string group)
+        {
+            var val = RegexSingleValue(input, pattern, group);
+            int dv;
+            if (int.TryParse(val, out dv))
+                return dv;
+            return null;
+        }
+        public static decimal? RegexDecimalValue(string input, string pattern, string group)
+        {
+            var val = RegexSingleValue(input, pattern, group);
+            decimal dv;
+            if (decimal.TryParse(val, out dv))
+                return dv;
+            return null;
+        }
+
         public static string RegexSingleValue(string input, string pattern, string group)
         {
             const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Singleline;

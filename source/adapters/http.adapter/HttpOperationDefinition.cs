@@ -95,6 +95,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   public class " + requestTypeName + " : DomainObject");
             code.AppendLine("   {");
 
+            code.AppendLine("       [XmlIgnore]");
+            code.AppendLine("       [JsonIgnore]");
             code.AppendLine("       public string ResponseText{ get; private set;}");
 
 
@@ -107,7 +109,51 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             foreach (var m in this.ResponseMemberCollection.OfType<RegexMember>().Where(m => !string.IsNullOrWhiteSpace(m.Group) && !string.IsNullOrWhiteSpace(m.Pattern)))
             {
-                code.AppendLinf("           this.{0} = Strings.RegexSingleValue(this.ResponseText, {1}, \"{0}\");", m.Group, m.Pattern.ToLiteral());
+                if (m.Type == typeof(string))
+                    code.AppendLinf("           this.{0} = Strings.RegexSingleValue(this.ResponseText, {1}, \"{2}\");", m.Name, m.Pattern.ToLiteral(), m.Group);
+
+                if (m.Type == typeof(decimal) && m.IsNullable)
+                    code.AppendLinf("           this.{0} = Strings.RegexDecimalValue(this.ResponseText, {1}, \"{2}\");", m.Name, m.Pattern.ToLiteral(), m.Group);
+                if (m.Type == typeof(decimal) && !m.IsNullable)
+                    code.AppendLinf("           this.{0} = Strings.RegexDecimalValue(this.ResponseText, {1}, \"{2}\") ?? decimal.Zero;", m.Name, m.Pattern.ToLiteral(), m.Group);
+
+                if (m.Type == typeof(int) && m.IsNullable)
+                    code.AppendLinf("           this.{0} = Strings.RegexInt32Value(this.ResponseText, {1}, \"{2}\");", m.Name, m.Pattern.ToLiteral(), m.Group);
+                if (m.Type == typeof(int) && !m.IsNullable)
+                    code.AppendLinf("           this.{0} = Strings.RegexInt32Value(this.ResponseText, {1}, \"{2}\") ?? 0;", m.Name, m.Pattern.ToLiteral(), m.Group);
+
+
+                if (m.Type == typeof(DateTime) && m.IsNullable)
+                    code.AppendLinf("           this.{0} = Strings.RegexDateTimeValue(this.ResponseText, {1}, \"{2}\", \"{2}\");", m.Name, m.Pattern.ToLiteral(), m.Group, m.DateFormat);
+                if (m.Type == typeof(DateTime) && !m.IsNullable)
+                    code.AppendLinf("           this.{0} = Strings.RegexDateTimeValue(this.ResponseText, {1}, \"{2}\", \"{3}\") ?? DateTime.MinValue;", m.Name, m.Pattern.ToLiteral(), m.Group, m.DateFormat);
+
+
+            }
+
+            // array
+            var count = 1;
+            foreach (var m in this.ResponseMemberCollection.OfType<RegexMember>().Where(m => m.Type == typeof(Array)))
+            {
+                var first = m.MemberCollection.OfType<RegexMember>().FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Group) && !string.IsNullOrWhiteSpace(x.Pattern));
+                if (null == first) continue;
+
+                code.AppendLine("// " + m.Name);
+                code.AppendLinf("           var values{2} = Strings.RegexValues(this.ResponseText, {1}, \"{0}\");", first.Group, first.Pattern.ToLiteral(), count);
+                code.AppendLinf("           var colls{1} = new ObjectCollection<{0}>(Enumerable.Range(0,values{1}.Length).Select(x => new {0}() ));", m.Name.Replace("Collection", ""), count);
+
+
+                code.AppendLinf("           for(int i = 0 ; i < values{0}.Length; i++)", count);
+                code.AppendLine("           {");
+                foreach (var cm in m.MemberCollection.OfType<RegexMember>().Where(x => !string.IsNullOrWhiteSpace(x.Group) && !string.IsNullOrWhiteSpace(x.Pattern)))
+                {
+                    if (cm.Type == typeof(string))
+                        code.AppendLinf("               colls{3}[i].{0} = Strings.RegexValues(this.ResponseText, {1}, \"{2}\")[i];", cm.Name, cm.Pattern.ToLiteral(), cm.Group, count);
+
+                }
+                code.AppendLine("           }");
+                code.AppendLinf("           this.{0}.AddRange(colls{1});", m.Name, count);
+                count++;
             }
 
             code.AppendLine("       }");

@@ -131,11 +131,26 @@ Check Summon
             var pdrm =
                 this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>()
                     .First(a => a.Name == "rilek_pdrm" && a.HttpMethod == "POST");
-            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "DateTime", Type = typeof(DateTime) });
+            pdrm.ResponseMemberCollection.Add(new RegexMember
+            {
+                Name = "DateTime",
+                Type = typeof(DateTime),
+                Group = "date",
+                DateFormat = "dd MMM yyyy HH:mm:ss",
+                Pattern = @"Total Amount \(RM\)</th> </tr> </thead> <tbody> <tr> <td>(?<date>[0-9]{1,2} [A-Za-z]{3} [0-9]{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2})</td>"
+            });
             pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "FullName", Type = typeof(string), Group = "FullName", Pattern = @"Total Amount \(RM\)</th> </tr> </thead> <tbody> <tr> <td>[0-9]{1,2} [A-Za-z]{3} [0-9]{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}</td> <td>(?<FullName>.*?)</td> " });
-            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "MyKad", Type = typeof(string) });
-            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "Count", Type = typeof(string) });
-            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "TotalAmount", Type = typeof(string) });
+            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "MyKad", Type = typeof(string), Group = "id", Pattern = "<td>[0-9]{12}</td>" });
+            pdrm.ResponseMemberCollection.Add(new RegexMember { Name = "Count", Type = typeof(int), Group = "c", Pattern = "<td>[0-9]{12}</td> <td style=\"text-align:center;\">(?<c>[0-9]{1,})</td>" });
+            pdrm.ResponseMemberCollection.Add(new RegexMember
+            {
+                Name = "TotalAmount",
+                IsNullable = true,
+                Type = typeof(decimal),
+                Group = "t",
+                Pattern = "<td>[0-9]{12}</td> <td style=\"text-align:center;\">[0-9]{1,}</td> " +
+                "<td style=\"text-align:center; font-weight:bold;\">(?<t>[0-9.]{1,})</td> </tr>"
+            });
 
             var summon = new RegexMember { Name = "SummonCollection", Type = typeof(Array) };
             summon.MemberCollection.Add(new RegexMember { Name = "No", Type = typeof(string) });
@@ -171,7 +186,10 @@ Check Summon
             StringAssert.Contains(response.ResponseText, "CHE ESHAH");
             Assert.AreEqual("CHE ESHAH BINTI MAHMOOD", response.FullName);
             Assert.AreEqual(1, response.SummonCollection.Count);
-            Assert.AreEqual("DAL3249X", response.SummonCollection[0].VehicleNo);
+            Assert.AreEqual("DAL3429", response.SummonCollection[0].VehicleNo);
+
+            Assert.AreEqual(70.00m, response.TotalAmount);
+            Assert.AreEqual(DateTime.Today, response.DateTime.Date);
 
         }
         [TestMethod]
