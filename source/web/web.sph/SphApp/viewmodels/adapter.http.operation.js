@@ -89,6 +89,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'ko/_ko.ada
 
 
                 return tcs.promise();
+            },
+            goBack = function() {
+                window.location = "#adapter.http/" + adapterId();
+                return Task.fromResult(0);
             };
 
         var vm = {
@@ -104,7 +108,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'ko/_ko.ada
             toolbar: {
                 saveCommand: save,
                 commands: ko.observableArray([
-
+                    {
+                        command: goBack,
+                        caption: "Back",
+                        icon: "fa fa-history"
+                    }
                 ])
 
             }

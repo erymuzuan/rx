@@ -63,6 +63,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="GetRequestRoutingTestFixture.cs" />
+    <Compile Include="NewssTextFixture.cs" />
     <Compile Include="ParseHtmlResponseTestFixture.cs" />
     <Compile Include="HttpAdapterTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="newss.har">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="petronas.sap.har">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -67,6 +67,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 addedActions.Add(methodName);
 
                 //
+                Console.WriteLine("GENE METHOD =>" + methodName);
                 code.AppendLine(op.GenerateActionCode(this, methodName));
 
                 var requestSources = op.GenerateRequestCode();
@@ -78,6 +79,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
+            Console.WriteLine(code);
             sources.Add(this.Name + ".cs", code.ToString());
 
             return Task.FromResult(sources);

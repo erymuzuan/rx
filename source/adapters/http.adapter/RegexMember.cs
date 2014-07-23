@@ -7,11 +7,41 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public class RegexMember : Member
     {
+        private string m_fieldName;
         public string Pattern { get; set; }
         public string Group { get; set; }
         public string DateFormat { get; set; }
         public string NumberFormat { get; set; }
 
+        public string FieldName
+        {
+            get { return m_fieldName; }
+            set
+            {
+                m_fieldName = value;
+                if (string.IsNullOrWhiteSpace(this.Name) && !string.IsNullOrWhiteSpace(value))
+                    this.Name = value
+                        .Replace(".","_")
+                        .Replace(",","_")
+                        .Replace("/","_")
+                        .Replace("*","_")
+                        .Replace("-","_")
+                        .Replace("!","_")
+                        .Replace("@","_")
+                        .Replace("$","_")
+                        .Replace("^","_")
+                        .Replace("(","_")
+                        .Replace(")","_")
+                        .Replace("{","_")
+                        .Replace("}","_")
+                        .Replace("[","_")
+                        .Replace("]","_")
+                        .Replace("`","_")
+                        .Replace(";","_")
+                        .Replace("'","_")
+                        .Replace(":","_");
+            }
+        }
 
         public string GenerateParseCode(string parentPath, RegexMember member = null)
         {

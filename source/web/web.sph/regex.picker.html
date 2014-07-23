@@ -16,6 +16,7 @@
             font-family: 'Segoe UI',Tahoma,Arial,Helvetica,sans-serif;
             margin-left: 120px;
         }
+
         #toolbar label {
             margin: 5px;
             height: 29px;
@@ -29,21 +30,40 @@
 <body>
     <div id="toolbar">
         <form data-bind="with : operation">
-            <div>
-                <label>Url</label>
-                <input type="text" readonly="readonly" data-bind="value: Url()" />
-            </div>
-            <div>
-                <label>Pattern</label>
-                <textarea id="pattern"  data-bind="value:$root.pattern"  style="min-width: 600px"></textarea>
-                <a href="#toolbar" data-bind="click : $root.expand">+</a>
-                <a href="#toolbar" data-bind="click : $root.addGroup">Add Group</a>
-            </div>
-            <div>
-                <label>Group</label>
-                <input type="text" data-bind="value:$root.group" />
-            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label>Url</label></td>
+                        <td><input type="text" readonly="readonly" data-bind="value: Url()" /></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label>Pattern</label></td>
+                        <td>
+
+                            <textarea id="pattern" data-bind="value:$root.pattern" style="min-width: 600px"></textarea>
+                        </td>
+                        <td>
+                            <a href="#toolbar" data-bind="click : $root.expand">Expand</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Group</label>
+                        </td>
+                        <td>
+                            <input type="text" data-bind="value:$root.group" />
+                        </td>
+                        <td>
+                            <a href="#toolbar" data-bind="click : $root.addGroup">Add Group</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </form>
+        <ul data-bind="foreach :results">
+            <li data-bind="text:$data"></li>
+        </ul>
         <button data-bind="click : test">Test</button>
         <button data-bind="click : saved">Save</button>
     </div>
@@ -89,18 +109,19 @@
 
         $(function () {
 
-            var ele = null;
+            var ele = null, text = null;
             var vm = {
                 operation: window.operation,
                 adapterId: ko.observable(window.adapterId),
                 pattern: ko.observable(window.member.Pattern()),
                 html: ko.observable(),
                 group: ko.observable(window.member.Group()),
+                results: ko.observableArray(),
                 test: function () {
-                    var json = JSON.stringify( {
+                    var json = JSON.stringify({
                         html: $('#main').html(),
                         pattern: vm.pattern(),
-                        group : vm.group()
+                        group: vm.group()
                     });
 
                     $.ajax({
@@ -109,31 +130,32 @@
                         url: "/httpadapter/test",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        error: function(e) {
+                        error: function (e) {
                             console.log("error", e);
                         },
-                        success: function (results) {
-                            console.log(results);
+                        success: function (list) {
+                            console.log(list);
+                            vm.results(list);
                         }
                     });
 
 
                 },
-                saved: function() {
+                saved: function () {
 
                     if (typeof window.saved === "function") {
                         window.saved(vm.pattern(), vm.group());
                     }
                 },
-                expand :function() {
+                expand: function () {
                     if (ele) {
                         ele = ele.parent();
-                        vm.pattern(ele.clone().wrap('<p>').parent().html());
+                        var pattern = ele.clone().wrap('<p>').parent().html().replace(text, "(?<" + window.member.Name() + ">.*?)");
+                        vm.pattern(pattern);
                     }
                 },
                 addGroup: function () {
                     vm.group(window.member.Name());
-                    //$('#pattern').insertAtCaret('(?<' + window.member.Name() + '>.*?)');
                 }
             };
 
@@ -144,9 +166,12 @@
                 });
             $('#main').on('click', '*', function (e, t) {
                 e.preventDefault();
-               
+
                 ele = $(e.target);
-                vm.pattern(ele.clone().wrap('<p>').parent().html());
+                text = ele.text();
+                var pattern = ele.clone().wrap('<p>').parent().html().replace(text, "(?<" + window.member.Name() + ">.*?)");
+                vm.pattern(pattern);
+                vm.group(window.member.Name());
                 //ele.addClass('selected-item');
             });
 

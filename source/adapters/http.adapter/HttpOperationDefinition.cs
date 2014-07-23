@@ -37,9 +37,12 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             // post data
             var postData = from p in jt.SelectTokens("request.postData.params").SelectMany(x => x)
-                           select new Member
+                           let field = p.SelectToken("name")
+                           where null != field
+                           && !string.IsNullOrWhiteSpace(field.Value<string>())
+                           select new RegexMember
                            {
-                               Name = p.SelectToken("name").Value<string>(),
+                               FieldName = field.Value<string>(),
                                Type = typeof(string)
                            };
             this.RequestMemberCollection.AddRange(postData);
@@ -50,9 +53,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 var text = jt.SelectToken("request.postData.text").Value<string>();
                 var formFields = from f in Strings.RegexValues(text, @"name=\""(?<fname>.*?)\""", "fname")
-                                 select new Member
+                                 select new RegexMember
                            {
-                               Name = f,
+                               FieldName = f,
                                Type = typeof(string)
                            };
                 this.RequestMemberCollection.AddRange(formFields);

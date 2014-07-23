@@ -167,18 +167,32 @@ namespace Bespoke.Sph.Integrations.Adapters
 
                 var jo = JToken.ReadFrom(reader);
                 var entries = jo.SelectTokens("$.log.entries").SelectMany(x => x);
-                var operations = from j in entries
-                                 where j.SelectToken("response.content.text") != null
-                                 select new HttpOperationDefinition(j)
-                                 {
-                                     Url = j.SelectToken("request.url").Value<string>(),
-                                     HttpMethod = j.SelectToken("request.method").Value<string>(),
-                                     Uuid = Guid.NewGuid().ToString(),
-                                     WebId = j.SelectToken("response.content.text").Value<string>()
-                                 };
+                var operations = (from j in entries
+                                 // where j.SelectToken("response.content.text") != null
+                                  let textToken = j.SelectToken("response.content.text")
+                                  let text = textToken == null ? string.Empty : textToken.Value<string>()
+                                  let url302 = j.SelectToken("response.redirectURL")
+                                  let url300 = url302 == null ? string.Empty : url302.Value<string>()
+                                  select new HttpOperationDefinition(j)
+                                  {
+                                      Url = j.SelectToken("request.url").Value<string>(),
+                                      HttpMethod = j.SelectToken("request.method").Value<string>(),
+                                      Uuid = Guid.NewGuid().ToString(),
+                                      WebId = text,// text
+                                      CodeNamespace = url300// 302
+                                  }).ToList();
                 var d = operations.LastOrDefault(o => o.HttpMethod == method && o.Url == url);
+                if (null != d && !string.IsNullOrWhiteSpace(d.CodeNamespace))
+                {
+                    var redirectUrl = d.CodeNamespace;
+                    Console.WriteLine("***************");
+                    Console.WriteLine(redirectUrl);
+                    Console.WriteLine("***************");
+                    d = operations.LastOrDefault(o => o.HttpMethod == "GET" && o.Url == redirectUrl);
+                }
+
                 if (null != d)
-                    return Content( HttpStatusCode.OK, d.WebId);
+                    return Content(HttpStatusCode.OK, d.WebId);
 
             }
 
@@ -192,8 +206,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var matches = Strings.RegexValues(test.Html, test.Pattern, test.Group);
             var json = JsonConvert.SerializeObject(matches);
-            var message = new HttpResponseMessage {Content = new JsonContent(json)};
-           return message;
+            var message = new HttpResponseMessage { Content = new JsonContent(json) };
+            return message;
         }
     }
 }
