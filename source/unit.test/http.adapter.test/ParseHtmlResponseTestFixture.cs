@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
 using Humanizer;
@@ -222,7 +223,12 @@ Check Summon
 
             dynamic rilek = Activator.CreateInstance(type);
             rilek.LoginCredential = login;
+            var authenticated = await rilek.PostUsersLoginAsync(login);
+            Console.WriteLine(JsonSerializerService.ToJsonString(authenticated, true));
+
             var response = await rilek.PostRilekPdrmAsync(request);
+            rilek.Dispose();
+
             StringAssert.Contains(response.ResponseText, "CHE ESHAH");
             Assert.AreEqual("CHE ESHAH BINTI MAHMOOD", response.Biodata.FullName);
             Assert.AreEqual(1, response.SummonCollection.Count);

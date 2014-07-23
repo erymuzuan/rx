@@ -52,6 +52,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code.AppendLine("   public class " + this.Name + " : IDisposable");
             code.AppendLine("   {");
+            code.AppendLine("       public bool IsAuthenticated {get;set;}");
             code.AppendLine("       private HttpClient m_client;");
             code.AppendLine("       private CookieContainer m_cookieContainer = new CookieContainer();");
             code.AppendLinf("       const string BASE_ADDRESS = \"{0}\";", this.BaseAddress);

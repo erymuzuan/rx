@@ -236,7 +236,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var code = new StringBuilder();
             var op = this;
             code.AppendLine(CreateMethodCode(adapter, methodName, op));
-            code.AppendLine(OperationLoginCode(adapter, op));
+            code.AppendLine(OperationLoginCode(op));
             code.AppendLine("           var client = m_client;");
 
             code.AppendLine(!string.IsNullOrWhiteSpace(op.RequestRouting)
@@ -249,6 +249,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLine("           " + c);
             }
             code.AppendLine(CreateResponseCode(op, methodName));
+           
 
             code.AppendLine("       }");
 
@@ -276,6 +277,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           if(response.IsSuccessStatusCode)");
             code.AppendLine("           {");
 
+            if (op.IsLoginOperation)
+            {
+                code.AppendLine("           this.IsAuthenticated = true;// TODO - verify with the response");
+            }
+
             code.AppendLinf("               var result =  new {0}Response();", methodName.ToCsharpIdentitfier());
             code.AppendLine("               await result.LoadAsync(response);");
             code.AppendLine("               return result;");
@@ -285,16 +291,16 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        private string OperationLoginCode(Adapter adapter, HttpOperationDefinition op)
+        private string OperationLoginCode(HttpOperationDefinition op)
         {
-            var code = new StringBuilder();
             if (op.IsLoginRequired)
             {
-                var login = adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>().Single(a => a.IsLoginOperation);
-                code.AppendLinf("           await this.{0}Async(this.LoginCredential);",
-                    (login.HttpMethod + "_" + login.Name).ToCsharpIdentitfier());
+                return
+                    "           " +
+                    "if(!this.IsAuthenticated)" +
+                    " throw new InvalidOperationException(\"You must be logged in\");";
             }
-            return code.ToString();
+            return string.Empty;
         }
     }
 }
