@@ -237,20 +237,19 @@ namespace Bespoke.Sph.Integrations.Adapters
             var op = this;
             code.AppendLine(CreateMethodCode(adapter, methodName, op));
             code.AppendLine(OperationLoginCode(adapter, op));
-            code.AppendLine(CreateHttpClientCode(op));
+            code.AppendLine("           var client = m_client;");
 
             code.AppendLine(!string.IsNullOrWhiteSpace(op.RequestRouting)
-                ? "               var url = request.GenerateUrl(REQUEST_URL);"
-                : "               var url = REQUEST_URL;");
+                ? "           var url = request.GenerateUrl(REQUEST_URL);"
+                : "           var url = REQUEST_URL;");
 
             var sendCode = HttpClientSendCodeGenerator.Create(op).GenerateCode(op);
             foreach (var c in sendCode.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None))
             {
-                code.AppendLine("               " + c);
+                code.AppendLine("           " + c);
             }
             code.AppendLine(CreateResponseCode(op, methodName));
 
-            code.AppendLine("           }");
             code.AppendLine("       }");
 
             return code.ToString();
@@ -272,33 +271,16 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var code = new StringBuilder();
             if (op.EnsureSuccessStatusCode)
-                code.AppendLine("               response.EnsureSuccessStatusCode();");
+                code.AppendLine("           response.EnsureSuccessStatusCode();");
 
-            code.AppendLine("               if(response.IsSuccessStatusCode)");
-            code.AppendLine("               {");
-
-            code.AppendLinf("                   var result =  new {0}Response();", methodName.ToCsharpIdentitfier());
-            code.AppendLine("                   await result.LoadAsync(response);");
-            code.AppendLine("                   return result;");
-            code.AppendLine("               }");
-            code.AppendLine("               return null;");
-
-            return code.ToString();
-        }
-
-        private string CreateHttpClientCode(HttpOperationDefinition op)
-        {
-            var code = new StringBuilder();
-
-            code.AppendLine("           using (var handler = new HttpClientHandler { CookieContainer = m_cookieContainer })");
-            if (op.Timeout.HasValue)
-                code.AppendLinf(
-                    "           using(var client = new HttpClient(handler){{BaseAddress = new Uri(BASE_ADDRESS), Timeout = TimeSpan.FromMilliseconds({0})}})",
-                    op.Timeout);
-            else
-                code.AppendLine("           using(var client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)})");
-
+            code.AppendLine("           if(response.IsSuccessStatusCode)");
             code.AppendLine("           {");
+
+            code.AppendLinf("               var result =  new {0}Response();", methodName.ToCsharpIdentitfier());
+            code.AppendLine("               await result.LoadAsync(response);");
+            code.AppendLine("               return result;");
+            code.AppendLine("           }");
+            code.AppendLine("           return null;");
 
             return code.ToString();
         }

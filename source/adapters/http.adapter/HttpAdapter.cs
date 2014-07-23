@@ -50,8 +50,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             var header = this.GetCodeHeader(namespaces);
             var code = new StringBuilder(header);
 
-            code.AppendLine("   public class " + this.Name);
+            code.AppendLine("   public class " + this.Name + " : IDisposable");
             code.AppendLine("   {");
+            code.AppendLine("       private HttpClient m_client;");
             code.AppendLine("       private CookieContainer m_cookieContainer = new CookieContainer();");
             code.AppendLinf("       const string BASE_ADDRESS = \"{0}\";", this.BaseAddress);
 
@@ -67,7 +68,6 @@ namespace Bespoke.Sph.Integrations.Adapters
                 addedActions.Add(methodName);
 
                 //
-                Console.WriteLine("GENE METHOD =>" + methodName);
                 code.AppendLine(op.GenerateActionCode(this, methodName));
 
                 var requestSources = op.GenerateRequestCode();
@@ -76,13 +76,31 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var responseSources = op.GenerateResponseCode();
                 AddSources(responseSources, sources);
             }
-
+            code.AppendLine(AddDisposeCode());
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
-            Console.WriteLine(code);
             sources.Add(this.Name + ".cs", code.ToString());
 
             return Task.FromResult(sources);
+        }
+
+        private string AddDisposeCode()
+        {
+            var code = new StringBuilder();
+            code.AppendLinf("       public {0}()", this.Name);
+            code.AppendLine("       {");
+            code.AppendLine("           var handler = new HttpClientHandler { CookieContainer = m_cookieContainer };");
+            code.AppendLine("           m_client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)};");
+
+
+            code.AppendLine("       }");
+            code.AppendLine("       public void Dispose()");
+            code.AppendLine("       {");
+            code.AppendLine("           m_client.Dispose();");
+
+            code.AppendLine("       }");
+
+            return code.ToString();
         }
 
         private void AddLoginSource(StringBuilder code)
