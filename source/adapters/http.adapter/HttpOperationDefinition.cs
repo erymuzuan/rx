@@ -121,7 +121,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLinf("           //{0}", m1.Name);
                 code.AppendLinf("           this.{0} = new {0}();", m1.Name);
                 var objectsChildren = from mc in m.MemberCollection.OfType<RegexMember>()
-                                      select mc.GenerateParseCode( "this." + m1.Name);
+                                      select mc.GenerateParseCode("this." + m1.Name);
                 objectsChildren.ToList().ForEach(x => code.AppendLine(x));
 
             }
@@ -249,7 +249,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLine("           " + c);
             }
             code.AppendLine(CreateResponseCode(op, methodName));
-           
+
 
             code.AppendLine("       }");
 

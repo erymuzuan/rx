@@ -1,106 +1,137 @@
 ﻿<h1>HTTP Web Scrapper Adapter</h1>
 <div class="row">
-    <form class="form-horizontal" data-bind="with : adapter">
+    <a data-toggle="collapse" href="#htt-adapter-properties-panel">
+        <h3>
+            <i class="fa fa-chevron-down"></i>
+            HTTP Adapter Properties
+        </h3>
+    </a>
+    <div class="collapse in" id="htt-adapter-properties-panel">
 
-        <div class="form-group">
-            <label for="name" class="col-lg-2 control-label">Name</label>
-            <div class="col-lg-6">
-                <input type="text" data-bind="value: Name"
-                       required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
-                       placeholder="Adapters name"
-                       class="form-control" id="name">
-            </div>
-        </div>
+        <form class="form-horizontal" data-bind="with : adapter">
 
-        <div class="form-group">
-            <label for="description" class="col-lg-2 control-label">Description</label>
-            <div class="col-lg-6">
-                <input type="text" data-bind="value: Description"
-                       placeholder="Developers note"
-                       class="form-control" id="description">
+            <div class="form-group">
+                <label for="name" class="col-lg-2 control-label">Name</label>
+                <div class="col-lg-6">
+                    <input type="text" data-bind="value: Name"
+                           required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                           placeholder="Adapters name"
+                           class="form-control" id="name">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="base-address" class="col-lg-2 control-label">Base Address</label>
-            <div class="col-lg-6">
-                <input type="url" data-bind="value: BaseAddress" 
-                       required 
-                       placeholder="Base Url for the Website"
-                       class="form-control" id="base-address">
+
+            <div class="form-group">
+                <label for="description" class="col-lg-2 control-label">Description</label>
+                <div class="col-lg-6">
+                    <input type="text" data-bind="value: Description"
+                           placeholder="Developers note"
+                           class="form-control" id="description">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="authentication-mode" class="col-lg-2 control-label">Authentication Mode</label>
-            <div class="col-lg-6">
-                <select class="form-control" id="authentication-mode" data-bind="value:AuthenticationMode">
-                    <option value="None">None</option>
-                    <option value="Form">Form</option>
-                    <option value="Basic">Basic</option>
-                    <option value="Digest">Digest</option>
-                    <option value="Ntlm">NTLM</option>
-                    <option value="OauthV1">Oauth 1.0</option>
-                    <option value="OauthV2">Oauth 2.0</option>
-                </select>
+            <div class="form-group">
+                <label for="base-address" class="col-lg-2 control-label">Base Address</label>
+                <div class="col-lg-6">
+                    <input type="url" data-bind="value: BaseAddress"
+                           required
+                           placeholder="Base Url for the Website"
+                           class="form-control" id="base-address">
+                </div>
             </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="har" class="col-lg-2 control-label">Web Traffice Archived(har)</label>
-            <div class="col-lg-6">
-                <input type="file" data-bind="kendoUpload: Har" 
-                       required 
-                       placeholder="HAR file to analyze"
-                       class="form-control" id="har">
+            <div class="form-group">
+                <label for="authentication-mode" class="col-lg-2 control-label">Authentication Mode</label>
+                <div class="col-lg-6">
+                    <select class="form-control" id="authentication-mode" data-bind="value:AuthenticationMode">
+                        <option value="None">None</option>
+                        <option value="Form">Form</option>
+                        <option value="Basic">Basic</option>
+                        <option value="Digest">Digest</option>
+                        <option value="Ntlm">NTLM</option>
+                        <option value="OauthV1">Oauth 1.0</option>
+                        <option value="OauthV2">Oauth 2.0</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="schema" class="col-lg-2 control-label">Schema</label>
-            <div class="col-lg-6">
-                <input type="text" data-bind="value: Schema" 
-                       required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$" 
-                       placeholder="Schema name"
-                       class="form-control" id="schema">
+
+            <div class="form-group">
+                <label for="har" class="col-lg-2 control-label">Web Traffice Archived(har)</label>
+                <div class="col-lg-6">
+                    <input type="file" data-bind="kendoUpload: Har"
+                           required
+                           placeholder="HAR file to analyze"
+                           class="form-control" id="har">
+                </div>
             </div>
-        </div>
-        <h3>Operations</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Method</th>
-                    <th>Url</th>
-                    <th>Name</th>
-                    <th>Method Name</th>
-                    <th>Login Page</th>
-                    <th>Login Operation</th>
-                    <th>Is Login required</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach : OperationDefinitionCollection">
-                <tr>
-                    <td data-bind="text:HttpMethod"></td>
-                    <td>
-                        <a data-bind="attr : {'href':'#adapter.http.operation/' + $parent.AdapterId() +'/'+ ko.unwrap(Uuid) },text: Url" ></a>
-                    </td>
-                    <td data-bind="text:Name"></td>
-                    <td data-bind="text:MethodName"></td>
-                    <td>
-                        <i class="fa fa-check" data-bind="visible:IsLoginPage"></i>
-                    </td>
-                    <td>
-                        <i class="fa fa-check" data-bind="visible:IsLoginOperation"></i>
-                    </td>
-                    <td>
-                        <i class="fa fa-check" data-bind="visible:IsLoginRequired"></i>
-                    </td>
-                    <td>
-                        <a title="Remove from the list" data-bind="click : $root.remove" href="#" class="btn btn-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
+
+            <div class="form-group">
+                <label for="schema" class="col-lg-2 control-label">Schema</label>
+                <div class="col-lg-6">
+                    <input type="text" data-bind="value: Schema"
+                           required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                           placeholder="Schema name"
+                           class="form-control" id="schema">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="timeout" class="col-sm-2 control-label">Timeout</label>
+
+                <div class="col-sm-4">
+                    <input type="text" data-bind="value: Timeout"
+                           pattern="^[0-9]*$"
+                           placeholder="Timeout for request, this is optional"
+                           class="form-control" id="timeout">
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control" data-bind="value:TimeoutInterval">
+                        <option value="Milliseconds">ms</option>
+                        <option value="Seconds">s</option>
+                        <option value="Minutes">minute</option>
+                    </select>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+<div class="row" data-bind="with : adapter">
+
+    <h3>Operations</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Url</th>
+                <th>Name</th>
+                <th>Method Name</th>
+                <th>Login Page</th>
+                <th>Login Operation</th>
+                <th>Is Login required</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach : OperationDefinitionCollection">
+            <tr>
+                <td data-bind="text:HttpMethod"></td>
+                <td>
+                    <a data-bind="attr : {'href':'#adapter.http.operation/' + $parent.AdapterId() +'/'+ ko.unwrap(Uuid) },text: Url"></a>
+                </td>
+                <td data-bind="text:Name"></td>
+                <td data-bind="text:MethodName"></td>
+                <td>
+                    <i class="fa fa-check" data-bind="visible:IsLoginPage"></i>
+                </td>
+                <td>
+                    <i class="fa fa-check" data-bind="visible:IsLoginOperation"></i>
+                </td>
+                <td>
+                    <i class="fa fa-check" data-bind="visible:IsLoginRequired"></i>
+                </td>
+                <td>
+                    <a title="Remove from the list" data-bind="click : $root.remove" href="#" class="btn btn-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

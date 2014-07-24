@@ -13,6 +13,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'ko/_ko.ada
 
         var operation = ko.observable(),
             isBusy = ko.observable(false),
+            timeoutInterval = ko.observable(1),
             adapterId = ko.observable(),
             requestSchema = ko.observable(),
             responseSchema = ko.observable(),
@@ -24,6 +25,14 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'ko/_ko.ada
 
                 $.get("/httpadapter/operation/" + id + "/" + uuid)
                     .done(function (op) {
+
+                        op.RequestHeadersDictionary = ko.observableArray();
+                        for (var key in op.RequestHeaders) {
+                            if (op.RequestHeaders.hasOwnProperty(key)) {
+                                op.RequestHeadersDictionary.push({ key: key, value: op.RequestHeaders[key] });
+                            }
+                        }
+
                         operation(context.toObservable(op));
 
                         _(operation().RequestMemberCollection()).each(function (v) {
@@ -96,6 +105,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'ko/_ko.ada
             };
 
         var vm = {
+            timeoutInterval: timeoutInterval,
             pickRegex: pickRegex,
             requestSchema: requestSchema,
             responseSchema: responseSchema,

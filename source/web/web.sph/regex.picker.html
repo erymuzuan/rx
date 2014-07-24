@@ -6,7 +6,6 @@
         .selected-item {
             border: 2px orange solid;
         }
-
         #toolbar input[type=text], textarea {
             width: 90%;
             margin: 5px;
@@ -27,10 +26,10 @@
         }
     </style>
 </head>
-<body>
-    <div id="toolbar">
+<body style="height: 90%">
+    <div id="toolbar" style="background-color: #cccccc">
         <form data-bind="with : operation">
-            <table>
+            <table style="width: 90%">
                 <tbody>
                     <tr>
                         <td><label>Url</label></td>
@@ -40,7 +39,6 @@
                     <tr>
                         <td><label>Pattern</label></td>
                         <td>
-
                             <textarea id="pattern" data-bind="value:$root.pattern" style="min-width: 600px"></textarea>
                         </td>
                         <td>
@@ -67,7 +65,7 @@
         <button data-bind="click : test">Test</button>
         <button data-bind="click : saved">Save</button>
     </div>
-    <div id="main">
+    <div id="main" style="position: relative;overflow-y: scroll;max-height: 760px">
 
     </div>
 
@@ -150,7 +148,23 @@
                 expand: function () {
                     if (ele) {
                         ele = ele.parent();
-                        var pattern = ele.clone().wrap('<p>').parent().html().replace(text, "(?<" + window.member.Name() + ">.*?)");
+                        var pattern = ele.clone().wrap('<p>').parent().html();
+                        pattern = pattern
+                            .replace(text, "8BD69E93578C4DB0A4871671CD8D8847")
+                            .replace('\\', '\\\\')
+                            .replace('[', '\\[')
+                            .replace(']', '\\]')
+                            .replace('*', '\\*')
+                            .replace('?', '\\?')
+                            .replace('^', '\\^')
+                            .replace('.', '\\.')
+                            .replace('|', '\\|')
+                            .replace('+', '\\+')
+                            .replace('$', '\\$')
+                            .replace('(', '\\(')
+                            .replace(')', '\\)')
+                            .replace("8BD69E93578C4DB0A4871671CD8D8847", "(?<" + window.member.Name() + ">.*?)");
+
                         vm.pattern(pattern);
                     }
                 },
@@ -166,10 +180,26 @@
                 });
             $('#main').on('click', '*', function (e, t) {
                 e.preventDefault();
+                e.stopPropagation();
 
                 ele = $(e.target);
                 text = ele.text();
-                var pattern = ele.clone().wrap('<p>').parent().html().replace(text, "(?<" + window.member.Name() + ">.*?)");
+                var pattern = ele.clone().wrap('<p>').parent().html();
+                pattern = pattern
+                    .replace(text, "8BD69E93578C4DB0A4871671CD8D8847")
+                    .replace('\\', '\\\\')
+                    .replace('[', '\\[')
+                    .replace(']', '\\]')
+                    .replace('*', '\\*')
+                    .replace('?', '\\?')
+                    .replace('^', '\\^')
+                    .replace('.', '\\.')
+                    .replace('|', '\\|')
+                    .replace('+', '\\+')
+                    .replace('$', '\\$')
+                    .replace('(', '\\(')
+                    .replace(')', '\\)')
+                    .replace("8BD69E93578C4DB0A4871671CD8D8847", "(?<" + window.member.Name() + ">.*?)");
                 vm.pattern(pattern);
                 vm.group(window.member.Name());
                 //ele.addClass('selected-item');

@@ -22,7 +22,6 @@ namespace http.adapter.test
 
         public ParseHtmlResponseTestFixture()
         {
-
             this.Schema = "UnitTest";
             this.Adapter = new HttpAdapter
             {
@@ -30,7 +29,9 @@ namespace http.adapter.test
                 Schema = this.Schema,
                 Har = @".\rilek2.har",
                 Tables = new AdapterTable[] { },
-                BaseAddress = "https://www.rilek.com.my/"
+                BaseAddress = "https://www.rilek.com.my/",
+                Timeout = 5000,
+                TimeoutInterval = "Minutes"
             };
         }
 
@@ -87,6 +88,7 @@ Check Summon
             using (var handler = new HttpClientHandler { CookieContainer = cookieContainer })
             using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
             {
+                client.Timeout = TimeSpan.FromMinutes(5);
                 var requestMessage = new HttpRequestMessage(HttpMethod.Post, URL)
                 {
                     Content = new StringContent(TEXT, Encoding.UTF8)
@@ -130,9 +132,9 @@ Check Summon
         public async Task PopulatePostResponse()
         {
             await this.OpenAsync();
-            var pdrm =
-                this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>()
-                    .First(a => a.Name == "rilek_pdrm" && a.HttpMethod == "POST");
+            var pdrm = this.Adapter.OperationDefinitionCollection
+                            .OfType<HttpOperationDefinition>()
+                            .First(a => a.Name == "rilek_pdrm" && a.HttpMethod == "POST");
 
             var biodata = new RegexMember {Type = typeof (object), Name = "Biodata"};
             pdrm.ResponseMemberCollection.Add(biodata);

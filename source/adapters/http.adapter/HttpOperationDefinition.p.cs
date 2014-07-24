@@ -12,7 +12,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         public bool EnsureSuccessStatusCode { get; set; }
         public HttpStatusCode ExpectedStatusCode { get; set; }
         public bool FollowRedirect { get; set; }
-        public long? Timeout { get; set; }
         public string RequestRouting { get; set; }
 
         public string HttpMethod { get; set; }

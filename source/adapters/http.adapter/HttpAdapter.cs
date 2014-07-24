@@ -93,6 +93,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           var handler = new HttpClientHandler { CookieContainer = m_cookieContainer };");
             code.AppendLine("           m_client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)};");
 
+            if (this.Timeout.HasValue)
+                code.AppendLinf("           m_client.Timeout = TimeSpan.From{0}({1});", this.TimeoutInterval, this.Timeout);
 
             code.AppendLine("       }");
             code.AppendLine("       public void Dispose()");
