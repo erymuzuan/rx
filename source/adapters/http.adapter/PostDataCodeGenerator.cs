@@ -13,9 +13,12 @@ namespace Bespoke.Sph.Integrations.Adapters
                 return new PostDataForGet();
             if (operation.RequestMemberCollection.Count == 0)
                 return new PostDataCodeGenerator();
-            var multipartPost = operation.HttpMethod == "POST" &&
-                                operation.RequestHeaders.ContainsKey("Content-Type") &&
-                                operation.RequestHeaders["Content-Type"].Contains("multipart");
+
+            var contentType = operation.GetDefaultHeader("Content-Type");
+
+            var multipartPost = operation.HttpMethod == "POST" && 
+                                !string.IsNullOrWhiteSpace(contentType) &&
+                                contentType.Contains("multipart");
             if (multipartPost)
                 return new PostDataForPostMultipartEncoded();
 

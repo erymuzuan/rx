@@ -71,6 +71,7 @@
     <Compile Include="HttpClientSendCodeGenerator.cs" />
     <Compile Include="DeleteCodeGenerator.cs" />
     <Compile Include="GetCodeGenerator.cs" />
+    <Compile Include="HttpHeaderDefinition.cs" />
     <Compile Include="HttpOperationDefinition.cs" />
     <Compile Include="HttpOperationDefinition.p.cs">
       <DependentUpon>HttpOperationDefinition.cs</DependentUpon>

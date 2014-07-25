@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Api;
+using Humanizer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -23,17 +24,23 @@ namespace Bespoke.Sph.Integrations.Adapters
         public HttpOperationDefinition(JToken jt)
         {
 
-            this.RequestHeaders = new Dictionary<string, string>();
             var headers = from p in jt.SelectTokens("request.headers").SelectMany(x => x)
-                          select new
+                          let ov = p.SelectToken("value").Value<string>()
+                          select new HttpHeaderDefinition
                           {
-                              name = p.SelectToken("name").Value<string>(),
-                              value = p.SelectToken("value").Value<string>()
+                              Name = p.SelectToken("name").Value<string>(),
+                              DefaultValue = ov,
+                              OriginalValue = ov,
+                              Field = new ConstantField
+                              {
+                                  Value = ov,
+                                  Type = typeof(string),
+                                  Name = ov.Truncate(20, "..."),
+                                  WebId = Guid.NewGuid().ToString()
+                              }
                           };
-            foreach (var h in headers)
-            {
-                this.RequestHeaders.Add(h.name, h.value);
-            }
+            this.HeaderDefinitionCollection.ClearAndAddRange(headers);
+
 
             // post data
             var postData = from p in jt.SelectTokens("request.postData.params").SelectMany(x => x)

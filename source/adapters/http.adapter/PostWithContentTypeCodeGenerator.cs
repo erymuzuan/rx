@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("var requestMessage = new  HttpRequestMessage(HttpMethod.Post,url);");
             code.AppendLine("requestMessage.Content = new StringContent(request.PostData, Encoding.UTF8);");
             code.AppendLine("requestMessage.Content.Headers.Remove(\"Content-Type\");");
-            code.AppendLinf("requestMessage.Content.Headers.TryAddWithoutValidation(\"Content-Type\", \"{0}\");", operation.RequestHeaders["Content-Type"]);
+            code.AppendLinf("requestMessage.Content.Headers.TryAddWithoutValidation(\"Content-Type\", \"{0}\");", operation.GetDefaultHeader("Content-Type"));
 
             code.AppendLine("var response = await client.SendAsync(requestMessage);");
             code.AppendLine("");

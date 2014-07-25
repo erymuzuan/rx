@@ -258,26 +258,68 @@
             Request Headers
         </h3>
     </a>
-    <div class="collapse in" id="request-headers-panel">
+    <div class="collapse in" id="request-headers-panel" data-bind="with : operation">
 
-        <table class="table table-striped" data-bind="with : operation">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Key</th>
-                    <th>Value</th>
+                    <th>Orginal Value</th>
+                    <th>New Value</th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach : RequestHeadersDictionary">
+            <tbody data-bind="foreach : HeaderDefinitionCollection">
                 <tr>
                     <td>
-                        <input type="text" class="form-control" data-bind="value:key" />
+                        <input type="text" class="form-control" data-bind="value:Name" />
                     </td>
                     <td>
-                        <input type="text" class="form-control" data-bind="value:value" />
+                        <input readonly="readonly" type="text" class="form-control" data-bind="value:OriginalValue" />
                     </td>
                     <td>
-                        <a href="#request-headers-panel">
+                        <div class="btn-group">
+
+                            <a data-bind="with : Field, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                                <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                <!-- ko text : Name -->
+                                <!-- /ko -->
+                                <i class="fa fa-caret-down pull-right"></i>
+                            </a>
+
+
+                            <ul class="dropdown-menu">
+                                <li data-bind="with : Field">
+                                    <a class="btn-add-setter-field" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent,$data)">
+                                        <i class="fa fa-edit"></i>
+                                        Edit Field
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">
+                                        <img src="/images/ConstantField.png" class="pull-left" />
+
+                                        Constant Field
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">
+                                        <img src="/images/FunctionField.png" class="pull-left" />
+                                        Function Field
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn-add-assembly-field" data-bind="unwrapClick: addField,field : 'Assembly', accessor : $data.Field" href="#">
+                                        <img src="/images/AssemblyField.png" class="pull-left" />
+                                        Assembly Field
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="#request-headers-panel" data-bind="click : $parent.removeHeaderDefinition($data)">
                             <i class="fa fa-times"></i>
                             Remove
                         </a>
@@ -285,6 +327,10 @@
                 </tr>
             </tbody>
         </table>
+        <a class="btn btn-link" href="#member-pattern" data-bind="click : addHeaderDefinition">
+            <i class="fa fa-plus-circle"></i>
+            Add a header definition
+        </a>
     </div>
 </div>
 <div class="row" style="height: 200px"></div>

@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                     return new GetCodeGenerator();
                 case "DELETE": return new DeleteCodeGenerator();
                 case "POST":
-                    if (op.RequestHeaders.ContainsKey("Content-Type"))
+                    if (!string.IsNullOrWhiteSpace(op.GetDefaultHeader("Content-Type")))
                     {
                         return new PostWithContentTypeCodeGenerator();
                     }

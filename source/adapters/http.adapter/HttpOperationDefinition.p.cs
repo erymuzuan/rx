@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using System.Net;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -15,8 +16,12 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string RequestRouting { get; set; }
 
         public string HttpMethod { get; set; }
-        //note : must not be private set else json.net would not be able to deserialize
-        public Dictionary<string, string> RequestHeaders { get; set; }
+        private readonly ObjectCollection<HttpHeaderDefinition> m_headerDefinitionCollection = new ObjectCollection<HttpHeaderDefinition>();
+
+        public ObjectCollection<HttpHeaderDefinition> HeaderDefinitionCollection
+        {
+            get { return m_headerDefinitionCollection; }
+        }
 
         public string Url
         {
@@ -29,6 +34,12 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
                 m_url = value;
             }
+        }
+
+        public string GetDefaultHeader(string key)
+        {
+            var hd = this.HeaderDefinitionCollection.SingleOrDefault(a => a.Name == key);
+            return null == hd ? null : hd.DefaultValue;
         }
 
     }

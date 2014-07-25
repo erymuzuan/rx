@@ -31,7 +31,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                                     Schema: ko.observable(),
                                     Name: ko.observable(),
                                     Description: ko.observable(),
-                                    OperationDefinitionCollection: ko.observableArray()
+                                    OperationDefinitionCollection: ko.observableArray(),
+                                    Timeout: ko.observable(),
+                                    TimeoutInterval: ko.observable()
                                 });
                             adapter().Har.subscribe(function (har) {
                                 // call the server to get the list of operations
