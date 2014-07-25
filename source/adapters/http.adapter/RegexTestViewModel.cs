@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class TestViewModel
+    public class RegexTestViewModel
     {
         public string Html { get; set; }
         public string Pattern { get; set; }

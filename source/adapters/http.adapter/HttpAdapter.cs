@@ -87,10 +87,15 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         private string AddDisposeCode()
         {
+
             var code = new StringBuilder();
             code.AppendLinf("       public {0}()", this.Name);
             code.AppendLine("       {");
             code.AppendLine("           var handler = new HttpClientHandler { CookieContainer = m_cookieContainer };");
+            code.AppendLine("           if (handler.SupportsAutomaticDecompression)");
+            code.AppendLine("           {");
+            code.AppendLine("               handler.AutomaticDecompression = DecompressionMethods.GZip |DecompressionMethods.Deflate;");
+            code.AppendLine("           }");
             code.AppendLine("           m_client = new HttpClient(handler){BaseAddress = new Uri(BASE_ADDRESS)};");
 
             if (this.Timeout.HasValue)

@@ -1,10 +1,15 @@
+using System.Text;
+
 namespace Bespoke.Sph.Integrations.Adapters
 {
     public class GetCodeGenerator : HttpClientSendCodeGenerator
     {
         public override string GenerateCode(HttpOperationDefinition operation)
         {
-           return "var response = await client.GetAsync(url);";
+            var code = new StringBuilder();
+            code.AppendLine("var requestMessage = new  HttpRequestMessage(HttpMethod.Get,url);");
+
+            return code.ToString();
 
 
         }

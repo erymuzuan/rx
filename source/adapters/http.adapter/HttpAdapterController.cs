@@ -202,9 +202,9 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         [HttpPost]
         [Route("test")]
-        public HttpResponseMessage TestRegex([FromBody]TestViewModel test)
+        public HttpResponseMessage TestRegex([FromBody]RegexTestViewModel regexTest)
         {
-            var matches = Strings.RegexValues(test.Html, test.Pattern, test.Group);
+            var matches = Strings.RegexValues(regexTest.Html, regexTest.Pattern, regexTest.Group);
             var json = JsonConvert.SerializeObject(matches);
             var message = new HttpResponseMessage { Content = new JsonContent(json) };
             return message;

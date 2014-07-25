@@ -251,10 +251,23 @@ namespace Bespoke.Sph.Integrations.Adapters
                 : "           var url = REQUEST_URL;");
 
             var sendCode = HttpClientSendCodeGenerator.Create(op).GenerateCode(op);
+        
+
             foreach (var c in sendCode.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None))
             {
                 code.AppendLine("           " + c);
+            }   
+            // custom headers
+            var automaticHeaders = new[] { "content-type", "content-length", "cookie", "accept-encoding" };
+            foreach (var hd in this.HeaderDefinitionCollection)
+            {
+                if(automaticHeaders.Contains(hd.Name.ToLowerInvariant()))continue;
+                code.AppendLinf("           requestMessage.Headers.Add(\"{0}\", \"{1}\");", hd.Name, hd.Field.GetValue(null));
             }
+
+
+            code.AppendLine("           var response = await client.SendAsync(requestMessage);");
+
             code.AppendLine(CreateResponseCode(op, methodName));
 
 
