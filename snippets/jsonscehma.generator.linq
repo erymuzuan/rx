@@ -16,9 +16,10 @@ void Main()
 	""three"" : 3,
 	""four"" : false,
 	""today"" : ""2014-07-26"",
-	""list"" :[
+	""collection"" :[
 		{
-			""five"" : 5
+			""five"" : 5,
+			""six"" : ""whatever""
 		},
 		
 		{
@@ -49,7 +50,8 @@ void Main()
 		var member = PrintJToken(p, null);
 		ed.MemberCollection.Add(member);
 	}
-	Console.WriteLine (ed.MemberCollection);
+	ed.MemberCollection.Where (mc => mc.Type== typeof(Array)).Dump();
+	//Console.WriteLine (JsonConvert.SerializeObject( ed.MemberCollection,Newtonsoft.Json.Formatting.Indented));
 }
 
 // Define other methods and classes here
@@ -59,21 +61,29 @@ public static Member PrintJToken(JToken jt, Member parent, string level= "")
 	var p = jt as JProperty;
 	if(null == p) 
 	{
-		
-		//Console.WriteLine ("--------"+jt.Type);
+	
 		// array of objects
 		if(jt.Type == JTokenType.Object)
 		{
 			foreach (var c in jt.Children())
 			{
-				PrintJToken( c,m, level + "    ");
+				var cm = PrintJToken( c,m, level + "    ");
+				
+				if(!parent.MemberCollection.Any(x => x.Name == cm.Name))
+					parent.MemberCollection.Add(cm);
 			}
 		}
 		return m;
 	}
 	
-	
-	//Console.WriteLine ("{2}{0}({1})",p.Name, p.Value.Type, level);
+	m.Name = p.Name;
+	var typeName = p.Value.Type;
+	var type =Type.GetType(string.Format("System.{0}, mscorlib",p.Value.Type));
+	if(typeName == JTokenType.Integer)
+		type = typeof(int);//"
+	if(null != type)
+		m.Type = type;
+	Console.WriteLine ("{2}{0}({1})",p.Name, p.Value.Type, level);
 	
 	if(p.Value.Type == JTokenType.Object|| p.Value.Type == JTokenType.Array)
 	{
@@ -83,6 +93,8 @@ public static Member PrintJToken(JToken jt, Member parent, string level= "")
 			PrintJToken( c,m, level + "    ");
 		}
 	}
+	if(null != parent)
+		parent.MemberCollection.Add(m);
 	
 	return m;
 }
