@@ -68,6 +68,19 @@ namespace Bespoke.Sph.Integrations.Adapters
                 this.RequestMemberCollection.AddRange(formFields);
 
             }
+            // for application/json
+            if (null != mimeType && mimeType.Value<string>() == "application/json")
+            {
+                var text = jt.SelectToken("request.postData.text").Value<string>();
+                var formFields = from f in Strings.RegexValues(text, @"name=\""(?<fname>.*?)\""", "fname")
+                                 select new RegexMember
+                                 {
+                                     FieldName = f,
+                                     Type = typeof(string)
+                                 };
+                this.RequestMemberCollection.AddRange(formFields);
+                
+            }
 
         }
 
