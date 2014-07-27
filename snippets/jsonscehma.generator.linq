@@ -16,6 +16,7 @@ void Main()
 	""three"" : 3,
 	""four"" : false,
 	""today"" : ""2014-07-26"",
+	""nullw"" : null,
 	""collection"" :[
 		{
 			""five"" : 5,
@@ -81,6 +82,8 @@ public static Member PrintJToken(JToken jt, Member parent, string level= "")
 	var type =Type.GetType(string.Format("System.{0}, mscorlib",p.Value.Type));
 	if(typeName == JTokenType.Integer)
 		type = typeof(int);//"
+	if(typeName == JTokenType.Null)
+		type = typeof(string);//"
 	if(null != type)
 		m.Type = type;
 	Console.WriteLine ("{2}{0}({1})",p.Name, p.Value.Type, level);

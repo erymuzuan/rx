@@ -14,13 +14,20 @@ namespace Bespoke.Sph.Integrations.Adapters
         public HttpStatusCode ExpectedStatusCode { get; set; }
         public bool FollowRedirect { get; set; }
         public string RequestRouting { get; set; }
-
+        public string ResponseMimeType { get; set; }
         public string HttpMethod { get; set; }
-        private readonly ObjectCollection<HttpHeaderDefinition> m_headerDefinitionCollection = new ObjectCollection<HttpHeaderDefinition>();
+        public string HttpVersion { get; set; }
+        private readonly ObjectCollection<HttpHeaderDefinition> m_requestHeaderDefinitionCollection = new ObjectCollection<HttpHeaderDefinition>();
+        private readonly ObjectCollection<HttpHeaderDefinition> m_responseHeaderDefinitionCollection = new ObjectCollection<HttpHeaderDefinition>();
 
-        public ObjectCollection<HttpHeaderDefinition> HeaderDefinitionCollection
+        public ObjectCollection<HttpHeaderDefinition> ResponseHeaderDefinitionCollection
         {
-            get { return m_headerDefinitionCollection; }
+            get { return m_responseHeaderDefinitionCollection; }
+        }
+
+        public ObjectCollection<HttpHeaderDefinition> RequestHeaderDefinitionCollection
+        {
+            get { return m_requestHeaderDefinitionCollection; }
         }
 
         public string Url
@@ -38,7 +45,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public string GetDefaultHeader(string key)
         {
-            var hd = this.HeaderDefinitionCollection.SingleOrDefault(a => a.Name == key);
+            var hd = this.RequestHeaderDefinitionCollection.SingleOrDefault(a => a.Name == key);
             return null == hd ? null : hd.DefaultValue;
         }
 

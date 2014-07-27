@@ -19,8 +19,15 @@ namespace Bespoke.Sph.Integrations.Adapters
             var multipartPost = operation.HttpMethod == "POST" && 
                                 !string.IsNullOrWhiteSpace(contentType) &&
                                 contentType.Contains("multipart");
+            var ajaxPost = operation.HttpMethod == "POST" && 
+                                !string.IsNullOrWhiteSpace(contentType) &&
+                                contentType.Contains("application/json;");
             if (multipartPost)
                 return new PostDataForPostMultipartEncoded();
+
+            if (ajaxPost)
+                return new PostDataAjax();
+
 
             if (operation.HttpMethod == "POST")
                 return new PostDataForPostUrlEncoded();

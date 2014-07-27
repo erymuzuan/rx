@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Bespoke.Sph.Domain;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                                   WebId = Guid.NewGuid().ToString()
                               }
                           };
-            this.HeaderDefinitionCollection.ClearAndAddRange(headers);
+            this.RequestHeaderDefinitionCollection.ClearAndAddRange(headers);
 
 
             // post data
@@ -71,15 +72,30 @@ namespace Bespoke.Sph.Integrations.Adapters
             // for application/json
             if (null != mimeType && mimeType.Value<string>() == "application/json")
             {
-                var text = jt.SelectToken("request.postData.text").Value<string>();
-                var formFields = from f in Strings.RegexValues(text, @"name=\""(?<fname>.*?)\""", "fname")
-                                 select new RegexMember
-                                 {
-                                     FieldName = f,
-                                     Type = typeof(string)
-                                 };
+                var json = jt.SelectToken("request.postData.text").Value<string>();
+                var formFields = JsonSerializerService.GenerateSchema(json);
                 this.RequestMemberCollection.AddRange(formFields);
-                
+
+            }
+
+            // for response with application/json
+            var responseMime = jt.SelectToken("response.content.mimeType");
+            if (null != responseMime && responseMime.Value<string>() == "application/json; charset=utf-8")
+            {
+                var json = jt.SelectToken("response.content.text").Value<string>();
+                if (json.Trim().StartsWith("["))// for array
+                    json = "{\"list\":" + json + "}";
+                try
+                {
+                    var formFields = JsonSerializerService.GenerateSchema(json);
+                    this.ResponseMemberCollection.AddRange(formFields);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Console.WriteLine(json);
+                    Debugger.Break();
+                }
             }
 
         }
@@ -174,6 +190,9 @@ namespace Bespoke.Sph.Integrations.Adapters
                 count++;
             }
 
+            // for ajax request
+            
+
             code.AppendLine("       }");
 
             // properties for each members
@@ -219,6 +238,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
 
 
+            code.AppendLine("       [JsonIgnore]");
+            code.AppendLine("       [XmlIgnore]");
             code.AppendLine("       public string PostData");
             code.AppendLine("       {");
             code.AppendLine("           get{");
@@ -264,17 +285,17 @@ namespace Bespoke.Sph.Integrations.Adapters
                 : "           var url = REQUEST_URL;");
 
             var sendCode = HttpClientSendCodeGenerator.Create(op).GenerateCode(op);
-        
+
 
             foreach (var c in sendCode.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None))
             {
                 code.AppendLine("           " + c);
-            }   
+            }
             // custom headers
             var automaticHeaders = new[] { "content-type", "content-length", "cookie", "accept-encoding" };
-            foreach (var hd in this.HeaderDefinitionCollection)
+            foreach (var hd in this.RequestHeaderDefinitionCollection)
             {
-                if(automaticHeaders.Contains(hd.Name.ToLowerInvariant()))continue;
+                if (automaticHeaders.Contains(hd.Name.ToLowerInvariant())) continue;
                 code.AppendLinf("           requestMessage.Headers.Add(\"{0}\", \"{1}\");", hd.Name, hd.Field.GetValue(null));
             }
 
