@@ -55,7 +55,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
         },
          removeHeaderDefinition = function (child) {
              return function () {
-                 operation().HeaderDefinitionCollection.remove(child);
+                 operation().RequestHeaderDefinitionCollection.remove(child);
              };
          },
         addHeaderDefinition = function () {
@@ -70,7 +70,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 WebId: system.guid()
             };
             child.Field({ Name: ko.observable("+ Field") });
-            operation().HeaderDefinitionCollection.push(child);
+            operation().RequestHeaderDefinitionCollection.push(child);
         },
         activate = function (id, uuid) {
             adapterId(parseInt(id));
@@ -83,7 +83,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     op2.removeHeaderDefinition = removeHeaderDefinition;
                     op2.addHeaderDefinition = addHeaderDefinition;
                     console.log(op2);
-                    _(op2.HeaderDefinitionCollection()).each(function (v) {
+                    _(op2.RequestHeaderDefinitionCollection()).each(function (v) {
                         v.editField = editField;
                         v.addField = addField;
                     });

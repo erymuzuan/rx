@@ -5,7 +5,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 
 
 namespace Bespoke.Sph.Domain
@@ -118,7 +117,7 @@ namespace Bespoke.Sph.Domain
             return ed.MemberCollection;
         }
 
-        private static Member ExtractChildMember(JToken jt, Member parent, string level = "")
+        private static Member ExtractChildMember(JToken jt, Member parent)
         {
             var m = new Member();
             var p = jt as JProperty;
@@ -130,7 +129,7 @@ namespace Bespoke.Sph.Domain
                 {
                     foreach (var c in jt.Children())
                     {
-                        var cm = ExtractChildMember(c, m, level + "    ");
+                        var cm = ExtractChildMember(c, m);
 
                         if (parent.MemberCollection.All(x => x.Name != cm.Name))
                             parent.MemberCollection.Add(cm);
@@ -155,7 +154,7 @@ namespace Bespoke.Sph.Domain
             {
                 foreach (var c in p.Value.Children())
                 {
-                    ExtractChildMember(c, m, level + "    ");
+                    ExtractChildMember(c, m);
                 }
             }
             if (null != parent)
