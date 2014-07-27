@@ -91,5 +91,22 @@ namespace http.adapter.test
             var response = await peranginan.PostBookingGetservicetypejsonAsync(request);
             Assert.AreEqual(5, response.list.Count);
         }
+
+        [TestMethod]
+        public async Task GetQueryStringRouteResponse()
+        {
+            var dll = Assembly.LoadFile(await CompileAsync());
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType("Dev.Adapters.UnitTest.GetBookingSelectroomRequest");
+            dynamic peranginan = Activator.CreateInstance(type);
+            
+            dynamic request = Activator.CreateInstance(requestType);
+            request.id = "3";
+            request.bph_secure_hash = "7116B1BF9AEE53748E3925FB2C75AE42";
+
+
+            var response = await peranginan.GetBookingSelectroomAsync(request);
+            StringAssert.Contains(response.ResponseText, "Permohonan Rumah Peranginan Online");
+        }
     }
 }

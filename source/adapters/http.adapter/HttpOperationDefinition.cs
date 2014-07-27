@@ -42,6 +42,28 @@ namespace Bespoke.Sph.Integrations.Adapters
                                  };
             this.RequestHeaderDefinitionCollection.ClearAndAddRange(requestHeaders);
 
+            var qs = jt.SelectToken("request.queryString");
+            if (null != qs)
+            {
+                var kvps = from p in jt.SelectTokens("request.queryString").SelectMany(x => x)
+                    let ov = p.SelectToken("value").Value<string>()
+                    let name = p.SelectToken("name").Value<string>()
+                    select string.Format("{0}={{{0}}}", name);
+
+                var kvps2 = from p in jt.SelectTokens("request.queryString").SelectMany(x => x)
+                    let ov = p.SelectToken("value").Value<string>()
+                    let name = p.SelectToken("name").Value<string>()
+                    select new RegexMember{Name = name, Type = typeof(string)};
+                this.RequestMemberCollection.AddRange(kvps2);
+
+                var url = jt.SelectToken("request.url").Value<string>();
+                var uri = new Uri(url);
+                this.Url = uri.AbsolutePath;
+
+                this.RequestRouting = this.Url + "?" + string.Join("&", kvps.ToArray());
+
+            }
+
             var responseHeaders = from p in jt.SelectTokens("request.headers").SelectMany(x => x)
                                   let ov = p.SelectToken("value").Value<string>()
                                   select new HttpHeaderDefinition

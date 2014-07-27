@@ -4,7 +4,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         public override string GenerateCode(HttpOperationDefinition operation)
         {
-            return "return string.Empty;";
+            return "                return string.Empty;";
         }
     }
 }

@@ -167,9 +167,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             var jo = JObject.Parse(File.ReadAllText(this.Har));
             var entries = jo.SelectTokens("$.log.entries").SelectMany(x => x);
             var operations = from j in entries
+                             let url = j.SelectToken("request.url").Value<string>()
+                             let uri = new Uri(url)
                              select new HttpOperationDefinition(j)
                              {
-                                 Url = j.SelectToken("request.url").Value<string>(),
+                                 Url = uri.AbsolutePath,
                                  HttpMethod = j.SelectToken("request.method").Value<string>(),
                                  Uuid = Guid.NewGuid().ToString()
                              };
