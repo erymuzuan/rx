@@ -8,7 +8,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         public override string GenerateCode(HttpOperationDefinition operation)
         {
-            var contentType = operation.GetDefaultHeader("Content-Type");
+            var contentType = operation.GetRequestHeader("Content-Type");
             var boundary = Strings.RegexSingleValue(contentType, "boundary=(?<boundary>.*?)$", "boundary");
 
             var code = new StringBuilder("return string.Format(@\"");

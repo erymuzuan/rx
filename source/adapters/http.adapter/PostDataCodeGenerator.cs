@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (operation.RequestMemberCollection.Count == 0)
                 return new PostDataCodeGenerator();
 
-            var contentType = operation.GetDefaultHeader("Content-Type");
+            var contentType = operation.GetRequestHeader("Content-Type");
 
             var multipartPost = operation.HttpMethod == "POST" && 
                                 !string.IsNullOrWhiteSpace(contentType) &&

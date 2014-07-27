@@ -34,7 +34,6 @@ namespace http.adapter.test
         private async Task OpenAsync()
         {
             await this.Adapter.OpenAsync();
-            var count = 1;
             foreach (var op in this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
             {
                 op.Name = op.Url.Replace(this.Adapter.BaseAddress, "")
@@ -44,7 +43,7 @@ namespace http.adapter.test
                     .Replace("?", "_")
                     .Replace("&", "_")
                     .Replace("=", "_")
-                    .Replace(".", "_") + "_" + count++;
+                    .Replace(".", "_") + "_";
                 Console.WriteLine("METHOD => " + op.Name);
                 op.IsLoginRequired = false;
             }
@@ -65,18 +64,32 @@ namespace http.adapter.test
         {
             var dll = Assembly.LoadFile(await CompileAsync());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostBookingGetpreviousbooking2Request");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostBookingGetpreviousbookingRequest");
             dynamic peranginan = Activator.CreateInstance(type);
-            Console.WriteLine(peranginan);
             
             dynamic request = Activator.CreateInstance(requestType);
             request.id = "780909-09-0909";
 
-            Console.WriteLine(request.PostData);
 
 
-            var response = await peranginan.PostBookingGetpreviousbooking2Async(request);
-            Assert.AreEqual("F322", response.Grade);
+            var response = await peranginan.PostBookingGetpreviousbookingAsync(request);
+            Assert.AreEqual("F32", response.Grade);
+        }
+
+        [TestMethod]
+        public async Task PostWithArrayResponse()
+        {
+            var dll = Assembly.LoadFile(await CompileAsync());
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostBookingGetservicetypejsonRequest");
+            dynamic peranginan = Activator.CreateInstance(type);
+            
+            dynamic request = Activator.CreateInstance(requestType);
+            request.serviceType = "Kakitangan Awam Persekutuan";
+
+
+            var response = await peranginan.PostBookingGetservicetypejsonAsync(request);
+            Assert.AreEqual(5, response.list.Count);
         }
     }
 }

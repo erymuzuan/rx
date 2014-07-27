@@ -25,22 +25,43 @@ namespace Bespoke.Sph.Integrations.Adapters
         public HttpOperationDefinition(JToken jt)
         {
 
-            var headers = from p in jt.SelectTokens("request.headers").SelectMany(x => x)
-                          let ov = p.SelectToken("value").Value<string>()
-                          select new HttpHeaderDefinition
-                          {
-                              Name = p.SelectToken("name").Value<string>(),
-                              DefaultValue = ov,
-                              OriginalValue = ov,
-                              Field = new ConstantField
-                              {
-                                  Value = ov,
-                                  Type = typeof(string),
-                                  Name = ov.Truncate(20, "..."),
-                                  WebId = Guid.NewGuid().ToString()
-                              }
-                          };
-            this.RequestHeaderDefinitionCollection.ClearAndAddRange(headers);
+            var requestHeaders = from p in jt.SelectTokens("request.headers").SelectMany(x => x)
+                                 let ov = p.SelectToken("value").Value<string>()
+                                 select new HttpHeaderDefinition
+                                 {
+                                     Name = p.SelectToken("name").Value<string>(),
+                                     DefaultValue = ov,
+                                     OriginalValue = ov,
+                                     Field = new ConstantField
+                                     {
+                                         Value = ov,
+                                         Type = typeof(string),
+                                         Name = ov.Truncate(20, "..."),
+                                         WebId = Guid.NewGuid().ToString()
+                                     }
+                                 };
+            this.RequestHeaderDefinitionCollection.ClearAndAddRange(requestHeaders);
+
+            var responseHeaders = from p in jt.SelectTokens("request.headers").SelectMany(x => x)
+                                  let ov = p.SelectToken("value").Value<string>()
+                                  select new HttpHeaderDefinition
+                                  {
+                                      Name = p.SelectToken("name").Value<string>(),
+                                      DefaultValue = ov,
+                                      OriginalValue = ov,
+                                      Field = new ConstantField
+                                      {
+                                          Value = ov,
+                                          Type = typeof(string),
+                                          Name = ov.Truncate(20, "..."),
+                                          WebId = Guid.NewGuid().ToString()
+                                      }
+                                  };
+            this.ResponseHeaderDefinitionCollection.ClearAndAddRange(responseHeaders);
+
+            var mt = jt.SelectToken("response.content.mimeType");
+            if (null != mt)
+                this.ResponseMimeType = mt.Value<string>();
 
 
             // post data
@@ -83,8 +104,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (null != responseMime && responseMime.Value<string>() == "application/json; charset=utf-8")
             {
                 var json = jt.SelectToken("response.content.text").Value<string>();
-                if (json.Trim().StartsWith("["))// for array
+                this.ResponseIsJsonArray = json.Trim().StartsWith("[");
+                if (this.ResponseIsJsonArray)// for array
                     json = "{\"list\":" + json + "}";
+
                 try
                 {
                     var formFields = JsonSerializerService.GenerateSchema(json);
@@ -128,10 +151,10 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var sources = new Dictionary<string, string>();
 
-            var requestTypeName = (this.HttpMethod + "_" + this.Name).ToCsharpIdentitfier() + "Response";
+            var responseTypeName = (this.HttpMethod + "_" + this.Name).ToCsharpIdentitfier() + "Response";
             var code = new StringBuilder();
             code.AppendLine(this.GetCodeHeader());
-            code.AppendLine("   public class " + requestTypeName + " : DomainObject");
+            code.AppendLine("   public class " + responseTypeName + " : DomainObject");
             code.AppendLine("   {");
 
             code.AppendLine("       [XmlIgnore]");
@@ -191,7 +214,22 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
 
             // for ajax request
-            
+            if (this.ResponseMimeType == "application/json; charset=utf-8")
+            {
+                code.AppendLine();
+                if (this.ResponseIsJsonArray)
+                    code.AppendLinf("           var result = JsonConvert.DeserializeObject<{0}>(\"{{ \\\"list\\\" :\" + this.ResponseText + \"}}\");", responseTypeName, this.HttpMethod);
+                else
+                    code.AppendLinf("           var result = JsonConvert.DeserializeObject<{0}>(this.ResponseText);", responseTypeName);
+                foreach (var member in this.ResponseMemberCollection)
+                {
+                    code.AppendLinf(
+                        member.Type == typeof(Array)
+                            ? "           this.{0}.ClearAndAddRange(result.{0});"
+                            : "           this.{0} = result.{0};", member.Name);
+                }
+            }
+
 
             code.AppendLine("       }");
 
@@ -206,7 +244,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
 
-            sources.Add(requestTypeName + ".cs", code.ToString());
+            sources.Add(responseTypeName + ".cs", code.ToString());
 
 
             // classes for members
@@ -242,7 +280,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("       [XmlIgnore]");
             code.AppendLine("       public string PostData");
             code.AppendLine("       {");
-            code.AppendLine("           get{");
+            code.AppendLine("           get");
+            code.AppendLine("           {");
             code.AppendLine(PostDataCodeGenerator.Create(this).GenerateCode(this));
             code.AppendLine("           }");
             code.AppendLine("       }");

@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public bool FollowRedirect { get; set; }
         public string RequestRouting { get; set; }
         public string ResponseMimeType { get; set; }
+        public bool ResponseIsJsonArray { get; set; }
         public string HttpMethod { get; set; }
         public string HttpVersion { get; set; }
         private readonly ObjectCollection<HttpHeaderDefinition> m_requestHeaderDefinitionCollection = new ObjectCollection<HttpHeaderDefinition>();
@@ -43,9 +44,15 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
         }
 
-        public string GetDefaultHeader(string key)
+        public string GetRequestHeader(string key)
         {
             var hd = this.RequestHeaderDefinitionCollection.SingleOrDefault(a => a.Name == key);
+            return null == hd ? null : hd.DefaultValue;
+        }
+
+        public string GetResponsetHeader(string key)
+        {
+            var hd = this.ResponseHeaderDefinitionCollection.SingleOrDefault(a => a.Name == key);
             return null == hd ? null : hd.DefaultValue;
         }
 
