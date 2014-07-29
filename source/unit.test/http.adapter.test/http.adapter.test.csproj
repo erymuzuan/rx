@@ -68,6 +68,7 @@
     <Compile Include="ParseHtmlResponseTestFixture.cs" />
     <Compile Include="HttpAdapterTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NamingUtilityTextFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\adapters\http.adapter\http.adapter.csproj">

@@ -34,7 +34,55 @@ namespace Bespoke.Sph.Domain
 
         public static string ToCsharpIdentitfier(this string text)
         {
-            return text.ToLower().Humanize().Transform(To.TitleCase).Replace(" ", "");
+
+            var rg = new Regex("([a-z])([A-Z])");
+
+            var t = rg.Replace(text, "$1_$2");
+
+            var code = new List<char>();
+            bool first = true;
+            bool gap = false;
+            bool previousUpper = false;
+            foreach (var c in t)
+            {
+                if (char.IsLetter(c) && first)
+                {
+                    code.Add(char.ToUpperInvariant(c));
+                    first = false;
+                    previousUpper = true;
+                    continue;
+                }
+
+                if (char.IsLetter(c) && gap)
+                {
+                    code.Add(char.ToUpperInvariant(c));
+                    gap = false;
+                    continue;
+                }
+
+                if (char.IsLetter(c) && char.IsUpper(c) && !previousUpper)
+                {
+                    code.Add(char.ToUpperInvariant(c));
+                    gap = false;
+                    previousUpper = true;
+                    continue;
+                }
+
+                if (char.IsLetter(c))
+                {
+                    code.Add(char.ToLowerInvariant(c));
+                    gap = false;
+                    continue;
+                }
+                else
+                {
+                    gap = true;
+                    continue;
+                }
+
+
+            }
+            return new string(code.ToArray());
         }
         public static string ToCamelCase(this string text)
         {

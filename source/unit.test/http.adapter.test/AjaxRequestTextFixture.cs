@@ -64,7 +64,7 @@ namespace http.adapter.test
         {
             var dll = Assembly.LoadFile(await CompileAsync());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostBookingGetpreviousbookingRequest");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostBookingGetPreviousBookingRequest");
             dynamic peranginan = Activator.CreateInstance(type);
             
             dynamic request = Activator.CreateInstance(requestType);
@@ -72,7 +72,7 @@ namespace http.adapter.test
 
 
 
-            var response = await peranginan.PostBookingGetpreviousbookingAsync(request);
+            var response = await peranginan.PostBookingGetPreviousBookingAsync(request);
             Assert.AreEqual("F32", response.Grade);
         }
 
