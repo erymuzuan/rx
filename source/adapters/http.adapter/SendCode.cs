@@ -2,14 +2,14 @@ using System;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class HttpClientSendCodeGenerator
+    public class SendCode
     {
         public virtual string GenerateCode(HttpOperationDefinition operation)
         {
             return "throw new Exception(\"No code is generated\");";
         }
 
-        public static HttpClientSendCodeGenerator Create(HttpOperationDefinition op)
+        public static SendCode Create(HttpOperationDefinition op)
         {
             switch (op.HttpMethod)
             {

@@ -3,7 +3,7 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class PostWithContentTypeCodeGenerator : HttpClientSendCodeGenerator
+    public class PostWithContentTypeCodeGenerator : SendCode
     {
         public override string GenerateCode(HttpOperationDefinition operation)
         {

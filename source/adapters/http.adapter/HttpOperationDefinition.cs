@@ -237,7 +237,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 ? "           var url = request.GenerateUrl(REQUEST_URL);"
                 : "           var url = REQUEST_URL;");
 
-            var sendCode = HttpClientSendCodeGenerator.Create(op).GenerateCode(op);
+            var sendCode = SendCode.Create(op).GenerateCode(op);
 
 
             foreach (var c in sendCode.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.None))
@@ -252,12 +252,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLinf("           requestMessage.Headers.Add(\"{0}\", \"{1}\");", hd.Name, hd.Field.GetValue(null));
             }
 
-
             code.AppendLine("           var response = await client.SendAsync(requestMessage);");
-
             code.AppendLine(CreateResponseCode(op, methodName));
-
-
             code.AppendLine("       }");
 
             return code.ToString();

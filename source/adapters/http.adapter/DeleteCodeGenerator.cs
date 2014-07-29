@@ -2,7 +2,7 @@ using System.Text;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class DeleteCodeGenerator : HttpClientSendCodeGenerator
+    public class DeleteCodeGenerator : SendCode
     {
         public override string GenerateCode(HttpOperationDefinition operation)
         {

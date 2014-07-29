@@ -69,9 +69,16 @@
       <DependentUpon>HttpAdapter.cs</DependentUpon>
     </Compile>
     <Compile Include="HttpAdapterController.cs" />
-    <Compile Include="HttpClientSendCodeGenerator.cs" />
-    <Compile Include="DeleteCodeGenerator.cs" />
-    <Compile Include="GetCodeGenerator.cs" />
+    <Compile Include="SendCode.cs" />
+    <Compile Include="PostWithContentTypeCodeGenerator.cs">
+      <DependentUpon>SendCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeleteCodeGenerator.cs">
+      <DependentUpon>SendCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GetCodeGenerator.cs">
+      <DependentUpon>SendCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="HttpHeaderDefinition.cs" />
     <Compile Include="HttpOperationDefinition.cs" />
     <Compile Include="HttpOperationDefinition.p.cs">
@@ -89,16 +96,29 @@
     <Compile Include="MultipPartFormHarProcess.cs">
       <DependentUpon>IHarProcessor.cs</DependentUpon>
     </Compile>
-    <Compile Include="PatchCodeGenerator.cs" />
-    <Compile Include="PostCodeGenerator.cs" />
-    <Compile Include="PostDataAjax.cs" />
-    <Compile Include="PostWithContentTypeCodeGenerator.cs" />
+    <Compile Include="PatchCodeGenerator.cs">
+      <DependentUpon>SendCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PostCodeGenerator.cs">
+      <DependentUpon>SendCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PostDataAjax.cs">
+      <DependentUpon>PostDataCodeGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="PrincipalParameterBinding.cs" />
-    <Compile Include="PutCodeGenerator.cs" />
+    <Compile Include="PutCodeGenerator.cs">
+      <DependentUpon>SendCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="PostDataCodeGenerator.cs" />
-    <Compile Include="PostDataForGet.cs" />
-    <Compile Include="PostDataForPostMultipartEncoded.cs" />
-    <Compile Include="PostDataForPostUrlEncoded.cs" />
+    <Compile Include="PostDataForGet.cs">
+      <DependentUpon>PostDataCodeGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PostDataForPostMultipartEncoded.cs">
+      <DependentUpon>PostDataCodeGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PostDataForPostUrlEncoded.cs">
+      <DependentUpon>PostDataCodeGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexMember.cs" />
     <Compile Include="RegexTestViewModel.cs" />
