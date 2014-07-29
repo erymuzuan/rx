@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.ComponentModel.Composition;
 using Bespoke.Sph.Domain;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Api;
-using Humanizer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -17,6 +16,9 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public partial class HttpOperationDefinition : OperationDefinition
     {
+        [ImportMany(typeof(IHarProcessor))]
+        public IHarProcessor[] HarProcessors { get; set; }
+
         public HttpOperationDefinition()
         {
 
@@ -24,129 +26,15 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public HttpOperationDefinition(JToken jt)
         {
-
-            var requestHeaders = from p in jt.SelectTokens("request.headers").SelectMany(x => x)
-                                 let ov = p.SelectToken("value").Value<string>()
-                                 select new HttpHeaderDefinition
-                                 {
-                                     Name = p.SelectToken("name").Value<string>(),
-                                     DefaultValue = ov,
-                                     OriginalValue = ov,
-                                     Field = new ConstantField
-                                     {
-                                         Value = ov,
-                                         Type = typeof(string),
-                                         Name = ov.Truncate(20, "..."),
-                                         WebId = Guid.NewGuid().ToString()
-                                     }
-                                 };
-            this.RequestHeaderDefinitionCollection.ClearAndAddRange(requestHeaders);
-
-            var qs = jt.SelectTokens("request.queryString");
-            if (null != qs && qs.Any())
-            {
-                var kvps = (from p in jt.SelectTokens("request.queryString").SelectMany(x => x)
-                            let ov = p.SelectToken("value").Value<string>()
-                            let name = p.SelectToken("name").Value<string>()
-                            select string.Format("{0}={{{0}}}", name))
-                           .ToArray();
-                if (kvps.Length > 0)
-                {
-                    var kvps2 = from p in jt.SelectTokens("request.queryString").SelectMany(x => x)
-                                let ov = p.SelectToken("value").Value<string>()
-                                let name = p.SelectToken("name").Value<string>()
-                                select new RegexMember { Name = name, Type = typeof(string) };
-                    this.RequestMemberCollection.AddRange(kvps2);
-
-                    var url = jt.SelectToken("request.url").Value<string>();
-                    var uri = new Uri(url);
-                    this.Url = uri.AbsolutePath;
-
-                    this.RequestRouting = this.Url + "?" + string.Join("&", kvps.ToArray());
-                }
-
-
-            }
-
-            var responseHeaders = from p in jt.SelectTokens("request.headers").SelectMany(x => x)
-                                  let ov = p.SelectToken("value").Value<string>()
-                                  select new HttpHeaderDefinition
-                                  {
-                                      Name = p.SelectToken("name").Value<string>(),
-                                      DefaultValue = ov,
-                                      OriginalValue = ov,
-                                      Field = new ConstantField
-                                      {
-                                          Value = ov,
-                                          Type = typeof(string),
-                                          Name = ov.Truncate(20, "..."),
-                                          WebId = Guid.NewGuid().ToString()
-                                      }
-                                  };
-            this.ResponseHeaderDefinitionCollection.ClearAndAddRange(responseHeaders);
-
+            ObjectBuilder.ComposeMefCatalog(this);
             var mt = jt.SelectToken("response.content.mimeType");
             if (null != mt)
                 this.ResponseMimeType = mt.Value<string>();
-
-
-            // post data
-            var postData = from p in jt.SelectTokens("request.postData.params").SelectMany(x => x)
-                           let field = p.SelectToken("name")
-                           where null != field
-                           && !string.IsNullOrWhiteSpace(field.Value<string>())
-                           select new RegexMember
-                           {
-                               FieldName = field.Value<string>(),
-                               Type = typeof(string)
-                           };
-            this.RequestMemberCollection.AddRange(postData);
-
-            // for multipart/form-data
-            var mimeType = jt.SelectToken("request.postData.mimeType");
-            if (null != mimeType && mimeType.Value<string>() == "multipart/form-data")
+            foreach (var harProcessor in this.HarProcessors)
             {
-                var text = jt.SelectToken("request.postData.text").Value<string>();
-                var formFields = from f in Strings.RegexValues(text, @"name=\""(?<fname>.*?)\""", "fname")
-                                 select new RegexMember
-                           {
-                               FieldName = f,
-                               Type = typeof(string)
-                           };
-                this.RequestMemberCollection.AddRange(formFields);
-
+                if(harProcessor.CanProcess(this, jt))
+                    harProcessor.Process(this, jt);
             }
-            // for application/json
-            if (null != mimeType && mimeType.Value<string>() == "application/json")
-            {
-                var json = jt.SelectToken("request.postData.text").Value<string>();
-                var formFields = JsonSerializerService.GenerateSchema(json);
-                this.RequestMemberCollection.AddRange(formFields);
-
-            }
-
-            // for response with application/json
-            var responseMime = jt.SelectToken("response.content.mimeType");
-            if (null != responseMime && responseMime.Value<string>() == "application/json; charset=utf-8")
-            {
-                var json = jt.SelectToken("response.content.text").Value<string>();
-                this.ResponseIsJsonArray = json.Trim().StartsWith("[");
-                if (this.ResponseIsJsonArray)// for array
-                    json = "{\"list\":" + json + "}";
-
-                try
-                {
-                    var formFields = JsonSerializerService.GenerateSchema(json);
-                    this.ResponseMemberCollection.AddRange(formFields);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    Console.WriteLine(json);
-                    Debugger.Break();
-                }
-            }
-
         }
 
 

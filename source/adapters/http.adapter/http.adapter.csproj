@@ -41,6 +41,7 @@
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -76,8 +77,18 @@
     <Compile Include="HttpOperationDefinition.p.cs">
       <DependentUpon>HttpOperationDefinition.cs</DependentUpon>
     </Compile>
+    <Compile Include="IHarProcessor.cs" />
     <Compile Include="JsonBodyAttribute.cs" />
     <Compile Include="JsonContent.cs" />
+    <Compile Include="JsonRequestHarProcess.cs">
+      <DependentUpon>IHarProcessor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JsonResponseharProcessor.cs">
+      <DependentUpon>IHarProcessor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MultipPartFormHarProcess.cs">
+      <DependentUpon>IHarProcessor.cs</DependentUpon>
+    </Compile>
     <Compile Include="PatchCodeGenerator.cs" />
     <Compile Include="PostCodeGenerator.cs" />
     <Compile Include="PostDataAjax.cs" />
@@ -91,6 +102,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexMember.cs" />
     <Compile Include="RegexTestViewModel.cs" />
+    <Compile Include="RequestHeadersHarProcessor.cs">
+      <DependentUpon>IHarProcessor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RequestPostDataHarProcess.cs">
+      <DependentUpon>IHarProcessor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RequestQueryStringHarProcess.cs">
+      <DependentUpon>IHarProcessor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ResponseHeadersHarProcess.cs">
+      <DependentUpon>IHarProcessor.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
