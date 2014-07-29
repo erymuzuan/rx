@@ -108,5 +108,59 @@ namespace http.adapter.test
             var response = await peranginan.GetBookingSelectroomAsync(request);
             StringAssert.Contains(response.ResponseText, "Permohonan Rumah Peranginan Online");
         }
+
+
+        [TestMethod]
+        public async Task GetMethodWithoutRoute()
+        {
+            var adapter = this.Adapter;
+            await adapter.OpenAsync();
+            foreach (var op in adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
+            {
+                Console.WriteLine("{0}=>{1}", op.HttpMethod, op.Url);
+            }
+            var getBooking =
+                adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>()
+                    .Single(x => x.HttpMethod == "GET"
+                                 && x.Url == "/booking");
+            Assert.IsFalse(getBooking.Url.Contains("?"));
+            Assert.IsTrue(string.IsNullOrWhiteSpace(getBooking.RequestRouting));
+            Assert.AreEqual(0, getBooking.RequestMemberCollection.Count);
+        }
+        [TestMethod]
+        public async Task PostMethodWithoutRoute()
+        {
+            var adapter = this.Adapter;
+            await adapter.OpenAsync();
+            foreach (var op in adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
+            {
+                Console.WriteLine("{0}=>{1}", op.HttpMethod, op.Url);
+            }
+            var getBooking =
+                adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>()
+                    .Single(x => x.HttpMethod == "POST"
+                                 && x.Url == "/Booking/GetPreviousBooking");
+            Assert.IsFalse(getBooking.Url.Contains("?"));
+            Assert.IsTrue(string.IsNullOrWhiteSpace(getBooking.RequestRouting));
+            Assert.AreEqual(1, getBooking.RequestMemberCollection.Count);
+        }
+
+        [TestMethod]
+        public async Task GetMethodQueryStringRoute()
+        {
+            var adapter = this.Adapter;
+            await adapter.OpenAsync();
+            foreach (var op in adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
+            {
+                Console.WriteLine("{0}=>{1}", op.HttpMethod, op.Url);
+            }
+            var getBooking =
+                adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>()
+                    .Single(x => x.HttpMethod == "GET"
+                                 && x.Url == "/Booking/SelectRoom/");
+            Assert.IsFalse(getBooking.Url.Contains("?"));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(getBooking.RequestRouting));
+            Assert.AreEqual(2, getBooking.RequestMemberCollection.Count);
+        }
     }
 }
