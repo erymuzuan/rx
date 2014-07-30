@@ -21,11 +21,16 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public static void ComposeMefCatalog(object part, params string[] assemblies)
+        public static void ComposeMefCatalog(object part, params Assembly[] assemblies)
         {
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetCallingAssembly()));
             catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
+
+            foreach (var dll in assemblies)
+            {
+                catalog.Catalogs.Add(new AssemblyCatalog(dll));
+            }
             var ignores = new[]
                 {
                     "Microsoft","Spring","WebGrease","WebActivator","WebMatrix",
