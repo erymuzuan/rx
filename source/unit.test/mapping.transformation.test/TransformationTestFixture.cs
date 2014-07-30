@@ -63,7 +63,8 @@ namespace mapping.transformation.test
             dynamic customer = Activator.CreateInstance(customerType);
             customer.FullName = "Erymuzuan Mustapa";
             customer.PrimaryContact = "0123889200";
-            customer.RegisteredDate = new DateTime(2000, 1, 1);
+            customer.LogoStoreId = "2012-05-31";
+            customer.RegisteredDate = DateTime.Today;
             customer.Age = 45;
             customer.CustomerId = 50;
 
@@ -107,14 +108,25 @@ namespace mapping.transformation.test
             });
             td.MapCollection.Add(new FunctoidMap
             {
-                Functoid = new ScriptFunctoid
+                Functoid = new DateFunctoid
                 {
-                    Expression = "DateTime.Today",
-                    Name = "hireDateFunc"
+                    SourceField = "LogoStoreId",
+                    Format = "yyyy-MM-dd"
 
                 },
                 Destination = "HIRE_DATE",
                 DestinationType = typeof(DateTime)
+            });
+            td.MapCollection.Add(new FunctoidMap
+            {
+                Functoid = new FormattingFunctoid
+                {
+                    SourceField = "RegisteredDate",
+                    Format = "Phone from date {0:yyyy-MM-dd}"
+
+                },
+                Destination = "PHONE_NUMBER",
+                DestinationType = typeof(string)
             });
             var options = new CompilerOptions();
             var codes = td.GenerateCode();
@@ -131,7 +143,8 @@ namespace mapping.transformation.test
             var output = await map.TransformAsync(customer);
             Assert.IsNotNull(output);
             Assert.AreEqual(customer.CustomerId, output.EMPLOYEE_ID);
-            Assert.AreEqual(DateTime.Today, output.HIRE_DATE);
+            Assert.AreEqual(new DateTime(2012, 5, 31), output.HIRE_DATE);
+            StringAssert.Contains(output.PHONE_NUMBER, "Phone from date", output.PHONE_NUMBER);
         }
     }
 }

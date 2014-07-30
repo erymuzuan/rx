@@ -4710,6 +4710,286 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// Convert string to bool
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("BooleanFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class BooleanFunctoid
+    {
+
+        private string m_Format;
+        [XmlAttribute]
+        public string Format
+        {
+            get
+            {
+                return m_Format;
+            }
+            set
+            {
+                m_Format = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_SourceField;
+        [XmlAttribute]
+        public string SourceField
+        {
+            get
+            {
+                return m_SourceField;
+            }
+            set
+            {
+                m_SourceField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// Convert string to double
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DoubleFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DoubleFunctoid
+    {
+
+        private string m_NumberStyles;
+        [XmlAttribute]
+        public string NumberStyles
+        {
+            get
+            {
+                return m_NumberStyles;
+            }
+            set
+            {
+                m_NumberStyles = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_SourceField;
+        [XmlAttribute]
+        public string SourceField
+        {
+            get
+            {
+                return m_SourceField;
+            }
+            set
+            {
+                m_SourceField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// Convert string to decimal
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DecimalFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DecimalFunctoid
+    {
+
+        private string m_NumberStyles;
+        [XmlAttribute]
+        public string NumberStyles
+        {
+            get
+            {
+                return m_NumberStyles;
+            }
+            set
+            {
+                m_NumberStyles = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_SourceField;
+        [XmlAttribute]
+        public string SourceField
+        {
+            get
+            {
+                return m_SourceField;
+            }
+            set
+            {
+                m_SourceField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// Convert string to int 32
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("Int32Functoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Int32Functoid
+    {
+
+        private string m_SourceField;
+        [XmlAttribute]
+        public string SourceField
+        {
+            get
+            {
+                return m_SourceField;
+            }
+            set
+            {
+                m_SourceField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_NumberStyles;
+        [XmlAttribute]
+        public string NumberStyles
+        {
+            get
+            {
+                return m_NumberStyles;
+            }
+            set
+            {
+                m_NumberStyles = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// Convert string to date
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DateFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DateFunctoid
+    {
+
+        private string m_Format;
+        [XmlAttribute]
+        public string Format
+        {
+            get
+            {
+                return m_Format;
+            }
+            set
+            {
+                m_Format = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_SourceField;
+        [XmlAttribute]
+        public string SourceField
+        {
+            get
+            {
+                return m_SourceField;
+            }
+            set
+            {
+                m_SourceField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_DateTimeStyles;
+        [XmlAttribute]
+        public string DateTimeStyles
+        {
+            get
+            {
+                return m_DateTimeStyles;
+            }
+            set
+            {
+                m_DateTimeStyles = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// User string.format to format any object to string
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("FormattingFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FormattingFunctoid
+    {
+
+        private string m_Format;
+        [XmlAttribute]
+        public string Format
+        {
+            get
+            {
+                return m_Format;
+            }
+            set
+            {
+                m_Format = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_SourceField;
+        [XmlAttribute]
+        public string SourceField
+        {
+            get
+            {
+                return m_SourceField;
+            }
+            set
+            {
+                m_SourceField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("Field", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Field

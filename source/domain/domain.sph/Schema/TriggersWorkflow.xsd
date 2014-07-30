@@ -822,4 +822,83 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="BooleanFunctoid">
+		<xs:annotation>
+			<xs:documentation>Convert string to bool</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Format" type="xs:string" use="required"/>
+					<xs:attribute name="SourceField" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DoubleFunctoid">
+		<xs:annotation>
+			<xs:documentation>Convert string to double</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="NumberStyles" type="xs:string" use="required"/>
+					<xs:attribute name="SourceField" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DecimalFunctoid">
+		<xs:annotation>
+			<xs:documentation>Convert string to decimal</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="NumberStyles" type="xs:string" use="required"/>
+					<xs:attribute name="SourceField" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Int32Functoid">
+		<xs:annotation>
+			<xs:documentation>Convert string to int 32</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="SourceField" type="xs:string" use="required"/>
+					<xs:attribute name="NumberStyles" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DateFunctoid">
+		<xs:annotation>
+			<xs:documentation>Convert string to date</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Format" type="xs:string" use="required"/>
+					<xs:attribute name="SourceField" type="xs:string" use="required"/>
+					<xs:attribute name="DateTimeStyles" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FormattingFunctoid">
+		<xs:annotation>
+			<xs:documentation>User string.format to format any object to string</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Format" type="xs:string" use="required"/>
+					<xs:attribute name="SourceField" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

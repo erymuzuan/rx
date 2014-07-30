@@ -196,11 +196,30 @@
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
     <Compile Include="ILogger.cs" />
-    <Compile Include="Transform\ConstantFunctoid.cs" />
+    <Compile Include="Transform\ConstantFunctoid.cs">
+      <DependentUpon>Functoid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transform\DateFunctoid.cs">
+      <DependentUpon>Functoid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transform\DecimalFunctoid.cs">
+      <DependentUpon>Functoid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transform\DirectMap.cs" />
+    <Compile Include="Transform\DoubleFunctoid.cs">
+      <DependentUpon>Functoid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transform\FormattingFunctoid.cs">
+      <DependentUpon>Functoid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transform\FunctoidMap.cs" />
+    <Compile Include="Transform\Int32Functoid.cs">
+      <DependentUpon>Functoid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transform\Map.cs" />
-    <Compile Include="Transform\StringConcateFunctoid.cs" />
+    <Compile Include="Transform\StringConcateFunctoid.cs">
+      <DependentUpon>Functoid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transform\TransformDefinition.code.cs">
       <DependentUpon>TransformDefinition.cs</DependentUpon>
     </Compile>
@@ -293,7 +312,7 @@
     <Compile Include="Triggers\ConstantField.cs" />
     <Compile Include="Triggers\DocumentField.cs" />
     <Compile Include="Triggers\Field.cs" />
-    <Compile Include="Triggers\Functoid.cs" />
+    <Compile Include="Transform\Functoid.cs" />
     <Compile Include="Triggers\FunctoidMapping.cs" />
     <Compile Include="Triggers\InitiateActivityResult.cs" />
     <Compile Include="Triggers\ITaskScheduler.cs" />
