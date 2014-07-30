@@ -21,33 +21,51 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public static void ComposeMefCatalog(object part)
+        public static void ComposeMefCatalog(object part, params string[] assemblies)
         {
-
             var catalog = new AggregateCatalog();
+            catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetCallingAssembly()));
             catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
-            catalog.Catalogs.Add(new DirectoryCatalog("."));
+            var ignores = new[]
+                {
+                    "Microsoft","Spring","WebGrease","WebActivator","WebMatrix",
+                    "workflows","Antlr3.Runtime",
+                    "DiffPlex","Common.Logging","EntityFramework",
+                    "Humanizer","ImageResizer",
+                    "Invoke","Monads",
+                    "NCrontab","Newtonsoft",
+                    "RazorGenerator","RazorEngine",
+                    "Antlr3","RazorEngine",
+                    "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn"
+                };
+
+            Action<string> loadAssemblyCatalog = x =>
+            {
+                try
+                {
+                    catalog.Catalogs.Add(new AssemblyCatalog(x));
+                }
+                catch (BadImageFormatException)
+                {
+                    Console.WriteLine("cannot load {0}", x);
+                }
+            };
+            foreach (var file in System.IO.Directory.GetFiles(".", "*.dll"))
+            {
+                var name = System.IO.Path.GetFileName(file) ?? "";
+                if (ignores.Any(name.StartsWith)) continue;
+
+                loadAssemblyCatalog(file);
+            }
+
             if (System.IO.Directory.Exists(".\\bin"))
             {
                 // for web
                 foreach (var file in System.IO.Directory.GetFiles(".\\bin", "*.dll"))
                 {
                     var name = System.IO.Path.GetFileName(file) ?? "";
-                    if (name.StartsWith("Microsoft")) continue;
-                    if (name.StartsWith("DotNetOpenAuth")) continue;
-                    if (name.StartsWith("System")) continue;
-                    if (name.StartsWith("Owin")) continue;
-                    if (name.StartsWith("RabbitMQ.Client")) continue;
-                    if (name.StartsWith("Roslyn")) continue;
-                    if (name.StartsWith("Spring")) continue;
-                    if (name.StartsWith("WebGrease")) continue;
-                    if (name.StartsWith("WebActivatorEx")) continue;
-                    if (name.StartsWith("WebMatrix")) continue;
-                    if (name.StartsWith("workflows")) continue;
-                    if (name.StartsWith("DiffPlex")) continue;
-                    if (name.StartsWith("Antlr3.Runtime")) continue;
-                    if (name.StartsWith("Common.Logging")) continue;
-                    catalog.Catalogs.Add(new AssemblyCatalog(file));
+                    if (ignores.Any(name.StartsWith)) continue;
+                    loadAssemblyCatalog(file);
                 }
 
             }

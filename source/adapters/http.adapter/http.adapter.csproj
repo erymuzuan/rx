@@ -64,11 +64,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticationMode.cs" />
+    <Compile Include="DefaultNameSuggestionHarProcessor.cs">
+      <DependentUpon>IHarProcessor.cs</DependentUpon>
+    </Compile>
     <Compile Include="HttpAdapter.cs" />
     <Compile Include="HttpAdapter.p.cs">
       <DependentUpon>HttpAdapter.cs</DependentUpon>
     </Compile>
     <Compile Include="HttpAdapterController.cs" />
+    <Compile Include="JsonSchemaHelper.cs" />
     <Compile Include="SendCode.cs" />
     <Compile Include="PostWithContentTypeCodeGenerator.cs">
       <DependentUpon>SendCode.cs</DependentUpon>

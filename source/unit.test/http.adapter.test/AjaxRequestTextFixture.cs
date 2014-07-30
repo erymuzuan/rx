@@ -81,14 +81,14 @@ namespace http.adapter.test
         {
             var dll = Assembly.LoadFile(await CompileAsync());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostBookingGetservicetypejsonRequest");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostBookingGetServiceTypeJsonRequest");
             dynamic peranginan = Activator.CreateInstance(type);
             
             dynamic request = Activator.CreateInstance(requestType);
             request.serviceType = "Kakitangan Awam Persekutuan";
 
 
-            var response = await peranginan.PostBookingGetservicetypejsonAsync(request);
+            var response = await peranginan.PostBookingGetServiceTypeJsonAsync(request);
             Assert.AreEqual(5, response.list.Count);
         }
 
@@ -97,7 +97,7 @@ namespace http.adapter.test
         {
             var dll = Assembly.LoadFile(await CompileAsync());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.GetBookingSelectroomRequest");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest.GetBookingSelectRoomRequest");
             dynamic peranginan = Activator.CreateInstance(type);
             
             dynamic request = Activator.CreateInstance(requestType);
@@ -105,7 +105,7 @@ namespace http.adapter.test
             request.bph_secure_hash = "7116B1BF9AEE53748E3925FB2C75AE42";
 
 
-            var response = await peranginan.GetBookingSelectroomAsync(request);
+            var response = await peranginan.GetBookingSelectRoomAsync(request);
             StringAssert.Contains(response.ResponseText, "Permohonan Rumah Peranginan Online");
         }
 

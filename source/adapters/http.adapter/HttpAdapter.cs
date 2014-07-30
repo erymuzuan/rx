@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -165,7 +166,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public Task OpenAsync()
         {
             var jo = JObject.Parse(File.ReadAllText(this.Har));
-            var entries = jo.SelectTokens("$.log.entries").SelectMany(x => x);
+            var entries = jo.SelectTokens("$.log.entries").SelectMany(x => x).ToArray();
             var operations = from j in entries
                              let url = j.SelectToken("request.url").Value<string>()
                              let uri = new Uri(url)
@@ -177,6 +178,12 @@ namespace Bespoke.Sph.Integrations.Adapters
                              };
 
             this.OperationDefinitionCollection.AddRange(operations);
+            var urls = from j in entries
+                             let url = j.SelectToken("request.url").Value<string>()
+                             let uri = new Uri(url)
+                             select uri;
+            var ur = urls.First();
+            this.BaseAddress =string.Format("{0}://{1}{2}", ur.Scheme, ur.Host, ur.IsDefaultPort ? "" : ":" + ur.Port);
             return Task.FromResult(0);
         }
     }

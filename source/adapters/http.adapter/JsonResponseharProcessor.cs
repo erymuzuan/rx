@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
-using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -27,7 +26,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             try
             {
-                var formFields = JsonSerializerService.GenerateSchema(json);
+                var formFields = JsonSchemaHelper.GenerateSchema(json);
                 op.ResponseMemberCollection.AddRange(formFields);
             }
             catch (Exception e)

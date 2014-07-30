@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {  
 
             var json = jt.SelectToken("request.postData.text").Value<string>();
-            var formFields = JsonSerializerService.GenerateSchema(json);
+            var formFields = JsonSchemaHelper.GenerateSchema(json);
             op.RequestMemberCollection.AddRange(formFields);
 
 

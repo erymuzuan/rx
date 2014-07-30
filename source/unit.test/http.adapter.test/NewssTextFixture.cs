@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -35,14 +36,15 @@ namespace http.adapter.test
             var count = 1;
             foreach (var op in this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
             {
-                op.Name = op.Url.Replace("http://sit.stats.gov.my:7002/", "")
+                op.Name = op.Url.Replace("http://sit.stats.gov.my:7002/newss-portalx/", "")
                     .Replace("%20", "_")
                     .Replace(" ", "_")
                     .Replace("/", "_")
                     .Replace("?", "_")
                     .Replace("=", "_")
                     .Replace(".", "_") + "_" + count++;
-                Console.WriteLine("METHOD => " + op.Name);
+                op.MethodName = op.Name.ToCsharpIdentitfier();
+                Console.WriteLine("METHOD => " + op.MethodName);
                 op.IsLoginOperation = op.Name.ToLower().Contains("eplogin_seam") && op.HttpMethod == "POST";
                 op.IsLoginRequired = op.HttpMethod == "POST" && !op.Name.ToLower().Contains("eplogin_seam");
             }

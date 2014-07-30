@@ -45,6 +45,10 @@ namespace Bespoke.Sph.Domain
             bool previousUpper = false;
             foreach (var c in t)
             {
+                if (first && !char.IsLetter(c))
+                {
+                    continue;
+                }
                 if (char.IsLetter(c) && first)
                 {
                     code.Add(char.ToUpperInvariant(c));

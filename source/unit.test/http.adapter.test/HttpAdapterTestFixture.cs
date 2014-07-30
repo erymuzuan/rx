@@ -32,7 +32,11 @@ namespace http.adapter.test
             foreach (var op in this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
             {
                 op.Name = op.Url.Replace("https://eservice.mystation.com.my/myicss/", "")
-                    .Replace(".", "_");
+                    .Replace("myicss", "")
+                    .Replace("//", "_")
+                    .Replace(".", "_")
+                    ;
+                op.MethodName = op.Name;
             }
             var result = await this.Adapter.CompileAsync();
             Assert.IsTrue(File.Exists(result.Output));

@@ -15,6 +15,12 @@ namespace http.adapter.test
         }
 
         [TestMethod]
+        public void Undescore2()
+        {
+            Assert.AreEqual("RilekExportPdfReportPdrmSummonInquiry", "_rilek_export_pdf_report_PDRM_Summon_Inquiry".ToCsharpIdentitfier());
+        }
+
+        [TestMethod]
         public void Lower()
         {
             Assert.AreEqual(Expected, "post_new_booking_async".ToCsharpIdentitfier());
