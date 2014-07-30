@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -7,32 +9,33 @@ namespace Bespoke.Sph.Domain
     {
         public virtual Task<string> ConvertAsync(object source)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
         public virtual string  GenerateCode()
         {
             return string.Format("// NOT IMPLEMENTED =>{0}", this.GetType().Name);
         }
 
-        private Type m_destinationType;
-        private Type m_sourceType;
-
+        [JsonIgnore]
+        [XmlIgnore]
         public Type SourceType
         {
-            get { return m_sourceType; }
+            get { return Type.GetType(this.SourceTypeName); }
             set
             {
-                m_sourceType = value;
+                this.SourceTypeName = value.GetShortAssemblyQualifiedName();
                 RaisePropertyChanged();
             }
         }
 
+        [JsonIgnore]
+        [XmlIgnore]
         public Type DestinationType
         {
-            get { return m_destinationType; }
+            get { return Type.GetType(this.DestinationTypeName); }
             set
             {
-                m_destinationType = value;
+                this.DestinationTypeName = value.GetShortAssemblyQualifiedName();
                 RaisePropertyChanged();
             }
         }

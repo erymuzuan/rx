@@ -1,22 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Bespoke.Sph.Domain
 {
     [XmlInclude(typeof(ScriptFunctoid))]
+    [XmlInclude(typeof(ConstantFunctoid))]
+    [XmlInclude(typeof(StringConcateFunctoid))]
     public partial class Functoid : DomainObject
     {
-        public virtual T Convert<T, TArg>(TArg arg)
-        {
-            throw new Exception("whooaaa " + this.GetType().Name);
-        }
-
-        
-        public virtual Task<string> ConvertAsync(object source)
-        {
-            throw new Exception("Not implemented");
-        }
 
         public virtual string GeneratePreCode(FunctoidMap map)
         {

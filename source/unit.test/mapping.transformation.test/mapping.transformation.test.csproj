@@ -37,12 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dev.Customer">
-      <HintPath>..\..\web\web.sph\bin\Dev.Customer.dll</HintPath>
-    </Reference>
-    <Reference Include="Dev.HR_EMPLOYEES">
-      <HintPath>..\..\web\web.sph\bin\Dev.HR_EMPLOYEES.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -63,13 +57,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="JsonMapperTestFixture.cs" />
+    <Compile Include="TransformationTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="mapping.schema.json" />
-    <None Include="oracle.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

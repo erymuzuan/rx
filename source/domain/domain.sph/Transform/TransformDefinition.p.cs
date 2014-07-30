@@ -6,8 +6,6 @@ namespace Bespoke.Sph.Domain
 {
     public partial class TransformDefinition
     {
-        private string m_inputTypeName;
-        private string m_outputTypeName;
 
         [XmlIgnore]
         [JsonIgnore]
@@ -39,24 +37,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public string OutputTypeName
-        {
-            get { return m_outputTypeName; }
-            set
-            {
-                m_outputTypeName = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public string InputTypeName
-        {
-            get { return m_inputTypeName; }
-            set
-            {
-                m_inputTypeName = value;
-                RaisePropertyChanged();
-            }
-        }
+       
     }
 }

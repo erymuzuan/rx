@@ -4446,6 +4446,16 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameDescription = "Description";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_inputTypeName;
+        public const string PropertyNameInputTypeName = "InputTypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_outputTypeName;
+        public const string PropertyNameOutputTypeName = "OutputTypeName";
+
+
         private readonly ObjectCollection<Map> m_MapCollection = new ObjectCollection<Map>();
 
         ///<summary>
@@ -4544,6 +4554,64 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string InputTypeName
+        {
+            set
+            {
+                if (String.Equals(m_inputTypeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInputTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inputTypeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_inputTypeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string OutputTypeName
+        {
+            set
+            {
+                if (String.Equals(m_outputTypeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOutputTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_outputTypeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_outputTypeName;
+            }
+        }
+
+
 
     }
 
@@ -4615,6 +4683,29 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("StringConcateFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class StringConcateFunctoid
+    {
+
+        private readonly ObjectCollection<Field> m_ArgumentCollection = new ObjectCollection<Field>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Field> ArgumentCollection
+        {
+            get { return m_ArgumentCollection; }
+        }
 
 
     }
@@ -5136,6 +5227,16 @@ namespace Bespoke.Sph.Domain
         private string m_destination;
         public const string PropertyNameDestination = "Destination";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_sourceTypeName;
+        public const string PropertyNameSourceTypeName = "SourceTypeName";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_destinationTypeName;
+        public const string PropertyNameDestinationTypeName = "DestinationTypeName";
+
 
         // public properties members
 
@@ -5158,6 +5259,50 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_destination;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string SourceTypeName
+        {
+            set
+            {
+                if (m_sourceTypeName == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSourceTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_sourceTypeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_sourceTypeName;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string DestinationTypeName
+        {
+            set
+            {
+                if (m_destinationTypeName == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDestinationTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_destinationTypeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_destinationTypeName;
             }
         }
 

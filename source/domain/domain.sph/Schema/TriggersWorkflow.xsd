@@ -777,10 +777,14 @@
 			<xs:attribute name="TransformDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="InputTypeName" type="xs:string" use="required"/>
+			<xs:attribute name="OutputTypeName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="Map">
 		<xs:attribute name="Destination" type="xs:string" use="required"/>
+		<xs:attribute name="SourceTypeName" type="xs:string" use="required"/>
+		<xs:attribute name="DestinationTypeName" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:element name="DirectMap">
 		<xs:complexType>
@@ -797,6 +801,23 @@
 			<xs:complexContent>
 				<xs:extension base="Map">
 					<xs:attribute name="__uuid" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StringConcateFunctoid">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:all>
+						<xs:element name="ArgumentCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Field" type="Field" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

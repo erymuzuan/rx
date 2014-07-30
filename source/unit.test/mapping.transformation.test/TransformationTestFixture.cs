@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -9,45 +10,31 @@ using Bespoke.Sph.Domain;
 namespace mapping.transformation.test
 {
     [TestClass]
-    public class JsonMapperTestFixture
+    public class TransformationTestFixture
     {
         [TestInitialize]
         public void Setup()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+            Console.WriteLine("Copying files to");
+            File.Copy(Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, "Dev.Customer.dll"), @".\Dev.Customer.dll", true);
+            File.Copy(Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, "Dev.HR_EMPLOYEES.dll"), @".\Dev.HR_EMPLOYEES.dll", true);
         }
 
-        public static dynamic GetOracleInstance()
-        {
-            var folder = ConfigurationManager.WorkflowCompilerOutputPath;
-            var ed = Assembly.LoadFile(folder + @"\Dev.EMPLOYEES.dll");
-            var type = ed.GetType("EMPLOYEES");
-            return Activator.CreateInstance(type);
-        }
-
-        public static EntityDefinition GetSourceEntityDefinition()
-        {
-            var ed = new EntityDefinition
-            {
-                Name = "Employee",
-                RecordName = "EmployeeId"
-
-            };
-            ed.MemberCollection.Add(new Member { Name = "FirstName", Type = typeof(string) });
-            ed.MemberCollection.Add(new Member { Name = "LastName", Type = typeof(string) });
-            ed.MemberCollection.Add(new Member { Name = "Phone", Type = typeof(string) });
-            ed.MemberCollection.Add(new Member { Name = "Email", Type = typeof(string) });
-            ed.MemberCollection.Add(new Member { Name = "HireDate", Type = typeof(DateTime), IsNullable = true });
-
-            return ed;
-
-        }
 
 
         [TestMethod]
         public void ReadMappingFile()
         {
-            var map = new TransformDefinition { Name = "Test Survey Mapping", Description = "Just a description" };
+            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var map = new TransformDefinition
+            {
+                Name = "Test Survey Mapping",
+                Description = "Just a description",
+                InputType = customerType,
+                OutputType = oracleEmployeeType
+            };
             map.MapCollection.Add(new DirectMap
             {
                 Source = "SurveId",
@@ -62,7 +49,9 @@ namespace mapping.transformation.test
 
             map.MapCollection.Add(new FunctoidMap
             {
-                Functoid = sc
+                Functoid = sc,
+                SourceType = typeof(string),
+                DestinationType = typeof(string)
             });
             Console.WriteLine(map.ToJsonString(Formatting.Indented));
         }
@@ -111,7 +100,7 @@ namespace mapping.transformation.test
                 {
                     Expression = "return item.Gender == \"Male\"? \"Lelaki\" : \"Perempuan\";",
                     Name = "genderFunct"
-                    
+
                 },
                 Destination = "EMAIL",
                 DestinationType = typeof(string)
@@ -122,7 +111,7 @@ namespace mapping.transformation.test
                 {
                     Expression = "DateTime.Today",
                     Name = "hireDateFunc"
-                    
+
                 },
                 Destination = "HIRE_DATE",
                 DestinationType = typeof(DateTime)
@@ -143,9 +132,6 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual(customer.CustomerId, output.EMPLOYEE_ID);
             Assert.AreEqual(DateTime.Today, output.HIRE_DATE);
-
-
-
         }
     }
 }
