@@ -69,12 +69,33 @@ namespace Bespoke.Sph.Domain
 
         public string GenerateTransformCode()
         {
-            throw new Exception("TODO");
+            var code = new StringBuilder();
+            code.AppendLinf("           public async Task<{0}> TransformAsync({1} item)", this.OutputType.FullName, this.InputType.FullName);
+            code.AppendLine("           {");
+            code.AppendLinf("               var dest =  new {0}();", this.OutputType.FullName);
+            var mappingCodes = from m in this.MapCollection
+                        select "               " + m.GenerateCode();
+            code.AppendLine(string.Concat(mappingCodes.ToArray()));
+            code.AppendLine();
+
+            if (code.ToString().Contains("await "))
+                code.AppendLinf("               return dest;");
+            else
+            {
+                code.Replace("public async Task<", "public Task<");
+                code.AppendLinf("               return Task.FromResult(dest);");
+            }
+
+            code.AppendLine("           }");
+
+            code.Replace("{SOURCE_TYPE}", this.InputType.FullName);
+            code.Replace("{DEST_TYPE}", this.OutputType.FullName);
+            return code.ToString();
         }
 
         public string GenerateTransformToArrayCode()
         {
-            throw new Exception("return the list of destinations objects");
+            return ("//TODO : return the list of destinations objects");
         }
 
     }

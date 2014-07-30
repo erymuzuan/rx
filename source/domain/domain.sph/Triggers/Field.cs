@@ -15,5 +15,10 @@ namespace Bespoke.Sph.Domain
         {
             throw new NotImplementedException("whoaaa");
         }
+
+        public virtual  string GenerateCode()
+        {
+            return string.Format("// NOT IMPLEMENTED => {0}", this.GetType().Name);
+        }
     }
 }

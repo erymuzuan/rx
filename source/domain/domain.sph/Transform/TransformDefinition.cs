@@ -62,6 +62,8 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof (XElement).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof (System.Web.HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof (ConfigurationManager).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(this.InputType.Assembly.Location);
+                parameters.ReferencedAssemblies.Add(this.OutputType.Assembly.Location);
 
                 foreach (var es in options.EmbeddedResourceCollection)
                 {

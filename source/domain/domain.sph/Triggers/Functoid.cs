@@ -17,5 +17,14 @@ namespace Bespoke.Sph.Domain
         {
             throw new Exception("Not implemented");
         }
+
+        public virtual string GeneratePreCode(FunctoidMap map)
+        {
+            return string.Empty;
+        }
+        public virtual string GenerateCode()
+        {
+            return string.Format("// NOT IMPLEMENTED => {0}", this.GetType().Name);
+        }
     }
 }

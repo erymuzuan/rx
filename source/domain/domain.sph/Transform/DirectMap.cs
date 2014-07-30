@@ -27,5 +27,10 @@ namespace Bespoke.Sph.Domain
             var json = string.Format("\"{0}\":\"{1}\"", this.Destination, df.GetValue(context));
             return Task.FromResult(json);
         }
+
+        public override string GenerateCode()
+        {
+            return string.Format("dest.{1} = item.{0};", this.Source, this.Destination);
+        }
     }
 }

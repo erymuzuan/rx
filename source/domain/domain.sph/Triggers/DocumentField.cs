@@ -30,5 +30,10 @@ namespace Bespoke.Sph.Domain
             var result = script.Evaluate<object, Entity>("item." + this.Path, item);
             return result;
         }
+
+        public override string GenerateCode()
+        {
+            return string.Format("item.{0}", this.Path);
+        }
     }
 }

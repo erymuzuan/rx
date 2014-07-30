@@ -18,5 +18,11 @@ namespace Bespoke.Sph.Domain
             var args = this.ArgumentCollection.Select(a => a.GetValue(context));
             return Task.FromResult(string.Concat(args.ToArrayString()));
         }
+
+        public override string GenerateCode()
+        {
+            var codes = this.ArgumentCollection.Select(a => a.GenerateCode());
+            return string.Join(" + ", codes);
+        }
     }
 }

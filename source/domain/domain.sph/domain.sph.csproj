@@ -205,6 +205,9 @@
       <DependentUpon>TransformDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="Transform\TransformDefinition.cs" />
+    <Compile Include="Transform\TransformDefinition.p.cs">
+      <DependentUpon>TransformDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Triggers\Activity.cs" />
     <Compile Include="Triggers\ActivityExecutionResult.cs" />
     <Compile Include="Triggers\AssemblyAction.cs" />
