@@ -2,9 +2,9 @@
 <link href="/Content/transformation-mapping.css" rel="stylesheet" />
 <script src="/Scripts/jsPlumb/bundle.js"></script>
 <h1 data-bind="text:td().Name">Mapping Transform Definition</h1>
-<div class="row">
+<div class="row" id="container-canvas">
     <div class="col-lg-3">
-        <h3>Source</h3>
+        <h3 data-bind="with : td">Source(<span data-bind="text:InputTypeName"></span>)</h3>
         <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree" value="" />
         <div id="source-panel">
         </div>
@@ -13,13 +13,19 @@
         <h3>Maps</h3>
     </div>
     <div class="col-lg-3">
-        <h3>Destination</h3>
+        <h3 data-bind="with : td">Destination(<span data-bind="text:OutputTypeName"></span>)</h3>
         <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree2" value="" />
         <div id="destination-panel">
         </div>
     </div>
     <div class="col-lg-2" id="functoid-toolbars">
         <h3>Functoids</h3>
+        <ul id="function-toolbox" class="list-group" data-bind="foreach :functoidToolboxItems">
+            <li class="list-group-item">
+                <i class="fa fa-calendar" data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon}" ></i>
+                <span data-bind="text:Name"></span>
+            </li>
+        </ul>
     </div>
 
 </div>

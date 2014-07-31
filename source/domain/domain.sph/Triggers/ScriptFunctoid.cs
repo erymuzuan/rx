@@ -1,8 +1,11 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("FunctoidDesigner", typeof(Functoid))]
+    [FunctoidDesignerMetadata(Name = "C# code", FontAwesomeIcon = "code")]
     public partial class ScriptFunctoid : Functoid
     {
         public override string GeneratePreCode(FunctoidMap map)

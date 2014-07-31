@@ -1,5 +1,9 @@
+using System.ComponentModel.Composition;
+
 namespace Bespoke.Sph.Domain
 {
+    [Export("FunctoidDesigner", typeof(Functoid))]
+    [FunctoidDesignerMetadata(Name = "Date Parsing", BootstrapIcon = "calendar")]
     public partial class DateFunctoid : Functoid
     {
         public override string GenerateCode()

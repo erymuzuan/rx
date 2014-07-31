@@ -12,6 +12,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
     function (context, logger, system) {
 
         var td = ko.observable(),
+            functoidToolboxItems = ko.observableArray(),
             isBusy = ko.observable(false),
             sourceMember = ko.observable(),
             sourceSchema = ko.observable(),
@@ -35,9 +36,12 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         tcs.resolve(true);
                     });
 
+               
+
                 return tcs.promise();
 
-            }, isJsPlumbReady = false,
+            },
+            isJsPlumbReady = false,
             connectorPaintStyle = {
                 lineWidth: 2,
                 strokeStyle: "#808080",
@@ -61,7 +65,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     lineWidth: 2
                 },
                 isSource: true,
-                connector: ["Flowchart", { stub: [10, 15], gap: 10, cornerRadius: 5, alwaysRespectStubs: true }],
+                connector: ["Straight", { stub: [10, 15], gap: 10}],
                 connectorStyle: connectorPaintStyle,
                 hoverPaintStyle: endpointHoverStyle,
                 connectorHoverStyle: connectorHoverStyle,
@@ -86,7 +90,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             },
             jsPlumbReady = function () {
                 isJsPlumbReady = true;
-                jsPlumb.draggable($("div.activity"));
+                jsPlumb.draggable($("div.source-field, div.destination-field"));
                 jsPlumb.init();
                 jsPlumb.Defaults.Container = "container-canvas";
 
@@ -104,7 +108,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         }]
                     ]
                 });
-
+                $.get("/sph/transformdefinition/GetFunctoids", function (list) {
+                    functoidToolboxItems(list);
+                    jsPlumb.draggable($("ul#function-toolbox>li"));
+                });
 
                 //jsPlumb.bind("click", connectionClicked);
                 //jsPlumb.bind("connectionDragStop", connectionDragStop);
@@ -125,7 +132,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                            });
                            $('#destination-panel>div').each(function () {
                                var id = $(this).prop('id');
-                               jsPlumb.addEndpoint(id, sourceEndpoint, { anchor: "Left", uuid: id + "Source" });
+                               jsPlumb.addEndpoint(id, targetEndpoint, { anchor: "Left", uuid: id + "Source" });
                            });
                        }
                    }, 2500);
@@ -187,6 +194,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
         var vm = {
             isBusy: isBusy,
+            functoidToolboxItems: functoidToolboxItems,
             activate: activate,
             attached: attached,
             sourceMember: sourceMember,

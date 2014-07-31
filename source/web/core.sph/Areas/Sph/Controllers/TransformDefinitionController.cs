@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,17 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     public class TransformDefinitionController : Controller
     {
+        [ImportMany("FunctoidDesigner", typeof(Functoid), AllowRecomposition = true)]
+        public Lazy<Functoid, IFunctoidDesignerMetadata>[] Functoids { get; set; }
+
+        public ActionResult GetFunctoids()
+        {
+            ObjectBuilder.ComposeMefCatalog(this);
+            var list = from f in Functoids
+                select f.Metadata;
+            return Json(list.ToArray(), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Index()
         {
