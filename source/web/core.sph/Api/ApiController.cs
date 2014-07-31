@@ -144,6 +144,13 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteAsync<Watcher>(filter, page, size, includeTotal);
         }
 
+        [Route("TransformDefinition")]
+        public async Task<ActionResult> TransformDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<TransformDefinition>(filter, page, size, includeTotal);
+        }
+
+
         [Route("WorkflowDefinition")]
         public async Task<ActionResult> WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {

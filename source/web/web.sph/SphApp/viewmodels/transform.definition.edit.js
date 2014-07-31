@@ -20,8 +20,18 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
 
             },
             save = function () {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(td);
+                isBusy(true);
 
-                return Task.fromResult(0);
+                context.post(data, "/sph/transformdefinition")
+                    .then(function (result) {
+                        isBusy(false);
+
+
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             },
             editProp = function () {
 
@@ -37,7 +47,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                             if (!result) return;
                             if (result === "OK") {
                                 for (var g in td()) {
-                                    if (typeof td()[g] === "function" && (td()[g].name === "c"||td()[g].name === "observable")) {
+                                    if (typeof td()[g] === "function" && (td()[g].name === "c" || td()[g].name === "observable")) {
                                         td()[g](ko.unwrap(clone[g]));
                                     } else {
                                         td()[g] = clone[g];

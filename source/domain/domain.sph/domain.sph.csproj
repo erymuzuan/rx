@@ -196,6 +196,9 @@
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="Transform\BooleanFunctoid.cs">
+      <DependentUpon>Functoid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transform\ConstantFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>

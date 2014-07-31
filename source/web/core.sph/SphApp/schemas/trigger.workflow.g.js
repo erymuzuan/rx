@@ -1650,6 +1650,8 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
         TransformDefinitionId: ko.observable(0),
         Name: ko.observable(''),
         Description: ko.observable(''),
+        InputTypeName: ko.observable(''),
+        OutputTypeName: ko.observable(''),
         MapCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -1728,6 +1730,222 @@ bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
 
     if (bespoke.sph.domain.FunctoidMapPartial) {
         return _(v).extend(new bespoke.sph.domain.FunctoidMapPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.StringConcateFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v["$type"] = "Bespoke.Sph.Domain.StringConcateFunctoid, domain.sph";
+
+    v.ArgumentCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.StringConcateFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.StringConcateFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.BooleanFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Format = ko.observable('');
+
+    v.SourceField = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.BooleanFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.BooleanFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.BooleanFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.DoubleFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.NumberStyles = ko.observable('');
+
+    v.SourceField = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.DoubleFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DoubleFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.DoubleFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.DecimalFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.NumberStyles = ko.observable('');
+
+    v.SourceField = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.DecimalFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DecimalFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.DecimalFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.Int32Functoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.SourceField = ko.observable('');
+
+    v.NumberStyles = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.Int32Functoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.Int32FunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.Int32FunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.DateFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Format = ko.observable('');
+
+    v.SourceField = ko.observable('');
+
+    v.DateTimeStyles = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.DateFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DateFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.DateFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.FormattingFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Format = ko.observable('');
+
+    v.SourceField = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.FormattingFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FormattingFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.FormattingFunctoidPartial(v));
     }
     return v;
 };
@@ -1904,6 +2122,8 @@ bespoke.sph.domain.Map = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Map, domain.sph",
         Destination: ko.observable(''),
+        SourceTypeName: ko.observable(''),
+        DestinationTypeName: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

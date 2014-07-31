@@ -603,6 +603,7 @@
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\Controllers\ManagementController.cs" />
     <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
+    <Compile Include="Areas\Sph\Controllers\TransformDefinitionController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />
     <Compile Include="Areas\Sph\Controllers\AdminController.cs" />
@@ -2880,6 +2881,7 @@
     <Folder Include="Areas\Sph\Views\EmailTemplate\" />
     <Folder Include="Areas\Sph\Views\EntityChart\" />
     <Folder Include="Areas\Sph\Views\EntityForm\" />
+    <Folder Include="Areas\Sph\Views\TransformDefinition\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SphApp\schemas\_object.xslt">

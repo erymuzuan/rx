@@ -13,6 +13,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
         var items = ko.observableArray(),
             triggers= ko.observableArray(),
             wds= ko.observableArray(),
+            transforms = ko.observableArray(),
             isBusy = ko.observable(true),
             activate = function () {
                 var tcs = new $.Deferred(),
@@ -21,11 +22,12 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                     viewsTask = context.loadAsync({ entity: "EntityView", size: 200 }),
                     triggersTask = context.loadAsync({ entity:"Trigger", size:200 }),
                     rdlTask = context.loadAsync({ entity:"ReportDefinition", size:200 }),
+                    transformTask = context.loadAsync({ entity:"TransformDefinition", size:200 }),
                     wdTask = context.loadAsync({ entity:"WorkflowDefinition", size:200 });
 
 
-                $.when(entitiesTask, formsTask, viewsTask, triggersTask, wdTask, rdlTask)
-                    .then(function (entitiesLo, formsLo, viewsLo, triggersLo, wdsLo, rdlLo) {
+                $.when(entitiesTask, formsTask, viewsTask, triggersTask, wdTask, rdlTask, transformTask)
+                    .then(function (entitiesLo, formsLo, viewsLo, triggersLo, wdsLo, rdlLo, transformLo) {
                         isBusy(false);
                         var entities = _(entitiesLo.itemCollection).map(function (v) {
                             return {
@@ -41,6 +43,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                         });
                         items(entities);
                         wds(wdsLo.itemCollection);
+                        transforms(transformLo.itemCollection);
                         triggers(triggersLo.itemCollection);
 
                         tcs.resolve(true);
@@ -100,6 +103,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
         var vm = {
             attached: attached,
             isBusy: isBusy,
+            transforms: transforms,
             wds: wds,
             triggers: triggers,
             items: items,

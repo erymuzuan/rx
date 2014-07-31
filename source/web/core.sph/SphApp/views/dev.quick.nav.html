@@ -96,6 +96,18 @@
                             </a>
                         </li>
                     </ul>
+                    <h3>Transform Definitions</h3>
+                    <ul class="nav nav-pills nav-stacked" data-bind="foreach :transforms">
+                        <li>
+                            <a href="#" data-bind="attr : {'href':'#transform.definition.edit/' + TransformDefinitionId() }">
+                                <span>
+                                    <i class="fa fa-exchange"></i>
+                                    <!-- ko text: Name-->
+                                    <!--/ko-->
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="modal-footer">
