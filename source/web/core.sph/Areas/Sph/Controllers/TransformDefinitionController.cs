@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
+using Newtonsoft.Json.Schema;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -55,6 +57,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Schema(string type)
+        {
+            var t = Type.GetType(type);
+            var gen = new JsonSchemaGenerator();
+            var schema = gen.Generate(t);
+
+            return Content(schema.ToString(), "application/json", Encoding.UTF8);
+        }
+
         public ActionResult GetTypes(string dll)
         {
             var ignores = new[]
@@ -83,7 +94,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 .Where(x => !x.IsInterface)
                 .Where(x => x.IsPublic)
                 .Where(x => x.IsClass);
-            return Json(types.Select(x => x.FullName).ToArray(), JsonRequestBehavior.AllowGet);
+            return Json(types.Select(x => new
+            {
+                FullName = x.FullName + ", " + dll, x.Name
+            }).ToArray(), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label for="input-type-name" class="col-lg-2 control-label">Input Type</label>
                         <div class="col-lg-6">
-                            <select data-bind="value: InputTypeName, options: $root.inputTypeOptions" 
+                            <select data-bind="value: InputTypeName, options: $root.inputTypeOptions, optionsText:'Name', optionsValue:'FullName', optionsCaption:'[Select a .Net type]'" 
                                     required  
                                     class="form-control" id="input-type-name"></select>
                         </div>
@@ -52,8 +52,8 @@
                     <div class="form-group">
                         <label for="input-type-name" class="col-lg-2 control-label">Output Type</label>
                         <div class="col-lg-6">
-                            <select data-bind="value: OutputTypeName, options: $root.outputTypeOptions" 
-                                    required  
+                            <select data-bind="value: OutputTypeName, options: $root.outputTypeOptions, optionsText:'Name', optionsValue:'FullName', optionsCaption:'[Select a .Net type]'"
+                                    required
                                     class="form-control" id="input-type-name"></select>
                         </div>
                     </div>
