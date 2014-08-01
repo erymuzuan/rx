@@ -36,7 +36,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         tcs.resolve(true);
                     });
 
-               
+
 
                 return tcs.promise();
 
@@ -65,7 +65,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     lineWidth: 2
                 },
                 isSource: true,
-                connector: ["Straight", { stub: [10, 15], gap: 10}],
+                connector: ["Straight", { stub: [10, 15], gap: 10 }],
                 connectorStyle: connectorPaintStyle,
                 hoverPaintStyle: endpointHoverStyle,
                 connectorHoverStyle: connectorHoverStyle,
@@ -90,7 +90,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             },
             jsPlumbReady = function () {
                 isJsPlumbReady = true;
-                jsPlumb.draggable($("div.source-field, div.destination-field"));
+                jsPlumb.draggable($("span.source-field, span.destination-field"));
                 jsPlumb.init();
                 jsPlumb.Defaults.Container = "container-canvas";
 
@@ -126,25 +126,53 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                            script.remove();
 
                            jsPlumb.ready(jsPlumbReady);
-                           $('#source-panel>div').each(function () {
+                           $('#source-panel>span').each(function () {
                                var id = $(this).prop('id');
                                jsPlumb.addEndpoint(id, sourceEndpoint, { anchor: "Right", uuid: id + "Source" });
                            });
-                           $('#destination-panel>div').each(function () {
+                           $('#destination-panel>span').each(function () {
                                var id = $(this).prop('id');
                                jsPlumb.addEndpoint(id, targetEndpoint, { anchor: "Left", uuid: id + "Source" });
                            });
                        }
                    }, 2500);
 
+                if (td().TransformDefinitionId() === 0) {
+                    return;
+                }
+                var icon = function (html, item) {
+                    var type = item.properties[key].type;
+                    if (typeof type === "object") {
+                        type = type[0];
+                    }
+                    if (type === "string") {
+                        html += '<i class="glyphicon glyphicon-bold"></i>';
+                    }
+                    if (type === "integer") {
+                        html += '<i class="fa fa-sort-numeric-asc"></i>';
+                    }
+                    if (type === "object") {
+                        html += '<i class="fa fa-building-o"></i>';
+                    }
+                    if (type === "number") {
+                        html += '<i class="glyphicon glyphicon-usd"></i>';
+                    }
+                    if (type === "boolean") {
+                        html += '<i class="glyphicon glyphicon-ok"></i>';
+                    }
+                    return html;
+                };
+
                 var shtml = "";
                 for (var key in sourceSchema().properties) {
-                    shtml += '<div class="source-field" id="source-field-' + key + '">' + key + '</div>';
+                    shtml = icon(shtml, sourceSchema());
+                    shtml += '<span class="source-field" id="source-field-' + key + '">' + key + '</span><br/>';
                 }
                 $('#source-panel').html(shtml);
                 var dhtml = "";
                 for (var l in destinationSchema().properties) {
-                    dhtml += '<div class="destination-field" id="destination-field-' + l + '">' + l + '</div>';
+                    dhtml += '<span class="destination-field" id="destination-field-' + l + '">' + l + '</span>';
+                    dhtml = icon(dhtml, destinationSchema()) + "<br/>";
                 }
 
 

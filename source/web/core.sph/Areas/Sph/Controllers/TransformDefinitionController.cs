@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             ObjectBuilder.ComposeMefCatalog(this);
             var list = from f in Functoids
-                select f.Metadata;
+                       select f.Metadata;
             return Json(list.ToArray(), JsonRequestBehavior.AllowGet);
         }
 
@@ -39,25 +39,26 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
 
         }
+
+        readonly string[] m_ignores =
+        {
+            "Microsoft","Spring","WebGrease","WebActivator","WebMatrix",
+            "workflows","Antlr3.Runtime","core.sph", "web.sph", "mscorlib",
+            "DiffPlex","Common.Logging","EntityFramework","App_global", "Mono.Math",
+            "Humanizer","ImageResizer","windows",
+            "Invoke","Monads",
+            "NCrontab","Newtonsoft",
+            "RazorGenerator","RazorEngine",
+            "Antlr3","RazorEngine",
+            "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn"
+        };
         public ActionResult Assemblies()
         {
-            var ignores = new[]
-                {
-                    "Microsoft","Spring","WebGrease","WebActivator","WebMatrix",
-                    "workflows","Antlr3.Runtime",
-                    "DiffPlex","Common.Logging","EntityFramework",
-                    "Humanizer","ImageResizer",
-                    "Invoke","Monads",
-                    "NCrontab","Newtonsoft",
-                    "RazorGenerator","RazorEngine",
-                    "Antlr3","RazorEngine",
-                    "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn"
-                };
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var refAssemblies = from a in assemblies
                                 let name = a.GetName()
                                 where a.IsDynamic == false
-                                && !ignores.Any(x => name.Name.StartsWith(x))
+                                && !m_ignores.Any(x => name.Name.StartsWith(x))
                                 select new ReferencedAssembly
                                 {
                                     Version = name.Version.ToString(),
@@ -80,23 +81,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public ActionResult GetTypes(string dll)
         {
-            var ignores = new[]
-                {
-                    "Microsoft","Spring","WebGrease","WebActivator","WebMatrix",
-                    "workflows","Antlr3.Runtime",
-                    "DiffPlex","Common.Logging","EntityFramework",
-                    "Humanizer","ImageResizer",
-                    "Invoke","Monads",
-                    "NCrontab","Newtonsoft",
-                    "RazorGenerator","RazorEngine",
-                    "Antlr3","RazorEngine",
-                    "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn"
-                };
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var refAssemblies = from a in assemblies
                                 let name = a.GetName()
                                 where a.IsDynamic == false
-                                && !ignores.Any(x => name.Name.StartsWith(x))
+                                && !m_ignores.Any(x => name.Name.StartsWith(x))
                                 select a;
             var assembly = refAssemblies.SingleOrDefault(x => x.GetName().Name == dll);
             if (null == assembly) return HttpNotFound("Cannot find assembly " + dll);
@@ -108,7 +98,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 .Where(x => x.IsClass);
             return Json(types.Select(x => new
             {
-                FullName = x.FullName + ", " + dll, x.Name
+                FullName = x.FullName + ", " + dll,
+                x.Name
             }).ToArray(), JsonRequestBehavior.AllowGet);
         }
     }

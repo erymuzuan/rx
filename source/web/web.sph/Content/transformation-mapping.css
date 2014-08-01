@@ -1,7 +1,6 @@
 ﻿.destination-field,
 .source-field {
   margin: 5px;
-  border: 1px solid gray;
   border-radius: 20px;
   padding: 3px;
   font-size: 11px;
@@ -12,5 +11,8 @@
 }
 .destination-field {
   padding-left: 20px;
+}
+.source-field {
+  padding-right: 20px;
 }
 /*# sourceMappingURL=transformation-mapping.css.map */
