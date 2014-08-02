@@ -200,6 +200,16 @@ namespace Bespoke.Sph.Domain
                 }
             }
         }
+
+        public static string EscapeUriString(this string value)
+        {
+            return Uri.EscapeUriString(value.ToEmptyString());
+        }
+        public static string EscapeDataString(this string value)
+        {
+            return Uri.EscapeDataString(value.ToEmptyString());
+        }
+
         public static string ToEmptyString(this object value)
         {
             if (null == value) return string.Empty;
