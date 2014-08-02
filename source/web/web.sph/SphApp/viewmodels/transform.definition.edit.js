@@ -129,7 +129,11 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     }
                 });
 
+                var connectionInitialized = false;
                 instance.bind("connection", function (info) {
+                    if(!connectionInitialized){
+                        return;
+                    }
                     var sourceField = info.sourceId.replace("source-field-", ""),
                         destinationField = info.targetId.replace("destination-field-","");
                     var dm = new bespoke.sph.domain.DirectMap({Source: sourceField, Destination: destinationField, WebId: system.guid()});
@@ -161,11 +165,12 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 });
 
 
-                /*
-                 instance.connect({ source:"opened", target:"phone1" });
-                 instance.connect({ source:"phone1", target:"phone1" });
-                 instance.connect({ source:"phone1", target:"inperson" });
-                 */
+                _(td().MapCollection()).each(function(m){
+                    var conn = instance.connect({source: "source-field-" +ko.unwrap(m.Source), target : "destination-field-" + ko.unwrap(m.Destination) });
+                    conn.map = m;
+                });
+                connectionInitialized = true;
+             
 
                 jsPlumb.fire("jsPlumbDemoLoaded", instance);
 
