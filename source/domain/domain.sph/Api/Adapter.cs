@@ -166,5 +166,10 @@ namespace Bespoke.Sph.Domain.Api
         protected abstract Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync();
         protected abstract Task<Tuple<string, string>> GeneratePagingSourceCodeAsync();
         protected abstract Task<TableDefinition> GetSchemaDefinitionAsync(string table);
+
+        public virtual  void SaveAssets()
+        {
+
+        }
     }
 }
