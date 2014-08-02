@@ -105,7 +105,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 isJsPlumbReady = true;
 
                 var instance = jsPlumb.getInstance({
-                    Endpoint: ["Dot", {radius: 2}],
+                    Endpoint: ["Rectangle", {width: 10,height: 10}],
                     HoverPaintStyle: {strokeStyle: "#1e8151", lineWidth: 2 },
                     ConnectionOverlays: [
                         [ "Arrow", {
@@ -146,7 +146,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                     instance.makeSource(windows, {
                         filter: ".ep01",
-                        anchor: "Continuous",
+                        anchor: ["RightMiddle"],
                         connector: [ "Straight"],
                         connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
                         maxConnections: 5,
@@ -170,7 +170,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     conn.map = m;
                 });
                 connectionInitialized = true;
-             
+
 
                 jsPlumb.fire("jsPlumbDemoLoaded", instance);
 
@@ -232,7 +232,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 var buildSourceTree = function (branch) {
                     for (var key in branch.properties) {
                         var iconHtml = icon(shtml, branch.properties[key]);
-                        shtml += '<li><div class="source-field" id="source-field-' + key + '">' + iconHtml
+                        shtml += '<li><div style="display: inline-block" class="source-field" id="source-field-' + key + '">' + iconHtml
                             + '<span class="ep01">' + key + '</span>';
 
                         var type = branch.properties[key].type;
