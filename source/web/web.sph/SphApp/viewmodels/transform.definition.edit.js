@@ -37,7 +37,6 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     });
 
 
-
                 return tcs.promise();
 
             },
@@ -94,37 +93,87 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     y = arg.clientY;
 
                 /*
-                act.Name(act.Name() + wd().ActivityCollection().length);
-                act.WorkflowDesigner().X(x - 60);
-                act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top + $(window).scrollTop() - 30);
-                act.WebId(system.guid());
-                wd().ActivityCollection.push(act);
-                initializeActivity(act);
-                */
+                 act.Name(act.Name() + wd().ActivityCollection().length);
+                 act.WorkflowDesigner().X(x - 60);
+                 act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top + $(window).scrollTop() - 30);
+                 act.WebId(system.guid());
+                 wd().ActivityCollection.push(act);
+                 initializeActivity(act);
+                 */
             },
             jsPlumbReady = function () {
                 isJsPlumbReady = true;
-                jsPlumb.draggable($("li.source-field, span.destination-field"));
-                jsPlumb.init();
-                jsPlumb.Defaults.Container = "container-canvas";
 
-                // setup some defaults for jsPlumb.
-                jsPlumb.importDefaults({
-                    Endpoint: ["Dot", { radius: 2 }],
-                    HoverPaintStyle: { strokeStyle: "#000", lineWidth: 2 },
-                    PaintStyle: { strokeStyle: "#575757", lineWidth: 2 },
+                var instance = jsPlumb.getInstance({
+                    Endpoint: ["Dot", {radius: 2}],
+                    HoverPaintStyle: {strokeStyle: "#1e8151", lineWidth: 2 },
                     ConnectionOverlays: [
-                        ["Arrow", {
+                        [ "Arrow", {
                             location: 1,
                             id: "arrow",
                             length: 14,
                             foldback: 0.8
-                        }]
-                    ]
+                        } ]
+                    ],
+                    Container: "container-canvas"
                 });
+
+                var windows = jsPlumb.getSelector("div.source-field, div.destination-field");
+
+                //instance.draggable(windows);
+
+                instance.bind("click", function (c) {
+                    instance.detach(c);
+                    if(c.map){
+                        td().MapCollection.remove(c.map);
+                    }
+                });
+
+                instance.bind("connection", function (info) {
+                    var sourceField = info.sourceId.replace("source-field-", ""),
+                        destinationField = info.targetId.replace("destination-field-","");
+                    var dm = new bespoke.sph.domain.DirectMap({Source: sourceField, Destination: destinationField, WebId: system.guid()});
+                    td().MapCollection.push(dm);
+                    info.connection.map = dm;
+                });
+
+                // suspend drawing and initialise.
+                instance.doWhileSuspended(function () {
+
+                    instance.makeSource(windows, {
+                        filter: ".ep01",
+                        anchor: "Continuous",
+                        connector: [ "Straight"],
+                        connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
+                        maxConnections: 5,
+                        onMaxConnections: function (info, e) {
+                            alert("Maximum connections (" + info.maxConnections + ") reached" + e);
+                        }
+                    });
+
+
+                });
+
+                // initialise all '.w' elements as connection targets.
+                instance.makeTarget(windows, {
+                    dropOptions: { hoverClass: "dragHover" },
+                    anchor: "Continuous"
+                });
+
+
+                /*
+                 instance.connect({ source:"opened", target:"phone1" });
+                 instance.connect({ source:"phone1", target:"phone1" });
+                 instance.connect({ source:"phone1", target:"inperson" });
+                 */
+
+                jsPlumb.fire("jsPlumbDemoLoaded", instance);
+
+            },
+            attached = function (view) {
+
                 $.get("/sph/transformdefinition/GetFunctoids", function (list) {
                     functoidToolboxItems(list);
-                    //jsPlumb.draggable($("ul#function-toolbox>li"));
                     $('ul#function-toolbox>li.list-group-item').draggable({
                         helper: function () {
                             return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('i').clone());
@@ -133,68 +182,53 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     });
                 });
 
-                //jsPlumb.bind("click", connectionClicked);
-                //jsPlumb.bind("connectionDragStop", connectionDragStop);
-                //wd().ActivityCollection.subscribe(activitiesChanged, null, "arrayChange");
-            },
-            attached = function (view) {
-
                 var script = $('<script type="text/javascript" src="/Scripts/jsPlumb/bundle.js"></script>').appendTo('body'),
-                   timer = setInterval(function () {
-                       if (window.jsPlumb !== undefined) {
-                           clearInterval(timer);
-                           script.remove();
+                    timer = setInterval(function () {
+                        if (window.jsPlumb !== undefined) {
+                            clearInterval(timer);
+                            script.remove();
 
-                           jsPlumb.ready(jsPlumbReady);
-                           $('#source-panel li>span.source-field').each(function () {
-                               var id = $(this).prop('id');
-                               jsPlumb.addEndpoint(id, sourceEndpoint, { anchor: "Right", uuid: id + "Source" });
-                           });
-                           $('#destination-panel li>span.destination-field').each(function () {
-                               var id = $(this).prop('id');
-                               jsPlumb.addEndpoint(id, targetEndpoint, { anchor: "Left", uuid: id + "Source" });
-                           });
-                       }
-                   }, 2500);
-
-
+                            jsPlumb.ready(jsPlumbReady);
+                        }
+                    }, 2500);
 
 
                 if (td().TransformDefinitionId() === 0) {
                     return;
                 }
                 var icon = function (html, item) {
-                    var type = item.type;
-                    if (typeof type === "object") {
-                        type = type[0];
-                    }
-                    if (type === "string") {
-                        return '<i class="glyphicon glyphicon-bold" style="font-size:14px;color:brown;margin-right:5px"></i>';
-                    }
-                    if (type === "integer") {
-                        return '<i class="fa fa-sort-numeric-asc" style="font-size:14px;color:blue;margin-right:5px"></i>';
-                    }
-                    if (type === "object") {
-                        return '<i class="fa fa-building-o" style="font-size:14px;color:grey;margin-right:5px"></i>';
-                    }
-                    if (type === "number") {
-                        return '<i class="glyphicon glyphicon-usd" style="font-size:14px;color:green;margin-right:5px"></i>';
-                    }
-                    if (type === "boolean") {
-                        return '<i class="glyphicon glyphicon-ok" style="font-size:14px;color:red;margin-right:5px"></i>';
-                    }
-                    if (type === "array") {
-                        return '<i class="fa fa-list" style="font-size:14px;color:gray;margin-right:5px"></i>';
-                    }
-                    return "";
-                },
-                shtml = "",
-                root = sourceSchema();
+                        var type = item.type;
+                        if (typeof type === "object") {
+                            type = type[0];
+                        }
+                        if (type === "string") {
+                            return '<i class="glyphicon glyphicon-bold" style="font-size:14px;color:brown;margin-right:5px"></i>';
+                        }
+                        if (type === "integer") {
+                            return '<i class="fa fa-sort-numeric-asc" style="font-size:14px;color:blue;margin-right:5px"></i>';
+                        }
+                        if (type === "object") {
+                            return '<i class="fa fa-building-o" style="font-size:14px;color:grey;margin-right:5px"></i>';
+                        }
+                        if (type === "number") {
+                            return '<i class="glyphicon glyphicon-usd" style="font-size:14px;color:green;margin-right:5px"></i>';
+                        }
+                        if (type === "boolean") {
+                            return '<i class="glyphicon glyphicon-ok" style="font-size:14px;color:red;margin-right:5px"></i>';
+                        }
+                        if (type === "array") {
+                            return '<i class="fa fa-list" style="font-size:14px;color:gray;margin-right:5px"></i>';
+                        }
+                        return "";
+                    },
+                    shtml = "",
+                    root = sourceSchema();
 
                 var buildSourceTree = function (branch) {
                     for (var key in branch.properties) {
                         var iconHtml = icon(shtml, branch.properties[key]);
-                        shtml += '<li>' + iconHtml + '<span class="source-field" id="source-field-' + key + '">' + key + '</span>';
+                        shtml += '<li><div class="source-field" id="source-field-' + key + '">' + iconHtml
+                            + '<span class="ep01">' + key + '</span>';
 
                         var type = branch.properties[key].type;
                         if (typeof type === "object") {
@@ -210,7 +244,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             buildSourceTree(branch.properties[key].items);
                             shtml += '</ul>';
                         }
-                        shtml += '</li>';
+                        shtml += '</div></li>';
                     }
                 };
 
@@ -221,7 +255,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     buildDestinationTree = function (branch) {
                         for (var key in branch.properties) {
                             var iconHtml = icon(dhtml, branch.properties[key]);
-                            dhtml += '<li>' + iconHtml + '<span class="destination-field" id="destination-field-' + key + '">' + key + '</span>';
+                            dhtml += '<li><div class="destination-field" id="destination-field-' + key + '">' + iconHtml +
+                                '<span class="ep01">' + key + '</span>';
 
                             var type = branch.properties[key].type;
                             if (typeof type === "object") {
@@ -237,7 +272,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                                 buildDestinationTree(branch.properties[key].items);
                                 dhtml += '</ul>';
                             }
-                            dhtml += '</li>';
+                            dhtml += '</div></li>';
                         }
                     };
 
@@ -258,7 +293,6 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                     });
                 });
-
 
 
             },
@@ -316,11 +350,12 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             toolbar: {
                 saveCommand: save,
                 commands: ko.observableArray([
-                {
-                    command: editProp,
-                    caption: 'Edit Properties',
-                    icon: 'fa fa-table'
-                }])
+                    {
+                        command: editProp,
+                        caption: 'Edit Properties',
+                        icon: 'fa fa-table'
+                    }
+                ])
             }
         };
 
