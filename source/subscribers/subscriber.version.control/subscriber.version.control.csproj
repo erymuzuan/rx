@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdapterSourceProvider.cs" />
     <Compile Include="DocumentTemplateSourceProvider.cs" />
     <Compile Include="EntityDefinitionSourceProvider.cs" />
     <Compile Include="EntityFormSourceProvider.cs" />

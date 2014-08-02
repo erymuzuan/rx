@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json.Linq;
 
@@ -19,6 +20,7 @@ namespace subscriber.version.control
             {
                 return new[]
                 {
+                    typeof(Adapter).Name + ".#.#",
                     typeof(EmailTemplate).Name + ".#.#",
                     typeof(DocumentTemplate).Name + ".#.#",
                     typeof(ReportDelivery).Name + ".#.#",
@@ -32,6 +34,7 @@ namespace subscriber.version.control
                     typeof(EntityDefinition).Name + ".#.#",
                     typeof(ReportDefinition).Name + ".#.#",
                     typeof(WorkflowDefinition).Name + ".#.#",
+                    typeof(TransformDefinition).Name + ".#.#",
                     typeof(Trigger).Name + ".#.#"
                 };
             }
