@@ -64,10 +64,26 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ed.xml" />
-    <Content Include="packages.xml" />
+    <EmbeddedResource Include="ed.xml" />
+    <EmbeddedResource Include="packages.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\adapters\http.adapter\http.adapter.csproj">
+      <Project>{e9b0a836-06f6-4b09-8b53-bfee0b75224f}</Project>
+      <Name>http.adapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\adapters\mysql.adapter\mysql.adapter.csproj">
+      <Project>{83839dc2-9b27-4dae-8111-0fb481fba0a8}</Project>
+      <Name>mysql.adapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\adapters\oracle.adapter\oracle.adapter.csproj">
+      <Project>{4d432cd3-bab4-40e9-afd2-3187b791e9aa}</Project>
+      <Name>oracle.adapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\adapters\sqlserver.adapter\sqlserver.adapter.csproj">
+      <Project>{66fe46f2-986c-4b7c-a440-ccc1ae37784b}</Project>
+      <Name>sqlserver.adapter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>

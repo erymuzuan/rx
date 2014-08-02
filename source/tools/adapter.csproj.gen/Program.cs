@@ -1,20 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Text.RegularExpressions;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json.Linq;
 
-namespace csproj.gen
+namespace adapter.csproj.gen
 {
     class Program
     {
-        static string RegexSingleValue(string input, string pattern, string group)
-        {
-            const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Singleline;
-            var matches = Regex.Matches(input, pattern, REGEX_OPTIONS);
-            return matches.Count == 1 ? matches[0].Groups[@group].Value.Trim() : null;
-        }
+
         static void Main(string[] args)
         {
             if (args.Length != 1)
@@ -35,15 +29,16 @@ namespace csproj.gen
                 var item = json.DeserializeFromJson<Adapter>();
 
                 var o = JObject.Parse(json);
-                var an = o.SelectToken("$.name").Value<string>();
+                var an = o.SelectToken("$.Name").Value<string>();
 
                 Console.WriteLine("Application name : {0}", an);
 
-                var xml = proj.Generate(item,an);
+                var xml = proj.Generate(item, an);
                 var nuget = proj.GetNugetPackagesConfig();
+                var folder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, item.Name);
 
-                var output = string.Format(@".\sources\{0}\{0}.csproj", item.Name);
-                var packageOutput = string.Format(@".\sources\{0}\packages.config", item.Name);
+                var output = Path.Combine(folder, item.Name + ".csproj");
+                var packageOutput = Path.Combine(folder, "packages.config");
                 File.WriteAllText(output, xml);
                 File.WriteAllText(packageOutput, nuget);
                 Console.WriteLine("Successfully write the project file to " + output);

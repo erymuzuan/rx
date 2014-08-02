@@ -1,18 +1,19 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using RazorEngine;
 using RazorEngine.Templating;
 
-namespace csproj.gen
+namespace adapter.csproj.gen
 {
     public class Project
     {
         public string GetNugetPackagesConfig()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            const string RESOURCE_NAME = "csproj.gen.packages.xml";
+            const string RESOURCE_NAME = "adapter.csproj.gen.packages.xml";
 
             using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
             using (var reader = new StreamReader(stream))
@@ -24,15 +25,20 @@ namespace csproj.gen
         }
         public string Generate(Adapter item, string appName)
         {
+            var folder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, item.Name);
+            var files = Directory.GetFiles(folder, "*.cs").Select(Path.GetFileName);
+
             var vm = new
             {
-                EntityDefinition = item,
-                ApplicationName = appName,
-                CsFiles = new string[] { }
+                Adapter = item,
+                RootNamespace =string.Format("{0}.Adapter.{1}", ConfigurationManager.ApplicationName, item.Schema),
+                CsFiles = files,
+                AssemblyName = string.Format("{0}.{1}", ConfigurationManager.ApplicationName, item.Name)
             };
 
+
             var assembly = Assembly.GetExecutingAssembly();
-            const string RESOURCE_NAME = "csproj.gen.ed.xml";
+            const string RESOURCE_NAME = "adapter.csproj.gen.ed.xml";
 
             using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME))
             using (var reader = new StreamReader(stream))
