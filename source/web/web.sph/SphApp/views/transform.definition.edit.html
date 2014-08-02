@@ -21,7 +21,9 @@
         <h3>Functoids</h3>
         <ul id="function-toolbox" class="list-group" data-bind="foreach :functoidToolboxItems">
             <li class="list-group-item">
-                <i class="fa fa-calendar" data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon}" ></i>
+                <div class="toolbox-item">
+                    <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon}" ></i>
+                </div>
                 <span data-bind="text:Name"></span>
             </li>
         </ul>

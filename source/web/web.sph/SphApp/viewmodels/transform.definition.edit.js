@@ -88,6 +88,20 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     ["Label", { location: [0.5, -0.5], cssClass: "endpointTargetLabel" }]
                 ]
             },
+            toolboxItemDraggedStop = function (arg) {
+                var functoid = context.toObservable(ko.mapping.toJS(ko.dataFor(this))),
+                    x = arg.clientX,
+                    y = arg.clientY;
+
+                /*
+                act.Name(act.Name() + wd().ActivityCollection().length);
+                act.WorkflowDesigner().X(x - 60);
+                act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top + $(window).scrollTop() - 30);
+                act.WebId(system.guid());
+                wd().ActivityCollection.push(act);
+                initializeActivity(act);
+                */
+            },
             jsPlumbReady = function () {
                 isJsPlumbReady = true;
                 jsPlumb.draggable($("li.source-field, span.destination-field"));
@@ -110,7 +124,13 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 });
                 $.get("/sph/transformdefinition/GetFunctoids", function (list) {
                     functoidToolboxItems(list);
-                    jsPlumb.draggable($("ul#function-toolbox>li"));
+                    //jsPlumb.draggable($("ul#function-toolbox>li"));
+                    $('ul#function-toolbox>li.list-group-item').draggable({
+                        helper: function () {
+                            return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('i').clone());
+                        },
+                        stop: toolboxItemDraggedStop
+                    });
                 });
 
                 //jsPlumb.bind("click", connectionClicked);
@@ -136,6 +156,9 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                            });
                        }
                    }, 2500);
+
+
+
 
                 if (td().TransformDefinitionId() === 0) {
                     return;
@@ -235,6 +258,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                     });
                 });
+
+
 
             },
             save = function () {

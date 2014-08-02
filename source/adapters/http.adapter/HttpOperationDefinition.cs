@@ -17,6 +17,8 @@ namespace Bespoke.Sph.Integrations.Adapters
     public partial class HttpOperationDefinition : OperationDefinition
     {
         [ImportMany(typeof(IHarProcessor))]
+        [JsonIgnore]
+        [XmlIgnore]
         public IHarProcessor[] HarProcessors { get; set; }
 
         public HttpOperationDefinition()
