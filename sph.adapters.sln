@@ -45,6 +45,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.sph", "source\web\web.s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mapping.transformation.test", "source\unit.test\mapping.transformation.test\mapping.transformation.test.csproj", "{FF531004-0787-4331-8565-BC930F44BBB7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{82F86086-3AA4-4866-AB84-741DF908046F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adapter.csproj.gen", "source\tools\adapter.csproj.gen\adapter.csproj.gen.csproj", "{201D4EED-C13C-4645-8EFF-7310ADAC4911}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +107,10 @@ Global
 		{FF531004-0787-4331-8565-BC930F44BBB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF531004-0787-4331-8565-BC930F44BBB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF531004-0787-4331-8565-BC930F44BBB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,5 +129,6 @@ Global
 		{A2B488B2-A536-49DF-9741-B87BDD745D8F} = {60B15311-0786-4A7C-A8BD-270816CBF627}
 		{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18} = {60B15311-0786-4A7C-A8BD-270816CBF627}
 		{FF531004-0787-4331-8565-BC930F44BBB7} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911} = {82F86086-3AA4-4866-AB84-741DF908046F}
 	EndGlobalSection
 EndGlobal
