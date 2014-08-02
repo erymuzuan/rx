@@ -90,7 +90,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             },
             jsPlumbReady = function () {
                 isJsPlumbReady = true;
-                jsPlumb.draggable($("span.source-field, span.destination-field"));
+                jsPlumb.draggable($("li.source-field, span.destination-field"));
                 jsPlumb.init();
                 jsPlumb.Defaults.Container = "container-canvas";
 
@@ -126,11 +126,11 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                            script.remove();
 
                            jsPlumb.ready(jsPlumbReady);
-                           $('#source-panel>span').each(function () {
+                           $('#source-panel li>span.source-field').each(function () {
                                var id = $(this).prop('id');
                                jsPlumb.addEndpoint(id, sourceEndpoint, { anchor: "Right", uuid: id + "Source" });
                            });
-                           $('#destination-panel>span').each(function () {
+                           $('#destination-panel li>span.destination-field').each(function () {
                                var id = $(this).prop('id');
                                jsPlumb.addEndpoint(id, targetEndpoint, { anchor: "Left", uuid: id + "Source" });
                            });
@@ -141,42 +141,101 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     return;
                 }
                 var icon = function (html, item) {
-                    var type = item.properties[key].type;
+                    var type = item.type;
                     if (typeof type === "object") {
                         type = type[0];
                     }
                     if (type === "string") {
-                        html += '<i class="glyphicon glyphicon-bold"></i>';
+                        return '<i class="glyphicon glyphicon-bold" style="font-size:14px;color:brown;margin-right:5px"></i>';
                     }
                     if (type === "integer") {
-                        html += '<i class="fa fa-sort-numeric-asc"></i>';
+                        return '<i class="fa fa-sort-numeric-asc" style="font-size:14px;color:blue;margin-right:5px"></i>';
                     }
                     if (type === "object") {
-                        html += '<i class="fa fa-building-o"></i>';
+                        return '<i class="fa fa-building-o" style="font-size:14px;color:grey;margin-right:5px"></i>';
                     }
                     if (type === "number") {
-                        html += '<i class="glyphicon glyphicon-usd"></i>';
+                        return '<i class="glyphicon glyphicon-usd" style="font-size:14px;color:green;margin-right:5px"></i>';
                     }
                     if (type === "boolean") {
-                        html += '<i class="glyphicon glyphicon-ok"></i>';
+                        return '<i class="glyphicon glyphicon-ok" style="font-size:14px;color:red;margin-right:5px"></i>';
                     }
-                    return html;
+                    if (type === "array") {
+                        return '<i class="fa fa-list" style="font-size:14px;color:gray;margin-right:5px"></i>';
+                    }
+                    return "";
+                },
+                shtml = "",
+                root = sourceSchema();
+
+                var buildSourceTree = function (branch) {
+                    for (var key in branch.properties) {
+                        var iconHtml = icon(shtml, branch.properties[key]);
+                        shtml += '<li>' + iconHtml + '<span class="source-field" id="source-field-' + key + '">' + key + '</span>';
+
+                        var type = branch.properties[key].type;
+                        if (typeof type === "object") {
+                            type = type[0];
+                        }
+                        if (type === "object") {
+                            shtml += '<ul style="list-style: none">';
+                            buildSourceTree(branch.properties[key]);
+                            shtml += '</ul>';
+                        }
+                        if (type === "array") {
+                            shtml += '<ul style="list-style: none">';
+                            buildSourceTree(branch.properties[key].items);
+                            shtml += '</ul>';
+                        }
+                        shtml += '</li>';
+                    }
                 };
 
-                var shtml = "";
-                for (var key in sourceSchema().properties) {
-                    shtml = icon(shtml, sourceSchema());
-                    shtml += '<span class="source-field" id="source-field-' + key + '">' + key + '</span><br/>';
-                }
+                buildSourceTree(root);
                 $('#source-panel').html(shtml);
-                var dhtml = "";
-                for (var l in destinationSchema().properties) {
-                    dhtml += '<span class="destination-field" id="destination-field-' + l + '">' + l + '</span>';
-                    dhtml = icon(dhtml, destinationSchema()) + "<br/>";
-                }
 
+                var dhtml = "",
+                    buildDestinationTree = function (branch) {
+                        for (var key in branch.properties) {
+                            var iconHtml = icon(dhtml, branch.properties[key]);
+                            dhtml += '<li>' + iconHtml + '<span class="destination-field" id="destination-field-' + key + '">' + key + '</span>';
 
+                            var type = branch.properties[key].type;
+                            if (typeof type === "object") {
+                                type = type[0];
+                            }
+                            if (type === "object") {
+                                dhtml += '<ul style="list-style: none">';
+                                buildDestinationTree(branch.properties[key]);
+                                dhtml += '</ul>';
+                            }
+                            if (type === "array") {
+                                dhtml += '<ul style="list-style: none">';
+                                buildDestinationTree(branch.properties[key].items);
+                                dhtml += '</ul>';
+                            }
+                            dhtml += '</li>';
+                        }
+                    };
+
+                buildDestinationTree(destinationSchema());
                 $('#destination-panel').html(dhtml);
+
+                $('#search-box-tree').on('keyup', function () {
+                    var text = $(this).val().toLowerCase();
+                    $('#source-panel li>span.source-field').each(function () {
+                        var span = $(this),
+                            li = span.parent(),
+                            content = span.text().toLowerCase();
+                        if (content.indexOf(text) < 0) {
+                            li.hide();
+                        } else {
+                            li.show();
+                        }
+
+                    });
+                });
+
             },
             save = function () {
                 var tcs = new $.Deferred();

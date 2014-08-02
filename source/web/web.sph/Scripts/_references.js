@@ -54,6 +54,7 @@
 /// <reference path="ace/worker-xquery.js" />
 /// <reference path="localforage/localforage.js" />
 /// <reference path="../sphapp/ko/_ko.adapter.http.js" />
+/// <reference path="../sphapp/ko/_ko.mapping.js" />
 /// <reference path="../sphapp/partial/admission-form.js" />
 /// <reference path="../sphapp/partial/patient-discharge-form.js" />
 /// <reference path="../sphapp/partial/patient-registration.js" />

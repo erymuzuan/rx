@@ -181,7 +181,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                                       WebId = text,// text
                                       CodeNamespace = url300// 302
                                   }).ToList();
-                var d = operations.LastOrDefault(o => o.HttpMethod == method && o.Url == url);
+                var d = operations.LastOrDefault(o => o.HttpMethod == method && o.Url.ToEmptyString().ToLowerInvariant().Contains(url.ToLowerInvariant()));
                 if (null != d && !string.IsNullOrWhiteSpace(d.CodeNamespace))
                 {
                     var redirectUrl = d.CodeNamespace;

@@ -115,3 +115,5 @@ bin/sources/NewssTextFixture/
 /bin/sources/rilek
 bin/sources/BphTempahanRpp/
 /bin/sources/EmployeeMapping
+/bin/sources/hrmis
+*.json
