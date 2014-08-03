@@ -4696,17 +4696,6 @@ namespace Bespoke.Sph.Domain
     public partial class StringConcateFunctoid
     {
 
-        private readonly ObjectCollection<Field> m_ArgumentCollection = new ObjectCollection<Field>();
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<Field> ArgumentCollection
-        {
-            get { return m_ArgumentCollection; }
-        }
-
 
     }
 
@@ -4982,6 +4971,158 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_SourceField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("FunctoidArg", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FunctoidArg
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Functoid m_functoid;
+        public const string PropertyNameFunctoid = "Functoid";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public Functoid Functoid
+        {
+            set
+            {
+                if (m_functoid == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFunctoid, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_functoid = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_functoid; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ConstantFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ConstantFunctoid
+    {
+
+        private object m_Value;
+        [XmlAttribute]
+        public object Value
+        {
+            get
+            {
+                return m_Value;
+            }
+            set
+            {
+                m_Value = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_TypeName;
+        [XmlAttribute]
+        public string TypeName
+        {
+            get
+            {
+                return m_TypeName;
+            }
+            set
+            {
+                m_TypeName = value;
                 RaisePropertyChanged();
             }
         }
@@ -5488,8 +5629,73 @@ namespace Bespoke.Sph.Domain
     {
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_outputTypeName;
+        public const string PropertyNameOutputTypeName = "OutputTypeName";
+
+        private readonly ObjectCollection<FunctoidArg> m_ArgumentCollection = new ObjectCollection<FunctoidArg>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("FunctoidArg", IsNullable = false)]
+        public ObjectCollection<FunctoidArg> ArgumentCollection
+        {
+            get { return m_ArgumentCollection; }
+        }
+
 
         // public properties members
+
+
+
+        [XmlAttribute]
+        public string Name
+        {
+            set
+            {
+                if (m_name == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string OutputTypeName
+        {
+            set
+            {
+                if (m_outputTypeName == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOutputTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_outputTypeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_outputTypeName;
+            }
+        }
 
 
 

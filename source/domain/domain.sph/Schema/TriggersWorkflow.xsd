@@ -520,7 +520,19 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="Functoid"/>
+	<xs:complexType name="Functoid">
+		<xs:all>
+			<xs:element name="ArgumentCollection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="FunctoidArg" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="OutputTypeName" type="xs:string" use="required"/>
+	</xs:complexType>
 	<xs:element name="ScriptFunctoid">
 		<xs:complexType>
 			<xs:complexContent>
@@ -808,17 +820,7 @@
 	<xs:element name="StringConcateFunctoid">
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="Functoid">
-					<xs:all>
-						<xs:element name="ArgumentCollection">
-							<xs:complexType>
-								<xs:sequence>
-									<xs:element name="Field" type="Field" minOccurs="0" maxOccurs="unbounded"/>
-								</xs:sequence>
-							</xs:complexType>
-						</xs:element>
-					</xs:all>
-				</xs:extension>
+				<xs:extension base="Functoid"/>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
@@ -897,6 +899,25 @@
 				<xs:extension base="Functoid">
 					<xs:attribute name="Format" type="xs:string" use="required"/>
 					<xs:attribute name="SourceField" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FunctoidArg">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Functoid" type="Functoid"/>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ConstantFunctoid">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Value" type="xs:anySimpleType" use="required"/>
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

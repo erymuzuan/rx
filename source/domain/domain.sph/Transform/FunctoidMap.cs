@@ -8,7 +8,7 @@ namespace Bespoke.Sph.Domain
         {
             return this.Functoid.GeneratePreCode(this)
                 + "\r\n" +
-                string.Format("                dest.{1} = {0};", this.Functoid.GenerateCode(), this.Destination);
+                string.Format("               dest.{1} = {0};", this.Functoid.GenerateCode(), this.Destination);
 
         }
     }

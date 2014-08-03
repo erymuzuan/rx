@@ -69,12 +69,14 @@ namespace Bespoke.Sph.Domain
 
         public string GenerateTransformCode()
         {
+            Functoid.ResetRunningNumber();
+
             var code = new StringBuilder();
             code.AppendLinf("           public async Task<{0}> TransformAsync({1} item)", this.OutputType.FullName, this.InputType.FullName);
             code.AppendLine("           {");
             code.AppendLinf("               var dest =  new {0}();", this.OutputType.FullName);
             var mappingCodes = from m in this.MapCollection
-                        select "               " + m.GenerateCode();
+                        select "               " + m.GenerateCode() + "\r\n";
             code.AppendLine(string.Concat(mappingCodes.ToArray()));
             code.AppendLine();
 

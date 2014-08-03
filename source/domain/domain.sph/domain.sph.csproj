@@ -196,6 +196,7 @@
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="Transform\AddDaysFunctoid.cs" />
     <Compile Include="Transform\BooleanFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
@@ -215,6 +216,7 @@
     <Compile Include="Transform\FormattingFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Transform\FunctoidArg.cs" />
     <Compile Include="Transform\FunctoidMap.cs" />
     <Compile Include="Transform\FunctoidDesignerMetadataAttribute.cs" />
     <Compile Include="Transform\IFunctoidDesignerMetadata.cs" />
@@ -222,9 +224,12 @@
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
     <Compile Include="Transform\Map.cs" />
+    <Compile Include="Transform\NowFunctoid.cs" />
+    <Compile Include="Transform\SourceFunctoid.cs" />
     <Compile Include="Transform\StringConcateFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Transform\TodayFunctoid.cs" />
     <Compile Include="Transform\TransformDefinition.code.cs">
       <DependentUpon>TransformDefinition.cs</DependentUpon>
     </Compile>

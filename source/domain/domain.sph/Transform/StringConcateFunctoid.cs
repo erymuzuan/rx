@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Domain
     {
         public override string GenerateCode()
         {
-            var codes = this.ArgumentCollection.Select(a => a.GenerateCode());
+            var codes = this.ArgumentCollection.Select(a => a.Functoid.GenerateCode());
             return string.Join(" + ", codes);
         }
     }

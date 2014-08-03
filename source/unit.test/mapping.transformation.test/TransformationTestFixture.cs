@@ -42,22 +42,11 @@ namespace mapping.transformation.test
                 Destination = "SURVEY_ID"
             });
 
-            var sc = new StringConcateFunctoid();
-            sc.ArgumentCollection.Add(new DocumentField { Path = "FirstName" });
-            sc.ArgumentCollection.Add(new ConstantField { Value = " ", Type = typeof(string) });
-            sc.ArgumentCollection.Add(new DocumentField { Path = "LastName" });
-
-            map.MapCollection.Add(new FunctoidMap
-            {
-                Functoid = sc,
-                SourceType = typeof(string),
-                DestinationType = typeof(string)
-            });
             Console.WriteLine(map.ToJsonString(Formatting.Indented));
         }
 
         [TestMethod]
-        public async Task GetEntityMap()
+        public async Task EntityCustomerToOracleEmployee()
         {
             var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
             dynamic customer = Activator.CreateInstance(customerType);
@@ -85,16 +74,6 @@ namespace mapping.transformation.test
                 Destination = "EMPLOYEE_ID"
             });
 
-            var sc = new StringConcateFunctoid();
-            sc.ArgumentCollection.Add(new DocumentField { Path = "FullName" });
-            sc.ArgumentCollection.Add(new ConstantField { Value = " ", Type = typeof(string) });
-            sc.ArgumentCollection.Add(new DocumentField { Path = "Age" });
-
-            td.MapCollection.Add(new FunctoidMap
-            {
-                Functoid = sc,
-                Destination = "FIRST_NAME"
-            });
             td.MapCollection.Add(new FunctoidMap
             {
                 Functoid = new ScriptFunctoid
@@ -145,6 +124,81 @@ namespace mapping.transformation.test
             Assert.AreEqual(customer.CustomerId, output.EMPLOYEE_ID);
             Assert.AreEqual(new DateTime(2012, 5, 31), output.HIRE_DATE);
             StringAssert.Contains(output.PHONE_NUMBER, "Phone from date", output.PHONE_NUMBER);
+        }
+
+
+        [TestMethod]
+        public async Task OracleEmployeeToEntityCustomer()
+        {
+            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+
+
+            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            dynamic staff = Activator.CreateInstance(oracleEmployeeType);
+            staff.EMAIL = "erymuzuan@hotmail.com";
+            staff.FIRST_NAME = "Erymuzuan";
+            staff.LAST_NAME = "Mustapa";
+            staff.PHONE_NUMBER = "0123889200";
+            staff.HIRE_DATE = DateTime.Parse("2012-05-31");
+            staff.SALARY = 4500d;
+
+
+            var td = new TransformDefinition
+            {
+                Name = "EmployeeToCustomerMapping",
+                Description = "Just a description",
+                InputType = oracleEmployeeType,
+                OutputType = customerType
+            };
+            td.MapCollection.Add(new DirectMap
+            {
+                Source = "EMPLOYEE_ID",
+                Type = typeof(int),
+                Destination = "CustomerId"
+            });
+            td.MapCollection.Add(new DirectMap
+            {
+                Source = "EMAIL",
+                Type = typeof(string),
+                Destination = "Contact.Email"
+            });
+            var add15Days = new AddDaysFunctoid { Name = "add15Days" };
+            add15Days["date"].Functoid = new SourceFunctoid { Field = "HIRE_DATE"};
+            add15Days["value"].Functoid = new ConstantFunctoid{Value = 15, Type = typeof(int)};
+            td.MapCollection.Add(new FunctoidMap{Functoid = add15Days, DestinationType = typeof(string), Destination = "RegisteredDate"});
+         
+
+            var sc = new StringConcateFunctoid();
+            sc.ArgumentCollection.Add(new FunctoidArg { Name = "firstName", Functoid = new SourceFunctoid { Field = "FIRST_NAME" } });
+            sc.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = new ConstantFunctoid { Value = " ", Type = typeof(string) } });
+            sc.ArgumentCollection.Add(new FunctoidArg { Name = "lastName", Functoid = new SourceFunctoid { Field = "LAST_NAME" } });
+
+            td.MapCollection.Add(new FunctoidMap
+            {
+                Functoid = sc,
+                Destination = "FullName"
+            });
+
+            var options = new CompilerOptions();
+            var codes = td.GenerateCode();
+            var sources = td.SaveSources(codes);
+            var result = await td.CompileAsync(options, sources);
+            if (!result.Result)
+                result.Errors.ForEach(Console.WriteLine);
+
+            Assert.IsTrue(result.Result, "Compiler fails");
+            var dll = Assembly.LoadFile(result.Output);
+            var mt = dll.GetType("Dev.Integrations.Transforms.EmployeeToCustomerMapping");
+            dynamic map = Activator.CreateInstance(mt);
+
+
+            var output = await map.TransformAsync(staff);
+            Assert.IsNotNull(output);
+            Assert.AreEqual(staff.EMPLOYEE_ID, output.CustomerId);
+            Assert.AreEqual("erymuzuan@hotmail.com", output.Contact.Email);
+            Assert.AreEqual(new DateTime(2012, 6, 15), output.RegisteredDate);
+            Assert.AreEqual("Erymuzuan Mustapa", output.FullName);
+
         }
     }
 }
