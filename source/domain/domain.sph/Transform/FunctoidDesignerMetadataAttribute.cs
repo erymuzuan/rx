@@ -10,6 +10,8 @@ namespace Bespoke.Sph.Domain
         public FunctoidDesignerMetadataAttribute() : base(typeof (IFunctoidDesignerMetadata))
         {
         }
+
+        public FunctoidCategory Category { get; set; }
         public string Name { get; set; }
         public string FontAwesomeIcon{ get; set; }
         public string BootstrapIcon{ get; set; }

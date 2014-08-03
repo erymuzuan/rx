@@ -4724,7 +4724,6 @@ bespoke.sph.domain.StringConcateFunctoid = function (optionOrWebid) {
 
     v["$type"] = "Bespoke.Sph.Domain.StringConcateFunctoid, domain.sph";
 
-    v.ArgumentCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -4933,6 +4932,70 @@ bespoke.sph.domain.FormattingFunctoid = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+        Name: ko.observable(''),
+        TypeName: ko.observable(''),
+        Description: ko.observable(''),
+        Label: ko.observable(''),
+        Comment: ko.observable(''),
+        Functoid: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FunctoidArgPartial) {
+        return _(model).extend(new bespoke.sph.domain.FunctoidArgPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ConstantFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Value = ko.observable('xs:anySimpleType');
+
+    v.TypeName = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.ConstantFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ConstantFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ConstantFunctoidPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.Field = function (optionOrWebid) {
 
     var model = {
@@ -5078,6 +5141,9 @@ bespoke.sph.domain.Functoid = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Functoid, domain.sph",
+        Name: ko.observable(''),
+        OutputTypeName: ko.observable(''),
+        ArgumentCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

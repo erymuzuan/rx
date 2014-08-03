@@ -25,7 +25,10 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLine();
             m_number = Functoid.GetRunningNumber();
+
+            code.AppendLine(date.GeneratePreCode(map));
             code.AppendLinf("               var date{0} = {1};", m_number, date.GenerateCode());
+            code.AppendLine(value.GeneratePreCode(map));
             code.AppendFormat("               var value{0} = {1};", m_number, value.GenerateCode());
             return code.ToString();
         }

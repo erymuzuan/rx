@@ -25,8 +25,11 @@
         <h3>Functoids</h3>
         <ul id="function-toolbox" class="list-group" data-bind="foreach :functoidToolboxItems">
             <li class="list-group-item">
-                <div class="toolbox-item">
+                <div class="toolbox-item" data-bind="visible: FontAwesomeIcon">
                     <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon}" ></i>
+                </div>
+                <div class="toolbox-item" data-bind="visible: BootstrapIcon">
+                    <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon}" ></i>
                 </div>
                 <span data-bind="text:Name"></span>
             </li>

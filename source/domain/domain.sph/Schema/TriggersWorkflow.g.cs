@@ -4999,6 +4999,21 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_description;
+        public const string PropertyNameDescription = "Description";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_label;
+        public const string PropertyNameLabel = "Label";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_comment;
+        public const string PropertyNameComment = "Comment";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Functoid m_functoid;
         public const string PropertyNameFunctoid = "Functoid";
 
@@ -5058,6 +5073,93 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Description
+        {
+            set
+            {
+                if (String.Equals(m_description, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_description = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_description;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Label
+        {
+            set
+            {
+                if (String.Equals(m_label, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabel, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_label = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_label;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Comment
+        {
+            set
+            {
+                if (String.Equals(m_comment, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameComment, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_comment = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_comment;
             }
         }
 

@@ -168,9 +168,14 @@ namespace mapping.transformation.test
             td.MapCollection.Add(new FunctoidMap{Functoid = add15Days, DestinationType = typeof(string), Destination = "RegisteredDate"});
          
 
+            var sc0 = new StringConcateFunctoid();
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = new ConstantFunctoid { Value = " ", Type = typeof(string) } });
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "bin", Functoid = new ConstantFunctoid { Value = "bin", Type = typeof(string) } });
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = new ConstantFunctoid { Value = " ", Type = typeof(string) } });
+
             var sc = new StringConcateFunctoid();
             sc.ArgumentCollection.Add(new FunctoidArg { Name = "firstName", Functoid = new SourceFunctoid { Field = "FIRST_NAME" } });
-            sc.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = new ConstantFunctoid { Value = " ", Type = typeof(string) } });
+            sc.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = sc0});
             sc.ArgumentCollection.Add(new FunctoidArg { Name = "lastName", Functoid = new SourceFunctoid { Field = "LAST_NAME" } });
 
             td.MapCollection.Add(new FunctoidMap
@@ -197,7 +202,7 @@ namespace mapping.transformation.test
             Assert.AreEqual(staff.EMPLOYEE_ID, output.CustomerId);
             Assert.AreEqual("erymuzuan@hotmail.com", output.Contact.Email);
             Assert.AreEqual(new DateTime(2012, 6, 15), output.RegisteredDate);
-            Assert.AreEqual("Erymuzuan Mustapa", output.FullName);
+            Assert.AreEqual("Erymuzuan bin Mustapa", output.FullName);
 
         }
     }

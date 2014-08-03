@@ -14,11 +14,21 @@ namespace Dev.Integrations.Transforms
                dest.CustomerId = item.EMPLOYEE_ID;
                dest.Contact.Email = item.EMAIL;
                
+
                var date1 = item.HIRE_DATE;
+
                var value1 = 15;
                dest.RegisteredDate = date1.AddDays(value1);
                
-               dest.FullName = item.FIRST_NAME + " " + item.LAST_NAME;
+
+               var val2 = item.FIRST_NAME;
+
+               var val4 = " ";
+               var val5 = "bin";
+               var val6 = " ";
+               var val3 = val4 + val5 + val6;
+               var val7 = item.LAST_NAME;
+               dest.FullName = val2 + val3 + val7;
 
 
                return Task.FromResult(dest);
