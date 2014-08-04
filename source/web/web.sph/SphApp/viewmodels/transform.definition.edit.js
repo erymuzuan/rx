@@ -13,6 +13,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
         var td = ko.observable(),
             functoidToolboxItems = ko.observableArray(),
+            errors = ko.observableArray(),
             functoids = ko.observableArray(),
             isBusy = ko.observable(false),
             sourceMember = ko.observable(),
@@ -137,8 +138,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             id: "arrow",
                             length: 14,
                             foldback: 0.8
-                        } ],
-                        [ "Label", { label:"", id:"label", cssClass:"aLabel" }]
+                        } ]
                     ],
                     Container: "container-canvas"
                 });
@@ -315,6 +315,13 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             },
             attached = function (view) {
 
+                $(view).on('dblclick','div.functoid', function(e){
+                    e.preventDefault(true);
+                    e.stopPropagation(true);
+                    e.stopImmediatePropagation(true);
+                    console.log(ko.dataFor(this));
+                    
+                });
                 $.get("/sph/transformdefinition/GetFunctoids", function (list) {
                     functoidToolboxItems(list.$values);
                     $('ul#function-toolbox>li.list-group-item').draggable({
@@ -333,7 +340,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                             jsPlumb.ready(jsPlumbReady);
                         }
-                    }, 2500);
+                    }, 1500);
 
 
                 if (td().TransformDefinitionId() === 0) {
@@ -447,8 +454,9 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 context.post(data, "/sph/transformdefinition")
                     .then(function (result) {
                         isBusy(false);
-
-
+                            if (td().TransformDefinitionId() === 0) {
+                                td().TransformDefinitionId(result.id);
+                            }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -457,7 +465,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                 var tcs = new $.Deferred(),
                     clone = context.toObservable(ko.mapping.toJS(td));
-                require(['viewmodels/transform.definition.prop.dialog', 'durandal/app'], function (dialog, app2) {
+                    require(['viewmodels/transform.definition.prop.dialog', 'durandal/app'], function (dialog, app2) {
                     dialog.td(clone);
 
                     app2.showDialog(dialog)
@@ -479,10 +487,52 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 });
 
                 return tcs.promise();
+            },
+            validateAsync = function(){
+                var tcs = new $.Deferred();
+                context.post(ko.mapping.toJSON(td), '/sph/transformdefinition/validatefix')
+                    .done(function(result){
+                        $('i.fa.fa-exclamation-circle.error').remove();
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
+                            logger.error("There are errors in your map, !!!");
+                            var uniqueList = _.uniq(result.Errors, function(item, key, a) {
+                                return item.ItemWebId;
+                            });
+                            errors(uniqueList);
+                            _(uniqueList).each(function(v){
+                                $('#' + v.ItemWebId + ' div.toolbox-item').append('<i class="fa fa-exclamation-circle error"></i>');
+                            });
+                        }
+                        tcs.resolve(true);
+
+                    });
+
+                return tcs.promise();
+            },
+            publishAsync = function(){
+                var tcs = new $.Deferred();
+                context.post(ko.mapping.toJSON(td), '/sph/transformdefinition/publish')
+                    .done(function(result){
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
+                            errors(result.Errors);
+                            logger.error("There are errors in your map, !!!");
+                        }
+                        tcs.resolve(true);
+
+                    });
+
+                return tcs.promise();
             };
 
         var vm = {
             isBusy: isBusy,
+            errors: errors,
             functoidToolboxItems: functoidToolboxItems,
             functoids: functoids,
             activate: activate,
@@ -498,6 +548,16 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         command: editProp,
                         caption: 'Edit Properties',
                         icon: 'fa fa-table'
+                    },
+                    {
+                        command : validateAsync,
+                        caption : 'Validate',
+                        icon : 'fa fa-check'
+                    },
+                    {
+                        command : publishAsync,
+                        caption : 'Publish',
+                        icon : 'fa fa-sign-out'
                     }
                 ])
             }

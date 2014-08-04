@@ -5,8 +5,8 @@
 <style type="text/css">
     .functoid {
         border: 1px solid #807e61;
-        width: 30px;
-        height: 30px;
+        width: 40px;
+        height: 40px;
         position: absolute;
         padding: 5px;
     }
@@ -29,7 +29,29 @@
         color: #0000ff;
     }
 
+    div.error{
+        color: #ff0000;
+        content: "XX";
+    }
+
 </style>
+
+
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
+
+
 <div class="row container-canvas" id="container-canvas">
     <div class="col-lg-3">
         <h3 data-bind="with : td">Source(<span data-bind="text:InputTypeName"></span>)</h3>
@@ -46,12 +68,11 @@
                 attr : {id : WebId}">
                 <div data-bind="with:designer">
                     <div class="toolbox-item" data-bind="visible: FontAwesomeIcon">
-                        <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon+ ' category-' + Category}"></i>
+                        <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon + ' category-' + Category}"></i>
                     </div>
                     <div class="toolbox-item" data-bind="visible: BootstrapIcon">
-                        <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon+ ' category-' + Category}"></i>
+                        <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon + ' category-' + Category}"></i>
                     </div>
-                    <span data-bind="text:Name"></span>
                 </div>
             </div>
         </div>

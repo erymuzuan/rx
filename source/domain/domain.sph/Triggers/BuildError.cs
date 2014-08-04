@@ -1,10 +1,12 @@
-﻿namespace Bespoke.Sph.Domain
+﻿using System.Collections.Generic;
+
+namespace Bespoke.Sph.Domain
 {
     public class BuildError
     {
         public BuildError()
         {
-            
+
         }
         public BuildError(string webid)
         {
@@ -24,6 +26,27 @@
         public override string ToString()
         {
             return string.Format("{2}({0}) : {1}", this.Line, this.Message, this.FileName);
+        }
+    }
+
+    public class BuildErrorComparer : IEqualityComparer<BuildError>
+    {
+
+
+        public bool Equals(BuildError x, BuildError y)
+        {
+            return x.ItemWebId == y.ItemWebId &&
+                x.Message == y.Message &&
+                x.Code == y.Code &&
+                x.FileName == y.FileName;
+        }
+
+        public int GetHashCode(BuildError obj)
+        {
+            return obj.ItemWebId.GetHashCode() ^
+                obj.Message.GetHashCode() ^
+                obj.Code.GetHashCode() ^
+                obj.FileName.GetHashCode();
         }
     }
 }

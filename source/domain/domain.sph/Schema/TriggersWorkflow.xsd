@@ -795,6 +795,7 @@
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="InputTypeName" type="xs:string" use="required"/>
 			<xs:attribute name="OutputTypeName" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="Map">
@@ -925,7 +926,9 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Functoid">
-					<xs:attribute name="Value" type="xs:anySimpleType" use="required"/>
+					<xs:all>
+						<xs:element name="Value" type="xs:anySimpleType"/>
+					</xs:all>
 					<xs:attribute name="TypeName" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>

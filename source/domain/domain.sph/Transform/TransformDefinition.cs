@@ -1,11 +1,13 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -15,13 +17,13 @@ namespace Bespoke.Sph.Domain
 {
     public partial class TransformDefinition : Entity
     {
-        
+
         public async Task<object> TransformAsync(object source)
         {
             var sb = new StringBuilder("{");
             sb.AppendLine();
             var tasks = from m in this.MapCollection
-                select m.ConvertAsync(source);
+                        select m.ConvertAsync(source);
             var maps = await Task.WhenAll(tasks);
             sb.AppendLine(string.Join(",\r\n    ", maps.ToArray()));
             sb.AppendLine();
@@ -52,16 +54,16 @@ namespace Bespoke.Sph.Domain
 
                 };
 
-                parameters.ReferencedAssemblies.Add(typeof (Entity).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof (Int32).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof (INotifyPropertyChanged).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof (Expression<>).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof (XmlAttributeAttribute).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof (System.Net.Mail.SmtpClient).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof (System.Net.Http.HttpClient).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof (XElement).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof (System.Web.HttpResponseBase).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof (ConfigurationManager).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(this.InputType.Assembly.Location);
                 parameters.ReferencedAssemblies.Add(this.OutputType.Assembly.Location);
 
@@ -81,15 +83,57 @@ namespace Bespoke.Sph.Domain
                 };
                 cr.Result = result.Errors.Count == 0;
                 var errors = from CompilerError x in result.Errors
-                    select new BuildError(this.WebId, x.ErrorText)
-                    {
-                        Line = x.Line,
-                        FileName = x.FileName
-                    };
+                             select new BuildError(this.WebId, x.ErrorText)
+                             {
+                                 Line = x.Line,
+                                 FileName = x.FileName
+                             };
                 cr.Errors.AddRange(errors);
                 return cr;
 
             }
+        }
+
+
+        public override bool Validate()
+        {
+            if (string.IsNullOrWhiteSpace(this.Name))
+                return false;
+            return this.MapCollection.All(x => x.Validate());
+
+        }
+
+        
+        public async Task<BuildValidationResult> ValidateBuildAsync()
+        {
+            var result = new BuildValidationResult();
+            if (string.IsNullOrWhiteSpace(this.Name))
+                result.Errors.Add(new BuildError { Message = "Name cannot be null or empty", ItemWebId = this.WebId });
+            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_]*$");
+            if (!validName.Match(this.Name).Success)
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
+
+            var tasks = from m in this.MapCollection
+                        select m.ValidateAsync();
+            var maps = (await Task.WhenAll(tasks)).SelectMany(x => x.ToArray())
+                .Select(x => new BuildError(x.ErrorLocation, x.Message));
+            result.Errors.AddRange(maps);
+
+
+            var distintcs = result.Errors.Distinct().ToArray();
+            result.Errors.ClearAndAddRange(distintcs);
+
+
+            result.Result = !result.Errors.Any();
+            return result;
+
+
+        }
+
+
+        public override Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            throw new Exception("Use ValidateBuildAsync");
         }
     }
 }

@@ -32,6 +32,5 @@ namespace Bespoke.Sph.Domain
             return string.Format("{0}(item)", this.Name);
         }
 
-        public string Name{ get; set; }
     }
 }

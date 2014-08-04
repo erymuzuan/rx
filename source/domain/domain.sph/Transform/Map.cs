@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -38,6 +39,11 @@ namespace Bespoke.Sph.Domain
                 this.DestinationTypeName = value.GetShortAssemblyQualifiedName();
                 RaisePropertyChanged();
             }
+        }
+
+        public virtual Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

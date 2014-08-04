@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json.Schema;
+using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -14,6 +16,67 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     {
         [ImportMany("FunctoidDesigner", typeof(Functoid), AllowRecomposition = true)]
         public Lazy<Functoid, IFunctoidDesignerMetadata>[] Functoids { get; set; }
+
+
+        public async Task<ActionResult> Validate([RequestBody] TransformDefinition map)
+        {
+            var erros = await map.ValidateBuildAsync();
+            if (!erros.Result)
+                return Json(erros);
+
+            return Json(new { success = true, status = "OK", message = "Your map has been successfully validated" });
+
+        }
+        public async Task<ActionResult> ValidateFix([RequestBody] TransformDefinition map)
+        {
+            map.MapCollection.OfType<FunctoidMap>().ForEach(x => x.Functoid.RemoveInvalidArgument());
+            if (map.TransformDefinitionId <= 0) 
+                return await Validate(map);
+            
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(map);
+                await session.SubmitChanges("Save");
+            }
+            return await Validate(map);
+        }
+
+        public async Task<ActionResult> Publish([RequestBody] TransformDefinition map)
+        {
+            var erros = await map.ValidateBuildAsync();
+            if (!erros.Result)
+                return Json(erros);
+
+
+            var options = new CompilerOptions
+            {
+                SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
+            };
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
+
+            var codes = map.GenerateCode();
+            var sources = map.SaveSources(codes);
+            var result = await map.CompileAsync(options, sources);
+
+            result.Errors.ForEach(Console.WriteLine);
+            if (!result.Result)
+                return Json(result);
+
+
+
+            map.IsPublished = true;
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(map);
+                await session.SubmitChanges("Publish");
+            }
+            return Json(new { success = true, status = "OK", message = "Your map has been successfully published", id = map.TransformDefinitionId });
+
+        }
 
         public ActionResult GetFunctoids()
         {

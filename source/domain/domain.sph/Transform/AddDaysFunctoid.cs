@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Domain
             this.ArgumentCollection.Add(new FunctoidArg { Name = "date", Type = typeof(DateTime) });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value", Type = typeof(double) });
             return base.Initialize();
+
         }
 
         private int m_number;
@@ -26,7 +27,7 @@ namespace Bespoke.Sph.Domain
 
             var code = new StringBuilder();
             code.AppendLine();
-            m_number = Functoid.GetRunningNumber();
+            m_number = GetRunningNumber();
 
             code.AppendLine(date.GeneratePreCode(map));
             code.AppendLinf("               var date{0} = {1};", m_number, date.GenerateCode());

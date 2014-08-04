@@ -4456,6 +4456,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameOutputTypeName = "OutputTypeName";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
+
+
         private readonly ObjectCollection<Map> m_MapCollection = new ObjectCollection<Map>();
 
         ///<summary>
@@ -4608,6 +4613,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_outputTypeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
             }
         }
 
@@ -5202,22 +5236,6 @@ namespace Bespoke.Sph.Domain
     public partial class ConstantFunctoid
     {
 
-        private object m_Value;
-        [XmlAttribute]
-        public object Value
-        {
-            get
-            {
-                return m_Value;
-            }
-            set
-            {
-                m_Value = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
         private string m_TypeName;
         [XmlAttribute]
         public string TypeName
@@ -5233,6 +5251,8 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+        public object Value { get; set; }
 
 
     }

@@ -4634,6 +4634,7 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
         Description: ko.observable(''),
         InputTypeName: ko.observable(''),
         OutputTypeName: ko.observable(''),
+        IsPublished: ko.observable(false),
         MapCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -4874,11 +4875,7 @@ bespoke.sph.domain.DateFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Format = ko.observable('');
-
-    v.SourceField = ko.observable('');
-
-    v.DateTimeStyles = ko.observable('');
+    v.Dummy = ko.observable('');
 
     v["$type"] = "Bespoke.Sph.Domain.DateFunctoid, domain.sph";
 
@@ -4943,6 +4940,7 @@ bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
         Description: ko.observable(''),
         Label: ko.observable(''),
         Comment: ko.observable(''),
+        IsOptional: ko.observable(false),
         Functoid: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -4971,12 +4969,11 @@ bespoke.sph.domain.ConstantFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Value = ko.observable('xs:anySimpleType');
-
     v.TypeName = ko.observable('');
 
     v["$type"] = "Bespoke.Sph.Domain.ConstantFunctoid, domain.sph";
 
+    v.Value = ko.observable();//type but not nillable
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
