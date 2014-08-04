@@ -13,6 +13,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
         var td = ko.observable(),
             functoidToolboxItems = ko.observableArray(),
+            functoids = ko.observableArray(),
             isBusy = ko.observable(false),
             sourceMember = ko.observable(),
             sourceSchema = ko.observable(),
@@ -87,25 +88,48 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     ["Label", { location: [0.5, -0.5], cssClass: "endpointTargetLabel" }]
                 ]
             },
+            m_instance = null,
+            initializeFunctoid = function (fnc) {
+                var element = $('#' + fnc.WebId());
+                m_instance.makeSource(element, {
+                    endPoint: ["Rectangle", {width: 10, height: 10}],
+                    anchor: "RightMiddle",
+                    connector: [ "Straight"],
+                    connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
+                });
+
+                if (fnc.ArgumentCollection().length) {
+                    m_instance.makeTarget(element, {
+                        dropOptions: { hoverClass: "dragHover" },
+                        anchor: ["LeftMiddle"],
+                        maxConnections: fnc.ArgumentCollection().length,
+                        onMaxConnections: function (info, e) {
+                            alert("Maximum connections (" + info.maxConnections + ") reached" + e);
+                        }
+                    });
+                }
+                m_instance.draggable(element);
+            },
             toolboxItemDraggedStop = function (arg) {
-                var functoid = context.toObservable(ko.mapping.toJS(ko.dataFor(this))),
+                var functoid = context.toObservable(ko.mapping.toJS(ko.dataFor(this).functoid)),
                     x = arg.clientX,
                     y = arg.clientY;
 
-                /*
-                 act.Name(act.Name() + wd().ActivityCollection().length);
-                 act.WorkflowDesigner().X(x - 60);
-                 act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top + $(window).scrollTop() - 30);
-                 act.WebId(system.guid());
-                 wd().ActivityCollection.push(act);
-                 initializeActivity(act);
-                 */
+                functoid.designer = ko.dataFor(this).designer;
+                functoid.X(x - $('#map-canvas').offset().left + $(window).scrollLeft());
+                functoid.Y(y - $('#map-canvas').offset().top + $(window).scrollTop());
+                functoid.WebId(system.guid());
+                functoids.push(functoid);
+
+                setTimeout(function () {
+                    initializeFunctoid(functoid);
+                }, 500);
             },
             jsPlumbReady = function () {
                 isJsPlumbReady = true;
 
                 var instance = jsPlumb.getInstance({
-                    Endpoint: ["Rectangle", {width: 10,height: 10}],
+                    Endpoint: ["Rectangle", {width: 10, height: 10}],
                     HoverPaintStyle: {strokeStyle: "#1e8151", lineWidth: 2 },
                     ConnectionOverlays: [
                         [ "Arrow", {
@@ -117,56 +141,114 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     ],
                     Container: "container-canvas"
                 });
+                m_instance = instance;
 
-                var windows = jsPlumb.getSelector("div.source-field, div.destination-field");
+                var sourceWindows = jsPlumb.getSelector("div.source-field");
+                var targetWindows = jsPlumb.getSelector("div.destination-field");
 
                 //instance.draggable(windows);
 
                 instance.bind("click", function (c) {
                     instance.detach(c);
-                    if(c.map){
+                    if (c.map) {
                         td().MapCollection.remove(c.map);
                     }
                 });
 
                 var connectionInitialized = false;
                 instance.bind("connection", function (info) {
-                    if(!connectionInitialized){
+                    if (!connectionInitialized) {
                         return;
                     }
-                    var sourceField = info.sourceId.replace("source-field-", ""),
-                        destinationField = info.targetId.replace("destination-field-","");
-                    var dm = new bespoke.sph.domain.DirectMap({Source: sourceField, Destination: destinationField, WebId: system.guid()});
-                    td().MapCollection.push(dm);
-                    info.connection.map = dm;
+
+
+                    // direct map
+                    if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") > -1) {
+                        var sourceField = info.sourceId.replace("source-field-", ""),
+                            destinationField = info.targetId.replace("destination-field-", "");
+
+                        var dm = new bespoke.sph.domain.DirectMap({Source: sourceField, Destination: destinationField, WebId: system.guid()});
+                        td().MapCollection.push(dm);
+                        info.connection.map = dm;
+                    }
+                    //  functoid map
+                    if (info.targetId.indexOf("destination-field-") > -1) {
+                        var destinationField = info.targetId.replace("destination-field-", ""),
+                            fnc = ko.dataFor($('#' + info.sourceId)[0]);
+
+                        var fm = new bespoke.sph.domain.FunctoidMap({Destination: destinationField, WebId: system.guid()});
+                        fm.Functoid = ko.observable(fnc);
+                        td().MapCollection.push(fm);
+                        info.connection.map = fm;
+                    }
+
+
+                    var selectArg = function(sourceFunctoid,targetFunctoid){
+
+                        // for those with more than 1 arg, if array or 1 arg, just auto add or select
+                        require(['viewmodels/functoid.args', 'durandal/app'], function (dialog, app2) {
+
+                            dialog.functoid(targetFunctoid);
+                            app2.showDialog(dialog)
+                                .done(function (result) {
+                                    if (!result) return;
+                                    if (result === "OK") {
+                                        var arg = _(targetFunctoid.ArgumentCollection()).find(function(v){
+                                            return ko.unwrap(v.Name) === dialog.arg();
+                                        });
+                                        arg.Functoid(sourceFunctoid);
+                                        info.connection.sf = sourceFunctoid;
+                                    }
+                                });
+
+                        });
+                    };
+                    // source functoid
+                    if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") < 0) {
+                        var sourceField = info.sourceId.replace("source-field-", ""),
+                            targetFnc = ko.dataFor(document.getElementById(info.targetId));
+
+                        var sourceFnc = new bespoke.sph.domain.SourceFunctoid({Field: sourceField, WebId: system.guid()});
+                        selectArg(sourceFnc, targetFnc);
+                    }
+
+
+                    // functoid- functoid
+                    if (info.sourceId.indexOf("source-field-") < 0 && info.targetId.indexOf("destination-field-") < 0) {
+                        var sourceFnc = ko.dataFor(document.getElementById(info.sourceId)),
+                            targetFnc = ko.dataFor(document.getElementById(info.targetId));
+
+                        selectArg(sourceFnc, targetFnc);
+
+                    }
                 });
 
                 // suspend drawing and initialise.
                 instance.doWhileSuspended(function () {
 
-                    instance.makeSource(windows, {
+                    instance.makeSource(sourceWindows, {
                         filter: ".ep01",
                         anchor: ["RightMiddle"],
                         connector: [ "Straight"],
-                        connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
-                        maxConnections: 5,
-                        onMaxConnections: function (info, e) {
-                            alert("Maximum connections (" + info.maxConnections + ") reached" + e);
-                        }
+                        connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
                     });
 
 
                 });
 
-                // initialise all '.w' elements as connection targets.
-                instance.makeTarget(windows, {
+                instance.makeTarget(targetWindows, {
+                    filter: "ep02",
                     dropOptions: { hoverClass: "dragHover" },
-                    anchor: "Continuous"
+                    anchor: ["LeftMiddle"],
+                    maxConnections: 1,
+                    onMaxConnections: function (info, e) {
+                        alert("Maximum connections (" + info.maxConnections + ") reached" + e);
+                    }
                 });
 
 
-                _(td().MapCollection()).each(function(m){
-                    var conn = instance.connect({source: "source-field-" +ko.unwrap(m.Source), target : "destination-field-" + ko.unwrap(m.Destination) });
+                _(td().MapCollection()).each(function (m) {
+                    var conn = instance.connect({source: "source-field-" + ko.unwrap(m.Source), target: "destination-field-" + ko.unwrap(m.Destination) });
                     conn.map = m;
                 });
                 connectionInitialized = true;
@@ -178,7 +260,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             attached = function (view) {
 
                 $.get("/sph/transformdefinition/GetFunctoids", function (list) {
-                    functoidToolboxItems(list);
+                    functoidToolboxItems(list.$values);
                     $('ul#function-toolbox>li.list-group-item').draggable({
                         helper: function () {
                             return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('i').clone());
@@ -207,22 +289,22 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             type = type[0];
                         }
                         if (type === "string") {
-                            return '<i class="glyphicon glyphicon-bold" style="font-size:14px;color:brown;margin-right:5px"></i>';
+                            return '<i class="glyphicon glyphicon-bold" style="font-size:12px;color:brown;margin-right:5px"></i>';
                         }
                         if (type === "integer") {
-                            return '<i class="fa fa-sort-numeric-asc" style="font-size:14px;color:blue;margin-right:5px"></i>';
+                            return '<i class="fa fa-sort-numeric-asc" style="font-size:12px;color:blue;margin-right:5px"></i>';
                         }
                         if (type === "object") {
-                            return '<i class="fa fa-building-o" style="font-size:14px;color:grey;margin-right:5px"></i>';
+                            return '<i class="fa fa-building-o" style="font-size:12px;color:grey;margin-right:5px"></i>';
                         }
                         if (type === "number") {
-                            return '<i class="glyphicon glyphicon-usd" style="font-size:14px;color:green;margin-right:5px"></i>';
+                            return '<i class="glyphicon glyphicon-usd" style="font-size:12px;color:green;margin-right:5px"></i>';
                         }
                         if (type === "boolean") {
-                            return '<i class="glyphicon glyphicon-ok" style="font-size:14px;color:red;margin-right:5px"></i>';
+                            return '<i class="glyphicon glyphicon-ok" style="font-size:12px;color:red;margin-right:5px"></i>';
                         }
                         if (type === "array") {
-                            return '<i class="fa fa-list" style="font-size:14px;color:gray;margin-right:5px"></i>';
+                            return '<i class="fa fa-list" style="font-size:12px;color:gray;margin-right:5px"></i>';
                         }
                         return "";
                     },
@@ -261,7 +343,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         for (var key in branch.properties) {
                             var iconHtml = icon(dhtml, branch.properties[key]);
                             dhtml += '<li><div class="destination-field" id="destination-field-' + key + '">' + iconHtml +
-                                '<span class="ep01">' + key + '</span>';
+                                '<span class="ep02">' + key + '</span>';
 
                             var type = branch.properties[key].type;
                             if (typeof type === "object") {
@@ -346,6 +428,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
         var vm = {
             isBusy: isBusy,
             functoidToolboxItems: functoidToolboxItems,
+            functoids: functoids,
             activate: activate,
             attached: attached,
             sourceMember: sourceMember,

@@ -532,6 +532,10 @@
 		</xs:all>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 		<xs:attribute name="OutputTypeName" type="xs:string" use="required"/>
+		<xs:attribute name="Label" type="xs:string" use="required"/>
+		<xs:attribute name="Comment" type="xs:string" use="required"/>
+		<xs:attribute name="X" type="xs:double" use="required"/>
+		<xs:attribute name="Y" type="xs:double" use="required"/>
 	</xs:complexType>
 	<xs:element name="ScriptFunctoid">
 		<xs:complexType>
@@ -812,6 +816,9 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Map">
+					<xs:all>
+						<xs:element name="Functoid" type="Functoid"/>
+					</xs:all>
 					<xs:attribute name="__uuid" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
@@ -921,6 +928,15 @@
 				<xs:extension base="Functoid">
 					<xs:attribute name="Value" type="xs:anySimpleType" use="required"/>
 					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SourceFunctoid">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Field" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

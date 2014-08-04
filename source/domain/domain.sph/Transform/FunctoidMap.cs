@@ -2,7 +2,6 @@ namespace Bespoke.Sph.Domain
 {
     public partial class FunctoidMap : Map
     {
-        public Functoid Functoid { get; set; }
         
         public override string GenerateCode()
         {

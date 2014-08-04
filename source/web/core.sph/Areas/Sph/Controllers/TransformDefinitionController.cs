@@ -19,8 +19,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             ObjectBuilder.ComposeMefCatalog(this);
             var list = from f in Functoids
-                       select f.Metadata;
-            return Json(list.ToArray(), JsonRequestBehavior.AllowGet);
+                       orderby f.Metadata.Category
+                       select new { designer =f.Metadata, functoid = f.Value };
+            this.Response.ContentType = "application/json";
+            return Content(list.ToJsonString(true));
         }
 
         [HttpPost]

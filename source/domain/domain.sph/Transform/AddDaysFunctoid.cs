@@ -6,7 +6,7 @@ using System.Text;
 namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
-    [FunctoidDesignerMetadata(Name = "Now", BootstrapIcon = "calendar")]
+    [FunctoidDesignerMetadata(Name = "AddDays", BootstrapIcon = "calendar")]
     public class AddDaysFunctoid : Functoid
     {
         public AddDaysFunctoid()

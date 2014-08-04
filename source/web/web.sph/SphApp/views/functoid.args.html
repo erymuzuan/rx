@@ -1,0 +1,29 @@
+﻿
+<section class="view-model-modal" id="functoid-args">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Funtoid Args</h3>
+            </div>
+            <div class="modal-body" data-bind="with: functoid">
+
+                <form class="form-horizontal" id="functoid-args-form">
+                    <div class="form-group">
+                        <label for="functoid-args-select" class="col-lg-2 control-label">Argument</label>
+                        <div class="col-lg-6">
+                            <select required class="form-control" id="functoid-args-select"
+                                    data-bind="value: $root.arg, options:ArgumentCollection, optionsValue:'Name',optionsText:'Name', optionsCaption:'[Please Select]'">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="functoid-args-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

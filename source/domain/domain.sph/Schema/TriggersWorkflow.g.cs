@@ -4684,6 +4684,8 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        public Functoid Functoid { get; set; }
+
 
     }
 
@@ -5233,6 +5235,34 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("SourceFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class SourceFunctoid
+    {
+
+        private string m_Field;
+        [XmlAttribute]
+        public string Field
+        {
+            get
+            {
+                return m_Field;
+            }
+            set
+            {
+                m_Field = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("Field", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Field
@@ -5741,6 +5771,26 @@ namespace Bespoke.Sph.Domain
         private string m_outputTypeName;
         public const string PropertyNameOutputTypeName = "OutputTypeName";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_label;
+        public const string PropertyNameLabel = "Label";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_comment;
+        public const string PropertyNameComment = "Comment";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private double m_x;
+        public const string PropertyNameX = "X";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private double m_y;
+        public const string PropertyNameY = "Y";
+
         private readonly ObjectCollection<FunctoidArg> m_ArgumentCollection = new ObjectCollection<FunctoidArg>();
 
         ///<summary>
@@ -5796,6 +5846,94 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_outputTypeName;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string Label
+        {
+            set
+            {
+                if (m_label == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabel, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_label = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_label;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string Comment
+        {
+            set
+            {
+                if (m_comment == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameComment, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_comment = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_comment;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public double X
+        {
+            set
+            {
+                if (m_x == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameX, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_x = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_x;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public double Y
+        {
+            set
+            {
+                if (m_y == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameY, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_y = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_y;
             }
         }
 

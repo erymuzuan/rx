@@ -4697,6 +4697,7 @@ bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
 
     v["$type"] = "Bespoke.Sph.Domain.FunctoidMap, domain.sph";
 
+    v.Functoid = ko.observable();//type but not nillable
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -4996,6 +4997,35 @@ bespoke.sph.domain.ConstantFunctoid = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.SourceFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Field = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.SourceFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SourceFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.SourceFunctoidPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.Field = function (optionOrWebid) {
 
     var model = {
@@ -5143,6 +5173,10 @@ bespoke.sph.domain.Functoid = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.Functoid, domain.sph",
         Name: ko.observable(''),
         OutputTypeName: ko.observable(''),
+        Label: ko.observable(''),
+        Comment: ko.observable(''),
+        X: ko.observable(0.00),
+        Y: ko.observable(0.00),
         ArgumentCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
