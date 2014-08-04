@@ -31,9 +31,11 @@ namespace Bespoke.Sph.Domain
             return sb.ToString();
         }
 
-        public async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options, params string[] files)
+        public Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options, params string[] files)
         {
-            await Task.Delay(500);
+            this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
+            this.MapCollection.ForEach(x => x.TransformDefinition = this);
+
             if (files.Length == 0)
                 throw new ArgumentException("No source files supplied for compilation", "files");
             foreach (var cs in files)
@@ -89,7 +91,7 @@ namespace Bespoke.Sph.Domain
                                  FileName = x.FileName
                              };
                 cr.Errors.AddRange(errors);
-                return cr;
+                return Task.FromResult(cr);
 
             }
         }
@@ -97,15 +99,25 @@ namespace Bespoke.Sph.Domain
 
         public override bool Validate()
         {
+            this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
+            this.MapCollection.ForEach(x => x.TransformDefinition = this);
             if (string.IsNullOrWhiteSpace(this.Name))
                 return false;
             return this.MapCollection.All(x => x.Validate());
 
         }
 
+
+        public void AddFunctoids(params Functoid[] functoids)
+        {
+            this.FunctoidCollection.AddRange(functoids);
+        }
         
         public async Task<BuildValidationResult> ValidateBuildAsync()
         {
+            this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
+            this.MapCollection.ForEach(x => x.TransformDefinition = this);
+
             var result = new BuildValidationResult();
             if (string.IsNullOrWhiteSpace(this.Name))
                 result.Errors.Add(new BuildError { Message = "Name cannot be null or empty", ItemWebId = this.WebId });
@@ -118,6 +130,13 @@ namespace Bespoke.Sph.Domain
             var maps = (await Task.WhenAll(tasks)).SelectMany(x => x.ToArray())
                 .Select(x => new BuildError(x.ErrorLocation, x.Message));
             result.Errors.AddRange(maps);
+
+            var fntTasks = from m in this.FunctoidCollection
+                        select m.ValidateAsync();
+            var functoidsValidation = (await Task.WhenAll(fntTasks)).SelectMany(x => x.ToArray())
+                .Select(x => new BuildError(x.ErrorLocation, x.Message));
+
+            result.Errors.AddRange(functoidsValidation);
 
 
             var distintcs = result.Errors.Distinct().ToArray();

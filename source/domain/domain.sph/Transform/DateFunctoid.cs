@@ -1,4 +1,5 @@
 using System.ComponentModel.Composition;
+using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
@@ -6,18 +7,37 @@ namespace Bespoke.Sph.Domain
     [FunctoidDesignerMetadata(Name = "Date Parsing", BootstrapIcon = "calendar")]
     public partial class DateFunctoid : Functoid
     {
-        public override bool Initialize()
+
+        public override sealed bool Initialize()
         {
             this.ArgumentCollection.Clear();
-            this.ArgumentCollection.Add(new FunctoidArg{Name = "value", Type = typeof(string)});
-            this.ArgumentCollection.Add(new FunctoidArg{Name = "format", Type = typeof(string), IsOptional = true});
-            this.ArgumentCollection.Add(new FunctoidArg{Name = "styles", Type = typeof(string), IsOptional = true});
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "value", Type = typeof(string) });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "format", Type = typeof(string), IsOptional = true });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "styles", Type = typeof(string), IsOptional = true });
             return base.Initialize();
+        }
+
+        private int m_number;
+        public override string GeneratePreCode(FunctoidMap map)
+        {
+            m_number = GetRunningNumber();
+            var code = new StringBuilder();
+            code.AppendLine();
+            code.AppendLinf("               var value{0} = {1};", m_number, this["value"].GetFunctoid(this.TransformDefinition).GenerateCode());
+            code.AppendLinf("               var format{0} = {1};", m_number, this["format"].GetFunctoid(this.TransformDefinition).GenerateCode());
+            var style = this["styles"].GetFunctoid(this.TransformDefinition);
+            if (null != style)
+                code.AppendFormat("               var style{0} = {1};", m_number, style.GenerateCode());
+            else
+                code.AppendFormat("               var style{0} = System.Globalization.DateTimeStyles.None;", m_number);
+
+
+            return code.ToString();
         }
 
         public override string GenerateCode()
         {
-            return string.Format("DateTime.ParseExact(item.{0}, \"{1}\", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.{2})", this["val"], this["format"], this["styles"]);
+            return string.Format("DateTime.ParseExact(value{0}, format{0}, System.Globalization.CultureInfo.InvariantCulture, style{0})", m_number);
         }
     }
 }

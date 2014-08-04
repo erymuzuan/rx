@@ -71,6 +71,10 @@ namespace Bespoke.Sph.Domain
         {
             Functoid.ResetRunningNumber();
 
+            this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
+            this.MapCollection.ForEach(x => x.TransformDefinition = this);
+
+
             var code = new StringBuilder();
             code.AppendLinf("           public async Task<{0}> TransformAsync({1} item)", this.OutputType.FullName, this.InputType.FullName);
             code.AppendLine("           {");

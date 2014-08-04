@@ -67,6 +67,25 @@ namespace mapping.transformation.test
                 InputType = customerType,
                 OutputType = oracleEmployeeType
             };
+            td.FunctoidCollection.Add(new ConstantFunctoid
+            {
+                Value = "2011-05-05",
+                Type = typeof(string),
+                WebId = "2011-05-05"
+            });
+            td.FunctoidCollection.Add(new ConstantFunctoid
+            {
+                Value = "yyyy-MM-dd",
+                Type = typeof(string),
+                WebId = "yyyy-MM-dd"
+            });
+
+            var df = new DateFunctoid{WebId = "df"};
+            df.Initialize();
+            df["format"].Functoid = "yyyy-MM-dd";
+            df["value"].Functoid = "2011-05-05";
+
+            td.FunctoidCollection.Add(df);
             td.MapCollection.Add(new DirectMap
             {
                 Source = "CustomerId",
@@ -74,39 +93,43 @@ namespace mapping.transformation.test
                 Destination = "EMPLOYEE_ID"
             });
 
+
+            var genderFnctd = new ScriptFunctoid
+            {
+                Expression = "return item.Gender == \"Male\"? \"Lelaki\" : \"Perempuan\";",
+                Name = "genderFunct",
+                WebId = "genderFunct"
+
+            };
+            td.FunctoidCollection.Add(genderFnctd);
+
             td.MapCollection.Add(new FunctoidMap
             {
-                Functoid = new ScriptFunctoid
-                {
-                    Expression = "return item.Gender == \"Male\"? \"Lelaki\" : \"Perempuan\";",
-                    Name = "genderFunct"
-
-                },
+                Functoid = genderFnctd.WebId,
                 Destination = "EMAIL",
                 DestinationType = typeof(string)
             });
             td.MapCollection.Add(new FunctoidMap
             {
-                Functoid = new DateFunctoid
-                {
-                    SourceField = "LogoStoreId",
-                    Format = "yyyy-MM-dd"
-
-                },
+                Functoid = df.WebId,
                 Destination = "HIRE_DATE",
                 DestinationType = typeof(DateTime)
             });
+            const string FORMATTING_FUNCTOID = "formattingFunctoid";
+            td.FunctoidCollection.Add(new FormattingFunctoid
+            {
+                SourceField = "RegisteredDate",
+                Format = "Phone from date {0:yyyy-MM-dd}",
+                WebId = FORMATTING_FUNCTOID
+
+            });
             td.MapCollection.Add(new FunctoidMap
             {
-                Functoid = new FormattingFunctoid
-                {
-                    SourceField = "RegisteredDate",
-                    Format = "Phone from date {0:yyyy-MM-dd}"
-
-                },
+                Functoid = FORMATTING_FUNCTOID,
                 Destination = "PHONE_NUMBER",
                 DestinationType = typeof(string)
             });
+
             var options = new CompilerOptions();
             var codes = td.GenerateCode();
             var sources = td.SaveSources(codes);
@@ -122,8 +145,9 @@ namespace mapping.transformation.test
             var output = await map.TransformAsync(customer);
             Assert.IsNotNull(output);
             Assert.AreEqual(customer.CustomerId, output.EMPLOYEE_ID);
-            Assert.AreEqual(new DateTime(2012, 5, 31), output.HIRE_DATE);
+            Assert.AreEqual(new DateTime(2011, 5, 5), output.HIRE_DATE);
             StringAssert.Contains(output.PHONE_NUMBER, "Phone from date", output.PHONE_NUMBER);
+            Console.WriteLine(td.ToJsonString(true));
         }
 
 
@@ -131,9 +155,8 @@ namespace mapping.transformation.test
         public async Task OracleEmployeeToEntityCustomer()
         {
             var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-
-
             var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
             staff.FIRST_NAME = "Erymuzuan";
@@ -141,7 +164,6 @@ namespace mapping.transformation.test
             staff.PHONE_NUMBER = "0123889200";
             staff.HIRE_DATE = DateTime.Parse("2012-05-31");
             staff.SALARY = 4500d;
-
 
             var td = new TransformDefinition
             {
@@ -162,25 +184,37 @@ namespace mapping.transformation.test
                 Type = typeof(string),
                 Destination = "Contact.Email"
             });
-            var add15Days = new AddDaysFunctoid { Name = "add15Days" };
-            add15Days["date"].Functoid = new SourceFunctoid { Field = "HIRE_DATE"};
-            add15Days["value"].Functoid = new ConstantFunctoid{Value = 15, Type = typeof(int)};
-            td.MapCollection.Add(new FunctoidMap{Functoid = add15Days, DestinationType = typeof(string), Destination = "RegisteredDate"});
-         
+            var add15Days = new AddDaysFunctoid { Name = "add15Days", WebId = "add15Days" };
+            add15Days.Initialize();
+            var hireDate = new SourceFunctoid { Field = "HIRE_DATE", WebId = "hireDate" };
+            hireDate.Initialize();
+            var value15 = new ConstantFunctoid { Value = 15, Type = typeof(int), WebId = "value15" };
+            value15.Initialize();
+            add15Days["date"].Functoid = hireDate.WebId;
+            add15Days["value"].Functoid = value15.WebId;
+            td.MapCollection.Add(new FunctoidMap { Functoid = add15Days.WebId, DestinationType = typeof(string), Destination = "RegisteredDate" });
 
-            var sc0 = new StringConcateFunctoid();
-            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = new ConstantFunctoid { Value = " ", Type = typeof(string) } });
-            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "bin", Functoid = new ConstantFunctoid { Value = "bin", Type = typeof(string) } });
-            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = new ConstantFunctoid { Value = " ", Type = typeof(string) } });
 
-            var sc = new StringConcateFunctoid();
-            sc.ArgumentCollection.Add(new FunctoidArg { Name = "firstName", Functoid = new SourceFunctoid { Field = "FIRST_NAME" } });
-            sc.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = sc0});
-            sc.ArgumentCollection.Add(new FunctoidArg { Name = "lastName", Functoid = new SourceFunctoid { Field = "LAST_NAME" } });
+            var sc0 = new StringConcateFunctoid { WebId = "sc0" };
+            var space = new ConstantFunctoid { Value = " ", Type = typeof(string), WebId = "space" };
+            var bin = new ConstantFunctoid { Value = "bin", Type = typeof(string), WebId = "bin" };
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = space.WebId });
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "bin", Functoid = bin.WebId });
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = space.WebId });
+
+            var sc = new StringConcateFunctoid { WebId = "sc" };
+            var firstName = new SourceFunctoid { Field = "FIRST_NAME", WebId = "FIRST_NAME" };
+            var lastName = new SourceFunctoid { Field = "LAST_NAME", WebId = "LAST_NAME" };
+
+            sc.ArgumentCollection.Add(new FunctoidArg { Name = "firstName", Functoid = firstName.WebId });
+            sc.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = sc0.WebId });
+            sc.ArgumentCollection.Add(new FunctoidArg { Name = "lastName", Functoid = lastName.WebId });
+
+            td.AddFunctoids(add15Days, hireDate, value15, sc0, space, bin, sc, firstName, lastName);
 
             td.MapCollection.Add(new FunctoidMap
             {
-                Functoid = sc,
+                Functoid = sc.WebId,
                 Destination = "FullName"
             });
 

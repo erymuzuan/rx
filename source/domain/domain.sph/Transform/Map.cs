@@ -8,6 +8,10 @@ namespace Bespoke.Sph.Domain
 {
     public partial class Map : DomainObject
     {
+        [JsonIgnore]
+        [XmlIgnore]
+        public TransformDefinition TransformDefinition { get; set; }
+
         public virtual Task<string> ConvertAsync(object source)
         {
             throw new NotImplementedException();

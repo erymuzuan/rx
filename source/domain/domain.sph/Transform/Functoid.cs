@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    [DebuggerDisplay("WebId = {WebId}, Type={GetType().Name}")]
     [XmlInclude(typeof(ScriptFunctoid))]
     [XmlInclude(typeof(ConstantFunctoid))]
     [XmlInclude(typeof(StringConcateFunctoid))]
     public partial class Functoid : DomainObject
     {
         public const string DESIGNER_CONTRACT = "FunctoidDesigner";
-
+        [JsonIgnore]
+        [XmlIgnore]
+        public TransformDefinition TransformDefinition { get; set; }
         public virtual bool Initialize()
         {
             return true;
@@ -39,7 +44,7 @@ namespace Bespoke.Sph.Domain
 
         public new FunctoidArg this[string index]
         {
-            get { return this.ArgumentCollection.Single(x => x.Name == index); }
+            get { return this.ArgumentCollection.SingleOrDefault(x => x.Name == index); }
 
         }
 
@@ -56,12 +61,13 @@ namespace Bespoke.Sph.Domain
         {
             var errors = new List<ValidationError>();
             var nf = from a in this.ArgumentCollection
-                     where null == a.Functoid
+                     where string.IsNullOrWhiteSpace(a.Functoid)
                      select new ValidationError { PropertyName = a.Name, Message = string.Format("[{0}] Functoid is null", a.Name) };
             errors.AddRange(nf);
             var vfTasks = from a in this.ArgumentCollection
-                          where null != a.Functoid
-                          select a.Functoid.ValidateAsync();
+                          where !string.IsNullOrWhiteSpace(a.Functoid)
+                          let fnt = a.GetFunctoid(this.TransformDefinition)
+                          select fnt.ValidateAsync();
 
             var vf = (await Task.WhenAll(vfTasks)).SelectMany(x => x.ToArray());
             errors.AddRange(vf);

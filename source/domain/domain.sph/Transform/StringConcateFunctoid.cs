@@ -13,11 +13,11 @@ namespace Bespoke.Sph.Domain
         {
             this.ArgumentCollection.Clear();
             var args = from i in Enumerable.Range(1, 10)
-                select new FunctoidArg
-                {
-                    Name = i.ToString(CultureInfo.InvariantCulture),
-                    Type = typeof(object)
-                };
+                       select new FunctoidArg
+                       {
+                           Name = i.ToString(CultureInfo.InvariantCulture),
+                           Type = typeof(object)
+                       };
             this.ArgumentCollection.AddRange(args);
 
             return base.Initialize();
@@ -29,9 +29,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             foreach (var arg in this.ArgumentCollection)
             {
+                var ftd = arg.GetFunctoid(this.TransformDefinition);
                 arg.Name = GetRunningNumber().ToString(CultureInfo.InvariantCulture);
-                code.AppendLine(arg.Functoid.GeneratePreCode(map));
-                code.AppendFormat("               var val{0} = {1};", arg.Name, arg.Functoid.GenerateCode());
+                code.AppendLine(ftd.GeneratePreCode(map));
+                code.AppendFormat("               var val{0} = {1};", arg.Name, ftd.GenerateCode());
             }
             return code.ToString();
         }

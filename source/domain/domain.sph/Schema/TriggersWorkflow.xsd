@@ -789,6 +789,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="FunctoidCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Functoid" type="Functoid" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="TransformDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -817,10 +824,8 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Map">
-					<xs:all>
-						<xs:element name="Functoid" type="Functoid"/>
-					</xs:all>
 					<xs:attribute name="__uuid" type="xs:string" use="required"/>
+					<xs:attribute name="Functoid" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -911,15 +916,13 @@
 	</xs:element>
 	<xs:element name="FunctoidArg">
 		<xs:complexType>
-			<xs:all>
-				<xs:element name="Functoid" type="Functoid"/>
-			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="Label" type="xs:string" use="required"/>
 			<xs:attribute name="Comment" type="xs:string" use="required"/>
 			<xs:attribute name="IsOptional" type="xs:boolean" use="required"/>
+			<xs:attribute name="Functoid" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ConstantFunctoid">

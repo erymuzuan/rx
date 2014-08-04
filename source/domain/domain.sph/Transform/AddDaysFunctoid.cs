@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
@@ -9,6 +11,16 @@ namespace Bespoke.Sph.Domain
     [FunctoidDesignerMetadata(Name = "AddDays", BootstrapIcon = "calendar", Category = FunctoidCategory.Date)]
     public class AddDaysFunctoid : Functoid
     {
+        private int m_number;
+        public override async Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            var errors =(await base.ValidateAsync()).ToList();
+            if(this["date"] == null)
+                errors.Add("date","date argument is missing", this.WebId);
+            if(this["value"] == null)
+                errors.Add("value", "value argument is missing", this.WebId);
+            return errors;
+        }
 
         public override bool Initialize()
         {
@@ -18,12 +30,11 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        private int m_number;
 
         public override string GeneratePreCode(FunctoidMap map)
         {
-            var date = this.ArgumentCollection.Single(x => x.Name == "date").Functoid;
-            var value = this.ArgumentCollection.Single(x => x.Name == "value").Functoid;
+            var date = this.ArgumentCollection.Single(x => x.Name == "date").GetFunctoid(this.TransformDefinition);
+            var value = this.ArgumentCollection.Single(x => x.Name == "value").GetFunctoid(this.TransformDefinition);
 
             var code = new StringBuilder();
             code.AppendLine();

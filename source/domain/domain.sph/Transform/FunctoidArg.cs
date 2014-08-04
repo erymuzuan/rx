@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -18,6 +19,13 @@ namespace Bespoke.Sph.Domain
             {
                 this.TypeName = value.GetShortAssemblyQualifiedName();
             }
+        }
+
+        public Functoid GetFunctoid(TransformDefinition map)
+        {
+            if (string.IsNullOrWhiteSpace(this.Functoid))
+                return null;
+            return map.FunctoidCollection.Single(x => x.WebId == this.Functoid);
         }
     }
 }

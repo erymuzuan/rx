@@ -4472,6 +4472,17 @@ namespace Bespoke.Sph.Domain
             get { return m_MapCollection; }
         }
 
+        private readonly ObjectCollection<Functoid> m_FunctoidCollection = new ObjectCollection<Functoid>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Functoid> FunctoidCollection
+        {
+            get { return m_FunctoidCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -4718,7 +4729,21 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public Functoid Functoid { get; set; }
+        private string m_Functoid;
+        [XmlAttribute]
+        public string Functoid
+        {
+            get
+            {
+                return m_Functoid;
+            }
+            set
+            {
+                m_Functoid = value;
+                RaisePropertyChanged();
+            }
+        }
+
 
 
     }
@@ -5023,9 +5048,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Functoid m_functoid;
+        private string m_functoid;
         public const string PropertyNameFunctoid = "Functoid";
-
 
 
         ///<summary>
@@ -5202,17 +5226,20 @@ namespace Bespoke.Sph.Domain
         }
 
 
-
         ///<summary>
         /// 
         ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
         [DebuggerHidden]
 
-        public Functoid Functoid
+        public string Functoid
         {
             set
             {
-                if (m_functoid == value) return;
+                if (String.Equals(m_functoid, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameFunctoid, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -5221,8 +5248,12 @@ namespace Bespoke.Sph.Domain
                     OnPropertyChanged();
                 }
             }
-            get { return m_functoid; }
+            get
+            {
+                return m_functoid;
+            }
         }
+
 
 
     }
