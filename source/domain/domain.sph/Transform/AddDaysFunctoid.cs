@@ -9,10 +9,12 @@ namespace Bespoke.Sph.Domain
     [FunctoidDesignerMetadata(Name = "AddDays", BootstrapIcon = "calendar")]
     public class AddDaysFunctoid : Functoid
     {
-        public AddDaysFunctoid()
+
+        public override bool Initialize()
         {
             this.ArgumentCollection.Add(new FunctoidArg { Name = "date", Type = typeof(DateTime) });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value", Type = typeof(double) });
+            return base.Initialize();
         }
 
         private int m_number;

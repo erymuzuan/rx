@@ -8,6 +8,11 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(StringConcateFunctoid))]
     public partial class Functoid : DomainObject
     {
+
+        public virtual bool Initialize()
+        {
+            return true;
+        }
         private static int m_number = 1;
         protected static int GetRunningNumber()
         {

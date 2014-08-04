@@ -6,9 +6,23 @@ using System.Text;
 namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
-    [FunctoidDesignerMetadata(Name = "String concatenation", FontAwesomeIcon = "sort-numeric-asc", Category = FunctoidCategory.String)]
+    [FunctoidDesignerMetadata(Name = "String concatenation", FontAwesomeIcon = "plus-circle", Category = FunctoidCategory.String)]
     public partial class StringConcateFunctoid : Functoid
     {
+        public override bool Initialize()
+        {
+            this.ArgumentCollection.Clear();
+            var args = from i in Enumerable.Range(1, 10)
+                select new FunctoidArg
+                {
+                    Name = i.ToString(CultureInfo.InvariantCulture),
+                    Type = typeof(object)
+                };
+            this.ArgumentCollection.AddRange(args);
+
+            return base.Initialize();
+        }
+
         public override string GeneratePreCode(FunctoidMap map)
         {
             var code = new StringBuilder();

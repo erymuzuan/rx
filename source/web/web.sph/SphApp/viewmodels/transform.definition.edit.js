@@ -137,7 +137,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             id: "arrow",
                             length: 14,
                             foldback: 0.8
-                        } ]
+                        } ],
+                        [ "Label", { label:"", id:"label", cssClass:"aLabel" }]
                     ],
                     Container: "container-canvas"
                 });
@@ -160,7 +161,6 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     if (!connectionInitialized) {
                         return;
                     }
-
 
                     // direct map
                     if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") > -1) {
@@ -198,6 +198,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                                         });
                                         arg.Functoid(sourceFunctoid);
                                         info.connection.sf = sourceFunctoid;
+
+                                        info.connection.getOverlay("label").setLabel(dialog.arg());
                                     }
                                 });
 
@@ -247,12 +249,63 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 });
 
 
+                var loopFunctoid = function(item, parent){
+                    if(ko.unwrap(item.$type) === "Bespoke.Sph.Domain.SourceFunctoid, domain.sph"){
+                        var conn = instance.connect({source: "source-field-" + ko.unwrap(item.Field), target: ko.unwrap(parent.WebId) });
+                        conn.sf = item;
+                        return;
+                    }
+
+                    var tool = _(functoidToolboxItems()).find(function(v){
+                        return ko.unwrap(item.$type) === ko.unwrap(ko.unwrap(v.functoid).$type);
+                    });
+                    item.designer = tool.designer;
+                    functoids.push(item);
+
+                    var element = document.getElementById( ko.unwrap(item.WebId));
+                    instance.makeSource(element, {
+                        endPoint: ["Rectangle", {width: 10, height: 10}],
+                        anchor: "RightMiddle",
+                        connector: [ "Straight"],
+                        connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
+                    });
+                    if (item.ArgumentCollection().length) {
+                        instance.makeTarget(element, {
+                            dropOptions: { hoverClass: "dragHover" },
+                            anchor: ["LeftMiddle"],
+                            maxConnections: item.ArgumentCollection().length,
+                            onMaxConnections: function (info, e) {
+                                alert("Maximum connections (" + info.maxConnections + ") reached" + e);
+                            }
+                        });
+                    }
+
+                    if(parent){
+                        var conn = instance.connect({source:  ko.unwrap(item.WebId), target: ko.unwrap(parent.WebId) });
+                        conn.sf = item;
+                    }
+                    _(item.ArgumentCollection()).each(function(v){
+                        loopFunctoid(v.Functoid(), item);
+                    });
+                };
+
+                // functoid maps
                 _(td().MapCollection()).each(function (m) {
-                    var conn = instance.connect({source: "source-field-" + ko.unwrap(m.Source), target: "destination-field-" + ko.unwrap(m.Destination) });
-                    conn.map = m;
+                    if(typeof  m.Source === "undefined"){
+                        loopFunctoid(m.Functoid());
+                        var conn = instance.connect({source:  ko.unwrap(m.Functoid().WebId), target:'destination-field-'+ ko.unwrap(m.Destination) });
+                        conn.map = m;
+                    }
+                });
+
+                // direct maps
+                _(td().MapCollection()).each(function (m) {
+                    if(ko.unwrap(m.Source)){
+                        var conn = instance.connect({source: "source-field-" + ko.unwrap(m.Source), target: "destination-field-" + ko.unwrap(m.Destination) });
+                        conn.map = m;
+                    }
                 });
                 connectionInitialized = true;
-
 
                 jsPlumb.fire("jsPlumbDemoLoaded", instance);
 
