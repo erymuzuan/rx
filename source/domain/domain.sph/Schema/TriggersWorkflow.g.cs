@@ -4886,49 +4886,17 @@ namespace Bespoke.Sph.Domain
     public partial class DateFunctoid
     {
 
-        private string m_Format;
+        private string m_Dummy;
         [XmlAttribute]
-        public string Format
+        public string Dummy
         {
             get
             {
-                return m_Format;
+                return m_Dummy;
             }
             set
             {
-                m_Format = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private string m_SourceField;
-        [XmlAttribute]
-        public string SourceField
-        {
-            get
-            {
-                return m_SourceField;
-            }
-            set
-            {
-                m_SourceField = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private string m_DateTimeStyles;
-        [XmlAttribute]
-        public string DateTimeStyles
-        {
-            get
-            {
-                return m_DateTimeStyles;
-            }
-            set
-            {
-                m_DateTimeStyles = value;
+                m_Dummy = value;
                 RaisePropertyChanged();
             }
         }
@@ -5013,6 +4981,11 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_comment;
         public const string PropertyNameComment = "Comment";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isOptional;
+        public const string PropertyNameIsOptional = "IsOptional";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -5162,6 +5135,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_comment;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsOptional
+        {
+            set
+            {
+                if (m_isOptional == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsOptional, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isOptional = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isOptional;
             }
         }
 

@@ -2,7 +2,7 @@ using System.ComponentModel.Composition;
 
 namespace Bespoke.Sph.Domain
 {
-    [Export("FunctoidDesigner", typeof(Functoid))]
+    [Export(DESIGNER_CONTRACT, typeof(Functoid))]
     [FunctoidDesignerMetadata(Name = "Parse boolean", FontAwesomeIcon = "check-circle", Category = FunctoidCategory.Common)]
     public partial class BooleanFunctoid : Functoid
     {

@@ -172,7 +172,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         info.connection.map = dm;
                     }
                     //  functoid map
-                    if (info.targetId.indexOf("destination-field-") > -1) {
+                    if (info.targetId.indexOf("destination-field-") > -1 && info.sourceId.indexOf("source-field-") < 0 ) {
                         var destinationField = info.targetId.replace("destination-field-", ""),
                             fnc = ko.dataFor($('#' + info.sourceId)[0]);
 
@@ -250,6 +250,9 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
 
                 var loopFunctoid = function(item, parent){
+                    if(!item){
+                        return;
+                    }
                     if(ko.unwrap(item.$type) === "Bespoke.Sph.Domain.SourceFunctoid, domain.sph"){
                         var conn = instance.connect({source: "source-field-" + ko.unwrap(item.Field), target: ko.unwrap(parent.WebId) });
                         conn.sf = item;
@@ -395,8 +398,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     buildDestinationTree = function (branch) {
                         for (var key in branch.properties) {
                             var iconHtml = icon(dhtml, branch.properties[key]);
-                            dhtml += '<li><div class="destination-field" id="destination-field-' + key + '">' + iconHtml +
-                                '<span class="ep02">' + key + '</span>';
+                            dhtml += '<li><div><div class="destination-field" id="destination-field-' + key + '">' + iconHtml +
+                                '<span class="ep02">' + key + '</span></div>';
 
                             var type = branch.properties[key].type;
                             if (typeof type === "object") {

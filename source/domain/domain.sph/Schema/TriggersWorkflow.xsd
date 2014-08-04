@@ -890,9 +890,7 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Functoid">
-					<xs:attribute name="Format" type="xs:string" use="required"/>
-					<xs:attribute name="SourceField" type="xs:string" use="required"/>
-					<xs:attribute name="DateTimeStyles" type="xs:string" use="required"/>
+					<xs:attribute name="Dummy" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -920,6 +918,7 @@
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="Label" type="xs:string" use="required"/>
 			<xs:attribute name="Comment" type="xs:string" use="required"/>
+			<xs:attribute name="IsOptional" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ConstantFunctoid">

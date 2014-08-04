@@ -8,6 +8,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(StringConcateFunctoid))]
     public partial class Functoid : DomainObject
     {
+        public const string DESIGNER_CONTRACT = "FunctoidDesigner";
 
         public virtual bool Initialize()
         {
