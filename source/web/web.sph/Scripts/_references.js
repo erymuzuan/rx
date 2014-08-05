@@ -70,6 +70,7 @@
 /// <reference path="../sphapp/viewmodels/adapter.oracle.js" />
 /// <reference path="../sphapp/viewmodels/adapter.sqlserver.js" />
 /// <reference path="../sphapp/viewmodels/advanced-search.js" />
+/// <reference path="../sphapp/viewmodels/functoid.args.js" />
 /// <reference path="../sphapp/viewmodels/icon.picker.js" />
 /// <reference path="../sphapp/viewmodels/members.selector.dialog.js" />
 /// <reference path="../sphapp/viewmodels/not.found.js" />

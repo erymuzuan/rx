@@ -296,6 +296,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             }
                         });
                     }
+                    instance.draggable(element);
                 };
 
                 // functoids maps
@@ -310,10 +311,17 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     });
                     return found;
                 };
+
+                // create the source and target for each functoid
                 _(td().FunctoidCollection()).each(function (f) {
                     if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
                         makeFunctoidElement(f);
+                    }
+                });
 
+                // creates the connection for each argument list
+                _(td().FunctoidCollection()).each(function (f) {
+                    if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
                         _(f.ArgumentCollection()).each(function (a) {
                             var source = document.getElementById(ko.unwrap(a.Functoid));
                             if(typeof a.Functoid !== "function" || !source){
@@ -324,6 +332,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         })
                     }
                 });
+
                 // for source to functoid
                 _(td().FunctoidCollection()).each(function (f) {
                     if (ko.unwrap(f.$type) === "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
@@ -334,7 +343,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         }
                         var conn = instance.connect({source: "source-field-" + ko.unwrap(f.Field), target: target });
                         conn.sf = f;
-                        return;
+
                     }
                 });
 
