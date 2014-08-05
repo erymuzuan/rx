@@ -14,7 +14,6 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
         var td = ko.observable(),
             functoidToolboxItems = ko.observableArray(),
             errors = ko.observableArray(),
-            functoids = ko.observableArray(),
             isBusy = ko.observable(false),
             sourceMember = ko.observable(),
             sourceSchema = ko.observable(),
@@ -25,6 +24,9 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 context.loadOneAsync("TransformDefinition", query)
                     .done(function (b) {
                         if (b) {
+                            _(b.FunctoidCollection()).each(function (v) {
+                                v.designer = ko.observable({FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: ""});
+                            });
                             td(b);
                             $.get("/sph/transformdefinition/schema?type=" + b.InputTypeName(), function (s) {
                                 sourceSchema(s);
@@ -99,10 +101,11 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
                 });
 
+                var anchorOptions = ["LeftMiddle", "LeftTop", "LeftBottom"]
                 if (fnc.ArgumentCollection().length) {
                     m_instance.makeTarget(element, {
                         dropOptions: { hoverClass: "dragHover" },
-                        anchor: ["LeftMiddle"],
+                        anchors: anchorOptions,
                         maxConnections: fnc.ArgumentCollection().length,
                         onMaxConnections: function (info, e) {
                             alert("Maximum connections (" + info.maxConnections + ") reached" + e);
@@ -120,7 +123,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 functoid.X(x - $('#map-canvas').offset().left + $(window).scrollLeft());
                 functoid.Y(y - $('#map-canvas').offset().top + $(window).scrollTop());
                 functoid.WebId(system.guid());
-                functoids.push(functoid);
+                td().FunctoidCollection.push(functoid);
 
                 setTimeout(function () {
                     initializeFunctoid(functoid);
@@ -154,6 +157,13 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     if (c.map) {
                         td().MapCollection.remove(c.map);
                     }
+
+                    if (typeof c.functoidArg === "function") {
+                        c.functoidArg(null);
+                    }
+                    if (typeof c.sf) {
+                        td().FunctoidCollection.remove(c.sf);
+                    }
                 });
 
                 var connectionInitialized = false;
@@ -172,19 +182,19 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         info.connection.map = dm;
                     }
                     //  functoid map
-                    if (info.targetId.indexOf("destination-field-") > -1 && info.sourceId.indexOf("source-field-") < 0 ) {
-                        var destinationField = info.targetId.replace("destination-field-", ""),
-                            fnc = ko.dataFor($('#' + info.sourceId)[0]);
+                    if (info.targetId.indexOf("destination-field-") > -1 && info.sourceId.indexOf("source-field-") < 0) {
+                        var destinationField = info.targetId.replace("destination-field-", "");
 
                         var fm = new bespoke.sph.domain.FunctoidMap({Destination: destinationField, WebId: system.guid()});
-                        fm.Functoid = ko.observable(fnc);
+                        fm.Functoid(info.sourceId);
                         td().MapCollection.push(fm);
                         info.connection.map = fm;
                     }
 
 
-                    var selectArg = function(sourceFunctoid,targetFunctoid){
+                    var selectArg = function (sourceFunctoid, targetFunctoid) {
 
+                        var tcs = new $.Deferred();
                         // for those with more than 1 arg, if array or 1 arg, just auto add or select
                         require(['viewmodels/functoid.args', 'durandal/app'], function (dialog, app2) {
 
@@ -193,25 +203,36 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                                 .done(function (result) {
                                     if (!result) return;
                                     if (result === "OK") {
-                                        var arg = _(targetFunctoid.ArgumentCollection()).find(function(v){
+                                        var arg = _(targetFunctoid.ArgumentCollection()).find(function (v) {
                                             return ko.unwrap(v.Name) === dialog.arg();
                                         });
-                                        arg.Functoid(sourceFunctoid);
+                                        arg.Functoid(ko.unwrap(sourceFunctoid.WebId));
                                         info.connection.sf = sourceFunctoid;
 
-                                        info.connection.getOverlay("label").setLabel(dialog.arg());
+                                        info.connection.setLabel(dialog.arg());
                                     }
+                                    tcs.resolve(result);
                                 });
 
                         });
+
+                        return tcs.promise();
                     };
-                    // source functoid
+                    // source field functoid
                     if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") < 0) {
                         var sourceField = info.sourceId.replace("source-field-", ""),
                             targetFnc = ko.dataFor(document.getElementById(info.targetId));
 
                         var sourceFnc = new bespoke.sph.domain.SourceFunctoid({Field: sourceField, WebId: system.guid()});
-                        selectArg(sourceFnc, targetFnc);
+
+                        selectArg(sourceFnc, targetFnc).done(function (result) {
+                            if (result == "OK") {
+                                td().FunctoidCollection.push(sourceFnc);
+                            } else {
+                                instance.detach(info.connection);
+                            }
+                        });
+
                     }
 
 
@@ -239,7 +260,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 });
 
                 instance.makeTarget(targetWindows, {
-                    filter: "ep02",
+                    filter: ".ep02",
                     dropOptions: { hoverClass: "dragHover" },
                     anchor: ["LeftMiddle"],
                     maxConnections: 1,
@@ -249,23 +270,16 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 });
 
 
-                var loopFunctoid = function(item, parent){
-                    if(!item){
+                var makeFunctoidElement = function (item) {
+                    if (!item) {
                         return;
                     }
-                    if(ko.unwrap(item.$type) === "Bespoke.Sph.Domain.SourceFunctoid, domain.sph"){
-                        var conn = instance.connect({source: "source-field-" + ko.unwrap(item.Field), target: ko.unwrap(parent.WebId) });
-                        conn.sf = item;
-                        return;
-                    }
-
-                    var tool = _(functoidToolboxItems()).find(function(v){
+                    var tool = _(functoidToolboxItems()).find(function (v) {
                         return ko.unwrap(item.$type) === ko.unwrap(ko.unwrap(v.functoid).$type);
                     });
-                    item.designer = tool.designer;
-                    functoids.push(item);
+                    item.designer(tool.designer);
 
-                    var element = document.getElementById( ko.unwrap(item.WebId));
+                    var element = document.getElementById(ko.unwrap(item.WebId));
                     instance.makeSource(element, {
                         endPoint: ["Rectangle", {width: 10, height: 10}],
                         anchor: "RightMiddle",
@@ -282,32 +296,64 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             }
                         });
                     }
-
-                    if(parent){
-                        var conn = instance.connect({source:  ko.unwrap(item.WebId), target: ko.unwrap(parent.WebId) });
-                        conn.sf = item;
-                    }
-                    _(item.ArgumentCollection()).each(function(v){
-                        loopFunctoid(v.Functoid(), item);
-                    });
                 };
 
-                // functoid maps
-                _(td().MapCollection()).each(function (m) {
-                    if(typeof  m.Source === "undefined"){
-                        loopFunctoid(m.Functoid());
-                        var conn = instance.connect({source:  ko.unwrap(m.Functoid().WebId), target:'destination-field-'+ ko.unwrap(m.Destination) });
-                        conn.map = m;
+                // functoids maps
+                var fncContains = function (webid) {
+                    var found = null;
+                    _(td().FunctoidCollection()).each(function (f) {
+                        _(f.ArgumentCollection()).each(function (m) {
+                            if (ko.unwrap(m.Functoid) === ko.unwrap(webid)) {
+                                found = ko.unwrap(f.WebId);
+                            }
+                        });
+                    });
+                    return found;
+                };
+                _(td().FunctoidCollection()).each(function (f) {
+                    if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
+                        makeFunctoidElement(f);
+
+                        _(f.ArgumentCollection()).each(function (a) {
+                            var source = document.getElementById(ko.unwrap(a.Functoid));
+                            if(typeof a.Functoid !== "function" || !source){
+                                return;
+                            }
+                            var conn = instance.connect({source: source, target: ko.unwrap(f.WebId) });
+                            conn.functoidArg = a.Functoid;
+                        })
+                    }
+                });
+                // for source to functoid
+                _(td().FunctoidCollection()).each(function (f) {
+                    if (ko.unwrap(f.$type) === "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
+                        var target = document.getElementById(fncContains(f.WebId));
+                        if (!target) {
+                            td().FunctoidCollection.remove(f);
+                            return;
+                        }
+                        var conn = instance.connect({source: "source-field-" + ko.unwrap(f.Field), target: target });
+                        conn.sf = f;
+                        return;
                     }
                 });
 
                 // direct maps
                 _(td().MapCollection()).each(function (m) {
-                    if(ko.unwrap(m.Source)){
+                    if (ko.unwrap(m.Source)) {
                         var conn = instance.connect({source: "source-field-" + ko.unwrap(m.Source), target: "destination-field-" + ko.unwrap(m.Destination) });
                         conn.map = m;
                     }
                 });
+                // functoid maps
+                _(td().MapCollection()).each(function (m) {
+                    if (typeof  m.Source === "undefined") {
+                        var conn = instance.connect({source: ko.unwrap(m.Functoid), target: 'destination-field-' + ko.unwrap(m.Destination) });
+                        conn.map = m;
+                    }
+                });
+
+
                 connectionInitialized = true;
 
                 jsPlumb.fire("jsPlumbDemoLoaded", instance);
@@ -315,12 +361,35 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             },
             attached = function (view) {
 
-                $(view).on('dblclick','div.functoid', function(e){
+                $(view).on('click', 'a.edit', function (e) {
                     e.preventDefault(true);
                     e.stopPropagation(true);
                     e.stopImmediatePropagation(true);
-                    console.log(ko.dataFor(this));
-                    
+                    var fnctd = ko.dataFor(this),
+                        clone = context.toObservable(ko.mapping.toJS(fnctd));
+                    var type = /Bespoke\..*?\..*?\.(.*?),/.exec(ko.unwrap(fnctd.$type))[1];
+
+                    require(['viewmodels/functoid.' + type , 'durandal/app'], function (dialog, app2) {
+                        dialog.functoid(clone);
+
+                        app2.showDialog(dialog)
+                            .done(function (result) {
+                                $('div.modalBlockout,div.modalHost').remove();
+                                if (!result) return;
+                                if (result === "OK") {
+                                    for (var g in fnctd) {
+                                        if (typeof fnctd[g] === "function" && (fnctd[g].name === "c" || fnctd[g].name === "observable")) {
+                                            fnctd[g](ko.unwrap(clone[g]));
+                                        } else {
+                                            fnctd[g] = clone[g];
+                                        }
+                                    }
+                                }
+                            });
+
+                    });
+
+
                 });
                 $.get("/sph/transformdefinition/GetFunctoids", function (list) {
                     functoidToolboxItems(list.$values);
@@ -454,9 +523,9 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 context.post(data, "/sph/transformdefinition")
                     .then(function (result) {
                         isBusy(false);
-                            if (td().TransformDefinitionId() === 0) {
-                                td().TransformDefinitionId(result.id);
-                            }
+                        if (td().TransformDefinitionId() === 0) {
+                            td().TransformDefinitionId(result.id);
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -465,7 +534,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                 var tcs = new $.Deferred(),
                     clone = context.toObservable(ko.mapping.toJS(td));
-                    require(['viewmodels/transform.definition.prop.dialog', 'durandal/app'], function (dialog, app2) {
+                require(['viewmodels/transform.definition.prop.dialog', 'durandal/app'], function (dialog, app2) {
                     dialog.td(clone);
 
                     app2.showDialog(dialog)
@@ -488,21 +557,21 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                 return tcs.promise();
             },
-            validateAsync = function(){
+            validateAsync = function () {
                 var tcs = new $.Deferred();
                 context.post(ko.mapping.toJSON(td), '/sph/transformdefinition/validatefix')
-                    .done(function(result){
+                    .done(function (result) {
                         $('i.fa.fa-exclamation-circle.error').remove();
                         if (result.success) {
                             logger.info(result.message);
                             errors.removeAll();
                         } else {
                             logger.error("There are errors in your map, !!!");
-                            var uniqueList = _.uniq(result.Errors, function(item, key, a) {
+                            var uniqueList = _.uniq(result.Errors, function (item, key, a) {
                                 return item.ItemWebId;
                             });
                             errors(uniqueList);
-                            _(uniqueList).each(function(v){
+                            _(uniqueList).each(function (v) {
                                 $('#' + v.ItemWebId + ' div.toolbox-item').append('<i class="fa fa-exclamation-circle error"></i>');
                             });
                         }
@@ -512,10 +581,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                 return tcs.promise();
             },
-            publishAsync = function(){
+            publishAsync = function () {
                 var tcs = new $.Deferred();
                 context.post(ko.mapping.toJSON(td), '/sph/transformdefinition/publish')
-                    .done(function(result){
+                    .done(function (result) {
                         if (result.success) {
                             logger.info(result.message);
                             errors.removeAll();
@@ -534,7 +603,6 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             isBusy: isBusy,
             errors: errors,
             functoidToolboxItems: functoidToolboxItems,
-            functoids: functoids,
             activate: activate,
             attached: attached,
             sourceMember: sourceMember,
@@ -550,14 +618,14 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         icon: 'fa fa-table'
                     },
                     {
-                        command : validateAsync,
-                        caption : 'Validate',
-                        icon : 'fa fa-check'
+                        command: validateAsync,
+                        caption: 'Validate',
+                        icon: 'fa fa-check'
                     },
                     {
-                        command : publishAsync,
-                        caption : 'Publish',
-                        icon : 'fa fa-sign-out'
+                        command: publishAsync,
+                        caption: 'Publish',
+                        icon: 'fa fa-sign-out'
                     }
                 ])
             }

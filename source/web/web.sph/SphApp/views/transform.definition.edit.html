@@ -60,10 +60,12 @@
         <ul id="source-panel" style="list-style: none">
         </ul>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-4" data-bind="with: td">
         <h3>Maps</h3>
 
-        <div id="map-canvas" data-bind="foreach: functoids">
+
+        <div id="map-canvas" data-bind="foreach: FunctoidCollection">
+            <!-- ko ifnot : ko.unwrap($type) === 'Bespoke.Sph.Domain.SourceFunctoid, domain.sph' -->
             <div class="functoid" data-bind="style : {'left': X() + 'px','top': Y() + 'px'},
                 attr : {id : WebId}">
                 <div data-bind="with:designer">
@@ -75,6 +77,7 @@
                     </div>
                 </div>
             </div>
+            <!-- /ko -->
         </div>
     </div>
     <div class="col-lg-3">

@@ -4636,6 +4636,7 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
         OutputTypeName: ko.observable(''),
         IsPublished: ko.observable(false),
         MapCollection: ko.observableArray([]),
+        FunctoidCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -4696,9 +4697,10 @@ bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
 
     v.__uuid = ko.observable('');
 
+    v.Functoid = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.FunctoidMap, domain.sph";
 
-    v.Functoid = ko.observable();//type but not nillable
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -4941,7 +4943,7 @@ bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
         Label: ko.observable(''),
         Comment: ko.observable(''),
         IsOptional: ko.observable(false),
-        Functoid: ko.observable(),
+        Functoid: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

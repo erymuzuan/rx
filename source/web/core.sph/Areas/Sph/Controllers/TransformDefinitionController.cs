@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
         public async Task<ActionResult> ValidateFix([RequestBody] TransformDefinition map)
         {
-            map.MapCollection.OfType<FunctoidMap>().ForEach(x => x.Functoid.RemoveInvalidArgument());
+            //map.MapCollection.OfType<FunctoidMap>().Where(x => x.).ForEach(x => x.Functoid.RemoveInvalidArgument());
             if (map.TransformDefinitionId <= 0) 
                 return await Validate(map);
             

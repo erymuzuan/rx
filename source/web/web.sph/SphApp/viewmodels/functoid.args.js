@@ -11,18 +11,22 @@
 define(['plugins/dialog'],
     function (dialog) {
 
-        var okClick = function (data, ev) {
-            if (bespoke.utils.form.checkValidity(ev.target)) {
-                dialog.close(this, "OK");
-            }
-
-        },
+        var arg = ko.observable(),
+            activate = function(){
+                arg('');
+            },
+            okClick = function (data, ev) {
+                if (bespoke.utils.form.checkValidity(ev.target)) {
+                    dialog.close(this, "OK");
+                }
+            },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
         var vm = {
-            arg: ko.observable(),
+            arg: arg,
+            activate : activate,
             functoid: ko.observable(new bespoke.sph.domain.StringConcateFunctoid()),
             okClick: okClick,
             cancelClick: cancelClick
