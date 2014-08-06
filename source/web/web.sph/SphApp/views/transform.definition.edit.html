@@ -67,7 +67,8 @@
         <div id="map-canvas" data-bind="foreach: FunctoidCollection">
             <!-- ko ifnot : ko.unwrap($type) === 'Bespoke.Sph.Domain.SourceFunctoid, domain.sph' -->
             <div class="functoid" data-bind="style : {'left': X() + 'px','top': Y() + 'px'},
-                attr : {id : WebId}">
+                attr : {id : WebId},
+                functoidPopover : $data">
                 <div data-bind="with:designer">
                     <div class="toolbox-item" data-bind="visible: FontAwesomeIcon">
                         <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon + ' category-' + Category}"></i>
@@ -104,3 +105,5 @@
     </div>
 
 </div>
+
+

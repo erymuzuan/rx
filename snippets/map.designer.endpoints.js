@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.js" />
+/// <reference path="../../Scripts/jquery-2.1.0.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -45,6 +45,52 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
             },
             isJsPlumbReady = false,
+            connectorPaintStyle = {
+                lineWidth: 2,
+                strokeStyle: "#808080",
+                joinstyle: "round",
+                outlineColor: "#eaedef",
+                outlineWidth: 1
+            },
+            connectorHoverStyle = {
+                lineWidth: 2,
+                strokeStyle: "#5C96BC",
+                outlineWidth: 1,
+                outlineColor: "white"
+            },
+            endpointHoverStyle = { fillStyle: "#5C96BC" },
+            sourceEndpoint = {
+                endpoint: "Dot",
+                paintStyle: { fillStyle: "#1e8151", radius: 6 },
+                isSource: true,
+                connector: ["Straight", { stub: [10, 15], gap: 10 }],
+                connectorStyle: connectorPaintStyle,
+                hoverPaintStyle: endpointHoverStyle,
+                connectorHoverStyle: connectorHoverStyle,
+                dragOptions: {},
+                overlays: [
+                    ["Label", {
+                        location: [0.5, 1.5],
+                        cssClass: "endpointSourceLabel"
+                    }]
+                ]
+            },
+            targetEndpoint = {
+                endpoint: "Dot",
+                paintStyle: {
+                    strokeStyle: "#1e8151",
+                    fillStyle: "transparent",
+                    radius: 7,
+                    lineWidth: 2
+                },
+                hoverPaintStyle: endpointHoverStyle,
+                maxConnections: -1,
+                dropOptions: { hoverClass: "hover", activeClass: "active" },
+                isTarget: true,
+                overlays: [
+                    ["Label", {id:"label", location: [-0.5, -0.5], cssClass: "endpointTargetLabel" }]
+                ]
+            },
             m_instance = null,
             initializeFunctoid = function (fnc) {
                 var element = $('#' + fnc.WebId());
@@ -233,21 +279,21 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     });
                     item.designer(tool.designer);
 
-                    var element = document.getElementById(ko.unwrap(item.WebId));
-                    instance.makeSource(element, {
-                        endPoint: ["Rectangle", {width: 10, height: 10}],
-                        anchor: "RightMiddle",
-                        connector: [ "Straight"],
-                        connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
-                    });
-                    if (item.ArgumentCollection().length) {
-                        instance.makeTarget(element, {
-                            dropOptions: { hoverClass: "dragHover" },
-                            anchor: ["LeftMiddle"],
-                            maxConnections: item.ArgumentCollection().length,
-                            onMaxConnections: function (info, e) {
-                                alert("Maximum connections (" + info.maxConnections + ") reached" + e);
-                            }
+                    var element = document.getElementById(ko.unwrap(item.WebId)),
+                        argsCount=item.ArgumentCollection().length,
+                        argsAnchorOptions = ["LeftMiddle","TopCenter","LeftTop","TopLeft"],
+                        count = 0;
+
+                    instance.addEndpoint(ko.unwrap(item.WebId), sourceEndpoint, {anchor :"RightMiddle", uuid : ko.unwrap(item.WebId) + "Source", id: ko.unwrap(item.WebId)});
+                    if (argsCount) {
+
+                        _(item.ArgumentCollection()).each(function(d){
+                            var idx = count % argsAnchorOptions.length,
+                                ep = instance.addEndpoint(ko.unwrap(item.WebId),targetEndpoint, {anchor: argsAnchorOptions[idx], uuid:ko.unwrap(item.WebId) + "Source"});
+
+                            count++;
+                            d.endPointId = ep.id;
+                            ep.getOverlay("label").setLabel(ko.unwrap(d.Name))
                         });
                     }
                     instance.draggable(element);
@@ -324,6 +370,36 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             },
             attached = function (view) {
 
+                $(view).on('dblclick', 'div.functoid', function (e) {
+                    e.preventDefault(true);
+                    e.stopPropagation(true);
+                    e.stopImmediatePropagation(true);
+                    var fnctd = ko.dataFor(this),
+                        clone = context.toObservable(ko.mapping.toJS(fnctd));
+                    var type = /Bespoke\..*?\..*?\.(.*?),/.exec(ko.unwrap(fnctd.$type))[1];
+
+                    require(['viewmodels/functoid.' + type , 'durandal/app'], function (dialog, app2) {
+                        dialog.functoid(clone);
+
+                        app2.showDialog(dialog)
+                            .done(function (result) {
+                                $('div.modalBlockout,div.modalHost').remove();
+                                if (!result) return;
+                                if (result === "OK") {
+                                    for (var g in fnctd) {
+                                        if (typeof fnctd[g] === "function" && (fnctd[g].name === "c" || fnctd[g].name === "observable")) {
+                                            fnctd[g](ko.unwrap(clone[g]));
+                                        } else {
+                                            fnctd[g] = clone[g];
+                                        }
+                                    }
+                                }
+                            });
+
+                    });
+
+
+                });
                 $.get("/sph/transformdefinition/GetFunctoids", function (list) {
                     functoidToolboxItems(list.$values);
                     $('ul#function-toolbox>li.list-group-item').draggable({
