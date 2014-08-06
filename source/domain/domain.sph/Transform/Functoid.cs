@@ -74,5 +74,57 @@ namespace Bespoke.Sph.Domain
 
             return errors;
         }
+
+        public virtual  string GetEditorViewModel()
+        {
+
+            return @"
+define(['services/datacontext', 'services/logger', 'plugins/dialog'],
+    function (context, logger, dialog) {
+        var functoid = ko.observable(),
+            okClick = function (data, ev) {
+                dialog.close(this, 'OK');
+
+            },
+            cancelClick = function () {
+                dialog.close(this, 'Cancel');
+            };
+            var vm = {
+                functoid: functoid,
+                okClick: okClick,
+                cancelClick: cancelClick
+                };
+            return vm;
+});";
+        }
+
+        public virtual  string GetEditorView()
+        {
+            return @"
+<section class=""view-model-modal"" id=""functoid-editor-dialog"">
+    <div class=""modal-dialog"">
+        <div class=""modal-content"">
+
+            <div class=""modal-header"">
+                <button type=""button"" class=""close"" data-dismiss=""modal""
+                        data-bind=""click : cancelClick"">&times;</button>
+                <h3>Functoid Properties Editor</h3>
+            </div>
+            <div class=""modal-body"" data-bind=""with:functoid"">
+
+             <h4>No editor is provided for 
+                <!-- ko text:Name -->
+                <!--/ko -->
+              </h4>
+
+            </div>
+            <div class=""modal-footer"">
+                <a href=""#"" class=""btn btn-default"" data-dismiss=""modal"" data-bind=""click : cancelClick"">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>
+";
+        }
     }
 }

@@ -219,10 +219,11 @@
 
             $(document).on('click', 'a.' + functoid.WebId(), function (e) {
                 e.preventDefault();
+                pop.popover('hide');
                 var app = require(objectbuilders.app),
                     link = $(this);
                 if (link.hasClass("delete-functoid")) {
-                    app.showMessage("Are you sure you want to remove this functoid", "Remove functoid", ["Yes", "No"])
+                    app.showMessage("Are you sure you want to remove this functoid, please remove all the connection before proceed", "Remove functoid", ["Yes", "No"])
                         .done(function (result) {
                             if (result === "Yes") {
                                 td.FunctoidCollection.remove(functoid);
@@ -232,7 +233,7 @@
                 if (link.hasClass("edit-functoid")) {
                     var context = require(objectbuilders.datacontext),
                         clone = context.toObservable(ko.mapping.toJS(functoid));
-                    var type = /Bespoke\..*?\..*?\.(.*?),/.exec(ko.unwrap(functoid.$type))[1];
+                    var type = ko.unwrap(functoid.$type).toLowerCase();
 
                     require(['viewmodels/functoid.' + type , 'durandal/app'], function (dialog, app2) {
                         dialog.functoid(clone);

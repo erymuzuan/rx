@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json.Schema;
-using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -168,6 +167,24 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 FullName = x.FullName + ", " + dll,
                 x.Name
             }).ToArray(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Functoid(string id, string type)
+        {
+            if(null == this.Functoids)
+                ObjectBuilder.ComposeMefCatalog(this);
+
+            var functoid = this.Functoids.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
+                .ToLowerInvariant()== type).Value;
+            if (id == "js")
+            {
+                this.Response.ContentType = "application/javascript";
+                var js = functoid.GetEditorViewModel();
+                return Content(js);
+            }
+            this.Response.ContentType = "text/html";
+            var html = functoid.GetEditorView();
+            return Content(html);
         }
     }
 }
