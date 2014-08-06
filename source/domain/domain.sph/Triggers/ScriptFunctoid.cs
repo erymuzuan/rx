@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -11,6 +13,20 @@ namespace Bespoke.Sph.Domain
     [FunctoidDesignerMetadata(Name = "C# code", FontAwesomeIcon = "code", Category = FunctoidCategory.Common)]
     public partial class ScriptFunctoid : Functoid
     {
+
+        [XmlIgnore]
+        [JsonIgnore]
+        public Type OutputType
+        {
+            get
+            {
+                return Type.GetType(this.OutputTypeName);
+            }
+            set
+            {
+                this.OutputTypeName = value.GetShortAssemblyQualifiedName();
+            }
+        }
         public override async Task<IEnumerable<ValidationError>> ValidateAsync()
         {
             var errors = (await base.ValidateAsync()).ToList();
@@ -19,7 +35,7 @@ namespace Bespoke.Sph.Domain
             return errors;
         }
 
-        public override string GeneratePreCode(FunctoidMap map)
+        public override string GeneratePreCode()
         {
             var block = this.Expression;
             if (!block.Contains("return")) return string.Empty;
@@ -27,7 +43,7 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLine();
             code.AppendLine();
-            code.AppendLinf("               Func<{{SOURCE_TYPE}}, {1}> {0} = d =>", this.Name, map.DestinationType.FullName);
+            code.AppendLinf("               Func<{{SOURCE_TYPE}}, {1}> {0} = d =>", this.Name, this.OutputType.ToCSharp());
             code.AppendLine("                                           {");
             code.AppendLine("                                               " + this.Expression);
             code.AppendLine("                                           };");
@@ -38,7 +54,7 @@ namespace Bespoke.Sph.Domain
         {
             if(string.IsNullOrWhiteSpace(this.Name))throw new InvalidOperationException("Name cannot be empty");
             var block = this.Expression;
-            if (!block.EndsWith("return")) return this.Expression;
+            if (!block.Contains("return")) return this.Expression;
 
             return string.Format("{0}(item)", this.Name);
         }
@@ -100,14 +116,26 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             </div>
             <div class=""modal-body"" data-bind=""with:functoid"">
 
-                <div class=""form-group"">
+                <form class=""form-horizontal"">
+                    <div class=""form-group"">
                         <label for=""script-functoid-name"" class=""col-lg-2 control-label"">Name</label>
                         <div class=""col-lg-9"">
                             <input required class=""form-control"" data-bind=""value: Name"" id=""script-functoid-name"" type=""text"" name=""script-functoid-name"" />
                         </div>
-                 </div>
-                <form class=""form-horizontal"">
-                          <div class=""form-group"">
+                    </div>
+                    <div class=""form-group"">
+                        <label for=""constant-field-typename"" class=""col-lg-2 control-label"">Type</label>
+                        <div class=""col-lg-9"">
+                            <select required class=""form-control"" id=""constant-field-typename"" name=""constant-field-typename"" data-bind=""value: OutputTypeName"">
+                                <option value=""System.String, mscorlib"">String</option>
+                                <option value=""System.DateTime"">DateTime</option>
+                                <option value=""System.Int32, mscorlib"">Integer</option>
+                                <option value=""System.Decimal"">Decimal</option>
+                                <option value=""System.Boolean, mscorlib"">Boolean</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class=""form-group"">
                         <label for=""function-field-script"" class=""col-sm-2 control-label"">Script</label>
                         <div class=""col-sm-8"">
                             <pre id=""function-field-script"" data-bind=""text:Expression""></pre>

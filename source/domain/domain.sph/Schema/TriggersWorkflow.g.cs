@@ -5052,6 +5052,16 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameFunctoid = "Functoid";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_constant;
+        public const string PropertyNameConstant = "Constant";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_default;
+        public const string PropertyNameDefault = "Default";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -5251,6 +5261,60 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_functoid;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string Constant
+        {
+            set
+            {
+                if (String.Equals(m_constant, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameConstant, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_constant = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_constant;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string Default
+        {
+            set
+            {
+                if (String.Equals(m_default, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefault, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_default = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_default;
             }
         }
 

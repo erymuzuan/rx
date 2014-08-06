@@ -128,8 +128,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                     // direct map
                     if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") > -1) {
-                        var sourceField = info.sourceId.replace("source-field-", ""),
-                            destinationField = info.targetId.replace("destination-field-", "");
+                        var sourceField = info.sourceId.replace("source-field-", "").replace("-","."),
+                            destinationField = info.targetId.replace("destination-field-", "").replace("-",".");
 
                         var dm = new bespoke.sph.domain.DirectMap({Source: sourceField, Destination: destinationField, WebId: system.guid()});
                         td().MapCollection.push(dm);
@@ -137,7 +137,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     }
                     //  functoid map
                     if (info.targetId.indexOf("destination-field-") > -1 && info.sourceId.indexOf("source-field-") < 0) {
-                        var destinationField = info.targetId.replace("destination-field-", "");
+                        var destinationField = info.targetId.replace("destination-field-", "").replace("-",".");
 
                         var fm = new bespoke.sph.domain.FunctoidMap({Destination: destinationField, WebId: system.guid()});
                         fm.Functoid(info.sourceId);
@@ -174,7 +174,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     };
                     // source field functoid
                     if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") < 0) {
-                        var sourceField = info.sourceId.replace("source-field-", ""),
+                        var sourceField = info.sourceId.replace("source-field-", "").replace("-","."),
                             targetFnc = ko.dataFor(document.getElementById(info.targetId));
 
                         var sourceFnc = new bespoke.sph.domain.SourceFunctoid({Field: sourceField, WebId: system.guid()});
@@ -295,7 +295,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             td().FunctoidCollection.remove(f);
                             return;
                         }
-                        var conn = instance.connect({source: "source-field-" + ko.unwrap(f.Field), target: target });
+                        var conn = instance.connect({source: "source-field-" + ko.unwrap(f.Field).replace(".","-"), target: target });
                         conn.sf = f;
 
                     }
@@ -304,14 +304,14 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 // direct maps
                 _(td().MapCollection()).each(function (m) {
                     if (ko.unwrap(m.Source)) {
-                        var conn = instance.connect({source: "source-field-" + ko.unwrap(m.Source), target: "destination-field-" + ko.unwrap(m.Destination) });
+                        var conn = instance.connect({source: "source-field-" + ko.unwrap(m.Source), target: "destination-field-" + ko.unwrap(m.Destination).replace(".","-") });
                         conn.map = m;
                     }
                 });
                 // functoid maps
                 _(td().MapCollection()).each(function (m) {
                     if (typeof  m.Source === "undefined") {
-                        var conn = instance.connect({source: ko.unwrap(m.Functoid), target: 'destination-field-' + ko.unwrap(m.Destination) });
+                        var conn = instance.connect({source: ko.unwrap(m.Functoid), target: 'destination-field-' + ko.unwrap(m.Destination).replace(".","-") });
                         conn.map = m;
                     }
                 });
@@ -376,10 +376,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     shtml = "",
                     root = sourceSchema();
 
-                var buildSourceTree = function (branch) {
+                var buildSourceTree = function (branch, parent) {
                     for (var key in branch.properties) {
                         var iconHtml = icon(shtml, branch.properties[key]);
-                        shtml += '<li><div style="display: inline-block" class="source-field" id="source-field-' + key + '">' + iconHtml
+                        shtml += '<li><div style="display: inline-block" class="source-field" id="source-field-' + parent + key  + '">' + iconHtml
                             + '<span class="ep01">' + key + '</span>';
 
                         var type = branch.properties[key].type;
@@ -388,26 +388,26 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         }
                         if (type === "object") {
                             shtml += '<ul style="list-style: none">';
-                            buildSourceTree(branch.properties[key]);
+                            buildSourceTree(branch.properties[key] ,  parent  + key + "-");
                             shtml += '</ul>';
                         }
                         if (type === "array") {
                             shtml += '<ul style="list-style: none">';
-                            buildSourceTree(branch.properties[key].items);
+                            buildSourceTree(branch.properties[key].items , parent  + key + "-" );
                             shtml += '</ul>';
                         }
                         shtml += '</div></li>';
                     }
                 };
 
-                buildSourceTree(root);
+                buildSourceTree(root,"");
                 $('#source-panel').html(shtml);
 
                 var dhtml = "",
-                    buildDestinationTree = function (branch) {
+                    buildDestinationTree = function (branch, parent) {
                         for (var key in branch.properties) {
                             var iconHtml = icon(dhtml, branch.properties[key]);
-                            dhtml += '<li><div><div class="destination-field" id="destination-field-' + key + '">' + iconHtml +
+                            dhtml += '<li><div><div class="destination-field" id="destination-field-' + parent + key + '">' + iconHtml +
                                 '<span class="ep02">' + key + '</span></div>';
 
                             var type = branch.properties[key].type;
@@ -416,19 +416,19 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             }
                             if (type === "object") {
                                 dhtml += '<ul style="list-style: none">';
-                                buildDestinationTree(branch.properties[key]);
+                                buildDestinationTree(branch.properties[key], parent  + key + "-");
                                 dhtml += '</ul>';
                             }
                             if (type === "array") {
                                 dhtml += '<ul style="list-style: none">';
-                                buildDestinationTree(branch.properties[key].items);
+                                buildDestinationTree(branch.properties[key].items,parent  + key + "-");
                                 dhtml += '</ul>';
                             }
                             dhtml += '</div></li>';
                         }
                     };
 
-                buildDestinationTree(destinationSchema());
+                buildDestinationTree(destinationSchema(),"");
                 $('#destination-panel').html(dhtml);
 
                 $('#search-box-tree').on('keyup', function () {

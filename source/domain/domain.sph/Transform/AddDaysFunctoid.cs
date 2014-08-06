@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GeneratePreCode(FunctoidMap map)
+        public override string GeneratePreCode()
         {
             var date = this.ArgumentCollection.Single(x => x.Name == "date").GetFunctoid(this.TransformDefinition);
             var value = this.ArgumentCollection.Single(x => x.Name == "value").GetFunctoid(this.TransformDefinition);
@@ -40,9 +40,9 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             m_number = GetRunningNumber();
 
-            code.AppendLine(date.GeneratePreCode(map));
+            code.AppendLine(date.GeneratePreCode());
             code.AppendLinf("               var date{0} = {1};", m_number, date.GenerateCode());
-            code.AppendLine(value.GeneratePreCode(map));
+            code.AppendLine(value.GeneratePreCode());
             code.AppendFormat("               var value{0} = {1};", m_number, value.GenerateCode());
             return code.ToString();
         }

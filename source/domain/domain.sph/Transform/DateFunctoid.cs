@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Domain
         }
 
         private int m_number;
-        public override string GeneratePreCode(FunctoidMap map)
+        public override string GeneratePreCode()
         {
             m_number = GetRunningNumber();
             var code = new StringBuilder();

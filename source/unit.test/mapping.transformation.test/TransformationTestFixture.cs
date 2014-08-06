@@ -80,7 +80,7 @@ namespace mapping.transformation.test
                 WebId = "yyyy-MM-dd"
             });
 
-            var df = new DateFunctoid{WebId = "df"};
+            var df = new DateFunctoid { WebId = "df" };
             df.Initialize();
             df["format"].Functoid = "yyyy-MM-dd";
             df["value"].Functoid = "2011-05-05";
@@ -237,6 +237,110 @@ namespace mapping.transformation.test
             Assert.AreEqual("erymuzuan@hotmail.com", output.Contact.Email);
             Assert.AreEqual(new DateTime(2012, 6, 15), output.RegisteredDate);
             Assert.AreEqual("Erymuzuan bin Mustapa", output.FullName);
+
+        }
+        [TestMethod]
+        public async Task ScriptFunctoidMapping()
+        {
+            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+
+            dynamic staff = Activator.CreateInstance(oracleEmployeeType);
+            staff.EMAIL = "erymuzuan@hotmail.com";
+            staff.FIRST_NAME = "Erymuzuan";
+            staff.LAST_NAME = "Mustapa";
+            staff.PHONE_NUMBER = "0123889200";
+            staff.HIRE_DATE = DateTime.Parse("2012-05-31");
+            staff.SALARY = 4500d;
+
+            var td = new TransformDefinition
+            {
+                Name = "ScriptFunctoidMapping",
+                Description = "Just a description",
+                InputType = oracleEmployeeType,
+                OutputType = customerType
+            };
+
+            var sc0 = new ScriptFunctoid
+            {
+                WebId = "sc0",
+                Name = "sc0",
+                OutputTypeName = typeof(string).GetShortAssemblyQualifiedName(),
+                Expression = "Console.WriteLine(\"FirstName : {0}\",item.FIRST_NAME);\r\nreturn item.FIRST_NAME + \" bin \" + item.LAST_NAME;"
+            };
+            td.AddFunctoids(sc0);
+
+            td.MapCollection.Add(new FunctoidMap
+            {
+                Functoid = sc0.WebId,
+                DestinationType = typeof(string),
+                Destination = "FullName"
+            });
+
+            var options = new CompilerOptions();
+            var codes = td.GenerateCode();
+            var sources = td.SaveSources(codes);
+            var result = await td.CompileAsync(options, sources);
+            if (!result.Result)
+                result.Errors.ForEach(Console.WriteLine);
+
+            Assert.IsTrue(result.Result, "Compiler fails");
+            var dll = Assembly.LoadFile(result.Output);
+            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            dynamic map = Activator.CreateInstance(mt);
+
+
+            var output = await map.TransformAsync(staff);
+            Assert.IsNotNull(output);
+            Assert.AreEqual("Erymuzuan bin Mustapa", output.FullName);
+
+        }     [TestMethod]
+        public async Task ChildItemMapping()
+        {
+            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+
+            dynamic staff = Activator.CreateInstance(oracleEmployeeType);
+            staff.EMAIL = "erymuzuan@hotmail.com";
+            staff.FIRST_NAME = "Erymuzuan";
+            staff.LAST_NAME = "Mustapa";
+            staff.PHONE_NUMBER = "0123889200";
+            staff.HIRE_DATE = DateTime.Parse("2012-05-31");
+            staff.SALARY = 4500d;
+
+            var td = new TransformDefinition
+            {
+                Name = "ChildItemMapping",
+                Description = "Just a description",
+                InputType = oracleEmployeeType,
+                OutputType = customerType
+            };
+
+
+
+            td.MapCollection.Add(new DirectMap
+            {
+                Source = "EMAIL",
+                DestinationType = typeof(string),
+                Destination = "Contact.Email"
+            });
+
+            var options = new CompilerOptions();
+            var codes = td.GenerateCode();
+            var sources = td.SaveSources(codes);
+            var result = await td.CompileAsync(options, sources);
+            if (!result.Result)
+                result.Errors.ForEach(Console.WriteLine);
+
+            Assert.IsTrue(result.Result, "Compiler fails");
+            var dll = Assembly.LoadFile(result.Output);
+            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            dynamic map = Activator.CreateInstance(mt);
+
+
+            var output = await map.TransformAsync(staff);
+            Assert.IsNotNull(output);
+            Assert.AreEqual("erymuzuan@hotmail.com", output.Contact.Email);
 
         }
     }

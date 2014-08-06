@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
@@ -23,15 +25,15 @@ namespace Bespoke.Sph.Domain
             return base.Initialize();
         }
 
-        public override string GeneratePreCode(FunctoidMap map)
+        public override string GeneratePreCode()
         {
             var code = new StringBuilder();
             code.AppendLine();
-            foreach (var arg in this.ArgumentCollection)
+            foreach (var arg in this.ArgumentCollection.Where(x => !string.IsNullOrWhiteSpace(x.Functoid)))
             {
                 var ftd = arg.GetFunctoid(this.TransformDefinition);
                 arg.Name = GetRunningNumber().ToString(CultureInfo.InvariantCulture);
-                code.AppendLine(ftd.GeneratePreCode(map));
+                code.AppendLine(ftd.GeneratePreCode());
                 code.AppendFormat("               var val{0} = {1};", arg.Name, ftd.GenerateCode());
             }
             return code.ToString();
@@ -39,8 +41,22 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateCode()
         {
-            var codes = this.ArgumentCollection.Select(a => "val" + a.Name);
+            var codes = this.ArgumentCollection.Where(x => !string.IsNullOrWhiteSpace(x.Functoid)).Select(a => "val" + a.Name);
             return string.Join(" + ", codes);
+        }
+
+        public override async Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            var errors = new List<ValidationError>();
+            var vfTasks = from a in this.ArgumentCollection
+                          where !string.IsNullOrWhiteSpace(a.Functoid)
+                          let fnt = a.GetFunctoid(this.TransformDefinition)
+                          select fnt.ValidateAsync();
+
+            var vf = (await Task.WhenAll(vfTasks)).SelectMany(x => x.ToArray());
+            errors.AddRange(vf);
+
+            return errors;
         }
     }
 }

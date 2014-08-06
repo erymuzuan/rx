@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
             m_number = 1;
         }
 
-        public virtual string GeneratePreCode(FunctoidMap map)
+        public virtual string GeneratePreCode()
         {
             return string.Empty;
         }
@@ -62,7 +62,12 @@ namespace Bespoke.Sph.Domain
             var errors = new List<ValidationError>();
             var nf = from a in this.ArgumentCollection
                      where string.IsNullOrWhiteSpace(a.Functoid)
-                     select new ValidationError { PropertyName = a.Name, Message = string.Format("[{0}] Functoid is null", a.Name) };
+                     select new ValidationError
+                     {
+                         PropertyName = a.Name,
+                         ErrorLocation = this.WebId,
+                         Message = string.Format("[{0}] Functoid is null -{1}", a.Name, this.GetType().Name)
+                     };
             errors.AddRange(nf);
             var vfTasks = from a in this.ArgumentCollection
                           where !string.IsNullOrWhiteSpace(a.Functoid)
@@ -75,7 +80,7 @@ namespace Bespoke.Sph.Domain
             return errors;
         }
 
-        public virtual  string GetEditorViewModel()
+        public virtual string GetEditorViewModel()
         {
 
             return @"
@@ -98,7 +103,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
 });";
         }
 
-        public virtual  string GetEditorView()
+        public virtual string GetEditorView()
         {
             return @"
 <section class=""view-model-modal"" id=""functoid-editor-dialog"">
