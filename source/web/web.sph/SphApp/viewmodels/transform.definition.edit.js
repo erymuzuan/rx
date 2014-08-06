@@ -233,8 +233,15 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     });
                     item.designer(tool.designer);
 
-                    var element = document.getElementById(ko.unwrap(item.WebId));
+                    var element = document.getElementById(ko.unwrap(item.WebId)),
+                        isFilterSupported = true;//instance.isDragFilterSupported();
+                    if(isFilterSupported){
+
+                    }else{
+                        console.log("FIlter is not supported...");
+                    }
                     instance.makeSource(element, {
+                        filter : ".fep",
                         endPoint: ["Rectangle", {width: 10, height: 10}],
                         anchor: "RightMiddle",
                         connector: [ "Straight"],

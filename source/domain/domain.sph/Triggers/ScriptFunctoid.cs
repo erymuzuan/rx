@@ -128,9 +128,9 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                         <div class=""col-lg-9"">
                             <select required class=""form-control"" id=""constant-field-typename"" name=""constant-field-typename"" data-bind=""value: OutputTypeName"">
                                 <option value=""System.String, mscorlib"">String</option>
-                                <option value=""System.DateTime"">DateTime</option>
+                                <option value=""System.DateTime, mscorlib"">DateTime</option>
                                 <option value=""System.Int32, mscorlib"">Integer</option>
-                                <option value=""System.Decimal"">Decimal</option>
+                                <option value=""System.Decimal, mscorlib"">Decimal</option>
                                 <option value=""System.Boolean, mscorlib"">Boolean</option>
                             </select>
                         </div>

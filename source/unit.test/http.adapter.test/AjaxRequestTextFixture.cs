@@ -21,7 +21,7 @@ namespace http.adapter.test
             this.Schema = "UnitTest";
             this.Adapter = new HttpAdapter
             {
-                Name = "BphTempahanRpp",
+                Name = "__BphTempahanRpp",
                 Schema = this.Schema,
                 Har = @".\bph.tempahan.rpp.20140726.har",
                 Tables = new AdapterTable[] { },

@@ -30,7 +30,7 @@ namespace mapping.transformation.test
             var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
             var map = new TransformDefinition
             {
-                Name = "Test Survey Mapping",
+                Name = "__Test Survey Mapping",
                 Description = "Just a description",
                 InputType = customerType,
                 OutputType = oracleEmployeeType
@@ -62,7 +62,7 @@ namespace mapping.transformation.test
 
             var td = new TransformDefinition
             {
-                Name = "EmployeeMapping",
+                Name = "__EmployeeMapping",
                 Description = "Just a description",
                 InputType = customerType,
                 OutputType = oracleEmployeeType
@@ -98,7 +98,8 @@ namespace mapping.transformation.test
             {
                 Expression = "return item.Gender == \"Male\"? \"Lelaki\" : \"Perempuan\";",
                 Name = "genderFunct",
-                WebId = "genderFunct"
+                WebId = "genderFunct",
+                OutputType = typeof(string)
 
             };
             td.FunctoidCollection.Add(genderFnctd);
@@ -138,7 +139,7 @@ namespace mapping.transformation.test
                 result.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms.EmployeeMapping");
+            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
@@ -167,7 +168,7 @@ namespace mapping.transformation.test
 
             var td = new TransformDefinition
             {
-                Name = "EmployeeToCustomerMapping",
+                Name = "__EmployeeToCustomerMapping",
                 Description = "Just a description",
                 InputType = oracleEmployeeType,
                 OutputType = customerType
@@ -227,7 +228,7 @@ namespace mapping.transformation.test
 
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms.EmployeeToCustomerMapping");
+            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
@@ -239,6 +240,7 @@ namespace mapping.transformation.test
             Assert.AreEqual("Erymuzuan bin Mustapa", output.FullName);
 
         }
+
         [TestMethod]
         public async Task ScriptFunctoidMapping()
         {
@@ -255,7 +257,7 @@ namespace mapping.transformation.test
 
             var td = new TransformDefinition
             {
-                Name = "ScriptFunctoidMapping",
+                Name = "__ScriptFunctoidMapping",
                 Description = "Just a description",
                 InputType = oracleEmployeeType,
                 OutputType = customerType
@@ -310,7 +312,7 @@ namespace mapping.transformation.test
 
             var td = new TransformDefinition
             {
-                Name = "ChildItemMapping",
+                Name = "__ChildItemMapping",
                 Description = "Just a description",
                 InputType = oracleEmployeeType,
                 OutputType = customerType

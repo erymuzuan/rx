@@ -120,3 +120,5 @@ bin/sources/BphTempahanRpp/
 bin/sources/HrmisTest001/
 bin/sources/ChildItemMapping/
 bin/sources/ORA_EMP_to_Customer/
+bin/sources/EmployeeToCustomerMapping/
+bin/sources/__*/

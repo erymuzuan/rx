@@ -5,8 +5,8 @@
 <style type="text/css">
     .functoid {
         border: 1px solid #807e61;
-        width: 40px;
-        height: 40px;
+        width: 30px;
+        height: 30px;
         position: absolute;
         padding: 5px;
     }
@@ -34,6 +34,14 @@
         content: "XX";
     }
 
+    div.fep{
+        width: 15px;
+        height: 15px;
+        background-color: orange;
+        position: absolute;
+        bottom: -7px;
+        right: -7px;
+    }
 </style>
 
 
@@ -77,6 +85,8 @@
                         <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon + ' category-' + Category}"></i>
                     </div>
                 </div>
+
+                <div class="fep"></div>
             </div>
             <!-- /ko -->
         </div>
