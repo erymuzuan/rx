@@ -183,4 +183,80 @@
         }
     };
 
+    ko.bindingHandlers.functoidPopover = {
+        init: function (element, valueAccessor) {
+
+            var div = $(element),
+                functoid = ko.unwrap(valueAccessor()),
+                uid = ko.unwrap(functoid.WebId),
+                fullName = typeof functoid.$type === "function" ? functoid.$type() : functoid.$type,
+                name = /(.*?),/.exec(fullName)[1],
+                td = ko.dataFor(div.parent()[0]),
+                pop = div.popover({
+                    title: name + ' : ' + ko.unwrap(functoid.Name),
+                    html: true,
+                    trigger : 'manual',
+                    content: function () {
+                        $('a.edit-functoid').popover('hide');
+                        return  '   <div class="context-menu">'+
+                                '       <a class="edit-functoid '+  uid +'" title="edit functoid" href="#">'+
+                                '           <i class="fa fa-edit fa-2x"></i>'+
+                                '       </a>'+
+                                '       <a class="delete-functoid '+ uid+'" href="#" title="remove functoid">'+
+                                '           <i class="fa fa-times-circle fa-2x"></i>'+
+                                '       </a>'+
+                                '   </div>';
+                    }
+                });
+
+            div.mouseenter( function(){
+                div.popover('toggle');
+            });
+            // just display it for 5 seconds
+            pop.on('shown.bs.popover', function () {
+                setTimeout(function () { pop.popover('hide'); }, 5000);
+            });
+
+            $(document).on('click', 'a.' + functoid.WebId(), function (e) {
+                e.preventDefault();
+                var app = require(objectbuilders.app),
+                    link = $(this);
+                if (link.hasClass("delete-functoid")) {
+                    app.showMessage("Are you sure you want to remove this functoid", "Remove functoid", ["Yes", "No"])
+                        .done(function (result) {
+                            if (result === "Yes") {
+                                td.FunctoidCollection.remove(functoid);
+                            }
+                        });
+                }
+                if (link.hasClass("edit-functoid")) {
+                    var context = require(objectbuilders.datacontext),
+                        clone = context.toObservable(ko.mapping.toJS(functoid));
+                    var type = /Bespoke\..*?\..*?\.(.*?),/.exec(ko.unwrap(functoid.$type))[1];
+
+                    require(['viewmodels/functoid.' + type , 'durandal/app'], function (dialog, app2) {
+                        dialog.functoid(clone);
+
+                        app2.showDialog(dialog)
+                            .done(function (result) {
+                                $('div.modalBlockout,div.modalHost').remove();
+                                if (!result) return;
+                                if (result === "OK") {
+                                    for (var g in functoid) {
+                                        if (typeof functoid[g] === "function" && (functoid[g].name === "c" || functoid[g].name === "observable")) {
+                                            functoid[g](ko.unwrap(clone[g]));
+                                        } else {
+                                            functoid[g] = clone[g];
+                                        }
+                                    }
+                                }
+                            });
+
+                    });
+                }
+            });
+        }
+    };
+
+
 });
