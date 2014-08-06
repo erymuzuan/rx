@@ -11,7 +11,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             return true;
         }
-
         public void Process(HttpOperationDefinition op, JToken jt)
         {
             var uri = new System.Uri(jt.SelectToken("request.url").Value<string>());

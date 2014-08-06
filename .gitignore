@@ -117,3 +117,4 @@ bin/sources/BphTempahanRpp/
 /bin/sources/EmployeeMapping
 /bin/sources/hrmis
 *.json
+bin/sources/HrmisTest001/
