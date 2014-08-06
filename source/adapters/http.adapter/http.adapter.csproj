@@ -129,7 +129,7 @@
     <Compile Include="RequestHeadersHarProcessor.cs">
       <DependentUpon>IHarProcessor.cs</DependentUpon>
     </Compile>
-    <Compile Include="RequestPostDataHarProcess.cs">
+    <Compile Include="RequestUrlEncodedPostDataHarProcess.cs">
       <DependentUpon>IHarProcessor.cs</DependentUpon>
     </Compile>
     <Compile Include="RequestQueryStringHarProcess.cs">

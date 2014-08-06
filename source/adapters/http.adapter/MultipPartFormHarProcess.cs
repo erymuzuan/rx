@@ -24,7 +24,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                     FieldName = f,
                     Type = typeof(string)
                 };
-            op.RequestMemberCollection.AddRange(formFields);
+            op.RequestMemberCollection.ClearAndAddRange(formFields);
 
 
         }

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.Composition;
-using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -20,7 +19,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             var json = jt.SelectToken("request.postData.text").Value<string>();
             var formFields = JsonSchemaHelper.GenerateSchema(json);
-            op.RequestMemberCollection.AddRange(formFields);
+            op.RequestMemberCollection.ClearAndAddRange(formFields);
 
 
         }

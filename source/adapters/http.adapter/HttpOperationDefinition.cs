@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using Bespoke.Sph.Domain;
 using System.Linq;
 using System.Text;
@@ -167,6 +168,12 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var member in this.ResponseMemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
                 var mc = GetCodeHeader() + member.GeneratedCustomClass() + "\r\n}";
+                var fileName = member.Name + ".cs";
+                if (sources.ContainsKey(fileName))
+                {
+                    Console.WriteLine("There is already file {0} with the {1} content", fileName, mc == sources[fileName] ? "same" : "different" );
+                    continue;
+                }
                 sources.Add(member.Name + ".cs", mc);
             }
 
@@ -219,6 +226,13 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var member in this.RequestMemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
                 var mc = GetCodeHeader() + member.GeneratedCustomClass() + "\r\n}";
+                var fileName = member.Name + ".cs";
+                if (sources.ContainsKey(fileName))
+                {
+                    Console.WriteLine("There is already file {0} with the {1} content", fileName, mc == sources[fileName] ? "same" : "different");
+                    continue;
+                }
+
                 sources.Add(member.Name + ".cs", mc);
             }
 

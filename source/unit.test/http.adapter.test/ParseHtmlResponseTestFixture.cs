@@ -24,7 +24,7 @@ namespace http.adapter.test
             this.Schema = "UnitTest";
             this.Adapter = new HttpAdapter
             {
-                Name = "RilekSamanPdrmAdapter",
+                Name = "__RilekSamanPdrmAdapter",
                 Schema = this.Schema,
                 Har = @".\rilek2.har",
                 Tables = new AdapterTable[] { },
@@ -247,7 +247,7 @@ Check Summon
 
         }
         [TestMethod]
-        public async Task GetPostRequestWithMultipartEncoded()
+        public async Task PostRequestWithMultipartForDataEncoded()
         {
             var dll = Assembly.LoadFile(await CompileRilekHar());
             var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));

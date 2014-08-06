@@ -27,7 +27,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             try
             {
                 var formFields = JsonSchemaHelper.GenerateSchema(json);
-                op.ResponseMemberCollection.AddRange(formFields);
+                op.ResponseMemberCollection.ClearAndAddRange(formFields);
             }
             catch (Exception e)
             {

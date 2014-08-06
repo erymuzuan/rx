@@ -72,16 +72,14 @@ namespace Bespoke.Sph.Domain
                     continue;
                 }
 
-                if (char.IsLetter(c))
+                if (char.IsLetter(c) || char.IsDigit(c))
                 {
                     code.Add(char.ToLowerInvariant(c));
                     gap = false;
-                    continue;
                 }
                 else
                 {
                     gap = true;
-                    continue;
                 }
 
 

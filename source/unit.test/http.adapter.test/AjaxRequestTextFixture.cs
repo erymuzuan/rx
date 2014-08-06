@@ -70,8 +70,6 @@ namespace http.adapter.test
             dynamic request = Activator.CreateInstance(requestType);
             request.id = "780909-09-0909";
 
-
-
             var response = await peranginan.PostBookingGetPreviousBookingAsync(request);
             Assert.AreEqual("F32", response.Grade);
         }

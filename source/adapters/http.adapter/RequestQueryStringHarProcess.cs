@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                                 let ov = p.SelectToken("value").Value<string>()
                                 let name = p.SelectToken("name").Value<string>()
                                 select new RegexMember { Name = name, Type = typeof(string) };
-                    op.RequestMemberCollection.AddRange(kvps2);
+                    op.RequestMemberCollection.ClearAndAddRange(kvps2);
 
                     var url = jt.SelectToken("request.url").Value<string>();
                     var uri = new Uri(url);

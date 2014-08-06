@@ -22,7 +22,7 @@ namespace http.adapter.test
             this.Schema = "UnitTest";
             this.Adapter = new HttpAdapter
             {
-                Name = "NewssTextFixture",
+                Name = "__NewssTextFixture",
                 Schema = this.Schema,
                 Har = @".\newss.har",
                 Tables = new AdapterTable[] { },

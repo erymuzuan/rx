@@ -21,7 +21,7 @@ namespace http.adapter.test
             this.Schema = "Sap";
             this.Adapter = new HttpAdapter
             {
-                Name = "PetronasSapAdapter",
+                Name = "__PetronasSapAdapter",
                 Schema = this.Schema,
                 Har = @".\petronas.sap.har",
                 Tables = new AdapterTable[] { },

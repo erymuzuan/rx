@@ -26,7 +26,7 @@ namespace http.adapter.test
             this.Schema = "UnitTest";
             this.Adapter = new HttpAdapter
             {
-                Name = "WebApiAspNet",
+                Name = "__WebApiAspNet",
                 Schema = this.Schema,
                 Har = @".\web-api-asp.net.har",
                 Tables = new AdapterTable[] { },
