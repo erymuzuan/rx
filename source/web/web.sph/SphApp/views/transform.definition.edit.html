@@ -63,14 +63,13 @@
 
 
 <div class="row container-canvas" id="container-canvas">
-    <div class="col-lg-3">
+    <div class="col-lg-2">
         <h3 data-bind="with : td">Source(<span data-bind="text:InputTypeName"></span>)</h3>
-        <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search"
-               id="search-box-tree" value=""/>
-        <ul id="source-panel" style="list-style: none">
+
+        <ul id="source-panel" style="list-style: none;margin-left: -49px">
         </ul>
     </div>
-    <div class="col-lg-4" data-bind="with: td">
+    <div class="col-lg-6" data-bind="with: td">
         <h3>Maps</h3>
 
 
@@ -93,11 +92,9 @@
             <!-- /ko -->
         </div>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-2">
         <h3 data-bind="with : td">Destination(<span data-bind="text:OutputTypeName"></span>)</h3>
-        <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search"
-               id="search-box-tree2" value=""/>
-        <ul id="destination-panel" style="list-style: none"></ul>
+        <ul id="destination-panel" style="list-style: none;margin-left: -75px"></ul>
     </div>
     <div class="col-lg-2" id="functoid-toolbars">
         <h3>Functoids</h3>
@@ -108,7 +105,7 @@
                         <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon + ' category-' + Category}"></i>
                     </div>
                     <div class="toolbox-item" data-bind="visible: BootstrapIcon" style="display: inline-block">
-                        <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon+ ' category-' + Category}"></i>
+                        <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon + ' category-' + Category}"></i>
                     </div>
                     <span data-bind="text:Name"></span>
                 </div>
