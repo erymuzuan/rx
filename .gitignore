@@ -52,7 +52,6 @@ _ReSharper.commercial-space
 /rabbitmq_server
 /rabbitmq_server/ebin/app_utils.beam
 *.InstallLog
-*.config
 /source/web/web.sph/SphApp/webstorm
 /sph.packages/control.center
 /sph.packages/database
@@ -122,3 +121,4 @@ bin/sources/ChildItemMapping/
 bin/sources/ORA_EMP_to_Customer/
 bin/sources/EmployeeToCustomerMapping/
 bin/sources/__*/
+/source/dependencies/web.sph.commercial-space/bin
