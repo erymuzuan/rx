@@ -456,9 +456,19 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
             },
             save = function () {
-                var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(td);
+
+                $('div.functoid').each(function(){
+                    var fnt = ko.dataFor(this),
+                        p = $(this),
+                        x = parseInt(p.css("left")),
+                        y = parseInt(p.css("top"));
+                    fnt.X(x);
+                    fnt.Y(y);
+                });
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(td);
                 isBusy(true);
+
 
                 context.post(data, "/sph/transformdefinition")
                     .then(function (result) {
