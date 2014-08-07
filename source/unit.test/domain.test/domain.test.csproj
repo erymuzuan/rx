@@ -111,7 +111,6 @@
     <Compile Include="entities\FieldValidationTest.cs" />
     <Compile Include="entities\OperationTest.cs" />
     <Compile Include="entities\ViewSortTest.cs" />
-    <Compile Include="mapper\JsonMapperTestFixture.cs" />
     <Compile Include="reports\DataGridTestFixture.cs" />
     <Compile Include="reports\FilterValueTestFixture.cs" />
     <Compile Include="reports\MockRepository.cs" />
@@ -152,8 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="mapper\mapping.schema.json" />
-    <None Include="mapper\oracle.json" />
     <None Include="packages.config" />
     <None Include="triggers\trigger.json" />
     <None Include="workflows\PemohonWakaf.xsd">
