@@ -49,6 +49,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             initializeFunctoid = function (fnc) {
                 var element = $('#' + fnc.WebId());
                 m_instance.makeSource(element, {
+                    filter : ".fep",
                     endPoint: ["Rectangle", {width: 10, height: 10}],
                     anchor: "RightMiddle",
                     connector: [ "Straight"],
@@ -58,7 +59,6 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 var anchorOptions = ["LeftMiddle", "LeftTop", "LeftBottom"]
                 if (fnc.ArgumentCollection().length) {
                     m_instance.makeTarget(element, {
-                        filter : ".fep",
                         dropOptions: { hoverClass: "dragHover" },
                         anchors: anchorOptions,
                         maxConnections: fnc.ArgumentCollection().length,
