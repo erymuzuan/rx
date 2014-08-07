@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
-    [FunctoidDesignerMetadata(Name = "C# code", FontAwesomeIcon = "code", Category = FunctoidCategory.Common)]
+    [FunctoidDesignerMetadata(Name = "C# code", FontAwesomeIcon = "stumbleupon", Category = FunctoidCategory.Common)]
     public partial class ScriptFunctoid : Functoid
     {
 

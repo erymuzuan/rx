@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
-    [FunctoidDesignerMetadata(Name = "Parse decimal", FontAwesomeIcon = "sort-numeric-asc")]
+    [FunctoidDesignerMetadata(Name = "Parse decimal", BootstrapIcon = "usd")]
     public partial class DecimalFunctoid : Functoid
     {
         public override string GenerateCode()

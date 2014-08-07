@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain
 {
 
     [Export("FunctoidDesigner", typeof(Functoid))]
-    [FunctoidDesignerMetadata(Name = "Constant", FontAwesomeIcon = "sort-numeric-asc", Category = FunctoidCategory.Common)]
+    [FunctoidDesignerMetadata(Name = "Constant", BootstrapIcon = "font", Category = FunctoidCategory.Common)]
     public partial class ConstantFunctoid : Functoid
     {
         public override string GenerateCode()

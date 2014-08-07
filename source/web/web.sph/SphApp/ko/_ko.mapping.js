@@ -212,11 +212,11 @@
             div.mousedown( function(e){
                 if(e.button == 2){
                     e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
                     div.popover('toggle');
+
+                    return false;
                 }
-            });
+            }).bind("contextmenu", function(){return false;});
             // just display it for 5 seconds
             pop.on('shown.bs.popover', function () {
                 setTimeout(function () { pop.popover('hide'); }, 5000);
