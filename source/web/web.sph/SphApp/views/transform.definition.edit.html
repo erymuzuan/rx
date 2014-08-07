@@ -12,7 +12,7 @@
         cursor: move;
     }
 
-    #map-canvas{
+    #container-canvas{
 
         background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAHElEQVQYV2NkIBIwEqmOYVQh3pAiKni6urpmAgAP3AJCVok6LAAAAABJRU5ErkJggg==)repeat;
         min-height: 800px;
@@ -62,7 +62,7 @@
 </div>
 
 
-<div class="row container-canvas" id="container-canvas">
+<div class="row container-canvas">
     <div class="col-lg-2">
         <h3 data-bind="with : td">Source(<span data-bind="text:InputTypeName"></span>)</h3>
 
@@ -71,9 +71,7 @@
     </div>
     <div class="col-lg-6" data-bind="with: td">
         <h3>Maps</h3>
-
-
-        <div id="map-canvas" data-bind="foreach: FunctoidCollection">
+        <div id="container-canvas" data-bind="foreach: FunctoidCollection">
             <!-- ko ifnot : ko.unwrap($type) === 'Bespoke.Sph.Domain.SourceFunctoid, domain.sph' -->
             <div class="functoid" data-bind="style : {'left': X() + 'px','top': Y() + 'px'},
                 attr : {id : WebId},

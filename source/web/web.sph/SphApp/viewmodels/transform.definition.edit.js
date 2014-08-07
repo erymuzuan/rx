@@ -58,6 +58,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 var anchorOptions = ["LeftMiddle", "LeftTop", "LeftBottom"]
                 if (fnc.ArgumentCollection().length) {
                     m_instance.makeTarget(element, {
+                        filter : ".fep",
                         dropOptions: { hoverClass: "dragHover" },
                         anchors: anchorOptions,
                         maxConnections: fnc.ArgumentCollection().length,
@@ -74,8 +75,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     y = arg.clientY;
 
                 functoid.designer = ko.dataFor(this).designer;
-                functoid.X(x - $('#map-canvas').offset().left + $(window).scrollLeft());
-                functoid.Y(y - $('#map-canvas').offset().top + $(window).scrollTop());
+                functoid.X(x - $('#container-canvas').offset().left + $(window).scrollLeft());
+                functoid.Y(y - $('#container-canvas').offset().top + $(window).scrollTop());
                 functoid.WebId(system.guid());
                 td().FunctoidCollection.push(functoid);
 
