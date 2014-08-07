@@ -84,7 +84,7 @@
                 <td>
                     <a href="#" data-bind="attr : {'href':'#adapter.'+ $root.getAdapterType($data)+'/' + AdapterId()},text: Name" >HrEmployees</a>
                 </td>
-                <td data-bind2="text: Type">Oracle</td>
+                <td data-bind="text: $type"></td>
                 <td data-bind="text:Description"></td>
                 <td></td>
             </tr>
