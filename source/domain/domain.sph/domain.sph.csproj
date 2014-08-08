@@ -196,6 +196,11 @@
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Transform\AddDaysFunctoid.cs" />
     <Compile Include="Transform\BooleanFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
@@ -218,8 +223,8 @@
     </Compile>
     <Compile Include="Transform\FunctoidArg.cs" />
     <Compile Include="Transform\FunctoidMap.cs" />
-    <Compile Include="Transform\FunctoidDesignerMetadataAttribute.cs" />
-    <Compile Include="Transform\IFunctoidDesignerMetadata.cs" />
+    <Compile Include="Transform\DesignerMetadataAttribute.cs" />
+    <Compile Include="Transform\IDesignerMetadata.cs" />
     <Compile Include="Transform\Int32Functoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
@@ -407,6 +412,12 @@
     <Compile Include="Triggers\XsdMetadata.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\action.email.js" />
+    <None Include="Resources\action.email.html" />
+    <None Include="Resources\action.setter.html" />
+    <None Include="Resources\action.startworkflow.html" />
+    <None Include="Resources\action.setter.js" />
+    <None Include="Resources\action.startworkflow.js" />
     <Content Include="Schema\_object.xslt">
       <SubType>Designer</SubType>
     </Content>
@@ -435,7 +446,12 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

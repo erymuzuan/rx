@@ -1,11 +1,24 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export(typeof(CustomAction))]
+    [DesignerMetadata(Name = "Setter", Description = "Set values to the item property", FontAwesomeIcon = "exchange")]
     public partial class SetterAction : CustomAction
     {
+        public override string GetEditorView()
+        {
+            return Properties.Resources.SetterActionHtml;
+        }
+
+        public override string GetEditorViewModel()
+        {
+            return Properties.Resources.SetterActionJs;
+        }
+
         public override void Execute(RuleContext context)
         {
             throw new Exception("Not implement, use the async");

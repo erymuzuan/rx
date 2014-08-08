@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace Bespoke.Sph.Domain
 {
-    [XmlInclude(typeof(EmailAction))]
-    [XmlInclude(typeof(SetterAction))]
-    [XmlInclude(typeof(AssemblyAction))]
-    [XmlInclude(typeof(StartWorkflowAction))]
     public partial class CustomAction : DomainObject
     {
         public virtual void Execute(RuleContext context)
@@ -24,6 +19,16 @@ namespace Bespoke.Sph.Domain
             {
                 throw new Exception("NotImplemented");
             }
+        }
+
+        public virtual string GetEditorViewModel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual string GetEditorView()
+        {
+            throw new NotImplementedException();
         }
     }
 }

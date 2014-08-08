@@ -4,7 +4,7 @@ using System.Text;
 namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
-    [FunctoidDesignerMetadata(Name = "Parse int", FontAwesomeIcon = "sort-numeric-asc")]
+    [DesignerMetadata(Name = "Parse int", FontAwesomeIcon = "sort-numeric-asc")]
     public partial class Int32Functoid : Functoid
     {
         public override bool Initialize()

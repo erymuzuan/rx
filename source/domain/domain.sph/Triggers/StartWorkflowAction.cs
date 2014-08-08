@@ -1,10 +1,22 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export(typeof(CustomAction))]
+    [DesignerMetadata(Name = "Workflow", Description = "Starts a new workflow when this action is executed", FontAwesomeIcon = "gears")]
     public partial class StartWorkflowAction : CustomAction
     {
+        public override string GetEditorView()
+        {
+            return Properties.Resources.StartworkflowActionHtml;
+        }
+
+        public override string GetEditorViewModel()
+        {
+            return Properties.Resources.StartworkflowActionJs;
+        }
         public async override Task ExecuteAsync(RuleContext ruleContext)
         {
             var context = new SphDataContext();

@@ -16,6 +16,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
             typeaheadEntity = ko.observable(),
             isBusy = ko.observable(false),
             id = ko.observable(),
+            actionOptions = ko.observableArray(),
             entities = ko.observableArray(),
             operationOptions = ko.observableArray(),
             operations = ko.observableArray(),
@@ -25,6 +26,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                 var query = String.format("TriggerId eq {0} ", id()),
                     tcs = new $.Deferred(),
                     triggerTask = context.loadOneAsync("Trigger", query),
+                    actionOptionsTask = $.get("/sph/trigger/actions"),
                     entitiesTask = context.getListAsync("EntityDefinition", "EntityDefinitionId gt 0", "Name"),
                     loadOperationOptions = function (ent) {
 
@@ -39,8 +41,9 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                             });
                     };
 
-                $.when(triggerTask, entitiesTask).done(function (t, list) {
+                $.when(triggerTask, entitiesTask, actionOptionsTask).done(function (t, list, actions) {
                     entities(list);
+                    actionOptions(actions[0]);
                     if (t) {
                         trigger(t);
                         typeaheadEntity(t.Entity());
@@ -166,6 +169,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
             activate: activate,
             attached: attached,
             trigger: trigger,
+            actionOptions: actionOptions,
             operationOptions: operationOptions,
             operations: operations,
             entities: entities,

@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['plugins/dialog'],
-    function (dialog) {
+define(['plugins/dialog', objectbuilders.system],
+    function (dialog, system) {
 
         var okClick = function (data, ev) {
             if (bespoke.utils.form.checkValidity(ev.target)) {
@@ -23,7 +23,7 @@ define(['plugins/dialog'],
             };
 
         var vm = {
-            action: ko.observable(new bespoke.sph.domain.SetterAction()),
+            action: ko.observable(new bespoke.sph.domain.SetterAction(system.guid())),
             okClick: okClick,
             cancelClick: cancelClick
         };

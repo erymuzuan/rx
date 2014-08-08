@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 namespace Bespoke.Sph.Domain
 {
     [Export(DESIGNER_CONTRACT, typeof(Functoid))]
-    [FunctoidDesignerMetadata(Name = "Parse boolean", FontAwesomeIcon = "check-circle", Category = FunctoidCategory.Common)]
+    [DesignerMetadata(Name = "Parse boolean", FontAwesomeIcon = "check-circle", Category = FunctoidCategory.COMMON)]
     public partial class BooleanFunctoid : Functoid
     {
         public override bool Initialize()

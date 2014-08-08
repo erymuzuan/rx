@@ -25,7 +25,8 @@ namespace Bespoke.Sph.Domain
         {
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetCallingAssembly()));
-            catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
+            var executing = Assembly.GetExecutingAssembly();
+            catalog.Catalogs.Add(new AssemblyCatalog(executing));
 
             foreach (var dll in assemblies)
             {
@@ -39,9 +40,10 @@ namespace Bespoke.Sph.Domain
                     "Humanizer","ImageResizer",
                     "Invoke","Monads",
                     "NCrontab","Newtonsoft",
-                    "RazorGenerator","RazorEngine",
+                    "RazorGenerator","RazorEngine","SQLSpatialTools","System",
                     "Antlr3","RazorEngine",
-                    "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn"
+                    "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn",
+                    "domain.sph", executing.GetName().Name
                 };
 
             Action<string> loadAssemblyCatalog = x =>
@@ -55,22 +57,26 @@ namespace Bespoke.Sph.Domain
                     Console.WriteLine("cannot load {0}", x);
                 }
             };
-            foreach (var file in System.IO.Directory.GetFiles(".", "*.dll"))
+            foreach (var file in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll"))
             {
+
                 var name = System.IO.Path.GetFileName(file) ?? "";
                 if (ignores.Any(name.StartsWith)) continue;
 
                 loadAssemblyCatalog(file);
+                Console.WriteLine("Loaded {0}", name);
             }
 
-            if (System.IO.Directory.Exists(".\\bin"))
+            var bin = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
+            if (System.IO.Directory.Exists(bin))
             {
                 // for web
-                foreach (var file in System.IO.Directory.GetFiles(".\\bin", "*.dll"))
+                foreach (var file in System.IO.Directory.GetFiles(bin, "*.dll"))
                 {
                     var name = System.IO.Path.GetFileName(file) ?? "";
                     if (ignores.Any(name.StartsWith)) continue;
                     loadAssemblyCatalog(file);
+                    Console.WriteLine("Loaded from bin {0}", name);
                 }
 
             }

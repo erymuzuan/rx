@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof (Functoid))]
-    [FunctoidDesignerMetadata(Name = "Today", BootstrapIcon = "calendar", Category = FunctoidCategory.Date)]
+    [DesignerMetadata(Name = "Today", BootstrapIcon = "calendar", Category = FunctoidCategory.DATE)]
     public class TodayFunctoid : Functoid
     {
         public override string GenerateCode()

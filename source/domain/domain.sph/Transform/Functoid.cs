@@ -8,10 +8,13 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    public static class FunctoidCategory
+    {
+        public const string DATE = "date";
+        public const string COMMON = "common";
+        public const string String = "string";
+    }
     [DebuggerDisplay("WebId = {WebId}, Type={GetType().Name}")]
-    [XmlInclude(typeof(ScriptFunctoid))]
-    [XmlInclude(typeof(ConstantFunctoid))]
-    [XmlInclude(typeof(StringConcateFunctoid))]
     public partial class Functoid : DomainObject
     {
         public const string DESIGNER_CONTRACT = "FunctoidDesigner";

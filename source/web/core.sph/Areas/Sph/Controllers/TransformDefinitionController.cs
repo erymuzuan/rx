@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     public class TransformDefinitionController : Controller
     {
         [ImportMany("FunctoidDesigner", typeof(Functoid), AllowRecomposition = true)]
-        public Lazy<Functoid, IFunctoidDesignerMetadata>[] Functoids { get; set; }
+        public Lazy<Functoid, IDesignerMetadata>[] Functoids { get; set; }
 
 
         public async Task<ActionResult> Validate([RequestBody] TransformDefinition map)

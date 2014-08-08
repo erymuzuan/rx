@@ -5,14 +5,16 @@ namespace Bespoke.Sph.Domain
 {
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class FunctoidDesignerMetadataAttribute : ExportAttribute, IFunctoidDesignerMetadata
+    public class DesignerMetadataAttribute : ExportAttribute, IDesignerMetadata
     {
-        public FunctoidDesignerMetadataAttribute() : base(typeof (IFunctoidDesignerMetadata))
+        public DesignerMetadataAttribute() : base(typeof (IDesignerMetadata))
         {
         }
 
-        public FunctoidCategory Category { get; set; }
+        public string Description { get;  set; }
+        public string Category { get; set; }
         public string Name { get; set; }
+        public Type Type { get;  set; }
         public string FontAwesomeIcon{ get; set; }
         public string BootstrapIcon{ get; set; }
         public string PngIcon{ get; set; }

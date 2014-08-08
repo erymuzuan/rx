@@ -1775,9 +1775,6 @@
     <EmbeddedResource Include="SphApp\viewmodels\entity.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\snippets.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\ace.goto.line.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\action.email.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\action.setter.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\action.startworkflow.js" />
     <EmbeddedResource Include="SphApp\viewmodels\activity.join.js" />
     <EmbeddedResource Include="SphApp\viewmodels\activity.listen.js" />
     <EmbeddedResource Include="SphApp\viewmodels\activity.parallel.js" />
@@ -1826,9 +1823,6 @@
     <EmbeddedResource Include="SphApp\viewmodels\trigger.setup.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_users.department.js" />
     <EmbeddedResource Include="SphApp\views\ace.goto.line.html" />
-    <EmbeddedResource Include="SphApp\views\action.email.html" />
-    <EmbeddedResource Include="SphApp\views\action.setter.html" />
-    <EmbeddedResource Include="SphApp\views\action.startworkflow.html" />
     <EmbeddedResource Include="SphApp\views\activity.deleteentity.html" />
     <EmbeddedResource Include="SphApp\views\activity.join.html" />
     <EmbeddedResource Include="SphApp\views\activity.listen.html" />

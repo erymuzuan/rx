@@ -1611,43 +1611,43 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
 bespoke.sph.domain.TriggerPartial = function () {
 
     var system = require('durandal/system'),
-        removeAction = function(action) {
+        removeAction = function (action) {
             var self = this;
-            return function() {
+            return function () {
                 self.ActionCollection.remove(action);
             };
         },
         addAction = function (type) {
             var self = this;
             return function () {
-                var action = new bespoke.sph.domain[type + 'Action'](system.guid());
-                
-                require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
-                    dialog.action(action);
+
+                require(['viewmodels/action.' + type.toLowerCase().replace(", ", ","), 'durandal/app'], function (dialog, app2) {
+
                     app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
+                            var action = dialog.action();
+
+                            action.WebId(system.guid());
                             action.IsActive(true);
                             self.ActionCollection.push(action);
                         }
                     });
 
                 });
-                
+
             };
         },
         editAction = function (action) {
             var self = this;
             return function () {
-                var actionType = ko.unwrap(action.$type),
-                    clone = ko.mapping.fromJS(ko.mapping.toJS(action)),
-                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Action,/,
-                    type = pattern.exec(actionType)[1];
+                var type = ko.unwrap(action.$type),
+                    clone = ko.mapping.fromJS(ko.mapping.toJS(action));
 
-                require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                require(['viewmodels/action.' + type.toLowerCase().replace(", ",","), 'durandal/app'], function (dialog, app2) {
                     dialog.action(clone);
-                    
+
                     app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
@@ -1668,7 +1668,7 @@ bespoke.sph.domain.TriggerPartial = function () {
          },
         removeRule = function (rule) {
             var self = this;
-            return function() {
+            return function () {
                 self.RuleCollection.remove(rule);
             };
         };

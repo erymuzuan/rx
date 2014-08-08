@@ -147,27 +147,18 @@
         <div id="action-panel">
             <div class="btn-group">
                 <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
-
                     <i class="fa fa-plus-circle"></i>
                     Add an action &nbsp;<span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-bind="foreach :$root.actionOptions">
                     <li>
-                        <a class="btn btn-link" data-bind="click: addAction('Email')">
-                            <i class="fa fa-envelope"></i>
-                            Add Email Action
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn btn-link" data-bind="click: addAction('Setter')">
-                            <i class="fa fa-gear"></i>
-                            Add Setter Action
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn btn-link" data-bind="click: addAction('StartWorkflow')">
-                            <i class="fa fa-gears"></i>
-                            Start Workflow
+                        <a class="btn btn-link" data-bind="click: $root.trigger().addAction(action.$type)">
+
+                            <!-- ko if :designer.FontAwesomeIcon-->
+                            <i  data-bind="attr : {'class':'fa fa-'+ designer.FontAwesomeIcon}"></i>
+                            <!--/ko-->
+                            Add <!-- ko text: designer.Name -->
+                            <!-- /ko-->
                         </a>
                     </li>
 

@@ -948,4 +948,13 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Designer">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="FullName" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="X" type="xs:double" use="required"/>
+			<xs:attribute name="Y" type="xs:double" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

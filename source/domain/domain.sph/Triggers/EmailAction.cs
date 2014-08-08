@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export(typeof(CustomAction))]
+    [DesignerMetadata(Name = "Email", Description = "Send a email message", FontAwesomeIcon = "envelope")]
     public partial class EmailAction : CustomAction
     {
         public override void Execute(RuleContext context)
@@ -20,6 +23,7 @@ namespace Bespoke.Sph.Domain
             var to = await templateEngine.GenerateAsync(this.To, item).ConfigureAwait(false);
             var cc = await templateEngine.GenerateAsync(this.Cc, item).ConfigureAwait(false);
             var from = await templateEngine.GenerateAsync(this.From, item).ConfigureAwait(false);
+
 
             var message = new MailMessage
             {
@@ -39,6 +43,16 @@ namespace Bespoke.Sph.Domain
         public override bool UseAsync
         {
             get { return true; }
+        }
+
+        public override string GetEditorView()
+        {
+            return Properties.Resources.EmailActionHtml;
+        }
+
+        public override string GetEditorViewModel()
+        {
+            return Properties.Resources.EmailActionJs;
         }
     }
 }

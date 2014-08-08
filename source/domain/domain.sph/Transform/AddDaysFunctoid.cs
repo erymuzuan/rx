@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
-    [FunctoidDesignerMetadata(Name = "AddDays", BootstrapIcon = "calendar", Category = FunctoidCategory.Date)]
+    [DesignerMetadata(Name = "AddDays", BootstrapIcon = "calendar", Category = FunctoidCategory.DATE)]
     public class AddDaysFunctoid : Functoid
     {
         private int m_number;
