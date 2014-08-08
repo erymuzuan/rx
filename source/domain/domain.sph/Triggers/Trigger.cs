@@ -21,6 +21,7 @@ namespace Bespoke.Sph.Domain
             return trigger;
         }
 
+
         public async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
         {
             var code = await this.GenerateCodeAsync();

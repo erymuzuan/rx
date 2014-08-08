@@ -105,6 +105,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var newItem = trigger.TriggerId == 0;
             var context = new SphDataContext();
+            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == trigger.Entity);
+            trigger.TypeOf = string.Format("Bespoke.{0}_{1}.Domain.{2}, {0}.{2}",
+                ConfigurationManager.ApplicationName, ed.EntityDefinitionId, trigger.Entity);
             using (var session = context.OpenSession())
             {
                 session.Attach(trigger);
