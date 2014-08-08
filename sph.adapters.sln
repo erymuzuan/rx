@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adapter.csproj.gen", "sourc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trigger.action.messaging", "source\domain\trigger.action.messaging\trigger.action.messaging.csproj", "{529768DA-DF59-416B-B180-EE5F742474F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trigger.test", "source\unit.test\trigger.test\trigger.test.csproj", "{79EC7D66-E907-4B9A-8242-4E7D57B5ED04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{529768DA-DF59-416B-B180-EE5F742474F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{529768DA-DF59-416B-B180-EE5F742474F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{529768DA-DF59-416B-B180-EE5F742474F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79EC7D66-E907-4B9A-8242-4E7D57B5ED04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79EC7D66-E907-4B9A-8242-4E7D57B5ED04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79EC7D66-E907-4B9A-8242-4E7D57B5ED04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79EC7D66-E907-4B9A-8242-4E7D57B5ED04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,5 +143,6 @@ Global
 		{FF531004-0787-4331-8565-BC930F44BBB7} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{201D4EED-C13C-4645-8EFF-7310ADAC4911} = {82F86086-3AA4-4866-AB84-741DF908046F}
 		{529768DA-DF59-416B-B180-EE5F742474F9} = {FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}
+		{79EC7D66-E907-4B9A-8242-4E7D57B5ED04} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 EndGlobal

@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Domain
 
                 var subscriberInfraDll = Path.Combine(ConfigurationManager.SubscriberPath, "subscriber.infrastructure.dll");
                 options.ReferencedAssembliesLocation.Add(subscriberInfraDll);
-          
+
                 parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
@@ -82,17 +82,17 @@ namespace Bespoke.Sph.Domain
 
 
             var routingKeys = new List<string>();
-            if(this.IsFiredOnAdded)
+            if (this.IsFiredOnAdded)
                 routingKeys.Add(string.Format("{0}.added.#", this.Entity));
-            if(this.IsFiredOnChanged)
+            if (this.IsFiredOnChanged)
                 routingKeys.Add(string.Format("{0}.changed.#", this.Entity));
-            if(this.IsFiredOnDeleted)
+            if (this.IsFiredOnDeleted)
                 routingKeys.Add(string.Format("{0}.deleted.#", this.Entity));
-            var ops = this.FiredOnOperations.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries)
+            var ops = this.FiredOnOperations.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => string.Format("{0}.#.{1}", this.Entity, s));
             routingKeys.AddRange(ops);
 
-            var keys =string.Join(",\r\n",routingKeys.Select(s => string.Format("\"{0}\"", s)).ToArray());
+            var keys = string.Join(",\r\n", routingKeys.Select(s => string.Format("\"{0}\"", s)).ToArray());
 
             var code = new StringBuilder();
             var edTypeFullName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName,
@@ -107,7 +107,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("namespace " + this.CodeNamespace);
             code.AppendLine("{");
 
-            code.AppendLinf("   public class Trigger{0}Subscriber: Subscriber<{1}>", 
+            code.AppendLinf("   public class Trigger{0}Subscriber: Subscriber<{1}>",
                 this.TriggerId, edTypeFullName);
             code.AppendLine("   {");
 
@@ -150,7 +150,7 @@ namespace Bespoke.Sph.Domain
             }}
 
 
-            foreach (var customAction in trigger.ActionCollection.Where(a => a.IsActive))
+            foreach (var customAction in trigger.ActionCollection.Where(a => a.IsActive && !a.UseCode))
             {{
                 this.WriteMessage("" ==== Executing {{0}} ======"", customAction.Title);
                 if (customAction.UseAsync)
@@ -160,9 +160,27 @@ namespace Bespoke.Sph.Domain
 
                 this.WriteMessage(""done..."");
             }}
-        }}", keys, this.TriggerId, edTypeFullName);
+        ", keys, this.TriggerId, edTypeFullName);
 
+
+            int count = 1;
+            foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
+            {
+                code.AppendLinf("   var ca{0} = trigger.ActionCollection.Single(x => x.Title == \"{1}\");", count, ca.Title);
+                code.AppendLinf("           if(ca{0}.IsActive)", count, ca.Title);
+                code.AppendLinf("               await this.{0}(item);", ca.Title, edTypeFullName);
+                code.AppendLine();
+                count++;
+            }
+            code.AppendLine("       }");
             code.AppendLine();
+            foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
+            {
+                code.AppendLinf("       public async Task<object> {0}({1} item)", ca.Title, edTypeFullName);
+                code.AppendLine("       {");
+                ca.GeneratorCode().Split(new []{"\r\n"}, StringSplitOptions.None).ToList().ForEach(x => code.AppendLine("            " +x));
+                code.AppendLine("       }");
+            }
             code.AppendLine("   }");// end class
 
 

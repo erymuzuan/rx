@@ -20,6 +20,13 @@ namespace Bespoke.Sph.Domain
                 throw new Exception("NotImplemented");
             }
         }
+        public virtual bool UseCode
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         public virtual string GetEditorViewModel()
         {
@@ -27,6 +34,11 @@ namespace Bespoke.Sph.Domain
         }
 
         public virtual string GetEditorView()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual string GeneratorCode()
         {
             throw new NotImplementedException();
         }
