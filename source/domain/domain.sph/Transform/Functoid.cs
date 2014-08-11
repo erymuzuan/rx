@@ -65,6 +65,7 @@ namespace Bespoke.Sph.Domain
             var errors = new List<ValidationError>();
             var nf = from a in this.ArgumentCollection
                      where string.IsNullOrWhiteSpace(a.Functoid)
+                     && !a.IsOptional
                      select new ValidationError
                      {
                          PropertyName = a.Name,

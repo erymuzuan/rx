@@ -99,6 +99,50 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;section class=&quot;view-model-modal&quot; id=&quot;formatting-functoid-editor-dialog&quot;&gt;
+        ///    &lt;div class=&quot;modal-dialog&quot;&gt;
+        ///        &lt;div class=&quot;modal-content&quot;&gt;
+        ///
+        ///            &lt;div class=&quot;modal-header&quot;&gt;
+        ///                &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot;
+        ///                        data-bind=&quot;click : cancelClick&quot;&gt;&amp;times;&lt;/button&gt;
+        ///                &lt;h3&gt;Functoid Properties Editor&lt;/h3&gt;
+        ///            &lt;/div&gt;
+        ///            &lt;div class=&quot;modal-body&quot; data-bind=&quot;with:functoid&quot;&gt;
+        ///
+        ///                &lt;form class=&quot;form-horiz [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FormattingFunctoidHtml {
+            get {
+                return ResourceManager.GetString("FormattingFunctoidHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///define([&apos;services/datacontext&apos;, &apos;services/logger&apos;, &apos;plugins/dialog&apos;],
+        ///    function (context, logger, dialog) {
+        ///        var functoid = ko.observable(),
+        ///            okClick = function (data, ev) {
+        ///                dialog.close(this, &apos;OK&apos;);
+        ///
+        ///            },
+        ///            cancelClick = function () {
+        ///                dialog.close(this, &apos;Cancel&apos;);
+        ///            };
+        ///            var vm = {
+        ///                functoid: functoid,
+        ///                okClick: okClick,
+        ///                cancelClick: cancelClick
+        ///         [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FormattingFunctoidJs {
+            get {
+                return ResourceManager.GetString("FormattingFunctoidJs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 
         ///&lt;div class=&quot;view-model-modal&quot; id=&quot;setter-action-modal&quot;&gt;
         ///    &lt;div class=&quot;modal-dialog&quot;&gt;

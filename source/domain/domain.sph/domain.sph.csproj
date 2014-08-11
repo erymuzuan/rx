@@ -418,6 +418,8 @@
     <None Include="Resources\action.startworkflow.html" />
     <None Include="Resources\action.setter.js" />
     <None Include="Resources\action.startworkflow.js" />
+    <None Include="Resources\functoid.formatting.html" />
+    <None Include="Resources\functoid.formatting.js" />
     <Content Include="Schema\_object.xslt">
       <SubType>Designer</SubType>
     </Content>

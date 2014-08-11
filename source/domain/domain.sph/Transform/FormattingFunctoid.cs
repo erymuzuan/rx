@@ -46,5 +46,15 @@ namespace Bespoke.Sph.Domain
                 return string.Format("string.Format(\"{1}\", value{0})",m_number, this.Format);
             return string.Format("string.Format( format{0}, value{0})",m_number);
         }
+
+        public override string GetEditorView()
+        {
+            return Properties.Resources.FormattingFunctoidHtml;
+        }
+
+        public override string GetEditorViewModel()
+        {
+            return Properties.Resources.FormattingFunctoidJs;
+        }
     }
 }

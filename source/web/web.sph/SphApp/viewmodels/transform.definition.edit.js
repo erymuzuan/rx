@@ -159,7 +159,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                         var tcs = new $.Deferred();
                         // for those with more than 1 arg, if array or 1 arg, just auto add or select
-                        require(['viewmodels/functoid.args', 'durandal/app'], function (dialog, app2) {
+                        require(['viewmodels/functoid-args', 'durandal/app'], function (dialog, app2) {
 
                             dialog.functoid(targetFunctoid);
                             app2.showDialog(dialog)

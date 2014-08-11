@@ -124,6 +124,12 @@
   <data name="EmailActionJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\action.email.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="FormattingFunctoidHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\functoid.formatting.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FormattingFunctoidJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\functoid.formatting.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="SetterActionHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\action.setter.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
