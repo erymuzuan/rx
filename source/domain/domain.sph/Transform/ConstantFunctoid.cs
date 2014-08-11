@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Constant", BootstrapIcon = "font", Category = FunctoidCategory.COMMON)]
     public partial class ConstantFunctoid : Functoid
     {
-        public override string GenerateCode()
+        public override string GenerateAssignmentCode()
         {
             if (typeof (string) == this.Type)
                 return "\"" + Value + "\"";

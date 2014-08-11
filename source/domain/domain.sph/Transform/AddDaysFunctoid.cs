@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GeneratePreCode()
+        public override string GenerateStatementCode()
         {
             var date = this.ArgumentCollection.Single(x => x.Name == "date").GetFunctoid(this.TransformDefinition);
             var value = this.ArgumentCollection.Single(x => x.Name == "value").GetFunctoid(this.TransformDefinition);
@@ -40,14 +40,14 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             m_number = GetRunningNumber();
 
-            code.AppendLine(date.GeneratePreCode());
-            code.AppendLinf("               var date{0} = {1};", m_number, date.GenerateCode());
-            code.AppendLine(value.GeneratePreCode());
-            code.AppendFormat("               var value{0} = {1};", m_number, value.GenerateCode());
+            code.AppendLine(date.GenerateStatementCode());
+            code.AppendLinf("               var date{0} = {1};", m_number, date.GenerateAssignmentCode());
+            code.AppendLine(value.GenerateStatementCode());
+            code.AppendFormat("               var value{0} = {1};", m_number, value.GenerateAssignmentCode());
             return code.ToString();
         }
 
-        public override string GenerateCode()
+        public override string GenerateAssignmentCode()
         {
             return string.Format("date{0}.AddDays(value{0})", m_number);
         }

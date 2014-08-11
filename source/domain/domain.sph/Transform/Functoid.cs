@@ -35,11 +35,11 @@ namespace Bespoke.Sph.Domain
             m_number = 1;
         }
 
-        public virtual string GeneratePreCode()
+        public virtual string GenerateStatementCode()
         {
             return string.Empty;
         }
-        public virtual string GenerateCode()
+        public virtual string GenerateAssignmentCode()
         {
             return string.Format("// NOT IMPLEMENTED => {0}", this.GetType().Name);
         }

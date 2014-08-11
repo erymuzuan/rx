@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Domain
             return base.Initialize();
         }
 
-        public override string GenerateCode()
+        public override string GenerateAssignmentCode()
         {
             return string.Format("bool.Parse(item.{0})", this.SourceField);
         }

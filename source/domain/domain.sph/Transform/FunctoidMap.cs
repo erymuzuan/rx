@@ -28,9 +28,9 @@ namespace Bespoke.Sph.Domain
         public override string GenerateCode()
         {
             var fnt = this.GetFunctoid(this.TransformDefinition);
-            return fnt.GeneratePreCode()
+            return fnt.GenerateStatementCode()
                 + "\r\n" +
-                string.Format("               dest.{1} = {0};", fnt.GenerateCode(), this.Destination);
+                string.Format("               dest.{1} = {0};", fnt.GenerateAssignmentCode(), this.Destination);
 
         }
     }

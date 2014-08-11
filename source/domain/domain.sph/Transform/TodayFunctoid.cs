@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Today", BootstrapIcon = "calendar", Category = FunctoidCategory.DATE)]
     public class TodayFunctoid : Functoid
     {
-        public override string GenerateCode()
+        public override string GenerateAssignmentCode()
         {
             return "DateTime.Today";
         }

@@ -18,16 +18,16 @@ namespace Bespoke.Sph.Domain
         }
 
         private int m_number;
-        public override string GeneratePreCode()
+        public override string GenerateStatementCode()
         {
             m_number = GetRunningNumber();
             var code = new StringBuilder();
             code.AppendLine();
-            code.AppendLinf("               var value{0} = {1};", m_number, this["value"].GetFunctoid(this.TransformDefinition).GenerateCode());
-            code.AppendLinf("               var format{0} = {1};", m_number, this["format"].GetFunctoid(this.TransformDefinition).GenerateCode());
+            code.AppendLinf("               var value{0} = {1};", m_number, this["value"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
+            code.AppendLinf("               var format{0} = {1};", m_number, this["format"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
             var style = this["styles"].GetFunctoid(this.TransformDefinition);
             if (null != style)
-                code.AppendFormat("               var style{0} = {1};", m_number, style.GenerateCode());
+                code.AppendFormat("               var style{0} = {1};", m_number, style.GenerateAssignmentCode());
             else
                 code.AppendFormat("               var style{0} = System.Globalization.DateTimeStyles.None;", m_number);
 
@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-        public override string GenerateCode()
+        public override string GenerateAssignmentCode()
         {
             return string.Format("DateTime.ParseExact(value{0}, format{0}, System.Globalization.CultureInfo.InvariantCulture, style{0})", m_number);
         }

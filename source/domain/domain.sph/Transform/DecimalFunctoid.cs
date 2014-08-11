@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Parse decimal", BootstrapIcon = "usd")]
     public partial class DecimalFunctoid : Functoid
     {
-        public override string GenerateCode()
+        public override string GenerateAssignmentCode()
         {
             return string.Format("decimal.Parse(item.{0}, System.Globalization.NumberStyles.{1})", this.SourceField, this.NumberStyles);
         }

@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Domain
             return errors;
         }
 
-        public override string GeneratePreCode()
+        public override string GenerateStatementCode()
         {
             var block = this.Expression;
             if (!block.Contains("return")) return string.Empty;
@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-        public override string GenerateCode()
+        public override string GenerateAssignmentCode()
         {
             if(string.IsNullOrWhiteSpace(this.Name))throw new InvalidOperationException("Name cannot be empty");
             var block = this.Expression;

@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
             return base.Initialize();
         }
 
-        public override string GeneratePreCode()
+        public override string GenerateStatementCode()
         {
             var code = new StringBuilder();
             code.AppendLine();
@@ -33,13 +33,13 @@ namespace Bespoke.Sph.Domain
             {
                 var ftd = arg.GetFunctoid(this.TransformDefinition);
                 arg.Name = GetRunningNumber().ToString(CultureInfo.InvariantCulture);
-                code.AppendLine(ftd.GeneratePreCode());
-                code.AppendFormat("               var val{0} = {1};", arg.Name, ftd.GenerateCode());
+                code.AppendLine(ftd.GenerateStatementCode());
+                code.AppendFormat("               var val{0} = {1};", arg.Name, ftd.GenerateAssignmentCode());
             }
             return code.ToString();
         }
 
-        public override string GenerateCode()
+        public override string GenerateAssignmentCode()
         {
             var codes = this.ArgumentCollection.Where(x => !string.IsNullOrWhiteSpace(x.Functoid)).Select(a => "val" + a.Name);
             return string.Join(" + ", codes);
