@@ -25,7 +25,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     .done(function (b) {
                         if (b) {
                             _(b.FunctoidCollection()).each(function (v) {
-                                v.designer = ko.observable({FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: ""});
+                                v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
                             });
                             td(b);
                             $.get("/sph/transformdefinition/schema?type=" + b.InputTypeName(), function (s) {
@@ -49,10 +49,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             initializeFunctoid = function (fnc) {
                 var element = $('#' + fnc.WebId());
                 m_instance.makeSource(element, {
-                    filter : ".fep",
-                    endPoint: ["Rectangle", {width: 10, height: 10}],
+                    filter: ".fep",
+                    endPoint: ["Rectangle", { width: 10, height: 10 }],
                     anchor: "RightMiddle",
-                    connector: [ "Straight"],
+                    connector: ["Straight"],
                     connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
                 });
 
@@ -72,11 +72,19 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             toolboxItemDraggedStop = function (arg) {
                 var functoid = context.toObservable(ko.mapping.toJS(ko.dataFor(this).functoid)),
                     x = arg.clientX,
-                    y = arg.clientY;
+                    y = arg.clientY,
+                    canvas = $('#container-canvas'),
+                    offset = canvas.offset(),
+                    canvasWidth = parseFloat(canvas.css("width").replace("px", ""));
+
+                if (x > (offset.left + canvasWidth)) {
+                    logger.error("Please drop the functoid inside the mapping designer box");
+                    return;
+                }
 
                 functoid.designer = ko.dataFor(this).designer;
-                functoid.X(x - $('#container-canvas').offset().left + $(window).scrollLeft());
-                functoid.Y(y - $('#container-canvas').offset().top + $(window).scrollTop());
+                functoid.X(x - offset.left + $(window).scrollLeft());
+                functoid.Y(y - offset.top + $(window).scrollTop());
                 functoid.WebId(system.guid());
                 td().FunctoidCollection.push(functoid);
 
@@ -88,15 +96,15 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 isJsPlumbReady = true;
 
                 var instance = jsPlumb.getInstance({
-                    Endpoint: ["Rectangle", {width: 10, height: 10}],
-                    HoverPaintStyle: {strokeStyle: "#1e8151", lineWidth: 2 },
+                    Endpoint: ["Rectangle", { width: 10, height: 10 }],
+                    HoverPaintStyle: { strokeStyle: "#1e8151", lineWidth: 2 },
                     ConnectionOverlays: [
-                        [ "Arrow", {
+                        ["Arrow", {
                             location: 1,
                             id: "arrow",
                             length: 14,
                             foldback: 0.8
-                        } ]
+                        }]
                     ],
                     Container: "container-canvas"
                 });
@@ -129,18 +137,18 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                     // direct map
                     if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") > -1) {
-                        var sourceField = info.sourceId.replace("source-field-", "").replace("-","."),
-                            destinationField = info.targetId.replace("destination-field-", "").replace("-",".");
+                        var sourceField = info.sourceId.replace("source-field-", "").replace("-", "."),
+                            destinationField = info.targetId.replace("destination-field-", "").replace("-", ".");
 
-                        var dm = new bespoke.sph.domain.DirectMap({Source: sourceField, Destination: destinationField, WebId: system.guid()});
+                        var dm = new bespoke.sph.domain.DirectMap({ Source: sourceField, Destination: destinationField, WebId: system.guid() });
                         td().MapCollection.push(dm);
                         info.connection.map = dm;
                     }
                     //  functoid map
                     if (info.targetId.indexOf("destination-field-") > -1 && info.sourceId.indexOf("source-field-") < 0) {
-                        var destinationField = info.targetId.replace("destination-field-", "").replace("-",".");
+                        var destinationField = info.targetId.replace("destination-field-", "").replace("-", ".");
 
-                        var fm = new bespoke.sph.domain.FunctoidMap({Destination: destinationField, WebId: system.guid()});
+                        var fm = new bespoke.sph.domain.FunctoidMap({ Destination: destinationField, WebId: system.guid() });
                         fm.Functoid(info.sourceId);
                         td().MapCollection.push(fm);
                         info.connection.map = fm;
@@ -175,10 +183,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     };
                     // source field functoid
                     if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") < 0) {
-                        var sourceField = info.sourceId.replace("source-field-", "").replace("-","."),
+                        var sourceField = info.sourceId.replace("source-field-", "").replace("-", "."),
                             targetFnc = ko.dataFor(document.getElementById(info.targetId));
 
-                        var sourceFnc = new bespoke.sph.domain.SourceFunctoid({Field: sourceField, WebId: system.guid()});
+                        var sourceFnc = new bespoke.sph.domain.SourceFunctoid({ Field: sourceField, WebId: system.guid() });
 
                         selectArg(sourceFnc, targetFnc).done(function (result) {
                             if (result == "OK") {
@@ -207,7 +215,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     instance.makeSource(sourceWindows, {
                         filter: ".ep01",
                         anchor: ["RightMiddle"],
-                        connector: [ "Straight"],
+                        connector: ["Straight"],
                         connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
                     });
 
@@ -236,16 +244,16 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                     var element = document.getElementById(ko.unwrap(item.WebId)),
                         isFilterSupported = true;//instance.isDragFilterSupported();
-                    if(isFilterSupported){
+                    if (isFilterSupported) {
 
-                    }else{
+                    } else {
                         console.log("FIlter is not supported...");
                     }
                     instance.makeSource(element, {
-                        filter : ".fep",
-                        endPoint: ["Rectangle", {width: 10, height: 10}],
+                        filter: ".fep",
+                        endPoint: ["Rectangle", { width: 10, height: 10 }],
                         anchor: "RightMiddle",
-                        connector: [ "Straight"],
+                        connector: ["Straight"],
                         connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
                     });
                     if (item.ArgumentCollection().length) {
@@ -286,10 +294,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
                         _(f.ArgumentCollection()).each(function (a) {
                             var source = document.getElementById(ko.unwrap(a.Functoid));
-                            if(typeof a.Functoid !== "function" || !source){
+                            if (typeof a.Functoid !== "function" || !source) {
                                 return;
                             }
-                            var conn = instance.connect({source: source, target: ko.unwrap(f.WebId) });
+                            var conn = instance.connect({ source: source, target: ko.unwrap(f.WebId) });
                             conn.functoidArg = a.Functoid;
                         })
                     }
@@ -303,7 +311,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             td().FunctoidCollection.remove(f);
                             return;
                         }
-                        var conn = instance.connect({source: "source-field-" + ko.unwrap(f.Field).replace(".","-"), target: target });
+                        var conn = instance.connect({ source: "source-field-" + ko.unwrap(f.Field).replace(".", "-"), target: target });
                         conn.sf = f;
 
                     }
@@ -312,14 +320,14 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 // direct maps
                 _(td().MapCollection()).each(function (m) {
                     if (ko.unwrap(m.Source)) {
-                        var conn = instance.connect({source: "source-field-" + ko.unwrap(m.Source), target: "destination-field-" + ko.unwrap(m.Destination).replace(".","-") });
+                        var conn = instance.connect({ source: "source-field-" + ko.unwrap(m.Source), target: "destination-field-" + ko.unwrap(m.Destination).replace(".", "-") });
                         conn.map = m;
                     }
                 });
                 // functoid maps
                 _(td().MapCollection()).each(function (m) {
-                    if (typeof  m.Source === "undefined") {
-                        var conn = instance.connect({source: ko.unwrap(m.Functoid), target: 'destination-field-' + ko.unwrap(m.Destination).replace(".","-") });
+                    if (typeof m.Source === "undefined") {
+                        var conn = instance.connect({ source: ko.unwrap(m.Functoid), target: 'destination-field-' + ko.unwrap(m.Destination).replace(".", "-") });
                         conn.map = m;
                     }
                 });
@@ -357,37 +365,37 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     return;
                 }
                 var icon = function (html, item) {
-                        var type = item.type;
-                        if (typeof type === "object") {
-                            type = type[0];
-                        }
-                        if (type === "string") {
-                            return '<i class="glyphicon glyphicon-bold" style="font-size:12px;color:brown;margin-right:5px"></i>';
-                        }
-                        if (type === "integer") {
-                            return '<i class="fa fa-sort-numeric-asc" style="font-size:12px;color:blue;margin-right:5px"></i>';
-                        }
-                        if (type === "object") {
-                            return '<i class="fa fa-building-o" style="font-size:12px;color:grey;margin-right:5px"></i>';
-                        }
-                        if (type === "number") {
-                            return '<i class="glyphicon glyphicon-usd" style="font-size:12px;color:green;margin-right:5px"></i>';
-                        }
-                        if (type === "boolean") {
-                            return '<i class="glyphicon glyphicon-ok" style="font-size:12px;color:red;margin-right:5px"></i>';
-                        }
-                        if (type === "array") {
-                            return '<i class="fa fa-list" style="font-size:12px;color:gray;margin-right:5px"></i>';
-                        }
-                        return "";
-                    },
+                    var type = item.type;
+                    if (typeof type === "object") {
+                        type = type[0];
+                    }
+                    if (type === "string") {
+                        return '<i class="glyphicon glyphicon-bold" style="font-size:12px;color:brown;margin-right:5px"></i>';
+                    }
+                    if (type === "integer") {
+                        return '<i class="fa fa-sort-numeric-asc" style="font-size:12px;color:blue;margin-right:5px"></i>';
+                    }
+                    if (type === "object") {
+                        return '<i class="fa fa-building-o" style="font-size:12px;color:grey;margin-right:5px"></i>';
+                    }
+                    if (type === "number") {
+                        return '<i class="glyphicon glyphicon-usd" style="font-size:12px;color:green;margin-right:5px"></i>';
+                    }
+                    if (type === "boolean") {
+                        return '<i class="glyphicon glyphicon-ok" style="font-size:12px;color:red;margin-right:5px"></i>';
+                    }
+                    if (type === "array") {
+                        return '<i class="fa fa-list" style="font-size:12px;color:gray;margin-right:5px"></i>';
+                    }
+                    return "";
+                },
                     shtml = "",
                     root = sourceSchema();
 
                 var buildSourceTree = function (branch, parent) {
                     for (var key in branch.properties) {
                         var iconHtml = icon(shtml, branch.properties[key]);
-                        shtml += '<li><div style="display: inline-block" class="source-field" id="source-field-' + parent + key  + '">' + iconHtml
+                        shtml += '<li><div style="display: inline-block" class="source-field" id="source-field-' + parent + key + '">' + iconHtml
                             + '<span class="ep01">' + key + '</span>';
 
                         var type = branch.properties[key].type;
@@ -396,19 +404,19 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         }
                         if (type === "object") {
                             shtml += '<ul style="list-style: none">';
-                            buildSourceTree(branch.properties[key] ,  parent  + key + "-");
+                            buildSourceTree(branch.properties[key], parent + key + "-");
                             shtml += '</ul>';
                         }
                         if (type === "array") {
                             shtml += '<ul style="list-style: none">';
-                            buildSourceTree(branch.properties[key].items , parent  + key + "-" );
+                            buildSourceTree(branch.properties[key].items, parent + key + "-");
                             shtml += '</ul>';
                         }
                         shtml += '</div></li>';
                     }
                 };
 
-                buildSourceTree(root,"");
+                buildSourceTree(root, "");
                 $('#source-panel').html(shtml);
 
                 var dhtml = "",
@@ -424,19 +432,19 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             }
                             if (type === "object") {
                                 dhtml += '<ul style="list-style: none">';
-                                buildDestinationTree(branch.properties[key], parent  + key + "-");
+                                buildDestinationTree(branch.properties[key], parent + key + "-");
                                 dhtml += '</ul>';
                             }
                             if (type === "array") {
                                 dhtml += '<ul style="list-style: none">';
-                                buildDestinationTree(branch.properties[key].items,parent  + key + "-");
+                                buildDestinationTree(branch.properties[key].items, parent + key + "-");
                                 dhtml += '</ul>';
                             }
                             dhtml += '</div></li>';
                         }
                     };
 
-                buildDestinationTree(destinationSchema(),"");
+                buildDestinationTree(destinationSchema(), "");
                 $('#destination-panel').html(dhtml);
 
                 $('#search-box-tree').on('keyup', function () {
@@ -458,7 +466,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             },
             save = function () {
 
-                $('div.functoid').each(function(){
+                $('div.functoid').each(function () {
                     var fnt = ko.dataFor(this),
                         p = $(this),
                         x = parseInt(p.css("left")),
