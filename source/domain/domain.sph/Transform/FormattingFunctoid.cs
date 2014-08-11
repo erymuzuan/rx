@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
@@ -10,10 +13,20 @@ namespace Bespoke.Sph.Domain
         public override bool Initialize()
         {
             this.ArgumentCollection.Clear();
-            this.ArgumentCollection.Add(new FunctoidArg { Name = "format", Type = typeof(string), IsOptional = true });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value", Type = typeof(object) });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "format", Type = typeof(string), IsOptional = true });
 
             return base.Initialize();
+        }
+
+        public override async Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            var errrors =( await base.ValidateAsync()).ToList();
+            if(string.IsNullOrWhiteSpace(this.Format) && string.IsNullOrWhiteSpace(this["format"].Functoid))
+                errrors.Add("format", "you must supplier either format field or a source", this.WebId);
+            if(!string.IsNullOrWhiteSpace(this.Format) && !string.IsNullOrWhiteSpace(this["format"].Functoid))
+                errrors.Add("format", "you must supplier either format field or a source not both", this.WebId);
+            return errrors;
         }
 
         private int m_number;
