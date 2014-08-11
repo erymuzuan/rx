@@ -126,13 +126,17 @@ namespace mapping.transformation.test
                 DestinationType = typeof(DateTime)
             });
             const string FORMATTING_FUNCTOID = "formattingFunctoid";
-            td.FunctoidCollection.Add(new FormattingFunctoid
+            var ff = new FormattingFunctoid
             {
                 SourceField = "RegisteredDate",
                 Format = "Phone from date {0:yyyy-MM-dd}",
                 WebId = FORMATTING_FUNCTOID
-
-            });
+            };
+            ff.Initialize();
+            var sfff = new SourceFunctoid {Field = "CreatedDate", WebId = Guid.NewGuid().ToString()};
+            ff["value"].Functoid = sfff.WebId;
+            td.FunctoidCollection.Add(sfff);
+            td.FunctoidCollection.Add(ff);
             td.MapCollection.Add(new FunctoidMap
             {
                 Functoid = FORMATTING_FUNCTOID,

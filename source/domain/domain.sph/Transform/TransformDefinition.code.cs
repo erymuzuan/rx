@@ -69,7 +69,8 @@ namespace Bespoke.Sph.Domain
 
         public string GenerateTransformCode()
         {
-            Functoid.ResetRunningNumber();
+
+            this.FunctoidCollection.Select((x, i) => x.Index = i).ToList().ForEach(Console.WriteLine);
 
             this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
             this.MapCollection.ForEach(x => x.TransformDefinition = this);

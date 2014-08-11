@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
             foreach (var arg in this.ArgumentCollection.Where(x => !string.IsNullOrWhiteSpace(x.Functoid)))
             {
                 var ftd = arg.GetFunctoid(this.TransformDefinition);
-                arg.Name = GetRunningNumber().ToString(CultureInfo.InvariantCulture);
+                arg.Name = this.Index.ToString(CultureInfo.InvariantCulture);
                 code.AppendLine(ftd.GenerateStatementCode());
                 code.AppendFormat("               var val{0} = {1};", arg.Name, ftd.GenerateAssignmentCode());
             }

@@ -16,20 +16,17 @@ namespace Bespoke.Sph.Domain
             this.ArgumentCollection.Add(new FunctoidArg { Name = "styles", Type = typeof(string), IsOptional = true });
             return base.Initialize();
         }
-
-        private int m_number;
         public override string GenerateStatementCode()
         {
-            m_number = GetRunningNumber();
             var code = new StringBuilder();
             code.AppendLine();
-            code.AppendLinf("               var value{0} = {1};", m_number, this["value"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
-            code.AppendLinf("               var format{0} = {1};", m_number, this["format"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
+            code.AppendLinf("               var value{0} = {1};", this.Index, this["value"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
+            code.AppendLinf("               var format{0} = {1};", this.Index, this["format"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
             var style = this["styles"].GetFunctoid(this.TransformDefinition);
             if (null != style)
-                code.AppendFormat("               var style{0} = {1};", m_number, style.GenerateAssignmentCode());
+                code.AppendFormat("               var style{0} = {1};", this.Index, style.GenerateAssignmentCode());
             else
-                code.AppendFormat("               var style{0} = System.Globalization.DateTimeStyles.None;", m_number);
+                code.AppendFormat("               var style{0} = System.Globalization.DateTimeStyles.None;", this.Index);
 
 
             return code.ToString();
@@ -37,7 +34,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateAssignmentCode()
         {
-            return string.Format("DateTime.ParseExact(value{0}, format{0}, System.Globalization.CultureInfo.InvariantCulture, style{0})", m_number);
+            return string.Format("DateTime.ParseExact(value{0}, format{0}, System.Globalization.CultureInfo.InvariantCulture, style{0})", this.Index);
         }
     }
 }

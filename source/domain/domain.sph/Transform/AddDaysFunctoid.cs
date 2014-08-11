@@ -11,7 +11,6 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "AddDays", BootstrapIcon = "calendar", Category = FunctoidCategory.DATE)]
     public class AddDaysFunctoid : Functoid
     {
-        private int m_number;
         public override async Task<IEnumerable<ValidationError>> ValidateAsync()
         {
             var errors =(await base.ValidateAsync()).ToList();
@@ -38,18 +37,17 @@ namespace Bespoke.Sph.Domain
 
             var code = new StringBuilder();
             code.AppendLine();
-            m_number = GetRunningNumber();
 
             code.AppendLine(date.GenerateStatementCode());
-            code.AppendLinf("               var date{0} = {1};", m_number, date.GenerateAssignmentCode());
+            code.AppendLinf("               var date{0} = {1};", this.Index, date.GenerateAssignmentCode());
             code.AppendLine(value.GenerateStatementCode());
-            code.AppendFormat("               var value{0} = {1};", m_number, value.GenerateAssignmentCode());
+            code.AppendFormat("               var value{0} = {1};", this.Index, value.GenerateAssignmentCode());
             return code.ToString();
         }
 
         public override string GenerateAssignmentCode()
         {
-            return string.Format("date{0}.AddDays(value{0})", m_number);
+            return string.Format("date{0}.AddDays(value{0})", this.Index);
         }
     }
 }

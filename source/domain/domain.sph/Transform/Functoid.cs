@@ -25,15 +25,9 @@ namespace Bespoke.Sph.Domain
         {
             return true;
         }
-        private static int m_number = 1;
-        protected static int GetRunningNumber()
-        {
-            return m_number++;
-        }
-        public static void ResetRunningNumber()
-        {
-            m_number = 1;
-        }
+        [JsonIgnore]
+        [XmlIgnore]
+        public int Index { get; set; }
 
         public virtual string GenerateStatementCode()
         {
