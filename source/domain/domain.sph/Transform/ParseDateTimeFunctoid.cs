@@ -8,7 +8,7 @@ namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
     [DesignerMetadata(Name = "Date Parsing", BootstrapIcon = "calendar")]
-    public partial class DateFunctoid : Functoid
+    public partial class ParseDateTimeFunctoid : Functoid
     {
         public const string DEFAULT_FORMAT = "yyyy-MM-dd";
         public const string DEFAULT_STYLES = "None";

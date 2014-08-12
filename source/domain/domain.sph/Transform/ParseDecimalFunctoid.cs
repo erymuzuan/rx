@@ -8,7 +8,7 @@ namespace Bespoke.Sph.Domain
 {
     [Export("FunctoidDesigner", typeof(Functoid))]
     [DesignerMetadata(Name = "Parse decimal", BootstrapIcon = "usd")]
-    public partial class DecimalFunctoid : Functoid
+    public partial class ParseDecimalFunctoid : Functoid
     {
         public const string DEFAULT_STYLES = "None";
         public override sealed bool Initialize()

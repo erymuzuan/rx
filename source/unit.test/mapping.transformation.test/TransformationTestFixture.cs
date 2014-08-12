@@ -89,7 +89,7 @@ namespace mapping.transformation.test
                 WebId = "yyyy-MM-dd"
             });
 
-            var df = new DateFunctoid { WebId = "df" };
+            var df = new ParseDateTimeFunctoid { WebId = "df" };
             df.Initialize();
             df["format"].Functoid = "yyyy-MM-dd";
             df["value"].Functoid = "2011-05-05";
@@ -399,7 +399,7 @@ namespace mapping.transformation.test
                 OutputType = customerType
             };
 
-            var parseDate = new DateFunctoid
+            var parseDate = new ParseDateTimeFunctoid
             {
                 WebId = "parseDate",
                 Name = "parseDate",
@@ -465,7 +465,7 @@ namespace mapping.transformation.test
                 OutputType = customerType
             };
 
-            var parseDecimal = new DecimalFunctoid
+            var parseDecimal = new ParseDecimalFunctoid
             {
                 WebId = "parseDecimal",
                 Name = "parseDecimal",

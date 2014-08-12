@@ -4765,8 +4765,8 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("BooleanFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class BooleanFunctoid
+    [XmlType("ParseBooleanFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ParseBooleanFunctoid
     {
 
         private string m_Format;
@@ -4837,8 +4837,8 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DecimalFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class DecimalFunctoid
+    [XmlType("ParseDecimalFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ParseDecimalFunctoid
     {
 
         private string m_Styles;
@@ -4893,8 +4893,8 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DateFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class DateFunctoid
+    [XmlType("ParseDateTimeFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ParseDateTimeFunctoid
     {
 
         private string m_Format;

@@ -837,7 +837,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="BooleanFunctoid">
+	<xs:element name="ParseBooleanFunctoid">
 		<xs:annotation>
 			<xs:documentation>Convert string to bool</xs:documentation>
 		</xs:annotation>
@@ -862,7 +862,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="DecimalFunctoid">
+	<xs:element name="ParseDecimalFunctoid">
 		<xs:annotation>
 			<xs:documentation>Convert string to decimal</xs:documentation>
 		</xs:annotation>
@@ -886,7 +886,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="DateFunctoid">
+	<xs:element name="ParseDateTimeFunctoid">
 		<xs:annotation>
 			<xs:documentation>Convert string to date</xs:documentation>
 		</xs:annotation>

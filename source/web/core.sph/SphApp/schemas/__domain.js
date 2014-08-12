@@ -4757,7 +4757,7 @@ bespoke.sph.domain.BooleanFunctoid = function (optionOrWebid) {
 
     v.SourceField = ko.observable('');
 
-    v["$type"] = "Bespoke.Sph.Domain.BooleanFunctoid, domain.sph";
+    v["$type"] = "Bespoke.Sph.Domain.ParseBooleanFunctoid, domain.sph";
 
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
@@ -4819,7 +4819,7 @@ bespoke.sph.domain.DecimalFunctoid = function (optionOrWebid) {
 
     v.SourceField = ko.observable('');
 
-    v["$type"] = "Bespoke.Sph.Domain.DecimalFunctoid, domain.sph";
+    v["$type"] = "Bespoke.Sph.Domain.ParseDecimalFunctoid, domain.sph";
 
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
@@ -4879,7 +4879,7 @@ bespoke.sph.domain.DateFunctoid = function (optionOrWebid) {
 
     v.Dummy = ko.observable('');
 
-    v["$type"] = "Bespoke.Sph.Domain.DateFunctoid, domain.sph";
+    v["$type"] = "Bespoke.Sph.Domain.ParseDateTimeFunctoid, domain.sph";
 
 
     if (optionOrWebid && typeof optionOrWebid === "object") {

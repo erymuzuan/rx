@@ -202,16 +202,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Transform\AddDaysFunctoid.cs" />
-    <Compile Include="Transform\BooleanFunctoid.cs">
+    <Compile Include="Transform\ParseBooleanFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
     <Compile Include="Transform\ConstantFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transform\DateFunctoid.cs">
+    <Compile Include="Transform\ParseDateTimeFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transform\DecimalFunctoid.cs">
+    <Compile Include="Transform\ParseDecimalFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
     <Compile Include="Transform\DirectMap.cs" />
