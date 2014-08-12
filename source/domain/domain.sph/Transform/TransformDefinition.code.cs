@@ -75,22 +75,24 @@ namespace Bespoke.Sph.Domain
             this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
             this.MapCollection.ForEach(x => x.TransformDefinition = this);
 
-
+            const string GAP = "               ";
             var code = new StringBuilder();
             code.AppendLinf("           public async Task<{0}> TransformAsync({1} item)", this.OutputType.FullName, this.InputType.FullName);
             code.AppendLine("           {");
             code.AppendLinf("               var dest =  new {0}();", this.OutputType.FullName);
 
             // functoids statement
-            var sorted = new ObjectCollection<Functoid>(this.FunctoidCollection);
+            var sorted = new List<Functoid>(this.FunctoidCollection);
             sorted.Sort(new FunctoidDependencyComparer());
             var functoidStatements = from f in sorted
-                                     select string.Format("//{0}:{1}:{2}\r\n{3}", f.Name, f.GetType().Name, f.WebId, f.GenerateStatementCode());
+                                     let statement = f.GenerateStatementCode()
+                                     where !string.IsNullOrWhiteSpace(statement)
+                                     select string.Format("\r\n{4}//{0}:{1}:{2}\r\n{4}{3}", f.Name, f.GetType().Name, f.WebId, statement, GAP);
             code.AppendLine(string.Concat(functoidStatements.ToArray()));
             code.AppendLine();
 
             var mappingCodes = from m in this.MapCollection
-                               select "               " + m.GenerateCode() + "\r\n";
+                               select GAP + m.GenerateCode() + "\r\n";
             code.AppendLine(string.Concat(mappingCodes.ToArray()));
             code.AppendLine();
 

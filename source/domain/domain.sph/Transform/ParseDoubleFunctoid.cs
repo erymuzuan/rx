@@ -27,14 +27,11 @@ namespace Bespoke.Sph.Domain
 
             var style = this["styles"].GetFunctoid(this.TransformDefinition);
             if (null == style)
-            {
                 code.AppendFormat("var styles{0} = System.Globalization.NumberStyles.{1};", this.Index, this.Styles ?? DEFAULT_STYLES);
-            }
+            
             else
-            {
-                code.AppendLine(style.GenerateStatementCode());
                 code.AppendFormat("var styles{0} = {1};", this.Index, style.GenerateAssignmentCode());
-            }
+            
             code.AppendLine();
 
 

@@ -45,25 +45,17 @@ namespace Bespoke.Sph.Domain
 
             var format = this["format"].GetFunctoid(this.TransformDefinition);
             if (null == format)
-            {
                 code.AppendLinf("var format{0} = \"{1}\";", this.Index, this.Format ?? DEFAULT_FORMAT);
-            }
             else
-            {
-                code.AppendLine(format.GenerateStatementCode());
                 code.AppendLinf("var format{0} = {1};", this.Index, format.GenerateAssignmentCode());
-            }
+           
 
             var style = this["styles"].GetFunctoid(this.TransformDefinition);
             if (null == style)
-            {
                 code.AppendFormat("var style{0} = System.Globalization.DateTimeStyles.{1};", this.Index, this.Styles ?? DEFAULT_STYLES);
-            }
             else
-            {
-                code.AppendLine(style.GenerateStatementCode());
                 code.AppendFormat("var style{0} = {1};", this.Index, style.GenerateAssignmentCode());
-            }
+
             code.AppendLine();
 
 

@@ -38,10 +38,8 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLine();
 
-            code.AppendLine(date.GenerateStatementCode());
-            code.AppendLinf("               var date{0} = {1};", this.Index, date.GenerateAssignmentCode());
-            code.AppendLine(value.GenerateStatementCode());
-            code.AppendFormat("               var value{0} = {1};", this.Index, value.GenerateAssignmentCode());
+            code.AppendLinf("var date{0} = {1};", this.Index, date.GenerateAssignmentCode());
+            code.AppendFormat("var value{0} = {1};", this.Index, value.GenerateAssignmentCode());
             return code.ToString();
         }
 

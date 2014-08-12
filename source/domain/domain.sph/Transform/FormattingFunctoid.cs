@@ -39,12 +39,9 @@ namespace Bespoke.Sph.Domain
             if (null == format)
                 code.AppendLinf("var format{1} = \"{0}\";", this.Format ?? "{0}", this.Index);
             else
-            {
-                code.AppendLine(format.GenerateStatementCode());
                 code.AppendLinf("var format{0} = {1};", this.Index, format.GenerateAssignmentCode());
-            }
+        
 
-            code.AppendLine(value.GenerateStatementCode());
             code.AppendLinf("var value{0} = {1}; ", this.Index, value.GenerateAssignmentCode());
 
             return code.ToString();

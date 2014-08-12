@@ -34,8 +34,7 @@ namespace Bespoke.Sph.Domain
             {
                 var ftd = arg.GetFunctoid(this.TransformDefinition);
                 var counter = arg.Name + this.Index.ToString(CultureInfo.InvariantCulture);
-                code.AppendLine(ftd.GenerateStatementCode());
-                code.AppendFormat("               var argsc{0} = {1};", counter, ftd.GenerateAssignmentCode());
+                code.AppendFormat("var argsc{0} = {1};", counter, ftd.GenerateAssignmentCode());
             }
             return code.ToString();
         }
