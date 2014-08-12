@@ -4945,17 +4945,33 @@ namespace Bespoke.Sph.Domain
     public partial class DateFunctoid
     {
 
-        private string m_Dummy;
+        private string m_Format;
         [XmlAttribute]
-        public string Dummy
+        public string Format
         {
             get
             {
-                return m_Dummy;
+                return m_Format;
             }
             set
             {
-                m_Dummy = value;
+                m_Format = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Styles;
+        [XmlAttribute]
+        public string Styles
+        {
+            get
+            {
+                return m_Styles;
+            }
+            set
+            {
+                m_Styles = value;
                 RaisePropertyChanged();
             }
         }
@@ -4984,22 +5000,6 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_Format = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private string m_SourceField;
-        [XmlAttribute]
-        public string SourceField
-        {
-            get
-            {
-                return m_SourceField;
-            }
-            set
-            {
-                m_SourceField = value;
                 RaisePropertyChanged();
             }
         }

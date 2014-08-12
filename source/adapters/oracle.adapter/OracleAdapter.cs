@@ -645,7 +645,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        public Task<BuildValidationResult> ValidateAsync()
+        public new Task<BuildValidationResult> ValidateAsync()
         {
             var result = new BuildValidationResult();
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_]*$");

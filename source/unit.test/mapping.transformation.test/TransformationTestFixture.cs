@@ -128,7 +128,6 @@ namespace mapping.transformation.test
             const string FORMATTING_FUNCTOID = "formattingFunctoid";
             var ff = new FormattingFunctoid
             {
-                SourceField = "RegisteredDate",
                 Format = "Phone from date {0:yyyy-MM-dd}",
                 WebId = FORMATTING_FUNCTOID
             };
@@ -376,6 +375,73 @@ namespace mapping.transformation.test
             var output = await map.TransformAsync(staff);
             Assert.IsNotNull(output);
             Assert.AreEqual("RM 4500.00", output.FullName);
+
+        }  
+        [TestMethod]
+        public async Task ParseDateMapping()
+        {
+            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+
+            dynamic staff = Activator.CreateInstance(oracleEmployeeType);
+            staff.EMAIL = "erymuzuan@hotmail.com";
+            staff.FIRST_NAME = "Erymuzuan";
+            staff.LAST_NAME = "Mustapa";
+            staff.PHONE_NUMBER = "2014-05-01";
+            staff.HIRE_DATE = DateTime.Parse("2012-05-31");
+            staff.SALARY = 4500d;
+
+            var td = new TransformDefinition
+            {
+                Name = "__ParseDateMapping",
+                Description = "Just a description",
+                InputType = oracleEmployeeType,
+                OutputType = customerType
+            };
+
+            var parseDate = new DateFunctoid
+            {
+                WebId = "parseDate",
+                Name = "parseDate",
+                OutputTypeName = typeof(string).GetShortAssemblyQualifiedName(),
+                Format = DateFunctoid.DEFAULT_FORMAT,
+                Styles = DateFunctoid.DEFAULT_STYLES
+            };
+            parseDate.Initialize();
+            td.AddFunctoids(parseDate);
+
+            var phoneNumber = new SourceFunctoid
+            {
+                Name = "PHONE_NUMBER",
+                Field = "PHONE_NUMBER",
+                WebId = "PHONE_NUMBER"
+            };
+            td.AddFunctoids(phoneNumber);
+            parseDate["value"].Functoid = phoneNumber.WebId;
+            
+            td.MapCollection.Add(new FunctoidMap
+            {
+                Functoid = parseDate.WebId,
+                DestinationType = typeof(DateTime),
+                Destination = "RegisteredDate"
+            });
+
+            var options = new CompilerOptions();
+            var codes = td.GenerateCode();
+            var sources = td.SaveSources(codes);
+            var result = await td.CompileAsync(options, sources);
+            if (!result.Result)
+                result.Errors.ForEach(Console.WriteLine);
+
+            Assert.IsTrue(result.Result, "Compiler fails");
+            var dll = Assembly.LoadFile(result.Output);
+            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            dynamic map = Activator.CreateInstance(mt);
+
+
+            var output = await map.TransformAsync(staff);
+            Assert.IsNotNull(output);
+            Assert.AreEqual(new DateTime(2014,5,1), output.RegisteredDate);
 
         }  
         

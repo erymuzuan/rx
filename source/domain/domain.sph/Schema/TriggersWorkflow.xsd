@@ -896,7 +896,8 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Functoid">
-					<xs:attribute name="Dummy" type="xs:string" use="required"/>
+					<xs:attribute name="Format" type="xs:string" use="optional"/>
+					<xs:attribute name="Styles" type="xs:string" use="optional"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -909,7 +910,6 @@
 			<xs:complexContent>
 				<xs:extension base="Functoid">
 					<xs:attribute name="Format" type="xs:string" use="required"/>
-					<xs:attribute name="SourceField" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -946,15 +946,6 @@
 					<xs:attribute name="Field" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Designer">
-		<xs:complexType>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="FullName" type="xs:string" use="required"/>
-			<xs:attribute name="Description" type="xs:string" use="required"/>
-			<xs:attribute name="X" type="xs:double" use="required"/>
-			<xs:attribute name="Y" type="xs:double" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
