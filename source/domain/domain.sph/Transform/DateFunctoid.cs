@@ -43,26 +43,26 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             code.AppendLinf("var value{0} = {1};", this.Index, this["value"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
 
-            if (string.IsNullOrWhiteSpace(this.Format))
-            {
-                var format = this["format"].GetFunctoid(this.TransformDefinition);
-                code.AppendLine(format.GenerateStatementCode());
-                code.AppendLinf("var format{0} = {1};", this.Index, format.GenerateAssignmentCode());
-            }
-            else
+            var format = this["format"].GetFunctoid(this.TransformDefinition);
+            if (null == format)
             {
                 code.AppendLinf("var format{0} = \"{1}\";", this.Index, this.Format ?? DEFAULT_FORMAT);
             }
-
-            if (string.IsNullOrWhiteSpace(this.Styles))
+            else
             {
-                var style = this["styles"].GetFunctoid(this.TransformDefinition);
-                code.AppendLine(style.GenerateStatementCode());
-                code.AppendFormat("var style{0} = {1};", this.Index, style.GenerateAssignmentCode());
+                code.AppendLine(format.GenerateStatementCode());
+                code.AppendLinf("var format{0} = {1};", this.Index, format.GenerateAssignmentCode());
+            }
+
+            var style = this["styles"].GetFunctoid(this.TransformDefinition);
+            if (null == style)
+            {
+                code.AppendFormat("var style{0} = System.Globalization.DateTimeStyles.{1};", this.Index, this.Styles ?? DEFAULT_STYLES);
             }
             else
             {
-                code.AppendFormat("var style{0} = System.Globalization.DateTimeStyles.{1};", this.Index, this.Styles ?? DEFAULT_STYLES);
+                code.AppendLine(style.GenerateStatementCode());
+                code.AppendFormat("var style{0} = {1};", this.Index, style.GenerateAssignmentCode());
             }
             code.AppendLine();
 

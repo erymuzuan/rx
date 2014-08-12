@@ -403,9 +403,7 @@ namespace mapping.transformation.test
             {
                 WebId = "parseDate",
                 Name = "parseDate",
-                OutputTypeName = typeof(string).GetShortAssemblyQualifiedName(),
-                Format = DateFunctoid.DEFAULT_FORMAT,
-                Styles = DateFunctoid.DEFAULT_STYLES
+                OutputTypeName = typeof(string).GetShortAssemblyQualifiedName()
             };
             parseDate.Initialize();
             td.AddFunctoids(parseDate);
