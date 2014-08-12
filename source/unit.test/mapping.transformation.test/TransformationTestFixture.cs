@@ -509,6 +509,71 @@ namespace mapping.transformation.test
             Assert.AreEqual(4589m, output.Revenue);
 
         }  
+        [TestMethod]
+        public async Task ParseInt32Mapping()
+        {
+            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+
+            dynamic staff = Activator.CreateInstance(oracleEmployeeType);
+            staff.EMAIL = "erymuzuan@hotmail.com";
+            staff.FIRST_NAME = "Erymuzuan";
+            staff.LAST_NAME = "Mustapa";
+            staff.PHONE_NUMBER = "4589";
+            staff.HIRE_DATE = DateTime.Parse("2012-05-31");
+            staff.SALARY = 4500d;
+
+            var td = new TransformDefinition
+            {
+                Name = "__ParseDecimalMapping",
+                Description = "Just a description",
+                InputType = oracleEmployeeType,
+                OutputType = customerType
+            };
+
+            var parseInt32 = new ParseInt32Functoid
+            {
+                WebId = "parseInt32",
+                Name = "parseInt32",
+                OutputTypeName = typeof(string).GetShortAssemblyQualifiedName()
+            };
+            parseInt32.Initialize();
+            td.AddFunctoids(parseInt32);
+
+            var phoneNumber = new SourceFunctoid
+            {
+                Name = "PHONE_NUMBER",
+                Field = "PHONE_NUMBER",
+                WebId = "PHONE_NUMBER"
+            };
+            td.AddFunctoids(phoneNumber);
+            parseInt32["value"].Functoid = phoneNumber.WebId;
+            
+            td.MapCollection.Add(new FunctoidMap
+            {
+                Functoid = parseInt32.WebId,
+                DestinationType = typeof(DateTime),
+                Destination = "CustomerId"
+            });
+
+            var options = new CompilerOptions();
+            var codes = td.GenerateCode();
+            var sources = td.SaveSources(codes);
+            var result = await td.CompileAsync(options, sources);
+            if (!result.Result)
+                result.Errors.ForEach(Console.WriteLine);
+
+            Assert.IsTrue(result.Result, "Compiler fails");
+            var dll = Assembly.LoadFile(result.Output);
+            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            dynamic map = Activator.CreateInstance(mt);
+
+
+            var output = await map.TransformAsync(staff);
+            Assert.IsNotNull(output);
+            Assert.AreEqual(4589, output.CustomerId);
+
+        }  
         
         [TestMethod]
         public async Task ChildItemMapping()

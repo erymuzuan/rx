@@ -875,15 +875,14 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Int32Functoid">
+	<xs:element name="ParseInt32Functoid">
 		<xs:annotation>
 			<xs:documentation>Convert string to int 32</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Functoid">
-					<xs:attribute name="SourceField" type="xs:string" use="required"/>
-					<xs:attribute name="NumberStyles" type="xs:string" use="required"/>
+					<xs:attribute name="Styles" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

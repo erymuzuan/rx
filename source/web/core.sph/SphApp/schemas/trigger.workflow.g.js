@@ -1868,7 +1868,7 @@ bespoke.sph.domain.Int32Functoid = function (optionOrWebid) {
 
     v.NumberStyles = ko.observable('');
 
-    v["$type"] = "Bespoke.Sph.Domain.Int32Functoid, domain.sph";
+    v["$type"] = "Bespoke.Sph.Domain.ParseInt32Functoid, domain.sph";
 
 
     if (optionOrWebid && typeof optionOrWebid === "object") {

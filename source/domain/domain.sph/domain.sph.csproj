@@ -226,7 +226,7 @@
     <Compile Include="Transform\FunctoidMap.cs" />
     <Compile Include="Transform\DesignerMetadataAttribute.cs" />
     <Compile Include="Transform\IDesignerMetadata.cs" />
-    <Compile Include="Transform\Int32Functoid.cs">
+    <Compile Include="Transform\ParseInt32Functoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
     <Compile Include="Transform\Map.cs" />

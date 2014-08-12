@@ -4881,37 +4881,21 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Int32Functoid", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class Int32Functoid
+    [XmlType("ParseInt32Functoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ParseInt32Functoid
     {
 
-        private string m_SourceField;
+        private string m_Styles;
         [XmlAttribute]
-        public string SourceField
+        public string Styles
         {
             get
             {
-                return m_SourceField;
+                return m_Styles;
             }
             set
             {
-                m_SourceField = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private string m_NumberStyles;
-        [XmlAttribute]
-        public string NumberStyles
-        {
-            get
-            {
-                return m_NumberStyles;
-            }
-            set
-            {
-                m_NumberStyles = value;
+                m_Styles = value;
                 RaisePropertyChanged();
             }
         }
