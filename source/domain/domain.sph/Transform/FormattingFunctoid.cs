@@ -22,10 +22,10 @@ namespace Bespoke.Sph.Domain
         public override async Task<IEnumerable<ValidationError>> ValidateAsync()
         {
             var errrors = (await base.ValidateAsync()).ToList();
-            if (string.IsNullOrWhiteSpace(this.Format) && string.IsNullOrWhiteSpace(this["format"].Functoid))
-                errrors.Add("format", "you must supplier either format field or a source", this.WebId);
-            if (!string.IsNullOrWhiteSpace(this.Format) && !string.IsNullOrWhiteSpace(this["format"].Functoid))
-                errrors.Add("format", "you must supplier either format field or a source not both", this.WebId);
+            var format = this["format"].GetFunctoid(this.TransformDefinition);
+
+            if (!string.IsNullOrWhiteSpace(this.Format) && null != format)
+                errrors.Add("format", "you must supply either format field or a source not both", this.WebId);
             return errrors;
         }
 
@@ -36,18 +36,17 @@ namespace Bespoke.Sph.Domain
             var value = this["value"].GetFunctoid(this.TransformDefinition);
 
             var code = new StringBuilder();
-            if (!string.IsNullOrWhiteSpace(this.Format))
-                code.AppendLinf("       var format{1} = \"{0}\";", this.Format, this.Index);
+            if (null == format)
+                code.AppendLinf("var format{1} = \"{0}\";", this.Format ?? "{0}", this.Index);
             else
             {
-                code.AppendLine("       " + format.GenerateStatementCode());
-                code.AppendLinf("       var format{0} = {1};", this.Index, format.GenerateAssignmentCode());
+                code.AppendLine(format.GenerateStatementCode());
+                code.AppendLinf("var format{0} = {1};", this.Index, format.GenerateAssignmentCode());
             }
 
-            code.AppendLine("       " + value.GenerateStatementCode());
-            code.AppendLinf("       var value{0} = {1}; ", this.Index, value.GenerateAssignmentCode());
+            code.AppendLine(value.GenerateStatementCode());
+            code.AppendLinf("var value{0} = {1}; ", this.Index, value.GenerateAssignmentCode());
 
-            code.AppendLinf("   ");
             return code.ToString();
         }
 

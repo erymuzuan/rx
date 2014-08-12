@@ -64,6 +64,7 @@ namespace Bespoke.Sph.Domain
             var vfTasks = from a in this.ArgumentCollection
                           where !string.IsNullOrWhiteSpace(a.Functoid)
                           let fnt = a.GetFunctoid(this.TransformDefinition)
+                          where null != fnt
                           select fnt.ValidateAsync();
 
             var vf = (await Task.WhenAll(vfTasks)).SelectMany(x => x.ToArray());

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
@@ -32,16 +33,16 @@ namespace Bespoke.Sph.Domain
             foreach (var arg in this.ArgumentCollection.Where(x => !string.IsNullOrWhiteSpace(x.Functoid)))
             {
                 var ftd = arg.GetFunctoid(this.TransformDefinition);
-                arg.Name = this.Index.ToString(CultureInfo.InvariantCulture);
+                var counter = arg.Name + this.Index.ToString(CultureInfo.InvariantCulture);
                 code.AppendLine(ftd.GenerateStatementCode());
-                code.AppendFormat("               var val{0} = {1};", arg.Name, ftd.GenerateAssignmentCode());
+                code.AppendFormat("               var argsc{0} = {1};", counter, ftd.GenerateAssignmentCode());
             }
             return code.ToString();
         }
 
         public override string GenerateAssignmentCode()
         {
-            var codes = this.ArgumentCollection.Where(x => !string.IsNullOrWhiteSpace(x.Functoid)).Select(a => "val" + a.Name);
+            var codes = this.ArgumentCollection.Where(x => !string.IsNullOrWhiteSpace(x.Functoid)).Select(a => "argsc" + a.Name + this.Index);
             return string.Join(" + ", codes);
         }
 

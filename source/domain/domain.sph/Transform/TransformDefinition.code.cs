@@ -80,10 +80,20 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("           public async Task<{0}> TransformAsync({1} item)", this.OutputType.FullName, this.InputType.FullName);
             code.AppendLine("           {");
             code.AppendLinf("               var dest =  new {0}();", this.OutputType.FullName);
+
+            // functoids statement
+            var sorted = new ObjectCollection<Functoid>(this.FunctoidCollection);
+            sorted.Sort(new FunctoidDependencyComparer());
+            var functoidStatements = from f in sorted
+                                     select string.Format("//{0}:{1}:{2}\r\n{3}", f.Name, f.GetType().Name, f.WebId, f.GenerateStatementCode());
+            code.AppendLine(string.Concat(functoidStatements.ToArray()));
+            code.AppendLine();
+
             var mappingCodes = from m in this.MapCollection
-                        select "               " + m.GenerateCode() + "\r\n";
+                               select "               " + m.GenerateCode() + "\r\n";
             code.AppendLine(string.Concat(mappingCodes.ToArray()));
             code.AppendLine();
+
 
             if (code.ToString().Contains("await "))
                 code.AppendLinf("               return dest;");

@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
         {
             if (string.IsNullOrWhiteSpace(this.Functoid))
                 return null;
-            return map.FunctoidCollection.Single(x => x.WebId == this.Functoid);
+            return map.FunctoidCollection.SingleOrDefault(x => x.WebId == this.Functoid);
         }
     }
 }
