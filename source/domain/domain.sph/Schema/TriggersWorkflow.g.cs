@@ -4857,33 +4857,17 @@ namespace Bespoke.Sph.Domain
     public partial class DecimalFunctoid
     {
 
-        private string m_NumberStyles;
+        private string m_Styles;
         [XmlAttribute]
-        public string NumberStyles
+        public string Styles
         {
             get
             {
-                return m_NumberStyles;
+                return m_Styles;
             }
             set
             {
-                m_NumberStyles = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private string m_SourceField;
-        [XmlAttribute]
-        public string SourceField
-        {
-            get
-            {
-                return m_SourceField;
-            }
-            set
-            {
-                m_SourceField = value;
+                m_Styles = value;
                 RaisePropertyChanged();
             }
         }

@@ -46,7 +46,7 @@
     "SyncBase64ImageValues": true
   },
   "General": {
-    "AllMessagesToOutputWindow": false,
+    "AllMessagesToOutputWindow": true,
     "KeepImportantComments": false,
     "SvgPreviewPane": false
   },
@@ -77,7 +77,8 @@
     "EnableFoundationValidation": true,
     "MakeMinified": true,
     "OutputDirectory": null,
-    "RunOnBuild": false
+    "RunOnBuild": false,
+    "MinificationMode": "KeepQuotes"
   },
   "JavaScript": {
     "AutoMinify": true,
@@ -89,7 +90,10 @@
     "LintResultLocation": "Message",
     "MakeMinified": true,
     "OutputDirectory": null,
-    "RunOnBuild": false
+    "RunOnBuild": false,
+    "EvalTreatment": "MakeImmediateSafe",
+    "RootDirectory": "/Scripts/",
+    "TermSemicolons": true
   },
   "Less": {
     "CompileOnBuild": false,
@@ -148,7 +152,8 @@
     "OutputDirectory": null,
     "ShowPreviewPane": true,
     "OutputStyle": "Expanded",
-    "ProcessSourceMapsForEditorEnhancements": true
+    "ProcessSourceMapsForEditorEnhancements": true,
+    "NumberPrecision": 5
   },
   "LiveScript": {
     "CompileOnBuild": false,
@@ -168,6 +173,7 @@
     "RunOnBuild": false,
     "ScssOutputDirectory": null,
     "UseAbsoluteUrl": false,
-    "UseFullPathForIdentifierName": true
+    "UseFullPathForIdentifierName": true,
+    "OutputDirectory": null
   }
 }

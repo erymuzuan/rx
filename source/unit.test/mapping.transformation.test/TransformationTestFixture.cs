@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -440,6 +441,72 @@ namespace mapping.transformation.test
             var output = await map.TransformAsync(staff);
             Assert.IsNotNull(output);
             Assert.AreEqual(new DateTime(2014,5,1), output.RegisteredDate);
+
+        }  
+        
+        [TestMethod]
+        public async Task ParseDecimalMapping()
+        {
+            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+
+            dynamic staff = Activator.CreateInstance(oracleEmployeeType);
+            staff.EMAIL = "erymuzuan@hotmail.com";
+            staff.FIRST_NAME = "Erymuzuan";
+            staff.LAST_NAME = "Mustapa";
+            staff.PHONE_NUMBER = "4589";
+            staff.HIRE_DATE = DateTime.Parse("2012-05-31");
+            staff.SALARY = 4500d;
+
+            var td = new TransformDefinition
+            {
+                Name = "__ParseDecimalMapping",
+                Description = "Just a description",
+                InputType = oracleEmployeeType,
+                OutputType = customerType
+            };
+
+            var parseDecimal = new DecimalFunctoid
+            {
+                WebId = "parseDecimal",
+                Name = "parseDecimal",
+                OutputTypeName = typeof(string).GetShortAssemblyQualifiedName()
+            };
+            parseDecimal.Initialize();
+            td.AddFunctoids(parseDecimal);
+
+            var phoneNumber = new SourceFunctoid
+            {
+                Name = "PHONE_NUMBER",
+                Field = "PHONE_NUMBER",
+                WebId = "PHONE_NUMBER"
+            };
+            td.AddFunctoids(phoneNumber);
+            parseDecimal["value"].Functoid = phoneNumber.WebId;
+            
+            td.MapCollection.Add(new FunctoidMap
+            {
+                Functoid = parseDecimal.WebId,
+                DestinationType = typeof(DateTime),
+                Destination = "Revenue"
+            });
+
+            var options = new CompilerOptions();
+            var codes = td.GenerateCode();
+            var sources = td.SaveSources(codes);
+            var result = await td.CompileAsync(options, sources);
+            if (!result.Result)
+                result.Errors.ForEach(Console.WriteLine);
+
+            Assert.IsTrue(result.Result, "Compiler fails");
+            var dll = Assembly.LoadFile(result.Output);
+            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            dynamic map = Activator.CreateInstance(mt);
+
+
+            var output = await map.TransformAsync(staff);
+            Assert.IsNotNull(output);
+            Assert.AreEqual(4589m, output.Revenue);
 
         }  
         

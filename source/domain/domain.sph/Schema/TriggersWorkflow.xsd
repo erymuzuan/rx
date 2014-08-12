@@ -870,8 +870,7 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Functoid">
-					<xs:attribute name="NumberStyles" type="xs:string" use="required"/>
-					<xs:attribute name="SourceField" type="xs:string" use="required"/>
+					<xs:attribute name="Styles" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
