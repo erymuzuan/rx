@@ -215,7 +215,7 @@
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
     <Compile Include="Transform\DirectMap.cs" />
-    <Compile Include="Transform\DoubleFunctoid.cs">
+    <Compile Include="Transform\ParseDoubleFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
     <Compile Include="Transform\FormattingFunctoid.cs">

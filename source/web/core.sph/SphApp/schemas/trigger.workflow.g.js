@@ -1806,7 +1806,7 @@ bespoke.sph.domain.DoubleFunctoid = function (optionOrWebid) {
 
     v.SourceField = ko.observable('');
 
-    v["$type"] = "Bespoke.Sph.Domain.DoubleFunctoid, domain.sph";
+    v["$type"] = "Bespoke.Sph.Domain.ParseDoubleFunctoid, domain.sph";
 
 
     if (optionOrWebid && typeof optionOrWebid === "object") {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -509,6 +508,84 @@ namespace mapping.transformation.test
             Assert.AreEqual(4589m, output.Revenue);
 
         }  
+
+        [TestMethod]
+        public async Task ParseDoubleMapping()
+        {
+            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+
+            dynamic staff = Activator.CreateInstance(oracleEmployeeType);
+            staff.EMAIL = "erymuzuan@hotmail.com";
+            staff.FIRST_NAME = "Erymuzuan";
+            staff.LAST_NAME = "Mustapa";
+            staff.PHONE_NUMBER = "4589";
+            staff.HIRE_DATE = DateTime.Parse("2012-05-31");
+            staff.SALARY = 4500d;
+
+            var td = new TransformDefinition
+            {
+                Name = "__ParseDoubleMapping",
+                Description = "Just a description",
+                InputType = oracleEmployeeType,
+                OutputType = customerType
+            };
+
+
+
+            var parseDouble = new ParseDoubleFunctoid
+            {
+                WebId = "parseDouble",
+                Name = "parseDeparseDoublecimal",
+                OutputTypeName = typeof(string).GetShortAssemblyQualifiedName()
+            };
+            parseDouble.Initialize();
+            td.AddFunctoids(parseDouble);
+            var ff = new FormattingFunctoid
+            {
+                WebId = "ff",
+                Name = "ff"
+            };
+            ff.Initialize();
+            td.AddFunctoids(ff);
+            ff["value"].Functoid = parseDouble.WebId;
+            ff.Format = "Nama : {0}";
+
+            var phoneNumber = new SourceFunctoid
+            {
+                Name = "PHONE_NUMBER",
+                Field = "PHONE_NUMBER",
+                WebId = "PHONE_NUMBER"
+            };
+            td.AddFunctoids(phoneNumber);
+            parseDouble["value"].Functoid = phoneNumber.WebId;
+            
+            td.MapCollection.Add(new FunctoidMap
+            {
+                Functoid = ff.WebId,
+                DestinationType = typeof(DateTime),
+                Destination = "FullName"
+            });
+
+            var options = new CompilerOptions();
+            var codes = td.GenerateCode();
+            var sources = td.SaveSources(codes);
+            var result = await td.CompileAsync(options, sources);
+            if (!result.Result)
+                result.Errors.ForEach(Console.WriteLine);
+
+            Assert.IsTrue(result.Result, "Compiler fails");
+            var dll = Assembly.LoadFile(result.Output);
+            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            dynamic map = Activator.CreateInstance(mt);
+
+
+            var output = await map.TransformAsync(staff);
+            Assert.IsNotNull(output);
+            Assert.AreEqual("Nama : 4589", output.FullName);
+
+        }  
+
         [TestMethod]
         public async Task ParseInt32Mapping()
         {

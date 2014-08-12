@@ -4809,37 +4809,21 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("DoubleFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class DoubleFunctoid
+    [XmlType("ParseDoubleFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ParseDoubleFunctoid
     {
 
-        private string m_NumberStyles;
+        private string m_Styles;
         [XmlAttribute]
-        public string NumberStyles
+        public string Styles
         {
             get
             {
-                return m_NumberStyles;
+                return m_Styles;
             }
             set
             {
-                m_NumberStyles = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private string m_SourceField;
-        [XmlAttribute]
-        public string SourceField
-        {
-            get
-            {
-                return m_SourceField;
-            }
-            set
-            {
-                m_SourceField = value;
+                m_Styles = value;
                 RaisePropertyChanged();
             }
         }
