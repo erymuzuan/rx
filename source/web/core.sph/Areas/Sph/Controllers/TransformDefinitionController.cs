@@ -139,8 +139,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public ActionResult Schema(string type)
         {
             var t = Type.GetType(type);
-            var gen = new JsonSchemaGenerator();
-            var schema = gen.Generate(t);
+            var schema = JsonSerializerService.GetJsonSchemaFromObject(t);
 
             return Content(schema.ToString(), "application/json", Encoding.UTF8);
         }

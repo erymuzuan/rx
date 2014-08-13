@@ -320,8 +320,13 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 // direct maps
                 _(td().MapCollection()).each(function (m) {
                     if (ko.unwrap(m.Source)) {
-                        var conn = instance.connect({ source: "source-field-" + ko.unwrap(m.Source), target: "destination-field-" + ko.unwrap(m.Destination).replace(".", "-") });
-                        conn.map = m;
+                        try {
+
+                            var conn = instance.connect({ source: "source-field-" + ko.unwrap(m.Source).replace(".", "-"), target: "destination-field-" + ko.unwrap(m.Destination).replace(".", "-") });
+                            conn.map = m;
+                        } catch (e) {
+                            console.log("Cannot connect",ko.mapping.toJS(m));
+                        }
                     }
                 });
                 // functoid maps
@@ -365,9 +370,13 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     return;
                 }
                 var icon = function (html, item) {
-                    var type = item.type;
+                    var type = item.type,
+                        format = item.format;
                     if (typeof type === "object") {
                         type = type[0];
+                    }
+                    if (format === "date-time") {
+                        return '<i class="glyphicon glyphicon-calendar" style="font-size:12px;color:orange;margin-right:5px"></i>';
                     }
                     if (type === "string") {
                         return '<i class="glyphicon glyphicon-bold" style="font-size:12px;color:brown;margin-right:5px"></i>';
