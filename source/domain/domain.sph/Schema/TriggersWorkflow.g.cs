@@ -4929,6 +4929,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_Culture;
+        [XmlAttribute]
+        public string Culture
+        {
+            get
+            {
+                return m_Culture;
+            }
+            set
+            {
+                m_Culture = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 

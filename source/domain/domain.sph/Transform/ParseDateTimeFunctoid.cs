@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace Bespoke.Sph.Domain
     {
         public const string DEFAULT_FORMAT = "yyyy-MM-dd";
         public const string DEFAULT_STYLES = "None";
+        public const string DEFAULT_CULTURE = "System.Globalization.CultureInfo.InvariantCulture";
 
         public override sealed bool Initialize()
         {
@@ -19,12 +21,14 @@ namespace Bespoke.Sph.Domain
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value", Type = typeof(string) });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "format", Type = typeof(string), IsOptional = true, Default = DEFAULT_FORMAT });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "styles", Type = typeof(string), IsOptional = true, Default = DEFAULT_STYLES });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "culture", Type = typeof(string), IsOptional = true, Default = DEFAULT_STYLES });
             return base.Initialize();
         }
 
         public override async Task<IEnumerable<ValidationError>> ValidateAsync()
         {
             var errors = (await base.ValidateAsync()).ToList();
+
             if (string.IsNullOrWhiteSpace(this.Format) && null == this["format"])
                 errors.Add("format", "You'll need either Format string or source for formatting");
             if (!string.IsNullOrWhiteSpace(this.Format) && null != this["format"])
@@ -34,6 +38,8 @@ namespace Bespoke.Sph.Domain
                 errors.Add("styles", "You'll need either DateTimeStyles string or source for styles");
             if (!string.IsNullOrWhiteSpace(this.Styles) && null != this["styles"])
                 errors.Add("styles", "You'll need either DateTimeStyles string or source for styles, not both");
+
+
             return errors;
         }
 
@@ -48,7 +54,18 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf("var format{0} = \"{1}\";", this.Index, this.Format ?? DEFAULT_FORMAT);
             else
                 code.AppendLinf("var format{0} = {1};", this.Index, format.GenerateAssignmentCode());
-           
+
+            var culture = this["culture"].GetFunctoid(this.TransformDefinition);
+            if (null == culture)
+            {
+                if (string.IsNullOrWhiteSpace(this.Culture))
+                    code.AppendLinf("var culture{0} = {1};", this.Index, DEFAULT_CULTURE);
+                else
+                    code.AppendLinf("var culture{0} = new System.Globalization.CultureInfo(\"{1}\");", this.Index, this.Culture);
+            }
+            else
+                code.AppendLinf("var culture{0} = {1};", this.Index, culture.GenerateAssignmentCode());
+
 
             var style = this["styles"].GetFunctoid(this.TransformDefinition);
             if (null == style)
@@ -64,7 +81,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateAssignmentCode()
         {
-            return string.Format("DateTime.ParseExact(value{0}, format{0}, System.Globalization.CultureInfo.InvariantCulture, style{0})", this.Index);
+            return string.Format("DateTime.ParseExact(value{0}, format{0}, culture{0}, style{0})", this.Index);
         }
         public override string GetEditorView()
         {
