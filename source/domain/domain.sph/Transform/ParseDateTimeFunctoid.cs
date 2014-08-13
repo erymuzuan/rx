@@ -28,16 +28,22 @@ namespace Bespoke.Sph.Domain
         public override async Task<IEnumerable<ValidationError>> ValidateAsync()
         {
             var errors = (await base.ValidateAsync()).ToList();
+            var format = this["format"].GetFunctoid(this.TransformDefinition);
+            var styles = this["styles"].GetFunctoid(this.TransformDefinition);
+            var value = this["value"].GetFunctoid(this.TransformDefinition);
 
-            if (string.IsNullOrWhiteSpace(this.Format) && null == this["format"])
-                errors.Add("format", "You'll need either Format string or source for formatting");
-            if (!string.IsNullOrWhiteSpace(this.Format) && null != this["format"])
-                errors.Add("format", "You'll need either Format string or source for formatting, not both");
+            if (null == value)
+                errors.Add("value", "You'll need value source", this.WebId);
 
-            if (string.IsNullOrWhiteSpace(this.Styles) && null == this["styles"])
-                errors.Add("styles", "You'll need either DateTimeStyles string or source for styles");
-            if (!string.IsNullOrWhiteSpace(this.Styles) && null != this["styles"])
-                errors.Add("styles", "You'll need either DateTimeStyles string or source for styles, not both");
+            if (string.IsNullOrWhiteSpace(this.Format) && null == format)
+                errors.Add("format", "You'll need either Format string or source for formatting", this.WebId);
+            if (!string.IsNullOrWhiteSpace(this.Format) && null != format)
+                errors.Add("format", "You'll need either Format string or source for formatting, not both", this.WebId);
+
+            if (string.IsNullOrWhiteSpace(this.Styles) && null == styles)
+                errors.Add("styles", "You'll need either DateTimeStyles string or source for styles", this.WebId);
+            if (!string.IsNullOrWhiteSpace(this.Styles) && null != styles)
+                errors.Add("styles", "You'll need either DateTimeStyles string or source for styles, not both", this.WebId);
 
 
             return errors;
@@ -45,9 +51,10 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateStatementCode()
         {
+            var value = this["value"].GetFunctoid(this.TransformDefinition);
             var code = new StringBuilder();
             code.AppendLine();
-            code.AppendLinf("var value{0} = {1};", this.Index, this["value"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
+            code.AppendLinf("var value{0} = {1};", this.Index, value.GenerateAssignmentCode());
 
             var format = this["format"].GetFunctoid(this.TransformDefinition);
             if (null == format)
