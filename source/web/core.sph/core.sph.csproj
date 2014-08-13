@@ -747,6 +747,11 @@
     <Compile Include="Hubs\AuditTrailHub.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -1222,6 +1227,10 @@
     <EmbeddedResource Include="Images\form.element.NumberTextBox.png" />
     <EmbeddedResource Include="Images\razor.png" />
     <EmbeddedResource Include="Images\StartWorkflowAction.png" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="SphApp\async.js" />
     <EmbeddedResource Include="SphApp\goog.js" />
     <EmbeddedResource Include="SphApp\main.js" />
@@ -1420,6 +1429,8 @@
     <Content Include="kendo\js\kendo.dataviz.core.min.js">
       <DependentUpon>kendo.dataviz.core.js</DependentUpon>
     </Content>
+    <None Include="Resources\adapter.definition.list.html" />
+    <None Include="Resources\adapter.definition.list.js" />
     <Content Include="Scripts\almond-custom.js" />
     <Content Include="Scripts\bloodhound.js" />
     <Content Include="Scripts\bloodhound.min.js" />
@@ -1764,8 +1775,6 @@
     <Compile Include="Helpers\QueryHelper.cs" />
     <Compile Include="Helpers\Roles.cs" />
     <Compile Include="Mocks\TemplateEngine.cs" />
-    <Compile Include="Models\JsRoute.cs" />
-    <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="SphApp\prototypes\BusinessRuleBase.js" />
     <EmbeddedResource Include="SphApp\services\tracker.js" />

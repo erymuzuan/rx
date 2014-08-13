@@ -1,0 +1,40 @@
+﻿<h1>Integration Adapters </h1>
+<div class="row">
+
+    <div>
+        <div class="btn-group">
+            <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
+                Add Adapter&nbsp;<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" data-bind="foreach :adapterOptions">
+                <li>
+                    <a style="text-align: left" class="btn btn-link" data-bind="attr : {'href':'#' + designer.Route}">
+                        <i class="fa fa-database fa-align-left" data-bind="attr : {'class':'fa fa-' + designer.FontAwesomeIcon}" ></i>
+                        <!-- ko text: designer.Name-->
+                        <!--/ko -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <table class="table table-striped" data-bind="serverPaging :{entity : 'Adapter', list: adapters}">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach : adapters">
+            <tr>
+                <td>
+                    <a href="#" data-bind="attr : {'href':'#adapter.'+ $root.getAdapterType($data)+'/' + AdapterId()},text: Name" >HrEmployees</a>
+                </td>
+                <td data-bind="text: $type"></td>
+                <td data-bind="text:Description"></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

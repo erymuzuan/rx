@@ -11,21 +11,28 @@
 define(['services/datacontext', 'services/logger', 'plugins/router'],
     function (context, logger, router) {
 
-        var getAdapterType = function(adapter){
+        var adapterOptions = ko.observableArray(),
+            getAdapterType = function (adapter) {
 
                 return /^.*?,(.*?).adapter/.exec(ko.unwrap(adapter.$type))[1].trim();
             },
             isBusy = ko.observable(false),
             adapters = ko.observableArray(),
             activate = function () {
-               
 
+                var tcs = new $.Deferred();
+                $.get("adapter/installed-adapters", function(d) {
+                    adapterOptions(d);
+                    tcs.resolve(true);
+                });
+                return tcs.promise();
             },
             attached = function (view) {
 
             };
 
         var vm = {
+            adapterOptions: adapterOptions,
             getAdapterType : getAdapterType,
             adapters : adapters,
             isBusy: isBusy,

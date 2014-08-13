@@ -1,5 +1,12 @@
-﻿namespace Bespoke.Sph.Integrations.Adapters
+﻿using System.ComponentModel.Composition;
+using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
+
+namespace Bespoke.Sph.Integrations.Adapters
 {
+    [EntityType(typeof(Adapter))]
+    [Export("AdapterDesigner", typeof(Adapter))]
+    [DesignerMetadata(Name = "MS SQL database", FontAwesomeIcon = "windows")]
     public partial class SqlServerAdapter
     {
         public string Server { get; set; }
@@ -19,5 +26,6 @@
             }
         }
 
+        
     }
 }

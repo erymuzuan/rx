@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -15,6 +16,8 @@ using ParameterDirection = System.Data.ParameterDirection;
 namespace Bespoke.Sph.Integrations.Adapters
 {
     [EntityType(typeof(Adapter))]
+    [Export("AdapterDesigner", typeof(Adapter))]
+    [DesignerMetadata(Name = "Oracle database", FontAwesomeIcon = "database", RouteTableProvider = typeof(OracleAdapterRoute), Route = "adapter.oracle/0")]
     public partial class OracleAdapter : Adapter
     {
         private readonly ObjectCollection<TableDefinition> m_tableDefinitions = new ObjectCollection<TableDefinition>();
@@ -643,6 +646,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var td = m_tableDefinitions.Single(t => t.Name == table);
             return Task.FromResult(td);
         }
+
 
 
         public new Task<BuildValidationResult> ValidateAsync()

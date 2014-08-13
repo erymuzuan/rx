@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
@@ -7,6 +8,9 @@ using MySql.Data.MySqlClient;
 
 namespace mysql.adapter
 {
+    [EntityType(typeof(Adapter))]
+    [Export("AdapterDesigner", typeof(Adapter))]
+    [DesignerMetadata(Name = "MySql database", PngIcon = "~/images/mysql-24-black.png")]
     public class MySqlAdapter : Adapter
     {
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
@@ -35,9 +39,10 @@ namespace mysql.adapter
             throw new NotImplementedException();
         }
 
+
         public override string OdataTranslator
         {
-            get { throw new NotImplementedException(); }
+            get { return ""; }
         }
     }
 }

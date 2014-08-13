@@ -1,4 +1,4 @@
-﻿namespace Bespoke.Sph.Web.Models
+﻿namespace Bespoke.Sph.Domain
 {
     public class JsRouteSetting
     {

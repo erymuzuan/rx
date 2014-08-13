@@ -204,6 +204,11 @@ namespace Bespoke.Sph.Web.App_Start
                                 ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.ReportDefinitionId)
                             };
 
+            // adapters
+            var adapterDesginer = new Domain.Api.AdapterDesigner();
+            var adapterRoutes = adapterDesginer.GetRoutes();
+            routes.AddRange(adapterRoutes);
+
             routes.AddRange(viewRoutes);
             routes.AddRange(formRoutes);
             routes.AddRange(edRoutes);

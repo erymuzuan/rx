@@ -1,4 +1,6 @@
-﻿namespace Bespoke.Sph.Web.Models
+﻿
+
+namespace Bespoke.Sph.Domain
 {
     public  class JsRoute
     {
@@ -13,5 +15,6 @@
         public JsRouteSetting Settings { set; get; }
         public bool ShowWhenLoggedIn { get; set; }
         public bool IsAdminPage { get; set; }
+
     }
 }

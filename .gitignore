@@ -122,3 +122,4 @@ bin/sources/ORA_EMP_to_Customer/
 bin/sources/EmployeeToCustomerMapping/
 bin/sources/__*/
 /source/dependencies/web.sph.commercial-space/bin
+bin/sources/PatientToCustomerMapping/

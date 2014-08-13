@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,6 +15,8 @@ using Newtonsoft.Json.Linq;
 namespace Bespoke.Sph.Integrations.Adapters
 {
     [EntityType(typeof(Adapter))]
+    [Export("AdapterDesigner", typeof(Adapter))]
+    [DesignerMetadata(Name = "HTTP adapter", FontAwesomeIcon = "html5", Route = "adapter.http/0", RouteTableProvider = typeof(HttpAdapterRouteTableProvider))]
     public partial class HttpAdapter : Adapter
     {
         private string GetCodeHeader(params string[] namespaces)

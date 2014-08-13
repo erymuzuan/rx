@@ -90,12 +90,14 @@
       <DependentUpon>Adapter.cs</DependentUpon>
     </Compile>
     <Compile Include="Api\Adapter.cs" />
+    <Compile Include="Api\AdapterDesigner.cs" />
     <Compile Include="Api\AdapterTable.cs" />
     <Compile Include="Api\ChildListActionCode.cs" />
     <Compile Include="Api\ControllerAction.cs" />
     <Compile Include="Api\DeleteActionCode.cs" />
     <Compile Include="Api\GetOneActionCode.cs" />
     <Compile Include="Api\InsertActionCode.cs" />
+    <Compile Include="Api\IRouteTableProvider.cs" />
     <Compile Include="Api\ListActionCode.cs" />
     <Compile Include="Api\OperationDefinition.cs" />
     <Compile Include="Api\OperationDefinition.p.cs">
@@ -196,6 +198,8 @@
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="JsRoute.cs" />
+    <Compile Include="JsRouteSetting.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
