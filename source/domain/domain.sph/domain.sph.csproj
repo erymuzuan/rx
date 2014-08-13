@@ -426,6 +426,8 @@
     <None Include="Resources\action.startworkflow.js" />
     <None Include="Resources\functoid.formatting.html" />
     <None Include="Resources\functoid.formatting.js" />
+    <None Include="Resources\functoid.parsedatetime.html" />
+    <None Include="Resources\functoid.parsedatetime.js" />
     <Content Include="Schema\_object.xslt">
       <SubType>Designer</SubType>
     </Content>

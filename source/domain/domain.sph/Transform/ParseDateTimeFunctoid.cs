@@ -66,5 +66,14 @@ namespace Bespoke.Sph.Domain
         {
             return string.Format("DateTime.ParseExact(value{0}, format{0}, System.Globalization.CultureInfo.InvariantCulture, style{0})", this.Index);
         }
+        public override string GetEditorView()
+        {
+            return Properties.Resources.ParseDateTimeFunctoidHtml;
+        }
+
+        public override string GetEditorViewModel()
+        {
+            return Properties.Resources.ParseDateTimeFunctoidJs;
+        }
     }
 }
