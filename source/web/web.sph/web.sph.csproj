@@ -1152,8 +1152,6 @@
     <Content Include="SphApp\viewmodels\activity.mapping.js" />
     <Content Include="SphApp\viewmodels\activity.receive.js" />
     <Content Include="SphApp\viewmodels\activity.send.js" />
-    <Content Include="SphApp\viewmodels\adapter.ftp.js" />
-    <Content Include="SphApp\viewmodels\adapter.sqlserver.js" />
     <Content Include="SphApp\viewmodels\advanced-search.js" />
     <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
     <Content Include="SphApp\viewmodels\functoid-args.js" />
@@ -1166,8 +1164,6 @@
     <Content Include="SphApp\views\activity.mapping.html" />
     <Content Include="SphApp\views\activity.receive.html" />
     <Content Include="SphApp\views\activity.send.html" />
-    <Content Include="SphApp\views\adapter.ftp.html" />
-    <Content Include="SphApp\views\adapter.sqlserver.html" />
     <Content Include="SphApp\views\advanced-search.html" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
     <Content Include="SphApp\views\functoid-args.html" />

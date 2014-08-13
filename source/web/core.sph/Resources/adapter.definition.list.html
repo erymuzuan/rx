@@ -9,7 +9,15 @@
             <ul class="dropdown-menu" data-bind="foreach :adapterOptions">
                 <li>
                     <a style="text-align: left" class="btn btn-link" data-bind="attr : {'href':'#' + designer.Route}">
-                        <i class="fa fa-database fa-align-left" data-bind="attr : {'class':'fa fa-' + designer.FontAwesomeIcon}" ></i>
+                        <!-- ko if : designer.FontAwesomeIcon -->
+                        <i  data-bind="attr : {'class':'fa fa-' + designer.FontAwesomeIcon}"></i>
+                        <!--/ko -->
+                        <!-- ko if : designer.BootstrapIcon -->
+                        <i  data-bind="attr : {'class':'glyphicon glyphicon-' + designer.BootstrapIcon}"></i>
+                        <!--/ko -->
+                        <!-- ko if : designer.PngIcon -->
+                        <img data-bind="attr : {'src': designer.PngIcon, 'alt': designer.Name}" alt="#"/>
+                        <!--/ko -->
                         <!-- ko text: designer.Name-->
                         <!--/ko -->
                     </a>

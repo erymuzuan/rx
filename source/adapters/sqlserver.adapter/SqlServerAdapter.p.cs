@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     [EntityType(typeof(Adapter))]
     [Export("AdapterDesigner", typeof(Adapter))]
-    [DesignerMetadata(Name = "MS SQL database", FontAwesomeIcon = "windows")]
+    [DesignerMetadata(Name = "MS SQL database", FontAwesomeIcon = "windows", RouteTableProvider = typeof(SqlServerAdapterRouteProvider), Route = "adapter.sqlserver/0")]
     public partial class SqlServerAdapter
     {
         public string Server { get; set; }
