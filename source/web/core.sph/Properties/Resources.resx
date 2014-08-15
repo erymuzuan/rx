@@ -124,4 +124,7 @@
   <data name="AdapterDefinitionListJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\adapter.definition.list.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ApiControllerYouAreNotAllowedToDoMoreThan200" xml:space="preserve">
+    <value>You are not allowed to do more than 200</value>
+  </data>
 </root>

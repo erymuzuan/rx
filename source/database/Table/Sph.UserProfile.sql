@@ -12,7 +12,7 @@ CREATE TABLE [Sph].[UserProfile](
 	[Designation] VARCHAR(50) NULL,
 	[Department] VARCHAR(50) NULL,
 	[Email] VARCHAR(50) NULL,
-	[Data] [xml] NOT NULL,
+	[Json] VARCHAR(MAX) NOT NULL,
 	[ChangedDate] SMALLDATETIME NOT NULL,
 	[ChangedBy] VARCHAR(50) NOT NULL,
 	[CreatedDate] SMALLDATETIME NOT NULL,
@@ -27,3 +27,5 @@ GO
 
 
 
+ALTER TABLE [Sph].[UserProfile]
+ADD [Json] VARCHAR(MAX) NULL

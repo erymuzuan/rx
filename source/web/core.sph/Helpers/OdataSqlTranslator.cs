@@ -105,10 +105,10 @@ namespace Bespoke.Sph.Web.Helpers
             var type = typeof(IRepository<T>);
             dynamic repos = ObjectBuilder.GetObject(type);
 
-            var sql = string.Format("SELECT [{0}Id],{1} FROM [{2}].[{0}]", m_table, repos.DataColumn, this.Schema);
+            var sql = string.Format("SELECT [{0}Id],{1} FROM [{2}].[{0}]", m_table, "[Json]", this.Schema);
 
             if (!string.IsNullOrEmpty(filter))
-                sql = string.Format("SELECT [{0}Id],{2} FROM [{3}].[{0}] {1} ", m_table, this.Translate(filter), repos.DataColumn, this.Schema);
+                sql = string.Format("SELECT [{0}Id],{2} FROM [{3}].[{0}] {1} ", m_table, this.Translate(filter), "[Json]", this.Schema);
 
             if (!string.IsNullOrWhiteSpace(orderby))
             {

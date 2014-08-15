@@ -6,7 +6,7 @@ CREATE TABLE Sph.DocumentTemplate
 (
 	 [DocumentTemplateId] INT PRIMARY KEY IDENTITY(1,1)
 	,[Entity] VARCHAR(255) NOT NULL
-	,[Data] XML NOT NULL
+	,[Json] VARCHAR(MAX) NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
 	,[IsPublished] BIT NOT NULL
 	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
@@ -15,3 +15,6 @@ CREATE TABLE Sph.DocumentTemplate
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
+
+ALTER TABLE Sph.DocumentTemplate
+ADD [Json] VARCHAR(MAX) NULL

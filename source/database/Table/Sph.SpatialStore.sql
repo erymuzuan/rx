@@ -5,7 +5,7 @@ GO
 CREATE TABLE Sph.SpatialStore
 (
 	 [SpatialStoreId] INT PRIMARY KEY IDENTITY(1,1)
-	,[Data] XML NOT NULL
+	,[Json] VARCHAR(MAX) NOT NULL
 	,[Type] VARCHAR(255) NULL
 	,[StoreId] VARCHAR(255) NULL
 	,[Tag] VARCHAR(255) NULL
@@ -28,3 +28,6 @@ ADD [Wkt] VARCHAR(MAX) NULL
 GO
 ALTER TABLE Sph.SpatialStore
 ADD [EncodedWkt] VARCHAR(MAX) NULL
+
+ALTER TABLE  Sph.SpatialStore
+ADD [Json] VARCHAR(MAX) NULL

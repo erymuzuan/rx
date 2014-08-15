@@ -72,7 +72,7 @@ namespace Bespoke.Sph.Web.Properties {
         ///            &lt;ul class=&quot;dropdown-menu&quot; data-bind=&quot;foreach :adapterOptions&quot;&gt;
         ///                &lt;li&gt;
         ///                    &lt;a style=&quot;text-align: left&quot; class=&quot;btn btn-link&quot; data-bind=&quot;attr : {&apos;href&apos;:&apos;#&apos; + designer.Route}&quot;&gt;
-        ///                        &lt;i class=&quot;fa fa [rest of string was truncated]&quot;;.
+        ///                        &lt;!-- ko if : de [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AdapterDefinitionListHtml {
             get {
@@ -96,6 +96,15 @@ namespace Bespoke.Sph.Web.Properties {
         internal static string AdapterDefinitionListJs {
             get {
                 return ResourceManager.GetString("AdapterDefinitionListJs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are not allowed to do more than 200.
+        /// </summary>
+        internal static string ApiControllerYouAreNotAllowedToDoMoreThan200 {
+            get {
+                return ResourceManager.GetString("ApiControllerYouAreNotAllowedToDoMoreThan200", resourceCulture);
             }
         }
     }

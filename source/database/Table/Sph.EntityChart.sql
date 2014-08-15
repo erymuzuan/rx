@@ -11,7 +11,7 @@ CREATE TABLE Sph.EntityChart
 	,[EntityDefinitionId] INT NOT NULL
 	,[Entity] VARCHAR(255) NOT NULL
 	,[IsDashboardItem] BIT NOT NULL DEFAULT 0
-	,[Data] XML NOT NULL
+	,[Json] VARCHAR(MAX) NOT NULL
 	,[EntityViewId] INT NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
 	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
@@ -21,3 +21,6 @@ CREATE TABLE Sph.EntityChart
 )
 GO 
 
+
+ALTER TABLE Sph.EntityChart
+ADD [Json] VARCHAR(MAX) NULL

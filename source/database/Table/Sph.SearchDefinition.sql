@@ -6,7 +6,7 @@ CREATE TABLE Sph.SearchDefinition
 (
 	 [SearchDefinitionId] INT PRIMARY KEY IDENTITY(1,1)
 	,[Entity] VARCHAR(255) NOT NULL
-	,[Data] XML NOT NULL
+	,[Json] VARCHAR(MAX) NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
 	,[OwnerType] VARCHAR(255) NOT NULL
 	,[Owner] VARCHAR(255) NOT NULL
@@ -18,3 +18,6 @@ CREATE TABLE Sph.SearchDefinition
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
+
+ALTER TABLE  Sph.SearchDefinition
+ADD [Json] VARCHAR(MAX) NULL

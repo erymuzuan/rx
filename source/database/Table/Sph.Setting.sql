@@ -5,7 +5,7 @@ GO
 CREATE TABLE Sph.Setting
 (
 	 [SettingId] INT PRIMARY KEY IDENTITY(1,1)
-	,[Data] XML NOT NULL
+	,[Json] VARCHAR(MAX) NOT NULL
 	,[UserName] VARCHAR(255) NULL
 	,[Key] VARCHAR(255) NOT NULL
 	,[Value] VARCHAR(MAX) NULL
@@ -15,3 +15,6 @@ CREATE TABLE Sph.Setting
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
+
+ALTER TABLE  Sph.Setting
+ADD [Json] VARCHAR(MAX) NULL

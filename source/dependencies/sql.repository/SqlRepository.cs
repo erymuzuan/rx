@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SqlRepository
@@ -14,34 +13,7 @@ namespace Bespoke.Sph.SqlRepository
     public partial class SqlRepository<T> : IRepository<T> where T : Entity
     {
         private readonly string m_connectionString;
-        private bool m_isJson;
 
-        public bool IsJson
-        {
-            get
-            {
-                if (typeof(T).Namespace != typeof(Entity).Namespace)
-                    return true;
-                return m_isJson;
-            }
-            set { m_isJson = value; }
-        }
-
-        public string DataColumn
-        {
-            get
-            {
-                if (typeof(T).Namespace == typeof(Entity).Namespace)
-                    return this.IsJson ? "[Json]" : "[Data]";
-                return "[Json]";
-            }
-        }
-
-        public SqlRepository(bool useJson)
-        {
-            this.IsJson = useJson;
-            m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
-        }
         public SqlRepository()
         {
             m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
@@ -70,7 +42,7 @@ namespace Bespoke.Sph.SqlRepository
             var elementType = typeof(T);
             var sql = string.Format("SELECT [{0}Id],{1} FROM [{2}].[{0}] WHERE [{0}Id] = @id"
                 , elementType.Name
-                , this.DataColumn
+                , "[Json]"
                 , this.Schema);
 
 
@@ -84,16 +56,9 @@ namespace Bespoke.Sph.SqlRepository
                 {
                     while (await reader.ReadAsync().ConfigureAwait(false))
                     {
-                        if (this.IsJson)
-                        {
-                            dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
-                            t1.SetId(id);
-                            return t1;
-                        }
-                        var xml = XElement.Parse(reader.GetString(1));
-                        dynamic t = xml.DeserializeFromXml(elementType);
-                        t.SetId(id);
-                        return t;
+                        dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
+                        t1.SetId(id);
+                        return t1;
                     }
                 }
             }
@@ -103,7 +68,7 @@ namespace Bespoke.Sph.SqlRepository
         public async Task<T> LoadOneAsync(IQueryable<T> query)
         {
             var elementType = typeof(T);
-            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
+            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id]," + "[Json]", elementType.Name));
             if (elementType.Namespace != typeof(Entity).Namespace)// custom entity
             {
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
@@ -122,16 +87,11 @@ namespace Bespoke.Sph.SqlRepository
                 {
                     while (await reader.ReadAsync().ConfigureAwait(false))
                     {
-                        if (this.IsJson)
-                        {
-                            dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
-                            id.SetValue(t1, reader.GetInt32(0), null);
-                            return t1;
-                        }
-                        var xml = XElement.Parse(reader.GetString(1));
-                        dynamic t = xml.DeserializeFromXml(elementType);
-                        id.SetValue(t, reader.GetInt32(0), null);
-                        return t;
+
+                        dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
+                        id.SetValue(t1, reader.GetInt32(0), null);
+                        return t1;
+
                     }
                 }
             }
@@ -141,7 +101,7 @@ namespace Bespoke.Sph.SqlRepository
         public T LoadOne(IQueryable<T> query)
         {
             var elementType = typeof(T);
-            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
+            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id], [Json]", elementType.Name));
 
             var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Single(p => p.Name == elementType.Name + "Id");
@@ -155,17 +115,11 @@ namespace Bespoke.Sph.SqlRepository
                     while (reader.Read())
                     {
 
-                        if (this.IsJson)
-                        {
-                            dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
-                            id.SetValue(t1, reader.GetInt32(0), null);
-                            return t1;
-                        }
 
-                        var xml = XElement.Parse(reader.GetString(1));
-                        dynamic t = xml.DeserializeFromXml(elementType);
-                        id.SetValue(t, reader.GetInt32(0), null);
-                        return t;
+                        dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
+                        id.SetValue(t1, reader.GetInt32(0), null);
+                        return t1;
+
                     }
                 }
             }
@@ -176,7 +130,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
-            var sql = query.ToString().Replace(this.DataColumn, string.Format("[{0}]", column));
+            var sql = query.ToString().Replace("[Json]", string.Format("[{0}]", column));
             var connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
@@ -199,7 +153,7 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             var column2 = GetMemberName(selector2);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
-            var sql = query.ToString().Replace(this.DataColumn, string.Format("[{0}], [{1}]", column, column2));
+            var sql = query.ToString().Replace("[Json]", string.Format("[{0}], [{1}]", column, column2));
             var connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
@@ -222,9 +176,8 @@ namespace Bespoke.Sph.SqlRepository
         public async Task<LoadOperation<T>> LoadAsync(IQueryable<T> query, int page, int size, bool includeTotalRows)
         {
             var elementType = typeof(T);
-
             var sql = new StringBuilder(query.ToString());
-            sql.Replace("[Data]", string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
+            sql.Replace("[Data]", string.Format("[{0}Id],[Json]", elementType.Name));
             if (!sql.ToString().Contains("ORDER"))
             {
                 sql.AppendLine();
@@ -242,29 +195,31 @@ namespace Bespoke.Sph.SqlRepository
             Type specificType = typeof(List<>).MakeGenericType(new[] { elementType });
             dynamic list = Activator.CreateInstance(specificType);
 
-            using (var conn = new SqlConnection(m_connectionString))
-            using (var cmd = new SqlCommand(sql.ToString(), conn))
+            try
             {
-                await conn.OpenAsync().ConfigureAwait(false);
-                using (var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false))
+                using (var conn = new SqlConnection(m_connectionString))
+                using (var cmd = new SqlCommand(sql.ToString(), conn))
                 {
-                    while (await reader.ReadAsync().ConfigureAwait(false))
+                    await conn.OpenAsync().ConfigureAwait(false);
+                    using (var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false))
                     {
-
-                        if (this.IsJson)
+                        while (await reader.ReadAsync().ConfigureAwait(false))
                         {
                             dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
                             id.SetValue(t1, reader.GetInt32(0), null);
                             list.Add(t1);
-                            continue;
-                        }
 
-                        var xml = XElement.Parse(reader.GetString(1));
-                        dynamic t = xml.DeserializeFromXml(elementType);
-                        id.SetValue(t, reader.GetInt32(0));
-                        list.Add(t);
+                        }
                     }
                 }
+            }
+            catch (SqlException e)
+            {
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(elementType.Name);
+                Console.WriteLine(e.Message);
+                Console.ResetColor();
             }
             var lo = new LoadOperation<T>
                          {

@@ -8,7 +8,7 @@ CREATE TABLE [Sph].[ReportDelivery](
 	[Title] VARCHAR(255) NOT NULL	,
 	[Description] VARCHAR(2000) NULL,
 	[IsActive] BIT NOT NULL	,
-	[Data] XML NOT NULL	,
+	[Json] VARCHAR(MAX) NOT NULL,
 	[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE(),
 	[CreatedBy] VARCHAR(255) NULL,
 	[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE(),
@@ -18,3 +18,5 @@ GO
 
 
 
+ALTER TABLE [Sph].[ReportDelivery]
+ADD [Json] VARCHAR(MAX) NULL
