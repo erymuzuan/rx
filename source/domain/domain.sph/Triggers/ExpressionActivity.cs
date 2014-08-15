@@ -4,7 +4,7 @@ using System.Text;
 namespace Bespoke.Sph.Domain
 {
     [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "Expression", Description = "Custom code expression")]
+    [DesignerMetadata(Name = "Code Expression", TypeName = "Expression", Description = "Custom code expression")]
     public partial class ExpressionActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

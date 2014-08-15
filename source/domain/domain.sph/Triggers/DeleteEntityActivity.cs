@@ -5,7 +5,7 @@ using System.Text;
 namespace Bespoke.Sph.Domain
 {
     [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "DeleteEntity", Description = "Delete a record")]
+    [DesignerMetadata(Name = "Delete a record", TypeName = "DeleteEntity", Description = "Delete a record")]
     public partial class DeleteEntityActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

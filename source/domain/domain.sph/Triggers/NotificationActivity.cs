@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain
 {
     [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "Notification", Description = "Notify via email and messages")]
+    [DesignerMetadata(Name = "Notification", TypeName = "Notification",Description = "Notify via email and messages")]
     public partial class NotificationActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

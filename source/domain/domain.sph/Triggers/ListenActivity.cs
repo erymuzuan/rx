@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain
 {
     [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "Listen", Description = "Creates a race condition, first one wins")]
+    [DesignerMetadata(Name = "Listen", TypeName = "Listen", Description = "Creates a race condition, first one wins")]
     public partial class ListenActivity : Activity
     {
         public override bool IsAsync

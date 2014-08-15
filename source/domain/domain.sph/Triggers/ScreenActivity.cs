@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "Screen", Description = "Creates a user interface activity")]
+    [DesignerMetadata(Name = "User interface", TypeName = "Screen", Description = "Creates a user interface activity")]
     public partial class ScreenActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

@@ -5,7 +5,7 @@ using System.Text;
 namespace Bespoke.Sph.Domain
 {
     [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "ScheduledTrigger", Description = "A workflow could be start on schedule")]
+    [DesignerMetadata(Name = "Scheduled Trigger", TypeName = "ScheduledTrigger", Description = "A workflow could be start on schedule")]
     public partial class ScheduledTriggerActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

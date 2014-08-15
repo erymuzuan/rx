@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain
 {
     [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "Decision", Description = "Decision branches and expression")]
+    [DesignerMetadata(Name = "Decision", TypeName = "Decision", Description = "Decision branches and expression")]
     public partial class DecisionActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

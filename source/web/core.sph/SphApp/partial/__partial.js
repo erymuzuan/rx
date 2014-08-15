@@ -1840,10 +1840,8 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         editActivity = function (activity) {
             var self = this;
             return function () {
-                var activityType = ko.unwrap(activity.$type),
-                    clone = context.toObservable(ko.mapping.toJS(activity)),
-                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Activity,/,
-                    type = pattern.exec(activityType)[1];
+                var clone = context.toObservable(ko.mapping.toJS(activity)),
+                    type = ko.unwrap(activity.TypeName);
 
                 isBusy(true);
                 require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {

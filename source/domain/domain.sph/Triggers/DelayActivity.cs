@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain
 {
     [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "Delay", Description = "Wait for a certain time")]
+    [DesignerMetadata(Name = "Delay", TypeName = "Delay", Description = "Wait for a certain time")]
     public partial class DelayActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

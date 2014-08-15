@@ -5,7 +5,7 @@ using System.Text;
 namespace Bespoke.Sph.Domain
 {
     [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "UpdateEntity", Description = "Update a record")]
+    [DesignerMetadata(Name = "Update a record", TypeName = "UpdateEntity", Description = "Update a record")]
     public partial class UpdateEntityActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

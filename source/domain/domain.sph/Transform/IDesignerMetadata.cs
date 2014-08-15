@@ -7,6 +7,7 @@ namespace Bespoke.Sph.Domain
         string Description { get; }
         string Category { get; }
         string Name { get; }
+        string TypeName { get; }
         string Route { get; }
         Type Type { get; }
         Type RouteTableProvider { get; }

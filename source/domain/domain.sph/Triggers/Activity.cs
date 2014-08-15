@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
             var message = string.Format("[{1}] \"{0}\" is not valid identifier", this.Name, this.GetType().Name);
             var validName = new Regex(pattern);
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError(this.WebId) { Message = message});
+                result.Errors.Add(new BuildError(this.WebId) { Message = message });
 
             if (string.IsNullOrWhiteSpace(this.WebId))
                 result.Errors.Add(new BuildError(this.WebId)
@@ -106,62 +106,39 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(0);
         }
 
-
-
-        public virtual string GetEditorViewModel()
-        {
-
-            return @"
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
-    function (context, logger, dialog) {
-        var functoid = ko.observable(),
-            okClick = function (data, ev) {
-                dialog.close(this, 'OK');
-
-            },
-            cancelClick = function () {
-                dialog.close(this, 'Cancel');
-            };
-            var vm = {
-                functoid: functoid,
-                okClick: okClick,
-                cancelClick: cancelClick
-                };
-            return vm;
-});";
-        }
-
         public virtual Bitmap GetPngIcon()
         {
             return null;
         }
+
+        /// <summary>
+        /// Default implementation just read from the resource
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetEditorViewModel()
+        {
+            var name = this.GetType().Name.Replace("Activity", "").ToLowerInvariant();
+            var manager = Properties.ActivityJsResources.ResourceManager;
+            var resourceCulture = Properties.ActivityJsResources.Culture;
+            return manager.GetString("activity_" + name, resourceCulture);
+        }
+        /// <summary>
+        /// Default implementation just read from the resource
+        /// </summary>
+        /// <returns></returns>
         public virtual string GetEditorView()
         {
-            return @"
-<section class=""view-model-modal"" id=""functoid-editor-dialog"">
-    <div class=""modal-dialog"">
-        <div class=""modal-content"">
-
-            <div class=""modal-header"">
-                <button type=""button"" class=""close"" data-dismiss=""modal""
-                        data-bind=""click : cancelClick"">&times;</button>
-                <h3>Functoid Properties Editor</h3>
-            </div>
-            <div class=""modal-body"" data-bind=""with:functoid"">
-
-             <h4>No editor is provided for 
-                <!-- ko text:Name -->
-                <!--/ko -->
-              </h4>
-
-            </div>
-            <div class=""modal-footer"">
-                <a href=""#"" class=""btn btn-default"" data-dismiss=""modal"" data-bind=""click : cancelClick"">Cancel</a>
-            </div>
-        </div>
-    </div>
-</section>
-";
+            var name = this.GetType().Name.Replace("Activity", "").ToLowerInvariant();
+            var manager = Properties.ActivityHtmlResources.ResourceManager;
+            var resourceCulture = Properties.ActivityHtmlResources.Culture;
+            return manager.GetString("activity_" + name, resourceCulture);
+        }
+        /// <summary>
+        /// The unique typename for each activity, should be overriden if you wish to have different name to avoid conflict
+        /// </summary>
+        public virtual string TypeName
+        {
+            get { return this.GetType().Name.Replace("Activity",""); }
         }
     }
 }

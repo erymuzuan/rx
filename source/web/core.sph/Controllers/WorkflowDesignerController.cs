@@ -50,6 +50,24 @@ namespace Bespoke.Sph.Web.Controllers
             return HttpNotFound("Cannot find any activity named " + name);
 
         }
+        [Route("editor/{name}.{extension:length(2,4)}")]
+        public ActionResult GetDialog(string name, string extension)
+        {
+            if (null == this.ToolboxItems)
+                ObjectBuilder.ComposeMefCatalog(this);
+
+            var info = this.ToolboxItems
+                .SingleOrDefault(x => string.Equals(x.Metadata.Name, name, StringComparison.InvariantCultureIgnoreCase));
+            if (null != info)
+            {
+                if (extension == "js")
+                    return Content(info.Value.GetEditorViewModel(), "application/javascript", Encoding.UTF8);
+                return Content(info.Value.GetEditorView(), "text/html", Encoding.UTF8);
+            }
+
+            return HttpNotFound("Cannot find any activity named " + name);
+        }
+
         public static byte[] ImageToByte2(Bitmap img)
         {
             byte[] byteArray;
