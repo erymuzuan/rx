@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Listen", Description = "Creates a race condition, first one wins")]
     public partial class ListenActivity : Activity
     {
         public override bool IsAsync

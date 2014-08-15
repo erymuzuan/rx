@@ -737,6 +737,7 @@
       <DependentUpon>_TriggerFieldDropDown.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ResourcesController.cs" />
+    <Compile Include="Controllers\WorkflowDesignerController.cs" />
     <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Filters\RazorScriptStream.cs" />
     <Compile Include="Filters\RazorScriptFilter.cs" />
@@ -2886,6 +2887,7 @@
     <Folder Include="Areas\Sph\Views\EntityChart\" />
     <Folder Include="Areas\Sph\Views\EntityForm\" />
     <Folder Include="Areas\Sph\Views\TransformDefinition\" />
+    <Folder Include="Views\WorkflowDesigner\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SphApp\schemas\_object.xslt">

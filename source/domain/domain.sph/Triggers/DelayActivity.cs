@@ -1,12 +1,14 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Delay", Description = "Wait for a certain time")]
     public partial class DelayActivity : Activity
     {
-
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
             var result = base.ValidateBuild(wd);

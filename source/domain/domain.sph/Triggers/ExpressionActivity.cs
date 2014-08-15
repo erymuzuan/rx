@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using System.ComponentModel.Composition;
+using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Expression", Description = "Custom code expression")]
     public partial class ExpressionActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

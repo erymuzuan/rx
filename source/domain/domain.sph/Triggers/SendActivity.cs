@@ -1,4 +1,8 @@
-﻿namespace Bespoke.Sph.Domain
+﻿using System.ComponentModel.Composition;
+
+namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Send", Description = "Send a message to another system")]
     public partial class SendActivity : Activity{}
 }

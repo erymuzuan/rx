@@ -61,6 +61,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -204,6 +205,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\ActivityJsResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActivityJsResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Transform\AddDaysFunctoid.cs" />
     <Compile Include="Transform\FunctoidDependencyComparer.cs" />
@@ -416,6 +422,11 @@
     <Compile Include="Triggers\WorkflowDesigner.cs" />
     <Compile Include="Triggers\WorkflowTriggerMap.cs" />
     <Compile Include="Triggers\XsdMetadata.cs" />
+    <Compile Include="Properties\ActivityHtmlResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActivityHtmlResources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\action.email.js" />
@@ -428,6 +439,31 @@
     <None Include="Resources\functoid.formatting.js" />
     <None Include="Resources\functoid.parsedatetime.html" />
     <None Include="Resources\functoid.parsedatetime.js" />
+    <None Include="Resources\activity.createentity.html" />
+    <None Include="Resources\activity.decision.html" />
+    <None Include="Resources\activity.delay.html" />
+    <None Include="Resources\activity.deleteentity.html" />
+    <None Include="Resources\activity.end.html" />
+    <None Include="Resources\activity.expression.html" />
+    <None Include="Resources\activity.join.html" />
+    <None Include="Resources\activity.listen.html" />
+    <None Include="Resources\activity.notification.html" />
+    <None Include="Resources\activity.parallel.html" />
+    <None Include="Resources\activity.scheduledtrigger.html" />
+    <None Include="Resources\activity.updateentity.html" />
+    <None Include="Resources\activity.createentity.js" />
+    <None Include="Resources\activity.decision.js" />
+    <None Include="Resources\activity.delay.js" />
+    <None Include="Resources\activity.deleteentity.js" />
+    <None Include="Resources\activity.end.js" />
+    <None Include="Resources\activity.expression.js" />
+    <None Include="Resources\activity.join.js" />
+    <None Include="Resources\activity.listen.js" />
+    <None Include="Resources\activity.notification.js" />
+    <None Include="Resources\activity.parallel.js" />
+    <None Include="Resources\activity.scheduledtrigger.js" />
+    <None Include="Resources\activity.updateentity.js" />
+    <None Include="Resources\DecisionActivity.png" />
     <Content Include="Schema\_object.xslt">
       <SubType>Designer</SubType>
     </Content>
@@ -460,6 +496,14 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\ActivityHtmlResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ActivityHtmlResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\ActivityJsResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ActivityJsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

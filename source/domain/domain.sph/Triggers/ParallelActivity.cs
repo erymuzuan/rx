@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Parallel", Description = "Run seperate activities concurently")]
     public partial class ParallelActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

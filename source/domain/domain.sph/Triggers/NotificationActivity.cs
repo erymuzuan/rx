@@ -1,19 +1,20 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Notification", Description = "Notify via email and messages")]
     public partial class NotificationActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
             return new BuildValidationResult { Result = true };
         }
-
-
-
+        
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
 

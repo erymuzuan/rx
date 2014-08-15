@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ using System.Xml.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -317,6 +319,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
         }
+
+   
 
 
     }

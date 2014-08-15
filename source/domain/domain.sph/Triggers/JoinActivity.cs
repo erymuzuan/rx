@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Join", Description = "Wait for concurrent activities")]
     public partial class JoinActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

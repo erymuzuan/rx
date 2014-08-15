@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Reflection;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Create Record", Description = "Create a new record for your entity")]
     public partial class CreateEntityActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
@@ -59,5 +62,7 @@ namespace Bespoke.Sph.Domain
 
             return code.ToString();
         }
+
+
     }
 }

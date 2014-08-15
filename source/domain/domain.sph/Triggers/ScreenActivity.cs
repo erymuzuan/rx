@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,8 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Screen", Description = "Creates a user interface activity")]
     public partial class ScreenActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
@@ -30,10 +33,10 @@ namespace Bespoke.Sph.Domain
             result.Errors.AddRange(errors);
             result.Errors.AddRange(elements.SelectMany(v => v));
 
-            if(!this.Performer.IsPublic && string.IsNullOrWhiteSpace(this.Performer.UserProperty))
+            if (!this.Performer.IsPublic && string.IsNullOrWhiteSpace(this.Performer.UserProperty))
                 result.Errors.Add(new BuildError(this.WebId,
                              string.Format("[ScreenActivity] : {0} => does not have performer", this.Name)));
-            if(string.IsNullOrWhiteSpace(this.NextActivityWebId))
+            if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 result.Errors.Add(new BuildError(this.WebId,
                              string.Format("[ScreenActivity] : {0} => does not the next activity defined", this.Name)));
 
@@ -46,7 +49,7 @@ namespace Bespoke.Sph.Domain
             var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId, wf.Version, this.ActionName, wf.WorkflowId);
             var cmb = this.CancelMessageBody ?? "@Model.Screen.Name task assigned to has been cancelled";
             var cms = this.CancelMessageSubject ?? "[Sph] @Model.Screen.Name  task is cancelled";
-            
+
             await SendNotificationToPerformers(wf, baseUrl, url, cms, cmb);
             var tracker = await wf.GetTrackerAsync();
 
@@ -267,6 +270,7 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+        [JsonIgnore]
         public string ViewModelType
         {
             get

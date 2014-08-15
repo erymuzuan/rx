@@ -1,10 +1,14 @@
 ﻿using System;
+using System.ComponentModel.Composition;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Decision", Description = "Decision branches and expression")]
     public partial class DecisionActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
@@ -74,6 +78,21 @@ namespace Bespoke.Sph.Domain
         public override Task<ActivityExecutionResult> ExecuteAsync()
         {
             return null;
+        }
+
+        public override string GetEditorView()
+        {
+            return Properties.ActivityHtmlResources.activity_decision;
+        }
+
+        public override string GetEditorViewModel()
+        {
+            return Properties.ActivityJsResources.activity_decision;
+        }
+
+        public override Bitmap PngIcon()
+        {
+            return Properties.ActivityHtmlResources.DecisionActivity;
         }
     }
 }
