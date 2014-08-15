@@ -5,7 +5,7 @@ namespace Bespoke.Sph.Domain
 {
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class FormMetadataAttribute : ExportAttribute, IFormRendereMetadata
+    public class FormMetadataAttribute : ExportAttribute, IFormRendererMetadata
     {
         public FormMetadataAttribute()
             : base(typeof(IDesignerMetadata))

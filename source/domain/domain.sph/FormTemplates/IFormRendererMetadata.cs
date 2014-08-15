@@ -1,6 +1,6 @@
 namespace Bespoke.Sph.Domain
 {
-    public interface IFormRendereMetadata
+    public interface IFormRendererMetadata
     {
         string Name { get; }
     }
