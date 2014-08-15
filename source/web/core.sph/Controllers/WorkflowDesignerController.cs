@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -29,5 +31,37 @@ namespace Bespoke.Sph.Web.Controllers
 
             return Content("[" + string.Join(",", actions) + "]", "application/json", Encoding.UTF8);
         }
+        [Route("icon/{name}.png")]
+        public ActionResult GetPngIcon(string name)
+        {
+            if (null == this.ToolboxItems)
+                ObjectBuilder.ComposeMefCatalog(this);
+
+            var act = this.ToolboxItems
+                .SingleOrDefault(x => string.Equals(x.Metadata.Name, name, StringComparison.InvariantCultureIgnoreCase));
+            if (null != act)
+            {
+                var png = act.Value.GetPngIcon();
+                if (null != png)
+                    return File(ImageToByte2(act.Value.GetPngIcon()), "image/png");
+                return HttpNotFound("Cannot find any image for " + name);
+            }
+
+            return HttpNotFound("Cannot find any activity named " + name);
+
+        }
+        public static byte[] ImageToByte2(Bitmap img)
+        {
+            byte[] byteArray;
+            using (var stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                stream.Close();
+
+                byteArray = stream.ToArray();
+            }
+            return byteArray;
+        }
+
     }
 }

@@ -90,7 +90,7 @@ namespace Bespoke.Sph.Domain
             return Properties.ActivityJsResources.activity_decision;
         }
 
-        public override Bitmap PngIcon()
+        public override Bitmap GetPngIcon()
         {
             return Properties.ActivityHtmlResources.DecisionActivity;
         }

@@ -82,11 +82,11 @@
             <div id="toolbox" class="tab-pane active">
                 <!-- ko foreach : toolboxElements -->
 
-                <div class="btn btn-default col-lg-12 toolbox-item" data-bind="attr : {id:WebId()}, visible : IsEnabled">
-                    <div data-bind="attr : {'class':CssClass}"></div>
-                    <strong data-bind="text:Name"></strong>
+                <div class="btn btn-default col-lg-12 toolbox-item">
+                    <div data-bind="attr : {'class':'pull-left activity32 activity32-'+ designer.Name +'Activity' }"></div>
+                    <strong data-bind="text:designer.Name"></strong>
                     <p>
-                        <span data-bind="text:Note"></span>
+                        <span data-bind="text:designer.Description"></span>
                     </p>
 
                 </div>

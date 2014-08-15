@@ -131,7 +131,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
 });";
         }
 
-        public virtual Bitmap PngIcon()
+        public virtual Bitmap GetPngIcon()
         {
             return null;
         }
