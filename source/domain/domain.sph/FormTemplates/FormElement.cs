@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Drawing;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 
@@ -40,13 +41,6 @@ namespace Bespoke.Sph.Domain
         public string GetNormalizedName()
         {
             if (string.IsNullOrWhiteSpace(this.Path)) return this.ElementId;
-            if (this.Path.StartsWith("CustomField"))
-            {
-                const string pattern = @"CustomField\('(?<field>.*?)'\)";
-                var customField = Strings.RegexSingleValue(this.Path, pattern, "field");
-                return customField;
-            }
-
             return this.Path;
         }
 
@@ -114,6 +108,29 @@ namespace Bespoke.Sph.Domain
         public virtual BuildError[] ValidateBuild(EntityDefinition ed)
         {
             return new BuildError[]{};
+        }
+
+        public virtual Bitmap GetPngIcon()
+        {
+            return null;
+        }
+
+        public string GetEditorViewModel()
+        {
+            return "";
+        }
+
+        public string GetEditorView()
+        {
+            return "";
+        }
+
+        /// <summary>
+        /// The unique typename for each activity, should be overriden if you wish to have different name to avoid conflict
+        /// </summary>
+        public virtual string TypeName
+        {
+            get { return this.GetType().Name; }
         }
     }
 }

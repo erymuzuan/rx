@@ -9,8 +9,10 @@ namespace Bespoke.Sph.Domain
     {
         public DesignerMetadataAttribute() : base(typeof (IDesignerMetadata))
         {
+            this.Order = 100;
         }
 
+        public double Order { get;  set; }
         public string Description { get;  set; }
         public string Category { get; set; }
         public string Name { get; set; }

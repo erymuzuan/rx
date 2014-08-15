@@ -6,6 +6,7 @@ namespace Bespoke.Sph.Domain
     {
         string Description { get; }
         string Category { get; }
+        double Order { get; }
         string Name { get; }
         string TypeName { get; }
         string Route { get; }

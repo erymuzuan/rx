@@ -160,9 +160,9 @@
         <div id="add-field" class="tab-pane">
             <ul class="nav" data-bind="foreach: formElements, filter : {path:'>li', tooltip :'elements filter', offset : 0}">
                 <li>
-                    <a class="btn btn-default" href="#add-field" data-bind="attr : {title:Tooltip}">
-                        <i data-bind="attr: { 'class': ToolboxIconClass }" class="pull-left"></i>
-                        <!-- ko text: Name -->
+                    <a class="btn btn-default" href="#add-field" data-bind="tooltip : designer.Description">
+                        <i data-bind="attr: { 'class':'fa fa-' + designer.FontAwesomeIcon }" class="pull-left"></i>
+                        <!-- ko text: designer.Name -->
                         <!-- /ko-->
                     </a>
                 </li>

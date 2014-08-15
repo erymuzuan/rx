@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("FormDesigner", typeof(FormElement))]
+    [DesignerMetadata(Name = "Entity Lookup", Order = 15d, FontAwesomeIcon = "search", TypeName = "EntityLookupElement", Description = "Creates a command button to search for another entity to link to")]
     public partial class EntityLookupElement : FormElement
     {
         public override BuildError[] ValidateBuild(EntityDefinition ed)

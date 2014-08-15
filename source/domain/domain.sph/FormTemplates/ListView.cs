@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("FormDesigner", typeof(FormElement))]
+    [DesignerMetadata(Name = "ListView", Order = 13d, FontAwesomeIcon = "list-ul",TypeName = "ListView", Description = "ListView for collection")]
     public partial class ListView : FormElement
     {
         public override BuildError[] ValidateBuild(WorkflowDefinition wd, ScreenActivity screen)
