@@ -56,6 +56,9 @@ namespace subscriber.entities
             var wc = ConfigurationManager.WorkflowSourceDirectory;
             var type = typeof(EntityDefinition);
             var folder = Path.Combine(wc, type.Name);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
             foreach (var marker in Directory.GetFiles(folder, "*.marker"))
             {
                 this.QueueUserWorkItem(MigrateData, Path.GetFileNameWithoutExtension(marker));
