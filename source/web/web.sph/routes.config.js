@@ -57,6 +57,20 @@
     },
     {
         "role": "administrators",
+        "groupName": "Management",
+        "route": "deadletter.view",
+        "moduleId": "viewmodels/deadletter.view",
+        "title": "x-dead-letter",
+        "nav": false,
+        "icon": "fa fa-user",
+        "caption": "Users",
+        "settings": null,
+        "isAdminPage": true,
+        "showWhenLoggedIn": false,
+        "error": ""
+    },
+    {
+        "role": "administrators",
         "groupName": "Settings",
         "route": "organization.detail",
         "moduleId": "viewmodels/organization.detail",

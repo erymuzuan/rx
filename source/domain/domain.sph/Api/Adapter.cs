@@ -10,6 +10,7 @@ using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Properties;
 using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain.Api
@@ -33,7 +34,7 @@ namespace Bespoke.Sph.Domain.Api
         public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
-                throw new ArgumentException("No source files supplied for compilation", "files");
+                throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, "files");
             foreach (var cs in files)
             {
                 Debug.WriteLineIf(options.IsVerbose, cs);

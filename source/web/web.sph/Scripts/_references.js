@@ -78,3 +78,4 @@
 /// <reference path="ace/snippets/html.js" />
 /// <reference path="ace/snippets/html_completions.js" />
 /// <reference path="ace/snippets/javascript.js" />
+/// <reference path="../sphapp/viewmodels/deadletter.view.js" />

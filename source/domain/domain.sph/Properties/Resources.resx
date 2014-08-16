@@ -148,4 +148,7 @@
   <data name="StartworkflowActionJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\action.startworkflow.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Adapter_Compile_No_source_files_supplied_for_compilation" xml:space="preserve">
+    <value>No source files supplied for compilation</value>
+  </data>
 </root>

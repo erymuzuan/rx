@@ -52,7 +52,6 @@ namespace subscriber.entities
 
         protected override void OnStart()
         {
-
             var wc = ConfigurationManager.WorkflowSourceDirectory;
             var type = typeof(EntityDefinition);
             var folder = Path.Combine(wc, type.Name);

@@ -1154,6 +1154,7 @@
     <Content Include="SphApp\viewmodels\activity.send.js" />
     <Content Include="SphApp\viewmodels\advanced-search.js" />
     <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
+    <Content Include="SphApp\viewmodels\deadletter.view.js" />
     <Content Include="SphApp\viewmodels\functoid-args.js" />
     <Content Include="SphApp\viewmodels\icon.picker.js" />
     <Content Include="SphApp\viewmodels\members.selector.dialog.js" />
@@ -1166,6 +1167,7 @@
     <Content Include="SphApp\views\activity.send.html" />
     <Content Include="SphApp\views\advanced-search.html" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
+    <Content Include="SphApp\views\deadletter.view.html" />
     <Content Include="SphApp\views\functoid-args.html" />
     <Content Include="SphApp\views\icon.picker.html" />
     <Content Include="SphApp\views\members.selector.dialog.html" />
