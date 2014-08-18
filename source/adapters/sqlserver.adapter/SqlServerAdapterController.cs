@@ -1,26 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    [RoutePrefix("api/sqlserveradapter")]
+    [RoutePrefix("sqlserver-adapter")]
     public class SqlServerAdapterController : ApiController
     {
-        [HttpGet]
+        [HttpPost]
         [Route("databases")]
-        public async Task<IHttpActionResult> GetDatabasesAsync([FromUri]string server, [FromUri]bool trustedConnection, [FromUri]string userId = null, [FromUri]string password = null)
+        public async Task<HttpResponseMessage> GetDatabasesAsync([FromBody]SqlServerAdapter adapter)
         {
-            var adapter = new SqlServerAdapter
-            {
-                Server = server,
-                TrustedConnection = trustedConnection,
-                UserId = userId,
-                Password = password
-            };
-
             using (var conn = new SqlConnection(adapter.ConnectionString))
+
             using (var cmd = new SqlCommand("select name from sysdatabases", conn))
             {
                 await conn.OpenAsync();
@@ -31,29 +27,21 @@ namespace Bespoke.Sph.Integrations.Adapters
                     {
                         list.Add(reader.GetString(0));
                     }
-                    return Ok(list);
+                    var json = JsonConvert.SerializeObject(new {databases = list.ToArray(), success = true, status = "OK"});
+                    var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(json)};
+                    return response;
                 }
 
             }
         }
-        [HttpGet]
-        [Route("schema/{database}")]
-        public async Task<IHttpActionResult> GetSchemaAsync(string database, [FromUri]string server, [FromUri]bool trustedConnection, [FromUri]string userId = null, [FromUri]string password = null)
+        [HttpPost]
+        [Route("schema")]
+        public async Task<HttpResponseMessage> GetSchemaAsync([FromBody]SqlServerAdapter adapter)
         {
-            var adapter = new SqlServerAdapter
-            {
-                Server = server,
-                TrustedConnection = trustedConnection,
-                UserId = userId,
-                Password = password,
-                Database = database
-            };
-
-
             using (var conn = new SqlConnection(adapter.ConnectionString))
             using (var cmd = new SqlCommand("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE CATALOG_NAME = @Database", conn))
             {
-                cmd.Parameters.AddWithValue("@Database", database);
+                cmd.Parameters.AddWithValue("@Database", adapter.Database);
                 await conn.OpenAsync();
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
@@ -62,7 +50,9 @@ namespace Bespoke.Sph.Integrations.Adapters
                     {
                         list.Add(reader.GetString(0));
                     }
-                    return Ok(list);
+                    var json = JsonConvert.SerializeObject(new { schema = list.ToArray(), success = true, status = "OK" });
+                    var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json) };
+                    return response;
                 }
 
             }

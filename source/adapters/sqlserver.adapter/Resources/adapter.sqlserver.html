@@ -53,8 +53,8 @@
         <div class="form-group">
             <label class="col-sm-3" for="database">Database</label>
             <div class="col-sm-9">
-                <select class="form-control" type="text" id="database" required placeholder="Username if connection using SQL authentication"
-                        data-bind="value:Database">
+                <select class="form-control"  id="database" required
+                        data-bind="value:Database, options: $root.databaseOptions">
 
                 </select>
             </div>

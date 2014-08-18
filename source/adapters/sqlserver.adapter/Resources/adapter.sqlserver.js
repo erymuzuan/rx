@@ -34,19 +34,27 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
             },
             attached = function(view) {
-
+                adapter().Database.subscribe(function (db) {
+                    if (!db) {
+                        return;
+                    }
+                    loadingSchemas(true);
+                    context.post(ko.mapping.toJSON(adapter) ,"sqlserver-adapter/schema" ).done(function(result) {
+                        schemaOptions(result.schema);
+                        loadingSchemas(false);
+                    });
+                });
             },
             connect = function(){
                 var tcs = new $.Deferred();
                 loadingSchemas(true);
                 loadingDatabases(true);
-                context.post(ko.mapping.toJSON(adapter), "/sqlserveradapter/databases")
+                context.post(ko.mapping.toJSON(adapter), "sqlserver-adapter/databases")
                     .done(function (result) {
                         loadingSchemas(false);
                         loadingDatabases(false);
                         if (result.success) {
                             connected(true);
-                            schemaOptions(result.schemas);
                             databaseOptions(result.databases);
                             logger.info("You are now connected, please select your schema");
                         } else {
@@ -77,6 +85,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             ;
 
         var vm = {
+            schemaOptions: schemaOptions,
+            databaseOptions: databaseOptions,
             adapter: adapter,
             isBusy: isBusy,
             activate: activate,
