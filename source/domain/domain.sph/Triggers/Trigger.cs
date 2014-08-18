@@ -178,7 +178,7 @@ namespace Bespoke.Sph.Domain
             {
                 code.AppendLinf("       public async Task<object> {0}({1} item)", ca.Title, edTypeFullName);
                 code.AppendLine("       {");
-                ca.GeneratorCode().Split(new []{"\r\n"}, StringSplitOptions.None).ToList().ForEach(x => code.AppendLine("            " +x));
+                ca.GeneratorCode().Split(new []{"\r\n"}, StringSplitOptions.None).ToList().ForEach(x => code.AppendLine("            " + x));
                 code.AppendLine("       }");
             }
             code.AppendLine("   }");// end class

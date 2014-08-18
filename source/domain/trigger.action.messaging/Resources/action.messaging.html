@@ -30,6 +30,33 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="retry" class="col-lg-2 control-label">Retry count</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: Retry"
+                                   pattern="^[0-9]{1,}$"
+                                   placeholder="Retry count for delivery failure"
+                                   class="form-control" id="retry">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="retry-interval" class="col-lg-2 control-label">Retry interval</label>
+                        <div class="col-lg-3">
+                            <input type="text" data-bind="value: RetryInterval"
+                                   pattern="^[0-9]{1,}$"
+                                   placeholder="Interval"
+                                   class="form-control" id="retry-interval">
+                        </div>
+                        <div class="col-lg-5">
+                            <select class="form-control" id="retry-interval-timespan" data-bind="value:RetryIntervalTimeSpan">
+                                <option value="1">miliseconds</option>
+                                <option value="1000">seconds</option>
+                                <option value="60000">minute</option>
+                                <option value="3600000">hour</option>
+                            </select>
+                        </div>
+                    </div>
 
                 </form>
             </div>
