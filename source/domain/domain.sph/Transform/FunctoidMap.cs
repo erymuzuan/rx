@@ -28,6 +28,9 @@ namespace Bespoke.Sph.Domain
         public override string GenerateCode()
         {
             var fnt = this.GetFunctoid(this.TransformDefinition);
+            var assigment = fnt.GenerateAssignmentCode();
+            if (string.IsNullOrWhiteSpace(assigment)) return string.Empty;
+
             return string.Format("dest.{1} = {0};", fnt.GenerateAssignmentCode(), this.Destination);
 
         }

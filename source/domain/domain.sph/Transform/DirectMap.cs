@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Domain
 
         public override Task<string> ConvertAsync(object source)
         {
-            var context = new RuleContext((Entity)source);
+            var context = new RuleContext(source as Entity);
             var df = new DocumentField { Path = this.Source };
             var json = string.Format("\"{0}\":\"{1}\"", this.Destination, df.GetValue(context));
             return Task.FromResult(json);
@@ -42,6 +42,8 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateCode()
         {
+            if (this.Source.Contains("Collection."))
+                return string.Empty;
             return string.Format("dest.{1} = item.{0};", this.Source, this.Destination);
         }
     }

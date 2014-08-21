@@ -61,7 +61,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                     data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
-                context.post(data, "/sph/adapter/save")
+                context.post(data, "/adapter")
                     .then(function (result) {
                         isBusy(false);
                         adapter().AdapterId(result.id);

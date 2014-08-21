@@ -45,6 +45,9 @@ namespace subscriber.version.control
             var wc = ConfigurationManager.WorkflowSourceDirectory;
             var type = item.GetType();
             var folder = Path.Combine(wc, type.Name);
+            if(!Directory.Exists(folder))
+                return;
+
             var files = Directory.GetFiles(folder, "*.json");
             foreach (var f in files)
             {
