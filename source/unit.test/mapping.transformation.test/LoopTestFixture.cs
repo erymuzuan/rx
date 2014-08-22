@@ -14,10 +14,17 @@ namespace mapping.transformation.test
         {
             var sourceType = Assembly.LoadFrom(@".\rsc.RilekWeb.dll").GetType("rsc.Adapters.PdrmServices.PostRilekRilekPdrmResponse");
             dynamic source = Activator.CreateInstance(sourceType);
+            var sourceOffenceType = Assembly.LoadFrom(@".\rsc.RilekWeb.dll").GetType("rsc.Adapters.PdrmServices.Saman");
+            dynamic sourceOffence = Activator.CreateInstance(sourceOffenceType);
+            sourceOffence.NoKenderaan = "WVJ 7004";
+            dynamic sourceOffence2 = Activator.CreateInstance(sourceOffenceType);
+            sourceOffence2.NoKenderaan = "WVJ 7004";
 
 
             var destinationType = Assembly.LoadFrom(@".\rsc.Driver.dll").GetType("Bespoke.rsc_1.Domain.Driver");
             source.MyKad = "750418035249";
+            source.SamanCollection.Add(sourceOffence);
+            source.SamanCollection.Add(sourceOffence2);
 
 
             var td = new TransformDefinition
@@ -33,12 +40,12 @@ namespace mapping.transformation.test
             });
 
 
-            var sourceOffences = new SourceFunctoid
+            var sourceSummons = new SourceFunctoid
             {
                 WebId = "sourceOffence",
-                Field = "OffenceCollection"
+                Field = "SamanCollection"
             };
-            td.FunctoidCollection.Add(sourceOffences);
+            td.FunctoidCollection.Add(sourceSummons);
             var destinationOffences = new SourceFunctoid
             {
                 WebId = "destinationOffences",
@@ -47,19 +54,26 @@ namespace mapping.transformation.test
             };
             td.FunctoidCollection.Add(destinationOffences);
 
-            var loop = new LoopingFunctoid();
+            var loop = new LoopingFunctoid{WebId = "_loop"};
             loop.Initialize();
-            loop["sourceCollection"].Functoid = sourceOffences.WebId;
-            loop["destinationCollection"].Functoid = destinationOffences.WebId;
-            loop["destinationCollection"].TypeName = destinationOffences.OutputTypeName;
+            loop["sourceCollection"].Functoid = sourceSummons.WebId;
 
             td.FunctoidCollection.Add(loop);
             
             td.MapCollection.Add(new DirectMap
             {
-                Source = "OffenceCollection.VehicleNo",
+                Source = "SamanCollection.NoKenderaan",
                 Destination = "OffenceCollection.VehicleNo"
             });
+
+            var loopToDest = new FunctoidMap
+            {
+                WebId = "__loopToDest",
+                Destination = "OffenceCollection",
+                Functoid = loop.WebId,
+                DestinationTypeName = "Bespoke.rsc_1.Domain.Offence, rsc.Driver"
+            };
+            td.MapCollection.Add(loopToDest);
 
             var options = new CompilerOptions();
             var sourceCodes = td.GenerateCode();
@@ -75,6 +89,7 @@ namespace mapping.transformation.test
 
             Assert.AreEqual("750418035249", destination.MyKad);
             Assert.AreEqual(2, destination.OffenceCollection.Count);
+            Assert.AreEqual("WVJ 7005", destination.OffenceCollection[0].VehicleNo);
 
         }
     }
