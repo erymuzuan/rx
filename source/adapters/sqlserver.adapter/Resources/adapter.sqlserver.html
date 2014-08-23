@@ -2,32 +2,32 @@
 <div class="row">
     <form class="form-horizontal" data-bind="with:adapter">
         <h3>Adapter property</h3>
-       <div class="form-group">
-           <label class="col-sm-3" for="name">Name</label>
-           <div class="col-sm-9">
-               <input class="form-control" type="text" id="name" required placeholder="Adapter name" data-bind="value:Name"/>
-           </div>
-       </div>
-       <div class="form-group">
-           <label class="col-sm-3" for="description">Description</label>
-           <div class="col-sm-9">
-               <textarea class="form-control" type="text" id="description" placeholder="Developers note" data-bind="value: Description"></textarea>
-           </div>
-       </div>
+        <div class="form-group">
+            <label class="col-sm-3" for="name">Name</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="text" id="name" required placeholder="Adapter name" data-bind="value:Name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3" for="description">Description</label>
+            <div class="col-sm-9">
+                <textarea class="form-control" type="text" id="description" placeholder="Developers note" data-bind="value: Description"></textarea>
+            </div>
+        </div>
 
         <h3>Connection property</h3>
 
         <div class="form-group">
             <label class="col-sm-3" for="server">Server</label>
             <div class="col-sm-9">
-                <input class="form-control" type="text" id="server" required placeholder="SQL Server name instance" data-bind="value:Server"/>
+                <input class="form-control" type="text" id="server" required placeholder="SQL Server name instance" data-bind="value:Server" />
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-3" for="trusted">Trusted Connection</label>
             <div class="col-sm-9 checkbox">
-                <input type="checkbox" id="trusted"  placeholder="SQL Server name instance" data-bind="value:TrustedConnection"/>
+                <input type="checkbox" id="trusted" placeholder="SQL Server name instance" data-bind="checked:TrustedConnection" />
             </div>
         </div>
 
@@ -35,7 +35,7 @@
         <div class="form-group">
             <label class="col-sm-3" for="userid">UserId</label>
             <div class="col-sm-9">
-                <input class="form-control" type="text" id="userid" required placeholder="UserId if connection using SQL authentication" data-bind="value:UserId, disable:TrustedConnection "/>
+                <input class="form-control" type="text" id="userid" required placeholder="UserId if connection using SQL authentication" data-bind="value:UserId, disable:TrustedConnection " />
             </div>
         </div>
 
@@ -44,7 +44,7 @@
         <div class="form-group">
             <label class="col-sm-3" for="password">Password</label>
             <div class="col-sm-9">
-                <input class="form-control" type="password" id="password" required placeholder="Password if connection using SQL authentication" data-bind="value:Password, disable:TrustedConnection"/>
+                <input class="form-control" type="password" id="password" required placeholder="Password if connection using SQL authentication" data-bind="value:Password, disable:TrustedConnection" />
             </div>
         </div>
 
@@ -53,13 +53,59 @@
         <div class="form-group">
             <label class="col-sm-3" for="database">Database</label>
             <div class="col-sm-9">
-                <select class="form-control"  id="database" required
-                        data-bind="value:Database, options: $root.databaseOptions">
+                <select class="form-control" id="database" required
+                        data-bind="value:Database, options: $root.databaseOptions, optionsCaption:'[Select a database]'"></select>
+            </div>
+        </div>
 
-                </select>
+        <div class="form-group">
+            <label class="col-sm-3" for="schema-option">Schema</label>
+            <div class="col-sm-9">
+                <select class="form-control" id="schema-option" required
+                        data-bind="value:Schema, options: $root.schemaOptions, optionsCaption:'[Select a schema]'"></select>
             </div>
         </div>
         <h3>Database objects</h3>
+
+        <div class="form-group">
+            <label class="col-sm-3">Tables</label>
+            <div class="col-sm-9">
+                <ul data-bind="foreach :$root.tableOptions" id="table-options-panel" class="nav nav-stacked">
+                    <li>
+                        <label>
+                            <input type="checkbox" />
+                            <!-- ko text: name -->
+                            <!-- /ko -->
+                        </label>
+                        <i class="fa fa-spinner fa-spin" data-bind="visible:busy"></i>
+                        <ul data-bind="visible:children().length > 0, foreach :children" class="nav nav-stacked" style="margin-left: 40px">
+                            <li>
+                                <label>
+                                    <input type="checkbox" />
+                                    <!-- ko text: $data-->
+                                    <!-- /ko -->
+                                </label>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3" >Stored Procedures</label>
+            <div class="col-sm-9">
+                <ul data-bind="foreach :$root.sprocOptions" id="sproc-option-panel" class="nav nav-stacked">
+                    <li>
+                        <label>
+                            <input type="checkbox" />
+                            <!-- ko text: $data-->
+                            <!-- /ko -->
+                        </label>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
 
 
     </form>

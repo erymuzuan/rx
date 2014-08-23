@@ -27,8 +27,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                     {
                         list.Add(reader.GetString(0));
                     }
-                    var json = JsonConvert.SerializeObject(new {databases = list.ToArray(), success = true, status = "OK"});
-                    var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(json)};
+                    var json = JsonConvert.SerializeObject(new { databases = list.ToArray(), success = true, status = "OK" });
+                    var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json) };
                     return response;
                 }
 
@@ -57,5 +57,50 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             }
         }
+
+        [HttpPost]
+        [Route("objects")]
+        public async Task<HttpResponseMessage> GetDatabaseOjectsAsync([FromBody]SqlServerAdapter adapter)
+        {
+            using (var conn = new SqlConnection(adapter.ConnectionString))
+            using (var cmd = new SqlCommand("SELECT schema_id FROM sys.schemas WHERE [name] = @Schema", conn))
+            {
+                cmd.Parameters.AddWithValue("@Schema", adapter.Schema);
+                await conn.OpenAsync();
+                var schemaId = (int)(await cmd.ExecuteScalarAsync());
+
+                var tables = new List<string>();
+                using (var tableCommand = new SqlCommand("SELECT * FROM sys.all_objects WHERE [schema_id] = @schema_id AND [type] = 'U'", conn))
+                {
+                    tableCommand.Parameters.AddWithValue("@schema_id", schemaId);
+                    using (var reader = await tableCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            tables.Add(reader.GetString(0));
+                        }
+                    }
+                }
+
+                using (var spocCommand = new SqlCommand("SELECT * FROM sys.all_objects WHERE [schema_id] = @schema_id AND [type] = 'P'", conn))
+                {
+                    spocCommand.Parameters.AddWithValue("@schema_id", schemaId);
+                    using (var reader = await spocCommand.ExecuteReaderAsync())
+                    {
+                        var sprocs = new List<string>();
+                        while (await reader.ReadAsync())
+                        {
+                            sprocs.Add(reader.GetString(0));
+                        }
+                        var json = JsonConvert.SerializeObject(new { sprocs = sprocs.ToArray(), tables = tables.ToArray(), success = true, status = "OK" });
+                        var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json) };
+                        return response;
+                    }
+                }
+
+            }
+        }
+
+
     }
 }
