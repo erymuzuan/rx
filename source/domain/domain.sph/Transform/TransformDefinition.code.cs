@@ -87,6 +87,7 @@ namespace Bespoke.Sph.Domain
             var functoidStatements = from f in sorted
                                      let statement = f.GenerateStatementCode()
                                      where !string.IsNullOrWhiteSpace(statement)
+                                     && (!statement.Contains("Collection.") || (f.GetType() == typeof(LoopingFunctoid)))
                                      select string.Format("\r\n{4}//{0}:{1}:{2}\r\n{4}{3}", f.Name, f.GetType().Name, f.WebId, statement, GAP);
             code.AppendLine(string.Concat(functoidStatements.ToArray()));
             code.AppendLine();

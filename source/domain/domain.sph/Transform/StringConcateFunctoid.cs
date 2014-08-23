@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Domain
             foreach (var arg in this.ArgumentCollection.Where(x => !string.IsNullOrWhiteSpace(x.Functoid)))
             {
                 var ftd = arg.GetFunctoid(this.TransformDefinition);
-                var counter = arg.Name + this.Index.ToString(CultureInfo.InvariantCulture);
+                var counter = string.Format("{0}c{1}", this.Index, arg.Name);
                 code.AppendFormat("var argsc{0} = {1};", counter, ftd.GenerateAssignmentCode());
             }
             return code.ToString();
@@ -41,7 +41,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateAssignmentCode()
         {
-            var codes = this.ArgumentCollection.Where(x => !string.IsNullOrWhiteSpace(x.Functoid)).Select(a => "argsc" + a.Name + this.Index);
+            var codes = this.ArgumentCollection.Where(x => !string.IsNullOrWhiteSpace(x.Functoid)).Select(a => string.Format("argsc{0}c{1}", this.Index, a.Name));
             return string.Join(" + ", codes);
         }
 

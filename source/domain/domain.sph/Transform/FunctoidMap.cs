@@ -30,8 +30,12 @@ namespace Bespoke.Sph.Domain
             var fnt = this.GetFunctoid(this.TransformDefinition);
             var assigment = fnt.GenerateAssignmentCode();
             if (string.IsNullOrWhiteSpace(assigment)) return string.Empty;
+            if (assigment.Contains("Collection."))
+                return string.Empty;
+            if (this.Destination.Contains("Collection."))
+                return string.Empty;
 
-            return string.Format("dest.{1} = {0};", fnt.GenerateAssignmentCode(), this.Destination);
+            return string.Format("dest.{1} = {0};", assigment, this.Destination);
 
         }
     }

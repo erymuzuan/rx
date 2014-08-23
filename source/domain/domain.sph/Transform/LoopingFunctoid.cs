@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
@@ -35,13 +36,44 @@ namespace Bespoke.Sph.Domain
             if (null == childType) throw new InvalidOperationException("The type is not valid for destination child " + dd2.DestinationTypeName);
 
             code.AppendLinf("var val{0} = from r in item.{1}", this.Index, source.Field);
+
+            var sorted = new List<Functoid>(this.TransformDefinition.FunctoidCollection);
+            sorted.Sort(new FunctoidDependencyComparer());
+
+            /*
+var val4 = item.SamanCollection.Compoun;
+var styles4 = System.Globalization.NumberStyles.None;
+             * */
+            var functoidStatements = (from f in sorted
+                                      where f.GetType() != typeof(LoopingFunctoid)
+                                      let statement = f.GenerateStatementCode()
+                                      where !string.IsNullOrWhiteSpace(statement)
+                                      && statement.Contains(source.Field)
+                                      select statement.Replace("var ", "let ")
+                                      .Replace(";", "")
+                                      .Replace("item." + source.Field, "r")
+                                      ).ToList();
+            code.Append(string.Join("\r\n", functoidStatements));
+
+
             code.AppendLinf("               select new {0} {{", childType.FullName);
 
-            var childMaps = this.TransformDefinition.MapCollection.OfType<DirectMap>()
+            var directMaps = this.TransformDefinition.MapCollection.OfType<DirectMap>()
                 .Where(d => d.Source.StartsWith(source.Field));
-            foreach (var map in childMaps)
+            foreach (var map in directMaps)
             {
                 code.AppendLinf("{0} = r.{1},", map.Destination.Replace(dd2.Destination + ".", ""), map.Source.Replace(source.Field + ".", ""));
+            }
+
+            var functoidMaps = this.TransformDefinition.MapCollection.OfType<FunctoidMap>()
+                .Where(f => !string.IsNullOrWhiteSpace(f.Destination))
+                .Where(f => f.Destination.StartsWith(dd2.Destination + "."))
+                .ToList();
+            foreach (var map in functoidMaps)
+            {
+                var fnct = map.GetFunctoid(this.TransformDefinition);
+                var assignmentCode = fnct.GenerateAssignmentCode();
+                code.AppendLinf("{0} = {1},", map.Destination.Replace(dd2.Destination + ".", ""), assignmentCode);
             }
 
             code.AppendLine("};");

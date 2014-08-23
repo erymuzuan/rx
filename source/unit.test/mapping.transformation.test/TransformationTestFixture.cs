@@ -180,7 +180,7 @@ namespace mapping.transformation.test
 
             var td = new TransformDefinition
             {
-                Name = "__EmployeeToCustomerMapping",
+                Name = "__OracleEmployeeToEntityCustomer",
                 Description = "Just a description",
                 InputType = oracleEmployeeType,
                 OutputType = customerType
@@ -211,17 +211,17 @@ namespace mapping.transformation.test
             var sc0 = new StringConcateFunctoid { WebId = "sc0" };
             var space = new ConstantFunctoid { Value = " ", Type = typeof(string), WebId = "space" };
             var bin = new ConstantFunctoid { Value = "bin", Type = typeof(string), WebId = "bin" };
-            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = space.WebId });
-            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "bin", Functoid = bin.WebId });
-            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = space.WebId });
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "1", Functoid = space.WebId ,});
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "2", Functoid = bin.WebId });
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "3", Functoid = space.WebId });
 
             var sc = new StringConcateFunctoid { WebId = "sc" };
             var firstName = new SourceFunctoid { Field = "FIRST_NAME", WebId = "FIRST_NAME" };
             var lastName = new SourceFunctoid { Field = "LAST_NAME", WebId = "LAST_NAME" };
 
-            sc.ArgumentCollection.Add(new FunctoidArg { Name = "firstName", Functoid = firstName.WebId });
-            sc.ArgumentCollection.Add(new FunctoidArg { Name = "space", Functoid = sc0.WebId });
-            sc.ArgumentCollection.Add(new FunctoidArg { Name = "lastName", Functoid = lastName.WebId });
+            sc.ArgumentCollection.Add(new FunctoidArg { Name = "1", Functoid = firstName.WebId });
+            sc.ArgumentCollection.Add(new FunctoidArg { Name = "2", Functoid = sc0.WebId });
+            sc.ArgumentCollection.Add(new FunctoidArg { Name = "3", Functoid = lastName.WebId });
 
             td.AddFunctoids(add15Days, hireDate, value15, sc0, space, bin, sc, firstName, lastName);
 

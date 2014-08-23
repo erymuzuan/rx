@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Parse decimal", BootstrapIcon = "usd")]
     public partial class ParseDecimalFunctoid : Functoid
     {
-        public const string DEFAULT_STYLES = "None";
+        public const string DEFAULT_STYLES = "AllowDecimalPoint";
         public override sealed bool Initialize()
         {
             this.ArgumentCollection.Clear();

@@ -15,10 +15,15 @@ namespace mapping.transformation.test
             var sourceType = Assembly.LoadFrom(@".\rsc.RilekWeb.dll").GetType("rsc.Adapters.PdrmServices.PostRilekRilekPdrmResponse");
             dynamic source = Activator.CreateInstance(sourceType);
             var sourceOffenceType = Assembly.LoadFrom(@".\rsc.RilekWeb.dll").GetType("rsc.Adapters.PdrmServices.Saman");
+
             dynamic sourceOffence = Activator.CreateInstance(sourceOffenceType);
             sourceOffence.NoKenderaan = "WVJ 7004";
+            sourceOffence.Compoun = "78.00";
+
             dynamic sourceOffence2 = Activator.CreateInstance(sourceOffenceType);
-            sourceOffence2.NoKenderaan = "WVJ 7004";
+            sourceOffence2.NoKenderaan = "W 792 P";
+            sourceOffence2.Lokasi = "Kuala Lumpur";
+            sourceOffence2.Compoun = "70.00";
 
 
             var destinationType = Assembly.LoadFrom(@".\rsc.Driver.dll").GetType("Bespoke.rsc_1.Domain.Driver");
@@ -65,6 +70,31 @@ namespace mapping.transformation.test
                 Source = "SamanCollection.NoKenderaan",
                 Destination = "OffenceCollection.VehicleNo"
             });
+            td.MapCollection.Add(new DirectMap
+            {
+                Source = "SamanCollection.Lokasi",
+                Destination = "OffenceCollection.Location"
+            });
+
+            // parser compound value
+            var compundSource = new SourceFunctoid
+            {
+                WebId = "compundSource",
+                Field = "SamanCollection.Compoun"
+            };
+            td.FunctoidCollection.Add(compundSource);
+            var pd = new ParseDecimalFunctoid {WebId = "pd"};
+            pd.Initialize();
+            pd["value"].Functoid = compundSource.WebId;
+            td.FunctoidCollection.Add(pd);
+
+            var compoundMap = new FunctoidMap
+            {
+                WebId = "compoundMap",
+                Destination = "OffenceCollection.Compound",
+                Functoid = pd.WebId
+            };
+            td.MapCollection.Add(compoundMap);
 
             var loopToDest = new FunctoidMap
             {
@@ -74,6 +104,11 @@ namespace mapping.transformation.test
                 DestinationTypeName = "Bespoke.rsc_1.Domain.Offence, rsc.Driver"
             };
             td.MapCollection.Add(loopToDest);
+
+
+
+
+
 
             var options = new CompilerOptions();
             var sourceCodes = td.GenerateCode();
@@ -89,7 +124,9 @@ namespace mapping.transformation.test
 
             Assert.AreEqual("750418035249", destination.MyKad);
             Assert.AreEqual(2, destination.OffenceCollection.Count);
-            Assert.AreEqual("WVJ 7005", destination.OffenceCollection[0].VehicleNo);
+            Assert.AreEqual("WVJ 7004", destination.OffenceCollection[0].VehicleNo);
+            Assert.AreEqual("W 792 P", destination.OffenceCollection[1].VehicleNo);
+            Assert.AreEqual(70.00m, destination.OffenceCollection[1].Compound);
 
         }
     }
