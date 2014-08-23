@@ -20,6 +20,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             schemaOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
             sprocOptions = ko.observableArray(),
+            selectedTables = ko.observableArray(),
             activate = function (sid) {
                 if (parseInt(sid) === 0) {
                     adapter({
@@ -31,7 +32,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                         UserId: ko.observable(),
                         Password: ko.observable(),
                         Database: ko.observable(),
-                        Schema: ko.observable()
+                        Schema: ko.observable(),
+                        Tables: selectedTables
                     });
                 }
 
@@ -55,11 +57,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                     loadingSchemas(true);
                     context.post(ko.mapping.toJSON(adapter), "sqlserver-adapter/objects").done(function (result) {
 
-                        var tables = _(result.tables).map(function(v) {
+                        var tables = _(result.tables).map(function (v) {
                             return {
                                 name: v,
                                 children: ko.observableArray(),
-                                busy : ko.observable(false)
+                                selectedChildren: ko.observableArray(),
+                                busy: ko.observable(false)
                             };
                         });
                         tableOptions(tables);
@@ -69,12 +72,51 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                     });
                 });
 
-                $('#table-options-panel').on('click', 'input[type=checkbox]', function() {
-                    var table = ko.dataFor(this);
+                $('#table-options-panel').on('click', 'input[type=checkbox]', function () {
+                    var table = ko.dataFor(this),
+                        checkbox = $(this);
+
+                    // when children is selected
+                    if (typeof table.busy !== "function") {
+                        table = ko.dataFor(checkbox.parents('ul')[0]);
+                        var at0 = _(selectedTables()).find(function (v) {
+                            return v.Name == table.name;
+                        }),
+                            child = ko.dataFor(this);
+                        if (checkbox.is(':checked')) {
+                            at0.ChildRelationCollection.push(child);
+                        } else {
+                            var ct = _(at0.ChildRelationCollection()).find(function (v) { return v.Name === child.Name; });
+                            table.selectedChildren.remove(child);
+                        }
+                        return;
+                    }
+
+
+                    if (!checkbox.is(':checked')) {
+                        table.children.removeAll();
+
+                        var at = _(selectedTables()).find(function (v) {
+                            return v.Name == table.name;
+                        });
+
+                        selectedTables.remove(at);
+                        return;
+                    } else {
+                        var adapterTable = {
+                            Name: table.name,
+                            ChildRelationCollection: ko.observableArray()
+                        }
+                        selectedTables.push(adapterTable);
+                    }
+
                     table.busy(true);
-                    setTimeout(function() {
-                        table.children.push('test');
-                        table.children.push('test 2');
+                    context.post(ko.mapping.toJSON(adapter), "sqlserver-adapter/children/" + table.name)
+                        .done(function (result) {
+                            table.children(result.children);
+                            table.busy(false);
+                        });
+                    setTimeout(function () {
                         table.busy(false);
                     }, 5000);
                 });
@@ -101,6 +143,17 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 return tcs.promise();
             },
             generate = function () {
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(adapter);
+                isBusy(true);
+
+                context.post(data, "/sqlserver-adapter/generate")
+                    .then(function (result) {
+                        isBusy(false);
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
 
             },
             save = function () {
