@@ -152,10 +152,10 @@
                 </a>
                 <ul class="dropdown-menu" data-bind="foreach :$root.actionOptions">
                     <li>
-                        <a class="btn btn-link" data-bind="click: $root.trigger().addAction(action.$type)">
+                        <a class="btn btn-link" style="text-align: left" data-bind="click: $root.trigger().addAction(action.$type)">
 
                             <!-- ko if :designer.FontAwesomeIcon-->
-                            <i  data-bind="attr : {'class':'fa fa-'+ designer.FontAwesomeIcon}"></i>
+                            <i  data-bind="attr : {'class':'fa fa-'+ designer.FontAwesomeIcon + ' fa-fw'}"></i>
                             <!--/ko-->
                             Add <!-- ko text: designer.Name -->
                             <!-- /ko-->
