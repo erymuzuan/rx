@@ -73,7 +73,7 @@
                 <ul data-bind="foreach :$root.tableOptions" id="table-options-panel" class="nav nav-stacked">
                     <li>
                         <label>
-                            <input type="checkbox" />
+                            <input type="checkbox" data-bind="attr : {'name':'table-' + name}" />
                             <!-- ko text: name -->
                             <!-- /ko -->
                         </label>
@@ -81,7 +81,7 @@
                         <ul data-bind="visible:children().length > 0, foreach :children" class="nav nav-stacked" style="margin-left: 40px">
                             <li>
                                 <label>
-                                    <input type="checkbox" />
+                                    <input type="checkbox" data-bind="attr : {'name':'child-' + $parent.name + '-' + Table}" />
                                     <!-- ko text: Table -->
                                     <!-- /ko -->
                                 </label>
@@ -92,7 +92,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3" >Stored Procedures</label>
+            <label class="col-sm-3">Stored Procedures</label>
             <div class="col-sm-9">
                 <ul data-bind="foreach :$root.sprocOptions" id="sproc-option-panel" class="nav nav-stacked">
                     <li>

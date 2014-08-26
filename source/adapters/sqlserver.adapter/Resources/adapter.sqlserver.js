@@ -35,7 +35,42 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                         Schema: ko.observable(),
                         Tables: selectedTables
                     });
+
+                    return null;
                 }
+
+                var query = String.format("AdapterId eq {0}", sid),
+                    tcs = new $.Deferred();
+
+                context.loadOneAsync("Adapter", query)
+                    .done(function (b) {
+
+                        var loadSchemaTask = context.post(ko.mapping.toJSON(b), "sqlserver-adapter/schema"),
+                            loadTablesSprocsTask = context.post(ko.mapping.toJSON(b), "sqlserver-adapter/objects"),
+                            loadDatabasesTask = connect(b);
+
+
+                        $.when(loadDatabasesTask, loadSchemaTask, loadTablesSprocsTask).done(function (databases, schemaResult, result) {
+                            schemaOptions(schemaResult[0].schema);
+                            databaseOptions(databases.databases);
+                            var tables = _(result[0].tables).map(function (v) {
+                                return {
+                                    name: v,
+                                    children: ko.observableArray(),
+                                    selectedChildren: ko.observableArray(),
+                                    busy: ko.observable(false)
+                                };
+                            });
+                            tableOptions(tables);
+                            sprocOptions(result[0].sprocs);
+
+                            adapter(b);
+
+                            tcs.resolve(true);
+                        });
+                    });
+
+                return tcs.promise();
 
             },
             attached = function (view) {
@@ -72,6 +107,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                     });
                 });
 
+
                 $('#table-options-panel').on('click', 'input[type=checkbox]', function () {
                     var table = ko.dataFor(this),
                         checkbox = $(this);
@@ -87,7 +123,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                             at0.ChildRelationCollection.push(child);
                         } else {
                             var ct = _(at0.ChildRelationCollection()).find(function (v) { return v.Name === child.Name; });
-                            table.selectedChildren.remove(child);
+                            table.selectedChildren.remove(ct);
                         }
                         return;
                     }
@@ -120,12 +156,42 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                         table.busy(false);
                     }, 5000);
                 });
+
+
+
+                if (adapter().AdapterId() > 0) {
+                    // trigger the checks for each selected table
+                    _(adapter().Tables()).each(function (v) {
+                        var chb = $('input[name=table-' + ko.unwrap(v.Name) + ']'),
+                            table = ko.dataFor(chb[0]);
+                        chb.trigger('click');
+                        // do it for the child
+                        var it = setInterval(function () {
+                            if (!table.busy()) {
+                                _(v.ChildRelationCollection()).each(function (ct) {
+                                    console.log("child ", ko.unwrap(ct.Table));
+                                    $('input[name=child-' + ko.unwrap(v.Name) + '-' + ko.unwrap(ct.Table)).trigger('click');
+                                });
+                                clearInterval(it);
+                            }
+                        }, 200);
+
+                    });
+                    adapter().Tables = selectedTables();
+                }
+
             },
-            connect = function () {
+            connect = function (adp) {
+                if (!adp) {
+                    adp = adapter;
+                }
+                if (typeof adp.Database !== "function") {
+                    adp = adapter;
+                }
                 var tcs = new $.Deferred();
                 loadingSchemas(true);
                 loadingDatabases(true);
-                context.post(ko.mapping.toJSON(adapter), "sqlserver-adapter/databases")
+                context.post(ko.mapping.toJSON(adp), "sqlserver-adapter/databases")
                     .done(function (result) {
                         loadingSchemas(false);
                         loadingDatabases(false);
@@ -137,7 +203,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                             connected(false);
                             logger.error(result.message);
                         }
-                        tcs.resolve(true);
+                        tcs.resolve(result);
                     });
 
                 return tcs.promise();
@@ -162,7 +228,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                     data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
-                context.post(data, "/sph/adapter/save")
+                context.post(data, "/adapter")
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);
