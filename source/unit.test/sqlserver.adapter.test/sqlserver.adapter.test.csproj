@@ -64,6 +64,7 @@
     <Compile Include="SqlPersistenceHelper.cs" />
     <Compile Include="SqlServerAdapterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StoredProceduresTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\adapters\sqlserver.adapter\sqlserver.adapter.csproj">

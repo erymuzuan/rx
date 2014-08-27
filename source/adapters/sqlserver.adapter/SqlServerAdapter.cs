@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -156,6 +157,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
             header.AppendLine("using " + typeof(StringBuilder).Namespace + ";");
             header.AppendLine("using " + typeof(SqlConnection).Namespace + ";");
+            header.AppendLine("using " + typeof(CommandType).Namespace + ";");
             header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
             header.AppendLine("using System.Web.Mvc;");
             header.AppendLine("using Bespoke.Sph.Web.Helpers;");
@@ -178,13 +180,13 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
             var sources = new Dictionary<string, string>();
+            var header = this.GetCodeHeader(namespaces);
             foreach (var at in this.Tables)
             {
                 var table = m_tableDefinitionCollection.Single(t => t.Name == at.Name);
                 options.AddReference(typeof(SqlConnection));
                 var adapterName = table + "Adapter";
 
-                var header = this.GetCodeHeader(namespaces);
                 var code = new StringBuilder(header);
 
                 code.AppendLine("   public class " + adapterName);
@@ -207,8 +209,54 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
 
             }
+
+            var code2 = new StringBuilder(header);
+
+            code2.AppendLine("   public partial class " + this.Name + "");
+            code2.AppendLine("   {");
+
+            code2.AppendLine("      public string ConnectionString{set;get;}");
+
+            var addedActions = new List<string>();
+            foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
+            {
+                op.CodeNamespace = this.CodeNamespace;
+                var methodName = op.MethodName;
+
+                if (addedActions.Contains(methodName)) continue;
+                addedActions.Add(methodName);
+
+                //
+                code2.AppendLine(op.GenerateActionCode(this, methodName));
+
+                var requestSources = op.GenerateRequestCode();
+                AddSources(requestSources, sources);
+
+                var responseSources = op.GenerateResponseCode();
+                AddSources(responseSources, sources);
+            }
+            code2.AppendLine("   }");// end class
+            code2.AppendLine("}");// end namespace
+            sources.Add(this.Name + ".sproc.cs", code2.ToString());
+
             return Task.FromResult(sources);
         }
+
+
+        private static void AddSources(Dictionary<string, string> classes, Dictionary<string, string> sources)
+        {
+            foreach (var cs in classes.Keys)
+            {
+                if (!sources.ContainsKey(cs))
+                {
+                    sources.Add(cs, classes[cs]);
+                    continue;
+                }
+                if (sources[cs] != classes[cs])
+                    throw new InvalidOperationException("You are generating 2 different sources for " + cs);
+            }
+        }
+
 
         private string GenerateExecuteScalarMethod()
         {

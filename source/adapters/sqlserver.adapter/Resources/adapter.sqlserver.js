@@ -159,7 +159,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
 
 
-                if (adapter().AdapterId() > 0) {
+                if (ko.unwrap(adapter().AdapterId) > 0) {
                     // trigger the checks for each selected table
                     _(adapter().Tables()).each(function (v) {
                         var chb = $('input[name=table-' + ko.unwrap(v.Name) + ']'),
