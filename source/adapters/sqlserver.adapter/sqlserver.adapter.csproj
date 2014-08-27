@@ -67,6 +67,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sql2008PagingTranslator.cs" />
     <EmbeddedResource Include="Sql2012PagingTranslator.cs" />
+    <Compile Include="ParameterMode.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -74,6 +75,7 @@
     </Compile>
     <Compile Include="SprocOperationDefinition.cs" />
     <Compile Include="SprocParameter.cs" />
+    <Compile Include="SprocResultMember.cs" />
     <Compile Include="SqlColumn.cs" />
     <Compile Include="SqlServerAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,6 +101,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\adapter.sqlserver.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\adapter.sqlserver.sproc.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\adapter.sqlserver.sproc.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

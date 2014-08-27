@@ -10,6 +10,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             if (route.ModuleId == "viewmodels/adapter.sqlserver")
                 return Properties.Resources.SqlServerAdapterJs;
+            if (route.ModuleId == "viewmodels/adapter.sqlserver.route")
+                return Properties.Resources.SprocJs;
             return null;
         }
 
@@ -17,6 +19,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             if (route.ModuleId == "viewmodels/adapter.sqlserver")
                 return Properties.Resources.SqlServerAdapterHtml;
+            if (route.ModuleId == "viewmodels/adapter.sqlserver.sproc")
+                return Properties.Resources.SprocHtml;
             return null;
         }
 
@@ -34,6 +38,20 @@ namespace Bespoke.Sph.Integrations.Adapters
                     Icon = "fa fa-windows",
                     Nav = false,
                     ModuleId = "viewmodels/adapter.sqlserver",
+                    Role = "developers",
+                    Settings = new JsRouteSetting(),
+                    ShowWhenLoggedIn = true
+                },
+                new JsRoute
+                {
+                    Caption = "MSSQL Server Adapter",
+                    GroupName = "developers",
+                    IsAdminPage = true,
+                    Route = "adapter.sqlserver.sproc/:id/:sproc",
+                    Title = "MSSQL Server Adapter Stored Procedure",
+                    Icon = "fa fa-windows",
+                    Nav = false,
+                    ModuleId = "viewmodels/adapter.sqlserver.sproc",
                     Role = "developers",
                     Settings = new JsRouteSetting(),
                     ShowWhenLoggedIn = true

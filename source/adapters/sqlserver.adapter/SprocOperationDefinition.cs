@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public class SprocOperationDefinition : OperationDefinition
     {
+
         public string GenerateActionCode(SqlServerAdapter adapter, string methodName)
         {
             var code = new StringBuilder();
@@ -21,19 +22,26 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new SqlCommand(\"{0}\", conn))", this.MethodName);
+            code.AppendLinf("           using(var cmd = new SqlCommand(\"[{0}].[{1}]\", conn))", adapter.Schema, this.MethodName);
             code.AppendLine("           {");
             code.AppendLine("               cmd.CommandType = CommandType.StoredProcedure;");
             foreach (var m in this.RequestMemberCollection.OfType<SprocParameter>())
             {
                 code.AppendLinf("               cmd.Parameters.AddWithValue(\"{0}\", request.{0});", m.Name);
             }
-            foreach (var m in this.ResponseMemberCollection.OfType<SprocParameter>())
+            foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {
-                code.AppendLinf("               cmd.Parameters.AddWithValue(\"{0}\", request.{0});", m.Name);
+                if (m.Name == "@return_value") continue;
+                code.AppendLinf("               cmd.Parameters.Add(\"{0}\", SqlDbType.{1}).Direction = ParameterDirection.Output;", m.Name, m.SqlDbType);
             }
             code.AppendLine("               await conn.OpenAsync();");
+            code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
             code.AppendLinf("               var response = new {0}Response();", this.MethodName.ToCsharpIdentitfier());
+            foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
+            {
+                if (m.Name == "@return_value") continue;
+                code.AppendLinf("               response.{0} = ({1})cmd.Parameters[\"{0}\"].Value;", m.Name, m.Type.ToCSharp());
+            }
             code.AppendLine("               return response;");
             code.AppendLine("           }");
             code.AppendLine("       }");
@@ -56,14 +64,14 @@ namespace Bespoke.Sph.Integrations.Adapters
         public override Dictionary<string, string> GenerateRequestCode()
         {
             var sources = new Dictionary<string, string>();
-            var header =this.GetCodeHeader();
+            var header = this.GetCodeHeader();
 
             var typeName = this.Name.ToCsharpIdentitfier() + "Request";
             var code = new StringBuilder();
             code.AppendLine(header);
             code.AppendLine("   public class " + typeName + " : DomainObject");
             code.AppendLine("   {");
-            
+
 
             // properties for each members
             foreach (var member in this.RequestMemberCollection)
@@ -84,7 +92,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var fileName = member.Name + ".cs";
                 if (sources.ContainsKey(fileName))
                 {
-                    Console.WriteLine(Resources.DuplicateSourceContent, fileName, mc == sources[fileName] ? "same" : "different");
+                    Console.WriteLine(Resources.DuplicateContentSource, fileName, mc == sources[fileName] ? "same" : "different");
                     continue;
                 }
 
@@ -133,10 +141,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   public class " + responseTypeName + " : DomainObject");
             code.AppendLine("   {");
 
-     
 
             // properties for each members
-            foreach (var member in this.ResponseMemberCollection)
+            foreach (var member in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {
                 code.AppendLinf("       //member:{0}", member.Name);
                 code.AppendLine(member.GeneratedCode());

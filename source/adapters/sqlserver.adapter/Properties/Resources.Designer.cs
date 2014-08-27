@@ -63,10 +63,50 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         /// <summary>
         ///   Looks up a localized string similar to There is already file {0} with the {1} content.
         /// </summary>
-        internal static string DuplicateSourceContent {
+        internal static string DuplicateContentSource {
             get {
-                return ResourceManager.GetString("SprocOperationDefinition_GenerateRequestCode_There_is_already_file__0__with_the__" +
-                        "1__content", resourceCulture);
+                return ResourceManager.GetString("DuplicateContentSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///&lt;link href=&quot;/Content/jstree/style.min.css&quot; rel=&quot;stylesheet&quot; /&gt;
+        ///&lt;h1&gt;Web Page Operation Details&lt;/h1&gt;
+        ///&lt;div class=&quot;row&quot;&gt;
+        ///    &lt;a data-toggle=&quot;collapse&quot; href=&quot;#request-panel&quot;&gt;
+        ///        &lt;h3&gt;
+        ///            &lt;i class=&quot;fa fa-chevron-down&quot;&gt;&lt;/i&gt;
+        ///            Request Panel
+        ///        &lt;/h3&gt;
+        ///    &lt;/a&gt;
+        ///    &lt;div class=&quot;collapse in&quot; id=&quot;request-panel&quot;&gt;
+        ///
+        ///        &lt;form class=&quot;form-horizontal&quot; data-bind=&quot;with : operation&quot;&gt;
+        ///
+        ///            &lt;div class=&quot;form-group&quot;&gt;
+        ///                &lt;label for=&quot;http-method&quot; class=&quot;col-sm-2 cont [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SprocHtml {
+            get {
+                return ResourceManager.GetString("SprocHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../../Scripts/knockout-3.1.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../../Scripts/require.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../../Scripts/underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../../Scripts/respond.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../../Scripts/moment.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../schemas/sph.domain.g.js [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SprocJs {
+            get {
+                return ResourceManager.GetString("SprocJs", resourceCulture);
             }
         }
         
