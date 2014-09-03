@@ -159,6 +159,21 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
 
 
+                $('#sproc-option-panel').on('click', 'input[type=checkbox]', function () {
+                    var sproc = ko.dataFor(this),
+                        checkbox = $(this);
+                    
+                    if (checkbox.is(':checked')) {
+                        adapter().OperationDefinitionCollection.push(sproc);
+                    } else {
+
+                        adapter().OperationDefinitionCollection.remove(sproc);
+                    }
+
+                });
+
+
+
                 if (ko.unwrap(adapter().AdapterId) > 0) {
                     // trigger the checks for each selected table
                     _(adapter().Tables()).each(function (v) {

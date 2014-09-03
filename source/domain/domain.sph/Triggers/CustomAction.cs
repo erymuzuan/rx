@@ -30,17 +30,17 @@ namespace Bespoke.Sph.Domain
 
         public virtual string GetEditorViewModel()
         {
-            throw new NotImplementedException();
+            throw new Exception(this.GetType().FullName + " does not implement GetEditorViewModel method");
         }
 
         public virtual string GetEditorView()
         {
-            throw new NotImplementedException();
+            throw new Exception(this.GetType().FullName + " does not implement GetEditorView method");
         }
 
         public virtual string GeneratorCode()
         {
-            throw new NotImplementedException();
+            throw new Exception(this.GetType().FullName + " does not implement GeneratorCode method");
         }
     }
 }

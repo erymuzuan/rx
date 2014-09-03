@@ -69,7 +69,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var elementType = typeof(T);
             var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id]," + "[Json]", elementType.Name));
-            if (elementType.Namespace != typeof(Entity).Namespace)// custom entity
+            if (!elementType.Namespace.StartsWith(typeof(Entity).Namespace))// custom entity
             {
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
             }

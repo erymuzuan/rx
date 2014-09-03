@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json;
 
@@ -29,7 +34,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                         list.Add(reader.GetString(0));
                     }
                     var json = JsonConvert.SerializeObject(new { databases = list.ToArray(), success = true, status = "OK" });
-                    var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json) };
+                    var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new JsonContent(json) };
                     return response;
                 }
 
@@ -52,7 +57,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                         list.Add(reader.GetString(0));
                     }
                     var json = JsonConvert.SerializeObject(new { schema = list.ToArray(), success = true, status = "OK" });
-                    var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json) };
+                    var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new JsonContent(json) };
                     return response;
                 }
 
@@ -88,13 +93,16 @@ namespace Bespoke.Sph.Integrations.Adapters
                     spocCommand.Parameters.AddWithValue("@schema_id", schemaId);
                     using (var reader = await spocCommand.ExecuteReaderAsync())
                     {
-                        var sprocs = new List<string>();
+                        var sprocs = new List<SprocOperationDefinition>();
                         while (await reader.ReadAsync())
                         {
-                            sprocs.Add(reader.GetString(0));
+                            var sp = await this.GetSprocDetails(adapter.AdapterId, adapter.Schema, reader.GetString(0));
+                            sprocs.Add(sp);
                         }
-                        var json = JsonConvert.SerializeObject(new { sprocs = sprocs.ToArray(), tables = tables.ToArray(), success = true, status = "OK" });
-                        var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json) };
+                        var json = string.Format("{{ \"sprocs\" :[{0}], \"tables\" :[{1}], \"success\" :true, \"status\" : \"OK\" }}",
+                            string.Join(",\r\n", sprocs.Select(x => x.ToJsonString())),
+                            string.Join(",", tables.Select(x => "\"" + x + "\"")));
+                        var response = new JsonResponseMessage(json);
                         return response;
                     }
                 }
@@ -149,6 +157,100 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
+        //[HttpGet]
+        //[Route("sproc/{id:int}/{schema}.{name}")]
+        //public async Task<HttpResponseMessage> GetSprocDetails(int id, string schema, string name)
+        //{
+
+        private async Task<SprocOperationDefinition> GetSprocDetails(int id, string schema, string name)
+        {
+            var context = new SphDataContext();
+            var adapter = (await context.LoadOneAsync<Adapter>(a => a.AdapterId == id)) as SqlServerAdapter;
+            if (null == adapter)
+                return null;
+
+            const string SQL = @"
+select * from information_schema.PARAMETERS
+where SPECIFIC_NAME = @name
+and SPECIFIC_SCHEMA = @schema
+order by ORDINAL_POSITION";
+
+            var uuid = Guid.NewGuid().ToString();
+            var od = new SprocOperationDefinition
+            {
+                Name = name,
+                MethodName = name.ToCsharpIdentitfier(),
+                Uuid = uuid,
+                CodeNamespace = adapter.CodeNamespace,
+                WebId = uuid,
+            };
+            using (var conn = new SqlConnection(adapter.ConnectionString))
+            using (var cmd = new SqlCommand(SQL, conn))
+            {
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@schema", schema);
+
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var dt = (string)reader["DATA_TYPE"];
+                        var cml = reader["CHARACTER_MAXIMUM_LENGTH"].ReadNullable<int>();
+                        var mode = (string)reader["PARAMETER_MODE"];
+                        var pname = (string)reader["PARAMETER_NAME"];
+                        var position = reader["ORDINAL_POSITION"].ReadNullable<int>();
+
+                        var member = new SprocParameter
+                        {
+                            Name = pname,
+                            FullName = pname,
+                            SqlType = dt,
+                            Type = dt.GetClrType(),
+                            IsNullable = cml == 0,
+                            MaxLength = cml,
+                            Mode = mode == "IN" ? ParameterMode.In : ParameterMode.Out,
+                            Position = position ?? 0,
+                            WebId = Guid.NewGuid().ToString()
+                        };
+                        if (mode == "IN" || mode == "INOUT")
+                            od.RequestMemberCollection.Add(member);
+                        if (mode == "OUT" || mode == "INOUT")
+                            od.ResponseMemberCollection.Add(member);
+                    }
+                }
+
+            }
+
+            return od;
+        }
+
+
+        [HttpPatch]
+        [Route("sproc/{id:int}")]
+        public async Task<IHttpActionResult> UpdateSprocDefinitionAsync(int id, [JsonBody]SprocOperationDefinition operation)
+        {
+            var context = new SphDataContext();
+            var sa = (await context.LoadOneAsync<Adapter>(x => x.AdapterId == id)) as SqlServerAdapter;
+            if (null == sa)
+                return NotFound();
+
+            var op = sa.OperationDefinitionCollection.OfType<SprocOperationDefinition>().SingleOrDefault(o => o.Uuid == operation.Uuid);
+            if (null == op)
+                sa.OperationDefinitionCollection.Add(operation);
+            else
+                sa.OperationDefinitionCollection.Replace(op, operation);
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(sa);
+                await session.SubmitChanges();
+            }
+
+            return Ok(new { success = true, status = "OK", uuid = operation.Uuid });
+        }
+
         [HttpPost]
         [Route("generate")]
         public async Task<HttpResponseMessage> GenerateAsync([FromBody]SqlServerAdapter adapter)
@@ -163,7 +265,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             await adapter.OpenAsync(true);
             var cr = await adapter.CompileAsync();
 
-            var json2 = JsonConvert.SerializeObject(new { message = "Success fully compiled", success = cr.Result, status = "OK" });
+            var json2 = JsonConvert.SerializeObject(new { message = "Successfully compiled", success = cr.Result, status = "OK" });
             var response2 = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json2) };
             return response2;
         }

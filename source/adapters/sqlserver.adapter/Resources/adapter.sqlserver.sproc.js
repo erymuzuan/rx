@@ -14,79 +14,21 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
         var operation = ko.observable(),
             isBusy = ko.observable(false),
-            timeoutInterval = ko.observable(1),
             adapterId = ko.observable(),
             requestSchema = ko.observable(),
             responseSchema = ko.observable(),
             member = ko.observable(),
-            responseMember = ko.observable(), showFieldDialog = function (accessor, field, path, entity) {
-                require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
-                    dialog.field(field);
-                    if (typeof dialog.entity === "function") {
-                        dialog.entity(entity);
-                        console.log("found the entity dialog :" + dialog.entity.name);
-                    }
-
-                    app2.showDialog(dialog)
-                    .done(function (result) {
-                        if (!result) return;
-                        if (result === "OK") {
-                            accessor(field);
-                        }
-                    });
-
-                });
-            },
-        addField = function (accessor, type, entity) {
-            var field = new bespoke.sph.domain[type + 'Field'](system.guid());
-            showFieldDialog(accessor, field, 'field.' + type.toLowerCase(), entity);
-        },
-        editField = function (field) {
-            var self = this;
-            return function () {
-                var fieldType = ko.unwrap(field.$type),
-                    clone = ko.mapping.fromJS(ko.mapping.toJS(field)),
-                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Field,/,
-                    type = pattern.exec(fieldType)[1];
-
-
-                showFieldDialog(self.Field, clone, 'field.' + type.toLowerCase());
-            };
-        },
-         removeHeaderDefinition = function (child) {
-             return function () {
-                 operation().RequestHeaderDefinitionCollection.remove(child);
-             };
-         },
-        addHeaderDefinition = function () {
-            var child = {
-                $type: "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
-                CanOverride: ko.observable(false),
-                DefaultValue: ko.observable(),
-                Description: ko.observable(),
-                Field: ko.observable(),
-                Name: ko.observable(),
-                OriginalValue: ko.observable(),
-                WebId: system.guid()
-            };
-            child.Field({ Name: ko.observable("+ Field") });
-            operation().RequestHeaderDefinitionCollection.push(child);
-        },
+            responseMember = ko.observable(),
         activate = function (id, uuid) {
             adapterId(parseInt(id));
             var tcs = new $.Deferred();
 
-            $.get("/httpadapter/operation/" + id + "/" + uuid)
+            $.get("/sqlserver-adapter/sproc/" + id + "/" + uuid)
                 .done(function (op) {
 
-                    var op2 = context.toObservable(op);
-                    op2.removeHeaderDefinition = removeHeaderDefinition;
-                    op2.addHeaderDefinition = addHeaderDefinition;
+                    var op2 = context.toObservable(JSON.parse(op));
                     console.log(op2);
-                    _(op2.RequestHeaderDefinitionCollection()).each(function (v) {
-                        v.editField = editField;
-                        v.addField = addField;
-                    });
+
                     operation(op2);
 
                     _(operation().RequestMemberCollection()).each(function (v) {
@@ -114,36 +56,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
         attached = function (view) {
 
         },
-        pickRegex = function (m) {
-            var w = window.open("/regex.picker.html", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
-            if (typeof w.window === "object") {
-
-                w.window.member = m;
-                w.window.operation = operation();
-                w.window.adapterId = adapterId();
-                w.window.saved = function (pattern, group) {
-                    m.Pattern(pattern);
-                    m.Group(group);
-                    w.close();
-                };
-            } else {
-
-                w.member = m;
-                w.adapterId = adapterId();
-                w.saved = function (pattern, group) {
-                    m.Pattern(pattern);
-                    m.Group(group);
-                    w.close();
-                };
-            }
-
-        },
         save = function () {
             var tcs = new $.Deferred();
             $.ajax({
                 type: "PATCH",
                 data: ko.mapping.toJSON(operation),
-                url: '/httpadapter/' + adapterId(),
+                url: '/sqlserver-adapter/sproc' + adapterId(),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 error: tcs.reject,
@@ -154,13 +72,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             return tcs.promise();
         },
         goBack = function () {
-            window.location = "#adapter.http/" + adapterId();
+            window.location = "#adapter.sqlserver/" + adapterId();
             return Task.fromResult(0);
         };
 
         var vm = {
-            timeoutInterval: timeoutInterval,
-            pickRegex: pickRegex,
             requestSchema: requestSchema,
             responseSchema: responseSchema,
             responseMember: responseMember,

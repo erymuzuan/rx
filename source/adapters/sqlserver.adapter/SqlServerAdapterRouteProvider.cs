@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             if (route.ModuleId == "viewmodels/adapter.sqlserver")
                 return Properties.Resources.SqlServerAdapterJs;
-            if (route.ModuleId == "viewmodels/adapter.sqlserver.route")
+            if (route.ModuleId == "viewmodels/adapter.sqlserver.sproc")
                 return Properties.Resources.SprocJs;
             return null;
         }

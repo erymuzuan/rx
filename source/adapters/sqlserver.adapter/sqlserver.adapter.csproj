@@ -67,6 +67,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sql2008PagingTranslator.cs" />
     <EmbeddedResource Include="Sql2012PagingTranslator.cs" />
+    <Compile Include="JsonBodyAttribute.cs" />
+    <Compile Include="JsonContent.cs" />
     <Compile Include="ParameterMode.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
