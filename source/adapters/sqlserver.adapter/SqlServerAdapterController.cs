@@ -17,6 +17,18 @@ namespace Bespoke.Sph.Integrations.Adapters
     [RoutePrefix("sqlserver-adapter")]
     public class SqlServerAdapterController : ApiController
     {
+        [HttpGet]
+        [Route("resource/{resource}")]
+        public HttpResponseMessage GetEmbeddedResource()
+        {
+        
+            return new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(Properties.Resources._ko_adapter_sqlserver)
+            };
+        }
+
+
         [HttpPost]
         [Route("databases")]
         public async Task<HttpResponseMessage> GetDatabasesAsync([FromBody]SqlServerAdapter adapter)
@@ -266,12 +278,30 @@ order by ORDINAL_POSITION";
                         if (mode == "IN" || mode == "INOUT")
                             od.RequestMemberCollection.Add(member);
                         if (mode == "OUT" || mode == "INOUT")
-                            od.ResponseMemberCollection.Add(member);
+                        {
+                            SqlDbType t;
+                            Enum.TryParse(dt, true, out t);
+                            var rm = new SprocResultMember
+                            {
+                                Name = pname,
+                                SqlDbType = t,
+                                Type = dt.GetClrType()
+                            };
+                            od.ResponseMemberCollection.Add(rm);
+                        }
                     }
                 }
 
             }
 
+
+            var retVal = new SprocResultMember
+            {
+                Name = "@return_value",
+                Type = typeof(int),
+                SqlDbType = SqlDbType.Int
+            };
+            od.ResponseMemberCollection.Add(retVal);
             return od;
         }
 

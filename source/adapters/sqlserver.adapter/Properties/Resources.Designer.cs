@@ -61,6 +61,26 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to define([&apos;knockout&apos;], function(ko) {
+        ///    ko.bindingHandlers.responseSchemaTree = {
+        ///        init: function (element, valueAccessor) {
+        ///            var system = require(objectbuilders.system),
+        ///                value = valueAccessor(),
+        ///                entity = ko.unwrap(value.entity),
+        ///                searchbox = ko.unwrap(value.searchbox),
+        ///                member = value.selected,
+        ///                jsTreeData = {
+        ///                    text: entity.Name(),
+        ///                    state: {
+        ///                        [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _ko_adapter_sqlserver {
+            get {
+                return ResourceManager.GetString("_ko_adapter_sqlserver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is already file {0} with the {1} content.
         /// </summary>
         internal static string DuplicateContentSource {
@@ -84,8 +104,8 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ///
         ///        &lt;form class=&quot;form-horizontal&quot; data-bind=&quot;with : operation&quot;&gt;
         ///
-        ///            &lt;div class=&quot;form-group&quot;&gt;
-        ///                &lt;label for=&quot;http-method&quot; class=&quot;col-sm-2 cont [rest of string was truncated]&quot;;.
+        ///         &lt;div class=&quot;form-group&quot;&gt;
+        ///                &lt;label for=&quot;name&quot; class=&quot;col-sm-2 control-label&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SprocHtml {
             get {
@@ -94,15 +114,18 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout-3.1.0.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/require.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/underscore.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/respond.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/moment.js&quot; /&gt;
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/respond.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/moment.js&quot; /&gt;
         ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../schemas/sph.domain.g.js [rest of string was truncated]&quot;;.
+        ////// &lt;reference path=&quot;../schemas/sph.domain.g.js&quot; /&gt;
+        ///
+        ///
+        ///define([&apos;se [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SprocJs {
             get {
@@ -131,17 +154,17 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout-3.1.0.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/require.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/underscore.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/moment.js&quot; /&gt;
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/moment.js&quot; /&gt;
         ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
         ////// &lt;reference path=&quot;../schemas/sph.domain.g.js&quot; /&gt;
         ///
         ///
-        ///define([&apos;services/datacontext&apos;, &apos;services [rest of string was truncated]&quot;;.
+        ///define([&apos;services/datacontext&apos;, &apos;services/logger&apos;, &apos;plugins [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SqlServerAdapterJs {
             get {

@@ -9,7 +9,7 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, 'ko/_ko.adapter.http'],
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, 'adapter.resource/sqlserver-adapter/_ko.adapter.sqlserver'],
     function (context, logger, router, system) {
 
         var operation = ko.observable(),
@@ -67,7 +67,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             $.ajax({
                 type: "PATCH",
                 data: ko.mapping.toJSON(operation),
-                url: '/sqlserver-adapter/sproc' + adapterId(),
+                url: '/sqlserver-adapter/sproc/' + adapterId(),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 error: tcs.reject,
