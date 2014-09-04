@@ -123,3 +123,4 @@ bin/sources/EmployeeToCustomerMapping/
 bin/sources/__*/
 /source/dependencies/web.sph.commercial-space/bin
 bin/sources/PatientToCustomerMapping/
+/source/web/web.sph/SphApp/partial/driver-details.js

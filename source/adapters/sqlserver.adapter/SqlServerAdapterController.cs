@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         [Route("resource/{resource}")]
         public HttpResponseMessage GetEmbeddedResource()
         {
-        
+
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent(Properties.Resources._ko_adapter_sqlserver)
@@ -108,7 +108,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                         var sprocs = new List<SprocOperationDefinition>();
                         while (await reader.ReadAsync())
                         {
-                            var sp = await this.GetStoreProcedureAsync(adapter.AdapterId, adapter.Schema, reader.GetString(0));
+                            var sp = await this.GetStoreProcedureAsync(adapter, reader.GetString(0));
                             sprocs.Add(sp);
                         }
                         var json = string.Format("{{ \"sprocs\" :[{0}], \"tables\" :[{1}], \"success\" :true, \"status\" : \"OK\" }}",
@@ -202,33 +202,29 @@ namespace Bespoke.Sph.Integrations.Adapters
                     .SingleOrDefault(x => x.Name == name);
             if (null == sproc)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
-           
-             using (var conn = new SqlConnection(adapter.ConnectionString))
-             using (var cmd = new SqlCommand("sp_helptext", conn))
-             {
-                 cmd.CommandType = CommandType.StoredProcedure;
-                 cmd.Parameters.AddWithValue("@objname", schema + "." + name);
-                 await conn.OpenAsync();
 
-                 var sb = new StringBuilder();
-                 using (var reader  = await cmd.ExecuteReaderAsync())
-                 {
-                     while (await reader.ReadAsync())
-                     {
-                         sb.Append(reader.GetString(0));
-                     }
-                 }
-                 return new HttpResponseMessage {Content = new StringContent(sb.ToString())};
+            using (var conn = new SqlConnection(adapter.ConnectionString))
+            using (var cmd = new SqlCommand("sp_helptext", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@objname", schema + "." + name);
+                await conn.OpenAsync();
 
-             }
+                var sb = new StringBuilder();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        sb.Append(reader.GetString(0));
+                    }
+                }
+                return new HttpResponseMessage { Content = new StringContent(sb.ToString()) };
+
+            }
         }
 
-        private async Task<SprocOperationDefinition> GetStoreProcedureAsync(int id, string schema, string name)
+        private async Task<SprocOperationDefinition> GetStoreProcedureAsync(SqlServerAdapter adapter, string name)
         {
-            var context = new SphDataContext();
-            var adapter = (await context.LoadOneAsync<Adapter>(a => a.AdapterId == id)) as SqlServerAdapter;
-            if (null == adapter)
-                return null;
 
             const string SQL = @"
 select * from information_schema.PARAMETERS
@@ -250,7 +246,7 @@ order by ORDINAL_POSITION";
             {
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@name", name);
-                cmd.Parameters.AddWithValue("@schema", schema);
+                cmd.Parameters.AddWithValue("@schema", adapter.Schema);
 
                 await conn.OpenAsync();
                 using (var reader = await cmd.ExecuteReaderAsync())

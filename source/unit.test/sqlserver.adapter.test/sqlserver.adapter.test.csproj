@@ -61,6 +61,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ReflectionHelper.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />
     <Compile Include="SqlServerAdapterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

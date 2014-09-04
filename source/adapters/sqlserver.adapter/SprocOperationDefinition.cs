@@ -31,6 +31,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {
+                if(m.Type == typeof(Array))continue;
+                if(m.Type == typeof(object))continue;
                 if (m.Name == "@return_value") continue;
                 code.AppendLinf("               cmd.Parameters.Add(\"{0}\", SqlDbType.{1}).Direction = ParameterDirection.Output;", m.Name, m.SqlDbType);
             }
@@ -39,9 +41,27 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLinf("               var response = new {0}Response();", this.MethodName.ToCsharpIdentitfier());
             foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {
+                if (m.Type == typeof (Array))
+                {
+                    code.AppendLinf("               using(var reader = await cmd.ExecuteReaderAsync())");
+                    code.AppendLine("               {");
+                    code.AppendLine("                   while(await reader.ReadAsync())");
+                    code.AppendLine("                   {");
+                    code.AppendLinf("                       var item = new {0}();",m.Name.Replace("Collection",""));
+                    foreach (var rm in m.MemberCollection.OfType<SprocResultMember>())
+                    {
+
+                        code.AppendLinf("                       item.{0} = ({1})reader[\"{0}\"];", rm.Name, rm.Type.ToCSharp());
+                    }
+                    code.AppendLinf("                       response.{0}.Add(item);", m.Name);
+                    code.AppendLine("                   }");
+                    code.AppendLine("               }");
+                    continue;
+                }
                 if (m.Name == "@return_value") continue;
                 code.AppendLinf("               response.{0} = ({1})cmd.Parameters[\"{0}\"].Value;", m.Name, m.Type.ToCSharp());
             }
+
             code.AppendLine("               return response;");
             code.AppendLine("           }");
             code.AppendLine("       }");
