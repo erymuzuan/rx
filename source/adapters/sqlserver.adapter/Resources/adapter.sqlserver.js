@@ -1,9 +1,9 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/moment.js" />
+﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../Scripts/require.js" />
+/// <reference path="../Scripts/underscore.js" />
+/// <reference path="../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
@@ -162,12 +162,17 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 $('#sproc-option-panel').on('click', 'input[type=checkbox]', function () {
                     var sproc = ko.dataFor(this),
                         checkbox = $(this);
-                    
+
                     if (checkbox.is(':checked')) {
                         adapter().OperationDefinitionCollection.push(sproc);
                     } else {
 
-                        adapter().OperationDefinitionCollection.remove(sproc);
+                        var sproc2 = _(adapter().OperationDefinitionCollection()).find(function (v) {
+                            return ko.unwrap(v.Name) === ko.unwrap(sproc.Name);
+                        });
+                        if (sproc2) {
+                            adapter().OperationDefinitionCollection.remove(sproc2);
+                        }
                     }
 
                 });
@@ -175,6 +180,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
 
                 if (ko.unwrap(adapter().AdapterId) > 0) {
+                    // check the sproc
+                    _(adapter().OperationDefinitionCollection()).each(function(v) {
+                        var chb = $('input[name=sproc-' + ko.unwrap(v.Name) + ']');
+                        chb.prop('checked', true);
+                    });
+
                     // trigger the checks for each selected table
                     _(adapter().Tables()).each(function (v) {
                         var chb = $('input[name=table-' + ko.unwrap(v.Name) + ']'),

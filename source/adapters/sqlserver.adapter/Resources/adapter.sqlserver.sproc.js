@@ -1,10 +1,10 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/respond.js" />
-/// <reference path="../../Scripts/moment.js" />
+﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../Scripts/require.js" />
+/// <reference path="../Scripts/underscore.js" />
+/// <reference path="../Scripts/respond.js" />
+/// <reference path="../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
@@ -15,6 +15,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
         var operation = ko.observable(),
             isBusy = ko.observable(false),
             adapterId = ko.observable(),
+            text = ko.observable(),
             requestSchema = ko.observable(),
             responseSchema = ko.observable(),
             member = ko.observable(),
@@ -26,7 +27,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             $.get("/sqlserver-adapter/sproc/" + id + "/" + uuid)
                 .done(function (op) {
 
-                    var op2 = context.toObservable(JSON.parse(op));
+                    var op2 = context.toObservable(op);
                     console.log(op2);
 
                     operation(op2);
@@ -49,6 +50,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                     tcs.resolve(op);
                 });
+
+            $.get("/sqlserver-adapter/sproc-text/" + id + "/" + uuid)
+                .done(function(st) {
+                text(st);
+            });
 
             return tcs.promise();
 
@@ -77,6 +83,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
         };
 
         var vm = {
+            text: text,
             requestSchema: requestSchema,
             responseSchema: responseSchema,
             responseMember: responseMember,

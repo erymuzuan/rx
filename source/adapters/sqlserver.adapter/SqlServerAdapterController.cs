@@ -96,7 +96,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                         var sprocs = new List<SprocOperationDefinition>();
                         while (await reader.ReadAsync())
                         {
-                            var sp = await this.GetSprocDetails(adapter.AdapterId, adapter.Schema, reader.GetString(0));
+                            var sp = await this.GetStoreProcedureAsync(adapter.AdapterId, adapter.Schema, reader.GetString(0));
                             sprocs.Add(sp);
                         }
                         var json = string.Format("{{ \"sprocs\" :[{0}], \"tables\" :[{1}], \"success\" :true, \"status\" : \"OK\" }}",
@@ -157,12 +157,61 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        //[HttpGet]
-        //[Route("sproc/{id:int}/{schema}.{name}")]
-        //public async Task<HttpResponseMessage> GetSprocDetails(int id, string schema, string name)
-        //{
+        [HttpGet]
+        [Route("sproc/{id:int}/{schema}.{name}")]
+        public async Task<HttpResponseMessage> GetSprocAsync(int id, string schema, string name)
+        {
 
-        private async Task<SprocOperationDefinition> GetSprocDetails(int id, string schema, string name)
+            var context = new SphDataContext();
+            var adapter = (await context.LoadOneAsync<Adapter>(a => a.AdapterId == id)) as SqlServerAdapter;
+            if (null == adapter)
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+            var sproc =
+                adapter.OperationDefinitionCollection.OfType<SprocOperationDefinition>()
+                    .SingleOrDefault(x => x.Name == name);
+            if (null == sproc)
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            return new JsonResponseMessage(sproc.ToJsonString(true));
+        }
+
+        [HttpGet]
+        [Route("sproc-text/{id:int}/{schema}.{name}")]
+        public async Task<HttpResponseMessage> GetSprocTextAsync(int id, string schema, string name)
+        {
+
+            var context = new SphDataContext();
+            var adapter = (await context.LoadOneAsync<Adapter>(a => a.AdapterId == id)) as SqlServerAdapter;
+            if (null == adapter)
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+            var sproc =
+                adapter.OperationDefinitionCollection.OfType<SprocOperationDefinition>()
+                    .SingleOrDefault(x => x.Name == name);
+            if (null == sproc)
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+           
+             using (var conn = new SqlConnection(adapter.ConnectionString))
+             using (var cmd = new SqlCommand("sp_helptext", conn))
+             {
+                 cmd.CommandType = CommandType.StoredProcedure;
+                 cmd.Parameters.AddWithValue("@objname", schema + "." + name);
+                 await conn.OpenAsync();
+
+                 var sb = new StringBuilder();
+                 using (var reader  = await cmd.ExecuteReaderAsync())
+                 {
+                     while (await reader.ReadAsync())
+                     {
+                         sb.Append(reader.GetString(0));
+                     }
+                 }
+                 return new HttpResponseMessage {Content = new StringContent(sb.ToString())};
+
+             }
+        }
+
+        private async Task<SprocOperationDefinition> GetStoreProcedureAsync(int id, string schema, string name)
         {
             var context = new SphDataContext();
             var adapter = (await context.LoadOneAsync<Adapter>(a => a.AdapterId == id)) as SqlServerAdapter;
