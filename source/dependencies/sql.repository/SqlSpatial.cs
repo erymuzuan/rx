@@ -71,7 +71,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var query = this.Translate(predicate);
 
-            var sql = query.ToString().Replace("[Data]", "[EncodedWkt]");
+            var sql = query.ToString().Replace("[Json]", "[EncodedWkt]");
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -108,7 +108,7 @@ namespace Bespoke.Sph.SqlRepository
 
             var query = this.Translate(predicate);
 
-            var sql = query.ToString().Replace("[Data]", "[Path].EnvelopeCenter().STAsText()");
+            var sql = query.ToString().Replace("[Json]", "[Path].EnvelopeCenter().STAsText()");
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -129,7 +129,7 @@ namespace Bespoke.Sph.SqlRepository
         public async Task<IEnumerable<T>> ContainsAsync(Expression<Func<T, bool>> predicate, LatLng[] points)
         {
             var sql = new StringBuilder("SELECT ");
-            sql.AppendFormat(" [{1}Id], [Data], [EncodedWkt] FROM [{0}].[{1}] ", "Sph", typeof(T).Name);
+            sql.AppendFormat(" [{1}Id], [Json], [EncodedWkt] FROM [{0}].[{1}] ", "Sph", typeof(T).Name);
             sql.AppendFormat(" WHERE geography::STPolyFromText('POLYGON((");
             sql.Append(string.Join(",", points.ToArrayString()));
             sql.Append("))', 4326)");

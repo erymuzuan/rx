@@ -64,7 +64,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 m_channel.Dispose();
                 m_channel = null;
             }
-          
+
             this.WriteMessage("!!Stopped : {0}", this.QueueName);
         }
 
@@ -119,7 +119,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         }
 
-   
+
 
         private async void Received(object sender, ReceivedMessageArgs e)
         {
@@ -127,9 +127,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             byte[] body = e.Body;
             var json = await this.DecompressAsync(body);
             var header = new MessageHeaders(e);
-            var item = json.DeserializeFromJson<T>();
             try
             {
+                var item = json.DeserializeFromJson<T>();
                 await ProcessMessage(item, header);
                 m_channel.BasicAck(e.DeliveryTag, false);
             }

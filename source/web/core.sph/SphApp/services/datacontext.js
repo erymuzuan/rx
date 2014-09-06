@@ -166,6 +166,7 @@ function (logger, system, ko2) {
         getDistinctAsync: getDistinctAsync,
         getTuplesAsync: getTuplesAsync,
         post: post,
+        get: get,
         clone: clone,
         commit: commit,
         toObservable: toObservable
@@ -178,6 +179,22 @@ function (logger, system, ko2) {
         $.ajax({
             type: "POST",
             data: json,
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: tcs.resolve
+        });
+
+        return tcs.promise();
+    }
+
+    function get(url) {
+
+
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: "GET",
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",

@@ -68,7 +68,7 @@ namespace Bespoke.Sph.SqlRepository
         public async Task<T> LoadOneAsync(IQueryable<T> query)
         {
             var elementType = typeof(T);
-            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id]," + "[Json]", elementType.Name));
+            var sql = query.ToString().Replace("[Json]", string.Format("[{0}Id]," + "[Json]", elementType.Name));
             if (!elementType.Namespace.StartsWith(typeof(Entity).Namespace))// custom entity
             {
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
@@ -101,7 +101,7 @@ namespace Bespoke.Sph.SqlRepository
         public T LoadOne(IQueryable<T> query)
         {
             var elementType = typeof(T);
-            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id], [Json]", elementType.Name));
+            var sql = query.ToString().Replace("[Json]", string.Format("[{0}Id], [Json]", elementType.Name));
 
             var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Single(p => p.Name == elementType.Name + "Id");
@@ -177,7 +177,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var elementType = typeof(T);
             var sql = new StringBuilder(query.ToString());
-            sql.Replace("[Data]", string.Format("[{0}Id],[Json]", elementType.Name));
+            sql.Replace("[Json]", string.Format("[{0}Id],[Json]", elementType.Name));
             if (!sql.ToString().Contains("ORDER"))
             {
                 sql.AppendLine();
@@ -233,7 +233,7 @@ namespace Bespoke.Sph.SqlRepository
 
             if (includeTotalRows)
             {
-                var sql2 = query.ToString().Replace("[Data]", "COUNT(*)");
+                var sql2 = query.ToString().Replace("[Json]", "COUNT(*)");
                 var order = sql2.IndexOf("ORDER", StringComparison.Ordinal);
                 var count = order == -1 ? sql2 : sql2.Substring(0, order);
                 lo.TotalRows = await GetCountAsync(count).ConfigureAwait(false);

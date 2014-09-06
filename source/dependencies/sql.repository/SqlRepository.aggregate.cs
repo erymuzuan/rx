@@ -11,7 +11,7 @@ namespace Bespoke.Sph.SqlRepository
     {
         public async Task<int> GetCountAsync(IQueryable<T> query)
         {
-            var sql = query.ToString().Replace("[Data]", "COUNT(*)");
+            var sql = query.ToString().Replace("[Json]", "COUNT(*)");
             if (typeof(T).Namespace != typeof(Entity).Namespace)
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
 
@@ -36,7 +36,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
-            var sql = query.ToString().Replace("[Data]", string.Format("MAX([{0}])", column));
+            var sql = query.ToString().Replace("[Json]", string.Format("MAX([{0}])", column));
 
             if (typeof(T).Namespace != typeof(Entity).Namespace)
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
@@ -57,7 +57,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
-            var sql = query.ToString().Replace("[Data]", string.Format("MIN([{0}])", column));
+            var sql = query.ToString().Replace("[Json]", string.Format("MIN([{0}])", column));
 
             if (typeof(T).Namespace != typeof(Entity).Namespace)
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
@@ -78,7 +78,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
-            var sql = query.ToString().Replace("[Data]", string.Format("SUM([{0}])", column));
+            var sql = query.ToString().Replace("[Json]", string.Format("SUM([{0}])", column));
 
             if (typeof(T).Namespace != typeof(Entity).Namespace)
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
@@ -98,7 +98,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
-            var sql = query.ToString().Replace("[Data]", string.Format("SUM([{0}])", column));
+            var sql = query.ToString().Replace("[Json]", string.Format("SUM([{0}])", column));
             if (typeof(T).Namespace != typeof(Entity).Namespace)
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
 
@@ -118,7 +118,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
-            var sql = query.ToString().Replace("[Data]", string.Format("AVG([{0}])", column));
+            var sql = query.ToString().Replace("[Json]", string.Format("AVG([{0}])", column));
             if (typeof(T).Namespace != typeof(Entity).Namespace)
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
 
@@ -137,7 +137,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
-            var sql = query.ToString().Replace("[Data]", string.Format("AVG([{0}])", column));
+            var sql = query.ToString().Replace("[Json]", string.Format("AVG([{0}])", column));
             if (typeof(T).Namespace != typeof(Entity).Namespace)
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
 
@@ -180,7 +180,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
-            var sql = query.ToString().Replace("[Data]", string.Format("[{0}]", column));
+            var sql = query.ToString().Replace("[Json]", string.Format("[{0}]", column));
             if (typeof (T).Namespace != typeof (Entity).Namespace)
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
 
