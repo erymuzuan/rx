@@ -1,9 +1,9 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/moment.js" />
+﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../Scripts/require.js" />
+/// <reference path="../Scripts/underscore.js" />
+/// <reference path="../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
@@ -29,11 +29,21 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             },
             attached = function (view) {
 
+            },
+            getDesigner = function ($type) {
+                var item = _(adapterOptions()).find(function(v) {
+                    return ko.unwrap(v.adapter.$type) === ko.unwrap($type);
+                });
+                if (item.designer) {
+                    return item.designer;
+                }
+                return {};
             };
 
         var vm = {
             adapterOptions: adapterOptions,
-            getAdapterType : getAdapterType,
+            getAdapterType: getAdapterType,
+            getDesigner: getDesigner,
             adapters : adapters,
             isBusy: isBusy,
             activate: activate,

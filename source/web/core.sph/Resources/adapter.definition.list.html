@@ -39,7 +39,19 @@
                 <td>
                     <a href="#" data-bind="attr : {'href':'#adapter.'+ $root.getAdapterType($data)+'/' + AdapterId()},text: Name" >HrEmployees</a>
                 </td>
-                <td data-bind="text: $type"></td>
+                <td data-bind="with: $root.getDesigner($type)">
+                    <!-- ko if : FontAwesomeIcon -->
+                    <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon}"></i>
+                    <!--/ko -->
+                    <!-- ko if : BootstrapIcon -->
+                    <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon}"></i>
+                    <!--/ko -->
+                    <!-- ko if : PngIcon -->
+                    <img data-bind="attr : {'src': designer.PngIcon, 'alt': Name}" alt="#" />
+                    <!--/ko -->
+                    <!-- ko text: Name-->
+                    <!--/ko -->
+                </td>
                 <td data-bind="text:Description"></td>
                 <td></td>
             </tr>
