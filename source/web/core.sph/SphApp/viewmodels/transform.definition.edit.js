@@ -1,11 +1,13 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../../Scripts/.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../../Scripts/jsPlumb/jsPlumb.js" />
 
 
 define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_ko.mapping'],
@@ -45,10 +47,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
             },
             isJsPlumbReady = false,
-            m_instance = null,
+            jsPlumbInstance = null,
             initializeFunctoid = function (fnc) {
                 var element = $('#' + fnc.WebId());
-                m_instance.makeSource(element, {
+                jsPlumbInstance.makeSource(element, {
                     filter: ".fep",
                     endPoint: ["Rectangle", { width: 10, height: 10 }],
                     anchor: "RightMiddle",
@@ -56,9 +58,9 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
                 });
 
-                var anchorOptions = ["LeftMiddle", "LeftTop", "LeftBottom"]
+                var anchorOptions = ["LeftMiddle", "LeftTop", "LeftBottom"];
                 if (fnc.ArgumentCollection().length) {
-                    m_instance.makeTarget(element, {
+                    jsPlumbInstance.makeTarget(element, {
                         dropOptions: { hoverClass: "dragHover" },
                         anchors: anchorOptions,
                         maxConnections: fnc.ArgumentCollection().length,
@@ -67,7 +69,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         }
                     });
                 }
-                m_instance.draggable(element);
+                jsPlumbInstance.draggable(element);
             },
             toolboxItemDraggedStop = function (arg) {
                 var functoid = context.toObservable(ko.mapping.toJS(ko.dataFor(this).functoid)),
@@ -108,7 +110,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     ],
                     Container: "container-canvas"
                 });
-                m_instance = instance;
+                jsPlumbInstance = instance;
 
                 var sourceWindows = jsPlumb.getSelector("div.source-field");
                 var targetWindows = jsPlumb.getSelector("div.destination-field");
@@ -137,10 +139,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                     // direct map
                     if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") > -1) {
-                        var sourceField = info.sourceId.replace("source-field-", "").replace("-", "."),
-                            destinationField = info.targetId.replace("destination-field-", "").replace("-", ".");
+                        var sourceField2 = info.sourceId.replace("source-field-", "").replace("-", "."),
+                            destinationField2 = info.targetId.replace("destination-field-", "").replace("-", ".");
 
-                        var dm = new bespoke.sph.domain.DirectMap({ Source: sourceField, Destination: destinationField, WebId: system.guid() });
+                        var dm = new bespoke.sph.domain.DirectMap({ Source: sourceField2, Destination: destinationField2, WebId: system.guid() });
                         td().MapCollection.push(dm);
                         info.connection.map = dm;
                     }
@@ -184,11 +186,11 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     // source field functoid
                     if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") < 0) {
                         var sourceField = info.sourceId.replace("source-field-", "").replace("-", "."),
-                            targetFnc = ko.dataFor(document.getElementById(info.targetId));
+                            targetFnc2 = ko.dataFor(document.getElementById(info.targetId));
 
-                        var sourceFnc = new bespoke.sph.domain.SourceFunctoid({ Field: sourceField, WebId: system.guid() });
+                        var sourceFnc2 = new bespoke.sph.domain.SourceFunctoid({ Field: sourceField, WebId: system.guid() });
 
-                        selectArg(sourceFnc, targetFnc).done(function (result) {
+                        selectArg(sourceFnc2, targetFnc2).done(function (result) {
                             if (result == "OK") {
                                 td().FunctoidCollection.push(sourceFnc);
                             } else {
@@ -247,7 +249,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     if (isFilterSupported) {
 
                     } else {
-                        console.log("FIlter is not supported...");
+                        console.log("Filter is not supported...");
                     }
                     instance.makeSource(element, {
                         filter: ".fep",
@@ -325,7 +327,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                             var conn = instance.connect({ source: "source-field-" + ko.unwrap(m.Source).replace(".", "-"), target: "destination-field-" + ko.unwrap(m.Destination).replace(".", "-") });
                             conn.map = m;
                         } catch (e) {
-                            console.log("Cannot connect",ko.mapping.toJS(m));
+                            console.log("Cannot connect", ko.mapping.toJS(m));
                         }
                     }
                 });
@@ -577,6 +579,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             sourceSchema: sourceSchema,
             destinationSchema: destinationSchema,
             td: td,
+            editProp:editProp,
             toolbar: {
                 saveCommand: save,
                 commands: ko.observableArray([

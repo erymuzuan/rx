@@ -1160,8 +1160,6 @@
     <Content Include="SphApp\viewmodels\members.selector.dialog.js" />
     <Content Include="SphApp\viewmodels\not.found.js" />
     <Content Include="SphApp\viewmodels\search.definition.dialog.js" />
-    <Content Include="SphApp\viewmodels\transform.definition.edit.js" />
-    <Content Include="SphApp\viewmodels\transform.definition.prop.dialog.js" />
     <Content Include="SphApp\views\activity.mapping.html" />
     <Content Include="SphApp\views\activity.receive.html" />
     <Content Include="SphApp\views\activity.send.html" />
@@ -1174,8 +1172,6 @@
     <Content Include="SphApp\views\not.found.html" />
     <Content Include="SphApp\views\offline.storage.html" />
     <Content Include="SphApp\views\search.definition.dialog.html" />
-    <Content Include="SphApp\views\transform.definition.edit.html" />
-    <Content Include="SphApp\views\transform.definition.prop.dialog.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

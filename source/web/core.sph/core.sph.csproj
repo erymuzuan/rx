@@ -2170,6 +2170,8 @@
     <EmbeddedResource Include="SphApp\views\assembly.dialog.html" />
     <EmbeddedResource Include="SphApp\viewmodels\view.column.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\role.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\transform.definition.edit.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\transform.definition.prop.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2649,6 +2651,8 @@
     <Content Include="Scripts\_task.js" />
     <Content Include="Scripts\_theme.js" />
     <Content Include="Scripts\_uiready.js" />
+    <EmbeddedResource Include="SphApp\views\transform.definition.edit.html" />
+    <EmbeddedResource Include="SphApp\views\transform.definition.prop.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
