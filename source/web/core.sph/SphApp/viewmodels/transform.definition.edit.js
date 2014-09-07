@@ -368,7 +368,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     }, 1500);
 
 
-                if (td().TransformDefinitionId() === 0) {
+                if (!td().OutputTypeName() || !td().InputTypeName()) {
                     return;
                 }
                 var icon = function (html, item) {
@@ -519,6 +519,17 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                                     } else {
                                         td()[g] = clone[g];
                                     }
+                                }
+
+                                // try build the tree for new item
+                                if (td().TransformDefinitionId() === 0) {
+                                    var inTask = context.get("/sph/transformdefinition/schema?type=" + td().InputTypeName()),
+                                       outTask= context.get("/sph/transformdefinition/schema?type=" + td().OutputTypeName());
+                                    $.when(inTask, outTask).done(function(input, output) {
+                                        sourceSchema(input[0]);
+                                        destinationSchema(output[0]);
+                                        attached();
+                                    });
                                 }
                             }
                         });

@@ -190,8 +190,6 @@ function (logger, system, ko2) {
     }
 
     function get(url) {
-
-
         var tcs = new $.Deferred();
         $.ajax({
             type: "GET",
