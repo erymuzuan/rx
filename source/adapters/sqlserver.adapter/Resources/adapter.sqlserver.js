@@ -8,8 +8,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context, logger, router) {
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.app],
+    function (context, logger, router, app) {
 
         var adapter = ko.observable(),
             isBusy = ko.observable(false),
@@ -181,7 +181,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
                 if (ko.unwrap(adapter().AdapterId) > 0) {
                     // check the sproc
-                    _(adapter().OperationDefinitionCollection()).each(function(v) {
+                    _(adapter().OperationDefinitionCollection()).each(function (v) {
                         var chb = $('input[name=sproc-' + ko.unwrap(v.Name) + ']');
                         chb.prop('checked', true);
                     });
@@ -260,6 +260,15 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                         tcs.resolve(result);
                     });
                 return tcs.promise();
+            },
+            removeAdapter = function () {
+
+                return app.showMessage("Are you sure you want to permanently remove this adapter", "Reactive Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+                            return context.send(ko.mapping.toJSON(adapter), "adapter", "DELETE");
+                        }
+                    });
             }
         ;
 
@@ -274,6 +283,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             attached: attached,
             toolbar: {
                 saveCommand: save,
+                removeCommand: removeAdapter,
                 commands: ko.observableArray([
                     {
                         caption: 'Connect',

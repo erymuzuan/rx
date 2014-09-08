@@ -34,6 +34,36 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
+        [Route("{id}")]
+        [HttpDelete]
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            var context = new SphDataContext();
+            var ef = await context.LoadOneAsync<Adapter>(x => x.AdapterId == id);
+            if (null == ef)
+                return HttpNotFound("Cannot find adapter with id " + id);
+
+            using (var session = context.OpenSession())
+            {
+                session.Delete(ef);
+                await session.SubmitChanges("Delete");
+            }
+            return Json(new { success = true, status = "OK", id = ef.AdapterId });
+        }
+        [Route("")]
+        [HttpDelete]
+        public async Task<ActionResult> DeleteAsync()
+        {
+            var ef = this.GetRequestJson<Adapter>();
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Delete(ef);
+                await session.SubmitChanges("Delete");
+            }
+            return Json(new { success = true, status = "OK", id = ef.AdapterId });
+        }
+
         [Route("")]
         [HttpPost]
         public async Task<ActionResult> Save()
