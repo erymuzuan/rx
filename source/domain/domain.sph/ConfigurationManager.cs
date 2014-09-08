@@ -209,7 +209,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ApplicationFullName"] ?? "SPH platform showcase";
+                return System.Configuration.ConfigurationManager.AppSettings["sph:ApplicationFullName"] ?? "Reactive Developer platform showcase";
             }
         }
     }
