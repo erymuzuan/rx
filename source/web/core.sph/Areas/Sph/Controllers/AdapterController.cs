@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
+    [Authorize(Roles = "developers, administrators")]
     [RoutePrefix("adapter")]
     public class AdapterController : Controller
     {
@@ -123,8 +124,7 @@ namespace Bespoke.Sph.Web.Controllers
             var html = provider.GetEditorView(route);
             return Content(html, "text/html", Encoding.UTF8);
         }
-
-
+        
 
     }
 }
