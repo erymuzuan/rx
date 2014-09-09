@@ -104,8 +104,8 @@ namespace Bespoke.Sph.RabbitMqPublisher
             {
                 var entityType = this.GetEntityType(item);
                 var log = string.Empty;
-                var id = item.GetId();
-                if (null != logs && id > 0)
+                var id = item.Id;
+                if (null != logs &&!string.IsNullOrWhiteSpace(id))
                 {
                     var audit = logs.SingleOrDefault(l => l.Type == entityType.Name && l.EntityId == id);
                     if (null != audit)

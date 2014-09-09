@@ -11,12 +11,7 @@ namespace Bespoke.Sph.Domain
     {
         private Tracker m_tracker;
 
-        public override int GetId()
-        {
-            return this.WorkflowId;
-        }
-
-
+     
         /// <summary>
         /// once a workflow definition is published the copy of the definition is stored for reference with id and version no,
         /// the WorkflowDefinitionId may not be of the correct version anymore

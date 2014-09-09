@@ -28,7 +28,7 @@ namespace domain.test.reports
             return Task.FromResult(m_dictionary[query.ToString()]);
         }
 
-        public Task<T> LoadOneAsync(int id)
+        public Task<T> LoadOneAsync(string id)
         {
             throw new NotImplementedException();
         }

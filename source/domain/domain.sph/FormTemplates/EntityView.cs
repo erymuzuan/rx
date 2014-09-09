@@ -205,15 +205,7 @@ namespace Bespoke.Sph.Domain
             return string.Format("[{0}] {1}", this.EntityViewId, this.Name);
         }
 
-        public override void SetId(int id)
-        {
-            this.EntityViewId = id;
-        }
-
-        public override int GetId()
-        {
-            return this.EntityViewId;
-        }
+    
 
         public string GenerateRoute()
         {

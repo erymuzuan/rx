@@ -10,10 +10,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class EntityDefinition
     {
-        public override int GetId()
-        {
-            return this.EntityDefinitionId;
-        }
+       
 
         private string GetCodeHeader()
         {

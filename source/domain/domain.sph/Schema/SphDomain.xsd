@@ -60,7 +60,7 @@
 			<xs:attribute name="DateTime" type="xs:dateTime" use="required"/>
 			<xs:attribute name="Operation" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
-			<xs:attribute name="EntityId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Change">

@@ -2254,33 +2254,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int PageId
-        {
-            set
-            {
-                if (m_pageId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNamePageId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_pageId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_pageId;
-            }
-        }
 
 
         ///<summary>

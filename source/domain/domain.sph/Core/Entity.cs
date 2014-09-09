@@ -19,6 +19,8 @@ namespace Bespoke.Sph.Domain
     {
         [XmlAttribute]
         public string CreatedBy { get; set; }
+        [XmlAttribute]
+        public string Id { get; set; }
 
         [XmlAttribute]
         public DateTime CreatedDate { get; set; }
@@ -47,21 +49,7 @@ namespace Bespoke.Sph.Domain
             return type;
         }
 
-        public virtual int GetId()
-        {
-            var type = this.GetEntityType();
-            var id = type.GetProperty(type.Name + "Id");
-            return (int)id.GetValue(this);
-        }
-
-
-        public virtual void SetId(int id)
-        {
-            var type = this.GetEntityType();
-            var idp = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)
-                                                                    && p.Name == type.Name + "Id");
-            idp.SetValue(this, id);
-        }
+        
 
         public ValidationResult ValidateBusinessRule(IEnumerable<BusinessRule> businessRules)
         {

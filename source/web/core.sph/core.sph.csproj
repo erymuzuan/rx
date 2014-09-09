@@ -786,6 +786,7 @@
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\TypeModel.cs" />
     <Compile Include="ViewModels\JsTestViewModel.cs" />
+    <Compile Include="ViewModels\PageCompareViewModel.cs" />
     <Compile Include="ViewModels\PrintViewModel.cs" />
     <Compile Include="ViewModels\RdlExecutionViewModel.cs" />
     <Compile Include="ViewModels\ReportBuilderViewModel.cs" />

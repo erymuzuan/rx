@@ -76,7 +76,7 @@ namespace Bespoke.Sph.Domain
                 var reposType = typeof(IRepository<>).MakeGenericType(new[] { type });
                 var repos = ObjectBuilder.GetObject(reposType);
 
-                var p = await repos.LoadOneAsync(o1.GetId()).ConfigureAwait(false);
+                var p = await repos.LoadOneAsync(o1.Id).ConfigureAwait(false);
                 list.Add(p);
 
 
@@ -86,8 +86,8 @@ namespace Bespoke.Sph.Domain
 
         internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session, Dictionary<string, object> headers)
         {
-            var addedItems = session.AttachedCollection.Where(t => t.GetId() == 0).ToArray();
-            var changedItems = session.AttachedCollection.Where(t => t.GetId() > 0).ToArray();
+            var addedItems = session.AttachedCollection.Where(t => string.IsNullOrWhiteSpace(t.Id)).ToArray();
+            var changedItems = session.AttachedCollection.Where(t => !string.IsNullOrWhiteSpace(t.Id)).ToArray();
 
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
             var previous = await GetPreviousItems(changedItems);
@@ -102,7 +102,7 @@ namespace Bespoke.Sph.Domain
                             DateTime = DateTime.Now,
                             User = ds.CurrentUserName,
                             Type = e.GetType().Name,
-                            EntityId = e.GetId(),
+                            EntityId = e.Id,
                             Note = "-"
                         }).ToArray();
             session.AttachedCollection.AddRange(logs.Cast<Entity>());

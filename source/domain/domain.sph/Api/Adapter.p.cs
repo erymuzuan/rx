@@ -30,14 +30,6 @@ namespace Bespoke.Sph.Domain.Api
         [XmlAttribute]
         public int AdapterId { get; set; }
 
-        public override int GetId()
-        {
-            return AdapterId;
-        }
-
-        public override void SetId(int id)
-        {
-            AdapterId = id;
-        }
+  
     }
 }
