@@ -26,7 +26,7 @@ namespace Bespoke.Sph.Domain
 
         public async Task<Workflow> InitiateAsync(VariableValue[] values = null, ScreenActivity screen = null)
         {
-            var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.WorkflowDefinitionId, this.Version, this.CodeNamespace);
+            var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.Id, this.Version, this.CodeNamespace);
             var type = Type.GetType(typeName);
             if (null == type) throw new InvalidOperationException("Cannot instantiate  " + typeName);
 
@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Domain
 
             dynamic wf = Activator.CreateInstance(type);
             wf.Name = this.Name;
-            wf.WorkflowDefinitionId = this.WorkflowDefinitionId;
+            wf.WorkflowDefinitionId = this.Id;
             wf.State = "Active";
             wf.WorkflowDefinition = this;
 
@@ -123,7 +123,7 @@ namespace Bespoke.Sph.Domain
             if (!string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
             {
                 sourceFile = Path.Combine(options.SourceCodeDirectory,
-                    string.Format("Workflow_{0}_{1}.cs", this.WorkflowDefinitionId, this.Version));
+                    string.Format("Workflow_{0}_{1}.cs", this.Id, this.Version));
                 File.WriteAllText(sourceFile, code);
             }
 
@@ -132,7 +132,7 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.WorkflowDefinitionId, this.Version)),
+                    OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.Id, this.Version)),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
                 };
@@ -221,7 +221,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return string.Format("{0}_{1}_{2}", this.Name.Dehumanize().Replace(" ", string.Empty), this.WorkflowDefinitionId, this.Version);
+                return string.Format("{0}_{1}_{2}", this.Name.Dehumanize().Replace(" ", string.Empty), this.Id, this.Version);
             }
         }
         [XmlIgnore]
@@ -230,7 +230,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return "Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId + "_" + this.Version;
+                return "Bespoke.Sph.Workflows_" + this.Id + "_" + this.Version;
             }
         }
 

@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Domain
             tracker.AddExecutedActivity(act, result.Correlation);
 
             var context = new SphDataContext();
-            if (this.WorkflowId > 0)
+            if (!string.IsNullOrWhiteSpace(this.Id))
             {
                 using (var session = context.OpenSession())
                 {
@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Domain
                 await session.SubmitChanges("Start", headers);
             }
 
-            tracker.WorkflowId = this.WorkflowId;
+            tracker.WorkflowId = this.Id;
             tracker.WorkflowDefinitionId = this.WorkflowDefinitionId;
             using (var session = context.OpenSession())
             {
@@ -93,22 +93,22 @@ namespace Bespoke.Sph.Domain
             if (null != m_tracker)
                 return m_tracker;
 
-            if (this.WorkflowId == 0)
+            if ( string.IsNullOrWhiteSpace(this.Id))
                 return m_tracker = new Tracker
                 {
                     Workflow = this,
                     WorkflowDefinition = this.WorkflowDefinition,
-                    WorkflowId = this.WorkflowId,
+                    WorkflowId = this.Id,
                     WorkflowDefinitionId = this.WorkflowDefinitionId
                 };
 
             var context = new SphDataContext();
-            m_tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.WorkflowId)
+            m_tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.Id)
                           ??
-                          new Tracker { WorkflowId = this.WorkflowId, WorkflowDefinitionId = this.WorkflowDefinitionId };
+                          new Tracker { WorkflowId = this.Id, WorkflowDefinitionId = this.WorkflowDefinitionId };
             m_tracker.Workflow = this;
             m_tracker.WorkflowDefinition = this.WorkflowDefinition;
-            if (m_tracker.TrackerId == 0)
+            if ( string.IsNullOrWhiteSpace(m_tracker.Id))
                 m_tracker.Init(this, this.WorkflowDefinition);
 
             return m_tracker;

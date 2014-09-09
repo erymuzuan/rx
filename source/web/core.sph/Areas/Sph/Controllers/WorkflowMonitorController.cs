@@ -59,10 +59,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-        public async Task<ActionResult> DeployedVersions(int id)
+        public async Task<ActionResult> DeployedVersions(string id)
         {
             var context = new SphDataContext();
-            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == id);
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == id);
 
             var query = context.AuditTrails.Where(a => a.EntityId == id && a.Type == typeof(WorkflowDefinition).Name);
             var lo = await context.LoadAsync(query, includeTotalRows: true);

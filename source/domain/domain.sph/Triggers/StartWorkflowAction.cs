@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Domain
         public async override Task ExecuteAsync(RuleContext ruleContext)
         {
             var context = new SphDataContext();
-            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == this.WorkflowDefinitionId);
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == this.WorkflowDefinitionId);
             var variables = from map in this.WorkflowTriggerMapCollection
                             select new VariableValue
                             {

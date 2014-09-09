@@ -1143,9 +1143,9 @@ namespace Bespoke.Sph.Domain
     public partial class StartWorkflowAction
     {
 
-        private int m_WorkflowDefinitionId;
+        private string m_WorkflowDefinitionId;
         [XmlAttribute]
-        public int WorkflowDefinitionId
+        public string WorkflowDefinitionId
         {
             get
             {
@@ -1288,9 +1288,6 @@ namespace Bespoke.Sph.Domain
     public partial class WorkflowDefinition
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowDefinitionId;
-        public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1351,33 +1348,6 @@ namespace Bespoke.Sph.Domain
             get { return m_ReferencedAssemblyCollection; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int WorkflowDefinitionId
-        {
-            set
-            {
-                if (m_workflowDefinitionId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_workflowDefinitionId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_workflowDefinitionId;
-            }
-        }
 
 
         ///<summary>
@@ -1537,13 +1507,10 @@ namespace Bespoke.Sph.Domain
     public partial class Workflow
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowId;
-        public const string PropertyNameWorkflowId = "WorkflowId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowDefinitionId;
+        private string m_workflowDefinitionId;
         public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
 
 
@@ -1578,33 +1545,6 @@ namespace Bespoke.Sph.Domain
             get { return m_VariableValueCollection; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int WorkflowId
-        {
-            set
-            {
-                if (m_workflowId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_workflowId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_workflowId;
-            }
-        }
 
 
         ///<summary>
@@ -1616,7 +1556,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int WorkflowDefinitionId
+        public string WorkflowDefinitionId
         {
             set
             {
@@ -2203,9 +2143,6 @@ namespace Bespoke.Sph.Domain
     public partial class Page
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_pageId;
-        public const string PropertyNamePageId = "PageId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -3401,18 +3338,14 @@ namespace Bespoke.Sph.Domain
     public partial class Tracker
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_trackerId;
-        public const string PropertyNameTrackerId = "TrackerId";
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowId;
+        private string m_workflowId;
         public const string PropertyNameWorkflowId = "WorkflowId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowDefinitionId;
+        private string m_workflowDefinitionId;
         public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
 
 
@@ -3438,33 +3371,7 @@ namespace Bespoke.Sph.Domain
             get { return m_ExecutedActivityCollection; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
 
-        [Required]
-
-        [DebuggerHidden]
-
-        public int TrackerId
-        {
-            set
-            {
-                if (m_trackerId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTrackerId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_trackerId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_trackerId;
-            }
-        }
 
 
         ///<summary>
@@ -3476,7 +3383,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int WorkflowId
+        public string  WorkflowId
         {
             set
             {
@@ -3505,7 +3412,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int WorkflowDefinitionId
+        public string WorkflowDefinitionId
         {
             set
             {
@@ -3538,7 +3445,7 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_instanceId;
+        private string m_instanceId;
         public const string PropertyNameInstanceId = "InstanceId";
 
 
@@ -3548,7 +3455,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowDefinitionId;
+        private string m_workflowDefinitionId;
         public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
 
 
@@ -3588,7 +3495,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int InstanceId
+        public string InstanceId
         {
             set
             {
@@ -3646,7 +3553,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int WorkflowDefinitionId
+        public string WorkflowDefinitionId
         {
             set
             {

@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Domain
             // default properties
             code.AppendLinf("           this.Name = \"{0}\";", this.Name);
             code.AppendLinf("           this.Version = {0};", this.Version);
-            code.AppendLinf("           this.WorkflowDefinitionId = {0};", this.WorkflowDefinitionId);
+            code.AppendLinf("           this.WorkflowDefinitionId = {0};", this.Id);
 
             foreach (var variable in this.VariableDefinitionCollection.OfType<ComplexVariable>())
             {
@@ -57,14 +57,14 @@ namespace Bespoke.Sph.Domain
             // start
             code.AppendLine("       public override Task<ActivityExecutionResult> StartAsync()");
             code.AppendLine("       {");
-            code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.WorkflowDefinitionId, this.Version);
+            code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.Id, this.Version);
             code.AppendLinf("           return this.{0}();", this.GetInitiatorActivity().MethodName);
             code.AppendLine("       }");
 
             // execute
             code.AppendLine("       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId, string correlation = null)");
             code.AppendLine("       {");
-            code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.WorkflowDefinitionId, this.Version);
+            code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.Id, this.Version);
             code.AppendLine("           ActivityExecutionResult result = null;");
             code.AppendLine("           switch(activityId)");
             code.AppendLine("           {");
@@ -127,14 +127,14 @@ namespace Bespoke.Sph.Domain
 
         private void GenerateJsSchemasController(StringBuilder code)
         {
-            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.WorkflowDefinitionId, this.Version);
+            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.Id, this.Version);
             code.AppendLine("{");
             code.AppendLinf("//exec:Schemas");
             // custom schema
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Schemas()");
             code.AppendLine("       {");
             code.AppendLine("           var store = ObjectBuilder.GetObject<IBinaryStore>();");
-            code.AppendLinf("           var doc = await store.GetContentAsync(\"wd.{0}.{1}\");", this.WorkflowDefinitionId, this.Version);
+            code.AppendLinf("           var doc = await store.GetContentAsync(\"wd.{0}.{1}\");", this.Id, this.Version);
             code.AppendLine(@"          WorkflowDefinition wd;
                                         using (var stream = new System.IO.MemoryStream(doc.Content))
                                         {
@@ -159,7 +159,7 @@ namespace Bespoke.Sph.Domain
             var script = new StringBuilder();
             script.AppendLine("var bespoke = bespoke ||{};");
             script.AppendLine("bespoke.sph = bespoke.sph ||{};");
-            script.AppendLinf("bespoke.sph.w_{0}_{1} = bespoke.sph.w_{0}_{1} ||{{}};", wd.WorkflowDefinitionId, wd.Version);
+            script.AppendLinf("bespoke.sph.w_{0}_{1} = bespoke.sph.w_{0}_{1} ||{{}};", wd.Id, wd.Version);
 
             var xsd = wd.GetCustomSchema();
 
@@ -178,7 +178,7 @@ namespace Bespoke.Sph.Domain
 
         private void GenerateSearchController(StringBuilder code)
         {
-            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.WorkflowDefinitionId, this.Version);
+            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.Id, this.Version);
             code.AppendLine("{");
             code.AppendLinf("//exec:Search");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
@@ -193,7 +193,7 @@ namespace Bespoke.Sph.Domain
             var content = response.Content as System.Net.Http.StreamContent;
             if (null == content) throw new Exception(""Cannot execute query on es "" + request);
             this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Content(await content.ReadAsStringAsync());", this.WorkflowDefinitionId, this.Version);
+            return Content(await content.ReadAsStringAsync());", this.Id, this.Version);
             code.AppendLine("       }");
             code.AppendLine("}");
 

@@ -46,7 +46,7 @@ namespace Bespoke.Sph.Domain
         public async override Task CancelAsync(Workflow wf)
         {
             var baseUrl = ConfigurationManager.BaseUrl;
-            var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId, wf.Version, this.ActionName, wf.WorkflowId);
+            var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId, wf.Version, this.ActionName, wf.Id);
             var cmb = this.CancelMessageBody ?? "@Model.Screen.Name task assigned to has been cancelled";
             var cms = this.CancelMessageSubject ?? "[Sph] @Model.Screen.Name  task is cancelled";
 
@@ -173,7 +173,7 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedCustomTypeCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
-            var controller = string.Format("Workflow_{0}_{1}", wd.WorkflowDefinitionId, wd.Version);
+            var controller = string.Format("Workflow_{0}_{1}", wd.Id, wd.Version);
             code.AppendLinf("public partial class {0}Controller : System.Web.Mvc.Controller", controller);
             code.AppendLine("{");
 
@@ -282,7 +282,7 @@ namespace Bespoke.Sph.Domain
         public string GetView(WorkflowDefinition wd)
         {
 
-            var controller = string.Format("Workflow_{0}_{1}", wd.WorkflowDefinitionId, wd.Version);
+            var controller = string.Format("Workflow_{0}_{1}", wd.Id, wd.Version);
             var code = new StringBuilder();
 
             // buttons
@@ -322,7 +322,7 @@ namespace Bespoke.Sph.Domain
 
                             }});
                         return tcs.promise();
-                }}", this.ActionName, wd.WorkflowDefinitionId, wd.Version);
+                }}", this.ActionName, wd.Id, wd.Version);
             if (buttonCommandJs.Length > 0)
                 buttonCommandJs = saveCommand + "," + buttonCommandJs;
             else
@@ -398,7 +398,7 @@ namespace Bespoke.Sph.Domain
         }});
 
     </script>
-}}", controller, wd.WorkflowDefinitionId, wd.Version, buttonCommandJs);
+}}", controller, wd.Id, wd.Version, buttonCommandJs);
 
 
             return code.ToString();

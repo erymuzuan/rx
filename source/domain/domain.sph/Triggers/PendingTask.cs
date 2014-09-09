@@ -2,7 +2,7 @@
 {
     public class PendingTask
     {
-        public PendingTask(int id)
+        public PendingTask(string id)
         {
             this.WorkflowId = id;
         }
@@ -10,7 +10,7 @@
         {
             
         }
-        public int WorkflowId { get; set; }
+        public string WorkflowId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public string WebId { get; set; }

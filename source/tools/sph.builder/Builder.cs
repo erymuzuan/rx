@@ -79,7 +79,7 @@ namespace sph.builder
         public async Task InsertAsync(T item)
         {
             var name = typeof(T).Name;
-            await SPH_CONNECTION.ExecuteNonQueryAsync(string.Format("DELETE FROM [Sph].[{0}] WHERE [{0}Id] = {1}", name, item.GetId()));
+            await SPH_CONNECTION.ExecuteNonQueryAsync(string.Format("DELETE FROM [Sph].[{0}] WHERE [Id] = {1}", name, item.Id));
 
             var sql = this.SetIdentityOn +
                 string.Format(@"INSERT INTO [Sph].[{0}](", name) +

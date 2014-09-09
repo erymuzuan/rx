@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Domain
                 errors.Add(new BuildError(screen.WebId, string.Format("[ScreenActivity] -> {1} Child item type cannot be empty for {0}", this.Path, screen.Name)));
 
             if (!this.ChildItemType.StartsWith("bespoke."))
-                errors.Add(new BuildError(null, string.Format("[ListView] ->{0} :Child item type normally in the form bespoke.sph.w_{1}_{2}.<ChildType> or one of the custom entity", this.Path, wd.WorkflowDefinitionId, wd.Version)));
+                errors.Add(new BuildError(null, string.Format("[ListView] ->{0} :Child item type normally in the form bespoke.sph.w_{1}_{2}.<ChildType> or one of the custom entity", this.Path, wd.Id, wd.Version)));
             return errors.ToArray();
         }
 

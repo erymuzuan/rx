@@ -15,9 +15,9 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             var name = e.Attribute("name").Value;
 
-            code.AppendLinf("bespoke.sph.w_{1}_{2}.{0} = function(webid){{", name, this.WorkflowDefinitionId, this.Version);
+            code.AppendLinf("bespoke.sph.w_{1}_{2}.{0} = function(webid){{", name, this.Id, this.Version);
             code.AppendLine("   var model = {");
-            properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", this.CodeNamespace, name, this.WorkflowDefinitionId, this.Version));
+            properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", this.CodeNamespace, name, this.Id, this.Version));
             properties.Add("        \"WebId\": ko.observable(webid)");
 
 
@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Domain
     if (bespoke.sph.w_{0}_{1}.{2}Partial) {{
         return _(model).extend(new bespoke.sph.w_{0}_{1}.{2}Partial(model));
     }}       
-return model;", this.WorkflowDefinitionId, this.Version, name);
+return model;", this.Id, this.Version, name);
             code.AppendLine("   };");
             return code.ToString();
 
@@ -46,9 +46,9 @@ return model;", this.WorkflowDefinitionId, this.Version, name);
             var code = new StringBuilder();
             var name = e.Attribute("name").Value;
 
-            code.AppendLinf("bespoke.sph.w_{1}_{2}.{0} = function(webid){{", name, this.WorkflowDefinitionId, this.Version);
+            code.AppendLinf("bespoke.sph.w_{1}_{2}.{0} = function(webid){{", name, this.Id, this.Version);
             code.AppendLine("   var model = {");
-            properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", this.CodeNamespace, name, this.WorkflowDefinitionId, this.Version));
+            properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", this.CodeNamespace, name, this.Id, this.Version));
             properties.Add("        \"WebId\": ko.observable(webid)");
 
 
@@ -75,7 +75,7 @@ return model;", this.WorkflowDefinitionId, this.Version, name);
     if (bespoke.sph.w_{0}_{1}.{2}Partial) {{
         return _(model).extend(new bespoke.sph.w_{0}_{1}.{2}Partial(model));
     }}       
-return model;", this.WorkflowDefinitionId, this.Version, name);
+return model;", this.Id, this.Version, name);
             code.AppendLine("   };");
             return code.ToString();
 
@@ -116,7 +116,7 @@ return model;", this.WorkflowDefinitionId, this.Version, name);
                 var refElements = from at in all.Elements(x + "element")
                                   where at.Attribute("ref") != null
                                   let refa = at.Attribute("ref")
-                                  select string.Format("            \"{0}\" : ko.observable(new bespoke.sph.w_{1}_{2}.{0}())", refa.Value, this.WorkflowDefinitionId, this.Version);
+                                  select string.Format("            \"{0}\" : ko.observable(new bespoke.sph.w_{1}_{2}.{0}())", refa.Value, this.Id, this.Version);
                 list.AddRange(refElements);
 
 

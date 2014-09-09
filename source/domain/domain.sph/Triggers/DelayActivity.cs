@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Domain
 
             var task = new ScheduledActivityExecution
             {
-                InstanceId = wf.WorkflowId,
+                InstanceId = wf.Id,
                 ActivityId = this.WebId,
                 Name = this.Name
             };
@@ -77,7 +77,7 @@ namespace Bespoke.Sph.Domain
             var ts = ObjectBuilder.GetObject<ITaskScheduler>();
             var task = new ScheduledActivityExecution
             {
-                InstanceId = wf.WorkflowId,
+                InstanceId = wf.Id,
                 ActivityId = this.WebId,
                 Name = this.Name
             };
@@ -128,7 +128,7 @@ namespace Bespoke.Sph.Domain
             var ts = ObjectBuilder.GetObject<ITaskScheduler>();
             var task = new ScheduledActivityExecution
             {
-                InstanceId = wf.WorkflowId,
+                InstanceId = wf.Id,
                 ActivityId = this.WebId,
                 Name = this.Name
             };
