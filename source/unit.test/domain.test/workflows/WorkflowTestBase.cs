@@ -81,9 +81,9 @@ namespace domain.test.workflows
 
 
 
-        protected WorkflowDefinition Create(int id = 8)
+        protected WorkflowDefinition Create(string id = "8")
         {
-            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = id, SchemaStoreId = "schema-storeid" };
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = id, SchemaStoreId = "schema-storeid" };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "email", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
@@ -122,7 +122,7 @@ namespace domain.test.workflows
         {
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(dll);
-            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.WorkflowDefinitionId, wd.Version,
+            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.Id, wd.Version,
                 wd.WorkflowTypeName);
 
             var wfType = assembly.GetType(wfTypeName);

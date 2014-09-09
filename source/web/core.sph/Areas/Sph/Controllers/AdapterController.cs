@@ -37,10 +37,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         [Route("{id}")]
         [HttpDelete]
-        public async Task<ActionResult> DeleteAsync(int id)
+        public async Task<ActionResult> DeleteAsync(string id)
         {
             var context = new SphDataContext();
-            var ef = await context.LoadOneAsync<Adapter>(x => x.AdapterId == id);
+            var ef = await context.LoadOneAsync<Adapter>(x => x.Id == id);
             if (null == ef)
                 return HttpNotFound("Cannot find adapter with id " + id);
 
@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Delete(ef);
                 await session.SubmitChanges("Delete");
             }
-            return Json(new { success = true, status = "OK", id = ef.AdapterId });
+            return Json(new { success = true, status = "OK", id = ef.Id });
         }
         [Route("")]
         [HttpDelete]
@@ -62,7 +62,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Delete(ef);
                 await session.SubmitChanges("Delete");
             }
-            return Json(new { success = true, status = "OK", id = ef.AdapterId });
+            return Json(new { success = true, status = "OK", id = ef.Id });
         }
 
         [Route("")]
@@ -76,7 +76,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(ef);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = ef.AdapterId });
+            return Json(new { success = true, status = "OK", id = ef.Id });
         }
 
 

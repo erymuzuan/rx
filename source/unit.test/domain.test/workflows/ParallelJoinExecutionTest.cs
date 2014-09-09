@@ -10,7 +10,7 @@ namespace domain.test.workflows
 
         private WorkflowDefinition CreateParallelAndJoinWorkflow()
         {
-            var wd = this.Create(12);
+            var wd = this.Create("12");
             wd.ActivityCollection.Add(new ExpressionActivity
             {
                 Name = "Starts",
@@ -96,7 +96,7 @@ namespace domain.test.workflows
         [Test]
         public async Task Parallel()
         {
-            var wd = this.Create(10);
+            var wd = this.Create("10");
             wd.ActivityCollection.Add(new ExpressionActivity
             {
                 Name = "Starts",

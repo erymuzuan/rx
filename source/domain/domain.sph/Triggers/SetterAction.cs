@@ -27,7 +27,7 @@ namespace Bespoke.Sph.Domain
         public async override Task ExecuteAsync(RuleContext context)
         {
             var item = context.Item;
-            if(this.TriggerId == 0)
+            if (string.IsNullOrWhiteSpace(this.TriggerId))
                 throw new InvalidOperationException("Please set the trigger id");
 
             var script = ObjectBuilder.GetObject<IScriptEngine>();
@@ -45,7 +45,7 @@ namespace Bespoke.Sph.Domain
             }
             code.Append("return item;");
 
-            var modifiedItem = script.Evaluate<Entity,Entity>(code.ToString(), item);
+            var modifiedItem = script.Evaluate<Entity, Entity>(code.ToString(), item);
             var dcontext = new SphDataContext();
             using (var session = dcontext.OpenSession())
             {

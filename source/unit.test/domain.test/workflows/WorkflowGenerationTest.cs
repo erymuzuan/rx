@@ -30,7 +30,7 @@ namespace domain.test.workflows
         [Test]
         public void GenerateVariableWithDefaultValues()
         {
-            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = m_schemaStoreId };
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "8", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string), DefaultValue = "<New application>"});
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
@@ -45,7 +45,7 @@ namespace domain.test.workflows
 
             var result  = wd.Compile(options);
             var sourceFile = Path.Combine(options.SourceCodeDirectory,
-                  string.Format("Workflow_{0}_{1}.cs", wd.WorkflowDefinitionId, wd.Version));
+                  string.Format("Workflow_{0}_{1}.cs", wd.Id, wd.Version));
             var code = File.ReadAllText(sourceFile);
             foreach (var e in result.Errors)
             {
@@ -60,7 +60,7 @@ namespace domain.test.workflows
         [Test]
         public void GenerateCsharpClasses()
         {
-            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = m_schemaStoreId };
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "8", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
@@ -80,7 +80,7 @@ namespace domain.test.workflows
         [Test]
         public async Task GenerateJavascriptClasses()
         {
-            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = m_schemaStoreId };
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "8", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
@@ -104,7 +104,7 @@ namespace domain.test.workflows
         public void Compile()
         {
 
-            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = m_schemaStoreId };
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id= "8", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
@@ -141,7 +141,7 @@ namespace domain.test.workflows
 
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(result.Output);
-            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.WorkflowDefinitionId, wd.Version,
+            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.Id, wd.Version,
                 wd.WorkflowTypeName);
 
             var wfType = assembly.GetType(wfTypeName);

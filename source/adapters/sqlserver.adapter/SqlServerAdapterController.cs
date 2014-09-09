@@ -171,11 +171,11 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         [HttpGet]
         [Route("sproc/{id:int}/{schema}.{name}")]
-        public async Task<HttpResponseMessage> GetSprocAsync(int id, string schema, string name)
+        public async Task<HttpResponseMessage> GetSprocAsync(string id, string schema, string name)
         {
 
             var context = new SphDataContext();
-            var adapter = (await context.LoadOneAsync<Adapter>(a => a.AdapterId == id)) as SqlServerAdapter;
+            var adapter = (await context.LoadOneAsync<Adapter>(a => a.Id == id)) as SqlServerAdapter;
             if (null == adapter)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
@@ -189,11 +189,11 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         [HttpGet]
         [Route("sproc-text/{id:int}/{schema}.{name}")]
-        public async Task<HttpResponseMessage> GetSprocTextAsync(int id, string schema, string name)
+        public async Task<HttpResponseMessage> GetSprocTextAsync(string id, string schema, string name)
         {
 
             var context = new SphDataContext();
-            var adapter = (await context.LoadOneAsync<Adapter>(a => a.AdapterId == id)) as SqlServerAdapter;
+            var adapter = (await context.LoadOneAsync<Adapter>(a => a.Id == id)) as SqlServerAdapter;
             if (null == adapter)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
@@ -304,10 +304,10 @@ order by ORDINAL_POSITION";
 
         [HttpPatch]
         [Route("sproc/{id:int}")]
-        public async Task<IHttpActionResult> UpdateSprocDefinitionAsync(int id, [JsonBody]SprocOperationDefinition operation)
+        public async Task<IHttpActionResult> UpdateSprocDefinitionAsync(string id, [JsonBody]SprocOperationDefinition operation)
         {
             var context = new SphDataContext();
-            var sa = (await context.LoadOneAsync<Adapter>(x => x.AdapterId == id)) as SqlServerAdapter;
+            var sa = (await context.LoadOneAsync<Adapter>(x => x.Id == id)) as SqlServerAdapter;
             if (null == sa)
                 return NotFound();
 

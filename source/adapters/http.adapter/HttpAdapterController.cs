@@ -36,11 +36,11 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         [Route("operation/{id:int}/{uuid}")]
-        public async Task<HttpResponseMessage> GetOperation(int id, string uuid)
+        public async Task<HttpResponseMessage> GetOperation(string id, string uuid)
         {
             var context = new SphDataContext();
             var adapters = context.CreateQueryable<Adapter>();
-            var query = adapters.Where(x => x.AdapterId == id);
+            var query = adapters.Where(x => x.Id == id);
             var ha = (await context.LoadAsync(query)).ItemCollection.SingleOrDefault();
             if (null == ha)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             var context = new SphDataContext();
             var adapters = context.CreateQueryable<Adapter>();
-            var query = adapters.Where(x => x.AdapterId == adapter.AdapterId);
+            var query = adapters.Where(x => x.Id == adapter.Id);
             var ha = (await context.LoadAsync(query)).ItemCollection.SingleOrDefault();
             if (null == ha)
                 return NotFound();
@@ -110,11 +110,11 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         [Route("{id:int}")]
-        public async Task<HttpResponseMessage> Patch(int id, [JsonBody]HttpOperationDefinition operation)
+        public async Task<HttpResponseMessage> Patch(string id, [JsonBody]HttpOperationDefinition operation)
         {
             var context = new SphDataContext();
             var adapters = context.CreateQueryable<Adapter>();
-            var query = adapters.Where(x => x.AdapterId == id);
+            var query = adapters.Where(x => x.Id == id);
             var ha = (await context.LoadAsync(query)).ItemCollection.SingleOrDefault();
             if (null == ha)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
@@ -146,11 +146,11 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         [HttpGet]
         [Route("text/{id:int}/{method}")]
-        public async Task<IHttpActionResult> Text(int id, string method, [FromUri]string url)
+        public async Task<IHttpActionResult> Text(string id, string method, [FromUri]string url)
         {
             var context = new SphDataContext();
             var adapters = context.CreateQueryable<Adapter>();
-            var query = adapters.Where(x => x.AdapterId == id);
+            var query = adapters.Where(x => x.Id == id);
             var ha = (await context.LoadAsync(query)).ItemCollection.SingleOrDefault() as HttpAdapter;
             if (null == ha)
                 return NotFound();

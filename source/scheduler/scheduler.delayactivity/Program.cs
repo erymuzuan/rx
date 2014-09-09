@@ -9,7 +9,7 @@ namespace scheduler.delayactivity
         static void Main(string[] args)
         {
             var webId = args[0];
-            var instanceId = int.Parse(args[1]);
+            var instanceId = args[1];
 
             var program = new Program();
             program.ExecuteStepAsync(webId, instanceId)
@@ -21,10 +21,10 @@ namespace scheduler.delayactivity
         }
 
 
-        public async Task<ActivityExecutionResult> ExecuteStepAsync(string webId, int instanceId)
+        public async Task<ActivityExecutionResult> ExecuteStepAsync(string webId, string instanceId)
         {
             var context = new SphDataContext();
-            var wf = await context.LoadOneAsync<Workflow>(w => w.WorkflowId == instanceId);
+            var wf = await context.LoadOneAsync<Workflow>(w => w.Id == instanceId);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", wf.WorkflowDefinitionId, wf.Version));

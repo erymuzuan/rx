@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -45,17 +46,17 @@ namespace sph.builder
                 var store = ObjectBuilder.GetObject<IBinaryStore>();
                 var archived = new BinaryStore
                 {
-                    StoreId = string.Format("wd.{0}.{1}", wd.WorkflowDefinitionId, wd.Version),
+                    StoreId = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
                     Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
                     Extension = ".xml",
-                    FileName = string.Format("wd.{0}.{1}.xml", wd.WorkflowDefinitionId, wd.Version)
+                    FileName = string.Format("wd.{0}.{1}.xml", wd.Id, wd.Version)
 
                 };
                 await store.DeleteAsync(archived.StoreId);
                 await store.AddAsync(archived);
                 foreach (var page in pages)
                 {
-                    page.PageId = pageId++;
+                    page.Id = (pageId++).ToString(CultureInfo.InvariantCulture);
                     await pageBuilder.InsertAsync(page);
                 }
 
@@ -108,8 +109,8 @@ namespace sph.builder
 
         private void Deploy(WorkflowDefinition item)
         {
-            var dll = string.Format("workflows.{0}.{1}.dll", item.WorkflowDefinitionId, item.Version);
-            var pdb = string.Format("workflows.{0}.{1}.pdb", item.WorkflowDefinitionId, item.Version);
+            var dll = string.Format("workflows.{0}.{1}.dll", item.Id, item.Version);
+            var pdb = string.Format("workflows.{0}.{1}.pdb", item.Id, item.Version);
             var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
             var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
 
@@ -129,7 +130,7 @@ namespace sph.builder
             {
                 // copy the previous version pages if there's any
                 var scr1 = scr;
-                var tag = string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, scr1.WebId);
+                var tag = string.Format("wf_{0}_{1}", wd.Id, scr1.WebId);
                 var currentVersion = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
                 var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
                 var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
@@ -142,7 +143,7 @@ namespace sph.builder
                     Tag = tag,
                     Version = wd.Version,
                     WebId = Guid.NewGuid().ToString(),
-                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId,
+                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.Id,
                         wd.Version, scr1.ActionName)
                 };
 

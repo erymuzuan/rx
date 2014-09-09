@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace domain.test.triggers
                 IsFiredOnChanged = true,
                 IsFiredOnDeleted = true,
                 FiredOnOperations = "Save,Publish",
-                TriggerId = 33
+                Id = 33.ToString(CultureInfo.CurrentCulture)
             };
             var options = new CompilerOptions
             {

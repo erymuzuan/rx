@@ -180,33 +180,6 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int TriggerId
-        {
-            set
-            {
-                if (m_triggerId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTriggerId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_triggerId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_triggerId;
-            }
-        }
 
 
         ///<summary>
@@ -5314,7 +5287,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-        private int m_triggerId;
+        private string m_triggerId;
         public const string PropertyNameTriggerId = "TriggerId";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -5377,7 +5350,7 @@ namespace Bespoke.Sph.Domain
 
 
         [XmlAttribute]
-        public int TriggerId
+        public string TriggerId
         {
             set
             {

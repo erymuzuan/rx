@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Publish()
         {
             var trigger = this.GetRequestJson<Trigger>();
-            if (trigger.TriggerId == 0) throw new InvalidOperationException("You cannot publish unsaved trigger");
+            if (string.IsNullOrWhiteSpace(trigger.Id)) throw new InvalidOperationException("You cannot publish unsaved trigger");
             trigger.IsActive = true;
             var context = new SphDataContext();
             using (var session = context.OpenSession())
@@ -64,14 +64,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
 
-            return Json(trigger.TriggerId);
+            return Json(trigger.Id);
         }
 
         public async Task<ActionResult> Depublish()
         {
             var trigger = this.GetRequestJson<Trigger>();
             trigger.IsActive = false;
-            if (trigger.TriggerId == 0) throw new InvalidOperationException("You cannot depublish unsaved trigger");
+            if (string.IsNullOrWhiteSpace(trigger.Id)) throw new InvalidOperationException("You cannot depublish unsaved trigger");
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -80,14 +80,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
 
-            return Json(trigger.TriggerId);
+            return Json(trigger.Id);
         }
 
         public async Task<ActionResult> Remove()
         {
             var trigger = this.GetRequestJson<Trigger>();
             trigger.IsActive = false;
-            if (trigger.TriggerId == 0) throw new InvalidOperationException("You cannot depublish unsaved trigger");
+            if (string.IsNullOrWhiteSpace(trigger.Id)) throw new InvalidOperationException("You cannot depublish unsaved trigger");
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -96,14 +96,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
 
-            return Json(trigger.TriggerId);
+            return Json(trigger.Id);
         }
 
         public async Task<ActionResult> Save()
         {
             var trigger = this.GetRequestJson<Trigger>();
 
-            var newItem = trigger.TriggerId == 0;
+            var newItem = string.IsNullOrWhiteSpace(trigger.Id);
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == trigger.Entity);
             trigger.TypeOf = string.Format("Bespoke.{0}_{1}.Domain.{2}, {0}.{2}",
@@ -118,7 +118,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             {
                 trigger.ActionCollection.OfType<SetterAction>()
                     .ToList()
-                    .ForEach(s => s.TriggerId = trigger.TriggerId);
+                    .ForEach(s => s.TriggerId = trigger.Id);
 
                 using (var session = context.OpenSession())
                 {
@@ -127,7 +127,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 }
             }
 
-            return Json(trigger.TriggerId);
+            return Json(trigger.Id);
         }
 
     }

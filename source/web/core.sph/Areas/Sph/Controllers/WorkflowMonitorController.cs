@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     [Authorize]
     public class WorkflowMonitorController : Controller
     {
-        public async Task<ActionResult> Search(int workflowDefinitionId, DateTime? createdDateFrom, DateTime? createdDateEnd, string state)
+        public async Task<ActionResult> Search(string workflowDefinitionId, DateTime? createdDateFrom, DateTime? createdDateEnd, string state)
         {
             var context = new SphDataContext();
             var query = context.Workflows.Where(w => w.WorkflowDefinitionId == workflowDefinitionId)
@@ -36,10 +36,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-        public async Task<ActionResult> Terminate(int[] instancesId)
+        public async Task<ActionResult> Terminate(string[] instancesId)
         {
             var context = new SphDataContext();
-            var query = context.Workflows.Where(w => instancesId.Contains(w.WorkflowId));
+            var query = context.Workflows.Where(w => instancesId.Contains(w.Id));
 
             var lo = await context.LoadAsync(query, includeTotalRows: true);
             var result = new ObjectCollection<Workflow>(lo.ItemCollection);

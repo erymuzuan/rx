@@ -8,17 +8,17 @@ namespace Bespoke.Sph.WorkflowTriggerSchedulers
         static void Main(string[] args)
         {
             var webId = args[0];
-            var instanceId = int.Parse(args[1]);
+            var instanceId = args[1];
 
             var program = new Program();
             program.InitiateWorkflowAsync(webId, instanceId).Wait();
 
         }
 
-        public async Task InitiateWorkflowAsync(string activityid, int id)
+        public async Task InitiateWorkflowAsync(string activityid, string id)
         {
             var context = new SphDataContext();
-            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == id);
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == id);
             var wf = await wd.InitiateAsync();
             await wf.StartAsync();
         }

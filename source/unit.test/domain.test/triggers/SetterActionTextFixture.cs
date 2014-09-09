@@ -26,7 +26,7 @@ namespace domain.test.triggers
 
             var setter = new SetterAction
             {
-                TriggerId = 44,
+                TriggerId = "44",
                 Title = "Unit test runner"
             };
             setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "FullName", Field = new ConstantField { Type = typeof(string), Value = "Wan Fatimah Wan Husain" } }); ;

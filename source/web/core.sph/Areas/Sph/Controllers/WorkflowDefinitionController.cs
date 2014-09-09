@@ -151,10 +151,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var archived = new BinaryStore
             {
-                StoreId = string.Format("wd.{0}.{1}", wd.WorkflowDefinitionId, wd.Version),
+                StoreId = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
                 Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
                 Extension = ".xml",
-                FileName = string.Format("wd.{0}.{1}.xml", wd.WorkflowDefinitionId, wd.Version)
+                FileName = string.Format("wd.{0}.{1}.xml", wd.Id, wd.Version)
 
             };
             await store.DeleteAsync(archived.StoreId);
@@ -167,7 +167,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Save()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
-            if (wd.WorkflowDefinitionId == 0 && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
+            if (string.IsNullOrWhiteSpace(wd.Id) && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
             {
                 // get the empty schema
                 var store = ObjectBuilder.GetObject<IBinaryStore>();
@@ -183,8 +183,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 wd.SchemaStoreId = xsd.StoreId;
 
             }
-            var id = await this.Save(wd.WorkflowDefinitionId == 0 ? "Add" : "Update", wd);
-            return Json(new { success = id > 0, id, status = "OK" });
+            var id = await this.Save( string.IsNullOrWhiteSpace(wd.Id) ? "Add" : "Update", wd);
+            return Json(new { success = !string.IsNullOrWhiteSpace(wd.Id), id, status = "OK" });
         }
 
         public async Task<ActionResult> Remove()
@@ -197,13 +197,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges();
             }
 
-            return Json(new { success = true, id = wd.WorkflowDefinitionId, status = "OK" });
+            return Json(new { success = true, id = wd.Id, status = "OK" });
         }
 
-        public async Task<ActionResult> GetVariablePath(int id)
+        public async Task<ActionResult> GetVariablePath(string id)
         {
             var context = new SphDataContext();
-            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == id);
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == id);
             var list = wd.VariableDefinitionCollection.Select(v => v.Name).ToList();
             var schema = wd.GetCustomSchema();
             if (null != schema)
@@ -238,7 +238,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 var act1 = act;
                 var page = await context.LoadOneAsync<Page>(p =>
                                 p.Version == wd.Version &&
-                                p.Tag == string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, act1.WebId));
+                                p.Tag == string.Format("wf_{0}_{1}", wd.Id, act1.WebId));
                 if (null != page)
                     pages.Add(page);
             }
@@ -259,7 +259,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             {
                 // copy the previous version pages if there's any
                 var scr1 = scr;
-                var tag = string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, scr1.WebId);
+                var tag = string.Format("wf_{0}_{1}", wd.Id, scr1.WebId);
                 var currentVersion = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
                 var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
                 var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
@@ -272,7 +272,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     Tag = tag,
                     Version = wd.Version,
                     WebId = Guid.NewGuid().ToString(),
-                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId,
+                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.Id,
                         wd.Version, scr1.ActionName)
                 };
 
@@ -286,7 +286,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-        private async Task<int> Save(string operation, WorkflowDefinition wd, params Entity[] entities)
+        private async Task<string> Save(string operation, WorkflowDefinition wd, params Entity[] entities)
         {
             var context = new SphDataContext();
             if (null == wd) throw new ArgumentNullException("wd");
@@ -300,7 +300,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(wd);
                 await session.SubmitChanges(operation);
             }
-            return wd.WorkflowDefinitionId;
+            return wd.Id;
         }
 
         public ActionResult GetLoadedAssemblies()

@@ -40,7 +40,7 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("subscriber.trigger.{0}.dll", this.TriggerId)),
+                    OutputAssembly = Path.Combine(outputPath, string.Format("subscriber.trigger.{0}.dll", this.Id)),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 
@@ -108,7 +108,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("{");
 
             code.AppendLinf("   public class Trigger{0}Subscriber: Subscriber<{1}>",
-                this.TriggerId, edTypeFullName);
+                this.Id, edTypeFullName);
             code.AppendLine("   {");
 
             code.AppendFormat(@"  
@@ -160,7 +160,7 @@ namespace Bespoke.Sph.Domain
 
                 this.WriteMessage(""done..."");
             }}
-        ", keys, this.TriggerId, edTypeFullName);
+        ", keys, this.Id, edTypeFullName);
 
 
             int count = 1;
