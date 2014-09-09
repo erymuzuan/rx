@@ -373,7 +373,6 @@
 				</xs:element>
 				<xs:element ref="Performer"/>
 			</xs:all>
-			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Plural" type="xs:string" use="required"/>
 			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
@@ -438,8 +437,7 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="EntityFormId" type="xs:int" use="required"/>
-			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityDefinitionId" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
@@ -517,10 +515,9 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>
 			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
-			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityDefinitionId" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>

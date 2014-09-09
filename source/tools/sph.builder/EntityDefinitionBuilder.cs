@@ -117,7 +117,7 @@ namespace sph.builder
             result.Errors.ForEach(Console.WriteLine);
 
             var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType(string.Format("Bespoke.Dev_{0}.Domain.{1}", ed.EntityDefinitionId, ed.Name));
+            var type = assembly.GetType(string.Format("Bespoke.Dev_{0}.Domain.{1}", ed.Id, ed.Name));
             return type;
         }
 

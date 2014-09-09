@@ -99,7 +99,7 @@ namespace Bespoke.Sph.Domain
             if (!this.Performer.Validate())
                 result.Errors.Add(new BuildError(this.WebId, "You have not set the permission correctly"));
 
-            var defaultForm = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true && f.EntityDefinitionId == this.EntityDefinitionId);
+            var defaultForm = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true && f.EntityDefinitionId == this.Id);
             if (null == defaultForm)
                 result.Errors.Add(new BuildError(this.WebId, "Please set a default form"));
 

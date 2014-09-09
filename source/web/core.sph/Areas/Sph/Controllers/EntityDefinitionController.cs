@@ -14,20 +14,18 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> GetVariablePath(string id)
         {
             var context = new SphDataContext();
-            int eid;
-            if (int.TryParse(id, out eid))
-            {
-                var ed = await context.LoadOneAsync<EntityDefinition>(w => w.EntityDefinitionId == eid);
-                if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + eid);
-                var list = ed.GetMembersPath();
-                return Json(list, JsonRequestBehavior.AllowGet);
-            }
 
-            var ed2 = await context.LoadOneAsync<EntityDefinition>(w => w.Name == id);
-            if (null == ed2) return new HttpNotFoundResult("Cannot find EntityDefinition with Nmae = " + id);
+            var ed = await context.LoadOneAsync<EntityDefinition>(w => w.Id == id);
+            if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
+            var list = ed.GetMembersPath();
+            return Json(list, JsonRequestBehavior.AllowGet);
 
-            var list2 = ed2.GetMembersPath();
-            return Json(list2, JsonRequestBehavior.AllowGet);
+
+            //var ed2 = await context.LoadOneAsync<EntityDefinition>(w => w.Name == id);
+            //if (null == ed2) return new HttpNotFoundResult("Cannot find EntityDefinition with Nmae = " + id);
+
+            //var list2 = ed2.GetMembersPath();
+            //return Json(list2, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -36,7 +34,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var ed = this.GetRequestJson<EntityDefinition>();
             var context = new SphDataContext();
 
-            var newItem = ed.EntityDefinitionId == 0;
+            var newItem = string.IsNullOrWhiteSpace(ed.Id);// == 0;
 
             using (var session = context.OpenSession())
             {
@@ -49,14 +47,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 {
                     Name = ed.Name + " details",
                     Route = ed.Name.ToLowerInvariant() + "-details",
-                    EntityDefinitionId = ed.EntityDefinitionId,
+                    EntityDefinitionId = ed.Id,
                     IsDefault = true
                 };
                 var view = new EntityView
                 {
                     Name = "All " + ed.Plural,
                     Route = ed.Plural.ToLowerInvariant() + "-all",
-                    EntityDefinitionId = ed.EntityDefinitionId,
+                    EntityDefinitionId = ed.Id,
                 };
 
                 using (var session = context.OpenSession())
@@ -65,7 +63,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     await session.SubmitChanges("Save");
                 }
             }
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.EntityDefinitionId });
+            return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
 
 
         }
@@ -110,7 +108,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(ed);
                 await session.SubmitChanges("Depublish");
             }
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully depublished", id = ed.EntityDefinitionId });
+            return Json(new { success = true, status = "OK", message = "Your entity has been successfully depublished", id = ed.Id });
 
 
         }
@@ -148,7 +146,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(ed);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully published", id = ed.EntityDefinitionId });
+            return Json(new { success = true, status = "OK", message = "Your entity has been successfully published", id = ed.Id });
 
 
         }

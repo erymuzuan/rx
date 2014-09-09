@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
                 errors.Add(new BuildError(null, string.Format("[ListView] -> Child item type cannot be empty for {0}", this.Path)));
 
             var jsNamespace = string.Format("bespoke.{0}_{1}.domain",
-                ConfigurationManager.ApplicationName.ToLowerInvariant(), ed.EntityDefinitionId);
+                ConfigurationManager.ApplicationName.ToLowerInvariant(), ed.Id);
             if (!this.ChildItemType.StartsWith(jsNamespace))
                 errors.Add(new BuildError(null, string.Format("[ListView] ->{0} : Child item type normally in the form {1}.<ChildType>",
                     this.Path,

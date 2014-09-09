@@ -60,9 +60,9 @@ namespace domain.test.workflows
 
             var edRepository = new Mock<IRepository<EntityDefinition>>(MockBehavior.Strict);
             edRepository.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<EntityDefinition>>()))
-                .Returns(Task.FromResult(new EntityDefinition { Name= "Building", Plural = "Buildings", EntityDefinitionId= 10 }));
+                .Returns(Task.FromResult(new EntityDefinition { Name= "Building", Plural = "Buildings", Id= "10"}));
             edRepository.Setup(x => x.LoadOne(It.IsAny<IQueryable<EntityDefinition>>()))
-                .Returns(new EntityDefinition { Name= "Building", Plural = "Buildings", EntityDefinitionId= 10 });
+                .Returns(new EntityDefinition { Name= "Building", Plural = "Buildings", Id= "10"});
             ObjectBuilder.AddCacheList(edRepository.Object);
 
             var usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);

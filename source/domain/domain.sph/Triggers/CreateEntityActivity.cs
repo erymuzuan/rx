@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Domain
             var context = new SphDataContext();
             var ed = context.LoadOne<EntityDefinition>(d => d.Name == this.EntityType);
             var entityFullName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName,
-                ed.EntityDefinitionId, ed.Name);
+                ed.Id, ed.Name);
 
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);

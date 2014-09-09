@@ -68,8 +68,8 @@ namespace sph.builder
                     var formTasks = from ff in GetJsonFiles(typeof(EntityForm))
                                     let fjson = File.ReadAllText(ff)
                                     let fo = JObject.Parse(fjson)
-                                    let edid = fo.SelectToken("$.EntityDefinitionId").Value<int>()
-                                    where edid == item.EntityDefinitionId
+                                    let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
+                                    where edid == item.Id
                                     select formBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityForm>());
                     await Task.WhenAll(formTasks);
 
@@ -79,8 +79,8 @@ namespace sph.builder
                     var viewTasks = from ff in GetJsonFiles(typeof(EntityView))
                                     let fjson = File.ReadAllText(ff)
                                     let fo = JObject.Parse(fjson)
-                                    let edid = fo.SelectToken("$.EntityDefinitionId").Value<int>()
-                                    where edid == item.EntityDefinitionId
+                                    let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
+                                    where edid == item.Id
                                     select viewBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityView>());
                     await Task.WhenAll(viewTasks);
 
@@ -90,8 +90,8 @@ namespace sph.builder
                     var chartTasks = from ff in GetJsonFiles(typeof(EntityChart))
                                      let fjson = File.ReadAllText(ff)
                                      let fo = JObject.Parse(fjson)
-                                     let edid = fo.SelectToken("$.EntityDefinitionId").Value<int>()
-                                     where edid == item.EntityDefinitionId
+                                     let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
+                                     where edid == item.Id
                                      select chartBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityChart>());
                     await Task.WhenAll(chartTasks);
 

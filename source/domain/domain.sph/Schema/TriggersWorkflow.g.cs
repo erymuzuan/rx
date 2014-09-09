@@ -36,10 +36,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameTypeOf = "TypeOf";
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_triggerId;
-        public const string PropertyNameTriggerId = "TriggerId";
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_note;

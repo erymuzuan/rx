@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(ef);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = ef.EntityFormId });
+            return Json(new { success = true, status = "OK", id = ef.Id });
         }
 
         public async Task<ActionResult> Depublish()
@@ -42,7 +42,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                                  && c.FormRoute == form.Route)
                              select vw.Name).ToArray();
             if (violations.Any()) 
-                return Json(new { success = false, status = "NO", message = "These views has a link to your form ", views = violations, id = form.EntityFormId });
+                return Json(new { success = false, status = "NO", message = "These views has a link to your form ", views = violations, id = form.Id });
 
 
             form.IsPublished = false;
@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(form);
                 await session.SubmitChanges("Depublish");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully depublished", id = form.EntityFormId });
+            return Json(new { success = true, status = "OK", message = "Your form has been successfully depublished", id = form.Id });
 
 
         }
@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var context = new SphDataContext();
             var form = this.GetRequestJson<EntityForm>();
             form.IsPublished = true;
-            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.EntityDefinitionId == form.EntityDefinitionId);
+            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == form.EntityDefinitionId);
 
             var buildValidation = await form.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
@@ -72,7 +72,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(form);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = form.EntityFormId });
+            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = form.Id });
 
         }
     }

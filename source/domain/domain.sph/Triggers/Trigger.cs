@@ -96,7 +96,7 @@ namespace Bespoke.Sph.Domain
 
             var code = new StringBuilder();
             var edTypeFullName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName,
-                ed.EntityDefinitionId, ed.Name);
+                ed.Id, ed.Name);
             code.AppendLine("using " + typeof(Trigger).Namespace + ";");
             code.AppendLine("using " + typeof(Int32).Namespace + ";");
             code.AppendLine("using " + typeof(Task<>).Namespace + ";");

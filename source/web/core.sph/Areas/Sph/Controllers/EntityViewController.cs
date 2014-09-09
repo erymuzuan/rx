@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(ef);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = ef.EntityViewId });
+            return Json(new { success = true, status = "OK", id = ef.Id });
         }
 
         public async Task<ActionResult> Depublish()
@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(ed);
                 await session.SubmitChanges("Depublish");
             }
-            return Json(new { success = true, status = "OK", message = "Your view has been successfully depublished", id = ed.EntityViewId });
+            return Json(new { success = true, status = "OK", message = "Your view has been successfully depublished", id = ed.Id });
 
 
         }
@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var view = this.GetRequestJson<EntityView>();
             var context = new SphDataContext();
-            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.EntityDefinitionId == view.EntityDefinitionId);
+            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == view.EntityDefinitionId);
 
             var buildValidation = await view.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
@@ -56,15 +56,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(view);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", id = view.EntityViewId, message = "Your view has been successfully published" });
+            return Json(new { success = true, status = "OK", id = view.Id, message = "Your view has been successfully published" });
         }
 
         [NoCache]
-        public async Task<ActionResult> Count(int id)
+        public async Task<ActionResult> Count(string id)
         {
             var context = new SphDataContext();
-            var view = await context.LoadOneAsync<EntityView>(e => e.EntityViewId == id);
-            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.EntityDefinitionId == view.EntityDefinitionId);
+            var view = await context.LoadOneAsync<EntityView>(e => e.Id == id);
+            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == view.EntityDefinitionId);
             var type = ed.Name.ToLowerInvariant();
 
             var json = (@" {
@@ -97,7 +97,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var user = User.Identity.Name;
             var context = new SphDataContext();
             var entity = await context.LoadOneAsync<EntityDefinition>(e => e.Name == id);
-            var query = context.EntityViews.Where(v => v.EntityDefinitionId == entity.EntityDefinitionId
+            var query = context.EntityViews.Where(v => v.EntityDefinitionId == entity.Id
                 && v.IsPublished == true);
             var lo = await context.LoadAsync(query, includeTotalRows: true);
             var views = new ObjectCollection<EntityView>();

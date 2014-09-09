@@ -2106,9 +2106,6 @@ namespace Bespoke.Sph.Domain
     public partial class EntityDefinition
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityDefinitionId;
-        public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2207,33 +2204,7 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EntityDefinitionId
-        {
-            set
-            {
-                if (m_entityDefinitionId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityDefinitionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityDefinitionId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityDefinitionId;
-            }
-        }
+    
 
 
         ///<summary>
@@ -2785,13 +2756,10 @@ namespace Bespoke.Sph.Domain
     public partial class EntityForm
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityFormId;
-        public const string PropertyNameEntityFormId = "EntityFormId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityDefinitionId;
+        private string m_entityDefinitionId;
         public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
 
 
@@ -2945,33 +2913,7 @@ namespace Bespoke.Sph.Domain
             get { return m_FormLayoutCollection; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
 
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EntityFormId
-        {
-            set
-            {
-                if (m_entityFormId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityFormId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityFormId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityFormId;
-            }
-        }
 
 
         ///<summary>
@@ -2983,7 +2925,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityDefinitionId
+        public string EntityDefinitionId
         {
             set
             {
@@ -3877,9 +3819,6 @@ namespace Bespoke.Sph.Domain
     public partial class EntityView
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityViewId;
-        public const string PropertyNameEntityViewId = "EntityViewId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -3893,7 +3832,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityDefinitionId;
+        private string m_entityDefinitionId;
         public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
 
 
@@ -4019,33 +3958,7 @@ namespace Bespoke.Sph.Domain
             get { return m_RouteParameterCollection; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EntityViewId
-        {
-            set
-            {
-                if (m_entityViewId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityViewId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityViewId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityViewId;
-            }
-        }
+    
 
 
         ///<summary>
@@ -4115,7 +4028,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityDefinitionId
+        public string EntityDefinitionId
         {
             set
             {

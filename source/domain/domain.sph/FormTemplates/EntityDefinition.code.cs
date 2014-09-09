@@ -127,13 +127,13 @@ namespace Bespoke.Sph.Domain
         }
         public string CodeNamespace
         {
-            get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.EntityDefinitionId); }
+            get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.Id); }
         }
 
 
         public Task<string> GenerateCustomXsdJavascriptClassAsync()
         {
-            var jsNamespace = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.EntityDefinitionId;
+            var jsNamespace = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Id;
             var assemblyName = ConfigurationManager.ApplicationName + "." + this.Name;
             var script = new StringBuilder();
             script.AppendLine("var bespoke = bespoke ||{};");

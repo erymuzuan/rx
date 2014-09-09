@@ -62,7 +62,7 @@ namespace Bespoke.Sph.Web.App_Start
                 try
                 {
                     var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
-                    var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed1.EntityDefinitionId, ed1.Name);
+                    var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed1.Id, ed1.Name);
                     var edType = edAssembly.GetType(edTypeName);
                     if (null == edType)
                         Console.WriteLine("Cannot create type " + edTypeName);

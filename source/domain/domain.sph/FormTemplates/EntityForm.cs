@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Domain
 
             var context = new SphDataContext();
 
-            var formRouteCountTask = context.GetCountAsync<EntityForm>(f => f.Route == this.Route && f.EntityFormId != this.EntityFormId);
+            var formRouteCountTask = context.GetCountAsync<EntityForm>(f => f.Route == this.Route && f.Id != this.Id);
             var viewRouteCountTask = context.GetCountAsync<EntityView>(f => f.Route == this.Route);
             var entityRouteCountTask = context.GetCountAsync<EntityDefinition>(f => f.Name == this.Route);
 

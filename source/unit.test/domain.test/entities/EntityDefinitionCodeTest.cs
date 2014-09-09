@@ -18,7 +18,7 @@ namespace domain.test.entities
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
-            var ent = new EntityDefinition { Name = "Lead", EntityDefinitionId = 1, Plural = "Leads", RecordName = "Name" };
+            var ent = new EntityDefinition { Name = "Lead", Id = "1", Plural = "Leads", RecordName = "Name" };
             ent.MemberCollection.Add(new Member
             {
                 Name = "Name",

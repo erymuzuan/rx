@@ -37,13 +37,13 @@ namespace offline.generator
 
             Console.WriteLine("Loading forms...");
             // forms
-            var formQuery = context.EntityForms.Where(f => f.EntityDefinitionId == this.Entity.EntityDefinitionId);
+            var formQuery = context.EntityForms.Where(f => f.EntityDefinitionId == this.Entity.Id);
             var formLo = await context.LoadAsync(formQuery);
             this.FormCollection.AddRange(formLo.ItemCollection);
 
             Console.WriteLine("Loading views...");
             // views
-            var viewQuery = context.EntityViews.Where(f => f.EntityDefinitionId == this.Entity.EntityDefinitionId);
+            var viewQuery = context.EntityViews.Where(f => f.EntityDefinitionId == this.Entity.Id);
             var viewLo = await context.LoadAsync(viewQuery);
             this.ViewCollection.AddRange(viewLo.ItemCollection);
 
@@ -57,12 +57,12 @@ namespace offline.generator
             var item = this.Entity;
             var context = new SphDataContext();
             var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true
-                && f.EntityDefinitionId == item.EntityDefinitionId);
+                && f.EntityDefinitionId == item.Id);
             var vm = new
             {
                 item.Name,
                 item.Plural,
-                item.EntityDefinitionId,
+                item.Id,
                 ApplicationName = ConfigurationManager.ApplicationName.ToCamelCase(),
                 ConfigurationManager.ApplicationFullName,
                 Definition = item,
@@ -126,7 +126,7 @@ namespace offline.generator
                 {
                     form.Name,
                     form.Route,
-                    form.EntityFormId,
+                    form.Id,
                     form.EntityDefinitionId,
                     Entity = this.Entity.Name,
                     Form = form,

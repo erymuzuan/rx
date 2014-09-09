@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Render(string name, [RequestBody]EntityForm form)
         {
             await form.RenderAsync(name);
-            return Json(new { success = true, status = "OK", id = form.EntityFormId });
+            return Json(new { success = true, status = "OK", id = form.Id });
         }
 
         [Route("editor/{name}.{extension:length(2,4)}")]
