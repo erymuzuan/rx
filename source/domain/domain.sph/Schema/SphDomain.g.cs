@@ -2993,11 +2993,7 @@ namespace Bespoke.Sph.Domain
     public partial class EmailTemplate
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_emailTemplateId;
-        public const string PropertyNameEmailTemplateId = "EmailTemplateId";
-
-
+        
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entity;
         public const string PropertyNameEntity = "Entity";
@@ -3028,33 +3024,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsPublished = "IsPublished";
 
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EmailTemplateId
-        {
-            set
-            {
-                if (m_emailTemplateId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEmailTemplateId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_emailTemplateId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_emailTemplateId;
-            }
-        }
 
 
         ///<summary>

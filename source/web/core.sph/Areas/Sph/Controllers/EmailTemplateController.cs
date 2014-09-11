@@ -11,14 +11,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     {
         public async Task<ActionResult> Save()
         {
-            var ef = this.GetRequestJson<EmailTemplate>();
+            var et = this.GetRequestJson<EmailTemplate>();
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(ef);
+                session.Attach(et);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = ef.EmailTemplateId });
+            return Json(new { success = true, status = "OK", id = et.Id });
         }
         public async Task<ActionResult> Publish()
         {
@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(template);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = template.EmailTemplateId });
+            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = template.Id });
 
         }
         public async Task<ActionResult> Test()
@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return Json(buildValidation);
 
 
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = template.EmailTemplateId });
+            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = template.Id });
 
         }
 
@@ -67,10 +67,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> Generate(string entity, int id, int templateId)
+        public async Task<ActionResult> Generate(string entity, int id, string templateId)
         {
             var context = new SphDataContext();
-            var template = await context.LoadOneAsync<EmailTemplate>(e => e.EmailTemplateId == templateId);
+            var template = await context.LoadOneAsync<EmailTemplate>(e => e.Id == templateId);
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Name == entity);
 
             var buildValidation = await template.ValidateBuildAsync(ed);
