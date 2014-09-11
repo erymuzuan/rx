@@ -52,7 +52,7 @@ namespace Bespoke.Sph.ReportDeliverySubscriptions
                     var trigger = t.GeTrigger();
                     td.Triggers.Add(trigger);
                 }
-                var action = new ExecAction(this.Executable, string.Format("{0}", item.ReportDeliveryId))
+                var action = new ExecAction(this.Executable, string.Format("{0}", item.Id))
                 {
                     WorkingDirectory = System.IO.Path.GetDirectoryName(this.Executable)
                 };
@@ -86,7 +86,7 @@ namespace Bespoke.Sph.ReportDeliverySubscriptions
 
         private string GetPath(ReportDelivery item)
         {
-            var guid = string.Format("rd_{0}_{1}", item.ReportDeliveryId, item.ReportDefinitionId);
+            var guid = string.Format("rd_{0}_{1}", item.Id, item.ReportDefinitionId);
             var path = @"Bespoke\" + guid.Replace(" ", string.Empty);
             return path;
 

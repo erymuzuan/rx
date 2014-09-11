@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> ValidateFix([RequestBody] TransformDefinition map)
         {
             //map.MapCollection.OfType<FunctoidMap>().Where(x => x.).ForEach(x => x.Functoid.RemoveInvalidArgument());
-            if (map.TransformDefinitionId <= 0) 
+            if (string.IsNullOrWhiteSpace(map.Id)) 
                 return await Validate(map);
             
             var context = new SphDataContext();
@@ -73,7 +73,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(map);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your map has been successfully published", id = map.TransformDefinitionId });
+            return Json(new { success = true, status = "OK", message = "Your map has been successfully published", id = map.Id });
 
         }
 
@@ -101,7 +101,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(ed);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", message = "Your mapping has been successfully saved ", id = ed.TransformDefinitionId });
+            return Json(new { success = true, status = "OK", message = "Your mapping has been successfully saved ", id = ed.Id });
 
 
         }

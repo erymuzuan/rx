@@ -19,9 +19,6 @@ namespace Bespoke.Sph.Domain
     public partial class ReportDefinition
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_reportDefinitionId;
-        public const string PropertyNameReportDefinitionId = "ReportDefinitionId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -82,33 +79,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int ReportDefinitionId
-        {
-            set
-            {
-                if (m_reportDefinitionId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameReportDefinitionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_reportDefinitionId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_reportDefinitionId;
-            }
-        }
 
 
         ///<summary>
@@ -2583,12 +2553,6 @@ namespace Bespoke.Sph.Domain
     [XmlType("ReportDelivery", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ReportDelivery
     {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_reportDeliveryId;
-        public const string PropertyNameReportDeliveryId = "ReportDeliveryId";
-
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool m_isActive;
         public const string PropertyNameIsActive = "IsActive";
@@ -2605,7 +2569,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_reportDefinitionId;
+        private string m_reportDefinitionId;
         public const string PropertyNameReportDefinitionId = "ReportDefinitionId";
 
 
@@ -2642,33 +2606,6 @@ namespace Bespoke.Sph.Domain
             get { return m_Departments; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int ReportDeliveryId
-        {
-            set
-            {
-                if (m_reportDeliveryId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameReportDeliveryId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_reportDeliveryId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_reportDeliveryId;
-            }
-        }
 
 
         ///<summary>
@@ -2767,7 +2704,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int ReportDefinitionId
+        public string ReportDefinitionId
         {
             set
             {

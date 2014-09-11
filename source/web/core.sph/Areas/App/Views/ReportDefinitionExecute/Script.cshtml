@@ -12,7 +12,7 @@
             activate = function (rid) {
                 id = parseInt(rid);
 
-                var query = String.format("ReportDefinitionId eq {0}", @Model.ReportDefinitionId),
+                var query = String.format("ReportDefinitionId eq {0}", @Model.Id),
                     tcs = new $.Deferred();
 
 

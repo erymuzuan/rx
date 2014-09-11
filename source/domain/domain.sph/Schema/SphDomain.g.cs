@@ -1143,9 +1143,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameEmail = "Email";
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_userProfileId;
-        public const string PropertyNameUserProfileId = "UserProfileId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1386,35 +1383,6 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_email;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int UserProfileId
-        {
-            set
-            {
-                if (m_userProfileId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameUserProfileId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_userProfileId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_userProfileId;
             }
         }
 
@@ -1785,10 +1753,6 @@ namespace Bespoke.Sph.Domain
     public partial class Watcher
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_watcherId;
-        public const string PropertyNameWatcherId = "WatcherId";
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entityName;
@@ -1814,34 +1778,6 @@ namespace Bespoke.Sph.Domain
         private DateTime m_dateTime;
         public const string PropertyNameDateTime = "DateTime";
 
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int WatcherId
-        {
-            set
-            {
-                if (m_watcherId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameWatcherId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_watcherId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_watcherId;
-            }
-        }
 
 
         ///<summary>
@@ -2384,12 +2320,7 @@ namespace Bespoke.Sph.Domain
     [XmlType("Message", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Message
     {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_messageId;
-        public const string PropertyNameMessageId = "MessageId";
-
-
+        
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_subject;
         public const string PropertyNameSubject = "Subject";
@@ -2410,44 +2341,14 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameUserName = "UserName";
 
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int MessageId
-        {
-            set
-            {
-                if (m_messageId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameMessageId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_messageId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_messageId;
-            }
-        }
 
 
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
         [Required]
-
         [DebuggerHidden]
-
         public string Subject
         {
             set

@@ -29,11 +29,11 @@ namespace Bespoke.Sph.WathersSubscribers
             }
             if (header.Crud == CrudOperation.Deleted)
             {
-                m_watchers.RemoveAll(w => w.WatcherId == item.WatcherId);
+                m_watchers.RemoveAll(w => w.Id == item.Id);
             }
             if (header.Crud == CrudOperation.Changed)
             {
-                m_watchers.RemoveAll(w => w.WatcherId == item.WatcherId);
+                m_watchers.RemoveAll(w => w.Id == item.Id);
                 m_watchers.Add(item);
             }
             return Task.FromResult(0);

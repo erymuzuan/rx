@@ -4,7 +4,6 @@ namespace Bespoke.Sph.Domain
 {
     public class SpatialStore : SpatialEntity
     {
-        private int m_spatialStoreId;
         private string m_type;
         private string m_tag;
         private string m_searchText;
@@ -50,15 +49,6 @@ namespace Bespoke.Sph.Domain
                 RaisePropertyChanged();
             }
         }
-        [XmlAttribute]
-        public int SpatialStoreId
-        {
-            get { return m_spatialStoreId; }
-            set
-            {
-                m_spatialStoreId = value;
-                RaisePropertyChanged();
-            }
-        }
+    
     }
 }

@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
             this.Response.ContentType = "application/json; charset=utf-8";
-            return Json(new { success = true, id = rdl.ReportDefinitionId });
+            return Json(new { success = true, id = rdl.Id });
 
 
         }
@@ -53,7 +53,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges("Save");
             }
 
-            return Json(new {success = true, status = "OK", id = rdl.ReportDefinitionId, message = "Your RDL has been successfuly saved"});
+            return Json(new {success = true, status = "OK", id = rdl.Id, message = "Your RDL has been successfuly saved"});
 
 
         }

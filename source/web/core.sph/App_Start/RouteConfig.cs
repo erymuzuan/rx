@@ -198,10 +198,10 @@ namespace Bespoke.Sph.Web.App_Start
                             select new JsRoute
                             {
                                 Title = t.Title,
-                                Route = string.Format("reportdefinition.execute-id.{0}/:id", t.ReportDefinitionId),
+                                Route = string.Format("reportdefinition.execute-id.{0}/:id", t.Id),
                                 Caption = t.Title,
                                 Icon = "icon-bar-chart",
-                                ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.ReportDefinitionId)
+                                ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.Id)
                             };
 
             // adapters

@@ -30,20 +30,20 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
         }
 
         [RazorScriptFilter]
-        public async Task<ActionResult> ReportDefinitionExecuteJs(int id)
+        public async Task<ActionResult> ReportDefinitionExecuteJs(string id)
         {
             var context = new SphDataContext();
-            var rdl = await context.LoadOneAsync<ReportDefinition>(r => r.ReportDefinitionId == id);
+            var rdl = await context.LoadOneAsync<ReportDefinition>(r => r.Id == id);
 
             return View("ReportDefinitionExecuteJs", rdl);
         }
 
-        public async Task<ActionResult> ReportDefinitionExecuteHtml(int id)
+        public async Task<ActionResult> ReportDefinitionExecuteHtml(string id)
         {
             var context = new SphDataContext();
             var datasource = this.GetRequestJson<DataSource>();
             ReportDefinition rdl = null;
-            rdl = await context.LoadOneAsync<ReportDefinition>(r => r.ReportDefinitionId == id);
+            rdl = await context.LoadOneAsync<ReportDefinition>(r => r.Id == id);
             if (null != datasource)
             {
                 await Task.Delay(500);

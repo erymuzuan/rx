@@ -84,7 +84,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             }
 
 
-            modules.AddRange(reportDefinitions.Select(a => string.Format("reportdefinition.execute-id.{0}/{0}", a.ReportDefinitionId)));
+            modules.AddRange(reportDefinitions.Select(a => string.Format("reportdefinition.execute-id.{0}/{0}", a.Id)));
             modules.AddRange(views.Select(v => v.Route));
             modules.AddRange(entityDefinitions.Select(v => v.Name.ToLowerInvariant()));
 

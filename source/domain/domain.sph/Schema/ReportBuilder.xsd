@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/ReportManagerSchema.xsd" xmlns:mstns="http://tempuri.org/ReportManagerSchema.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://tempuri.org/ReportManagerSchema.xsd" elementFormDefault="qualified" id="ReportManagerSchema">
 	<xs:element name="ReportDefinition">
 		<xs:complexType>
@@ -13,7 +13,6 @@
 				</xs:element>
 				<xs:element ref="DataSource"/>
 			</xs:all>
-			<xs:attribute name="ReportDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
 			<xs:attribute name="Category" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
@@ -340,11 +339,10 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="ReportDeliveryId" type="xs:int" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
-			<xs:attribute name="ReportDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="ReportDefinitionId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ReportContent">
@@ -352,9 +350,8 @@
 			<xs:all>
 				<xs:element name="HtmlOutput" type="xs:string"/>
 			</xs:all>
-			<xs:attribute name="ReportContentId" type="xs:int" use="required"/>
-			<xs:attribute name="ReportDefinitionId" type="xs:int" use="required"/>
-			<xs:attribute name="ReportDeliveryId" type="xs:int" use="required"/>
+			<xs:attribute name="ReportDefinitionId" type="xs:string" use="required"/>
+			<xs:attribute name="ReportDeliveryId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ChartSeries">

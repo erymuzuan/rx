@@ -7,10 +7,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     public class MessageController : Controller
     {
 
-        public async Task<ActionResult> Remove(int id)
+        public async Task<ActionResult> Remove(string id)
         {
             var context = new SphDataContext();
-            var message = await context.LoadOneAsync<Message>(m => m.MessageId == id);
+            var message = await context.LoadOneAsync<Message>(m => m.Id == id);
             message.IsRead = true;
             using (var session = context.OpenSession())
             {
@@ -21,10 +21,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Content("true");
 
         }
-        public async Task<ActionResult> MarkRead(int id)
+        public async Task<ActionResult> MarkRead(string id)
         {
             var context = new SphDataContext();
-            var message = await context.LoadOneAsync<Message>(m => m.MessageId == id);
+            var message = await context.LoadOneAsync<Message>(m => m.Id == id);
             message.IsRead = true;
             using (var session = context.OpenSession())
             {
@@ -36,10 +36,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-        public async Task<ActionResult> MarkUnread(int id)
+        public async Task<ActionResult> MarkUnread(string id)
         {
             var context = new SphDataContext();
-            var message = await context.LoadOneAsync<Message>(m => m.MessageId == id);
+            var message = await context.LoadOneAsync<Message>(m => m.Id == id);
             message.IsRead = false;
             using (var session = context.OpenSession())
             {

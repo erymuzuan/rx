@@ -6104,12 +6104,6 @@ namespace Bespoke.Sph.Domain
     [XmlType("SearchDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SearchDefinition
     {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_searchDefinitionId;
-        public const string PropertyNameSearchDefinitionId = "SearchDefinitionId";
-
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entity;
         public const string PropertyNameEntity = "Entity";
@@ -6173,33 +6167,6 @@ namespace Bespoke.Sph.Domain
             get { return m_SortCollection; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int SearchDefinitionId
-        {
-            set
-            {
-                if (m_searchDefinitionId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameSearchDefinitionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_searchDefinitionId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_searchDefinitionId;
-            }
-        }
 
 
         ///<summary>
