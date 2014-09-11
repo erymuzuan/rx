@@ -93,7 +93,6 @@
 			<xs:attribute name="RoleTypes" type="xs:string" use="required"/>
 			<xs:attribute name="StartModule" type="xs:string" use="required"/>
 			<xs:attribute name="Email" type="xs:string" use="required"/>
-			<xs:attribute name="UserProfileId" type="xs:int" use="required"/>
 			<xs:attribute name="Department" type="xs:string" use="required"/>
 			<xs:attribute name="HasChangedDefaultPassword" type="xs:boolean" use="required"/>
 		</xs:complexType>
@@ -104,7 +103,6 @@
 				<xs:element name="Key" type="xs:string"/>
 				<xs:element name="Value" type="xs:string"/>
 			</xs:all>
-			<xs:attribute name="SettingId" type="xs:int" use="required"/>
 			<xs:attribute name="UserName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
@@ -127,7 +125,6 @@
 	</xs:element>
 	<xs:element name="Watcher">
 		<xs:complexType>
-			<xs:attribute name="WatcherId" type="xs:int" use="required"/>
 			<xs:attribute name="EntityName" type="xs:string" use="required"/>
 			<xs:attribute name="EntityId" type="xs:int" use="required"/>
 			<xs:attribute name="User" type="xs:string" use="required"/>
@@ -152,7 +149,6 @@
 	</xs:element>
 	<xs:element name="Message">
 		<xs:complexType>
-			<xs:attribute name="MessageId" type="xs:int" use="required"/>
 			<xs:attribute name="Subject" type="xs:string" use="required"/>
 			<xs:attribute name="IsRead" type="xs:boolean" use="required"/>
 			<xs:attribute name="Body" type="xs:string" use="required"/>
@@ -181,7 +177,6 @@
 	</xs:element>
 	<xs:element name="EmailTemplate">
 		<xs:complexType>
-			<xs:attribute name="EmailTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
@@ -192,7 +187,6 @@
 	</xs:element>
 	<xs:element name="DocumentTemplate">
 		<xs:complexType>
-			<xs:attribute name="DocumentTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="WordTemplateStoreId" type="xs:string" use="required"/>

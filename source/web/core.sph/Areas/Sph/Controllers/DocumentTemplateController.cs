@@ -12,14 +12,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     {
         public async Task<ActionResult> Save()
         {
-            var ef = this.GetRequestJson<DocumentTemplate>();
+            var dt = this.GetRequestJson<DocumentTemplate>();
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(ef);
+                session.Attach(dt);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = ef.DocumentTemplateId });
+            return Json(new { success = true, status = "OK", id = dt.Id });
         }
         public async Task<ActionResult> Publish()
         {
@@ -37,15 +37,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(template);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = template.DocumentTemplateId });
+            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = template.Id });
 
         }
 
-        public async Task<ActionResult> Transform(int id, string entity, int templateId)
+        public async Task<ActionResult> Transform(string id, string entity, string templateId)
         {
 
             var context = new SphDataContext();
-            var template = await context.LoadOneAsync<DocumentTemplate>(e => e.DocumentTemplateId == templateId);
+            var template = await context.LoadOneAsync<DocumentTemplate>(e => e.Id == templateId);
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Name == entity);
 
             var buildValidation = await template.ValidateBuildAsync(ed);

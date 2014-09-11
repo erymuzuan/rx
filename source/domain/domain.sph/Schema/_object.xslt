@@ -106,10 +106,9 @@
                 /// <xsl:value-of select="xs:annotation/xs:documentation"/>
                 ///&lt;/summary&gt;
                 [XmlAttribute]
-                <xsl:if test="@use='required'">
-                  [Required]
-                </xsl:if>
                 [DebuggerHidden]
+                <xsl:if test="@use='required'">
+                  [Required]</xsl:if>
                 <xsl:choose>
                   <xsl:when test="@type">
                     public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/>
