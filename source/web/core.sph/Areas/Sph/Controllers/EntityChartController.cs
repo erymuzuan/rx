@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(chart);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = chart.EntityChartId });
+            return Json(new { success = true, status = "OK", id = chart.Id });
         }
 
 
@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Delete(chart);
                 await session.SubmitChanges("Delete");
             }
-            return Json(new { success = true, status = "OK", id = chart.EntityChartId });
+            return Json(new { success = true, status = "OK", id = chart.Id });
         }
 	}
 }

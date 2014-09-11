@@ -5426,10 +5426,6 @@ namespace Bespoke.Sph.Domain
     public partial class EntityChart
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityChartId;
-        public const string PropertyNameEntityChartId = "EntityChartId";
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int m_entityDefinitionId;
@@ -5503,33 +5499,7 @@ namespace Bespoke.Sph.Domain
             get { return m_SeriesCollection; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EntityChartId
-        {
-            set
-            {
-                if (m_entityChartId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityChartId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityChartId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityChartId;
-            }
-        }
+     
 
 
         ///<summary>
