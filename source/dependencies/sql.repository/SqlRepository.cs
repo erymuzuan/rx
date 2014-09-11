@@ -40,7 +40,7 @@ namespace Bespoke.Sph.SqlRepository
         public async Task<T> LoadOneAsync(string id)
         {
             var elementType = typeof(T);
-            var sql = string.Format("SELECT [{0}Id],{1} FROM [{2}].[{0}] WHERE [{0}Id] = @id"
+            var sql = string.Format("SELECT [Id],{1} FROM [{2}].[{0}] WHERE [Id] = @id"
                 , elementType.Name
                 , "[Json]"
                 , this.Schema);
@@ -57,7 +57,7 @@ namespace Bespoke.Sph.SqlRepository
                     while (await reader.ReadAsync().ConfigureAwait(false))
                     {
                         dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
-                        t1.SetId(id);
+                        t1.Id = id;
                         return t1;
                     }
                 }
@@ -74,11 +74,6 @@ namespace Bespoke.Sph.SqlRepository
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
             }
 
-
-            var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Single(p => p.Name ==  "Id");
-
-
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -89,7 +84,7 @@ namespace Bespoke.Sph.SqlRepository
                     {
 
                         dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
-                        id.SetValue(t1, reader.GetInt32(0), null);
+                        t1.Id = reader.GetString(0);
                         return t1;
 
                     }
@@ -100,11 +95,7 @@ namespace Bespoke.Sph.SqlRepository
 
         public T LoadOne(IQueryable<T> query)
         {
-            var elementType = typeof(T);
-            var sql = query.ToString().Replace("[Json]", string.Format("[{0}Id], [Json]", elementType.Name));
-
-            var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Single(p => p.Name == elementType.Name + "Id");
+            var sql = query.ToString().Replace("[Json]", "[Id], [Json]");
 
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
@@ -114,10 +105,8 @@ namespace Bespoke.Sph.SqlRepository
                 {
                     while (reader.Read())
                     {
-
-
                         dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
-                        id.SetValue(t1, reader.GetInt32(0), null);
+                        t1.Id = reader.GetString(0);
                         return t1;
 
                     }
@@ -177,11 +166,11 @@ namespace Bespoke.Sph.SqlRepository
         {
             var elementType = typeof(T);
             var sql = new StringBuilder(query.ToString());
-            sql.Replace("[Json]", string.Format("[{0}Id],[Json]", elementType.Name));
+            sql.Replace("[Json]", "[Id],[Json]");
             if (!sql.ToString().Contains("ORDER"))
             {
                 sql.AppendLine();
-                sql.AppendFormat("ORDER BY [{0}Id]", elementType.Name);
+                sql.AppendLine("ORDER BY [Id]");
             }
 
             if (!elementType.Namespace.StartsWith(typeof(Entity).Namespace))
@@ -190,9 +179,7 @@ namespace Bespoke.Sph.SqlRepository
             var translator = ObjectBuilder.GetObject<IPagingTranslator>();
             sql = new StringBuilder(translator.Tranlate(sql.ToString(), page, size));
 
-            var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Single(p => p.Name == "Id");
-            Type specificType = typeof(List<>).MakeGenericType(new[] { elementType });
+            var specificType = typeof(List<>).MakeGenericType(new[] { elementType });
             dynamic list = Activator.CreateInstance(specificType);
 
             try
@@ -206,7 +193,7 @@ namespace Bespoke.Sph.SqlRepository
                         while (await reader.ReadAsync().ConfigureAwait(false))
                         {
                             dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
-                            id.SetValue(t1, reader.GetInt32(0), null);
+                            t1.Id = reader.GetString(0);
                             list.Add(t1);
 
                         }

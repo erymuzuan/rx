@@ -5,7 +5,7 @@ GO
 CREATE TABLE [Sph].[EntityForm]
 (
 	[Id] VARCHAR(255) PRIMARY KEY
-	,[EntityDefinitionId] INT NOT NULL 
+	,[EntityDefinitionId] VARCHAR(255) NOT NULL 
 	,[Entity] VARCHAR(255) NOT NULL DEFAULT ''
 	,[Json] VARCHAR(MAX) NOT NULL
 	,[IsPublished] BIT NOT NULL

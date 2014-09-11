@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Domain
         public IQueryable<T> CreateQueryable<T>()
         {
             return new Query<T>(m_provider);
-        } 
+        }
 
 
         public PersistenceSession OpenSession()
@@ -66,7 +66,7 @@ namespace Bespoke.Sph.Domain
             return session;
         }
 
-        private async Task<IEnumerable<Entity>> GetPreviousItems(IEnumerable<Entity> items)
+        private async Task<IEnumerable<Entity>> GetPreviousItemsAsync(IEnumerable<Entity> items)
         {
             var list = new ObjectCollection<Entity>();
             foreach (var item in items)
@@ -77,7 +77,8 @@ namespace Bespoke.Sph.Domain
                 var repos = ObjectBuilder.GetObject(reposType);
 
                 var p = await repos.LoadOneAsync(o1.Id).ConfigureAwait(false);
-                list.Add(p);
+                if (null != p)
+                    list.Add(p);
 
 
             }
@@ -90,7 +91,10 @@ namespace Bespoke.Sph.Domain
             var changedItems = session.AttachedCollection.Where(t => !string.IsNullOrWhiteSpace(t.Id)).ToArray();
 
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
-            var previous = await GetPreviousItems(changedItems);
+            var previous = await GetPreviousItemsAsync(changedItems);
+
+            if (null == previous) throw new InvalidOperationException("Cannot get previous instance");
+
             // get changes to items
             var logs = (from e in changedItems
                         let e1 = previous.SingleOrDefault(t => t.WebId == e.WebId)
@@ -98,6 +102,7 @@ namespace Bespoke.Sph.Domain
                         let diffs = (new ChangeGenerator().GetChanges(e1, e))
                         select new AuditTrail(diffs)
                         {
+                            Id = Guid.NewGuid().ToString(),
                             Operation = operation,
                             DateTime = DateTime.Now,
                             User = ds.CurrentUserName,
@@ -106,6 +111,7 @@ namespace Bespoke.Sph.Domain
                             Note = "-"
                         }).ToArray();
             session.AttachedCollection.AddRange(logs.Cast<Entity>());
+
 
             var persistence = ObjectBuilder.GetObject<IPersistence>();
             var so = await persistence.SubmitChanges(session.AttachedCollection, session.DeletedCollection, session)

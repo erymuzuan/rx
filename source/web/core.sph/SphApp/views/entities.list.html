@@ -4,7 +4,7 @@
 <table class="table table-striped" data-bind="filter : {path:'tbody>tr'},
     serverPaging : {
         entity : 'EntityDefinition',
-        query : 'EntityDefinitionId gt 0',
+        query : 'Id ne \'\'',
         list : entities
     }">
     <thead>
@@ -20,7 +20,7 @@
     <tbody data-bind="foreach :entities">
         <tr>
             <td>
-                <a data-bind="attr : {href:'#/entity.details/' + EntityDefinitionId()}">
+                <a data-bind="attr : {href:'#/entity.details/' + Id()}">
                     <i class="fa fa-edit"></i>
                     <span data-bind="text:Name"></span>
                 </a>

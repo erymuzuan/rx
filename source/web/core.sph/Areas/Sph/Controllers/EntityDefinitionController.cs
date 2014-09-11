@@ -34,34 +34,43 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var ed = this.GetRequestJson<EntityDefinition>();
             var context = new SphDataContext();
 
-            var newItem = string.IsNullOrWhiteSpace(ed.Id);// == 0;
+            var existingItem = (await context.LoadOneAsync<EntityDefinition>(x => x.Id == ed.Name)) != null;
+            if (!existingItem)
+                ed.Id = ed.Name;
+
+            if (existingItem)
+            {
+                using (var session = context.OpenSession())
+                {
+                    session.Attach(ed);
+                    await session.SubmitChanges("Save");
+                }
+                return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
+
+            }
+
+            var form = new EntityForm
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = ed.Name + " details",
+                Entity = ed.Name,
+                Route = ed.Name.ToLowerInvariant() + "-details",
+                EntityDefinitionId = ed.Id,
+                IsDefault = true
+            };
+            var view = new EntityView
+            {
+                Id = Guid.NewGuid().ToString(),
+                Entity = ed.Name,
+                Name = "All " + ed.Plural,
+                Route = ed.Plural.ToLowerInvariant() + "-all",
+                EntityDefinitionId = ed.Id,
+            };
 
             using (var session = context.OpenSession())
             {
-                session.Attach(ed);
+                session.Attach(ed,form, view);
                 await session.SubmitChanges("Save");
-            }
-            if (newItem)
-            {
-                var form = new EntityForm
-                {
-                    Name = ed.Name + " details",
-                    Route = ed.Name.ToLowerInvariant() + "-details",
-                    EntityDefinitionId = ed.Id,
-                    IsDefault = true
-                };
-                var view = new EntityView
-                {
-                    Name = "All " + ed.Plural,
-                    Route = ed.Plural.ToLowerInvariant() + "-all",
-                    EntityDefinitionId = ed.Id,
-                };
-
-                using (var session = context.OpenSession())
-                {
-                    session.Attach(form, view);
-                    await session.SubmitChanges("Save");
-                }
             }
             return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
 

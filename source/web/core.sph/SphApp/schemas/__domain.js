@@ -1,6 +1,6 @@
 ﻿///#source 1 1 /SphApp/schemas/form.designer.g.js
 
-/// <reference path="~/scripts/knockout-3.1.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -771,7 +771,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-        EntityDefinitionId: ko.observable(0),
+        Id: ko.observable(),
         Name: ko.observable(''),
         Plural: ko.observable(''),
         IconStoreId: ko.observable(''),
@@ -2412,7 +2412,7 @@ bespoke.sph.domain.IntervalSchedule = function (optionOrWebid) {
 
 ///#source 1 1 /SphApp/schemas/sph.domain.g.js
 
-/// <reference path="~/scripts/knockout-3.1.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 

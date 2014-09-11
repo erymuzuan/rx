@@ -45,6 +45,7 @@ namespace Bespoke.Sph.SqlRepository
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
 
+
                 var addedItemsIdentityParameters = new List<Tuple<Entity, SqlParameter>>();
                 var count = 0;
                 var sql = new StringBuilder("BEGIN TRAN ");
@@ -56,25 +57,31 @@ namespace Bespoke.Sph.SqlRepository
                     count++;
                     int count1 = count;
                     var entityType = this.GetEntityType(item);
-                    var id = item.Id;
                     var metadataType = metadataProvider.GetTable(entityType.Name);
                     if (null == metadataType) throw new InvalidOperationException("Cannot find the Metadata type in SQL Server :" + entityType.Name);
 
                     var columns = metadataType.Columns
-                        .Where(p => p.Name != entityType.Name + "Id")
                         .Where(p => p.CanRead && p.CanWrite)
                         .ToArray();
 
                     item.ChangedBy = ad.CurrentUserName;
                     item.ChangedDate = DateTime.Now;
-                    if (string.IsNullOrWhiteSpace(id))
+                    bool exist;
+                    using (var cmd2 = new SqlCommand("SELECT COUNT([ID]) FROM [" + this.GetSchema(entityType) + "].[" + entityType.Name + "] WHERE [Id] = '" +item.Id+"'", conn))
+                    {
+                        if (conn.State != ConnectionState.Open)
+                            await conn.OpenAsync();
+                        exist = (int)(await cmd2.ExecuteScalarAsync()) > 0;
+
+                    }
+                    if (!exist)
                     {
                         item.CreatedBy = ad.CurrentUserName;
                         item.CreatedDate = DateTime.Now;
-                        this.AppendInsertStatement(sql, entityType, columns, count1, cmd, addedItemsIdentityParameters, item);
+                        this.AppendInsertStatement(sql, entityType, columns, count1);
                     }
                     else
-                        this.AppendUpdateStatement(sql, entityType, columns, count1, cmd, id);
+                        this.AppendUpdateStatement(sql, entityType, columns, count1, cmd, item.Id);
 
 
                     foreach (var c in columns)
@@ -93,16 +100,15 @@ namespace Bespoke.Sph.SqlRepository
                     var entityType = this.GetEntityType(item);
                     var typeName = entityType.Name;
                     var schema = this.GetSchema(entityType);
-                    var id = (int)item.GetType().GetProperty(typeName + "Id").GetValue(item, null);
-                    sql.AppendFormat("DELETE FROM [{2}].[{0}] WHERE [{0}Id] = @{0}Id{1}", typeName, count, schema);
+                    var id = item.Id;
+                    sql.AppendFormat("DELETE FROM [{2}].[{0}] WHERE [Id] = @{0}Id{1}", typeName, count, schema);
                     sql.AppendLine();
                     cmd.Parameters.AddWithValue("@" + typeName + "Id" + count, id);
                 }
                 sql.AppendLine();
                 sql.AppendLine("COMMIT");
-                /**/
+                Console.WriteLine(sql);
                 cmd.CommandText = sql.ToString();
-                await conn.OpenAsync();
                 var rows = await cmd.ExecuteNonQueryAsync();
 
                 var so = new SubmitOperation { RowsAffected = rows };
@@ -110,10 +116,8 @@ namespace Bespoke.Sph.SqlRepository
                 foreach (var t in addedItemsIdentityParameters)
                 {
                     var item = t.Item1;
-                    var id = (int)t.Item2.Value;
-                    var type = this.GetEntityType(item);
-                    type.GetProperty(type.Name + "Id")
-                        .SetValue(item, id);
+                    var id = (string)t.Item2.Value;
+                    item.Id = id;
                     so.Add(item.WebId, id);
                 }
 
@@ -130,6 +134,7 @@ namespace Bespoke.Sph.SqlRepository
             sql.AppendFormat("UPDATE [{1}].[{0}]", entityType.Name, schema);
 
             var updates = columns
+                .Where(p => p.Name != "Id")
                 .Where(p => p.Name != "CreatedDate")
                 .Where(p => p.Name != "CreatedBy")
                 .Select(p => string.Format("[{0}]=@{1}{2}", p.Name, p.Name.Replace(".", "_"), count1));
@@ -137,13 +142,12 @@ namespace Bespoke.Sph.SqlRepository
             sql.AppendFormat("SET {0}", string.Join(",\r\n", updates));
 
             sql.AppendLine();
-            sql.AppendFormat("WHERE [{0}Id] = @{0}Id{1}", entityType.Name, count1);
+            sql.AppendFormat("WHERE [Id] = @{0}Id{1}", entityType.Name, count1);
             sql.AppendLine();
             cmd.Parameters.AddWithValue(string.Format("@{0}Id{1}", entityType.Name, count1), id);
         }
 
-        private void AppendInsertStatement(StringBuilder sql, Type entityType, Column[] columns, int count1,
-                                                    SqlCommand cmd, List<Tuple<Entity, SqlParameter>> parameters, Entity item)
+        private void AppendInsertStatement(StringBuilder sql, Type entityType, Column[] columns, int count1)
         {
             var schema = this.GetSchema(entityType);
             sql.AppendFormat("INSERT INTO [{1}].[{0}]", entityType.Name, schema);
@@ -153,12 +157,7 @@ namespace Bespoke.Sph.SqlRepository
             sql.AppendFormat("VALUES");
             sql.AppendFormat("({0})", string.Join(",", columns.Select(p => string.Format("@{0}{1}", p.Name.Replace(".", "_"), count1))));
             sql.AppendLine();
-            sql.AppendFormat("SELECT @id{0} = @@IDENTITY", count1);
-            sql.AppendLine();
 
-            var idParam = new SqlParameter("@id" + count1, SqlDbType.Int) { Direction = ParameterDirection.Output };
-            cmd.Parameters.Add(idParam);
-            parameters.Add(new Tuple<Entity, SqlParameter>(item, idParam));
         }
 
         private string GetSchema(Type type)
@@ -179,14 +178,14 @@ namespace Bespoke.Sph.SqlRepository
         {
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
 
-            var id = (int)item.GetType().GetProperty(entityType.Name + "Id")
+            var id = (string)item.GetType().GetProperty("Id")
                 .GetValue(item, null);
             if (prop.Name == "Data")
                 return item.ToXmlString(entityType);
             if (prop.Name == "Json")
                 return item.ToJsonString();
             if (prop.Name == "CreatedDate")
-                return id == 0 || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
+                return string.IsNullOrWhiteSpace(id) || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
             if (prop.Name == "CreatedBy")
                 return ad.CurrentUserName;
             if (prop.Name == "ChangedDate")

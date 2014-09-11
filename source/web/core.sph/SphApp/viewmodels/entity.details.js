@@ -22,8 +22,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
             activate = function (entityid) {
                 var id = parseInt(entityid);
-                if (id) {
-                    var query = String.format("EntityDefinitionId eq {0}", id),
+                if (isNaN(id)) {
+                    var query = String.format("Id eq '{0}'", entityid),
                         tcs = new $.Deferred();
                     context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
@@ -67,19 +67,19 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            if (entity().EntityDefinitionId() === 0) {
+                            if (!entity().Id()) {
                                 //reload forms and views 
-                                context.loadAsync("EntityForm", "EntityDefinitionId eq " + result.id)
+                                context.loadAsync("EntityForm", "EntityDefinitionId eq '" + result.id + "'")
                                     .done(function (lo) {
                                         forms(lo.itemCollection);
                                     });
-                                context.loadAsync("EntityView", "EntityDefinitionId eq " + result.id)
+                                context.loadAsync("EntityView", "EntityDefinitionId eq '" + result.id + "'")
                                     .done(function (lo) {
                                         views(lo.itemCollection);
                                     });
 
                             }
-                            entity().EntityDefinitionId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
                         } else {
                             errors(result.Errors);
@@ -99,7 +99,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            entity().EntityDefinitionId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
                         } else {
 
@@ -122,7 +122,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            entity().EntityDefinitionId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
                         } else {
 
@@ -152,7 +152,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     command: function () {
                         entity().Name(entity().Name() + ' Copy (1)');
                         entity().Plural(null);
-                        entity().EntityDefinitionId(0);
+                        entity().Id('');
                         forms([]);
                         views([]);
                         return Task.fromResult(0);
@@ -163,7 +163,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         caption: 'Publish',
                         icon: "fa fa-sign-in",
                         enable: ko.computed(function () {
-                            return entity().EntityDefinitionId() > 0;
+                            return entity().Id();
                         })
                     },
                     {
@@ -171,7 +171,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         caption: 'Depublish',
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
-                            return entity().EntityDefinitionId() > 0 && entity().IsPublished();
+                            return entity().Id()  && entity().IsPublished();
                         })
                     }])
             }

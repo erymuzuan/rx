@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Web.Api
 
             var list = from d in webids
                        let id = so.Get(d)
-                       where id.HasValue
+                       where !string.IsNullOrWhiteSpace(id)
                        select new
                                   {
                                       __webid = d,

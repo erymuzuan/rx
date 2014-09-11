@@ -11,6 +11,7 @@ using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.Properties;
+using Monads.NET;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Api
@@ -215,7 +216,7 @@ namespace Bespoke.Sph.Web.Api
 
             var orderby = this.Request.QueryString["$orderby"];
             var translator = new OdataSqlTranslator(null, typeName);
-            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ?  "Id gt 0" : filter, orderby);
+            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ?  "Id ne ''" : filter, orderby);
             var rows = 0;
             var nextPageToken = "";
             var list = await this.ExecuteListTupleAsync<T>(sql, page, size);
@@ -285,7 +286,7 @@ namespace Bespoke.Sph.Web.Api
                 {
                     while (reader.Read())
                     {
-                        var id = reader.GetInt32(0);
+                        var id = reader.GetString(0);
                         var json = reader.GetString(1)
                             .Replace( "Id\":0", type + "Id\":" + id);
                         result.Add(json);
@@ -317,10 +318,8 @@ namespace Bespoke.Sph.Web.Api
                     while (reader.Read())
                     {
                         var id = reader.GetString(0);
-                        var prop = typeof(T).GetProperty("Id");
-
                         dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
-                        prop.SetValue(t1, id, null);
+                        t1.Id = id;
                         result.Add(t1);
 
                     }

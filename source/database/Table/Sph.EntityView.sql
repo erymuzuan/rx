@@ -5,7 +5,7 @@ GO
 CREATE TABLE [Sph].[EntityView]
 (
 	[Id] VARCHAR(255) PRIMARY KEY
-	,[EntityDefinitionId] INT NOT NULL
+	,[EntityDefinitionId]  VARCHAR(255) NOT NULL
 	,[Json] VARCHAR(MAX) NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
 	,[IsPublished] BIT NOT NULL

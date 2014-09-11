@@ -9,22 +9,22 @@ namespace Bespoke.Sph.Domain
     {
         public SubmitOperation()
         {
-            Books = new Dictionary<string, int>();
+            Books = new Dictionary<string, string>();
         }
-        private Dictionary<string, int> m_books = new Dictionary<string, int>();
+        private Dictionary<string, string> m_books = new Dictionary<string, string>();
 
         public Exception Exeption { get; set; }
         public int RowsAffected { get; set; }
         public bool IsFaulted { get { return null != this.Exeption; } }
         public bool IsCompleted { get { return this.RowsAffected > 0; } }
 
-        public Dictionary<string, int> Books
+        public Dictionary<string, string> Books
         {
             get { return m_books; }
             set { m_books = value; }
         }
 
-        public bool Add(string webId, int id)
+        public bool Add(string webId, string id)
         {
             if (Books.ContainsKey(webId)) return false;
 
@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
             return true;
         }
 
-        public int? Get(string webId)
+        public string Get(string webId)
         {
             if (Books.ContainsKey(webId))
                 return Books[webId];
