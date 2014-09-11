@@ -4,7 +4,7 @@ GO
 
 CREATE TABLE Sph.BinaryStore
 (
-	 [BinaryStoreId] INT PRIMARY KEY IDENTITY(1,1)
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[StoreId] VARCHAR(50) NOT NULL
 	,[Extension] VARCHAR(10) NULL
 	,[FileName] VARCHAR(255) NULL

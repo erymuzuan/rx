@@ -4,7 +4,7 @@ GO
 
 CREATE TABLE [Sph].[EntityView]
 (
-	 [EntityViewId] INT PRIMARY KEY IDENTITY(1,1)
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[EntityDefinitionId] INT NOT NULL
 	,[Json] VARCHAR(MAX) NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
@@ -16,6 +16,3 @@ CREATE TABLE [Sph].[EntityView]
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
-
-ALTER TABLE [Sph].[EntityView]
-ADD [Json] VARCHAR(MAX) NULL

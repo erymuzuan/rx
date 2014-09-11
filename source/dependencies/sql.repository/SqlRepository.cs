@@ -68,7 +68,7 @@ namespace Bespoke.Sph.SqlRepository
         public async Task<T> LoadOneAsync(IQueryable<T> query)
         {
             var elementType = typeof(T);
-            var sql = query.ToString().Replace("[Json]", string.Format("[{0}Id]," + "[Json]", elementType.Name));
+            var sql = query.ToString().Replace("[Json]", "[Id], [Json]");
             if (!elementType.Namespace.StartsWith(typeof(Entity).Namespace))// custom entity
             {
                 sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
@@ -76,7 +76,7 @@ namespace Bespoke.Sph.SqlRepository
 
 
             var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Single(p => p.Name == elementType.Name + "Id");
+                .Single(p => p.Name ==  "Id");
 
 
             using (var conn = new SqlConnection(m_connectionString))
@@ -191,7 +191,7 @@ namespace Bespoke.Sph.SqlRepository
             sql = new StringBuilder(translator.Tranlate(sql.ToString(), page, size));
 
             var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Single(p => p.Name == elementType.Name + "Id");
+                .Single(p => p.Name == "Id");
             Type specificType = typeof(List<>).MakeGenericType(new[] { elementType });
             dynamic list = Activator.CreateInstance(specificType);
 

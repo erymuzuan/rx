@@ -3,11 +3,9 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Sph].[Trigg
 DROP TABLE [Sph].[Trigger]
 GO
 
-
-
  CREATE TABLE [Sph].[Trigger]
 (
-	 [TriggerId] INT PRIMARY KEY IDENTITY(1,1)
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[Name] VARCHAR(255) NOT NULL
 	,[Entity] VARCHAR(255) NULL
 	,[EntityTypeName] VARCHAR(255) NULL
@@ -20,7 +18,3 @@ GO
 	,[ChangedBy] VARCHAR(255) NULL
 
 )
-
-GO 
-ALTER TABLE [Sph].[Trigger]
-ADD [IsActive] BIT NOT NULL DEFAULT 1

@@ -5,7 +5,7 @@ GO
 
 CREATE TABLE Sph.TransformDefinition
 (
-	 [TransformDefinitionId] INT PRIMARY KEY IDENTITY(1,1)
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[Json] NVARCHAR(MAX) NOT NULL
 	,[Name] VARCHAR(255) NULL
 	,[InputTypeName] VARCHAR(255) NOT NULL

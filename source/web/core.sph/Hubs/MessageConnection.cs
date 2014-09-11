@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Microsoft.AspNet.SignalR;
 
@@ -17,7 +18,7 @@ namespace Bespoke.Sph.Web.Hubs
             m_listener.Changed += ListenerChanged;
             m_listener.Run();
 
-            return Connection.Send(connectionId, (new Message { Subject = "Welcome" }).ToJsonString());
+            return Connection.Send(connectionId, (new Message { Subject = "Welcome", Id = Guid.NewGuid().ToString()}).ToJsonString());
         }
 
         void ListenerChanged(object sender, EntityChangedEventArgs<Message> e)

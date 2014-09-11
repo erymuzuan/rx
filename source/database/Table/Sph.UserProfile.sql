@@ -2,11 +2,9 @@
 IF OBJECT_ID('Sph.UserProfile', 'U') IS NOT NULL
   DROP TABLE [Sph].[UserProfile]
 
-IF  EXISTS (SELECT * FROM sys.schemas WHERE name = N'Sph')
---DROP SCHEMA [Sph]
---GO
 CREATE TABLE [Sph].[UserProfile](
-	[UserProfileId] [int] IDENTITY(1,1) NOT NULL,
+	
+	[Id] VARCHAR(255) PRIMARY KEY,
 	[UserName] VARCHAR(50) NOT NULL,
 	[FullName] VARCHAR(100) NULL,
 	[Designation] VARCHAR(50) NULL,
@@ -17,15 +15,5 @@ CREATE TABLE [Sph].[UserProfile](
 	[ChangedBy] VARCHAR(50) NOT NULL,
 	[CreatedDate] SMALLDATETIME NOT NULL,
 	[CreatedBy] VARCHAR(50) NOT NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[UserProfileId] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
+)
 
-GO
-
-
-
-ALTER TABLE [Sph].[UserProfile]
-ADD [Json] VARCHAR(MAX) NULL

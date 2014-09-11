@@ -4,7 +4,7 @@ GO
 
 CREATE TABLE Sph.DocumentTemplate
 (
-	 [DocumentTemplateId] INT PRIMARY KEY IDENTITY(1,1)
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[Entity] VARCHAR(255) NOT NULL
 	,[Json] VARCHAR(MAX) NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
@@ -15,6 +15,3 @@ CREATE TABLE Sph.DocumentTemplate
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
-
-ALTER TABLE Sph.DocumentTemplate
-ADD [Json] VARCHAR(MAX) NULL

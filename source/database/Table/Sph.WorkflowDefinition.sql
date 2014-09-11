@@ -5,7 +5,7 @@ GO
 
 CREATE TABLE Sph.WorkflowDefinition
 (
-	 [WorkflowDefinitionId] INT PRIMARY KEY IDENTITY(1,1)	
+	 [Id] VARCHAR(255) PRIMARY KEY	
 	,[Name] VARCHAR(255) NULL
 	,[Note] VARCHAR(255) NULL
 	,[Json] VARCHAR(MAX) NOT NULL
@@ -16,5 +16,3 @@ CREATE TABLE Sph.WorkflowDefinition
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
-ALTER TABLE Sph.WorkflowDefinition
-ADD [Json] VARCHAR(MAX) NULL

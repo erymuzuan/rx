@@ -3,7 +3,7 @@
 GO
 
 CREATE TABLE [Sph].[ReportDelivery](
-	[ReportDeliveryId] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[Id] VARCHAR(255) PRIMARY KEY,
 	[ReportDefinitionId] [int] NOT NULL,
 	[Title] VARCHAR(255) NOT NULL	,
 	[Description] VARCHAR(2000) NULL,
@@ -16,7 +16,3 @@ CREATE TABLE [Sph].[ReportDelivery](
 	)
 GO
 
-
-
-ALTER TABLE [Sph].[ReportDelivery]
-ADD [Json] VARCHAR(MAX) NULL

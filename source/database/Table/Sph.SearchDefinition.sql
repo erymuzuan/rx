@@ -4,7 +4,7 @@ GO
 
 CREATE TABLE Sph.SearchDefinition
 (
-	 [SearchDefinitionId] INT PRIMARY KEY IDENTITY(1,1)
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[Entity] VARCHAR(255) NOT NULL
 	,[Json] VARCHAR(MAX) NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
@@ -18,6 +18,3 @@ CREATE TABLE Sph.SearchDefinition
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
-
-ALTER TABLE  Sph.SearchDefinition
-ADD [Json] VARCHAR(MAX) NULL

@@ -4,7 +4,7 @@ GO
 
 CREATE TABLE [Sph].[Tracker]
 (
-	 [TrackerId] INT PRIMARY KEY IDENTITY(1,1)	
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[WorkflowId] INT NOT NULL
 	,[WorkflowDefinitionId] VARCHAR(255) NULL
 	,[Json] VARCHAR(MAX) NOT NULL

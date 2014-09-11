@@ -181,7 +181,7 @@ namespace Bespoke.Sph.Web.Api
 
             if (includeTotal || page > 1)
             {
-                var translator2 = new CustomEntityRestSqlTranslator(typeName + "Id", typeName);
+                var translator2 = new CustomEntityRestSqlTranslator("Id", typeName);
                 var sumSql = translator2.Count(filter);
                 rows = await ExecuteScalarAsync(sumSql);
 
@@ -214,8 +214,8 @@ namespace Bespoke.Sph.Web.Api
             var typeName = typeof(T).Name;
 
             var orderby = this.Request.QueryString["$orderby"];
-            var translator = new OdataSqlTranslator<T>(null, typeName);
-            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? typeof(T).Name + "Id gt 0" : filter, orderby);
+            var translator = new OdataSqlTranslator(null, typeName);
+            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ?  "Id gt 0" : filter, orderby);
             var rows = 0;
             var nextPageToken = "";
             var list = await this.ExecuteListTupleAsync<T>(sql, page, size);
@@ -224,7 +224,7 @@ namespace Bespoke.Sph.Web.Api
 
             if (includeTotal || page > 1)
             {
-                var translator2 = new OdataSqlTranslator<T>(typeName + "Id", typeName);
+                var translator2 = new OdataSqlTranslator("Id", typeName);
                 var sumSql = translator2.Count(filter);
                 rows = await ExecuteScalarAsync(sumSql);
 
@@ -270,7 +270,7 @@ namespace Bespoke.Sph.Web.Api
             var sql2 = sql;
             if (!sql2.Contains("ORDER"))
             {
-                sql2 += string.Format("\r\nORDER BY [{0}Id]", type);
+                sql2 += "\r\nORDER BY [Id]";
             }
 
             var paging = ObjectBuilder.GetObject<IPagingTranslator2>();
@@ -287,7 +287,7 @@ namespace Bespoke.Sph.Web.Api
                     {
                         var id = reader.GetInt32(0);
                         var json = reader.GetString(1)
-                            .Replace(type + "Id\":0", type + "Id\":" + id);
+                            .Replace( "Id\":0", type + "Id\":" + id);
                         result.Add(json);
                     }
                 }
@@ -301,7 +301,7 @@ namespace Bespoke.Sph.Web.Api
             var sql2 = sql;
             if (!sql2.Contains("ORDER"))
             {
-                sql2 += string.Format("\r\nORDER BY [{0}Id]", typeof(T).Name);
+                sql2 += "\r\nORDER BY [Id]";
             }
 
             var paging = ObjectBuilder.GetObject<IPagingTranslator2>();
@@ -316,8 +316,8 @@ namespace Bespoke.Sph.Web.Api
                 {
                     while (reader.Read())
                     {
-                        var id = reader.GetInt32(0);
-                        var prop = typeof(T).GetProperty(typeof(T).Name + "Id");
+                        var id = reader.GetString(0);
+                        var prop = typeof(T).GetProperty("Id");
 
                         dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
                         prop.SetValue(t1, id, null);

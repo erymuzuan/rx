@@ -7,7 +7,7 @@ GO
 
  CREATE TABLE [Sph].[Page]
 (
-	 [PageId] INT PRIMARY KEY IDENTITY(1,1)
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[Name] VARCHAR(255) NOT NULL
 	,[Tag] VARCHAR(255) NULL
 	,[Version] INT NULL
@@ -21,5 +21,3 @@ GO
 	,[ChangedBy] VARCHAR(255) NULL
 
 )
-ALTER TABLE  [Sph].[Page]
-ADD [Json] VARCHAR(MAX) NULL

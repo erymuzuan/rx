@@ -3,7 +3,7 @@
 GO
 
 CREATE TABLE [Sph].[Designation](
-	[DesignationId] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[Id] VARCHAR(255) PRIMARY KEY,
 	[Name] VARCHAR(255) NOT NULL,
 	[Json] VARCHAR(MAX) NOT NULL	,
 	[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE(),
@@ -13,7 +13,4 @@ CREATE TABLE [Sph].[Designation](
 	)
 GO
 
-
-ALTER TABLE [Sph].[Designation]
-ADD [Json] VARCHAR(MAX) NULL
 

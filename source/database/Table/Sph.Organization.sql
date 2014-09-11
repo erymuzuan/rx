@@ -7,7 +7,7 @@ GO
 
  CREATE TABLE [Sph].[Organization]
 (
-	 [OrganizationId] INT PRIMARY KEY IDENTITY(1,1)
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[Name] VARCHAR(255) NOT NULL
 	,[IdSsmNo] VARCHAR(255) NULL
 	,[RegistrationNo] VARCHAR(255) NULL
@@ -18,6 +18,3 @@ GO
 	,[ChangedBy] VARCHAR(255) NULL
 
 )
-
-ALTER TABLE  [Sph].[Organization]
-ADD [Json] VARCHAR(MAX) NULL

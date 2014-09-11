@@ -5,7 +5,7 @@ using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Web.Helpers
 {
-    public class OdataSqlTranslator<T> where T : Entity
+    public class OdataSqlTranslator
     {
         private readonly string m_column;
         private readonly string m_table;
@@ -102,13 +102,11 @@ namespace Bespoke.Sph.Web.Helpers
 
         public string Select(string filter, string orderby)
         {
-            var type = typeof(IRepository<T>);
-            dynamic repos = ObjectBuilder.GetObject(type);
 
-            var sql = string.Format("SELECT [{0}Id],{1} FROM [{2}].[{0}]", m_table, "[Json]", this.Schema);
+            var sql = string.Format("SELECT [Id],{1} FROM [{2}].[{0}]", m_table, "[Json]", this.Schema);
 
             if (!string.IsNullOrEmpty(filter))
-                sql = string.Format("SELECT [{0}Id],{2} FROM [{3}].[{0}] {1} ", m_table, this.Translate(filter), "[Json]", this.Schema);
+                sql = string.Format("SELECT [Id],{2} FROM [{3}].[{0}] {1} ", m_table, this.Translate(filter), "[Json]", this.Schema);
 
             if (!string.IsNullOrWhiteSpace(orderby))
             {

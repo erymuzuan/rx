@@ -4,7 +4,7 @@ GO
 
 CREATE TABLE [Sph].[EntityDefinition]
 (
-	 [EntityDefinitionId] INT PRIMARY KEY IDENTITY(1,1)
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[Json] VARCHAR(MAX) NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
 	,[RecordName] VARCHAR(255) NOT NULL
@@ -15,9 +15,3 @@ CREATE TABLE [Sph].[EntityDefinition]
 	,[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
 	,[ChangedBy] VARCHAR(255) NULL
 )
-ALTER TABLE  [Sph].[EntityDefinition]
-ADD [Json] VARCHAR(MAX) NULL
-
-GO 
-ALTER TABLE  Sph.EntityDefinition
-ADD [RecordName] VARCHAR(255) NOT NULL DEFAULT 'FullName'

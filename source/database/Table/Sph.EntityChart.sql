@@ -2,12 +2,10 @@ IF OBJECT_ID('Sph.EntityChart', 'U') IS NOT NULL
   DROP TABLE Sph.EntityChart
 GO
 
-IF OBJECT_ID('Sph.EntityChart', 'U') IS NOT NULL
-  DROP TABLE [Sph].[EntityChart]
 
 CREATE TABLE Sph.EntityChart
 (
-	 [EntityChartId] INT PRIMARY KEY IDENTITY(1,1)
+	[Id] VARCHAR(255) PRIMARY KEY
 	,[EntityDefinitionId] INT NOT NULL
 	,[Entity] VARCHAR(255) NOT NULL
 	,[IsDashboardItem] BIT NOT NULL DEFAULT 0
@@ -20,7 +18,3 @@ CREATE TABLE Sph.EntityChart
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
-
-
-ALTER TABLE Sph.EntityChart
-ADD [Json] VARCHAR(MAX) NULL

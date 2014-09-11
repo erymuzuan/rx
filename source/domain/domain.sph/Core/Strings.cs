@@ -32,6 +32,17 @@ namespace Bespoke.Sph.Domain
             return value.Equals(value2);
         }
 
+        public static bool IsSystemType(this object obj)
+        {
+            if (null == obj) throw new ArgumentNullException("obj");
+            var elementType = obj.GetType();
+            if (string.IsNullOrWhiteSpace(elementType.Namespace)) return false;
+            if (elementType.Namespace.StartsWith(typeof(Entity).Namespace))// custom entity
+            {
+                return true;
+            }
+            return false;
+        }
         public static string ToCsharpIdentitfier(this string text)
         {
 

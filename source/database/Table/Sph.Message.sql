@@ -4,7 +4,7 @@ GO
 
 CREATE TABLE [Sph].[Message]
 (
-	 [MessageId] INT PRIMARY KEY IDENTITY(1,1)		 
+	[Id] VARCHAR(255) PRIMARY KEY	 
 	,[Subject] VARCHAR (255) NULL
 	,[IsRead] BIT NOT NULL
 	,[Body]	VARCHAR (4000) NOT NULL
@@ -16,5 +16,3 @@ CREATE TABLE [Sph].[Message]
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
-ALTER TABLE  [Sph].[Message]
-ADD [Json] VARCHAR(MAX) NULL

@@ -1,6 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -25,7 +24,7 @@ define([objectbuilders.datacontext, objectbuilders.config],
                         tcs.resolve(true);
                     });
 
-                context.getCountAsync("Message", query, "MessageId")
+                context.getCountAsync("Message", query, "Id")
                     .done(function (c) {
                         vm.unread(c);
                     });
@@ -42,21 +41,21 @@ define([objectbuilders.datacontext, objectbuilders.config],
                             return;
                         }
                         if (message.UserName() === config.userName) {
-                            context.getCountAsync("Message", query, "MessageId")
+                            context.getCountAsync("Message", query, "Id")
                                     .done(function (c) {
                                         vm.unread(c);
                                     });
                         }
 
                         var item = _(vm.messages()).find(function (v) {
-                            return v.MessageId() == message.MessageId();
+                            return v.Id() == message.Id();
                         });
                         if (item) {
                             vm.messages.remove(item);
                         } else {
                             // new item - put it on top
-                            var query1 = String.format("MessageId eq {0}", message.MessageId());
-                            context.getCountAsync("Message", query1, "MessageId")
+                            var query1 = String.format("Id eq '{0}'", message.Id());
+                            context.getCountAsync("Message", query1, "Id")
                                    .done(function (c) {
                                        if (c === 1) {
                                            vm.messages.splice(0, 0, message);
