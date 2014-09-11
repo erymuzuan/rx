@@ -6,12 +6,12 @@
 @{
     ViewBag.Title = "title";
     Layout = null;
-    var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.EntityDefinitionId;
+    var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.Id;
     var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:system.guid()}})", ns, Model.EntityDefinition.Name);
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
     var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
     var validateUrl = string.Format("/Sph/BusinessRule/Validate?{0};{1}", @Model.EntityDefinition.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
-    var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.EntityDefinitionId;
+    var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.Id;
     var buttonOperations = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
         .Where(b => b.IsToolbarItem)
         .Where(b => !string.IsNullOrWhiteSpace(b.Operation))

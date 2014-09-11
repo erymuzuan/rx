@@ -55,12 +55,12 @@ WriteLiteral("\r\n\r\n");
   
     ViewBag.Title = "title";
     Layout = null;
-    var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.EntityDefinitionId;
+    var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.Id;
     var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:system.guid()}})", ns, Model.EntityDefinition.Name);
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
     var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
     var validateUrl = string.Format("/Sph/BusinessRule/Validate?{0};{1}", @Model.EntityDefinition.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
-    var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.EntityDefinitionId;
+    var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.Id;
     var buttonOperations = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
         .Where(b => b.IsToolbarItem)
         .Where(b => !string.IsNullOrWhiteSpace(b.Operation))
@@ -85,9 +85,9 @@ WriteLiteral(":\r\n\r\n<h2>title</h2>\r\n<script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1971), Tuple.Create("\"", 2010)
-, Tuple.Create(Tuple.Create("", 1977), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.1.0.debug.js")
-, 1977), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1939), Tuple.Create("\"", 1978)
+, Tuple.Create(Tuple.Create("", 1945), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.1.0.debug.js")
+, 1945), false)
 );
 
 WriteLiteral("></script>\r\n<script");

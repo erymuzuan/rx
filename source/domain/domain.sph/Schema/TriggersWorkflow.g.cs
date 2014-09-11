@@ -3696,7 +3696,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowDefinitionId;
+        private string m_workflowDefinitionId;
         public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
 
 
@@ -3797,7 +3797,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int WorkflowDefinitionId
+        public string WorkflowDefinitionId
         {
             set
             {

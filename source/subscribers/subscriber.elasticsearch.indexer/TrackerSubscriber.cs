@@ -25,7 +25,7 @@ namespace Bespoke.Sph.ElasticSearch
         private async Task AddPendingTaskAsync(Tracker item)
         {
             var context = new SphDataContext();
-            item.Workflow = await context.LoadOneAsync<Workflow>(w => w.WorkflowId == item.WorkflowId);
+            item.Workflow = await context.LoadOneAsync<Workflow>(w => w.Id == item.WorkflowId);
             await item.Workflow.LoadWorkflowDefinitionAsync();
             item.WorkflowDefinition = item.Workflow.WorkflowDefinition;
 
@@ -81,7 +81,7 @@ namespace Bespoke.Sph.ElasticSearch
                 Debug.Write(".");
             }
         }
-        private async Task AddExecutedActivityToIndexAsync(string id, ExecutedActivity ea, MessageHeaders headers, int wfid)
+        private async Task AddExecutedActivityToIndexAsync(string id, ExecutedActivity ea, MessageHeaders headers, string wfid)
         {
             ea.InstanceId = wfid;
             var setting = new JsonSerializerSettings();

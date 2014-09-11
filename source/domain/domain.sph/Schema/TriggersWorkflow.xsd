@@ -732,7 +732,7 @@
 		<xs:complexType>
 			<xs:attribute name="IsEnabled" type="xs:boolean" use="required"/>
 			<xs:attribute name="ActivityWebId" type="xs:string" use="required"/>
-			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
 			<xs:attribute name="ConditionExpression" type="xs:string" use="optional"/>
 			<xs:attribute name="HitCount" type="xs:int" use="required"/>
 			<xs:attribute name="Label" type="xs:string" use="optional"/>
