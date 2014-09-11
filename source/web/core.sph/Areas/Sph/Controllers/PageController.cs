@@ -35,10 +35,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { status = "OK", success = true });
         }
 
-        public async Task<ActionResult> DownloadLog(int id)
+        public async Task<ActionResult> DownloadLog(string id)
         {
             var context = new SphDataContext();
-            var log = await context.LoadOneAsync<AuditTrail>(d => d.AuditTrailId == id);
+            var log = await context.LoadOneAsync<AuditTrail>(d => d.Id == id);
             if (null == log) return new HttpNotFoundResult("canno find code for log " + id);
             var change = log.ChangeCollection.SingleOrDefault(c => c.PropertyName == "Code");
             if (null == change) return new HttpNotFoundResult("no code for log " + id);
@@ -50,10 +50,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-        public async Task<ActionResult> Compare(int id)
+        public async Task<ActionResult> Compare(string id)
         {
             var context = new SphDataContext();
-            var log = await context.LoadOneAsync<AuditTrail>(d => d.AuditTrailId == id);
+            var log = await context.LoadOneAsync<AuditTrail>(d => d.Id == id);
             if (null == log) return new HttpNotFoundResult("canno find code for log " + id);
             var change = log.ChangeCollection.SingleOrDefault(c => c.PropertyName == "Code");
             if (null == change) return new HttpNotFoundResult("no code for log " + id);

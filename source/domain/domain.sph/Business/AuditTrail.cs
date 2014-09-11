@@ -1,17 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using System.Xml.Serialization;
 
 namespace Bespoke.Sph.Domain
 {
 
     public partial class AuditTrail : Entity
     {
-        private int m_auditTrailId;
-
         public AuditTrail()
         {
-            
         }
 
         public AuditTrail(IEnumerable<Change> changes)
@@ -19,16 +15,6 @@ namespace Bespoke.Sph.Domain
             this.ChangeCollection.AddRange(changes);
         }
 
-        [XmlAttribute]
-        public int AuditTrailId
-        {
-            get { return m_auditTrailId; }
-            set
-            {
-                m_auditTrailId = value;
-                RaisePropertyChanged();
-            }
-        }
 
         private string m_note;
 
