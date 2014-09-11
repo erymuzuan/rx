@@ -81,7 +81,7 @@ namespace subscriber.entities
         private object GetParameterValue(Column prop, Entity item)
         {
             var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + this.EntityDefinition.Name);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, this.EntityDefinition.EntityDefinitionId, this.Name);
+            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, this.EntityDefinition.Id, this.Name);
             var entityType = edAssembly.GetType(edTypeName);
 
             var id = (int)item.GetType().GetProperty(entityType.Name + "Id")

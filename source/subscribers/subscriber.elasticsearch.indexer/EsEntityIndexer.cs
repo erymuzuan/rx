@@ -33,7 +33,7 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(item, setting);
 
             var content = new StringContent(json);
-            var id = item.GetId();
+            var id = item.Id;
 
 
             var url = string.Format("{0}/{1}/{2}",ConfigurationManager.ElasticSearchIndex, this.GetTypeName(item), id);

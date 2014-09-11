@@ -56,10 +56,7 @@ namespace Bespoke.Sph.SqlRepository
                     count++;
                     int count1 = count;
                     var entityType = this.GetEntityType(item);
-
-                    var id = item.GetId();
-
-
+                    var id = item.Id;
                     var metadataType = metadataProvider.GetTable(entityType.Name);
                     if (null == metadataType) throw new InvalidOperationException("Cannot find the Metadata type in SQL Server :" + entityType.Name);
 
@@ -70,7 +67,7 @@ namespace Bespoke.Sph.SqlRepository
 
                     item.ChangedBy = ad.CurrentUserName;
                     item.ChangedDate = DateTime.Now;
-                    if (id == 0)
+                    if (string.IsNullOrWhiteSpace(id))
                     {
                         item.CreatedBy = ad.CurrentUserName;
                         item.CreatedDate = DateTime.Now;
@@ -126,8 +123,8 @@ namespace Bespoke.Sph.SqlRepository
 
         }
 
-        private void AppendUpdateStatement(StringBuilder sql, Type entityType, Column[] columns, int count1,
-                                                    SqlCommand cmd, int id)
+        private void AppendUpdateStatement(StringBuilder sql, Type entityType, IEnumerable<Column> columns, int count1,
+                                                    SqlCommand cmd, string id)
         {
             var schema = this.GetSchema(entityType);
             sql.AppendFormat("UPDATE [{1}].[{0}]", entityType.Name, schema);

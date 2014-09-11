@@ -58,8 +58,8 @@ namespace subscriber.version.control
                     continue;
                 }
                 var o = JObject.Parse(text);
-                var id = o.SelectToken("$." + type.Name + "Id").Value<int>();
-                if (id != item.GetId()) continue;
+                var id = o.SelectToken("$.Id").Value<string>();
+                if (id != item.Id) continue;
                 File.Delete(f);
                 return;
             }

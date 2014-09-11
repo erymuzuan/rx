@@ -42,10 +42,7 @@ namespace Bespoke.Sph.SqlRepository
             {
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
-
-
-                var properties = typeof(T).GetProperties();
-
+                
                 var geog = SQLSpatialTools.Functions.MakeValidGeographyFromText(item.Wkt, SRID);
 
                 cmd.Parameters.AddWithValue("@Wkt", item.Wkt);
@@ -53,10 +50,8 @@ namespace Bespoke.Sph.SqlRepository
                 path.UdtTypeName = "GEOGRAPHY";
 
                 cmd.Parameters.AddWithValue("@EncodedWkt", item.EncodedWkt);
-                cmd.Parameters.AddWithValue("@Id", item.GetId());
-
-
-
+                cmd.Parameters.AddWithValue("@Id", item.Id);
+                
                 await conn.OpenAsync();
                 var rows = await cmd.ExecuteNonQueryAsync();
                 if (rows != 1)
@@ -148,7 +143,7 @@ namespace Bespoke.Sph.SqlRepository
                     {
                         var item = XmlSerializerService.DeserializeFromXml<T>(reader.GetString(1));
                         item.EncodedWkt = reader.GetString(2);
-                        item.SetId(reader.GetInt32(0));
+                        item.Id = reader.GetString(0);
                         // item.GeoLocationId = reader.GetInt32(0);
                         list.Add(item);
                     }

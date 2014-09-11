@@ -37,7 +37,7 @@ namespace Bespoke.Sph.SqlRepository
             }
         }
 
-        public async Task<T> LoadOneAsync(int id)
+        public async Task<T> LoadOneAsync(string id)
         {
             var elementType = typeof(T);
             var sql = string.Format("SELECT [{0}Id],{1} FROM [{2}].[{0}] WHERE [{0}Id] = @id"

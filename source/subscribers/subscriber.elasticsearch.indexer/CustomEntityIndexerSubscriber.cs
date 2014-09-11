@@ -29,7 +29,7 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(item, setting);
 
             var content = new StringContent(json);
-            var id = item.GetId();
+            var id = item.Id;
             if (item.GetType().Namespace == typeof(Entity).Namespace) return;// just custom entity
 
 
