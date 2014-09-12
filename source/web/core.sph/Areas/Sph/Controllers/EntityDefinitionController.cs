@@ -19,13 +19,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
             var list = ed.GetMembersPath();
             return Json(list, JsonRequestBehavior.AllowGet);
-
-
-            //var ed2 = await context.LoadOneAsync<EntityDefinition>(w => w.Name == id);
-            //if (null == ed2) return new HttpNotFoundResult("Cannot find EntityDefinition with Nmae = " + id);
-
-            //var list2 = ed2.GetMembersPath();
-            //return Json(list2, JsonRequestBehavior.AllowGet);
+            
         }
 
         [HttpPost]
@@ -36,7 +30,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var existingItem = (await context.LoadOneAsync<EntityDefinition>(x => x.Id == ed.Name)) != null;
             if (!existingItem)
-                ed.Id = ed.Name;
+                ed.Id = ed.Name.ToLowerInvariant();
 
             if (existingItem)
             {
@@ -77,11 +71,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-
         public ActionResult GetPlural(string id)
         {
             return Content(id.Pluralize());
         }
+
         public async Task<ActionResult> Schemas()
         {
             var context = new SphDataContext();
