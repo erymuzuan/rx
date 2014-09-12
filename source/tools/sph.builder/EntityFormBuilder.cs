@@ -26,8 +26,18 @@ namespace sph.builder
 
         public override async Task RestoreAsync(EntityForm item)
         {
-            await InsertAsync(item);
-            await InsertIconAsync(item);
+            try
+            {
+
+                await InsertAsync(item);
+                await InsertIconAsync(item);
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine("EntityForm -> {0}", item.Route);
+                throw;
+            }
         }
 
         private async Task InsertIconAsync(EntityForm form)

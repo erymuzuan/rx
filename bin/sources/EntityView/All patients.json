@@ -212,10 +212,10 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
-  "EntityViewId": 1002,
+  "Id": "all-patients",
   "IconClass": "",
   "IconStoreId": "2eb70870-449a-4ae6-989d-689aa6bb828d",
-  "EntityDefinitionId": 2002,
+  "EntityDefinitionId": "patient",
   "Name": "All patients",
   "Route": "all-patients",
   "Note": "Everyone",

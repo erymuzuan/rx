@@ -71,17 +71,6 @@ namespace Bespoke.Sph.Domain
             return ""{0}:"" + {1};
         }}", this.Name, this.RecordName);
 
-            code.AppendFormat(@"     
-        public override void SetId(int id)
-        {{
-            this.{0}Id = id;
-        }}", this.Name);
-            code.AppendFormat(@"     
-        public override int GetId()
-        {{
-            return this.{0}Id;
-        }}
-", this.Name);
 
             // properties for each members
             foreach (var member in this.MemberCollection)
@@ -253,7 +242,7 @@ namespace Bespoke.Sph.Domain
             // REMOVE
             code.AppendLinf("       //exec:Remove");
             code.AppendLinf("       [HttpDelete]");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(int id)");
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(string id)");
             code.AppendLine("       {");
             code.AppendLinf(@"
             var repos = ObjectBuilder.GetObject<IRepository<{0}>>();

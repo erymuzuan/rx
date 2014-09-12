@@ -151,10 +151,10 @@
     "IsPublic": true,
     "WebId": null
   },
-  "EntityViewId": 1003,
+  "Id": "admitted-patients",
   "IconClass": "",
   "IconStoreId": "dcdb9619-5f1a-4913-8459-3e58c4656fa1",
-  "EntityDefinitionId": 2002,
+  "EntityDefinitionId": "patient",
   "Name": "Admitted Patients",
   "Route": "admitted-patients",
   "Note": "view.IsPublished()",

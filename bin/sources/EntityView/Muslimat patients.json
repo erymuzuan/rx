@@ -190,10 +190,10 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
-  "EntityViewId": 1005,
+  "Id": "patients-mulimat",
   "IconClass": "",
   "IconStoreId": "6609ea01-9ed5-4e1a-8414-2c5babb0175b",
-  "EntityDefinitionId": 2002,
+  "EntityDefinitionId": "patient",
   "Name": "Muslimat patients",
   "Route": "patients-mulimat",
   "Note": "Women muslim patients",

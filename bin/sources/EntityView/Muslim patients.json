@@ -94,10 +94,10 @@
     "IsPublic": true,
     "WebId": null
   },
-  "EntityViewId": 1004,
+  "Id": "patient-religion-islam",
   "IconClass": "",
   "IconStoreId": "e1afad33-98f4-418b-a874-5685ed571450",
-  "EntityDefinitionId": 2002,
+  "EntityDefinitionId": "patient",
   "Name": "Muslim patients",
   "Route": "patient-religion-islam",
   "Note": "Something else here and what do we care",

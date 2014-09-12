@@ -38,20 +38,7 @@ namespace sph.builder
             return list;
         }
 
-        public string SetIdentityOn
-        {
-            get
-            {
-                return string.Format(" SET IDENTITY_INSERT [Sph].[{0}] ON      \r\n", typeof(T).Name);
-            }
-        }
-        public string SetIdentityOff
-        {
-            get
-            {
-                return string.Format(" SET IDENTITY_INSERT [Sph].[{0}] OFF      \r\n", typeof(T).Name);
-            }
-        }
+      
 
         public void Initialize()
         {
@@ -79,15 +66,14 @@ namespace sph.builder
         public async Task InsertAsync(T item)
         {
             var name = typeof(T).Name;
-            await SPH_CONNECTION.ExecuteNonQueryAsync(string.Format("DELETE FROM [Sph].[{0}] WHERE [Id] = {1}", name, item.Id));
+            await SPH_CONNECTION.ExecuteNonQueryAsync(string.Format("DELETE FROM [Sph].[{0}] WHERE [Id] = '{1}'", name, item.Id));
 
-            var sql = this.SetIdentityOn +
+            var sql = 
                 string.Format(@"INSERT INTO [Sph].[{0}](", name) +
                 string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "[" + x.Name + "]"))
                 + " ) VALUES(" +
                 string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "@" + x.Name.Replace(".", "_")))
-                + ")\r\n"
-           + this.SetIdentityOff;
+                + ")\r\n";
 
             var parms = from c in m_columns
                         select new SqlParameter("@" + c.Name.Replace(".", "_"), this.GetParameterValue(c, item));
@@ -116,14 +102,13 @@ namespace sph.builder
         private object GetParameterValue(Column prop, Entity item)
         {
             var entityType = typeof(T);
-            var id = (int)item.GetType().GetProperty(entityType.Name + "Id")
-                .GetValue(item, null);
+            var id = item.Id;
             if (prop.Name == "Data")
                 return item.ToXmlString(entityType);
             if (prop.Name == "Json")
                 return item.ToJsonString();
             if (prop.Name == "CreatedDate")
-                return id == 0 || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
+                return string.IsNullOrWhiteSpace(id) || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
             if (prop.Name == "CreatedBy")
                 return "admin";
             if (prop.Name == "ChangedDate")

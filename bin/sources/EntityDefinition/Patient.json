@@ -992,7 +992,7 @@
     "IsPublic": true,
     "WebId": null
   },
-  "EntityDefinitionId": 2002,
+  "Id": "patient",
   "Name": "Patient",
   "Plural": "Patients",
   "IconStoreId": "1527fe01-e066-4208-bb15-6ddb84330c2b",

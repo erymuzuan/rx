@@ -92,14 +92,15 @@ namespace Bespoke.Sph.SqlRepository
         public async Task AddAsync(BinaryStore document)
         {
             const string sql = "INSERT INTO [Sph].[BinaryStore]" +
-                               " ([StoreId],[Content],[Extension],[FileName])" +
+                               " ([Id],[StoreId],[Content],[Extension],[FileName])" +
                                " VALUES" +
-                               " (@StoreId, @Content,@Extension, @FileName)";
+                               " (@Id, @StoreId, @Content,@Extension, @FileName)";
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@Id", document.StoreId);
                 cmd.Parameters.AddWithValue("@StoreId", document.StoreId);
                 cmd.Parameters.AddWithValue("@Content", document.Content);
                 cmd.Parameters.AddWithValue("@Extension", document.Extension);
