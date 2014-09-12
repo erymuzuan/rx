@@ -191,7 +191,7 @@ namespace domain.test.reports
             result.Errors.ForEach(Console.WriteLine);
 
             var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType("Bespoke.Dev_1.Domain.Customer");
+            var type = assembly.GetType("Bespoke.Dev_customer.Domain.Customer");
             return type;
         }
 

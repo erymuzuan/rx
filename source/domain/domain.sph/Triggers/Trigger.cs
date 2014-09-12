@@ -125,7 +125,7 @@ namespace Bespoke.Sph.Domain
         protected override async Task ProcessMessage({2} item, MessageHeaders header)
         {{
             var context = new SphDataContext();
-            var trigger = await context.LoadOneAsync<Trigger>(t => t.TriggerId == {1});
+            var trigger = await context.LoadOneAsync<Trigger>(t => t.Id == ""{1}"");
 
             this.WriteMessage(""Running triggers({{0}}) with {{1}} actions and {{2}} rules"", trigger.Name,
                 trigger.ActionCollection.Count(x => x.IsActive),

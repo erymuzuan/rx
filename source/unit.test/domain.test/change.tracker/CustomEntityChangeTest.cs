@@ -108,7 +108,7 @@ namespace domain.test.change.tracker
             var c1 = JsonSerializerService.JsonClone(c2);
 
             var assembly = Assembly.Load("Dev.Customer");
-            var type = assembly.GetType("Bespoke.Dev_1.Domain.Attachment");
+            var type = assembly.GetType("Bespoke.Dev_customer.Domain.Attachment");
             dynamic attachment = Activator.CreateInstance(type);
             attachment.Title = "My essay";
 
@@ -127,7 +127,7 @@ namespace domain.test.change.tracker
         public void CollectionItemChanged()
         {
             var assembly = Assembly.Load("Dev.Customer");
-            var type = assembly.GetType("Bespoke.Dev_1.Domain.Attachment");
+            var type = assembly.GetType("Bespoke.Dev_customer.Domain.Attachment");
 
             dynamic attachment = Activator.CreateInstance(type);
             attachment.Title = "My essay";

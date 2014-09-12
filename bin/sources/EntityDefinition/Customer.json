@@ -946,7 +946,7 @@
     "IsPublic": true,
     "WebId": null
   },
-  "EntityDefinitionId": 1,
+  "Id": "customer",
   "Name": "Customer",
   "Plural": "Customers",
   "IconStoreId": "e5a64533-4b4e-4f33-ad30-7fbb73d1ed67",
