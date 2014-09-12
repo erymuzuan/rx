@@ -24,13 +24,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     vm.toolboxElements(result);
                 });
             },
-            activate = function (id2) {
+            activate = function (id) {
                 isBusy(true);
-                var id = parseInt(id2),
-                    query = String.format("WorkflowDefinitionId eq {0}", id),
+                var query = String.format("Id eq '{0}'", id),
                     tcs = new $.Deferred();
 
-                if (id) {
+                if (id && id !== "0") {
                     context.loadOneAsync("WorkflowDefinition", query)
                         .done(function (b) {
                             vm.wd(b);
@@ -424,7 +423,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         isBusy(false);
                         if (result.success) {
                             logger.info("Data have been succesfully save");
-                            wd().WorkflowDefinitionId(result.id);
+                            wd().Id(result.id);
                         }
                         tcs.resolve(result);
                     });
@@ -530,20 +529,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             },
             reload = function () {
 
-                if (!wd().WorkflowDefinitionId()) {
+                if (!wd().Id()) {
                     var tcs = new $.Deferred();
                     app.showMessage('You have yet to save your work ', 'SPH - Workflow', ['OK'])
                        .done(tcs.resolve);
 
                     return tcs.promise();
                 }
-                return activate(wd().WorkflowDefinitionId())
+                return activate(wd().Id())
                 .done(function () {
                     $('div.modalHost, div.modalBlockout').remove();
                 });
             },
             viewPages = function () {
-                window.location = "#page.list/" + wd().WorkflowDefinitionId();
+                window.location = "#page.list/" + wd().Id();
                 return Task.fromResult(true, 1500);
             };
 

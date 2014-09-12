@@ -24,8 +24,8 @@ define(['services/datacontext'],
             isBusy = ko.observable(false),
             activities = ko.observableArray(),
             activate = function (wdid) {
-                id(parseInt(wdid));
-                var query1 = String.format("WorkflowDefinitionId eq {0}", wdid),
+                id(wdid);
+                var query1 = String.format("Id eq '{0}'", wdid),
                     tcs = new $.Deferred();
                 context.loadOneAsync("WorkflowDefinition", query1)
                     .done(function (b) {

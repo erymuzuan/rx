@@ -26,7 +26,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
             wd = ko.observable(),
             activate = function (id2) {
                 id(id2);
-                var query = String.format("WorkflowDefinitionId eq {0}", id()),
+                var query = String.format("Id eq '{0}'", id()),
                     tcs = new $.Deferred();
                 context.loadOneAsync("WorkflowDefinition", query)
                     .done(wd)
@@ -94,7 +94,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
                             act.breakpoint(new bespoke.sph.domain.Breakpoint({
                                 IsEnabled: true,
                                 ActivityWebId: ko.unwrap(act.WebId),
-                                WorkflowDefinitionId: wd().WorkflowDefinitionId()
+                                WorkflowDefinitionId: wd().Id()
                             }));
                             send(act.breakpoint());
 

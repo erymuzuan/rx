@@ -169,6 +169,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var wd = this.GetRequestJson<WorkflowDefinition>();
             if (string.IsNullOrWhiteSpace(wd.Id) && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
             {
+                wd.Id = wd.Name.ToIdFormat();
                 // get the empty schema
                 var store = ObjectBuilder.GetObject<IBinaryStore>();
                 var xsd = new BinaryStore
@@ -176,6 +177,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     Extension = ".xsd",
                     FileName = "Empty.xsd",
                     WebId = Guid.NewGuid().ToString(),
+                    Id = Guid.NewGuid().ToString(),
                     StoreId = Guid.NewGuid().ToString(),
                     Content = System.IO.File.ReadAllBytes(Server.MapPath(@"~/App_Data/empty.xsd"))
                 };

@@ -3447,7 +3447,7 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
-        WorkflowDefinitionId: ko.observable(0),
+        Id: ko.observable(),
         Name: ko.observable(''),
         Note: ko.observable(''),
         IsActive: ko.observable(false),
