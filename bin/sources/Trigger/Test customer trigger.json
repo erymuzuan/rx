@@ -53,7 +53,7 @@
   "Name": "Test customer trigger",
   "Entity": "Customer",
   "TypeOf": "",
-  "TriggerId": 1,
+  "Id": "test-customer-trigger",
   "Note": "test 222 3",
   "IsActive": false,
   "IsFiredOnAdded": false,

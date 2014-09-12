@@ -107,6 +107,44 @@ namespace Bespoke.Sph.Domain
             }
 
             return new string(text.ToCamelCaseHelper().ToArray());
+        }  
+        public static string ToIdFormat(this string text)
+        {
+            return text.Replace(".", "-")
+                .Replace("_", "-")
+                .Replace(",", "-")
+                .Replace("'", "-")
+                .Replace(";", "-")
+                .Replace(":", "-")
+                .Replace("~", "-")
+                .Replace("`", "-")
+                .Replace("!", "-")
+                .Replace("@", "-")
+                .Replace("#", "-")
+                .Replace("$", "-")
+                .Replace("%", "-")
+                .Replace("^", "-")
+                .Replace("&", "-")
+                .Replace("*", "-")
+                .Replace("(", "-")
+                .Replace(")", "-")
+                .Replace("+", "-")
+                .Replace("=", "-")
+                .Replace("{", "-")
+                .Replace("[", "-")
+                .Replace("}", "-")
+                .Replace("]", "-")
+                .Replace("|", "-")
+                .Replace("\\", "-")
+                .Replace(" ", "-")
+                .Replace("\"", "-")
+                .Replace("/", "-")
+                .Replace("?", "-")
+                .Replace("--", "-")
+                .Replace("--", "-")
+                .Replace("--", "-")
+                .ToLowerInvariant()
+                ;
         }
 
 

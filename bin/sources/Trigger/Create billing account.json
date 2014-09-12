@@ -66,7 +66,7 @@
   "Name": "Create billing account",
   "Entity": "Patient",
   "TypeOf": "",
-  "TriggerId": 2,
+  "Id": "create-billing-account",
   "Note": "",
   "IsActive": false,
   "IsFiredOnAdded": false,

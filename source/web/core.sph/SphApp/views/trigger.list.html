@@ -1,6 +1,6 @@
 ﻿
 <h1>Entity Triggers</h1>
-<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Trigger', query: 'TriggerId gt 0', list: triggerCollection}">
+<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Trigger', list: triggerCollection}">
     <thead>
         <tr>
             <th>Name</th>
@@ -15,7 +15,7 @@
     <tbody data-bind="foreach :triggerCollection">
         <tr>
             <td>
-                <a data-bind="attr: { href: '#/trigger.setup/' + TriggerId() }, text: Name" ></a>
+                <a data-bind="attr: { href: '#/trigger.setup/' + Id() }, text: Name" ></a>
             </td>
             <td data-bind="text:Entity"></td>
             <td>

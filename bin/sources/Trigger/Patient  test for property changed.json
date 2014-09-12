@@ -54,7 +54,7 @@
   "Name": "Patient  test for property changed",
   "Entity": "Patient",
   "TypeOf": "",
-  "TriggerId": 1002,
+  "Id": "patient-test-for-property-changed",
   "Note": "",
   "IsActive": true,
   "IsFiredOnAdded": false,

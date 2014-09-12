@@ -15,7 +15,7 @@ bespoke.sph.domain.Trigger = function (optionOrWebid) {
         Name: ko.observable(''),
         Entity: ko.observable(''),
         TypeOf: ko.observable(''),
-        TriggerId: ko.observable(0),
+        Id: ko.observable(),
         Note: ko.observable(''),
         IsActive: ko.observable(false),
         IsFiredOnAdded: ko.observable(false),

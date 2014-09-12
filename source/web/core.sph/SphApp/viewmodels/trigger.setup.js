@@ -21,13 +21,13 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
             operationOptions = ko.observableArray(),
             operations = ko.observableArray(),
             activate = function (id2) {
-                id(parseInt(id2));
+                id(id2);
 
-                var query = String.format("TriggerId eq {0} ", id()),
+                var query = String.format("Id eq '{0}' ", id()),
                     tcs = new $.Deferred(),
                     triggerTask = context.loadOneAsync("Trigger", query),
                     actionOptionsTask = $.get("/sph/trigger/actions"),
-                    entitiesTask = context.getListAsync("EntityDefinition", "EntityDefinitionId gt 0", "Name"),
+                    entitiesTask = context.getListAsync("EntityDefinition", "Id ne ''", "Name"),
                     loadOperationOptions = function (ent) {
 
                         context.loadOneAsync("EntityDefinition", String.format("Name eq '{0}'", ent))
@@ -76,7 +76,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                 context.post(data, "/Trigger/Save")
                     .then(function (result) {
                         isBusy(false);
-                        vm.trigger().TriggerId(result);
+                        vm.trigger().Id(result);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -90,7 +90,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                 context.post(data, "/Trigger/Publish")
                     .then(function (result) {
                         isBusy(false);
-                        vm.trigger().TriggerId(result);
+                        vm.trigger().Id(result);
                         vm.trigger().IsActive(true);
                         tcs.resolve(result);
                         logger.info("Your trigger has been succesfully published, and will be added to the exchange shortly");
@@ -107,7 +107,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                     .then(function (result) {
                         isBusy(false);
                         vm.trigger().IsActive(false);
-                        vm.trigger().TriggerId(result);
+                        vm.trigger().Id(result);
                         tcs.resolve(result);
                         logger.info("Your trigger has been succesfully depublished, and will be removed from the exchange shortly");
                     });
@@ -140,7 +140,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
             },
 
             exportJson = function () {
-                return eximp.exportJson("trigger." + vm.trigger().TriggerId() + ".json", ko.mapping.toJSON(vm.trigger));
+                return eximp.exportJson("trigger." + vm.trigger().Id() + ".json", ko.mapping.toJSON(vm.trigger));
 
             },
 
@@ -149,7 +149,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                     .done(function (json) {
                         var clone = context.toObservable(JSON.parse(json));
                         vm.trigger(clone);
-                        vm.trigger().TriggerId(0);
+                        vm.trigger().Id(0);
 
                     });
             },
@@ -179,7 +179,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                 reloadCommand: reload,
                 removeCommand: remove,
                 canExecuteRemoveCommand: ko.computed(function () {
-                    return trigger().TriggerId() > 0;
+                    return trigger().Id();
                 }),
                 exportCommand: exportJson,
                 commands: ko.observableArray([
@@ -193,7 +193,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                         caption: 'Publish',
                         icon: "fa fa-sign-in",
                         enable: ko.computed(function () {
-                            return trigger().TriggerId() > 0;
+                            return trigger().Id();
                         })
                     },
                     {
@@ -201,7 +201,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                         caption: 'Depublish',
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
-                            return trigger().TriggerId() > 0;
+                            return trigger().Id();
                         })
                     }
                 ])
