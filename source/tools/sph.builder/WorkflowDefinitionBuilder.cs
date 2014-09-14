@@ -46,13 +46,13 @@ namespace sph.builder
                 var store = ObjectBuilder.GetObject<IBinaryStore>();
                 var archived = new BinaryStore
                 {
-                    StoreId = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
+                    Id = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
                     Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
                     Extension = ".xml",
                     FileName = string.Format("wd.{0}.{1}.xml", wd.Id, wd.Version)
 
                 };
-                await store.DeleteAsync(archived.StoreId);
+                await store.DeleteAsync(archived.Id);
                 await store.AddAsync(archived);
                 foreach (var page in pages)
                 {
@@ -75,7 +75,7 @@ namespace sph.builder
             {
                 Content = File.ReadAllBytes(xsd),
                 Extension = ".xsd",
-                StoreId = wd.SchemaStoreId,
+                Id = wd.SchemaStoreId,
                 FileName = wd.Name + ".xsd",
                 WebId = wd.SchemaStoreId
             };

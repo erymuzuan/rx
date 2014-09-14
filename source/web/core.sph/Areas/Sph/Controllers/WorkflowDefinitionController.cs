@@ -55,7 +55,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var wd = this.GetRequestJson<WorkflowDefinition>();
             var package = new WorkflowDefinitionPackage();
             var zd = await package.PackAsync(wd);
-            return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.StoreId }) });
+            return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.Id }) });
         }
 
 
@@ -151,13 +151,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var archived = new BinaryStore
             {
-                StoreId = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
+                Id = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
                 Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
                 Extension = ".xml",
                 FileName = string.Format("wd.{0}.{1}.xml", wd.Id, wd.Version)
 
             };
-            await store.DeleteAsync(archived.StoreId);
+            await store.DeleteAsync(archived.Id);
             await store.AddAsync(archived);
             await this.Save("Publish", wd, pages.Cast<Entity>().ToArray());
 
@@ -178,11 +178,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     FileName = "Empty.xsd",
                     WebId = Guid.NewGuid().ToString(),
                     Id = Guid.NewGuid().ToString(),
-                    StoreId = Guid.NewGuid().ToString(),
                     Content = System.IO.File.ReadAllBytes(Server.MapPath(@"~/App_Data/empty.xsd"))
                 };
                 await store.AddAsync(xsd);
-                wd.SchemaStoreId = xsd.StoreId;
+                wd.SchemaStoreId = xsd.Id;
 
             }
             var id = await this.Save( string.IsNullOrWhiteSpace(wd.Id) ? "Add" : "Update", wd);

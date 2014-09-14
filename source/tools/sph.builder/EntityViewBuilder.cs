@@ -35,7 +35,7 @@ namespace sph.builder
             {
                 Content = File.ReadAllBytes(icon),
                 Extension = ".png",
-                StoreId = ed.IconStoreId,
+                Id = ed.IconStoreId,
                 FileName = ed.Name + ".png",
                 WebId = ed.IconStoreId
             };

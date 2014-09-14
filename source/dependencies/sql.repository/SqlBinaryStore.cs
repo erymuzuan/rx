@@ -28,16 +28,16 @@ namespace Bespoke.Sph.SqlRepository
 
        
 
-        public BinaryStore GetContent(string stroreid)
+        public BinaryStore GetContent(string id)
         {
-            const string sql = "SELECT [StoreId],[Content],[Extension],[FileName] FROM [Sph].[BinaryStore]" +
-                               " WHERE [StoreId] =  @StoreId";
+            const string sql = "SELECT [Id],[Content],[Extension],[FileName] FROM [Sph].[BinaryStore]" +
+                               " WHERE [Id] =  @Id";
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("@StoreId", stroreid);
+                cmd.Parameters.AddWithValue("@Id", id);
 
                 conn.Open();
                 var reader = cmd.ExecuteReader();
@@ -46,7 +46,7 @@ namespace Bespoke.Sph.SqlRepository
                     var document = new BinaryStore
                         {
                             Extension = reader.GetString(2),
-                            StoreId = reader.GetString(0),
+                            Id = reader.GetString(0),
                             Content = (byte[])reader[1],
                             FileName = reader.GetString(3)
                         };
@@ -58,16 +58,16 @@ namespace Bespoke.Sph.SqlRepository
 
             return null;
         }
-        public async Task<BinaryStore> GetContentAsync(string stroreid)
+        public async Task<BinaryStore> GetContentAsync(string id)
         {
-            const string sql = "SELECT [StoreId],[Content],[Extension],[FileName] FROM [Sph].[BinaryStore]" +
-                               " WHERE [StoreId] =  @StoreId";
+            const string sql = "SELECT [Id],[Content],[Extension],[FileName] FROM [Sph].[BinaryStore]" +
+                               " WHERE [Id] =  @Id";
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("@StoreId", stroreid);
+                cmd.Parameters.AddWithValue("@Id", id);
 
                 await conn.OpenAsync();
                 var reader = await cmd.ExecuteReaderAsync();
@@ -76,7 +76,7 @@ namespace Bespoke.Sph.SqlRepository
                     var document = new BinaryStore
                         {
                             Extension = reader.GetString(2),
-                            StoreId = reader.GetString(0),
+                            Id = reader.GetString(0),
                             Content = (byte[])reader[1],
                             FileName = reader.GetString(3)
                         };
@@ -92,16 +92,15 @@ namespace Bespoke.Sph.SqlRepository
         public async Task AddAsync(BinaryStore document)
         {
             const string sql = "INSERT INTO [Sph].[BinaryStore]" +
-                               " ([Id],[StoreId],[Content],[Extension],[FileName])" +
+                               " ([Id],[Content],[Extension],[FileName])" +
                                " VALUES" +
-                               " (@Id, @StoreId, @Content,@Extension, @FileName)";
+                               " (@Id, @Content,@Extension, @FileName)";
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("@Id", document.StoreId);
-                cmd.Parameters.AddWithValue("@StoreId", document.StoreId);
+                cmd.Parameters.AddWithValue("@Id", document.Id);
                 cmd.Parameters.AddWithValue("@Content", document.Content);
                 cmd.Parameters.AddWithValue("@Extension", document.Extension);
                 cmd.Parameters.AddWithValue("@FileName", document.FileName);
@@ -115,13 +114,13 @@ namespace Bespoke.Sph.SqlRepository
         public async Task DeleteAsync(string storeId)
         {
             const string sql = "DELETE FROM [Sph].[BinaryStore]" +
-                               " WHERE [StoreId] =  @StoreId";
+                               " WHERE [Id] =  @Id";
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("@StoreId", storeId);
+                cmd.Parameters.AddWithValue("@Id", storeId);
 
                 await conn.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();

@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Domain
                 {
                     Content = File.ReadAllBytes(xsdFile),
                     Extension = ".xsd",
-                    StoreId = wd.SchemaStoreId,
+                    Id = wd.SchemaStoreId,
                     WebId = wd.SchemaStoreId,
                     FileName = "schema.xsd"
                 };
@@ -97,7 +97,7 @@ namespace Bespoke.Sph.Domain
             ZipFile.CreateFromDirectory(path, zip);
             var zd = new BinaryStore
             {
-                StoreId = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 Content = File.ReadAllBytes(zip),
                 Extension = ".zip",
                 FileName = string.Format("wd_{0}_{1}.zip", wd.Id, wd.Version),
