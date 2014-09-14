@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 {
                     Content = content,
                     Extension = extension,
-                    StoreId = storeId,
+                    Id = storeId,
                     WebId = storeId,
                     FileName = fileName
                 };

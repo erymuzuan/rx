@@ -41,7 +41,7 @@ namespace sph.builder
             {
                 Content = File.ReadAllBytes(icon),
                 Extension = extension,
-                StoreId = ed.WordTemplateStoreId,
+                Id = ed.WordTemplateStoreId,
                 FileName = ed.Name + extension,
                 WebId = ed.WordTemplateStoreId
             };

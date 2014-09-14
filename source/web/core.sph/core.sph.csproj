@@ -58,9 +58,9 @@
     <Reference Include="DiffPlex">
       <HintPath>..\..\..\packages\DiffPlex.1.2.0\lib\Net40\DiffPlex.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer, Version=1.27.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+    <Reference Include="Humanizer, Version=1.29.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Humanizer.1.28.0\lib\portable-win+net40+sl50+wp8+wpa81\Humanizer.dll</HintPath>
+      <HintPath>..\..\..\packages\Humanizer.1.29.0\lib\portable-win+net40+sl50+wp8+wpa81\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer">
       <HintPath>..\..\..\packages\ImageResizer.3.4.3\lib\ImageResizer.dll</HintPath>
@@ -95,9 +95,9 @@
     <Reference Include="Monads.NET">
       <HintPath>..\..\..\packages\Monads.NET.1.0.3\lib\net40\Monads.NET.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -1510,8 +1510,6 @@
     </Content>
     <Content Include="Scripts\knockout-3.2.0.debug.js" />
     <EmbeddedResource Include="Scripts\knockout-3.2.0.js" />
-    <EmbeddedResource Include="Scripts\r.js" />
-    <EmbeddedResource Include="Scripts\require.js" />
     <EmbeddedResource Include="Scripts\toastr.js" />
     <EmbeddedResource Include="Scripts\toastr.min.js" />
     <EmbeddedResource Include="Scripts\modernizr-2.8.3.js" />
@@ -1519,6 +1517,8 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\r.js" />
+    <Content Include="Scripts\require.js" />
     <Content Include="Scripts\sammy-0.7.5.js" />
     <Content Include="Scripts\sammy-0.7.5.min.js" />
     <Content Include="Scripts\typeahead.bundle.js" />

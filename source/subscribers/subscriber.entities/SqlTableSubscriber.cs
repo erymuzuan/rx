@@ -170,7 +170,7 @@ namespace subscriber.entities
             var sql = new StringBuilder();
             sql.AppendFormat("CREATE TABLE [{0}].[{1}]", applicationName, item.Name);
             sql.AppendLine("(");
-            sql.AppendLinf("  [Id] VARCHAR(255) PRIMARY KEY", item.Name);
+            sql.AppendLinf("  [Id] VARCHAR(50) PRIMARY KEY NOT NULL", item.Name);
             var members = this.GetFilterableMembers("", item.MemberCollection);
             foreach (var member in members)
             {

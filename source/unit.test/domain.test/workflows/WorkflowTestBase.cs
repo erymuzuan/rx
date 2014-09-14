@@ -96,7 +96,7 @@ namespace domain.test.workflows
             assertError = true)
         {
             this.BinaryStore.Setup(x => x.GetContent("wd-storeid"))
-               .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
+               .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), Id = "wd-storeid" });
 
             wd.Version = 25;
             var options = new CompilerOptions
