@@ -4,7 +4,7 @@ IF OBJECT_ID('Sph.UserProfile', 'U') IS NOT NULL
 
 CREATE TABLE [Sph].[UserProfile](
 	
-	[Id] VARCHAR(255) PRIMARY KEY,
+	[Id] VARCHAR(50) PRIMARY KEY NOT NULL,
 	[UserName] VARCHAR(50) NOT NULL,
 	[FullName] VARCHAR(100) NULL,
 	[Designation] VARCHAR(50) NULL,

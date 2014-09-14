@@ -5,7 +5,7 @@ GO
 
 CREATE TABLE Sph.EntityChart
 (
-	[Id] VARCHAR(255) PRIMARY KEY
+	[Id] VARCHAR(50) PRIMARY KEY NOT NULL
 	,[EntityDefinitionId] INT NOT NULL
 	,[Entity] VARCHAR(255) NOT NULL
 	,[IsDashboardItem] BIT NOT NULL DEFAULT 0

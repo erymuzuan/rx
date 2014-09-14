@@ -3,7 +3,7 @@
 GO
 
 CREATE TABLE [Sph].[ReportDefinition](
-	[Id] VARCHAR(255) PRIMARY KEY,
+	[Id] VARCHAR(50) PRIMARY KEY NOT NULL,
 	[Title] VARCHAR(255) NOT NULL	,
 	[Description] VARCHAR(2000) NULL,
 	[IsActive] BIT NOT NULL	,
