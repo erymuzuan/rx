@@ -100,7 +100,7 @@ namespace Bespoke.Sph.Domain.Api
             options.AddReference(typeof(System.Data.UpdateStatus));
             options.AddReference(typeof(System.Configuration.ConfigurationManager));
 
-            var sourceFolder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, this.Name);
+            var sourceFolder = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Name);
             var sources = new List<string>();
 
             foreach (var table in this.Tables)

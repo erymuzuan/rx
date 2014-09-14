@@ -52,7 +52,7 @@ namespace subscriber.entities
 
         protected override void OnStart()
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = typeof(EntityDefinition);
             var folder = Path.Combine(wc, type.Name);
             if (!Directory.Exists(folder))
@@ -200,7 +200,7 @@ namespace subscriber.entities
 
         private bool Compare(EntityDefinition item, string map)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = typeof(EntityDefinition);
             var folder = Path.Combine(wc, type.Name);
             if (!Directory.Exists(folder))
@@ -217,7 +217,7 @@ namespace subscriber.entities
 
         private void SaveMap(EntityDefinition item, string map)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = item.GetType();
             var folder = Path.Combine(wc, type.Name);
             if (!Directory.Exists(folder))
@@ -231,7 +231,7 @@ namespace subscriber.entities
 
         private void SaveMigrationMarker(EntityDefinition item)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = item.GetType();
             var folder = Path.Combine(wc, type.Name);
 

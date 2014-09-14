@@ -12,9 +12,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             form = ko.observable(new bespoke.sph.domain.EntityForm({ WebId: system.guid() })),
             activate = function (entityid, formid) {
 
-                var fid = parseInt(formid),
-                    id = parseInt(entityid),
-                    query = String.format("EntityDefinitionId eq {0}", id),
+                var query = String.format("Id eq '{0}'", entityid),
                     tcs = new $.Deferred();
 
 
@@ -36,7 +34,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 context.loadOneAsync("EntityDefinition", query)
                     .done(function (b) {
                         entity(b);
-                        if (!fid) {
+                        if (formid === "0") {
                             tcs.resolve(true);
                         }
                         var operations = (b.EntityOperationCollection()).map(function (v) {
@@ -51,8 +49,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     layoutOptions(options);
                 });
 
-                if (fid) {
-                    context.loadOneAsync("EntityForm", "EntityFormId eq " + fid)
+                if (formid !== "0") {
+                    context.loadOneAsync("EntityForm", "Id eq '" + formid + "'")
                     .done(function (f) {
                         _(f.FormDesign().FormElementCollection()).each(function (v) {
                             v.isSelected = ko.observable(false);
@@ -71,7 +69,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         form().Route(v.toLowerCase().replace(/\W+/g, "-"));
                     }
                 });
-                form().EntityDefinitionId(id);
+                form().EntityDefinitionId(entityid);
 
                 return tcs.promise();
 
@@ -286,7 +284,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
-                            entity().EntityDefinitionId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
                         } else {
                             errors(result.Errors);
@@ -311,7 +309,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 context.post(data, "/Sph/EntityForm/Save")
                     .then(function (result) {
-                        form().EntityFormId(result.id);
+                        form().Id(result.id);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -389,7 +387,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     command: function () {
                         form().Name(form().Name() + ' Copy (1)');
                         form().Route('');
-                        form().EntityFormId(0);
+                        form().Id("0");
                         return Task.fromResult(0);
                     }
                 },
@@ -398,7 +396,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     icon: 'fa fa-sign-in',
                     command: publish,
                     enable: ko.computed(function () {
-                        return form().EntityFormId() > 0;
+                        return form().Id() !== "0";
                     })
                 },
                 {
@@ -406,7 +404,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     caption: 'Depublish',
                     icon: "fa fa-sign-out",
                     enable: ko.computed(function () {
-                        return form().EntityFormId() > 0 && form().IsPublished();
+                        return form().Id() !== "0" && form().IsPublished();
                     })
                 },
                 {

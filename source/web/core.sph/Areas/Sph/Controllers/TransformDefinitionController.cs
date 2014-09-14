@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
+                SourceCodeDirectory = ConfigurationManager.UserSourceDirectory
             };
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));

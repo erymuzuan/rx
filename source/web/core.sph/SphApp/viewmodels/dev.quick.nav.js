@@ -32,13 +32,13 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                         var entities = _(entitiesLo.itemCollection).map(function (v) {
                             return {
                                 name: v.Name,
-                                id: v.EntityDefinitionId,
-                                route: '#entity.details/' + v.EntityDefinitionId(),
+                                id: v.Id,
+                                route: '#entity.details/' + v.Id(),
                                 operations : v.EntityOperationCollection(),
                                 rdl: _(rdlLo.itemCollection).filter(function (f) { return f.DataSource().EntityName() === v.Name(); }),
                                 triggers: _(triggersLo.itemCollection).filter(function (f) { return f.Entity() === v.Name(); }),
-                                forms: _(formsLo.itemCollection).filter(function (f) { return f.EntityDefinitionId() === v.EntityDefinitionId(); }),
-                                views: _(viewsLo.itemCollection).filter(function (f) { return f.EntityDefinitionId() === v.EntityDefinitionId(); })
+                                forms: _(formsLo.itemCollection).filter(function (f) { return f.EntityDefinitionId() === v.Id(); }),
+                                views: _(viewsLo.itemCollection).filter(function (f) { return f.EntityDefinitionId() === v.Id(); })
                             };
                         });
                         items(entities);

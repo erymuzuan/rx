@@ -13,7 +13,7 @@ namespace sph.builder
         {
             await base.RestoreAllAsync();
 
-            var folder = ConfigurationManager.WorkflowSourceDirectory + @"\EntityForm";
+            var folder = ConfigurationManager.SphSourceDirectory + @"\EntityForm";
             var tasks = from file in Directory.GetFiles(folder, "*.json")
                         let json = File.ReadAllText(file)
                         let form = json.DeserializeFromJson<EntityForm>()
@@ -42,7 +42,7 @@ namespace sph.builder
 
         private async Task InsertIconAsync(EntityForm form)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var folder = Path.Combine(wc, typeof(EntityForm).Name);
             var icon = Path.Combine(folder, form.Name + ".png");
             if (!File.Exists(icon)) return;

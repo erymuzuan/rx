@@ -13,7 +13,7 @@ namespace domain.test.change.tracker
     {
         private EntityDefinition GetCustomerEntityDefinition()
         {
-            var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.WorkflowSourceDirectory, "EntityDefinition/Customer.json"));
+            var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             return customerDefinition.DeserializeFromJson<EntityDefinition>();
 
         }

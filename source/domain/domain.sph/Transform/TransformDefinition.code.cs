@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Domain
 
         public string[] SaveSources(Dictionary<string, string> sources)
         {
-            var folder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, this.Name);
+            var folder = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Name);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             foreach (var cs in sources.Keys)
@@ -59,7 +59,7 @@ namespace Bespoke.Sph.Domain
                 File.WriteAllText(file, sources[cs]);
             }
             return sources.Keys.ToArray()
-                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.WorkflowSourceDirectory, this.Name, f))
+                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.UserSourceDirectory, this.Name, f))
                     .ToArray();
         }
         public string CodeNamespace

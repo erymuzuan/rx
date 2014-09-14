@@ -27,7 +27,7 @@ namespace sph.builder
         public const string SPH_CONNECTION = "sph";
         public IEnumerable<T> GetItems()
         {
-            var folder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, typeof(T).Name);
+            var folder = Path.Combine(ConfigurationManager.SphSourceDirectory, typeof(T).Name);
 
             if (!Directory.Exists(folder))
                 return new List<T>();

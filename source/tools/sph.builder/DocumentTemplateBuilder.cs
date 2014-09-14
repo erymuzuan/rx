@@ -12,7 +12,7 @@ namespace sph.builder
         {
             await base.RestoreAllAsync();
 
-            var folder = ConfigurationManager.WorkflowSourceDirectory + @"\DocumentTemplate";
+            var folder = ConfigurationManager.SphSourceDirectory + @"\DocumentTemplate";
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
@@ -31,7 +31,7 @@ namespace sph.builder
         private async Task InsertTemplateAsync(DocumentTemplate ed)
         {
             const string extension = ".docx";
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var folder = Path.Combine(wc, typeof(DocumentTemplate).Name);
             var icon = Path.Combine(folder, ed.Name + extension);
             if (!File.Exists(icon)) return;

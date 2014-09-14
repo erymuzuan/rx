@@ -10,7 +10,7 @@ namespace subscriber.version.control
     {
         public override Task ProcessItem(Adapter item)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = item.GetType();
             var folder = Path.Combine(wc, type.Name);
             if (!Directory.Exists(folder))

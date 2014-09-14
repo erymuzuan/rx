@@ -32,6 +32,11 @@ namespace Bespoke.Sph.Domain
             return value.Equals(value2);
         }
 
+        /// <summary>
+        /// Find out if the type is part of SPH
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static bool IsSystemType(this object obj)
         {
             if (null == obj) throw new ArgumentNullException("obj");

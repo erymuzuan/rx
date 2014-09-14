@@ -31,7 +31,7 @@
 }:
 
 <h2>title</h2>
-<script type="text/javascript" src="~/Scripts/knockout-3.1.0.debug.js"></script>
+<script type="text/javascript" src="~/Scripts/knockout-3.2.0.debug.js"></script>
 <script type="text/javascript" data-script="true">
     define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
         objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
@@ -46,9 +46,9 @@
                 watching = ko.observable(false),
                 id = ko.observable(),
                 activate = function (entityId) {
-                    id(parseInt(entityId));
+                    id(entityId);
 
-                    var query = String.format("@(Model.EntityDefinition.Name + "Id") eq {0}", entityId),
+                    var query = String.format("Id eq '{0}'", entityId),
                         tcs = new $.Deferred(),
                         itemTask = context.loadOneAsync("@Model.EntityDefinition.Name", query),
                         formTask = context.loadOneAsync("EntityForm", "Route eq '@Model.Form.Route'"),
@@ -104,7 +104,7 @@
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
-                                 entity().@(Model.EntityDefinition.Name)Id(result.id);
+                                 entity().Id(result.id);
                                  errors.removeAll();
 
                                  @(Html.Raw(operation.GetConfirmationMessage()))
@@ -182,7 +182,7 @@
                                 context.post(data, "@saveUrl")
                                    .then(function(result) {
                                        tcs.resolve(result);
-                                       entity().@(Model.EntityDefinition.Name)Id(result.id);
+                                       entity().Id(result.id);
                                        app.showMessage("Your @Model.EntityDefinition.Name has been successfully saved", "@ConfigurationManager.ApplicationFullName", ["ok"]);
                                    });
                             }else{
@@ -205,7 +205,7 @@
                     context.post(data, "@saveUrl")
                         .then(function(result) {
                             tcs.resolve(result);
-                            entity().@(Model.EntityDefinition.Name)Id(result.id);
+                            entity().Id(result.id);
                             app.showMessage("Your @Model.EntityDefinition.Name has been successfully saved", "@ConfigurationManager.ApplicationFullName", ["ok"]);
 
                         });
@@ -218,7 +218,7 @@
                     var tcs = new $.Deferred();
                     $.ajax({
                         type: "DELETE",
-                        url: "/@(Model.EntityDefinition.Name)/Remove/" + entity().@(Model.EntityDefinition.Name)Id(),
+                        url: "/@(Model.EntityDefinition.Name)" + entity().Id(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         error: tcs.reject,
@@ -286,20 +286,20 @@
             {
                 <text>removeCommand :remove,
                     canExecuteRemoveCommand : ko.computed(function(){
-                        return entity().@(Model.EntityDefinition.Name)Id();
+                        return entity().Id();
                     }),</text>
             }
                     @if (Model.Form.IsWatchAvailable)
                     {
                         <text>
                     watchCommand: function() {
-                        return watcher.watch("@Model.EntityDefinition.Name", entity().@(Model.EntityDefinition.Name)Id())
+                        return watcher.watch("@Model.EntityDefinition.Name", entity().Id())
                             .done(function(){
                                 watching(true);
                             });
                     },
                     unwatchCommand: function() {
-                        return watcher.unwatch("@Model.EntityDefinition.Name", entity().@(Model.EntityDefinition.Name)Id())
+                        return watcher.unwatch("@Model.EntityDefinition.Name", entity().Id())
                             .done(function(){
                                 watching(false);
                             });

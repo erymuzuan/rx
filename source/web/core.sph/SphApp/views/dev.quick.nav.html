@@ -28,7 +28,7 @@
                             </a>
                             <ul data-bind="foreach :triggers" class="nav nav-pills nav-stacked" style="margin-left: 20px">
                                 <li>
-                                    <a href="#" data-bind="attr : {'href':'#trigger.setup/' + TriggerId() }">
+                                    <a href="#" data-bind="attr : {'href':'#trigger.setup/' + Id() }">
                                         <span>
                                             <i class="fa fa-bolt"></i>
                                             <!-- ko text: Name-->
@@ -50,7 +50,7 @@
                             </ul>
                             <ul data-bind="foreach :forms" class="nav nav-pills nav-stacked" style="margin-left: 20px">
                                 <li>
-                                    <a href="#" data-bind="attr : {'href':'#entity.form.designer/' + $parent.id() + '/' + EntityFormId() }">
+                                    <a href="#" data-bind="attr : {'href':'#entity.form.designer/' + $parent.id() + '/' + Id() }">
                                         <span>
                                             <i class="fa fa-edit"></i>
                                             <!-- ko text: Name-->
@@ -61,7 +61,7 @@
                             </ul>
                             <ul data-bind="foreach :views" class="nav nav-pills nav-stacked" style="margin-left: 20px">
                                 <li>
-                                    <a href="#" data-bind="attr : {'href':'#entity.view.designer/' + $parent.id() + '/' + EntityViewId() }">
+                                    <a href="#" data-bind="attr : {'href':'#entity.view.designer/' + $parent.id() + '/' + Id() }">
                                         <span>
                                             <i class="fa fa-table"></i>
                                             <!-- ko text: Name-->
@@ -72,7 +72,7 @@
                             </ul>
                             <ul data-bind="foreach :rdl" class="nav nav-pills nav-stacked" style="margin-left: 20px">
                                 <li>
-                                    <a href="#" data-bind="attr : {'href':'#reportdefinition.edit/' + ReportDefinitionId() }">
+                                    <a href="#" data-bind="attr : {'href':'#reportdefinition.edit/' + Id() }">
                                         <span>
                                             <i class="fa fa-bar-chart-o"></i>
                                             <!-- ko text: Title-->
@@ -87,7 +87,7 @@
                     <h3>Workflow Definitions</h3>
                     <ul class="nav nav-pills nav-stacked" data-bind="foreach :wds">
                         <li>
-                            <a href="#" data-bind="attr : {'href':'#workflow.definition.visual/' + WorkflowDefinitionId() }">
+                            <a href="#" data-bind="attr : {'href':'#workflow.definition.visual/' + Id() }">
                                 <span>
                                     <i class="fa fa-code-fork"></i>
                                     <!-- ko text: Name-->
@@ -99,7 +99,7 @@
                     <h3>Transform Definitions</h3>
                     <ul class="nav nav-pills nav-stacked" data-bind="foreach :transforms">
                         <li>
-                            <a href="#" data-bind="attr : {'href':'#transform.definition.edit/' + TransformDefinitionId() }">
+                            <a href="#" data-bind="attr : {'href':'#transform.definition.edit/' + Id() }">
                                 <span>
                                     <i class="fa fa-exchange"></i>
                                     <!-- ko text: Name-->

@@ -49,11 +49,26 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public static string WorkflowSourceDirectory
+        /// <summary>
+        /// Ad directory where all the sph and systems source code like the *.json file for each asset definitions
+        /// </summary>
+        public static string SphSourceDirectory
         {
             get
             {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowSourceDirectory"];
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SphSourceDirectory"];
+                if (Path.IsPathRooted(val)) return val;
+                return BaseDirectory + BinPath + @"\sources\";
+            }
+        }
+        /// <summary>
+        /// A directory where all the users source codes are
+        /// </summary>
+        public static string UserSourceDirectory
+        {
+            get
+            {
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:UserSourceDirectory"];
                 if (Path.IsPathRooted(val)) return val;
                 return BaseDirectory + BinPath + @"\sources\";
             }

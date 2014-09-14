@@ -15,7 +15,7 @@ namespace sph.builder
 
         public override async Task RestoreAllAsync()
         {
-            var folder = ConfigurationManager.WorkflowSourceDirectory + @"\EntityDefinition";
+            var folder = ConfigurationManager.SphSourceDirectory + @"\EntityDefinition";
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
@@ -81,7 +81,7 @@ namespace sph.builder
 
         private async Task InsertIconAsync(EntityDefinition ed)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var folder = Path.Combine(wc, typeof(EntityDefinition).Name);
             var icon = Path.Combine(folder, ed.Name + ".png");
             if (!File.Exists(icon)) return;

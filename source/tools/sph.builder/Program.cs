@@ -112,7 +112,7 @@ namespace sph.builder
 
         private static IEnumerable<string> GetJsonFiles(Type type)
         {
-            var triggerfolder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, type.Name);
+            var triggerfolder = Path.Combine(ConfigurationManager.SphSourceDirectory, type.Name);
             return Directory.GetFiles(triggerfolder, "*.json");
         }
 

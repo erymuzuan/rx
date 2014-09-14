@@ -42,7 +42,7 @@ namespace subscriber.version.control
 
         private void RemoveExistingSource(Entity item)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = item.GetType();
             var folder = Path.Combine(wc, type.Name);
             if(!Directory.Exists(folder))

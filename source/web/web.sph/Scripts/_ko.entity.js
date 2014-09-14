@@ -307,21 +307,19 @@ ko.bindingHandlers.entityTypeaheadPath = {
                 if ($(element).prop('required')) {
                     $(c.input).prop('required', true);
                 }
-              
+
 
             };
 
-        if (parseInt(idOrName)) {
-            context.getScalarAsync('EntityDefinition', 'EntityDefinitionId eq ' + idOrName, 'Name')
-                .done(function (name) {
-                    setup({ name: name, id: parseInt(idOrName) });
+
+        if (idOrName) {
+            context.loadOneAsync('EntityDefinition', "Name eq '" + idOrName + "' OR id eq '" + idOrName + "'", 'Id')
+                .done(function (edf) {
+                    setup({ name: edf.Name(), id: edf.Id() });
                 });
-        } else {
-            context.getScalarAsync('EntityDefinition', "Name eq '" + idOrName + "'", 'EntityDefinitionId')
-                .done(function (id) {
-                    setup({ name: idOrName, id: parseInt(id) });
-                });
+
         }
+
 
         if (typeof value === "function" && typeof value.subscribe === "function") {
             value.subscribe(function (entity) {

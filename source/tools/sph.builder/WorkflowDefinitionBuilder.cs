@@ -65,7 +65,7 @@ namespace sph.builder
 
         private async Task<bool> InsertSchemaAsync(WorkflowDefinition wd)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var folder = Path.Combine(wc, typeof(WorkflowDefinition).Name);
             var xsd = Path.Combine(folder, wd.Name + ".xsd");
             if (!File.Exists(xsd)) return false;
@@ -87,7 +87,7 @@ namespace sph.builder
         {
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
+                SourceCodeDirectory = ConfigurationManager.SphSourceDirectory
             };
             options.ReferencedAssembliesLocation.Add(typeof(Controller).Assembly.Location);
             options.ReferencedAssembliesLocation.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");

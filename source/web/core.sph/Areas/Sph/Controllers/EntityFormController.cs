@@ -12,6 +12,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var ef = this.GetRequestJson<EntityForm>();
             var context = new SphDataContext();
+
+            if (string.IsNullOrWhiteSpace(ef.Id) || ef.Id == "0")
+                ef.Id = ef.Route.ToIdFormat();
+
             using (var session = context.OpenSession())
             {
                 session.Attach(ef);

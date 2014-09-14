@@ -70,7 +70,7 @@ namespace domain.test.reports
         [Test]
         public async Task GetColumnsValue()
         {
-            var vd = File.ReadAllText(Path.Combine(ConfigurationManager.WorkflowSourceDirectory, "EntityDefinition/Customer.json"));
+            var vd = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             var ed = vd.DeserializeFromJson<EntityDefinition>();
             var type = CompileCustomerDefinition(ed);
 
