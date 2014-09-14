@@ -26,7 +26,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                     roles.splice(0, 0, 'Everybody');
                 }
 
-                var query = String.format("EntityDefinitionId eq {0}", eid),
+                var query = String.format("Id eq '{0}'", eid),
                     tcs = new $.Deferred();
                 context.loadOneAsync("EntityDefinition", query)
                     .done(function (b) {
@@ -61,7 +61,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            entity().EntityDefinitionId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
                         } else {
 
@@ -82,7 +82,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                     isBusy(false);
                     if (result.success) {
                         logger.info(result.message);
-                        entity().EntityDefinitionId(result.id);
+                        entity().Id(result.id);
                         errors.removeAll();
                     } else {
 
@@ -112,7 +112,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                                 caption: 'Publish',
                                 icon: "fa fa-sign-in",
                                 enable: ko.computed(function () {
-                                    return entity().EntityDefinitionId() > 0;
+                                    return entity().Id() && entity().Id() !== "0";
                                 })
                             }])
             }

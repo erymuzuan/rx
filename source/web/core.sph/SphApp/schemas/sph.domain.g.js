@@ -504,7 +504,7 @@ bespoke.sph.domain.EmailTemplate = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EmailTemplate, domain.sph",
-        EmailTemplateId: ko.observable(0),
+        Id: ko.observable("0"),
         Entity: ko.observable(''),
         Name: ko.observable(''),
         Note: ko.observable(''),
@@ -538,7 +538,7 @@ bespoke.sph.domain.DocumentTemplate = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.DocumentTemplate, domain.sph",
-        DocumentTemplateId: ko.observable(0),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Note: ko.observable(''),
         WordTemplateStoreId: ko.observable(''),

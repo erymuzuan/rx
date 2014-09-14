@@ -5,13 +5,25 @@ using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 
-namespace Bespoke.Sph.Web.Areas.Sph.Controllers
+namespace Bespoke.Sph.Web.Controllers
 {
+    [RoutePrefix("email-template")]
     public class EmailTemplateController : Controller
     {
+        [HttpPost]
+        [Route("")]
         public async Task<ActionResult> Save()
         {
             var et = this.GetRequestJson<EmailTemplate>();
+            if (et.IsNewItem && !string.IsNullOrWhiteSpace(et.WebId))
+                et.Id = et.WebId;
+            if (et.IsNewItem && string.IsNullOrWhiteSpace(et.WebId))
+            {
+                et.Id = Guid.NewGuid().ToString();
+                et.WebId = et.Id;
+            }
+
+
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -20,6 +32,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return Json(new { success = true, status = "OK", id = et.Id });
         }
+        [HttpPost]
+        [Route("publish")]
         public async Task<ActionResult> Publish()
         {
             var context = new SphDataContext();
@@ -36,9 +50,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(template);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = template.Id });
+            return Json(new { success = true, status = "OK", message = "Your template has been successfully published", id = template.Id });
 
         }
+        [HttpPost]
+        [Route("test")]
         public async Task<ActionResult> Test()
         {
             var context = new SphDataContext();
@@ -55,6 +71,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
+        [HttpPost]
+        [Route("send")]
         public async Task<ActionResult> Send(string to, string subject, string body)
         {
             var message = new Message
@@ -67,6 +85,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(true);
         }
 
+        [HttpPost]
+        [Route("generate")]
         public async Task<ActionResult> Generate(string entity, int id, string templateId)
         {
             var context = new SphDataContext();

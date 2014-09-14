@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -31,7 +32,12 @@ namespace Bespoke.Sph.Domain
         [XmlAttribute]
         public DateTime ChangedDate { get; set; }
 
-
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool IsNewItem
+        {
+            get { return String.IsNullOrWhiteSpace(this.Id) || this.Id == "0"; }
+        }
 
         public virtual Task<IEnumerable<ValidationError>> ValidateAsync()
         {
