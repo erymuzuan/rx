@@ -938,10 +938,10 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
-        EntityViewId: ko.observable(0),
+        Id: ko.observable("0"),
         IconClass: ko.observable(''),
         IconStoreId: ko.observable(''),
-        EntityDefinitionId: ko.observable(0),
+        EntityDefinitionId: ko.observable(),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),

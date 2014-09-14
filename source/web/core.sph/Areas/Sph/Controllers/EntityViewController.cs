@@ -14,14 +14,18 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
     {
         public async Task<ActionResult> Save()
         {
-            var ef = this.GetRequestJson<EntityView>();
+            var view = this.GetRequestJson<EntityView>();
             var context = new SphDataContext();
+
+            if (string.IsNullOrWhiteSpace(view.Id) || view.Id == "0")
+                view.Id = view.Route.ToIdFormat();
+
             using (var session = context.OpenSession())
             {
-                session.Attach(ef);
+                session.Attach(view);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = ef.Id });
+            return Json(new { success = true, status = "OK", id = view.Id });
         }
 
         public async Task<ActionResult> Depublish()

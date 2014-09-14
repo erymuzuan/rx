@@ -9,7 +9,7 @@ define([objectbuilders.datacontext], function (context) {
             // console.log(view);
             _view(vw);
             var tcs = new $.Deferred(),
-                query = String.format("EntityDefinitionId eq {0}", vw.EntityDefinitionId()),
+                query = String.format("Id eq '{0}'", vw.EntityDefinitionId()),
                 entityTask = context.loadOneAsync("EntityDefinition", query),
                 viewsTask = context.loadAsync("EntityView", "IsPublished eq 1"),
                 formsTask = context.loadAsync("EntityForm", query);
