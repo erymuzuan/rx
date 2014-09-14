@@ -29,14 +29,13 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(item, setting);
 
             var content = new StringContent(json);
-            var id = item.Id;
-            if (item.GetType().Namespace == typeof(Entity).Namespace) return;// just custom entity
+            if (item.GetType().IsSystemType()) return;// just custom entity
 
 
             var url = string.Format("{0}/{1}/{2}/{3}", ConfigurationManager.ElasticSearchHost,
                 ConfigurationManager.ApplicationName.ToLowerInvariant(),
                 item.GetType().Name.ToLowerInvariant(),
-                id);
+                item.Id);
 
             using (var client = new HttpClient())
             {

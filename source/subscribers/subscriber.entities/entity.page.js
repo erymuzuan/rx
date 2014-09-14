@@ -1,9 +1,9 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/moment.js" />
+﻿/// <reference path="/Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="/Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="/Scripts/require.js" />
+/// <reference path="/Scripts/underscore.js" />
+/// <reference path="/Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
@@ -24,7 +24,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 var query = String.format("Name eq '{0}'", '@Model.Definition.Name'),
                   tcs = new $.Deferred(),
                   chartsQuery = String.format("Entity eq '@Model.Definition.Name' and IsDashboardItem eq 1"),
-                  formsQuery = String.format("EntityDefinitionId eq '@Model.Definition.EntityDefinitionId' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                  formsQuery = String.format("EntityDefinitionId eq '@Model.Definition.Id' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
                   edTask = context.loadOneAsync("EntityDefinition", query),
                   chartsTask = context.loadAsync("EntityChart", chartsQuery),
                   formsTask = context.loadAsync("EntityForm", formsQuery),
@@ -59,7 +59,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                          var tm = setInterval(function () {
                              v.CountMessage(v.CountMessage() == "...." ? "..." : "....");
                          }, 250);
-                         $.get("/Sph/EntityView/Count/" + v.EntityViewId())
+                         $.get("/Sph/EntityView/Count/" + v.Id())
                              .done(function(c) {
                                  clearInterval(tm);
                                  v.CountMessage(c.hits.total);
