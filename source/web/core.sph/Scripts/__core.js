@@ -723,7 +723,7 @@ ko.bindingHandlers.kendoDate = {
             $input = $(element),
             allBindings = allBindingsAccessor(),
             currentValue = ko.unwrap(value),
-            date = moment(currentValue),
+            date = moment(currentValue, "DD/MM/YYYY"),
             changed = function (e) {
                 console.log(e);
                 var nv = this.value();
@@ -807,7 +807,7 @@ ko.bindingHandlers.kendoDateTime = {
         var value = valueAccessor(),
             $input = $(element),
             currentValue = ko.utils.unwrapObservable(value),
-            date = moment(currentValue),
+            date = moment(currentValue,"DD/MM/YYYY "),
             changed = function (e) {
                 console.log(e);
                 var nv = this.value();

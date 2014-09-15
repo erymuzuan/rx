@@ -1,5 +1,5 @@
 ﻿
-/// <reference path="~/scripts/knockout-3.1.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -12,7 +12,7 @@ bespoke.sph.domain.ReportDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReportDefinition, domain.sph",
-        ReportDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
         Title: ko.observable(''),
         Category: ko.observable(''),
         IsActive: ko.observable(false),
@@ -594,11 +594,11 @@ bespoke.sph.domain.ReportDelivery = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReportDelivery, domain.sph",
-        ReportDeliveryId: ko.observable(0),
+        Id: ko.observable("0"),
         IsActive: ko.observable(false),
         Title: ko.observable(''),
         Description: ko.observable(''),
-        ReportDefinitionId: ko.observable(0),
+        ReportDefinitionId: ko.observable(),
         IntervalScheduleCollection: ko.observableArray([]),
         Users: ko.observableArray([]),
         Departments: ko.observableArray([]),
