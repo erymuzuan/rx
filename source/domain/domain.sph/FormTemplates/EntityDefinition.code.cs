@@ -133,7 +133,7 @@ namespace Bespoke.Sph.Domain
             script.AppendLine(" var system = require('services/system'),");
             script.AppendLine(" model = {");
             script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.CodeNamespace, this.Name, assemblyName);
-            script.AppendLinf("     {0}Id : ko.observable(),", this.Name);
+            script.AppendLine("     Id : ko.observable(\"0\"),");
             foreach (var item in this.MemberCollection)
             {
                 if (item.Type == typeof(Array))

@@ -11,7 +11,6 @@ using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.Properties;
-using Monads.NET;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Api
@@ -192,7 +191,7 @@ namespace Bespoke.Sph.Web.Api
 
             }
 
-            string previousPageToken = DateTime.Now.ToShortTimeString();
+            var previousPageToken = DateTime.Now.ToShortTimeString();
             var json = new StringBuilder("{");
             json.AppendLinf("   \"results\":[{0}],", string.Join(",\r\n", list));
             json.AppendLinf("   \"rows\":{0},", rows);
