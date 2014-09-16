@@ -36,6 +36,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "date:{0}",
+        "RouteValueField": null,
         "WebId": "2fff8d5b-31e0-49ea-bc6f-319a87d69f7d"
       },
       {
@@ -52,6 +53,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "8b76648d-7a38-4e60-804e-7f431d6be782"
       },
       {
@@ -68,6 +70,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "e0d1465c-b071-4cec-acfb-0001a355dc9c"
       },
       {
@@ -84,6 +87,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "a131040f-c6f4-4823-acbf-4aaa2d2603b3"
       },
       {
@@ -100,6 +104,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "2887fcc4-53eb-4c33-8ff9-a5425c9a358e"
       },
       {
@@ -116,6 +121,7 @@
         "IconCssClass": "fa fa-wheelchair fa-2x",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": "Id",
         "WebId": "ff762493-e292-4d4d-86eb-6773355804c6"
       },
       {
@@ -132,6 +138,7 @@
         "IconCssClass": "fa fa-hand-o-right fa-2x",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": "Id",
         "WebId": "c6ccf8fa-bdca-4d1c-87b7-637dabc84b11"
       }
     ]
@@ -151,9 +158,12 @@
     "IsPublic": true,
     "WebId": null
   },
-  "Id": "admitted-patients",
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
   "IconClass": "",
-  "IconStoreId": "dcdb9619-5f1a-4913-8459-3e58c4656fa1",
+  "IconStoreId": "0a3bd9c2-ffc9-4c67-a37d-f41be909fd6b",
   "EntityDefinitionId": "patient",
   "Name": "Admitted Patients",
   "Route": "admitted-patients",
@@ -164,9 +174,11 @@
   "TileColour": "bviolet",
   "CountMessage": null,
   "Entity": null,
+  "Partial": null,
   "CreatedBy": null,
+  "Id": "admitted-patients",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-13T19:51:21.1468356+08:00",
+  "ChangedDate": "2014-09-16T07:41:30.0473265+08:00",
   "WebId": "de22c2e4-722b-41ad-b327-33ffa94280fe"
 }

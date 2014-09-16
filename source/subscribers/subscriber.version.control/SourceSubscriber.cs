@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
@@ -58,7 +59,13 @@ namespace subscriber.version.control
                     continue;
                 }
                 var o = JObject.Parse(text);
-                var id = o.SelectToken("$.Id").Value<string>();
+                var idToken = o.SelectToken("$.Id");
+                if (null == idToken)
+                {
+                    this.WriteMessage("Cannot find Id fiend in {0}",f);
+                    continue;
+                }
+                var id = idToken.Value<string>();
                 if (id != item.Id) continue;
                 File.Delete(f);
                 return;

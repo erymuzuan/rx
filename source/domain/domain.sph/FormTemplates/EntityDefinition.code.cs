@@ -38,11 +38,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("   public class " + this.Name + " : Entity");
             code.AppendLine("   {");
-
-            code.AppendLinf("       [XmlAttribute]");
-            code.AppendLinf("       public int {0}Id {{get; set;}}", this.Name);
-
-
+            
             // ctor
             code.AppendLine("       public " + this.Name + "()");
             code.AppendLine("       {");
@@ -224,13 +220,15 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf(@"
             if(null == item) throw new ArgumentNullException(""item"");
             var context = new Bespoke.Sph.Domain.SphDataContext();
+            if(item.IsNewItem)item.Id = Guid.NewGuid().ToString();
+
             using(var session = context.OpenSession())
             {{
                 session.Attach(item);
                 await session.SubmitChanges(""save"");
             }}
             this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name);
+            return Json(new {{success = true, status=""OK"", id = item.Id}});", this.Name);
             code.AppendLine("       }");
 
             //OPERATIONS
@@ -257,7 +255,7 @@ namespace Bespoke.Sph.Domain
                 await session.SubmitChanges(""delete"");
             }}
             this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name);
+            return Json(new {{success = true, status=""OK"", id = item.Id}});", this.Name);
             code.AppendLine("       }");
 
             //SCHEMAS
@@ -330,13 +328,15 @@ namespace Bespoke.Sph.Domain
                     code.AppendLinf("           var setter{0} = operation.SetterActionChildCollection.Single(a => a.WebId == \"{1}\");", count, act.WebId);
                     code.AppendLinf("           item.{1} = ({2})setter{0}.Field.GetValue(rc);", count, act.Path, this.GetMember(act.Path).Type.FullName);
                 }
-                code.AppendFormat(@"           
+                code.AppendFormat(@"
+            if(item.IsNewItem)item.Id = Guid.NewGuid().ToString();
+        
             using(var session = context.OpenSession())
             {{
                 session.Attach(item);
                 await session.SubmitChanges(""{1}"");
             }}
-            return Json(new {{success = true, message=""{2}"", status=""OK"", id = item.{0}Id}});", this.Name, operation.Name, operation.SuccessMessage);
+            return Json(new {{success = true, message=""{2}"", status=""OK"", id = item.Id}});", this.Name, operation.Name, operation.SuccessMessage);
 
                 code.AppendLine();
                 code.AppendLine("       }");
@@ -375,7 +375,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
 
             code.AppendFormat(@"   
-            return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name);
+            return Json(new {{success = true, status=""OK"", id = item.Id}});");
 
             code.AppendLine();
             code.AppendLine("       }");

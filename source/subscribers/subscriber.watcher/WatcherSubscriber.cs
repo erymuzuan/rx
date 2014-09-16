@@ -112,7 +112,7 @@ namespace Bespoke.Sph.WathersSubscribers
         {
             this.WriteMessage("Changed to " + e);
             var entityName = e.Item.GetType().Name;
-            var id = e.Item.GetId();
+            var id = e.Item.Id;
             var watchers = m_watchers
                 .Where(w => w.EntityId == id && w.EntityName == entityName)
                 .ToList();

@@ -136,10 +136,10 @@
       }
     ]
   },
-  "EntityViewId": 7005,
+  "Id": "appointment-for-patients",
   "IconClass": "",
   "IconStoreId": "sph-img-list",
-  "EntityDefinitionId": 6003,
+  "EntityDefinitionId": "appointment",
   "Name": "Appointment for patients",
   "Route": "appointment-for-patients",
   "Note": "Appointments list for a patient",
@@ -148,7 +148,7 @@
   "Visibilty": "",
   "TileColour": "bred",
   "CountMessage": "",
-  "Entity": "",
+  "Entity": "Appointment",
   "CreatedBy": null,
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",

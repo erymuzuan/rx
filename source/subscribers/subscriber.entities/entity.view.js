@@ -1,9 +1,9 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/moment.js" />
+﻿/// <reference path="Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="Scripts/require.js" />
+/// <reference path="Scripts/underscore.js" />
+/// <reference path="Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
@@ -29,8 +29,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 });
                 var edQuery = String.format("Name eq '{0}'", '@Model.Definition.Name'),
                   tcs = new $.Deferred(),
-                  formsQuery = String.format("EntityDefinitionId eq @Model.Definition.EntityDefinitionId and IsPublished eq 1 and IsAllowedNewItem eq 1"),
-                  viewQuery = String.format("EntityDefinitionId eq @Model.Definition.EntityDefinitionId"),
+                  formsQuery = String.format("EntityDefinitionId eq '@(Model.Definition.Id)' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                  viewQuery = String.format("EntityDefinitionId eq '@(Model.Definition.Id)'"),
                   edTask = context.loadOneAsync("EntityDefinition", edQuery),
                   formsTask = context.loadAsync("EntityForm", formsQuery),
                   viewTask = context.loadOneAsync("EntityView", viewQuery);
@@ -109,7 +109,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                     });
             },
             attached = function () {
-                chart.init('@Model.Definition.Name', query, chartSeriesClick, @Model.View.EntityViewId);
+                chart.init("@Model.Definition.Name", query, chartSeriesClick, "@Model.View.Id");
             },
             clearChartFilter = function(){
                 chartFiltered(false);

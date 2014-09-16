@@ -10,16 +10,18 @@ define([objectbuilders.datacontext], function (context) {
             _view(vw);
             var tcs = new $.Deferred(),
                 query = String.format("Id eq '{0}'", vw.EntityDefinitionId()),
+                fquery = String.format("EntityDefinitionId eq '{0}'", vw.EntityDefinitionId()),
                 entityTask = context.loadOneAsync("EntityDefinition", query),
                 viewsTask = context.loadAsync("EntityView", "IsPublished eq 1"),
-                formsTask = context.loadAsync("EntityForm", query);
+                formsTask = context.loadAsync("EntityForm", fquery);
 
             $.when(entityTask, formsTask, viewsTask).done(function (b, flo, vlo) {
                 _entity(b);
                 formsOptions(flo.itemCollection);
 
 
-                formsOptions.push({Name : '[or select a view]', Route : 'invalid'});
+                formsOptions.push({Name : ' -- ', Route : 'invalid'});
+                formsOptions.push({Name : '[Or select a view]', Route : 'invalid'});
                 _(vlo.itemCollection).each(function (v) {
                     formsOptions.push(v);
                 });

@@ -87,7 +87,7 @@ namespace Bespoke.Sph.Web.Controllers
             wordGen.Generate(file, item);
 
 
-            return File(System.IO.File.ReadAllBytes(file), MimeMapping.GetMimeMapping(file), string.Format("{0}.{1}.docx", template.Name, item.GetId()));
+            return File(System.IO.File.ReadAllBytes(file), MimeMapping.GetMimeMapping(file), string.Format("{0}.{1}.docx", template.Name, item.Id));
 
         }
     }
