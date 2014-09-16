@@ -61,6 +61,7 @@
     <Compile Include="TrackerSubscriber.cs" />
     <Compile Include="TriggerIndexerSubscriber.cs" />
     <Compile Include="UserProfileIndexerSubscriber.cs" />
+    <Compile Include="WatcherIndexerSubscriber.cs" />
     <Compile Include="WorkflowSubscriber.cs" />
   </ItemGroup>
   <ItemGroup>

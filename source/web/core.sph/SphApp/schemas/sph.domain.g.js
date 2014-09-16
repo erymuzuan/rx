@@ -406,7 +406,7 @@ bespoke.sph.domain.Message = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Message, domain.sph",
-        MessageId: ko.observable(0),
+        Id: ko.observable("0"),
         Subject: ko.observable(''),
         IsRead: ko.observable(false),
         Body: ko.observable(''),

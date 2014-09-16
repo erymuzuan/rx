@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-  "CodeNamespace": "Bespoke.Dev_2002.Domain",
+  "CodeNamespace": "Bespoke.Dev_patient.Domain",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -712,6 +712,7 @@
               },
               "Right": {
                 "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "CodeNamespace": "ffd374684c",
                 "Script": "DateTime.Now",
                 "Name": "Now",
                 "Note": "",
@@ -827,6 +828,7 @@
               "Path": "Mrn",
               "Field": {
                 "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "CodeNamespace": "ff35dff2c2",
                 "Script": "string.Format(\"{0:yyyyMMdd}-{1:Mdss}\",item.Dob,DateTime.Now)",
                 "Name": "Mrn with DOB",
                 "Note": "",
@@ -992,7 +994,6 @@
     "IsPublic": true,
     "WebId": null
   },
-  "Id": "patient",
   "Name": "Patient",
   "Plural": "Patients",
   "IconStoreId": "1527fe01-e066-4208-bb15-6ddb84330c2b",
@@ -1001,8 +1002,9 @@
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
   "CreatedBy": null,
+  "Id": "patient",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-06-25T07:28:20.9829498+08:00",
+  "ChangedDate": "2014-09-16T10:53:51.5684486+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }
