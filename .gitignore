@@ -125,3 +125,5 @@ bin/sources/__*/
 bin/sources/PatientToCustomerMapping/
 /source/web/web.sph/SphApp/partial/driver-details.js
 *.docx
+/bin/sources/Appointment
+bin/sources/Appointment/
