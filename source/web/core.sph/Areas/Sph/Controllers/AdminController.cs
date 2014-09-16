@@ -67,10 +67,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 if (userroles.Any())
                     Roles.RemoveUserFromRoles(profile.UserName, roles);
 
-                Roles.AddUserToRoles(profile.UserName, profile.Roles);
-                em.Email = profile.Email;
-                Membership.UpdateUser(em);
                 profile.Roles = roles;
+                em.Email = profile.Email;
+
+                Roles.AddUserToRoles(profile.UserName, profile.Roles);
+                Membership.UpdateUser(em);
                 await CreateProfile(profile, designation);
                 return Json(profile);
             }
@@ -89,36 +90,38 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         private static async Task<UserProfile> CreateProfile(Profile profile, Designation designation)
         {
             var context = new SphDataContext();
-            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.UserName == profile.UserName) ?? new UserProfile();
-            userprofile.UserName = profile.UserName;
-            userprofile.FullName = profile.FullName;
-            userprofile.Designation = profile.Designation;
-            userprofile.Department = profile.Department;
-            userprofile.Mobile = profile.Mobile;
-            userprofile.Telephone = profile.Telephone;
-            userprofile.Email = profile.Email;
-            userprofile.RoleTypes = string.Join(",", profile.Roles);
-            userprofile.StartModule = designation.StartModule;
+            var usp = await context.LoadOneAsync<UserProfile>(p => p.UserName == profile.UserName) ?? new UserProfile();
+            usp.UserName = profile.UserName;
+            usp.FullName = profile.FullName;
+            usp.Designation = profile.Designation;
+            usp.Department = profile.Department;
+            usp.Mobile = profile.Mobile;
+            usp.Telephone = profile.Telephone;
+            usp.Email = profile.Email;
+            usp.RoleTypes = string.Join(",", profile.Roles);
+            usp.StartModule = designation.StartModule;
+            if (usp.IsNewItem) usp.Id = profile.UserName.ToIdFormat();
 
             using (var session = context.OpenSession())
             {
-                session.Attach(userprofile);
+                session.Attach(usp);
                 await session.SubmitChanges();
             }
 
-            return userprofile;
+            return usp;
         }
 
         public async Task<ActionResult> UpdateUser(UserProfile profile)
         {
             var context = new SphDataContext();
             var userprofile = await context.LoadOneAsync<UserProfile>(p => p.UserName == User.Identity.Name)
-                ?? new UserProfile ();
+                ?? new UserProfile();
             userprofile.UserName = User.Identity.Name;
             userprofile.Email = profile.Email;
             userprofile.Telephone = profile.Telephone;
             userprofile.FullName = profile.FullName;
             userprofile.StartModule = profile.StartModule;
+            if (userprofile.IsNewItem) userprofile.Id = userprofile.UserName.ToIdFormat();
 
             using (var session = context.OpenSession())
             {

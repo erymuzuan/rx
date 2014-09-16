@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -11,10 +12,13 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Roles = System.Web.Security.Roles;
 
-namespace Bespoke.Sph.Web.Areas.Sph.Controllers
+namespace Bespoke.Sph.Web.Controllers
 {
+    [RoutePrefix("sph-designation")]
     public class DesignationController : Controller
     {
+        [HttpPost]
+        [Route("")]
         public async Task<ActionResult> Save()
         {
             var rolesConfig = Server.MapPath("~/roles.config.js");
@@ -23,6 +27,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var roles = JsonConvert.DeserializeObject<RoleModel[]>(json, settings).Select(r => r.Role).ToArray();
 
             var designation = this.GetRequestJson<Designation>();
+            var newItem = designation.IsNewItem;
+            if (newItem)
+            {
+                designation.Id = designation.Name.ToIdFormat();
+            }
+
             var context = new SphDataContext();
             var lo = await context.LoadAsync(context.UserProfiles.Where(u => u.Designation == designation.Name));
             foreach (var user in lo.ItemCollection)
@@ -63,8 +73,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     Roles.CreateRole(role);
                 foreach (var user in userNames.Where(s => !string.IsNullOrWhiteSpace(s)))
                 {
-                    Console.WriteLine("U {0} R {1}", user, role);
-                    // if (Roles.IsUserInRole(user, role))
                     try
                     {
                         Roles.RemoveUserFromRole(user, role);
@@ -91,11 +99,60 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(designation);
                 await session.SubmitChanges("Add/update new designation");
             }
+            var id = designation.Id;
 
             this.Response.ContentType = "application/json; charset=utf-8";
-            return Content(JsonConvert.SerializeObject(new { status = "OK", success = true }));
+            this.Response.StatusCode = newItem ? 201 : 202;
+            var location = string.Format("{0}/sph-designation/{1}", ConfigurationManager.BaseUrl, id);
+            this.Response.AddHeader("Location", location);
+            return Content(JsonConvert.SerializeObject(new
+            {
+                status = "OK",
+                success = true,
+                links = new object[]
+                {
+                    new
+                    {
+                        rel = "self",
+                        href = "/sph-designation/" + id
+                    },
+                    new
+                    {
+                        rel = "lock",
+                        href = "/sph-designation/" + id + "/lock"
+                    }
+                }
+            }));
 
         }
 
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult> GetOneAsync(string id)
+        {
+            var context = new SphDataContext();
+            var dsg = await context.LoadOneAsync<Designation>(x => x.Id == id);
+            var result = new
+            {
+                designation = dsg,
+                links = new object[]
+                {
+                    new
+                    {
+                        rel = "self",
+                        href = "/sph-designation/" + id
+                    },
+                    new
+                    {
+                        rel = "lock",
+                        href = string.Format("/sph-designation/{0}/lock", id)
+                    }
+                }
+            };
+
+            return Content(JsonConvert.SerializeObject(result), "application/json", Encoding.UTF8);
+
+        }
     }
 }

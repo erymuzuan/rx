@@ -8,10 +8,9 @@
     define(['services/datacontext', objectbuilders.logger],
         function (context, logger) {
 
-            var activate = function (rid) {
-                var id = parseInt(rid);
-                if (id) {
-                    var query = String.format("DesignationId eq {0}", id);
+            var activate = function (id) {
+                if (id && id !== "0") {
+                    var query = String.format("Id eq '{0}'", id);
                     var tcs = new $.Deferred();
                     context.loadOneAsync("Designation", query)
                         .done(function (b) {
@@ -33,7 +32,7 @@
                 var tcs = new $.Deferred();
                 var data = ko.toJSON(vm.designation);
 
-                context.post(data, "/Designation/Save")
+                context.post(data, "/sph-designation")
                     .then(function (result) {
                         tcs.resolve(result);
                         logger.info("Designation is successfully saved");

@@ -15,11 +15,11 @@
             printprofile = ko.observable(new bespoke.sph.domain.Profile()),
             profiles = ko.observableArray(),
             activate = function() {
-                var query = String.format("UserProfileId gt 0");
+                var query = String.format("Id ne '0'");
                 var tcs = new $.Deferred();
                 loadDetails();
                 var profileTask = context.loadAsync("UserProfile", query);
-                var designationTask = context.getListAsync("Designation","DesignationId gt 0", "Name");
+                var designationTask = context.getListAsync("Designation","Id ne '0'", "Name");
                 var departmentTask = context.loadOneAsync("Setting", "Key eq 'Departments'");
                 $.when(designationTask,profileTask,departmentTask)
                  .then(function(s,p,d) {
@@ -132,7 +132,7 @@
                 return tcs.promise();
             },
             emailChanged = function(email) {
-                vm.isb(true);
+                vm.isBusyValidatingEmail(true);
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({email : email});
                 isBusy(true);

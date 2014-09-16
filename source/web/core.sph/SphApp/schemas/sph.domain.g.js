@@ -302,7 +302,7 @@ bespoke.sph.domain.Designation = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Designation, domain.sph",
-        DesignationId: ko.observable(0),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Description: ko.observable(''),
         IsActive: ko.observable(false),
