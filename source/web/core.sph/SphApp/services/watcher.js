@@ -36,7 +36,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
             },
             getIsWatchingAsync = function (entity, id) {
                 var tcs = new $.Deferred(),
-                    query = String.format("EntityName eq '{0}' and EntityId eq {1} and User eq '{2}'", entity, id, config.userName);
+                    query = String.format("EntityName eq '{0}' and EntityId eq '{1}' and User eq '{2}'", entity, id, config.userName);
 
                 context.loadOneAsync("Watcher", query)
                    .done(function (w) {

@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     public class WatchController : Controller
     {
-        public async Task<ActionResult> Register(int id, string entity)
+        public async Task<ActionResult> Register(string id, string entity)
         {
             var context = new SphDataContext();
             var watcher = new Watcher();
@@ -18,6 +18,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             watch.EntityName = entity;
             watch.EntityId = id;
             watch.IsActive = true;
+            watch.Id = Guid.NewGuid().ToString();
 
             using (var session = context.OpenSession())
             {
@@ -28,7 +29,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> Deregister(string entity, int id)
+        public async Task<ActionResult> Deregister(string entity, string id)
         {
             var context = new SphDataContext();
             var watch = await context.LoadOneAsync<Watcher>(w => w.EntityId == id);
@@ -43,7 +44,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> GetWatch(string entity, int id)
+        public async Task<ActionResult> GetWatch(string entity, string id)
         {
             var context = new SphDataContext();
             var watch = await context.LoadOneAsync<Watcher>(w => w.EntityId == id);

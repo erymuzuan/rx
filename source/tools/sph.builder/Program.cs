@@ -79,7 +79,9 @@ namespace sph.builder
                     var viewTasks = from ff in GetJsonFiles(typeof(EntityView))
                                     let fjson = File.ReadAllText(ff)
                                     let fo = JObject.Parse(fjson)
-                                    let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
+                                    let edidToken = fo.SelectToken("$.EntityDefinitionId")
+                                    where null != edidToken
+                                    let edid = edidToken.Value<string>()
                                     where edid == item.Id
                                     select viewBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityView>());
                     await Task.WhenAll(viewTasks);

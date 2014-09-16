@@ -7,12 +7,12 @@
         <span data-bind="text:Message"></span>
 
     </div>
-    <div class="col-lg-2"></div>
+    <div class="col-sm-2"></div>
     <!-- /ko-->
 </div>
 <div class="row">
-
     <div class="col-sm-8">
+
         <form class="form-horizontal" data-bind="with : entity" id="patient-details-form">
 
 
@@ -21,7 +21,7 @@
 
                 <div class="col-md-8">
                     <input class=" form-control input-large" title=""
-                           data-bind="value: FullName, enable :true"
+                           data-bind="value: FullName, enable :true "
                            id="0c9e4d49-5ac4-4a8a-8015-fa2cd8eebc7c" type="text" name="FullName"/>
                 </div>
             </div>
@@ -32,7 +32,7 @@
 
                 <div class="col-md-8">
                     <input class=" form-control input-large" title=""
-                           data-bind="value: IdentificationNo, enable :true"
+                           data-bind="value: IdentificationNo, enable :true "
                            id="d9f52c01-887a-4ae6-a0fd-c83002987323" type="text" name="IdentificationNo"/>
                 </div>
             </div>
@@ -125,7 +125,7 @@
             <div class="form-group" data-bind="visible:true">
                 <h3>Appointments</h3>
                 <table class="table table-condensed table-striped"
-                       data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('3c57c06c-ffa2-46de-bf60-b3a8c8140daf')}">
+                       data-bind="serverPaging :{ query: 'Mrn eq \'' + Mrn() + '\'', entity : 'Appointment', list: bespoke.getSingletonObservableArray('b662df0d-5786-488b-9fdd-6f508cc3be63')}">
                     <thead>
                     <tr>
                         <th>Doctor</th>
@@ -134,7 +134,7 @@
                         <th>Mrn</th>
                     </tr>
                     </thead>
-                    <tbody data-bind="foreach: bespoke.getSingletonObservableArray('3c57c06c-ffa2-46de-bf60-b3a8c8140daf')">
+                    <tbody data-bind="foreach: bespoke.getSingletonObservableArray('b662df0d-5786-488b-9fdd-6f508cc3be63')">
                     <tr>
                         <td data-bind="text:Doctor"></td>
                         <td>
@@ -153,7 +153,8 @@
     </div>
     <div class="col-sm-4">
         <h3>Audit Trail</h3>
-        <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().PatientId(), entity : 'Patient'}} -->
+        <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().Id(), entity : 'Patient'}} -->
         <!--/ko-->
+
     </div>
 </div>

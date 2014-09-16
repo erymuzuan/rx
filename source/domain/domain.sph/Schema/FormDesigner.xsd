@@ -690,7 +690,7 @@
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
-			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityViewId" type="xs:string" use="required"/>
 			<xs:attribute name="Query" type="xs:string" use="required"/>
 			<xs:attribute name="Aggregate" type="xs:string" use="required"/>
 			<xs:attribute name="Field" type="xs:string" use="required"/>

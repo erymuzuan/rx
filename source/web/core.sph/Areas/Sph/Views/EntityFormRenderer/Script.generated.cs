@@ -615,7 +615,7 @@ WriteLiteral("\r\n                    return tcs.promise();\r\n                }
             
             #line default
             #line hidden
-WriteLiteral(@""" + entity().Id(),
+WriteLiteral(@"/"" + entity().Id(),
                         contentType: ""application/json; charset=utf-8"",
                         dataType: ""json"",
                         error: tcs.reject,

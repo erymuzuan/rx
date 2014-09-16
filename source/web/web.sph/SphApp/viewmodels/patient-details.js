@@ -1,16 +1,18 @@
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config, objectbuilders.app],
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
+        objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
+        objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
+        objectbuilders.app ],
     function (context, logger, router, system, validation, eximp, dialog, watcher, config, app) {
 
-        var entity = ko.observable(new bespoke.dev_2002.domain.Patient({WebId: system.guid()})),
+        var entity = ko.observable(new bespoke.dev_patient.domain.Patient({WebId: system.guid()})),
             errors = ko.observableArray(),
-            online = ko.observable(window.navigator.onLine),
             form = ko.observable(new bespoke.sph.domain.EntityForm()),
             watching = ko.observable(false),
             id = ko.observable(),
             activate = function (entityId) {
-                id(parseInt(entityId));
+                id(entityId);
 
-                var query = String.format("PatientId eq {0}", entityId),
+                var query = String.format("Id eq '{0}'", entityId),
                     tcs = new $.Deferred(),
                     itemTask = context.loadOneAsync("Patient", query),
                     formTask = context.loadOneAsync("EntityForm", "Route eq 'patient-details'"),
@@ -22,17 +24,22 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         entity(item);
                     }
                     else {
-                        entity(new bespoke.dev_2002.domain.Patient({WebId: system.guid()}));
+                        entity(new bespoke.dev_patient.domain.Patient({WebId: system.guid()}));
                     }
                     form(f);
                     watching(w);
-
                     tcs.resolve(true);
+
                 });
+
 
                 return tcs.promise();
             },
             register = function () {
+
+                if (!validation.valid()) {
+                    return Task.fromResult(false);
+                }
 
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(entity);
@@ -41,16 +48,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
-                            entity().PatientId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
 
-
-                            app.showMessage("Ok done", "SPH Platform showcase", ["OK"])
-                                .done(function (dialogResult) {
-                                    console.log();
-                                    window.location = '#patient'
-                                });
-
+                            window.location = '#patient'
                         } else {
                             errors.removeAll();
                             _(result.rules).each(function (v) {
@@ -64,6 +65,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             discharge = function () {
 
+                if (!validation.valid()) {
+                    return Task.fromResult(false);
+                }
+
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(entity);
 
@@ -71,16 +76,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
-                            entity().PatientId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
 
-
-                            app.showMessage("Done", "SPH Platform showcase", ["OK"])
-                                .done(function (dialogResult) {
-                                    console.log();
-                                    window.location = '#patient'
-                                });
-
+                            window.location = '#patient'
                         } else {
                             errors.removeAll();
                             _(result.rules).each(function (v) {
@@ -93,20 +92,22 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 return tcs.promise();
             },
             transfer = function () {
+
+                if (!validation.valid()) {
+                    return Task.fromResult(false);
+                }
+
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(entity);
+
                 context.post(data, "/Patient/Transfer")
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
-                            entity().PatientId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
-                            app.showMessage("Done", "SPH Platform showcase", ["OK"])
-                                .done(function (dialogResult) {
-                                    console.log();
-                                    window.location = '#patient'
-                                });
 
+                            window.location = '#patient'
                         } else {
                             errors.removeAll();
                             _(result.rules).each(function (v) {
@@ -120,6 +121,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             admit = function () {
 
+                if (!validation.valid()) {
+                    return Task.fromResult(false);
+                }
+
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(entity);
 
@@ -127,16 +132,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
-                            entity().PatientId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
 
-
-                            app.showMessage("OK done", "SPH Platform showcase", ["OK"])
-                                .done(function (dialogResult) {
-                                    console.log();
-                                    window.location = '#patient'
-                                });
-
+                            window.location = '#patient'
                         } else {
                             errors.removeAll();
                             _(result.rules).each(function (v) {
@@ -151,16 +150,25 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             attached = function (view) {
                 // validation
                 validation.init($('#patient-details-form'), form());
+
+
             },
+
             save = function () {
                 if (!validation.valid()) {
                     return Task.fromResult(false);
                 }
+
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(entity);
+
+
                 context.post(data, "/Patient/Save")
                     .then(function (result) {
                         tcs.resolve(result);
+                        entity().Id(result.id);
+                        app.showMessage("Your Patient has been successfully saved", "Reactive Developer platform showcase", ["ok"]);
+
                     });
                 return tcs.promise();
             },
@@ -168,7 +176,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 var tcs = new $.Deferred();
                 $.ajax({
                     type: "DELETE",
-                    url: "/Patient/Remove/" + entity().PatientId(),
+                    url: "/Patient" + entity().Id(),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     error: tcs.reject,
@@ -194,6 +202,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             discharge: discharge,
             transfer: transfer,
             admit: admit,
+            //
+
+
             toolbar: {
                 emailCommand: {
                     entity: "Patient",
@@ -204,22 +215,24 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     id: id
                 },
                 removeCommand: remove,
+                canExecuteRemoveCommand: ko.computed(function () {
+                    return entity().Id();
+                }),
+
                 watchCommand: function () {
-                    return watcher.watch("Patient", entity().PatientId())
+                    return watcher.watch("Patient", entity().Id())
                         .done(function () {
                             watching(true);
                         });
                 },
                 unwatchCommand: function () {
-                    return watcher.unwatch("Patient", entity().PatientId())
+                    return watcher.unwatch("Patient", entity().Id())
                         .done(function () {
                             watching(false);
                         });
                 },
                 watching: watching,
-
                 saveCommand: save,
-
                 commands: ko.observableArray([])
             }
         };

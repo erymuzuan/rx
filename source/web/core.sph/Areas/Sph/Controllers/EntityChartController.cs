@@ -11,6 +11,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var chart = this.GetRequestJson<EntityChart>();
             var context = new SphDataContext();
+            if (chart.IsNewItem)
+                chart.Id = (chart.EntityDefinitionId + "-" + chart.Name).ToIdFormat();
+
             using (var session = context.OpenSession())
             {
                 session.Attach(chart);

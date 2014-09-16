@@ -1760,7 +1760,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityId;
+        private string m_entityId;
         public const string PropertyNameEntityId = "EntityId";
 
 
@@ -1818,7 +1818,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityId
+        public string EntityId
         {
             set
             {

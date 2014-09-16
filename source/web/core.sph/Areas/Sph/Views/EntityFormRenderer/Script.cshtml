@@ -218,7 +218,7 @@
                     var tcs = new $.Deferred();
                     $.ajax({
                         type: "DELETE",
-                        url: "/@(Model.EntityDefinition.Name)" + entity().Id(),
+                        url: "/@(Model.EntityDefinition.Name)/" + entity().Id(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         error: tcs.reject,

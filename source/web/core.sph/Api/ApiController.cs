@@ -287,7 +287,7 @@ namespace Bespoke.Sph.Web.Api
                     {
                         var id = reader.GetString(0);
                         var json = reader.GetString(1)
-                            .Replace( "Id\":0", type + "Id\":" + id);
+                            .Replace( "Id\":0", type + "Id\":\"" + id + "\"");
                         result.Add(json);
                     }
                 }

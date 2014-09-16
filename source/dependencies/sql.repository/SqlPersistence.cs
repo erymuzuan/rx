@@ -109,6 +109,10 @@ namespace Bespoke.Sph.SqlRepository
                 sql.AppendLine("COMMIT");
                 Console.WriteLine(sql);
                 cmd.CommandText = sql.ToString();
+
+                if (conn.State == ConnectionState.Closed)
+                    await conn.OpenAsync();
+
                 var rows = await cmd.ExecuteNonQueryAsync();
 
                 var so = new SubmitOperation { RowsAffected = rows };

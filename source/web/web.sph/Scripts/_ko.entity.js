@@ -442,7 +442,7 @@ ko.bindingHandlers.chart = {
                     }).data("kendoChart");
                 tcs.resolve(true);
 
-                context.getScalarAsync("EntityView", "EntityViewId eq " + chart.EntityViewId(), "Name")
+                context.getScalarAsync("EntityView", "Id eq '" + chart.EntityViewId() + "'", "Name")
                     .done(function (viewName) {
                         kendoChart.options.title.text = name + " (" + viewName + ")";
                         kendoChart.refresh();

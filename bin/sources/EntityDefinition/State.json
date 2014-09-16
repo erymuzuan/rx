@@ -81,7 +81,7 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
-  "EntityDefinitionId": 5003,
+  "Id": "state",
   "Name": "State",
   "Plural": "States",
   "IconStoreId": "f5640687-e31d-413d-8ff0-34cd749b4dad",

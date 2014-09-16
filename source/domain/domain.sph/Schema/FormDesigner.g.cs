@@ -5428,7 +5428,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityDefinitionId;
+        private string m_entityDefinitionId;
         public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
 
 
@@ -5448,7 +5448,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityViewId;
+        private string m_entityViewId;
         public const string PropertyNameEntityViewId = "EntityViewId";
 
 
@@ -5511,7 +5511,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityDefinitionId
+        public string EntityDefinitionId
         {
             set
             {
@@ -5627,7 +5627,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityViewId
+        public string EntityViewId
         {
             set
             {
