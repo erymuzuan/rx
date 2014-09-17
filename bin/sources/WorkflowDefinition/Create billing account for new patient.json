@@ -329,7 +329,7 @@
         "Assembly": "",
         "CanInitiateWithDefaultConstructor": true,
         "Name": "Patient",
-        "TypeName": "Bespoke.Dev_2002.Domain.Patient, Dev.Patient",
+        "TypeName": "Bespoke.Dev_patient.Domain.Patient, Dev.Patient",
         "DefaultValue": "",
         "WebId": "aa1abc2a-c6cf-4c67-90bb-606331d03b46"
       }
@@ -348,7 +348,7 @@
       }
     ]
   },
-  "WorkflowDefinitionId": 12003,
+  "Id": "create-billing-account-for-new-patient",
   "Name": "Create billing account for new patient",
   "Note": "",
   "IsActive": true,

@@ -127,3 +127,4 @@ bin/sources/PatientToCustomerMapping/
 *.docx
 /bin/sources/Appointment
 bin/sources/Appointment/
+*.cs

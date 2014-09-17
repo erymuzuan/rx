@@ -14,51 +14,11 @@ namespace sph.builder
     {
         public override async Task RestoreAllAsync()
         {
-            var pageBuilder = new Builder<Page>();
-            pageBuilder.Initialize();
             this.Initialize();
             var workflowDefinitions = this.GetItems();
-            var pageId = 1;
             foreach (var wd in workflowDefinitions)
             {
-                Console.WriteLine("Compiling : {0} ", wd.Name);
-                var exist = await this.InsertSchemaAsync(wd);
-                if (!exist) continue;
-
-                await this.InsertAsync(wd);
-                try
-                {
-                    this.Compile(wd);
-                }
-                catch (Exception e)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Failed to compile workflow {0}", wd.Name);
-                    Console.WriteLine(e.Message);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(e.StackTrace);
-                    Console.ResetColor();
-                    continue;
-                }
-                // save
-                var pages = await GetPublishPagesAsync(wd);
-                //archive the WD
-                var store = ObjectBuilder.GetObject<IBinaryStore>();
-                var archived = new BinaryStore
-                {
-                    Id = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
-                    Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
-                    Extension = ".xml",
-                    FileName = string.Format("wd.{0}.{1}.xml", wd.Id, wd.Version)
-
-                };
-                await store.DeleteAsync(archived.Id);
-                await store.AddAsync(archived);
-                foreach (var page in pages)
-                {
-                    page.Id = (pageId++).ToString(CultureInfo.InvariantCulture);
-                    await pageBuilder.InsertAsync(page);
-                }
+                await RestoreAsync(wd);
 
             }
         }
@@ -157,7 +117,49 @@ namespace sph.builder
 
         }
 
-       
 
+        public override async Task RestoreAsync(WorkflowDefinition wd)
+        {
+            Console.WriteLine("Compiling : {0} ", wd.Name);
+            var exist = await this.InsertSchemaAsync(wd);
+            if (!exist) return;
+
+            await this.InsertAsync(wd);
+            try
+            {
+                this.Compile(wd);
+            }
+            catch (Exception e)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Failed to compile workflow {0}", wd.Name);
+                Console.WriteLine(e.Message);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(e.StackTrace);
+                Console.ResetColor();
+                return;
+            }
+            // save
+            var pages = await GetPublishPagesAsync(wd);
+            //archive the WD
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var archived = new BinaryStore
+            {
+                Id = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
+                Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
+                Extension = ".xml",
+                FileName = string.Format("wd.{0}.{1}.xml", wd.Id, wd.Version)
+
+            };
+            await store.DeleteAsync(archived.Id);
+            await store.AddAsync(archived);
+            var pageBuilder = new Builder<Page>();
+            pageBuilder.Initialize();
+            foreach (var page in pages)
+            {
+                page.Id = (Guid.NewGuid()).ToString();
+                await pageBuilder.InsertAsync(page);
+            }
+        }
     }
 }
