@@ -219,10 +219,8 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string WorkflowTypeName
         {
-            get
-            {
-                return string.Format("{0}_{1}_{2}", this.Name.Dehumanize().Replace(" ", string.Empty), this.Id, this.Version);
-            }
+
+            get { return (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "Workflow").Replace("WorkflowWorkflow", "Workflow"); }
         }
         [XmlIgnore]
         [JsonIgnore]
@@ -230,9 +228,12 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return "Bespoke.Sph.Workflows_" + this.Id + "_" + this.Version;
+                var id = (this.Id.Humanize(LetterCasing.Title).Dehumanize()); 
+                return string.Format("Bespoke.Sph.Workflows_{0}_{1}", id, this.Version);
             }
         }
+
+        
 
     }
 }

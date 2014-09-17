@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       var correlation = Guid.NewGuid().ToString();", this.WebId);
             code.AppendLinf("       var self = this.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
             code.AppendLine("       var baseUrl = ConfigurationManager.BaseUrl;");
-            code.AppendLine("       var url = string.Format(\"{0}/Workflow_{1}_{2}/{3}/{4}?correlation={5}\", baseUrl, this.WorkflowDefinitionId, this.Version, self.ActionName, this.WorkflowId, correlation);");
+            code.AppendLine("       var url = string.Format(\"{0}/Workflow_{1}_{2}/{3}/{4}?correlation={5}\", baseUrl, this.WorkflowDefinitionId, this.Version, self.ActionName, this.Id, correlation);");
             code.AppendLine("       var imb = self.InvitationMessageBody ?? \"@Model.Screen.Name task is assigned to you go here @Model.Url\";");
             code.AppendLine("       var ims = self.InvitationMessageSubject ?? \"[Sph] @Model.Screen.Name task is assigned to you\";");
 
@@ -173,7 +173,7 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedCustomTypeCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
-            var controller = string.Format("Workflow_{0}_{1}", wd.Id, wd.Version);
+            var controller = string.Format("Workflow_{0}_{1}", wd.WorkflowTypeName, wd.Version);
             code.AppendLinf("public partial class {0}Controller : System.Web.Mvc.Controller", controller);
             code.AppendLine("{");
 

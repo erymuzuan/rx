@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Domain
             // default properties
             code.AppendLinf("           this.Name = \"{0}\";", this.Name);
             code.AppendLinf("           this.Version = {0};", this.Version);
-            code.AppendLinf("           this.WorkflowDefinitionId = {0};", this.Id);
+            code.AppendLinf("           this.WorkflowDefinitionId = \"{0}\";", this.Id);
 
             foreach (var variable in this.VariableDefinitionCollection.OfType<ComplexVariable>())
             {
@@ -127,7 +127,7 @@ namespace Bespoke.Sph.Domain
 
         private void GenerateJsSchemasController(StringBuilder code)
         {
-            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.Id, this.Version);
+            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.WorkflowTypeName, this.Version);
             code.AppendLine("{");
             code.AppendLinf("//exec:Schemas");
             // custom schema
@@ -178,7 +178,7 @@ namespace Bespoke.Sph.Domain
 
         private void GenerateSearchController(StringBuilder code)
         {
-            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.Id, this.Version);
+            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.WorkflowTypeName, this.Version);
             code.AppendLine("{");
             code.AppendLinf("//exec:Search");
             code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");

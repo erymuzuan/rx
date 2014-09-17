@@ -30,7 +30,7 @@ namespace domain.test.workflows
         [Test]
         public void GenerateVariableWithDefaultValues()
         {
-            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "8", SchemaStoreId = m_schemaStoreId };
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "permohonan-tanah-wakaf", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string), DefaultValue = "<New application>"});
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
@@ -105,6 +105,7 @@ namespace domain.test.workflows
         {
 
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id= "8", SchemaStoreId = m_schemaStoreId };
+            wd.Id = wd.Name.ToIdFormat();
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
@@ -126,7 +127,7 @@ namespace domain.test.workflows
 
             wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
 
-            var options = new CompilerOptions { IsDebug = true };
+            var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = @"c:\temp\sph"};
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.json.dll"));
@@ -141,8 +142,7 @@ namespace domain.test.workflows
 
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(result.Output);
-            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.Id, wd.Version,
-                wd.WorkflowTypeName);
+            var wfTypeName = string.Format("{0}.{1}", wd.CodeNamespace,wd.WorkflowTypeName);
 
             var wfType = assembly.GetType(wfTypeName);
             Assert.IsNotNull(wfType, wfTypeName + " is null");
