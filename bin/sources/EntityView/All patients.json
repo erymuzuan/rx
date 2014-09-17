@@ -157,7 +157,7 @@
         "IconCssClass": "fa fa-hospital-o fa-2x",
         "IconStoreId": "",
         "Format": "text:{0}",
-        "RouteValueField": null,
+        "RouteValueField": "Id",
         "WebId": "88175440-2042-4f74-a23f-51d4d03b2c40"
       },
       {
@@ -213,7 +213,7 @@
     "$values": []
   },
   "IconClass": "",
-  "IconStoreId": "157402f4-44f7-4865-b9d4-658460eeb1ea",
+  "IconStoreId": "60230dcb-e7c5-4271-ad97-f6f37efb9f35",
   "EntityDefinitionId": "patient",
   "Name": "All patients",
   "Route": "all-patients",
@@ -229,6 +229,6 @@
   "Id": "all-patients",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-09-16T07:30:08.9147077+08:00",
+  "ChangedDate": "2014-09-17T11:09:18.9709861+08:00",
   "WebId": "5ae449e7-1260-411e-9a36-74631d5fa46f"
 }

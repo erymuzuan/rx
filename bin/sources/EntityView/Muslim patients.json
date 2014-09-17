@@ -102,7 +102,7 @@
     "$values": []
   },
   "IconClass": "",
-  "IconStoreId": "35f80c90-68df-4a3f-b233-f3f0dd5acffa",
+  "IconStoreId": "58eef903-a23a-4db6-a4e1-48911a9a772e",
   "EntityDefinitionId": "patient",
   "Name": "Muslim patients",
   "Route": "patient-religion-islam",
@@ -118,6 +118,6 @@
   "Id": "patient-religion-islam",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-09-16T07:40:20.6573992+08:00",
+  "ChangedDate": "2014-09-17T11:00:50.8897333+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }
