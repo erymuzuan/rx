@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Humanizer;
 using Microsoft.CSharp;
 using Newtonsoft.Json;
 
@@ -25,6 +26,9 @@ namespace Bespoke.Sph.Domain
         public async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
         {
             var code = await this.GenerateCodeAsync();
+            var cs = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Id + ".cs");
+            File.WriteAllText(cs, code);
+
             Debug.WriteLineIf(options.IsVerbose, code);
 
             var sourceFile = string.Empty;
@@ -75,6 +79,10 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public string ClassName
+        {
+            get { return (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "TriggerSubsriber").Replace("TriggerTrigger","Trigger"); }
+        }
         public async Task<string> GenerateCodeAsync()
         {
             var context = new SphDataContext();
@@ -107,8 +115,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("namespace " + this.CodeNamespace);
             code.AppendLine("{");
 
-            code.AppendLinf("   public class Trigger{0}Subscriber: Subscriber<{1}>",
-                this.Id, edTypeFullName);
+            code.AppendLinf("   public class {0}: Subscriber<{1}>",
+                this.ClassName, edTypeFullName);
             code.AppendLine("   {");
 
             code.AppendFormat(@"  
@@ -172,7 +180,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine();
                 count++;
             }
-            code.AppendLine("       }");
+            code.AppendLine("}");
             code.AppendLine();
             foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
             {

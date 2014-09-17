@@ -28,7 +28,7 @@ namespace sph.builder
             var cont = Console.ReadLine();
             if (cont != "y")
             {
-                Console.WriteLine("BYE.");
+                Console.WriteLine(@"BYE.");
                 return;
             }
 
