@@ -12,10 +12,6 @@ namespace Bespoke.Sph.Domain
             return new BuildValidationResult { Result = true };
         }
 
-        public override string GeneratedCustomTypeCode(WorkflowDefinition workflowDefinition)
-        {
-            return string.Empty;
-        }
 
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {

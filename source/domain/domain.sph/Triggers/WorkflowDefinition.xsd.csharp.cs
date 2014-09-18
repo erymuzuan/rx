@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
@@ -12,7 +13,7 @@ namespace Bespoke.Sph.Domain
         static readonly XNamespace x = "http://www.w3.org/2001/XMLSchema";
         // ReSharper restore InconsistentNaming
         
-        public string GenerateXsdCsharpClasses()
+        public IEnumerable<Class> GenerateXsdCsharpClasses()
         {
             var gen = new CsharpCodeGenerator(this.GetCustomSchema());
             return gen.Generate();

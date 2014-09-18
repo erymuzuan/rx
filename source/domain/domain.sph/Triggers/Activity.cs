@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Linq;
+using Bespoke.Sph.Domain.Codes;
 using Humanizer;
 using Newtonsoft.Json;
 
@@ -60,9 +62,9 @@ namespace Bespoke.Sph.Domain
                 return string.Format("Exec{0}{1}_{2}Async", this.GetType().Name, name, unique);
             }
         }
-        public virtual string GeneratedCustomTypeCode(WorkflowDefinition workflowDefinition)
+        public virtual IEnumerable<Class> GeneratedCustomTypeCode(WorkflowDefinition workflowDefinition)
         {
-            return string.Empty;
+            return new Class[]{};
         }
         public virtual string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {

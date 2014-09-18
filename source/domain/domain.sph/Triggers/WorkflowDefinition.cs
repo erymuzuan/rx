@@ -116,15 +116,21 @@ namespace Bespoke.Sph.Domain
 
         public WorkflowCompilerResult Compile(CompilerOptions options)
         {
-            var code = this.GenerateCode();
-            Debug.WriteLineIf(options.IsVerbose, code);
+            var codes = this.GenerateCode();
+            Debug.WriteLineIf(options.IsVerbose, codes);
 
-            var sourceFile = string.Empty;
-            if (!string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
+            var sourceFiles = new List<string>();
+            if (string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
             {
-                sourceFile = Path.Combine(options.SourceCodeDirectory,
-                    string.Format("Workflow_{0}_{1}.cs", this.Id, this.Version));
-                File.WriteAllText(sourceFile, code);
+                options.SourceCodeDirectory = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Id);
+            }
+            if (!Directory.Exists(options.SourceCodeDirectory))
+                Directory.CreateDirectory(options.SourceCodeDirectory);
+            foreach (var @class in codes)
+            {
+                var cs = Path.Combine(options.SourceCodeDirectory, @class.FileName);
+                File.WriteAllText(cs, @class.GetCode());
+                sourceFiles.Add(cs);
             }
 
             using (var provider = new CSharpCodeProvider())
@@ -158,29 +164,31 @@ namespace Bespoke.Sph.Domain
                 {
                     parameters.ReferencedAssemblies.Add(ass);
                 }
-                var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
-                    : provider.CompileAssemblyFromSource(parameters, code);
+                var result = provider.CompileAssemblyFromFile(parameters, sourceFiles.ToArray());
                 var cr = new WorkflowCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)
                 };
                 cr.Result = result.Errors.Count == 0;
-                cr.Errors.AddRange(this.GetCompileErrors(result, code));
+                cr.Errors.AddRange(this.GetCompileErrors(result));
 
                 return cr;
             }
         }
 
-        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
+        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result)
         {
-            var temp = Path.GetTempFileName() + ".cs";
-            File.WriteAllText(temp, code);
-            var sources = File.ReadAllLines(temp);
-            var list = (from object er in result.Errors.OfType<CompilerError>()
-                        select this.GetSourceError(er as CompilerError, sources));
-            File.Delete(temp);
 
+            var list = from CompilerError er in result.Errors.OfType<CompilerError>()
+                       select new BuildError
+                       {
+                           FileName = er.FileName,
+                           Code = "",
+                           Line = er.Line,
+                           ItemWebId = er.ErrorNumber,
+                           Message = er.ErrorText
+                       };
             return list;
         }
 
@@ -228,12 +236,12 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var id = (this.Id.Humanize(LetterCasing.Title).Dehumanize()); 
+                var id = (this.Id.Humanize(LetterCasing.Title).Dehumanize());
                 return string.Format("Bespoke.Sph.Workflows_{0}_{1}", id, this.Version);
             }
         }
 
-        
+
 
     }
 }

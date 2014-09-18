@@ -1,92 +1,104 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class WorkflowDefinition
     {
 
-        private string GenerateCode()
+        private IEnumerable<Class> GenerateCode()
         {
-            var code = new StringBuilder();
-            code.AppendLine("using " + typeof(Entity).Namespace + ";");
-            code.AppendLine("using " + typeof(Int32).Namespace + ";");
-            code.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            code.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            code.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            code.AppendLine();
+            var @classes = new List<Class>();
+            var wcd = new Class
+            {
+                Name = this.WorkflowTypeName,
+                Namespace = this.CodeNamespace,
+                BaseClass = typeof(Workflow).FullName,
+                FileName = this.WorkflowTypeName + ".cs"
+            };
+            @classes.Add(wcd);
+            wcd.ImportCollection.Add(typeof(Entity).Namespace);
+            wcd.ImportCollection.Add(typeof(Int32).Namespace);
+            wcd.ImportCollection.Add(typeof(Task<>).Namespace);
+            wcd.ImportCollection.Add(typeof(Enumerable).Namespace);
+            wcd.ImportCollection.Add(typeof(XmlAttributeAttribute).Namespace);
 
-            code.AppendLine("namespace " + this.CodeNamespace);
-            code.AppendLine("{");
 
-            code.AppendLine("   [EntityType(typeof(Workflow))]");
-            code.AppendLine("   public class " + this.WorkflowTypeName + " : " + typeof(Workflow).FullName);
-            code.AppendLine("   {");
 
+            var ctor = new StringBuilder();
             // contructor
-            code.AppendLine("       public " + this.WorkflowTypeName + "()");
-            code.AppendLine("       {");
+            ctor.AppendLine("       public " + this.WorkflowTypeName + "()");
+            ctor.AppendLine("       {");
 
             // default properties
-            code.AppendLinf("           this.Name = \"{0}\";", this.Name);
-            code.AppendLinf("           this.Version = {0};", this.Version);
-            code.AppendLinf("           this.WorkflowDefinitionId = \"{0}\";", this.Id);
+            ctor.AppendLinf("           this.Name = \"{0}\";", this.Name);
+            ctor.AppendLinf("           this.Version = {0};", this.Version);
+            ctor.AppendLinf("           this.WorkflowDefinitionId = \"{0}\";", this.Id);
 
             foreach (var variable in this.VariableDefinitionCollection.OfType<ComplexVariable>())
             {
-                code.AppendLinf("           this.{0} = new {1}();", variable.Name, variable.TypeName);
+                ctor.AppendLinf("           this.{0} = new {1}();", variable.Name, variable.TypeName);
             }
             foreach (var variable in this.VariableDefinitionCollection.OfType<SimpleVariable>().Where(v => !string.IsNullOrWhiteSpace(v.DefaultValue)))
             {
                 if (variable.Type == typeof(string))
-                    code.AppendLinf("           this.{0} = \"{1}\";", variable.Name, variable.DefaultValue);
+                    ctor.AppendLinf("           this.{0} = \"{1}\";", variable.Name, variable.DefaultValue);
                 if (variable.Type == typeof(int))
-                    code.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
+                    ctor.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
                 if (variable.Type == typeof(decimal))
-                    code.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
+                    ctor.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
                 if (variable.Type == typeof(bool))
-                    code.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
+                    ctor.AppendLinf("           this.{0} = {1};", variable.Name, variable.DefaultValue);
                 if (variable.Type == typeof(DateTime))
-                    code.AppendLinf("           this.{0} = DateTime.Parse(\"{1}\");", variable.Name, variable.DefaultValue);
+                    ctor.AppendLinf("           this.{0} = DateTime.Parse(\"{1}\");", variable.Name, variable.DefaultValue);
             }
-            code.AppendLine("       }");// end contructor
+            ctor.AppendLine("       }");// end contructor
 
+            wcd.CtorCollection.Add(ctor.ToString());
+
+
+            var start = new StringBuilder();
             // start
-            code.AppendLine("       public override Task<ActivityExecutionResult> StartAsync()");
-            code.AppendLine("       {");
-            code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.Id, this.Version);
-            code.AppendLinf("           return this.{0}();", this.GetInitiatorActivity().MethodName);
-            code.AppendLine("       }");
+            start.AppendLine("       public override Task<ActivityExecutionResult> StartAsync()");
+            start.AppendLine("       {");
+            start.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.Id, this.Version);
+            start.AppendLinf("           return this.{0}();", this.GetInitiatorActivity().MethodName);
+            start.AppendLine("       }");
+            wcd.MethodCollection.Add(new Method { Code = start.ToString() });
 
             // execute
-            code.AppendLine("       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId, string correlation = null)");
-            code.AppendLine("       {");
-            code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.Id, this.Version);
-            code.AppendLine("           ActivityExecutionResult result = null;");
-            code.AppendLine("           switch(activityId)");
-            code.AppendLine("           {");
+            var execute = new StringBuilder();
+            execute.AppendLine("       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId, string correlation = null)");
+            execute.AppendLine("       {");
+            execute.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.Id, this.Version);
+            execute.AppendLine("           ActivityExecutionResult result = null;");
+            execute.AppendLine("           switch(activityId)");
+            execute.AppendLine("           {");
 
             foreach (var activity in this.ActivityCollection)
             {
-                code.AppendLinf("                   case \"{0}\" : ", activity.WebId);
-                code.AppendLinf("                       result = await this.{0}();", activity.MethodName);
-                code.AppendLine("                       break;");
+                execute.AppendLinf("                   case \"{0}\" : ", activity.WebId);
+                execute.AppendLinf("                       result = await this.{0}();", activity.MethodName);
+                execute.AppendLine("                       break;");
             }
-            code.AppendLine("           }");// end switch
-            code.AppendLine("           result.Correlation = correlation;");
-            code.AppendLine("           await this.SaveAsync(activityId, result);");
-            code.AppendLinf("           return result;");
-            code.AppendLine("       }");
+            execute.AppendLine("           }");// end switch
+            execute.AppendLine("           result.Correlation = correlation;");
+            execute.AppendLine("           await this.SaveAsync(activityId, result);");
+            execute.AppendLinf("           return result;");
+            execute.AppendLine("       }");
+            wcd.MethodCollection.Add(new Method { Code = execute.ToString() });
 
 
             // properties for each Variables
             foreach (var variable in this.VariableDefinitionCollection)
             {
-                code.AppendLinf("//variable:{0}", variable.Name);
-                code.AppendLine("       " + variable.GeneratedCode(this));
+                //code.AppendLinf("//variable:{0}", variable.Name);
+                wcd.PropertyCollection.Add(new Property { Code = "       " + variable.GeneratedCode(this) });
             }
 
             // activities method
@@ -97,41 +109,59 @@ namespace Bespoke.Sph.Domain
 
             foreach (var activity in this.ActivityCollection)
             {
-                code.AppendLine();
-                code.AppendLine("//exec:" + activity.WebId);
+                //code.AppendLine();
+                //code.AppendLine("//exec:" + activity.WebId);
 
                 if (activity.IsAsync)
-                    code.AppendLine(activity.GeneratedInitiateAsyncCode(this));
+                    wcd.MethodCollection.Add(new Method { Code = activity.GeneratedInitiateAsyncCode(this) });
 
-                code.AppendLine(activity.GeneratedExecutionMethodCode(this));
+                wcd.MethodCollection.Add(new Method { Code = activity.GeneratedExecutionMethodCode(this) });
             }
 
 
-            code.AppendLine("   }");// end class
 
 
-            var customSchemaCode = this.GenerateXsdCsharpClasses();
-            code.AppendLine(customSchemaCode);
+            var customSchemaCode = this.GenerateXsdCsharpClasses().ToList();
+            customSchemaCode.ForEach(c => c.Namespace = this.CodeNamespace);
+            customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(DomainObject)));
+            customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(DateTime)));
+            customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(XmlAttributeAttribute)));
+            @classes.AddRange(customSchemaCode);
 
-            foreach (var activity in this.ActivityCollection)
+            var @accList = from a in this.ActivityCollection
+                           let @acc = a.GeneratedCustomTypeCode(this)
+                           select @acc;
+            @classes.AddRange(@accList.SelectMany(c => c.ToList()));
+
+            // controller
+            var @controller = new Class
             {
-                code.AppendLine("   " + activity.GeneratedCustomTypeCode(this));
-            }
-            // search
-            this.GenerateSearchController(code);
-            this.GenerateJsSchemasController(code);
+                Name = string.Format("Workflow_{0}_{1}", this.WorkflowTypeName, this.Version),
+                BaseClass = "Controller",
+                FileName = this.WorkflowTypeName + "Controller.cs",
+                Namespace = this.CodeNamespace,
+                IsPartial = true
+            };
+            @controller.ImportCollection.Add("System.Web.Mvc");
+            @controller.ImportCollection.Add("System.Net.Http");
+            @controller.ImportCollection.Add(typeof(Exception).Namespace);
+            @controller.ImportCollection.Add(typeof(DomainObject).Namespace);
+            @controller.ImportCollection.Add(typeof(Task<>).Namespace);
 
-            code.AppendLine("}");// end namespace
-            return code.ToString();
+            @controller.MethodCollection.Add(this.GenerateSearchMethod());
+            @controller.MethodCollection.Add(this.GenerateJsSchemasController());
+            @classes.Add(@controller);
+
+            return @classes;
         }
 
-        private void GenerateJsSchemasController(StringBuilder code)
+        private Method GenerateJsSchemasController()
         {
-            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.WorkflowTypeName, this.Version);
-            code.AppendLine("{");
-            code.AppendLinf("//exec:Schemas");
+            var code = new StringBuilder();
+
+
             // custom schema
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Schemas()");
+            code.AppendLinf("       public async Task<ActionResult> Schemas()");
             code.AppendLine("       {");
             code.AppendLine("           var store = ObjectBuilder.GetObject<IBinaryStore>();");
             code.AppendLinf("           var doc = await store.GetContentAsync(\"wd.{0}.{1}\");", this.Id, this.Version);
@@ -147,9 +177,8 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("           return Content(script);");
             code.AppendLine("       }");
-            code.AppendLine("   }");
 
-
+            return new Method { Code = code.ToString(), Name = "Schemas" };
 
         }
 
@@ -176,12 +205,12 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(script.ToString());
         }
 
-        private void GenerateSearchController(StringBuilder code)
+        private Method GenerateSearchMethod()
         {
-            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.WorkflowTypeName, this.Version);
-            code.AppendLine("{");
+            var code = new StringBuilder();
+
             code.AppendLinf("//exec:Search");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
+            code.AppendLinf("       public async Task<ActionResult> Search()");
             code.AppendLine("       {");
             code.AppendLinf(@"
             var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
@@ -195,10 +224,9 @@ namespace Bespoke.Sph.Domain
             this.Response.ContentType = ""application/json; charset=utf-8"";
             return Content(await content.ReadAsStringAsync());", this.Id, this.Version);
             code.AppendLine("       }");
-            code.AppendLine("}");
 
 
-
+            return new Method { Code = code.ToString(), Name = "Search" };
         }
 
 

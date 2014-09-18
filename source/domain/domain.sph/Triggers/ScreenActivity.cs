@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
+using Humanizer;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -170,104 +172,119 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GeneratedCustomTypeCode(WorkflowDefinition wd)
+        public override IEnumerable<Class> GeneratedCustomTypeCode(WorkflowDefinition wd)
         {
-            var code = new StringBuilder();
-            var controller = string.Format("Workflow_{0}_{1}", wd.WorkflowTypeName, wd.Version);
-            code.AppendLinf("public partial class {0}Controller : System.Web.Mvc.Controller", controller);
-            code.AppendLine("{");
+            var @classes = new List<Class>();
+
+            // controller
+            string name = this.Name.Dehumanize().Replace(" ", string.Empty);
+            var controller = new Class
+            {
+                Name = string.Format("Workflow_{0}_{1}", wd.WorkflowTypeName, wd.Version),
+                BaseClass = "Controller",
+                FileName = wd.WorkflowTypeName + "Controller." + name + ".cs",
+                Namespace = wd.CodeNamespace,
+                IsPartial = true
+            };
+            controller.ImportCollection.Add("System.Web.Mvc");
+            controller.ImportCollection.Add("System.Net.Http");
+            controller.ImportCollection.Add(typeof(Exception).Namespace);
+            controller.ImportCollection.Add(typeof(DomainObject).Namespace);
+            controller.ImportCollection.Add(typeof(Task<>).Namespace);
+            controller.ImportCollection.Add(typeof(Enumerable).Namespace);
 
 
+            var getAction = new StringBuilder();
             // GET Action
-            code.AppendLinf("//exec:{0}", this.WebId);
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> {0}({1})", this.ActionName, this.IsInitiator ? "" : "int id, string correlation");
-            code.AppendLine("       {");
+            getAction.AppendLinf("//exec:{0}", this.WebId);
+            getAction.AppendLinf("       public async Task<ActionResult> {0}({1})", this.ActionName, this.IsInitiator ? "" : "int id, string correlation");
+            getAction.AppendLine("       {");
 
 
-            code.AppendLine("           var context = new SphDataContext();");
+            getAction.AppendLine("           var context = new SphDataContext();");
             if (this.IsInitiator)
-                code.AppendLinf("           var wf =  new  {0}();", wd.WorkflowTypeName);
+                getAction.AppendLinf("           var wf =  new  {0}();", wd.WorkflowTypeName);
             else
-                code.AppendLinf("           var wf =await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id);", wd.WorkflowTypeName);
+                getAction.AppendLinf("           var wf =await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id);", wd.WorkflowTypeName);
 
-            code.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
-            code.AppendLinf("           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);");
-            code.AppendLinf("           var screen = wf.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
+            getAction.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
+            getAction.AppendLinf("           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);");
+            getAction.AppendLinf("           var screen = wf.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
 
-            code.AppendLinf("           var vm = new {0}(){{", this.ViewModelType);
-            code.AppendLinf("                   Screen  = screen,");
-            code.AppendLinf("                   Instance  = wf as {0},", wd.WorkflowTypeName);
-            code.AppendLinf("                   Controller  = this.GetType().Name,");
-            code.AppendLinf("                   SaveAction  = \"Save{0}\",", this.ActionName);
-            code.AppendLinf("                   Namespace  = \"{0}\"", wd.CodeNamespace);
-            code.AppendLinf("               }};", wd.CodeNamespace);
+            getAction.AppendLinf("           var vm = new {0}(){{", this.ViewModelType);
+            getAction.AppendLinf("                   Screen  = screen,");
+            getAction.AppendLinf("                   Instance  = wf as {0},", wd.WorkflowTypeName);
+            getAction.AppendLinf("                   Controller  = this.GetType().Name,");
+            getAction.AppendLinf("                   SaveAction  = \"Save{0}\",", this.ActionName);
+            getAction.AppendLinf("                   Namespace  = \"{0}\"", wd.CodeNamespace);
+            getAction.AppendLinf("               }};", wd.CodeNamespace);
 
             if (!this.IsInitiator)
             {
-                code.AppendLinf("           if(id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
+                getAction.AppendLinf("           if(id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
                 // tracker
-                code.AppendLinf("           var tracker = await wf.GetTrackerAsync();");
-                code.AppendLinf("           if(!tracker.CanExecute(\"{0}\", correlation ))", this.WebId);
-                code.AppendLine("           {");
-                code.AppendLine("               return RedirectToAction(\"InvalidState\",\"Workflow\");");
-                code.AppendLine("           }");
-                code.AppendLine("           vm.Correlation = correlation;");
+                getAction.AppendLinf("           var tracker = await wf.GetTrackerAsync();");
+                getAction.AppendLinf("           if(!tracker.CanExecute(\"{0}\", correlation ))", this.WebId);
+                getAction.AppendLine("           {");
+                getAction.AppendLine("               return RedirectToAction(\"InvalidState\",\"Workflow\");");
+                getAction.AppendLine("           }");
+                getAction.AppendLine("           vm.Correlation = correlation;");
 
             }
 
 
-            code.AppendLine("           var canview = screen.Performer.IsPublic;");
-            code.AppendLine("           if(!screen.Performer.IsPublic)");
-            code.AppendLine("           {");
-            code.AppendLine("               var users = await screen.GetUsersAsync(wf);");
-            code.AppendLine("               canview = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);");
-            code.AppendLine("           }");
+            getAction.AppendLine("           var canview = screen.Performer.IsPublic;");
+            getAction.AppendLine("           if(!screen.Performer.IsPublic)");
+            getAction.AppendLine("           {");
+            getAction.AppendLine("               var users = await screen.GetUsersAsync(wf);");
+            getAction.AppendLine("               canview = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);");
+            getAction.AppendLine("           }");
 
-            code.AppendLine("           if(canview) return View(vm);");
-            code.AppendLine("           return new System.Web.Mvc.HttpUnauthorizedResult();");
-
-
-            code.AppendLine("       }");// end GET action
-            code.AppendLine();
+            getAction.AppendLine("           if(canview) return View(vm);");
+            getAction.AppendLine("           return new System.Web.Mvc.HttpUnauthorizedResult();");
 
 
-            code.AppendLinf("//exec:{0}", this.WebId);
-            code.AppendLine("       [System.Web.Mvc.HttpPost]");
-            code.AppendLine("       public async Task<System.Web.Mvc.ActionResult> Save" + this.ActionName + "()");
-            code.AppendLine("       {");
+            getAction.AppendLine("       }");// end GET action
+            getAction.AppendLine();
+            controller.MethodCollection.Add(new Method { Code = getAction.ToString() });
 
-            code.AppendLinf("           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", wd.WorkflowTypeName);// this is extension method
-            code.AppendLine(@"          var store = ObjectBuilder.GetObject<IBinaryStore>();
+
+            var saveAction = new StringBuilder();
+            saveAction.AppendLinf("//exec:{0}", this.WebId);
+            saveAction.AppendLine("       [System.Web.Mvc.HttpPost]");
+            saveAction.AppendLine("       public async Task<System.Web.Mvc.ActionResult> Save" + this.ActionName + "()");
+            saveAction.AppendLine("       {");
+
+            saveAction.AppendLinf("           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", wd.WorkflowTypeName);// this is extension method
+            saveAction.AppendLine(@"          var store = ObjectBuilder.GetObject<IBinaryStore>();
                                         var doc = await store.GetContentAsync(string.Format(""wd.{0}.{1}"", wf.WorkflowDefinitionId, wf.Version));
                                         using (var stream = new System.IO.MemoryStream(doc.Content))
                                         {
                                             wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
                                         }  ");
-            code.AppendLinf("           var result = await wf.ExecuteAsync(\"{0}\");", this.WebId);
+            saveAction.AppendLinf("           var result = await wf.ExecuteAsync(\"{0}\");", this.WebId);
             // any business rules?            
-            code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
-            code.AppendLine("           var retVal = new {sucess = true, status = \"OK\", result = result,wf};");
-            code.AppendLine("           return Content(Newtonsoft.Json.JsonConvert.SerializeObject(retVal));");
-            code.AppendLine("       }"); // end SAVE action
+            saveAction.AppendLine("           this.Response.ContentType = \"application/javascript\";");
+            saveAction.AppendLine("           var retVal = new {sucess = true, status = \"OK\", result = result,wf};");
+            saveAction.AppendLine("           return Content(Newtonsoft.Json.JsonConvert.SerializeObject(retVal));");
+            saveAction.AppendLine("       }"); // end SAVE action
 
+            controller.MethodCollection.Add(new Method { Code = saveAction.ToString() });
 
+            var vm = new Class { Name = ViewModelType, Namespace = wd.CodeNamespace, FileName = ViewModelType + ".cs" };
+            vm.AddNamespaceImport(typeof(ScreenActivity));
 
-            code.AppendLine("   }");// end controller
+            vm.AddProperty("       public {0} Instance {{get;set;}}", wd.WorkflowTypeName);
+            vm.AddProperty("       public WorkflowDefinition WorkflowDefinition {{get;set;}}");
+            vm.AddProperty("       public ScreenActivity Screen {{get;set;}}");
+            vm.AddProperty("       public string Controller {{get;set;}}");
+            vm.AddProperty("       public string Namespace {{get;set;}}");
+            vm.AddProperty("       public string SaveAction {{get;set;}}");
+            vm.AddProperty("       public string Correlation {{get;set;}}");
+            @classes.Add(vm);
+            @classes.Add(controller);
 
-            // viewmodel
-            code.AppendLine("   public class " + ViewModelType);
-            code.AppendLine("   {");
-            code.AppendLinf("       public {0} Instance {{get;set;}}", wd.WorkflowTypeName);
-            code.AppendLine("       public WorkflowDefinition WorkflowDefinition {get;set;}");
-            code.AppendLine("       public ScreenActivity Screen {get;set;}");
-            code.AppendLine("       public string Controller {get;set;}");
-            code.AppendLine("       public string Namespace {get;set;}");
-            code.AppendLine("       public string SaveAction {get;set;}");
-            code.AppendLine("       public string Correlation {get;set;}");
-            code.AppendLine("   }");
-
-
-            return code.ToString();
+            return @classes;
         }
 
         [JsonIgnore]
