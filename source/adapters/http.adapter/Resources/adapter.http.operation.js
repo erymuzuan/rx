@@ -73,7 +73,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             operation().RequestHeaderDefinitionCollection.push(child);
         },
         activate = function (id, uuid) {
-            adapterId(parseInt(id));
+            adapterId(id);
             var tcs = new $.Deferred();
 
             $.get("/httpadapter/operation/" + id + "/" + uuid)

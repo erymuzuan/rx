@@ -14,7 +14,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
         var adapter = ko.observable(),
             isBusy = ko.observable(false),
             activate = function (id) {
-                var query = String.format("AdapterId eq {0}", id),
+                var query = String.format("Id eq '{0}'", id),
                     tcs = new $.Deferred();
                 context.loadOneAsync("Adapter", query)
                     .done(function (b) {
@@ -25,7 +25,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                                 {
                                     $type: "Bespoke.Sph.Integrations.Adapters.HttpAdapter, http.adapter",
                                     Har: ko.observable(),
-                                    AdapterId: ko.observable(0),
+                                    Id: ko.observable("0"),
                                     BaseAddress: ko.observable(""),
                                     AuthenticationMode: ko.observable("Form"),
                                     Schema: ko.observable(),
@@ -64,7 +64,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 context.post(data, "/adapter")
                     .then(function (result) {
                         isBusy(false);
-                        adapter().AdapterId(result.id);
+                        adapter().Id(result.id);
                         tcs.resolve(result);
                     });
                 return tcs.promise();

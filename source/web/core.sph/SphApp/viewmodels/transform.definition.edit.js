@@ -21,7 +21,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             sourceSchema = ko.observable(),
             destinationSchema = ko.observable(),
             activate = function (id) {
-                var query = String.format("TransformDefinitionId eq {0}", id);
+                var query = String.format("Id eq '{0}'", id);
                 var tcs = new $.Deferred();
                 context.loadOneAsync("TransformDefinition", query)
                     .done(function (b) {
@@ -493,8 +493,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 context.post(data, "/sph/transformdefinition")
                     .then(function (result) {
                         isBusy(false);
-                        if (td().TransformDefinitionId() === 0) {
-                            td().TransformDefinitionId(result.id);
+                        if (!td().Id() || td().Id() === "0") {
+                            td().Id(result.id);
                         }
                         tcs.resolve(result);
                     });
@@ -522,7 +522,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                                 }
 
                                 // try build the tree for new item
-                                if (td().TransformDefinitionId() === 0) {
+                                if (!td().Id() || td().Id() === "0") {
                                     var inTask = context.get("/sph/transformdefinition/schema?type=" + td().InputTypeName()),
                                        outTask= context.get("/sph/transformdefinition/schema?type=" + td().OutputTypeName());
                                     $.when(inTask, outTask).done(function(input, output) {

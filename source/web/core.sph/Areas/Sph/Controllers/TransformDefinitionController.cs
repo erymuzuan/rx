@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
-using Newtonsoft.Json.Schema;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -95,6 +94,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var ed = this.GetRequestJson<TransformDefinition>();
             var context = new SphDataContext();
 
+            if (ed.IsNewItem)
+            {
+                ed.Id = ed.Name.ToIdFormat();
+            }
 
             using (var session = context.OpenSession())
             {

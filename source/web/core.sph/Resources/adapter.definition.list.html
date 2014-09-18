@@ -37,7 +37,7 @@
         <tbody data-bind="foreach : adapters">
             <tr>
                 <td>
-                    <a href="#" data-bind="attr : {'href':'#adapter.'+ $root.getAdapterType($data)+'/' + AdapterId()},text: Name" >HrEmployees</a>
+                    <a href="#" data-bind="attr : {'href':'#adapter.'+ $root.getAdapterType($data)+'/' + Id()},text: Name" ></a>
                 </td>
                 <td data-bind="with: $root.getDesigner($type)">
                     <!-- ko if : FontAwesomeIcon -->

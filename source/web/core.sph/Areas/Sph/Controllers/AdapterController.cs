@@ -71,6 +71,8 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var ef = this.GetRequestJson<Adapter>();
             var context = new SphDataContext();
+            if (ef.IsNewItem) ef.Id = ef.Name.ToIdFormat();
+
             using (var session = context.OpenSession())
             {
                 session.Attach(ef);

@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             return response;
         }
 
-        [Route("operation/{id:int}/{uuid}")]
+        [Route("operation/{id}/{uuid}")]
         public async Task<HttpResponseMessage> GetOperation(string id, string uuid)
         {
             var context = new SphDataContext();
@@ -109,7 +109,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             });
         }
 
-        [Route("{id:int}")]
+        [Route("{id}")]
         public async Task<HttpResponseMessage> Patch(string id, [JsonBody]HttpOperationDefinition operation)
         {
             var context = new SphDataContext();
@@ -145,7 +145,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
         [HttpGet]
-        [Route("text/{id:int}/{method}")]
+        [Route("text/{id}/{method}")]
         public async Task<IHttpActionResult> Text(string id, string method, [FromUri]string url)
         {
             var context = new SphDataContext();

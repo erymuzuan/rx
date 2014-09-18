@@ -22,9 +22,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             sprocOptions = ko.observableArray(),
             selectedTables = ko.observableArray(),
             activate = function (sid) {
-                if (parseInt(sid) === 0) {
+                if (!sid || sid === "0") {
                     adapter({
                         $type: "Bespoke.Sph.Integrations.Adapters.SqlServerAdapter, sqlserver.adapter",
+                        Id: ko.observable("0"),
                         Name: ko.observable(),
                         Description: ko.observable(),
                         Server: ko.observable('(localdb)\\ProjectsV12'),
@@ -33,13 +34,14 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         Password: ko.observable(),
                         Database: ko.observable(),
                         Schema: ko.observable(),
+                        OperationDefinitionCollection: ko.observableArray(),
                         Tables: selectedTables
                     });
 
                     return null;
                 }
 
-                var query = String.format("AdapterId eq {0}", sid),
+                var query = String.format("Id eq '{0}'", sid),
                     tcs = new $.Deferred();
 
                 context.loadOneAsync("Adapter", query)
@@ -179,7 +181,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
 
 
-                if (ko.unwrap(adapter().AdapterId) > 0) {
+                if (ko.unwrap(adapter().Id) && ko.unwrap(adapter().Id) !== "0") {
                     // check the sproc
                     _(adapter().OperationDefinitionCollection()).each(function (v) {
                         var chb = $('input[name=sproc-' + ko.unwrap(v.Name) + ']');
