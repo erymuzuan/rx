@@ -136,11 +136,12 @@ bespoke.sph.domain.AuditTrail = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.AuditTrail, domain.sph",
+        Id: ko.observable("0"),
         User: ko.observable(''),
         DateTime: ko.observable(moment().format('DD/MM/YYYY')),
         Operation: ko.observable(''),
         Type: ko.observable(''),
-        EntityId: ko.observable(0),
+        EntityId: ko.observable(''),
         ChangeCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -200,6 +201,7 @@ bespoke.sph.domain.Organization = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Organization, domain.sph",
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         RegistrationNo: ko.observable(''),
         Email: ko.observable(''),
@@ -233,6 +235,7 @@ bespoke.sph.domain.UserProfile = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.UserProfile, domain.sph",
+        Id: ko.observable("0"),
         UserName: ko.observable(''),
         FullName: ko.observable(''),
         Designation: ko.observable(''),
@@ -241,7 +244,6 @@ bespoke.sph.domain.UserProfile = function (optionOrWebid) {
         RoleTypes: ko.observable(''),
         StartModule: ko.observable(''),
         Email: ko.observable(''),
-        UserProfileId: ko.observable(0),
         Department: ko.observable(''),
         HasChangedDefaultPassword: ko.observable(false),
         isBusy: ko.observable(false),
@@ -271,7 +273,7 @@ bespoke.sph.domain.Setting = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Setting, domain.sph",
-        SettingId: ko.observable(0),
+        Id: ko.observable("0"),
         UserName: ko.observable(''),
         Key: ko.observable(),
         Value: ko.observable(),
@@ -335,7 +337,7 @@ bespoke.sph.domain.Watcher = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Watcher, domain.sph",
-        WatcherId: ko.observable(0),
+        Id: ko.observable("0"),
         EntityName: ko.observable(''),
         EntityId: ko.observable(0),
         User: ko.observable(''),

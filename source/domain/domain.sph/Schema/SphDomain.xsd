@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
-<xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
+<xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" 
+elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="LatLng">
 		<xs:complexType>
 			<xs:all>
@@ -45,7 +46,7 @@
 			<xs:attribute name="Email" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="AuditTrail">
+	<xs:element name="AuditTrail" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="ChangeCollection">
@@ -71,7 +72,7 @@
 			<xs:attribute name="Action" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Organization">
+	<xs:element name="Organization" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element ref="Address"/>
@@ -83,7 +84,7 @@
 			<xs:attribute name="FaxNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="UserProfile">
+	<xs:element name="UserProfile" bs:entity="true">
 		<xs:complexType>
 			<xs:attribute name="UserName" type="xs:string" use="required"/>
 			<xs:attribute name="FullName" type="xs:string" use="required"/>
@@ -97,7 +98,7 @@
 			<xs:attribute name="HasChangedDefaultPassword" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Setting">
+	<xs:element name="Setting" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="Key" type="xs:string"/>
@@ -106,7 +107,7 @@
 			<xs:attribute name="UserName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Designation">
+	<xs:element name="Designation" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="RoleCollection">
@@ -123,7 +124,7 @@
 			<xs:attribute name="StartModule" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Watcher">
+	<xs:element name="Watcher" bs:entity="true">
 		<xs:complexType>
 			<xs:attribute name="EntityName" type="xs:string" use="required"/>
 			<xs:attribute name="EntityId" type="xs:int" use="required"/>
@@ -147,7 +148,7 @@
 			<xs:attribute name="Department" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Message">
+	<xs:element name="Message" bs:entity="true">
 		<xs:complexType>
 			<xs:attribute name="Subject" type="xs:string" use="required"/>
 			<xs:attribute name="IsRead" type="xs:boolean" use="required"/>
@@ -175,7 +176,7 @@
 			<xs:attribute name="Country" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="EmailTemplate">
+	<xs:element name="EmailTemplate" bs:entity="true">
 		<xs:complexType>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -185,7 +186,7 @@
 			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="DocumentTemplate">
+	<xs:element name="DocumentTemplate" bs:entity="true">
 		<xs:complexType>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
