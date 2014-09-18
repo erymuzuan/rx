@@ -128,3 +128,4 @@ bin/sources/PatientToCustomerMapping/
 /bin/sources/Appointment
 bin/sources/Appointment/
 *.cs
+/source/web/web.sph/Views/Workflow_*
