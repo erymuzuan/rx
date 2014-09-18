@@ -38,9 +38,8 @@
                             entityOptions(list);
                         });
 
-                    if (wdid) {
-                        var id = parseInt(wdid),
-                            query = String.format("WorkflowDefinitionId eq {0}", id),
+                    if (id) {
+                        var query = String.format("Id eq '{0}'", id),
                             tcs = new $.Deferred();
 
                         context.loadOneAsync("WorkflowDefinition", query)

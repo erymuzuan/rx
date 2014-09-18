@@ -122,21 +122,20 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "lue: \'UserProfile\' });\r\n                            list.push({ text: \'Designati" +
 "on*\', value: \'Designation\' });\r\n                            list.push({ text: \'D" +
 "epartment*\', value: \'Department\' });\r\n                            entityOptions(" +
-"list);\r\n                        });\r\n\r\n                    if (wdid) {\r\n        " +
-"                var id = parseInt(wdid),\r\n                            query = St" +
-"ring.format(\"WorkflowDefinitionId eq {0}\", id),\r\n                            tcs" +
-" = new $.Deferred();\r\n\r\n                        context.loadOneAsync(\"WorkflowDe" +
-"finition\", query)\r\n                            .done(function (b) {\r\n           " +
-"                     vm.wd(b);\r\n                                tcs.resolve(true" +
-");\r\n                                b.loadSchema();\r\n                           " +
-"     var act = _(b.ActivityCollection()).find(function(v) { return v.WebId() == " +
-"screenid; });\r\n                                vm.activity(act);\r\n\r\n            " +
-"                });\r\n                        return tcs.promise();\r\n            " +
-"        }\r\n                    return Task.fromResult(true);\r\n                }," +
-"\r\n                attached = function(view) {\r\n                    runningInDial" +
-"og(window.location.href.indexOf(\"screen.editor\") < 0);\r\n                    if (" +
-"!vm.activity().InvitationMessageBody())\r\n                        vm.activity().I" +
-"nvitationMessageBody(\"");
+"list);\r\n                        });\r\n\r\n                    if (id) {\r\n          " +
+"              var query = String.format(\"Id eq \'{0}\'\", id),\r\n                   " +
+"         tcs = new $.Deferred();\r\n\r\n                        context.loadOneAsync" +
+"(\"WorkflowDefinition\", query)\r\n                            .done(function (b) {\r" +
+"\n                                vm.wd(b);\r\n                                tcs." +
+"resolve(true);\r\n                                b.loadSchema();\r\n               " +
+"                 var act = _(b.ActivityCollection()).find(function(v) { return v" +
+".WebId() == screenid; });\r\n                                vm.activity(act);\r\n\r\n" +
+"                            });\r\n                        return tcs.promise();\r\n" +
+"                    }\r\n                    return Task.fromResult(true);\r\n      " +
+"          },\r\n                attached = function(view) {\r\n                    r" +
+"unningInDialog(window.location.href.indexOf(\"screen.editor\") < 0);\r\n            " +
+"        if (!vm.activity().InvitationMessageBody())\r\n                        vm." +
+"activity().InvitationMessageBody(\"");
 
 WriteLiteral("@Model.Screen.Name task is assigned to you go here ");
 
