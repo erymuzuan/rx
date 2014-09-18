@@ -7,7 +7,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xsl:output method="text" />
   <xsl:template match="xs:schema">
-    /// &lt;reference path="~/scripts/knockout-3.1.0.debug.js" /&gt;
+    /// &lt;reference path="~/scripts/knockout-3.2.0.debug.js" /&gt;
     /// &lt;reference path="~/Scripts/underscore.js" /&gt;
     /// &lt;reference path="~/Scripts/moment.js" /&gt;
 
@@ -58,6 +58,8 @@
               <!-- attribute-->
               var model =  {
               "$type" : "Bespoke.Sph.Domain.<xsl:value-of select="@name"/>, domain.sph",
+              <xsl:if test="@bspk:entity">Id : ko.observable("0"),
+              </xsl:if>
               <xsl:for-each select="xs:complexType/xs:attribute">
                 <xsl:if test="@type">
                   <xsl:value-of select="@name"/> : ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>),

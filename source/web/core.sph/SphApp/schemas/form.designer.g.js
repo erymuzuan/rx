@@ -770,7 +770,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-        Id: ko.observable(),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Plural: ko.observable(''),
         IconStoreId: ko.observable(''),
@@ -849,7 +849,7 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
         Id: ko.observable("0"),
-        EntityDefinitionId: ko.observable(),
+        EntityDefinitionId: ko.observable(''),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),
@@ -940,7 +940,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         Id: ko.observable("0"),
         IconClass: ko.observable(''),
         IconStoreId: ko.observable(''),
-        EntityDefinitionId: ko.observable(),
+        EntityDefinitionId: ko.observable(''),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),
@@ -1243,12 +1243,12 @@ bespoke.sph.domain.EntityChart = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
-        EntityChartId: ko.observable(0),
-        EntityDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
+        EntityDefinitionId: ko.observable(''),
         Entity: ko.observable(''),
         Name: ko.observable(''),
         Type: ko.observable(''),
-        EntityViewId: ko.observable(0),
+        EntityViewId: ko.observable(''),
         Query: ko.observable(''),
         Aggregate: ko.observable(''),
         Field: ko.observable(''),
@@ -1318,7 +1318,7 @@ bespoke.sph.domain.SearchDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.SearchDefinition, domain.sph",
-        SearchDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
         Entity: ko.observable(''),
         Name: ko.observable(''),
         IsPublished: ko.observable(false),
