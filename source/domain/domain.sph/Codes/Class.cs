@@ -69,6 +69,10 @@ namespace Bespoke.Sph.Domain.Codes
             code.AppendLine();
             code.AppendLinf("namespace {0}", this.Namespace);
             code.AppendLine("{");
+            foreach (var ctor in this.AttributeCollection)
+            {
+                code.AppendLine(ctor);
+            }
             code.AppendLinf("   public {2} class {0} {3} {1}", this.Name, this.BaseClass, this.IsPartial ? "partial" : "", !string.IsNullOrWhiteSpace(this.BaseClass) ? ":" : "");
             code.AppendLine("   {");
 

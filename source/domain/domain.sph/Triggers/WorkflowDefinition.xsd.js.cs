@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             var name = e.Attribute("name").Value;
 
-            code.AppendLinf("bespoke.sph.w_{1}_{2}.{0} = function(webid){{", name, this.Id, this.Version);
+            code.AppendLinf("bespoke.sph.wf.{0}.{1} = function(webid){{", this.WorkflowTypeName, name);
             code.AppendLine("   var model = {");
             properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", this.CodeNamespace, name, this.Id, this.Version));
             properties.Add("        \"WebId\": ko.observable(webid)");
@@ -28,10 +28,10 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       };");
             code.AppendLinf(@"
-    if (bespoke.sph.w_{0}_{1}.{2}Partial) {{
-        return _(model).extend(new bespoke.sph.w_{0}_{1}.{2}Partial(model));
+    if (bespoke.sph.wf.{0}.{1}Partial) {{
+        return _(model).extend(new bespoke.sph.wf.{0}.{1}Partial(model));
     }}       
-return model;", this.Id, this.Version, name);
+return model;", this.WorkflowTypeName, name);
             code.AppendLine("   };");
             return code.ToString();
 
@@ -46,10 +46,10 @@ return model;", this.Id, this.Version, name);
             var code = new StringBuilder();
             var name = e.Attribute("name").Value;
 
-            code.AppendLinf("bespoke.sph.w_{1}_{2}.{0} = function(webid){{", name, this.Id, this.Version);
+            code.AppendLinf("bespoke.sph.wf.{0}.{1} = function(webid){{", this.WorkflowTypeName, name);
             code.AppendLine("   var model = {");
             properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", this.CodeNamespace, name, this.Id, this.Version));
-            properties.Add("        \"WebId\": ko.observable(webid)");
+            properties.Add("         \"WebId\": ko.observable(webid)");
 
 
             var members = this.GetJavascriptMembers(e.Element(x + "complexType"));
@@ -72,10 +72,10 @@ return model;", this.Id, this.Version, name);
 
             code.AppendLine("       };");
             code.AppendLinf(@"
-    if (bespoke.sph.w_{0}_{1}.{2}Partial) {{
-        return _(model).extend(new bespoke.sph.w_{0}_{1}.{2}Partial(model));
+    if (bespoke.sph.wf.{0}.{1}Partial) {{
+        return _(model).extend(new bespoke.sph.wf.{0}.{1}Partial(model));
     }}       
-return model;", this.Id, this.Version, name);
+    return model;", this.WorkflowTypeName, name);
             code.AppendLine("   };");
             return code.ToString();
 

@@ -87,7 +87,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.UserSourceDirectory
+                SourceCodeDirectory = Path.Combine(ConfigurationManager.UserSourceDirectory, wd.Id)
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
@@ -182,7 +182,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 wd.SchemaStoreId = xsd.Id;
 
             }
-            var id = await this.Save( string.IsNullOrWhiteSpace(wd.Id) ? "Add" : "Update", wd);
+            var id = await this.Save(string.IsNullOrWhiteSpace(wd.Id) ? "Add" : "Update", wd);
             return Json(new { success = !string.IsNullOrWhiteSpace(wd.Id), id, status = "OK" });
         }
 
@@ -271,7 +271,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     Tag = tag,
                     Version = wd.Version,
                     WebId = Guid.NewGuid().ToString(),
-                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.Id,
+                    Id = Guid.NewGuid().ToString(),
+                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowTypeName,
                         wd.Version, scr1.ActionName)
                 };
 
@@ -319,7 +320,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
         }
 
-   
+
 
 
     }

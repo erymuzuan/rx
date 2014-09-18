@@ -2,7 +2,7 @@
     <table id="building-list-table" class="table table-striped" data-bind="filter: { path: 'tbody>tr' },
             serverPaging :
             {
-                query : 'PageId gt 0',
+                query : 'Id ne \'0\'',
                 list: pages,
                 entity: 'Page'
             }">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -180,8 +181,7 @@ namespace Bespoke.Sph.Domain
             string name = this.Name.Dehumanize().Replace(" ", string.Empty);
             var controller = new Class
             {
-                Name = string.Format("Workflow_{0}_{1}", wd.WorkflowTypeName, wd.Version),
-                BaseClass = "Controller",
+                Name = string.Format("{0}Controller", wd.WorkflowTypeName),
                 FileName = wd.WorkflowTypeName + "Controller." + name + ".cs",
                 Namespace = wd.CodeNamespace,
                 IsPartial = true
@@ -192,12 +192,16 @@ namespace Bespoke.Sph.Domain
             controller.ImportCollection.Add(typeof(DomainObject).Namespace);
             controller.ImportCollection.Add(typeof(Task<>).Namespace);
             controller.ImportCollection.Add(typeof(Enumerable).Namespace);
+            controller.ImportCollection.Add(typeof(JsonConvert).Namespace);
+            controller.ImportCollection.Add(typeof(MemoryStream).Namespace);
 
 
             var getAction = new StringBuilder();
             // GET Action
             getAction.AppendLinf("//exec:{0}", this.WebId);
-            getAction.AppendLinf("       public async Task<ActionResult> {0}({1})", this.ActionName, this.IsInitiator ? "" : "int id, string correlation");
+            getAction.AppendLinf("       [HttpGet]");
+            getAction.AppendLinf("       [Route(\"{0}/{{id}}/{{correlation?}}\")]", this.Name.ToIdFormat());
+            getAction.AppendLinf("       public async Task<ActionResult> {0}({1})", this.ActionName, this.IsInitiator ? "" : "string id, string correlation=\"\"");
             getAction.AppendLine("       {");
 
 
@@ -205,7 +209,7 @@ namespace Bespoke.Sph.Domain
             if (this.IsInitiator)
                 getAction.AppendLinf("           var wf =  new  {0}();", wd.WorkflowTypeName);
             else
-                getAction.AppendLinf("           var wf =await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id);", wd.WorkflowTypeName);
+                getAction.AppendLinf("           var wf = await context.LoadOneAsync<Workflow>(w => w.Id == id);", wd.WorkflowTypeName);
 
             getAction.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
             getAction.AppendLinf("           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);");
@@ -219,9 +223,10 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLinf("                   Namespace  = \"{0}\"", wd.CodeNamespace);
             getAction.AppendLinf("               }};", wd.CodeNamespace);
 
+
             if (!this.IsInitiator)
             {
-                getAction.AppendLinf("           if(id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
+                getAction.AppendLinf("           if(id == \"0\" || string.IsNullOrWhiteSpace(id)) throw new ArgumentException(\"id cannot be zero for none initiator\");");
                 // tracker
                 getAction.AppendLinf("           var tracker = await wf.GetTrackerAsync();");
                 getAction.AppendLinf("           if(!tracker.CanExecute(\"{0}\", correlation ))", this.WebId);
@@ -241,7 +246,7 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLine("           }");
 
             getAction.AppendLine("           if(canview) return View(vm);");
-            getAction.AppendLine("           return new System.Web.Mvc.HttpUnauthorizedResult();");
+            getAction.AppendLine("           return new HttpUnauthorizedResult();");
 
 
             getAction.AppendLine("       }");// end GET action
@@ -251,22 +256,24 @@ namespace Bespoke.Sph.Domain
 
             var saveAction = new StringBuilder();
             saveAction.AppendLinf("//exec:{0}", this.WebId);
-            saveAction.AppendLine("       [System.Web.Mvc.HttpPost]");
-            saveAction.AppendLine("       public async Task<System.Web.Mvc.ActionResult> Save" + this.ActionName + "()");
+            saveAction.AppendLine("       [HttpPost]");
+            saveAction.AppendLinf("       [Route(\"{0}\")]", this.Name.ToIdFormat());
+            saveAction.AppendLine("       public async Task<ActionResult> Save" + this.ActionName + "()");
             saveAction.AppendLine("       {");
 
             saveAction.AppendLinf("           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", wd.WorkflowTypeName);// this is extension method
-            saveAction.AppendLine(@"          var store = ObjectBuilder.GetObject<IBinaryStore>();
-                                        var doc = await store.GetContentAsync(string.Format(""wd.{0}.{1}"", wf.WorkflowDefinitionId, wf.Version));
-                                        using (var stream = new System.IO.MemoryStream(doc.Content))
-                                        {
-                                            wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
-                                        }  ");
+            saveAction.AppendLine(@"           var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var doc = await store.GetContentAsync(string.Format(""wd.{0}.{1}"", wf.WorkflowDefinitionId, wf.Version));
+            using (var stream = new MemoryStream(doc.Content))
+            {
+                wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
+            }  
+");
             saveAction.AppendLinf("           var result = await wf.ExecuteAsync(\"{0}\");", this.WebId);
             // any business rules?            
             saveAction.AppendLine("           this.Response.ContentType = \"application/javascript\";");
             saveAction.AppendLine("           var retVal = new {sucess = true, status = \"OK\", result = result,wf};");
-            saveAction.AppendLine("           return Content(Newtonsoft.Json.JsonConvert.SerializeObject(retVal));");
+            saveAction.AppendLine("           return Content(JsonConvert.SerializeObject(retVal));");
             saveAction.AppendLine("       }"); // end SAVE action
 
             controller.MethodCollection.Add(new Method { Code = saveAction.ToString() });
@@ -299,7 +306,6 @@ namespace Bespoke.Sph.Domain
         public string GetView(WorkflowDefinition wd)
         {
 
-            var controller = string.Format("Workflow_{0}_{1}", wd.Id, wd.Version);
             var code = new StringBuilder();
 
             // buttons
@@ -317,7 +323,7 @@ namespace Bespoke.Sph.Domain
                             button = $(this);
 
                         button.prop('disabled', true);
-                        context.post(data, ""/workflow_{1}_{2}/Save{0}"")
+                        context.post(data, ""wf/{0}/v{1}/{2}"")
                             .then(function(result) {{
                                 tcs.resolve(result);
                                 @if(Model.Screen.ConfirmationOptions.Type == ""Message"")
@@ -339,7 +345,7 @@ namespace Bespoke.Sph.Domain
 
                             }});
                         return tcs.promise();
-                }}", this.ActionName, wd.Id, wd.Version);
+                }}", wd.Id, wd.Version, this.Name.ToIdFormat());
             if (buttonCommandJs.Length > 0)
                 buttonCommandJs = saveCommand + "," + buttonCommandJs;
             else
@@ -381,7 +387,7 @@ namespace Bespoke.Sph.Domain
 
 @section scripts
 {{
-    <script type=""text/javascript"" src=""/{0}/Schemas""></script>
+    <script type=""text/javascript"" src=""wf/{0}/v{1}/schemas""></script>
     <script type=""text/javascript"">
         require(['services/datacontext', 'jquery','services/app', 'services/system', 'services/config'], function(context,jquery,app, system, config) {{
 
@@ -389,11 +395,11 @@ namespace Bespoke.Sph.Domain
            var instance = context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Instance, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
                screen = context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Screen, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
                vm = {{
-                id : @Model.Instance.WorkflowDefinitionId,
+                id : ""{0}"",
                 instance : ko.observable(instance),    
                 screen : ko.observable(screen),
                 config : config,
-                isBusy : ko.observable(){3}
+                isBusy : ko.observable(){2}
             }};
             
             instance.addChildItem = function(list, type){{
@@ -415,7 +421,7 @@ namespace Bespoke.Sph.Domain
         }});
 
     </script>
-}}", controller, wd.Id, wd.Version, buttonCommandJs);
+}}", wd.Id, wd.Version, buttonCommandJs);
 
 
             return code.ToString();

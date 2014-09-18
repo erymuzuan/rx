@@ -15,8 +15,7 @@ namespace subscriber.version.control
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            dynamic wi = item;
-            var file = Path.Combine(folder, wi.Name + ".json");
+            var file = Path.Combine(folder, item.Id + ".json");
             File.WriteAllText(file, item.ToJsonString(Formatting.Indented));
             return Task.FromResult(0);
         }

@@ -136,7 +136,7 @@ namespace Bespoke.Sph.Domain
             // controller
             var @controller = new Class
             {
-                Name = string.Format("Workflow_{0}_{1}", this.WorkflowTypeName, this.Version),
+                Name = string.Format("{0}Controller", this.WorkflowTypeName),
                 BaseClass = "Controller",
                 FileName = this.WorkflowTypeName + "Controller.cs",
                 Namespace = this.CodeNamespace,
@@ -147,6 +147,7 @@ namespace Bespoke.Sph.Domain
             @controller.ImportCollection.Add(typeof(Exception).Namespace);
             @controller.ImportCollection.Add(typeof(DomainObject).Namespace);
             @controller.ImportCollection.Add(typeof(Task<>).Namespace);
+            @controller.AttributeCollection.Add(string.Format("     [RoutePrefix(\"wf/{0}/v{1}\")]",this.Id, this.Version));
 
             @controller.MethodCollection.Add(this.GenerateSearchMethod());
             @controller.MethodCollection.Add(this.GenerateJsSchemasController());
@@ -161,15 +162,17 @@ namespace Bespoke.Sph.Domain
 
 
             // custom schema
+            code.AppendLine("       [HttpGet]");
+            code.AppendLine("       [Route(\"schemas\")]");
             code.AppendLinf("       public async Task<ActionResult> Schemas()");
             code.AppendLine("       {");
             code.AppendLine("           var store = ObjectBuilder.GetObject<IBinaryStore>();");
             code.AppendLinf("           var doc = await store.GetContentAsync(\"wd.{0}.{1}\");", this.Id, this.Version);
-            code.AppendLine(@"          WorkflowDefinition wd;
-                                        using (var stream = new System.IO.MemoryStream(doc.Content))
-                                        {
-                                            wd = stream.DeserializeFromXml<WorkflowDefinition>();
-                                        }
+            code.AppendLine(@"           WorkflowDefinition wd;
+            using (var stream = new System.IO.MemoryStream(doc.Content))
+            {
+                wd = stream.DeserializeFromXml<WorkflowDefinition>();
+            }
 
                                         ");
             code.AppendLinf("           var script = await wd.GenerateCustomXsdJavascriptClassAsync();", this.WebId);
@@ -188,7 +191,8 @@ namespace Bespoke.Sph.Domain
             var script = new StringBuilder();
             script.AppendLine("var bespoke = bespoke ||{};");
             script.AppendLine("bespoke.sph = bespoke.sph ||{};");
-            script.AppendLinf("bespoke.sph.w_{0}_{1} = bespoke.sph.w_{0}_{1} ||{{}};", wd.Id, wd.Version);
+            script.AppendLine("bespoke.sph.wf = bespoke.sph.wf ||{};");
+            script.AppendLinf("bespoke.sph.wf.{0} = bespoke.sph.wf.{0} ||{{}};", wd.WorkflowTypeName, wd.Version);
 
             var xsd = wd.GetCustomSchema();
 
@@ -210,19 +214,25 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
 
             code.AppendLinf("//exec:Search");
+            code.AppendLine("       [HttpPost]");
+            code.AppendLine("       [Route(\"search\")]");
             code.AppendLinf("       public async Task<ActionResult> Search()");
             code.AppendLine("       {");
             code.AppendLinf(@"
             var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
-            var request = new System.Net.Http.StringContent(json);
+            var request = new StringContent(json);
             var url = string.Format(""{{0}}/{{1}}/workflow_{0}_{1}/_search"", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex );
 
-            var client = new System.Net.Http.HttpClient();
-            var response = await client.PostAsync(url, request);
-            var content = response.Content as System.Net.Http.StreamContent;
-            if (null == content) throw new Exception(""Cannot execute query on es "" + request);
-            this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Content(await content.ReadAsStringAsync());", this.Id, this.Version);
+            using(var client = new  HttpClient())
+            {{
+                var response = await client.PostAsync(url, request);
+                var content = response.Content as StreamContent;
+
+                if (null == content) throw new Exception(""Cannot execute query on es "" + request);
+                return Content(await content.ReadAsStringAsync(),""application/json; charset=utf-8"");
+            }}
+            ", this.Id, this.Version);
+
             code.AppendLine("       }");
 
 
