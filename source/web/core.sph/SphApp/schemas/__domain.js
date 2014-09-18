@@ -3019,7 +3019,7 @@ bespoke.sph.domain.DocumentTemplate = function (optionOrWebid) {
 
 ///#source 1 1 /SphApp/schemas/trigger.workflow.g.js
 
-/// <reference path="~/scripts/knockout-3.1.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -3032,10 +3032,10 @@ bespoke.sph.domain.Trigger = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Entity: ko.observable(''),
         TypeOf: ko.observable(''),
-        Id: ko.observable(),
         Note: ko.observable(''),
         IsActive: ko.observable(false),
         IsFiredOnAdded: ko.observable(false),
@@ -3422,7 +3422,7 @@ bespoke.sph.domain.StartWorkflowAction = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
 
-    v.WorkflowDefinitionId = ko.observable(0);
+    v.WorkflowDefinitionId = ko.observable('');
 
     v.Name = ko.observable('');
 
@@ -3485,7 +3485,7 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
-        Id: ko.observable(),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Note: ko.observable(''),
         IsActive: ko.observable(false),
@@ -3521,8 +3521,8 @@ bespoke.sph.domain.Workflow = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Workflow, domain.sph",
-        WorkflowId: ko.observable(0),
-        WorkflowDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
+        WorkflowDefinitionId: ko.observable(''),
         Name: ko.observable(''),
         State: ko.observable(''),
         IsActive: ko.observable(false),
@@ -3783,7 +3783,7 @@ bespoke.sph.domain.Page = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Page, domain.sph",
-        PageId: ko.observable(0),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         IsRazor: ko.observable(false),
         IsPartial: ko.observable(false),
@@ -4472,9 +4472,9 @@ bespoke.sph.domain.Tracker = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Tracker, domain.sph",
-        TrackerId: ko.observable(0),
-        WorkflowId: ko.observable(0),
-        WorkflowDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
+        WorkflowId: ko.observable(''),
+        WorkflowDefinitionId: ko.observable(''),
         ForbiddenActivities: ko.observableArray([]),
         ExecutedActivityCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
@@ -4504,9 +4504,9 @@ bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ExecutedActivity, domain.sph",
-        InstanceId: ko.observable(0),
+        InstanceId: ko.observable(''),
         ActivityWebId: ko.observable(''),
-        WorkflowDefinitionId: ko.observable(0),
+        WorkflowDefinitionId: ko.observable(''),
         User: ko.observable(''),
         Name: ko.observable(''),
         Type: ko.observable(''),
@@ -4541,7 +4541,7 @@ bespoke.sph.domain.Breakpoint = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.Breakpoint, domain.sph",
         IsEnabled: ko.observable(false),
         ActivityWebId: ko.observable(''),
-        WorkflowDefinitionId: ko.observable(0),
+        WorkflowDefinitionId: ko.observable(''),
         ConditionExpression: ko.observable(''),
         HitCount: ko.observable(0),
         Label: ko.observable(''),
@@ -4667,6 +4667,7 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+        Id: ko.observable("0"),
         TransformDefinitionId: ko.observable(0),
         Name: ko.observable(''),
         Description: ko.observable(''),
@@ -4787,7 +4788,7 @@ bespoke.sph.domain.StringConcateFunctoid = function (optionOrWebid) {
 
 
 
-bespoke.sph.domain.BooleanFunctoid = function (optionOrWebid) {
+bespoke.sph.domain.ParseBooleanFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
@@ -4810,21 +4811,19 @@ bespoke.sph.domain.BooleanFunctoid = function (optionOrWebid) {
     }
 
 
-    if (bespoke.sph.domain.BooleanFunctoidPartial) {
-        return _(v).extend(new bespoke.sph.domain.BooleanFunctoidPartial(v));
+    if (bespoke.sph.domain.ParseBooleanFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParseBooleanFunctoidPartial(v));
     }
     return v;
 };
 
 
 
-bespoke.sph.domain.DoubleFunctoid = function (optionOrWebid) {
+bespoke.sph.domain.ParseDoubleFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.NumberStyles = ko.observable('');
-
-    v.SourceField = ko.observable('');
+    v.Styles = ko.observable('');
 
     v["$type"] = "Bespoke.Sph.Domain.ParseDoubleFunctoid, domain.sph";
 
@@ -4841,21 +4840,19 @@ bespoke.sph.domain.DoubleFunctoid = function (optionOrWebid) {
     }
 
 
-    if (bespoke.sph.domain.DoubleFunctoidPartial) {
-        return _(v).extend(new bespoke.sph.domain.DoubleFunctoidPartial(v));
+    if (bespoke.sph.domain.ParseDoubleFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParseDoubleFunctoidPartial(v));
     }
     return v;
 };
 
 
 
-bespoke.sph.domain.DecimalFunctoid = function (optionOrWebid) {
+bespoke.sph.domain.ParseDecimalFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.NumberStyles = ko.observable('');
-
-    v.SourceField = ko.observable('');
+    v.Styles = ko.observable('');
 
     v["$type"] = "Bespoke.Sph.Domain.ParseDecimalFunctoid, domain.sph";
 
@@ -4872,21 +4869,19 @@ bespoke.sph.domain.DecimalFunctoid = function (optionOrWebid) {
     }
 
 
-    if (bespoke.sph.domain.DecimalFunctoidPartial) {
-        return _(v).extend(new bespoke.sph.domain.DecimalFunctoidPartial(v));
+    if (bespoke.sph.domain.ParseDecimalFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParseDecimalFunctoidPartial(v));
     }
     return v;
 };
 
 
 
-bespoke.sph.domain.Int32Functoid = function (optionOrWebid) {
+bespoke.sph.domain.ParseInt32Functoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.SourceField = ko.observable('');
-
-    v.NumberStyles = ko.observable('');
+    v.Styles = ko.observable('');
 
     v["$type"] = "Bespoke.Sph.Domain.ParseInt32Functoid, domain.sph";
 
@@ -4903,19 +4898,23 @@ bespoke.sph.domain.Int32Functoid = function (optionOrWebid) {
     }
 
 
-    if (bespoke.sph.domain.Int32FunctoidPartial) {
-        return _(v).extend(new bespoke.sph.domain.Int32FunctoidPartial(v));
+    if (bespoke.sph.domain.ParseInt32FunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParseInt32FunctoidPartial(v));
     }
     return v;
 };
 
 
 
-bespoke.sph.domain.DateFunctoid = function (optionOrWebid) {
+bespoke.sph.domain.ParseDateTimeFunctoid = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
-    v.Dummy = ko.observable('');
+    v.Format = ko.observable('');
+
+    v.Styles = ko.observable('');
+
+    v.Culture = ko.observable('');
 
     v["$type"] = "Bespoke.Sph.Domain.ParseDateTimeFunctoid, domain.sph";
 
@@ -4932,8 +4931,8 @@ bespoke.sph.domain.DateFunctoid = function (optionOrWebid) {
     }
 
 
-    if (bespoke.sph.domain.DateFunctoidPartial) {
-        return _(v).extend(new bespoke.sph.domain.DateFunctoidPartial(v));
+    if (bespoke.sph.domain.ParseDateTimeFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParseDateTimeFunctoidPartial(v));
     }
     return v;
 };
@@ -4945,8 +4944,6 @@ bespoke.sph.domain.FormattingFunctoid = function (optionOrWebid) {
     var v = new bespoke.sph.domain.Functoid(optionOrWebid);
 
     v.Format = ko.observable('');
-
-    v.SourceField = ko.observable('');
 
     v["$type"] = "Bespoke.Sph.Domain.FormattingFunctoid, domain.sph";
 
@@ -4982,6 +4979,8 @@ bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
         Comment: ko.observable(''),
         IsOptional: ko.observable(false),
         Functoid: ko.observable(''),
+        Constant: ko.observable(''),
+        Default: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

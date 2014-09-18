@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
-<xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
-	<xs:element name="Trigger">
+<xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:bs="http://www.bespoke.com.my/" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
+	<xs:element name="Trigger" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="RuleCollection">
@@ -243,7 +243,7 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="AssemblyAction" type="CustomAction"/>
-	<xs:element name="WorkflowDefinition">
+	<xs:element name="WorkflowDefinition" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="ActivityCollection">
@@ -283,7 +283,7 @@
 		<xs:attribute name="NextActivityWebId" type="xs:string" use="required"/>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 	</xs:complexType>
-	<xs:element name="Workflow">
+	<xs:element name="Workflow" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="VariableValueCollection">
@@ -396,7 +396,7 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Page">
+	<xs:element name="Page" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="Code" type="xs:string"/>
@@ -692,7 +692,7 @@
 			<xs:documentation>Placeholder</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="Tracker">
+	<xs:element name="Tracker" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="ForbiddenActivities">
@@ -774,7 +774,7 @@
 			<xs:attribute name="Variable" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="TransformDefinition">
+	<xs:element name="TransformDefinition" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="MapCollection">
