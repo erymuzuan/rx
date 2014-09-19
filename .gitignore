@@ -115,7 +115,6 @@ bin/sources/NewssTextFixture/
 bin/sources/BphTempahanRpp/
 /bin/sources/EmployeeMapping
 /bin/sources/hrmis
-*.json
 bin/sources/HrmisTest001/
 bin/sources/ChildItemMapping/
 bin/sources/ORA_EMP_to_Customer/
@@ -124,8 +123,9 @@ bin/sources/__*/
 /source/dependencies/web.sph.commercial-space/bin
 bin/sources/PatientToCustomerMapping/
 /source/web/web.sph/SphApp/partial/driver-details.js
-*.docx
 /bin/sources/Appointment
 bin/sources/Appointment/
-*.cs
 /source/web/web.sph/Views/Workflow_*
+/bin/sources/create-billing-account-for-new-patient
+/bin/sources/DocumentTemplate/*.docx
+/bin/sources/DocumentTemplate/*.json
