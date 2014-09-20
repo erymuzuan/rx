@@ -26,7 +26,7 @@ namespace trigger.test
             return Task.FromResult(m_ed) ;
         }
 
-        public Task<EntityDefinition> LoadOneAsync(int id)
+        public Task<EntityDefinition> LoadOneAsync(string id)
         {
             throw new NotImplementedException();
         }

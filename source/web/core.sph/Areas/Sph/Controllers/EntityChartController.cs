@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -12,7 +13,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var chart = this.GetRequestJson<EntityChart>();
             var context = new SphDataContext();
             if (chart.IsNewItem)
-                chart.Id = (chart.EntityDefinitionId + "-" + chart.Name).ToIdFormat();
+                chart.Id = Guid.NewGuid().ToString();
 
             using (var session = context.OpenSession())
             {

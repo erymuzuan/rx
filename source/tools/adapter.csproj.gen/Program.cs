@@ -35,7 +35,7 @@ namespace adapter.csproj.gen
 
                 var xml = proj.Generate(item, an);
                 var nuget = proj.GetNugetPackagesConfig();
-                var folder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, item.Name);
+                var folder = Path.Combine(ConfigurationManager.UserSourceDirectory, item.Name);
 
                 var output = Path.Combine(folder, item.Name + ".csproj");
                 var packageOutput = Path.Combine(folder, "packages.config");

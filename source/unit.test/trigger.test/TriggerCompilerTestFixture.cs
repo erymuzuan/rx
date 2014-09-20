@@ -17,7 +17,7 @@ namespace trigger.test
             m_ed = new EntityDefinition
             {
                 Name = "Customer",
-                EntityDefinitionId = 10
+                Id = "customer"
             };
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(new MockEdRepos(m_ed));
@@ -31,7 +31,9 @@ namespace trigger.test
                 Entity = "Customer",
                 WebId = Guid.NewGuid().ToString(),
                 FiredOnOperations = "",
-                IsFiredOnChanged = true
+                IsFiredOnChanged = true,
+                Id = "customer-test-trigger",
+                Name = "customer test trigger"
 
             };
             var messaging = new MessagingAction

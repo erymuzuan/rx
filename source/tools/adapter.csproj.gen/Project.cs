@@ -25,7 +25,7 @@ namespace adapter.csproj.gen
         }
         public string Generate(Adapter item, string appName)
         {
-            var folder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, item.Name);
+            var folder = Path.Combine(ConfigurationManager.UserSourceDirectory, item.Name);
             var files = Directory.GetFiles(folder, "*.cs").Select(Path.GetFileName);
 
             var vm = new

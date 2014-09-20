@@ -15,7 +15,7 @@ namespace trigger.test
         public override object Execute(Expression expression)
         {
             Console.WriteLine(expression.ToString());
-            return new EntityDefinition { Name = "Customer", EntityDefinitionId = 10 };
+            return new EntityDefinition { Name = "Customer", Id = "customer" };
         }
     }
 }
