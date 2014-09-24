@@ -66,64 +66,12 @@ namespace Bespoke.Sph.Domain
             return session;
         }
 
-        private async Task<IEnumerable<Entity>> GetPreviousItemsAsync(IEnumerable<Entity> items)
-        {
-            var list = new ObjectCollection<Entity>();
-            foreach (var item in items)
-            {
-                var o1 = item;
-                var type = item.GetEntityType();
-                var reposType = typeof(IRepository<>).MakeGenericType(new[] { type });
-                var repos = ObjectBuilder.GetObject(reposType);
-
-                var p = await repos.LoadOneAsync(o1.Id).ConfigureAwait(false);
-                if (null != p)
-                    list.Add(p);
-
-
-            }
-            return list;
-        }
-
         internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session, Dictionary<string, object> headers)
         {
-            var addedItems = session.AttachedCollection.Where(t => string.IsNullOrWhiteSpace(t.Id)).ToArray();
-            var changedItems = session.AttachedCollection.Where(t => !string.IsNullOrWhiteSpace(t.Id)).ToArray();
-
-            var ds = ObjectBuilder.GetObject<IDirectoryService>();
-            var previous = await GetPreviousItemsAsync(changedItems);
-
-            if (null == previous) throw new InvalidOperationException("Cannot get previous instance");
-
-            // get changes to items
-            var logs = (from e in changedItems
-                        let e1 = previous.SingleOrDefault(t => t.WebId == e.WebId)
-                        where null != e1
-                        let diffs = (new ChangeGenerator().GetChanges(e1, e))
-                        select new AuditTrail(diffs)
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Operation = operation,
-                            DateTime = DateTime.Now,
-                            User = ds.CurrentUserName,
-                            Type = e.GetType().Name,
-                            EntityId = e.Id,
-                            Note = "-"
-                        }).ToArray();
-            session.AttachedCollection.AddRange(logs.Cast<Entity>());
-
-
-            var persistence = ObjectBuilder.GetObject<IPersistence>();
-            var so = await persistence.SubmitChanges(session.AttachedCollection, session.DeletedCollection, session)
-                .ConfigureAwait(false);
-
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
-            var logsAddedTask = publisher.PublishAdded(operation, logs, headers);
-            var addedTask = publisher.PublishAdded(operation, addedItems, headers);
-            var changedTask = publisher.PublishChanges(operation, changedItems, logs, headers);
-            var deletedTask = publisher.PublishDeleted(operation, session.DeletedCollection, headers);
-            await Task.WhenAll(addedTask, changedTask, deletedTask, logsAddedTask).ConfigureAwait(false);
-
+            var so = new SubmitOperation();
+            await publisher.SubmitChangesAsync(operation, session.AttachedCollection, session.DeletedCollection)
+                .ConfigureAwait(false);
 
             return so;
         }

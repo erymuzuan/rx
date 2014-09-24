@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -107,7 +108,8 @@ namespace Bespoke.Sph.SqlRepository
                 }
                 sql.AppendLine();
                 sql.AppendLine("COMMIT");
-                Console.WriteLine(sql);
+                Debug.WriteLine(sql);
+
                 cmd.CommandText = sql.ToString();
 
                 if (conn.State == ConnectionState.Closed)

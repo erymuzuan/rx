@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using Bespoke.Sph.Domain;
@@ -52,6 +53,23 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
                 return null;
             }
+        }
+
+        public string Username
+        {
+            get
+            {
+                var operationBytes = m_args.Properties.Headers["username"] as byte[];
+                if (null != operationBytes)
+                    return ByteToString(operationBytes);
+
+                return null;
+            }
+        }
+
+        public IDictionary<string, object> GetRawHeaders()
+        {
+            return m_args.Properties.Headers;
         }
         public CrudOperation Crud
         {
@@ -136,6 +154,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             result = null;
             return false;
+        }
+
+        public override string ToString()
+        {
+            return this.ToJsonString(true);
         }
     }
 }

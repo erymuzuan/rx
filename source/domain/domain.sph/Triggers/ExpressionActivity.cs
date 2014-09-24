@@ -44,5 +44,17 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+
+        public override string GetEditorView()
+        {
+            return Properties.ActivityHtmlResources.activity_expression;
+        }
+
+        public override string GetEditorViewModel()
+        {
+            return Properties.ActivityJsResources.activity_expression;
+        }
+
+
     }
 }

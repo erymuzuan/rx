@@ -131,6 +131,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "http.adapter.test", "source
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oracle.adapter.test", "source\unit.test\oracle.adapter.test\oracle.adapter.test.csproj", "{139E3D20-B79C-478D-B3BB-BC9BB01F32D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.persistence", "source\subscribers\subscriber.persistence\subscriber.persistence.csproj", "{2B120D6E-DF82-4AC9-ACC9-1363249B8E13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -325,6 +327,10 @@ Global
 		{139E3D20-B79C-478D-B3BB-BC9BB01F32D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{139E3D20-B79C-478D-B3BB-BC9BB01F32D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{139E3D20-B79C-478D-B3BB-BC9BB01F32D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -377,5 +383,6 @@ Global
 		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{56197651-69AB-403A-B789-D8D770BD91EE} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{139E3D20-B79C-478D-B3BB-BC9BB01F32D0} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 	EndGlobalSection
 EndGlobal
