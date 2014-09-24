@@ -28,21 +28,58 @@ namespace Bespoke.Sph.RabbitMqPublisher
         }
 
 
-        public async Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection, Dictionary<string, object> headers)
+        public async Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection, IDictionary<string, object> headers)
         {
             var items = attachedCollection.ToArray();
             await SendMessage("added", operation, items, headers);
         }
 
-        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs, Dictionary<string, object> headers)
+        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs, IDictionary<string, object> headers)
         {
             var items = attachedCollection.ToArray();
             await SendMessage("changed", operation, items, headers, logs);
         }
 
-        public async Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection, Dictionary<string, object> headers)
+        public async Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection, IDictionary<string, object> headers)
         {
             await SendMessage("deleted", operation, deletedCollection.ToArray(), headers);
+        }
+
+        public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedCollection)
+        {
+            var ds = ObjectBuilder.GetObject<IDirectoryService>();
+            var headers = new Dictionary<string, object> { { "username", ds.CurrentUserName }, { "operation", operation } };
+
+            if (!this.IsOpened)
+                InitConnection();
+
+
+
+            const string ROUTING_KEY = "persistence";
+            var attachedJson = attachedEntities.Select(x => x.ToJsonString(true));
+            var deletedJson = deletedCollection.Select(x => x.ToJsonString(true));
+            var json = string.Format(@"
+{{
+    ""attached"":[
+                    {0}
+                ],
+    ""deleted"":[
+                    {1}
+                ]
+}}", string.Join(",\r\n", attachedJson), string.Join(",\r\n", deletedJson));
+
+            var body = await CompressAsync(json);
+
+            var props = m_channel.CreateBasicProperties();
+            props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
+            props.ContentType = "application/json";
+            props.Headers = headers;
+
+
+            m_channel.BasicPublish(this.Exchange, ROUTING_KEY, props, body);
+
+
+
         }
 
         private void InitConnection()
@@ -95,17 +132,17 @@ namespace Bespoke.Sph.RabbitMqPublisher
             }
         }
 
-        private async Task SendMessage(string action, string operation, IEnumerable<Entity> items, Dictionary<string, object> headers, IEnumerable<AuditTrail> logs = null)
+        private async Task SendMessage(string action, string operation, IEnumerable<Entity> items, IDictionary<string, object> headers, IEnumerable<AuditTrail> logs = null)
         {
-          if(!this.IsOpened)
-              InitConnection();
+            if (!this.IsOpened)
+                InitConnection();
 
             foreach (var item in items)
             {
                 var entityType = this.GetEntityType(item);
                 var log = string.Empty;
                 var id = item.Id;
-                if (null != logs &&!string.IsNullOrWhiteSpace(id))
+                if (null != logs && !string.IsNullOrWhiteSpace(id))
                 {
                     var audit = logs.SingleOrDefault(l => l.Type == entityType.Name && l.EntityId == id);
                     if (null != audit)
@@ -124,7 +161,8 @@ namespace Bespoke.Sph.RabbitMqPublisher
                 {
                     foreach (var k in headers.Keys)
                     {
-                        props.Headers.Add(k, headers[k]);
+                        if (!props.Headers.ContainsKey(k))
+                            props.Headers.Add(k, headers[k]);
 
                     }
                 }
