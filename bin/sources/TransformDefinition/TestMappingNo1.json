@@ -1,0 +1,42 @@
+{
+  "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "CodeNamespace": "Dev.Integrations.Transforms",
+  "MapCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "FullName",
+        "TypeName": "",
+        "Destination": "Mrn",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "c955a69e-9e8f-4480-de6f-356f54c84267"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Gender",
+        "TypeName": "",
+        "Destination": "Note",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "0966a371-bb4f-49a4-c7f7-4c1543669800"
+      }
+    ]
+  },
+  "FunctoidCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "TestMappingNo1",
+  "Description": "",
+  "InputTypeName": "Bespoke.Dev_patient.Domain.Patient, Dev.Patient",
+  "OutputTypeName": "Bespoke.Dev_appointment.Domain.Appointment, Dev.Appointment",
+  "IsPublished": false,
+  "CreatedBy": "admin",
+  "Id": "testmappingno1",
+  "CreatedDate": "2014-09-19T06:43:23.6952555+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-09-19T06:43:23.6812594+08:00",
+  "WebId": "cccff4fa-2dfd-4940-8d96-6f6f6ff45e3a"
+}

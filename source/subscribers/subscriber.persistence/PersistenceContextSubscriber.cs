@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -186,7 +187,7 @@ namespace Bespoke.Sph.Persistence
                 var persistence = ObjectBuilder.GetObject<IPersistence>();
                 var so = await persistence.SubmitChanges(attachedCollection, deletedCollection, null)
                 .ConfigureAwait(false);
-                Console.WriteLine(so.ToJsonString(true));
+                Debug.WriteLine(so.ToJsonString(true));
 
 
                 var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
