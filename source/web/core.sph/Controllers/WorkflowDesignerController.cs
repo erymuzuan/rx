@@ -36,9 +36,10 @@ namespace Bespoke.Sph.Web.Controllers
         {
             if (null == this.ToolboxItems)
                 ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.ToolboxItems) throw new Exception("fail to load activity from MEF");
 
             var act = this.ToolboxItems
-                .SingleOrDefault(x => string.Equals(x.Metadata.Name, name, StringComparison.InvariantCultureIgnoreCase));
+                .SingleOrDefault(x => string.Equals(x.Metadata.TypeName, name, StringComparison.InvariantCultureIgnoreCase));
             if (null != act)
             {
                 var png = act.Value.GetPngIcon();
@@ -55,9 +56,10 @@ namespace Bespoke.Sph.Web.Controllers
         {
             if (null == this.ToolboxItems)
                 ObjectBuilder.ComposeMefCatalog(this);
+            if(null == this.ToolboxItems)throw new Exception("fail to load activity from MEF");
 
             var info = this.ToolboxItems
-                .SingleOrDefault(x => string.Equals(x.Metadata.Name, name, StringComparison.InvariantCultureIgnoreCase));
+                .SingleOrDefault(x => string.Equals(x.Metadata.TypeName, name, StringComparison.InvariantCultureIgnoreCase));
             if (null != info)
             {
                 if (extension == "js")
