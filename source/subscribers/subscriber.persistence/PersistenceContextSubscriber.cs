@@ -141,7 +141,8 @@ namespace Bespoke.Sph.Persistence
                 var repos = ObjectBuilder.GetObject(reposType);
 
                 var p = await repos.LoadOneAsync(o1.Id).ConfigureAwait(false);
-                list.Add(p);
+                if (null != p)
+                    list.Add(p);
 
 
             }
@@ -166,7 +167,7 @@ namespace Bespoke.Sph.Persistence
                 // get changes to items
                 var previous = await GetPreviousItems(attachedCollection);
                 var logs = (from r in attachedCollection
-                            let e1 = previous.SingleOrDefault(t => t.WebId == r.WebId)
+                            let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
                             where null != e1
                             let diffs = (new ChangeGenerator().GetChanges(e1, r))
                             let logId = Guid.NewGuid().ToString()
@@ -197,7 +198,7 @@ namespace Bespoke.Sph.Persistence
                 var deletedTask = publisher.PublishDeleted(operation, deletedCollection, headers.GetRawHeaders());
                 await Task.WhenAll(addedTask, changedTask, deletedTask, logsAddedTask).ConfigureAwait(false);
 
-                
+
                 m_channel.BasicAck(e.DeliveryTag, false);
             }
             catch (Exception exc)

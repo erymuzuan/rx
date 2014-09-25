@@ -115,6 +115,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csproj.gen", "source\tools\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "form.renderer.html", "source\dependencies\form.renderer.html\form.renderer.html.csproj", "{C45F1535-B288-4947-A6AB-8A61B97D67D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.persistence", "source\subscribers\subscriber.persistence\subscriber.persistence.csproj", "{2B120D6E-DF82-4AC9-ACC9-1363249B8E13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -281,6 +283,10 @@ Global
 		{C45F1535-B288-4947-A6AB-8A61B97D67D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C45F1535-B288-4947-A6AB-8A61B97D67D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C45F1535-B288-4947-A6AB-8A61B97D67D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -326,5 +332,6 @@ Global
 		{E76D3897-C660-4F65-A1B7-2E398B699D23} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{B1414AF0-5B5A-4129-A997-0BDE4B8C2C94} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{C45F1535-B288-4947-A6AB-8A61B97D67D3} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 	EndGlobalSection
 EndGlobal
