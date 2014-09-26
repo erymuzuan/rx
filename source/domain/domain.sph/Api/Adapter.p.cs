@@ -13,7 +13,12 @@ namespace Bespoke.Sph.Domain.Api
         }
 
         private readonly ObjectCollection<OperationDefinition> m_operationDefinitionsCollection = new ObjectCollection<OperationDefinition>();
+        private readonly ObjectCollection<TableDefinition> m_tableDefinitionCollection = new ObjectCollection<TableDefinition>();
 
+        public ObjectCollection<TableDefinition> TableDefinitionCollection
+        {
+            get { return m_tableDefinitionCollection; }
+        }
         public ObjectCollection<OperationDefinition> OperationDefinitionCollection
         {
             get { return m_operationDefinitionsCollection; }

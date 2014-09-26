@@ -340,6 +340,13 @@ order by ORDINAL_POSITION";
             await adapter.OpenAsync(true);
             var cr = await adapter.CompileAsync();
 
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(adapter);
+                await session.SubmitChanges("Publish");
+            }
+
             var json2 = JsonConvert.SerializeObject(new { message = "Successfully compiled", success = cr.Result, status = "OK" });
             var response2 = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json2) };
             return response2;

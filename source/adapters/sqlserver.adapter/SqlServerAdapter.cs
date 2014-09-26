@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Bespoke.Sph.Integrations.Adapters.Properties;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
@@ -58,7 +59,6 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         AND t.name <> N'sysname'
     ORDER 
         BY o.type";
-        private readonly ObjectCollection<TableDefinition> m_tableDefinitionCollection = new ObjectCollection<TableDefinition>();
 
         public async Task OpenAsync(bool verbose = false)
         {
@@ -101,12 +101,12 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                             {
                                 for (int i = 0; i < reader.FieldCount; i++)
                                 {
-                                    Console.Write("{0,-15}\t", reader.GetName(i));
+                                    Console.Write(Resources.Format15Tab, reader.GetName(i));
                                 }
                                 Console.WriteLine();
-                                for (int i = 0; i < reader.FieldCount; i++)
+                                for (var i = 0; i < reader.FieldCount; i++)
                                 {
-                                    Console.Write("{0,-15}\t", reader[i]);
+                                    Console.Write(Resources.Format15Tab, reader[i]);
                                 }
                             }
                             first = false;
@@ -137,7 +137,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                               };
                 td.MemberCollection.AddRange(members);
                 m_tableColumns.Add(table.Name, columns);
-                m_tableDefinitionCollection.Add(td);
+                this.TableDefinitionCollection.Add(td);
 
 
             }
@@ -183,7 +183,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var header = this.GetCodeHeader(namespaces);
             foreach (var at in this.Tables)
             {
-                var table = m_tableDefinitionCollection.Single(t => t.Name == at.Name);
+                var table = this.TableDefinitionCollection.Single(t => t.Name == at.Name);
                 options.AddReference(typeof(SqlConnection));
                 var adapterName = table + "Adapter";
 
@@ -235,6 +235,9 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 var responseSources = op.GenerateResponseCode();
                 AddSources(responseSources, sources);
             }
+
+         
+
             code2.AppendLine("   }");// end class
             code2.AppendLine("}");// end namespace
             sources.Add(this.Name + ".sproc.cs", code2.ToString());
@@ -586,7 +589,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         protected override Task<TableDefinition> GetSchemaDefinitionAsync(string table)
         {
-            var td = m_tableDefinitionCollection.Single(t => t.Name == table);
+            var td = this.TableDefinitionCollection.Single(t => t.Name == table);
             return Task.FromResult(td);
         }
     }

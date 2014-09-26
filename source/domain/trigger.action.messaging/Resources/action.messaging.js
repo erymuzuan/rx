@@ -18,6 +18,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             v.OutboundMap = ko.observable();
             v.Adapter = ko.observable();
             v.Operation = ko.observable();
+            v.Table = ko.observable();
+            v.Crud = ko.observable();
             v.Retry = ko.observable();
             v.RetryInterval = ko.observable();
             v.RetryIntervalTimeSpan = ko.observable(1);
@@ -47,6 +49,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             mappingOptions = ko.observableArray(),
             adapterOptions = ko.observableArray(),
             operationOptions = ko.observableArray(),
+            tableOptions = ko.observableArray(),
+            crudOptions = ko.observableArray(),
             activate = function () {
                 var query = String.format("InputTypeName eq '{0}'", trigger().TypeOf()),
                     tcs = new $.Deferred();
@@ -72,6 +76,11 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                         return ko.unwrap(v.Name);
                     });
                     operationOptions(operations);
+                    var tables = _(adapter.TableDefinitionCollection()).map(function(v) {
+                        return ko.unwrap(v.Name);
+                    });
+                    tableOptions(tables);
+                    crudOptions(['Insert', 'Update', 'Delete']);
                 });
             },
             okClick = function (data, ev) {
@@ -94,6 +103,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             mappingOptions: mappingOptions,
             adapterOptions: adapterOptions,
             operationOptions: operationOptions,
+            tableOptions: tableOptions,
+            crudOptions: crudOptions,
             activate: activate,
             attached: attached,
             okClick: okClick,

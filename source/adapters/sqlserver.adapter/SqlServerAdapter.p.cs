@@ -26,6 +26,16 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
         }
 
+        private readonly ObjectCollection<OperationDefinition> m_operationDefinitionCollection = new ObjectCollection<OperationDefinition>();
+
+        public new ObjectCollection<OperationDefinition> OperationDefinitionCollection
+        {
+            get
+            {
+                return m_operationDefinitionCollection;
+            }
+        }
+
         
     }
 }

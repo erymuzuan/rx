@@ -20,7 +20,19 @@
                     <div class="form-group">
                         <label for="operation-option" class="col-lg-2 control-label">Operation</label>
                         <div class="col-lg-6">
-                            <select required class="form-control" id="operation-option" data-bind="value: Operation, options: $root.operationOptions,optionsCaption:'[Select an operation]'"></select>
+                            <select class="form-control" id="operation-option" data-bind="value: Operation, options: $root.operationOptions,optionsCaption:'[Select an operation or table]', disable: Table"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="table-option" class="col-lg-2 control-label">Table</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="table-option" data-bind="value: Table, options: $root.tableOptions,optionsCaption:'[Select a table or an operation]', disable: Operation"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="crud-option" class="col-lg-2 control-label">CRUD</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="crud-option" data-bind="value: Crud, options: $root.crudOptions,optionsCaption:'[Select an operation]', enable: Table"></select>
                         </div>
                     </div>
                     <div class="form-group">

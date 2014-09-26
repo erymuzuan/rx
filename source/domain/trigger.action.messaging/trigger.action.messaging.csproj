@@ -71,6 +71,7 @@
     <None Include="packages.config" />
     <None Include="Resources\action.messaging.html" />
     <None Include="Scripts\jquery-2.1.1.min.map" />
+    <None Include="Scripts\underscore.min.map" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\action.messaging.js" />
@@ -84,6 +85,8 @@
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\trigger.workflow.g.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

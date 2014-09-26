@@ -62,7 +62,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to define([&apos;knockout&apos;], function(ko) {
-        ///    ko.bindingHandlers.responseSchemaTree = {
+        ///    ko.bindingHandlers.sprocRequestSchemaTree = {
         ///        init: function (element, valueAccessor) {
         ///            var system = require(objectbuilders.system),
         ///                value = valueAccessor(),
@@ -72,7 +72,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ///                jsTreeData = {
         ///                    text: entity.Name(),
         ///                    state: {
-        ///                        [rest of string was truncated]&quot;;.
+        ///                    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string _ko_adapter_sqlserver {
             get {
@@ -86,6 +86,15 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         internal static string DuplicateContentSource {
             get {
                 return ResourceManager.GetString("DuplicateContentSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0,-15}	.
+        /// </summary>
+        internal static string Format15Tab {
+            get {
+                return ResourceManager.GetString("Format15Tab", resourceCulture);
             }
         }
         
