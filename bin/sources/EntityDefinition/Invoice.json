@@ -134,7 +134,7 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
-  "EntityDefinitionId": 7003,
+  "Id": "invoice",
   "Name": "Invoice",
   "Plural": "Invoices",
   "IconStoreId": "4dd07856-aa59-4362-a07c-770504780269",

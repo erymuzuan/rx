@@ -1,16 +1,20 @@
 
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config, objectbuilders.app],
-        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
+        objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
+        objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
+        objectbuilders.app ],
+        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app
+            ) {
 
-            var entity = ko.observable(new bespoke.dev_1.domain.Customer({WebId:system.guid()})),
+            var entity = ko.observable(new bespoke.dev_customer.domain.Customer({WebId:system.guid()})),
                 errors = ko.observableArray(),
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
                 id = ko.observable(),
                 activate = function (entityId) {
-                    id(parseInt(entityId));
+                    id(entityId);
 
-                    var query = String.format("CustomerId eq {0}", entityId),
+                    var query = String.format("Id eq '{0}'", entityId),
                         tcs = new $.Deferred(),
                         itemTask = context.loadOneAsync("Customer", query),
                         formTask = context.loadOneAsync("EntityForm", "Route eq 'customer-form-2'"),
@@ -22,13 +26,15 @@
                             entity(item);
                         }
                         else {
-                            entity(new bespoke.dev_1.domain.Customer({WebId:system.guid()}));
+                            entity(new bespoke.dev_customer.domain.Customer({WebId:system.guid()}));
                         }
                         form(f);
                         watching(w);
-
-                        tcs.resolve(true);
+                            tcs.resolve(true);
+                        
                     });
+
+
 
                     return tcs.promise();
                 },
@@ -45,16 +51,10 @@
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
-                                 entity().CustomerId(result.id);
+                                 entity().Id(result.id);
                                  errors.removeAll();
 
-                                  
-                                    app.showMessage("Wholaaa 123", "SPH Platform showcase", ["OK"])
-	                                    .done(function (dialogResult) {
-                                            console.log();
-                                            window.location='#customer'
-	                                    });
-                                 
+                                 window.location='#customer'
                              } else {
                                  errors.removeAll();
                                  _(result.rules).each(function(v){
@@ -79,16 +79,10 @@
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
-                                 entity().CustomerId(result.id);
+                                 entity().Id(result.id);
                                  errors.removeAll();
 
-                                  
-                                    app.showMessage("You had been demoted", "SPH Platform showcase", ["OK"])
-	                                    .done(function (dialogResult) {
-                                            console.log();
-                                            window.location='/sph#customer'
-	                                    });
-                                 
+                                 window.location='/sph#customer'
                              } else {
                                  errors.removeAll();
                                  _(result.rules).each(function(v){
@@ -113,15 +107,9 @@
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
-                                 entity().CustomerId(result.id);
+                                 entity().Id(result.id);
                                  errors.removeAll();
 
-                                  
-                                    app.showMessage("Just a test op", "SPH Platform showcase", ["OK"])
-	                                    .done(function (dialogResult) {
-                                            console.log();
-                                            
-	                                    });
                                  
                              } else {
                                  errors.removeAll();
@@ -147,7 +135,7 @@
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
-                                 entity().CustomerId(result.id);
+                                 entity().Id(result.id);
                                  errors.removeAll();
 
                                  
@@ -166,9 +154,11 @@
                     // validation
                     validation.init($('#customer-form-2-form'), form());
 
+
+
                 },
 
-                save = function() {
+                                save = function() {
                     if (!validation.valid()) {
                         return Task.fromResult(false);
                     }
@@ -181,8 +171,8 @@
                     context.post(data, "/Customer/Save")
                         .then(function(result) {
                             tcs.resolve(result);
-                            entity().CustomerId(result.id);
-                            app.showMessage("Your Customer has been successfully saved", "SPH Platform showcase", ["ok"]);
+                            entity().Id(result.id);
+                            app.showMessage("Your Customer has been successfully saved", "Reactive Developer platform showcase", ["ok"]);
 
                         });
                     
@@ -193,7 +183,7 @@
                     var tcs = new $.Deferred();
                     $.ajax({
                         type: "DELETE",
-                        url: "/Customer/Remove/" + entity().CustomerId(),
+                        url: "/Customer/" + entity().Id(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         error: tcs.reject,
@@ -211,7 +201,7 @@
                 };
 
             var vm = {
-                activate: activate,
+                                    activate: activate,
                 config: config,
                 attached: attached,
                 entity: entity,
@@ -229,25 +219,25 @@
                         entity : "Customer",
                         id :id
                     },
-                        printCommand :{
+                                            printCommand :{
                         entity : 'Customer',
                         id : id
                     },
-                        
+                                                                
                     watchCommand: function() {
-                        return watcher.watch("Customer", entity().CustomerId())
+                        return watcher.watch("Customer", entity().Id())
                             .done(function(){
                                 watching(true);
                             });
                     },
                     unwatchCommand: function() {
-                        return watcher.unwatch("Customer", entity().CustomerId())
+                        return watcher.unwatch("Customer", entity().Id())
                             .done(function(){
                                 watching(false);
                             });
                     },
                     watching: watching,
-                    commands : ko.observableArray([])
+                                        commands : ko.observableArray([])
                 }
             };
 
