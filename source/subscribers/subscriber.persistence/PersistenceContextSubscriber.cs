@@ -161,12 +161,12 @@ namespace Bespoke.Sph.Persistence
                 this.WriteMessage(headers.Operation);
 
                 var jo = JObject.Parse(json);
-                var attachedCollection = jo.SelectToken("$.attached").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
+                var entities = jo.SelectToken("$.attached").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
                 var deletedCollection = jo.SelectToken("$.deleted").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
 
                 // get changes to items
-                var previous = await GetPreviousItems(attachedCollection);
-                var logs = (from r in attachedCollection
+                var previous = await GetPreviousItems(entities);
+                var logs = (from r in entities
                             let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
                             where null != e1
                             let diffs = (new ChangeGenerator().GetChanges(e1, r))
@@ -182,18 +182,26 @@ namespace Bespoke.Sph.Persistence
                                 WebId = logId,
                                 Note = "-"
                             }).ToArray();
-                attachedCollection.AddRange(logs);
+                var addedCollection = (from r in entities
+                            let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
+                            where null == e1
+                            select r).ToArray();
+                var attachedCollection = (from r in entities
+                            let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
+                            where null != e1
+                            select r).ToArray();
+                entities.AddRange(logs);
 
 
                 var persistence = ObjectBuilder.GetObject<IPersistence>();
-                var so = await persistence.SubmitChanges(attachedCollection, deletedCollection, null)
+                var so = await persistence.SubmitChanges(entities, deletedCollection, null)
                 .ConfigureAwait(false);
                 Debug.WriteLine(so.ToJsonString(true));
 
 
                 var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
                 var logsAddedTask = publisher.PublishAdded(operation, logs, headers.GetRawHeaders());
-                var addedTask = publisher.PublishAdded(operation, attachedCollection, headers.GetRawHeaders());
+                var addedTask = publisher.PublishAdded(operation, addedCollection, headers.GetRawHeaders());
                 var changedTask = publisher.PublishChanges(operation, attachedCollection, logs, headers.GetRawHeaders());
                 var deletedTask = publisher.PublishDeleted(operation, deletedCollection, headers.GetRawHeaders());
                 await Task.WhenAll(addedTask, changedTask, deletedTask, logsAddedTask).ConfigureAwait(false);

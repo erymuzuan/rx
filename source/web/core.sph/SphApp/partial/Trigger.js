@@ -28,7 +28,9 @@ bespoke.sph.domain.TriggerPartial = function () {
                     if (typeof dialog.action !== "function") {
                         console.error("The dialog for " + t + " do not implement action as observable");
                         return;
-                    }if (typeof dialog.trigger === "function") {
+                    }
+
+                    if (typeof dialog.trigger === "function") {
                         dialog.trigger(self);
                     }
 
@@ -57,6 +59,9 @@ bespoke.sph.domain.TriggerPartial = function () {
 
                 require(['viewmodels/action.' + type.toLowerCase().replace(", ", ","), 'durandal/app'], function (dialog, app2) {
                     dialog.action(clone);
+                    if (typeof dialog.trigger === "function") {
+                        dialog.trigger(self);
+                    }
 
                     app2.showDialog(dialog)
                     .done(function (result) {
@@ -81,9 +86,39 @@ bespoke.sph.domain.TriggerPartial = function () {
             return function () {
                 self.RuleCollection.remove(rule);
             };
+        },
+        
+        addReferencedAssembly = function () {
+            var self = this;
+            require(['viewmodels/assembly.dialog', 'durandal/app'], function (dialog, app2) {
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            _(dialog.selectedAssemblies()).each(function (v) {
+                                self.ReferencedAssemblyCollection.push(v);
+                            });
+                        }
+                    });
+
+            });
+
+
+        },
+        editReferencedAssembly = function (dll) {
+            alert('not implemented' + dll);
+        },
+        removeReferencedAssembly = function (dll) {
+            var self = this;
+            return function () {
+                self.ReferencedAssemblyCollection.remove(dll);
+            };
         };
 
     var vm = {
+        editReferencedAssembly: editReferencedAssembly,
+        removeReferencedAssembly: removeReferencedAssembly,
+        addReferencedAssembly: addReferencedAssembly,
         addRule: addRule,
         removeRule: removeRule,
         removeAction: removeAction,

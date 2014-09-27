@@ -9,6 +9,7 @@ namespace Bespoke.Sph.Domain
         {
             throw new Exception("NotImplemented");
         }
+
         public virtual Task ExecuteAsync(RuleContext context)
         {
             throw new Exception("NotImplemented");

@@ -10,7 +10,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             try
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("========== {0} : {1,12:s} ===========", "Infomation ", DateTime.Now);
+                Console.WriteLine("========== {0} : {1,12:hh:mm:ss.ff} ===========", "Infomation ", DateTime.Now);
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(format, args);

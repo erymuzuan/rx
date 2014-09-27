@@ -26,8 +26,6 @@ namespace Bespoke.Sph.Domain
         public async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
         {
             var code = await this.GenerateCodeAsync();
-            var cs = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Id + ".cs");
-            File.WriteAllText(cs, code);
 
             Debug.WriteLineIf(options.IsVerbose, code);
 
@@ -35,7 +33,7 @@ namespace Bespoke.Sph.Domain
             if (!string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
             {
                 sourceFile = Path.Combine(options.SourceCodeDirectory,
-                    string.Format("{0}.cs", this.Name));
+                    string.Format("{0}.cs", this.Id));
                 File.WriteAllText(sourceFile, code);
             }
 
@@ -65,6 +63,11 @@ namespace Bespoke.Sph.Domain
                 {
                     parameters.ReferencedAssemblies.Add(ass);
                 }
+                foreach (var ra in this.ReferencedAssemblyCollection)
+                {
+                    parameters.ReferencedAssemblies.Add(ra.Location);
+                }
+
                 var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
                     : provider.CompileAssemblyFromSource(parameters, code);
                 var cr = new WorkflowCompilerResult
@@ -81,7 +84,7 @@ namespace Bespoke.Sph.Domain
 
         public string ClassName
         {
-            get { return (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "TriggerSubsriber").Replace("TriggerTrigger","Trigger"); }
+            get { return (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "TriggerSubscriber").Replace("TriggerTrigger", "Trigger"); }
         }
         public async Task<string> GenerateCodeAsync()
         {
@@ -174,9 +177,10 @@ namespace Bespoke.Sph.Domain
             int count = 1;
             foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
             {
-                code.AppendLinf("   var ca{0} = trigger.ActionCollection.Single(x => x.Title == \"{1}\");", count, ca.Title);
-                code.AppendLinf("           if(ca{0}.IsActive)", count, ca.Title);
-                code.AppendLinf("               await this.{0}(item);", ca.Title, edTypeFullName);
+                var method = ca.Title.ToCsharpIdentitfier();
+                code.AppendLinf("   var ca{0} = trigger.ActionCollection.Single(x => x.Title == \"{1}\");", count, method);
+                code.AppendLinf("           if(ca{0}.IsActive)", count, method);
+                code.AppendLinf("               await this.{0}(item);", method, edTypeFullName);
                 code.AppendLine();
                 count++;
             }
@@ -184,9 +188,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
             {
-                code.AppendLinf("       public async Task<object> {0}({1} item)", ca.Title, edTypeFullName);
+                var method = ca.Title.ToCsharpIdentitfier();
+                code.AppendLinf("       public async Task<object> {0}({1} item)", method, edTypeFullName);
                 code.AppendLine("       {");
-                ca.GeneratorCode().Split(new []{"\r\n"}, StringSplitOptions.None).ToList().ForEach(x => code.AppendLine("            " + x));
+                ca.GeneratorCode().Split(new[] { "\r\n" }, StringSplitOptions.None).ToList().ForEach(x => code.AppendLine("            " + x));
                 code.AppendLine("       }");
             }
             code.AppendLine("   }");// end class
@@ -204,13 +209,13 @@ namespace Bespoke.Sph.Domain
             File.WriteAllText(temp, code);
             var sources = File.ReadAllLines(temp);
             var list = (from object er in result.Errors.OfType<CompilerError>()
-                        select this.GetSourceError(er as CompilerError, sources));
+                        select GetSourceError(er as CompilerError, sources));
             File.Delete(temp);
 
             return list;
         }
 
-        private BuildError GetSourceError(CompilerError er, string[] sources)
+        private static BuildError GetSourceError(CompilerError er, IList<string> sources)
         {
             var member = string.Empty;
             for (var i = 0; i < er.Line; i++)
@@ -220,11 +225,22 @@ namespace Bespoke.Sph.Domain
             }
             var message = er.ErrorText;
 
-            return new BuildError(member, message)
+            try
             {
-                Code = sources[er.Line - 1],
-                Line = er.Line
-            };
+                return new BuildError(member, message)
+                {
+                    Code = sources[er.Line - 1],
+                    Line = er.Line
+                };
+            }
+            catch (Exception)
+            {
+                return new BuildError(member, message)
+                {
+                    Code = "",
+                    Line = er.Line
+                };
+            }
 
         }
     }

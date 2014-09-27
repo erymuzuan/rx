@@ -36,7 +36,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameTypeOf = "TypeOf";
 
 
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_note;
         public const string PropertyNameNote = "Note";
@@ -89,15 +88,24 @@ namespace Bespoke.Sph.Domain
             get { return m_ActionCollection; }
         }
 
+        private readonly ObjectCollection<ReferencedAssembly> m_ReferencedAssemblyCollection = new ObjectCollection<ReferencedAssembly>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ReferencedAssembly", IsNullable = false)]
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection
+        {
+            get { return m_ReferencedAssemblyCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -122,11 +130,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Entity
         {
             set
@@ -151,11 +157,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string TypeOf
         {
             set
@@ -176,17 +180,13 @@ namespace Bespoke.Sph.Domain
         }
 
 
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Note
         {
             set
@@ -211,11 +211,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsActive
         {
             set
@@ -240,11 +238,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsFiredOnAdded
         {
             set
@@ -269,11 +265,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsFiredOnDeleted
         {
             set
@@ -298,11 +292,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsFiredOnChanged
         {
             set
@@ -327,11 +319,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string FiredOnOperations
         {
             set
@@ -945,11 +935,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Path
         {
             set
@@ -1024,11 +1012,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -1053,11 +1039,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string TypeName
         {
             set
@@ -1198,11 +1182,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string VariablePath
         {
             set
@@ -1256,8 +1238,6 @@ namespace Bespoke.Sph.Domain
     [XmlType("WorkflowDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class WorkflowDefinition
     {
-
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_name;
@@ -1317,17 +1297,13 @@ namespace Bespoke.Sph.Domain
             get { return m_ReferencedAssemblyCollection; }
         }
 
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -1352,11 +1328,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Note
         {
             set
@@ -1381,11 +1355,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsActive
         {
             set
@@ -1410,11 +1382,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string SchemaStoreId
         {
             set
@@ -1439,11 +1409,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public int Version
         {
             set
@@ -1475,8 +1443,6 @@ namespace Bespoke.Sph.Domain
     [XmlType("Workflow", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Workflow
     {
-
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_workflowDefinitionId;
@@ -1514,22 +1480,18 @@ namespace Bespoke.Sph.Domain
             get { return m_VariableValueCollection; }
         }
 
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string WorkflowDefinitionId
         {
             set
             {
-                if (m_workflowDefinitionId == value) return;
+                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -1549,11 +1511,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -1578,11 +1538,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string State
         {
             set
@@ -1607,11 +1565,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsActive
         {
             set
@@ -1636,11 +1592,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public int Version
         {
             set
@@ -2075,11 +2029,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -2111,8 +2063,6 @@ namespace Bespoke.Sph.Domain
     [XmlType("Page", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Page
     {
-
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_name;
@@ -2160,17 +2110,13 @@ namespace Bespoke.Sph.Domain
 
 
 
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -2195,11 +2141,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsRazor
         {
             set
@@ -2224,11 +2168,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsPartial
         {
             set
@@ -2253,11 +2195,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string VirtualPath
         {
             set
@@ -2282,11 +2222,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Tag
         {
             set
@@ -2311,11 +2249,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public int Version
         {
             set
@@ -2340,11 +2276,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Mode
         {
             set
@@ -2369,11 +2303,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Extension
         {
             set
@@ -2475,11 +2407,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string UserProperty
         {
             set
@@ -2504,11 +2434,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Value
         {
             set
@@ -2533,7 +2461,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public bool IsPublic
@@ -2582,7 +2509,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public int X
@@ -2609,7 +2535,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public int Y
@@ -2912,11 +2837,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Type
         {
             set
@@ -2941,11 +2864,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Value
         {
             set
@@ -3307,7 +3228,6 @@ namespace Bespoke.Sph.Domain
     public partial class Tracker
     {
 
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_workflowId;
         public const string PropertyNameWorkflowId = "WorkflowId";
@@ -3340,23 +3260,18 @@ namespace Bespoke.Sph.Domain
             get { return m_ExecutedActivityCollection; }
         }
 
-
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
-        public string  WorkflowId
+        [Required]
+        public string WorkflowId
         {
             set
             {
-                if (m_workflowId == value) return;
+                if (String.Equals(m_workflowId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameWorkflowId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -3376,16 +3291,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string WorkflowDefinitionId
         {
             set
             {
-                if (m_workflowDefinitionId == value) return;
+                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -3459,16 +3372,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string InstanceId
         {
             set
             {
-                if (m_instanceId == value) return;
+                if (String.Equals(m_instanceId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameInstanceId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -3488,11 +3399,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string ActivityWebId
         {
             set
@@ -3517,16 +3426,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string WorkflowDefinitionId
         {
             set
             {
-                if (m_workflowDefinitionId == value) return;
+                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -3546,11 +3453,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string User
         {
             set
@@ -3575,11 +3480,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -3604,11 +3507,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Type
         {
             set
@@ -3734,11 +3635,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsEnabled
         {
             set
@@ -3763,11 +3662,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string ActivityWebId
         {
             set
@@ -3792,16 +3689,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string WorkflowDefinitionId
         {
             set
             {
-                if (m_workflowDefinitionId == value) return;
+                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -3821,7 +3716,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string ConditionExpression
@@ -3848,11 +3742,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public int HitCount
         {
             set
@@ -3877,7 +3769,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string Label
@@ -3904,11 +3795,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool WhenHitPrintMessage
         {
             set
@@ -3933,11 +3822,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool WhenHitContinueExecution
         {
             set
@@ -3962,7 +3849,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string MessageExpression
@@ -4021,11 +3907,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -4050,11 +3934,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string FullName
         {
             set
@@ -4079,11 +3961,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Version
         {
             set
@@ -4108,11 +3988,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Location
         {
             set
@@ -4214,11 +4092,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string TypeName
         {
             set
@@ -4243,11 +4119,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Variable
         {
             set
@@ -4279,6 +4153,10 @@ namespace Bespoke.Sph.Domain
     [XmlType("TransformDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class TransformDefinition
     {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_transformDefinitionId;
+        public const string PropertyNameTransformDefinitionId = "TransformDefinitionId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -4328,17 +4206,40 @@ namespace Bespoke.Sph.Domain
             get { return m_FunctoidCollection; }
         }
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public int TransformDefinitionId
+        {
+            set
+            {
+                if (m_transformDefinitionId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTransformDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_transformDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_transformDefinitionId;
+            }
+        }
 
 
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -4363,11 +4264,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Description
         {
             set
@@ -4392,11 +4291,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string InputTypeName
         {
             set
@@ -4421,11 +4318,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string OutputTypeName
         {
             set
@@ -4450,11 +4345,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsPublished
         {
             set
@@ -4852,11 +4745,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -4881,11 +4772,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string TypeName
         {
             set
@@ -4910,11 +4799,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Description
         {
             set
@@ -4939,11 +4826,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Label
         {
             set
@@ -4968,11 +4853,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Comment
         {
             set
@@ -4997,11 +4880,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsOptional
         {
             set
@@ -5026,11 +4907,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Functoid
         {
             set
@@ -5055,7 +4934,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string Constant
@@ -5082,7 +4960,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string Default

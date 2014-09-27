@@ -12,6 +12,12 @@
                 <form class="form-horizontal" id="messaging-dialog-form">
 
                     <div class="form-group">
+                        <label for="title-option" class="col-lg-2 control-label">Title</label>
+                        <div class="col-lg-6">
+                            <input type="text" pattern="^[A-Za-z][A-Za-z0-9_]*$" required class="form-control" id="title-option" data-bind="value: Title" />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="adapter-option" class="col-lg-2 control-label">Adapter</label>
                         <div class="col-lg-6">
                             <select required class="form-control" id="adapter-option" data-bind="value: Adapter, options: $root.adapterOptions,optionsText:'Name', optionsValue: 'Name',optionsCaption:'[Select an adapter]'"></select>
@@ -38,7 +44,7 @@
                     <div class="form-group">
                         <label for="map-option" class="col-lg-2 control-label">Outbound Map</label>
                         <div class="col-lg-6">
-                            <select required class="form-control" id="map-option" data-bind="value: OutboundMap, options: $root.mappingOptions,optionsText:'Name', optionsValue: 'TransformDefinitionId',optionsCaption:'[Select a map]'"></select>
+                            <select required class="form-control" id="map-option" data-bind="value: OutboundMap, options: $root.mappingOptions,optionsText:'Name', optionsValue: 'Id',optionsCaption:'[Select a map]'"></select>
                         </div>
                     </div>
 
