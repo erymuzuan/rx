@@ -10,6 +10,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         private readonly ReceivedMessageArgs m_args;
         public const string SPH_TRYCOUNT = "sph.trycount";
+        public const string SPH_DELAY= "sph.delay";
 
         public MessageHeaders(ReceivedMessageArgs args)
         {
@@ -72,6 +73,30 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     int tryCount;
                     if (int.TryParse(sct, out tryCount))
                         return tryCount;
+                }
+
+                return null;
+            }
+        }
+        public long? Delay
+        {
+            get
+            {
+                if (!m_args.Properties.Headers.ContainsKey(SPH_DELAY))
+                    return null;
+                var blob = m_args.Properties.Headers[SPH_DELAY];
+                if (blob is int)
+                    return (int) blob;
+                if (blob is long)
+                    return (long) blob;
+
+                var operationBytes =  blob as byte[];
+                if (null != operationBytes)
+                {
+                    var sct = ByteToString(operationBytes);
+                    long delayText;
+                    if (long.TryParse(sct, out delayText))
+                        return delayText;
                 }
 
                 return null;

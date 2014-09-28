@@ -218,13 +218,15 @@ namespace Bespoke.Sph.Persistence
                 // TODO : republish the message to a delayed queue
                 var delay = ConfigurationManager.SqlPersistenceDelay;
                 var maxTry = ConfigurationManager.SqlPersistenceMaxTry;
-                var ph = headers.GetRawHeaders();
-                ph.AddOrReplace("sph.delay", delay);
                 if ((headers.TryCount ?? 0) < maxTry)
                 {
                     var count = (headers.TryCount ?? 0) + 1;
-                    this.WriteMessage("{0} retry on SqlException : {1}" , count.Ordinalize(), exc.Message);
+                    this.WriteMessage("{0} retry on SqlException : {1}", count.Ordinalize(), exc.Message);
+
+                    var ph = headers.GetRawHeaders();
+                    ph.AddOrReplace(MessageHeaders.SPH_DELAY, delay);
                     ph.AddOrReplace(MessageHeaders.SPH_TRYCOUNT, count);
+
                     m_channel.BasicAck(e.DeliveryTag, false);
                     publisher.SubmitChangesAsync(operation, entities, deletedItems, ph).Wait();
 

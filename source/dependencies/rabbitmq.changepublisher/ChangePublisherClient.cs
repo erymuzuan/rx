@@ -49,7 +49,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         {
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
             headers.AddOrReplace("username", ds.CurrentUserName);
-            headers.AddOrReplace("operation",operation);
+            headers.AddOrReplace("operation", operation);
 
             if (!this.IsOpened)
                 InitConnection();
@@ -76,11 +76,38 @@ namespace Bespoke.Sph.RabbitMqPublisher
             props.ContentType = "application/json";
             props.Headers = headers;
 
+            if (headers.ContainsKey("sph.delay"))
+            {
+                PublishToDealyQueue(props, body);
+                return;
+            }
+
 
             m_channel.BasicPublish(this.Exchange, ROUTING_KEY, props, body);
 
 
 
+        }
+
+        private void PublishToDealyQueue(IBasicProperties props, byte[] body)
+        {
+            Console.WriteLine("Doing the delay for {0} ms", props.Headers["sph.delay"]);
+            const string RETRY_EXCHANGE = "sph.retry.persistence";
+            const string RETRY_QUEUE = "persistence.retry";
+            var delay = (long)props.Headers["sph.delay"]; // in ms
+
+            // Messages will drop off RetryQueue into WorkExchange for reprocessing
+            // All messages in queue will expire at same rate
+            var queueArgs = new Dictionary<string, object> {
+                    { "x-dead-letter-exchange", this.Exchange },
+                    { "x-message-ttl", delay }
+                };
+
+            m_channel.ExchangeDeclare(RETRY_EXCHANGE, "direct");
+            m_channel.QueueDeclare(RETRY_QUEUE, true, false, false, queueArgs);
+            m_channel.QueueBind(RETRY_QUEUE, RETRY_EXCHANGE, string.Empty, null);
+
+            m_channel.BasicPublish(RETRY_EXCHANGE, string.Empty, props, body);
         }
 
         private void InitConnection()
