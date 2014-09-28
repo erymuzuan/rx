@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Humanizer;
 using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 
@@ -213,7 +214,6 @@ namespace Bespoke.Sph.Persistence
             }
             catch (SqlException exc)
             {
-                this.WriteMessage("SqlException", exc.Message);
 
                 // TODO : republish the message to a delayed queue
                 var delay = ConfigurationManager.SqlPersistenceDelay;
@@ -223,7 +223,7 @@ namespace Bespoke.Sph.Persistence
                 if ((headers.TryCount ?? 0) < maxTry)
                 {
                     var count = (headers.TryCount ?? 0) + 1;
-                    this.WriteMessage("Retrying persistence for " + count);
+                    this.WriteMessage("{0} retry on SqlException : {1}" , count.Ordinalize(), exc.Message);
                     ph.AddOrReplace(MessageHeaders.SPH_TRYCOUNT, count);
                     m_channel.BasicAck(e.DeliveryTag, false);
                     publisher.SubmitChangesAsync(operation, entities, deletedItems, ph).Wait();
