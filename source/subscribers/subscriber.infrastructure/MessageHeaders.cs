@@ -9,6 +9,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     public class MessageHeaders : DynamicObject
     {
         private readonly ReceivedMessageArgs m_args;
+        public const string SPH_TRYCOUNT = "sph.trycount";
 
         public MessageHeaders(ReceivedMessageArgs args)
         {
@@ -50,6 +51,28 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 var operationBytes = m_args.Properties.Headers["operation"] as byte[];
                 if (null != operationBytes)
                     return ByteToString(operationBytes);
+
+                return null;
+            }
+        }
+        public int? TryCount
+        {
+            get
+            {
+                if (!m_args.Properties.Headers.ContainsKey(SPH_TRYCOUNT))
+                    return null;
+                var blob = m_args.Properties.Headers[SPH_TRYCOUNT];
+                if (blob is int)
+                    return (int) blob;
+
+                var operationBytes =  blob as byte[];
+                if (null != operationBytes)
+                {
+                    var sct = ByteToString(operationBytes);
+                    int tryCount;
+                    if (int.TryParse(sct, out tryCount))
+                        return tryCount;
+                }
 
                 return null;
             }

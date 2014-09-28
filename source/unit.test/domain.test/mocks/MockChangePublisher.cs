@@ -21,7 +21,7 @@ namespace domain.test
             await Task.Delay(500).ConfigureAwait(false);
         }
 
-        public Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedEntities)
+        public Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedEntities, IDictionary<string, object> headers)
         {
             throw new System.NotImplementedException();
         }

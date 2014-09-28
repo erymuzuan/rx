@@ -29,6 +29,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="RequeueFilterCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ExceptionFilter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
@@ -946,6 +953,17 @@
 					<xs:attribute name="Field" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ExceptionFilter">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Interval" type="xs:int" nillable="true"/>
+				<xs:element name="IntervalPeriod" type="xs:string"/>
+				<xs:element name="MaxRequeue" type="xs:int" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+			<xs:attribute name="Filter" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

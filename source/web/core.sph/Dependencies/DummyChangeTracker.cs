@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Web.Dependencies
             await Task.Delay(500);
         }
 
-        public Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedEntities)
+        public Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedEntities, IDictionary<string, object> headers)
         {
             return Task.FromResult(0);
         }

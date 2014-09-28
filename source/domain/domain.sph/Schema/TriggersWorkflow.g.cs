@@ -99,6 +99,17 @@ namespace Bespoke.Sph.Domain
             get { return m_ReferencedAssemblyCollection; }
         }
 
+        private readonly ObjectCollection<ExceptionFilter> m_RequeueFilterCollection = new ObjectCollection<ExceptionFilter>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ExceptionFilter", IsNullable = false)]
+        public ObjectCollection<ExceptionFilter> RequeueFilterCollection
+        {
+            get { return m_RequeueFilterCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -5043,6 +5054,165 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ExceptionFilter", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ExceptionFilter
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_filter;
+        public const string PropertyNameFilter = "Filter";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_interval;
+        public const string PropertyNameInterval = "Interval";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_intervalPeriod;
+        public const string PropertyNameIntervalPeriod = "IntervalPeriod";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_maxRequeue;
+        public const string PropertyNameMaxRequeue = "MaxRequeue";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Filter
+        {
+            set
+            {
+                if (String.Equals(m_filter, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFilter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_filter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_filter;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? Interval
+        {
+            set
+            {
+                if (m_interval == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInterval, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_interval = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_interval; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string IntervalPeriod
+        {
+            set
+            {
+                if (String.Equals(m_intervalPeriod, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIntervalPeriod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_intervalPeriod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_intervalPeriod; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? MaxRequeue
+        {
+            set
+            {
+                if (m_maxRequeue == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMaxRequeue, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_maxRequeue = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_maxRequeue; }
+        }
+
+
+    }
+
 
     [XmlType("Field", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Field
@@ -5680,7 +5850,7 @@ namespace Bespoke.Sph.Domain
         {
             set
             {
-                if (m_x == value) return;
+                if (Math.Abs(m_x - value) < 0.01d) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameX, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -5702,7 +5872,7 @@ namespace Bespoke.Sph.Domain
         {
             set
             {
-                if (m_y == value) return;
+                if (Math.Abs(m_y - value) < 0.01d) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameY, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)

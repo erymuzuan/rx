@@ -45,10 +45,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
             await SendMessage("deleted", operation, deletedCollection.ToArray(), headers);
         }
 
-        public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedCollection)
+        public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedCollection, IDictionary<string, object> headers)
         {
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
-            var headers = new Dictionary<string, object> { { "username", ds.CurrentUserName }, { "operation", operation } };
+            headers.AddOrReplace("username", ds.CurrentUserName);
+            headers.AddOrReplace("operation",operation);
 
             if (!this.IsOpened)
                 InitConnection();
