@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:SqlPersistenceDelay"] ?? "1000";
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:SqlPersistenceDelay"] ?? "5000";
                 return long.Parse(pn);
             }
         }

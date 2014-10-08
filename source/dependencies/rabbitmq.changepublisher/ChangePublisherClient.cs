@@ -78,7 +78,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
             if (headers.ContainsKey("sph.delay"))
             {
-                PublishToDealyQueue(props, body);
+                PublishToDelayQueue(props, body, ROUTING_KEY);
                 return;
             }
 
@@ -89,7 +89,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         }
 
-        private void PublishToDealyQueue(IBasicProperties props, byte[] body)
+        private void PublishToDelayQueue(IBasicProperties props, byte[] body, string routingKey)
         {
             Console.WriteLine("Doing the delay for {0} ms", props.Headers["sph.delay"]);
             const string RETRY_EXCHANGE = "sph.retry.persistence";
@@ -100,6 +100,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
             // All messages in queue will expire at same rate
             var queueArgs = new Dictionary<string, object> {
                     { "x-dead-letter-exchange", this.Exchange },
+	                {"x-dead-letter-routing-key",routingKey},
                     { "x-message-ttl", delay }
                 };
 
