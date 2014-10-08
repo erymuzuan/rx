@@ -34,7 +34,7 @@ channel.QueueDeclare(RETRY_QUEUE, true, false, false, queueArgs);
 channel.QueueBind(RETRY_QUEUE, RETRY_EXCHANGE, string.Empty, null);
 
 var body = Encoding.UTF8.GetBytes("Test message " + DateTime.Now);
- var props = channel.CreateBasicProperties();
+var props = channel.CreateBasicProperties();
 props.DeliveryMode = 2;
 props.ContentType = "application/json";
 props.Headers = new Dictionary<string, object>();

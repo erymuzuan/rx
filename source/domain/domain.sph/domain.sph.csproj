@@ -473,6 +473,9 @@
     <None Include="Resources\activity.scheduledtrigger.js" />
     <None Include="Resources\activity.updateentity.js" />
     <None Include="Resources\DecisionActivity.png" />
+    <None Include="Resources\Clapper-Board.png" />
+    <None Include="Resources\Gear.png" />
+    <None Include="Resources\Message-Mail.png" />
     <Content Include="Schema\_object.xslt">
       <SubType>Designer</SubType>
     </Content>
