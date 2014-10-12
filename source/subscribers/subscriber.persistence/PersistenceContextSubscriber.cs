@@ -215,7 +215,7 @@ namespace Bespoke.Sph.Persistence
             catch (SqlException exc)
             {
 
-                // TODO : republish the message to a delayed queue
+                // republish the message to a delayed queue
                 var delay = ConfigurationManager.SqlPersistenceDelay;
                 var maxTry = ConfigurationManager.SqlPersistenceMaxTry;
                 if ((headers.TryCount ?? 0) < maxTry)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using RabbitMQ.Client;
 using System.Linq;
+using Humanizer;
 
 namespace Bespoke.Sph.RabbitMqPublisher
 {
@@ -91,18 +93,19 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         private void PublishToDelayQueue(IBasicProperties props, byte[] body, string routingKey)
         {
-            Console.WriteLine("Doing the delay for {0} ms", props.Headers["sph.delay"]);
-            const string RETRY_EXCHANGE = "sph.retry.persistence";
-            const string RETRY_QUEUE = "persistence.retry";
+            var count = 91;
+            if (props.Headers.ContainsKey("sph.trycount"))
+                count = (int) props.Headers["sph.trycount"];
+            Console.WriteLine("Doing the delay for {0} ms for the {1} time", props.Headers["sph.delay"],count.Ordinalize());
+            const string RETRY_EXCHANGE = "sph.retry.exchange";
+            const string RETRY_QUEUE = "sph.retry.queue";
             var delay = (long)props.Headers["sph.delay"]; // in ms
 
-            // Messages will drop off RetryQueue into WorkExchange for reprocessing
-            // All messages in queue will expire at same rate
             var queueArgs = new Dictionary<string, object> {
-                    { "x-dead-letter-exchange", this.Exchange },
-	                {"x-dead-letter-routing-key",routingKey},
-                    { "x-message-ttl", delay }
+                    {"x-dead-letter-exchange", this.Exchange },
+	                {"x-dead-letter-routing-key",routingKey}
                 };
+            props.Expiration = delay.ToString(CultureInfo.InvariantCulture);
 
             m_channel.ExchangeDeclare(RETRY_EXCHANGE, "direct");
             m_channel.QueueDeclare(RETRY_QUEUE, true, false, false, queueArgs);
@@ -184,6 +187,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
                 var props = m_channel.CreateBasicProperties();
                 props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
+                props.SetPersistent(true);
                 props.ContentType = "application/json";
                 props.Headers = new Dictionary<string, object> { { "operation", operation }, { "crud", action }, { "log", log } };
                 if (null != headers)
@@ -194,6 +198,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
                             props.Headers.Add(k, headers[k]);
 
                     }
+                }
+                if (null != headers && headers.ContainsKey("sph.delay"))
+                {
+                    PublishToDelayQueue(props, body, routingKey);
+                    return;
                 }
 
                 m_channel.BasicPublish(this.Exchange, routingKey, props, body);

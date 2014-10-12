@@ -63,9 +63,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (null == this.ActionOptions) throw new InvalidOperationException("Fail to load MEF");
 
             var action = this.ActionOptions.Single(
-                x => string.Equals( x.Metadata.TypeName, id, StringComparison.InvariantCultureIgnoreCase)).Value;
-          
-          
+                x => string.Equals(x.Metadata.TypeName, id, StringComparison.InvariantCultureIgnoreCase)).Value;
+
+
 
             using (var stream = new MemoryStream())
             {
@@ -131,18 +131,18 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var trigger = this.GetRequestJson<Trigger>();
 
-            var newItem = string.IsNullOrWhiteSpace(trigger.Id);
+            var newItem = trigger.IsNewItem;
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == trigger.Entity);
             trigger.TypeOf = string.Format("Bespoke.{0}_{1}.Domain.{2}, {0}.{2}",
                 ConfigurationManager.ApplicationName, ed.Id, trigger.Entity);
 
             if (newItem)
-                trigger.Id = trigger.Name.ToIdFormat();
+                trigger.Id = (trigger.Entity + "-" + trigger.Name).ToIdFormat();
             using (var session = context.OpenSession())
             {
                 session.Attach(trigger);
-                await session.SubmitChanges("Submit trigger");
+                await session.SubmitChanges("Save");
             }
 
             if (newItem)
