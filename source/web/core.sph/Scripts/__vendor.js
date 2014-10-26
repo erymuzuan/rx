@@ -12814,7 +12814,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
 ///#source 1 1 /Scripts/typeahead.bundle.js
 /*!
- * typeahead.js 0.10.4
+ * typeahead.js 0.10.5
  * https://github.com/twitter/typeahead.js
  * Copyright 2013-2014 Twitter, Inc. and other contributors; Licensed MIT
  */
@@ -12941,7 +12941,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
             noop: function() {}
         };
     }();
-    var VERSION = "0.10.4";
+    var VERSION = "0.10.5";
     var tokenizers = function() {
         "use strict";
         return {
