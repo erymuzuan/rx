@@ -112,30 +112,32 @@ WriteLiteral(@">
             #line default
             #line hidden
 WriteLiteral(",\r\n                        oels = _(elements.$values).map(function (v){return con" +
-"text.toObservable(v);});\r\n                    vm.formElements(oels);\r\n          " +
-"          \r\n                    context.getListAsync(\"EntityDefinition\", null, \"" +
-"Name\")\r\n                        .then(function(entities) {\r\n                    " +
-"        var list = _(entities).map(function(v) {\r\n                              " +
-"  return {\r\n                                    text : v,\r\n                     " +
-"               value :v\r\n                                };\r\n                   " +
-"         });\r\n\r\n                            list.push({ text: \'UserProfile*\', va" +
-"lue: \'UserProfile\' });\r\n                            list.push({ text: \'Designati" +
-"on*\', value: \'Designation\' });\r\n                            list.push({ text: \'D" +
-"epartment*\', value: \'Department\' });\r\n                            entityOptions(" +
-"list);\r\n                        });\r\n\r\n                    if (id) {\r\n          " +
-"              var query = String.format(\"Id eq \'{0}\'\", id),\r\n                   " +
-"         tcs = new $.Deferred();\r\n\r\n                        context.loadOneAsync" +
-"(\"WorkflowDefinition\", query)\r\n                            .done(function (b) {\r" +
-"\n                                vm.wd(b);\r\n                                tcs." +
-"resolve(true);\r\n                                b.loadSchema();\r\n               " +
-"                 var act = _(b.ActivityCollection()).find(function(v) { return v" +
-".WebId() == screenid; });\r\n                                vm.activity(act);\r\n\r\n" +
-"                            });\r\n                        return tcs.promise();\r\n" +
-"                    }\r\n                    return Task.fromResult(true);\r\n      " +
-"          },\r\n                attached = function(view) {\r\n                    r" +
-"unningInDialog(window.location.href.indexOf(\"screen.editor\") < 0);\r\n            " +
-"        if (!vm.activity().InvitationMessageBody())\r\n                        vm." +
-"activity().InvitationMessageBody(\"");
+"text.toObservable(v);}),\r\n                        id = vm.wd().Id();\r\n          " +
+"          vm.formElements(oels);\r\n\r\n                    context.getListAsync(\"En" +
+"tityDefinition\", null, \"Name\")\r\n                        .then(function(entities)" +
+" {\r\n                            var list = _(entities).map(function(v) {\r\n      " +
+"                          return {\r\n                                    text : v" +
+",\r\n                                    value :v\r\n                               " +
+" };\r\n                            });\r\n\r\n                            list.push({ " +
+"text: \'UserProfile*\', value: \'UserProfile\' });\r\n                            list" +
+".push({ text: \'Designation*\', value: \'Designation\' });\r\n                        " +
+"    list.push({ text: \'Department*\', value: \'Department\' });\r\n                  " +
+"          entityOptions(list);\r\n                        });\r\n\r\n              \r\n " +
+"                   console.log(typeof wdid);\r\n                    if (wdid && sc" +
+"reenid) {\r\n                        var query = String.format(\"Id eq \'{0}\'\", id)," +
+"\r\n                        tcs = new $.Deferred();\r\n\r\n                        con" +
+"text.loadOneAsync(\"WorkflowDefinition\", query)\r\n                            .don" +
+"e(function(b) {\r\n                                vm.wd(b);\r\n                    " +
+"            tcs.resolve(true);\r\n                                b.loadSchema();\r" +
+"\n                                var act = _(b.ActivityCollection()).find(functi" +
+"on(v) { return v.WebId() == screenid; });\r\n                                vm.ac" +
+"tivity(act);\r\n                            });\r\n\r\n                 \r\n            " +
+"            return tcs.promise();\r\n\r\n                    } else {\r\n             " +
+"           vm.wd().loadSchema(); \r\n                    }\r\n                    re" +
+"turn Task.fromResult(true);\r\n                },\r\n                attached = func" +
+"tion(view) {\r\n                    runningInDialog(window.location.href.indexOf(\"" +
+"screen.editor\") < 0);\r\n                    if (!vm.activity().InvitationMessageB" +
+"ody())\r\n                        vm.activity().InvitationMessageBody(\"");
 
 WriteLiteral("@Model.Screen.Name task is assigned to you go here ");
 
@@ -237,48 +239,48 @@ WriteLiteral("@Model.Screen.Name was cancelled\");\r\n\r\n                    va
 "      exportScreen = function() {\r\n                    return eximp.exportJson(k" +
 "o.unwrap(vm.activity().Name) + \".json\", ko.mapping.toJSON(vm.activity));\r\n      " +
 "          },\r\n                open = function() {\r\n\r\n                },\r\n       " +
-"         importCommand = function() {\r\n                   \r\n                    " +
-"return eximp.importJson()\r\n                        .done(function (json) {\r\n    " +
-"                         try {\r\n                                 var obj = JSON." +
-"parse(json),\r\n                                     clone = context.toObservable(" +
-"obj);\r\n\r\n                                 vm.activity().FormDesign(clone.FormDes" +
-"ign());\r\n\r\n                             } catch (error) {\r\n                     " +
-"            logger.logError(\'Fail template import tidak sah\', error, this, true)" +
-";\r\n                             }\r\n                         });\r\n               " +
-" };\r\n\r\n            var vm = {\r\n                runningInDialog: runningInDialog," +
-"\r\n                entityOptions: entityOptions,\r\n                attached: attac" +
-"hed,\r\n                activate: activate,\r\n                formElements: ko.obse" +
-"rvableArray(),\r\n                selectedFormElement: ko.observable(),\r\n         " +
-"       selectFormElement : selectFormElement,\r\n                removeFormElement" +
-" : removeFormElement,\r\n                activity: ko.observable(new bespoke.sph.d" +
-"omain.ScreenActivity()),\r\n                wd : ko.observable(new bespoke.sph.dom" +
-"ain.WorkflowDefinition(system.guid())),\r\n                okClick: okClick,\r\n    " +
-"            cancelClick: cancelClick,\r\n                importCommand :importComm" +
-"and,\r\n                toolbar : {\r\n                    commands :ko.observableAr" +
-"ray([\r\n                    ]),\r\n                    exportCommand : exportScreen" +
-"\r\n                }\r\n            };\r\n\r\n            vm.activity.subscribe(functio" +
-"n(screen) {\r\n\r\n                var cached = localStorage.getItem(screen.WebId())" +
-";\r\n                if (cached) {\r\n                    setTimeout(function() {\r\n " +
-"                       app.showMessage(\"There\'s cached data in your local storag" +
-"e, do you want to restore this?\", \"Local storage\", [\"Yes\", \"No\"])\r\n             " +
-"               .done(function(dr) {\r\n                                if (dr === " +
-"\"Yes\") {\r\n                                    var screen2 = context.toObservable" +
-"(JSON.parse(cached)),\r\n                                        fd2 = ko.unwrap(s" +
-"creen2.FormDesign);\r\n\r\n                                    _(fd2.FormElementColl" +
-"ection()).each(function(v) {\r\n                                        v.isSelect" +
-"ed = ko.observable(false);\r\n                                    });\r\n           " +
-"                         if (typeof screen.FormDesign === \"function\") {\r\n       " +
-"                                 screen.FormDesign(screen2.FormDesign());\r\n     " +
-"                               } else {\r\n                                       " +
-" screen.FormDesign.FormElementCollection(screen2.FormDesign().FormElementCollect" +
-"ion());\r\n                                    }\r\n\r\n                              " +
-"      return;\r\n                                } else {\r\n                       " +
-"             localStorage.removeItem(screen.WebId());\r\n                         " +
-"       }\r\n                            });\r\n                    }, 2500);\r\n      " +
-"          }\r\n\r\n                var fd = ko.unwrap(screen.FormDesign);\r\n         " +
-"       _(fd.FormElementCollection()).each(function(v) {\r\n                    v.i" +
-"sSelected = ko.observable(false);\r\n                });\r\n            });\r\n\r\n\r\n   " +
-"         return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"         importCommand = function() {\r\n\r\n                    return eximp.import" +
+"Json()\r\n                        .done(function (json) {\r\n                       " +
+"     try {\r\n                                var obj = JSON.parse(json),\r\n       " +
+"                             clone = context.toObservable(obj);\r\n\r\n             " +
+"                   vm.activity().FormDesign(clone.FormDesign());\r\n\r\n            " +
+"                } catch (error) {\r\n                                logger.logErr" +
+"or(\'Fail template import tidak sah\', error, this, true);\r\n                      " +
+"      }\r\n                        });\r\n                };\r\n\r\n            var vm =" +
+" {\r\n                runningInDialog: runningInDialog,\r\n                entityOpt" +
+"ions: entityOptions,\r\n                attached: attached,\r\n                activ" +
+"ate: activate,\r\n                formElements: ko.observableArray(),\r\n           " +
+"     selectedFormElement: ko.observable(),\r\n                selectFormElement : " +
+"selectFormElement,\r\n                removeFormElement : removeFormElement,\r\n    " +
+"            activity: ko.observable(new bespoke.sph.domain.ScreenActivity()),\r\n " +
+"               wd : ko.observable(new bespoke.sph.domain.WorkflowDefinition(syst" +
+"em.guid())),\r\n                okClick: okClick,\r\n                cancelClick: ca" +
+"ncelClick,\r\n                importCommand :importCommand,\r\n                toolb" +
+"ar : {\r\n                    commands :ko.observableArray([\r\n                    " +
+"]),\r\n                    exportCommand : exportScreen\r\n                }\r\n      " +
+"      };\r\n\r\n            vm.activity.subscribe(function(screen) {\r\n\r\n            " +
+"    var cached = localStorage.getItem(screen.WebId());\r\n                if (cach" +
+"ed) {\r\n                    setTimeout(function() {\r\n                        app." +
+"showMessage(\"There\'s cached data in your local storage, do you want to restore t" +
+"his?\", \"Local storage\", [\"Yes\", \"No\"])\r\n                            .done(functi" +
+"on(dr) {\r\n                                if (dr === \"Yes\") {\r\n                 " +
+"                   var screen2 = context.toObservable(JSON.parse(cached)),\r\n    " +
+"                                    fd2 = ko.unwrap(screen2.FormDesign);\r\n\r\n    " +
+"                                _(fd2.FormElementCollection()).each(function(v) " +
+"{\r\n                                        v.isSelected = ko.observable(false);\r" +
+"\n                                    });\r\n                                    if" +
+" (typeof screen.FormDesign === \"function\") {\r\n                                  " +
+"      screen.FormDesign(screen2.FormDesign());\r\n                                " +
+"    } else {\r\n                                        screen.FormDesign.FormElem" +
+"entCollection(screen2.FormDesign().FormElementCollection());\r\n                  " +
+"                  }\r\n\r\n                                    return;\r\n            " +
+"                    } else {\r\n                                    localStorage.r" +
+"emoveItem(screen.WebId());\r\n                                }\r\n                 " +
+"           });\r\n                    }, 2500);\r\n                }\r\n\r\n            " +
+"    var fd = ko.unwrap(screen.FormDesign);\r\n                _(fd.FormElementColl" +
+"ection()).each(function(v) {\r\n                    v.isSelected = ko.observable(f" +
+"alse);\r\n                });\r\n            });\r\n\r\n\r\n            return vm;\r\n\r\n    " +
+"    });\r\n\r\n\r\n</script>\r\n");
 
         }
     }
