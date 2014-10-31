@@ -47,7 +47,10 @@ namespace Bespoke.Sph.Domain
 
         public async virtual Task SaveAsync(string activityId, ActivityExecutionResult result)
         {
-            const string operation = "Execute";
+            if (this.IsNewItem)
+                this.Id = Guid.NewGuid().ToString();
+
+            const string OPERATION = "Execute";
             var act = this.GetActivity<Activity>(activityId);
             var headers = new Dictionary<string, object>
                                 {
@@ -66,7 +69,7 @@ namespace Bespoke.Sph.Domain
                 using (var session = context.OpenSession())
                 {
                     session.Attach(this, tracker);
-                    await session.SubmitChanges(operation, headers);
+                    await session.SubmitChanges(OPERATION, headers);
                 }
                 return;
             }
@@ -83,7 +86,7 @@ namespace Bespoke.Sph.Domain
             using (var session = context.OpenSession())
             {
                 session.Attach(this, tracker);
-                await session.SubmitChanges(operation, headers);
+                await session.SubmitChanges(OPERATION, headers);
             }
         }
 
