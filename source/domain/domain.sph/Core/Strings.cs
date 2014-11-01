@@ -112,7 +112,13 @@ namespace Bespoke.Sph.Domain
             }
 
             return new string(text.ToCamelCaseHelper().ToArray());
-        }  
+        }
+
+        public static string GenerateId()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
         public static string ToIdFormat(this string text)
         {
             return text.Replace(".", "-")

@@ -127,3 +127,4 @@ bin/sources/PatientToCustomerMapping/
 source/web/web.sph/Views/Workflow_*/
 /bin/sources/create-billing-account-for-new-patient
 *.cs
+/source/web/web.sph/Views/CreateBillingAccountForNewPatientWorkflow

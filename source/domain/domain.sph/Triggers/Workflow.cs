@@ -102,13 +102,14 @@ namespace Bespoke.Sph.Domain
                     Workflow = this,
                     WorkflowDefinition = this.WorkflowDefinition,
                     WorkflowId = this.Id,
-                    WorkflowDefinitionId = this.WorkflowDefinitionId
+                    WorkflowDefinitionId = this.WorkflowDefinitionId,
+                    Id = Guid.NewGuid().ToString()
                 };
 
             var context = new SphDataContext();
             m_tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.Id)
                           ??
-                          new Tracker { WorkflowId = this.Id, WorkflowDefinitionId = this.WorkflowDefinitionId };
+                          new Tracker { Id =Guid.NewGuid().ToString(), WorkflowId = this.Id, WorkflowDefinitionId = this.WorkflowDefinitionId };
             m_tracker.Workflow = this;
             m_tracker.WorkflowDefinition = this.WorkflowDefinition;
             if ( string.IsNullOrWhiteSpace(m_tracker.Id))
