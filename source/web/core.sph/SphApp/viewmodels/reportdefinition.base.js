@@ -169,7 +169,10 @@ define(['schemas/report.builder.g', 'services/datacontext', 'durandal/system', '
 
                 $('#entity-columns').on('click', 'input[type=checkbox]', function () {
                     var entity = ko.dataFor(this);
-                    if (entity.IsSelected) {
+                    var ex = _(rdl().DataSource().EntityFieldCollection()).find(function(v) {
+                        return ko.unwrap(v.Name) === ko.unwrap(entity.Name);
+                    });
+                    if (entity.IsSelected && !ex) {
                         var efc = new bespoke.sph.domain.EntityField(system.guid());
                         efc.Name(entity.Name);
                         efc.TypeName(entity.TypeName);
