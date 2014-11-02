@@ -51,7 +51,8 @@ namespace Bespoke.Sph.Web.Controllers
                     {
                         Subject = "User is created for " + user.UserName,
                         Body = "Password is " + password,
-                        UserName = User.Identity.Name
+                        UserName = User.Identity.Name,
+                        Id = Strings.GenerateId()
                     };
 
                 }

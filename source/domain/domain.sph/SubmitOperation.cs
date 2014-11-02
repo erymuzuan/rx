@@ -17,6 +17,7 @@ namespace Bespoke.Sph.Domain
         public int RowsAffected { get; set; }
         public bool IsFaulted { get { return null != this.Exeption; } }
         public bool IsCompleted { get { return this.RowsAffected > 0; } }
+        public string Token { get; set; }
 
         public Dictionary<string, string> Books
         {

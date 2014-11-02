@@ -66,11 +66,17 @@ namespace Bespoke.Sph.Domain
             return session;
         }
 
-        internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session, Dictionary<string, object> headers)
+        internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session, IDictionary<string, object> headers)
         {
+            if(null == headers)
+                headers = new Dictionary<string, object>();
+
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
-            var so = new SubmitOperation();
-            await publisher.SubmitChangesAsync(operation, session.AttachedCollection, session.DeletedCollection)
+            var so = new SubmitOperation { Token = Guid.NewGuid().ToString() };
+            headers.AddOrReplace("sph.token", so.Token);
+            headers.AddOrReplace("sph.timestamp", DateTime.Now.ToString("s"));
+
+            await publisher.SubmitChangesAsync(operation, session.AttachedCollection, session.DeletedCollection, headers)
                 .ConfigureAwait(false);
 
             return so;

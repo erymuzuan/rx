@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -8,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Humanizer;
 using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 
@@ -156,14 +158,17 @@ namespace Bespoke.Sph.Persistence
             var json = await this.DecompressAsync(body);
             var headers = new MessageHeaders(e);
             var operation = headers.Operation;
+            var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
+
+            var jo = JObject.Parse(json);
+            var entities = jo.SelectToken("$.attached").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
+            var deletedItems = jo.SelectToken("$.deleted").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
+
+
+
             try
             {
                 this.WriteMessage(headers.Operation);
-
-                var jo = JObject.Parse(json);
-                var entities = jo.SelectToken("$.attached").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
-                var deletedCollection = jo.SelectToken("$.deleted").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
-
                 // get changes to items
                 var previous = await GetPreviousItems(entities);
                 var logs = (from r in entities
@@ -182,32 +187,56 @@ namespace Bespoke.Sph.Persistence
                                 WebId = logId,
                                 Note = "-"
                             }).ToArray();
-                var addedCollection = (from r in entities
-                            let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
-                            where null == e1
-                            select r).ToArray();
-                var attachedCollection = (from r in entities
-                            let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
-                            where null != e1
-                            select r).ToArray();
+                var addedItems = (from r in entities
+                                  let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
+                                  where null == e1
+                                  select r).ToArray();
+                var changedItems = (from r in entities
+                                    let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
+                                    where null != e1
+                                    select r).ToArray();
                 entities.AddRange(logs);
 
-
                 var persistence = ObjectBuilder.GetObject<IPersistence>();
-                var so = await persistence.SubmitChanges(entities, deletedCollection, null)
+                var so = await persistence.SubmitChanges(entities, deletedItems, null)
                 .ConfigureAwait(false);
                 Debug.WriteLine(so.ToJsonString(true));
 
 
-                var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
                 var logsAddedTask = publisher.PublishAdded(operation, logs, headers.GetRawHeaders());
-                var addedTask = publisher.PublishAdded(operation, addedCollection, headers.GetRawHeaders());
-                var changedTask = publisher.PublishChanges(operation, attachedCollection, logs, headers.GetRawHeaders());
-                var deletedTask = publisher.PublishDeleted(operation, deletedCollection, headers.GetRawHeaders());
+                var addedTask = publisher.PublishAdded(operation, addedItems, headers.GetRawHeaders());
+                var changedTask = publisher.PublishChanges(operation, changedItems, logs, headers.GetRawHeaders());
+                var deletedTask = publisher.PublishDeleted(operation, deletedItems, headers.GetRawHeaders());
                 await Task.WhenAll(addedTask, changedTask, deletedTask, logsAddedTask).ConfigureAwait(false);
 
 
                 m_channel.BasicAck(e.DeliveryTag, false);
+            }
+            catch (SqlException exc)
+            {
+
+                // republish the message to a delayed queue
+                var delay = ConfigurationManager.SqlPersistenceDelay;
+                var maxTry = ConfigurationManager.SqlPersistenceMaxTry;
+                if ((headers.TryCount ?? 0) < maxTry)
+                {
+                    var count = (headers.TryCount ?? 0) + 1;
+                    this.WriteMessage("{0} retry on SqlException : {1}", count.Ordinalize(), exc.Message);
+
+                    var ph = headers.GetRawHeaders();
+                    ph.AddOrReplace(MessageHeaders.SPH_DELAY, delay);
+                    ph.AddOrReplace(MessageHeaders.SPH_TRYCOUNT, count);
+
+                    m_channel.BasicAck(e.DeliveryTag, false);
+                    publisher.SubmitChangesAsync(operation, entities, deletedItems, ph).Wait();
+
+                }
+                else
+                {
+                    this.WriteMessage("Error in {0}", this.GetType().Name);
+                    this.WriteError(exc);
+                    m_channel.BasicReject(e.DeliveryTag, false);
+                }
             }
             catch (Exception exc)
             {

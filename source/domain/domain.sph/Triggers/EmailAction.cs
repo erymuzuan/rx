@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Drawing;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
     [Export(typeof(CustomAction))]
-    [DesignerMetadata(Name = "Email", Description = "Send a email message", FontAwesomeIcon = "envelope")]
+    [DesignerMetadata(Name = "Email", TypeName = "Bespoke.Sph.Domain.EmailAction, domain.sph", Description = "Send a email message", FontAwesomeIcon = "envelope")]
     public partial class EmailAction : CustomAction
     {
         public override void Execute(RuleContext context)
@@ -43,6 +44,11 @@ namespace Bespoke.Sph.Domain
         public override bool UseAsync
         {
             get { return true; }
+        }
+
+        public override Bitmap GetPngIcon()
+        {
+            return Properties.Resources.Message_Mail;
         }
 
         public override string GetEditorView()

@@ -272,7 +272,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     Version = wd.Version,
                     WebId = Guid.NewGuid().ToString(),
                     Id = Guid.NewGuid().ToString(),
-                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowTypeName,wd.Version, scr1.ActionName)
+                    VirtualPath = string.Format("~/Views/{0}/{1}V{2}.cshtml", wd.WorkflowTypeName, scr1.ActionName, wd.Version)
                 };
 
 

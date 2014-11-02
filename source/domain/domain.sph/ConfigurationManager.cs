@@ -13,6 +13,41 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public static long EsIndexingDelay
+        {
+            get
+            {
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:EsIndexingDelay"] ?? "15000";
+                return long.Parse(pn);
+            }
+        }
+
+        public static int EsIndexingMaxTry
+        {
+            get
+            {
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:EsIndexingMaxTry"] ?? "3";
+                return int.Parse(pn);
+            }
+        }
+        public static long SqlPersistenceDelay
+        {
+            get
+            {
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:SqlPersistenceDelay"] ?? "15000";
+                return long.Parse(pn);
+            }
+        }
+
+        public static int SqlPersistenceMaxTry
+        {
+            get
+            {
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:SqlPersistenceMaxTry"] ?? "3";
+                return int.Parse(pn);
+            }
+        }
+
         public static bool EnableOfflineForm
         {
             get

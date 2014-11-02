@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using RabbitMQ.Client;
 using System.Linq;
+using Humanizer;
 
 namespace Bespoke.Sph.RabbitMqPublisher
 {
@@ -45,10 +47,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
             await SendMessage("deleted", operation, deletedCollection.ToArray(), headers);
         }
 
-        public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedCollection)
+        public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedCollection, IDictionary<string, object> headers)
         {
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
-            var headers = new Dictionary<string, object> { { "username", ds.CurrentUserName }, { "operation", operation } };
+            headers.AddOrReplace("username", ds.CurrentUserName);
+            headers.AddOrReplace("operation", operation);
 
             if (!this.IsOpened)
                 InitConnection();
@@ -75,11 +78,40 @@ namespace Bespoke.Sph.RabbitMqPublisher
             props.ContentType = "application/json";
             props.Headers = headers;
 
+            if (headers.ContainsKey("sph.delay"))
+            {
+                PublishToDelayQueue(props, body, ROUTING_KEY);
+                return;
+            }
+
 
             m_channel.BasicPublish(this.Exchange, ROUTING_KEY, props, body);
 
 
 
+        }
+
+        private void PublishToDelayQueue(IBasicProperties props, byte[] body, string routingKey)
+        {
+            var count = 91;
+            if (props.Headers.ContainsKey("sph.trycount"))
+                count = (int) props.Headers["sph.trycount"];
+            Console.WriteLine("Doing the delay for {0} ms for the {1} time", props.Headers["sph.delay"],count.Ordinalize());
+            const string RETRY_EXCHANGE = "sph.retry.exchange";
+            const string RETRY_QUEUE = "sph.retry.queue";
+            var delay = (long)props.Headers["sph.delay"]; // in ms
+
+            var queueArgs = new Dictionary<string, object> {
+                    {"x-dead-letter-exchange", this.Exchange },
+	                {"x-dead-letter-routing-key",routingKey}
+                };
+            props.Expiration = delay.ToString(CultureInfo.InvariantCulture);
+
+            m_channel.ExchangeDeclare(RETRY_EXCHANGE, "direct");
+            m_channel.QueueDeclare(RETRY_QUEUE, true, false, false, queueArgs);
+            m_channel.QueueBind(RETRY_QUEUE, RETRY_EXCHANGE, string.Empty, null);
+
+            m_channel.BasicPublish(RETRY_EXCHANGE, string.Empty, props, body);
         }
 
         private void InitConnection()
@@ -155,6 +187,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
                 var props = m_channel.CreateBasicProperties();
                 props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
+                props.SetPersistent(true);
                 props.ContentType = "application/json";
                 props.Headers = new Dictionary<string, object> { { "operation", operation }, { "crud", action }, { "log", log } };
                 if (null != headers)
@@ -165,6 +198,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
                             props.Headers.Add(k, headers[k]);
 
                     }
+                }
+                if (null != headers && headers.ContainsKey("sph.delay"))
+                {
+                    PublishToDelayQueue(props, body, routingKey);
+                    return;
                 }
 
                 m_channel.BasicPublish(this.Exchange, routingKey, props, body);
