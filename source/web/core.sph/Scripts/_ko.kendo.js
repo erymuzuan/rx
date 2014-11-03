@@ -166,7 +166,8 @@ ko.bindingHandlers.date = {
     init: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor()),
             dv = ko.unwrap(value.value),
-            date = moment(dv),
+            inputFormat = ko.unwrap(value.inputFormat) || 'YYYY-MM-DD',
+            date = moment(dv, inputFormat),
             invalid = ko.unwrap(value.invalid) || 'invalid date',
             format = ko.unwrap(value.format) || "DD/MM/YYYY";
 
@@ -208,7 +209,8 @@ ko.bindingHandlers.date = {
     update: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor()),
             dv = ko.unwrap(value.value),
-            date = moment(dv),
+            inputFormat = ko.unwrap(value.inputFormat) || 'YYYY-MM-DD',
+            date = moment(dv, inputFormat),
             invalid = ko.unwrap(value.invalid) || 'invalid date',
             format = ko.unwrap(value.format) || "DD/MM/YYYY";
 

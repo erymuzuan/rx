@@ -751,6 +751,7 @@
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\HashTableHelper.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
+    <Compile Include="Helpers\RawRequestBodyModelBinder.cs" />
     <Compile Include="Helpers\RequestBodyModelBinder.cs" />
     <Compile Include="Hubs\AuditTrailHub.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />

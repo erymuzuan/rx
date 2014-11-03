@@ -78,10 +78,20 @@ namespace Bespoke.Sph.Web.Controllers
 
             }
         }
+
+        [HttpPost]
+        [Route("workflow/{id}/v{version}")]
+        public async Task<ActionResult> Workflow(string id, int version, [RawRequestBody]string json)
+        {
+            var wfes = string.Format("workflow_{0}_{1}", id, version);
+            return await Es(wfes, json);
+        }
+
         public async Task<ActionResult> Activity()
         {
             return await Es("activity", this.GetRequestBody());
         }
+
         [Route("log")]
         public async Task<ActionResult> Log()
         {

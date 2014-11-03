@@ -13703,9 +13703,14 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   margin: 4px;
 }
 
-.daterangepicker.opensright .ranges, .daterangepicker.opensright .calendar {
+.daterangepicker.opensright .ranges, .daterangepicker.opensright .calendar,
+.daterangepicker.openscenter .ranges, .daterangepicker.openscenter .calendar {
   float: right;
   margin: 4px;
+}
+
+.daterangepicker.single .ranges, .daterangepicker.single .calendar {
+  float: none;
 }
 
 .daterangepicker .ranges {
@@ -13726,6 +13731,10 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   max-width: 270px;
 }
 
+.daterangepicker.show-calendar .calendar {
+    display: block;
+}
+
 .daterangepicker .calendar.single .calendar-date {
   border: none;
 }
@@ -13737,7 +13746,8 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   min-width: 32px;
 }
 
-.daterangepicker .ranges label {
+.daterangepicker .daterangepicker_start_input label,
+.daterangepicker .daterangepicker_end_input label {
   color: #333;
   display: block;
   font-size: 11px;
@@ -13755,7 +13765,6 @@ fieldset[disabled] .twitter-typeahead .tt-input {
 }
 
 .daterangepicker .ranges .input-mini {
-  background-color: #eee;
   border: 1px solid #ccc;
   border-radius: 4px;
   color: #555;
@@ -13842,6 +13851,37 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   content: '';
 }
 
+.daterangepicker.openscenter:before {
+  position: absolute;
+  top: -7px;
+  left: 0;  
+  right: 0;
+  width: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #ccc;
+  border-left: 7px solid transparent;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  content: '';
+}
+
+.daterangepicker.openscenter:after {
+  position: absolute;
+  top: -6px;
+  left: 0;  
+  right: 0;  
+  width: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #fff;
+  border-left: 6px solid transparent;
+  content: '';
+}
+
 .daterangepicker.opensright:before {
   position: absolute;
   top: -7px;
@@ -13885,7 +13925,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   color: #999;
 }
 
-.daterangepicker td.disabled {
+.daterangepicker td.disabled, .daterangepicker option.disabled {
   color: #999;
 }
 
@@ -13898,6 +13938,24 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
+}
+
+.daterangepicker td.start-date {
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.daterangepicker td.end-date {
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.daterangepicker td.start-date.end-date {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 
 .daterangepicker td.active, .daterangepicker td.active:hover {
@@ -13945,6 +14003,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
 .daterangepicker th.month {
   width: auto;
 }
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600');
 
 * {
