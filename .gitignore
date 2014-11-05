@@ -125,3 +125,5 @@ bin/sources/__*/
 bin/sources/PatientToCustomerMapping/
 /source/web/web.sph/SphApp/partial/driver-details.js
 source/web/web.sph/Views/Workflow_*/
+bin/sources/test*
+bin/sources/legacyadw/
