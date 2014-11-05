@@ -16,10 +16,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
         var isBusy = ko.observable(false),
             id = ko.observable(),
             activate = function (wdid) {
-                if (typeof wdid === "object") {
-                    id(parseInt(wdid.wdid));
+                if (typeof wdid === "object" && typeof wdid.wdid === "string") {
+                    id(wdid.wdid);
                 } else {
-                    id(parseInt(wdid));
+                    id(wdid);
                 }
                 vm.results.removeAll();
             },
@@ -28,18 +28,19 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                                        {
                                            ranges: {
                                                'Today': [moment(), moment()],
-                                               'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-                                               'Last 7 Days': [moment().subtract('days', 6), moment()],
-                                               'Last 30 Days': [moment().subtract('days', 29), moment()],
+                                               'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                                               'Last 7 Days': [moment().subtract( 6, 'days'), moment()],
+                                               'Last 30 Days': [moment().subtract( 29, 'days'), moment()],
                                                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                                               'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                                               'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract( 1, 'month').endOf('month')]
                                            },
-                                           startDate: moment().subtract('days', 29),
+                                           startDate: moment().subtract( 29, 'days'),
                                            endDate: moment()
                                        },
                                        function (start, end) {
                                            vm.query.createdDateFrom(start.format('YYYY-MM-DD'));
                                            vm.query.createdDateEnd(end.format('YYYY-MM-DD'));
+                                           return search();
                                        }
                                    );
             },
@@ -100,7 +101,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 state: ko.observable(),
                 workflowDefinitionId: id,
                 createdDateFrom: ko.observable(moment().startOf('week').format('DD/MM/YYYY HH:mm')),
-                createdDateEnd: ko.observable()
+                createdDateEnd: ko.observable(moment().format('DD/MM/YYYY HH:mm'))
 
             },
             search: search,

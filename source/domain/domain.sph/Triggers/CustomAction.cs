@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
@@ -37,6 +38,11 @@ namespace Bespoke.Sph.Domain
         public virtual string GetEditorView()
         {
             throw new Exception(this.GetType().FullName + " does not implement GetEditorView method");
+        }
+
+        public virtual Bitmap GetPngIcon()
+        {
+            return Properties.Resources.Clapper_Board;
         }
 
         public virtual string GeneratorCode()

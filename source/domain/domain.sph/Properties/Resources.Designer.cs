@@ -70,6 +70,16 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Clapper_Board {
+            get {
+                object obj = ResourceManager.GetObject("Clapper_Board", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 
         ///&lt;section class=&quot;view-model-modal&quot; id=&quot;email-action-modal&quot;&gt;
         ///    &lt;div class=&quot;modal-dialog&quot;&gt;
@@ -148,6 +158,26 @@ namespace Bespoke.Sph.Domain.Properties {
         internal static string FormattingFunctoidJs {
             get {
                 return ResourceManager.GetString("FormattingFunctoidJs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Gear {
+            get {
+                object obj = ResourceManager.GetObject("Gear", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Message_Mail {
+            get {
+                object obj = ResourceManager.GetObject("Message_Mail", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

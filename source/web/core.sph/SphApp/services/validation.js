@@ -38,6 +38,12 @@ define([],
                     if (v.MinLength()) {
                         validation.rules[path].minlength = v.MinLength();
                     }
+                    if (v.Max()) {
+                        validation.rules[path].max= v.Max();
+                    }
+                    if (v.Min()) {
+                        validation.rules[path].min= v.Min();
+                    }
                     if (v.Mode()) {
                         validation.rules[path][v.Mode()] = true;
                     }

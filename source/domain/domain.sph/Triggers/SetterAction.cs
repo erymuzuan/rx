@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain
 {
     [Export(typeof(CustomAction))]
-    [DesignerMetadata(Name = "Setter", Description = "Set values to the item property", FontAwesomeIcon = "exchange")]
+    [DesignerMetadata(Name = "Setter", TypeName = "Bespoke.Sph.Domain.SetterAction, domain.sph", Description = "Set values to the item property", FontAwesomeIcon = "exchange")]
     public partial class SetterAction : CustomAction
     {
         public override string GetEditorView()

@@ -7,6 +7,8 @@
     <outputDirectory />
   </settings>
   <files>
+    <file>/Scripts/moment.js</file>
+    <file>/Scripts/underscore.js</file>
     <file>/Scripts/jquery-2.1.1.js</file>
     <file>/Scripts/jquery.validate.js</file>
     <file>/Scripts/jquery.tablesorter.min.js</file>
@@ -19,7 +21,5 @@
     <file>/Scripts/daterangepicker.js</file>
     <file>/Scripts/complete.ly.1.0.1.js</file>
     <file>/Scripts/toastr.js</file>
-    <file>/Scripts/underscore.js</file>
-    <file>/Scripts/moment.js</file>
   </files>
 </bundle>

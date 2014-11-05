@@ -78,7 +78,8 @@ namespace Bespoke.Sph.Web.Controllers
             var message = new Message
             {
                 Subject = subject,
-                Body =  body
+                Body =  body,
+                Id = Strings.GenerateId()
             };
             var email = ObjectBuilder.GetObject<INotificationService>();
             await email.SendMessageAsync(message,to);

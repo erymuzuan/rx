@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Domain
         public async override Task CancelAsync(Workflow wf)
         {
             var baseUrl = ConfigurationManager.BaseUrl;
-            var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId, wf.Version, this.ActionName, wf.Id);
+            var url = string.Format("{0}/wf/{1}/v{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId.ToIdFormat(), wf.Version, this.Name.ToIdFormat(), wf.Id);
             var cmb = this.CancelMessageBody ?? "@Model.Screen.Name task assigned to has been cancelled";
             var cms = this.CancelMessageSubject ?? "[Sph] @Model.Screen.Name  task is cancelled";
 
@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       var correlation = Guid.NewGuid().ToString();", this.WebId);
             code.AppendLinf("       var self = this.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
             code.AppendLine("       var baseUrl = ConfigurationManager.BaseUrl;");
-            code.AppendLine("       var url = string.Format(\"{0}/Workflow_{1}_{2}/{3}/{4}?correlation={5}\", baseUrl, this.WorkflowDefinitionId, this.Version, self.ActionName, this.Id, correlation);");
+            code.AppendLine("       var url = string.Format(\"{0}/wf/{1}/v{2}/{3}/{4}/{5}\", baseUrl, this.WorkflowDefinitionId, this.Version, self.Name.ToIdFormat(), this.Id, correlation);");
             code.AppendLine("       var imb = self.InvitationMessageBody ?? \"@Model.Screen.Name task is assigned to you go here @Model.Url\";");
             code.AppendLine("       var ims = self.InvitationMessageSubject ?? \"[Sph] @Model.Screen.Name task is assigned to you\";");
 
@@ -94,7 +94,7 @@ namespace Bespoke.Sph.Domain
                 var subject = await this.TransformTemplateAsync(subjectTemplate, model);
                 var body = await this.TransformTemplateAsync(bodyTemplate, model);
 
-                var message = new Message { Subject = subject, UserName = user, Body = body };
+                var message = new Message { Subject = subject, UserName = user, Body = body, Id = Strings.GenerateId() };
                 using (var session = context.OpenSession())
                 {
                     session.Attach(message);
@@ -245,7 +245,7 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLine("               canview = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);");
             getAction.AppendLine("           }");
 
-            getAction.AppendLine("           if(canview) return View(vm);");
+            getAction.AppendLinf("           if(canview) return View(\"{0}V{1}\", vm);", this.ActionName, wd.Version);
             getAction.AppendLine("           return new HttpUnauthorizedResult();");
 
 
@@ -323,7 +323,7 @@ namespace Bespoke.Sph.Domain
                             button = $(this);
 
                         button.prop('disabled', true);
-                        context.post(data, ""wf/{0}/v{1}/{2}"")
+                        context.post(data, ""/wf/{0}/v{1}/{2}"")
                             .then(function(result) {{
                                 tcs.resolve(result);
                                 @if(Model.Screen.ConfirmationOptions.Type == ""Message"")
@@ -387,7 +387,7 @@ namespace Bespoke.Sph.Domain
 
 @section scripts
 {{
-    <script type=""text/javascript"" src=""wf/{0}/v{1}/schemas""></script>
+    <script type=""text/javascript"" src=""/wf/{0}/v{1}/schemas""></script>
     <script type=""text/javascript"">
         require(['services/datacontext', 'jquery','services/app', 'services/system', 'services/config'], function(context,jquery,app, system, config) {{
 

@@ -68,6 +68,19 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             this.WriteMessage("!!Stopped : {0}", this.QueueName);
         }
 
+        protected void BasicReject(ulong tag, bool requeue = false)
+        {
+            m_channel.BasicReject(tag, requeue);
+        }
+        protected void BasicAck(ulong tag, bool multiple = false)
+        {
+            m_channel.BasicAck(tag, multiple);
+        }
+        protected void BasicNack(ulong tag, bool multiple = false, bool requeue = false)
+        {
+            m_channel.BasicNack(tag, multiple, requeue);
+        }
+
         private IConnection m_connection;
         private IModel m_channel;
         private TaskBasicConsumer m_consumer;
@@ -109,6 +122,20 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
                 m_channel.QueueBind(this.QueueName, EXCHANGE_NAME, s, null);
             }
+            // delay exchange and queue
+            var delayExchange = "sph.delay.exchange." + this.QueueName;
+            var delayQueue = "sph.delay.queue." + this.QueueName;
+            var delayQueueArgs = new Dictionary<string, object>
+            {
+                {"x-dead-letter-exchange", delayExchange},
+                {"x-dead-letter-routing-key", this.QueueName}
+            };
+            m_channel.ExchangeDeclare(delayExchange, "direct");
+            m_channel.QueueDeclare(delayQueue, true, false, false, delayQueueArgs);
+            m_channel.QueueBind(delayQueue, delayExchange, string.Empty, null);
+
+
+
             m_channel.BasicQos(0, (ushort)this.GetParallelProcessing(), false);
 
             m_consumer = new TaskBasicConsumer(m_channel);

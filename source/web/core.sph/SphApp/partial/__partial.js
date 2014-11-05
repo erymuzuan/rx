@@ -1560,11 +1560,12 @@ bespoke.sph.domain.SetterActionChildPartial = function () {
 ///#source 1 1 /SphApp/partial/StartWorkflowAction.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/durandal/system.js" />
 /// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -1583,9 +1584,13 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
             var child = new bespoke.sph.domain.WorkflowTriggerMap(system.guid());
             child.Field({ Name: ko.observable("+ Field") });
             this.WorkflowTriggerMapCollection.push(child);
+        },
+        editMapping = function (child) {
+            this.WorkflowTriggerMapCollection.push(child);
         };
 
     var vm = {
+        editMapping: editMapping,
         addMapping: addMapping,
         removeMapping: removeMapping
 
@@ -2041,14 +2046,49 @@ bespoke.sph.domain.WorkflowDesignerPartial = function () {
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
 bespoke.sph.domain.WorkflowTriggerMapPartial = function () {
-    var self = this;
+    var self = this,
+        system = require('durandal/system'),
+        showFieldDialog = function (accessor, field, path) {
+            require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
+                dialog.field(field);
+
+
+                app2.showDialog(dialog)
+                .done(function (result) {
+                    if (!result) return;
+                    if (result === "OK") {
+                        accessor(field);
+                    }
+                });
+
+            });
+        };
+
+    self.addField = function(accessor, type) {
+        var field = new bespoke.sph.domain[type + 'Field'](system.guid());
+            showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
+    };
+
+    self.editField = function(field, accessor) {
+        return function() {
+            var fieldType = ko.unwrap(field.$type),
+                clone = ko.mapping.fromJS(ko.mapping.toJS(field)),
+                pattern = /Bespoke\.Sph\.Domain\.(.*?)Field,/,
+                type = pattern.exec(fieldType)[1];
+
+
+            showFieldDialog(accessor, clone, 'field.' + type.toLowerCase());
+
+        };
+    };
+
     return self;
 };
 

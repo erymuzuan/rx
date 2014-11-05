@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,8 +39,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (null == this.ActionOptions)
                 ObjectBuilder.ComposeMefCatalog(this);
 
+            if (null == this.ActionOptions) throw new InvalidOperationException("Fail to load MEF");
+
             var action = this.ActionOptions.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
-                .ToLowerInvariant() == type.Replace(",",", ")).Value;
+                .ToLowerInvariant() == type.Replace(",", ", ")).Value;
             if (id == "js")
             {
                 this.Response.ContentType = "application/javascript";
@@ -49,6 +52,31 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             this.Response.ContentType = "text/html";
             var html = action.GetEditorView();
             return Content(html);
+        }
+
+
+        public ActionResult Image(string id)
+        {
+            if (null == this.ActionOptions)
+                ObjectBuilder.ComposeMefCatalog(this);
+
+            if (null == this.ActionOptions) throw new InvalidOperationException("Fail to load MEF");
+
+            var action = this.ActionOptions.Single(
+                x => string.Equals(x.Metadata.TypeName, id, StringComparison.InvariantCultureIgnoreCase)).Value;
+
+
+
+            using (var stream = new MemoryStream())
+            {
+                var img = action.GetPngIcon();
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                stream.Close();
+
+                var byteArray = stream.ToArray();
+                this.Response.ContentType = "image/png";
+                return File(byteArray, "image/png");
+            }
         }
 
         public async Task<ActionResult> Publish()
@@ -103,18 +131,18 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var trigger = this.GetRequestJson<Trigger>();
 
-            var newItem = string.IsNullOrWhiteSpace(trigger.Id);
+            var newItem = trigger.IsNewItem;
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == trigger.Entity);
             trigger.TypeOf = string.Format("Bespoke.{0}_{1}.Domain.{2}, {0}.{2}",
                 ConfigurationManager.ApplicationName, ed.Id, trigger.Entity);
 
             if (newItem)
-                trigger.Id = trigger.Name.ToIdFormat();
+                trigger.Id = (trigger.Entity + "-" + trigger.Name).ToIdFormat();
             using (var session = context.OpenSession())
             {
                 session.Attach(trigger);
-                await session.SubmitChanges("Submit trigger");
+                await session.SubmitChanges("Save");
             }
 
             if (newItem)

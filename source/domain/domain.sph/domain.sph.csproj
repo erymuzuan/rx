@@ -51,7 +51,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Spring.Core">
       <HintPath>..\..\..\packages\Spring.Core.2.0.0-M2\lib\net40\Spring.Core.dll</HintPath>
@@ -438,6 +438,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\knockout-3.2.0.debug.js" />
+    <Content Include="Scripts\knockout-3.2.0.js" />
+    <Content Include="Scripts\objectbuilders.js" />
+    <Content Include="Scripts\r.js" />
+    <Content Include="Scripts\require.js" />
+    <Content Include="Scripts\trigger.workflow.g.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
     <None Include="Resources\action.email.js" />
     <None Include="Resources\action.email.html" />
     <None Include="Resources\action.setter.html" />
@@ -473,6 +484,9 @@
     <None Include="Resources\activity.scheduledtrigger.js" />
     <None Include="Resources\activity.updateentity.js" />
     <None Include="Resources\DecisionActivity.png" />
+    <None Include="Resources\Clapper-Board.png" />
+    <None Include="Resources\Gear.png" />
+    <None Include="Resources\Message-Mail.png" />
     <Content Include="Schema\_object.xslt">
       <SubType>Designer</SubType>
     </Content>
@@ -496,6 +510,8 @@
     <None Include="Schema\TriggersWorkflow.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Scripts\jquery-2.1.1.min.map" />
+    <None Include="Scripts\underscore.min.map" />
     <None Include="test.pfx" />
   </ItemGroup>
   <ItemGroup>
