@@ -35,7 +35,9 @@ namespace domain.test.reports
 
         public T LoadOne(IQueryable<T> query)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("-----");
+            Console.WriteLine(query.ToString());
+            return m_dictionary[query.ToString()];
         }
 
         public Task<int> GetCountAsync(IQueryable<T> query)

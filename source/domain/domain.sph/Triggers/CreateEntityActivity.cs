@@ -26,6 +26,8 @@ namespace Bespoke.Sph.Domain
             result.Result = result.Errors.Count == 0;
             return result;
         }
+
+
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
@@ -52,7 +54,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("          session.Attach(item);");
             code.AppendLine("          await session.SubmitChanges();");
             if (!string.IsNullOrWhiteSpace(this.ReturnValuePath))
-                code.AppendLinf("          this.{0} = item.{1}Id;", this.ReturnValuePath, this.EntityType);
+                code.AppendLinf("          this.{0} = item.Id;", this.ReturnValuePath);
             code.AppendLine("      }");
             // set the next activity
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
