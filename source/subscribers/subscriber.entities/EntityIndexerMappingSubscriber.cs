@@ -85,7 +85,7 @@ namespace subscriber.entities
             using (var conn = new SqlConnection(connectionString))
             {
                 await conn.OpenAsync();//migrate
-                var readSql = string.Format("SELECT [{0}Id],[Json] FROM [{1}].[{0}]", name, applicationName);
+                var readSql = string.Format("SELECT [Id],[Json] FROM [{1}].[{0}]", name, applicationName);
                 this.WriteMessage(readSql);
 
 
@@ -95,12 +95,12 @@ namespace subscriber.entities
                     {
                         while (reader.Read())
                         {
-                            var id = reader.GetInt32(0);
+                            var id = reader.GetString(0);
                             var json = reader.GetString(1);
                             this.WriteMessage("Migrating {0} : {1}", name, id);
                             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
                             dynamic ent = JsonConvert.DeserializeObject(json, setting);
-                            ent.SetId(id);
+                            ent.Id = id;
 
                             var task = IndexItemToElasticSearchAsync(ent);
                             taskBuckets.Add(task);
