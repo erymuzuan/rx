@@ -12,7 +12,7 @@
         "TypeName": "Expression",
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 279,
+          "X": 270,
           "Y": 86,
           "WebId": "08966c33-a8b9-4405-8f8a-5b660854f0b7"
         },
@@ -290,7 +290,7 @@
           "WebId": "4b04136a-d980-4bda-ada1-3adf4dccd8b9"
         },
         "IsInitiator": false,
-        "NextActivityWebId": "36dab4d5-ae32-43bd-a434-45facebbb3aa",
+        "NextActivityWebId": "b817782d-d634-499a-c4ad-3bc127f6c4fb",
         "Name": "Create Account",
         "WebId": "5e796abc-6629-4e40-99a2-d6e10db378b4"
       },
@@ -303,8 +303,8 @@
         "TypeName": "End",
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 290,
-          "Y": 474,
+          "X": 288,
+          "Y": 841,
           "WebId": "1031a49b-a13c-4758-b6be-68fe646481f2"
         },
         "IsInitiator": false,
@@ -336,6 +336,29 @@
         "NextActivityWebId": "cb58e7bb-5c9d-4a6b-a141-8b256c7085e1",
         "Name": "Tell my boss",
         "WebId": "68b2e916-bdc7-4ee3-9873-b0775d637d10"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.CreateEntityActivity, domain.sph",
+        "EntityType": null,
+        "ReturnValuePath": null,
+        "PropertyMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "CreateEntity",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 297,
+          "Y": 594,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "36dab4d5-ae32-43bd-a434-45facebbb3aa",
+        "Name": "4",
+        "WebId": "b817782d-d634-499a-c4ad-3bc127f6c4fb"
       }
     ]
   },
@@ -374,7 +397,7 @@
   "CreatedBy": "admin",
   "Id": "create-billing-account-for-new-patient",
   "CreatedDate": "2014-03-23T17:26:27.7501833+08:00",
-  "ChangedBy": "admin",
-  "ChangedDate": "2014-09-18T11:04:55.3741448+08:00",
+  "ChangedBy": "BESPOKE1-PC",
+  "ChangedDate": "2014-11-14T10:49:48.055634+08:00",
   "WebId": "24471f9e-ffea-40ab-bcaf-049b80278ad9"
 }

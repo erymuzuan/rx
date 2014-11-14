@@ -405,8 +405,8 @@
             "Pattern": null,
             "Mode": "",
             "Message": null,
-            "Min": null,
-            "Max": null,
+            "Min": 0.0,
+            "Max": 125.0,
             "MinLength": null,
             "MaxLength": null,
             "WebId": null
@@ -607,11 +607,11 @@
   "Entity": "Patient",
   "Partial": "partial/patient-registration",
   "Caption": null,
-  "Layout": "HukmDemoLayout",
+  "Layout": null,
   "CreatedBy": "admin",
   "Id": "patient-registration",
   "CreatedDate": "2014-03-22T20:23:09.7138554+08:00",
-  "ChangedBy": "win-mac",
-  "ChangedDate": "2014-11-06T07:06:53.1518003+08:00",
+  "ChangedBy": "BESPOKE1-PC",
+  "ChangedDate": "2014-11-03T07:29:12.2378574+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }
