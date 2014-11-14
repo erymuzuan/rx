@@ -104,7 +104,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     });
 
                     // clone
-                    var fe = ko.mapping.fromJS(ko.mapping.toJS(ko.dataFor(this).element));
+                    var el = ko.dataFor(this).element;
+                    var fe = context.toObservable(el);
                     fe.isSelected = ko.observable(true);
                     fe.Label("Label " + fd.FormElementCollection().length);
                     fe.CssClass("");
