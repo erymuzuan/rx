@@ -27,6 +27,20 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
+        public override async Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            var vr = (await base.ValidateAsync()).ToList();
+
+            if (string.IsNullOrWhiteSpace(this.Schema))
+                vr.Add("Schema", "Schema cannot be empty");
+
+            if (string.IsNullOrWhiteSpace(this.Database))
+                vr.Add("Database", "Database cannot be empty");
+
+
+            return vr.AsEnumerable();
+        }
+
 
         private const string PkSql = @"
 SELECT  
@@ -236,7 +250,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 AddSources(responseSources, sources);
             }
 
-         
+
 
             code2.AppendLine("   }");// end class
             code2.AppendLine("}");// end namespace

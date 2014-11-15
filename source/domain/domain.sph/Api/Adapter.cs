@@ -31,6 +31,15 @@ namespace Bespoke.Sph.Domain.Api
                     .ToArray();
         }
 
+        public override Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            var vr = new ObjectCollection<ValidationError>();
+            if (string.IsNullOrWhiteSpace(this.Name))
+                vr.Add("Name", "Name cannot be empty");
+
+            return Task.FromResult(vr.AsEnumerable());
+        }
+
         public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)

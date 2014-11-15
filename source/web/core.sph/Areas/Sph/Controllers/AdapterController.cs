@@ -70,6 +70,16 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Save()
         {
             var ef = this.GetRequestJson<Adapter>();
+            if (null == ef)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Cannot deserialize adapter");
+
+
+            var vr =( await ef.ValidateAsync()).ToArray();
+            if (vr.Any())
+            {
+                return Json(new { success = false, status = "Not Valid", errors = vr});
+            }
+
             var context = new SphDataContext();
             if (ef.IsNewItem) ef.Id = ef.Name.ToIdFormat();
 

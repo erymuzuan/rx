@@ -12,6 +12,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
     function (context, logger, router) {
 
         var adapter = ko.observable(),
+            errors = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function (id) {
                 var query = String.format("Id eq '{0}'", id),
@@ -38,7 +39,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                             adapter().Har.subscribe(function (har) {
                                 // call the server to get the list of operations
                                 isBusy(true);
-                                if (!har)return;
+                                if (!har) return;
                                 $.get("/httpadapter/operations/" + har).done(function (results) {
                                     adapter().OperationDefinitionCollection(results);
                                     isBusy(false);
@@ -64,7 +65,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 context.post(data, "/adapter")
                     .then(function (result) {
                         isBusy(false);
-                        adapter().Id(result.id);
+                        if (result.success) {
+                            adapter().Id(result.id);
+                            errors.removeAll();
+
+                        } else {
+                            errors(result.errors);
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -84,6 +91,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
         var vm = {
             adapter: adapter,
+            errors: errors,
             remove: remove,
             isBusy: isBusy,
             activate: activate,

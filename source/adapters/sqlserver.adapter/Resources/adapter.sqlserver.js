@@ -16,6 +16,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             loadingSchemas = ko.observable(false),
             loadingDatabases = ko.observable(false),
             connected = ko.observable(false),
+            errors = ko.observableArray(),
             databaseOptions = ko.observableArray(),
             schemaOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
@@ -259,6 +260,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 context.post(data, "/adapter")
                     .then(function (result) {
                         isBusy(false);
+                        if (result.success) {
+                            adapter().Id(result.id);
+                            errors.removeAll();
+
+                        } else {
+                            errors(result.errors);
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -275,6 +283,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
         ;
 
         var vm = {
+            errors: errors,
             schemaOptions: schemaOptions,
             databaseOptions: databaseOptions,
             tableOptions: tableOptions,
