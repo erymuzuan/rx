@@ -62,7 +62,7 @@ namespace subscriber.version.control
                 var idToken = o.SelectToken("$.Id");
                 if (null == idToken)
                 {
-                    this.WriteMessage("Cannot find Id fiend in {0}",f);
+                    this.WriteMessage("[Id] field cannot be found in in {0}",f);
                     continue;
                 }
                 var id = idToken.Value<string>();

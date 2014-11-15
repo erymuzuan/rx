@@ -671,7 +671,7 @@
   },
   "Name": "hrmis",
   "Description": "hrmis",
-  "AdapterId": 11002,
+  "Id": "hrmis",
   "CreatedBy": "admin",
   "CreatedDate": "2014-08-02T09:17:16.4181903+08:00",
   "ChangedBy": "admin",
