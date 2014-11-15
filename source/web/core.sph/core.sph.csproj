@@ -1412,6 +1412,11 @@
     <EmbeddedResource Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
     <None Include="Resources\adapter.definition.list.html" />
     <None Include="Resources\adapter.definition.list.js" />
     <Content Include="Scripts\almond-custom.js" />
@@ -1460,11 +1465,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html2ColsCustomLeft.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="kendo\js\kendo.dataviz.chart.min.js.map">
       <DependentUpon>kendo.dataviz.chart.min.js</DependentUpon>
     </Content>
@@ -1516,6 +1516,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\r.js" />
     <EmbeddedResource Include="Scripts\require.js" />
     <Content Include="Scripts\sammy-0.7.5.js" />
