@@ -40,10 +40,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                                 // call the server to get the list of operations
                                 isBusy(true);
                                 if (!har) return;
-                                $.get("/httpadapter/operations/" + har).done(function (results) {
-                                    adapter().OperationDefinitionCollection(results);
-                                    isBusy(false);
-                                });
+                                $.get("/httpadapter/operations/" + har)
+                                    .done(function (results) {
+                                        adapter().OperationDefinitionCollection(results);
+                                        isBusy(false);
+                                    }).fail(function (error) {
+
+                                        var rs = error.responseJSON || {};
+                                        var message = rs.ExceptionMessage || "";
+                                        logger.error(message);
+                                    });
                             });
                         }
                         tcs.resolve(true);

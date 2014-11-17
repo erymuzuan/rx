@@ -19,7 +19,14 @@ namespace Bespoke.Sph.Integrations.Adapters
         public void Process(HttpOperationDefinition op, JToken jt)
         {
 
-            var json = jt.SelectToken("response.content.text").Value<string>();
+            var commentNode = jt.SelectToken("response.content.comment");
+            var textNode = jt.SelectToken("response.content.text");
+            if (null != commentNode && null == textNode)
+            {
+                var comment = jt.SelectToken("response.content.comment").Value<string>();
+                throw new InvalidOperationException("Cannot process the node : " + comment);
+            }
+            var json = textNode.Value<string>();
             op.ResponseIsJsonArray = json.Trim().StartsWith("[");
             if (op.ResponseIsJsonArray)// for array
                 json = "{\"list\":" + json + "}";
