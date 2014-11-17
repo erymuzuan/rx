@@ -8,8 +8,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context, logger, router) {
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.app],
+    function (context, logger, router, app) {
 
         var adapterOptions = ko.observableArray(),
             getAdapterType = function (adapter) {
@@ -21,7 +21,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             activate = function () {
 
                 var tcs = new $.Deferred();
-                $.get("adapter/installed-adapters", function(d) {
+                $.get("adapter/installed-adapters", function (d) {
                     adapterOptions(d);
                     tcs.resolve(true);
                 });
@@ -31,20 +31,37 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
             },
             getDesigner = function ($type) {
-                var item = _(adapterOptions()).find(function(v) {
+                var item = _(adapterOptions()).find(function (v) {
                     return ko.unwrap(v.adapter.$type) === ko.unwrap($type);
                 });
                 if (item.designer) {
                     return item.designer;
                 }
                 return {};
+            },
+            remove = function (p) {
+                var tcs = new $.Deferred();
+                app.showMessage("Are you sure you want to remove " + p.Name() + ", this action cannot be undone", "Rx Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+                            context.send(null, "/adapter/" + p.Id(), "DELETE")
+                                .done(function () {
+                                    tcs.resolve();
+                                    adapters.remove(p);
+                                    logger.info(p.Name() + " has been successfully removed");
+                                });
+                        }
+                    });
+
+                return tcs.promise();
             };
 
         var vm = {
+            remove: remove,
             adapterOptions: adapterOptions,
             getAdapterType: getAdapterType,
             getDesigner: getDesigner,
-            adapters : adapters,
+            adapters: adapters,
             isBusy: isBusy,
             activate: activate,
             attached: attached
