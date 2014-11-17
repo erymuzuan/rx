@@ -79,6 +79,14 @@ namespace Bespoke.Sph.Integrations.Adapters
                 await session.SubmitChanges();
             }
 
+            // NOTE : this will recycle the asp.net process
+            if (result.Result)
+            {
+                var output = Path.GetFileNameWithoutExtension(result.Output);
+                File.Copy(result.Output, ConfigurationManager.WebPath + @"\bin\" + output + ".dll");
+                File.Copy(result.Output.Replace(".dll", ".pdb"), ConfigurationManager.WebPath + @"\bin\" + output + ".pdb");
+            }
+
 
             return Ok(new
             {
@@ -168,7 +176,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var jo = JToken.ReadFrom(reader);
                 var entries = jo.SelectTokens("$.log.entries").SelectMany(x => x);
                 var operations = (from j in entries
-                                 // where j.SelectToken("response.content.text") != null
+                                  // where j.SelectToken("response.content.text") != null
                                   let textToken = j.SelectToken("response.content.text")
                                   let text = textToken == null ? string.Empty : textToken.Value<string>()
                                   let url302 = j.SelectToken("response.redirectURL")
