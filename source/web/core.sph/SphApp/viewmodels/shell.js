@@ -122,7 +122,7 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                         if (_(config.roles).indexOf("developers") < 0) {
                             return;
                         }
-                        require(['viewmodels/dev.quick.nav', 'durandal/app'], function (dialog, app2) {
+                        require(['viewmodels/solution.explorer', 'durandal/app'], function (dialog, app2) {
 
                             app2.showDialog(dialog)
                                 .done(function (result) {

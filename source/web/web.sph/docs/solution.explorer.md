@@ -1,4 +1,4 @@
-﻿#Developers quick access window
+﻿#Solution Explorer
 
 To access most commonly used developers assets such as EntityDefinition(forms, views etc), Workflows and trigger use `CTRL + ,` or <code>CTRL + `(back tick)</code>
 

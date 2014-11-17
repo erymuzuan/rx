@@ -43,12 +43,15 @@
     "MakeMinified": true,
     "OutputDirectory": null,
     "RunOnBuild": false,
-    "SyncBase64ImageValues": true
+    "SyncBase64ImageValues": true,
+    "GenerateRtlSourceMaps": true,
+    "RtlCss": false
   },
   "General": {
     "AllMessagesToOutputWindow": true,
     "KeepImportantComments": false,
-    "SvgPreviewPane": false
+    "SvgPreviewPane": false,
+    "ShowWEIgnoreLogs": true
   },
   "Html": {
     "AutoMinify": false,
@@ -78,7 +81,12 @@
     "MakeMinified": true,
     "OutputDirectory": null,
     "RunOnBuild": false,
-    "MinificationMode": "KeepQuotes"
+    "MinificationMode": "KeepQuotes",
+    "AttributeQuotesRemovalMode": "KeepQuotes",
+    "CustomAngularDirectiveList": null,
+    "MinifyAngularBindingExpressions": false,
+    "MinifyKnockoutBindingExpressions": false,
+    "ProcessableScriptTypeList": null
   },
   "JavaScript": {
     "AutoMinify": true,
@@ -153,7 +161,8 @@
     "ShowPreviewPane": true,
     "OutputStyle": "Expanded",
     "ProcessSourceMapsForEditorEnhancements": true,
-    "NumberPrecision": 5
+    "NumberPrecision": 5,
+    "UseRubyRuntime": false
   },
   "LiveScript": {
     "CompileOnBuild": false,
@@ -174,6 +183,13 @@
     "ScssOutputDirectory": null,
     "UseAbsoluteUrl": false,
     "UseFullPathForIdentifierName": true,
+    "OutputDirectory": null,
+    "Margin": 1
+  },
+  "Handlebars": {
+    "CompileOnBuild": false,
+    "CompileOnSave": true,
+    "MinifyInPlace": false,
     "OutputDirectory": null
   }
 }

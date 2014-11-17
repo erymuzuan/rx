@@ -129,3 +129,5 @@ bin/sources/test*
 bin/sources/legacyadw/
 /bin/sources
 /source/web/web.sph/Views/CreateBillingAccountForNewPatientWorkflow
+/source/web/web.sph/docs/.idea/scopes
+/source/web/web.sph/docs/.idea

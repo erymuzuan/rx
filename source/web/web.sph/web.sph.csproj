@@ -649,9 +649,6 @@
     <Content Include="docs\PropertyMapping.html">
       <DependentUpon>PropertyMapping.md</DependentUpon>
     </Content>
-    <Content Include="docs\quick.access.html">
-      <DependentUpon>quick.access.md</DependentUpon>
-    </Content>
     <Content Include="docs\ReceiveActivity.html">
       <DependentUpon>ReceiveActivity.md</DependentUpon>
     </Content>
@@ -729,6 +726,9 @@
     </Content>
     <Content Include="docs\SimpleVariable.html">
       <DependentUpon>SimpleVariable.md</DependentUpon>
+    </Content>
+    <Content Include="docs\solution.explorer.html">
+      <DependentUpon>solution.explorer.md</DependentUpon>
     </Content>
     <Content Include="docs\Sort.html">
       <DependentUpon>Sort.md</DependentUpon>
@@ -1026,7 +1026,7 @@
     <Content Include="docs\XsdMetadata.md" />
     <Content Include="docs\architecture.md" />
     <Content Include="docs\components.md" />
-    <Content Include="docs\quick.access.md" />
+    <Content Include="docs\solution.explorer.md" />
     <Content Include="docs\Trigger.HowTo.PassCurrentRecordToWorkflow.md" />
     <Content Include="images\charts.png" />
     <Content Include="docs\WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.md" />

@@ -2137,7 +2137,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\document.template.details.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.permission.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\entity.operation.details.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\dev.quick.nav.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\field.javascriptexpression.js" />
     <EmbeddedResource Include="SphApp\services\chart.js" />
     <EmbeddedResource Include="SphApp\viewmodels\dev.home.js" />
@@ -2180,7 +2180,7 @@
     <EmbeddedResource Include="SphApp\views\document.template.details.html" />
     <EmbeddedResource Include="SphApp\views\field.permission.dialog.html" />
     <EmbeddedResource Include="SphApp\views\entity.operation.details.html" />
-    <EmbeddedResource Include="SphApp\views\dev.quick.nav.html" />
+    <EmbeddedResource Include="SphApp\views\solution.explorer.html" />
     <EmbeddedResource Include="SphApp\views\field.javascriptexpression.html" />
     <EmbeddedResource Include="SphApp\views\dev.home.html" />
     <EmbeddedResource Include="SphApp\views\entity.chart.dialog.html" />

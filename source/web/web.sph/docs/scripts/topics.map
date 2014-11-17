@@ -41,7 +41,7 @@
     "listen-dialog" : "ListenActivity.html",
     "delay-dialog" : "DelayActivity.html",
     "sch-act-dialog" : "ScheduledTriggerActivity.html",
-    "dev-quick-nav-dialog" : "quick.access.html",
+    "solution-explorer-dialog" : "solution.explorer.html",
 
     "constant-panel-modal" : "ConstantField.html",
     "document-panel-modal" : "DocumentField.html",
