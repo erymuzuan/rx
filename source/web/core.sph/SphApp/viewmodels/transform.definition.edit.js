@@ -72,6 +72,11 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 jsPlumbInstance.draggable(element);
             },
             toolboxItemDraggedStop = function (arg) {
+                if (!td().Id() || td().Id() === "0") {
+                    logger.error("Please save your mapping definition before using functoid!!");
+                    return;
+                }
+
                 var functoid = context.toObservable(ko.mapping.toJS(ko.dataFor(this).functoid)),
                     x = arg.clientX,
                     y = arg.clientY,
@@ -495,6 +500,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         isBusy(false);
                         if (!td().Id() || td().Id() === "0") {
                             td().Id(result.id);
+                            window.location = "/sph#transform.definition.edit/" + result.id;
                         }
                         tcs.resolve(result);
                     });
