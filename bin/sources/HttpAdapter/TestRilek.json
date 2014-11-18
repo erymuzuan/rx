@@ -9,6 +9,10 @@
   "Tables": null,
   "Schema": "rileks",
   "CodeNamespace": "Dev.Adapters.rileks",
+  "TableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+    "$values": []
+  },
   "OperationDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
     "$values": []

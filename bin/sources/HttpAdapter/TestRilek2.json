@@ -3,12 +3,16 @@
   "OdataTranslator": null,
   "Har": "7286eeab-cb33-4e8e-957c-8263607b2824",
   "BaseAddress": "https://www.rilek.my/rilek",
-  "AuthenticationMode": "Form",
+  "AuthenticationMode": "None",
   "Timeout": null,
   "TimeoutInterval": "Milliseconds",
   "Tables": null,
   "Schema": "rileksla",
   "CodeNamespace": "Dev.Adapters.rileksla",
+  "TableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+    "$values": []
+  },
   "OperationDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
     "$values": [
@@ -3756,7 +3760,7 @@
   "CreatedBy": "admin",
   "Id": "testrilek2",
   "CreatedDate": "2014-09-19T07:07:17.9182411+08:00",
-  "ChangedBy": "admin",
-  "ChangedDate": "2014-09-19T07:10:57.402873+08:00",
+  "ChangedBy": "BESPOKE1-PC",
+  "ChangedDate": "2014-11-18T07:48:28.1440249+08:00",
   "WebId": "419e97b9-92b0-49dd-8339-e6670c5e8a1d"
 }
