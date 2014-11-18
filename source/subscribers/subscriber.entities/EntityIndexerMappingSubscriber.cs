@@ -178,8 +178,7 @@ namespace subscriber.entities
                 var response = await client.PutAsync(url, content);
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    Console.Write(".");
-                    // creates the index for the 1st time
+                    this.WriteMessage("creates the index for the 1st time for {0}", item.Name);
                     await client.PutAsync(ConfigurationManager.ApplicationName.ToLowerInvariant(), new StringContent(""));
                     return await this.PutMappingAsync(item);
                 }
@@ -191,7 +190,14 @@ namespace subscriber.entities
                     if (null != rc)
                         text = await rc.ReadAsStringAsync();
 
-                    this.WriteError(new Exception(" Error creating Elastic search map for " + item.Name + "/r/n" + text));
+                    if (text.Contains("MergeMappingException") && text.Contains("of different type, current_type"))
+                    {
+                        this.WriteMessage("Deleting current mapping because there's different in data type and schema");
+                        await client.DeleteAsync(url);
+                        return await PutMappingAsync(item);
+
+                    }
+                    this.WriteError(new Exception(string.Format(" Error creating Elastic search map for [{0}]\r\n{1}", item.Name, text)));
                 }
 
                 return response.StatusCode == HttpStatusCode.OK;
