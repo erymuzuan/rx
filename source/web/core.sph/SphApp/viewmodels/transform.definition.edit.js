@@ -487,8 +487,12 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                         p = $(this),
                         x = parseInt(p.css("left")),
                         y = parseInt(p.css("top"));
-                    fnt.X(x);
-                    fnt.Y(y);
+                    if (!fnt) {
+                        p.remove();
+                    } else {
+                        fnt.X(x);
+                        fnt.Y(y);
+                    }
                 });
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(td);
@@ -530,8 +534,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                                 // try build the tree for new item
                                 if (!td().Id() || td().Id() === "0") {
                                     var inTask = context.get("/sph/transformdefinition/schema?type=" + td().InputTypeName()),
-                                       outTask= context.get("/sph/transformdefinition/schema?type=" + td().OutputTypeName());
-                                    $.when(inTask, outTask).done(function(input, output) {
+                                       outTask = context.get("/sph/transformdefinition/schema?type=" + td().OutputTypeName());
+                                    $.when(inTask, outTask).done(function (input, output) {
                                         sourceSchema(input[0]);
                                         destinationSchema(output[0]);
                                         attached();
@@ -596,7 +600,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             sourceSchema: sourceSchema,
             destinationSchema: destinationSchema,
             td: td,
-            editProp:editProp,
+            editProp: editProp,
             toolbar: {
                 saveCommand: save,
                 commands: ko.observableArray([
