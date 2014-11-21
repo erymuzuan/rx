@@ -245,11 +245,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\App\Views\EntityFormDesigner\Script.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Script.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Areas\App\Views\EntityFormDesigner\_DesignerContextAction.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -601,7 +596,6 @@
     <Compile Include="Areas\Sph\Controllers\DocumentTemplateController.cs" />
     <Compile Include="Areas\Sph\Controllers\EmailTemplateController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityChartController.cs" />
-    <Compile Include="Areas\Sph\Controllers\EntityFormController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
@@ -737,6 +731,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_TriggerFieldDropDown.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\EntityFormController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\ResourcesController.cs" />
     <Compile Include="Controllers\FormDesignerController.cs" />
@@ -2277,10 +2272,6 @@
     <Content Include="Areas\App\Views\EntityFormDesigner\Html.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\EntityFormDesigner\Script.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Script.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\App\Views\EntityFormDesigner\_DesignerContextAction.cshtml">
       <Generator>RazorGenerator</Generator>

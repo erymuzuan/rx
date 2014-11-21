@@ -281,7 +281,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(form);
 
-                context.post(data, "/Sph/EntityForm/Publish")
+                context.post(data, "/entity-form/publish")
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
@@ -308,7 +308,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(form);
 
-                context.post(data, "/Sph/EntityForm/Save")
+                context.post(data, "/entity-form")
                     .then(function (result) {
                         form().Id(result.id);
                         tcs.resolve(result);
@@ -316,12 +316,39 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 return tcs.promise();
             },
 
+        removeAsync = function () {
+
+            var tcs = new $.Deferred(),
+                data = ko.mapping.toJSON(form);
+            app.showMessage("Are you sure you want to permanently remove this form?, this action cannot be undone!!", "Reactive Developer", ["Yes", "No"])
+                .done(function (dialogResult) {
+                    if (dialogResult === "Yes") {
+
+                        context.send(data, "/entity-form/" + form().Id(), "DELETE")
+                            .then(function (result) {
+                                if (result.success) {
+                                    logger.info(result.message);
+                                    errors.removeAll();
+                                    window.location = "/sph#entity.details/" + entity().Id();
+                                } else {
+                                    logger.error("There are errors in your form, cannot be removed !!");
+                                }
+                                tcs.resolve(result);
+                            });
+                    } else {
+                        tcs.resolve(false);
+
+                    }
+                });
+
+            return tcs.promise();
+        },
         depublishAsync = function () {
 
             var tcs = new $.Deferred(),
                 data = ko.mapping.toJSON(form);
 
-            context.post(data, "/EntityForm/Depublish")
+            context.post(data, "/entity-form/depublish")
                 .then(function (result) {
                     if (result.success) {
                         logger.info(result.message);
@@ -425,7 +452,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     })
                 }
                 ]),
-                saveCommand: save
+                saveCommand: save,
+                removeCommand: removeAsync
             }
         };
 

@@ -4,10 +4,13 @@ using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 
-namespace Bespoke.Sph.Web.Areas.Sph.Controllers
+namespace Bespoke.Sph.Web.Controllers
 {
+    [RoutePrefix("entity-form")]
     public class EntityFormController : Controller
     {
+        [HttpPost]
+        [Route("")]
         public async Task<ActionResult> Save()
         {
             var ef = this.GetRequestJson<EntityForm>();
@@ -24,6 +27,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { success = true, status = "OK", id = ef.Id });
         }
 
+        [HttpPost]
+        [Route("depublish")]
         public async Task<ActionResult> Depublish()
         {
             var context = new SphDataContext();
@@ -60,6 +65,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
+        [HttpPost]
+        [Route("publish")]
         public async Task<ActionResult> Publish()
         {
             var context = new SphDataContext();
@@ -77,6 +84,24 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges("Publish");
             }
             return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = form.Id });
+
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> Remove(string id)
+        {
+            var context = new SphDataContext();
+            var form = await context.LoadOneAsync<EntityForm>(e => e.Id == id);
+            if (null == form)
+                return new HttpNotFoundResult("Cannot find form to delete , Id : " + id);
+
+            using (var session = context.OpenSession())
+            {
+                session.Delete(form);
+                await session.SubmitChanges("Remove");
+            }
+            return Json(new { success = true, status = "OK", message = "Your form has been successfully deleted", id = form.Id });
 
         }
     }
