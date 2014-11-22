@@ -48,12 +48,20 @@
         <!-- /ko -->
         <!-- /ko -->
 
-        <!-- ko if: typeof saveCommand === "function"-->
+        <!-- ko if: typeof saveCommand === "function" && typeof canExecuteSaveCommand === "undefined"-->
         <button id="save-button" class="btn btn-default" data-bind="command: saveCommand">
             <i class="fa fa-save"></i>
             Save
         </button>
         <!-- /ko -->
+        <!-- ko if: typeof saveCommand === "function" && typeof canExecuteSaveCommand === "function"-->
+        <button class="btn btn-default" data-bind="command: saveCommand, enable :canExecuteSaveCommand">
+            <i class="fa fa-save"></i>
+            Save
+        </button>
+        <!-- /ko -->
+        
+
         <!-- ko if: typeof removeCommand === "function"&& typeof canExecuteRemoveCommand === "undefined"-->
         <button class="btn btn-default" data-bind="command: removeCommand">
             <i class="fa fa-trash-o"></i>

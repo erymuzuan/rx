@@ -424,6 +424,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         if (result.success) {
                             logger.info("Data have been succesfully save");
                             wd().Id(result.id);
+                        } else {
+                            logger.error(result.message);
                         }
                         tcs.resolve(result);
                     });
@@ -561,6 +563,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             autoSaveInterval: autoSaveInterval,
             toolbar: {
                 saveCommand: saveAsync,
+                canExecuteSaveCommand: function () {
+                    return wd().Name();
+                },
                 exportCommand: exportWd,
                 removeCommand: remove,
                 reloadCommand: reload,

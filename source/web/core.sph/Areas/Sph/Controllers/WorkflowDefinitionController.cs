@@ -165,6 +165,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Save()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
+            if (string.IsNullOrWhiteSpace(wd.Name))
+                return Json(new { success = false, status = "Not OK", message = "Name cannot be empty" });
             if (string.IsNullOrWhiteSpace(wd.Id) && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
             {
                 wd.Id = wd.Name.ToIdFormat();
