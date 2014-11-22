@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -26,21 +27,28 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public async Task<ActionResult> Import(IEnumerable<HttpPostedFileBase> files)
         {
-            foreach (var postedFile in files)
+            try
             {
-                var fileName = Path.GetFileName(postedFile.FileName);
-                if (string.IsNullOrWhiteSpace(fileName)) throw new Exception("Filename is empty or null");
+                foreach (var postedFile in files)
+                {
+                    var fileName = Path.GetFileName(postedFile.FileName);
+                    if (string.IsNullOrWhiteSpace(fileName)) throw new Exception("Filename is empty or null");
 
-                var zip = Path.Combine(Path.GetTempPath(), fileName);
-                postedFile.SaveAs(zip);
+                    var zip = Path.Combine(Path.GetTempPath(), fileName);
+                    postedFile.SaveAs(zip);
 
-                var packager = new WorkflowDefinitionPackage();
-                var wd = await packager.UnpackAsync(zip);
+                    var packager = new WorkflowDefinitionPackage();
+                    var wd = await packager.UnpackAsync(zip);
 
-                this.Response.ContentType = APPLICATION_JAVASCRIPT;
-                var result = new { success = true, wd };
-                return Content(result.ToJsonString());
+                    this.Response.ContentType = APPLICATION_JAVASCRIPT;
+                    var result = new { success = true, wd };
+                    return Content(result.ToJsonString());
 
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new {success = false, exception = e.GetType().FullName, message = e.Message, stack = e.StackTrace});
             }
             return Json(new { success = false });
 
