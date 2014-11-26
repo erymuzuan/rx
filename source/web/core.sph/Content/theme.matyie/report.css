@@ -1,11 +1,10 @@
-﻿#preview-parameters-dialog .modal-dialog {
-    height: 800px;
-    width: 900px;
+#preview-parameters-dialog .modal-dialog {
+  height: 800px;
+  width: 900px;
 }
-
 #rdl-configuration-panel .modal-dialog {
-    max-height: 600px;
-    width: 761px;
+  max-height: 600px;
+  width: 761px;
 }
 
-/*# sourceMappingURL=C:/project/work/sph/source/web/web.sph//Content/theme.matyie/report.less.map */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlcG9ydC5sZXNzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVBLDBCQUNJO0VBQ0ksYUFBQTtFQUNBLFlBQUE7O0FBSVIsd0JBQ0k7RUFDSSxpQkFBQTtFQUNBLFlBQUEiLCJmaWxlIjoicmVwb3J0LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIlxyXG5cclxuI3ByZXZpZXctcGFyYW1ldGVycy1kaWFsb2cge1xyXG4gICAgLm1vZGFsLWRpYWxvZyB7XHJcbiAgICAgICAgaGVpZ2h0OiA4MDBweDtcclxuICAgICAgICB3aWR0aDogOTAwcHg7XHJcbiAgICB9XHJcbn1cclxuXHJcbiNyZGwtY29uZmlndXJhdGlvbi1wYW5lbCB7XHJcbiAgICAubW9kYWwtZGlhbG9nIHtcclxuICAgICAgICBtYXgtaGVpZ2h0OiA2MDBweDtcclxuICAgICAgICB3aWR0aDogNzYxcHg7XHJcbiAgICB9XHJcbn1cclxuIl0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9 */
