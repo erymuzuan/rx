@@ -8,8 +8,8 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.config],
-    function (context, logger, dialog, config) {
+define(['services/datacontext', 'services/logger', 'plugins/dialog'],
+    function (context, logger, dialog) {
         var items = ko.observableArray(),
             triggers= ko.observableArray(),
             wds= ko.observableArray(),
@@ -53,10 +53,10 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             },
             attached = function (view) {
                 var self = this;
-                $('#dev-quick-nav-dialog').on('click', 'a', function (e) {
+                $('#solution-explorer-dialog').on('click', 'a', function (e) {
                     e.preventDefault();
                 });
-                $('#dev-quick-nav-dialog').on('dblclick', 'a', function (e) {
+                $('#solution-explorer-dialog').on('dblclick', 'a', function (e) {
                     e.preventDefault();
                     window.location = this.href;
                     dialog.close(self, "OK");

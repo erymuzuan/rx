@@ -11,8 +11,8 @@
 /// <reference path="../objectbuilders.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system],
-    function (context, logger, router, system) {
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, objectbuilders.app],
+    function (context, logger, router, system, app) {
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             isBusy = ko.observable(false),
@@ -132,6 +132,37 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         tcs.resolve(result);
                     });
                 return tcs.promise();
+            },
+            removeAsync = function () {
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(entity);
+                isBusy(true);
+                app.showMessage("Are you sure you want to permanently remove this entity definition, this action cannot be undone and will also remove related forms, views, triggers, reports and business rules", "Reactive Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+
+                            context.post(data, "/EntityDefinition/" + entity().Id(), "DELETE")
+                                .then(function (result) {
+                                    isBusy(false);
+                                    if (result.success) {
+                                        logger.info(result.message);
+                                        entity().Id(result.id);
+                                        errors.removeAll();
+                                    } else {
+
+                                        errors(result.Errors);
+                                        logger.error("There are errors in your schema, !!!");
+                                    }
+                                    tcs.resolve(result);
+                                });
+                        } else {
+
+                            tcs.resolve(false);
+                        }
+                    });
+
+                return tcs.promise();
             };
 
 
@@ -146,6 +177,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             member: member,
             toolbar: {
                 saveCommand: save,
+                removeCommand: removeAsync,
+                canExecuteRemoveCommand: function () {
+                    return false;
+                },
                 commands: ko.observableArray([{
                     caption: 'Clone',
                     icon: 'fa fa-copy',
@@ -171,7 +206,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         caption: 'Depublish',
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
-                            return entity().Id()  && entity().IsPublished();
+                            return entity().Id() && entity().IsPublished();
                         })
                     }])
             }

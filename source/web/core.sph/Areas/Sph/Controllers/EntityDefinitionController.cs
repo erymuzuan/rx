@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -112,6 +113,31 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges("Depublish");
             }
             return Json(new { success = true, status = "OK", message = "Your entity has been successfully depublished", id = ed.Id });
+
+
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Index(string id)
+        {
+            var context = new SphDataContext();
+            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
+            if (null == ed) return new HttpNotFoundResult("Cannot find entity definition to delete, id : " + id);
+
+            var formsTask =  context.LoadAsync(context.EntityForms.Where(f => f.EntityDefinitionId == id));
+            var viewsTask =  context.LoadAsync(context.EntityViews.Where(f => f.EntityDefinitionId == id));
+            var triggersTask =  context.LoadAsync(context.Triggers.Where(f => f.Entity == id));
+            await Task.WhenAll(formsTask, viewsTask, triggersTask);
+
+            using (var session = context.OpenSession())
+            {
+                session.Delete(ed);
+                session.Delete((await formsTask).ItemCollection.Cast<Entity>().ToArray());
+                session.Delete((await viewsTask).ItemCollection.Cast<Entity>().ToArray());
+                session.Delete((await triggersTask).ItemCollection.Cast<Entity>().ToArray());
+                await session.SubmitChanges("Depublish");
+            }
+            return Json(new { success = true, status = "OK", message = "Your entity has been successfully deleted", id = ed.Id });
 
 
         }

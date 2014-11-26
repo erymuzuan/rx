@@ -7808,7 +7808,7 @@ _:-ms-fullscreen.input-lg,
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
-  /*position: absolute;*/
+  position: absolute;
   margin-top: 4px \9;
   margin-left: -20px;
 }
@@ -16187,7 +16187,7 @@ header div.nav-header > ul {
   border: none;
   color: #999999;
 }
-#dev-quick-nav-dialog a {
+#solution-explorer-dialog a {
   padding: 0px;
 }
 /*# sourceMappingURL=nav.css.map */
