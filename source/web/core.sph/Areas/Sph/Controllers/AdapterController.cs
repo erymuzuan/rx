@@ -69,26 +69,41 @@ namespace Bespoke.Sph.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Save()
         {
-            var ef = this.GetRequestJson<Adapter>();
-            if (null == ef)
+            var adapter = this.GetRequestJson<Adapter>();
+            if (null == adapter)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Cannot deserialize adapter");
 
 
-            var vr =( await ef.ValidateAsync()).ToArray();
+            var vr = (await adapter.ValidateAsync()).ToArray();
             if (vr.Any())
             {
-                return Json(new { success = false, status = "Not Valid", errors = vr});
+                return Json(new { success = false, status = "Not Valid", errors = vr });
             }
 
             var context = new SphDataContext();
-            if (ef.IsNewItem) ef.Id = ef.Name.ToIdFormat();
+            this.Response.StatusCode = (int)HttpStatusCode.Accepted;
+            if (adapter.IsNewItem)
+            {
+                adapter.Id = adapter.Name.ToIdFormat();
+                this.Response.StatusCode = (int)HttpStatusCode.Created;
+            }
 
             using (var session = context.OpenSession())
             {
-                session.Attach(ef);
+                session.Attach(adapter);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = ef.Id });
+            return Json(new
+            {
+                success = true,
+                status = "OK",
+                id = adapter.Id,
+                link = new
+                {
+                    rel = "self",
+                    href = "adapter/" + adapter.Id
+                }
+            });
         }
 
 
@@ -136,7 +151,7 @@ namespace Bespoke.Sph.Web.Controllers
             var html = provider.GetEditorView(route);
             return Content(html, "text/html", Encoding.UTF8);
         }
-        
+
 
     }
 }

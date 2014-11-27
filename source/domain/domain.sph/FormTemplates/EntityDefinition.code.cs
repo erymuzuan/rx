@@ -228,7 +228,7 @@ namespace Bespoke.Sph.Domain
                 await session.SubmitChanges(""save"");
             }}
             this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.Id}});", this.Name);
+            return Json(new {{success = true, status=""OK"", id = item.Id, href = ""{1}/"" + item.Id}});", this.Name, this.Name.ToLowerInvariant());
             code.AppendLine("       }");
 
             //OPERATIONS
