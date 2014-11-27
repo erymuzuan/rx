@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Web.Api
             var changes = xml.Deserialize<ChangeSubmission>();
 
             var persistent = ObjectBuilder.GetObject<IPersistence>();
-            var so = await persistent.SubmitChanges(changes.ChangedCollection, changes.DeletedCollection, null);
+            var so = await persistent.SubmitChanges(changes.ChangedCollection, changes.DeletedCollection, null, this.User.Identity.Name);
 
             var webids = changes.ChangedCollection.Select(e => e.WebId).ToArray();
 

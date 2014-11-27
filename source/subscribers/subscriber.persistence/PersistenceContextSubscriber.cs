@@ -198,7 +198,7 @@ namespace Bespoke.Sph.Persistence
                 entities.AddRange(logs);
 
                 var persistence = ObjectBuilder.GetObject<IPersistence>();
-                var so = await persistence.SubmitChanges(entities, deletedItems, null)
+                var so = await persistence.SubmitChanges(entities, deletedItems, null, headers.Username)
                 .ConfigureAwait(false);
                 Debug.WriteLine(so.ToJsonString(true));
 

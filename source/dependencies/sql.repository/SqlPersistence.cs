@@ -25,14 +25,13 @@ namespace Bespoke.Sph.SqlRepository
             m_connectionString = connectionString;
         }
 
-        public Task<SubmitOperation> SubmitChanges(Entity item)
+        public Task<SubmitOperation> SubmitChanges(Entity item, string user)
         {
-            return this.SubmitChanges(new[] { item }, new Entity[] { }, null);
+            return this.SubmitChanges(new[] { item }, new Entity[] { }, null, user);
         }
 
-        public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session)
+        public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session, string user)
         {
-            var ad = ObjectBuilder.GetObject<IDirectoryService>();
             var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
 
             var addedList = addedOrUpdatedItems.ToList();
@@ -65,7 +64,7 @@ namespace Bespoke.Sph.SqlRepository
                         .Where(p => p.CanRead && p.CanWrite)
                         .ToArray();
 
-                    item.ChangedBy = ad.CurrentUserName;
+                    item.ChangedBy = user;
                     item.ChangedDate = DateTime.Now;
                     bool exist;
                     using (var cmd2 = new SqlCommand("SELECT COUNT([ID]) FROM [" + this.GetSchema(entityType) + "].[" + entityType.Name + "] WHERE [Id] = '" +item.Id+"'", conn))
@@ -77,7 +76,7 @@ namespace Bespoke.Sph.SqlRepository
                     }
                     if (!exist)
                     {
-                        item.CreatedBy = ad.CurrentUserName;
+                        item.CreatedBy = user;
                         item.CreatedDate = DateTime.Now;
                         this.AppendInsertStatement(sql, entityType, columns, count1);
                     }
@@ -88,7 +87,7 @@ namespace Bespoke.Sph.SqlRepository
                     foreach (var c in columns)
                     {
                         var parameterName = string.Format("@{0}{1}", c.Name.Replace(".", "_"), count1);
-                        var parameterValue = this.GetParameterValue(c, entityType, item);
+                        var parameterValue = this.GetParameterValue(c, entityType, item, user);
 
                         cmd.Parameters.AddWithValue(parameterName, parameterValue);
                     }
@@ -180,9 +179,8 @@ namespace Bespoke.Sph.SqlRepository
         }
 
 
-        private object GetParameterValue(Column prop, Type entityType, Entity item)
+        private object GetParameterValue(Column prop, Type entityType, Entity item, string user)
         {
-            var ad = ObjectBuilder.GetObject<IDirectoryService>();
 
             var id = (string)item.GetType().GetProperty("Id")
                 .GetValue(item, null);
@@ -193,11 +191,11 @@ namespace Bespoke.Sph.SqlRepository
             if (prop.Name == "CreatedDate")
                 return string.IsNullOrWhiteSpace(id) || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
             if (prop.Name == "CreatedBy")
-                return ad.CurrentUserName;
+                return user;
             if (prop.Name == "ChangedDate")
                 return DateTime.Now;
             if (prop.Name == "ChangedBy")
-                return ad.CurrentUserName;
+                return user;
 
             var itemProp = item.GetType().GetProperty(prop.Name);
             if (null == itemProp) return item.MapColumnValue(prop.Name);
