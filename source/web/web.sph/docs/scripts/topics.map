@@ -58,6 +58,7 @@
     "rule-dialog" : "BusinessRule.html",
     "icon-picker" : "IconPicker.html",
     "field-permission-dialog" : "FieldPermission.html",
+    "adapter.http" : "HttpAdapter.html",
 
     "default": "Overview.html"
 }

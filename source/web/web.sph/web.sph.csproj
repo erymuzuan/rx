@@ -696,6 +696,7 @@
     </Content>
     <Content Include="docs\ReferencedAssembly.md" />
     <Content Include="docs\IconPicker.md" />
+    <Content Include="docs\HttpAdapter.md" />
     <None Include="docs\scripts\topics.map" />
     <Content Include="docs\scripts\main.js" />
     <Content Include="docs\scripts\types.js" />

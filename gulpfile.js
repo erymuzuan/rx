@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var less = require('gulp-less');
 var path = require('path');
 var sourcemaps = require('gulp-sourcemaps');
+var markdown = require('gulp-markdown');
 
 gulp.task('less', function () {
   gulp.src('./source/web/core.sph/Content/theme.matyie/*.less')
@@ -12,7 +13,11 @@ gulp.task('less', function () {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./source/web/core.sph/Content/theme.matyie/'));
 });
-
+gulp.task('md', function () {
+    return gulp.src('./source/web/web.sph/docs/HttpAdapter.md')
+        .pipe(markdown())
+        .pipe(gulp.dest('./source/web/web.sph/docs/'));
+});
 gulp.task('default', function() {
   // place code for your default task here
 });
