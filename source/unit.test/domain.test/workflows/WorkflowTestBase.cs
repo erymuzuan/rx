@@ -42,7 +42,7 @@ namespace domain.test.workflows
             ps.Setup(
                 x =>
                     x.SubmitChanges(It.IsAny<IEnumerable<Entity>>(), It.IsAny<IEnumerable<Entity>>(),
-                        It.IsAny<PersistenceSession>()))
+                        It.IsAny<PersistenceSession>(), It.IsAny<string>()))
                 .Returns(() => Task.FromResult(new SubmitOperation()));
             ObjectBuilder.AddCacheList(ps.Object);
 

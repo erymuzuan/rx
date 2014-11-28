@@ -180,9 +180,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     return false;
                 }
             }
-
-
-            return true;
         }
 
         private void StartIisService()
