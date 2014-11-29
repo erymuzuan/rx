@@ -6,7 +6,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using MySql.Data.MySqlClient;
 
-namespace mysql.adapter
+namespace Bespoke.Sph.Integrations.Adapters
 {
     [EntityType(typeof(Adapter))]
     [Export("AdapterDesigner", typeof(Adapter))]
@@ -44,5 +44,7 @@ namespace mysql.adapter
         {
             get { return ""; }
         }
+
+        public string ConnectionString { get; set; }
     }
 }
