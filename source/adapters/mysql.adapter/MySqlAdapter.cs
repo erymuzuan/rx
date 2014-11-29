@@ -10,11 +10,11 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     [EntityType(typeof(Adapter))]
     [Export("AdapterDesigner", typeof(Adapter))]
-    [DesignerMetadata(Name = "MySql database", PngIcon = "~/images/mysql-24-black.png", 
-        RouteTableProvider = typeof(MySqlServerRouteProvider), Route = "adapter.mysql/0")]
-  
+    [DesignerMetadata(Name = "MySql database", PngIcon = "~/images/mysql-24-black.png", RouteTableProvider = typeof(MySqlServerRouteProvider), Route = "adapter.mysql/0")]
     public class MySqlAdapter : Adapter
     {
+        private string m_connectionString;
+
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
             throw new NotImplementedException();
@@ -47,7 +47,22 @@ namespace Bespoke.Sph.Integrations.Adapters
             get { return ""; }
         }
 
-        public string ConnectionString { get; set; }
+        public string ConnectionString
+        {
+            get
+            {
+
+                if (string.IsNullOrWhiteSpace(m_connectionString))
+                    m_connectionString = string.Format("Server={0};Database={1};Uid={2};Pwd={3};", this.Server, this.Database, this.UserId, this.Password);
+                return m_connectionString;
+            }
+            set { m_connectionString = value; }
+        }
+
+        public string Password { get; set; }
+        public string UserId { get; set; }
+        public string Server { get; set; }
+
         public string Database { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
+    [RoutePrefix("mysql-adapter")]
     public class MySqlAdapterController : ApiController
     {
         [HttpPost]
@@ -50,7 +51,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                     {
                         list.Add(reader.GetString(0));
                     }
-                    var json = JsonConvert.SerializeObject(new { schemas = list.ToArray(), success = true, status = "OK" });
+                    var json = JsonConvert.SerializeObject(new { schema = list.ToArray(), success = true, status = "OK" });
                     var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new JsonContent(json) };
                     return response;
                 }

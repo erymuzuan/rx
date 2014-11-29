@@ -47,7 +47,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 context.loadOneAsync("Adapter", query)
                     .done(function (b) {
 
-                        var loadSchemaTask = context.post(ko.mapping.toJSON(b), "mysql-adapter/schema"),
+                        var loadSchemaTask = context.post(ko.mapping.toJSON(b), "mysql-adapter/schemas"),
                             loadTablesSprocsTask = context.post(ko.mapping.toJSON(b), "mysql-adapter/tables"),
                             loadDatabasesTask = connect(b);
 
@@ -81,7 +81,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         return;
                     }
                     loadingSchemas(true);
-                    context.post(ko.mapping.toJSON(adapter), "mysql-adapter/schema").done(function (result) {
+                    context.post(ko.mapping.toJSON(adapter), "mysql-adapter/schemas").done(function (result) {
                         schemaOptions(result.schema);
                         loadingSchemas(false);
                         logger.info("You are now connected, please select your schema");
