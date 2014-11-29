@@ -137,6 +137,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trigger.action.messaging", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trigger.action.messaging.test", "source\unit.test\trigger.action.messaging.test\trigger.action.messaging.test.csproj", "{72744191-5875-4D59-9FD5-BC3B0680C84E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mysql.adpater.test", "source\unit.test\mysql.adpater.test\mysql.adpater.test.csproj", "{590DC146-6BA1-4202-995D-9E46951A0E57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -343,6 +345,10 @@ Global
 		{72744191-5875-4D59-9FD5-BC3B0680C84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72744191-5875-4D59-9FD5-BC3B0680C84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72744191-5875-4D59-9FD5-BC3B0680C84E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{590DC146-6BA1-4202-995D-9E46951A0E57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{590DC146-6BA1-4202-995D-9E46951A0E57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{590DC146-6BA1-4202-995D-9E46951A0E57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{590DC146-6BA1-4202-995D-9E46951A0E57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -398,5 +404,6 @@ Global
 		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{529768DA-DF59-416B-B180-EE5F742474F9} = {FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}
 		{72744191-5875-4D59-9FD5-BC3B0680C84E} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{590DC146-6BA1-4202-995D-9E46951A0E57} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 EndGlobal

@@ -5,27 +5,6 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [XmlInclude(typeof(AddressElement))]
-    [XmlInclude(typeof(TextAreaElement))]
-    [XmlInclude(typeof(TextBox))]
-    [XmlInclude(typeof(NumberTextBox))]
-    [XmlInclude(typeof(DatePicker))]
-    [XmlInclude(typeof(DateTimePicker))]
-    [XmlInclude(typeof(CheckBox))]
-    [XmlInclude(typeof(ComboBox))]
-    [XmlInclude(typeof(MapElement))]
-    [XmlInclude(typeof(EmailFormElement))]
-    [XmlInclude(typeof(WebsiteFormElement))]
-    [XmlInclude(typeof(SectionFormElement))]
-    [XmlInclude(typeof(HtmlElement))]
-    [XmlInclude(typeof(ImageElement))]
-    [XmlInclude(typeof(DownloadLink))]
-    [XmlInclude(typeof(FileUploadElement))]
-    [XmlInclude(typeof(ListView))]
-    [XmlInclude(typeof(Button))]
-    [XmlInclude(typeof(ChildEntityListView))]
-    [XmlInclude(typeof(EntityLookupElement))]
-    [XmlInclude(typeof(CurrencyElement))]
     public partial class FormElement : DomainObject
     {
         public virtual string GetKnockoutBindingExpression()
