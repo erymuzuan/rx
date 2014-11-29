@@ -1,4 +1,4 @@
-﻿<h1>Microsoft SQL Server</h1>
+﻿<h1>MySQL/MariaDB Adapter</h1>
 <div id="error-list" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
     <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
@@ -31,15 +31,7 @@
         <div class="form-group">
             <label class="col-sm-3" for="server">Server</label>
             <div class="col-sm-9">
-                <input class="form-control" type="text" id="server" required placeholder="SQL Server name instance" data-bind="value:Server" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-3" for="trusted">Trusted Connection</label>
-            <div class="col-sm-9 checkbox">
-                <input type="checkbox" id="trusted" placeholder="SQL Server name instance" 
-                       data-bind="checked:TrustedConnection" />
+                <input class="form-control" type="text" id="server" required placeholder="MySQL Server name" data-bind="value:Server" />
             </div>
         </div>
 
@@ -47,7 +39,7 @@
         <div class="form-group">
             <label class="col-sm-3" for="userid">UserId</label>
             <div class="col-sm-9">
-                <input class="form-control" type="text" id="userid" required placeholder="UserId if connection using SQL authentication" data-bind="value:UserId, disable:TrustedConnection " />
+                <input class="form-control" type="text" id="userid" required placeholder="UserId" data-bind="value:UserId " />
             </div>
         </div>
 
@@ -56,7 +48,7 @@
         <div class="form-group">
             <label class="col-sm-3" for="password">Password</label>
             <div class="col-sm-9">
-                <input class="form-control" type="password" id="password" required placeholder="Password if connection using SQL authentication" data-bind="value:Password, disable:TrustedConnection" />
+                <input class="form-control" type="password" id="password" required placeholder="Password" data-bind="value:Password" />
             </div>
         </div>
 

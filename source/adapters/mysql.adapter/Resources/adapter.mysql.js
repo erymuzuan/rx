@@ -25,13 +25,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             activate = function (sid) {
                 if (!sid || sid === "0") {
                     adapter({
-                        $type: "Bespoke.Sph.Integrations.Adapters.SqlServerAdapter, sqlserver.adapter",
+                        $type: "Bespoke.Sph.Integrations.Adapters.MySqlAdapter, mysql.adapter",
                         Id: ko.observable("0"),
                         Name: ko.observable(),
                         Description: ko.observable(),
-                        Server: ko.observable('(localdb)\\ProjectsV12'),
-                        TrustedConnection: ko.observable(true),
-                        UserId: ko.observable(),
+                        Server: ko.observable('localhost'),
+                        UserId: ko.observable('root'),
                         Password: ko.observable(),
                         Database: ko.observable(),
                         Schema: ko.observable(),
@@ -48,8 +47,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 context.loadOneAsync("Adapter", query)
                     .done(function (b) {
 
-                        var loadSchemaTask = context.post(ko.mapping.toJSON(b), "sqlserver-adapter/schema"),
-                            loadTablesSprocsTask = context.post(ko.mapping.toJSON(b), "sqlserver-adapter/objects"),
+                        var loadSchemaTask = context.post(ko.mapping.toJSON(b), "mysql-adapter/schema"),
+                            loadTablesSprocsTask = context.post(ko.mapping.toJSON(b), "mysql-adapter/tables"),
                             loadDatabasesTask = connect(b);
 
 
@@ -82,7 +81,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         return;
                     }
                     loadingSchemas(true);
-                    context.post(ko.mapping.toJSON(adapter), "sqlserver-adapter/schema").done(function (result) {
+                    context.post(ko.mapping.toJSON(adapter), "mysql-adapter/schema").done(function (result) {
                         schemaOptions(result.schema);
                         loadingSchemas(false);
                         logger.info("You are now connected, please select your schema");
@@ -93,7 +92,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         return;
                     }
                     loadingSchemas(true);
-                    context.post(ko.mapping.toJSON(adapter), "sqlserver-adapter/objects").done(function (result) {
+                    context.post(ko.mapping.toJSON(adapter), "mysql-adapter/objects").done(function (result) {
 
                         var tables = _(result.tables).map(function (v) {
                             return {
@@ -150,7 +149,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     }
 
                     table.busy(true);
-                    context.post(ko.mapping.toJSON(adapter), "sqlserver-adapter/children/" + table.name)
+                    context.post(ko.mapping.toJSON(adapter), "mysql-adapter/children/" + table.name)
                         .done(function (result) {
                             table.children(result.children);
                             table.busy(false);
@@ -220,7 +219,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 var tcs = new $.Deferred();
                 loadingSchemas(true);
                 loadingDatabases(true);
-                context.post(ko.mapping.toJSON(adp), "sqlserver-adapter/databases")
+                context.post(ko.mapping.toJSON(adp), "mysql-adapter/databases")
                     .done(function (result) {
                         loadingSchemas(false);
                         loadingDatabases(false);
@@ -243,7 +242,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
-                context.post(data, "/sqlserver-adapter/generate")
+                context.post(data, "/mysql-adapter/generate")
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);

@@ -91,6 +91,7 @@
     <Compile Include="JsonContent.cs" />
     <Compile Include="MySqlAdapter.cs" />
     <Compile Include="MySqlAdapterController.cs" />
+    <Compile Include="MySqlServerRouteProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -142,7 +143,8 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(SolutionDir)source\web\web.sph\bin</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(SolutionDir)source\web\web.sph\bin
+copy $(TargetDir)$(TargetName).* $(SolutionDir)bin\subscribers</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
