@@ -46,5 +46,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         public string ConnectionString { get; set; }
+        public string Database { get; set; }
     }
 }
