@@ -8,7 +8,7 @@ namespace mysql.adpater.test
     [TestClass]
     public class MetadataQueryTextFixture
     {
-        const string ConnectionString = "Server=localhost;Database=bphkuarters;Uid=root;Pwd=;";
+        const string ConnectionString = "Server=localhost;Database=employees;Uid=root;Pwd=;";
         [TestMethod]
         public async Task QueryDatabases()
         {
@@ -28,31 +28,36 @@ namespace mysql.adpater.test
             var adapter = new MySqlAdapter
             {
                 ConnectionString = ConnectionString,
-                Database = "bphkuarters"
+                Database = "employees"
             };
             var controller = new MySqlAdapterController();
             var response = await controller.GetSchemasAsync(adapter);
             var content = (JsonContent)response.Content;
 
             var json = await content.ReadAsStringAsync();
-            StringAssert.Contains(json,"bphkuarters");
+            StringAssert.Contains(json,"employees");
             Assert.IsNotNull(response);
         }
+
+
         [TestMethod]
         public async Task QueryTables()
         {
             var adapter = new MySqlAdapter
             {
                 ConnectionString = ConnectionString,
-                Database = "bphkuarters"
+                Schema = "employees",
+                Database = "employees",
+                Server = "localhost",
+                UserId = "root",
+                Password = ""
             };
             var controller = new MySqlAdapterController();
             var response = await controller.GetObjectsAsync(adapter);
             var content = (JsonContent)response.Content;
 
             var json = await content.ReadAsStringAsync();
-            StringAssert.Contains(json, "occupant");
-            StringAssert.Contains(json, "getQuarterById");
+            StringAssert.Contains(json, "titles");
         }
     }
 }

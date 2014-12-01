@@ -490,8 +490,9 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
         public string GetInsertCommand(TableDefinition table)
         {
+            const string ESCAPE = "\"\"";
             var sql = new StringBuilder("INSERT INTO ");
-            sql.AppendFormat("[{0}].[{1}] (", this.Schema, table);
+            sql.AppendFormat("{0} (", table);
 
 
             var cols = m_tableColumns[table.Name]
@@ -499,7 +500,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
                 .ToArray();
-            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "[" + c + "]").ToArray()));
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "" + c + "").ToArray()));
             sql.AppendLine(")");
             sql.AppendLine("VALUES(");
             sql.AppendLine(string.Join(",\r\n", cols.Select(c => "@" + c).ToArray()));
