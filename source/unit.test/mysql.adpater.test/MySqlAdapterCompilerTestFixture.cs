@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,9 +13,9 @@ namespace mysql.adpater.test
         {
             var adapter = new MySqlAdapter
             {
-                Name = "__BphKuartersAdapter",
-                Database = "bphkuarters",
-                Schema = "bphkuarters",
+                Name = "__MySqlEmployees",
+                Database = "employees",
+                Schema = "employees",
                 Server = "localhost",
                 UserId = "root",
                 Password = "",
@@ -24,7 +23,7 @@ namespace mysql.adpater.test
                 {
                     new AdapterTable
                     {
-                        Name = "occupant"
+                        Name = "employees"
                     }
                 }
             };

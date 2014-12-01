@@ -120,6 +120,7 @@
     <None Include="Resources\adapter.mysql.js" />
     <None Include="Resources\adapter.mysql.sproc.html" />
     <None Include="Resources\adapter.mysql.sproc.js" />
+    <None Include="employees.sql" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

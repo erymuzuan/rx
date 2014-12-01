@@ -9,7 +9,29 @@ namespace Bespoke.Sph.Integrations.Adapters
         public static Type GetClrDataType(this string dbType)
         {
             if (dbType.StartsWith("int")) return typeof(int);
+            if (dbType.StartsWith("tinyint")) return typeof(short);
+            if (dbType.StartsWith("smallint")) return typeof(short);
+            if (dbType.StartsWith("mediumnit")) return typeof(int);
+            if (dbType.StartsWith("bignit")) return typeof(long);
+
+            if (dbType.StartsWith("decimal")) return typeof(decimal);
+            if (dbType.StartsWith("double")) return typeof(double);
+            if (dbType.StartsWith("float")) return typeof(float);
+
+            if (dbType.StartsWith("binary")) return typeof(string);
+            if (dbType.StartsWith("blob")) return typeof(string);
+            if (dbType.StartsWith("char")) return typeof(string);
+            if (dbType.StartsWith("enum")) return typeof(string);
+            if (dbType.StartsWith("text")) return typeof(string);
+            if (dbType.StartsWith("varbinary")) return typeof(string);
             if (dbType.StartsWith("varchar")) return typeof(string);
+
+
+            if (dbType.StartsWith("date")) return typeof(DateTime);
+            if (dbType.StartsWith("time")) return typeof(DateTime);
+            if (dbType.StartsWith("datetime")) return typeof(DateTime);
+            if (dbType.StartsWith("timestamp")) return typeof(DateTime);
+            if (dbType.StartsWith("year")) return typeof(DateTime);
 
             throw new Exception("Cannot find entry for datatype " + dbType);
         }
