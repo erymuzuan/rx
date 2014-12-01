@@ -7,6 +7,7 @@ using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
 using Bespoke.Sph.RoslynScriptEngines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MySql.Data.MySqlClient;
 using sqlserver.adapter.test;
 
 namespace mysql.adpater.test
@@ -61,7 +62,6 @@ namespace mysql.adpater.test
             var result = await m_adapter.CompileAsync();
             m_dll = Assembly.LoadFile(result.Output);
             File.Copy(result.Output, bin, true);
-            Console.WriteLine("copying files");
             await Task.Delay(1000);
 
         }
@@ -86,6 +86,18 @@ namespace mysql.adpater.test
         }
 
         [TestMethod]
+        public async Task GetEmployeeInstanceTest()
+        {
+            await this.CompileAsync();
+
+            var adapter = this.CreateAdapter("employees");
+            var emp = await adapter.LoadOneAsync(10001);
+            Assert.AreEqual("Georgi", emp.first_name);
+
+        
+        }
+
+        [TestMethod]
         public async Task InsertEmployeeInstanceTest()
         {
             await m_adapter.ExecuteNonQueryAsync("DELETE FROM employees WHERE first_name = 'Erymuzuan'");
@@ -104,6 +116,26 @@ namespace mysql.adpater.test
             await adapter.InsertAsync(emp);
             var count =await m_adapter.GetDatabaseScalarAsync<long>("SELECT COUNT(*) FROM employees WHERE first_name = 'Erymuzuan'");
             Assert.AreEqual(1, count);
+
+        }
+
+
+        [TestMethod]
+        public async Task UpdateEmployeeInstanceTest()
+        {
+            await this.CompileAsync();
+
+            var adapter = this.CreateAdapter("employees");
+            var emp = await adapter.LoadOneAsync(10001);
+            var gender = emp.gender == "M" ? "F" : "M";
+            emp.gender = gender;
+
+
+            Assert.AreEqual(gender, emp.gender);
+
+            await adapter.UpdateAsync(emp);
+            var ooo = await m_adapter.GetDatabaseScalarAsync<string>("SELECT gender FROM employees WHERE emp_no = @no", new MySqlParameter("@no", emp.emp_no));
+            Assert.AreEqual(gender, ooo);
 
         }
 

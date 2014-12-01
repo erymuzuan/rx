@@ -239,7 +239,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             sql.AppendFormat("{0}.{1} ", this.Schema, table);
             sql.AppendLine("WHERE ");
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
-            var parameters = pks.Select(k => string.Format("[{0}] = @{0}", k.Name));
+            var parameters = pks.Select(k => string.Format("{0} = @{0}", k.Name));
 
 
             sql.AppendLine(string.Join(" AND ", parameters));
@@ -470,17 +470,17 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GetUpdateCommand(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
-            var parameters = pks.Select(m => string.Format("[{0}] = @{0}", m.Name));
+            var parameters = pks.Select(m => string.Format("{0} = @{0}", m.Name));
             var columns = m_tableColumns[table.Name];
             var sql = new StringBuilder("UPDATE  ");
-            sql.AppendFormat("[{0}].[{1}] SET ", this.Schema, table);
+            sql.AppendFormat("{0}.{1} SET ", this.Schema, table);
 
             var cols = columns
                 .Where(c => !c.IsIdentity)
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
                 .ToArray();
-            sql.AppendLine(string.Join(",\r\n", cols.Select(c => string.Format("[{0}] = @{0}", c)).ToArray()));
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => string.Format("{0} = @{0}", c)).ToArray()));
             sql.AppendLine(" WHERE ");
 
             sql.AppendLine(string.Join(", ", parameters));

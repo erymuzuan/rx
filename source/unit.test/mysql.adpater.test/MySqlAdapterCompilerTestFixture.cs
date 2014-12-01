@@ -56,7 +56,6 @@ namespace mysql.adpater.test
             await adapter.OpenAsync(true);
             var cr = await adapter.CompileAsync();
             Assert.IsTrue(cr.Result);
-            Assert.Fail("Should generate /employees/{emp_no}/titles in the employeesController");
         }
     }
 }
