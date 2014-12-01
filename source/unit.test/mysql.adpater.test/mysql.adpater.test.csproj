@@ -71,6 +71,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ApiOperationTestFixture.cs" />
     <Compile Include="MetadataQueryTextFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MySqlAdapterCompilerTestFixture.cs" />

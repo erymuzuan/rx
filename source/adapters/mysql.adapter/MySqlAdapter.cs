@@ -294,7 +294,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("       {");
 
             code.AppendLine("           if (!sql.ToString().Contains(\"ORDER\"))");
-            code.AppendLinf("               sql +=\"\\r\\nORDER BY [{0}]\";", table.PrimaryKeyCollection.FirstOrDefault() ?? table.MemberCollection.Select(m => m.Name).First());
+            code.AppendLinf("               sql +=\"\\r\\nORDER BY {0}\";", table.PrimaryKeyCollection.FirstOrDefault() ?? table.MemberCollection.Select(m => m.Name).First());
             code.AppendLine("           var translator = new MySqlPagingTranslator();");
             code.AppendLine("           sql = translator.Translate(sql, page, size);");
             code.AppendLine();

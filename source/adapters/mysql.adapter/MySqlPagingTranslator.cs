@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace __NAMESPACE__
 {
@@ -10,7 +11,8 @@ namespace __NAMESPACE__
             var output = new StringBuilder(sql);
 
             output.AppendLine();
-            output.AppendFormat("OFFSET {0}, {1}", skipToken, size);
+            output.AppendFormat("LIMIT {1} OFFSET {0}", skipToken, size);
+           
 
             return output.ToString();
         }

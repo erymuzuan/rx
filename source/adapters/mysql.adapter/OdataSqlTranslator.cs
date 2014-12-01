@@ -44,7 +44,7 @@ namespace __NAMESPACE__
         public string Max(string filter)
         {
 
-            return string.Format("SELECT MAX([{0}]) FROM [{2}].[{1}] ", m_column, m_table, this.Schema) +
+            return string.Format("SELECT MAX({0}) FROM {2}.{1} ", m_column, m_table, this.Schema) +
                    Translate(filter)
                 ;
         }
@@ -53,47 +53,47 @@ namespace __NAMESPACE__
 
         public string Min(string filter)
         {
-            return string.Format("SELECT MIN([{0}]) FROM [{2}].[{1}] ", m_column, m_table, this.Schema) +
+            return string.Format("SELECT MIN({0}) FROM {2}.{1} ", m_column, m_table, this.Schema) +
                    Translate(filter)
                 ;
         }
         public string Average(string filter)
         {
-            return string.Format("SELECT AVG([{0}]) FROM [{2}].[{1}] ", m_column, m_table, this.Schema) +
+            return string.Format("SELECT AVG({0}) FROM {2}.{1} ", m_column, m_table, this.Schema) +
                    Translate(filter)
                 ;
         }
         public string Count(string filter)
         {
-            return string.Format("SELECT COUNT(*) FROM [{1}].[{0}]  ", m_table, this.Schema) +
+            return string.Format("SELECT COUNT(*) FROM {1}.{0}  ", m_table, this.Schema) +
                    Translate(filter)
                 ;
         }
 
         public string Sum(string filter)
         {
-            return string.Format("SELECT SUM([{0}]) FROM [{2}].[{1}]  ", m_column, m_table, this.Schema) +
+            return string.Format("SELECT SUM({0}) FROM {2}.{1}  ", m_column, m_table, this.Schema) +
                    this.Translate(filter)
                 ;
         }
 
         public string Scalar(string filter)
         {
-            return string.Format("SELECT [{0}] FROM [{3}].[{1}] {2} ", m_column, m_table, this.Translate(filter), this.Schema);
+            return string.Format("SELECT {0} FROM {3}.{1} {2} ", m_column, m_table, this.Translate(filter), this.Schema);
         }
 
         public string Distinct(string filter)
         {
-            return string.Format("SELECT DISTINCT [{0}] FROM [{3}].[{1}] {2} ", m_column, m_table, this.Translate(filter), this.Schema);
+            return string.Format("SELECT DISTINCT {0} FROM {3}.{1} {2} ", m_column, m_table, this.Translate(filter), this.Schema);
         }
 
         public string Select(string filter, string orderby)
         {
 
-            var sql = string.Format("SELECT {1} FROM [{2}].[{0}]", m_table, "*", this.Schema);
+            var sql = string.Format("SELECT {1} FROM {2}.{0}", m_table, "*", this.Schema);
 
             if (!string.IsNullOrEmpty(filter))
-                sql = string.Format("SELECT {2} FROM [{3}].[{0}] {1} ", m_table, this.Translate(filter), "*", this.Schema);
+                sql = string.Format("SELECT {2} FROM {3}.{0} {1} ", m_table, this.Translate(filter), "*", this.Schema);
 
             if (!string.IsNullOrWhiteSpace(orderby))
             {
