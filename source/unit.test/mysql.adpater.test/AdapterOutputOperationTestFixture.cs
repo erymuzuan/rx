@@ -94,7 +94,7 @@ namespace mysql.adpater.test
             var emp = await adapter.LoadOneAsync(10001);
             Assert.AreEqual("Georgi", emp.first_name);
 
-        
+
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace mysql.adpater.test
             var no = await m_adapter.GetDatabaseScalarAsync<int>("SELECT MAX(emp_no) FROM employees");
             await this.CompileAsync();
             var emp = this.CreateEmployee();
-            emp.emp_no = no +1;
+            emp.emp_no = no + 1;
             emp.first_name = "Erymuzuan";
             emp.last_name = "Mustapa";
             emp.gender = "M";
@@ -114,8 +114,30 @@ namespace mysql.adpater.test
 
             var adapter = this.CreateAdapter("employees");
             await adapter.InsertAsync(emp);
-            var count =await m_adapter.GetDatabaseScalarAsync<long>("SELECT COUNT(*) FROM employees WHERE first_name = 'Erymuzuan'");
+            var count = await m_adapter.GetDatabaseScalarAsync<long>("SELECT COUNT(*) FROM employees WHERE first_name = 'Erymuzuan'");
             Assert.AreEqual(1, count);
+
+        }
+        [TestMethod]
+        public async Task DeleteEmployeeInstanceTest()
+        {
+            await m_adapter.ExecuteNonQueryAsync("DELETE FROM employees WHERE first_name = 'Erymuzuan'");
+            var no = await m_adapter.GetDatabaseScalarAsync<int>("SELECT MAX(emp_no) FROM employees");
+            await this.CompileAsync();
+            var emp = this.CreateEmployee();
+            emp.emp_no = no + 1;
+            emp.first_name = "Erymuzuan";
+            emp.last_name = "Mustapa";
+            emp.gender = "M";
+            emp.hire_date = new DateTime(2005, 1, 5);
+            emp.birth_date = new DateTime(1979, 9, 9);
+
+
+            var adapter = this.CreateAdapter("employees");
+            await adapter.InsertAsync(emp);
+            var empNo = await m_adapter.GetDatabaseScalarAsync<int>("SELECT emp_no FROM employees WHERE first_name = 'Erymuzuan'");
+
+            await adapter.DeleteAsync(empNo);
 
         }
 

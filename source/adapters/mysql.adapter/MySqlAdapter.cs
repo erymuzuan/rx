@@ -405,9 +405,9 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GetDeleteCommand(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var parameters = pks.Select(k => string.Format("[{0}] = @{0}", k.Name));
+            var parameters = pks.Select(k => string.Format("{0} = @{0}", k.Name));
             var sql = new StringBuilder("DELETE FROM ");
-            sql.AppendFormat("[{0}].[{1}] ", this.Schema, table);
+            sql.AppendFormat("{0}.{1} ", this.Schema, table);
             sql.AppendLine("WHERE");
             sql.AppendLine(string.Join(" AND ", parameters));
 
