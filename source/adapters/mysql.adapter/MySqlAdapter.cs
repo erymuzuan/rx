@@ -28,6 +28,14 @@ namespace Bespoke.Sph.Integrations.Adapters
 
                 var td = new TableDefinition { Name = table.Name, Schema = this.Schema };
                 var columns = new ObjectCollection<SqlColumn>();
+                td.ChildTableCollection.ClearAndAddRange(from a in table.ChildRelationCollection
+                                                         select new TableDefinition
+                                                         {
+                                                             Name = a.Table,
+                                                             CodeNamespace = this.CodeNamespace,
+                                                             Schema = this.Schema
+                                                         });
+                Console.WriteLine("Querying metadata for {0} with {1} child tables", td.Name, td.ChildTableCollection.Count);
 
                 var updateCommand = new StringBuilder("UPDATE ");
                 updateCommand.AppendFormat("[{0}].[{1}] SET", this.Schema, table.Name);
@@ -549,7 +557,14 @@ namespace Bespoke.Sph.Integrations.Adapters
                     Name = table,
                     Schema = this.Database
                 };
-
+                var jtb = this.Tables.Single(t => t.Name == table);
+                td.ChildTableCollection.ClearAndAddRange(from a in jtb.ChildRelationCollection
+                                                         select new TableDefinition
+                                                         {
+                                                             Name = a.Table,
+                                                             CodeNamespace = this.CodeNamespace,
+                                                             Schema = this.Schema
+                                                         });
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())

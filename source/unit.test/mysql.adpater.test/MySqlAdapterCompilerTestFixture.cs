@@ -31,5 +31,32 @@ namespace mysql.adpater.test
             var cr = await adapter.CompileAsync();
             Assert.IsTrue(cr.Result);
         }
+
+        [TestMethod]
+        public async Task CompileOneTableWithChild()
+        {
+            var employees = new AdapterTable {Name = "employees"};
+            var titles = new AdapterTable {Name = "titles"};
+            employees.ChildRelationCollection.Add(new TableRelation
+            {
+                Column = "emp_no",
+                ForeignColumn = "emp_no",
+                Table = "titles"
+            });
+            var adapter = new MySqlAdapter
+            {
+                Name = "__MySqlEmployeesWithChildTitles",
+                Database = "employees",
+                Schema = "employees",
+                Server = "localhost",
+                UserId = "root",
+                Password = "",
+                Tables = new[]{employees,titles}
+            };
+            await adapter.OpenAsync(true);
+            var cr = await adapter.CompileAsync();
+            Assert.IsTrue(cr.Result);
+            Assert.Fail("Should generate /employees/{emp_no}/titles in the employeesController");
+        }
     }
 }
