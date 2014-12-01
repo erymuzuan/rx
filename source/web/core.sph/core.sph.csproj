@@ -1525,7 +1525,7 @@
     <Content Include="Scripts\_ko.bootstrap.min.js">
       <DependentUpon>_ko.bootstrap.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\_ko.entity.js" />
+    <EmbeddedResource Include="Scripts\_ko.entity.js" />
     <Content Include="Scripts\_ko.kendo.min.js">
       <DependentUpon>_ko.kendo.js</DependentUpon>
     </Content>

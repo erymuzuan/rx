@@ -100,7 +100,7 @@
             <div class="col-sm-9">
                 <ul data-bind="foreach :$root.sprocOptions" id="sproc-option-panel" class="nav nav-stacked">
                     <li>
-                        <label>
+                        <label data-bind="tooltip:Text">
                             <input type="checkbox" data-bind="attr : {'name':'sproc-' + ko.unwrap(Name)}" />
                             <!-- ko text: Name-->
                             <!-- /ko -->
