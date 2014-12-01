@@ -236,10 +236,10 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GetSelectOneCommand(TableDefinition table)
         {
             var sql = new StringBuilder("SELECT * FROM ");
-            sql.AppendFormat("{0}.{1} ", this.Schema, table);
+            sql.AppendFormat("`{0}`.`{1}` ", this.Schema, table);
             sql.AppendLine("WHERE ");
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
-            var parameters = pks.Select(k => string.Format("{0} = @{0}", k.Name));
+            var parameters = pks.Select(k => string.Format("`{0}` = @{0}", k.Name));
 
 
             sql.AppendLine(string.Join(" AND ", parameters));
@@ -294,7 +294,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("       {");
 
             code.AppendLine("           if (!sql.ToString().Contains(\"ORDER\"))");
-            code.AppendLinf("               sql +=\"\\r\\nORDER BY {0}\";", table.PrimaryKeyCollection.FirstOrDefault() ?? table.MemberCollection.Select(m => m.Name).First());
+            code.AppendLinf("               sql +=\"\\r\\nORDER BY `{0}`\";", table.PrimaryKeyCollection.FirstOrDefault() ?? table.MemberCollection.Select(m => m.Name).First());
             code.AppendLine("           var translator = new MySqlPagingTranslator();");
             code.AppendLine("           sql = translator.Translate(sql, page, size);");
             code.AppendLine();
@@ -329,7 +329,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public string GetSelectCommand(TableDefinition table)
         {
-            return string.Format("SELECT * FROM {0}.{1} ", this.Schema, table);
+            return string.Format("SELECT * FROM `{0}`.`{1}` ", this.Schema, table);
         }
 
         private string PopulateItemFromReader(string name)
@@ -405,7 +405,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GetDeleteCommand(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name)).ToArray();
-            var parameters = pks.Select(k => string.Format("{0} = @{0}", k.Name));
+            var parameters = pks.Select(k => string.Format("`{0}` = @{0}", k.Name));
             var sql = new StringBuilder("DELETE FROM ");
             sql.AppendFormat("{0}.{1} ", this.Schema, table);
             sql.AppendLine("WHERE");
@@ -470,17 +470,17 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GetUpdateCommand(TableDefinition table)
         {
             var pks = table.MemberCollection.Where(m => table.PrimaryKeyCollection.Contains(m.Name));
-            var parameters = pks.Select(m => string.Format("{0} = @{0}", m.Name));
+            var parameters = pks.Select(m => string.Format("`{0}` = @{0}", m.Name));
             var columns = m_tableColumns[table.Name];
             var sql = new StringBuilder("UPDATE  ");
-            sql.AppendFormat("{0}.{1} SET ", this.Schema, table);
+            sql.AppendFormat("`{0}`.`{1}` SET ", this.Schema, table);
 
             var cols = columns
                 .Where(c => !c.IsIdentity)
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
                 .ToArray();
-            sql.AppendLine(string.Join(",\r\n", cols.Select(c => string.Format("{0} = @{0}", c)).ToArray()));
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => string.Format("`{0}` = @{0}", c)).ToArray()));
             sql.AppendLine(" WHERE ");
 
             sql.AppendLine(string.Join(", ", parameters));
@@ -490,9 +490,9 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
         public string GetInsertCommand(TableDefinition table)
         {
-            const string ESCAPE = "\"\"";
+
             var sql = new StringBuilder("INSERT INTO ");
-            sql.AppendFormat("{0} (", table);
+            sql.AppendFormat("`{0}`.`{1}` (", this.Schema, table);
 
 
             var cols = m_tableColumns[table.Name]
@@ -500,7 +500,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 .Where(c => !c.IsComputed)
                 .Select(c => c.Name)
                 .ToArray();
-            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "" + c + "").ToArray()));
+            sql.AppendLine(string.Join(",\r\n", cols.Select(c => "`" + c + "`").ToArray()));
             sql.AppendLine(")");
             sql.AppendLine("VALUES(");
             sql.AppendLine(string.Join(",\r\n", cols.Select(c => "@" + c).ToArray()));

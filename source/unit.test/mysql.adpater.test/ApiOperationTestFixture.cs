@@ -102,10 +102,11 @@ namespace mysql.adpater.test
                 var json = await response.Content.ReadAsStringAsync();
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
+                Console.WriteLine(json);
                 var jo = JObject.Parse(json);
 
 
-                Assert.AreEqual(10009, jo.SelectToken("emp.emp_no"));
+                Assert.AreEqual(10009, jo.SelectToken("item.emp_no"));
 
             }
 
