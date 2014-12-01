@@ -64,7 +64,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         public async Task<HttpResponseMessage> GetTablesAsync([FromBody]MySqlAdapter adapter)
         {
             using (var conn = new MySqlConnection(adapter.ConnectionString))
-
             using (var cmd = new MySqlCommand("show tables", conn))
             {
                 await conn.OpenAsync();
@@ -82,9 +81,9 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             }
         }
-        
-        
-        
+
+
+
         //http://stackoverflow.com/questions/733349/list-of-stored-procedures-functions-mysql-command-line
         [HttpPost]
         [Route("procedures")]
@@ -106,6 +105,39 @@ namespace Bespoke.Sph.Integrations.Adapters
                     var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new JsonContent(json) };
                     return response;
                 }
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("objects")]
+        public async Task<HttpResponseMessage> GetObjectsAsync([FromBody]MySqlAdapter adapter)
+        {
+            using (var conn = new MySqlConnection(adapter.ConnectionString))
+            using (var pcmd = new MySqlCommand("show procedure status", conn))
+            using (var tcmd = new MySqlCommand("show tables", conn))
+            {
+                await conn.OpenAsync();
+                var procs = new List<string>();
+                using (var reader = await pcmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        procs.Add(reader.GetString(1));
+                    }
+                }
+                var tables = new List<string>();
+                using (var reader = await tcmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        tables.Add(reader.GetString(0));
+                    }
+                }
+                var json = JsonConvert.SerializeObject(new { tables = tables.ToArray(), sprocs = procs.ToArray(), success = true, status = "OK" });
+                var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new JsonContent(json) };
+                return response;
 
             }
         }
