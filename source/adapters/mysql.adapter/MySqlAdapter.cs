@@ -604,7 +604,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
 
                 if (string.IsNullOrWhiteSpace(m_connectionString))
-                    m_connectionString = string.Format("Server={0};Database={1};Uid={2};Pwd={3};", this.Server, this.Database, this.UserId, this.Password);
+                    m_connectionString = string.Format("Server={0};Database={1};Uid={2};Pwd={3};Allow User Variables=true;", this.Server, this.Database, this.UserId, this.Password);
                 return m_connectionString;
             }
             set { m_connectionString = value; }

@@ -20,34 +20,75 @@ namespace Bespoke.Sph.Integrations.Adapters
             var code = new StringBuilder();
             code.AppendLine(CreateMethodCode(adapter));
 
-            var parameterList = string.Join(",", this.RequestMemberCollection.Select(p => p.Name));
+            var parameterList = this.RequestMemberCollection.Select(p => p.Name).ToList();
+            parameterList.AddRange(this.ResponseMemberCollection.OfType<SprocResultMember>()
+                .Where(p => p.Type != typeof(Array))
+                .Where(p => p.Type != typeof(object))
+                .Select(p => p.Name));
+
+            var outParameterSelectList = this.ResponseMemberCollection.OfType<SprocResultMember>()
+                .Where(p => p.Type != typeof(Array))
+                .Where(p => p.Type != typeof(object))
+                .Select(p => p.Type == typeof(string) ? p.Name : string.Format("CAST({0} AS SIGNED)", p.Name))
+                .ToList();
+
+            code.AppendFormat("           var sql =\"CALL `{0}`.`{1}`({2});\";", adapter.Schema, this.MethodName,
+                string.Join(",", parameterList));
+            code.AppendLine();
+            if (outParameterSelectList.Any())
+                code.AppendLine("           sql +=\"SELECT " + string.Join(",", outParameterSelectList) + ";\";");
 
             code.AppendLine("           using(var conn = new MySqlConnection(this.ConnectionString))");
-            code.AppendLinf("           using(var cmd = new MySqlCommand(\"CALL `{0}`.`{1}`({2})\", conn))", adapter.Schema, this.MethodName, parameterList);
+            code.AppendLinf("           using(var cmd = new MySqlCommand(sql, conn))");
             code.AppendLine("           {");
+
+
+
             foreach (var m in this.RequestMemberCollection.OfType<SprocParameter>())
             {
                 code.AppendLinf("               cmd.Parameters.AddWithValue(\"{0}\", request.{0});", m.Name);
             }
             foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {
-                if(m.Type == typeof(Array))continue;
-                if(m.Type == typeof(object))continue;
+                if (m.Type == typeof(Array)) continue;
+                if (m.Type == typeof(object)) continue;
                 if (m.Name == "@return_value") continue;
-                code.AppendLinf("               cmd.Parameters.Add(\"{0}\", SqlDbType.{1}).Direction = ParameterDirection.Output;", m.Name, m.SqlDbType);
             }
             code.AppendLine("               await conn.OpenAsync();");
-            code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
             code.AppendLinf("               var response = new {0}Response();", this.MethodName.ToCsharpIdentitfier());
+            if (outParameterSelectList.Any())
+            {
+                code.AppendLinf("               using(var reader = await cmd.ExecuteReaderAsync())");
+                code.AppendLine("               {");
+                code.AppendLine("                   if(await reader.ReadAsync())");
+                code.AppendLine("                   {");
+                var i = 0;
+                foreach (var p in this.ResponseMemberCollection.OfType<SprocResultMember>()
+                .Where(p => p.Type != typeof(Array))
+                .Where(p => p.Type != typeof(object)))
+                {
+                    code.AppendLinf("                       response.{0} = ({1})reader[{2}];", p.Name,p.Type.ToCSharp(),i);
+                    i++;
+                }
+
+                code.AppendLine("                   }");
+                code.AppendLine("               }");
+
+            }
+            else
+            {
+                code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
+            }
+
             foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {
-                if (m.Type == typeof (Array))
+                if (m.Type == typeof(Array))
                 {
                     code.AppendLinf("               using(var reader = await cmd.ExecuteReaderAsync())");
                     code.AppendLine("               {");
                     code.AppendLine("                   while(await reader.ReadAsync())");
                     code.AppendLine("                   {");
-                    code.AppendLinf("                       var item = new {0}();",m.Name.Replace("Collection",""));
+                    code.AppendLinf("                       var item = new {0}();", m.Name.Replace("Collection", ""));
                     foreach (var rm in m.MemberCollection.OfType<SprocResultMember>())
                     {
 
@@ -59,7 +100,6 @@ namespace Bespoke.Sph.Integrations.Adapters
                     continue;
                 }
                 if (m.Name == "@return_value") continue;
-                code.AppendLinf("               response.{0} = ({1})cmd.Parameters[\"{0}\"].Value;", m.Name, m.Type.ToCSharp());
             }
 
             code.AppendLine("               return response;");

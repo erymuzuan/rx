@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -34,6 +35,8 @@ namespace mysql.adpater.test
             var cr = await adapter.CompileAsync();
             Assert.IsTrue(cr.Result);
         }
+
+
         [TestMethod]
         public async Task CompileOneProcedure()
         {
@@ -76,6 +79,48 @@ namespace mysql.adpater.test
             var result = await sprocAdapter.GetEmployeesByEmpNoAsync(request);
             var json = JsonSerializerService.ToJsonString(result, true);
             StringAssert.Contains(json, "Haraldson");
+        }
+
+        [TestMethod]
+        public async Task CompileProcedureOutParameter()
+        {
+            var adapter = new MySqlAdapter
+            {
+                Name = "__MySqlEmployeesProcedureOutParameter",
+                Database = "employees",
+                Schema = "employees",
+                Server = "localhost",
+                UserId = "root",
+                Password = "",
+                Tables = new AdapterTable[] { }
+            };
+
+            var count = new SprocResultMember { Name = "@count", Type = typeof(long), SqlDbType = SqlDbType.Int};
+
+            var sproc = new SprocOperationDefinition
+            {
+                Name = "getStaffCountByTitle",
+                MethodName = "getStaffCountByTitle"
+            };
+            sproc.RequestMemberCollection.Add(new SprocParameter { Name = "@title", Type = typeof(string) });
+            sproc.ResponseMemberCollection.Add(count);
+
+            adapter.OperationDefinitionCollection.Add(sproc);
+            await adapter.OpenAsync(true);
+            var cr = await adapter.CompileAsync();
+            Assert.IsTrue(cr.Result);
+
+
+            var dll = Assembly.LoadFile(cr.Output);
+            dynamic sprocAdapter = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.__MySqlEmployeesProcedureOutParameter"));
+            sprocAdapter.ConnectionString = adapter.ConnectionString;
+
+            dynamic request = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.GetStaffCountByTitleRequest"));
+            request.@title = "Senior Staff";
+
+            var result = await sprocAdapter.GetStaffCountByTitleAsync(request);
+            var json = JsonSerializerService.ToJsonString(result, true);
+            StringAssert.Contains(json, "count");
         }
 
         [TestMethod]
