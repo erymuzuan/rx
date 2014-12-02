@@ -94,6 +94,7 @@
     <Compile Include="MySqlHelper.cs" />
     <Compile Include="MySqlServerRouteProvider.cs" />
     <EmbeddedResource Include="OdataSqlTranslator.cs" />
+    <Compile Include="ParameterMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -101,6 +102,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MySqlPagingTranslator.cs" />
+    <Compile Include="SprocOperationDefinition.cs" />
+    <Compile Include="SprocParameter.cs" />
+    <Compile Include="SprocResultMember.cs" />
     <Compile Include="SqlColumn.cs" />
   </ItemGroup>
   <ItemGroup>

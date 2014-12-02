@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Reflection;
+using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -56,6 +59,12 @@ namespace mysql.adpater.test
             await adapter.OpenAsync(true);
             var cr = await adapter.CompileAsync();
             Assert.IsTrue(cr.Result);
+
+            var dll = Assembly.LoadFile(cr.Output);
+            dynamic controller = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.employeesController"));
+            var result = await controller.GettitlesByemployees(10100);
+            var json =JsonSerializerService.ToJsonString(result,true);
+            StringAssert.Contains(json, "Senior Staff");
         }
     }
 }

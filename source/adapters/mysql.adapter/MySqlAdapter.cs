@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Integrations.Adapters.Properties;
 using MySql.Data.MySqlClient;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -26,35 +27,12 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var table in this.Tables)
             {
 
-                var td = new TableDefinition { Name = table.Name, Schema = this.Schema };
+                var td = new TableDefinition(table) { Schema = this.Schema };
                 var columns = new ObjectCollection<SqlColumn>();
-                td.ChildTableCollection.ClearAndAddRange(from a in table.ChildRelationCollection
-                                                         select new TableDefinition
-                                                         {
-                                                             Name = a.Table,
-                                                             CodeNamespace = this.CodeNamespace,
-                                                             Schema = this.Schema
-                                                         });
-                Console.WriteLine("Querying metadata for {0} with {1} child tables", td.Name, td.ChildTableCollection.Count);
 
-                var updateCommand = new StringBuilder("UPDATE ");
-                updateCommand.AppendFormat("[{0}].[{1}] SET", this.Schema, table.Name);
+                var keys = await GetPrimaryKeysAsync(table);
+                td.PrimaryKeyCollection.ClearAndAddRange(keys);
 
-                using (var conn = new MySqlConnection(ConnectionString))
-                using (var cmd = new MySqlCommand("describe " + table.Name, conn))
-                {
-
-                    await conn.OpenAsync();
-
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            if (reader.GetString(3) == "PRI")
-                                td.PrimaryKeyCollection.Add(reader.GetString(0));
-                        }
-                    }
-                }
                 using (var conn = new MySqlConnection(ConnectionString))
                 using (var cmd = new MySqlCommand("describe " + table.Name, conn))
                 {
@@ -66,39 +44,14 @@ namespace Bespoke.Sph.Integrations.Adapters
                         {
                             if (first && verbose)
                             {
-                                for (int i = 0; i < reader.FieldCount; i++)
-                                {
-                                    Console.Write("{0,15}", reader.GetName(i));
-                                }
-                                Console.WriteLine();
-                                for (var i = 0; i < reader.FieldCount; i++)
-                                {
-                                    Console.Write("{0,15}", reader[i]);
-                                }
+                                WriteResultHeader(reader);
                             }
                             first = false;
-
-                            var dt = reader.GetString(1);
-                            var dt2 = dt;
-                            var length = 0;
-                            if (dt.Contains("("))
-                            {
-                                dt2 = Strings.RegexSingleValue(dt, "(?<dt>[a-z]{3,12})\\(", "dt");
-                                length = Strings.RegexInt32Value(dt, "\\((?<l>[0-9]{1,5})", "l") ?? 0;
-                            }
-                            var col = new SqlColumn
-                            {
-                                Name = reader.GetString(0),
-                                DataType = dt2,
-                                Length = length,
-                                IsNullable = reader.GetString(2) == "YES",
-                                IsIdentity = reader.GetString(5) == "auto_increment",
-                                //IsComputed = reader.GetBoolean(6)
-                            };
+                            var col = new SqlColumn(reader);
                             col.IsPrimaryKey = td.PrimaryKeyCollection.Contains(col.Name);
+
                             if (null != col.GetClrType())
                                 columns.Add(col);
-
                         }
                     }
                 }
@@ -116,6 +69,39 @@ namespace Bespoke.Sph.Integrations.Adapters
                 this.TableDefinitionCollection.Add(td);
 
 
+            }
+        }
+
+        private async Task<string[]> GetPrimaryKeysAsync(AdapterTable table)
+        {
+            var keys = new List<string>();
+            using (var conn = new MySqlConnection(ConnectionString))
+            using (var cmd = new MySqlCommand("describe " + table.Name, conn))
+            {
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        if (reader.GetString(3) == "PRI")
+                            keys.Add(reader.GetString(0));
+                    }
+                }
+            }
+
+            return keys.ToArray();
+        }
+
+        private static void WriteResultHeader(IDataRecord reader)
+        {
+            for (var i = 0; i < reader.FieldCount; i++)
+            {
+                Console.Write(Resources.Tab15, reader.GetName(i));
+            }
+            Console.WriteLine();
+            for (var i = 0; i < reader.FieldCount; i++)
+            {
+                Console.Write(Resources.Tab15, reader[i]);
             }
         }
 

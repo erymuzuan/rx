@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h1&gt;Microsoft SQL Server&lt;/h1&gt;
+        ///   Looks up a localized string similar to &lt;h1&gt;MySQL/MariaDB Adapter&lt;/h1&gt;
         ///&lt;div id=&quot;error-list&quot; class=&quot;row&quot; data-bind=&quot;visible:errors().length&quot;&gt;
         ///    &lt;!-- ko foreach : errors --&gt;
         ///    &lt;div class=&quot;col-md-8 col-md-offset-2 alert alert-dismissable alert-danger&quot;&gt;
@@ -74,7 +74,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ///    &lt;!-- /ko--&gt;
         ///&lt;/div&gt;
         ///&lt;div class=&quot;row&quot;&gt;
-        ///   [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string adapter_mysql_html {
             get {
@@ -142,6 +142,33 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         internal static string adapter_mysql_sproc_js {
             get {
                 return ResourceManager.GetString("adapter_mysql_sproc_js", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is already file {0} with the {1} content.
+        /// </summary>
+        internal static string DuplicationFileContent {
+            get {
+                return ResourceManager.GetString("DuplicationFileContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Querying metadata for {0} with {1} child tables.
+        /// </summary>
+        internal static string MetadataQuery {
+            get {
+                return ResourceManager.GetString("MetadataQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0,15}.
+        /// </summary>
+        internal static string Tab15 {
+            get {
+                return ResourceManager.GetString("Tab15", resourceCulture);
             }
         }
     }

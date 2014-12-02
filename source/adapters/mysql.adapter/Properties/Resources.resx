@@ -130,4 +130,13 @@
   <data name="adapter_mysql_sproc_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\adapter.mysql.sproc.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="DuplicationFileContent" xml:space="preserve">
+    <value>There is already file {0} with the {1} content</value>
+  </data>
+  <data name="MetadataQuery" xml:space="preserve">
+    <value>Querying metadata for {0} with {1} child tables</value>
+  </data>
+  <data name="Tab15" xml:space="preserve">
+    <value>{0,15}</value>
+  </data>
 </root>
