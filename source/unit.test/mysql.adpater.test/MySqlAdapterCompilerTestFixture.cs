@@ -34,12 +34,55 @@ namespace mysql.adpater.test
             var cr = await adapter.CompileAsync();
             Assert.IsTrue(cr.Result);
         }
+        [TestMethod]
+        public async Task CompileOneProcedure()
+        {
+            var adapter = new MySqlAdapter
+            {
+                Name = "__MySqlEmployeesWithProcedure",
+                Database = "employees",
+                Schema = "employees",
+                Server = "localhost",
+                UserId = "root",
+                Password = "",
+                Tables = new AdapterTable[] { }
+            };
+
+            var staff = new SprocResultMember { Name = "StaffCollection", Type = typeof(Array) };
+            staff.MemberCollection.Add(new SprocResultMember { Name = "first_name", Type = typeof(string) });
+            staff.MemberCollection.Add(new SprocResultMember { Name = "last_name", Type = typeof(string) });
+
+            var sproc = new SprocOperationDefinition
+            {
+                Name = "getEmployeesByEmpNo",
+                MethodName = "getEmployeesByEmpNo"
+            };
+            sproc.RequestMemberCollection.Add(new SprocParameter { Name = "@no", Type = typeof(int) });
+            sproc.ResponseMemberCollection.Add(staff);
+
+            adapter.OperationDefinitionCollection.Add(sproc);
+            await adapter.OpenAsync(true);
+            var cr = await adapter.CompileAsync();
+            Assert.IsTrue(cr.Result);
+
+
+            var dll = Assembly.LoadFile(cr.Output);
+            dynamic sprocAdapter = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.__MySqlEmployeesWithProcedure"));
+            sprocAdapter.ConnectionString = adapter.ConnectionString;
+
+            dynamic request = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.GetEmployeesByEmpNoRequest"));
+            request.@no = 10100;
+
+            var result = await sprocAdapter.GetEmployeesByEmpNoAsync(request);
+            var json = JsonSerializerService.ToJsonString(result, true);
+            StringAssert.Contains(json, "Haraldson");
+        }
 
         [TestMethod]
         public async Task CompileOneTableWithChild()
         {
-            var employees = new AdapterTable {Name = "employees"};
-            var titles = new AdapterTable {Name = "titles"};
+            var employees = new AdapterTable { Name = "employees" };
+            var titles = new AdapterTable { Name = "titles" };
             employees.ChildRelationCollection.Add(new TableRelation
             {
                 Column = "emp_no",
@@ -54,7 +97,7 @@ namespace mysql.adpater.test
                 Server = "localhost",
                 UserId = "root",
                 Password = "",
-                Tables = new[]{employees,titles}
+                Tables = new[] { employees, titles }
             };
             await adapter.OpenAsync(true);
             var cr = await adapter.CompileAsync();
@@ -63,7 +106,7 @@ namespace mysql.adpater.test
             var dll = Assembly.LoadFile(cr.Output);
             dynamic controller = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.employeesController"));
             var result = await controller.GettitlesByemployees(10100);
-            var json =JsonSerializerService.ToJsonString(result,true);
+            var json = JsonSerializerService.ToJsonString(result, true);
             StringAssert.Contains(json, "Senior Staff");
         }
     }

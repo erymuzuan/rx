@@ -20,15 +20,14 @@ namespace Bespoke.Sph.Integrations.Adapters
             var code = new StringBuilder();
             code.AppendLine(CreateMethodCode(adapter));
 
-            var parameterList = string.Join(",", this.RequestMemberCollection.Select(p => "@" + p.Name));
+            var parameterList = string.Join(",", this.RequestMemberCollection.Select(p => p.Name));
 
             code.AppendLine("           using(var conn = new MySqlConnection(this.ConnectionString))");
             code.AppendLinf("           using(var cmd = new MySqlCommand(\"CALL `{0}`.`{1}`({2})\", conn))", adapter.Schema, this.MethodName, parameterList);
             code.AppendLine("           {");
-            code.AppendLine("               cmd.CommandType = CommandType.StoredProcedure;");
             foreach (var m in this.RequestMemberCollection.OfType<SprocParameter>())
             {
-                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", request.{0});", m.Name);
+                code.AppendLinf("               cmd.Parameters.AddWithValue(\"{0}\", request.{0});", m.Name);
             }
             foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {

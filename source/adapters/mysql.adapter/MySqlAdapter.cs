@@ -136,12 +136,12 @@ namespace Bespoke.Sph.Integrations.Adapters
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
             options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
+            options.AddReference(typeof(MySqlConnection));
             var sources = new Dictionary<string, string>();
             var header = this.GetCodeHeader(namespaces);
             foreach (var at in this.Tables)
             {
                 var table = this.TableDefinitionCollection.Single(t => t.Name == at.Name);
-                options.AddReference(typeof(MySqlConnection));
                 var adapterName = table + "Adapter";
 
                 var code = new StringBuilder(header);
@@ -174,24 +174,24 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code2.AppendLine("      public string ConnectionString{set;get;}");
 
-            // var addedActions = new List<string>();
-            //foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
-            //{
-            //    op.CodeNamespace = this.CodeNamespace;
-            //    var methodName = op.MethodName;
+            var addedActions = new List<string>();
+            foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
+            {
+                op.CodeNamespace = this.CodeNamespace;
+                var methodName = op.MethodName;
 
-            //    if (addedActions.Contains(methodName)) continue;
-            //    addedActions.Add(methodName);
+                if (addedActions.Contains(methodName)) continue;
+                addedActions.Add(methodName);
 
-            //    //
-            //    code2.AppendLine(op.GenerateActionCode(this, methodName));
+                //
+                code2.AppendLine(op.GenerateActionCode(this, methodName));
 
-            //    var requestSources = op.GenerateRequestCode();
-            //    AddSources(requestSources, sources);
+                var requestSources = op.GenerateRequestCode();
+                AddSources(requestSources, sources);
 
-            //    var responseSources = op.GenerateResponseCode();
-            //    AddSources(responseSources, sources);
-            //}
+                var responseSources = op.GenerateResponseCode();
+                AddSources(responseSources, sources);
+            }
 
 
 
@@ -200,6 +200,21 @@ namespace Bespoke.Sph.Integrations.Adapters
             sources.Add(this.Name + ".sproc.cs", code2.ToString());
 
             return Task.FromResult(sources);
+        }
+
+
+        private static void AddSources(Dictionary<string, string> classes, Dictionary<string, string> sources)
+        {
+            foreach (var cs in classes.Keys)
+            {
+                if (!sources.ContainsKey(cs))
+                {
+                    sources.Add(cs, classes[cs]);
+                    continue;
+                }
+                if (sources[cs] != classes[cs])
+                    throw new InvalidOperationException("You are generating 2 different sources for " + cs);
+            }
         }
 
         private string GenerateConnectionStringProperty()
