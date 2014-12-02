@@ -615,5 +615,15 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string Server { get; set; }
 
         public string Database { get; set; }
+
+        private readonly ObjectCollection<OperationDefinition> m_operationDefinitionCollection = new ObjectCollection<OperationDefinition>();
+
+        public new ObjectCollection<OperationDefinition> OperationDefinitionCollection
+        {
+            get
+            {
+                return m_operationDefinitionCollection;
+            }
+        }
     }
 }

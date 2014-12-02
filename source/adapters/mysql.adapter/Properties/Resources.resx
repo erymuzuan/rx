@@ -139,4 +139,10 @@
   <data name="Tab15" xml:space="preserve">
     <value>{0,15}</value>
   </data>
+  <data name="MessageNoSprocParameters" xml:space="preserve">
+    <value>Failed to get any parameters from : </value>
+  </data>
+  <data name="_ko_adapter_mysql" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\_ko.adapter.mysql.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

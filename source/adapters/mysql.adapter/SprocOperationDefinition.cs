@@ -67,7 +67,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 .Where(p => p.Type != typeof(Array))
                 .Where(p => p.Type != typeof(object)))
                 {
-                    code.AppendLinf("                       response.{0} = ({1})reader[{2}];", p.Name,p.Type.ToCSharp(),i);
+                    code.AppendLinf("                       response.{0} = ({1})reader[{2}];", p.Name, p.Type.ToCSharp(), i);
                     i++;
                 }
 
@@ -232,5 +232,34 @@ namespace Bespoke.Sph.Integrations.Adapters
             return sources;
         }
 
+        public string Text { get; set; }
+
+        public void ParseParameters(string text)
+        {
+            const string PATTERN = @"`\((?<param>.*?)\)\n";
+            var paramsText = Strings.RegexSingleValue(text, PATTERN, "param");
+            if (string.IsNullOrWhiteSpace(paramsText))
+            {
+                Console.WriteLine(Resources.MessageNoSprocParameters);
+                Console.WriteLine(text);
+                return;
+
+            }
+            this.RequestMemberCollection.Clear();
+            this.ResponseMemberCollection.Clear();
+            foreach (var s in paramsText.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                var lines = s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (lines[0] == "IN")
+                {
+                    this.RequestMemberCollection.Add(new SprocParameter { Name = "@" + lines[1], Type = lines[2].GetClrDataType()});
+                }
+                if (lines[0] == "OUT")
+                {
+                    this.ResponseMemberCollection.Add(new SprocResultMember { Name = "@" + lines[1] , Type = lines[2].GetClrDataType()});
+                }
+
+            }
+        }
     }
 }

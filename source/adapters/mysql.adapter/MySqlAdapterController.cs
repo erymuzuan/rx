@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,6 +15,18 @@ namespace Bespoke.Sph.Integrations.Adapters
     [RoutePrefix("mysql-adapter")]
     public class MySqlAdapterController : ApiController
     {
+
+        [HttpGet]
+        [Route("resource/{resource}")]
+        public HttpResponseMessage GetEmbeddedResource(string resource)
+        {
+
+            return new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(Properties.Resources._ko_adapter_mysql)
+            };
+        }
+
         [HttpPost]
         [Route("databases")]
         public async Task<HttpResponseMessage> GetDatabasesAsync([FromBody]MySqlAdapter adapter)
@@ -114,7 +128,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         [HttpPost]
         [Route("objects")]
-        public async Task<HttpResponseMessage> GetObjectsAsync([FromBody]MySqlAdapter adapter)
+        public async Task<object> GetObjectsAsync([FromBody]MySqlAdapter adapter)
         {
             var connectionString = string.Format("Server={0};Database={1};Uid={2};Pwd={3};", adapter.Server, "information_schema", adapter.UserId, adapter.Password);
 
@@ -126,16 +140,21 @@ namespace Bespoke.Sph.Integrations.Adapters
                 pcmd.Parameters.AddWithValue("@schema", adapter.Schema);
                 tcmd.Parameters.AddWithValue("@schema", adapter.Schema);
                 await conn.OpenAsync();
-                var procs = new List<object>();
+                var procs = new List<SprocOperationDefinition>();
                 using (var reader = await pcmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        procs.Add(new
+                        var proc = new SprocOperationDefinition
                         {
                             Name = reader.GetString(0),
-                            Text = reader.GetString(1)
-                        });
+                            MethodName = reader.GetString(0),
+                            Text = reader.GetString(1),
+                            Uuid = Guid.NewGuid().ToString()
+                        };
+                        await this.GetSprocParametersAsync(proc, adapter);
+                        procs.Add(proc);
+
                     }
                 }
                 var tables = new List<string>();
@@ -143,16 +162,109 @@ namespace Bespoke.Sph.Integrations.Adapters
                 {
                     while (await reader.ReadAsync())
                     {
-                        tables.Add(reader.GetString(0) );
+                        tables.Add(reader.GetString(0));
                     }
                 }
-                var json = JsonConvert.SerializeObject(new { tables = tables.ToArray(), sprocs = procs.ToArray(), success = true, status = "OK" });
-                var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new JsonContent(json) };
-                return response;
+                return (new { tables = tables.ToArray(), sprocs = procs.ToArray(), success = true, status = "OK" });
+
 
             }
         }
 
+        private async Task GetSprocParametersAsync(SprocOperationDefinition proc, MySqlAdapter adapter)
+        {
+            using (var conn = new MySqlConnection(adapter.ConnectionString))
+            using (var cmd = new MySqlCommand(string.Format("show create procedure `{0}`.`{1}`;", adapter.Schema, proc.Name), conn))
+            {
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        proc.ParseParameters(reader.GetString(2));
+                    }
+
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("sproc/{id}/{schema}.{name}")]
+        public async Task<IHttpActionResult> GetSprocAsync(string id, string schema, string name)
+        {
+
+            var context = new SphDataContext();
+            var adapter = (await context.LoadOneAsync<Adapter>(a => a.Id == id)) as MySqlAdapter;
+            if (null == adapter)
+                return NotFound();
+
+            var sproc =
+                adapter.OperationDefinitionCollection.OfType<SprocOperationDefinition>()
+                    .SingleOrDefault(x => x.Name == name);
+            if (null == sproc)
+                return NotFound();
+            return Ok(sproc);
+        }
+
+        [HttpGet]
+        [Route("sproc-text/{id}/{schema}.{name}")]
+        public async Task<HttpResponseMessage> GetSprocTextAsync(string id, string schema, string name)
+        {
+
+            var context = new SphDataContext();
+            var adapter = (await context.LoadOneAsync<Adapter>(a => a.Id == id)) as MySqlAdapter;
+            if (null == adapter)
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+            var sproc =
+                adapter.OperationDefinitionCollection.OfType<SprocOperationDefinition>()
+                    .SingleOrDefault(x => x.Name == name);
+            if (null == sproc)
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+            using (var conn = new MySqlConnection(adapter.ConnectionString))
+            using (var cmd = new MySqlCommand(string.Format("show create procedure `{0}`.`{1}`;", schema, name), conn))
+            {
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        return new HttpResponseMessage { Content = new StringContent(reader.GetString(2)) };
+                    }
+
+                }
+            }
+
+
+            return new HttpResponseMessage { Content = new StringContent("") };
+        }
+
+
+
+        [HttpPatch]
+        [Route("sproc/{id}")]
+        public async Task<IHttpActionResult> UpdateSprocDefinitionAsync(string id, [JsonBody]SprocOperationDefinition operation)
+        {
+            var context = new SphDataContext();
+            var sa = (await context.LoadOneAsync<Adapter>(x => x.Id == id)) as MySqlAdapter;
+            if (null == sa)
+                return NotFound();
+
+            var op = sa.OperationDefinitionCollection.OfType<SprocOperationDefinition>().SingleOrDefault(o => o.Uuid == operation.Uuid);
+            if (null == op)
+                sa.OperationDefinitionCollection.Add(operation);
+            else
+                sa.OperationDefinitionCollection.Replace(op, operation);
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(sa);
+                await session.SubmitChanges();
+            }
+
+            return Ok(new { success = true, status = "OK", uuid = operation.Uuid });
+        }
 
         [HttpPost]
         [Route("children/{table}")]

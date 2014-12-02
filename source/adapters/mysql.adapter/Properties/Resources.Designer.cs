@@ -61,6 +61,26 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to define([&apos;knockout&apos;], function(ko) {
+        ///    ko.bindingHandlers.sprocRequestSchemaTree = {
+        ///        init: function (element, valueAccessor) {
+        ///            var system = require(objectbuilders.system),
+        ///                value = valueAccessor(),
+        ///                entity = ko.unwrap(value.entity),
+        ///                searchbox = ko.unwrap(value.searchbox),
+        ///                member = value.selected,
+        ///                jsTreeData = {
+        ///                    text: entity.Name(),
+        ///                    state: {
+        ///                    [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _ko_adapter_mysql {
+            get {
+                return ResourceManager.GetString("_ko_adapter_mysql", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;h1&gt;MySQL/MariaDB Adapter&lt;/h1&gt;
         ///&lt;div id=&quot;error-list&quot; class=&quot;row&quot; data-bind=&quot;visible:errors().length&quot;&gt;
         ///    &lt;!-- ko foreach : errors --&gt;
@@ -137,7 +157,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ////// &lt;reference path=&quot;../schemas/sph.domain.g.js&quot; /&gt;
         ///
         ///
-        ///define([&apos;se [rest of string was truncated]&quot;;.
+        ///define([&apos;ad [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string adapter_mysql_sproc_js {
             get {
@@ -151,6 +171,15 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         internal static string DuplicationFileContent {
             get {
                 return ResourceManager.GetString("DuplicationFileContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to get any parameters from : .
+        /// </summary>
+        internal static string MessageNoSprocParameters {
+            get {
+                return ResourceManager.GetString("MessageNoSprocParameters", resourceCulture);
             }
         }
         

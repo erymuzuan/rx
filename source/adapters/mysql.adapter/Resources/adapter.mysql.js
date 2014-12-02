@@ -48,14 +48,15 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     .done(function (b) {
 
                         var loadSchemaTask = context.post(ko.mapping.toJSON(b), "mysql-adapter/schemas"),
-                            loadTablesSprocsTask = context.post(ko.mapping.toJSON(b), "mysql-adapter/tables"),
+                            loadTablesSprocsTask = context.post(ko.mapping.toJSON(b), "mysql-adapter/objects"),
                             loadDatabasesTask = connect(b);
 
 
                         $.when(loadDatabasesTask, loadSchemaTask, loadTablesSprocsTask).done(function (databases, schemaResult, result) {
                             schemaOptions(schemaResult[0].schema);
                             databaseOptions(databases.databases);
-                            var tables = _(result[0].tables).map(function (v) {
+                            var objects = context.toObservable(result[0]),
+                                tables = _(objects.tables()).map(function (v) {
                                 return {
                                     name: v,
                                     children: ko.observableArray(),
@@ -64,7 +65,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                                 };
                             });
                             tableOptions(tables);
-                            sprocOptions(result[0].sprocs);
+                            sprocOptions(objects.sprocs());
 
                             adapter(b);
 
@@ -162,7 +163,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
 
                 $('#sproc-option-panel').on('click', 'input[type=checkbox]', function () {
-                    var sproc = ko.dataFor(this),
+                    var o = { $type: "Bespoke.Sph.Integrations.Adapters.SprocOperationDefinition, mysql.adapter" },
+                        sproc = _(o).extend(ko.dataFor(this)),
                         checkbox = $(this);
 
                     if (checkbox.is(':checked')) {

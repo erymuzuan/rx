@@ -88,6 +88,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JsonBodyAttribute.cs" />
     <Compile Include="JsonContent.cs" />
     <Compile Include="MySqlAdapter.cs" />
     <Compile Include="MySqlAdapterController.cs" />
@@ -120,6 +121,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="_ko.adapter.mysql.js" />
     <None Include="Resources\adapter.mysql.html" />
     <None Include="Resources\adapter.mysql.js" />
     <None Include="Resources\adapter.mysql.sproc.html" />

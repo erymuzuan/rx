@@ -9,8 +9,8 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, 'adapter.resource/sqlserver-adapter/_ko.adapter.sqlserver'],
-    function (context, logger, router, system) {
+define(['adapter.resource/mysql-adapter/_ko.adapter.mysql', 'services/logger', 'plugins/router', objectbuilders.system, 'services/datacontext'],
+    function (koadapter, logger, router, system, context) {
 
         var operation = ko.observable(),
             isBusy = ko.observable(false),
@@ -21,10 +21,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             member = ko.observable(),
             responseMember = ko.observable(),
         activate = function (id, uuid) {
-            adapterId(parseInt(id));
+            adapterId(id);
             var tcs = new $.Deferred();
 
-            $.get("/sqlserver-adapter/sproc/" + id + "/" + uuid)
+            $.get("/mysql-adapter/sproc/" + id + "/" + uuid)
                 .done(function (op) {
 
                     var op2 = context.toObservable(op);
@@ -51,7 +51,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     tcs.resolve(op);
                 });
 
-            $.get("/sqlserver-adapter/sproc-text/" + id + "/" + uuid)
+            $.get("/mysql-adapter/sproc-text/" + id + "/" + uuid)
                 .done(function(st) {
                 text(st);
             });
@@ -67,7 +67,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             $.ajax({
                 type: "PATCH",
                 data: ko.mapping.toJSON(operation),
-                url: '/sqlserver-adapter/sproc/' + adapterId(),
+                url: '/mysql-adapter/sproc/' + adapterId(),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 error: tcs.reject,
@@ -78,7 +78,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             return tcs.promise();
         },
         goBack = function () {
-            window.location = "#adapter.sqlserver/" + adapterId();
+            window.location = "#adapter.mysql/" + adapterId();
             return Task.fromResult(0);
         };
 
