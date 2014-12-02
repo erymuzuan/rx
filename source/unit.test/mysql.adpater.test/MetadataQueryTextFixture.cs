@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Integrations.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -56,9 +57,8 @@ namespace mysql.adpater.test
             };
             var controller = new MySqlAdapterController();
             var response = await controller.GetObjectsAsync(adapter);
-            var content = (JsonContent)response.Content;
 
-            var json = await content.ReadAsStringAsync();
+            var json =  response.ToJsonString(true);
             StringAssert.Contains(json, "titles");
         }
 
@@ -76,11 +76,8 @@ namespace mysql.adpater.test
             };
             var controller = new MySqlAdapterController();
             var response = await controller.GetObjectsAsync(adapter);
-            var content = (JsonContent)response.Content;
 
-            var text = await content.ReadAsStringAsync();
-
-            var json = JObject.Parse(text).ToString(Formatting.Indented);
+            var json = response.ToJsonString(true);
             StringAssert.Contains(json, "getStaffCountByTitle");
             StringAssert.Contains(json, "@count");
             /*''
