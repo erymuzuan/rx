@@ -24,6 +24,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public async Task OpenAsync(bool verbose = false)
         {
+            this.TableDefinitionCollection.Clear();
             foreach (var table in this.Tables)
             {
 

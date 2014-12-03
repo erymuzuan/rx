@@ -59,6 +59,14 @@
     "icon-picker" : "IconPicker.html",
     "field-permission-dialog" : "FieldPermission.html",
     "adapter.http" : "HttpAdapter.html",
+    "adapter.mysql" : "MySqlAdapter.html",
+    "adapter.mysql.sproc" : "adapter.mysql.sproc.html",
+    "adapter.sqlserver" : "SqlServerAdapter.html",
+    "adapter.oracle" : "OracleAdapter.html",
+    "adapter.postgre" : "PostgreAdapter.html",
+    "adapter.db2" : "Db2Adapter.html",
+    "adapter.access" : "AccessAdapter.html",
+    "adapter.definition.list" : "AdapterDefinitionList.html",
 
     "default": "Overview.html"
 }

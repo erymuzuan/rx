@@ -224,7 +224,7 @@
                                                 mb = parent[0].data,
                                                 newNode = { state: "open", type: "System.Array, mscorlib", text: name + "Result1Collection", data: child };
 
-                                            child.$type = ko.observable('Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter');
+                                            child.$type = ko.observable('Bespoke.Sph.Integrations.Adapters.SprocResultMember, mysql.adapter');
                                             child.SqlDbType = ko.observable();
 
 
@@ -257,7 +257,7 @@
                                                 mb = parent[0].data,
                                                 newNode = { state: "open", type: "System.String, mscorlib", text: 'Member_Name', data: child };
 
-                                            child.$type = ko.observable('Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter');
+                                            child.$type = ko.observable('Bespoke.Sph.Integrations.Adapters.SprocResultMember, mysql.adapter');
                                             child.SqlDbType = ko.observable();
 
 

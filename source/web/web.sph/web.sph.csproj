@@ -168,6 +168,9 @@
     <Content Include="docs\ActivityExecutionStatus.html">
       <DependentUpon>ActivityExecutionStatus.md</DependentUpon>
     </Content>
+    <Content Include="docs\adapter.mysql.sproc.html">
+      <DependentUpon>adapter.mysql.sproc.md</DependentUpon>
+    </Content>
     <Content Include="docs\alm.html">
       <DependentUpon>alm.md</DependentUpon>
     </Content>
@@ -436,6 +439,7 @@
     </Content>
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="docs\adapter.mysql.sproc.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>
@@ -445,6 +449,9 @@
     </Content>
     <Content Include="docs\HtmlElement.html">
       <DependentUpon>HtmlElement.md</DependentUpon>
+    </Content>
+    <Content Include="docs\HttpAdapter.html">
+      <DependentUpon>HttpAdapter.md</DependentUpon>
     </Content>
     <Content Include="docs\IBinaryStore.html">
       <DependentUpon>IBinaryStore.md</DependentUpon>
@@ -564,6 +571,9 @@
     </Content>
     <Content Include="docs\MonthlySchedule.html">
       <DependentUpon>MonthlySchedule.md</DependentUpon>
+    </Content>
+    <Content Include="docs\MySqlAdapter.html">
+      <DependentUpon>MySqlAdapter.md</DependentUpon>
     </Content>
     <Content Include="docs\NotificationActivity.html">
       <DependentUpon>NotificationActivity.md</DependentUpon>
@@ -697,6 +707,7 @@
     <Content Include="docs\ReferencedAssembly.md" />
     <Content Include="docs\IconPicker.md" />
     <Content Include="docs\HttpAdapter.md" />
+    <Content Include="docs\MySqlAdapter.md" />
     <None Include="docs\scripts\topics.map" />
     <Content Include="docs\scripts\main.js" />
     <Content Include="docs\scripts\types.js" />

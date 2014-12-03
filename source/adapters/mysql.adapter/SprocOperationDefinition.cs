@@ -38,6 +38,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (outParameterSelectList.Any())
                 code.AppendLine("           sql +=\"SELECT " + string.Join(",", outParameterSelectList) + ";\";");
 
+            code.AppendLine();
             code.AppendLine("           using(var conn = new MySqlConnection(this.ConnectionString))");
             code.AppendLinf("           using(var cmd = new MySqlCommand(sql, conn))");
             code.AppendLine("           {");
@@ -77,7 +78,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             else
             {
-                code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
+                var hasReader = this.ResponseMemberCollection.OfType<SprocResultMember>().Any(p => p.Type == typeof (Array));
+                if (!hasReader)
+                    code.AppendLine("               var row = await cmd.ExecuteNonQueryAsync();");
             }
 
             foreach (var m in this.ResponseMemberCollection.OfType<SprocResultMember>())
@@ -115,8 +118,6 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)",
                 this.MethodName.ToCsharpIdentitfier());
             code.AppendLine("       {");
-            code.AppendLinf("           const string SPROC = \"{0}\";", this.MethodName);
-
             return code.ToString();
         }
 
@@ -252,11 +253,11 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var lines = s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (lines[0] == "IN")
                 {
-                    this.RequestMemberCollection.Add(new SprocParameter { Name = "@" + lines[1], Type = lines[2].GetClrDataType()});
+                    this.RequestMemberCollection.Add(new SprocParameter { Name = "@" + lines[1], Type = lines[2].GetClrDataType() });
                 }
                 if (lines[0] == "OUT")
                 {
-                    this.ResponseMemberCollection.Add(new SprocResultMember { Name = "@" + lines[1] , Type = lines[2].GetClrDataType()});
+                    this.ResponseMemberCollection.Add(new SprocResultMember { Name = "@" + lines[1], Type = lines[2].GetClrDataType() });
                 }
 
             }

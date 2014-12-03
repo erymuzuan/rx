@@ -200,7 +200,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                             if (!table.busy()) {
                                 _(v.ChildRelationCollection()).each(function (ct) {
                                     console.log("child ", ko.unwrap(ct.Table));
-                                    $('input[name=child-' + ko.unwrap(v.Name) + '-' + ko.unwrap(ct.Table)).trigger('click');
+                                    $('input[name=child-' + ko.unwrap(v.Name) + '-' + ko.unwrap(ct.Table) + ']').trigger('click');
                                 });
                                 clearInterval(it);
                             }
