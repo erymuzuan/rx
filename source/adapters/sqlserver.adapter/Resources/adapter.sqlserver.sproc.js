@@ -7,6 +7,7 @@
 /// <reference path="../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../../../web/web.sph/scripts/prism.js" />
 
 
 define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, 'adapter.resource/sqlserver-adapter/_ko.adapter.sqlserver'],
@@ -21,7 +22,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             member = ko.observable(),
             responseMember = ko.observable(),
         activate = function (id, uuid) {
-            adapterId(parseInt(id));
+            adapterId(id);
             var tcs = new $.Deferred();
 
             $.get("/sqlserver-adapter/sproc/" + id + "/" + uuid)
@@ -52,9 +53,15 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 });
 
             $.get("/sqlserver-adapter/sproc-text/" + id + "/" + uuid)
-                .done(function(st) {
-                text(st);
-            });
+                .done(function (st) {
+                    text(st);
+                });
+
+            setTimeout(function () {
+                $.getScript('/scripts/prism.js', function () {
+                    logger.info("loading syntax highlighter");
+                });
+            }, 5000);
 
             return tcs.promise();
 

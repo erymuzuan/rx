@@ -170,7 +170,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
         [HttpGet]
-        [Route("sproc/{id:int}/{schema}.{name}")]
+        [Route("sproc/{id}/{schema}.{name}")]
         public async Task<HttpResponseMessage> GetSprocAsync(string id, string schema, string name)
         {
 
@@ -188,7 +188,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
         [HttpGet]
-        [Route("sproc-text/{id:int}/{schema}.{name}")]
+        [Route("sproc-text/{id}/{schema}.{name}")]
         public async Task<HttpResponseMessage> GetSprocTextAsync(string id, string schema, string name)
         {
 
@@ -303,7 +303,7 @@ order by ORDINAL_POSITION";
 
 
         [HttpPatch]
-        [Route("sproc/{id:int}")]
+        [Route("sproc/{id}")]
         public async Task<IHttpActionResult> UpdateSprocDefinitionAsync(string id, [JsonBody]SprocOperationDefinition operation)
         {
             var context = new SphDataContext();
