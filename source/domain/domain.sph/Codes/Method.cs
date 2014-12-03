@@ -4,6 +4,7 @@ namespace Bespoke.Sph.Domain.Codes
 {
     public class Method
     {
+        public string Comment { get; set; }
         public Modifier Modifier { get; set; }
         public Type ReturnType { get; set; }
         public string Name { get; set; }

@@ -9,6 +9,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Bespoke.Sph.Templating;
+using domain.test.reports;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -24,6 +25,8 @@ namespace domain.test.workflows
         [SetUp]
         public virtual void Init()
         {
+            var trackerRepos = new MockRepository<Tracker>();
+            trackerRepos.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.Tracker]", new Tracker());
             var doc = new BinaryStore
             {
                 Content = File.ReadAllBytes(@".\workflows\PemohonWakaf.xsd")
@@ -32,8 +35,11 @@ namespace domain.test.workflows
             BinaryStore.Setup(x => x.GetContent("schema-storeid"))
                 .Returns(doc);
             ObjectBuilder.AddCacheList(BinaryStore.Object);
-            var qp = new Mock<QueryProvider>(MockBehavior.Loose);
-            ObjectBuilder.AddCacheList(qp.Object);
+            var qp = new MockQueryProvider();
+            ObjectBuilder.AddCacheList<QueryProvider>(qp);
+            ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(new MockRepository<WorkflowDefinition>());
+            ObjectBuilder.AddCacheList<IRepository<Tracker>>(trackerRepos);
+
 
             var ds = new Mock<IDirectoryService>(MockBehavior.Loose);
             ObjectBuilder.AddCacheList(ds.Object);
@@ -96,7 +102,7 @@ namespace domain.test.workflows
             assertError = true)
         {
             this.BinaryStore.Setup(x => x.GetContent("wd-storeid"))
-               .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), Id = "wd-storeid" });
+               .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToJsonString(true)), Id = "wd-storeid" });
 
             wd.Version = 25;
             var options = new CompilerOptions

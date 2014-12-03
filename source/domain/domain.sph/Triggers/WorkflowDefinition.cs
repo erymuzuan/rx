@@ -181,14 +181,7 @@ namespace Bespoke.Sph.Domain
         {
 
             var list = from CompilerError er in result.Errors.OfType<CompilerError>()
-                       select new BuildError
-                       {
-                           FileName = er.FileName,
-                           Code = "",
-                           Line = er.Line,
-                           ItemWebId = er.ErrorNumber,
-                           Message = er.ErrorText
-                       };
+                select this.GetSourceError(er, File.ReadAllLines(er.FileName));
             return list;
         }
 

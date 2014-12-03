@@ -88,6 +88,7 @@ namespace Bespoke.Sph.Domain.Codes
             code.AppendLine();
             foreach (var mtd in this.MethodCollection)
             {
+                code.AppendLine(mtd.Comment);
                 code.AppendLine(mtd.Code);
             }
 
