@@ -12,7 +12,7 @@ namespace domain.test.workflows
         [Test]
         public void TriggerSchedule()
         {
-            var wd = this.Create("503");
+            var wd = this.Create("Wf503");
             wd.ActivityCollection.Add(new ScheduledTriggerActivity
             {
                 Name = "Starts",
@@ -44,7 +44,7 @@ namespace domain.test.workflows
         [Test]
         public async Task Listen()
         {
-            var wd = this.Create("502");
+            var wd = this.Create("Wf502");
             wd.ActivityCollection.Add(new ScreenActivity { Name = "Starts", IsInitiator = true, WebId = "_A_", NextActivityWebId = "_B_" });
 
             var listen = new ListenActivity
@@ -87,7 +87,7 @@ namespace domain.test.workflows
         [Test]
         public async Task CompileAndRun()
         {
-            var wd = this.Create("500");
+            var wd = this.Create("Wf500");
 
             var pohon = new ScreenActivity
             {
@@ -173,7 +173,7 @@ namespace domain.test.workflows
         [Test]
         public async Task EmailFieldExpression()
         {
-            var wd = this.Create("501");
+            var wd = this.Create("Wf501");
 
             var pohon = new ScreenActivity
             {

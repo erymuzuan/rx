@@ -45,16 +45,14 @@ namespace domain.test.workflows
             options.ReferencedAssembliesLocation.Add(typeof(JsonConvert).Assembly.Location);
 
             var result = wd.Compile(options);
-            var sourceFile = Path.Combine(options.SourceCodeDirectory,
-                  string.Format("Workflow_{0}_{1}.cs", wd.Id, wd.Version));
+            var sourceFile = Path.Combine(options.SourceCodeDirectory,"Vehicle.cs");
             var code = File.ReadAllText(sourceFile);
             foreach (var e in result.Errors)
             {
                 Console.WriteLine(e.Message);
             }
             Assert.IsTrue(result.Result);
-            StringAssert.Contains("public partial class Vehicle", code);
-            StringAssert.Contains("<New application>", code);
+            StringAssert.Contains("public  class Vehicle", code);
 
         }
 
@@ -81,7 +79,7 @@ namespace domain.test.workflows
         [Test]
         public async Task GenerateJavascriptClasses()
         {
-            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "8", SchemaStoreId = m_schemaStoreId };
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "permohonan-tanah-wakaf", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
@@ -95,7 +93,7 @@ namespace domain.test.workflows
 
             var script = await wd.GenerateCustomXsdJavascriptClassAsync();
             Assert.IsNotNull(script);
-            StringAssert.Contains("bespoke.sph.w_8_0.Vehicle", script);
+            StringAssert.Contains("bespoke.sph.wf.PermohonanTanahWakafWorkflow.Vehicle", script);
             Console.WriteLine(script);
 
 
