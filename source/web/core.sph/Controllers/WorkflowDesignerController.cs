@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -56,7 +57,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             if (null == this.ToolboxItems)
                 ObjectBuilder.ComposeMefCatalog(this);
-            if(null == this.ToolboxItems)throw new Exception("fail to load activity from MEF");
+            if (null == this.ToolboxItems) throw new Exception("fail to load activity from MEF");
 
             var info = this.ToolboxItems
                 .SingleOrDefault(x => string.Equals(x.Metadata.TypeName, name, StringComparison.InvariantCultureIgnoreCase));
@@ -81,6 +82,50 @@ namespace Bespoke.Sph.Web.Controllers
                 byteArray = stream.ToArray();
             }
             return byteArray;
+        }
+
+        [HttpGet]
+        [Route("assemblies")]
+        public ActionResult GetLoadedAssemblies()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            return Json(assemblies.Select(a => a.GetName().Name).ToArray(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("types/{dll}")]
+        public ActionResult GetTypeFromAssembly(string dll)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assembly = assemblies.SingleOrDefault(a => a.GetName().Name == dll);
+            if (null == assembly)
+                return HttpNotFound("Cannot find assembly with the name " + dll);
+
+            return Json(assembly.GetTypes()
+                .Where(a => !a.FullName.Contains("<"))
+                .Where(a => !a.FullName.Contains("`"))
+                .Select(a => a.FullName).ToArray(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("methods/{dll}/{type}")]
+        public ActionResult GetMethodFromType(string dll, string type)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assembly = assemblies.SingleOrDefault(a => a.GetName().Name == dll);
+            if (null == assembly)
+                return HttpNotFound("Cannot find assembly with the name " + dll);
+
+            var @class = assembly.GetTypes().SingleOrDefault(t => t.FullName == type);
+            if(null == @class)
+                return HttpNotFound("Cannot find type with the name " + type +" in " + dll);
+
+            return Json(@class.GetMethods(BindingFlags.Instance| BindingFlags.Public)
+                .Where(m => !m.IsAbstract)
+                .Where(m => !m.Name.StartsWith("get_"))
+                .Where(m => !m.Name.StartsWith("set_"))
+                .Where(m => m.DeclaringType == @class)
+                .Select(a => a.Name).ToArray(), JsonRequestBehavior.AllowGet);
         }
 
     }

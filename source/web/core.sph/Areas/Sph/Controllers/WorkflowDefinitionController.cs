@@ -175,7 +175,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var wd = this.GetRequestJson<WorkflowDefinition>();
             if (string.IsNullOrWhiteSpace(wd.Name))
                 return Json(new { success = false, status = "Not OK", message = "Name cannot be empty" });
-            if (string.IsNullOrWhiteSpace(wd.Id) && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
+            if (wd.IsNewItem && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
             {
                 wd.Id = wd.Name.ToIdFormat();
                 // get the empty schema

@@ -1,0 +1,61 @@
+﻿
+<section class="view-model-modal" id="send-activity-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Send Activity</h3>
+            </div>
+            <div class="modal-body" data-bind="with: activity">
+
+                <form class="form-horizontal" id="activity-send-modal-form">
+                    <div class="form-group">
+                        <label for="adapter-assebly" class="col-lg-2 control-label">Adapter Assembly</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="adapter-assebly" required data-bind="value:AdapterAssembly, options: $root.adapterAssemblyOptions,optionsCaption:'[Please select your adapter dll]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="adapter-name" class="col-lg-2 control-label">Adapter</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="adapter-name" required data-bind="value:Adapter, options:$root.adapterOptions,optionsCaption:'[Please select your adapter class]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="method" class="col-lg-2 control-label">Method</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="method" required data-bind="value:Method,options: $root.methodOptions, optionsCaption:'[Select a Method]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="argument-path" class="col-lg-2 control-label">Agument Path</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="argument-path" required data-bind="value:ArgumentPath, options:$root.variableOptions,optionsCaption:'[Please select your argument path]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="return-value-path" class="col-lg-2 control-label">Return Value Path</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="return-value-path" data-bind="value:ReturnValuePath, options: $root.variableOptions"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: IsSynchronous" id="is-sync" type="checkbox" name="IsSynchronous" />
+                                    Using synchronous method invocation
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="activity-send-modal-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

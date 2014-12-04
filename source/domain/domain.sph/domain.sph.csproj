@@ -436,6 +436,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\activity.send.html" />
+    <None Include="Resources\activity.send.js" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
