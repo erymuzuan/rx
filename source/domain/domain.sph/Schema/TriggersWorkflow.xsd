@@ -576,6 +576,12 @@
 			<xs:complexContent>
 				<xs:extension base="Activity">
 					<xs:attribute name="PortType" type="xs:string" use="required"/>
+					<xs:attribute name="Adapter" type="xs:string" use="required"/>
+					<xs:attribute name="Method" type="xs:string" use="required"/>
+					<xs:attribute name="AdapterAssembly" type="xs:string" use="required"/>
+					<xs:attribute name="IsSynchronous" type="xs:boolean" use="required"/>
+					<xs:attribute name="ArgumentPath" type="xs:string" use="required"/>
+					<xs:attribute name="ReturnValuePath" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

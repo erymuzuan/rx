@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>domain.test</RootNamespace>
     <AssemblyName>domain.test</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -56,6 +56,9 @@
     <Reference Include="Moq, Version=4.2.1402.2112, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Moq.4.2.1408.0717\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\packages\MySql.Data.6.9.5\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -139,6 +142,7 @@
     <Compile Include="workflows\TestWorkflowForTracker.cs" />
     <Compile Include="workflows\TrackerTest.cs" />
     <Compile Include="workflows\WorkflowCompilerTest.cs" />
+    <Compile Include="workflows\SendActivityTestFixture.cs" />
     <Compile Include="workflows\WorkflowExecutionTest.cs" />
     <Compile Include="workflows\WorkflowCreateEntityTest.cs" />
     <Compile Include="workflows\WorkflowGenerationTest.cs" />

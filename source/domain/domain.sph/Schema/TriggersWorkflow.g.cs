@@ -2954,6 +2954,102 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_Adapter;
+        [XmlAttribute]
+        public string Adapter
+        {
+            get
+            {
+                return m_Adapter;
+            }
+            set
+            {
+                m_Adapter = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Method;
+        [XmlAttribute]
+        public string Method
+        {
+            get
+            {
+                return m_Method;
+            }
+            set
+            {
+                m_Method = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_AdapterAssembly;
+        [XmlAttribute]
+        public string AdapterAssembly
+        {
+            get
+            {
+                return m_AdapterAssembly;
+            }
+            set
+            {
+                m_AdapterAssembly = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsSynchronous;
+        [XmlAttribute]
+        public bool IsSynchronous
+        {
+            get
+            {
+                return m_IsSynchronous;
+            }
+            set
+            {
+                m_IsSynchronous = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_ArgumentPath;
+        [XmlAttribute]
+        public string ArgumentPath
+        {
+            get
+            {
+                return m_ArgumentPath;
+            }
+            set
+            {
+                m_ArgumentPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_ReturnValuePath;
+        [XmlAttribute]
+        public string ReturnValuePath
+        {
+            get
+            {
+                return m_ReturnValuePath;
+            }
+            set
+            {
+                m_ReturnValuePath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -5850,7 +5946,7 @@ namespace Bespoke.Sph.Domain
         {
             set
             {
-                if (Math.Abs(m_x - value) < 0.01d) return;
+                if (m_x == value) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameX, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -5872,7 +5968,7 @@ namespace Bespoke.Sph.Domain
         {
             set
             {
-                if (Math.Abs(m_y - value) < 0.01d) return;
+                if (m_y == value) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameY, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
