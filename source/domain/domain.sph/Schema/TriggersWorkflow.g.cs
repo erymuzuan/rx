@@ -3050,6 +3050,17 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private readonly ObjectCollection<ExceptionFilter> m_ExceptionFilterCollection = new ObjectCollection<ExceptionFilter>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ExceptionFilter", IsNullable = false)]
+        public ObjectCollection<ExceptionFilter> ExceptionFilterCollection
+        {
+            get { return m_ExceptionFilterCollection; }
+        }
+
 
     }
 

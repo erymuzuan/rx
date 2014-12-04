@@ -575,6 +575,15 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="ExceptionFilterCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ExceptionFilter" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="PortType" type="xs:string" use="required"/>
 					<xs:attribute name="Adapter" type="xs:string" use="required"/>
 					<xs:attribute name="Method" type="xs:string" use="required"/>

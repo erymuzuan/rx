@@ -117,6 +117,7 @@
     <Compile Include="reports\ReportColumnsTestFixture.cs" />
     <Compile Include="reports\SqlCompileTestFixture.cs" />
     <Compile Include="reports\RdlTestFixture.cs" />
+    <Compile Include="MySqlPersistenceHelper.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />
     <Compile Include="triggers\EmailActionTest.cs" />
     <Compile Include="triggers\AssemblyFieldTest.cs" />
