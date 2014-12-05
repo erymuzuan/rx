@@ -16,10 +16,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public partial class SqlServerAdapter : Adapter
     {
-        public override string CodeNamespace
-        {
-            get { return string.Format("{0}.Adapters.{1}", ConfigurationManager.ApplicationName, this.Schema); }
-        }
+        
 
         public override string OdataTranslator
         {

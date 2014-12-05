@@ -18,6 +18,7 @@ namespace sqlserver.adapter.test
     [TestClass]
     public class SqlServerAdapterTest
     {
+        public const string ADAPTER_NAME = "AdventureWorksPersons";
         [ClassInitialize]
         public static void Init(TestContext context)
         {
@@ -35,7 +36,7 @@ namespace sqlserver.adapter.test
                 TrustedConnection = true,
                 Schema = "Person",
                 Tables = tables,
-                Name = "AdventureWorksPersons",
+                Name = ADAPTER_NAME,
                 Description = "A test"
 
             };
@@ -72,7 +73,7 @@ namespace sqlserver.adapter.test
 
         private dynamic CreatePerson()
         {
-            var personType = m_dll.GetType("Dev.Adapters.Person.Person");
+            var personType = m_dll.GetType("Dev.Adapters.Person." + ADAPTER_NAME + ".Person");
             dynamic prs = Activator.CreateInstance(personType);
             Assert.IsNotNull(prs);
             prs.PersonType = "EM";
@@ -106,7 +107,7 @@ namespace sqlserver.adapter.test
 
         private dynamic GetAdapter()
         {
-            var adapterType = m_dll.GetType("Dev.Adapters.Person.PersonAdapter");
+            var adapterType = m_dll.GetType("Dev.Adapters.Person." + ADAPTER_NAME + ".PersonAdapter");
             Assert.IsNotNull(adapterType);
             dynamic adapter = Activator.CreateInstance(adapterType);
             return adapter;
