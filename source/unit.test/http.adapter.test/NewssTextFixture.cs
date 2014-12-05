@@ -64,8 +64,7 @@ namespace http.adapter.test
         public async Task PopulatePostResponse()
         {
             await this.OpenAsync();
-            var pdrm =
-                this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>()
+            var pdrm = this.Adapter.OperationDefinitionCollection.OfType<HttpOperationDefinition>()
                     .First(a => a.Name == "rilek_pdrm" && a.HttpMethod == "POST");
 
             var biodata = new RegexMember { Type = typeof(object), Name = "Biodata" };
@@ -141,9 +140,9 @@ namespace http.adapter.test
             pdrm.ResponseMemberCollection.Add(summon);
 
             var dll = Assembly.LoadFile(await CompileAsync());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var loginType = dll.GetType("Dev.Adapters.UnitTest.PostUsersLoginRequest");
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostRilekPdrmRequest");
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var loginType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".PostUsersLoginRequest");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".PostRilekPdrmRequest");
 
             dynamic login = Activator.CreateInstance(loginType);
             login.email = "erymuzuan@gmail.com";
@@ -176,8 +175,8 @@ namespace http.adapter.test
         public async Task PostMethodRequest()
         {
             var dll = Assembly.LoadFile(await CompileAsync());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostUsersLoginRequest");
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".PostUsersLoginRequest");
             dynamic localhost = Activator.CreateInstance(type);
             dynamic request = Activator.CreateInstance(requestType);
             request.email = "test321@tst.com";

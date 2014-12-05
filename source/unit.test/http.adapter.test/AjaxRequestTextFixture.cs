@@ -57,16 +57,16 @@ namespace http.adapter.test
             Assert.IsTrue(File.Exists(result.Output));
             return result.Output;
         }
-        
+
 
         [TestMethod]
         public async Task GetPreviousBooking()
         {
             var dll = Assembly.LoadFile(await CompileAsync());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostBookingGetPreviousBookingRequest");
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".PostBookingGetPreviousBookingRequest");
             dynamic peranginan = Activator.CreateInstance(type);
-            
+
             dynamic request = Activator.CreateInstance(requestType);
             request.id = "780909-09-0909";
 
@@ -78,10 +78,10 @@ namespace http.adapter.test
         public async Task PostWithArrayResponse()
         {
             var dll = Assembly.LoadFile(await CompileAsync());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostBookingGetServiceTypeJsonRequest");
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".PostBookingGetServiceTypeJsonRequest");
             dynamic peranginan = Activator.CreateInstance(type);
-            
+
             dynamic request = Activator.CreateInstance(requestType);
             request.serviceType = "Kakitangan Awam Persekutuan";
 
@@ -94,10 +94,10 @@ namespace http.adapter.test
         public async Task GetQueryStringRouteResponse()
         {
             var dll = Assembly.LoadFile(await CompileAsync());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.GetBookingSelectRoomRequest");
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".GetBookingSelectRoomRequest");
             dynamic peranginan = Activator.CreateInstance(type);
-            
+
             dynamic request = Activator.CreateInstance(requestType);
             request.id = "3";
             request.bph_secure_hash = "7116B1BF9AEE53748E3925FB2C75AE42";

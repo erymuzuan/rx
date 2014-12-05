@@ -96,7 +96,7 @@ Check Summon
                     Content = new StringContent(TEXT, Encoding.UTF8)
                 };
 
-               
+
                 requestMessage.Content.Headers.Remove("Content-Type");
                 requestMessage.Content.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryxi5TIGPLxLVlaaYs");
 
@@ -139,7 +139,7 @@ Check Summon
                             .OfType<HttpOperationDefinition>()
                             .First(a => a.Name == "_rilek_pdrm" && a.HttpMethod == "POST");
 
-            var biodata = new RegexMember {Type = typeof (object), Name = "Biodata"};
+            var biodata = new RegexMember { Type = typeof(object), Name = "Biodata" };
             pdrm.ResponseMemberCollection.Add(biodata);
             pdrm.ResponseMemberCollection.Add(new RegexMember
             {
@@ -199,7 +199,8 @@ Check Summon
             });
             summon.MemberCollection.Add(new RegexMember
             {
-                Name = "District", Type = typeof(string),
+                Name = "District",
+                Type = typeof(string),
                 Group = "district",
                 Pattern = @"</td> <td>(?<date>\d\d [A-Za-z]{3} \d\d\d\d \d\d:\d\d:\d\d)</td> <td>(?<district>.*?)</td>"
             });
@@ -211,9 +212,9 @@ Check Summon
             pdrm.ResponseMemberCollection.Add(summon);
 
             var dll = Assembly.LoadFile(await CompileRilekHar());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var loginType = dll.GetType("Dev.Adapters.UnitTest.PostRilekUsersLoginRequest");
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostRilekPdrmRequest");
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var loginType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".PostRilekUsersLoginRequest");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".PostRilekPdrmRequest");
 
             dynamic login = Activator.CreateInstance(loginType);
             login.email = "erymuzuan@gmail.com";
@@ -250,9 +251,9 @@ Check Summon
         public async Task PostRequestWithMultipartForDataEncoded()
         {
             var dll = Assembly.LoadFile(await CompileRilekHar());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var loginType = dll.GetType("Dev.Adapters.UnitTest.PostRilekUsersLoginRequest");
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostRilekPdrmRequest");
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var loginType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".PostRilekUsersLoginRequest");
+            var requestType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".PostRilekPdrmRequest");
 
             dynamic login = Activator.CreateInstance(loginType);
             login.email = "erymuzuan@gmail.com";
@@ -280,8 +281,8 @@ Check Summon
         public async Task PostMethodRequest()
         {
             var dll = Assembly.LoadFile(await CompileRilekHar());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType("Dev.Adapters.UnitTest.PostRilekUsersLoginRequest");
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType("Dev.Adapters.UnitTest." + Adapter.Name + ".PostRilekUsersLoginRequest");
             dynamic localhost = Activator.CreateInstance(type);
             dynamic request = Activator.CreateInstance(requestType);
             request.email = "test321@tst.com";
@@ -291,6 +292,6 @@ Check Summon
             var response = await localhost.PostRilekUsersLoginAsync(request);
             StringAssert.Contains(response.ResponseText, "Incorrect Login");
         }
-     
+
     }
 }

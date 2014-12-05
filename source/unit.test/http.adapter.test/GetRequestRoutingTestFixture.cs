@@ -74,8 +74,8 @@ namespace http.adapter.test
 
 
             var dll = Assembly.LoadFile(await this.CompileAsync());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.GetWebApiArticleRequest", Adapter.Schema));
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.GetWebApiArticleRequest", Adapter.Schema, Adapter.Name));
             dynamic aspnet = Activator.CreateInstance(type);
             dynamic request = Activator.CreateInstance(requestType);
             request.category = "working-with-http";

@@ -47,8 +47,8 @@ namespace http.adapter.test
         public async Task GetMethod()
         {
             var dll = Assembly.LoadFile(await CompilePetronasSapHar());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.GetLoginDoRequest", Adapter.Schema));
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.GetLoginDoRequest", Adapter.Schema, Adapter.Name));
             dynamic localhost = Activator.CreateInstance(type);
             dynamic request = Activator.CreateInstance(requestType);
 
@@ -80,8 +80,8 @@ namespace http.adapter.test
         public async Task PostMethodRequest()
         {
             var dll = Assembly.LoadFile(await CompilePetronasSapHar());
-            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}", Adapter.Schema, Adapter.Name));
-            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.PostLoginDoRequest", Adapter.Schema));
+            var type = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.{1}", Adapter.Schema, Adapter.Name));
+            var requestType = dll.GetType(string.Format("Dev.Adapters.{0}.{1}.PostLoginDoRequest", Adapter.Schema, Adapter.Name));
             dynamic localhost = Activator.CreateInstance(type);
             dynamic request = Activator.CreateInstance(requestType);
             request.inUserName = "test321";
