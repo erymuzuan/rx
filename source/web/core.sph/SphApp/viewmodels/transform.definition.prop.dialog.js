@@ -18,7 +18,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             selectedOutputAssembly = ko.observable(),
             activate = function() {
                 var tcs = new $.Deferred();
-                $.get("/sph/transformdefinition/assemblies", function(list) {
+                $.get("/transform-definition/assemblies", function(list) {
                     assemblyOptions(list);
                     tcs.resolve(true);
                 });
@@ -36,12 +36,12 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             };
 
         selectedInputAssembly.subscribe(function(dll) {
-            $.get("/sph/transformdefinition/gettypes?dll=" + dll, function(list) {
+            $.get("/transform-definition/types/" + dll, function(list) {
                 inputTypeOptions(list);
             });
         });
         selectedOutputAssembly.subscribe(function (dll) {
-            $.get("/sph/transformdefinition/gettypes?dll=" + dll, function(list) {
+            $.get("/transform-definition/types/" + dll, function(list) {
                 outputTypeOptions(list);
             });
         });

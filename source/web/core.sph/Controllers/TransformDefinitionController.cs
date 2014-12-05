@@ -8,14 +8,17 @@ using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 
-namespace Bespoke.Sph.Web.Areas.Sph.Controllers
+namespace Bespoke.Sph.Web.Controllers
 {
+    [Authorize(Roles = "developers")]
+    [RoutePrefix("transform-definition")]
     public class TransformDefinitionController : Controller
     {
         [ImportMany("FunctoidDesigner", typeof(Functoid), AllowRecomposition = true)]
         public Lazy<Functoid, IDesignerMetadata>[] Functoids { get; set; }
 
-
+        [HttpPost]
+        [Route("validate")]
         public async Task<ActionResult> Validate([RequestBody] TransformDefinition map)
         {
             var erros = await map.ValidateBuildAsync();
@@ -25,6 +28,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { success = true, status = "OK", message = "Your map has been successfully validated" });
 
         }
+
+        [HttpPost]
+        [Route("validate-fix")]
         public async Task<ActionResult> ValidateFix([RequestBody] TransformDefinition map)
         {
             //map.MapCollection.OfType<FunctoidMap>().Where(x => x.).ForEach(x => x.Functoid.RemoveInvalidArgument());
@@ -40,6 +46,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return await Validate(map);
         }
 
+        [HttpPost]
+        [Route("publish")]
         public async Task<ActionResult> Publish([RequestBody] TransformDefinition map)
         {
             var erros = await map.ValidateBuildAsync();
@@ -76,6 +84,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
+        [HttpGet]
+        [Route("functoids")]
         public ActionResult GetFunctoids()
         {
             ObjectBuilder.ComposeMefCatalog(this);
@@ -89,7 +99,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index()
+        [Route("")]
+        public async Task<ActionResult> SaveAsync()
         {
             var ed = this.GetRequestJson<TransformDefinition>();
             var context = new SphDataContext();
@@ -99,6 +110,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 ed.Id = ed.Name.ToIdFormat();
             }
 
+            ed.FunctoidCollection.RemoveAll(f => null == f);
             using (var session = context.OpenSession())
             {
                 session.Attach(ed);
@@ -121,6 +133,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             "Antlr3","RazorEngine",
             "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn"
         };
+
+
+        [HttpGet]
+        [Route("assemblies")]
         public ActionResult Assemblies()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -139,6 +155,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [Route("json-schema/{type}")]
         public ActionResult Schema(string type)
         {
             var t = Type.GetType(type);
@@ -147,6 +165,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Content(schema.ToString(), "application/json", Encoding.UTF8);
         }
 
+        [HttpGet]
+        [Route("types/{dll}")]
         public ActionResult GetTypes(string dll)
         {
 
@@ -171,14 +191,17 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }).ToArray(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Functoid(string id, string type)
+        [HttpGet]
+        [Route("functoid/{extension}/{type}")]
+        public ActionResult Functoid(string extension, string type)
         {
             if(null == this.Functoids)
                 ObjectBuilder.ComposeMefCatalog(this);
+            if(null == this.Functoids)throw new InvalidOperationException("Cannot compose MEF");
 
             var functoid = this.Functoids.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
                 .ToLowerInvariant()== type).Value;
-            if (id == "js")
+            if (extension == "js")
             {
                 this.Response.ContentType = "application/javascript";
                 var js = functoid.GetEditorViewModel();

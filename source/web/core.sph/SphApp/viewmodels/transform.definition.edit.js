@@ -30,10 +30,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                                 v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
                             });
                             td(b);
-                            $.get("/sph/transformdefinition/schema?type=" + b.InputTypeName(), function (s) {
+                            $.get("/transform-definition/json-schema/" + b.InputTypeName(), function (s) {
                                 sourceSchema(s);
                             });
-                            $.get("/sph/transformdefinition/schema?type=" + b.OutputTypeName(), function (s) {
+                            $.get("/transform-definition/json-schema/" + b.OutputTypeName(), function (s) {
                                 destinationSchema(s);
                             });
                         } else {
@@ -197,7 +197,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                         selectArg(sourceFnc2, targetFnc2).done(function (result) {
                             if (result == "OK") {
-                                td().FunctoidCollection.push(sourceFnc);
+                                td().FunctoidCollection.push(sourceFnc2);
                             } else {
                                 instance.detach(info.connection);
                             }
@@ -352,7 +352,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             },
             attached = function (view) {
 
-                $.get("/sph/transformdefinition/GetFunctoids", function (list) {
+                $.get("/transform-definition/functoids", function (list) {
                     functoidToolboxItems(list.$values);
                     $('ul#function-toolbox>li.list-group-item').draggable({
                         helper: function () {
@@ -499,7 +499,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 isBusy(true);
 
 
-                context.post(data, "/sph/transformdefinition")
+                context.post(data, "/transform-definition")
                     .then(function (result) {
                         isBusy(false);
                         if (!td().Id() || td().Id() === "0") {
@@ -533,8 +533,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                                 // try build the tree for new item
                                 if (!td().Id() || td().Id() === "0") {
-                                    var inTask = context.get("/sph/transformdefinition/schema?type=" + td().InputTypeName()),
-                                       outTask = context.get("/sph/transformdefinition/schema?type=" + td().OutputTypeName());
+                                    var inTask = context.get("/transform-definition/json-schema/" + td().InputTypeName()),
+                                       outTask = context.get("/transform-definition/json-schema/" + td().OutputTypeName());
                                     $.when(inTask, outTask).done(function (input, output) {
                                         sourceSchema(input[0]);
                                         destinationSchema(output[0]);
@@ -550,7 +550,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             },
             validateAsync = function () {
                 var tcs = new $.Deferred();
-                context.post(ko.mapping.toJSON(td), '/sph/transformdefinition/validatefix')
+                context.post(ko.mapping.toJSON(td), '/transform-definition/validate-fix')
                     .done(function (result) {
                         $('i.fa.fa-exclamation-circle.error').remove();
                         if (result.success) {
@@ -574,7 +574,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
             },
             publishAsync = function () {
                 var tcs = new $.Deferred();
-                context.post(ko.mapping.toJSON(td), '/sph/transformdefinition/publish')
+                context.post(ko.mapping.toJSON(td), '/transform-definition/publish')
                     .done(function (result) {
                         if (result.success) {
                             logger.info(result.message);
