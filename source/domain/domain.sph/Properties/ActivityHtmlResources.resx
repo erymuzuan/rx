@@ -160,4 +160,10 @@
   <data name="activity_send" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\activity.send.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="activity_mapping" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\activity.mapping.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="activity_receive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\activity.receive.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

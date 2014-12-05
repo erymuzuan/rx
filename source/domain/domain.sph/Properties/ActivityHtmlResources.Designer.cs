@@ -230,6 +230,27 @@ namespace Bespoke.Sph.Domain.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to 
+        ///&lt;section class=&quot;view-model-modal&quot; id=&quot;mapping-activity-dialog&quot;&gt;
+        ///    &lt;div class=&quot;modal-dialog&quot;&gt;
+        ///        &lt;div class=&quot;modal-content&quot;&gt;
+        ///
+        ///            &lt;div class=&quot;modal-header&quot;&gt;
+        ///                &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; data-bind=&quot;click : cancelClick&quot;&gt;&amp;times;&lt;/button&gt;
+        ///                &lt;h3&gt;Message mapping&lt;/h3&gt;
+        ///            &lt;/div&gt;
+        ///            &lt;div class=&quot;modal-body&quot; data-bind=&quot;with: activity&quot;&gt;
+        ///
+        ///                &lt;form class=&quot;form-horizontal&quot; id=&quot;am-form&quot;&gt;
+        ///                    &lt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string activity_mapping {
+            get {
+                return ResourceManager.GetString("activity_mapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
         ///&lt;section class=&quot;view-model-modal&quot; id=&quot;activity-notification-modal&quot;&gt;
         ///    &lt;div class=&quot;modal-dialog&quot;&gt;
         ///        &lt;div class=&quot;modal-content&quot;&gt;
@@ -273,6 +294,28 @@ namespace Bespoke.Sph.Domain.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to 
+        ///&lt;section class=&quot;view-model-modal&quot; id=&quot;receive-activity-dialog&quot;&gt;
+        ///    &lt;div class=&quot;modal-dialog&quot;&gt;
+        ///        &lt;div class=&quot;modal-content&quot;&gt;
+        ///
+        ///            &lt;div class=&quot;modal-header&quot;&gt;
+        ///                &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; data-bind=&quot;click : cancelClick&quot;&gt;&amp;times;&lt;/button&gt;
+        ///                &lt;h3&gt;Receive Activity&lt;/h3&gt;
+        ///            &lt;/div&gt;
+        ///            &lt;div class=&quot;modal-body&quot; data-bind=&quot;with: activity&quot;&gt;
+        ///
+        ///            &lt;/div&gt;
+        ///            &lt;div class=&quot;modal-footer&quot;&gt;
+        ///                &lt;inpu [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string activity_receive {
+            get {
+                return ResourceManager.GetString("activity_receive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
         ///&lt;section class=&quot;view-model-modal&quot; id=&quot;sch-act-dialog&quot;&gt;
         ///    &lt;div class=&quot;modal-dialog&quot;&gt;
         ///        &lt;div class=&quot;modal-content&quot;&gt;
@@ -303,8 +346,9 @@ namespace Bespoke.Sph.Domain.Properties {
         ///                &lt;h3&gt;Send Activity&lt;/h3&gt;
         ///            &lt;/div&gt;
         ///            &lt;div class=&quot;modal-body&quot; data-bind=&quot;with: activity&quot;&gt;
-        ///                &lt;div class=&quot;form-group&quot;&gt;
-        ///                    &lt;label for=&quot;adapter-name&quot; c [rest of string was truncated]&quot;;.
+        ///
+        ///                &lt;form class=&quot;form-horizontal&quot; id=&quot;activity-send-modal-form&quot;&gt;
+        ///          [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string activity_send {
             get {

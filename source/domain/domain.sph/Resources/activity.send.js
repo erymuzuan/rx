@@ -19,6 +19,10 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             wd = ko.observable(),
             isBusy = ko.observable(false),
             activate = function () {
+
+                variableOptions(_(wd().VariableDefinitionCollection()).map(function(v) {
+                    return ko.unwrap(v.Name);
+                }));
                 var tcs = new $.Deferred();
                 $.get("/wf-designer/assemblies")
                     .done(function (b) {

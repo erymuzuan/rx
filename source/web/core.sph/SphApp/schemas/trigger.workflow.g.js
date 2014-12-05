@@ -1605,6 +1605,8 @@ bespoke.sph.domain.MappingActivity = function (optionOrWebid) {
 
     v.DestinationType = ko.observable('');
 
+    v.OutputPath = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.MappingActivity, domain.sph";
 
     v.MappingSourceCollection = ko.observableArray([]);

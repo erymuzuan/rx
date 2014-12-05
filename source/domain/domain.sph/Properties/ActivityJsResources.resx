@@ -142,11 +142,17 @@
   <data name="activity_listen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\activity.listen.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="activity_mapping" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\activity.mapping.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="activity_notification" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\activity.notification.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="activity_parallel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\activity.parallel.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="activity_receive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\activity.receive.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="activity_scheduledtrigger" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\activity.scheduledtrigger.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

@@ -24,15 +24,28 @@
                     <div class="form-group">
                         <label for="mapping-definition" class="col-sm-3 control-label">Mapping Definition</label>
                         <div class="col-sm-9">
-                            <select class="form-control" id="mapping-definition" data-bind="value:MappingDefinition, options: $root.definitionOptions">
+                            <select class="form-control" id="mapping-definition" data-bind="value:MappingDefinition, 
+                                    options: $root.definitionOptions,
+                                    optionsValue : 'FullName',
+                                    optionsText :'Name',
+                                    optionsCaption :'[Please Select a mapping definition]'">
                                 <option value=""></option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="mapping-dest" class="col-sm-3 control-label">Destination Schema</label>
+                        <label for="mapping-dest" class="col-sm-3 control-label">Input Path</label>
                         <div class="col-sm-9">
-                            <select class="form-control" id="mapping-dest" data-bind="value:DestinationType, options: $root.destinationOptions, optionsText: 'Name', optionsValue : 'Name'">
+                            <select class="form-control" id="mapping-dest" data-bind="value:MappingSourceCollection()[0].Variable,
+                                    options: $root.destinationOptions, optionsText: 'Name', optionsValue : 'Name'">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mapping-dest" class="col-sm-3 control-label">Output Path</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="mapping-dest" data-bind="value:OutputPath, options: $root.destinationOptions, optionsText: 'Name', optionsValue : 'Name'">
                                 <option value=""></option>
                             </select>
                         </div>
