@@ -6,7 +6,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ParameterDirection = System.Data.ParameterDirection;
 
 namespace sqlserver.adapter.test
 {
