@@ -11,34 +11,51 @@
 
                 <form class="form-horizontal" id="activity-send-modal-form">
                     <div class="form-group">
-                        <label for="adapter-assebly" class="col-lg-2 control-label">Adapter Assembly</label>
-                        <div class="col-lg-6">
-                            <select class="form-control" id="adapter-assebly" required data-bind="value:AdapterAssembly, options: $root.adapterAssemblyOptions,optionsCaption:'[Please select your adapter dll]'"></select>
+                        <label for="name" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" data-bind="value: Name"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                   placeholder="Name"
+                                   class="form-control" id="name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="adapter-name" class="col-lg-2 control-label">Adapter</label>
-                        <div class="col-lg-6">
-                            <select class="form-control" id="adapter-name" required data-bind="value:Adapter, options:$root.adapterOptions,optionsCaption:'[Please select your adapter class]'"></select>
+                        <label for="adapter-assembly" class="col-sm-3 control-label">Adapter Assembly</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="adapter-assembly" required data-bind="value:AdapterAssembly, 
+                                    options: $root.adapterAssemblyOptions,
+                                    optionsCaption:'[Please select your adapter dll]'"></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="method" class="col-lg-2 control-label">Method</label>
-                        <div class="col-lg-6">
-                            <select class="form-control" id="method" required data-bind="value:Method,options: $root.methodOptions, optionsCaption:'[Select a Method]'"></select>
+                        <label for="adapter-name" class="col-sm-3 control-label">Adapter</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="adapter-name" required data-bind="value:Adapter, 
+                                    options:$root.adapterOptions,
+                                    optionsCaption:'[Please select your adapter class]'"></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="argument-path" class="col-lg-2 control-label">Agument Path</label>
-                        <div class="col-lg-6">
-                            <select class="form-control" id="argument-path" required data-bind="value:ArgumentPath, options:$root.variableOptions,optionsCaption:'[Please select your argument path]'"></select>
+                        <label for="method" class="col-sm-3 control-label">Method</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="method" required data-bind="value:Method,
+                                    options: $root.methodOptions, 
+                                    optionsCaption:'[Select a Method]'"></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="return-value-path" class="col-lg-2 control-label">Return Value Path</label>
-                        <div class="col-lg-6">
+                        <label for="argument-path" class="col-sm-3 control-label">Agument Path</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="argument-path" required data-bind="value:ArgumentPath, 
+                                    options:$root.variableOptions,
+                                    optionsCaption:'[Please select your argument path]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="return-value-path" class="col-sm-3 control-label">Return Value Path</label>
+                        <div class="col-sm-9">
                             <select class="form-control" id="return-value-path" data-bind="value:ReturnValuePath,
-                                    optionsCaption : '[Select a return path(optional)]'
+                                    optionsCaption : '[Select a return path(optional)]',
                                     options: $root.variableOptions"></select>
                         </div>
                     </div>

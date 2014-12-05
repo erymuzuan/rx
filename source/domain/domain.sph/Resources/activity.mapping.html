@@ -51,33 +51,7 @@
                         </div>
                     </div>
 
-                
-                    <table class="table table-striped" data-bind="scroll : 210">
-                        <thead>
-                            <tr>
-                                <th>Variable</th>
-                                <th>Type</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach :MappingSourceCollection">
-                            <tr>
-                                <td>
-                                    <select class="form-control" data-bind="value:Variable, uniqueName: true, options: $root.destinationOptions, optionsText: 'Name', optionsValue : 'Name'">
-                                        <option value=""></option>
-                                    </select>
-                                </td>
-                                <td data-bind="text:TypeName"></td>
-                               
-                                <td><a href="#" data-bind="click : $parent.removeMappingSource.call($parent,$data)"><i class="fa fa-times"></i></a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <a class="btn btn-link" data-bind="click : addMappingSource">
-                        <i class="fa fa-plus-circle"></i>
-                        Add a source
-                    </a>
+               
                 </form>
             </div>
             <div class="modal-footer">

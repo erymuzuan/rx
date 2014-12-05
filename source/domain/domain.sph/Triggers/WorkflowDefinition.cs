@@ -162,7 +162,8 @@ namespace Bespoke.Sph.Domain
 
                 foreach (var ass in options.ReferencedAssembliesLocation)
                 {
-                    parameters.ReferencedAssemblies.Add(ass);
+                    if (!parameters.ReferencedAssemblies.Contains(ass))
+                        parameters.ReferencedAssemblies.Add(ass);
                 }
                 var result = provider.CompileAssemblyFromFile(parameters, sourceFiles.ToArray());
                 var cr = new WorkflowCompilerResult
@@ -181,12 +182,16 @@ namespace Bespoke.Sph.Domain
         {
 
             var list = from CompilerError er in result.Errors.OfType<CompilerError>()
-                select this.GetSourceError(er, File.ReadAllLines(er.FileName));
+                       select this.GetSourceError(er, er.FileName);
             return list;
         }
 
-        private BuildError GetSourceError(CompilerError er, string[] sources)
+        private BuildError GetSourceError(CompilerError er, string fileName)
         {
+            if (string.IsNullOrWhiteSpace(fileName) || !File.Exists(fileName))
+                return new BuildError(this.WebId, er.ErrorText);
+
+            var sources = File.ReadAllLines(fileName);
             var member = string.Empty;
             for (var i = 0; i < er.Line; i++)
             {

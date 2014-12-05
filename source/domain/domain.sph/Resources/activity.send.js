@@ -20,16 +20,30 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             isBusy = ko.observable(false),
             activate = function () {
 
-                variableOptions(_(wd().VariableDefinitionCollection()).map(function(v) {
+                variableOptions(_(wd().VariableDefinitionCollection()).map(function (v) {
                     return ko.unwrap(v.Name);
                 }));
                 var tcs = new $.Deferred();
                 $.get("/wf-designer/assemblies")
                     .done(function (b) {
                         adapterAssemblyOptions(_(b).filter(function (v) { return v.indexOf(config.applicationName) > -1; }));
-                        tcs.resolve(true);
 
+                        // for existing activity
+                        var act = activity();
+                        if (act.AdapterAssembly()) {
+                            var getTypeTask = $.get("/wf-designer/types/" + act.AdapterAssembly()),
+                                getAdapterTask = $.get("/wf-designer/methods/" + act.AdapterAssembly() + "/" + act.Adapter());
 
+                            $.when(getTypeTask, getAdapterTask)
+                               .done(function (b1, b2) {
+                                   adapterOptions(b1[0]);
+                                   methodOptions(b2[0]);
+                                   tcs.resolve(true);
+                               });
+
+                        } else {
+                            tcs.resolve(true);
+                        }
                     });
 
                 return tcs.promise();

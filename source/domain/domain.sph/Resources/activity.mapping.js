@@ -21,7 +21,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                 var tcs = new $.Deferred();
 
                 if (activity().MappingSourceCollection().length === 0) {
-                    activity().MappingSourceCollection().push(new new bespoke.sph.domain.MappingSource());
+                    activity().MappingSourceCollection().push(new bespoke.sph.domain.MappingSource());
                 }
 
                 context.loadAsync("TransformDefinition", query)
