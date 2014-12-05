@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
@@ -11,7 +10,6 @@ using Bespoke.Sph.Integrations.Adapters;
 using Bespoke.Sph.RoslynScriptEngines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySql.Data.MySqlClient;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using sqlserver.adapter.test;
 
@@ -20,7 +18,7 @@ namespace mysql.adpater.test
     [TestClass]
     public class ApiOperationTestFixture
     {
-
+        public const string ADAPTER_NAME = "__MySqlTestAdapter";
         [TestInitialize]
         public void Init()
         {
@@ -35,7 +33,7 @@ namespace mysql.adpater.test
             });
             m_adapter = new MySqlAdapter
              {
-                 Name = "__MySqlTestAdapter",
+                 Name = ADAPTER_NAME,
                  Schema = "employees",
                  Database = "employees",
                  UserId = "root",
@@ -73,7 +71,7 @@ namespace mysql.adpater.test
 
         public dynamic CreateAdapter(string table)
         {
-            var adapterType = m_dll.GetType("Dev.Adapters.employees." + table + "Adapter");
+            var adapterType = m_dll.GetType(string.Format("Dev.Adapters.employees.{0}.{1}Adapter", ADAPTER_NAME, table));
             dynamic adapter = Activator.CreateInstance(adapterType);
             Assert.IsNotNull(adapter);
 
@@ -82,7 +80,7 @@ namespace mysql.adpater.test
         }
         public dynamic CreateEmployee()
         {
-            var personType = m_dll.GetType("Dev.Adapters.employees.employees");
+            var personType = m_dll.GetType(string.Format("Dev.Adapters.employees.{0}.employees", ADAPTER_NAME));
             dynamic prs = Activator.CreateInstance(personType);
             Assert.IsNotNull(prs);
 
@@ -98,7 +96,7 @@ namespace mysql.adpater.test
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://localhost:4436");
-                var response = await client.GetAsync("api/employees/employees/" + 10009);
+                var response = await client.GetAsync("api/employees/employees/" + 10100);
                 var json = await response.Content.ReadAsStringAsync();
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
@@ -106,7 +104,7 @@ namespace mysql.adpater.test
                 var jo = JObject.Parse(json);
 
 
-                Assert.AreEqual(10009, jo.SelectToken("item.emp_no"));
+                Assert.AreEqual(10100, jo.SelectToken("item.emp_no"));
 
             }
 

@@ -15,7 +15,7 @@ namespace mysql.adpater.test
     [TestClass]
     public class AdapterOutputOperationTestFixture
     {
-
+        public const string ADAPTER_NAME = "__MySqlTestAdapter";
         [TestInitialize]
         public void Init()
         {
@@ -30,7 +30,7 @@ namespace mysql.adpater.test
             });
             m_adapter = new MySqlAdapter
              {
-                 Name = "__MySqlTestAdapter",
+                 Name = ADAPTER_NAME,
                  Schema = "employees",
                  Database = "employees",
                  UserId = "root",
@@ -68,7 +68,7 @@ namespace mysql.adpater.test
 
         public dynamic CreateAdapter(string table)
         {
-            var adapterType = m_dll.GetType("Dev.Adapters.employees." + table + "Adapter");
+            var adapterType = m_dll.GetType(string.Format("Dev.Adapters.employees.{0}.{1}Adapter", ADAPTER_NAME, table));
             dynamic adapter = Activator.CreateInstance(adapterType);
             Assert.IsNotNull(adapter);
 
@@ -77,7 +77,7 @@ namespace mysql.adpater.test
         }
         public dynamic CreateEmployee()
         {
-            var personType = m_dll.GetType("Dev.Adapters.employees.employees");
+            var personType = m_dll.GetType(string.Format("Dev.Adapters.employees.{0}.employees", ADAPTER_NAME));
             dynamic prs = Activator.CreateInstance(personType);
             Assert.IsNotNull(prs);
 

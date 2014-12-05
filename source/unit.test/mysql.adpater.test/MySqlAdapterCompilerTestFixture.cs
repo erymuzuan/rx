@@ -12,12 +12,14 @@ namespace mysql.adpater.test
     [TestClass]
     public class MySqlAdapterCompilerTestFixture
     {
+        public const string ADAPTER_NAME_WITH_PROCEDURE = "__MySqlEmployeesWithProcedure";
+        public const string ADAPTER_NAME = "__MySqlEmployees";
         [TestMethod]
         public async Task CompileOneTable()
         {
             var adapter = new MySqlAdapter
             {
-                Name = "__MySqlEmployees",
+                Name = ADAPTER_NAME,
                 Database = "employees",
                 Schema = "employees",
                 Server = "localhost",
@@ -42,7 +44,7 @@ namespace mysql.adpater.test
         {
             var adapter = new MySqlAdapter
             {
-                Name = "__MySqlEmployeesWithProcedure",
+                Name = ADAPTER_NAME_WITH_PROCEDURE,
                 Database = "employees",
                 Schema = "employees",
                 Server = "localhost",
@@ -70,10 +72,10 @@ namespace mysql.adpater.test
 
 
             var dll = Assembly.LoadFile(cr.Output);
-            dynamic sprocAdapter = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.__MySqlEmployeesWithProcedure"));
+            dynamic sprocAdapter = Activator.CreateInstance(dll.GetType(string.Format("Dev.Adapters.employees.{0}.{0}", ADAPTER_NAME_WITH_PROCEDURE)));
             sprocAdapter.ConnectionString = adapter.ConnectionString;
 
-            dynamic request = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.GetEmployeesByEmpNoRequest"));
+            dynamic request = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees." + ADAPTER_NAME_WITH_PROCEDURE + ".GetEmployeesByEmpNoRequest"));
             request.@no = 10100;
 
             var result = await sprocAdapter.GetEmployeesByEmpNoAsync(request);
@@ -84,9 +86,10 @@ namespace mysql.adpater.test
         [TestMethod]
         public async Task CompileProcedureOutParameter()
         {
+            const string adapterName = "__MySqlEmployeesProcedureOutParameter";
             var adapter = new MySqlAdapter
             {
-                Name = "__MySqlEmployeesProcedureOutParameter",
+                Name = adapterName,
                 Database = "employees",
                 Schema = "employees",
                 Server = "localhost",
@@ -95,7 +98,7 @@ namespace mysql.adpater.test
                 Tables = new AdapterTable[] { }
             };
 
-            var count = new SprocResultMember { Name = "@count", Type = typeof(long), SqlDbType = SqlDbType.Int};
+            var count = new SprocResultMember { Name = "@count", Type = typeof(long), SqlDbType = SqlDbType.Int };
 
             var sproc = new SprocOperationDefinition
             {
@@ -112,10 +115,10 @@ namespace mysql.adpater.test
 
 
             var dll = Assembly.LoadFile(cr.Output);
-            dynamic sprocAdapter = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.__MySqlEmployeesProcedureOutParameter"));
+            dynamic sprocAdapter = Activator.CreateInstance(dll.GetType(string.Format("Dev.Adapters.employees.{0}.{0}", adapterName)));
             sprocAdapter.ConnectionString = adapter.ConnectionString;
 
-            dynamic request = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.GetStaffCountByTitleRequest"));
+            dynamic request = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees." + adapterName + ".GetStaffCountByTitleRequest"));
             request.@title = "Senior Staff";
 
             var result = await sprocAdapter.GetStaffCountByTitleAsync(request);
@@ -134,9 +137,10 @@ namespace mysql.adpater.test
                 ForeignColumn = "emp_no",
                 Table = "titles"
             });
+            const string ADAPTER_NAME2 = "__MySqlEmployeesWithChildTitles";
             var adapter = new MySqlAdapter
             {
-                Name = "__MySqlEmployeesWithChildTitles",
+                Name = ADAPTER_NAME2,
                 Database = "employees",
                 Schema = "employees",
                 Server = "localhost",
@@ -149,7 +153,7 @@ namespace mysql.adpater.test
             Assert.IsTrue(cr.Result);
 
             var dll = Assembly.LoadFile(cr.Output);
-            dynamic controller = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees.employeesController"));
+            dynamic controller = Activator.CreateInstance(dll.GetType("Dev.Adapters.employees." + ADAPTER_NAME2 + ".employeesController"));
             var result = await controller.GettitlesByemployees(10100);
             var json = JsonSerializerService.ToJsonString(result, true);
             StringAssert.Contains(json, "Senior Staff");
