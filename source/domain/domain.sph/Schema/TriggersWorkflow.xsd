@@ -793,6 +793,7 @@
 					</xs:all>
 					<xs:attribute name="MappingDefinition" type="xs:string" use="required"/>
 					<xs:attribute name="DestinationType" type="xs:string" use="required"/>
+					<xs:attribute name="OutputPath" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

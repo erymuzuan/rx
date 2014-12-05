@@ -4173,6 +4173,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_OutputPath;
+        [XmlAttribute]
+        public string OutputPath
+        {
+            get
+            {
+                return m_OutputPath;
+            }
+            set
+            {
+                m_OutputPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<MappingSource> m_MappingSourceCollection = new ObjectCollection<MappingSource>();
 
         ///<summary>

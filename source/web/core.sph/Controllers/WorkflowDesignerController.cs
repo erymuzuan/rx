@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
+    [Authorize(Roles = "developers")]
     [RoutePrefix("wf-designer")]
     public class WorkflowDesignerController : Controller
     {
