@@ -2863,7 +2863,7 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
     "$values": []
   },
-  "WorkflowDefinitionId": 2002,
+  "Id": "permohonan-mewujudkan-wakaf",
   "Name": "Permohonan Mewujudkan Wakaf",
   "Note": "Permohonan Mewujudkan Wakaf",
   "IsActive": true,

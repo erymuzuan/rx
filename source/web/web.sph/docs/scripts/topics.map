@@ -68,5 +68,10 @@
     "adapter.access" : "AccessAdapter.html",
     "adapter.definition.list" : "AdapterDefinitionList.html",
 
+
+    "mapping-activity-dialog" : "mapping-activity-dialog.html",
+    "send-activity-dialog" : "send-activity-dialog.html",
+    "receive-activity-dialog" : "receive-activity-dialog.html",
+
     "default": "Overview.html"
 }

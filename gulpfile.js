@@ -14,7 +14,11 @@ gulp.task('less', function () {
     .pipe(gulp.dest('./source/web/core.sph/Content/theme.matyie/'));
 });
 gulp.task('md', function () {
-    return gulp.src(['./source/web/web.sph/docs/*Adapter.md','./source/web/web.sph/docs/adapter.*.md'])
+    return gulp.src(['./source/web/web.sph/docs/*Adapter.md',
+      './source/web/web.sph/docs/adapter.*.md',
+      './source/web/web.sph/docs/*Activity.md',
+      './source/web/web.sph/docs/ExceptionFilter.md',
+      './source/web/web.sph/docs/*-activity-dialog.md'])
         .pipe(markdown())
         .pipe(gulp.dest('./source/web/web.sph/docs/'));
 });

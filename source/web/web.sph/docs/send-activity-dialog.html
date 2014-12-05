@@ -14,10 +14,14 @@
         <tr><td>Method</td><td> - The operation that will be called</td></tr>
         <tr><td>ArgumentPath</td><td> - The argument or input path in your WorkflowDefinition that will be passed to the adapter method</td></tr>
         <tr><td>ReturnValuePath</td><td> - You can optionally store the return value of the operation call</td></tr>
+        <tr><td>IsSynchronous</td><td> - If your method doesnot contails any async, then you should check this</td></tr>
         <tr><td>ExceptionFilterCollection</td><td> - Allows you to filter and retry the operation based on the Exception</td></tr>
     </tbody>
 </table>
 
+<h2 id="using-the-exceptionfilter-to-retry-your-method">Using the ExceptionFilter to retry your Method</h2>
+<p>SendActivity allows you to filter any Exception and retry the Method as many times as you like, you can also set interval for the next retry will happen.
+See <a href="ExceptionFilter.html"><code>ExceptionFilter</code></a> for details.</p>
 <h2 id="see-also">See also</h2>
 <p><a href="Activity.html">Activity</a>
 <a href="CreateEntityActivity.html">CreateEntityActivity</a>

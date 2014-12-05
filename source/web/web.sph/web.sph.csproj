@@ -441,6 +441,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="docs\adapter.mysql.sproc.md" />
+    <Content Include="docs\ExceptionFilter.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>
@@ -561,6 +562,9 @@
     <Content Include="docs\MapElement.html">
       <DependentUpon>MapElement.md</DependentUpon>
     </Content>
+    <Content Include="docs\mapping-activity-dialog.html">
+      <DependentUpon>mapping-activity-dialog.md</DependentUpon>
+    </Content>
     <Content Include="docs\Member.html">
       <DependentUpon>Member.md</DependentUpon>
     </Content>
@@ -660,6 +664,10 @@
     <Content Include="docs\PropertyMapping.html">
       <DependentUpon>PropertyMapping.md</DependentUpon>
     </Content>
+    <None Include="docs\receive-activity-dialog.md" />
+    <Content Include="docs\receive-activity-dialog.html">
+      <DependentUpon>receive-activity-dialog.md</DependentUpon>
+    </Content>
     <Content Include="docs\ReceiveActivity.html">
       <DependentUpon>ReceiveActivity.md</DependentUpon>
     </Content>
@@ -709,6 +717,7 @@
     <Content Include="docs\IconPicker.md" />
     <Content Include="docs\HttpAdapter.md" />
     <Content Include="docs\MySqlAdapter.md" />
+    <Content Include="docs\mapping-activity-dialog.md" />
     <None Include="docs\scripts\topics.map" />
     <Content Include="docs\scripts\main.js" />
     <Content Include="docs\scripts\types.js" />
@@ -717,6 +726,10 @@
     </Content>
     <Content Include="docs\SectionFormElement.html">
       <DependentUpon>SectionFormElement.md</DependentUpon>
+    </Content>
+    <None Include="docs\send-activity-dialog.md" />
+    <Content Include="docs\send-activity-dialog.html">
+      <DependentUpon>send-activity-dialog.md</DependentUpon>
     </Content>
     <Content Include="docs\SendActivity.html">
       <DependentUpon>SendActivity.md</DependentUpon>
