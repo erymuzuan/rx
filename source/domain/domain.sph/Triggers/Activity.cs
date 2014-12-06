@@ -11,28 +11,30 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [XmlInclude(typeof(ScreenActivity))]
-    [XmlInclude(typeof(DecisionActivity))]
-    [XmlInclude(typeof(NotificationActivity))]
-    [XmlInclude(typeof(EndActivity))]
-    [XmlInclude(typeof(MappingActivity))]
     [XmlInclude(typeof(CreateEntityActivity))]
-    [XmlInclude(typeof(UpdateEntityActivity))]
+    [XmlInclude(typeof(DecisionActivity))]
+    [XmlInclude(typeof(DelayActivity))]
     [XmlInclude(typeof(DeleteEntityActivity))]
+    [XmlInclude(typeof(EndActivity))]
     [XmlInclude(typeof(ExpressionActivity))]
-    [XmlInclude(typeof(ParallelActivity))]
     [XmlInclude(typeof(JoinActivity))]
     [XmlInclude(typeof(ListenActivity))]
-    [XmlInclude(typeof(DelayActivity))]
+    [XmlInclude(typeof(MappingActivity))]
+    [XmlInclude(typeof(NotificationActivity))]
+    [XmlInclude(typeof(ParallelActivity))]
+    [XmlInclude(typeof(ReceiveActivity))]
+    [XmlInclude(typeof(UpdateEntityActivity))]
     [XmlInclude(typeof(ScheduledTriggerActivity))]
+    [XmlInclude(typeof(ScreenActivity))]
+    [XmlInclude(typeof(SendActivity))]
     public partial class Activity : DomainObject
     {
         public virtual BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
-            const string pattern = "^[A-Za-z][A-Za-z0-9_ ]*$";
+            const string PATTERN = "^[A-Za-z][A-Za-z0-9_ ]*$";
             var result = new BuildValidationResult();
             var message = string.Format("[{1}] \"{0}\" is not valid identifier", this.Name, this.GetType().Name);
-            var validName = new Regex(pattern);
+            var validName = new Regex(PATTERN);
             if (!validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = message });
 

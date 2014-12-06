@@ -99,6 +99,8 @@ WriteLiteral(" class=\"col-sm-6\"");
 
 WriteLiteral(">\r\n                <input required");
 
+WriteLiteral(" maxlength=\"35\"");
+
 WriteLiteral(" placeholder=\"Trigger\'s\' name\"");
 
 WriteLiteral(" class=\"form-control\"");
