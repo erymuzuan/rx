@@ -172,7 +172,6 @@
     <Compile Include="Core\PropertyChangingEventArgs.cs" />
     <Compile Include="Core\Setting.cs" />
     <Compile Include="Core\Strings.cs" />
-    <Compile Include="Core\XmlSerializerService.cs" />
     <Compile Include="CredentialProvider.cs" />
     <Compile Include="Business\Document.cs" />
     <Compile Include="Business\DocumentTemplate.cs" />

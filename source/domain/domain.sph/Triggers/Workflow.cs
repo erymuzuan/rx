@@ -124,7 +124,7 @@ namespace Bespoke.Sph.Domain
             var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", this.WorkflowDefinitionId, this.Version));
             using (var stream = new System.IO.MemoryStream(doc.Content))
             {
-                this.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
+                this.WorkflowDefinition = stream.DeserializeFromJson<WorkflowDefinition>();
             }
         }
 

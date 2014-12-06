@@ -87,7 +87,7 @@ namespace subscriber.entities
             var id = (int)item.GetType().GetProperty(entityType.Name + "Id")
                 .GetValue(item, null);
             if (prop.Name == "Data")
-                return item.ToXmlString(entityType);
+                throw new InvalidOperationException("Xml [Data] column is no longer supporterd");
             if (prop.Name == "Json")
                 return item.ToJsonString();
             if (prop.Name == "CreatedDate")

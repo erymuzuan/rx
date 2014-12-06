@@ -176,7 +176,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine(@"           WorkflowDefinition wd;
             using (var stream = new System.IO.MemoryStream(doc.Content))
             {
-                wd = stream.DeserializeFromXml<WorkflowDefinition>();
+                wd = stream.DeserializeFromJson<WorkflowDefinition>();
             }
 
                                         ");

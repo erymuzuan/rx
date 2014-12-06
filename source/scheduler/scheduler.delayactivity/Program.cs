@@ -30,7 +30,7 @@ namespace scheduler.delayactivity
             var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", wf.WorkflowDefinitionId, wf.Version));
             using (var stream = new MemoryStream(doc.Content))
             {
-                wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
+                wf.WorkflowDefinition = stream.DeserializeFromJson<WorkflowDefinition>();
             }
 
             var result = await wf.ExecuteAsync(webId);

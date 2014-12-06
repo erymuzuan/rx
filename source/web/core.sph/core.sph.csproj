@@ -204,7 +204,6 @@
     <Compile Include="Api\IPagingTranslator2.cs" />
     <Compile Include="Api\ApiController.cs" />
     <Compile Include="Api\ListController.cs" />
-    <Compile Include="Api\RepositoryController.cs" />
     <Compile Include="Api\Sql2008PagingTranslator.cs" />
     <Compile Include="Api\Sql2012PagingTranslator.cs" />
     <Compile Include="ApplicationHelper.cs" />

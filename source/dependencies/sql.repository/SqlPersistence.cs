@@ -87,7 +87,7 @@ namespace Bespoke.Sph.SqlRepository
                     foreach (var c in columns)
                     {
                         var parameterName = string.Format("@{0}{1}", c.Name.Replace(".", "_"), count1);
-                        var parameterValue = this.GetParameterValue(c, entityType, item, user);
+                        var parameterValue = this.GetParameterValue(c, item, user);
 
                         cmd.Parameters.AddWithValue(parameterName, parameterValue);
                     }
@@ -179,13 +179,13 @@ namespace Bespoke.Sph.SqlRepository
         }
 
 
-        private object GetParameterValue(Column prop, Type entityType, Entity item, string user)
+        private object GetParameterValue(Column prop, Entity item, string user)
         {
 
             var id = (string)item.GetType().GetProperty("Id")
                 .GetValue(item, null);
             if (prop.Name == "Data")
-                return item.ToXmlString(entityType);
+                throw new InvalidOperationException("Xml [Data] column is no longer supported");
             if (prop.Name == "Json")
                 return item.ToJsonString();
             if (prop.Name == "CreatedDate")

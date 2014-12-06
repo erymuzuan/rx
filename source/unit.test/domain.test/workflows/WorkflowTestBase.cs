@@ -139,7 +139,6 @@ namespace domain.test.workflows
             Assert.IsNotNull(wf);
 
             wf.SerializedDefinitionStoreId = "wd-storeid";
-            XmlSerializerService.RegisterKnownTypes(typeof(Workflow), wfType);
 
             var pemohonProperty = wf.GetType().GetProperty("pemohon");
             Assert.IsNotNull(pemohonProperty);

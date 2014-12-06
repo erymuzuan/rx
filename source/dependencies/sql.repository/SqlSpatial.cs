@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
@@ -141,7 +140,7 @@ namespace Bespoke.Sph.SqlRepository
                     var list = new ObjectCollection<T>();
                     while (reader.Read())
                     {
-                        var item = XmlSerializerService.DeserializeFromXml<T>(reader.GetString(1));
+                        var item = reader.GetString(1).DeserializeFromJson<T>();
                         item.EncodedWkt = reader.GetString(2);
                         item.Id = reader.GetString(0);
                         // item.GeoLocationId = reader.GetInt32(0);

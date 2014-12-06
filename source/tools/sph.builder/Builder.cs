@@ -101,10 +101,9 @@ namespace sph.builder
 
         private object GetParameterValue(Column prop, Entity item)
         {
-            var entityType = typeof(T);
             var id = item.Id;
             if (prop.Name == "Data")
-                return item.ToXmlString(entityType);
+                throw new InvalidOperationException("Xml [Data] column is no longer supporterd");
             if (prop.Name == "Json")
                 return item.ToJsonString();
             if (prop.Name == "CreatedDate")

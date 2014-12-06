@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -145,9 +144,9 @@ namespace sph.builder
             var archived = new BinaryStore
             {
                 Id = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
-                Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
-                Extension = ".xml",
-                FileName = string.Format("wd.{0}.{1}.xml", wd.Id, wd.Version)
+                Content = Encoding.Unicode.GetBytes(wd.ToJsonString(true)),
+                Extension = ".json",
+                FileName = string.Format("wd.{0}.{1}.json", wd.Id, wd.Version)
 
             };
             await store.DeleteAsync(archived.Id);

@@ -157,7 +157,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var archived = new BinaryStore
             {
                 Id = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
-                Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
+                Content = Encoding.Unicode.GetBytes(wd.ToJsonString(true)),
                 Extension = ".xml",
                 FileName = string.Format("wd.{0}.{1}.xml", wd.Id, wd.Version)
 

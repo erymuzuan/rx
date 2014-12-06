@@ -132,7 +132,6 @@
     <Compile Include="triggers\MockLdap.cs" />
     <Compile Include="triggers\MockTemplateEnging.cs" />
     <Compile Include="triggers\RuleTest.cs" />
-    <Compile Include="triggers\SerializationTest.cs" />
     <Compile Include="triggers\SetterActionTextFixture.cs" />
     <Compile Include="workflows\BuildValidationTest.cs" />
     <Compile Include="workflows\CreationTest.cs" />

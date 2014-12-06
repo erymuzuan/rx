@@ -26,7 +26,7 @@ namespace Bespoke.Sph.WorkflowsExecution
             WorkflowDefinition wd;
             using (var stream = new MemoryStream(doc.Content))
             {
-                wd = stream.DeserializeFromXml<WorkflowDefinition>();
+                wd = stream.DeserializeFromJson<WorkflowDefinition>();
             }
             item.WorkflowDefinition = wd;
 

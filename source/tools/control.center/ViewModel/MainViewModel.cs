@@ -10,9 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
-using Bespoke.Sph.ControlCenter.Helpers;
 using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.ControlCenter.Properties;
+using Bespoke.Sph.Domain;
 using GalaSoft.MvvmLight.Command;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
@@ -76,7 +76,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             if (File.Exists(file))
             {
                 var settings = File.ReadAllText(file)
-                                   .Deserialize<SphSettings>();
+                                   .DeserializeFromJson<SphSettings>();
 
                 SqlLocalDbName = settings.SqlLocalDbName;
                 IisExpressDirectory = settings.IisExpressDirectory;
@@ -548,7 +548,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             };
 
             var path = this.GetSettingFile();
-            File.WriteAllText(path, settings.ToXmlString(), Encoding.UTF8);
+            File.WriteAllText(path, settings.ToJsonString(), Encoding.UTF8);
 
             Settings.Default.ApplicationName = this.ApplicationName;
             Settings.Default.ProjectDirectory = this.ProjectDirectory;

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
-using System.Xml.Linq;
 using Bespoke.Sph.Domain;
 using InvokeSolutions.Docx;
 using InvokeSolutions.Docx.Data;
@@ -123,75 +121,6 @@ namespace Bespoke.Sph.WordGenerator
 
 
 
-
-        public void ProcessTemplate(DocumentDataSource dataSource, DomainObject data, XElement element, string prepend)
-        {
-
-            string name = data.GetType().Name;
-
-            if (element.Name.LocalName.EndsWith("Collection"))
-            {
-                ProcessCollection(dataSource, element);
-            }
-
-            foreach (var a in element.Attributes())
-            {
-                if (a.IsNamespaceDeclaration) continue;
-
-                var placeHolder = prepend == string.Empty ? string.Format("{0}{1}{4}{2}{3}", StartingParameterIdentifierToken, name, a.Name.LocalName, EndingParameterIdentifierToken, AccessorOperator)
-                    : string.Format("{0}{1}{5}{2}{5}{3}{4}", StartingParameterIdentifierToken, name, prepend, a.Name.LocalName, EndingParameterIdentifierToken, AccessorOperator);
-                var value = a.Value.GetFormattedValue();
-                if (!string.IsNullOrEmpty(value))
-                {
-                    dataSource[placeHolder] = value;
-                }
-
-            }
-
-
-            foreach (var e in element.Elements())
-            {
-                // !e.HasElements is simple element and it could be element with just attributes
-                if (!e.HasElements)
-                {
-                    var placeHolder = prepend == string.Empty
-                                          ? string.Format("{0}{1}{2}{3}{4}", StartingParameterIdentifierToken, name,
-                                                          AccessorOperator, e.Name.LocalName,
-                                                          EndingParameterIdentifierToken)
-                                          : string.Format("{0}{1}{2}{3}{4}{5}{6}", StartingParameterIdentifierToken,
-                                                          name, AccessorOperator, prepend, AccessorOperator,
-                                                          e.Name.LocalName, EndingParameterIdentifierToken);
-                    var value = e.Value.GetFormattedValue();
-                    if (!string.IsNullOrEmpty(value))
-                    {
-                        Debug.WriteLine("{0} : {1}", placeHolder, value);
-                        dataSource[placeHolder] = value;
-                    }
-                    if (!e.HasAttributes)
-                        continue;
-                }
-
-                //  other complex element
-                ProcessTemplate(dataSource, data, e,
-                    string.IsNullOrEmpty(prepend) ? e.Name.LocalName :
-                    prepend + AccessorOperator + e.Name.LocalName);
-            }
-        }
-
-
-
-        private void ProcessCollection(DocumentDataSource source, XElement element)
-        {
-            var property = element.Name.LocalName;
-
-            var csharpTypeNames = new[] { "string", "int", "double", "decimal", "float" };
-            var list = from e in element.Elements()
-                       let dataType = this.DefaultNamespace + "." + e.Name.LocalName
-                       where !csharpTypeNames.Contains(e.Name.LocalName)
-                       select e.DeserializeFromXml(dataType);
-
-            source[property] = DataItem.ConvertFrom(list.ToArray());
-        }
     }
 
 
