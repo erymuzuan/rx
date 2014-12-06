@@ -69,6 +69,50 @@
                             </div>
                         </div>
                     </div>
+                    
+                    
+                    <table id="setter-action-table" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Exception</th>
+                                <th>Requeue</th>
+                                <th>Interval</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: ExceptionFilterCollection">
+                            <tr>
+                                <td>
+                                    <input class="input-setter-path form-control" type="text" data-bind="value: TypeName" required
+                                           pattern="^[A-Za-z_\.][A-Za-z0-9_\.]*$" />
+                                </td>
+                                <td>
+
+                                    <input class="input-setter-path form-control" type="text" data-bind="value: MaxRequeue" required
+                                           pattern="^[0-9]$" />
+
+                                </td>
+                                <td>
+                                    <input class="input-setter-path form-control" type="text" data-bind="value: Interval" required
+                                           pattern="^[0-9]{1,6}$" />
+                                    <select required="" data-bind="value:IntervalPeriod" class="form-control">
+                                        <option value="miliseconds">miliseconds</option>
+                                        <option value="seconds">seconds</option>
+                                        <option value="minutes">minutes</option>
+                                        <option value="minutes">hourst</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <a href="#" data-bind="click : $root.removeExceptionFilter"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <a class="btn btn-link" data-bind="click: $root.addExceptionFilter">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a exception filter
+                    </a>
                 </form>
             </div>
             <div class="modal-footer">

@@ -8,8 +8,8 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.config],
-    function (context, logger, dialog, config) {
+define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.config, objectbuilders.system],
+    function (context, logger, dialog, config, system) {
 
         var methodOptions = ko.observableArray(),
             adapterAssemblyOptions = ko.observableArray(),
@@ -71,13 +71,22 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             },
            cancelClick = function () {
                dialog.close(this, "Cancel");
-           };
+           },
+            addExceptionFilter = function () {
+                activity().ExceptionFilterCollection.push(new bespoke.sph.domain.ExceptionFilter(system.guid()));
+            },
+            removeExceptionFilter = function (filter) {
+
+                activity().ExceptionFilterCollection.remove(filter);
+            };
 
         var vm = {
             variableOptions: variableOptions,
             adapterAssemblyOptions: adapterAssemblyOptions,
             adapterOptions: adapterOptions,
             methodOptions: methodOptions,
+            removeExceptionFilter: removeExceptionFilter,
+            addExceptionFilter: addExceptionFilter,
             activity: activity,
             wd: wd,
             isBusy: isBusy,
