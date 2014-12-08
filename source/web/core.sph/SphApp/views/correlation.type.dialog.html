@@ -32,7 +32,9 @@
                         <tbody data-bind="foreach : CorrelationPropertyCollection">
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control" required="" data-bind="value:Path,uniqueName:true" />
+                                    <input type="text" class="form-control" required="" data-bind="value:Path,
+                                           uniqueName:true, 
+                                           typeahead : $root.wd().Id" />
                                 </td>
                                 <td></td>
                                 <td>

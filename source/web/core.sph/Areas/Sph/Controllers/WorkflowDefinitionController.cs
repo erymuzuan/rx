@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -47,7 +48,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             catch (Exception e)
             {
-                return Json(new {success = false, exception = e.GetType().FullName, message = e.Message, stack = e.StackTrace});
+                return Json(new { success = false, exception = e.GetType().FullName, message = e.Message, stack = e.StackTrace });
             }
             return Json(new { success = false });
 
@@ -230,6 +231,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 if (null != entity)
                 {
                     list.AddRange(entity.GetMembersPath().Select(x => v.Name + "." + x));
+                }
+                else
+                {
+                    var properties = v.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                    list.AddRange(properties.Select(x =>v.Name + "." + x.Name));
                 }
             }
 
