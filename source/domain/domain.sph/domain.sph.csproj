@@ -270,6 +270,9 @@
     <Compile Include="Triggers\CompilerOptions.cs" />
     <Compile Include="Triggers\ComplexVariable.cs" />
     <Compile Include="Triggers\ConfirmationOptions.cs" />
+    <Compile Include="Triggers\CorrelationProperty.cs" />
+    <Compile Include="Triggers\CorrelationSet.cs" />
+    <Compile Include="Triggers\CorrelationType.cs" />
     <Compile Include="Triggers\CreateEntityActivity.cs" />
     <Compile Include="Triggers\CsharpCodeGenerator.cs" />
     <Compile Include="Triggers\DecisionActivity.cs" />
