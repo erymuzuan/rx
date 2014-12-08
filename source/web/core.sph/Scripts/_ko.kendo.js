@@ -1,4 +1,4 @@
-﻿/// <reference path="knockout-3.1.0.debug.js" />
+﻿/// <reference path="knockout-3.2.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
 /// <reference path="~/Scripts/jquery-2.1.1.intellisense.js" />

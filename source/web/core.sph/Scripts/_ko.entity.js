@@ -192,7 +192,6 @@ var substringMatcher = function (strs) {
 
         // an array that will be populated with substring matches
         matches = [];
-
         // regex used to determine if a string contains the substring `q`
         substringRegex = new RegExp(q, 'i');
 

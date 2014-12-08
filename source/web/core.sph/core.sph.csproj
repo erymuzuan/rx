@@ -1521,27 +1521,16 @@
     <Content Include="Scripts\typeahead.jquery.min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
-    <Content Include="Scripts\_ko.bootstrap.min.js">
-      <DependentUpon>_ko.bootstrap.js</DependentUpon>
-    </Content>
     <EmbeddedResource Include="Scripts\_ko.entity.js" />
-    <Content Include="Scripts\_ko.kendo.min.js">
-      <DependentUpon>_ko.kendo.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\_pager.min.js">
-      <DependentUpon>_pager.js</DependentUpon>
-    </Content>
-    <EmbeddedResource Include="Scripts\__core.js">
-      <DependentUpon>__core.js.bundle</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\__core.min.js">
-      <DependentUpon>__core.js</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\__vendor.js">
       <DependentUpon>__vendor.js.bundle</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\__vendor.min.js">
       <DependentUpon>__vendor.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\__core.js" />
+    <EmbeddedResource Include="Scripts\__core.min.js">
+      <DependentUpon>__core.js</DependentUpon>
     </EmbeddedResource>
     <Content Include="SphApp\partial\ChildEntityListView.js" />
     <Content Include="SphApp\partial\CorrelationType.js" />
@@ -2190,7 +2179,6 @@
     <Content Include="Scripts\jsPlumb\__bundle.min.js.map">
       <DependentUpon>__bundle.min.js</DependentUpon>
     </Content>
-    <None Include="Scripts\__core.js.bundle" />
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <EmbeddedResource Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
     <EmbeddedResource Include="Scripts\jquery.contextMenu.js" />
@@ -2668,9 +2656,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CurrencyElement.generated.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Scripts\__core.min.js.map">
-      <DependentUpon>__core.min.js</DependentUpon>
-    </EmbeddedResource>
     <Content Include="Scripts\__vendor.js.bundle">
       <SubType>Designer</SubType>
     </Content>
@@ -2689,6 +2674,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\schemas\__domain.min.js.map">
       <DependentUpon>__domain.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\__core.min.js.map">
+      <DependentUpon>__core.js</DependentUpon>
     </EmbeddedResource>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
@@ -3227,18 +3215,6 @@
     <Content Include="Areas\Sph\Views\App\DisplayTemplates\WebsiteFormElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Scripts\_theme.min.js.map">
-      <DependentUpon>_theme.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\_pager.min.js.map">
-      <DependentUpon>_pager.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\_ko.bootstrap.min.js.map">
-      <DependentUpon>_ko.bootstrap.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\_ko.kendo.min.js.map">
-      <DependentUpon>_ko.kendo.min.js</DependentUpon>
     </Content>
     <Content Include="Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml">
       <Generator>RazorGenerator</Generator>
