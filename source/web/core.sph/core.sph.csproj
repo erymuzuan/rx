@@ -1334,12 +1334,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PieChartItem.generated.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Content\__css.css">
-      <DependentUpon>__css.css.bundle</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Content\__css.min.css">
-      <DependentUpon>__css.css</DependentUpon>
-    </EmbeddedResource>
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\ImageElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ImageElement.generated.cs</LastGenOutput>
@@ -1391,6 +1385,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\__css.css" />
+    <Content Include="Content\__css.min.css">
+      <DependentUpon>__css.css</DependentUpon>
+    </Content>
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="kendo\js\kendo.all.min.js.map">
@@ -1421,7 +1419,6 @@
     <Content Include="Scripts\complete.ly.1.0.1.min.js.map">
       <DependentUpon>complete.ly.1.0.1.min.js</DependentUpon>
     </Content>
-    <Content Include="Content\__css.css.bundle" />
     <EmbeddedResource Include="Images\JavascriptExpressionField.png" />
     <EmbeddedResource Include="kendo\js\kendo.all.min.js">
       <DependentUpon>kendo.all.js</DependentUpon>
