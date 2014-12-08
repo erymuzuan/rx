@@ -1308,6 +1308,28 @@ namespace Bespoke.Sph.Domain
             get { return m_ReferencedAssemblyCollection; }
         }
 
+        private readonly ObjectCollection<CorrelationSet> m_CorrelationSetCollection = new ObjectCollection<CorrelationSet>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CorrelationSet", IsNullable = false)]
+        public ObjectCollection<CorrelationSet> CorrelationSetCollection
+        {
+            get { return m_CorrelationSetCollection; }
+        }
+
+        private readonly ObjectCollection<CorrelationType> m_CorrelationTypeCollection = new ObjectCollection<CorrelationType>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CorrelationType", IsNullable = false)]
+        public ObjectCollection<CorrelationType> CorrelationTypeCollection
+        {
+            get { return m_CorrelationTypeCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>

@@ -1543,171 +1543,56 @@
     <EmbeddedResource Include="Scripts\__vendor.min.js">
       <DependentUpon>__vendor.js</DependentUpon>
     </EmbeddedResource>
-    <Content Include="SphApp\partial\Activity.min.js">
-      <DependentUpon>Activity.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\AssemblyField.min.js">
-      <DependentUpon>AssemblyField.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\BarChartItem.min.js">
-      <DependentUpon>BarChartItem.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\BusinessRule.min.js">
-      <DependentUpon>BusinessRule.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ButtonPartial.min.js">
-      <DependentUpon>ButtonPartial.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\ChildEntityListView.js" />
-    <Content Include="SphApp\partial\ComboBox.min.js">
-      <DependentUpon>ComboBox.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ConstantField.min.js">
-      <DependentUpon>ConstantField.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\CreateEntityActivity.min.js">
-      <DependentUpon>CreateEntityActivity.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\DataGridItem.min.js">
-      <DependentUpon>DataGridItem.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\DecisionActivity.min.js">
-      <DependentUpon>DecisionActivity.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\DelayActivity.min.js">
-      <DependentUpon>DelayActivity.js</DependentUpon>
-    </Content>
+    <Content Include="SphApp\partial\CorrelationType.js" />
+    <Content Include="SphApp\partial\CreateEntityActivity.js" />
+    <Content Include="SphApp\partial\DataGridItem.js" />
+    <Content Include="SphApp\partial\DecisionActivity.js" />
+    <Content Include="SphApp\partial\DelayActivity.js" />
     <Content Include="SphApp\partial\EntityChart.js" />
-    <Content Include="SphApp\partial\EntityDefinition.min.js">
-      <DependentUpon>EntityDefinition.js</DependentUpon>
-    </Content>
+    <Content Include="SphApp\partial\EntityDefinition.js" />
     <Content Include="SphApp\partial\EntityLookupElement.js" />
     <Content Include="SphApp\partial\EntityOperation.js" />
-    <Content Include="SphApp\partial\MappingActivity.js" />
-    <Content Include="SphApp\partial\ViewColumn.js" />
-    <Content Include="SphApp\partial\EntityView.js" />
-    <Content Include="SphApp\partial\ExecutedActivity.min.js">
-      <DependentUpon>ExecutedActivity.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\FormElement.min.js">
-      <DependentUpon>FormElement.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\HtmlElement.min.js">
-      <DependentUpon>HtmlElement.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\IFormTemplate.min.js">
-      <DependentUpon>IFormTemplate.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\IntervalSchedule.min.js">
-      <DependentUpon>IntervalSchedule.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\LineChartItem.min.js">
-      <DependentUpon>LineChartItem.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ListenActivity.min.js">
-      <DependentUpon>ListenActivity.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ListView.min.js">
-      <DependentUpon>ListView.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ListViewColumn.min.js">
-      <DependentUpon>ListViewColumn.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Member.js" />
-    <Content Include="SphApp\partial\EntityDefinition.js" />
+    <Content Include="SphApp\partial\ExecutedActivity.js" />
+    <Content Include="SphApp\partial\FormElement.js" />
     <Content Include="SphApp\partial\HtmlElement.js" />
-    <Content Include="SphApp\partial\ButtonPartial.js" />
+    <Content Include="SphApp\partial\IFormTemplate.js" />
     <Content Include="SphApp\partial\IntervalSchedule.js" />
-    <Content Include="SphApp\partial\ComboBox.js" />
+    <Content Include="SphApp\partial\LineChartItem.js" />
+    <Content Include="SphApp\partial\ListenActivity.js" />
     <Content Include="SphApp\partial\ListView.js" />
     <Content Include="SphApp\partial\ListViewColumn.js" />
-    <Content Include="SphApp\partial\Member.min.js">
-      <DependentUpon>Member.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\MethodArg.min.js">
-      <DependentUpon>MethodArg.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\NotificationActivity.js" />
-    <Content Include="SphApp\partial\ParallelActivity.min.js">
-      <DependentUpon>ParallelActivity.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\report.min.js">
-      <DependentUpon>report.js</DependentUpon>
-    </Content>
+    <Content Include="SphApp\partial\MappingActivity.js" />
+    <Content Include="SphApp\partial\Member.js" />
+    <Content Include="SphApp\partial\MethodArg.js" />
+    <Content Include="SphApp\partial\ParallelActivity.js" />
+    <Content Include="SphApp\partial\report.js" />
     <Content Include="SphApp\partial\ReportDelivery.js" />
-    <Content Include="SphApp\partial\ReportDelivery.min.js">
-      <DependentUpon>ReportDelivery.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Rule.min.js">
-      <DependentUpon>Rule.js</DependentUpon>
-    </Content>
+    <Content Include="SphApp\partial\Rule.js" />
     <Content Include="SphApp\partial\ScheduledTriggerActivity.js" />
-    <Content Include="SphApp\partial\ExecutedActivity.js" />
-    <Content Include="SphApp\partial\ScheduledTriggerActivity.min.js">
-      <DependentUpon>ScheduledTriggerActivity.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ScreenActivity.min.js">
-      <DependentUpon>ScreenActivity.js</DependentUpon>
-    </Content>
+    <Content Include="SphApp\partial\ScreenActivity.js" />
+    <Content Include="SphApp\partial\SetterAction.js" />
+    <Content Include="SphApp\partial\SetterActionChild.js" />
+    <Content Include="SphApp\partial\StartWorkflowAction.js" />
+    <Content Include="SphApp\partial\Trigger.js" />
+    <Content Include="SphApp\partial\UpdateEntityActivity.js" />
+    <Content Include="SphApp\partial\Variable.js" />
+    <Content Include="SphApp\partial\ViewColumn.js" />
+    <Content Include="SphApp\partial\EntityView.js" />
+    <Content Include="SphApp\partial\ButtonPartial.js" />
+    <Content Include="SphApp\partial\ComboBox.js" />
+    <Content Include="SphApp\partial\NotificationActivity.js" />
     <Content Include="SphApp\partial\Filter.js" />
     <Content Include="SphApp\partial\SearchDefinition.js" />
-    <Content Include="SphApp\partial\SetterAction.min.js">
-      <DependentUpon>SetterAction.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\SetterActionChild.min.js">
-      <DependentUpon>SetterActionChild.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\StartWorkflowAction.min.js">
-      <DependentUpon>StartWorkflowAction.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Trigger.min.js">
-      <DependentUpon>Trigger.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\UpdateEntityActivity.min.js">
-      <DependentUpon>UpdateEntityActivity.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Variable.min.js">
-      <DependentUpon>Variable.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\WorkflowDefinition.min.js">
-      <DependentUpon>WorkflowDefinition.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\WorkflowDesigner.min.js">
-      <DependentUpon>WorkflowDesigner.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\WorkflowTriggerMap.js" />
-    <Content Include="SphApp\partial\StartWorkflowAction.js" />
-    <Content Include="SphApp\partial\Variable.js" />
-    <Content Include="SphApp\partial\Activity.js" />
-    <Content Include="SphApp\partial\DelayActivity.js" />
-    <Content Include="SphApp\partial\ListenActivity.js" />
-    <Content Include="SphApp\partial\ParallelActivity.js" />
-    <Content Include="SphApp\partial\ScreenActivity.js" />
-    <Content Include="SphApp\partial\UpdateEntityActivity.js" />
-    <Content Include="SphApp\partial\CreateEntityActivity.js" />
-    <Content Include="SphApp\partial\WorkflowDesigner.js" />
-    <Content Include="SphApp\partial\DecisionActivity.js" />
-    <Content Include="SphApp\partial\FormElement.js" />
-    <Content Include="SphApp\partial\BusinessRule.js" />
-    <Content Include="SphApp\partial\IFormTemplate.js" />
-    <Content Include="SphApp\partial\MethodArg.js" />
-    <Content Include="SphApp\partial\SetterActionChild.js" />
-    <Content Include="SphApp\partial\SetterAction.js" />
     <Content Include="SphApp\partial\WorkflowDefinition.js" />
-    <Content Include="SphApp\partial\Trigger.js" />
-    <Content Include="SphApp\partial\Rule.js" />
+    <Content Include="SphApp\partial\WorkflowDesigner.js" />
+    <Content Include="SphApp\partial\WorkflowTriggerMap.js" />
+    <Content Include="SphApp\partial\Activity.js" />
+    <Content Include="SphApp\partial\BusinessRule.js" />
     <Content Include="SphApp\partial\ConstantField.js" />
     <Content Include="SphApp\partial\BarChartItem.js" />
-    <Content Include="SphApp\partial\DataGridItem.js" />
-    <Content Include="SphApp\partial\LineChartItem.js" />
     <Content Include="SphApp\partial\AssemblyField.js" />
-    <Content Include="SphApp\partial\report.js" />
-    <Content Include="SphApp\partial\WorkflowTriggerMap.min.js">
-      <DependentUpon>WorkflowTriggerMap.js</DependentUpon>
-    </Content>
-    <EmbeddedResource Include="SphApp\partial\__partial.js">
-      <DependentUpon>__partial.js.bundle</DependentUpon>
-    </EmbeddedResource>
+    <EmbeddedResource Include="SphApp\partial\__partial.js" />
     <EmbeddedResource Include="SphApp\partial\__partial.min.js">
       <DependentUpon>__partial.js</DependentUpon>
     </EmbeddedResource>
@@ -1718,12 +1603,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\prototypes\prototypes.min.js">
       <DependentUpon>__prototypes.js.bundle</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SphApp\schemas\domain.js">
-      <DependentUpon>__domain.js.bundle</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SphApp\schemas\domain.min.js">
-      <DependentUpon>domain.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SphApp\schemas\report.builder.g.js" />
     <Content Include="SphApp\prototypes\__prototypes.js">
@@ -2122,9 +2001,6 @@
     </Content>
     <EmbeddedResource Include="SphApp\services\cultures.my.js" />
     <EmbeddedResource Include="SphApp\services\system.js" />
-    <Content Include="SphApp\objectbuilders.min.js.map">
-      <DependentUpon>objectbuilders.js</DependentUpon>
-    </Content>
     <EmbeddedResource Include="SphApp\viewmodels\business.rule.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\email.entity.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\email.template.details.js" />
@@ -2139,16 +2015,11 @@
     <EmbeddedResource Include="SphApp\viewmodels\log.details.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\management.console.js" />
     <EmbeddedResource Include="SphApp\viewmodels\assembly.dialog.js" />
-    <EmbeddedResource Include="SphApp\schemas\__domain.js">
-      <DependentUpon>__domain.js.bundle</DependentUpon>
-    </EmbeddedResource>
-    <Content Include="SphApp\schemas\__domain.min.js">
-      <DependentUpon>__domain.js</DependentUpon>
-    </Content>
     <EmbeddedResource Include="SphApp\viewmodels\entity.form.designer.js" />
-    <Content Include="SphApp\viewmodels\map.min.js.map">
-      <DependentUpon>map.js</DependentUpon>
-    </Content>
+    <EmbeddedResource Include="SphApp\schemas\__domain.js" />
+    <EmbeddedResource Include="SphApp\schemas\__domain.min.js">
+      <DependentUpon>__domain.js</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Content\theme.matyie\workflow.triggers.less" />
     <EmbeddedResource Include="SphApp\services\default.value.provider.js" />
     <EmbeddedResource Include="Scripts\durandal\plugins\dialog.js" />
@@ -2167,6 +2038,8 @@
     <EmbeddedResource Include="SphApp\viewmodels\role.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\transform.definition.edit.js" />
     <EmbeddedResource Include="SphApp\viewmodels\transform.definition.prop.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\correlation.type.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\correlation.set.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2644,6 +2517,8 @@
     <Content Include="Scripts\_uiready.js" />
     <EmbeddedResource Include="SphApp\views\transform.definition.edit.html" />
     <EmbeddedResource Include="SphApp\views\transform.definition.prop.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\correlation.type.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\correlation.set.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
@@ -2793,9 +2668,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>CurrencyElement.generated.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="SphApp\partial\__partial.min.js.map">
-      <DependentUpon>__partial.min.js</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\__core.min.js.map">
       <DependentUpon>__core.min.js</DependentUpon>
     </EmbeddedResource>
@@ -2812,9 +2684,12 @@
     <Content Include="SphApp\prototypes\__prototypes.min.js.map">
       <DependentUpon>__prototypes.min.js</DependentUpon>
     </Content>
-    <Content Include="SphApp\schemas\__domain.min.js.map">
-      <DependentUpon>__domain.min.js</DependentUpon>
-    </Content>
+    <EmbeddedResource Include="SphApp\partial\__partial.min.js.map">
+      <DependentUpon>__partial.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SphApp\schemas\__domain.min.js.map">
+      <DependentUpon>__domain.js</DependentUpon>
+    </EmbeddedResource>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -3480,128 +3355,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Help.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="SphApp\partial\Activity.min.js.map">
-      <DependentUpon>Activity.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\AssemblyField.min.js.map">
-      <DependentUpon>AssemblyField.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\BarChartItem.min.js.map">
-      <DependentUpon>BarChartItem.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\BusinessRule.min.js.map">
-      <DependentUpon>BusinessRule.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ButtonPartial.min.js.map">
-      <DependentUpon>ButtonPartial.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ComboBox.min.js.map">
-      <DependentUpon>ComboBox.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ConstantField.min.js.map">
-      <DependentUpon>ConstantField.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\CreateEntityActivity.min.js.map">
-      <DependentUpon>CreateEntityActivity.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\DataGridItem.min.js.map">
-      <DependentUpon>DataGridItem.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\DecisionActivity.min.js.map">
-      <DependentUpon>DecisionActivity.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\DelayActivity.min.js.map">
-      <DependentUpon>DelayActivity.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\EntityDefinition.min.js.map">
-      <DependentUpon>EntityDefinition.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ExecutedActivity.min.js.map">
-      <DependentUpon>ExecutedActivity.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\FormElement.min.js.map">
-      <DependentUpon>FormElement.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\HtmlElement.min.js.map">
-      <DependentUpon>HtmlElement.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\IFormTemplate.min.js.map">
-      <DependentUpon>IFormTemplate.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\IntervalSchedule.min.js.map">
-      <DependentUpon>IntervalSchedule.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\LineChartItem.min.js.map">
-      <DependentUpon>LineChartItem.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ListenActivity.min.js.map">
-      <DependentUpon>ListenActivity.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ListView.min.js.map">
-      <DependentUpon>ListView.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ListViewColumn.min.js.map">
-      <DependentUpon>ListViewColumn.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Member.min.js.map">
-      <DependentUpon>Member.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\MethodArg.min.js.map">
-      <DependentUpon>MethodArg.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ParallelActivity.min.js.map">
-      <DependentUpon>ParallelActivity.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\report.min.js.map">
-      <DependentUpon>report.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ReportDelivery.min.js.map">
-      <DependentUpon>ReportDelivery.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Rule.min.js.map">
-      <DependentUpon>Rule.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ScheduledTriggerActivity.min.js.map">
-      <DependentUpon>ScheduledTriggerActivity.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ScreenActivity.min.js.map">
-      <DependentUpon>ScreenActivity.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\SetterAction.min.js.map">
-      <DependentUpon>SetterAction.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\SetterActionChild.min.js.map">
-      <DependentUpon>SetterActionChild.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\StartWorkflowAction.min.js.map">
-      <DependentUpon>StartWorkflowAction.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Trigger.min.js.map">
-      <DependentUpon>Trigger.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\UpdateEntityActivity.min.js.map">
-      <DependentUpon>UpdateEntityActivity.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Variable.min.js.map">
-      <DependentUpon>Variable.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\WorkflowDefinition.min.js.map">
-      <DependentUpon>WorkflowDefinition.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\WorkflowDesigner.min.js.map">
-      <DependentUpon>WorkflowDesigner.min.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\WorkflowTriggerMap.min.js.map">
-      <DependentUpon>WorkflowTriggerMap.min.js</DependentUpon>
-    </Content>
-    <None Include="SphApp\partial\__partial.js.bundle" />
     <None Include="SphApp\prototypes\__prototypes.js.bundle" />
     <EmbeddedResource Include="SphApp\prototypes\prototypes.min.js.map">
       <DependentUpon>prototypes.min.js</DependentUpon>
-    </EmbeddedResource>
-    <None Include="SphApp\schemas\__domain.js.bundle" />
-    <EmbeddedResource Include="SphApp\schemas\domain.min.js.map">
-      <DependentUpon>domain.min.js</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

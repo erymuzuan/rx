@@ -476,6 +476,8 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
         ActivityCollection: ko.observableArray([]),
         VariableDefinitionCollection: ko.observableArray([]),
         ReferencedAssemblyCollection: ko.observableArray([]),
+        CorrelationSetCollection: ko.observableArray([]),
+        CorrelationTypeCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2086,6 +2088,92 @@ bespoke.sph.domain.ExceptionFilter = function (optionOrWebid) {
 
     if (bespoke.sph.domain.ExceptionFilterPartial) {
         return _(model).extend(new bespoke.sph.domain.ExceptionFilterPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.CorrelationType = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.CorrelationType, domain.sph",
+        Name: ko.observable(''),
+        CorrelationPropertyCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CorrelationTypePartial) {
+        return _(model).extend(new bespoke.sph.domain.CorrelationTypePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.CorrelationSet = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.CorrelationSet, domain.sph",
+        Type: ko.observable(''),
+        Name: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CorrelationSetPartial) {
+        return _(model).extend(new bespoke.sph.domain.CorrelationSetPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+        Path: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CorrelationPropertyPartial) {
+        return _(model).extend(new bespoke.sph.domain.CorrelationPropertyPartial(model));
     }
     return model;
 };

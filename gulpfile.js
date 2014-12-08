@@ -31,24 +31,70 @@ gulp.task('md', function () {
         .pipe(gulp.dest('./source/web/web.sph/docs/'));
 });
 gulp.task('default', function() {
-  // place code for your default task here
+  console.log("Starting the watchers");
 });
 
 
 
+// ---------------------------------------------------------------------------
 // domain.js
-gulp.task('domain.js', function(){
-
-    return gulp.src(['./source/web/core.sph/SphApp/schemas/form.designer.g.js',
+var domainSources =['./source/web/core.sph/SphApp/schemas/form.designer.g.js',
       './source/web/core.sph/SphApp/schemas/report.builder.g.js',
       './source/web/core.sph/SphApp/schemas/sph.domain.g.js',
-      './source/web/core.sph/SphApp/schemas/trigger.workflow.g.js'])
+      './source/web/core.sph/SphApp/schemas/trigger.workflow.g.js'];
+
+gulp.task('domain.min.js', function(){
+
+    return gulp.src(domainSources)
         .pipe(sourcemaps.init())
         .pipe(uglify())
-        .pipe(concat('__domain.js'))
-        .pipe(sourcemaps.write())
+        .pipe(concat('__domain.min.js'))
+        .pipe(sourcemaps.write('./'))
         .pipe(useref())
+        .pipe(gulp.dest('./source/web/core.sph/SphApp/schemas'));
+});
+
+gulp.task('domain.js',['domain.min.js'], function(){
+
+    return gulp.src(domainSources)
+        .pipe(concat('__domain.js'))
         .pipe(gulp.dest('./source/web/core.sph/SphApp/schemas'));
 
 
+});
+var domainWatcher = gulp.watch(domainSources, ['domain.js']);
+domainWatcher.on('change', function(event) {
+  console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+});
+
+
+// ----------------------------------------------------------------------
+
+
+// partial js
+var partialSources = ['./source/web/core.sph/SphApp/partial/*.js',
+      '!./source/web/core.sph/SphApp/partial/__partial.js',
+      '!./source/web/core.sph/SphApp/partial/*.min.js'];
+
+gulp.task('partial.min.js', function(){
+
+    return gulp.src(partialSources)
+        .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(concat('__partial.min.js'))
+        .pipe(sourcemaps.write('./'))
+        .pipe(useref())
+        .pipe(gulp.dest('./source/web/core.sph/SphApp/partial'));
+});
+
+gulp.task('partial.js',['partial.min.js'], function(){
+    return gulp.src(partialSources)
+        .pipe(concat('__partial.js'))
+        .pipe(gulp.dest('./source/web/core.sph/SphApp/partial'));
+
+});
+
+var partialWatcher = gulp.watch(partialSources, ['partial.js']);
+partialWatcher.on('change', function(event) {
+  console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 });
