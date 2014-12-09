@@ -525,8 +525,7 @@ WriteLiteral(">\r\n            <ul");
 
 WriteLiteral(" class=\"nav\"");
 
-WriteLiteral(" data-bind=\"foreach: formElements, filter : {path:\'>li\', tooltip :\'elements filte" +
-"r\', offset : 0}\"");
+WriteLiteral(" data-bind=\"foreach: formElements\"");
 
 WriteLiteral(">\r\n                <li>\r\n                    <a");
 

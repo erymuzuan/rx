@@ -105,7 +105,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                     // clone
                     var el = ko.dataFor(this).element;
-                    var fe = context.toObservable(el);
+                    var fe = context.clone(el);
                     fe.isSelected = ko.observable(true);
                     fe.Label("Label " + fd.FormElementCollection().length);
                     fe.CssClass("");
@@ -113,6 +113,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fe.Enable("true");
                     fe.Size("input-large");
                     fe.ElementId(system.guid());
+                    fe.WebId(system.guid());
 
                     fd.FormElementCollection.push(fe);
                     vm.selectedFormElement(fe);
@@ -142,10 +143,16 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
 
                 var receive = function (evt, ui) {
+                    $('.selected-form-element').each(function () {
+                        var kd = ko.dataFor(this);
+                        if (typeof kd.isSelected === "function")
+                            kd.isSelected(false);
+                    });
+
                     var elements = _($('#template-form-designer>form>div')).map(function (div) {
                         return ko.dataFor(div);
                     }),
-                    fe = context.toObservable(ko.dataFor(ui.item[0]).element),
+                    fe = context.clone(ko.dataFor(ui.item[0]).element),
                     sortable = $(this),
                     position = 0,
                     children = sortable.children();
@@ -153,6 +160,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fe.isSelected = ko.observable(true);
                     fe.Enable("true");
                     fe.Visible("true");
+                    fe.Label("Label " + fd.FormElementCollection().length);
+                    fe.ElementId(system.guid());
+                    fe.WebId(system.guid());
 
                     for (var i = 0; i < children.length; i++) {
                         if ($(children[i]).position().top > ui.position.top) {
@@ -166,6 +176,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fd.FormElementCollection(elements);
                     initDesigner();
                     $('#template-form-designer>form li.ui-draggable').remove();
+                    vm.selectedFormElement(fe);
                 },
                     initDesigner = function () {
                         $('#template-form-designer>form').sortable({

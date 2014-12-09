@@ -1265,6 +1265,14 @@
     <Content Include="Content\less\variables.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
+    <Content Include="Content\Metro\editor.png" />
+    <Content Include="Content\Metro\imagebrowser.png" />
+    <Content Include="Content\Metro\loading-image.gif" />
+    <Content Include="Content\Metro\loading.gif" />
+    <Content Include="Content\Metro\slider-h.gif" />
+    <Content Include="Content\Metro\slider-v.gif" />
+    <EmbeddedResource Include="Content\Metro\sprite.png" />
+    <EmbeddedResource Include="Content\Metro\sprite_2x.png" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -1385,10 +1393,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\__css.css" />
-    <Content Include="Content\__css.min.css">
+    <EmbeddedResource Include="Content\__css.css" />
+    <EmbeddedResource Include="Content\__css.min.css">
       <DependentUpon>__css.css</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="kendo\js\kendo.all.min.js.map">
