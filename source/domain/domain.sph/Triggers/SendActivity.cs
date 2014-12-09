@@ -27,6 +27,8 @@ namespace Bespoke.Sph.Domain
             result.Result = result.Errors.Count == 0;
             return result;
         }
+
+
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
@@ -37,6 +39,16 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
+
+            foreach (var cs in this.InitializingCorrelationSetCollection)
+            {
+                var cors = wd.CorrelationSetCollection.Single(x => x.Name == cs);
+                var cort = wd.CorrelationTypeCollection.Single(x => x.Name == cors.Type);
+                var valExpression = cort.CorrelationPropertyCollection.Select(x => "string.Format(\"{0}\",this." + x.Path + ")");
+                code.AppendLine("       // Initializing the correlation set");
+                code.AppendLinf("       Console.WriteLine(\"Init correlation set {0}\");", cors);
+                code.AppendLinf("       await this.InitializeCorrelationSetAsync(\"{0}\", string.Join(\";\",new []{{{1}}}));", cors.Name, string.Join(",", valExpression));
+            }
 
             code.AppendLinf("        var adapter = new {0}();", this.Adapter);
             if (this.ExceptionFilterCollection.Any())

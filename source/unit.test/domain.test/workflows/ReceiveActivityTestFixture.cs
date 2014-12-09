@@ -45,14 +45,14 @@ namespace domain.test.workflows
             var sendToEmployees = new ReceiveActivity
             {
                 Name = "Create employee",
-                Adapter = "Dev.Adapters.employees.employeesAdapter",
-                NextActivityWebId = "B",
-                IsInitiator = true,
-                AdapterAssembly = "Dev.MySqlSampleTest001",
-                WebId = "A",
-                Method = "InsertAsync",
-                ArgumentPath = "staff",
-                ReturnValuePath = "empNo",
+                //Adapter = "Dev.Adapters.employees.employeesAdapter",
+                //NextActivityWebId = "B",
+                //IsInitiator = true,
+                //AdapterAssembly = "Dev.MySqlSampleTest001",
+                //WebId = "A",
+                //Method = "InsertAsync",
+                //ArgumentPath = "staff",
+                //ReturnValuePath = "empNo",
                 
             };
             wd.ActivityCollection.Add(sendToEmployees);
