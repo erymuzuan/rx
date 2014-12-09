@@ -1136,6 +1136,8 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 
     v["$type"] = "Bespoke.Sph.Domain.ReceiveActivity, domain.sph";
 
+    v.InitializingCorrelationSetCollection = ko.observableArray([]);
+    v.FollowingCorrelationSetCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -1178,6 +1180,8 @@ bespoke.sph.domain.SendActivity = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.SendActivity, domain.sph";
 
     v.ExceptionFilterCollection = ko.observableArray([]);
+    v.InitializingCorrelationSetCollection = ko.observableArray([]);
+    v.FollowingCorrelationSetCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {

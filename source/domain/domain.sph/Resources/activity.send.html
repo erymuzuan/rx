@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label for="adapter-assembly" class="col-sm-3 control-label">Adapter Assembly</label>
                         <div class="col-sm-9">
-                            <select class="form-control" id="adapter-assembly" required data-bind="value:AdapterAssembly, 
+                            <select class="form-control" id="adapter-assembly" required data-bind="value:AdapterAssembly,
                                     options: $root.adapterAssemblyOptions,
                                     optionsCaption:'[Please select your adapter dll]'"></select>
                         </div>
@@ -30,7 +30,7 @@
                     <div class="form-group">
                         <label for="adapter-name" class="col-sm-3 control-label">Adapter</label>
                         <div class="col-sm-9">
-                            <select class="form-control" id="adapter-name" required data-bind="value:Adapter, 
+                            <select class="form-control" id="adapter-name" required data-bind="value:Adapter,
                                     options:$root.adapterOptions,
                                     optionsCaption:'[Please select your adapter class]'"></select>
                         </div>
@@ -39,14 +39,14 @@
                         <label for="method" class="col-sm-3 control-label">Method</label>
                         <div class="col-sm-9">
                             <select class="form-control" id="method" required data-bind="value:Method,
-                                    options: $root.methodOptions, 
+                                    options: $root.methodOptions,
                                     optionsCaption:'[Select a Method]'"></select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="argument-path" class="col-sm-3 control-label">Agument Path</label>
                         <div class="col-sm-9">
-                            <select class="form-control" id="argument-path" required data-bind="value:ArgumentPath, 
+                            <select class="form-control" id="argument-path" required data-bind="value:ArgumentPath,
                                     options:$root.variableOptions,
                                     optionsCaption:'[Please select your argument path]'"></select>
                         </div>
@@ -69,8 +69,9 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
+
+
+                    <h4>Exception Filters</h4>
                     <table id="setter-action-table" class="table table-striped">
                         <thead>
                             <tr>
@@ -113,6 +114,31 @@
                         <i class="fa fa-plus-circle"></i>
                         Add a exception filter
                     </a>
+
+                    <h4>Initializing Correlation Set</h4>
+                    <div class="form-group">
+                        <div data-bind="foreach :$root.wd().CorrelationSetCollection">
+                            <label>
+                                <input type="checkbox" data-bind="attr : {value:Name}, checked: $root.activity().InitializingCorrelationSetCollection" />
+                                <!-- ko text: Name-->
+                                <!-- /ko-->
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <h4>Following Correlation Set</h4>
+                    <div class="form-group">
+                        <div  data-bind="foreach :$root.wd().CorrelationSetCollection">
+                            <label>
+                                <input type="checkbox" data-bind="attr : {value:Name}, checked: $root.activity().FollowingCorrelationSetCollection" />
+                                <!-- ko text: Name-->
+                                <!-- /ko-->
+                            </label>
+
+                        </div>
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer">

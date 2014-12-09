@@ -2948,6 +2948,28 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private readonly ObjectCollection<string> m_InitializingCorrelationSetCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> InitializingCorrelationSetCollection
+        {
+            get { return m_InitializingCorrelationSetCollection; }
+        }
+
+        private readonly ObjectCollection<string> m_FollowingCorrelationSetCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> FollowingCorrelationSetCollection
+        {
+            get { return m_FollowingCorrelationSetCollection; }
+        }
+
 
     }
 
@@ -3081,6 +3103,28 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<ExceptionFilter> ExceptionFilterCollection
         {
             get { return m_ExceptionFilterCollection; }
+        }
+
+        private readonly ObjectCollection<string> m_InitializingCorrelationSetCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> InitializingCorrelationSetCollection
+        {
+            get { return m_InitializingCorrelationSetCollection; }
+        }
+
+        private readonly ObjectCollection<string> m_FollowingCorrelationSetCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> FollowingCorrelationSetCollection
+        {
+            get { return m_FollowingCorrelationSetCollection; }
         }
 
 
