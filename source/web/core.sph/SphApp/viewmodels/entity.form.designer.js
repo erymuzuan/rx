@@ -382,7 +382,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         editCode = function () {
             if (null == partialEditor || partialEditor.closed) {
                 var partial = "partial/" + form().Route();
-                partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
                 form().Partial(partial);
             } else {
                 partialEditor.focus();
@@ -394,7 +394,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         layoutEditor = null,
         editLayout = function () {
             if (null == layoutEditor || layoutEditor.closed) {
-                layoutEditor = window.open("/sph/editor/file?id=/views/entityformrenderer/" + form().Layout() + ".cshtml", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                layoutEditor = window.open("/sph/editor/file?id=/views/entityformrenderer/" + form().Layout() + ".cshtml", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
 
             } else {
                 layoutEditor.focus();

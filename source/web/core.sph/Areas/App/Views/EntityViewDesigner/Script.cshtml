@@ -125,7 +125,7 @@
             editCode = function () {
                 if (null == partialEditor || partialEditor.closed) {
                     var partial = "partial/" + view().Route();
-                    partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                    partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
                     view().Partial(partial);
                 } else {
                     partialEditor.focus();

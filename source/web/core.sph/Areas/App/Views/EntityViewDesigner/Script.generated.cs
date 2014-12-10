@@ -140,7 +140,7 @@ WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext, objectbuilders.lo
 "ction () {\r\n                if (null == partialEditor || partialEditor.closed) {" +
 "\r\n                    var partial = \"partial/\" + view().Route();\r\n              " +
 "      partialEditor = window.open(\"/sph/editor/file?id=/sphapp/\" + partial + \".j" +
-"s\", \'_blank\', \'height=600px,width=600px,toolbar=0,location=0\');\r\n               " +
+"s\", \'_blank\', \'height=600px,width=800px,toolbar=0,location=0\');\r\n               " +
 "     view().Partial(partial);\r\n                } else {\r\n                    par" +
 "tialEditor.focus();\r\n                }\r\n\r\n                return Task.fromResult" +
 "(true);\r\n\r\n            };\r\n\r\n            var vm = {\r\n                errors: err" +
