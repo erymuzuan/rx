@@ -9,9 +9,52 @@
             </div>
             <div class="modal-body" data-bind="with: activity">
 
+                <form class="form-horizontal" id="receive-activity-dialog-form">
+
+                    <div class="form-group">
+                        <label for="name-act" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" data-bind="value: Name"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                   placeholder="Name"
+                                   class="form-control" id="name-act">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="operation-act" class="col-sm-3 control-label">Operation</label>
+                        <div class="col-sm-9">
+                            <input type="text" data-bind="value: Operation"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                   placeholder="Name"
+                                   class="form-control" id="operation-act">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="argument-path" class="col-sm-3 control-label">Agument Path</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="argument-path" required data-bind="value:MessagePath,
+                                    options:$root.variableOptions,
+                                    optionsValue:'Name',
+                                    optionsText:'DisplayName',
+                                    optionsCaption:'[Please select your message path]'"></select>
+                        </div>
+                    </div>
+
+                    <h4>Following Correlation Set</h4>
+                    <div class="form-group">
+                        <div data-bind="foreach :$root.wd().CorrelationSetCollection">
+                            <label>
+                                <input type="checkbox" data-bind="attr : {value:Name}, checked: $root.activity().FollowingCorrelationSetCollection" />
+                                <!-- ko text: Name-->
+                                <!-- /ko-->
+                            </label>
+
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <input form="am-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <input form="receive-activity-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
                 <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
             </div>
         </div>

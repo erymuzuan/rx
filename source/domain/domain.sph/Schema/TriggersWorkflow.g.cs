@@ -2948,6 +2948,38 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_Operation;
+        [XmlAttribute]
+        public string Operation
+        {
+            get
+            {
+                return m_Operation;
+            }
+            set
+            {
+                m_Operation = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_MessagePath;
+        [XmlAttribute]
+        public string MessagePath
+        {
+            get
+            {
+                return m_MessagePath;
+            }
+            set
+            {
+                m_MessagePath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<string> m_InitializingCorrelationSetCollection = new ObjectCollection<string>();
 
         ///<summary>

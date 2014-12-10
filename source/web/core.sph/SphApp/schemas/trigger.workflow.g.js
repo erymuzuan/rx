@@ -1134,6 +1134,10 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 
     v.PortType = ko.observable('');
 
+    v.Operation = ko.observable('');
+
+    v.MessagePath = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ReceiveActivity, domain.sph";
 
     v.InitializingCorrelationSetCollection = ko.observableArray([]);

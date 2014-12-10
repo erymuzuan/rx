@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Codes;
 using Moq;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using sqlserver.adapter.test;
 
@@ -16,7 +21,6 @@ namespace domain.test.workflows
     {
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
 
-        public const string MySQL ="Server=localhost;Database=employees;Uid=root;Pwd=";
         [SetUp]
         public void Init()
         {
@@ -35,127 +39,190 @@ namespace domain.test.workflows
 
 
         [Test]
-        public async Task Compile()
+        public async Task ReceiveAndInitiate()
         {
+            const string PATIENT_TYPE_FULL_NAME = "Bespoke.Dev_patient.Domain.Patient";
+            var wd = new WorkflowDefinition { Name = "Receive Register new patient", Id = "receive-register-patient", SchemaStoreId = m_schemaStoreId };
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = PATIENT_TYPE_FULL_NAME });
 
-            var wd = new WorkflowDefinition { Name = "Insert new employee into MySql", Id = "mysql-insert-employee", SchemaStoreId = m_schemaStoreId };
-            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "empNo", Type = typeof(int) });
-            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "staff", TypeName = "Dev.Adapters.employees.employees" });
-
-            var sendToEmployees = new ReceiveActivity
+            var regiterStaff = new ReceiveActivity
             {
-                Name = "Create employee",
-                //Adapter = "Dev.Adapters.employees.employeesAdapter",
-                //NextActivityWebId = "B",
-                //IsInitiator = true,
-                //AdapterAssembly = "Dev.MySqlSampleTest001",
-                //WebId = "A",
-                //Method = "InsertAsync",
-                //ArgumentPath = "staff",
-                //ReturnValuePath = "empNo",
-                
-            };
-            wd.ActivityCollection.Add(sendToEmployees);
-
-            var code = sendToEmployees.GeneratedExecutionMethodCode(wd);
-            StringAssert.Contains( "await adapter.InsertAsync(this.staff);",code);
-
-            const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
-            File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll",true);
-            var options = new CompilerOptions();
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll");
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-
-            var cr = wd.Compile(options);
-            cr.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(cr.Result);
-
-            var wfDll = Assembly.LoadFile(cr.Output);
-            dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_MysqlInsertEmployee_0.MysqlInsertEmployeeWorkflow"));
-
-
-            wf.staff.emp_no = 784528;
-            wf.staff.gender = "M";
-            wf.staff.first_name = "Marco";
-            wf.staff.last_name = "Pantani";
-            wf.staff.birth_date = new DateTime(1970, 2, 1);
-            wf.staff.hire_date = new DateTime(1995, 5, 21);
-
-            
-            await MySQL.ExecuteMySqlNonQueryAsync("DELETE FROM `employees` WHERE `emp_no` = 784528" );
-
-            Assert.IsNotNull(wf.staff);
-            await wf.StartAsync();
-        }
-
-
-
-        [Test]
-        [ExpectedException(typeof(MySqlException))]
-        public async Task CompileWithRetry()
-        {
-
-            var wd = new WorkflowDefinition { Name = "Insert new employee into MySql", Id = "mysql-insert-employee", SchemaStoreId = m_schemaStoreId };
-            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "empNo", Type = typeof(int) });
-            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "staff", TypeName = "Dev.Adapters.employees.employees" });
-
-            var sendToEmployees = new SendActivity
-            {
-                Name = "Create employee",
-                Adapter = "Dev.Adapters.employees.employeesAdapter",
+                Name = "RegisterPatient",
+                Operation = "Register",
+                MessagePath = "patient",
                 NextActivityWebId = "B",
                 IsInitiator = true,
-                AdapterAssembly = "Dev.MySqlSampleTest001",
-                WebId = "A",
-                Method = "InsertAsync",
-                ArgumentPath = "staff",
-                ReturnValuePath = "empNo",
-
+                WebId = "A"
             };
-            wd.ActivityCollection.Add(sendToEmployees);
+            wd.ActivityCollection.Add(regiterStaff);
 
-            var filter = new ExceptionFilter
-            {
-                MaxRequeue = 3,
-                Interval = 1,
-                IntervalPeriod = "seconds",
-                TypeName = "MySql.Data.MySqlClient.MySqlException"
-            };
-            sendToEmployees.ExceptionFilterCollection.Add(filter);
+            var code = regiterStaff.GeneratedExecutionMethodCode(wd);
+            StringAssert.Contains("RegisterPatientAsync", code);
 
-            var code = sendToEmployees.GeneratedExecutionMethodCode(wd);
-            StringAssert.Contains("await adapter.InsertAsync(this.staff);", code);
-
-            const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
-            File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll", true);
             var options = new CompilerOptions();
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll");
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\MySql.Data.dll");
-            options.AddReference(typeof(DbException));
+            options.AddReference(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.Patient.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+            options.AddReference(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll"));
+            options.AddReference(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter));
 
             var cr = wd.Compile(options);
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
             var wfDll = Assembly.LoadFile(cr.Output);
-            dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_MysqlInsertEmployee_0.MysqlInsertEmployeeWorkflow"));
+            var wfType = wfDll.GetType("Bespoke.Sph.Workflows_ReceiveRegisterPatient_0.ReceiveRegisterPatientWorkflow");
+            dynamic wf = Activator.CreateInstance(wfType);
 
 
-            wf.staff.emp_no = 10100;
-            wf.staff.gender = "M";
-            wf.staff.first_name = "Marco";
-            wf.staff.last_name = "Pantani";
-            wf.staff.birth_date = new DateTime(1970, 2, 1);
-            wf.staff.hire_date = new DateTime(1995, 5, 21);
+            Assert.IsNotNull(wf.patient, "Default property should not be null");
 
-            Assert.IsNotNull(wf.staff);
+            var patientDll = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.GetName().Name == "Dev.Patient");
+            var patientType = patientDll.GetType(PATIENT_TYPE_FULL_NAME);
+            Assert.IsNotNull(patientType);
+            dynamic patient = Activator.CreateInstance(patientType);
+            patient.Mrn = "784529";
 
-            await wf.StartAsync();
+            Assert.AreEqual("".GetType(),typeof(string), "String type should be the same");
+            Assert.AreEqual(patient.GetType(), wf.patient.GetType(), "Type should be the same");
+            await wf.RegisterPatientAsync(patient);
+            Assert.AreEqual(patient.Mrn, wf.patient.Mrn);
+
         }
+        [Test]
+        public async Task ReceveiveWithCorrelationSet()
+        {
+            const string PATIENT_TYPE_FULL_NAME = "Bespoke.Dev_patient.Domain.Patient";
+            var wd = new WorkflowDefinition { Name = "Receive Register new patient", Id = "receive-register-patient", SchemaStoreId = m_schemaStoreId };
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = PATIENT_TYPE_FULL_NAME });
+
+
+            var crt = new CorrelationType { Name = "Mrn" };
+            crt.CorrelationPropertyCollection.Add(new CorrelationProperty { Path = "patient.Mrn" });
+            crt.CorrelationPropertyCollection.Add(new CorrelationProperty { Path = "patient.FullName" });
+            wd.CorrelationTypeCollection.Add(crt);
+            wd.CorrelationSetCollection.Add(new CorrelationSet { Type = crt.Name, Name = "mrn" });
+
+            var start = new ExpressionActivity
+            {
+                IsInitiator = true,
+                WebId = "Start",
+                Name = "Start",
+                NextActivityWebId = "Register"
+            };
+            wd.ActivityCollection.Add(start);
+            var reg = new ReceiveActivity
+            {
+                Name = "Register",
+                Operation = "Register",
+                MessagePath = "patient",
+                NextActivityWebId = "B",
+                IsInitiator = false,
+                WebId = "Register"
+            };
+            reg.FollowingCorrelationSetCollection.Add("mrn");
+
+            wd.ActivityCollection.Add(reg);
+
+
+            var end = new EndActivity
+            {
+                WebId = "End",
+                Name = "End"
+            };
+            wd.ActivityCollection.Add(end);
+
+            var code = reg.GeneratedExecutionMethodCode(wd);
+            StringAssert.Contains("RegisterAsync", code);
+
+            var options = new CompilerOptions();
+            options.AddReference(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.Patient.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+            options.AddReference(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll"));
+            options.AddReference(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter));
+
+            var cr = wd.Compile(options);
+            cr.Errors.ForEach(Console.WriteLine);
+            Assert.IsTrue(cr.Result);
+
+            var wfDll = Assembly.LoadFile(cr.Output);
+            var wfType = wfDll.GetType("Bespoke.Sph.Workflows_ReceiveRegisterPatient_0.ReceiveRegisterPatientWorkflow");
+            dynamic wf = Activator.CreateInstance(wfType);
+
+
+            Assert.IsNotNull(wf.patient, "Default property should not be null");
+
+            var patientDll = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.GetName().Name == "Dev.Patient");
+            var patientType = patientDll.GetType(PATIENT_TYPE_FULL_NAME);
+            Assert.IsNotNull(patientType);
+            dynamic patient = Activator.CreateInstance(patientType);
+            patient.Mrn = "784529";
+
+            Assert.AreEqual("".GetType(),typeof(string), "String type should be the same");
+            Assert.AreEqual(patient.GetType(), wf.patient.GetType(), "Type should be the same");
+            await wf.RegisterPatientAsync(patient);
+            Assert.AreEqual(patient.Mrn, wf.patient.Mrn);
+
+        }
+        [Test]
+        public async Task ReceveiveWithoutCorrelationSet()
+        {
+            const string PATIENT_TYPE_FULL_NAME = "Bespoke.Dev_patient.Domain.Patient";
+            var wd = new WorkflowDefinition { Name = "Receive Register new patient", Id = "receive-register-patient", SchemaStoreId = m_schemaStoreId };
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = PATIENT_TYPE_FULL_NAME });
+
+            var regiterStaff = new ReceiveActivity
+            {
+                Name = "RegisterPatient",
+                Operation = "Register",
+                MessagePath = "patient",
+                NextActivityWebId = "B",
+                IsInitiator = false,
+                WebId = "A"
+            };
+            wd.ActivityCollection.Add(regiterStaff);
+
+            var code = regiterStaff.GeneratedExecutionMethodCode(wd);
+            StringAssert.Contains("RegisterPatientAsync", code);
+
+            var options = new CompilerOptions();
+            options.AddReference(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.Patient.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+            options.AddReference(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll"));
+            options.AddReference(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter));
+
+            var cr = wd.Compile(options);
+            cr.Errors.ForEach(Console.WriteLine);
+            Assert.IsTrue(cr.Result);
+
+            var wfDll = Assembly.LoadFile(cr.Output);
+            var wfType = wfDll.GetType("Bespoke.Sph.Workflows_ReceiveRegisterPatient_0.ReceiveRegisterPatientWorkflow");
+            dynamic wf = Activator.CreateInstance(wfType);
+
+
+            Assert.IsNotNull(wf.patient, "Default property should not be null");
+
+            var patientDll = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.GetName().Name == "Dev.Patient");
+            var patientType = patientDll.GetType(PATIENT_TYPE_FULL_NAME);
+            Assert.IsNotNull(patientType);
+            dynamic patient = Activator.CreateInstance(patientType);
+            patient.Mrn = "784529";
+
+            Assert.AreEqual("".GetType(),typeof(string), "String type should be the same");
+            Assert.AreEqual(patient.GetType(), wf.patient.GetType(), "Type should be the same");
+            await wf.RegisterPatientAsync(patient);
+            Assert.AreEqual(patient.Mrn, wf.patient.Mrn);
+
+        }
+
+
     }
 }
