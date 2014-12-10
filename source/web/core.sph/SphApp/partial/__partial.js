@@ -1872,10 +1872,13 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                             if (!result) return;
                             if (result === "OK") {
                                 for (var g in activity) {
-                                    if (typeof activity[g] === "function" && activity[g].name === "observable") {
-                                        activity[g](ko.unwrap(clone[g]));
-                                    } else {
-                                        activity[g] = clone[g];
+                                    if (activity.hasOwnProperty(g)) {
+                                        var observable = activity[g].name === "observable" || activity[g].name === "d";
+                                        if (typeof activity[g] === "function" && observable) {
+                                            activity[g](ko.unwrap(clone[g]));
+                                        } else {
+                                            activity[g] = clone[g];
+                                        }
                                     }
                                 }
                             }
