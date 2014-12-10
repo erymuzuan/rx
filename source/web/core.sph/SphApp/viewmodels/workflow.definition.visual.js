@@ -273,7 +273,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     x = arg.clientX,
                     y = arg.clientY;
 
-                act.Name(act.Name() + wd().ActivityCollection().length);
+                act.Name(act.TypeName() + "_" + wd().ActivityCollection().length);
                 act.WorkflowDesigner().X(x - 60);
                 act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top + $(window).scrollTop() - 30);
                 act.WebId(system.guid());
