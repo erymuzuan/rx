@@ -12,13 +12,17 @@ namespace Bespoke.Sph.Domain
         {
             var result = base.ValidateBuild(wd);
             if (string.IsNullOrWhiteSpace(this.EntityIdPath))
-            {
                 result.Errors.Add(new BuildError(this.WebId, string.Format("[UpdateEntityActivity] -\"{0}\" EntityIdPath is missing", this.Name)));
-            }
+            if (string.IsNullOrWhiteSpace(this.EntityType))
+                result.Errors.Add(new BuildError(this.WebId, string.Format("[UpdateEntityActivity] -\"{0}\" EntityType is missing", this.Name)));
 
-            var fullTypeName = this.EntityType;
-            var type = Type.GetType(fullTypeName);
-            if (null == type) result.Errors.Add(new BuildError(this.WebId, string.Format("[UpdateEntityActivity] -\"{0}\" Cannot load {1}", this.Name, this.EntityType)));
+            if (!string.IsNullOrWhiteSpace(this.EntityType))
+            {
+                var fullTypeName = this.EntityType;
+                var type = Type.GetType(fullTypeName);
+                if (null == type) result.Errors.Add(new BuildError(this.WebId, string.Format("[UpdateEntityActivity] -\"{0}\" Cannot load {1}", this.Name, this.EntityType)));
+
+            }
 
             return result;
         }
@@ -48,7 +52,7 @@ namespace Bespoke.Sph.Domain
             foreach (var mapping in this.PropertyMappingCollection)
             {
                 code.AppendLinf("           item.{0} = this.{1};", mapping.Destination, mapping.Source);
-                if(null != mapping as FunctoidMapping)
+                if (null != mapping as FunctoidMapping)
                     throw new Exception("Functoid mapping is not yet supported");
             }
             code.AppendLine("      using (var session = context.OpenSession())");
