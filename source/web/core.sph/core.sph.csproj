@@ -595,9 +595,11 @@
     <Compile Include="Areas\Sph\Controllers\DocumentTemplateController.cs" />
     <Compile Include="Areas\Sph\Controllers\EmailTemplateController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityChartController.cs" />
+    <Compile Include="Areas\Sph\Controllers\EntityDefinitionController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
+    <Compile Include="Controllers\EntityDefinitionController.cs" />
     <Compile Include="Controllers\TransformDefinitionController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />
@@ -606,7 +608,6 @@
     <Compile Include="Areas\Sph\Controllers\BaseController.cs" />
     <Compile Include="Areas\Sph\Controllers\BinaryStoreController.cs" />
     <Compile Include="Areas\Sph\Controllers\EditorController.cs" />
-    <Compile Include="Areas\Sph\Controllers\EntityDefinitionController.cs" />
     <Compile Include="Areas\Sph\Controllers\PageController.cs" />
     <Compile Include="Areas\Sph\Controllers\DesignationController.cs" />
     <Compile Include="Areas\Sph\Controllers\HomeController.cs" />
@@ -1265,12 +1266,12 @@
     <Content Include="Content\less\variables.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
-    <Content Include="Content\Metro\editor.png" />
-    <Content Include="Content\Metro\imagebrowser.png" />
-    <Content Include="Content\Metro\loading-image.gif" />
-    <Content Include="Content\Metro\loading.gif" />
-    <Content Include="Content\Metro\slider-h.gif" />
-    <Content Include="Content\Metro\slider-v.gif" />
+    <EmbeddedResource Include="Content\Metro\editor.png" />
+    <EmbeddedResource Include="Content\Metro\imagebrowser.png" />
+    <EmbeddedResource Include="Content\Metro\loading-image.gif" />
+    <EmbeddedResource Include="Content\Metro\loading.gif" />
+    <EmbeddedResource Include="Content\Metro\slider-h.gif" />
+    <EmbeddedResource Include="Content\Metro\slider-v.gif" />
     <EmbeddedResource Include="Content\Metro\sprite.png" />
     <EmbeddedResource Include="Content\Metro\sprite_2x.png" />
     <Content Include="Content\themes\base\accordion.css" />

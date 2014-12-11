@@ -37,7 +37,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 var ed = new bespoke.sph.domain.EntityDefinition(system.guid());
                 ed.Name.subscribe(function (name) {
                     if (!entity().Plural()) {
-                        $.get('/Sph/EntityDefinition/GetPlural/' + name, function (v) {
+                        $.get('/entity-definition/plural/' + name, function (v) {
                             entity().Plural(v);
                         });
                     }
@@ -61,7 +61,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/EntityDefinition/Save")
+                context.post(data, "/entity-definition")
                     .then(function (result) {
                         tcs.resolve(true);
                         isBusy(false);
@@ -94,7 +94,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/EntityDefinition/Publish")
+                context.post(data, "/entity-definition/publish")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -117,7 +117,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/EntityDefinition/Depublish")
+                context.post(data, "/entity-definition/depublish")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -142,13 +142,14 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
 
-                            context.post(data, "/EntityDefinition/" + entity().Id(), "DELETE")
+                            context.send(data, "/entity-definition/" + entity().Id(), "DELETE")
                                 .then(function (result) {
                                     isBusy(false);
                                     if (result.success) {
                                         logger.info(result.message);
-                                        entity().Id(result.id);
-                                        errors.removeAll();
+                                        setTimeout(function () {
+                                            window.location = "/sph#entities.list";
+                                        }, 2000);
                                     } else {
 
                                         errors(result.Errors);

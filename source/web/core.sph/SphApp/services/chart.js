@@ -53,7 +53,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                 .done(function (id) {
                     _entityDefinitionId(id);
                     // get the fields
-                    $.get("/sph/EntityDefinition/GetVariablePath/" + id)
+                    $.get("/entity-definition/variable-path/" + id)
                         .done(function (ps) {
                             _fieldOptions(ps);
                             tcs.resolve(true);

@@ -153,25 +153,7 @@ function (logger, system, ko2) {
 
     window.addEventListener('online', updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
-    return {
-        searchAsync: searchAsync,
-        loadAsync: loadAsync,
-        loadOneAsync: loadOneAsync,
-        getScalarAsync: getScalarAsync,
-        getMaxAsync: getMaxAsync,
-        getMinAsync: getMinAsync,
-        getSumAsync: getSumAsync,
-        getCountAsync: getCountAsync,
-        getListAsync: getListAsync,
-        getDistinctAsync: getDistinctAsync,
-        getTuplesAsync: getTuplesAsync,
-        post: post,
-        send:send,
-        get: get,
-        clone: clone,
-        commit: commit,
-        toObservable: toObservable
-    };
+
 
     function send(json, url, verb) {
         var tcs = new $.Deferred();
@@ -494,4 +476,24 @@ function (logger, system, ko2) {
         self.previousPageToken = "";
     }
 
+
+    return {
+        searchAsync: searchAsync,
+        loadAsync: loadAsync,
+        loadOneAsync: loadOneAsync,
+        getScalarAsync: getScalarAsync,
+        getMaxAsync: getMaxAsync,
+        getMinAsync: getMinAsync,
+        getSumAsync: getSumAsync,
+        getCountAsync: getCountAsync,
+        getListAsync: getListAsync,
+        getDistinctAsync: getDistinctAsync,
+        getTuplesAsync: getTuplesAsync,
+        post: post,
+        send: send,
+        get: get,
+        clone: clone,
+        commit: commit,
+        toObservable: toObservable
+    };
 });

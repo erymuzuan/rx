@@ -17,7 +17,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             activate = function (ent) {
                 var tcs = new $.Deferred();
 
-                $.get('/sph/entitydefinition/GetVariablePath/' + ko.unwrap(ent))
+                $.get('/entity-definition/variable-path/' + ko.unwrap(ent))
                     .done(function(list){
                         members(list);
                         tcs.resolve(true);
