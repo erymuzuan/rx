@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -32,7 +32,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                     .done(function (b) {
                         entity(b);
                         var o = _(b.EntityOperationCollection()).find(function (v) {
-                            return v.Name() == name;
+                            return v.Name() === name;
                         });
                         if (!o) {
                             o = new bespoke.sph.domain.EntityOperation({
@@ -55,7 +55,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/EntityDefinition/Save")
+                context.post(data, "/entity-definition")
                     .then(function (result) {
                         tcs.resolve(true);
                         isBusy(false);
