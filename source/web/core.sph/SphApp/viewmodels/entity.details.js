@@ -82,7 +82,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                             entity().Id(result.id);
                             errors.removeAll();
                         } else {
-                            errors(result.Errors);
+                            errors(result.errors);
                             logger.error("There are errors in your entity, !!!");
                         }
                     });

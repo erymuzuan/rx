@@ -23,10 +23,10 @@ namespace Bespoke.Sph.Web.Controllers
             if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
             var list = ed.GetMembersPath();
             return Json(list, JsonRequestBehavior.AllowGet);
-            
+
         }
 
-       
+
 
         [HttpPost]
         [Route("")]
@@ -34,12 +34,18 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var ed = this.GetRequestJson<EntityDefinition>();
             var context = new SphDataContext();
+            var canSave = ed.CanSave();
+            if (!canSave.Result)
+            {
+                return Json(new { success = false, status = "ERROR", message = "Your entity cannot be save", errors = canSave.Errors.ToArray() });
+            }
 
-            var existingItem = (await context.LoadOneAsync<EntityDefinition>(x => x.Id == ed.Name)) != null;
-            if (!existingItem)
-                ed.Id = ed.Name.ToLowerInvariant();
-
-            if (existingItem)
+            var brandNewItem = ed.IsNewItem;
+            if (brandNewItem)
+            {
+                ed.Id = ed.Name.ToIdFormat();
+            }
+            else
             {
                 using (var session = context.OpenSession())
                 {
@@ -70,7 +76,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             using (var session = context.OpenSession())
             {
-                session.Attach(ed,form, view);
+                session.Attach(ed, form, view);
                 await session.SubmitChanges("Save");
             }
             return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
@@ -140,9 +146,9 @@ namespace Bespoke.Sph.Web.Controllers
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
             if (null == ed) return new HttpNotFoundResult("Cannot find entity definition to delete, id : " + id);
 
-            var formsTask =  context.LoadAsync(context.EntityForms.Where(f => f.EntityDefinitionId == id));
-            var viewsTask =  context.LoadAsync(context.EntityViews.Where(f => f.EntityDefinitionId == id));
-            var triggersTask =  context.LoadAsync(context.Triggers.Where(f => f.Entity == id));
+            var formsTask = context.LoadAsync(context.EntityForms.Where(f => f.EntityDefinitionId == id));
+            var viewsTask = context.LoadAsync(context.EntityViews.Where(f => f.EntityDefinitionId == id));
+            var triggersTask = context.LoadAsync(context.Triggers.Where(f => f.Entity == id));
             await Task.WhenAll(formsTask, viewsTask, triggersTask);
 
             using (var session = context.OpenSession())
@@ -199,7 +205,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
-   
+
 
 
     }

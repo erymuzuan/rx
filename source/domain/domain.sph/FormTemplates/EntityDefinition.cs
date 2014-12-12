@@ -18,6 +18,52 @@ namespace Bespoke.Sph.Domain
     [DebuggerDisplay("Name = {Name}")]
     public partial class EntityDefinition : Entity
     {
+        // reserved names
+        private readonly string[] m_reservedNames = new[] {"JavascriptTest", 
+                "Management",
+                "Image",
+                "Home",
+                "BaseSph",
+                "Map",
+                "Admin",
+                "ActivityScreen",
+                "BaseApp",
+                "Config",
+                "Nav",
+                "RoleSettings",
+                "ScreenEditor",
+                "TriggerSetup",
+                "Users",
+                "WorkflowDraft",
+                typeof(ScreenActivity).Name, 
+                typeof(EntityDefinition).Name, 
+                typeof(AuditTrail).Name, 
+                typeof(BusinessRule).Name, 
+                typeof(BinaryStore).Name, 
+                typeof(SpatialEntity).Name, 
+                typeof(Entity).Name, 
+                typeof(Designation).Name, 
+                typeof(DocumentTemplate).Name, 
+                typeof(EmailAction).Name, 
+                typeof(EntityChart).Name, 
+                typeof(EntityDefinition).Name, 
+                typeof(EntityForm).Name, 
+                typeof(EntityView).Name, 
+                typeof(Message).Name, 
+                typeof(Organization).Name, 
+                typeof(Page).Name, 
+                typeof(ReportDefinition).Name, 
+                typeof(ReportDelivery).Name, 
+                typeof(SpatialStore).Name, 
+                typeof(Tracker).Name, 
+                typeof(Trigger).Name, 
+                typeof(UserProfile).Name, 
+                typeof(Watcher).Name, 
+                typeof(Workflow).Name, 
+                typeof(WorkflowDefinition).Name, 
+                typeof(EntityForm).Name, typeof(Message).Name};
+
+
         private void ValidateMember(Member member, BuildValidationResult result)
         {
             var forbiddenNames =
@@ -68,13 +114,26 @@ namespace Bespoke.Sph.Domain
             return list.ToArray();
         }
 
-        public async Task<BuildValidationResult> ValidateBuildAsync()
+        public BuildValidationResult CanSave()
         {
             var result = new BuildValidationResult();
-            var context = new SphDataContext();
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_]*$");
             if (!validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
+            if (string.IsNullOrWhiteSpace(this.Name))
+                result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
+            if (m_reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
+                result.Errors.Add(new BuildError(this.WebId, string.Format("The name [{0}] is reserved for the system", this.Name)));
+
+
+            result.Result = !result.Errors.Any();
+            return result;
+        }
+
+        public async Task<BuildValidationResult> ValidateBuildAsync()
+        {
+            var result = this.CanSave();
+            var context = new SphDataContext();
 
             foreach (var member in this.MemberCollection)
             {
@@ -88,8 +147,6 @@ namespace Bespoke.Sph.Domain
 
             if (string.IsNullOrWhiteSpace(this.RecordName))
                 result.Errors.Add(new BuildError(this.WebId, "Record name is missing"));
-            if (string.IsNullOrWhiteSpace(this.Name))
-                result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
             if (string.IsNullOrWhiteSpace(this.Plural))
                 result.Errors.Add(new BuildError(this.WebId, "Plural is missing"));
 
@@ -103,62 +160,13 @@ namespace Bespoke.Sph.Domain
             if (null == defaultForm)
                 result.Errors.Add(new BuildError(this.WebId, "Please set a default form"));
 
-            // reserved names
-            var reservedNames = new[] {"JavascriptTest", 
-                "Management",
-                "Image",
-                "Home",
-                "BaseSph",
-                "Map",
-                "Admin",
-                "ActivityScreen",
-                "BaseApp",
-                "Config",
-                "Nav",
-                "RoleSettings",
-                "ScreenEditor",
-                "TriggerSetup",
-                "Users",
-                "WorkflowDraft",
-                typeof(ScreenActivity).Name, 
-                typeof(EntityDefinition).Name, 
-                typeof(AuditTrail).Name, 
-                typeof(BusinessRule).Name, 
-                typeof(BinaryStore).Name, 
-                typeof(SpatialEntity).Name, 
-                typeof(Entity).Name, 
-                typeof(Designation).Name, 
-                typeof(DocumentTemplate).Name, 
-                typeof(EmailAction).Name, 
-                typeof(EntityChart).Name, 
-                typeof(EntityDefinition).Name, 
-                typeof(EntityForm).Name, 
-                typeof(EntityView).Name, 
-                typeof(Message).Name, 
-                typeof(Organization).Name, 
-                typeof(Page).Name, 
-                typeof(ReportDefinition).Name, 
-                typeof(ReportDelivery).Name, 
-                typeof(SpatialStore).Name, 
-                typeof(Tracker).Name, 
-                typeof(Trigger).Name, 
-                typeof(UserProfile).Name, 
-                typeof(Watcher).Name, 
-                typeof(Workflow).Name, 
-                typeof(WorkflowDefinition).Name, 
-                typeof(EntityForm).Name, typeof(Message).Name};
-            if (reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
-                result.Errors.Add(new BuildError(this.WebId, string.Format("The name [{0}] is reserved for the system", this.Name)));
-
             foreach (var operation in this.EntityOperationCollection)
             {
                 var errors = (await operation.ValidateBuildAsync(this)).ToList();
                 if (errors.Any())
                     result.Errors.AddRange(errors);
             }
-
-
-
+            
             result.Result = result.Errors.Count == 0;
             return result;
         }
