@@ -24,12 +24,12 @@ namespace Bespoke.Sph.Domain
 
             var result = base.ValidateBuild(wd);
 
-            if (this.FollowingCorrelationSetCollection.Count > 0 && this.IsInitiator) 
+            if (this.FollowingCorrelationSetCollection.Count > 0 && this.IsInitiator)
                 result.Errors.Add(new BuildError(this.WebId, string.Format("[ReceiveActivity] : {0} => Receive must follow a correlation or set to be a start activity but not both", this.Name)));
-         
-            if (this.FollowingCorrelationSetCollection.Count == 0 && !this.IsInitiator) 
+
+            if (this.FollowingCorrelationSetCollection.Count == 0 && !this.IsInitiator)
                 result.Errors.Add(new BuildError(this.WebId, string.Format("[ReceiveActivity] : {0} => Receive must follow a correlation or set to be a start activity", this.Name)));
-         
+
             if (!string.IsNullOrWhiteSpace(this.Operation))
                 result.Errors.Add(new BuildError(this.WebId, string.Format("[ReceiveActivity] : {0} => does not have Operation", this.Name)));
             if (string.IsNullOrWhiteSpace(this.MessagePath))
@@ -119,42 +119,78 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("//exec:{0}", this.WebId);
             code.AppendLine("       [HttpPost]");
             code.AppendLinf("       [Route(\"{0}\")]", this.Operation.ToIdFormat());
-            code.AppendLine("       public async Task<HttpResponseMessage> " + this.Operation + "([FromBody]" + variable.TypeName + " item)");
+            code.AppendLine("       public async Task<HttpResponseMessage> " + this.Operation + "([FromBody]" + variable.TypeName + " " + variable.Name + ")");
             code.AppendLine("       {");
+            code.AppendLinf("           {0} wf = null;", wd.WorkflowTypeName);
 
             // get the correlation
             foreach (var c in this.FollowingCorrelationSetCollection)
             {
-                code.AppendFormat(@"  var url = string.Format(""{{0}}/correlationset/"", ConfigurationManager.ElasticSearchIndex, id);
+                var cors = wd.CorrelationSetCollection.Single(x => x.Name == c);
+                var cort = wd.CorrelationTypeCollection.Single(x => x.Name == cors.Type);
+                var valExpression = cort.CorrelationPropertyCollection.Select(x => "string.Format(\"{0}\"," + x.Path + ")").ToArray();
+
+
+                code.AppendLinf("           var cval = string.Join(\";\",new []{{{0}}});", string.Join(",", valExpression));
+                code.AppendFormat(@"  
+            var url = ConfigurationManager.ElasticSearchIndex + ""/correlationset/"";
+            
+            var query = @""{{
+   """"query"""": {{
+      """"filtered"""": {{
+         """"filter"""": {{
+            """"bool"""": {{
+               """"must"""": [
+                  {{
+                     """"term"""": {{
+                        """"wdid"""": """"{0}""""
+                     }}
+                  }},
+                  {{
+                      """"term"""": {{
+                         """"value"""": """""" + cval + @""""""
+                      }}
+                  }},
+                  {{
+                      """"term"""": {{
+                         """"name"""": """"{1}""""
+                      }}
+                  }}
+               ]
+            }}
+         }}
+      }}
+   }}
+}}"";
             using (var client = new HttpClient())
             {{
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.PostAsync(url, new StringContent(json));
-              
-            }}");
+                var esresult = await client.PostAsync(url, new StringContent(query));
+                var content = esresult.Content as StreamContent;
+                var json2 = await content.ReadAsStringAsync();
+                var wid = Newtonsoft.Json.Linq.JObject.Parse(json2).SelectToken(""hits.hits[0]._source.wid"");
+
+                var context = new SphDataContext();
+                wf = (await context.LoadOneAsync<Workflow>(x => x.Id == wid.ToString())) as {2};              
+            }}
+
+", wd.Id, c, wd.WorkflowTypeName);
             }
 
             if (this.FollowingCorrelationSetCollection.Count == 0 && this.IsInitiator)
             {
                 code.AppendLinf("           var wf = new  {0}();", wd.WorkflowTypeName);
             }
-            code.AppendFormat(@"           
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var doc = await store.GetContentAsync(""wd.{0}.{1}"");
-            using (var stream = new MemoryStream(doc.Content))
-            {{
-                wf.WorkflowDefinition = stream.DeserializeFromJson<WorkflowDefinition>();
-            }}  
-",
- wd.Id, wd.Version);
+            code.AppendLine();
+            code.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
 
-            code.Append("               ");
-            code.AppendLinf("           var result = await wf.{0}Async(item);", this.Name);
+            code.AppendLine();
+            code.AppendLinf("           var result = await wf.{0}Async({1});", this.Name, variable.Name);
             code.AppendLinf("           await wf.SaveAsync(\"{0}\", result);", this.WebId);
             // any business rules?            
-            code.AppendLine("           var  response = Request.CreateResponse(HttpStatusCode.Accepted, new {success = true, status=\"OK\", item} );");
+            code.AppendLine("           var  response = Request.CreateResponse(HttpStatusCode.Accepted, new {success = true, status=\"OK\"} );");
             code.AppendLine("           return response;");
-            code.AppendLine("       }"); // end SAVE action 09-9558328
+            code.AppendLine("       }"); // end SAVE action
 
             controller.MethodCollection.Add(new Method { Code = code.ToString() });
 

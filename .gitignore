@@ -116,6 +116,5 @@ bin/sources/NewssTextFixture/
 bin/sources/BphTempahanRpp/
 /bin/sources/EmployeeMapping
 /bin/sources/hrmis
-*.json
 source/web/web.sph/Views/*Workflow*/
 .idea/

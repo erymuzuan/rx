@@ -111,7 +111,8 @@ namespace domain.test.workflows
                 IsInitiator = true,
                 WebId = "Start",
                 Name = "Start",
-                NextActivityWebId = "Register"
+                NextActivityWebId = "Register",
+                Expression = "await this.InitializeCorrelationSetAsync(\"mrn\",\"784529;Adam\");"
             };
             wd.ActivityCollection.Add(start);
             var reg = new ReceiveActivity
@@ -162,33 +163,79 @@ namespace domain.test.workflows
             Assert.IsNotNull(patientType);
             dynamic patient = Activator.CreateInstance(patientType);
             patient.Mrn = "784529";
+            patient.FullName = "Adam";
 
             Assert.AreEqual("".GetType(),typeof(string), "String type should be the same");
             Assert.AreEqual(patient.GetType(), wf.patient.GetType(), "Type should be the same");
-            await wf.RegisterPatientAsync(patient);
+            await wf.RegisterAsync(patient);
             Assert.AreEqual(patient.Mrn, wf.patient.Mrn);
 
         }
         [Test]
-        public async Task ReceveiveWithoutCorrelationSet()
+        public void ReceveiveWithoutCorrelationSet()
         {
             const string PATIENT_TYPE_FULL_NAME = "Bespoke.Dev_patient.Domain.Patient";
             var wd = new WorkflowDefinition { Name = "Receive Register new patient", Id = "receive-register-patient", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = PATIENT_TYPE_FULL_NAME });
 
-            var regiterStaff = new ReceiveActivity
+            var register = new ReceiveActivity
             {
-                Name = "RegisterPatient",
+                Name = "Register",
                 Operation = "Register",
                 MessagePath = "patient",
-                NextActivityWebId = "B",
+                NextActivityWebId = "End",
                 IsInitiator = false,
-                WebId = "A"
+                WebId = "Register"
             };
-            wd.ActivityCollection.Add(regiterStaff);
+            var end = new EndActivity {WebId = "End", Name = "End"};
+            wd.ActivityCollection.Add(register);
+            wd.ActivityCollection.Add(end);
 
-            var code = regiterStaff.GeneratedExecutionMethodCode(wd);
+
+            var br = wd.ValidateBuild();
+            br.Errors.ForEach(e => Console.WriteLine(e.Message));
+            Assert.AreEqual(false, br.Result);
+
+        }
+
+        [Test]
+        public async Task ReceveiveCorrelationSet()
+        {
+            const string PATIENT_TYPE_FULL_NAME = "Bespoke.Dev_patient.Domain.Patient";
+            var wd = new WorkflowDefinition { Name = "Receive Register new patient", Id = "receive-register-patient", SchemaStoreId = m_schemaStoreId };
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = PATIENT_TYPE_FULL_NAME });
+
+            
+            var start = new ExpressionActivity
+            {
+                WebId = "Start",
+                Name = "Start",
+                Expression = "Console.WriteLine(DateTime.Now);",
+                IsInitiator = true
+            };
+            wd.ActivityCollection.Add(start);
+
+            var register = new ReceiveActivity
+            {
+                Name = "Register",
+                Operation = "Register",
+                MessagePath = "patient",
+                NextActivityWebId = "End",
+                IsInitiator = false,
+                WebId = "Register"
+            };
+            var end = new EndActivity {WebId = "End", Name = "End"};
+            wd.ActivityCollection.Add(register);
+            wd.ActivityCollection.Add(end);
+
+            var br = wd.ValidateBuild();
+            br.Errors.ForEach(e => Console.WriteLine(e.Message));
+            Assert.IsTrue(br.Result);
+
+
+            var code = register.GeneratedExecutionMethodCode(wd);
             StringAssert.Contains("RegisterPatientAsync", code);
 
             var options = new CompilerOptions();
