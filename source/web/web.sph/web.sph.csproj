@@ -138,6 +138,7 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Content Include="App_Code\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -442,6 +443,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="docs\adapter.mysql.sproc.md" />
     <Content Include="docs\ExceptionFilter.md" />
+    <Content Include="docs\custom-login-page.md" />
     <None Include="docs\getting-started.md" />
     <Content Include="docs\getting-started.html">
       <DependentUpon>getting-started.md</DependentUpon>
@@ -1201,6 +1203,7 @@
     <Content Include="SphApp\viewmodels\offline.storage.js" />
     <Content Include="Views\EntityFormRenderer\TestCustomLayout.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
+    <Content Include="Views\Login\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

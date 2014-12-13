@@ -74,6 +74,7 @@
     "receive-activity-dialog" : "receive-activity-dialog.html",
 
     "email-action-modal" : "EmailAction.html",
+    "custom-login-page" : "custom-login-page.html",
 
     "default": "Overview.html"
 }
