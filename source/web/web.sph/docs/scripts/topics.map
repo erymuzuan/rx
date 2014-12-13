@@ -73,5 +73,7 @@
     "send-activity-dialog" : "send-activity-dialog.html",
     "receive-activity-dialog" : "receive-activity-dialog.html",
 
+    "email-action-modal" : "EmailAction.html",
+
     "default": "Overview.html"
 }

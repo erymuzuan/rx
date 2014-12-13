@@ -664,6 +664,7 @@
     <Content Include="docs\PropertyMapping.html">
       <DependentUpon>PropertyMapping.md</DependentUpon>
     </Content>
+    <Content Include="docs\RazorTemplate.md" />
     <None Include="docs\receive-activity-dialog.md" />
     <Content Include="docs\receive-activity-dialog.html">
       <DependentUpon>receive-activity-dialog.md</DependentUpon>
