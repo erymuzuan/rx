@@ -6,7 +6,7 @@
 /// <reference path="../App/services/datacontext.js" />
 /// <reference path="../SphApp/objectbuilders.js" />
 /// <reference path="../App/durandal/amd/text.js" />
-/// <reference path="jquery-2.0.3.intellisense.js" />
+/// <reference path="jquery-2.1.1.intellisense.js" />
 /// <reference path="underscore.js" />
 /// <reference path="require.js" />
 

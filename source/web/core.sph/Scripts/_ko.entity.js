@@ -548,3 +548,29 @@ ko.bindingHandlers.lookupText = {
     init: bespoke.lookupText,
     update: bespoke.lookupText
 };
+
+
+ko.bindingHandlers.readonly = {
+    init : function(element, valueAccessor) {
+        var input = $(element),
+            ro = ko.unwrap(valueAccessor());
+
+        if (ro) {
+            input.prop('readonly', true);
+        } else {
+
+            input.prop('readonly', false);
+        }
+    },
+    update : function(element, valueAccessor) {
+        var input = $(element),
+             ro = ko.unwrap(valueAccessor());
+
+        if (ro) {
+            input.prop('readonly', true);
+        } else {
+
+            input.prop('readonly', false);
+        }
+    }
+};

@@ -11,6 +11,7 @@ var sources = [
 './source/web/core.sph/Scripts/string.js',
 './source/web/core.sph/Scripts/_pager.js',
 './source/web/core.sph/Scripts/_ko.workflow.js',
+'./source/web/core.sph/Scripts/_ko.entity.js',
 './source/web/core.sph/Scripts/_ko.kendo.js',
 './source/web/core.sph/Scripts/_ko.bootstrap.js',
 './source/web/core.sph/Scripts/_function.prototypes.js',

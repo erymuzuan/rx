@@ -117,7 +117,7 @@ namespace Bespoke.Sph.Domain
         public BuildValidationResult CanSave()
         {
             var result = new BuildValidationResult();
-            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_]*$");
+            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9]*$");
             if (!validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
             if (string.IsNullOrWhiteSpace(this.Name))
