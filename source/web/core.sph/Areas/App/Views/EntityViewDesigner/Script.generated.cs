@@ -56,7 +56,7 @@ WriteAttribute("src", Tuple.Create(" src=\"", 93), Tuple.Create("\"", 125)
 WriteLiteral("></script>\r\n<script");
 
 WriteAttribute("src", Tuple.Create(" src=\"", 145), Tuple.Create("\"", 184)
-, Tuple.Create(Tuple.Create("", 151), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.1.0.debug.js")
+, Tuple.Create(Tuple.Create("", 151), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.2.0.debug.js")
 , 151), false)
 );
 
@@ -81,94 +81,108 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(" data-script=\"true\"");
 
 WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilder" +
-"s.router, objectbuilders.system],\r\n        function (context, logger, router, sy" +
-"stem) {\r\n\r\n            var errors = ko.observableArray(),\r\n                entit" +
-"y = ko.observable(new bespoke.sph.domain.EntityDefinition()),\r\n                v" +
-"iew = ko.observable(new bespoke.sph.domain.EntityView({ WebId: system.guid() }))" +
-",\r\n                activate = function (entityid, viewid) {\r\n\r\n\r\n               " +
-"     var query = String.format(\"Id eq \'{0}\'\", entityid),\r\n                      " +
-"  tcs = new $.Deferred();\r\n\r\n                    context.loadOneAsync(\"EntityDef" +
-"inition\", query)\r\n                        .done(function (b) {\r\n                " +
-"            entity(b);\r\n                            window.typeaheadEntity = b.N" +
-"ame();\r\n                            if (viewid === \"0\") {\r\n                     " +
-"           tcs.resolve(true);\r\n                            }\r\n\r\n                " +
-"        });\r\n                    if (viewid && viewid !== \"0\") {\r\n              " +
-"          context.loadOneAsync(\"EntityView\", \"Id eq \'\" + viewid + \"\'\")\r\n        " +
-"                .done(function (f) {\r\n\r\n                            view(f);\r\n  " +
-"                          tcs.resolve(true);\r\n                        });\r\n     " +
-"               } else {\r\n\r\n                        view(new bespoke.sph.domain.E" +
-"ntityView({ WebId: system.guid() }));\r\n                        view().IconStoreI" +
-"d(\"sph-img-list\");\r\n\r\n                        view().Name.subscribe(function (v)" +
-" {\r\n                            view().Route(v.toLowerCase().replace(/\\W+/g, \"-\"" +
-"));\r\n\r\n                        });\r\n                    }\r\n                    v" +
-"iew().EntityDefinitionId(entityid);\r\n\r\n                    return tcs.promise();" +
-"\r\n\r\n                },\r\n                attached = function () {\r\n\r\n\r\n\r\n        " +
-"        },\r\n                publish = function () {\r\n\r\n                    // ge" +
-"t the sorted element\r\n                    var columns = _($(\'ul#column-design>li" +
-":not(:last)\')).map(function (div) {\r\n                        return ko.dataFor(d" +
-"iv);\r\n                    });\r\n                    view().ViewColumnCollection(c" +
-"olumns);\r\n\r\n                    var tcs = new $.Deferred(),\r\n                   " +
-"     data = ko.mapping.toJSON(view);\r\n\r\n                    context.post(data, \"" +
-"/Sph/EntityView/Publish\")\r\n                        .then(function (result) {\r\n  " +
-"                          if (result.success) {\r\n                               " +
-" logger.info(result.message);\r\n                                view().Id(result." +
-"id);\r\n                                errors.removeAll();\r\n                     " +
-"           view().IsPublished(true);\r\n                            } else {\r\n    " +
-"                            errors(result.Errors);\r\n                            " +
-"    logger.error(\"There are errors in your entity, !!!\");\r\n                     " +
-"       }\r\n\r\n                            tcs.resolve(result);\r\n                  " +
-"      });\r\n                    return tcs.promise();\r\n                },\r\n      " +
-"          save = function () {\r\n                    // get the sorted element\r\n " +
-"                   var columns = _($(\'ul#column-design>li:not(:last)\')).map(func" +
-"tion (div) {\r\n                        return ko.dataFor(div);\r\n                 " +
-"   });\r\n                    view().ViewColumnCollection(columns);\r\n\r\n           " +
-"         var tcs = new $.Deferred(),\r\n                        data = ko.mapping." +
-"toJSON(view);\r\n\r\n                    context.post(data, \"/Sph/EntityView/Save\")\r" +
-"\n                        .then(function (result) {\r\n                            " +
-"view().Id(result.id);\r\n                            tcs.resolve(result);\r\n       " +
-"                 });\r\n                    return tcs.promise();\r\n               " +
-" },\r\n\r\n            depublishAsync = function () {\r\n\r\n                var tcs = n" +
-"ew $.Deferred(),\r\n                    data = ko.mapping.toJSON(view);\r\n\r\n       " +
-"         context.post(data, \"/EntityView/Depublish\")\r\n                    .then(" +
-"function (result) {\r\n                        if (result.success) {\r\n            " +
-"                view().IsPublished(false);\r\n                            logger.i" +
-"nfo(result.message);\r\n                            errors.removeAll();\r\n         " +
-"               } else {\r\n                            logger.error(\"There are err" +
-"ors in your view, !!!\");\r\n                        }\r\n                        tcs" +
-".resolve(result);\r\n                    });\r\n                return tcs.promise()" +
-";\r\n            },\r\n            partialEditor = null,\r\n            editCode = fun" +
-"ction () {\r\n                if (null == partialEditor || partialEditor.closed) {" +
-"\r\n                    var partial = \"partial/\" + view().Route();\r\n              " +
-"      partialEditor = window.open(\"/sph/editor/file?id=/sphapp/\" + partial + \".j" +
-"s\", \'_blank\', \'height=600px,width=800px,toolbar=0,location=0\');\r\n               " +
-"     view().Partial(partial);\r\n                } else {\r\n                    par" +
-"tialEditor.focus();\r\n                }\r\n\r\n                return Task.fromResult" +
-"(true);\r\n\r\n            };\r\n\r\n            var vm = {\r\n                errors: err" +
-"ors,\r\n                attached: attached,\r\n                activate: activate,\r\n" +
-"                view: view,\r\n                entity: entity,\r\n                fo" +
-"rmsQuery: ko.computed(function () {\r\n                    return String.format(\"E" +
-"ntityDefinitionId eq \'{0}\'\", entity().Id());\r\n                }),\r\n             " +
-"   toolbar: {\r\n                    commands: ko.observableArray([{\r\n            " +
-"            caption: \'Clone\',\r\n                        icon: \'fa fa-copy\',\r\n    " +
-"                    command: function () {\r\n                            view().N" +
-"ame(view().Name() + \' Copy (1)\');\r\n                            view().Route(\'\');" +
-"\r\n                            view().Id(\"0\");\r\n                            retur" +
-"n Task.fromResult(0);\r\n                        }\r\n                    },\r\n      " +
-"              {\r\n                        caption: \'Publish\',\r\n                  " +
-"      icon: \'fa fa-sign-in\',\r\n                        command: publish,\r\n       " +
-"                 enable: ko.computed(function () {\r\n                            " +
-"return view().Id() && view().Id() !== \"0\";\r\n                        })\r\n        " +
-"            },\r\n                    {\r\n                        caption: \'Depubli" +
-"sh\',\r\n                        icon: \'fa fa-sign-out\',\r\n                        c" +
-"ommand: depublishAsync,\r\n                        enable: ko.computed(function ()" +
-" {\r\n                            return view().Id() && view().Id() !== \"0\" && vie" +
-"w().IsPublished();\r\n                        })\r\n                    },\r\n        " +
-"            {\r\n                        command: editCode,\r\n                     " +
-"   caption: \'Edit Code\',\r\n                        icon: \"fa fa-code\",\r\n         " +
-"               enable: ko.computed(function () {\r\n                            re" +
-"turn view().Route();\r\n                        })\r\n                    }\r\n       " +
-"             ]),\r\n                    saveCommand: save\r\n                }\r\n    " +
-"        };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"s.router, objectbuilders.system, objectbuilders.app],\r\n        function (context" +
+", logger, router, system, app) {\r\n\r\n            var errors = ko.observableArray(" +
+"),\r\n                entity = ko.observable(new bespoke.sph.domain.EntityDefiniti" +
+"on()),\r\n                view = ko.observable(new bespoke.sph.domain.EntityView({" +
+" WebId: system.guid() })),\r\n                activate = function (entityid, viewi" +
+"d) {\r\n\r\n\r\n                    var query = String.format(\"Id eq \'{0}\'\", entityid)" +
+",\r\n                        tcs = new $.Deferred();\r\n\r\n                    contex" +
+"t.loadOneAsync(\"EntityDefinition\", query)\r\n                        .done(functio" +
+"n (b) {\r\n                            entity(b);\r\n                            win" +
+"dow.typeaheadEntity = b.Name();\r\n                            if (viewid === \"0\")" +
+" {\r\n                                tcs.resolve(true);\r\n                        " +
+"    }\r\n\r\n                        });\r\n                    if (viewid && viewid !" +
+"== \"0\") {\r\n                        context.loadOneAsync(\"EntityView\", \"Id eq \'\" " +
+"+ viewid + \"\'\")\r\n                        .done(function (f) {\r\n\r\n               " +
+"             view(f);\r\n                            tcs.resolve(true);\r\n         " +
+"               });\r\n                    } else {\r\n\r\n                        view" +
+"(new bespoke.sph.domain.EntityView({ WebId: system.guid() }));\r\n                " +
+"        view().IconStoreId(\"sph-img-list\");\r\n\r\n                        view().Na" +
+"me.subscribe(function (v) {\r\n                            view().Route(v.toLowerC" +
+"ase().replace(/\\W+/g, \"-\"));\r\n\r\n                        });\r\n                   " +
+" }\r\n                    view().EntityDefinitionId(entityid);\r\n\r\n                " +
+"    return tcs.promise();\r\n\r\n                },\r\n                attached = func" +
+"tion () {\r\n\r\n\r\n\r\n                },\r\n                publish = function () {\r\n\r\n" +
+"                    // get the sorted element\r\n                    var columns =" +
+" _($(\'ul#column-design>li:not(:last)\')).map(function (div) {\r\n                  " +
+"      return ko.dataFor(div);\r\n                    });\r\n                    view" +
+"().ViewColumnCollection(columns);\r\n\r\n                    var tcs = new $.Deferre" +
+"d(),\r\n                        data = ko.mapping.toJSON(view);\r\n\r\n               " +
+"     context.post(data, \"/Sph/EntityView/Publish\")\r\n                        .the" +
+"n(function (result) {\r\n                            if (result.success) {\r\n      " +
+"                          logger.info(result.message);\r\n                        " +
+"        view().Id(result.id);\r\n                                errors.removeAll(" +
+");\r\n                                view().IsPublished(true);\r\n                 " +
+"           } else {\r\n                                errors(result.Errors);\r\n   " +
+"                             logger.error(\"There are errors in your entity, !!!\"" +
+");\r\n                            }\r\n\r\n                            tcs.resolve(res" +
+"ult);\r\n                        });\r\n                    return tcs.promise();\r\n " +
+"               },\r\n                save = function () {\r\n                    // " +
+"get the sorted element\r\n                    var columns = _($(\'ul#column-design>" +
+"li:not(:last)\')).map(function (div) {\r\n                        return ko.dataFor" +
+"(div);\r\n                    });\r\n                    view().ViewColumnCollection" +
+"(columns);\r\n\r\n                    var tcs = new $.Deferred(),\r\n                 " +
+"       data = ko.mapping.toJSON(view);\r\n\r\n                    context.post(data," +
+" \"/Sph/EntityView/Save\")\r\n                        .then(function (result) {\r\n   " +
+"                         view().Id(result.id);\r\n                            tcs." +
+"resolve(result);\r\n                        });\r\n                    return tcs.pr" +
+"omise();\r\n                },\r\n                remove = function () {\r\n\r\n        " +
+"            var tcs = new $.Deferred(),\r\n                        data = ko.mappi" +
+"ng.toJSON(view);\r\n                    app.showMessage(\"Are you sure you want to " +
+"delete this view> This action cannot be undone\", \"Reactive Developer\", [\"Yes\", \"" +
+"No\"])\r\n                        .done(function (dialogResult) {\r\n                " +
+"            if (dialogResult === \"Yes\") {\r\n                                conte" +
+"xt.send(data, \"/Sph/EntityView\", \"DELETE\")\r\n                                    " +
+".done(function (result) {\r\n                                        window.locati" +
+"on = \"/sph#dev.home\";\r\n                                    })\r\n                 " +
+"                   .fail(function (v) {\r\n                                       " +
+" logger.error(v.statusText);\r\n                                    })\r\n          " +
+"                          .then(tcs.resolve);\r\n\r\n                            }\r\n" +
+"                        });\r\n                    return tcs.promise();\r\n        " +
+"        },\r\n\r\n            depublishAsync = function () {\r\n\r\n                var " +
+"tcs = new $.Deferred(),\r\n                    data = ko.mapping.toJSON(view);\r\n\r\n" +
+"                context.post(data, \"/EntityView/Depublish\")\r\n                   " +
+" .then(function (result) {\r\n                        if (result.success) {\r\n     " +
+"                       view().IsPublished(false);\r\n                            l" +
+"ogger.info(result.message);\r\n                            errors.removeAll();\r\n  " +
+"                      } else {\r\n                            logger.error(\"There " +
+"are errors in your view, !!!\");\r\n                        }\r\n                    " +
+"    tcs.resolve(result);\r\n                    });\r\n                return tcs.pr" +
+"omise();\r\n            },\r\n            partialEditor = null,\r\n            editCod" +
+"e = function () {\r\n                if (null == partialEditor || partialEditor.cl" +
+"osed) {\r\n                    var partial = \"partial/\" + view().Route();\r\n       " +
+"             partialEditor = window.open(\"/sph/editor/file?id=/sphapp/\" + partia" +
+"l + \".js\", \'_blank\', \'height=600px,width=800px,toolbar=0,location=0\');\r\n        " +
+"            view().Partial(partial);\r\n                } else {\r\n                " +
+"    partialEditor.focus();\r\n                }\r\n\r\n                return Task.fro" +
+"mResult(true);\r\n\r\n            };\r\n\r\n            var vm = {\r\n                erro" +
+"rs: errors,\r\n                attached: attached,\r\n                activate: acti" +
+"vate,\r\n                view: view,\r\n                entity: entity,\r\n           " +
+"     formsQuery: ko.computed(function () {\r\n                    return String.fo" +
+"rmat(\"EntityDefinitionId eq \'{0}\'\", entity().Id());\r\n                }),\r\n      " +
+"          toolbar: {\r\n                    commands: ko.observableArray([{\r\n     " +
+"                   caption: \'Clone\',\r\n                        icon: \'fa fa-copy\'" +
+",\r\n                        command: function () {\r\n                            v" +
+"iew().Name(view().Name() + \' Copy (1)\');\r\n                            view().Rou" +
+"te(\'\');\r\n                            view().Id(\"0\");\r\n                          " +
+"  return Task.fromResult(0);\r\n                        }\r\n                    },\r" +
+"\n                    {\r\n                        caption: \'Publish\',\r\n           " +
+"             icon: \'fa fa-sign-in\',\r\n                        command: publish,\r\n" +
+"                        enable: ko.computed(function () {\r\n                     " +
+"       return view().Id() && view().Id() !== \"0\";\r\n                        })\r\n " +
+"                   },\r\n                    {\r\n                        caption: \'" +
+"Depublish\',\r\n                        icon: \'fa fa-sign-out\',\r\n                  " +
+"      command: depublishAsync,\r\n                        enable: ko.computed(func" +
+"tion () {\r\n                            return view().Id() && view().Id() !== \"0\"" +
+" && view().IsPublished();\r\n                        })\r\n                    },\r\n " +
+"                   {\r\n                        command: editCode,\r\n              " +
+"          caption: \'Edit Code\',\r\n                        icon: \"fa fa-code\",\r\n  " +
+"                      enable: ko.computed(function () {\r\n                       " +
+"     return view().Route();\r\n                        })\r\n                    }\r\n" +
+"                    ]),\r\n                    saveCommand: save,\r\n               " +
+"     removeCommand: remove\r\n                }\r\n            };\r\n\r\n            ret" +
+"urn vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }

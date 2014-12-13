@@ -4,14 +4,14 @@
     Layout = null;
 }
 <script src="~/SphApp/objectbuilders.js"></script>
-<script src="~/Scripts/knockout-3.1.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.2.0.debug.js"></script>
 <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
 <script src="~/SphApp/schemas/form.designer.g.js"></script>
 
 <script type="text/javascript" data-script="true">
 
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system],
-        function (context, logger, router, system) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app],
+        function (context, logger, router, system, app) {
 
             var errors = ko.observableArray(),
                 entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
@@ -102,6 +102,26 @@
                         });
                     return tcs.promise();
                 },
+                remove = function () {
+
+                    var tcs = new $.Deferred(),
+                        data = ko.mapping.toJSON(view);
+                    app.showMessage("Are you sure you want to delete this view> This action cannot be undone", "Reactive Developer", ["Yes", "No"])
+                        .done(function (dialogResult) {
+                            if (dialogResult === "Yes") {
+                                context.send(data, "/Sph/EntityView", "DELETE")
+                                    .done(function (result) {
+                                        window.location = "/sph#dev.home";
+                                    })
+                                    .fail(function (v) {
+                                        logger.error(v.statusText);
+                                    })
+                                    .then(tcs.resolve);
+
+                            }
+                        });
+                    return tcs.promise();
+                },
 
             depublishAsync = function () {
 
@@ -180,7 +200,8 @@
                         })
                     }
                     ]),
-                    saveCommand: save
+                    saveCommand: save,
+                    removeCommand: remove
                 }
             };
 

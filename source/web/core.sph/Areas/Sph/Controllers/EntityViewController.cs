@@ -28,6 +28,23 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { success = true, status = "OK", id = view.Id });
         }
 
+        [HttpDelete]
+        public async Task<ActionResult> Index(string id)
+        {
+            var context = new SphDataContext();
+            var view = await context.LoadOneAsync<EntityView>(x => x.Id == id);
+            if (null == view) return new HttpNotFoundResult("Cannnot find EntityView with id " + id);
+
+
+
+            using (var session = context.OpenSession())
+            {
+                session.Delete(view);
+                await session.SubmitChanges("Delete");
+            }
+            return Json(new { success = true, status = "OK", id = view.Id });
+        }
+
         public async Task<ActionResult> Depublish()
         {
             var context = new SphDataContext();
