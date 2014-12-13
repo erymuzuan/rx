@@ -140,7 +140,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult> Index(string id)
+        public async Task<ActionResult> Delete(string id)
         {
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
@@ -157,9 +157,10 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Delete((await formsTask).ItemCollection.Cast<Entity>().ToArray());
                 session.Delete((await viewsTask).ItemCollection.Cast<Entity>().ToArray());
                 session.Delete((await triggersTask).ItemCollection.Cast<Entity>().ToArray());
+                // TODO : drop the tables and elastic search mappings
                 await session.SubmitChanges("Depublish");
             }
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully deleted", id = ed.Id });
+            return Json(new { success = true, status = "OK", message = "Your entity definition has been successfully deleted", id = ed.Id });
 
         }
 

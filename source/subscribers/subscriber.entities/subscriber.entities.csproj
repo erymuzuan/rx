@@ -59,6 +59,7 @@
     <Compile Include="EsMappingHelper.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />
     <Compile Include="IisRewriteRuleSubscriber.cs" />
+    <Compile Include="EntityDefinitionDeletedSubscriber.cs" />
     <Compile Include="SqlTableSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
