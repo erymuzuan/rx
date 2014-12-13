@@ -143,24 +143,21 @@ namespace subscriber.entities
             var members = this.GetFilterableMembers("", item.MemberCollection);
             var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
             var table = metadataProvider.GetTable(item.Name);
-            var ok = true;
             foreach (var mb in members)
             {
                 var colType = this.GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
                 var mb1 = mb;
-                var col =
-                    table.Columns.SingleOrDefault(
-                        c =>
+                var col = table.Columns.SingleOrDefault( c =>
                             c.Name.Equals(mb1.FullName, StringComparison.InvariantCultureIgnoreCase) &&
-                            c.SqlType.Equals(colType, StringComparison.InvariantCultureIgnoreCase));
+                            c.SqlType.Equals(colType, StringComparison.InvariantCultureIgnoreCase)
+                            && c.IsNullable == mb1.IsNullable);
                 if (null == col)
                 {
                     this.WriteMessage("[COLUMN-COMPARE] - > Cannot find column {0} as {1}", mb1.FullName, colType);
-                    ok = false;
-                    break;
+                    return false;
                 }
             }
-            return ok;
+            return true;
         }
 
 
