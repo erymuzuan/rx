@@ -519,6 +519,123 @@
           "WebId": null
         },
         {
+          "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
+          "ComboBoxItemCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "ComboBoxLookup": {
+            "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+            "Entity": "State",
+            "ValuePath": "Name",
+            "DisplayPath": "Name",
+            "Query": null,
+            "IsComputedQuery": false,
+            "WebId": null
+          },
+          "TypeName": "ComboBox",
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "Min": null,
+            "Max": null,
+            "MinLength": null,
+            "MaxLength": null,
+            "WebId": null
+          },
+          "Name": null,
+          "Label": "Home Address  State",
+          "Tooltip": null,
+          "Path": "HomeAddress.State",
+          "IsRequired": false,
+          "Size": null,
+          "CssClass": null,
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "fea66b5a-9ad6-4fed-aa46-7dd4ba5fadff",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "ToolboxIconClass": null,
+          "IsUniqueName": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "672b5a5d-bf73-4b5c-db9e-700065696175"
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.ComboBox, domain.sph",
+          "ComboBoxItemCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ComboBoxItem, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                "Caption": "test",
+                "Value": "test",
+                "WebId": "0799337a-f59e-4b92-9ba2-2f0abb4814af"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
+                "Caption": "t",
+                "Value": "t",
+                "WebId": "2d466b66-a9da-46a7-b075-274b4c08c163"
+              }
+            ]
+          },
+          "ComboBoxLookup": {
+            "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+            "Entity": null,
+            "ValuePath": null,
+            "DisplayPath": null,
+            "Query": null,
+            "IsComputedQuery": false,
+            "WebId": null
+          },
+          "TypeName": "ComboBox",
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "Min": null,
+            "Max": null,
+            "MinLength": null,
+            "MaxLength": null,
+            "WebId": null
+          },
+          "Name": null,
+          "Label": "Home Address  City",
+          "Tooltip": null,
+          "Path": "HomeAddress.City",
+          "IsRequired": false,
+          "Size": null,
+          "CssClass": null,
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "28109dd9-5e0a-4309-8bbd-ac89b7d9e040",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "ToolboxIconClass": null,
+          "IsUniqueName": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": "929dc597-6026-43a8-d9ef-97f32a856f03"
+        },
+        {
           "$type": "Bespoke.Sph.Domain.ChildEntityListView, domain.sph",
           "Entity": "Appointment",
           "Query": "'Mrn eq \\'' + Mrn() + '\\''",
@@ -697,6 +814,6 @@
   "Id": "patient-details",
   "CreatedDate": "2014-03-22T20:23:09.7138554+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-09-16T07:42:36.0710561+08:00",
+  "ChangedDate": "2014-12-13T08:55:59.7187744+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

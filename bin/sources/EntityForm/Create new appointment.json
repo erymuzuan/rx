@@ -289,8 +289,8 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
-  "EntityFormId": 6010,
-  "EntityDefinitionId": 6003,
+  "Id": "create-new-appointment",
+  "EntityDefinitionId": "appointment",
   "Name": "Create new appointment",
   "Route": "create-new-appointment",
   "Note": "appointment-create",

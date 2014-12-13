@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Domain
                 )
             {
                 var lookup = this.ComboBoxLookup;
-                var query = string.IsNullOrWhiteSpace(lookup.Query) ? "'Id ne \'0\''"
+                var query = string.IsNullOrWhiteSpace(lookup.Query) ? "'Id ne \\'0\\''"
                     : "'" + lookup.Query.Replace("'", "\\'") + "'";
                 if (lookup.IsComputedQuery)
                     query = "ko.computed(function(){ return " + lookup.Query + ";})";
