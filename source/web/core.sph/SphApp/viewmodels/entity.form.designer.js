@@ -321,7 +321,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 context.post(data, "/entity-form")
                     .then(function (result) {
-                        form().Id(result.id);
+                        if (result.success) {
+                            form().Id(result.id);
+                            logger.info("Your form has been successfully saved.");
+                        } else {
+                            errors(result.Errors);
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
