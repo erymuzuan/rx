@@ -216,7 +216,7 @@
         },
         "Name": "Gender",
         "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
+        "IsNullable": true,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
         "IsFilterable": true,
@@ -577,7 +577,7 @@
         },
         "Name": "ProfileStoreId",
         "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
+        "IsNullable": true,
         "IsNotIndexed": true,
         "IsAnalyzed": false,
         "IsFilterable": false,
@@ -958,7 +958,7 @@
   "CreatedBy": "admin",
   "Id": "customer",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
-  "ChangedBy": "BESPOKE1-PC",
-  "ChangedDate": "2014-11-18T08:13:42.1588755+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-12-13T12:48:06.4061075+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

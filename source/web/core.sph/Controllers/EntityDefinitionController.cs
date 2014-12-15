@@ -158,7 +158,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Delete((await viewsTask).ItemCollection.Cast<Entity>().ToArray());
                 session.Delete((await triggersTask).ItemCollection.Cast<Entity>().ToArray());
                 // TODO : drop the tables and elastic search mappings
-                await session.SubmitChanges("Depublish");
+                await session.SubmitChanges("delete");
             }
             return Json(new { success = true, status = "OK", message = "Your entity definition has been successfully deleted", id = ed.Id });
 
