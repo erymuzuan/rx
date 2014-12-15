@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,7 +11,7 @@ using Humanizer;
 namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("entity-definition")]
-    public class EntityDefinitionController : Controller
+    public class EntityDefinition2Controller : Controller
     {
         [HttpGet]
         [Route("variable-path/{id}")]

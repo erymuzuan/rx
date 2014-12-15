@@ -599,7 +599,7 @@
     <Compile Include="Areas\Sph\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\Controllers\PrintController.cs" />
-    <Compile Include="Controllers\EntityDefinitionController.cs" />
+    <Compile Include="Controllers\EntityDefinition2Controller.cs" />
     <Compile Include="Controllers\TransformDefinitionController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />
