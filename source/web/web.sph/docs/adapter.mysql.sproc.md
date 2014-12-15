@@ -5,7 +5,7 @@ This page allows you to customize you procedure request and response object
 ## Procedure with result set(reader)
 If your procedure returns a result set, you must specify this in the response object using `<ResultSet>Collection` member with the type `Collection` and this result set need to contains the same member as your column name
 
-```
+```sql
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEmployeesByEmpNo`(IN no INT)
 BEGIN 
     

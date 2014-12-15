@@ -1,4 +1,18 @@
 <h1 id="exceptionfilter">ExceptionFilter</h1>
 <p>ExceptionFilter allows you to specify any .Net Exception types and act on those exception. The basic filter allows you to retry the operation, while a more complex filter allow you carry out compensation action for the work your <a href="WorkflowDefinition.html"><code>WorkflowDefinition</code></a> has done.</p>
 <h2 id="properties">Properties</h2>
-<table class="table table-condensed table-bordered"><br>    <thead><br><tr><br><th>Property</th><br><th>Description</th><br></tr><br></thead><br><tbody><br><tr><td>TypeName</td><td> - The full typename for the Exception for example System.Data.DbException </td></tr><br><tr><td>Filter</td><td> - </td></tr><br><tr><td>Interval</td><td> - The number of unit for your interval for example 1000</td></tr><br><tr><td>IntervalPerion</td><td> - The interval unit in miliseconds, seconds, minutes or hours.</td></tr><br><tr><td>MaxRequeue</td><td> - If specified/bigger than 0, it will retry the operation </td></tr><br><br></tbody></table>
+<table class="table table-condensed table-bordered">
+    <thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>TypeName</td><td> - The full typename for the Exception for example System.Data.DbException </td></tr>
+<tr><td>Filter</td><td> - </td></tr>
+<tr><td>Interval</td><td> - The number of unit for your interval for example 1000</td></tr>
+<tr><td>IntervalPerion</td><td> - The interval unit in miliseconds, seconds, minutes or hours.</td></tr>
+<tr><td>MaxRequeue</td><td> - If specified/bigger than 0, it will retry the operation </td></tr>
+
+</tbody></table>

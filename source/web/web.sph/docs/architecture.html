@@ -3,7 +3,10 @@
 <p><code>Reactive</code> is this case, refer to the fact that it&#39;s event driven with publisher and subscribers concepts called <code>Pub-Sub</code>. This kind of archtecture allows you to easily scales without burdening your application with bottlenecks and un-necessary complexities and pulling requests for updates.</p>
 <p><code>Pub-Sub</code> allows you to asyncronously react when something happened or when an event of your interest is raised. Take an example, if in a hospital environment</p>
 <h2 id="scenarios">Scenarios</h2>
-<p>Given the event is when a new <code>patient is registered</code><br>Then ask the ward to <code>prepare a bed</code><br>At the same time <code>let the dietician know</code>s that the patient might have special diet.<br>and may be at the same time <code>open a billing record</code> in the finacial system.</p>
+<p>Given the event is when a new <code>patient is registered</code>
+Then ask the ward to <code>prepare a bed</code>
+At the same time <code>let the dietician know</code>s that the patient might have special diet.
+and may be at the same time <code>open a billing record</code> in the finacial system.</p>
 <p>In a tradiontional <code>n-tier</code> app, this would normally designed as  method named <code>Register</code> that will internally call the methods</p>
 <pre>
 
@@ -54,10 +57,12 @@ public void AddFinancialBilling()
 <p><code>Reactive</code> architecture allows you to respond to changes quickly, without the risk of breaking existing code.</p>
 <p><code>Rx Developer</code> allow you to use <code>Reative</code> with code, and to to think about the internals of the <code>Pub-Sub</code> messaging. All you have to worry is your business requirements.</p>
 <h2 id="pub-sub-with-triggers">Pub-Sub with Triggers</h2>
-<p>These series of event and the sequence of actions could easily design and deployed in <code>Rx Developer</code> via an <code>Entity Trigger</code>.What happened is when the event is raised, it will be submitted into the message broker, where the broker will distribute the information about the event to any subscribers that has registered for that particular event via topic subscription.<br>A <code>Trigger</code> is a subscriber that subscribe to the event and can perform the subsequent action.</p>
+<p>These series of event and the sequence of actions could easily design and deployed in <code>Rx Developer</code> via an <code>Entity Trigger</code>.What happened is when the event is raised, it will be submitted into the message broker, where the broker will distribute the information about the event to any subscribers that has registered for that particular event via topic subscription.
+A <code>Trigger</code> is a subscriber that subscribe to the event and can perform the subsequent action.</p>
 <p><img src="http://i.imgur.com/efWfOWP.png[/IMG" alt="Pub sub"></p>
 <h2 id="system-architecture">System architecture</h2>
-<p><code>Rx Developer</code> in an enterprise level application development platform, thus it has certain charecteristics in order to make it scalable , easy to use and highly performant. Thus the way that it was designed solely based on the ability of messaging platform<br><img src="http://i.imgur.com/CsB3rqX.png" alt="alt"></p>
+<p><code>Rx Developer</code> in an enterprise level application development platform, thus it has certain charecteristics in order to make it scalable , easy to use and highly performant. Thus the way that it was designed solely based on the ability of messaging platform
+<img src="http://i.imgur.com/CsB3rqX.png" alt="alt"></p>
 <p>Depicted is the simplified version of the whole system architecture, <code>Rx Developer</code> consist of one or more web server where all the transactional request will then be routed to the message broker, it&#39;s the brokers responsibility to distribute the message to the subscribing workers, in this case there at least 2 workers, 1 for transactional data store and 1 for ElasticSearch index. The other subscribers are depends on your <a href="Trigger.html"><code>Trigger</code></a> subscriptions defined by the delelopers. These messages will then be routed to workers accordingly.</p>
 <p>For the searching and read data, the architecture is vastly simplified, by having the web server as the intermediary where it&#39;s primary job is to filter and massage the request query before submitting and applying certain things on the way out.</p>
 <p><img src="http://i.imgur.com/kaWRgf4.png" alt="read only data"></p>

@@ -4,4 +4,8 @@
 <p>For this example, your workflow contains a while loop that keeps assigning a new Task item to the <em>Approver</em> until the <em>LastApprover</em> approved the form. In this case, there are 3 <em>Approver</em>.</p>
 <p>You can handle this by populate the <em>CurrentApproverIndex</em> using the <a href="ExpressionActivity.html"><code>Expression Activity</code></a> and condition evaluation using <a href="DecisionActivity.html"><code>Decision Activity</code></a>. By attached these two activities with your <a href="ScreenActivity.html"><code>Screen activity</code></a>, you will be able to set your while loop.</p>
 <p><img src="http://i.imgur.com/cukPzj2.png" alt="alt"></p>
-<p>Refering to figure above:<br>1) First, you have to initiate the <em>CurrentApproverIndex</em> to 0 . <em>CurrentApproverIndex</em> is a variable define in your workflow.<br>2) Once the Current Approver approved the form, you increase the value of <em>CurrentApproverIndex</em><br>3)The loop will be continued until the value of <em>CurrentApproverIndex</em> is equal to the total number of approver.<br>4) Process End when decision is made by <em>LastApprover</em></p>
+<p>Refering to figure above:
+1) First, you have to initiate the <em>CurrentApproverIndex</em> to 0 . <em>CurrentApproverIndex</em> is a variable define in your workflow.
+2) Once the Current Approver approved the form, you increase the value of <em>CurrentApproverIndex</em>
+3)The loop will be continued until the value of <em>CurrentApproverIndex</em> is equal to the total number of approver. 
+4) Process End when decision is made by <em>LastApprover</em></p>

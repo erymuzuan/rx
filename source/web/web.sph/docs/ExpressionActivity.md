@@ -1,6 +1,6 @@
 #ExpressionActivity
 ##Overview
-[`ExpressionActivity`](ExpressionActivity.html) allows you to embed your own code in a [`WorkflowDefinition`](WorkflowDefinition.html). This is the main extensibilty point you can find in `Rx Developer` if the provided activities did not meet requirements. On the other hand [`ExpressionActivity`](ExpressionActivity.html) could also be used to do other things such as setting the [`Variable`](Variable.html) values, this is useful for example in a loop where you need to set the `CurrentItem` or the `CurrentIndex` for your loop. 
+[`ExpressionActivity`](ExpressionActivity.html) allows you to embed your own code in a [`WorkflowDefinition`](WorkflowDefinition.html). This is the main extensibility point you can find in `Rx Developer` if the provided activities did not meet requirements. On the other hand [`ExpressionActivity`](ExpressionActivity.html) could also be used to do other things such as setting the [`Variable`](Variable.html) values, this is useful for example in a loop where you need to set the `CurrentItem` or the `CurrentIndex` for your loop.
 
 ##Referencing external assemblies
 If you need to call external assemblies there are 2 ways of achieving this at the moment
@@ -35,7 +35,7 @@ dynamic myobject = ObjectBuilder.GetObject("MyObject"); // refer to the name pro
 myobject.Call();// where Call is a method defined in your class
 
 ```
-The use of `dynamic` keyword allows far greated flexibilty, since `Rx Developer` didn't have to know about your object. Thou you are losing the compile time checking.
+The use of `dynamic` keyword allows far greater flexibility, since `Rx Developer` didn't have to know about your object. Thou you are losing the compile time checking.
 
 ##Properties
 <table class="table table-condensed table-bordered">

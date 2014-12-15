@@ -2,7 +2,6 @@
 ##Overview
 Represents a button like form element, button allows you to perform an action
 
-
 ##Properties
 <table class="table table-condensed table-bordered">
     <thead>

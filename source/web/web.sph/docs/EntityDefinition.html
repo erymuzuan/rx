@@ -37,15 +37,44 @@
           ...
            ...
 </code></pre><p>This is very natural way storing your data, in a way that we all understand, there&#39;s no need to artificially model after tables and relatioships. The way <code>Rx Developer</code> take care of your data is known as <code>Document</code> store database. You can read more about <a href="http://en.wikipedia.org/wiki/Document-oriented_database">Document database</a> in Wikipedia.</p>
-<p>Notice that <code>Address</code> is just another object that belongs to the <code>Patient</code> entity, what makes  <code>Patient</code> and <code>Address</code> diferrent is very minimal<br>*<code>Patient</code> is an object that you interested to track it&#39;s life time</p>
+<p>Notice that <code>Address</code> is just another object that belongs to the <code>Patient</code> entity, what makes  <code>Patient</code> and <code>Address</code> diferrent is very minimal
+*<code>Patient</code> is an object that you interested to track it&#39;s life time</p>
 <ul>
-<li><code>Address</code> is just an object that belong to another <code>Value</code> object or an <code>Entity</code><br><em><code>Patient</code> has an identitfier field or what we call RecordName
+<li><code>Address</code> is just an object that belong to another <code>Value</code> object or an <code>Entity</code>
+<em><code>Patient</code> has an identitfier field or what we call RecordName
 </em><code>Address</code> doesn&#39;t have any identifier field, so without it&#39;s parent, it&#39;s imposible to tell if an <code>Address</code> belong to patient A or patient B. The key point to take home is <code>Value</code> object does not live in isolation.</li>
 </ul>
 <h2 id="properties">Properties</h2>
-<table class="table table-condensed table-bordered"><br>    <thead><br><tr><br><th>Property</th><br><th>Description</th><br></tr><br></thead><br><tbody><br><tr><td>CodeNamespace</td><td> - System generated</td></tr><br><tr><td>MemberCollection</td><td> - The fields or member that you define in <code>EntityDefiniton</code> schema designer</td></tr><br><tr><td>BusinessRuleCollection</td><td> - Business rules that you may apply to this <code>Entity</code>. Rules can be applied to a <code>EntityForm</code> and/or <code>EntityOperation</code> </td></tr><br><tr><td>EntityOperationCollection</td><td> - The list of valid <code>EntityOperation</code> or executable method to perform an operation to the entity instance</td></tr><br><tr><td>EntityDefinitionId</td><td> - The internal identifier key. This is used in many parts</td></tr><br><tr><td>Name</td><td> - The name of the <code>EntityDefinition</code>, must be a valid identifier</td></tr><br><tr><td>Plural</td><td> -The plural name for the <code>EntityDefinition</code> </td></tr><br><tr><td>IconStoreId</td><td> - Set a icon image for your landing page, this should a PNG file. We recommend getting using Syncfusion Metro Studio for your image </td></tr><br><tr><td>IconClass</td><td> - Icon for the item and navigation menu - pick one from fontawesome or bootstrap glyphicon </td></tr><br><tr><td>RecordName</td><td> - The primary member where a reference is normally made, it&#39;s used as the primary way of identifying a record(instance of an <code>Entitydefinition</code>) apart from <code>Name</code>Id </td></tr><br><tr><td>IsPublished</td><td> - The state wether the EntityDefinition is in development or has been published</td></tr><br></tbody></table>
+<table class="table table-condensed table-bordered">
+    <thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>CodeNamespace</td><td> - System generated</td></tr>
+<tr><td>MemberCollection</td><td> - The fields or member that you define in <code>EntityDefiniton</code> schema designer</td></tr>
+<tr><td>BusinessRuleCollection</td><td> - Business rules that you may apply to this <code>Entity</code>. Rules can be applied to a <code>EntityForm</code> and/or <code>EntityOperation</code> </td></tr>
+<tr><td>EntityOperationCollection</td><td> - The list of valid <code>EntityOperation</code> or executable method to perform an operation to the entity instance</td></tr>
+<tr><td>EntityDefinitionId</td><td> - The internal identifier key. This is used in many parts</td></tr>
+<tr><td>Name</td><td> - The name of the <code>EntityDefinition</code>, must be a valid identifier</td></tr>
+<tr><td>Plural</td><td> -The plural name for the <code>EntityDefinition</code> </td></tr>
+<tr><td>IconStoreId</td><td> - Set a icon image for your landing page, this should a PNG file. We recommend getting using Syncfusion Metro Studio for your image </td></tr>
+<tr><td>IconClass</td><td> - Icon for the item and navigation menu - pick one from fontawesome or bootstrap glyphicon </td></tr>
+<tr><td>RecordName</td><td> - The primary member where a reference is normally made, it&#39;s used as the primary way of identifying a record(instance of an <code>Entitydefinition</code>) apart from <code>Name</code>Id </td></tr>
+<tr><td>IsPublished</td><td> - The state wether the EntityDefinition is in development or has been published</td></tr>
+</tbody></table>
 
 
 
 <h2 id="see-also">See also</h2>
-<ul><br><br>                <li><a href="Member.html">Member</a></li><br>                <li><a href="EntityForm.html">EntityForm</a></li><br>                <li><a href="EntityView.html">EntityView</a></li><br>                <li><a href="FieldPermission.html">FieldPermission</a></li><br>                <li><a href="BusinessRule.html">BusinessRule</a></li><br>                <li><a href="EntityOperation.html">EntityOperation</a></li><br>            </ul>
+<ul>
+
+                <li><a href="Member.html">Member</a></li>
+                <li><a href="EntityForm.html">EntityForm</a></li>
+                <li><a href="EntityView.html">EntityView</a></li>
+                <li><a href="FieldPermission.html">FieldPermission</a></li>
+                <li><a href="BusinessRule.html">BusinessRule</a></li>
+                <li><a href="EntityOperation.html">EntityOperation</a></li>
+            </ul>

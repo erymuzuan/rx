@@ -5,7 +5,6 @@ var gulp = require('gulp'),
 
 var sources = ['./source/web/web.sph/docs/*.md'],
   options = {
-    breaks:true, 
     gfm:true,
     highlight: function (code, lang, callback) {
     require('pygmentize-bundled')({ lang: lang, format: 'csharp' }, code, function (err, result) {

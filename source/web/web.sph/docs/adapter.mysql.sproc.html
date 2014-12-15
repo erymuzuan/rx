@@ -2,13 +2,14 @@
 <p>This page allows you to customize you procedure request and response object</p>
 <h2 id="procedure-with-result-set-reader-">Procedure with result set(reader)</h2>
 <p>If your procedure returns a result set, you must specify this in the response object using <code>&lt;ResultSet&gt;Collection</code> member with the type <code>Collection</code> and this result set need to contains the same member as your column name</p>
-<pre><code>CREATE DEFINER=`root`@`localhost` PROCEDURE `getEmployeesByEmpNo`(IN no INT)
+<pre><code class="lang-sql">CREATE DEFINER=`root`@`localhost` PROCEDURE `getEmployeesByEmpNo`(IN no INT)
 BEGIN 
 
    SELECT * FROM employees
      WHERE emp_no = no;
   END
-</code></pre><p>In this example, the procedure will return a result set with the following columns</p>
+</code></pre>
+<p>In this example, the procedure will return a result set with the following columns</p>
 <p><img src="http://i.imgur.com/FXoEqi2.png" alt="alt"></p>
 <p>The you will need to create an exact response object just like this</p>
 <p><img src="http://i.imgur.com/q87Gamf.png" alt="alt"></p>
