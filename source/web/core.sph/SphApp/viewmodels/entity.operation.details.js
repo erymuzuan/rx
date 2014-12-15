@@ -77,7 +77,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                 data = ko.mapping.toJSON(entity);
             isBusy(true);
 
-            context.post(data, "/EntityDefinition/Publish")
+            context.post(data, "/entity-definition/publish")
                 .then(function (result) {
                     isBusy(false);
                     if (result.success) {
