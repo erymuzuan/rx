@@ -1,18 +1,10 @@
-﻿<h1>AssemblyField</h1>
-
-<h2>Overview</h2>
-
+<h1 id="assemblyfield">AssemblyField</h1>
+<h2 id="overview">Overview</h2>
 <p>Allows you to execute a custom method in your own assembly. </p>
-
-<h2>Thing to know</h2>
-
-<p>If your method is an async method, you must return Task&lt;object>. </p>
-
-<p>Since the Field.GetValue is a synchronous method, it will wrap inside <code>Wait</code> and <code>ContinueWith</code>, so problem might arise with the thread waiting for the await. So make sure any async call is wrap with <code>ConfigureAwait(false)</code>. <br />
-The word of warning : You might run into deadlock issue in this situation</p>
-
+<h2 id="thing-to-know">Thing to know</h2>
+<p>If your method is an async method, you must return Task&lt;object&gt;. </p>
+<p>Since the Field.GetValue is a synchronous method, it will wrap inside <code>Wait</code> and <code>ContinueWith</code>, so problem might arise with the thread waiting for the await. So make sure any async call is wrap with <code>ConfigureAwait(false)</code>.<br>The word of warning : You might run into deadlock issue in this situation</p>
 <p>Here is simple example of C# class</p>
-
 <pre>
 using System;
 
@@ -31,17 +23,13 @@ namespace Bespoke
 </pre>
 
 <p>then compile it using csc.exe</p>
-
 <pre>
 csc /t:library Util.cs
 </pre>
 
-<p><img src="http://i.imgur.com/37yZLKh.png" alt="Field setting" /></p>
-
-<h2>Using custom assembly that refer to your Entity</h2>
-
+<p><img src="http://i.imgur.com/37yZLKh.png" alt="Field setting"></p>
+<h2 id="using-custom-assembly-that-refer-to-your-entity">Using custom assembly that refer to your Entity</h2>
 <p>Not all you do is a simple lookup function with a simple type arguement, there may be time that you need to include the full object to your type.</p>
-
 <pre>
 using System;
 namespace Bespoke
@@ -59,43 +47,21 @@ namespace Bespoke
 </pre>
 
 <p>Now compile your dll using this switch</p>
-
 <pre>
 csc /t:library /r:c:\his\output\Dev.Patient.dll /r:c:\his\subscribers\domain.sph.dll .\code.cs
 </pre>
 
 <p>Assuming that your project name is <code>Dev</code> and it sits in <code>c:\his</code>. Change the namespace accordingly.</p>
-
 <p>To get the full power of C# editor we recommend you to download  <a href="http://go.microsoft.com/?linkid=9832222&amp;clcid=0x409">Visual Studio 2013 Express</a>, that allows you to create a library project , get it.</p>
+<p>Other alternative are</p>
+<ul>
+<li><a href="http://www.icsharpcode.net/OpenSource/SD/Download/">SharpDevelop</a></li>
+<li><a href="http://monodevelop.com/">MonoDevelop</a><h2 id="properties">Properties</h2>
+<table class="table table-condensed table-bordered"><br> <thead><br><tr><br><th>Property</th><br><th>Description</th><br></tr><br></thead><br><tbody><br><tr><td>Location</td><td> - Assembly path</td></tr><br><tr><td>TypeName</td><td> - The name of the class, FullName</td></tr><br><tr><td>Method</td><td> - The method name</td></tr><br><tr><td>IsAsync</td><td> - Use async or not</td></tr><br><tr><td>AsyncTimeout</td><td> - Set the timeout for async call</td></tr><br><tr><td>MethodArgCollection</td><td> - The method arguements</td></tr><br></tbody></table>
 
-<p>Other alternative are<br />
-*  <a href="http://www.icsharpcode.net/OpenSource/SD/Download/">SharpDevelop</a><br />
-*  <a href="http://monodevelop.com/">MonoDevelop</a></p>
 
-<h2>Properties</h2>
 
-<table class="table table-condensed table-bordered">
-    <thead>
-<tr>
-<th>Property</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>Location</td><td> - Assembly path</td></tr>
-<tr><td>TypeName</td><td> - The name of the class, FullName</td></tr>
-<tr><td>Method</td><td> - The method name</td></tr>
-<tr><td>IsAsync</td><td> - Use async or not</td></tr>
-<tr><td>AsyncTimeout</td><td> - Set the timeout for async call</td></tr>
-<tr><td>MethodArgCollection</td><td> - The method arguements</td></tr>
-</tbody></table>
-
-<h2>See also</h2>
-
-<p><a href="Field.html">Field</a><br />
-<a href="MethodArg.html">MethodArg</a><br />
-<a href="AssemblyField.html">AssemblyField</a><br />
-<a href="FunctionField.html">FunctionField</a><br />
-<a href="ConstantField.html">ConstantField</a><br />
-<a href="DocumentField.html">DocumentField</a><br />
-<a href="PropertyChangedField.html">PropertyChangedField</a></p>
+</li>
+</ul>
+<h2 id="see-also">See also</h2>
+<p><a href="Field.html">Field</a><br><a href="MethodArg.html">MethodArg</a><br><a href="AssemblyField.html">AssemblyField</a><br><a href="FunctionField.html">FunctionField</a><br><a href="ConstantField.html">ConstantField</a><br><a href="DocumentField.html">DocumentField</a><br><a href="PropertyChangedField.html">PropertyChangedField</a></p>

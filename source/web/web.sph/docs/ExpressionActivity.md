@@ -14,27 +14,27 @@ Allow you to add commonly used assembly , those that currently loaded in your `A
 ![Use Referenced Assembly tab](http://i.imgur.com/Rex8SF6.png)
 
 You'll have to fully qualified your the type used.
-<pre>
+```csharp
 
 // example of calling Membership is 
 var me = System.Web.Security.Membership.GetUser("me");
-</pre>
+```
 
 ### Using ObjectBuilder registration
 ObjectBuilder is a little more flexible, that it allows you to add almost any assembly, all you have to do is register them in your `.config` files(subscribers.host\workers.console.runner.exe.config or subscribers.host\workers.windowsservice.runner.exe.config).
 
-<pre>
-   &lt;object name="MyObject" type="MyCompany.Myproject.MyObject,mycustomdll">
-        &lt;constructor-arg name="arg" value="myname" />
-      &lt;/object>
-</pre>
+```xml
+   <object name="MyObject" type="MyCompany.Myproject.MyObject,mycustomdll">
+        <constructor-arg name="arg" value="myname" />
+      </object>
+```
 
 This simple registration will allow you to write code like this
-<pre>
+```csharp
 dynamic myobject = ObjectBuilder.GetObject("MyObject"); // refer to the name property
 myobject.Call();// where Call is a method defined in your class
 
-</pre>
+```
 The use of `dynamic` keyword allows far greated flexibilty, since `Rx Developer` didn't have to know about your object. Thou you are losing the compile time checking.
 
 ##Properties

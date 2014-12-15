@@ -4,7 +4,8 @@
 
 `Variables` are the things that your workflow interact with. Lets walkthrough an example for a workflow to process a referal request for specialist, in a traditional code development, we might write something like
 
-<pre>public class ProcessReferal : Workflow
+```csharp
+public class ProcessReferal : Workflow
 {
     // a member to hold the patient object
     public Patient Patient{set;get;}
@@ -15,7 +16,8 @@
     //.. other members and methods
 
 
-}</pre>
+}
+```
 
 So all your variables will be written as public field in your `Workflow` class, in which you will manipulate these `Variables` as `Activities` are executed.
 

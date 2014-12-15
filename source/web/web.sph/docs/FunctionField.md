@@ -28,16 +28,16 @@ Microsoft Roslyn Service script engine allows you to run any arbitary C# code wi
 You should only write your script in 2 ways
 
 Short expression
-```
+```csharp
 DateTime.Now
 ```
 The example give you the simplest form of expression that will return the current date time.
 
 Multile line script with complex script 
-<pre>
+```csharp
 var second = DateTime.Now.Seconds;
 return string.Format("ITEM_{0}",second);
-</pre>
+```
 
 
 ##Things to aware

@@ -12,6 +12,9 @@ define(['types'], function (types) {
             }
             $('#applicationHost img').addClass('img-thumbnail');
             $('#applicationHost a').prepend('<i class="fa fa-link"></i>');
+            $('pre code').each(function (i, block) {
+                hljs.highlightBlock(block);
+            });
         });
     },
         mapTopic = function (topicHash) {
@@ -50,6 +53,10 @@ define(['types'], function (types) {
             $('#applicationHost img').addClass('img-thumbnail');
             $('#applicationHost a').prepend('<i class="fa fa-link">');
             console.log("downloaded %s", this.href);
+            $('pre code').each(function (i, block) {
+                hljs.highlightBlock(block);
+            });
+
         });
         e.preventDefault();
         e.stopPropagation();
