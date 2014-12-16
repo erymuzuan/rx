@@ -27,7 +27,7 @@ namespace Bespoke.Sph.Domain
             wcd.ImportCollection.Add(typeof(Task<>).Namespace);
             wcd.ImportCollection.Add(typeof(Enumerable).Namespace);
             wcd.ImportCollection.Add(typeof(XmlAttributeAttribute).Namespace);
-            wcd.AttributeCollection.Add("[EntityType(typeof(Workflow))]");
+            wcd.AttributeCollection.Add("   [EntityType(typeof(Workflow))]");
 
 
 

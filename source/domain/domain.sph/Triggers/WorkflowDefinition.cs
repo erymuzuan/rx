@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Humanizer;
@@ -154,6 +155,9 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Binder).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(ApiController).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(RoutePrefixAttribute).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter).Assembly.Location);
                 foreach (var ra in this.ReferencedAssemblyCollection)
                 {
                     parameters.ReferencedAssemblies.Add(ra.Location);

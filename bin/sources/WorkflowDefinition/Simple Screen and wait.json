@@ -465,7 +465,7 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
     "$values": []
   },
-  "WorkflowDefinitionId": 10002,
+  "Id": "simple-screen-and-wait",
   "Name": "Simple Screen and wait",
   "Note": "",
   "IsActive": true,
