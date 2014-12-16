@@ -1,6 +1,5 @@
 #ReceiveActivity
 ##Overview
-**FUTURE USED**
 Allow you to set an async activity to receive a message from external systems
 
 ##Properties

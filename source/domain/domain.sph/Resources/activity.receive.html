@@ -44,7 +44,19 @@
                     <div class="form-group">
                         <div data-bind="foreach :$root.wd().CorrelationSetCollection">
                             <label>
-                                <input type="checkbox" data-bind="attr : {value:Name}, checked: $root.activity().FollowingCorrelationSetCollection" />
+                                <input type="checkbox" data-bind="attr : {value:Name}, checked: $root.activity().FollowingCorrelationSetCollection"/>
+                                <!-- ko text: Name-->
+                                <!-- /ko-->
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <h4>Initializing Correlation Set</h4>
+                    <div class="form-group">
+                        <div data-bind="foreach :$root.wd().CorrelationSetCollection">
+                            <label>
+                                <input type="checkbox" data-bind="attr : {value:Name}, checked: $root.activity().InitializingCorrelationSetCollection" />
                                 <!-- ko text: Name-->
                                 <!-- /ko-->
                             </label>

@@ -90,7 +90,18 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}Async({1} message)", this.Name, vt.FullName);
             code.AppendLine("   {");
+
             code.AppendLinf("       this.{0} = message;", this.MessagePath);
+
+            foreach (var cs in this.InitializingCorrelationSetCollection)
+            {
+                var cors = wd.CorrelationSetCollection.Single(x => x.Name == cs);
+                var cort = wd.CorrelationTypeCollection.Single(x => x.Name == cors.Type);
+                var valExpression = cort.CorrelationPropertyCollection.Select(x => "string.Format(\"{0}\",this." + x.Path + ")");
+
+                code.AppendLinf("       await this.InitializeCorrelationSetAsync(\"{0}\", string.Join(\";\",new []{{{1}}}));", cors.Name, string.Join(",", valExpression));
+            }
+
             code.AppendLinf("       return await this.{0}();", this.MethodName);
             code.AppendLine("   }");
 
@@ -134,12 +145,14 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       [Route(\"{0}\")]", this.Operation.ToIdFormat());
             code.AppendLine("       public async Task<HttpResponseMessage> " + this.Operation + "([FromBody]" + vt.FullName + " " + variable.Name + ")");
             code.AppendLine("       {");
-            code.AppendLinf("           {0} wf = null;", wd.WorkflowTypeName);
-
-            code.AppendLine(this.GenerateGetInstanceFromCorrelationSet(wd));
             if (this.FollowingCorrelationSetCollection.Count == 0 && this.IsInitiator)
             {
-                code.AppendLinf("           wf = new  {0}();", wd.WorkflowTypeName);
+                code.AppendLinf("           var wf = new {0}{{Id = Guid.NewGuid().ToString()}};", wd.WorkflowTypeName);
+            }
+            else
+            {
+                code.AppendLinf("           {0} wf = null;", wd.WorkflowTypeName);
+                code.AppendLine(this.GenerateGetInstanceFromCorrelationSet(wd));
             }
             code.AppendLine();
             code.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
