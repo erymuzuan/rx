@@ -61,6 +61,47 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///&lt;section class=&quot;view-model-modal&quot; id=&quot;startwf-dialog&quot;&gt;
+        ///    &lt;div class=&quot;modal-dialog&quot;&gt;
+        ///        &lt;div class=&quot;modal-content&quot;&gt;
+        ///
+        ///            &lt;div class=&quot;modal-header&quot;&gt;
+        ///                &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; data-bind=&quot;click : cancelClick&quot;&gt;&amp;times;&lt;/button&gt;
+        ///                &lt;h3&gt;Start Workflow&lt;/h3&gt;
+        ///            &lt;/div&gt;
+        ///            &lt;div class=&quot;modal-body&quot; data-bind=&quot;with: action&quot;&gt;
+        ///
+        ///                &lt;form class=&quot;form-horizontal&quot; id=&quot;start=wf-dialog-form&quot;&gt;
+        ///                     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string action_assembly_html {
+            get {
+                return ResourceManager.GetString("action_assembly_html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/objectbuilders.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/trigger.workflow.g.js&quot; /&gt;
+        ///
+        ///
+        ///
+        ///define([&apos;services/datacontext&apos;, &apos;services/l [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string action_assembly_js {
+            get {
+                return ResourceManager.GetString("action_assembly_js", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No source files supplied for compilation.
         /// </summary>
         internal static string Adapter_Compile_No_source_files_supplied_for_compilation {
@@ -285,18 +326,18 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../../Scripts/jquery-2.0.3.intellisense.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout-3.1.0.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/require.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/underscore.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/moment.js&quot; /&gt;
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/objectbuilders.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
         ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../schemas/trigger.workflow.g.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/trigger.workflow.g.js&quot; /&gt;
         ///
         ///
         ///
-        ///define([&apos;services/datacontext&apos;, &apos; [rest of string was truncated]&quot;;.
+        ///define([&apos;services/datacontext&apos;, &apos;services/l [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StartworkflowActionJs {
             get {

@@ -256,7 +256,18 @@
 			<xs:attribute name="VariablePath" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="AssemblyAction" type="CustomAction"/>
+	<xs:element name="AssemblyAction">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="CustomAction">
+					<xs:attribute name="IsAsyncMethod" type="xs:boolean" use="required"/>
+					<xs:attribute name="Assembly" type="xs:string" use="required"/>
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+					<xs:attribute name="Method" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="WorkflowDefinition" bs:entity="true">
 		<xs:complexType>
 			<xs:all>

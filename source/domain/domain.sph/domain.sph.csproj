@@ -444,6 +444,8 @@
     <None Include="Resources\activity.mapping.js" />
     <None Include="Resources\activity.receive.js" />
     <None Include="Resources\activity.receive.html" />
+    <None Include="Resources\action.assembly.js" />
+    <None Include="Resources\action.assembly.html" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

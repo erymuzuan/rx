@@ -1246,6 +1246,82 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    [XmlType("AssemblyAction", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class AssemblyAction
+    {
+
+        private bool m_IsAsyncMethod;
+        [XmlAttribute]
+        public bool IsAsyncMethod
+        {
+            get
+            {
+                return m_IsAsyncMethod;
+            }
+            set
+            {
+                m_IsAsyncMethod = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Assembly;
+        [XmlAttribute]
+        public string Assembly
+        {
+            get
+            {
+                return m_Assembly;
+            }
+            set
+            {
+                m_Assembly = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_TypeName;
+        [XmlAttribute]
+        public string TypeName
+        {
+            get
+            {
+                return m_TypeName;
+            }
+            set
+            {
+                m_TypeName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Method;
+        [XmlAttribute]
+        public string Method
+        {
+            get
+            {
+                return m_Method;
+            }
+            set
+            {
+                m_Method = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     [XmlType("WorkflowDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class WorkflowDefinition
     {

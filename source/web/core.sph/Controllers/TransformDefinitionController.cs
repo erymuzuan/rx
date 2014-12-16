@@ -34,9 +34,9 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> ValidateFix([RequestBody] TransformDefinition map)
         {
             //map.MapCollection.OfType<FunctoidMap>().Where(x => x.).ForEach(x => x.Functoid.RemoveInvalidArgument());
-            if (string.IsNullOrWhiteSpace(map.Id)) 
+            if (string.IsNullOrWhiteSpace(map.Id))
                 return await Validate(map);
-            
+
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -130,7 +130,28 @@ namespace Bespoke.Sph.Web.Controllers
             "Invoke","Monads",
             "NCrontab","Newtonsoft",
             "RazorGenerator","RazorEngine",
-            "Antlr3","RazorEngine",
+            "Antlr3",
+            "App_Code",
+            "SQLSpatialTools",
+            "email.service",
+            "elasticsearch.logger",
+            "MySql.Data",
+            "Oracle.ManagedDataAccess",
+            "rabbitmq",
+            "razor.template",
+            "report.sqldatasource",
+            "sqlmembership",
+            "trigger.action",
+            "word.document.generator",
+            "SMDiagnostics",
+            "RazorEngine",
+            "http.adapter",
+            "mysql.adapter",
+            "oracle.adapter",
+            "sqlserver.adapter",
+            "sql.repository",
+            "roslyn.scriptengine",
+            "Org.Mentalis.Security.Cryptography",
             "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn"
         };
 
@@ -187,7 +208,45 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(types.Select(x => new
             {
                 FullName = x.FullName + ", " + dll,
+                TypeName = x.FullName,
                 x.Name
+            }).ToArray(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("methods/{dll}/{type}")]
+        public ActionResult GetMethods(string dll, string type)
+        {
+
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var refAssemblies = from a in assemblies
+                                let name = a.GetName()
+                                where a.IsDynamic == false
+                                && !m_ignores.Any(x => name.Name.StartsWith(x))
+                                select a;
+            var assembly = refAssemblies.SingleOrDefault(x => x.GetName().Name == dll);
+            if (null == assembly) return HttpNotFound("Cannot find assembly " + dll);
+
+            var clrType = assembly.GetType(type);
+            if (null == clrType)
+                return new HttpNotFoundResult("Cannot find " + type + " in " + dll);
+            var methods = clrType.GetMethods()
+                .Where(x => !x.Name.StartsWith("get_"))
+                .Where(x => !x.Name.StartsWith("set_"))
+                .Where(x => x.DeclaringType != typeof(object));
+
+            return Json(methods.Select(x => new
+            {
+                x.Name,
+                RetVal = x.ReturnType.FullName,
+                Parameters = x.GetParameters().Select(p => new
+                {
+                    p.Name,
+                    p.ParameterType.FullName,
+                    p.IsOut,
+                    p.IsRetval,
+                    p.IsIn
+                })
             }).ToArray(), JsonRequestBehavior.AllowGet);
         }
 
@@ -195,12 +254,12 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("functoid/{extension}/{type}")]
         public ActionResult Functoid(string extension, string type)
         {
-            if(null == this.Functoids)
+            if (null == this.Functoids)
                 ObjectBuilder.ComposeMefCatalog(this);
-            if(null == this.Functoids)throw new InvalidOperationException("Cannot compose MEF");
+            if (null == this.Functoids) throw new InvalidOperationException("Cannot compose MEF");
 
             var functoid = this.Functoids.Single(x => x.Value.GetType().GetShortAssemblyQualifiedName()
-                .ToLowerInvariant()== type).Value;
+                .ToLowerInvariant() == type).Value;
             if (extension == "js")
             {
                 this.Response.ContentType = "application/javascript";
