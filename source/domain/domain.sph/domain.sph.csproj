@@ -266,6 +266,7 @@
     <Compile Include="Triggers\Breakpoint.cs" />
     <Compile Include="Triggers\BuildError.cs" />
     <Compile Include="Triggers\BuildValidationResult.cs" />
+    <Compile Include="Triggers\ChildWorkflowActivity.cs" />
     <Compile Include="Triggers\ClrTypeVariable.cs" />
     <Compile Include="Triggers\CompilerOptions.cs" />
     <Compile Include="Triggers\ComplexVariable.cs" />
@@ -446,6 +447,8 @@
     <None Include="Resources\activity.receive.html" />
     <None Include="Resources\action.assembly.js" />
     <None Include="Resources\action.assembly.html" />
+    <None Include="Resources\activity.childworkflow.html" />
+    <None Include="Resources\activity.childworkflow.js" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

@@ -5696,6 +5696,50 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ChildWorkflowActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ChildWorkflowActivity
+    {
+
+        private string m_WorkflowDefinition;
+        [XmlAttribute]
+        public string WorkflowDefinition
+        {
+            get
+            {
+                return m_WorkflowDefinition;
+            }
+            set
+            {
+                m_WorkflowDefinition = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int m_Version;
+        [XmlAttribute]
+        public int Version
+        {
+            get
+            {
+                return m_Version;
+            }
+            set
+            {
+                m_Version = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("Field", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Field

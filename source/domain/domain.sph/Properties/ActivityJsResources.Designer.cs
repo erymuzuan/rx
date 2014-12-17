@@ -65,6 +65,26 @@ namespace Bespoke.Sph.Domain.Properties {
         ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/objectbuilders.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/trigger.workflow.g.js&quot; /&gt;
+        ///
+        ///
+        ///
+        ///define([&apos;services/datacontext&apos;, &apos;services/l [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string activity_childworkflow {
+            get {
+                return ResourceManager.GetString("activity_childworkflow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/moment.js&quot; /&gt;
         ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
@@ -149,15 +169,17 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout-3.1.0.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/require.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/underscore.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/moment.js&quot; /&gt;
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/moment.js&quot; /&gt;
         ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../schemas/trigger.workflow.g.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/boot [rest of string was truncated]&quot;;.
+        ////// &lt;reference path=&quot;../Scripts/trigger.workflow.g.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../../Scripts/bootstrap.js&quot; /&gt;
+        ///
+        ///de [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string activity_expression {
             get {
@@ -203,18 +225,18 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/require.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/underscore.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/moment.js&quot; /&gt;
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/trigger.workflow.g.js&quot; /&gt;
         ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../schema/sph.domain.g.js&quot; /&gt;
         ///
         ///
         ///
-        ///define([&apos;services/datacontext&apos;, &apos;service [rest of string was truncated]&quot;;.
+        ///define([&apos;services/datacontext&apos;, &apos;services/logger&apos;, &apos;plugins/dialog&apos;],
+        ///    function (context, logg [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string activity_mapping {
             get {
@@ -258,17 +280,17 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/require.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/underscore.js&quot; /&gt;
-        ////// &lt;reference path=&quot;../../Scripts/moment.js&quot; /&gt;
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/require.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../Scripts/trigger.workflow.g.js&quot; /&gt;
         ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
         ////// &lt;reference path=&quot;../schemas/sph.domain.g.js&quot; /&gt;
         ///
         ///
-        ///define([&apos;services/datacontext&apos;, &apos;services [rest of string was truncated]&quot;;.
+        ///define([&apos;services/datacontext&apos;, &apos;services/logge [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string activity_receive {
             get {

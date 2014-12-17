@@ -2223,6 +2223,37 @@ bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Activity(optionOrWebid);
+
+    v.WorkflowDefinition = ko.observable('');
+
+    v.Version = ko.observable(0);
+
+    v["$type"] = "Bespoke.Sph.Domain.ChildWorkflowActivity, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ChildWorkflowActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.ChildWorkflowActivityPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.Field = function (optionOrWebid) {
 
     var model = {
