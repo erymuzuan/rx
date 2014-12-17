@@ -242,7 +242,7 @@ namespace Bespoke.Sph.Web.Controllers
                 Parameters = x.GetParameters().Select(p => new
                 {
                     p.Name,
-                    Type = p.ParameterType.FullName,
+                    Type = p.ParameterType.GetShortAssemblyQualifiedName(),
                     p.IsOut,
                     p.IsRetval,
                     p.IsIn

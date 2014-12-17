@@ -70,6 +70,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                                 TypeName: v.Type
                             });
                         });
+                    action().IsAsyncMethod(m.RetVal.indexOf("System.Threading.Tasks.Task") > -1);
                     action().MethodArgCollection(args);
                 });
             },
