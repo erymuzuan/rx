@@ -36,68 +36,26 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Variable Path</th>
+                                <th>Path</th>
                                 <th>Field</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach : VariableCollection">
+                        <tbody data-bind="foreach : VariableMapCollection">
                             <tr>
                                 <td>
                                     <input data-bind="value:VariablePath, uniqueName:true, typeahead : $parent.WorkflowDefinitionId()" class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
                                 </td>
                                 <td>
 
-                                    <div class="btn-group">
-                                        <a data-bind="with : Field, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
-                                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
-                                            <!-- ko text : Name -->
-                                            <!-- /ko -->
-                                            <i class="fa fa-caret-down"></i>
-                                        </a>
-
-                                        <ul class="dropdown-menu">
-                                            <li data-bind="with : Field">
-                                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.Field)">
-                                                    <i class="fa fa-edit"></i>
-                                                    Edit Field
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a data-bind="unwrapClick: addField,field : 'Document', accessor : $data.Field" href="#">
-                                                    <img src="/images/DocumentField.png" alt="DocumentField" class="pull-left" />
-                                                    + Document Field
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">
-                                                    <img src="/images/ConstantField.png" alt=" constantfield" class="pull-left" />
-
-                                                    + Constant Field
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">
-                                                    <img src="/images/FunctionField.png" alt=" FunctionField" class="pull-left" />
-                                                    + Function Field
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </td>
                                 <td>
-                                    <a href="#" data-bind="click : $parent.removeMapping.call($parent,$data)"><i class="fa fa-times"></i></a>
+                                    <a href="#" data-bind2="click : $parent.removeMapping.call($parent,$data)"><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-
-                    <a class="btn btn-link" data-bind="click : addMapping" href="#startwf-dialog">
-                        <i class="fa fa-plus-circle"></i>
-                        Add a mapping
-                    </a>
-
+                    
                 </form>
             </div>
             <div class="modal-footer">

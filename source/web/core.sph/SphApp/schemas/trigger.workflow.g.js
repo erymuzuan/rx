@@ -2228,12 +2228,15 @@ bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.WorkflowDefinition = ko.observable('');
+    v.WorkflowDefinitionId = ko.observable('');
 
     v.Version = ko.observable(0);
 
+    v.IsAsync = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.ChildWorkflowActivity, domain.sph";
 
+    v.VariableMapCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {

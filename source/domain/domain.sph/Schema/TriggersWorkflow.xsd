@@ -1077,6 +1077,15 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="VariableMapCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Variable" type="Variable" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
 					<xs:attribute name="Version" type="xs:int" use="required"/>
 					<xs:attribute name="IsAsync" type="xs:boolean" use="required"/>

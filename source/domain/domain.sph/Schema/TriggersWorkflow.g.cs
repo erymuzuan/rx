@@ -5705,17 +5705,17 @@ namespace Bespoke.Sph.Domain
     public partial class ChildWorkflowActivity
     {
 
-        private string m_WorkflowDefinition;
+        private string m_WorkflowDefinitionId;
         [XmlAttribute]
-        public string WorkflowDefinition
+        public string WorkflowDefinitionId
         {
             get
             {
-                return m_WorkflowDefinition;
+                return m_WorkflowDefinitionId;
             }
             set
             {
-                m_WorkflowDefinition = value;
+                m_WorkflowDefinitionId = value;
                 RaisePropertyChanged();
             }
         }
@@ -5736,6 +5736,33 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+        private bool m_IsAsync;
+        [XmlAttribute]
+        public bool IsAsync
+        {
+            get
+            {
+                return m_IsAsync;
+            }
+            set
+            {
+                m_IsAsync = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<Variable> m_VariableMapCollection = new ObjectCollection<Variable>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Variable> VariableMapCollection
+        {
+            get { return m_VariableMapCollection; }
+        }
 
 
     }
