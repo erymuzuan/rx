@@ -260,6 +260,15 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CustomAction">
+					<xs:all>
+						<xs:element name="MethodArgCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="MethodArg" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="IsAsyncMethod" type="xs:boolean" use="required"/>
 					<xs:attribute name="Assembly" type="xs:string" use="required"/>
 					<xs:attribute name="TypeName" type="xs:string" use="required"/>

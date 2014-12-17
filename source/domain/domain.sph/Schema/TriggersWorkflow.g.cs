@@ -1314,6 +1314,17 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private readonly ObjectCollection<MethodArg> m_MethodArgCollection = new ObjectCollection<MethodArg>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("MethodArg", IsNullable = false)]
+        public ObjectCollection<MethodArg> MethodArgCollection
+        {
+            get { return m_MethodArgCollection; }
+        }
+
 
     }
 

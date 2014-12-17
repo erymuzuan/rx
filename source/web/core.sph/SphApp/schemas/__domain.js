@@ -3493,6 +3493,7 @@ bespoke.sph.domain.AssemblyAction = function (optionOrWebid) {
 
     v["$type"] = "Bespoke.Sph.Domain.AssemblyAction, domain.sph";
 
+    v.MethodArgCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {

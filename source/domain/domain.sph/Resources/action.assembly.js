@@ -22,7 +22,22 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                 $.get("/transform-definition/assemblies")
                     .done(function (assemblies) {
                         assemblyOptions(assemblies);
-                        tcs.resolve(true);
+
+                        if (action().Assembly()) {
+
+                            var loadTypesTask = $.get("/transform-definition/types/" + action().Assembly()),
+                                loadMethodTask = $.get("/transform-definition/methods/" + action().Assembly() + "/" + action().TypeName());
+                            $.when(loadTypesTask, loadMethodTask)
+                                .done(function (t1, m1) {
+                                    typeOptions(t1[0]);
+                                    methodOptions(m1[0]);
+                                    tcs.resolve(true);
+                                });
+
+                        } else {
+                            tcs.resolve(true);
+                        }
+
                     });
                 return tcs.promise();
 
@@ -36,10 +51,26 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                    });
                 });
                 action().TypeName.subscribe(function (type) {
+                    if (!type) {
+                        methodOptions.removeAll();
+                        return;
+                    }
                     $.get("/transform-definition/methods/" + action().Assembly() + "/" + type)
                    .done(function (methods) {
                        methodOptions(methods);
                    });
+                });
+                action().Method.subscribe(function (method) {
+                    if (!method) return;
+                    var m = _(methodOptions()).find(function (v) { return v.Name === method; }),
+                        args = _(m.Parameters).map(function (v) {
+                            return new bespoke.sph.domain.MethodArg({
+                                WebId: system.guid(),
+                                Name: v.Name,
+                                TypeName: v.Type
+                            });
+                        });
+                    action().MethodArgCollection(args);
                 });
             },
             okClick = function (data, ev) {
