@@ -45,7 +45,7 @@ namespace Bespoke.Sph.Domain.Api
         public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
-                throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, "files");
+                throw new ArgumentException(Resources.NoSourceSupplied, "files");
             foreach (var cs in files)
             {
                 Debug.WriteLineIf(options.IsVerbose, cs);

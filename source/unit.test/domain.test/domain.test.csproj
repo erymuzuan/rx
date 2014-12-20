@@ -187,6 +187,7 @@
     <Compile Include="MySqlPersistenceHelper.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />
     <Compile Include="triggers\AssemblyActionTextFixture.cs" />
+    <Compile Include="triggers\AssemblyActionWalker.cs" />
     <Compile Include="triggers\EmailActionTest.cs" />
     <Compile Include="triggers\AssemblyFieldTest.cs" />
     <Compile Include="triggers\CompilerTest.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="triggers\NonReentrantLock.cs" />
     <Compile Include="triggers\RuleTest.cs" />
     <Compile Include="triggers\SetterActionTextFixture.cs" />
+    <Compile Include="triggers\TestWorkspace.cs" />
     <Compile Include="workflows\BuildValidationTest.cs" />
     <Compile Include="workflows\CreationTest.cs" />
     <Compile Include="workflows\DelayActivityExecutionTest.cs" />

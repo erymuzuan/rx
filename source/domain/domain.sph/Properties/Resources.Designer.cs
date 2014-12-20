@@ -104,7 +104,7 @@ namespace Bespoke.Sph.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No source files supplied for compilation.
         /// </summary>
-        internal static string Adapter_Compile_No_source_files_supplied_for_compilation {
+        internal static string NoSourceSupplied {
             get {
                 return ResourceManager.GetString("Adapter_Compile_No_source_files_supplied_for_compilation", resourceCulture);
             }

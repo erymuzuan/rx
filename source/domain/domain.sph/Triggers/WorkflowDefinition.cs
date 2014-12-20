@@ -199,8 +199,8 @@ namespace Bespoke.Sph.Domain
             var member = string.Empty;
             for (var i = 0; i < er.Line; i++)
             {
-                if (sources[i].StartsWith("//exec:"))
-                    member = sources[i].Replace("//exec:", string.Empty);
+                if (sources[i].Trim().StartsWith("//exec:"))
+                    member = sources[i].Trim().Replace("//exec:", string.Empty);
             }
             if (this.ActivityCollection.All(a => a.WebId != member))
             {

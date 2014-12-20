@@ -94,8 +94,8 @@ namespace Bespoke.Sph.Domain.Codes
 
             code.AppendLine("   }");
             code.AppendLine("}");
-
-            return code.ToString();
+            
+            return code.FormatCode();
 
         }
 

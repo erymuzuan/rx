@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Properties;
 using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain
@@ -156,7 +157,9 @@ namespace Bespoke.Sph.Domain
             if (!this.Performer.Validate())
                 result.Errors.Add(new BuildError(this.WebId, "You have not set the permission correctly"));
 
+            // ReSharper disable RedundantBoolCompare
             var defaultForm = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true && f.EntityDefinitionId == this.Id);
+            // ReSharper restore RedundantBoolCompare
             if (null == defaultForm)
                 result.Errors.Add(new BuildError(this.WebId, "Please set a default form"));
 
@@ -174,7 +177,7 @@ namespace Bespoke.Sph.Domain
         public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
-                throw new ArgumentException("No source files supplied for compilation", "files");
+                throw new ArgumentException(Resources.NoSourceSupplied, "files");
             foreach (var cs in files)
             {
                 Debug.WriteLineIf(options.IsVerbose, cs);

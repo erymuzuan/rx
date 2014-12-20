@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -8,9 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
-using Microsoft.CodeAnalysis.Host;
 using NUnit.Framework;
-using Roslyn.Utilities;
 
 namespace domain.test.triggers
 {
@@ -141,90 +138,13 @@ public string Name{get;set;}}";
             project.AddDocument("trigger.cs", tree.GetText());
 
 
-            var res = Formatter.Format(tree.GetRoot(), new TestWorkspace());
+            var res = Formatter.Format(tree.GetRoot(), ws);
             Assert.AreEqual(
 @"public class A
 {
     public string Name { get; set; }
 }", res.ToFullString());
-
-
         }
     }
 
-    internal class TestWorkspace : Workspace
-    {
-        // Forces serialization of mutation calls. Must take this lock before taking stateLock.
-        private readonly NonReentrantLock m_serializationLock = new NonReentrantLock();
-
-        public TestWorkspace(HostServices hostServices = null)
-            : base(hostServices ?? new CustomWorkspace().Services.HostServices, "Test")
-        {
-        }
-
-        public void AddProject(ProjectId projectId, string projectName, string language = LanguageNames.CSharp)
-        {
-            using (this.m_serializationLock.DisposableWait())
-            {
-                var oldSolution = this.CurrentSolution;
-                var newSolution = this.SetCurrentSolution(oldSolution.AddProject(projectId, projectName, projectName, language));
-
-                this.RaiseWorkspaceChangedEventAsync(WorkspaceChangeKind.ProjectAdded, oldSolution, newSolution, projectId);
-            }
-        }
-
-        public ProjectId AddProject(string projectName, string languageName = LanguageNames.CSharp)
-        {
-            ProjectId id = ProjectId.CreateNewId(debugName: projectName);
-            this.AddProject(id, projectName, languageName);
-            return id;
-        }
-
-        public T GetService<T>()
-            where T : class, IWorkspaceService
-        {
-            return this.Services.GetService<T>();
-        }
-    }
-    public class AssemblyActionWalker : CSharpSyntaxWalker
-    {
-        public string MethodName { get; set; }
-        public AssemblyActionWalker(string methodName)
-        {
-            this.MethodName = methodName;
-            Arguments = new List<ExpressionSyntax>();
-        }
-
-        public List<ExpressionSyntax> Arguments { get; private set; }
-        public override void VisitInvocationExpression(InvocationExpressionSyntax node)
-        {
-
-            var member = node.Expression as MemberAccessExpressionSyntax;
-            if (member != null)
-            {
-                var type = member.Expression as IdentifierNameSyntax;
-                if (type != null && type.Identifier.Text == "k" && member.Name.Identifier.Text == this.MethodName)
-                {
-                    foreach (var arg in node.ArgumentList.Arguments)
-                    {
-                        Arguments.Add(arg.Expression);
-
-                    }
-                }
-            }
-
-            base.VisitInvocationExpression(node);
-        }
-    }
-    public static class CompilerHelper
-    {
-        public static MetadataReference CreateMetadataReference(this Type type)
-        {
-            return MetadataReference.CreateFromAssembly(type.Assembly);
-        }
-        public static MetadataReference CreateMetadataReference<T>(this object type)
-        {
-            return MetadataReference.CreateFromAssembly((typeof(T)).Assembly);
-        }
-    }
 }

@@ -235,7 +235,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 else
                 {
                     var properties = v.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                    list.AddRange(properties.Select(x =>v.Name + "." + x.Name));
+                    list.AddRange(properties.Select(x => v.Name + "." + x.Name));
                 }
             }
 

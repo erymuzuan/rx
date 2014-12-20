@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class EntityDefinition
     {
-       
+
 
         private string GetCodeHeader()
         {
@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("   public class " + this.Name + " : Entity");
             code.AppendLine("   {");
-            
+
             // ctor
             code.AppendLine("       public " + this.Name + "()");
             code.AppendLine("       {");
@@ -46,7 +46,7 @@ namespace Bespoke.Sph.Domain
             var count = 0;
             foreach (var member in this.MemberCollection)
             {
-                if (member.Type == typeof (object))
+                if (member.Type == typeof(object))
                 {
                     code.AppendLinf("           this.{0} = new {0}();", member.Name);
                 }
@@ -79,13 +79,15 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
 
-            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.ToString() } };
+            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.FormatCode() } };
 
             // classes for members
             foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
-                var mc = header + member.GeneratedCustomClass() + "\r\n}";
-                sourceCodes.Add(member.Name + ".cs", mc);
+                var mc = new StringBuilder(header);
+                mc.AppendLine(member.GeneratedCustomClass());
+                mc.AppendLine("}");
+                sourceCodes.Add(member.Name + ".cs", mc.FormatCode());
             }
 
             var controller = this.GenerateController();
@@ -275,7 +277,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("}");// end class
 
             code.AppendLine("}"); // end namespace
-            return code.ToString();
+            return code.FormatCode();
 
 
         }
