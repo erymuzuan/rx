@@ -57,7 +57,7 @@ namespace domain.test.workflows
             };
             wd.ActivityCollection.Add(regiterStaff);
 
-            var code = regiterStaff.GeneratedExecutionMethodCode(wd);
+            var code = regiterStaff.GenerateExecMethodBody(wd);
             StringAssert.Contains("RegisterPatientAsync", code);
 
             var options = new CompilerOptions();
@@ -136,7 +136,7 @@ namespace domain.test.workflows
             };
             wd.ActivityCollection.Add(end);
 
-            var code = reg.GeneratedExecutionMethodCode(wd);
+            var code = reg.GenerateExecMethodBody(wd);
             StringAssert.Contains("RegisterAsync", code);
 
             var options = new CompilerOptions();
@@ -235,7 +235,7 @@ namespace domain.test.workflows
             Assert.IsTrue(br.Result);
 
 
-            var code = register.GeneratedExecutionMethodCode(wd);
+            var code = register.GenerateExecMethodBody(wd);
             StringAssert.Contains("RegisterPatientAsync", code);
 
             var options = new CompilerOptions();

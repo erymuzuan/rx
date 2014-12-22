@@ -3,11 +3,12 @@ using System.ComponentModel.Composition;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
     [Export("ActivityDesigner", typeof(Activity))]
-    [DesignerMetadata(Name = "Notification", TypeName = "Notification",Description = "Notify via email and messages")]
+    [DesignerMetadata(Name = "Notification", TypeName = "Notification", Description = "Notify via email and messages")]
     public partial class NotificationActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
@@ -15,16 +16,37 @@ namespace Bespoke.Sph.Domain
             return new BuildValidationResult { Result = true };
         }
         
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
+            this.OtherMethodCollection.Clear();
+            this.OtherMethodCollection.Add(new Method
+            {
+                Code = this.GenerateTranformCode(x => x.From)
+            });
+
+            this.OtherMethodCollection.Add(new Method
+            {
+                Code = this.GenerateTranformCode(x => x.To)
+            });
+
+            this.OtherMethodCollection.Add(new Method
+            {
+                Code = this.GenerateTranformCode(x => x.Subject)
+            });
+
+            this.OtherMethodCollection.Add(new Method
+            {
+                Code = this.GenerateTranformCode(x => x.Body)
+            });
+
 
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
+
             code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       var act = this.GetActivity<NotificationActivity>(\"{0}\");", this.WebId);
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
-
+            code.AppendLine();
 
             code.AppendLinf("       var @from = await this.TransformFrom{0}(act.From);", this.MethodName);
             code.AppendLinf("       var to = await this.TransformTo{0}(act.To);", this.MethodName);
@@ -33,7 +55,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       var cc = await this.TransformBody{0}(act.Cc);", this.MethodName);
             code.AppendLinf("       var bcc = await this.TransformBody{0}(act.Bcc);", this.MethodName);
 
-            code.AppendLine("       System.Console.WriteLine(\"Sending email to : {0}\", to);");
+            code.AppendLine();
+
             code.AppendLine("       var client = new System.Net.Mail.SmtpClient();");
             code.AppendLine("       var mm = new System.Net.Mail.MailMessage();");
             code.AppendLine("       mm.Subject = subject;");
@@ -68,18 +91,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           }");
             code.AppendLine("       }");
 
-
-
-            code.AppendLine("       return result;");
-            code.AppendLine("   }");
             code.AppendLine();
-
-            code.AppendLine(this.GenerateTranformCode(x => x.From));
-            code.AppendLine(this.GenerateTranformCode(x => x.To));
-            code.AppendLine(this.GenerateTranformCode(x => x.Subject));
-            code.AppendLine(this.GenerateTranformCode(x => x.Body));
-
-
 
             return code.ToString();
         }
@@ -92,31 +104,30 @@ namespace Bespoke.Sph.Domain
             dynamic fdyn = field.Body;
             string fieldName = fdyn.Member.Name;
             // tranform
-            code.AppendLinf("   public async Task<string> Transform{1}{0}(string template)", this.MethodName, fieldName);
-            code.AppendLine("   {");
 
-            code.AppendLine("        if (string.IsNullOrWhiteSpace(template)) return string.Empty;");
             if (template.StartsWith("="))
             {
-                code.AppendLinf(@"
-                await Task.Delay(100);
+                code.AppendLinf("   private Task<string> Transform{1}{0}(string template)", this.MethodName, fieldName);
+                code.AppendLine("   {");
+                code.AppendLine("        if (string.IsNullOrWhiteSpace(template)) return Task.FromResult(string.Empty);");
+                code.AppendFormat(@"
                 var item = this;
-                return {0};", template.Remove(0, 1));
+                return Task.FromResult({0});", template.Remove(0, 1));
             }
             else
             {
-                code.AppendLine(@"
+                code.AppendLinf("   private async Task<string> Transform{1}{0}(string template)", this.MethodName, fieldName);
+                code.AppendLine("   {");
+                code.Append(@"
             var razor = ObjectBuilder.GetObject<ITemplateEngine>();
-            return await razor.GenerateAsync(template, this);");
+            return await razor.GenerateAsync(template, this).ConfigureAwait(false);");
             }
             code.AppendLine("   }");
 
             return code.ToString();
 
         }
-
-
-
+        
         public override Task<ActivityExecutionResult> ExecuteAsync()
         {
             return null;

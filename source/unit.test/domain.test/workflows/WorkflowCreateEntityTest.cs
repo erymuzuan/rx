@@ -73,7 +73,7 @@ namespace domain.test.workflows
             create.PropertyMappingCollection.Add(new SimpleMapping { Source = "pemohon.Name", Destination = "Name" });
             wd.ActivityCollection.Add(create);
 
-            var code = create.GeneratedExecutionMethodCode(wd);
+            var code = create.GenerateExecMethodBody(wd);
             Console.WriteLine(code);
         }
     }

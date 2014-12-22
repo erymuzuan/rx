@@ -72,7 +72,7 @@ namespace domain.test.workflows
             sendToEmployees.InitializingCorrelationSetCollection.Add("empno");
             wd.ActivityCollection.Add(sendToEmployees);
 
-            var code = sendToEmployees.GeneratedExecutionMethodCode(wd);
+            var code = sendToEmployees.GenerateExecMethodBody(wd);
             StringAssert.Contains("await adapter.InsertAsync(this.staff);", code);
 
             const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
@@ -132,7 +132,7 @@ namespace domain.test.workflows
             };
             wd.ActivityCollection.Add(sendToEmployees);
 
-            var code = sendToEmployees.GeneratedExecutionMethodCode(wd);
+            var code = sendToEmployees.GenerateExecMethodBody(wd);
             StringAssert.Contains("await adapter.InsertAsync(this.staff);", code);
 
             const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
@@ -200,7 +200,7 @@ namespace domain.test.workflows
             };
             sendToEmployees.ExceptionFilterCollection.Add(filter);
 
-            var code = sendToEmployees.GeneratedExecutionMethodCode(wd);
+            var code = sendToEmployees.GenerateExecMethodBody(wd);
             StringAssert.Contains("await adapter.InsertAsync(this.staff);", code);
 
             const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";

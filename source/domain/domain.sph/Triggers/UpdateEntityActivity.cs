@@ -26,7 +26,7 @@ namespace Bespoke.Sph.Domain
 
             return result;
         }
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
@@ -37,8 +37,8 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException("Cannot load " + this.EntityType);
 
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
+            
+
             code.AppendLine("       var context = new Bespoke.Sph.Domain.SphDataContext();");
             if (this.IsUsingVariable)
                 code.AppendLinf("       var item = this.{0};", this.UseVariable);
@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Domain
             foreach (var mapping in this.PropertyMappingCollection)
             {
                 code.AppendLinf("           item.{0} = this.{1};", mapping.Destination, mapping.Source);
-                if (null != mapping as FunctoidMapping)
+                if (mapping is FunctoidMapping)
                     throw new Exception("Functoid mapping is not yet supported");
             }
             code.AppendLine("      using (var session = context.OpenSession())");
@@ -64,8 +64,7 @@ namespace Bespoke.Sph.Domain
             // set the next activity
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
-            code.AppendLine("       return result;");
-            code.AppendLine("   }");
+            
 
             return code.ToString();
         }

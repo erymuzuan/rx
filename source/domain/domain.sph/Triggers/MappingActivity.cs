@@ -22,16 +22,14 @@ namespace Bespoke.Sph.Domain
             result.Result = result.Errors.Count == 0;
             return result;
         }
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
 
 
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
-
+          
             code.AppendLinf("        var map = new {0}();", this.MappingDefinition);
             code.AppendLinf("        this.{0} = await map.TransformAsync({1});", this.OutputPath, this.MappingSourceCollection[0].Variable);
            
@@ -39,11 +37,9 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine();
             // set the next activity
-            code.AppendLine("       var ear = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
-            code.AppendLinf("       ear.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
-            code.AppendLine("       return ear;");
-            code.AppendLine("   }");
-
+            code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
+      
             return code.ToString();
         }
     }

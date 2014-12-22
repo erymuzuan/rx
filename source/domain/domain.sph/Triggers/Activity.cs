@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Linq;
+using System.Text;
 using Bespoke.Sph.Domain.Codes;
 using Humanizer;
 using Newtonsoft.Json;
@@ -58,21 +59,19 @@ namespace Bespoke.Sph.Domain
             get
             {
                 if (string.IsNullOrWhiteSpace(this.Name)) throw new InvalidOperationException("Name is empty for [" + this.GetType().Name + "]");
-                var length = this.WebId.Length > 4 ? 4 : this.WebId.Length;
-                var unique = this.WebId.Replace("-", "_").Substring(0, length);
-                string name = this.Name.Dehumanize().Replace(" ", string.Empty);
-                return string.Format("Exec{0}{1}_{2}Async", this.GetType().Name, name, unique);
+                var name = this.Name.Dehumanize().Replace(" ", string.Empty);
+                return string.Format("{0}Async", name);
             }
         }
         public virtual IEnumerable<Class> GeneratedCustomTypeCode(WorkflowDefinition workflowDefinition)
         {
-            return new Class[]{};
+            return new Class[] { };
         }
-        public virtual string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public virtual string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             throw new NotImplementedException();
         }
-        public virtual string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
+        public virtual string GenerateInitAsyncMethod(WorkflowDefinition wd)
         {
             throw new NotImplementedException();
         }
@@ -142,7 +141,21 @@ namespace Bespoke.Sph.Domain
         /// </summary>
         public virtual string TypeName
         {
-            get { return this.GetType().Name.Replace("Activity",""); }
+            get { return this.GetType().Name.Replace("Activity", ""); }
+        }
+
+        private readonly ObjectCollection<Method> m_otherMethodCollection = new ObjectCollection<Method>();
+
+        public ObjectCollection<Method> OtherMethodCollection
+        {
+            get { return m_otherMethodCollection; }
+        }
+
+        protected Method AddMethod(StringBuilder code)
+        {
+            var method = new Method {Code = code.ToString()};
+            this.OtherMethodCollection.Add(method);
+            return method;
         }
     }
 }

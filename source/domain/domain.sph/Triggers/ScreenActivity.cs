@@ -60,7 +60,7 @@ namespace Bespoke.Sph.Domain
             await tracker.SaveAsync();
         }
 
-        public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
+        public override string GenerateInitAsyncMethod(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<InitiateActivityResult> InitiateAsync{0}()", this.MethodName);
@@ -150,24 +150,20 @@ namespace Bespoke.Sph.Domain
             get { return true; }
         }
 
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
 
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
+            
             code.AppendLine(this.ExecutingCode);
-            code.AppendLine("       await Task.Delay(40);");
             code.AppendLine("       this.State = \"Ready\";");
             // set the next activity
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       result.NextActivities = new[]{{ \"{0}\"}};", this.NextActivityWebId);
-
             code.AppendLine(this.ExecutedCode);
-            code.AppendLine("       return result;");
-            code.AppendLine("   }");
+            
 
             return code.ToString();
         }

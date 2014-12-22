@@ -13,16 +13,14 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
-            code.AppendLinf("   public Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
+
             code.AppendLine("       var result = new ActivityExecutionResult{  Status = ActivityExecutionStatus.Success };");
             code.AppendLine("       result.NextActivities = new string[]{};");
             code.AppendLinf("       this.State = \"Completed\";");
-            code.AppendLine("       return Task.FromResult(result);");
-            code.AppendLine("   }");
+
 
             return code.ToString();
         }

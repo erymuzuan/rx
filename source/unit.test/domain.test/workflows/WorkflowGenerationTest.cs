@@ -52,7 +52,7 @@ namespace domain.test.workflows
                 Console.WriteLine(e.Message);
             }
             Assert.IsTrue(result.Result);
-            StringAssert.Contains("public  class Vehicle", code);
+            StringAssert.Contains("public class Vehicle", code);
 
         }
 

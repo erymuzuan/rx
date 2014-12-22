@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
+        public override string GenerateInitAsyncMethod(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
             code.AppendLinf("   public Task<InitiateActivityResult> InitiateAsync{0}()", this.MethodName);
@@ -60,31 +60,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             code.AppendLine("   }");
 
-            return code.ToString();
-        }
-
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
-        {
-            if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
-                throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
 
             var variable = wd.VariableDefinitionCollection.Single(x => x.Name == this.MessagePath);
-
-            var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
-
-            code.AppendLine(this.ExecutingCode);
-            code.AppendLine("       await Task.Delay(40);");
-            code.AppendLine("       this.State = \"Ready\";");
-            // set the next activity
-            code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
-            code.AppendLinf("       result.NextActivities = new[]{{ \"{0}\"}};", this.NextActivityWebId);
-
-            code.AppendLine(this.ExecutedCode);
-            code.AppendLine("       return result;");
-            code.AppendLine("   }");
-
             var vt = Type.GetType(variable.TypeName);
             if (null == vt) throw new InvalidOperationException(variable.TypeName + " is null");
 
@@ -99,11 +76,29 @@ namespace Bespoke.Sph.Domain
                 var cort = wd.CorrelationTypeCollection.Single(x => x.Name == cors.Type);
                 var valExpression = cort.CorrelationPropertyCollection.Select(x => "string.Format(\"{0}\",this." + x.Path + ")");
 
-                code.AppendLinf("       await this.InitializeCorrelationSetAsync(\"{0}\", string.Join(\";\",new []{{{1}}}));", cors.Name, string.Join(",", valExpression));
+                code.AppendLinf("       await this.InitializeCorrelationSetAsync(\"{0}\", string.Join(\";\",new []{{{1}}})).ConfigureAwait(false);", cors.Name, string.Join(",", valExpression));
             }
 
             code.AppendLinf("       return await this.{0}();", this.MethodName);
             code.AppendLine("   }");
+
+            return code.ToString();
+        }
+
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
+        {
+            if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
+                throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
+
+
+            var code = new StringBuilder();
+            
+            code.AppendLine(this.ExecutingCode);
+            code.AppendLine("       this.State = \"Ready\";");
+            // set the next activity
+            code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+            code.AppendLinf("       result.NextActivities = new[]{{ \"{0}\"}};", this.NextActivityWebId);
+            code.AppendLine(this.ExecutedCode);
 
             return code.ToString();
         }

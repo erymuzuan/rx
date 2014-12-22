@@ -32,14 +32,14 @@ namespace Bespoke.Sph.Domain
             get { return true; }
         }
 
-        public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
+        public override string GenerateInitAsyncMethod(WorkflowDefinition wd)
         {
             var predecessors = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId);
             var code = new StringBuilder();
 
             code.AppendLinf("   public async Task FireJoin{0}(string webid)", this.MethodName);
             code.AppendLine("   {");
-            code.AppendLine("       var tracker = await this.GetTrackerAsync();");
+            code.AppendLine("       var tracker = await this.GetTrackerAsync().ConfigureAwait(false);");
             code.AppendLinf("       if(!tracker.WaitingJoinList.ContainsKey(\"{0}\"))", this.WebId);
             code.AppendLine("       {");
             foreach (var act in predecessors)
@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Domain
             }
             code.AppendLine("       }");
             code.AppendLinf("       tracker.AddFiredJoin(\"{0}\", webid);", this.WebId);
-            code.AppendLine("       await tracker.SaveAsync();");
+            code.AppendLine("       await tracker.SaveAsync().ConfigureAwait(false);");
             code.AppendLine();
 
             // TODO : we need the correlation too? I guessed
@@ -57,29 +57,24 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           Console.WriteLine(\"Everthing is ok\");");
             code.AppendLine("           var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("           result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
-            code.AppendLinf("           await this.SaveAsync(\"{0}\", result);", this.WebId);
+            code.AppendLinf("           await this.SaveAsync(\"{0}\", result).ConfigureAwait(false);", this.WebId);
             code.AppendLine("       }");
             code.AppendLine("   }");
 
-            code.AppendLinf("   public async Task<InitiateActivityResult> InitiateAsync{0}()", this.MethodName);
+            code.AppendLinf("   public Task<InitiateActivityResult> InitiateAsync{0}()", this.MethodName);
             code.AppendLine("   {");
-            code.AppendLine("       return new InitiateActivityResult{Correlation = Guid.NewGuid().ToString() };");
+            code.AppendLine("       var result = new InitiateActivityResult{Correlation = Guid.NewGuid().ToString() };");
+            code.AppendLine("       return Task.FromResult(result);");
             code.AppendLine("   }");
 
 
             return code.ToString();
         }
 
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
-
-            var code = new StringBuilder();
-
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
-            code.AppendLine("       throw new System.Exception(\"Listen activity is not supposed to be executed directly but through FireListenTrigger\");");
-            code.AppendLine("   }");
-            return code.ToString();
+            return @"var result = new ActivityExecutionResult();
+throw new System.Exception(""Listen activity is not supposed to be executed directly but through FireListenTrigger"");";
         }
 
         public override void BeforeGenerate(WorkflowDefinition wd)
@@ -89,7 +84,7 @@ namespace Bespoke.Sph.Domain
             var predecessors = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId);
             foreach (var act in predecessors)
             {
-                var code = string.Format("   await this.FireJoin{0}(\"{1}\");", this.MethodName, act.WebId);
+                var code = string.Format("   await this.FireJoin{0}(\"{1}\").ConfigureAwait(false);", this.MethodName, act.WebId);
                 act.ExecutedCode += code;
             }
             // TODO : InitiateAsync once the first one is fired

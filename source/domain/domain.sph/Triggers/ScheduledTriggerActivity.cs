@@ -20,14 +20,13 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
 
             var code = new StringBuilder();
-            code.AppendLinf("   public Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
+
             code.AppendLine(this.ExecutingCode);
             code.AppendLine("       this.State = \"Ready\";");
             // set the next activity
@@ -35,8 +34,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
 
             code.AppendLine(this.ExecutedCode);
-            code.AppendLine("       return Task.FromResult(result);");
-            code.AppendLine("   }");
+
 
             return code.ToString();
         }

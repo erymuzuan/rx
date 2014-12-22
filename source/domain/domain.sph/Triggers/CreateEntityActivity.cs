@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
@@ -38,8 +38,7 @@ namespace Bespoke.Sph.Domain
                 ed.Id, ed.Name);
 
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
+            
             code.AppendLinf("        var item = new {0}();", entityFullName);
             code.AppendLinf("        var self = this.WorkflowDefinition.ActivityCollection.OfType<CreateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
 
@@ -59,8 +58,7 @@ namespace Bespoke.Sph.Domain
             // set the next activity
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
-            code.AppendLine("       return result;");
-            code.AppendLine("   }");
+            
 
             return code.ToString();
         }

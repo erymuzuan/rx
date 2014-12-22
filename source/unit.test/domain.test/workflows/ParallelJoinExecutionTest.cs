@@ -65,7 +65,7 @@ namespace domain.test.workflows
             Assert.IsTrue(br.Result);
             var result = this.Compile(wd);
             var wf = this.CreateInstance(wd, result.Output);
-           await wf.StartAsync();
+            await wf.StartAsync();
 
             var resultB = await wf.ExecuteAsync("_B_");
             Assert.IsNotNull(resultB);

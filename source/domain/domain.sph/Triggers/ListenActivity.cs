@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
+        public override string GenerateInitAsyncMethod(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
             var count = 1;
@@ -87,20 +87,6 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       return new InitiateActivityResult{Correlation = Guid.NewGuid().ToString() };");
             code.AppendLine("   }");
 
-            return code.ToString();
-        }
-
-        public override async Task CancelAsync(Workflow wf)
-        {
-            var tracker = await wf.GetTrackerAsync();
-
-            tracker.CancelAsyncList(this.WebId);
-            await tracker.SaveAsync();
-        }
-
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
-        {
-            var code = new StringBuilder();
 
             // triggered fires
             code.AppendLinf("   public async Task FireListenTrigger{0}(string webId)", this.MethodName);
@@ -126,15 +112,21 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("   }");
 
-
-
-            code.AppendLinf("   public Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
-            code.AppendLine("       throw new System.Exception(\"Listen activity is not supposed to be executed directly but through FireListenTrigger\");");
-            code.AppendLine("   }");
-
-
             return code.ToString();
+        }
+
+        public override async Task CancelAsync(Workflow wf)
+        {
+            var tracker = await wf.GetTrackerAsync();
+
+            tracker.CancelAsyncList(this.WebId);
+            await tracker.SaveAsync();
+        }
+
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
+        {
+            return @"var result = new ActivityExecutionResult();
+throw new System.Exception(""Listen activity is not supposed to be executed directly but through FireListenTrigger"");";
         }
 
 

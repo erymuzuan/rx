@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Humanizer;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -63,7 +63,7 @@ namespace Bespoke.Sph.Domain
                                     {"NextActivities",string.Join(",", result.NextActivities)}
                                 };
 
-            var tracker = await this.GetTrackerAsync();
+            var tracker = await this.GetTrackerAsync().ConfigureAwait(false);
             tracker.AddExecutedActivity(act, result.Correlation);
 
             var context = new SphDataContext();
@@ -72,7 +72,7 @@ namespace Bespoke.Sph.Domain
                 using (var session = context.OpenSession())
                 {
                     session.Attach(this, tracker);
-                    await session.SubmitChanges(OPERATION, headers);
+                    await session.SubmitChanges(OPERATION, headers).ConfigureAwait(false);
                 }
                 return;
             }
@@ -81,7 +81,7 @@ namespace Bespoke.Sph.Domain
             using (var session = context.OpenSession())
             {
                 session.Attach(this);
-                await session.SubmitChanges("Start", headers);
+                await session.SubmitChanges("Start", headers).ConfigureAwait(false);
             }
 
             tracker.WorkflowId = this.Id;
@@ -89,7 +89,7 @@ namespace Bespoke.Sph.Domain
             using (var session = context.OpenSession())
             {
                 session.Attach(this, tracker);
-                await session.SubmitChanges(OPERATION, headers);
+                await session.SubmitChanges(OPERATION, headers).ConfigureAwait(false);
             }
         }
 
@@ -110,7 +110,7 @@ namespace Bespoke.Sph.Domain
                 };
 
             var context = new SphDataContext();
-            m_tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.Id)
+            m_tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.Id).ConfigureAwait(false)
                           ??
                           new Tracker { Id = Guid.NewGuid().ToString(), WorkflowId = this.Id, WorkflowDefinitionId = this.WorkflowDefinitionId };
             m_tracker.Workflow = this;
@@ -124,7 +124,7 @@ namespace Bespoke.Sph.Domain
 
         public async Task InitializeCorrelationSetAsync(string name, string value)
         {
-            var tracker = await this.GetTrackerAsync();
+            var tracker = await this.GetTrackerAsync().ConfigureAwait(false);
             var cors = this.WorkflowDefinition.CorrelationSetCollection.Single(x => x.Name == name);
             var cort = this.WorkflowDefinition.CorrelationTypeCollection.Single(x => x.Name == cors.Type);
 
@@ -145,7 +145,7 @@ namespace Bespoke.Sph.Domain
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.PutAsync(url, new StringContent(json));
+                var response = await client.PutAsync(url, new StringContent(json)).ConfigureAwait(false);
                 if (null != response)
                 {
                     Debug.Write(".");
@@ -158,8 +158,9 @@ namespace Bespoke.Sph.Domain
         public async Task LoadWorkflowDefinitionAsync()
         {
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", this.WorkflowDefinitionId, this.Version));
-            using (var stream = new System.IO.MemoryStream(doc.Content))
+            var file = string.Format("wd.{0}.{1}", this.WorkflowDefinitionId, this.Version);
+            var doc = await store.GetContentAsync(file).ConfigureAwait(false);
+            using (var stream = new MemoryStream(doc.Content))
             {
                 this.WorkflowDefinition = stream.DeserializeFromJson<WorkflowDefinition>();
             }
@@ -173,7 +174,7 @@ namespace Bespoke.Sph.Domain
             using (var session = context.OpenSession())
             {
                 session.Attach(this);
-                await session.SubmitChanges("Terminate");
+                await session.SubmitChanges("Terminate").ConfigureAwait(false);
             }
         }
     }

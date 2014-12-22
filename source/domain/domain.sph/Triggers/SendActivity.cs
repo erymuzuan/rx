@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
@@ -37,8 +37,7 @@ namespace Bespoke.Sph.Domain
 
             var vrb = wd.VariableDefinitionCollection.SingleOrDefault(d => d.Name == this.ReturnValuePath);
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
+
 
             foreach (var cs in this.InitializingCorrelationSetCollection)
             {
@@ -82,10 +81,10 @@ namespace Bespoke.Sph.Domain
             }
             else
             {
-                code.AppendLinf("        var result = await adapter.{0}(this.{1});", this.Method, this.ArgumentPath);
+                code.AppendLinf("        var response = await adapter.{0}(this.{1});", this.Method, this.ArgumentPath);
                 if (null != vrb)
                 {
-                    code.AppendLinf("        this.{0} =  ({1})result;", this.ReturnValuePath, Type.GetType(vrb.TypeName).ToCSharp());
+                    code.AppendLinf("        this.{0} =  ({1})response;", this.ReturnValuePath, Type.GetType(vrb.TypeName).ToCSharp());
                 }
 
             }
@@ -93,10 +92,9 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine();
             // set the next activity
-            code.AppendLine("       var ear = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
-            code.AppendLinf("       ear.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
-            code.AppendLine("       return ear;");
-            code.AppendLine("   }");
+            code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
+
 
             return code.ToString();
         }

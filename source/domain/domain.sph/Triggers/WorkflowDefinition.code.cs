@@ -19,7 +19,8 @@ namespace Bespoke.Sph.Domain
                 Name = this.WorkflowTypeName,
                 Namespace = this.CodeNamespace,
                 BaseClass = typeof(Workflow).FullName,
-                FileName = this.WorkflowTypeName + ".cs"
+                FileName = this.WorkflowTypeName + ".cs",
+                IsPartial = true
             };
             @classes.Add(wcd);
             wcd.ImportCollection.Add(typeof(Entity).Namespace);
@@ -65,10 +66,11 @@ namespace Bespoke.Sph.Domain
 
             var start = new StringBuilder();
             // start
-            start.AppendLine("       public override Task<ActivityExecutionResult> StartAsync()");
+            start.AppendLine("       public override async Task<ActivityExecutionResult> StartAsync()");
             start.AppendLine("       {");
             start.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.Id, this.Version);
-            start.AppendLinf("           return this.{0}();", this.GetInitiatorActivity().MethodName);
+            start.AppendLinf("           var result =await this.{0}().ConfigureAwait(false);", this.GetInitiatorActivity().MethodName);
+            start.AppendLinf("           return result;");
             start.AppendLine("       }");
             wcd.MethodCollection.Add(new Method { Code = start.ToString() });
 
@@ -84,12 +86,12 @@ namespace Bespoke.Sph.Domain
             foreach (var activity in this.ActivityCollection)
             {
                 execute.AppendLinf("                   case \"{0}\" : ", activity.WebId);
-                execute.AppendLinf("                       result = await this.{0}();", activity.MethodName);
+                execute.AppendLinf("                       result = await this.{0}().ConfigureAwait(false);", activity.MethodName);
                 execute.AppendLine("                       break;");
             }
             execute.AppendLine("           }");// end switch
             execute.AppendLine("           result.Correlation = correlation;");
-            execute.AppendLine("           await this.SaveAsync(activityId, result);");
+            execute.AppendLine("           await this.SaveAsync(activityId, result).ConfigureAwait(false);");
             execute.AppendLinf("           return result;");
             execute.AppendLine("       }");
             wcd.MethodCollection.Add(new Method { Code = execute.ToString() });
@@ -110,17 +112,43 @@ namespace Bespoke.Sph.Domain
 
             foreach (var activity in this.ActivityCollection)
             {
-                //code.AppendLine();
-                //code.AppendLine("//exec:" + activity.WebId);
-
                 if (activity.IsAsync)
-                    wcd.MethodCollection.Add(new Method { Code = activity.GeneratedInitiateAsyncCode(this) });
+                    wcd.MethodCollection.Add(new Method { Code = activity.GenerateInitAsyncMethod(this) });
+
+
+                var code = new StringBuilder();
+                var body = activity.GenerateExecMethodBody(this);
+                if (body.Contains("await "))
+                    code.AppendLine("public async Task<ActivityExecutionResult> " + activity.MethodName + "()");
+                else
+                    code.AppendLine("public Task<ActivityExecutionResult> " + activity.MethodName + "()");
+                code.AppendLine("{");
+                code.AppendLine(body);
+                code.AppendLine(body.Contains("await ") ? "return result;" : "return Task.FromResult(result);");
+                code.AppendLine("}");
 
                 wcd.MethodCollection.Add(new Method
                 {
-                    Code = activity.GeneratedExecutionMethodCode(this),
-                    Comment = "//exec:" +activity.WebId
+                    Code = code.ToString(),
+                    Comment = "//exec:" + activity.WebId
                 });
+                if (activity.OtherMethodCollection.Any())
+                {
+                    var actPartial = new Class
+                    {
+                        IsPartial = true,
+                        Name = this.WorkflowTypeName,
+                        Namespace = this.CodeNamespace,
+                        FileName = this.WorkflowTypeName + "." + activity.MethodName.Replace("Async", "") + ".cs"
+                    };
+                    actPartial.ImportCollection.Add(typeof(Entity).Namespace);
+                    actPartial.ImportCollection.Add(typeof(Int32).Namespace);
+                    actPartial.ImportCollection.Add(typeof(Task<>).Namespace);
+                    actPartial.ImportCollection.Add(typeof(Enumerable).Namespace);
+                    actPartial.ImportCollection.Add(typeof(XmlAttributeAttribute).Namespace);
+                    actPartial.MethodCollection.AddRange(activity.OtherMethodCollection);
+                    @classes.Add(actPartial);
+                }
             }
 
 

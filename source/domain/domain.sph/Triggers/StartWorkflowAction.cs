@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Domain
                             };
 
             var wf = await wd.InitiateAsync(variables.ToArray());
-            await wf.StartAsync();
+            await wf.StartAsync().ConfigureAwait(false);
         }
 
         public override bool UseAsync
