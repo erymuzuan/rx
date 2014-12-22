@@ -104,7 +104,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
 
-            sources.Add(typeName + ".cs", code.ToString());
+            sources.Add(typeName + ".cs", code.FormatCode());
             // classes for members
             foreach (var member in this.RequestMemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
@@ -173,7 +173,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
 
-            sources.Add(responseTypeName + ".cs", code.ToString());
+            sources.Add(responseTypeName + ".cs", code.FormatCode());
 
 
             // classes for members
@@ -183,10 +183,10 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var fileName = member.Name + ".cs";
                 if (sources.ContainsKey(fileName))
                 {
-                    Console.WriteLine("There is already file {0} with the {1} content", fileName, mc == sources[fileName] ? "same" : "different");
+                    Console.WriteLine(Resources.DuplicateContentSource, fileName, mc == sources[fileName] ? "same" : "different");
                     continue;
                 }
-                sources.Add(member.Name + ".cs", mc);
+                sources.Add(member.Name + ".cs", new StringBuilder(mc).FormatCode());
             }
 
             return sources;

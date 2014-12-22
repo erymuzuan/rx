@@ -73,6 +73,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         public async Task OpenAsync(bool verbose = false)
         {
+            this.TableDefinitionCollection.Clear();
             foreach (var table in this.Tables)
             {
 
@@ -216,7 +217,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 code.AppendLine("}");// end namespace
 
 
-                sources.Add(adapterName + ".cs", code.ToString());
+                sources.Add(adapterName + ".cs", code.FormatCode());
 
 
             }
@@ -251,7 +252,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
             code2.AppendLine("   }");// end class
             code2.AppendLine("}");// end namespace
-            sources.Add(this.Name + ".sproc.cs", code2.ToString());
+            sources.Add(this.Name + ".sproc.cs", code2.FormatCode());
 
             return Task.FromResult(sources);
         }
