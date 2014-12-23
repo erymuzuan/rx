@@ -209,6 +209,7 @@
     <Compile Include="workflows\DelayActivityExecutionTest.cs" />
     <Compile Include="workflows\ExecuteActivitySortTest.cs" />
     <Compile Include="workflows\ParallelJoinExecutionTest.cs" />
+    <Compile Include="workflows\SanitizeActivityMethodBodyTest.cs" />
     <Compile Include="workflows\ScreenActivityTest.cs" />
     <Compile Include="workflows\MappingActivityTestFixture.cs" />
     <Compile Include="workflows\ReceiveActivityTestFixture.cs" />

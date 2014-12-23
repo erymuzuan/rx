@@ -115,21 +115,10 @@ namespace Bespoke.Sph.Domain
                 if (activity.IsAsync)
                     wcd.MethodCollection.Add(new Method { Code = activity.GenerateInitAsyncMethod(this) });
 
-
-                var code = new StringBuilder();
-                var body = activity.GenerateExecMethodBody(this);
-                if (body.Contains("await "))
-                    code.AppendLine("public async Task<ActivityExecutionResult> " + activity.MethodName + "()");
-                else
-                    code.AppendLine("public Task<ActivityExecutionResult> " + activity.MethodName + "()");
-                code.AppendLine("{");
-                code.AppendLine(body);
-                code.AppendLine(body.Contains("await ") ? "return result;" : "return Task.FromResult(result);");
-                code.AppendLine("}");
-
+                
                 wcd.MethodCollection.Add(new Method
                 {
-                    Code = code.ToString(),
+                    Code = this.SanitizeMethodBody(activity),
                     Comment = "//exec:" + activity.WebId
                 });
                 if (activity.OtherMethodCollection.Any())

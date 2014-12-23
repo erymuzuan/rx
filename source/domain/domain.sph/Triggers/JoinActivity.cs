@@ -73,8 +73,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
-            return @"var result = new ActivityExecutionResult();
-throw new System.Exception(""Listen activity is not supposed to be executed directly but through FireListenTrigger"");";
+            return @"throw new System.Exception(""Listen activity is not supposed to be executed directly but through FireListenTrigger"");";
         }
 
         public override void BeforeGenerate(WorkflowDefinition wd)

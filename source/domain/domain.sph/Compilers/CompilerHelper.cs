@@ -19,6 +19,10 @@ namespace Bespoke.Sph.Domain
             return MetadataReference.CreateFromAssembly((typeof(T)).Assembly);
         }
 
+        public static CSharpCompilation AddReference<T>(this CSharpCompilation type)
+        {
+            return type.AddReferences(MetadataReference.CreateFromAssembly((typeof(T)).Assembly));
+        }
         public static Project AddMetadataReference<T>(this Project type)
         {
             return type.AddMetadataReference(MetadataReference.CreateFromAssembly((typeof(T)).Assembly));

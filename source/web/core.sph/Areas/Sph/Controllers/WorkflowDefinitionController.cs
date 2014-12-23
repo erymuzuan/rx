@@ -102,11 +102,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             options.AddReference(typeof(WorkflowDefinitionController));
             options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
 
-            var entityAssembiles = Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath, ConfigurationManager.ApplicationName + ".*.dll");
-            foreach (var dll in entityAssembiles)
-            {
-                options.AddReference(dll);
-            }
+
 
             var result = wd.Compile(options);
 
@@ -136,15 +132,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
             options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
-
-            var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
-            var customDllPattern = ConfigurationManager.ApplicationName + ".*.dll";
-            var entityAssembiles = Directory.GetFiles(outputPath, customDllPattern);
-            foreach (var dll in entityAssembiles)
-            {
-                options.AddReference(dll);
-            }
-
+            
             var result = wd.Compile(options);
             if (!result.Result || !System.IO.File.Exists(result.Output))
             {
