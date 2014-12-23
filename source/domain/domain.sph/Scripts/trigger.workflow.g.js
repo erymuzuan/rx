@@ -463,6 +463,42 @@ bespoke.sph.domain.WorkflowTriggerMap = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.AssemblyAction = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
+
+    v.IsAsyncMethod = ko.observable(false);
+
+    v.Assembly = ko.observable('');
+
+    v.TypeName = ko.observable('');
+
+    v.Method = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.AssemblyAction, domain.sph";
+
+    v.MethodArgCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.AssemblyActionPartial) {
+        return _(v).extend(new bespoke.sph.domain.AssemblyActionPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
 
     var model = {
@@ -476,6 +512,8 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
         ActivityCollection: ko.observableArray([]),
         VariableDefinitionCollection: ko.observableArray([]),
         ReferencedAssemblyCollection: ko.observableArray([]),
+        CorrelationSetCollection: ko.observableArray([]),
+        CorrelationTypeCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1132,8 +1170,15 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 
     v.PortType = ko.observable('');
 
+    v.Operation = ko.observable('');
+
+    v.MessagePath = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ReceiveActivity, domain.sph";
 
+    v.InitializingCorrelationSetCollection = ko.observableArray([]);
+    v.FollowingCorrelationSetCollection = ko.observableArray([]);
+    v.CorrelationPropertyCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -1176,6 +1221,8 @@ bespoke.sph.domain.SendActivity = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.SendActivity, domain.sph";
 
     v.ExceptionFilterCollection = ko.observableArray([]);
+    v.InitializingCorrelationSetCollection = ko.observableArray([]);
+    v.FollowingCorrelationSetCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -1604,6 +1651,8 @@ bespoke.sph.domain.MappingActivity = function (optionOrWebid) {
     v.MappingDefinition = ko.observable('');
 
     v.DestinationType = ko.observable('');
+
+    v.OutputPath = ko.observable('');
 
     v["$type"] = "Bespoke.Sph.Domain.MappingActivity, domain.sph";
 
@@ -2086,6 +2135,128 @@ bespoke.sph.domain.ExceptionFilter = function (optionOrWebid) {
         return _(model).extend(new bespoke.sph.domain.ExceptionFilterPartial(model));
     }
     return model;
+};
+
+
+
+bespoke.sph.domain.CorrelationType = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.CorrelationType, domain.sph",
+        Name: ko.observable(''),
+        CorrelationPropertyCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CorrelationTypePartial) {
+        return _(model).extend(new bespoke.sph.domain.CorrelationTypePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.CorrelationSet = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.CorrelationSet, domain.sph",
+        Type: ko.observable(''),
+        Name: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CorrelationSetPartial) {
+        return _(model).extend(new bespoke.sph.domain.CorrelationSetPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+        Path: ko.observable(''),
+        Name: ko.observable(''),
+        Origin: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CorrelationPropertyPartial) {
+        return _(model).extend(new bespoke.sph.domain.CorrelationPropertyPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Activity(optionOrWebid);
+
+    v.WorkflowDefinitionId = ko.observable('');
+
+    v.Version = ko.observable(0);
+
+    v.IsAsync = ko.observable(false);
+
+    v["$type"] = "Bespoke.Sph.Domain.ChildWorkflowActivity, domain.sph";
+
+    v.VariableMapCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ChildWorkflowActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.ChildWorkflowActivityPartial(v));
+    }
+    return v;
 };
 
 

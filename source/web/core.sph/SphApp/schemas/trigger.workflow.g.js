@@ -1178,6 +1178,7 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 
     v.InitializingCorrelationSetCollection = ko.observableArray([]);
     v.FollowingCorrelationSetCollection = ko.observableArray([]);
+    v.CorrelationPropertyCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -2201,6 +2202,8 @@ bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
         Path: ko.observable(''),
+        Name: ko.observable(''),
+        Origin: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

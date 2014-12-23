@@ -41,7 +41,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
 
-            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.ToString() } };
+            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.FormatCode() } };
 
 
             return sourceCodes;

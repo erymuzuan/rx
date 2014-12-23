@@ -4194,6 +4194,7 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 
     v.InitializingCorrelationSetCollection = ko.observableArray([]);
     v.FollowingCorrelationSetCollection = ko.observableArray([]);
+    v.CorrelationPropertyCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -5217,6 +5218,8 @@ bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
         Path: ko.observable(''),
+        Name: ko.observable(''),
+        Origin: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -5244,12 +5247,15 @@ bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
-    v.WorkflowDefinition = ko.observable('');
+    v.WorkflowDefinitionId = ko.observable('');
 
     v.Version = ko.observable(0);
 
+    v.IsAsync = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.ChildWorkflowActivity, domain.sph";
 
+    v.VariableMapCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {

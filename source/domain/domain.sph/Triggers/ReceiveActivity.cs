@@ -194,11 +194,9 @@ namespace Bespoke.Sph.Domain
             // get the correlation
             foreach (var c in this.FollowingCorrelationSetCollection)
             {
-                var cors = wd.CorrelationSetCollection.Single(x => x.Name == c);
-                var cort = wd.CorrelationTypeCollection.Single(x => x.Name == cors.Type);
-                var valExpression =
-                    cort.CorrelationPropertyCollection.Select(x => "string.Format(\"{0}\"," + x.Path + ")").ToArray();
-
+                var c1 = c;
+                var cors = this.CorrelationPropertyCollection.Where(x => x.Name == c1);
+                var valExpression = cors.Select(x => "string.Format(\"{0}\"," + x.Path + ")").ToArray();
 
                 code.AppendLinf("           var cval = string.Join(\";\",new []{{{0}}});", string.Join(",", valExpression));
                 code.AppendFormat(@"  

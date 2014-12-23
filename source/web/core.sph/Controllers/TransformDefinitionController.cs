@@ -59,9 +59,9 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 SourceCodeDirectory = ConfigurationManager.UserSourceDirectory
             };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
+            options.AddReference<Controller>();
+            options.AddReference<TransformDefinitionController>();
+            options.AddReference<Newtonsoft.Json.JsonConverter>();
 
             var codes = map.GenerateCode();
             var sources = map.SaveSources(codes);

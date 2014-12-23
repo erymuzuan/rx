@@ -3089,6 +3089,17 @@ namespace Bespoke.Sph.Domain
             get { return m_FollowingCorrelationSetCollection; }
         }
 
+        private readonly ObjectCollection<CorrelationProperty> m_CorrelationPropertyCollection = new ObjectCollection<CorrelationProperty>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CorrelationProperty", IsNullable = false)]
+        public ObjectCollection<CorrelationProperty> CorrelationPropertyCollection
+        {
+            get { return m_CorrelationPropertyCollection; }
+        }
+
 
     }
 
@@ -5666,6 +5677,16 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNamePath = "Path";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_origin;
+        public const string PropertyNameOrigin = "Origin";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -5689,6 +5710,58 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_path;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Origin
+        {
+            set
+            {
+                if (String.Equals(m_origin, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOrigin, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_origin = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_origin;
             }
         }
 

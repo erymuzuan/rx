@@ -615,6 +615,13 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
+						<xs:element name="CorrelationPropertyCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="CorrelationProperty" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
 					</xs:all>
 					<xs:attribute name="PortType" type="xs:string" use="required"/>
 					<xs:attribute name="Operation" type="xs:string" use="required"/>
@@ -1071,6 +1078,8 @@
 	<xs:element name="CorrelationProperty">
 		<xs:complexType>
 			<xs:attribute name="Path" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="optional"/>
+			<xs:attribute name="Origin" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ChildWorkflowActivity">

@@ -8,24 +8,52 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
-    function (context, logger, dialog) {
+define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.system],
+    function (context, logger, dialog, system) {
 
         var activity = ko.observable(),
             wd = ko.observable(),
             isBusy = ko.observable(false),
             variableOptions = ko.observableArray(),
             activate = function () {
-                var variables = _(wd().VariableDefinitionCollection()).map(function(v) {
+                var variables = _(wd().VariableDefinitionCollection()).map(function (v) {
                     return {
                         Name: v.Name,
-                        DisplayName: ko.unwrap(v.Name) + "("+ ko.unwrap(v.TypeName) + ")"
+                        DisplayName: ko.unwrap(v.Name) + "(" + ko.unwrap(v.TypeName) + ")"
 
                     };
                 });
                 variableOptions(variables);
             },
-            attached = function(view) {
+            attached = function (view) {
+                $(view).on('change', '#following-sets input[type=checkbox]', function () {
+                    var cb = $(this),
+                        cs = cb.val(),
+                        checked = cb.is(':checked');
+                    console.log(cs + " is " + checked);
+                    if (checked) {
+                        // get the correlation property for the set
+                        var set = _(wd().CorrelationSetCollection()).find(function (v) { return v.Name() === cs; }),
+                            type = _(wd().CorrelationTypeCollection()).find(function (v) { return v.Name() === set.Type(); });
+                        console.log(type);
+
+                        _(type.CorrelationPropertyCollection()).each(function (v) {
+                            var p = new bespoke.sph.domain.CorrelationProperty({
+                                WebId: system.guid(),
+                                Name: cs,
+                                Origin: v.Path()
+
+                            });
+                            activity().CorrelationPropertyCollection.push(p);
+                        });
+
+                        return;
+                    } else {
+                        activity().CorrelationPropertyCollection.remove(function (v) {
+                            return v.Name() === cs;
+                        });
+                    }
+                });
 
             },
             okClick = function (data, ev) {
@@ -41,7 +69,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
         var vm = {
             variableOptions: variableOptions,
             activity: activity,
-            wd : wd,
+            wd: wd,
             isBusy: isBusy,
             activate: activate,
             attached: attached,

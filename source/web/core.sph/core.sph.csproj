@@ -1613,6 +1613,7 @@
     <Content Include="SphApp\partial\Member.js" />
     <Content Include="SphApp\partial\MethodArg.js" />
     <Content Include="SphApp\partial\ParallelActivity.js" />
+    <Content Include="SphApp\partial\ReceiveActivity.js" />
     <Content Include="SphApp\partial\report.js" />
     <Content Include="SphApp\partial\ReportDelivery.js" />
     <Content Include="SphApp\partial\Rule.js" />
