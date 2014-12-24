@@ -112,7 +112,7 @@ namespace Bespoke.Sph.Domain
             get { return this.GetType().Name; }
         }
 
-
+        [JsonIgnore]
         [ImportMany(FormCompilerMetadataAttribute.CONTRACT, typeof(FormElementCompiler), AllowRecomposition = true)]
         public Lazy<FormElementCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
 

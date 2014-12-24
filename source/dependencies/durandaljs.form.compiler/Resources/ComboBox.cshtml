@@ -1,0 +1,8 @@
+
+<select data-bind="@Model.GetKnockoutBindingExpression(Model.Element))" id="@Model.Element.ElementId" name="@(Model.Element.Path)" 
+        class="@(Model.Element.CssClass + " "+ Model.Element.Size) form-control">
+    @foreach (var op in Model.Element.ComboBoxItemCollection)
+    {
+        <option value="@op.Value">@op.Caption</option>
+    }
+</select>
