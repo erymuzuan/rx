@@ -112,11 +112,7 @@ namespace Bespoke.Sph.Domain
             get { return this.GetType().Name; }
         }
 
-        public virtual string GenerateDisplayTemplate(string compiler)
-        {
-            return "<span class=\"error\">No display template avaliable for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
 
-        }
         [ImportMany(FormCompilerMetadataAttribute.CONTRACT, typeof(FormElementCompiler), AllowRecomposition = true)]
         public Lazy<FormElementCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
 
@@ -131,6 +127,18 @@ namespace Bespoke.Sph.Domain
                 return message;
             }
             return fc.Value.GenerateEditorTemplate(this);
+        }
+        public virtual string GenerateDisplayTemplate(string compiler)
+        {
+            ObjectBuilder.ComposeMefCatalog(this);
+            var fc = this.Compilers.FirstOrDefault(c => c.Metadata.Name == compiler
+                && c.Metadata.Type == this.GetType());
+            if (null == fc)
+            {
+                var message = string.Format("Cannot find {0} compiler for {1} element", compiler, this.GetType().GetShortAssemblyQualifiedName());
+                return message;
+            }
+            return fc.Value.GenerateDisplayTemplate(this);
         }
     }
 }
