@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain
     public partial class NumberTextBox : FormElement
     {
        
-        public override string GetKnockoutBindingExpression()
+        public  string GetKnockoutBindingExpression()
         {
             var path = this.Path.ConvertJavascriptObjectToFunction();
 

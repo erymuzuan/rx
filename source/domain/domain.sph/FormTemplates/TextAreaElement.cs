@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Paragrapah text", Order = 8d, TypeName = "TextAreaElement", FontAwesomeIcon = "desktop", Description = "Creates a munltiline text input")]
     public partial class TextAreaElement : FormElement
     {
-       public override string GetKnockoutBindingExpression()
+       public  string GetKnockoutBindingExpression()
         {
             var path = this.Path;
 

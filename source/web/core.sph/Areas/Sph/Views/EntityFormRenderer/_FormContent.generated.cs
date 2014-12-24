@@ -21,18 +21,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.EntityFormRenderer
     using System.Web.Helpers;
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
-    
-    #line 1 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
     using System.Web.Mvc.Html;
-    
-    #line default
-    #line hidden
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
     
-    #line 2 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+    #line 1 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
     using Bespoke.Sph.Domain;
     
     #line default
@@ -48,7 +43,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.EntityFormRenderer
         public override void Execute()
         {
             
-            #line 4 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+            #line 3 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
   
 
     Layout = null;
@@ -63,52 +58,156 @@ WriteLiteral(" class=\"form-horizontal\"");
 
 WriteLiteral(" data-bind=\"with : entity\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 243), Tuple.Create("\"", 255)
+WriteAttribute("id", Tuple.Create(" id=\"", 215), Tuple.Create("\"", 227)
             
-            #line 9 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
-, Tuple.Create(Tuple.Create("", 248), Tuple.Create<System.Object, System.Int32>(formId
+            #line 8 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+, Tuple.Create(Tuple.Create("", 220), Tuple.Create<System.Object, System.Int32>(formId
             
             #line default
             #line hidden
-, 248), false)
+, 220), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 10 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+            #line 9 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 10 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+            #line 9 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
      foreach (var fe in Model.Form.FormDesign.FormElementCollection)
     {
         var fe1 = fe;
         fe1.Path = fe1.Path.ConvertJavascriptObjectToFunction();
         var button = fe1 as Button;
-        if (null != button && button.IsToolbarItem)
-        {
-            // toolbar button
-        }
-        else
-        {
+
+
+
             
+            #line default
+            #line hidden
+WriteLiteral("        <div");
+
+WriteLiteral(" data-bind=\"visible:");
+
+            
+            #line 16 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+                           Write(fe.Visible);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n            <label");
+
+WriteAttribute("for", Tuple.Create(" for=\"", 522), Tuple.Create("\"", 541)
+            
+            #line 17 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+, Tuple.Create(Tuple.Create("", 528), Tuple.Create<System.Object, System.Int32>(fe.ElementId
+            
+            #line default
+            #line hidden
+, 528), false)
+);
+
+WriteLiteral(" class=\"control-label col-lg-2\"");
+
+WriteLiteral(">");
+
+            
+            #line 17 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+                                                                 Write(fe.Label);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</label>\r\n            <div");
+
+WriteLiteral(" class=\"col-lg-6\"");
+
+WriteLiteral(">\r\n");
+
+            
+            #line 19 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+                
             
             #line default
             #line hidden
             
-            #line 21 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
-        Write(fe.UseDisplayTemplate ? Html.DisplayFor(f => fe1) : Html.EditorFor(f => fe1));
+            #line 19 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+                 if (null != button && button.IsToolbarItem)
+                {
+                // toolbar button
+                }
+                else
+                {
+                
+            
+            #line default
+            #line hidden
+            
+            #line 25 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+            Write(fe.UseDisplayTemplate ? Html.Raw(fe1.GenerateDisplayTemplate("DurandalJs")) : Html.Raw(fe1.GenerateEditorTemplate("DurandalJs")));
 
             
             #line default
             #line hidden
             
-            #line 21 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
-                                                                                           
-        }
+            #line 25 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+                                                                                                                                                   
+                }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("            </div>\r\n");
+
+            
+            #line 28 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+            
+            
+            #line default
+            #line hidden
+            
+            #line 28 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+             if (!string.IsNullOrWhiteSpace(fe.HelpText))
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <span");
+
+WriteLiteral(" class=\"help-block\"");
+
+WriteLiteral(">");
+
+            
+            #line 30 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+                                    Write(fe.HelpText);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</span>\r\n");
+
+            
+            #line 31 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
+            }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        </div>\r\n");
+
+            
+            #line 33 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
     }
 
             

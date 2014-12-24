@@ -60,7 +60,7 @@
                         .then(function(result) {
                             tcs.resolve(result);
                             entity().Id(result.id);
-                            app.showMessage("Your State has been successfully saved", "Reactive Developer platform showcase", ["ok"]);
+                            app.showMessage("Your State has been successfully saved", "SPH Platform Showcase", ["ok"]);
 
                         });
                     
@@ -71,7 +71,7 @@
                     var tcs = new $.Deferred();
                     $.ajax({
                         type: "DELETE",
-                        url: "/State/" + entity().Id(),
+                        url: "/State/Remove/" + entity().Id(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         error: tcs.reject,

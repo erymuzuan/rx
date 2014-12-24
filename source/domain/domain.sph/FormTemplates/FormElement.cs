@@ -1,4 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Drawing;
+using System.Linq;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -7,16 +10,6 @@ namespace Bespoke.Sph.Domain
 {
     public partial class FormElement : DomainObject
     {
-        public virtual string GetKnockoutBindingExpression()
-        {
-            return null;
-        }
-        public virtual string GetKnockoutDisplayBindingExpression()
-        {
-            var path = this.Path;
-            return string.Format("text: {0}", path);
-        }
-
         public string GetNormalizedName()
         {
             if (string.IsNullOrWhiteSpace(this.Path)) return this.ElementId;
@@ -59,11 +52,6 @@ namespace Bespoke.Sph.Domain
         public bool IsCompact { get; set; }
 
 
-        public virtual string GenerateMarkup()
-        {
-            return string.Empty;
-        }
-
         public void SetDefaultLayout(FormDesign formDesign)
         {
             var fe = this;
@@ -82,11 +70,15 @@ namespace Bespoke.Sph.Domain
 
         public virtual BuildError[] ValidateBuild(WorkflowDefinition wd, ScreenActivity screen)
         {
-            return new BuildError[]{};
+            return new BuildError[] { };
         }
         public virtual BuildError[] ValidateBuild(EntityDefinition ed)
         {
-            return new BuildError[]{};
+            return new BuildError[] { };
+        }
+        public virtual BuildError[] ValidateBuild(EntityForm form)
+        {
+            return new BuildError[] { };
         }
 
         public virtual Bitmap GetPngIcon()
@@ -94,14 +86,22 @@ namespace Bespoke.Sph.Domain
             return null;
         }
 
-        public string GetEditorViewModel()
+        public virtual string GetEditorViewModel()
         {
-            return "";
+            return string.Empty;
         }
 
-        public string GetEditorView()
+        public virtual string GetEditorView()
         {
-            return "";
+            return string.Empty;
+        }
+        public virtual string GetDesignSurfaceElement()
+        {
+            return "<span class=\"error\">No design surface avaliable for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
+        }
+        public virtual string GetPropertyToolbox()
+        {
+            return string.Empty;
         }
 
         /// <summary>
@@ -110,6 +110,27 @@ namespace Bespoke.Sph.Domain
         public virtual string TypeName
         {
             get { return this.GetType().Name; }
+        }
+
+        public virtual string GenerateDisplayTemplate(string compiler)
+        {
+            return "<span class=\"error\">No display template avaliable for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
+
+        }
+        [ImportMany(FormCompilerMetadataAttribute.CONTRACT, typeof(FormElementCompiler), AllowRecomposition = true)]
+        public Lazy<FormElementCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
+
+        public virtual string GenerateEditorTemplate(string compiler)
+        {
+            ObjectBuilder.ComposeMefCatalog(this);
+            var fc = this.Compilers.FirstOrDefault(c => c.Metadata.Name == compiler
+                && c.Metadata.Type == this.GetType());
+            if (null == fc)
+            {
+                var message = string.Format("Cannot find {0} compiler for {1} element", compiler, this.GetType().GetShortAssemblyQualifiedName());
+                return message;
+            }
+            return fc.Value.GenerateEditorTemplate(this);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain
     public partial class DateTimePicker : FormElement
     {
 
-        public override string GetKnockoutBindingExpression()
+        public  string GetKnockoutBindingExpression()
         {
             if (this.IsCompact)
                 return string.Format("kendoDateTime: {0}, visible :{1}, enable :{2}",

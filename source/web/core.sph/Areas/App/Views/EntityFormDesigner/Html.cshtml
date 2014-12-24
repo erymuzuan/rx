@@ -55,10 +55,23 @@
 
             <form class="form-horizontal">
                 <!--ko foreach:FormElementCollection -->
+
+
                 @foreach (var fe in Model.FormElements)
                 {
-                    var fe1 = fe;
-                    @Html.DisplayFor(m => fe1)
+                    <!--ko if: ko.unwrap($type) === "@(fe.GetType().GetShortAssemblyQualifiedName())" -->
+                    <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement" class="form-group">
+                        @Html.Partial("_DesignerContextAction")
+                        <label data-bind="text: Label" class="control-label col-lg-2"></label>
+                        <div class="col-lg-4">
+
+                            @Html.Raw(fe.GetDesignSurfaceElement())
+                           
+                            <span data-bind="text: HelpText" class="help-block"></span>
+                        </div>
+                    </div>
+                    <!--/ko-->
+                    
                 }
                 <!--/ko-->
 

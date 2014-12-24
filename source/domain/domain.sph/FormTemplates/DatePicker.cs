@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "DatePicker",TypeName = "DatePicker", Order = 10d, FontAwesomeIcon = "calendar", Description = "Creates an input for date entry")]
     public partial class DatePicker : FormElement
     {
-        public override string GetKnockoutBindingExpression()
+        public  string GetKnockoutBindingExpression()
         {
             if (this.IsCompact)
                 return string.Format("kendoDate: {0}, visible :{1}, enable :{2}",

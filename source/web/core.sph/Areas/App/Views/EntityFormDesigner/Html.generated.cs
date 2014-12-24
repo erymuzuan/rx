@@ -202,33 +202,85 @@ WriteLiteral("></span>\r\n\r\n            <form");
 
 WriteLiteral(" class=\"form-horizontal\"");
 
-WriteLiteral(">\r\n                <!--ko foreach:FormElementCollection -->\r\n");
+WriteLiteral(">\r\n                <!--ko foreach:FormElementCollection -->\r\n\r\n\r\n");
 
             
-            #line 58 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 60 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 58 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 60 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                  foreach (var fe in Model.FormElements)
                 {
-                    var fe1 = fe;
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 61 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
-               Write(Html.DisplayFor(m => fe1));
 
             
             #line default
             #line hidden
+WriteLiteral("                    <!--ko if: ko.unwrap($type) === \"");
+
             
-            #line 61 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
-                                              
+            #line 62 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+                                                 Write(fe.GetType().GetShortAssemblyQualifiedName());
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\" -->\r\n");
+
+WriteLiteral("                    <div");
+
+WriteLiteral(" data-bind=\"css: { \'selected-form-element\': isSelected }, click: $root.selectForm" +
+"Element\"");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("                        ");
+
+            
+            #line 64 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+                   Write(Html.Partial("_DesignerContextAction"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                        <label");
+
+WriteLiteral(" data-bind=\"text: Label\"");
+
+WriteLiteral(" class=\"control-label col-lg-2\"");
+
+WriteLiteral("></label>\r\n                        <div");
+
+WriteLiteral(" class=\"col-lg-4\"");
+
+WriteLiteral(">\r\n\r\n");
+
+WriteLiteral("                            ");
+
+            
+            #line 68 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+                       Write(Html.Raw(fe.GetDesignSurfaceElement()));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                           \r\n                            <span");
+
+WriteLiteral(" data-bind=\"text: HelpText\"");
+
+WriteLiteral(" class=\"help-block\"");
+
+WriteLiteral("></span>\r\n                        </div>\r\n                    </div>\r\n");
+
+WriteLiteral("                    <!--/ko-->\r\n");
+
+            
+            #line 74 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+                    
                 }
 
             
