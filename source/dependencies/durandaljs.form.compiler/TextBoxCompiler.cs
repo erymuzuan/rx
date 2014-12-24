@@ -6,9 +6,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     [Export(FormCompilerMetadataAttribute.CONTRACT, typeof(FormElementCompiler))]
     [FormCompilerMetadata(Name = Constants.COMPILER_NAME, Type = typeof(TextBox))]
-    public class TextBoxCompiler : FormElementCompiler<TextBox>
+    public class TextBoxCompiler : DurandalJsElementCompiler<TextBox>
     {
-        public override string GenerateEditor(TextBox textBox)
+        public override string GenerateEditor(TextBox picker)
         {
             return
                 string.Format(
@@ -19,13 +19,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     id=""{5}"" 
     type=""text"" 
     name=""{6}"" />",
-                    textBox.IsRequired ? "required" : string.Empty,
-                    textBox.CssClass,
-                    textBox.Size,
-                    textBox.Tooltip,
-                    this.GetKnockoutBindingExpression(textBox),
-                    textBox.ElementId,
-                    textBox.Path
+                    picker.IsRequired ? "required" : string.Empty,
+                    picker.CssClass,
+                    picker.Size,
+                    picker.Tooltip,
+                    this.GetKnockoutBindingExpression(picker),
+                    picker.ElementId,
+                    picker.Path
                     );
         }
 

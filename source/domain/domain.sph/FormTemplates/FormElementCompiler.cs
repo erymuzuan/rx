@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Domain
     public class FormElementCompiler<T> : FormElementCompiler where T : FormElement
     {
 
-        public virtual string GenerateEditor(T element)
+        public virtual string GenerateEditor(T picker)
         {
             throw new Exception("Not implemented");
         }

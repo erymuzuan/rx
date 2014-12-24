@@ -7,14 +7,17 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "DatePicker",TypeName = "DatePicker", Order = 10d, FontAwesomeIcon = "calendar", Description = "Creates an input for date entry")]
     public partial class DatePicker : FormElement
     {
-        public  string GetKnockoutBindingExpression()
+        public override string GetDesignSurfaceElement()
         {
-            if (this.IsCompact)
-                return string.Format("kendoDate: {0}, visible :{1}, enable :{2}",
-                    this.Path,
-                    this.Visible, this.Enable);
-            return string.Format("kendoDate: {0}, enable :{1}", this.Path, this.Enable);
+            return @"   
+ <div class=""input-group"">
+    <input type=""text"" data-bind=""attr: { 'title': Tooltip, 'class': CssClass() + ' form-control ','placeholder':' [ ' + Path() + ' ] ' }"" />
+            <span class=""input-group-addon"">
+                <span class=""glyphicon glyphicon-calendar""></span>
+            </span>
+ </div>";
         }
+
 
     }
 }

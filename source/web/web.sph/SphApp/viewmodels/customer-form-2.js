@@ -172,7 +172,7 @@
                         .then(function(result) {
                             tcs.resolve(result);
                             entity().Id(result.id);
-                            app.showMessage("Your Customer has been successfully saved", "Reactive Developer platform showcase", ["ok"]);
+                            app.showMessage("Your Customer has been successfully saved", "SPH Platform Showcase", ["ok"]);
 
                         });
                     
@@ -183,7 +183,7 @@
                     var tcs = new $.Deferred();
                     $.ajax({
                         type: "DELETE",
-                        url: "/Customer/" + entity().Id(),
+                        url: "/Customer/Remove/" + entity().Id(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         error: tcs.reject,
