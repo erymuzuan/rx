@@ -30,7 +30,7 @@ namespace Roslyn.SyntaxVisualizer.Control
         private bool isNavigatingFromTreeToSource = false;
         private System.Windows.Forms.PropertyGrid propertyGrid;
         private static readonly Thickness DefaultBorderThickness = new Thickness(1);
-        
+
         public SyntaxTree SyntaxTree { get; private set; }
         public SemanticModel SemanticModel { get; private set; }
         public bool IsLazy { get; private set; }
@@ -46,7 +46,8 @@ namespace Roslyn.SyntaxVisualizer.Control
         public delegate void SyntaxTriviaDelegate(SyntaxTrivia trivia);
         public event SyntaxTriviaDelegate SyntaxTriviaDirectedGraphRequested;
         public event SyntaxTriviaDelegate SyntaxTriviaNavigationToSourceRequested;
-    
+
+        public TextSpan SelectedTextSpan { get; set; }
 
         public SyntaxVisualizerControl()
         {
@@ -177,7 +178,7 @@ namespace Roslyn.SyntaxVisualizer.Control
 
             return matchFound;
         }
-  
+
 
         #region Private Helpers - TreeView Navigation
         // Collapse all items in the treeview except for the supplied item. The supplied item
@@ -224,7 +225,7 @@ namespace Roslyn.SyntaxVisualizer.Control
 
             if (current != null)
             {
-                SyntaxTag currentTag = (SyntaxTag)current.Tag;
+                var currentTag = (SyntaxTag)current.Tag;
                 if (currentTag.FullSpan.Contains(position))
                 {
                     CollapseEverythingBut(current);
@@ -257,7 +258,7 @@ namespace Roslyn.SyntaxVisualizer.Control
 
             if (current != null)
             {
-                SyntaxTag currentTag = (SyntaxTag)current.Tag;
+                var currentTag = (SyntaxTag)current.Tag;
                 if (currentTag.FullSpan.Contains(span))
                 {
                     if ((currentTag.Span == span || currentTag.FullSpan == span) && (kind == null || currentTag.Kind == kind))
@@ -633,11 +634,27 @@ namespace Roslyn.SyntaxVisualizer.Control
         #endregion
 
         #region Event Handlers
+
+        public static readonly RoutedEvent SelectedEvent =
+    EventManager.RegisterRoutedEvent("Selected", RoutingStrategy.Bubble,
+    typeof(RoutedEventHandler), typeof(SyntaxVisualizerControl));
+
+        // .NET wrapper
+        public event RoutedEventHandler Selected
+        {
+            add { AddHandler(SelectedEvent, value); }
+            remove { RemoveHandler(SelectedEvent, value); }
+        }
+
+
+
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (treeView.SelectedItem != null)
             {
                 currentSelection = (TreeViewItem)treeView.SelectedItem;
+                this.SelectedTextSpan = ((SyntaxTag) currentSelection.Tag).Span;
+                RaiseEvent(new RoutedEventArgs(SyntaxVisualizerControl.SelectedEvent));
             }
         }
 
