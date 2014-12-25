@@ -99,6 +99,21 @@
     <Reference Include="System.Collections.Immutable">
       <HintPath>..\..\..\packages\System.Collections.Immutable.1.1.32-beta\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
+    <Reference Include="System.Composition.AttributedModel">
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Convention">
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Hosting">
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Runtime">
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.TypedParts">
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Reflection.Metadata">
       <HintPath>..\..\..\packages\System.Reflection.Metadata.1.0.17-beta\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
@@ -125,6 +140,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CompilerHelper.cs" />
     <Compile Include="SyntaxCategory.cs" />
     <Compile Include="SyntaxKindHelper.cs" />
     <Compile Include="SyntaxVisualizerControl.xaml.cs">
@@ -177,6 +193,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="SyntaxGraph.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\alltopics_co.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\save_edit.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\opentype.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\newex_wiz.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\new_persp.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

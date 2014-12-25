@@ -5,31 +5,60 @@
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         x:Class="syntax.visualizer.MainWindow"
         Title="Roslyn Syntax Visualizer" Height="350" Width="525">
+  
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <Menu>
-                    <MenuItem Header="_File">
-                        <MenuItem Header="_Open"></MenuItem>
-                        <MenuItem Header="_Clear"></MenuItem>
-                        <MenuItem Header="E_xit"></MenuItem>
-                    </MenuItem>
-                    <MenuItem Header="Collections">
-                        <MenuItem Header="Playlist"></MenuItem>
-                    </MenuItem>
-                </Menu>
-            </StackPanel>
-            <avalonedit:TextEditor
-                Grid.Row="1"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" Grid.ColumnSpan="2">
+            <Menu>
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open" Click="OpenFile"></MenuItem>
+                    <MenuItem Header="_Clear"></MenuItem>
+                    <MenuItem Header="E_xit" Click="MenuExit"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Collections">
+                    <MenuItem Header="Playlist"></MenuItem>
+                </MenuItem>
+            </Menu>
+            <ToolBarTray>
+                <ToolBar Band="1">
+                    <Button>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/new_persp.gif"></Image>
+                            <TextBlock Text="_New" Margin="5,0,0,0"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Click="OpenFile">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/opentype.gif"></Image>
+                            <TextBlock Text="_Open" Margin="5,0,0,0"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Click="SaveFile">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/save_edit.gif"></Image>
+                            <TextBlock Text="_Save" Margin="5,0,0,0"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Click="FormatCode">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/alltopics_co.gif"></Image>
+                            <TextBlock  Text="Format Code" Margin="5,0,0,0"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+        </StackPanel>
+
+        <avalonedit:TextEditor Grid.Column="0" Grid.Row="1"
                     x:Name="codeEditor"
                     ShowLineNumbers="True"
                     LineNumbersForeground="#980000"
@@ -38,10 +67,10 @@
                     SyntaxHighlighting="C#"
                     TextChanged="CodeEditor_OnTextChanged"
                 />
-        </Grid>
+
         <GridSplitter Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                      Width="4" Background="Orange"></GridSplitter>
-        <control:SyntaxVisualizerControl Grid.Column="1" x:Name="syntaxVisualizer"/>
+                      Width="4" Background="Orange" Grid.Row="1"></GridSplitter>
+        <control:SyntaxVisualizerControl Grid.Column="1" Grid.Row="1" x:Name="syntaxVisualizer"/>
 
     </Grid>
 </Window>
