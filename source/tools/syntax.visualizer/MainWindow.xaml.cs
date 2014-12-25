@@ -6,10 +6,11 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Win32;
+using Bespoke.Sph.SyntaxVisualizers.ViewModels;
 
-namespace syntax.visualizer
+namespace Bespoke.Sph.SyntaxVisualizers
 {
-    public partial class MainWindow
+    public partial class MainWindow : IView
     {
         public MainWindow()
         {
@@ -55,8 +56,10 @@ namespace syntax.visualizer
             Properties.Settings.Default.Save();
         }
 
-        void MainWindowLoaded(object sender, RoutedEventArgs e)
+        async void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
+            var appvm = (AppViewModel)this.DataContext;
+            await appvm.LoadAsync(this);
             syntaxVisualizer.Selected += SyntaxVisualizerSelected;
             Delegate load = new Action(() =>
             {
@@ -66,6 +69,7 @@ namespace syntax.visualizer
                 codeEditor.Text = Properties.Settings.Default.LastEditedCode;
             });
             this.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, load);
+
         }
 
         void SyntaxVisualizerSelected(object sender, RoutedEventArgs e)
@@ -162,6 +166,12 @@ namespace syntax.visualizer
                 this.Cursor = Cursors.Arrow;
             }
 
+        }
+
+        public DispatcherObject View
+        {
+            get { return this; }
+            set { throw new NotImplementedException(); }
         }
     }
 }

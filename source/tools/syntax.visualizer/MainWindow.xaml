@@ -3,55 +3,62 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:control="clr-namespace:Roslyn.SyntaxVisualizer.Control"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-        x:Class="syntax.visualizer.MainWindow"
+        xmlns:vm="clr-namespace:Bespoke.Sph.SyntaxVisualizers.ViewModels"
+        x:Class="Bespoke.Sph.SyntaxVisualizers.MainWindow"
+         
         Title="Roslyn Syntax Visualizer" Height="350" Width="525">
-  
-    
+
+
+    <Window.DataContext>
+        <vm:AppViewModel/>
+    </Window.DataContext>
+
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Vertical" Grid.ColumnSpan="2">
             <Menu>
                 <MenuItem Header="_File">
-                    <MenuItem Header="_Open" Click="OpenFile"></MenuItem>
-                    <MenuItem Header="_Clear"></MenuItem>
-                    <MenuItem Header="E_xit" Click="MenuExit"></MenuItem>
+                    <MenuItem Header="_Open" Click="OpenFile"/>
+                    <MenuItem Header="_Clear"/>
+                    <MenuItem Header="E_xit" Click="MenuExit"/>
                 </MenuItem>
                 <MenuItem Header="Collections">
-                    <MenuItem Header="Playlist"></MenuItem>
+                    <MenuItem Header="Playlist"/>
                 </MenuItem>
             </Menu>
             <ToolBarTray>
                 <ToolBar Band="1">
-                    <Button>
+                    <Button Command="{Binding OpenCommand}">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="images/new_persp.gif"></Image>
-                            <TextBlock Text="_New" Margin="5,0,0,0"></TextBlock>
+                            <Image Source="images/new_persp.gif"/>
+                            <TextBlock Text="_New" Margin="5,0,0,0"/>
                         </StackPanel>
                     </Button>
                     <Button Click="OpenFile">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="images/opentype.gif"></Image>
-                            <TextBlock Text="_Open" Margin="5,0,0,0"></TextBlock>
+                            <Image Source="images/opentype.gif"/>
+                            <TextBlock Text="_Open" Margin="5,0,0,0"/>
                         </StackPanel>
                     </Button>
                     <Button Click="SaveFile">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="images/save_edit.gif"></Image>
-                            <TextBlock Text="_Save" Margin="5,0,0,0"></TextBlock>
+                            <Image Source="images/save_edit.gif"/>
+                            <TextBlock Text="_Save" Margin="5,0,0,0"/>
                         </StackPanel>
                     </Button>
                     <Button Click="FormatCode">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="images/alltopics_co.gif"></Image>
-                            <TextBlock  Text="Format Code" Margin="5,0,0,0"></TextBlock>
+                            <Image Source="images/alltopics_co.gif"/>
+                            <TextBlock  Text="Format Code" Margin="5,0,0,0"/>
                         </StackPanel>
                     </Button>
                 </ToolBar>
@@ -59,17 +66,17 @@
         </StackPanel>
 
         <avalonedit:TextEditor Grid.Column="0" Grid.Row="1"
-                    x:Name="codeEditor"
-                    ShowLineNumbers="True"
-                    LineNumbersForeground="#980000"
-                    FontFamily="Consolas"
-                    FontSize="14"
-                    SyntaxHighlighting="C#"
-                    TextChanged="CodeEditor_OnTextChanged"
+			x:Name="codeEditor"
+			ShowLineNumbers="True"
+			LineNumbersForeground="#980000"
+			FontFamily="Consolas"
+			FontSize="14"
+			SyntaxHighlighting="C#"
+			TextChanged="CodeEditor_OnTextChanged"
                 />
 
         <GridSplitter Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                      Width="4" Background="Orange" Grid.Row="1"></GridSplitter>
+			Width="4" Background="Orange" Grid.Row="1"/>
         <control:SyntaxVisualizerControl Grid.Column="1" Grid.Row="1" x:Name="syntaxVisualizer"/>
 
     </Grid>

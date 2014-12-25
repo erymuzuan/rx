@@ -141,6 +141,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "durandaljs.form.compiler", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "syntax.visualizer", "source\tools\syntax.visualizer\syntax.visualizer.csproj", "{4C30F0BE-A89F-4553-B216-CBF1D9453AF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dead.letter.viewer", "source\tools\dead.letter.viewer\dead.letter.viewer.csproj", "{1FB70D66-D1D2-46B5-8C95-83B7A770781E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -355,6 +357,10 @@ Global
 		{4C30F0BE-A89F-4553-B216-CBF1D9453AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C30F0BE-A89F-4553-B216-CBF1D9453AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C30F0BE-A89F-4553-B216-CBF1D9453AF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FB70D66-D1D2-46B5-8C95-83B7A770781E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FB70D66-D1D2-46B5-8C95-83B7A770781E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FB70D66-D1D2-46B5-8C95-83B7A770781E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FB70D66-D1D2-46B5-8C95-83B7A770781E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -412,5 +418,6 @@ Global
 		{590DC146-6BA1-4202-995D-9E46951A0E57} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{75C62722-179A-4127-A763-A5877D2575BE} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{4C30F0BE-A89F-4553-B216-CBF1D9453AF2} = {DB65484E-BE1F-4944-B216-4A57026360EB}
+		{1FB70D66-D1D2-46B5-8C95-83B7A770781E} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 	EndGlobalSection
 EndGlobal

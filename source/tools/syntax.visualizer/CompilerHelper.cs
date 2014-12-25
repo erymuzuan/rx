@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
 
-namespace syntax.visualizer
+namespace Bespoke.Sph.SyntaxVisualizers
 {
     public static class CompilerHelper
     {
