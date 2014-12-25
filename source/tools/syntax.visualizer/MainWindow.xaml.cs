@@ -15,10 +15,10 @@ namespace Bespoke.Sph.SyntaxVisualizers
         public MainWindow()
         {
             InitializeComponent();
-            this.Loaded += MainWindowLoaded;
-            this.Closing += MainWindowClosing;
+            this.Loaded += this.MainWindowLoaded;
+            this.Closing += this.MainWindowClosing;
             this.AllowDrop = true;
-            this.Drop += MainWindowDrop;
+            this.Drop += this.MainWindowDrop;
         }
 
         void MainWindowDrop(object sender, DragEventArgs e)

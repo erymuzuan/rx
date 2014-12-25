@@ -15,8 +15,8 @@ namespace Bespoke.Sph.SyntaxVisualizers.ViewModels
         public AppViewModel()
         {
             this.OpenCommand = new RelayCommand<string>(Open);
-            this.SaveCommand = new RelayCommand(Save, ()=>File.Exists(this.EditedFilePath));
-            this.NewFileCommand = new RelayCommand(NewFile, ()=>File.Exists(this.EditedFilePath));
+            this.SaveCommand = new RelayCommand(Save, () => File.Exists(this.EditedFilePath));
+            this.NewFileCommand = new RelayCommand(NewFile, () => File.Exists(this.EditedFilePath));
         }
 
         private void NewFile()

@@ -114,11 +114,11 @@ namespace Roslyn.SyntaxVisualizer.Control
         {
             TreeViewItem match = null;
 
-            if (treeView.HasItems && !isNavigatingFromTreeToSource)
+            if (treeView.HasItems && !this.isNavigatingFromTreeToSource)
             {
-                isNavigatingFromSourceToTree = true;
+                this.isNavigatingFromSourceToTree = true;
                 match = NavigateToBestMatch((TreeViewItem)treeView.Items[0], position, kind, category);
-                isNavigatingFromSourceToTree = false;
+                this.isNavigatingFromSourceToTree = false;
             }
 
             var matchFound = match != null;
@@ -154,11 +154,11 @@ namespace Roslyn.SyntaxVisualizer.Control
         {
             TreeViewItem match = null;
 
-            if (treeView.HasItems && !isNavigatingFromTreeToSource)
+            if (treeView.HasItems && !this.isNavigatingFromTreeToSource)
             {
-                isNavigatingFromSourceToTree = true;
+                this.isNavigatingFromSourceToTree = true;
                 match = NavigateToBestMatch((TreeViewItem)treeView.Items[0], span, kind, category);
-                isNavigatingFromSourceToTree = false;
+                this.isNavigatingFromSourceToTree = false;
             }
 
             var matchFound = match != null;
@@ -299,11 +299,11 @@ namespace Roslyn.SyntaxVisualizer.Control
         {
             if (nodeOrToken.IsNode)
             {
-                AddNode(parentItem, nodeOrToken.AsNode());
+                this.AddNode(parentItem, nodeOrToken.AsNode());
             }
             else
             {
-                AddToken(parentItem, nodeOrToken.AsToken());
+                this.AddToken(parentItem, nodeOrToken.AsToken());
             }
         }
 
@@ -386,7 +386,7 @@ namespace Roslyn.SyntaxVisualizer.Control
 
             if (node.ChildNodesAndTokens().Count > 0)
             {
-                if (IsLazy)
+                if (this.IsLazy)
                 {
                     // Add placeholder child to indicate that real children need to be populated on expansion.
                     item.Items.Add(null);
@@ -486,7 +486,7 @@ namespace Roslyn.SyntaxVisualizer.Control
 
             if (token.HasLeadingTrivia || token.HasTrailingTrivia)
             {
-                if (IsLazy)
+                if (this.IsLazy)
                 {
                     // Add placeholder child to indicate that real children need to be populated on expansion.
                     item.Items.Add(null);
@@ -587,7 +587,7 @@ namespace Roslyn.SyntaxVisualizer.Control
 
             if (trivia.HasStructure)
             {
-                if (IsLazy)
+                if (this.IsLazy)
                 {
                     // Add placeholder child to indicate that real children need to be populated on expansion.
                     item.Items.Add(null);
@@ -696,7 +696,7 @@ namespace Roslyn.SyntaxVisualizer.Control
             }
         }
 
-        private void DirectedSyntaxGraphMenuItem_Click(object sender, RoutedEventArgs e)
+        private void DirectedSyntaxGraphMenuItemClick(object sender, RoutedEventArgs e)
         {
             if (currentSelection != null)
             {
@@ -704,7 +704,7 @@ namespace Roslyn.SyntaxVisualizer.Control
 
                 if (currentTag.Category == SyntaxCategory.SyntaxNode && SyntaxNodeDirectedGraphRequested != null)
                 {
-                    SyntaxNodeDirectedGraphRequested(currentTag.SyntaxNode);
+                    this.SyntaxNodeDirectedGraphRequested(currentTag.SyntaxNode);
                 }
                 else if (currentTag.Category == SyntaxCategory.SyntaxToken && SyntaxTokenDirectedGraphRequested != null)
                 {

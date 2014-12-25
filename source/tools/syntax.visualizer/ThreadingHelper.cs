@@ -59,10 +59,10 @@ namespace Bespoke.Sph.SyntaxVisualizers
         public static void Post<T1, T2, T3, T4>(this IView vm, Action<T1, T2, T3, T4> action, T1 t1, T2 t2, T3 t3, T4 t4)
         {
             vm.View.Dispatcher.Invoke(DispatcherPriority.Normal, action, t1, t2, t3, t4);
-        } 
+        }
         #endregion
 
-    
+
         public static void QueueUserWorkItem(this object element, Action workItemCallback)
         {
             ThreadPool.QueueUserWorkItem(o => workItemCallback(), null);
@@ -77,7 +77,7 @@ namespace Bespoke.Sph.SyntaxVisualizers
 
         public static void QueueUserWorkItem<T1, T2>(this object element, Action<T1, T2> workItemCallback, T1 t1, T2 t2)
         {
-            var state = new Tuple<T1, T2>(t1,t2);
+            var state = new Tuple<T1, T2>(t1, t2);
             ThreadPool.QueueUserWorkItem(o =>
                                              {
                                                  var info = (Tuple<T1, T2>)o;
@@ -88,10 +88,10 @@ namespace Bespoke.Sph.SyntaxVisualizers
 
         public static void QueueUserWorkItem<T1, T2, T3>(this object element, Action<T1, T2, T3> workItemCallback, T1 t1, T2 t2, T3 t3)
         {
-            var state = new Tuple<T1, T2,T3>(t1,t2,t3);
+            var state = new Tuple<T1, T2, T3>(t1, t2, t3);
             ThreadPool.QueueUserWorkItem(o =>
             {
-                var info = (Tuple<T1, T2,T3>)o;
+                var info = (Tuple<T1, T2, T3>)o;
                 workItemCallback(info.Item1, info.Item2, info.Item3);
             }, state);
         }
@@ -109,7 +109,7 @@ namespace Bespoke.Sph.SyntaxVisualizers
             }, state);
         }
 
-        
+
     }
 
     public interface IView

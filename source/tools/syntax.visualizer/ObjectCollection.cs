@@ -141,15 +141,15 @@ namespace Bespoke.Sph.SyntaxVisualizers
         {
             if (startIndex > this.Count)
             {
-                //ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.startIndex, ExceptionResource.ArgumentOutOfRange_Index);
+                // ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.startIndex, ExceptionResource.ArgumentOutOfRange_Index);
             }
             if ((count < 0) || (startIndex > (this.Count - count)))
             {
-                //ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.count, ExceptionResource.ArgumentOutOfRange_Count);
+                // ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.count, ExceptionResource.ArgumentOutOfRange_Count);
             }
             if (match == null)
             {
-                //ThrowHelper.ThrowArgumentNullException(ExceptionArgument.match);
+                // ThrowHelper.ThrowArgumentNullException(ExceptionArgument.match);
             }
             int num1 = startIndex + count;
             for (int num2 = startIndex; num2 < num1; num2++)
