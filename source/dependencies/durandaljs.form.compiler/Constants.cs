@@ -2,6 +2,6 @@
 {
     static class Constants
     {
-        public const string COMPILER_NAME = "DurandalJs";
+        public const string DURANDAL_JS = "DurandalJs";
     }
 }

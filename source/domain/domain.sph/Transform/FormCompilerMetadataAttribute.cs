@@ -7,7 +7,8 @@ namespace Bespoke.Sph.Domain
     [AttributeUsage(AttributeTargets.Class)]
     public class FormCompilerMetadataAttribute : ExportAttribute, IFormCompilerMetadata
     {
-        public const string CONTRACT = "FormElementCompiler";
+        public const string FORM_ELEMENT_COMPILER_CONTRACT = "FormElementCompiler";
+        public const string FORM_COMPILER_CONTRACT = "FormCompiler";
         public FormCompilerMetadataAttribute()
             : base(typeof(IFormCompilerMetadata))
         {

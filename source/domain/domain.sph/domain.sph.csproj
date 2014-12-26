@@ -179,6 +179,7 @@
     <Compile Include="BoundedContextAttribute.cs" />
     <Compile Include="Business\ChangeSubmission.cs" />
     <Compile Include="Core\ValidationResult.cs" />
+    <Compile Include="FormTemplates\FormCompiler.cs" />
     <Compile Include="Properties\FormElementDesigner.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -3,8 +3,8 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
-    [Export(FormCompilerMetadataAttribute.CONTRACT, typeof(FormElementCompiler))]
-    [FormCompilerMetadata(Name = Constants.COMPILER_NAME, Type = typeof(WebsiteFormElement))]
+    [Export(FormCompilerMetadataAttribute.FORM_ELEMENT_COMPILER_CONTRACT, typeof(FormElementCompiler))]
+    [FormCompilerMetadata(Name = Constants.DURANDAL_JS, Type = typeof(WebsiteFormElement))]
     public class WebsiteFormElementCompiler : DurandalJsElementCompiler<WebsiteFormElement>
     {
         public string GetKnockoutBindingExpression()

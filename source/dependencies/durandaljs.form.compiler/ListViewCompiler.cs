@@ -4,8 +4,8 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
-    [Export(FormCompilerMetadataAttribute.CONTRACT, typeof(FormElementCompiler))]
-    [FormCompilerMetadata(Name = Constants.COMPILER_NAME, Type = typeof(ListView))]
+    [Export(FormCompilerMetadataAttribute.FORM_ELEMENT_COMPILER_CONTRACT, typeof(FormElementCompiler))]
+    [FormCompilerMetadata(Name = Constants.DURANDAL_JS, Type = typeof(ListView))]
     public class ListViewCompiler : DurandalJsElementCompiler<ListView>
     {
         private readonly ObjectCollection<string> m_inputEditorCollection = new ObjectCollection<string>();
@@ -20,7 +20,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var editors = from x in element.ListViewColumnCollection
                           let c = x.Input.ElementId = string.Empty
                           let d = x.Input.IsUniqueName = true
-                          select x.Input.GenerateEditorTemplate(Constants.COMPILER_NAME);
+                          select x.Input.GenerateEditorTemplate(Constants.DURANDAL_JS);
             this.InputEditorCollection.AddRange(editors);
             return base.GenerateEditor(element);
         }

@@ -53,6 +53,7 @@
     <Compile Include="CurrencyElementCompiler.cs" />
     <Compile Include="DateTimePickerCompiler.cs" />
     <Compile Include="DownloadLinkCompiler.cs" />
+    <Compile Include="DurandalJsFormCompiler.cs" />
     <Compile Include="EntityLookupElementCompiler.cs" />
     <Compile Include="FileUploadElementCompiler.cs" />
     <Compile Include="HtmlElementCompiler.cs" />
