@@ -1,5 +1,7 @@
-@model Bespoke.Sph.Domain.FormElement
+@{
+    var element = Model.Element;
+}
 
 <div class="alert alert-error">
-    <strong>There's no EditorTemplate for @Model.GetType().Name</strong>
+    <strong>There's no EditorTemplate for @Model.Element.GetType().Name</strong>
 </div>

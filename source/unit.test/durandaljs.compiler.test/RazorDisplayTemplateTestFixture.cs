@@ -98,7 +98,7 @@ namespace durandaljs.compiler.test
             dropdown.ComboBoxItemCollection.Add(new ComboBoxItem{Caption = "Female",Value = "Female"});
             var compiler = new ComboBoxCompiler();
             var html = compiler.GenerateDisplay(dropdown);
-            StringAssert.Contains(html,"<option");
+            StringAssert.Contains(html,"<span");
         }
 
 
@@ -139,8 +139,9 @@ namespace durandaljs.compiler.test
 
             var compiler = new DatePickerCompiler();
             var html = compiler.GenerateDisplay(picker);
-            StringAssert.Contains(html,"kendoDate:");
+            StringAssert.Contains(html,"date:");
         }
+
         [TestMethod]
         public void DateTimePicker()
         {
@@ -158,7 +159,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new DateTimePickerCompiler();
             var html = compiler.GenerateDisplay(picker);
-            StringAssert.Contains(html, "kendoDateTime:");
+            StringAssert.Contains(html, "date:");
         }
 
 

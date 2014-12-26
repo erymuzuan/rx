@@ -1,13 +1,14 @@
-@using System.Web.Mvc.Html
-@model Bespoke.Sph.Domain.ListView
 
 
+@{
+    var element = Model.Element;
+}
 <div data-bind="visible:@Model.Visible">
     <span> @Model.Label</span>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
-                @foreach (var col in Model.ListViewColumnCollection)
+                @foreach (var col in element.ListViewColumnCollection)
                 {
                     <th>@col.Label</th>
                 }
@@ -15,7 +16,7 @@
         </thead>
         <tbody data-bind="foreach :@Model.Path">
             <tr>
-                @foreach (var col in Model.ListViewColumnCollection)
+                @foreach (var col in element.ListViewColumnCollection)
                 {
                     var col1 = col;
                     col.Input.Path = col.Path;
@@ -33,7 +34,7 @@
                             pathd = string.Format("'/sph/documenttemplate/transform?entity={0}&templateId={1}&id=' + {2}()", download.Entity, download.TemplateId, download.Path);
                         }
                         <td>
-                            <a data-bind="attr : {'href':@Html.Raw(pathd)}" download>
+                            <a data-bind="attr : {'href':@Raw(pathd)}" download>
                                 @download.Label
                             </a>
                         </td>
@@ -44,7 +45,7 @@
                     {
                         var path = string.Format("'/sph/image/store/' + {0}()", image.Path);
                         <td>
-                            <img alt="@image.Label" title="@image.Tooltip" width="@image.Width" height="@image.Height" data-bind="attr : {'src':@Html.Raw(path)}, visible:@Html.Raw(image.Visible)" />
+                            <img alt="@image.Label" title="@image.Tooltip" width="@image.Width" height="@image.Height" data-bind="attr : {'src':@Raw(path)}, visible:@Raw(image.Visible)" />
                         </td>
                         continue;
                     }

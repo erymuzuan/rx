@@ -42,5 +42,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var razor = ObjectBuilder.GetObject<ITemplateEngine>();
             return razor.GenerateAsync(this.DisplayRazorTemplate, this).Result;
         }
+
+        public virtual string GetKnockoutDisplayBindingExpression()
+        {
+            var path = this.Element.Path;
+            return string.Format("text: {0}", path);
+        }
     }
 }
