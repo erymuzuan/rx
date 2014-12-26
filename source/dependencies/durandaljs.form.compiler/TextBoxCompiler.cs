@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.Composition;
-using System.Text;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
@@ -8,42 +7,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [FormCompilerMetadata(Name = Constants.COMPILER_NAME, Type = typeof(TextBox))]
     public class TextBoxCompiler : DurandalJsElementCompiler<TextBox>
     {
-        public override string GenerateEditor(TextBox picker)
-        {
-            return
-                string.Format(
-                    @"     <input {0}
-    class=""{1} form-control  {2}"" 
-    title=""{3}""
-    data-bind=""{4}""
-    id=""{5}"" 
-    type=""text"" 
-    name=""{6}"" />",
-                    picker.IsRequired ? "required" : string.Empty,
-                    picker.CssClass,
-                    picker.Size,
-                    picker.Tooltip,
-                    this.GetKnockoutBindingExpression(picker),
-                    picker.ElementId,
-                    picker.Path
-                    );
-        }
 
-
-        private string GenerateMarkup(TextBox text)
+        public string GetKnockoutBindingExpression()
         {
-            var element = new StringBuilder();
-            var binding = "value";
-            if (text.FieldValidation.Mode == "Number")
-                binding = "money";
-            if (text.FieldValidation.Mode == "Currency")
-                binding = "money";
-            element.AppendFormat("<input type='text' data-bind='{2}:{0}' name='{1}'></input>", text.Path, text.Name, binding);
-            return element.ToString();
-        }
-
-        private string GetKnockoutBindingExpression(TextBox textBox)
-        {
+            var textBox = this.Element;
             if (string.IsNullOrWhiteSpace(textBox.Enable))
                 textBox.Enable = "true";
 

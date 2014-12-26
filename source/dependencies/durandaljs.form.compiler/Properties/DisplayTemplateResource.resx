@@ -118,7 +118,43 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ComboBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ComboBox.cshtml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="display_template_CheckBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.CheckBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_ComboBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.ComboBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_DatePicker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.DatePicker.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_DatePickerTime" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.DatePickerTime.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_EmailFormElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.EmailFormElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_FormElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.FormElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_HtmlElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.HtmlElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_MapElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.MapElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_NumberTextBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.NumberTextBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_SectionFormElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.SectionFormElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_TextAreaElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.TextAreaElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_TextBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.TextBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_WebsiteFormElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.WebsiteFormElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

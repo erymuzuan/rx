@@ -6,8 +6,28 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     public class DurandalJsElementCompiler<T> : FormElementCompiler<T> where T : FormElement
     {
         public T Element { get; private set; }
-        protected virtual string EditorRazorTemplate { get { throw new Exception("Not implemented"); } }
-        protected virtual string DisplayRazorTemplate { get { return null; } }
+
+        protected virtual string EditorRazorTemplate
+        {
+            get
+            {
+                var razor = Properties.EditorTemplateResources.ResourceManager.GetString("editor_template_" + this.GetType().Name);
+                if (string.IsNullOrWhiteSpace(razor))
+                    return @"<span class=""error"">No editor template defined for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
+                return razor;
+            }
+        }
+
+        protected virtual string DisplayRazorTemplate
+        {
+            get
+            {
+                var razor = Properties.DisplayTemplateResource.ResourceManager.GetString("display_template_" + this.GetType().Name);
+                if (string.IsNullOrWhiteSpace(razor))
+                    return @"<span class=""error"">No display template defined for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
+                return razor;
+            }
+        }
         public override string GenerateEditor(T element)
         {
             this.Element = element;
@@ -19,9 +39,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public override string GenerateDisplay(T element)
         {
             this.Element = element;
-            if (string.IsNullOrWhiteSpace(this.DisplayRazorTemplate))
-                return string.Format(@"<span data-bind=""text:{0}""></span> ", element.Path);
-
             var razor = ObjectBuilder.GetObject<ITemplateEngine>();
             return razor.GenerateAsync(this.DisplayRazorTemplate, this).Result;
         }

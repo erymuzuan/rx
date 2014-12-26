@@ -18,14 +18,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 this.Element.Enable ?? "true");
         }
 
-        protected override string EditorRazorTemplate
-        {
-            get
-            {
-                var razor = Properties.Resources.ComboBox;
-                return System.Text.Encoding.UTF8.GetString(razor);
-            }
-        }
+
 
     }
 }

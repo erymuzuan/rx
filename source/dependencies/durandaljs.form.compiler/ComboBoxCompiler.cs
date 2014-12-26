@@ -7,17 +7,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [FormCompilerMetadata(Name = Constants.COMPILER_NAME, Type = typeof(ComboBox))]
     public class ComboBoxCompiler : DurandalJsElementCompiler<ComboBox>
     {
-        protected override string EditorRazorTemplate
+      
+        public string GetKnockoutBindingExpression()
         {
-            get
-            {
-                var razor = Properties.Resources.ComboBox;
-                return System.Text.Encoding.UTF8.GetString(razor);
-            }
-        }
-
-        public string GetKnockoutBindingExpression(ComboBox cbb)
-        {
+            var cbb = this.Element;
             var path = cbb.Path.ConvertJavascriptObjectToFunction();
             if (null != cbb.ComboBoxLookup
                 && !string.IsNullOrWhiteSpace(cbb.ComboBoxLookup.Entity)

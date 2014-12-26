@@ -45,18 +45,30 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckBoxCompiler.cs" />
     <Compile Include="ComboBoxCompiler.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="DateTimePickerCompiler.cs" />
+    <Compile Include="HtmlElementCompiler.cs" />
+    <Compile Include="NumberTextBoxCompiler.cs" />
+    <Compile Include="Properties\DisplayTemplateResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DisplayTemplateResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="DurandalJsElementCompiler.cs" />
     <Compile Include="EmailFormElementCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatePickerCompiler.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\EditorTemplateResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>EditorTemplateResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SectionFormElementCompiler.cs" />
+    <Compile Include="TextAreaElementCompiler.cs" />
     <Compile Include="TextBoxCompiler.cs" />
+    <Compile Include="WebsiteFormElementCompiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
@@ -65,14 +77,146 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Properties\DisplayTemplateResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>DisplayTemplateResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\EditorTemplateResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditorTemplateResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ComboBox.cshtml" />
-    <None Include="Resources\EmailFormElement.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AddressElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CheckBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ComboBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CurrencyElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DatePicker.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EmailFormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HtmlElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LabelItem.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MapElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NumberTextBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SectionFormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TextAreaElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TextBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WebsiteFormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.AddressElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.CheckBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.ComboBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.CurrencyElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.DatePicker.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.EmailFormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.FormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.HtmlElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.LabelItem.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.MapElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.NumberTextBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.SectionFormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.TextAreaElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.TextBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.WebsiteFormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.ComboBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.DatePicker.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.DatePickerTime.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.EmailFormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.FormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.HtmlElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.MapElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.NumberTextBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.SectionFormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.TextAreaElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.TextBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.WebsiteFormElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.CheckBox.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyOutputDirClientAndWeb">
