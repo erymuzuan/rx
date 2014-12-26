@@ -52,6 +52,9 @@ namespace Bespoke.Sph.Domain
             if (!validRoute.Match(this.Route).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = "Route must be lower case.You cannot use symbol or number as first character, or other chars except _ - ." });
 
+            if (this.CompilerCollection.Count == 0)
+                result.Errors.Add(new BuildError(this.WebId) { Message = "You need to specify at least one compiler for the form." });
+
 
             result.Errors.AddRange(errors);
             result.Errors.AddRange(elements.SelectMany(v => v));

@@ -1,7 +1,9 @@
-﻿namespace Bespoke.Sph.Domain
+﻿using System.Threading.Tasks;
+
+namespace Bespoke.Sph.Domain
 {
-    public class FormCompiler : DomainObject
+    public abstract class FormCompiler : DomainObject
     {
-        
+        public abstract Task<WorkflowCompilerResult> CompileAsync(EntityForm entityForm);
     }
 }
