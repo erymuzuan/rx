@@ -96,16 +96,19 @@ namespace Bespoke.Sph.SyntaxVisualizers
 
         private void FormatCode(object sender, RoutedEventArgs e)
         {
-            try
+            var vm = (AppViewModel)this.DataContext;
+            vm.IsBusy = true;
+            this.QueueUserWorkItem(code2 =>
             {
-                this.Cursor = Cursors.Wait;
-                var code = codeEditor.Text.FormatCode();
-                codeEditor.Text = code;
-            }
-            finally
-            {
-                this.Cursor = Cursors.Arrow;
-            }
+                var code = code2.FormatCode();
+                this.Post((c) =>
+                {
+                    codeEditor.Text = c;
+                    vm.IsBusy = false;
+                }, code);
+
+            }, codeEditor.Text);
+
         }
 
         private void MenuExit(object sender, RoutedEventArgs e)
@@ -115,10 +118,13 @@ namespace Bespoke.Sph.SyntaxVisualizers
 
         private void OpenFile(object sender, RoutedEventArgs e)
         {
+            var folder = File.Exists(this.EditedFile)
+                ? Path.GetDirectoryName(this.EditedFile)
+                : Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var dlg = new OpenFileDialog
             {
                 RestoreDirectory = true,
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                InitialDirectory = folder,
                 Filter = "c sharp|*.cs;*.txt|All Files|*.*",
                 Title = "Open a csharp file"
             };

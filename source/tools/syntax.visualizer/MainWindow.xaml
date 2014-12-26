@@ -74,6 +74,8 @@
 			SyntaxHighlighting="C#"
 			TextChanged="CodeEditor_OnTextChanged"
                 />
+        
+        
 
         <GridSplitter Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Stretch"
 			Width="4" Background="Orange" Grid.Row="1"/>

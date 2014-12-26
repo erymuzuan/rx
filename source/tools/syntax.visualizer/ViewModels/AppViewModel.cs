@@ -46,6 +46,17 @@ namespace Bespoke.Sph.SyntaxVisualizers.ViewModels
         private string m_editedFilePath;
         private readonly ObjectCollection<string> m_openFileCollection = new ObjectCollection<string>();
         private readonly ObjectCollection<string> m_fileCollection = new ObjectCollection<string>();
+        private bool m_isBusy;
+
+        public bool IsBusy
+        {
+            get { return m_isBusy; }
+            set
+            {
+                m_isBusy = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public ObjectCollection<string> FileCollection
         {
