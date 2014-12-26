@@ -121,8 +121,14 @@
   <data name="editor_template_AddressElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\editor.template.AddressElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="editor_template_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editor.template.Button.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="editor_template_CheckBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\editor.template.CheckBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="editor_template_ChildEntityListView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editor.template.ChildEntityListView.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="editor_template_ComboBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\editor.template.ComboBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -133,8 +139,20 @@
   <data name="editor_template_DatePicker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\editor.template.DatePicker.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="editor_template_DateTimePicker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editor.template.DateTimePicker.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="editor_template_DownloadLink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editor.template.DownloadLink.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="editor_template_EmailFormElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\editor.template.EmailFormElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="editor_template_EntityLookupElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editor.template.EntityLookupElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="editor_template_FileUploadElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editor.template.FileUploadElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="editor_template_FormElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\editor.template.FormElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -142,8 +160,14 @@
   <data name="editor_template_HtmlElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\editor.template.HtmlElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="editor_template_ImageElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editor.template.ImageElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="editor_template_LabelItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\editor.template.LabelItem.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="editor_template_ListView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editor.template.ListView.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="editor_template_MapElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\editor.template.MapElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>

@@ -1,11 +1,9 @@
-@model Bespoke.Sph.Domain.WebsiteFormElement
-<div class="control-group">
-    <label for="@Model.ElementId" class="control-label">@Model.Label</label>
-    <div class="controls">
-        <input class="@(Model.CssClass + " "+ Model.Size)" 
-               title="@Model.Tooltip" 
-            data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="url" name="@Model.Path" />
-    </div>
-</div>
+@{
+    var element = Model.Element;
+}
+<input class="@(element.CssClass + " "+ element.Size)"
+       title="@element.Tooltip"
+       data-bind="@Raw(Model.GetKnockoutBindingExpression())" id="@element.ElementId" type="url" name="@element.Path" />
+
 
 

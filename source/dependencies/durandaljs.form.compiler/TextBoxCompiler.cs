@@ -38,9 +38,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
 
             var unique = textBox.IsUniqueName ? ",uniqueName:true" : "";
-            if (textBox.IsCompact)
-                return string.Format("{2}: {0}, visible :{1}, enable :{3} {4}", path, textBox.Visible, binding, textBox.Enable, unique);
-            return string.Format("{1}: {0}, enable :{2} {3}", path, binding, textBox.Enable, unique);
+
+            return string.Format("{2}: {0}, visible :{1}, enable :{3} {4}", path, textBox.Visible, binding, textBox.Enable, unique);
+
         }
     }
 }

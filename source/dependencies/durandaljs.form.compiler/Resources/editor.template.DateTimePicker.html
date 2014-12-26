@@ -1,6 +1,6 @@
 @{
     var element = Model.Element;
 }
-<input class="@(element.CssClass + " "+ element.Size)"
+<input class="@(element.CssClass + " form-control "+ element.Size)"
        data-bind="@Raw(Model.GetKnockoutBindingExpression())" id="@element.ElementId" type="text"
        name="@element.Path" />

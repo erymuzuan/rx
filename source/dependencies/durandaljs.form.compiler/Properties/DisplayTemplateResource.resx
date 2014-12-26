@@ -118,11 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="display_template_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.Button.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="display_template_CheckBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\display.template.CheckBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="display_template_ChildEntityListView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.ChildEntityListView.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="display_template_ComboBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\display.template.ComboBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_CurrencyElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.CurrencyElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="display_template_DatePicker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\display.template.DatePicker.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -130,14 +139,26 @@
   <data name="display_template_DatePickerTime" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\display.template.DatePickerTime.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="display_template_DownloadLink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.DownloadLink.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="display_template_EmailFormElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\display.template.EmailFormElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_FileUploadElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.FileUploadElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="display_template_FormElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\display.template.FormElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="display_template_HtmlElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\display.template.HtmlElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_ImageElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.ImageElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="display_template_ListView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\display.template.ListView.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="display_template_MapElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\display.template.MapElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>

@@ -61,6 +61,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.Button
+        ///.
+        /// </summary>
+        internal static string display_template_Button {
+            get {
+                return ResourceManager.GetString("display_template_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.CheckBox
         ///@{
         ///    
@@ -81,6 +91,32 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @using System.Web.Mvc.Html
+        ///@using Bespoke.Sph.Domain
+        ///@model Bespoke.Sph.Domain.ChildEntityListView
+        ///
+        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///{
+        ///    Model.Enable = &quot;true&quot;;
+        ///}
+        ///
+        ///&lt;div data-bind=&quot;visible:@Model.Visible&quot;&gt;
+        ///    &lt;a class=&quot;btn btn-default pull-right&quot;&gt;@Model.Label&lt;/a&gt;
+        ///    &lt;table class=&quot;table table-condensed table-striped&quot;&gt;
+        ///        &lt;thead&gt;
+        ///            &lt;tr&gt;
+        ///                @foreach (var col in Model.ViewColumnCollection)
+        ///                {
+        ///                    &lt;th&gt;@col.Header&lt;/th&gt;
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string display_template_ChildEntityListView {
+            get {
+                return ResourceManager.GetString("display_template_ChildEntityListView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ComboBox
         ///&lt;div class=&quot;control-group&quot;&gt;
         ///    &lt;label class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
@@ -93,6 +129,21 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         internal static string display_template_ComboBox {
             get {
                 return ResourceManager.GetString("display_template_ComboBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.CurrencyElement
+        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///
+        ///    &lt;label class=&quot;col-md-4&quot;&gt;@Model.Label&lt;/label&gt;
+        ///    &lt;span class=&quot;col-md-8&quot; data-bind=&quot;money: @Model.Path&quot;&gt;&lt;/span&gt;
+        ///
+        ///&lt;/div&gt;.
+        /// </summary>
+        internal static string display_template_CurrencyElement {
+            get {
+                return ResourceManager.GetString("display_template_CurrencyElement", resourceCulture);
             }
         }
         
@@ -133,6 +184,30 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.DownloadLink
+        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///{
+        ///    Model.Enable = &quot;true&quot;;
+        ///}
+        ///@{
+        ///    var path = string.Format(&quot;&apos;/sph/binarystore/get/&apos; + {0}()&quot;, Model.Path);
+        ///    if (Model.IsTransformTemplate)
+        ///    {
+        ///        path = string.Format(&quot;&apos;/sph/documenttemplate/transform?entity={0}&amp;templateId={1}&amp;id=&apos; + {2}()&quot;, Model.Entity, Model.TemplateId, Model.Path);
+        ///    }
+        ///}
+        ///
+        ///@if (Model.IsCompact)
+        ///{
+        ///    &lt;a data-bind=&quot;attr : {&apos;href&apos;:@Html.Raw(path)}, visible:@Model.Visible&quot; dow [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string display_template_DownloadLink {
+            get {
+                return ResourceManager.GetString("display_template_DownloadLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.EmailFormElement
         ///&lt;div class=&quot;control-group&quot;&gt;
         ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
@@ -147,6 +222,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         internal static string display_template_EmailFormElement {
             get {
                 return ResourceManager.GetString("display_template_EmailFormElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.FileUploadElement
+        ///.
+        /// </summary>
+        internal static string display_template_FileUploadElement {
+            get {
+                return ResourceManager.GetString("display_template_FileUploadElement", resourceCulture);
             }
         }
         
@@ -173,6 +258,51 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         internal static string display_template_HtmlElement {
             get {
                 return ResourceManager.GetString("display_template_HtmlElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ImageElement
+        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///{
+        ///    Model.Enable = &quot;true&quot;;
+        ///}@{
+        ///    var path = string.Format(&quot;&apos;/sph/image/store/&apos; + {0}()&quot;, this.Model.Path);
+        /// }
+        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///    &lt;label class=&quot;col-md-@(Model.LabelColMd ?? 4)&quot;&gt;@Model.Label&lt;/label&gt;
+        ///    &lt;img alt=&quot;@Model.Label&quot; title=&quot;@Model.Tooltip&quot; width=&quot;@Model.Width&quot; height=&quot;@Model.Height&quot; data-bind=&quot;attr : {&apos;src&apos;:@Html.Raw(path)}, visible:@Html.Raw(Model.Visible)&quot; /&gt;
+        ///&lt;/div&gt;.
+        /// </summary>
+        internal static string display_template_ImageElement {
+            get {
+                return ResourceManager.GetString("display_template_ImageElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @using System.Web.Mvc.Html
+        ///@model Bespoke.Sph.Domain.ListView
+        ///
+        ///
+        ///&lt;div data-bind=&quot;visible:@Model.Visible&quot;&gt;
+        ///    &lt;span&gt; @Model.Label&lt;/span&gt;
+        ///    &lt;table class=&quot;table table-condensed table-striped&quot;&gt;
+        ///        &lt;thead&gt;
+        ///            &lt;tr&gt;
+        ///                @foreach (var col in Model.ListViewColumnCollection)
+        ///                {
+        ///                    &lt;th&gt;@col.Label&lt;/th&gt;
+        ///                }
+        ///            &lt;/tr&gt;
+        ///        &lt;/thead&gt;
+        ///        &lt;tbody data-bind=&quot;foreach :@Model.Path&quot;&gt;
+        ///            &lt;tr&gt;
+        ///                @foreach [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string display_template_ListView {
+            get {
+                return ResourceManager.GetString("display_template_ListView", resourceCulture);
             }
         }
         

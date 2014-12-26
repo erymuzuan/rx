@@ -1,11 +1,6 @@
-@model Bespoke.Sph.Domain.CheckBox
 @{
-    
+    var element = Model.Element;
 }
-<div class="control-group">
-    <label class="control-label">@Model.Label</label>
-    <div class="controls">
-        <span data-bind="text: @Model.Path" id="ID"  />
-    </div>
-</div>
+<span data-bind="text: @element.Path" id="@element.ElementId" />
+
 

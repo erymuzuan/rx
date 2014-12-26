@@ -1,0 +1,8 @@
+@using Bespoke.Sph.Domain
+@{
+    var command = Model.Element.UseClick ? "click" : "command";
+    var operation = Model.Element.Operation.ToCamelCase();
+    var handler =string.IsNullOrWhiteSpace(operation) ? Model.Element.CommandName : operation;
+}
+<button data-bind="@command : $root.@handler, visible :@Model.Element.Visible, enable: @Model.Element.Enable" 
+        class="@Model.Element.CssClass">@Model.Element.Label</button>

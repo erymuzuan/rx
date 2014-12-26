@@ -41,9 +41,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
 
 
-            return cbb.IsCompact ?
-                string.Format("value: {0}, visible :{1}, enable :{2}", path, cbb.Visible, cbb.Enable) :
-                string.Format("value: {0}, enable :{1}", path, cbb.Enable);
+            return string.Format("value: {0}, visible :{1}, enable :{2}", path, cbb.Visible, cbb.Enable);
         }
     }
 }

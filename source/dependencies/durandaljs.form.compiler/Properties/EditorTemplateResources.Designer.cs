@@ -89,6 +89,27 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@model Bespoke.Sph.Domain.Button
+        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///{
+        ///    Model.Enable = &quot;true&quot;;
+        ///}
+        ///@{
+        ///    var command = Model.UseClick ? &quot;click&quot; : &quot;command&quot;;
+        ///    var operation = Model.Operation.ToCamelCase();
+        ///    var handler =string.IsNullOrWhiteSpace(operation) ? Model.CommandName : operation;
+        ///}
+        ///&lt;button data-bind=&quot;@command : $root.@handler, visible :@Model.Visible, enable: @Model.Enable&quot; class=&quot;@Model.CssClass&quot;&gt;@Model.Label&lt;/button&gt;
+        ///.
+        /// </summary>
+        internal static string editor_template_Button {
+            get {
+                return ResourceManager.GetString("editor_template_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.CheckBox
         ///@{
         ///    
@@ -107,6 +128,30 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         internal static string editor_template_CheckBox {
             get {
                 return ResourceManager.GetString("editor_template_CheckBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ChildEntityListView
+        ///@{
+        ///    if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///    {
+        ///        Model.Enable = &quot;true&quot;;
+        ///    }
+        ///    var guid = Guid.NewGuid().ToString();
+        ///}
+        ///
+        ///
+        ///
+        ///&lt;div class=&quot;form-group&quot; data-bind=&quot;visible:@Model.Visible&quot;&gt;
+        ///    &lt;h3&gt;@Model.Label&lt;/h3&gt;
+        ///    &lt;table class=&quot;table table-condensed table-striped&quot; data-bind=&quot;serverPaging :{ query: @Html.Raw(Model.Query), entity : &apos;@Model.Entity&apos;, list: bespoke.getSingletonObservableArray(&apos;@guid&apos;)}&quot;&gt;
+        ///        &lt;thead&gt;
+        ///            &lt;t [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string editor_template_ChildEntityListView {
+            get {
+                return ResourceManager.GetString("editor_template_ChildEntityListView", resourceCulture);
             }
         }
         
@@ -162,6 +207,55 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.DateTimePicker
+        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///{
+        ///    Model.Enable = &quot;true&quot;;
+        ///}
+        ///
+        ///@if (Model.IsCompact)
+        ///{
+        ///    &lt;input class=&quot;@(Model.CssClass + &quot; form-control &quot;+ Model.Size)&quot;
+        ///           data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.ElementId&quot; type=&quot;text&quot;
+        ///           name=&quot;@Model.Path&quot; /&gt;
+        ///}
+        ///else
+        ///{
+        ///
+        ///    &lt;div class=&quot;form-group&quot; data-bind=&quot;visible:@Model.Visible&quot;&gt;
+        ///        &lt;label for=&quot;@Model.ElementId&quot; class=&quot;@Model.LabelCssClass&quot;&gt;@Mod [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string editor_template_DateTimePicker {
+            get {
+                return ResourceManager.GetString("editor_template_DateTimePicker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.DownloadLink
+        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///{
+        ///    Model.Enable = &quot;true&quot;;
+        ///}
+        ///@{
+        ///    var path = string.Format(&quot;&apos;/sph/binarystore/get/&apos; + {0}()&quot;, Model.Path);
+        ///    if (Model.IsTransformTemplate)
+        ///    {
+        ///        path = string.Format(&quot;&apos;/sph/documenttemplate/transform?entity={0}&amp;templateId={1}&amp;id=&apos; + {2}()&quot;, Model.Entity, Model.TemplateId, Model.Path);
+        ///    }
+        ///}
+        ///
+        ///@if (Model.IsCompact)
+        ///{
+        ///    &lt;a data-bind=&quot;attr : {&apos;href&apos;:@Html.Raw(path)}, visible:@Model.Visible&quot; dow [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string editor_template_DownloadLink {
+            get {
+                return ResourceManager.GetString("editor_template_DownloadLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.EmailFormElement
         ///&lt;div class=&quot;form-group&quot;&gt;
         ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label @Model.LabelCssClass&quot;&gt;@Model.Label&lt;/label&gt;
@@ -176,6 +270,58 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         internal static string editor_template_EmailFormElement {
             get {
                 return ResourceManager.GetString("editor_template_EmailFormElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@model Bespoke.Sph.Domain.EntityLookupElement
+        ///@{
+        ///    if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///    {
+        ///        Model.Enable = &quot;true&quot;;
+        ///    }
+        ///    
+        ///    var columns = string.Join(&quot;,&quot;, Model.LookupColumnCollection.Select(c =&gt; string.Format(&quot;&apos;{0}&apos;&quot;, c)));
+        ///    Console.WriteLine(columns);
+        ///}
+        ///
+        ///
+        ///@if (Model.IsCompact)
+        ///{
+        ///
+        ///    &lt;a class=&quot;btn btn-link&quot;
+        ///       data-bind=&quot;tooltip :&apos;@Model.Tooltip&apos;,lookup : {entity: &apos;@Model.Entity&apos;, member : &apos;@Model.ValueMemberPath&apos;, value : @Model. [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string editor_template_EntityLookupElement {
+            get {
+                return ResourceManager.GetString("editor_template_EntityLookupElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.FileUploadElement
+        ///@{
+        ///    var required = Model.IsRequired ? &quot;required&quot; : null;
+        ///}
+        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///{
+        ///    Model.Enable = &quot;true&quot;;
+        ///}
+        ///@if (Model.IsCompact)
+        ///{
+        ///    &lt;input @required class=&quot;@(Model.CssClass + &quot; form-control &quot; + Model.Size)&quot; title=&quot;@Model.Tooltip&quot;
+        ///           data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot;
+        ///           id=&quot;@Model.ElementId&quot; type=&quot;file&quot; name=&quot;files&quot; /&gt;
+        ///}
+        ///else
+        ///{
+        ///
+        ///    &lt;div data-bind=&quot;visible:@Model.Visible [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string editor_template_FileUploadElement {
+            get {
+                return ResourceManager.GetString("editor_template_FileUploadElement", resourceCulture);
             }
         }
         
@@ -206,6 +352,23 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ImageElement
+        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///{
+        ///    Model.Enable = &quot;true&quot;;
+        ///}@{
+        ///    var path = string.Format(&quot;&apos;/sph/image/store/&apos; + {0}()&quot;, this.Model.Path);
+        ///}
+        ///&lt;label class=&quot;col-md-@(Model.LabelColMd ?? 4)&quot;&gt;@Model.Label&lt;/label&gt;
+        ///&lt;img alt=&quot;@Model.Label&quot; title=&quot;@Model.Tooltip&quot; width =&quot;@Model.Width&quot; height=&quot;@Model.Height&quot; data-bind=&quot;attr : {&apos;src&apos;:@Html.Raw(path)}, visible:@Html.Raw(Model.Visible)&quot; /&gt;.
+        /// </summary>
+        internal static string editor_template_ImageElement {
+            get {
+                return ResourceManager.GetString("editor_template_ImageElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.LabelItem
         ///&lt;div class=&quot;control-group&quot;&gt;
         ///    &lt;label class=&quot;control-label&quot;&gt;@Model.Name&lt;/label&gt;
@@ -214,6 +377,29 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         internal static string editor_template_LabelItem {
             get {
                 return ResourceManager.GetString("editor_template_LabelItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @using System.Web.Mvc.Html
+        ///@using Bespoke.Sph.Domain
+        ///@model Bespoke.Sph.Domain.ListView
+        ///
+        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
+        ///{
+        ///    Model.Enable = &quot;true&quot;;
+        ///}
+        ///
+        ///&lt;div data-bind=&quot;visible:@Model.Visible&quot;&gt;
+        ///    &lt;button class=&quot;btn btn-default pull-right&quot; data-bind=&quot;click : addChildItem(@Model.Path.ConvertJavascriptObjectToFunction(), @Model.ChildItemType)&quot;&gt;@Model.Label&lt;/button&gt;
+        ///    &lt;table class=&quot;table table-condensed table-striped&quot;&gt;
+        ///        &lt;thead&gt;
+        ///            &lt;tr&gt;
+        ///                @foreach (va [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string editor_template_ListView {
+            get {
+                return ResourceManager.GetString("editor_template_ListView", resourceCulture);
             }
         }
         

@@ -1,9 +1,7 @@
-@model Bespoke.Sph.Domain.EmailFormElement
-<div class="form-group">
-    <label for="@Model.ElementId" class="control-label @Model.LabelCssClass">@Model.Label</label>
-    <div class="col-lg-6">
-        <input class="@(Model.CssClass + " form-control "+ Model.Size)" title="@Model.Tooltip" 
-            data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="email" name="@Model.Path" />
-    </div>
-</div>
+@{
+    var element = Model.Element;
+}
+
+<input class="@(element.CssClass + " form-control "+ element.Size)" title="@element.Tooltip"
+       data-bind="@Raw(Model.GetKnockoutBindingExpression())" id="@element.ElementId" type="email" name="@element.Path" />
 

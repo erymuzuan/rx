@@ -7,5 +7,9 @@ namespace Bespoke.Sph.Domain
         Description = "Creates a command to download a file for given StoreId")]
     public partial class DownloadLink : FormElement
     {
+        public override bool RenderOwnLabel
+        {
+            get { return true; }
+        }
     }
 }

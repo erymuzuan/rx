@@ -11,7 +11,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             get
             {
-                var razor = Properties.EditorTemplateResources.ResourceManager.GetString("editor_template_" + this.GetType().Name);
+                var razor = Properties.EditorTemplateResources.ResourceManager.GetString("editor_template_" + typeof(T).Name);
                 if (string.IsNullOrWhiteSpace(razor))
                     return @"<span class=""error"">No editor template defined for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
                 return razor;
@@ -22,7 +22,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             get
             {
-                var razor = Properties.DisplayTemplateResource.ResourceManager.GetString("display_template_" + this.GetType().Name);
+                var razor = Properties.DisplayTemplateResource.ResourceManager.GetString("display_template_" + typeof(T).Name);
                 if (string.IsNullOrWhiteSpace(razor))
                     return @"<span class=""error"">No display template defined for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
                 return razor;

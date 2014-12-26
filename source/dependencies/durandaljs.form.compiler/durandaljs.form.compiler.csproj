@@ -45,11 +45,19 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonCompiler.cs" />
     <Compile Include="CheckBoxCompiler.cs" />
+    <Compile Include="ChildEntityListViewCompiler.cs" />
     <Compile Include="ComboBoxCompiler.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="CurrencyElementCompiler.cs" />
     <Compile Include="DateTimePickerCompiler.cs" />
+    <Compile Include="DownloadLinkCompiler.cs" />
+    <Compile Include="EntityLookupElementCompiler.cs" />
+    <Compile Include="FileUploadElementCompiler.cs" />
     <Compile Include="HtmlElementCompiler.cs" />
+    <Compile Include="ImageElementCompiler.cs" />
+    <Compile Include="ListViewCompiler.cs" />
     <Compile Include="NumberTextBoxCompiler.cs" />
     <Compile Include="Properties\DisplayTemplateResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -85,54 +93,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EditorTemplateResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ComboBox.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AddressElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CheckBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ComboBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CurrencyElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DatePicker.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\EmailFormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\FormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\HtmlElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\LabelItem.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MapElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\NumberTextBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SectionFormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\TextAreaElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\TextBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\WebsiteFormElement.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\editor.template.AddressElement.html" />
@@ -217,6 +177,51 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\display.template.CheckBox.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.Button.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.ChildEntityListView.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.DateTimePicker.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.DownloadLink.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.EntityLookupElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.FileUploadElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.ImageElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.template.ListView.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.Button.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.ChildEntityListView.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.CurrencyElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.DownloadLink.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.FileUploadElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.ImageElement.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\display.template.ListView.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyOutputDirClientAndWeb">

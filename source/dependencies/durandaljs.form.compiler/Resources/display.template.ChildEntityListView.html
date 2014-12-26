@@ -1,0 +1,26 @@
+@using Bespoke.Sph.Domain
+@{
+    var element = Model.Element;
+}
+<div data-bind="visible:@element.Visible">
+    <a class="btn btn-default pull-right">@element.Label</a>
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                @foreach (var col in element.ViewColumnCollection)
+                {
+                <th>@col.Header</th>
+                }
+
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :@element.Path.ConvertJavascriptObjectToFunction()">
+            <tr>
+                @foreach (var col in element.ViewColumnCollection)
+                {
+                <td data-bind="text:@col.Path"></td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>

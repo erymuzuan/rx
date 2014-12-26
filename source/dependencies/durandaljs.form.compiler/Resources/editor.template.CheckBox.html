@@ -1,13 +1,15 @@
-@model Bespoke.Sph.Domain.CheckBox
 @{
-    
+    var element = Model.Element;
 }
-<div class="control-group">
-    <div class="controls">
-        <label class="checkbox">
-            <input data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.Path" title="@Model.Tooltip" type="checkbox" name="@Model.Path" />
-            @Model.Label
-        </label>
+
+<div class="form-group" data-bind="visible:@element.Visible">
+    <div class="col-md-offset-@(@element.LabelColMd ?? 4) @element.InputPanelCssClass">
+        <div class="checkbox">
+            <label class="checkbox">
+                <input data-bind="@(Raw(Model.GetKnockoutBindingExpression()))" id="@element.Path" title="@element.Tooltip" type="checkbox"
+                       name="@element.Path" />
+                @element.Label
+            </label>
+        </div>
     </div>
 </div>
-

@@ -47,10 +47,6 @@ namespace Bespoke.Sph.Domain
         [XmlIgnore]
         public virtual bool IsPathIsRequired { get { return true; } }
 
-        [JsonIgnore]
-        [XmlIgnore]
-        public bool IsCompact { get; set; }
-
 
         public void SetDefaultLayout(FormDesign formDesign)
         {
@@ -107,6 +103,16 @@ namespace Bespoke.Sph.Domain
             return string.Empty;
         }
 
+
+
+        /// <summary>
+        /// When override and set to true, it;s the element responsibility to render the label on their owne
+        /// </summary>
+        public virtual bool RenderOwnLabel
+        {
+            get { return false; }
+        }
+
         /// <summary>
         /// The unique typename for each activity, should be overriden if you wish to have different name to avoid conflict
         /// </summary>
@@ -124,6 +130,12 @@ namespace Bespoke.Sph.Domain
             ObjectBuilder.ComposeMefCatalog(this);
             var fc = this.Compilers.FirstOrDefault(c => c.Metadata.Name == compiler
                 && c.Metadata.Type == this.GetType());
+
+            if (string.IsNullOrWhiteSpace(this.Visible))
+                this.Visible = "true";
+            if (string.IsNullOrWhiteSpace(this.Enable))
+                this.Enable = "true";
+
             if (null == fc)
             {
                 var message = string.Format("Cannot find {0} compiler for {1} element", compiler, this.GetType().GetShortAssemblyQualifiedName());

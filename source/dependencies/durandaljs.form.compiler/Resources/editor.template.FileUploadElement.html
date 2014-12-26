@@ -1,0 +1,12 @@
+
+@{
+var element = Model.Element;
+var required = element.IsRequired ? "required" : string.Empty;
+}
+
+
+<input @required class="@(element.CssClass + " form-control " + element.Size)" title="@element.Tooltip"
+       data-bind="@Raw(Model.GetKnockoutBindingExpression())"
+       id="@element.ElementId" type="file" name="files" />
+
+
