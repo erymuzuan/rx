@@ -43,11 +43,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        [JsonIgnore]
-        [XmlIgnore]
-        public virtual bool IsPathIsRequired { get { return true; } }
-
-
         public void SetDefaultLayout(FormDesign formDesign)
         {
             var fe = this;
@@ -63,6 +58,13 @@ namespace Bespoke.Sph.Domain
 
 
         }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public virtual bool IsPathIsRequired { get { return true; } }
+
+
+
 
         public virtual BuildError[] ValidateBuild(WorkflowDefinition wd, ScreenActivity screen)
         {

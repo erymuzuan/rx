@@ -112,7 +112,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fe.Visible("true");
                     fe.Enable("true");
                     fe.Size("input-large");
-                    fe.ElementId(system.guid());
+                    fe.ElementId(ko.unwrap(fe.TypeName) + "_" + (fd.FormElementCollection().length + 1));
                     fe.WebId(system.guid());
 
                     fd.FormElementCollection.push(fe);
@@ -160,8 +160,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fe.isSelected = ko.observable(true);
                     fe.Enable("true");
                     fe.Visible("true");
-                    fe.Label("Label " + fd.FormElementCollection().length);
-                    fe.ElementId(system.guid());
+                    fe.Label("Label " + (fd.FormElementCollection().length + 1));
+                    fe.ElementId(ko.unwrap(fe.TypeName) + "_" + (fd.FormElementCollection().length + 1));
                     fe.WebId(system.guid());
 
                     for (var i = 0; i < children.length; i++) {
