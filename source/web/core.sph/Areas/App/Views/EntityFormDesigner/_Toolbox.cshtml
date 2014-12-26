@@ -99,10 +99,22 @@
                 </div>
                 <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
-                        <input data-bind="checked: IsAuditTrailAvailable" id="form-design-IsAuditTrailAvailable" type="checkbox" name="FormDesign.IsAuditTrailAvailable" />
+                        <input data-bind="checked: IsAuditTrailAvailable" id="form-design-IsAuditTrailAvailable" type="checkbox" name="FormDesign.IsAuditTrailAvailable"/>
                         Audit trail
                     </label>
                 </div>
+
+                <h3>Compilers</h3>
+                @foreach (var compiler in Model.Compilers)
+                {
+                    <div class="form-group checkbox checkbox-no-padding-left">
+                        <label>
+                            <input data-bind="checked: CompilerCollection" id="form-design-cpmpiler-@compiler.Metadata.Name" type="checkbox" name="FormDesign.@compiler.Metadata.Name" value="@compiler.Metadata.Name" />
+                            @compiler.Metadata.Name
+                        </label>
+                    </div>
+                }
+              
 
                 <!-- ko with : FormDesign -->
 

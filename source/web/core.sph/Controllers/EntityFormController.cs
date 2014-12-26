@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -6,9 +8,24 @@ using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Controllers
 {
+    [Authorize]
     [RoutePrefix("entity-form")]
     public class EntityFormController : Controller
     {
+        [ImportMany(FormCompilerMetadataAttribute.FORM_COMPILER_CONTRACT, typeof(FormCompiler), AllowRecomposition = true)]
+        public Lazy<FormCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
+
+        [HttpGet]
+        [Route("compilers")]
+        public ActionResult GetAvailableCompilers()
+        {
+            ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.Compilers)
+                throw new InvalidOperationException("Cannot instantiate FormCompilers");
+            return Json(this.Compilers.Select(x => x.Metadata.Name).ToArray(), JsonRequestBehavior.AllowGet);
+        }
+
+
         [HttpPost]
         [Route("")]
         public async Task<ActionResult> Save()
@@ -35,9 +52,9 @@ namespace Bespoke.Sph.Web.Controllers
             var form = this.GetRequestJson<EntityForm>();
 
             // look for column which points to the form
-// ReSharper disable RedundantBoolCompare
+            // ReSharper disable RedundantBoolCompare
             var viewQuery = context.EntityViews.Where(e => e.IsPublished == true && e.EntityDefinitionId == form.EntityDefinitionId);
-// ReSharper restore RedundantBoolCompare
+            // ReSharper restore RedundantBoolCompare
             var viewLo = await context.LoadAsync(viewQuery, includeTotalRows: true);
             var views = new ObjectCollection<EntityView>(viewLo.ItemCollection);
             while (viewLo.HasNextPage)
@@ -47,10 +64,10 @@ namespace Bespoke.Sph.Web.Controllers
             }
 
             var violations = (from vw in views
-                             where vw.ViewColumnCollection.Any(c => c.IsLinkColumn 
-                                 && c.FormRoute == form.Route)
-                             select vw.Name).ToArray();
-            if (violations.Any()) 
+                              where vw.ViewColumnCollection.Any(c => c.IsLinkColumn
+                                  && c.FormRoute == form.Route)
+                              select vw.Name).ToArray();
+            if (violations.Any())
                 return Json(new { success = false, status = "NO", message = "These views has a link to your form ", views = violations, id = form.Id });
 
 

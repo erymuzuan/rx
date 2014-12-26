@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Domain
     public static class Strings
     {
         public const string DEFAULT_NAMESPACE = "http://www.bespoke.com.my/";
+        public const string FORM_ELEMENT_CONTRACT = "FormDesigner";
 
         public static string WriteLine2(this string value)
         {

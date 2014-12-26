@@ -874,6 +874,7 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         Rules: ko.observableArray([]),
         RouteParameterCollection: ko.observableArray([]),
         FormLayoutCollection: ko.observableArray([]),
+        CompilerCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
