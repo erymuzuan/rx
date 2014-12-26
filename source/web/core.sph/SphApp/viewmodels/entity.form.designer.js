@@ -5,6 +5,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         var errors = ko.observableArray(),
             operationsOption = ko.observableArray(),
+            selectedFormElement = ko.observable(),
             layoutOptions = ko.observableArray(),
             formElements = ko.observableArray(),
             entityOptions = ko.observableArray(),
@@ -25,9 +26,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             };
                         });
 
-                        list.push({ text: 'UserProfile*', value: 'UserProfile' });
-                        list.push({ text: 'Designation*', value: 'Designation' });
-                        list.push({ text: 'Department*', value: 'Department' });
+                        list.push({ text: "UserProfile*", value: "UserProfile" });
+                        list.push({ text: "Designation*", value: "Designation" });
+                        list.push({ text: "Department*", value: "Department" });
                         entityOptions(list);
                     });
 
@@ -89,15 +90,15 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 };
 
                 // Fix input element click problem
-                $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
+                $(view).on("click mouseup mousedown", ".dropdown-menu input, .dropdown-menu label",
                     function (e) {
                         e.stopPropagation();
                     });
-                $('#template-form-designer').on('click', 'button.dropdown-toggle', dropDown);
+                $("#template-form-designer").on("click", "button.dropdown-toggle", dropDown);
 
 
                 //toolbox item clicked
-                $('#add-field').on("click", 'a', function (e) {
+                $("#add-field").on("click", "a", function (e) {
                     e.preventDefault();
                     _(fd.FormElementCollection()).each(function (f) {
                         f.isSelected(false);
@@ -116,13 +117,13 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fe.WebId(system.guid());
 
                     fd.FormElementCollection.push(fe);
-                    vm.selectedFormElement(fe);
+                    selectedFormElement(fe);
 
 
                 });
 
                 // kendoEditor
-                $('#template-form-designer').on('click', 'textarea', function () {
+                $("#template-form-designer").on("click", "textarea", function () {
                     var $editor = $(this),
                         kendoEditor = $editor.data("kendoEditor");
                     if (!kendoEditor) {
@@ -149,7 +150,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             kd.isSelected(false);
                     });
 
-                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                    var elements = _($("#template-form-designer>form>div")).map(function (div) {
                         return ko.dataFor(div);
                     }),
                     fe = context.clone(ko.dataFor(ui.item[0]).element),
@@ -176,13 +177,13 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     fd.FormElementCollection(elements);
                     initDesigner();
                     $('#template-form-designer>form li.ui-draggable').remove();
-                    vm.selectedFormElement(fe);
+                    selectedFormElement(fe);
                 },
                     initDesigner = function () {
-                        $('#template-form-designer>form').sortable({
-                            items: '>div',
-                            placeholder: 'ph',
-                            helper: 'original',
+                        $("#template-form-designer>form").sortable({
+                            items: ">div",
+                            placeholder: "ph",
+                            helper: "original",
                             dropOnEmpty: true,
                             forcePlaceholderSize: true,
                             forceHelperSize: false,
@@ -192,20 +193,20 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 initDesigner();
 
-                $.get('form-designer/toolbox-items', function (elements) {
+                $.get("form-designer/toolbox-items", function (elements) {
                     formElements(elements);
-                    $('#add-field>ul>li').draggable({
-                        helper: 'clone',
+                    $("#add-field>ul>li").draggable({
+                        helper: "clone",
                         connectToSortable: "#template-form-designer>form"
                     });
                 });
 
 
-                $('div.context-action-panel').on('click', 'buton.close', function () {
-                    $(this).parents('div.context-action').hide();
+                $("div.context-action-panel").on("click", "buton.close", function () {
+                    $(this).parents("div.context-action").hide();
                 });
 
-                vm.selectedFormElement.subscribe(function (model) {
+                selectedFormElement.subscribe(function (model) {
                     model.Path.subscribe(function (p) {
                         if (ko.unwrap(model.Label).indexOf("Label ") > -1) {
                             model.Label(p.replace(".", " ")
@@ -218,7 +219,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             supportsHtml5Storage = function () {
                 try {
-                    return 'localStorage' in window && window['localStorage'] !== null;
+                    return "localStorage" in window && window["localStorage"] !== null;
                 } catch (e) {
                     return false;
                 }
@@ -228,7 +229,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                     var fd = ko.unwrap(form().FormDesign);
                     // get the sorted element
-                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                    var elements = _($("#template-form-designer>form>div")).map(function (div) {
                         return ko.dataFor(div);
                     });
                     fd.FormElementCollection(elements);
@@ -246,7 +247,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             selectFormElement = function (fe) {
 
-                $('.selected-form-element').each(function (e) {
+                $(".selected-form-element").each(function (e) {
                     var kd = ko.dataFor(this);
                     if (typeof kd.isSelected === "function")
                         kd.isSelected(false);
@@ -276,14 +277,14 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                      form().FormDesign(clone.FormDesign());
 
                  } catch (error) {
-                     logger.logError('Fail template import tidak sah', error, this, true);
+                     logger.logError("Fail template import tidak sah", error, this, true);
                  }
              });
             },
             publish = function () {
                 var fd = ko.unwrap(form().FormDesign);
                 // get the sorted element
-                var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                var elements = _($("#template-form-designer>form>div")).map(function (div) {
                     return ko.dataFor(div);
                 });
                 fd.FormElementCollection(elements);
@@ -415,7 +416,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             attached: attached,
             activate: activate,
             formElements: formElements,
-            selectedFormElement: ko.observable(),
+            selectedFormElement: selectedFormElement,
             selectFormElement: selectFormElement,
             removeFormElement: removeFormElement,
             form: form,
