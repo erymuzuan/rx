@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Currency", TypeName = "Currency", Order = 3d, FontAwesomeIcon = "dollar", Description = "Creates an input for currency/decimal")]
     public partial class CurrencyElement : FormElement
     {
-       
+
         public  string GetKnockoutBindingExpression()
         {
             var path = this.Path.ConvertJavascriptObjectToFunction();

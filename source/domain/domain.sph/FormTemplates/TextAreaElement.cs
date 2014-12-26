@@ -16,6 +16,8 @@ namespace Bespoke.Sph.Domain
                 this.IsHtml ? "kendoEditor" : "value",
                 this.Enable);
         }
+
+
     }
 }
 

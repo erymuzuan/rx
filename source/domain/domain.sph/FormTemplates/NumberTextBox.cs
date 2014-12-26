@@ -16,5 +16,7 @@ namespace Bespoke.Sph.Domain
                 this.Visible,
                 this.Enable ?? "true");
         }
+
+
     }
 }

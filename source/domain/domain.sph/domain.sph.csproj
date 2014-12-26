@@ -179,6 +179,11 @@
     <Compile Include="BoundedContextAttribute.cs" />
     <Compile Include="Business\ChangeSubmission.cs" />
     <Compile Include="Core\ValidationResult.cs" />
+    <Compile Include="Properties\FormElementDesigner.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormElementDesigner.resx</DependentUpon>
+    </Compile>
     <Compile Include="FormTemplates\Button.cs" />
     <Compile Include="FormTemplates\ChildEntityListView.cs" />
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
@@ -505,6 +510,32 @@
     <None Include="Resources\action.assembly.html" />
     <None Include="Resources\activity.childworkflow.html" />
     <None Include="Resources\activity.childworkflow.js" />
+    <None Include="Resources\form.element.designer.FormElement.html" />
+    <None Include="Resources\form.element.designer.HtmlElement.html" />
+    <None Include="Resources\form.element.designer.ImageElement.html" />
+    <None Include="Resources\form.element.designer.LabelItem.html" />
+    <None Include="Resources\form.element.designer.LineChartItem.html" />
+    <None Include="Resources\form.element.designer.LineItem.html" />
+    <None Include="Resources\form.element.designer.ListView.html" />
+    <None Include="Resources\form.element.designer.NumberTextBox.html" />
+    <None Include="Resources\form.element.designer.PieChartItem.html" />
+    <None Include="Resources\form.element.designer.SectionFormElement.html" />
+    <None Include="Resources\form.element.designer.TextAreaElement.html" />
+    <None Include="Resources\form.element.designer.TextBox.html" />
+    <None Include="Resources\form.element.designer.WebsiteFormElement.html" />
+    <None Include="Resources\form.element.designer.BarChartItem.html" />
+    <None Include="Resources\form.element.designer.Button.html" />
+    <None Include="Resources\form.element.designer.CheckBox.html" />
+    <None Include="Resources\form.element.designer.ChildEntityListView.html" />
+    <None Include="Resources\form.element.designer.ComboBox.html" />
+    <None Include="Resources\form.element.designer.CurrencyElement.html" />
+    <None Include="Resources\form.element.designer.DataGridItem.html" />
+    <None Include="Resources\form.element.designer.DatePicker.html" />
+    <None Include="Resources\form.element.designer.DateTimePicker.html" />
+    <None Include="Resources\form.element.designer.DownloadLink.html" />
+    <None Include="Resources\form.element.designer.EmailFormElement.html" />
+    <None Include="Resources\form.element.designer.EntityLookupElement.html" />
+    <None Include="Resources\form.element.designer.FileUploadElement.html" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -585,6 +616,11 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\FormElementDesigner.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FormElementDesigner.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

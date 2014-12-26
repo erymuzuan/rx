@@ -48,6 +48,7 @@
     <Compile Include="ComboBoxCompiler.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DurandalJsElementCompiler.cs" />
+    <Compile Include="EmailFormElementCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatePickerCompiler.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -71,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ComboBox.cshtml" />
+    <None Include="Resources\EmailFormElement.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyOutputDirClientAndWeb">

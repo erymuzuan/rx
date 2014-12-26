@@ -3,8 +3,8 @@ using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Linq;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Properties;
 using Newtonsoft.Json;
-
 
 namespace Bespoke.Sph.Domain
 {
@@ -97,6 +97,9 @@ namespace Bespoke.Sph.Domain
         }
         public virtual string GetDesignSurfaceElement()
         {
+            var html = FormElementDesigner.ResourceManager.GetString(this.GetType().Name);
+            if (!string.IsNullOrWhiteSpace(html))
+                return html;
             return "<span class=\"error\">No design surface avaliable for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
         }
         public virtual string GetPropertyToolbox()

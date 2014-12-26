@@ -1,0 +1,76 @@
+<input data-bind="click: $root.selectFormElement" type="button" class="btn btn-default" value="Click to select" />
+<input data-bind="click: $root.selectFormElement,value: Label" type="button" class="btn btn-default pull-right" />
+<table class="table table-condensed table-striped">
+    <thead>
+        <tr data-bind="foreach: ListViewColumnCollection">
+            <th data-bind="with : Input">
+                <a href="#" data-bind="click : $root.selectFormElement,css: { 'selected-form-element': isSelected }">
+                    <span data-bind="text:$parent.Label"></span>
+                    <i class="fa fa-check"></i>
+                    <!-- ko if : typeof isSelected === "function" -->
+                    <i class="fa fa-check" data-bind="visible:isSelected" style="color:darkblue"></i>
+                    <!-- /ko -->
+
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < 5; i++)
+        {
+            <tr data-bind="foreach: ListViewColumnCollection">
+                <!-- ko with : Input -->
+                <td>
+                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.TextBox, domain.sph'-->
+                    <input class="form-control" type="text" data-bind="attr : {'placeholder':' [ ' + Path() + ' ] '}" />
+                    <!--/ko-->
+                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.DownloadLink, domain.sph'-->
+                    <span>
+                        <i class="fa fa-cloud-download"></i>
+                        <!-- ko text : ' [ ' + Path() + ' ] ' -->
+                        <!-- /ko -->
+                    </span>
+                    <!--/ko-->
+                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.Button, domain.sph'-->
+                    <button class="btn btn-default" data-bind="attr : {'class':CssClass},text: $parent.Label">Button</button>
+                    <!--/ko-->
+                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.CheckBox, domain.sph'-->
+                    <input type="checkbox" value="" checked="@(i % 2 ==0? "checked": "")" />
+                    <!--/ko-->
+                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.DatePicker, domain.sph'-->
+                    <div class="input-group">
+                        <input class="form-control" style="width: 80%" type="text" value="@DateTime.Today.ToShortDateString()" />
+                        <i class="fa fa-calendar input-group-addon"></i>
+                    </div>
+                    <!--/ko-->
+                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.DateTimePicker, domain.sph'-->
+                    <div class="input-group">
+                        <input class="form-control" style="width: 80%" type="text" value="@DateTime.Today.ToShortDateString()" />
+                        <i class="fa fa-calendar input-group-addon"></i>
+                        <i class="fa fa-clock-o input-group-addon"></i>
+                    </div>
+                    <!--/ko-->
+                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.NumberTextBox, domain.sph'-->
+                    <input class="form-control" type="number" value="@i" data-bind="attr : {'placeholder':' [ ' + Path() + ' ] '}" />
+                    <!--/ko-->
+                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.ComboBox, domain.sph'-->
+                    <select class="form-control">
+                        <option data-bind="text:' [ ' + Path() + ' ] '"></option>
+                    </select>
+                    <!--/ko-->
+                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.FileUploadElement, domain.sph'-->
+                    <input type="file" />
+                    <!--/ko-->
+                    <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.ImageElement, domain.sph'-->
+                    <img src="/images/form.element.imageelement.png" alt="image" />
+                    <!--/ko-->
+                </td>
+
+                <!-- /ko -->
+
+            </tr>
+
+        }
+    </tbody>
+</table>
+
