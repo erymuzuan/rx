@@ -1,5 +1,4 @@
-﻿using System;
-using Bespoke.Sph.Domain;
+﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.FormCompilers.DurandalJs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,7 +8,7 @@ namespace durandaljs.compiler.test
     public class ButtonCommandTestFixture
     {
         [TestMethod]
-        public void CommandWithAsync()
+        public void CommandWithOneAsyncMethod()
         {
             const string COMMAND = @"
 
@@ -23,6 +22,15 @@ if(null != result)
     item.Name = result.Name;
 else
     item.Name = ""Unknown"";
+if (null != result)
+        item.Name = result.Name;
+    else
+        item.Name = ""Unknown"";
+     
+     
+        
+    if ( ""Test"" == result.Name)
+    	logger.Info(""The name is {0}"", result.Name);
 ";
 
             var button = new Button
@@ -34,7 +42,8 @@ else
 
             var compiler = new ButtonCompiler();
             var code = compiler.Compile(button);
-            Console.WriteLine(code);
+            StringAssert.Contains(code, ".loadOneAsync");
+            StringAssert.Contains(code, " Name eq 'Kelantan'");
         }
     }
 }

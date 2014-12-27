@@ -5,7 +5,6 @@ using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using InvocationExpressionSyntax = Microsoft.CodeAnalysis.VisualBasic.Syntax.InvocationExpressionSyntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
@@ -27,7 +26,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var tree = CSharpSyntaxTree.ParseText(file.ToString());
             var root = (CompilationUnitSyntax)tree.GetRoot();
 
-
             var methodBlock = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
                 .Single()
                 .DescendantNodes()
@@ -45,6 +43,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (button.IsAsynchronous)
                 code.AppendLine("\r\n return tcs.promise();");
 
+            var walker = new IfJsWalker(code);
+            walker.Visit(root);
 
             return code.ToString();
         }
@@ -70,17 +70,34 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
                     var member = inv.ChildNodes().OfType<MemberAccessExpressionSyntax>().First();
                     //code.Insert()
-                    code.AppendFormat("{0}.{1}({2}).", member.Expression.GetText(), "AsyncMethodName", "argumentList");
+
+                    var ctxWalker = ContextLoadOneAsyncSyntaxWalker.Walk(awaitExpression);
+
+
+                    code.AppendFormat("{0}.{1}.", member.Expression.GetText(), ctxWalker);
+
+
+
+                    var block = (BlockSyntax)lds.Parent;
+                    var index = block.Statements.IndexOf(lds) + 1;
+                    var fff = new StringBuilder();
+
+                    if (block.Statements.Count > index)
+                    {
+
+                        for (int i = index; i < block.Statements.Count; i++)
+                        {
+                            this.AppendCode(fff, block.Statements[i]);
+                        }
+                    }
 
                     code.AppendFormat(@"
     done(function({0}){{
         // this  is where the subsequent statements
+        {1}
         tcs.resolve({0});
-    }});", variableName.Text);
+    }});", variableName.Text, fff);
 
-
-                    var block = (BlockSyntax)lds.Parent as BlockSyntax;
-                    //var subsequentStatements = block.Statements.Take();
                     return false;
 
 
@@ -98,10 +115,125 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
 
             }
-            code.AppendLine();
 
             return true;
 
+        }
+
+        class IfJsWalker : CSharpSyntaxWalker
+        {
+            private readonly StringBuilder m_code;
+
+            public IfJsWalker(StringBuilder code)
+            {
+                m_code = code;
+            }
+
+
+            public override void VisitIfStatement(IfStatementSyntax node)
+            {
+                m_code.AppendLine();
+                m_code.AppendLine("// VISIT IF");
+
+                base.VisitIfStatement(node);
+            }
+        }
+
+        class ContextLoadOneAsyncSyntaxWalker : CSharpSyntaxWalker
+        {
+            private readonly StringBuilder m_code = new StringBuilder();
+
+            public static string Walk(SyntaxNode node)
+            {
+                var walker = new ContextLoadOneAsyncSyntaxWalker{m_parentNode=  node};
+                walker.Visit(node);
+                return walker.m_code.ToString();
+
+            }
+
+            private SyntaxNode m_parentNode;
+
+            public override void VisitGenericName(GenericNameSyntax node)
+            {
+                var idt = node.GetFirstToken();
+                var loadOneAsync = idt.RawKind == (int)SyntaxKind.IdentifierToken && idt.Text == "LoadOneAsync";
+                if (!loadOneAsync)
+                {
+                    base.VisitGenericName(node);
+                    return;
+                }
+
+
+                m_code.Append("loadOneAsync(");
+                m_code.AppendFormat("\"{0}\",", ContextGenericTypeWalker.Walk(node));
+                m_code.AppendFormat("\"{0}\"", ContextPredicateLambdaWalker.Walk(m_parentNode));
+
+                m_code.Append(")");
+
+                base.VisitGenericName(node);
+            }
+
+        }
+
+        class ContextGenericTypeWalker : CSharpSyntaxWalker
+        {
+            public static string Walk(SyntaxNode node)
+            {
+
+                var walker = new ContextGenericTypeWalker();
+                walker.Visit(node);
+                return walker.m_genericName;
+
+            }
+            private string m_genericName;
+            public override void VisitTypeArgumentList(TypeArgumentListSyntax node)
+            {
+                var identifierWalker = new GenericArgumentTypeWalker();
+                identifierWalker.Visit(node);
+                m_genericName = identifierWalker.Text;
+
+                base.VisitTypeArgumentList(node);
+            }
+        }
+        class ContextPredicateLambdaWalker : CSharpSyntaxWalker
+        {
+            private readonly StringBuilder m_code = new StringBuilder();
+            public static string Walk(SyntaxNode node)
+            {
+                var walker = new ContextPredicateLambdaWalker();
+                walker.Visit(node);
+                return walker.m_code.ToString();
+
+            }
+            public override void VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
+            {
+                m_code.Append("***2*" + node);
+                base.VisitSimpleLambdaExpression(node);
+            }
+
+            public override void VisitEqualsValueClause(EqualsValueClauseSyntax node)
+            {
+                m_code.Append("***" + node);
+                base.VisitEqualsValueClause(node);
+            }
+
+            public override void VisitNameEquals(NameEqualsSyntax node)
+            {
+                m_code.Append("*=*=*=*");
+            
+                base.VisitNameEquals(node);
+            }
+        }
+
+        class GenericArgumentTypeWalker : CSharpSyntaxWalker
+        {
+            public string Text { get; private set; }
+            public override void VisitIdentifierName(IdentifierNameSyntax node)
+            {
+                var token = node.ChildTokens().FirstOrDefault(x => x.RawKind == (int)SyntaxKind.IdentifierToken);
+                this.Text = token.Text;
+                base.VisitIdentifierName(node);
+            }
         }
     }
 }
