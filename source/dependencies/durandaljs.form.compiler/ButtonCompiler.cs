@@ -39,16 +39,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 code.AppendLine("var tcs = new $.Deferred();");
             foreach (var node in methodBlock.Statements)
             {
-                this.AppendCode(code, node);
+                var cont = this.AppendCode(code, node);
+                if (!cont) break;
             }
             if (button.IsAsynchronous)
-                code.AppendLine(" return tcs.promise();");
+                code.AppendLine("\r\n return tcs.promise();");
 
 
             return code.ToString();
         }
 
-        private void AppendCode(StringBuilder code, SyntaxNode statement)
+        private bool AppendCode(StringBuilder code, SyntaxNode statement)
         {
             var lds = statement as LocalDeclarationStatementSyntax;
             if (null != lds)
@@ -73,17 +74,23 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
                     code.AppendFormat(@"
     done(function({0}){{
-        
+        // this  is where the subsequent statements
         tcs.resolve({0});
     }});", variableName.Text);
 
 
-                }
-                else
-                {
-                    code.Append("var " + variableName.Text);
-                }
+                    var block = (BlockSyntax)lds.Parent as BlockSyntax;
+                    //var subsequentStatements = block.Statements.Take();
+                    return false;
 
+
+                }
+                code.AppendFormat("var {0} ", variableName.Text);
+                var eq1 = variableDec.ChildNodes().OfType<EqualsValueClauseSyntax>()
+                    .SingleOrDefault();
+                if (null != eq1)
+                    code.Append(eq1.GetText());
+                code.AppendLine(";");
 
             }
             var ifs = statement as IfStatementSyntax;
@@ -92,6 +99,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             }
             code.AppendLine();
+
+            return true;
 
         }
     }
