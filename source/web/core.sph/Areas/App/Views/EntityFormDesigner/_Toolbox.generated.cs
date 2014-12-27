@@ -862,60 +862,32 @@ WriteLiteral(" id=\"toolbox-advanced-settings\"");
 
 WriteLiteral(" class=\"collapse\"");
 
-WriteLiteral(">\r\n");
+WriteLiteral(">\r\n                  \r\n");
 
             
-            #line 247 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 248 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 247 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                      
-                        var types = new[]
-                        {
-                            typeof(TextBox),
-                            typeof(ComboBox),
-                            typeof(Button),
-                            typeof(DownloadLink),
-                            typeof(ImageElement),
-                            typeof(ChildEntityListView),
-                            typeof(EntityLookupElement),
-                            typeof(FileUploadElement),
-                            typeof(ListView)
-                        };
-                    
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-            
-            #line 261 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 261 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                     foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
+            #line 248 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                     foreach (var fe in Model.FormElements)
                     {
-                        FormElement fe1 = fe;
                         
             
             #line default
             #line hidden
             
-            #line 264 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                   Write(Html.EditorFor(m => fe1));
+            #line 250 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                   Write(Html.Raw(fe.GetDesignPropertyGrid()));
 
             
             #line default
             #line hidden
             
-            #line 264 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                                                 
+            #line 250 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                                                             
                     }
 
             
@@ -943,7 +915,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 275 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 261 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

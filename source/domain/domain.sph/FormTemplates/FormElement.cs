@@ -102,10 +102,8 @@ namespace Bespoke.Sph.Domain
         }
         public virtual string GetDesignPropertyGrid()
         {
-            var html = FormElementDesigner.ResourceManager.GetString(this.GetType().Name);
-            if (!string.IsNullOrWhiteSpace(html))
-                return html;
-            return "<span class=\"error\">No design surface avaliable for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
+            var html = FormElementPropertyGrid.ResourceManager.GetString("form_element_property_grid_" + this.GetType().Name);
+            return !string.IsNullOrWhiteSpace(html) ? html : string.Empty;
         }
         public virtual string GetPropertyToolbox()
         {

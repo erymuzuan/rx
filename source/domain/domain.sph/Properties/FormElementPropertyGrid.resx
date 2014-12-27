@@ -119,30 +119,30 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="form_element_property_grid_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\form.element.property.grid.Button.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\form.element.property.grid.Button.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="form_element_property_grid_ChildEntityListView" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\form.element.property.grid.ChildEntityListView.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\form.element.property.grid.ChildEntityListView.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="form_element_property_grid_ComboBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\form.element.property.grid.ComboBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\form.element.property.grid.ComboBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="form_element_property_grid_DownloadLink" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\form.element.property.grid.DownloadLink.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\form.element.property.grid.DownloadLink.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="form_element_property_grid_EntityLookupElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\form.element.property.grid.EntityLookupElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\form.element.property.grid.EntityLookupElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="form_element_property_grid_FileUploadElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\form.element.property.grid.FileUploadElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\form.element.property.grid.FileUploadElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="form_element_property_grid_ImageElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\form.element.property.grid.ImageElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\form.element.property.grid.ImageElement.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="form_element_property_grid_ListView" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\form.element.property.grid.ListView.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\form.element.property.grid.ListView.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="form_element_property_grid_TextBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\form.element.property.grid.TextBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\form.element.property.grid.TextBox.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

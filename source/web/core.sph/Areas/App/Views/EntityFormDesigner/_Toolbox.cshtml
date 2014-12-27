@@ -244,24 +244,10 @@
                     </a>
                 </div>
                 <div id="toolbox-advanced-settings" class="collapse">
-                    @{
-                        var types = new[]
-                        {
-                            typeof(TextBox),
-                            typeof(ComboBox),
-                            typeof(Button),
-                            typeof(DownloadLink),
-                            typeof(ImageElement),
-                            typeof(ChildEntityListView),
-                            typeof(EntityLookupElement),
-                            typeof(FileUploadElement),
-                            typeof(ListView)
-                        };
-                    }
-                    @foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
+                  
+                    @foreach (var fe in Model.FormElements)
                     {
-                        FormElement fe1 = fe;
-                        @Html.EditorFor(m => fe1)
+                        @Html.Raw(fe.GetDesignPropertyGrid())
                     }
                 </div>
 
