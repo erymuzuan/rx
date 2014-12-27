@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormDesigner
         }
         public override void Execute()
         {
-WriteLiteral("\r\n<!-- ko if : isSelected -->\r\n<button");
+WriteLiteral("<!-- ko if : isSelected -->\r\n<button");
 
 WriteLiteral(" data-bind=\"click : $root.removeFormElement\"");
 

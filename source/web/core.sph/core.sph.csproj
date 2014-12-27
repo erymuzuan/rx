@@ -448,51 +448,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\App\Views\Shared\EditorTemplates\FileUploadElement.generated.cs">
-      <DependentUpon>FileUploadElement.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Areas\App\Views\Shared\EditorTemplates\ChildEntityListView.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ChildEntityListView.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\App\Views\Shared\EditorTemplates\DownloadLink.generated.cs">
-      <DependentUpon>DownloadLink.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Areas\App\Views\Shared\EditorTemplates\Button.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Button.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\App\Views\Shared\EditorTemplates\ComboBox.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ComboBox.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\App\Views\Shared\EditorTemplates\EntityLookupElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EntityLookupElement.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\App\Views\Shared\EditorTemplates\ImageElement.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ImageElement.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\App\Views\Shared\EditorTemplates\ListView.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ListView.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\App\Views\Shared\EditorTemplates\TextBox.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TextBox.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Areas\App\Views\Shared\_DesignerContextAction.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -921,10 +876,6 @@
     <EmbeddedResource Include="Content\theme.matyie\workflow.triggers.css.map">
       <DependentUpon>workflow.triggers.css</DependentUpon>
     </EmbeddedResource>
-    <Content Include="Areas\App\Views\Shared\EditorTemplates\DownloadLink.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>DownloadLink.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\Sph\Views\EntityFormRenderer\Html2ColsWithAuditTrail.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html2ColsWithAuditTrail.generated.cs</LastGenOutput>
@@ -935,22 +886,6 @@
     </Content>
     <Content Include="Areas\App\Views\_ViewStart.cshtml" />
     <Content Include="Areas\App\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\App\Views\Shared\EditorTemplates\ImageElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>ImageElement.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\Shared\EditorTemplates\ChildEntityListView.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>ChildEntityListView.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\Shared\EditorTemplates\EntityLookupElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>EntityLookupElement.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\Shared\EditorTemplates\FileUploadElement.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
-    </Content>
     <EmbeddedResource Include="Content\__css.css" />
     <EmbeddedResource Include="Content\__css.min.css">
       <DependentUpon>__css.css</DependentUpon>
@@ -1612,22 +1547,6 @@
     <EmbeddedResource Include="SphApp\views\role.dialog.html" />
     <EmbeddedResource Include="SphApp\views\_chart.panel.html" />
     <Content Include="Areas\App\Views\web.config" />
-    <Content Include="Areas\App\Views\Shared\EditorTemplates\Button.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Button.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\Shared\EditorTemplates\ComboBox.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\Shared\EditorTemplates\ListView.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>ListView.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\Shared\EditorTemplates\TextBox.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\App\Views\EntityFormDesigner\Html.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
@@ -2036,7 +1955,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\App\Models\" />
     <Folder Include="Areas\App\Views\ReportDefinition\" />
-    <Folder Include="Areas\App\Views\Shared\DisplayTemplates\" />
     <Folder Include="Areas\Sph\Models\" />
     <Folder Include="Areas\Sph\Views\Adapter\" />
     <Folder Include="Areas\Sph\Views\App\DisplayTemplates\" />

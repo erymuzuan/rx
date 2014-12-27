@@ -179,6 +179,11 @@
     <Compile Include="BoundedContextAttribute.cs" />
     <Compile Include="Business\ChangeSubmission.cs" />
     <Compile Include="Core\ValidationResult.cs" />
+    <Compile Include="FormElementPropertyGrid.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormElementPropertyGrid.resx</DependentUpon>
+    </Compile>
     <Compile Include="FormTemplates\FormCompiler.cs" />
     <Compile Include="Properties\FormElementDesigner.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -537,6 +542,15 @@
     <None Include="Resources\form.element.designer.EmailFormElement.html" />
     <None Include="Resources\form.element.designer.EntityLookupElement.html" />
     <None Include="Resources\form.element.designer.FileUploadElement.html" />
+    <None Include="Resources\form.element.property.grid.Button.html" />
+    <None Include="Resources\form.element.property.grid.ChildEntityListView.html" />
+    <None Include="Resources\form.element.property.grid.ComboBox.html" />
+    <None Include="Resources\form.element.property.grid.DownloadLink.html" />
+    <None Include="Resources\form.element.property.grid.EntityLookupElement.html" />
+    <None Include="Resources\form.element.property.grid.FileUploadElement.html" />
+    <None Include="Resources\form.element.property.grid.ImageElement.html" />
+    <None Include="Resources\form.element.property.grid.ListView.html" />
+    <None Include="Resources\form.element.property.grid.TextBox.html" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -617,6 +631,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FormElementPropertyGrid.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FormElementPropertyGrid.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\FormElementDesigner.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FormElementDesigner.Designer.cs</LastGenOutput>

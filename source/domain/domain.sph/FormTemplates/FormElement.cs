@@ -100,6 +100,13 @@ namespace Bespoke.Sph.Domain
                 return html;
             return "<span class=\"error\">No design surface avaliable for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
         }
+        public virtual string GetDesignPropertyGrid()
+        {
+            var html = FormElementDesigner.ResourceManager.GetString(this.GetType().Name);
+            if (!string.IsNullOrWhiteSpace(html))
+                return html;
+            return "<span class=\"error\">No design surface avaliable for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
+        }
         public virtual string GetPropertyToolbox()
         {
             return string.Empty;
