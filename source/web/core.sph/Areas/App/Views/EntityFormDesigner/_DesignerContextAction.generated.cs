@@ -38,7 +38,21 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormDesigner
         }
         public override void Execute()
         {
-WriteLiteral("\r\n");
+WriteLiteral("\r\n<!-- ko if : isSelected -->\r\n<button");
+
+WriteLiteral(" data-bind=\"click : $root.removeFormElement\"");
+
+WriteLiteral(" class=\"right btn btn-default\"");
+
+WriteLiteral(" style=\"float: right\"");
+
+WriteLiteral(" title=\"Remove the element\"");
+
+WriteLiteral(">\r\n    <i");
+
+WriteLiteral(" class=\"fa fa-times\"");
+
+WriteLiteral("></i>\r\n</button>\r\n\r\n<!-- /ko -->");
 
         }
     }
