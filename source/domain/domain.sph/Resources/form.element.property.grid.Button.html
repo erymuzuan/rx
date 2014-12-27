@@ -31,15 +31,15 @@
 </div>
 <div class="form-group">
     <label>
-        <input data-bind="checked: UseClick,disable:Operation" type="checkbox" name="UseClick" />
-        Use click
+        <input data-bind="checked: IsAsynchronous,disable:Operation" type="checkbox" name="IsAsynchronous" />
+       Async method
     </label>
 </div>
 
 <div class="form-group">
-    <label for="form-element-button-command">Command</label>
+    <label for="form-element-button-command">Command Text</label>
     <textarea class="form-control" data-bind="value: Command,disable:Operation"
-              placeholder="Command needs to return a promise"
+              placeholder="When async is set, your method should return Task, Task<> or must contains await statement"
               id="form-element-button-command" name="Command"></textarea>
     <button class="btn btn-link" data-bind="click : editCommand,disable:Operation">Edit</button>
 </div>

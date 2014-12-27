@@ -59,6 +59,7 @@
     <Compile Include="RazorDisplayTemplateTestFixture.cs" />
     <Compile Include="RazorEditorTemplateTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ButtonCommandTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\durandaljs.form.compiler\durandaljs.form.compiler.csproj">

@@ -1936,7 +1936,7 @@ namespace Bespoke.Sph.Domain
 
         private bool m_UseClick;
         [XmlAttribute]
-        public bool UseClick
+        public bool IsAsynchronous
         {
             get
             {

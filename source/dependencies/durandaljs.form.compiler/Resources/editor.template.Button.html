@@ -1,6 +1,6 @@
 @using Bespoke.Sph.Domain
 @{
-    var command = Model.Element.UseClick ? "click" : "command";
+    var command = Model.Element.IsAsynchronous ? "click" : "command";
     var operation = Model.Element.Operation.ToCamelCase();
     var handler =string.IsNullOrWhiteSpace(operation) ? Model.Element.CommandName : operation;
 }
