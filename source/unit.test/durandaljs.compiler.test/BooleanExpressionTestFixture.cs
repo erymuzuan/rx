@@ -16,38 +16,56 @@ namespace durandaljs.compiler.test
         }
 
         [TestMethod]
-        public void SimpleEqualExpressionToStringLiteral()
+        public void EqualExpressionToStringLiteral()
         {
-            var button = new Button {Enable = "item.Name == \"Kelantan\""};
+            var button = new Button { Enable = "item.Name == \"Kelantan\"" };
             var compiler = new ButtonCompiler();
             var html = compiler.GenerateEditor(button);
-            StringAssert.Contains(html,"enable: item().Name() === 'Kelantan'");
-        }
-        [TestMethod]
-        public void SimpleNoEqualExpressionToStringLiteral()
-        {
-            var button = new Button {Enable = "item.Name != \"Kelantan\""};
-            var compiler = new ButtonCompiler();
-            var html = compiler.GenerateEditor(button);
-            StringAssert.Contains(html,"enable: item().Name() !== 'Kelantan'");
+            StringAssert.Contains(html, "enable: item().Name() === 'Kelantan'");
         }
 
         [TestMethod]
-        public void SimpleGreaterExpressionToStringLiteral()
+        public void EqualExpressionNotNullLiteral()
         {
-            var button = new Button {Enable = "item.Age  > 25"};
+            var button = new Button { Enable = "item.Name != null" };
             var compiler = new ButtonCompiler();
             var html = compiler.GenerateEditor(button);
-            StringAssert.Contains(html,"enable: item().Age() > 25");
+            StringAssert.Contains(html, "enable: item().Name() === null");
         }
 
         [TestMethod]
-        public void SimpleGreaterOrEqualExpressionToStringLiteral()
+        public void FlipOverEqualExpressionToStringLiteral()
         {
-            var button = new Button {Enable = "item.Age  >= 25"};
+            var button = new Button { Enable = " \"Kelantan\"==item.Name " };
             var compiler = new ButtonCompiler();
             var html = compiler.GenerateEditor(button);
-            StringAssert.Contains(html,"enable: item().Age() >= 25");
+            StringAssert.Contains(html, "enable: 'Kelantan' === item().Name()");
+        }
+        [TestMethod]
+        public void NotEqualExpressionToStringLiteral()
+        {
+            var button = new Button { Enable = "item.Name != \"Kelantan\"" };
+            var compiler = new ButtonCompiler();
+            var html = compiler.GenerateEditor(button);
+            StringAssert.Contains(html, "enable: item().Name() !== 'Kelantan'");
+        }
+
+        [TestMethod]
+        public void GreaterExpressionToStringLiteral()
+        {
+            var button = new Button { Enable = "item.Age  > 25" };
+            var compiler = new ButtonCompiler();
+            var html = compiler.GenerateEditor(button);
+            StringAssert.Contains(html, "enable: item().Age() > 25");
+        }
+
+        [TestMethod]
+        public void GreaterOrEqualExpressionToStringLiteral()
+        {
+            var button = new Button { Enable = "item.Age  >= 25" };
+            var compiler = new ButtonCompiler();
+            var html = compiler.GenerateEditor(button);
+            StringAssert.Contains(html, "enable: item().Age() >= 25");
         }
     }
 }

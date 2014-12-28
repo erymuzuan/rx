@@ -95,6 +95,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 else
                 {
                     m_code.Append(value);
+                    if (node.Token.ValueText == "null") ;
+                    m_code.Append("null");
                 }
                 base.VisitLiteralExpression(node);
             }
