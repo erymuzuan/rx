@@ -1,10 +1,22 @@
-﻿using Bespoke.Sph.Domain;
+﻿using System;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.FormCompilers.DurandalJs;
 using Bespoke.Sph.Templating;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace durandaljs.compiler.test
 {
+    static class HtmlCompileHelper
+    {
+
+        public static string CompileHtml(this string enableExpression, string visibleExpression = "true")
+        {
+            var button = new Button { Enable = enableExpression, Visible = visibleExpression };
+            var compiler = new ButtonCompiler();
+            var html = compiler.GenerateEditor(button);
+            return html;
+        }
+    }
     [TestClass]
     public class BooleanExpressionTestFixture
     {
@@ -106,14 +118,40 @@ namespace durandaljs.compiler.test
             var html = compiler.GenerateEditor(button);
             StringAssert.Contains(html, "enable: !item().Name()");
         }
+
+
+        [TestMethod]
+        public void LiteralTrueString()
+        {
+            StringAssert.Contains(
+                "true".CompileHtml(), 
+                "enable: true");
+        }
+        [TestMethod]
+        public void LiteralFalseString()
+        {
+            StringAssert.Contains(
+                "false".CompileHtml(), 
+                "enable: false");
+        }
+
         [TestMethod]
         public void NotStringIsNullOrEmpty()
         {
-            var button = new Button { Enable = "!string.IsNullOrEmpty(item.Name)" };
-            var compiler = new ButtonCompiler();
-            var html = compiler.GenerateEditor(button);
-            StringAssert.Contains(html, "enable: item().Name()");
+            StringAssert.Contains(
+                "!string.IsNullOrEmpty(item.Name)".CompileHtml(), 
+                "enable: item().Name()");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void NotBooleanExpression()
+        {
+            StringAssert.Contains(
+                "\"test\"".CompileHtml(), 
+                "whatever","this should not be valid");
+        }
+
 
         [TestMethod]
         public void FlipOverEqualExpressionToStringLiteral()

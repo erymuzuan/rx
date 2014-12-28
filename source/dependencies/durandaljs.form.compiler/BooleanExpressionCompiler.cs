@@ -39,6 +39,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 return UnaryExpressionWalker.Walk(statement);
             }
 
+            if (statement is LiteralExpressionSyntax)
+            {
+                if (statement.RawKind == (int) SyntaxKind.TrueLiteralExpression)
+                    return "true";
+                if (statement.RawKind == (int) SyntaxKind.FalseLiteralExpression)
+                    return "false";
+            }
+
 
             var code = BinaryExpressionWalker.Walk(statement);
             if (string.IsNullOrWhiteSpace(code))
