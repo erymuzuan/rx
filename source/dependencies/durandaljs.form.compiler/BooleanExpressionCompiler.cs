@@ -12,7 +12,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(BooleanExpressionCompiler))]
     public class BooleanExpressionCompiler
     {
-        public string Compile(string expression, string entity)
+        public string Compile(string expression, string entity = "")
         {
             if (string.IsNullOrWhiteSpace(expression))
                 return "true";
@@ -34,17 +34,43 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             Console.WriteLine(statement.GetType().Name);
             Console.WriteLine(statement);
             Console.WriteLine("-*-*-*-*-*-*-*-*-*--*--*");
+            if (statement is LiteralExpressionSyntax)
+            {
+                if (statement.RawKind == (int)SyntaxKind.TrueLiteralExpression)
+                    return "true";
+                if (statement.RawKind == (int)SyntaxKind.FalseLiteralExpression)
+                    return "false";
+            }
+
+            var parenthesiz = statement as ParenthesizedExpressionSyntax;
+            if (null != parenthesiz)
+            {
+                return "(" + this.Compile(parenthesiz.Expression.GetText().ToString()) + ")";
+            }
+            var binaryExpression = statement as BinaryExpressionSyntax;
+            if (binaryExpression != null)
+            {
+                if (binaryExpression.RawKind == (int)SyntaxKind.LogicalAndExpression)
+                {
+                    return this.Compile(binaryExpression.Left.GetText().ToString())
+                        + " && "
+                        + this.Compile(binaryExpression.Right.GetText().ToString());
+
+                }
+                if (binaryExpression.RawKind == (int)SyntaxKind.LogicalOrExpression)
+                {
+                    return this.Compile(binaryExpression.Left.GetText().ToString())
+                        + " || "
+                        + this.Compile(binaryExpression.Right.GetText().ToString());
+
+                }
+                if (binaryExpression.RawKind == (int)SyntaxKind.LogicalNotExpression)
+                    return "LogicalNotExpression";
+            }
+
             if (statement is PrefixUnaryExpressionSyntax)
             {
                 return UnaryExpressionWalker.Walk(statement);
-            }
-
-            if (statement is LiteralExpressionSyntax)
-            {
-                if (statement.RawKind == (int) SyntaxKind.TrueLiteralExpression)
-                    return "true";
-                if (statement.RawKind == (int) SyntaxKind.FalseLiteralExpression)
-                    return "false";
             }
 
 
@@ -67,7 +93,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             public override void VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
             {
                 var ot = node.OperatorToken.RawKind;
-                if (ot == (int) SyntaxKind.ExclamationToken)
+                if (ot == (int)SyntaxKind.ExclamationToken)
                     m_code.Append("!");
 
 
@@ -143,8 +169,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 else
                 {
                     m_code.Append(value);
-                    if (node.Token.ValueText == "null") ;
-                    m_code.Append("null");
+                    if (node.Token.ValueText == "null")
+                        m_code.Append("null");
                 }
                 base.VisitLiteralExpression(node);
             }

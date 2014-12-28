@@ -74,7 +74,7 @@ namespace durandaljs.compiler.test
             var button = new Button { Enable = "(item.Name == \"Zaki\" || item.IsMarried) && item.Age < 25" };
             var compiler = new ButtonCompiler();
             var html = compiler.GenerateEditor(button);
-            StringAssert.Contains(html, "enable: item().Name() === 'Kelantan' && item().IsMarried()");
+            StringAssert.Contains(html, "enable: (item().Name() === 'Zaki' || item().IsMarried()) && item().Age() < 25");
         }
 
         [TestMethod]
