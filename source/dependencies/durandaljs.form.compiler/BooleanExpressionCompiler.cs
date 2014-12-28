@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
@@ -26,18 +27,54 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var tree = CSharpSyntaxTree.ParseText(file.ToString());
             var root = (CompilationUnitSyntax)tree.GetRoot();
 
-            var code = BooleanExpressionWalker.Walk(root);
+            var statement = root.DescendantNodes().OfType<ReturnStatementSyntax>()
+                .Single()
+                .Expression;
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*--*--*");
+            Console.WriteLine(statement.GetType().Name);
+            Console.WriteLine(statement);
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*--*--*");
+            if (statement is PrefixUnaryExpressionSyntax)
+            {
+                return UnaryExpressionWalker.Walk(statement);
+            }
+
+
+            var code = BinaryExpressionWalker.Walk(statement);
             if (string.IsNullOrWhiteSpace(code))
-                code = LeftRightExpressionWalker.Walk(root);
+                code = LeftRightExpressionWalker.Walk(statement);
             return code;
         }
 
-        class BooleanExpressionWalker : CSharpSyntaxWalker
+        class UnaryExpressionWalker : CSharpSyntaxWalker
         {
             private readonly StringBuilder m_code = new StringBuilder();
             internal static string Walk(SyntaxNode node)
             {
-                var walker = new BooleanExpressionWalker();
+                var walker = new UnaryExpressionWalker();
+                walker.Visit(node);
+                return walker.m_code.ToString();
+            }
+
+            public override void VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
+            {
+                var ot = node.OperatorToken.RawKind;
+                if (ot == (int) SyntaxKind.ExclamationToken)
+                    m_code.Append("!");
+
+
+                m_code.Append(LeftRightExpressionWalker.Walk(node.Operand));
+                base.VisitPrefixUnaryExpression(node);
+            }
+
+
+        }
+        class BinaryExpressionWalker : CSharpSyntaxWalker
+        {
+            private readonly StringBuilder m_code = new StringBuilder();
+            internal static string Walk(SyntaxNode node)
+            {
+                var walker = new BinaryExpressionWalker();
                 walker.Visit(node);
                 return walker.m_code.ToString();
             }
@@ -57,9 +94,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 m_code.Append(LeftRightExpressionWalker.Walk(node.Right));
                 base.VisitBinaryExpression(node);
             }
-
-
         }
+
         class LeftRightExpressionWalker : CSharpSyntaxWalker
         {
             private readonly StringBuilder m_code = new StringBuilder();
@@ -75,13 +111,19 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             public override void VisitIdentifierName(IdentifierNameSyntax node)
             {
                 if (node.Parent.GetText().ToString().StartsWith("item."))
-                    m_code.Append(node.Identifier.Text +"()");
+                    m_code.Append(node.Identifier.Text + "()");
                 if (node.Identifier.Text == "item")
                     m_code.Append(".");
                 base.VisitIdentifierName(node);
             }
 
-
+            public override void VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
+            {
+                var text = node.GetText().ToString();
+                if (text == "string.Empty" || text == "String.Empty")
+                    m_code.Append("''");
+                base.VisitMemberAccessExpression(node);
+            }
 
             public override void VisitLiteralExpression(LiteralExpressionSyntax node)
             {
