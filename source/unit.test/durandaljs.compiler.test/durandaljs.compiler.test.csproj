@@ -55,6 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BooleanExpressionTestFixture.cs" />
     <Compile Include="MockDirectoryService.cs" />
     <Compile Include="RazorDisplayTemplateTestFixture.cs" />
     <Compile Include="RazorEditorTemplateTestFixture.cs" />

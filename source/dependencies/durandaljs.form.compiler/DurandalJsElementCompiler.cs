@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.Composition;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
@@ -28,9 +29,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 return razor;
             }
         }
+
+
         public override string GenerateEditor(T element)
         {
-            this.Element = element;
+            var booleanCompiler = new BooleanExpressionCompiler();
+            this.Element = element.Clone();
+
+            this.Element.Visible = booleanCompiler.Compile(element.Visible, "State");
+            this.Element.Enable = booleanCompiler.Compile(element.Enable, "State");
+
             var razor = ObjectBuilder.GetObject<ITemplateEngine>();
             return razor.GenerateAsync(this.EditorRazorTemplate, this).Result;
         }

@@ -95,6 +95,7 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BooleanExpressionCompiler.cs" />
     <Compile Include="ButtonCompiler.cs" />
     <Compile Include="CheckBoxCompiler.cs" />
     <Compile Include="ChildEntityListViewCompiler.cs" />
