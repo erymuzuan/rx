@@ -27,6 +27,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var root = (CompilationUnitSyntax)tree.GetRoot();
 
             var code = BooleanExpressionWalker.Walk(root);
+            if (string.IsNullOrWhiteSpace(code))
+                code = LeftRightExpressionWalker.Walk(root);
             return code;
         }
 
@@ -79,11 +81,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 base.VisitIdentifierName(node);
             }
 
-            //public override void VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
-            //{
-            //    m_code.Append(node);
-            //    base.VisitMemberAccessExpression(node);
-            //}
+
 
             public override void VisitLiteralExpression(LiteralExpressionSyntax node)
             {

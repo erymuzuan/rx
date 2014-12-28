@@ -16,6 +16,15 @@ namespace durandaljs.compiler.test
         }
 
         [TestMethod]
+        public void EqualExpressionToBoolean()
+        {
+            var button = new Button { Enable = "item.IsMarried" };
+            var compiler = new ButtonCompiler();
+            var html = compiler.GenerateEditor(button);
+            StringAssert.Contains(html, "enable: item().IsMarried");
+        }
+
+        [TestMethod]
         public void EqualExpressionToStringLiteral()
         {
             var button = new Button { Enable = "item.Name == \"Kelantan\"" };
@@ -30,7 +39,7 @@ namespace durandaljs.compiler.test
             var button = new Button { Enable = "item.Name != null" };
             var compiler = new ButtonCompiler();
             var html = compiler.GenerateEditor(button);
-            StringAssert.Contains(html, "enable: item().Name() === null");
+            StringAssert.Contains(html, "enable: item().Name() !== null");
         }
 
         [TestMethod]
