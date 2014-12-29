@@ -14,14 +14,39 @@ namespace durandaljs.compiler.test
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
         }
+        
+
+        [TestMethod]
+        public void ReturnString()
+        {
+            StringAssert.Contains(
+                "item.Mrn".CompileHtml(),
+                "CS0029");
+        }
+
+        [TestMethod]
+        public void ReturnDateTime()
+        {
+            StringAssert.Contains(
+                "item.Dob".CompileHtml(),
+                "CS0029");
+        }
+        [TestMethod]
+        public void InvalidCode()
+        {
+            var html = "item.Dobd && !k".CompileHtml();
+            StringAssert.Contains(html, "CS1061");
+            StringAssert.Contains(html, "CS0103");
+        }
 
         [TestMethod]
         public void EqualExpressionToBoolean()
         {
             StringAssert.Contains(
-                "item.IsMarried".CompileHtml(), 
+                "item.IsMarried".CompileHtml(),
                 "enable: $data.IsMarried");
         }
+
         [TestMethod]
         public void EqualExpressionToBooleanFalse()
         {
@@ -34,21 +59,21 @@ namespace durandaljs.compiler.test
         public void EqualExpressionToStringLiteral()
         {
             StringAssert.Contains(
-                "item.Name == \"Pantani\"" .CompileHtml(),
+                "item.Name == \"Pantani\"".CompileHtml(),
                 "enable: $data.Name() === 'Pantani'");
         }
         [TestMethod]
         public void OrExpression()
         {
             StringAssert.Contains(
-                "item.Name == \"Pantani\" || item.IsMarried".CompileHtml(), 
+                "item.Name == \"Pantani\" || item.IsMarried".CompileHtml(),
                 "enable: $data.Name() === 'Pantani' || $data.IsMarried()");
         }
         [TestMethod]
         public void AndExpression()
         {
             StringAssert.Contains(
-                "item.Name == \"Pantani\" && item.IsMarried".CompileHtml(), 
+                "item.Name == \"Pantani\" && item.IsMarried".CompileHtml(),
                 "enable: $data.Name() === 'Pantani' && $data.IsMarried()");
         }
         [TestMethod]
@@ -79,7 +104,7 @@ namespace durandaljs.compiler.test
         public void StringIsNullOrWhiteSpace()
         {
             StringAssert.Contains(
-                "string.IsNullOrWhiteSpace(item.Name)".CompileHtml(), 
+                "string.IsNullOrWhiteSpace(item.Name)".CompileHtml(),
                 "enable: !$data.Name()");
         }
         [TestMethod]
@@ -87,7 +112,7 @@ namespace durandaljs.compiler.test
         {
 
             StringAssert.Contains(
-                "!string.IsNullOrWhiteSpace(item.Name)".CompileHtml(), 
+                "!string.IsNullOrWhiteSpace(item.Name)".CompileHtml(),
                 "enable: !!$data.Name()");
         }
 
@@ -95,7 +120,7 @@ namespace durandaljs.compiler.test
         public void StringIsNullOrEmpty()
         {
             StringAssert.Contains(
-                "string.IsNullOrEmpty(item.Name)".CompileHtml(), 
+                "string.IsNullOrEmpty(item.Name)".CompileHtml(),
                 "enable: !$data.Name()");
         }
 
@@ -141,7 +166,7 @@ namespace durandaljs.compiler.test
         public void FlipOverEqualExpressionToStringLiteral()
         {
             StringAssert.Contains(
-                " \"Pantani\" == item.Name ".CompileHtml(), 
+                " \"Pantani\" == item.Name ".CompileHtml(),
                 "enable: 'Pantani' === $data.Name()");
         }
 
@@ -149,7 +174,7 @@ namespace durandaljs.compiler.test
         public void NotEqualExpressionToStringLiteral()
         {
             StringAssert.Contains(
-                "item.Name != \"Pantani\"".CompileHtml(), 
+                "item.Name != \"Pantani\"".CompileHtml(),
                 "enable: $data.Name() !== 'Pantani'");
         }
 
@@ -157,7 +182,7 @@ namespace durandaljs.compiler.test
         public void GreaterExpressionToStringLiteral()
         {
             StringAssert.Contains(
-                "item.Age  > 25".CompileHtml(), 
+                "item.Age  > 25".CompileHtml(),
                 "enable: $data.Age() > 25");
         }
 
@@ -165,7 +190,7 @@ namespace durandaljs.compiler.test
         public void GreaterOrEqualExpressionToStringLiteral()
         {
             StringAssert.Contains(
-                "item.Age  >= 25".CompileHtml(), 
+                "item.Age  >= 25".CompileHtml(),
                 "enable: $data.Age() >= 25");
         }
     }

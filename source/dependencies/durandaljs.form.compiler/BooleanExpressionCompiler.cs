@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -12,26 +13,65 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(BooleanExpressionCompiler))]
     public class BooleanExpressionCompiler
     {
-        public string Compile(string expression, EntityDefinition entity)
+        public SnippetCompilerResult Compile(string expression, EntityDefinition entity)
         {
             if (string.IsNullOrWhiteSpace(expression))
-                return "true";
+                return new SnippetCompilerResult { Code = "true" };
 
-            var file = new StringBuilder("public bool ");
-            file.AppendLinf("Evaluate({0} item)  ", entity.Name);
+            var file = new StringBuilder();
+            file.AppendLine("using System;");
+            file.AppendLine("namespace Bespoke." + ConfigurationManager.ApplicationName + "_" + entity.Id + ".Domain");
             file.AppendLine("{");
-            file.AppendLinf(" return {0};", expression);
+            file.AppendLine("   public class BooleanExpression");
+            file.AppendLine("   {");
+            file.AppendLinf("       public bool Evaluate({0} item)  ", entity.Name);
+            file.AppendLine("       {");
+            file.AppendLinf("           return {0};", expression);
+            file.AppendLine("       }");
+            file.AppendLine("   }");
             file.AppendLine("}");
 
+            var trees = new ObjectCollection<CSharpSyntaxTree>();
 
-            var tree = CSharpSyntaxTree.ParseText(file.ToString());
+            var tree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(file.ToString());
             var root = (CompilationUnitSyntax)tree.GetRoot();
+            trees.Add(tree);
+
+
+            var codes = from c in entity.GenerateCode()
+                        where !c.Key.EndsWith("Controller")
+                        where !c.Key.EndsWith("Controller.cs")
+                        let x = c.Value.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
+                        .Replace("using System.Web.Mvc;", string.Empty)
+                        .Replace("using System.Linq;", string.Empty)
+                        .Replace("using System.Threading.Tasks;", string.Empty)
+                        select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x);
+            trees.AddRange(codes.ToArray());
+
+            var compilation = CSharpCompilation.Create("eval")
+                .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+                .AddReference<object>()
+                .AddReference<XmlAttributeAttribute>()
+                .AddReference<EntityDefinition>()
+                .AddSyntaxTrees(trees);
+
+
+            var diagnostics = compilation.GetDiagnostics();
+
+            var result = new SnippetCompilerResult { Success = true };
+            result.DiagnosticCollection.AddRange(diagnostics.Where(x => x.Id != "CS8019"));
+            result.Success = result.DiagnosticCollection.Count == 0;
+            result.DiagnosticCollection.ForEach(Console.WriteLine);
+            if (!result.Success)
+                return result;
+
 
             var statement = root.DescendantNodes().OfType<ReturnStatementSyntax>()
                 .Single()
                 .Expression;
 
-            return CompileExpression(statement);
+            result.Code = CompileExpression(statement);
+            return result;
         }
 
         private string CompileExpression(SyntaxNode statement)
@@ -44,7 +84,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         return "true";
                     case SyntaxKind.FalseLiteralExpression:
                         return "false";
-                    default: throw new NotSupportedException("\""+ statement.GetText()+"\" expression is not supported");
+                    default: throw new NotSupportedException("\"" + statement.GetText() + "\" expression is not supported");
                 }
             }
 

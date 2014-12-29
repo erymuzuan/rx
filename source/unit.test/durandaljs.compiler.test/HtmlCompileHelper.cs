@@ -15,9 +15,11 @@ namespace durandaljs.compiler.test
                 Id = "patient",
                 Name = "Patient",
                 WebId = "patient-webid",
-                Plural = "Patients"
+                Plural = "Patients",
+                RecordName = "Mrn"
             };
             patient.MemberCollection.Add(new Member{ Name = "Name", Type = typeof(string), IsNullable = true});
+            patient.MemberCollection.Add(new Member{ Name = "Mrn", Type = typeof(string), IsNullable = false});
             patient.MemberCollection.Add(new Member{ Name = "MyKad", Type = typeof(string), IsNullable = true});
             patient.MemberCollection.Add(new Member{ Name = "Age", Type = typeof(int), IsNullable = true});
             patient.MemberCollection.Add(new Member{ Name = "Dob", Type = typeof(DateTime), IsNullable = true});

@@ -277,6 +277,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ActivityJsResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SnippetCompilerResult.cs" />
     <Compile Include="Transform\AddDaysFunctoid.cs" />
     <Compile Include="Transform\FormCompilerMetadataAttribute.cs" />
     <Compile Include="Transform\FunctoidDependencyComparer.cs" />
