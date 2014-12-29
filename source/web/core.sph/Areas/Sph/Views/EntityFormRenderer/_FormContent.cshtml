@@ -22,7 +22,7 @@
                 }
                 else
                 {
-                @(fe.UseDisplayTemplate ? Html.Raw(fe1.GenerateDisplayTemplate("DurandalJs")) : Html.Raw(fe1.GenerateEditorTemplate("DurandalJs")))
+                @(fe.UseDisplayTemplate ? Html.Raw(fe1.GenerateDisplayTemplate("DurandalJs",Model.EntityDefinition)) : Html.Raw(fe1.GenerateEditorTemplate("DurandalJs", Model.EntityDefinition)))
                 }
             </div>
             @if (!string.IsNullOrWhiteSpace(fe.HelpText))

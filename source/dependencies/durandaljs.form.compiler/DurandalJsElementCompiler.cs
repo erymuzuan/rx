@@ -1,6 +1,5 @@
-using System;
-using System.ComponentModel.Composition;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.FormCompilers.DurandalJs.Properties;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
@@ -12,7 +11,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             get
             {
-                var razor = Properties.EditorTemplateResources.ResourceManager.GetString("editor_template_" + typeof(T).Name);
+                var razor = EditorTemplateResources.ResourceManager.GetString("editor_template_" + typeof(T).Name);
                 if (string.IsNullOrWhiteSpace(razor))
                     return @"<span class=""error"">No editor template defined for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
                 return razor;
@@ -23,7 +22,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             get
             {
-                var razor = Properties.DisplayTemplateResource.ResourceManager.GetString("display_template_" + typeof(T).Name);
+                var razor = DisplayTemplateResource.ResourceManager.GetString("display_template_" + typeof(T).Name);
                 if (string.IsNullOrWhiteSpace(razor))
                     return @"<span class=""error"">No display template defined for " + this.GetType().GetShortAssemblyQualifiedName() + "</span>";
                 return razor;
@@ -31,20 +30,20 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
 
-        public override string GenerateEditor(T element)
+        public override string GenerateEditor(T element, EntityDefinition entity)
         {
             var booleanCompiler = new BooleanExpressionCompiler();
             this.Element = element.Clone();
 
-            this.Element.Visible = booleanCompiler.Compile(element.Visible, "State");
-            this.Element.Enable = booleanCompiler.Compile(element.Enable, "State");
+            this.Element.Visible = booleanCompiler.Compile(element.Visible, entity);
+            this.Element.Enable = booleanCompiler.Compile(element.Enable, entity);
 
             var razor = ObjectBuilder.GetObject<ITemplateEngine>();
             return razor.GenerateAsync(this.EditorRazorTemplate, this).Result;
         }
 
 
-        public override string GenerateDisplay(T element)
+        public override string GenerateDisplay(T element, EntityDefinition entity)
         {
             this.Element = element;
             var razor = ObjectBuilder.GetObject<ITemplateEngine>();

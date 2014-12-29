@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.FormCompilers.DurandalJs;
 using Bespoke.Sph.Templating;
@@ -9,11 +10,36 @@ namespace durandaljs.compiler.test
     [TestClass]
     public class RazorDisplayTemplateTestFixture
     {
+        private EntityDefinition m_patient;
         [TestInitialize]
         public void SetUp()
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
+            m_patient = new EntityDefinition
+            {
+                Id = "patient",
+                Name = "Patient",
+                WebId = "patient-webid",
+                Plural = "Patients"
+            };
+            m_patient.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string), IsNullable = true });
+            m_patient.MemberCollection.Add(new Member { Name = "MyKad", Type = typeof(string), IsNullable = true });
+            m_patient.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int), IsNullable = true });
+            m_patient.MemberCollection.Add(new Member { Name = "Dob", Type = typeof(DateTime), IsNullable = true });
+            m_patient.MemberCollection.Add(new Member { Name = "RegisteredDate", Type = typeof(DateTime), IsNullable = false });
+            m_patient.MemberCollection.Add(new Member { Name = "IsMarried", Type = typeof(bool), IsNullable = false });
+
+            var address = new Member { Name = "Address", Type = typeof(object) };
+            address.Add(new Dictionary<string, Type>
+            {
+                {"Street",typeof(string)},
+                {"Street2",typeof(string)},
+                {"City",typeof(string)},
+                {"Postcode",typeof(string)},
+                {"State",typeof(string)}
+            });
+            m_patient.MemberCollection.Add(address);
         }
 
 
@@ -33,7 +59,7 @@ namespace durandaljs.compiler.test
                 Enable = "false"
             };
             var compiler = new ButtonCompiler();
-            var html = compiler.GenerateDisplay(button);
+            var html = compiler.GenerateDisplay(button,m_patient);
             StringAssert.Contains(html,"display mode");
         }
 
@@ -52,7 +78,7 @@ namespace durandaljs.compiler.test
                 Enable = "false"
             };
             var compiler = new CheckBoxCompiler();
-            var html = compiler.GenerateDisplay(checkbox);
+            var html = compiler.GenerateDisplay(checkbox, m_patient);
             StringAssert.Contains(html,"<span");
         }
 
@@ -74,7 +100,7 @@ namespace durandaljs.compiler.test
             };
             listView.ViewColumnCollection.Add(new ViewColumn{Header = "Name",Path = "FullName"});
             var compiler = new ChildEntityListViewCompiler();
-            var html = compiler.GenerateDisplay(listView);
+            var html = compiler.GenerateDisplay(listView, m_patient);
             StringAssert.Contains(html,"<table");
             StringAssert.Contains(html,"<th>Name</th>");
             StringAssert.Contains(html,"text:FullName");
@@ -97,7 +123,7 @@ namespace durandaljs.compiler.test
             dropdown.ComboBoxItemCollection.Add(new ComboBoxItem{Caption = "Male",Value = "Male"});
             dropdown.ComboBoxItemCollection.Add(new ComboBoxItem{Caption = "Female",Value = "Female"});
             var compiler = new ComboBoxCompiler();
-            var html = compiler.GenerateDisplay(dropdown);
+            var html = compiler.GenerateDisplay(dropdown, m_patient);
             StringAssert.Contains(html,"<span");
         }
 
@@ -118,7 +144,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new CurrencyElementCompiler();
-            var html = compiler.GenerateDisplay(dropdown);
+            var html = compiler.GenerateDisplay(dropdown, m_patient);
             StringAssert.Contains(html,"money:");
         }
 
@@ -138,7 +164,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new DatePickerCompiler();
-            var html = compiler.GenerateDisplay(picker);
+            var html = compiler.GenerateDisplay(picker, m_patient);
             StringAssert.Contains(html,"date:");
         }
 
@@ -158,7 +184,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new DateTimePickerCompiler();
-            var html = compiler.GenerateDisplay(picker);
+            var html = compiler.GenerateDisplay(picker, m_patient);
             StringAssert.Contains(html, "date:");
         }
 
@@ -179,7 +205,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new DownloadLinkCompiler();
-            var html = compiler.GenerateDisplay(picker);
+            var html = compiler.GenerateDisplay(picker, m_patient);
             StringAssert.Contains(html, "store");
         }
         [TestMethod]
@@ -198,7 +224,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new EmailFormElementCompiler();
-            var html = compiler.GenerateDisplay(picker);
+            var html = compiler.GenerateDisplay(picker, m_patient);
             StringAssert.Contains(html, "type=\"email\"");
         }
 
@@ -219,7 +245,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new EntityLookupElementCompiler();
-            var html = compiler.GenerateDisplay(picker);
+            var html = compiler.GenerateDisplay(picker, m_patient);
             StringAssert.Contains(html, "entity: 'State'");
         }
 
@@ -239,7 +265,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new FileUploadElementCompiler();
-            var html = compiler.GenerateDisplay(picker);
+            var html = compiler.GenerateDisplay(picker, m_patient);
             StringAssert.Contains(html, "Upload");
         }
         [TestMethod]
@@ -259,7 +285,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new HtmlElementCompiler();
-            var html = compiler.GenerateDisplay(picker);
+            var html = compiler.GenerateDisplay(picker, m_patient);
             StringAssert.Contains(html, "html");
         }
         [TestMethod]
@@ -277,7 +303,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new ImageElementCompiler();
-            var html = compiler.GenerateDisplay(picker);
+            var html = compiler.GenerateDisplay(picker, m_patient);
             StringAssert.Contains(html, "store");
         }
         [TestMethod]
@@ -304,7 +330,7 @@ namespace durandaljs.compiler.test
             });
 
             var compiler = new ListViewCompiler();
-            var html = compiler.GenerateDisplay(lv);
+            var html = compiler.GenerateDisplay(lv, m_patient);
             StringAssert.Contains(html, "<table");
         }
         [TestMethod]
@@ -322,7 +348,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new NumberTextBoxCompiler();
-            var html = compiler.GenerateDisplay(lv);
+            var html = compiler.GenerateDisplay(lv, m_patient);
             StringAssert.Contains(html, "<input");
         }
         [TestMethod]
@@ -340,7 +366,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new SectionFormElementCompiler();
-            var html = compiler.GenerateDisplay(lv);
+            var html = compiler.GenerateDisplay(lv, m_patient);
             StringAssert.Contains(html, "<h2");
         }
         [TestMethod]
@@ -358,7 +384,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new TextAreaElementCompiler();
-            var html = compiler.GenerateDisplay(lv);
+            var html = compiler.GenerateDisplay(lv, m_patient);
             StringAssert.Contains(html, "<textarea");
         }
         [TestMethod]
@@ -376,7 +402,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new TextBoxCompiler();
-            var html = compiler.GenerateDisplay(lv);
+            var html = compiler.GenerateDisplay(lv, m_patient);
             StringAssert.Contains(html, "text");
         }
         [TestMethod]
@@ -394,7 +420,7 @@ namespace durandaljs.compiler.test
             };
 
             var compiler = new WebsiteFormElementCompiler();
-            var html = compiler.GenerateDisplay(lv);
+            var html = compiler.GenerateDisplay(lv, m_patient);
             StringAssert.Contains(html, "url");
         }
     }

@@ -14,15 +14,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             get { return m_inputEditorCollection; }
         }
-        public override string GenerateEditor(ListView element)
+        public override string GenerateEditor(ListView element, EntityDefinition entity)
         {
             this.InputEditorCollection.Clear();
             var editors = from x in element.ListViewColumnCollection
                           let c = x.Input.ElementId = string.Empty
                           let d = x.Input.IsUniqueName = true
-                          select x.Input.GenerateEditorTemplate(Constants.DURANDAL_JS);
+                          select x.Input.GenerateEditorTemplate(Constants.DURANDAL_JS, entity);
             this.InputEditorCollection.AddRange(editors);
-            return base.GenerateEditor(element);
+            return base.GenerateEditor(element, entity);
         }
     }
 }

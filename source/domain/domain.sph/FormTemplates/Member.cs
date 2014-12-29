@@ -214,5 +214,13 @@ namespace Bespoke.Sph.Domain
             }
             return script.ToString();
         }
+
+        public Member AddMember(string name, Type type)
+        {
+
+            var child = new Member {Name = name, Type = type, WebId = System.Guid.NewGuid().ToString()};
+            this.MemberCollection.Add(child);
+            return child;
+        }
     }
 }

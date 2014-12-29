@@ -12,60 +12,62 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(BooleanExpressionCompiler))]
     public class BooleanExpressionCompiler
     {
-        public string Compile(string expression, string entity = "")
+        public string Compile(string expression, EntityDefinition entity)
         {
             if (string.IsNullOrWhiteSpace(expression))
                 return "true";
 
             var file = new StringBuilder("public bool ");
-            file.AppendLinf("Evaluate({0} item)  ", entity);
+            file.AppendLinf("Evaluate({0} item)  ", entity.Name);
             file.AppendLine("{");
             file.AppendLinf(" return {0};", expression);
             file.AppendLine("}");
 
-            Console.WriteLine(file);
+
             var tree = CSharpSyntaxTree.ParseText(file.ToString());
             var root = (CompilationUnitSyntax)tree.GetRoot();
 
             var statement = root.DescendantNodes().OfType<ReturnStatementSyntax>()
                 .Single()
                 .Expression;
-            Console.WriteLine("-*-*-*-*-*-*-*-*-*--*--*");
-            Console.WriteLine(statement.GetType().Name);
-            Console.WriteLine(statement);
-            Console.WriteLine("-*-*-*-*-*-*-*-*-*--*--*");
+
+            return CompileExpression(statement);
+        }
+
+        private string CompileExpression(SyntaxNode statement)
+        {
             if (statement is LiteralExpressionSyntax)
             {
-                if (statement.RawKind == (int)SyntaxKind.TrueLiteralExpression)
-                    return "true";
-                if (statement.RawKind == (int)SyntaxKind.FalseLiteralExpression)
-                    return "false";
+                switch (statement.RawKind)
+                {
+                    case (int)SyntaxKind.TrueLiteralExpression:
+                        return "true";
+                    case (int)SyntaxKind.FalseLiteralExpression:
+                        return "false";
+                }
             }
 
             var parenthesiz = statement as ParenthesizedExpressionSyntax;
             if (null != parenthesiz)
             {
-                return "(" + this.Compile(parenthesiz.Expression.GetText().ToString()) + ")";
+                return "(" + this.CompileExpression(parenthesiz.Expression) + ")";
             }
-            var binaryExpression = statement as BinaryExpressionSyntax;
-            if (binaryExpression != null)
+            var bes = statement as BinaryExpressionSyntax;
+            if (bes != null)
             {
-                if (binaryExpression.RawKind == (int)SyntaxKind.LogicalAndExpression)
+                switch (bes.RawKind)
                 {
-                    return this.Compile(binaryExpression.Left.GetText().ToString())
-                        + " && "
-                        + this.Compile(binaryExpression.Right.GetText().ToString());
-
+                    case (int)SyntaxKind.LogicalAndExpression:
+                        return this.CompileExpression(bes.Left)
+                               + " && "
+                               + this.CompileExpression(bes.Right);
+                    case (int)SyntaxKind.LogicalOrExpression:
+                        return this.CompileExpression(bes.Left)
+                               + " || "
+                               + this.CompileExpression(bes.Right);
+                    case (int)SyntaxKind.LogicalNotExpression:
+                        throw new Exception("Not implemented for LogicalNotExpression :" + statement.GetText());
                 }
-                if (binaryExpression.RawKind == (int)SyntaxKind.LogicalOrExpression)
-                {
-                    return this.Compile(binaryExpression.Left.GetText().ToString())
-                        + " || "
-                        + this.Compile(binaryExpression.Right.GetText().ToString());
-
-                }
-                if (binaryExpression.RawKind == (int)SyntaxKind.LogicalNotExpression)
-                    return "LogicalNotExpression";
             }
 
             if (statement is PrefixUnaryExpressionSyntax)
@@ -76,7 +78,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var code = BinaryExpressionWalker.Walk(statement);
             if (string.IsNullOrWhiteSpace(code))
-                code = LeftRightExpressionWalker.Walk(statement);
+                code = ItemMemberAccessExpressionWalker.Walk(statement);
             return code;
         }
 
@@ -96,13 +98,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 if (ot == (int)SyntaxKind.ExclamationToken)
                     m_code.Append("!");
 
-
-                m_code.Append(LeftRightExpressionWalker.Walk(node.Operand));
+                m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.Operand));
                 base.VisitPrefixUnaryExpression(node);
             }
 
 
         }
+
         class BinaryExpressionWalker : CSharpSyntaxWalker
         {
             private readonly StringBuilder m_code = new StringBuilder();
@@ -123,28 +125,59 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     operatorToken = "!==";
 
 
-                m_code.Append(LeftRightExpressionWalker.Walk(node.Left));
+                m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.Left));
                 m_code.AppendFormat(" {0} ", operatorToken);
-                m_code.Append(LeftRightExpressionWalker.Walk(node.Right));
+                m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.Right));
                 base.VisitBinaryExpression(node);
             }
         }
 
-        class LeftRightExpressionWalker : CSharpSyntaxWalker
+        class NativeMethodInvocationExpressionWalker : CSharpSyntaxWalker
         {
             private readonly StringBuilder m_code = new StringBuilder();
             internal static string Walk(SyntaxNode node)
             {
-                var walker = new LeftRightExpressionWalker();
+                var walker = new NativeMethodInvocationExpressionWalker();
                 walker.Visit(node);
                 return walker.m_code.ToString();
             }
 
+            public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+            {
+                if (
+                    node.Expression.GetText()
+                        .ToString()
+                        .ToLowerInvariant()
+                        .StartsWith("string.IsNullOr".ToLowerInvariant()))
+                {
+                    m_code.Append("!");
+                    m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.ArgumentList.DescendantNodes().OfType<MemberAccessExpressionSyntax>()
+                        .Single()));
+                }
+                base.VisitInvocationExpression(node);
+            }
+        }
 
+        class ItemMemberAccessExpressionWalker : CSharpSyntaxWalker
+        {
+            private readonly StringBuilder m_code = new StringBuilder();
+            internal static string Walk(SyntaxNode node)
+            {
+                if (node.CSharpKind() == SyntaxKind.InvocationExpression)
+                {
+                    return NativeMethodInvocationExpressionWalker.Walk(node);
+                }
+
+                var walker = new ItemMemberAccessExpressionWalker();
+                walker.Visit(node);
+                return walker.m_code.ToString();
+            }
 
             public override void VisitIdentifierName(IdentifierNameSyntax node)
             {
-                if (node.Parent.GetText().ToString().StartsWith("item."))
+                if (node.Identifier.Text == "item")
+                    m_code.Append("$data");
+                if (node.Parent.GetText().ToString().StartsWith("item.") && node.Identifier.Text != "item")
                     m_code.Append(node.Identifier.Text + "()");
                 if (node.Identifier.Text == "item")
                     m_code.Append(".");

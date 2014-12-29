@@ -153,14 +153,14 @@ WriteLiteral(">\r\n");
             #line hidden
             
             #line 25 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
-            Write(fe.UseDisplayTemplate ? Html.Raw(fe1.GenerateDisplayTemplate("DurandalJs")) : Html.Raw(fe1.GenerateEditorTemplate("DurandalJs")));
+            Write(fe.UseDisplayTemplate ? Html.Raw(fe1.GenerateDisplayTemplate("DurandalJs",Model.EntityDefinition)) : Html.Raw(fe1.GenerateEditorTemplate("DurandalJs", Model.EntityDefinition)));
 
             
             #line default
             #line hidden
             
             #line 25 "..\..\Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml"
-                                                                                                                                                   
+                                                                                                                                                                                                  
                 }
 
             
