@@ -38,12 +38,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             if (statement is LiteralExpressionSyntax)
             {
-                switch (statement.RawKind)
+                switch (statement.CSharpKind())
                 {
-                    case (int)SyntaxKind.TrueLiteralExpression:
+                    case SyntaxKind.TrueLiteralExpression:
                         return "true";
-                    case (int)SyntaxKind.FalseLiteralExpression:
+                    case SyntaxKind.FalseLiteralExpression:
                         return "false";
+                    default: throw new NotSupportedException("\""+ statement.GetText()+"\" expression is not supported");
                 }
             }
 

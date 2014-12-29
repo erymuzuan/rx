@@ -124,10 +124,16 @@ namespace durandaljs.compiler.test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(NotSupportedException))]
         public void NotBooleanExpression()
         {
             "\"test\"".CompileHtml();
+        }
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void IntegerExpression()
+        {
+            "0".CompileHtml();
         }
 
 
