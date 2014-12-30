@@ -6,15 +6,15 @@
         function (context, logger, router, system, validation, eximp, dialog, watcher,config,app
             ) {
 
-            var entity = ko.observable(new bespoke.dev_1.domain.Customer({WebId:system.guid()})),
+            var entity = ko.observable(new bespoke.dev_customer.domain.Customer({WebId:system.guid()})),
                 errors = ko.observableArray(),
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
                 id = ko.observable(),
                 activate = function (entityId) {
-                    id(parseInt(entityId));
+                    id(entityId);
 
-                    var query = String.format("CustomerId eq {0}", entityId),
+                    var query = String.format("Id eq '{0}'", entityId),
                         tcs = new $.Deferred(),
                         itemTask = context.loadOneAsync("Customer", query),
                         formTask = context.loadOneAsync("EntityForm", "Route eq 'add-customer-form'"),
@@ -26,7 +26,7 @@
                             entity(item);
                         }
                         else {
-                            entity(new bespoke.dev_1.domain.Customer({WebId:system.guid()}));
+                            entity(new bespoke.dev_customer.domain.Customer({WebId:system.guid()}));
                         }
                         form(f);
                         watching(w);
@@ -51,7 +51,7 @@
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
-                                 entity().CustomerId(result.id);
+                                 entity().Id(result.id);
                                  errors.removeAll();
 
                                  window.location='#customer'
@@ -79,7 +79,7 @@
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
-                                 entity().CustomerId(result.id);
+                                 entity().Id(result.id);
                                  errors.removeAll();
 
                                  window.location='/sph#customer'
@@ -107,7 +107,7 @@
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
-                                 entity().CustomerId(result.id);
+                                 entity().Id(result.id);
                                  errors.removeAll();
 
                                  
@@ -135,7 +135,7 @@
                          .then(function (result) {
                              if (result.success) {
                                  logger.info(result.message);
-                                 entity().CustomerId(result.id);
+                                 entity().Id(result.id);
                                  errors.removeAll();
 
                                  
@@ -218,8 +218,8 @@
                                 context.post(data, "/Customer/Save")
                                    .then(function(result) {
                                        tcs.resolve(result);
-                                       entity().CustomerId(result.id);
-                                       app.showMessage("Your Customer has been successfully saved", "SPH Platform showcase", ["ok"]);
+                                       entity().Id(result.id);
+                                       app.showMessage("Your Customer has been successfully saved", "SPH Platform Showcase", ["ok"]);
                                    });
                             }else{
                                 var ve = _(result.validationErrors).map(function(v){
@@ -240,7 +240,7 @@
                     var tcs = new $.Deferred();
                     $.ajax({
                         type: "DELETE",
-                        url: "/Customer/Remove/" + entity().CustomerId(),
+                        url: "/Customer/Remove/" + entity().Id(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         error: tcs.reject,
@@ -286,13 +286,13 @@
                     },
                                                                 
                     watchCommand: function() {
-                        return watcher.watch("Customer", entity().CustomerId())
+                        return watcher.watch("Customer", entity().Id())
                             .done(function(){
                                 watching(true);
                             });
                     },
                     unwatchCommand: function() {
-                        return watcher.unwatch("Customer", entity().CustomerId())
+                        return watcher.unwatch("Customer", entity().Id())
                             .done(function(){
                                 watching(false);
                             });

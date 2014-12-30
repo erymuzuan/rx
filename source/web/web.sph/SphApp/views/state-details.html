@@ -20,7 +20,7 @@
 
 
     <div data-bind="visible:true" class="form-group">
-        <label for="939ea4e6-d48b-4a22-97a8-b5a2aa3bc589" class="col-md-4">Name</label>
+        <label for="nameTexbox2" class="col-md-4">Name</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
                    data-bind="value: Name, enable :true "
@@ -29,14 +29,14 @@
                     data-rule-maxlength="25"
  data-rule-minlength="3"
 
-                   id="939ea4e6-d48b-4a22-97a8-b5a2aa3bc589" type="text" name="Name" />
+                   id="nameTexbox2" type="text" name="Name" />
         </div>
     </div>
 
 
 
     <div data-bind="visible:true" class="form-group">
-        <label for="cc439f9d-f1c5-48d5-9294-71af012c0814" class="col-md-4">Abbrv.</label>
+        <label for="abbTextbox" class="col-md-4">Abbrv.</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
                    data-bind="value: Abbreviation, enable :true "
@@ -45,7 +45,7 @@
                     data-rule-maxlength="3"
  data-rule-minlength="3"
 
-                   id="cc439f9d-f1c5-48d5-9294-71af012c0814" type="text" name="Abbreviation" />
+                   id="abbTextbox" type="text" name="Abbreviation" />
         </div>
     </div>
 
@@ -62,6 +62,34 @@
  data-rule-minlength="3"
 
                    id="2debfb95-e6cd-4281-9d6d-27c5e97e77a1" type="text" name="Country" />
+        </div>
+    </div>
+<div class="form-group">
+
+    <label class="col-md-4">Abbreviation</label>
+    <span class="col-md-8" data-bind="text: Abbreviation"></span>
+</div>
+    <div class="form-group" data-bind="visible:true">
+        <label for="abbCm" class="col-md-4">Abbreviation</label>
+        <div class="col-md-8">
+            <select data-bind="value: Abbreviation, enable :true" id="abbCm" name="Abbreviation" class=" input-large form-control">
+            </select>
+        </div>
+    </div>
+
+<button data-bind="command : $root., visible :true, enable: true" class="">Validate Dat</button>
+
+
+
+    <div data-bind="visible:item.Name == &quot;Kelantan&quot;" class="form-group">
+        <label for="nameTexbox" class="col-md-4">Name</label>
+        <div class="col-md-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Name, enable :true "
+                   
+                   
+                   
+                   id="nameTexbox" type="text" name="Name" />
         </div>
     </div>
 </form>

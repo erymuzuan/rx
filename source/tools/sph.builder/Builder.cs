@@ -101,13 +101,12 @@ namespace sph.builder
 
         private object GetParameterValue(Column prop, Entity item)
         {
-            var id = item.Id;
             if (prop.Name == "Data")
                 throw new InvalidOperationException("Xml [Data] column is no longer supporterd");
             if (prop.Name == "Json")
                 return item.ToJsonString();
             if (prop.Name == "CreatedDate")
-                return string.IsNullOrWhiteSpace(id) || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
+                return item.IsNewItem || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
             if (prop.Name == "CreatedBy")
                 return "admin";
             if (prop.Name == "ChangedDate")

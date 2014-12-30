@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Newtonsoft.Json;
 
 namespace subscriber.entities
 {
@@ -60,17 +61,8 @@ namespace subscriber.entities
 
         }
 
-        protected override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
+        protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
-            var package = this.CreateMigrationPackage(item);
-            File.WriteAllText(Path.Combine(ConfigurationManager.UserSourceDirectory, "EntityDefinition\\" + item.Name + ".migration.json"), package.ToJsonString(true));
-
-            return Task.FromResult(0);
-        }
-
-        private async Task<EntityMigrationPackage> CreateMigrationPackage(EntityDefinition item)
-        {
-            var package = new EntityMigrationPackage { EntityDefinition = item };
             var connectionString = ConfigurationManager.ConnectionStrings["sph"].ConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
             var tableExistSql =
@@ -78,6 +70,7 @@ namespace subscriber.entities
                     "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{0}'  AND  TABLE_NAME = '{1}'",
                     applicationName, item.Name);
             var createTable = this.CreateTableSql(item, applicationName);
+            var oldTable = string.Format("{0}_{1:yyyyMMdd_HHmmss}", item.Name, DateTime.Now);
             using (var conn = new SqlConnection(connectionString))
             {
                 await conn.OpenAsync();
@@ -90,63 +83,59 @@ namespace subscriber.entities
                 {
                     // Verify that the table has changed
                     var ok = CheckForNewColumns(item);
-                    if (ok) return package;
+                    if (ok) return;
+
+
+                    // rename table for migration
+                    using (var renameTableCommand = new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
+                    {
+                        renameTableCommand.Parameters.AddWithValue("@objname", string.Format("[{0}].[{1}]", applicationName, item.Name));
+                        renameTableCommand.Parameters.AddWithValue("@newname", oldTable);
+                        //renameTableCommand.Parameters.AddWithValue("@objtype", "OBJECT");
+
+                        await renameTableCommand.ExecuteNonQueryAsync();
+                    }
+
                 }
 
-                package.CreateTableSql = WriteCreateTableSqlFile(item, createTable);
-                var migrationCode = GenerateMigrationCode(item, applicationName);
-                package.MigrationCode = migrationCode;
-            }
+                using (var createTableCommand = new SqlCommand(createTable, conn))
+                {
+                    await createTableCommand.ExecuteNonQueryAsync();
+                }
+                if (existingTableCount == 0) return;
 
-            return package;
+                this.WriteMessage("Migrating data for {0}", item.Name);
 
-        }
+                //migrate
+                var readSql = string.Format("SELECT [Id],[Json] FROM [{0}].[{1}]", applicationName, oldTable);
+                this.WriteMessage(readSql);
 
-        private static string GenerateMigrationCode(EntityDefinition item, string applicationName)
-        {
-            var migrationCode = String.Format(@"//migrate)
-                var readSql = ""SELECT [Id],[Json] FROM [{0}].[{1}_Original]"";
-                var builder = new Builder {{ EntityDefinition = item, Name = item.Name }};
+                var builder = new Builder { EntityDefinition = item, Name = item.Name };
                 builder.Initialize();
 
                 using (var cmd = new SqlCommand(readSql, conn))
-                {{
+                {
                     using (var reader = await cmd.ExecuteReaderAsync())
-                    {{
+                    {
                         while (reader.Read())
-                        {{
+                        {
                             var id = reader.GetString(0);
                             var json = reader.GetString(1);
-
-                            var setting = new JsonSerializerSettings {{ TypeNameHandling = TypeNameHandling.All }};
-                            var ent = JsonConvert.DeserializeObject<{1}>(json, setting);
+                            this.WriteMessage("Migrating {0} : {1}", item.Name, id);
+                            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                            dynamic ent = JsonConvert.DeserializeObject(json, setting);
                             ent.Id = id;
                             //
                             await builder.InsertAsync(ent);
-                        }}
+                        }
 
-                    }}
-                }}", applicationName, item.Name);
-            return migrationCode;
-        }
+                    }
+                }
 
-        private static string WriteCreateTableSqlFile(EntityDefinition item, string createTable)
-        {
 
-            var createTableFileContent = string.Format(@"
-USE [{0}]
-GO
-IF (EXISTS (SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = '{0}' 
-                 AND  TABLE_NAME = '{1}'))
-BEGIN
-    exec sp_rename '[{0}.{1}]',[{0}.{1}_Original]
-END
-GO
-{2}", ConfigurationManager.ApplicationName, item.Name, createTable);
 
-            return createTableFileContent;
+            }
+
         }
 
         private bool CheckForNewColumns(EntityDefinition item)
@@ -199,12 +188,5 @@ GO
         {
             return this.ProcessMessage(ed, null);
         }
-    }
-
-    public class EntityMigrationPackage
-    {
-        public string CreateTableSql { get; set; }
-        public string MigrationCode { get; set; }
-        public EntityDefinition EntityDefinition { get; set; }
     }
 }

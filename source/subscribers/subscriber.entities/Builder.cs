@@ -2,12 +2,9 @@
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
-
-
 
 namespace subscriber.entities
 {
@@ -55,18 +52,12 @@ namespace subscriber.entities
 
         private object GetParameterValue(Column prop, Entity item)
         {
-            var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + this.EntityDefinition.Name);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, this.EntityDefinition.Id, this.Name);
-            var entityType = edAssembly.GetType(edTypeName);
-
-            var id = (int)item.GetType().GetProperty(entityType.Name + "Id")
-                .GetValue(item, null);
             if (prop.Name == "Data")
                 throw new InvalidOperationException("Xml [Data] column is no longer supporterd");
             if (prop.Name == "Json")
                 return item.ToJsonString();
             if (prop.Name == "CreatedDate")
-                return id == 0 || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
+                return item.IsNewItem || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
             if (prop.Name == "CreatedBy")
                 return "admin";
             if (prop.Name == "ChangedDate")
