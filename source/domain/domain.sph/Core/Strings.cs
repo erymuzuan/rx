@@ -268,9 +268,12 @@ namespace Bespoke.Sph.Domain
             return Uri.EscapeDataString(value.ToEmptyString());
         }
 
-        public static string ToEmptyString(this object value)
+        public static string ToEmptyString(this object value, string defaultValue = "")
         {
-            if (null == value) return string.Empty;
+            if (null == value) return defaultValue;
+            var s = value as string;
+            if (s != null && string.IsNullOrWhiteSpace(s)) return defaultValue;
+
             return string.Format("{0}", value);
         }
 

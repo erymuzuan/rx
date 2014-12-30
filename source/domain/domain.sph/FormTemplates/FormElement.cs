@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Properties;
 using Newtonsoft.Json;
@@ -163,5 +166,29 @@ namespace Bespoke.Sph.Domain
             }
             return fc.Value.GenerateDisplayTemplate(this, entity);
         }
+
+        public virtual ImmutableList<ExpressionDescriptor> CodeExpressions()
+        {
+            var list = new List<ExpressionDescriptor>
+            {
+                new ExpressionDescriptor(x => x.Enable, typeof (bool)),
+                new ExpressionDescriptor(x => x.Visible, typeof (bool))
+            };
+            return list.ToImmutableList();
+        }
+
+    }
+
+    public class ExpressionDescriptor
+    {
+        public ExpressionDescriptor(Expression<Func<FormElement, string>> field, Type type)
+        {
+            this.Field = field;
+            this.ReturnType = type;
+
+        }
+        public Expression<Func<FormElement, string>> Field { get; set; }
+        public Type ReturnType { get; set; }
+        public bool AllowAsync { get; set; }
     }
 }

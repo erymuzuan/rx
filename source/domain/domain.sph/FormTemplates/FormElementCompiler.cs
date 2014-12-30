@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Immutable;
+using Microsoft.CodeAnalysis;
 
 namespace Bespoke.Sph.Domain
 {
@@ -11,6 +13,11 @@ namespace Bespoke.Sph.Domain
         internal virtual string GenerateDisplayTemplate(FormElement element, EntityDefinition entity)
         {
             throw new Exception("Not implemented");
+        }
+
+        public virtual IImmutableList<Diagnostic> GetDiagnostics(FormElement element, ExpressionDescriptor expression, EntityDefinition entity)
+        {
+            throw new NotImplementedException();
         }
     }
 

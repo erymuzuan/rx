@@ -55,6 +55,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     .done(function (f) {
                         _(f.FormDesign().FormElementCollection()).each(function (v) {
                             v.isSelected = ko.observable(false);
+                            v.hasError = ko.observable(false);
                         });
                         form(f);
                         tcs.resolve(true);
@@ -108,6 +109,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     var el = ko.dataFor(this).element;
                     var fe = context.clone(el);
                     fe.isSelected = ko.observable(true);
+                    fe.hasError = ko.observable(false);
                     fe.Label("Label " + fd.FormElementCollection().length);
                     fe.CssClass("");
                     fe.Visible("true");
@@ -143,8 +145,21 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 );
 
 
-                var receive = function (evt, ui) {
-                    $('.selected-form-element').each(function () {
+                var receive = {},
+                    initDesigner = function () {
+                        $("#template-form-designer>form").sortable({
+                            items: ">div",
+                            placeholder: "ph",
+                            helper: "original",
+                            dropOnEmpty: true,
+                            forcePlaceholderSize: true,
+                            forceHelperSize: false,
+                            receive: receive
+                        });
+                    };
+
+                receive = function (evt, ui) {
+                    $(".selected-form-element").each(function () {
                         var kd = ko.dataFor(this);
                         if (typeof kd.isSelected === "function")
                             kd.isSelected(false);
@@ -159,6 +174,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     children = sortable.children();
 
                     fe.isSelected = ko.observable(true);
+                    fe.hasError = ko.observable(false);
                     fe.Enable("true");
                     fe.Visible("true");
                     fe.Label("Label " + (fd.FormElementCollection().length + 1));
@@ -172,24 +188,13 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         }
                     }
                     elements.splice(position, 0, fe);
-                    $('#template-form-designer>form').sortable("destroy");
+                    $("#template-form-designer>form").sortable("destroy");
                     //rebuild
                     fd.FormElementCollection(elements);
                     initDesigner();
-                    $('#template-form-designer>form li.ui-draggable').remove();
+                    $("#template-form-designer>form li.ui-draggable").remove();
                     selectedFormElement(fe);
-                },
-                    initDesigner = function () {
-                        $("#template-form-designer>form").sortable({
-                            items: ">div",
-                            placeholder: "ph",
-                            helper: "original",
-                            dropOnEmpty: true,
-                            forcePlaceholderSize: true,
-                            forceHelperSize: false,
-                            receive: receive
-                        });
-                    };
+                };
 
                 initDesigner();
 
@@ -247,7 +252,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             selectFormElement = function (fe) {
 
-                $(".selected-form-element").each(function (e) {
+                $(".selected-form-element").each(function () {
                     var kd = ko.dataFor(this);
                     if (typeof kd.isSelected === "function")
                         kd.isSelected(false);
@@ -256,8 +261,11 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 if (typeof fe.isSelected === "undefined") {
                     fe.isSelected = ko.observable(true);
                 }
+                if (typeof fe.hasError === "undefined") {
+                    fe.hasError = ko.observable(true);
+                }
                 fe.isSelected(true);
-                vm.selectedFormElement(fe);
+                selectedFormElement(fe);
                 if (supportsHtml5Storage()) {
                     localStorage.setItem(form().WebId(), ko.mapping.toJSON(form));
                 }
@@ -295,18 +303,45 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 context.post(data, "/entity-form/publish")
                     .then(function (result) {
+                        _(elements).each(function (f) {
+                            f.hasError(false);
+                        });
+
                         if (result.success) {
                             logger.info(result.message);
                             entity().Id(result.id);
                             errors.removeAll();
                         } else {
                             errors(result.Errors);
+                            _(result.Errors).each(function (v) {
+                                _(elements).each(function (f) {
+                                    if (ko.unwrap(f.ElementId) === v.ItemWebId) {
+                                        f.hasError(true);
+                                    }
+                                });
+                            });
                             logger.error("There are errors in your entity, !!!");
                         }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
 
+            },
+
+            showError = function (error) {
+                var fe = _(form().FormDesign().FormElementCollection())
+                    .find(function (f) {
+                        return ko.unwrap(f.ElementId) === error.ItemWebId;
+                    });
+                if (fe) {
+                    $(".selected-form-element").each(function () {
+                        var kd = ko.dataFor(this);
+                        if (typeof kd.isSelected === "function")
+                            kd.isSelected(false);
+                    });
+                    fe.isSelected(true);
+                    selectedFormElement(fe);
+                }
             },
             save = function () {
                 var fd = ko.unwrap(form().FormDesign);
@@ -411,6 +446,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         var vm = {
             errors: errors,
+            showError: showError,
             layoutOptions: layoutOptions,
             operationsOption: operationsOption,
             attached: attached,

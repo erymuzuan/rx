@@ -55,6 +55,35 @@ namespace Bespoke.Sph.Domain
             if (this.CompilerCollection.Count == 0)
                 result.Errors.Add(new BuildError(this.WebId) { Message = "You need to specify at least one compiler for the form." });
 
+            // validates the element expression
+            ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.Compilers)
+                throw new InvalidOperationException("Failed to initialize compilers list with MEF");
+            foreach (var cn in this.CompilerCollection)
+            {
+                var compiler = this.Compilers.FirstOrDefault(x => x.Metadata.Name == cn);
+                if (null == compiler)
+                {
+                    result.Errors.Add(new BuildError(this.WebId) { Message = "Cannot find the compiler for " + cn });
+                    continue;
+                }
+                foreach (var fe in this.FormDesign.FormElementCollection)
+                {
+                    var fe1 = fe;
+                    var expressions = fe.CodeExpressions();
+                    foreach (var d in expressions)
+                    {
+                        var diagnostics = from g in compiler.Value.GetDiagnostics(fe1, d, ed)
+                                          let m = string.Format("[{0}] {1}", fe1.ElementId, g)
+                                          select new BuildError(fe1.ElementId, m);
+                        result.Errors.AddRange(diagnostics);
+                    }
+                }
+            }
+            var duplicateElementId = this.FormDesign.FormElementCollection.GroupBy(x => x.ElementId)
+                .Where(x => x.Count() > 1)
+                .Select(x => new BuildError(x.Key, string.Format("There {1} elements with the same id : {0}", x.Key, x.Count())));
+            result.Errors.AddRange(duplicateElementId);
 
             result.Errors.AddRange(errors);
             result.Errors.AddRange(elements.SelectMany(v => v));
@@ -67,6 +96,13 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         [ImportMany("FormRenderer", typeof(IFormRenderer), AllowRecomposition = true)]
         public Lazy<IFormRenderer, IFormRendererMetadata>[] FormRendererProviders { get; set; }
+
+
+        [XmlIgnore]
+        [JsonIgnore]
+        [ImportMany(FormCompilerMetadataAttribute.FORM_ELEMENT_COMPILER_CONTRACT, typeof(FormElementCompiler), AllowRecomposition = true)]
+        public Lazy<FormElementCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
+
 
         public async Task<BuildValidationResult> RenderAsync(string name)
         {

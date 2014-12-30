@@ -103,7 +103,15 @@ WriteLiteral(" class=\"icon-read-more\"");
 
 WriteLiteral(" data-bind=\"bootstrapPopover : Code\"");
 
-WriteLiteral("> ..more</strong>\r\n        <!-- /ko-->\r\n    </div>\r\n    <div");
+WriteLiteral("> ..more</strong>\r\n        <!-- /ko-->\r\n        <a");
+
+WriteLiteral(" href=\"#\"");
+
+WriteLiteral(" class=\"alert-link alert\"");
+
+WriteLiteral(" data-bind=\"click: $root.showError\"");
+
+WriteLiteral("> or Fix this</a>\r\n    </div>\r\n    <div");
 
 WriteLiteral(" class=\"col-sm-2\"");
 
@@ -120,7 +128,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("        ");
 
             
-            #line 30 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 31 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
    Write(Html.Partial("_Toolbox"));
 
             
@@ -205,13 +213,13 @@ WriteLiteral(" class=\"form-horizontal\"");
 WriteLiteral(">\r\n                <!--ko foreach:FormElementCollection -->\r\n\r\n\r\n");
 
             
-            #line 60 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 61 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 60 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 61 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                  foreach (var fe in Model.FormElements)
                 {
 
@@ -221,7 +229,7 @@ WriteLiteral(">\r\n                <!--ko foreach:FormElementCollection -->\r\n\
 WriteLiteral("                    <!--ko if: ko.unwrap($type) === \"");
 
             
-            #line 62 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 63 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                                                  Write(fe.GetType().GetShortAssemblyQualifiedName());
 
             
@@ -241,13 +249,21 @@ WriteLiteral(">\r\n");
 WriteLiteral("                        ");
 
             
-            #line 64 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 65 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                    Write(Html.Partial("_DesignerContextAction"));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                        <label");
+WriteLiteral("\r\n                        <i");
+
+WriteLiteral(" class=\"fa fa-exclamation error\"");
+
+WriteLiteral(" style=\"float: left\"");
+
+WriteLiteral(" data-bind=\"visible:hasError\"");
+
+WriteLiteral("></i>\r\n                        <label");
 
 WriteLiteral(" data-bind=\"text: Label\"");
 
@@ -262,7 +278,7 @@ WriteLiteral(">\r\n\r\n");
 WriteLiteral("                            ");
 
             
-            #line 68 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 70 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                        Write(Html.Raw(fe.GetDesignSurfaceElement()));
 
             
@@ -279,7 +295,7 @@ WriteLiteral("></span>\r\n                        </div>\r\n                    
 WriteLiteral("                    <!--/ko-->\r\n");
 
             
-            #line 74 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+            #line 76 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                     
                 }
 

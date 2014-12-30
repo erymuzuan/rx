@@ -513,7 +513,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             },
             showError = function (error) {
                 console.log(error);
-                wd().editActivity(_(wd().ActivityCollection()).find(function (v) { return v.WebId() == error.ItemWebId; }))();
+                wd().editActivity(_(wd().ActivityCollection()).find(function (v) { return v.WebId() === error.ItemWebId; }))();
             },
             remove = function () {
                 var tcs = new $.Deferred(),
