@@ -139,6 +139,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mysql.adpater.test", "sourc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ed.schema.migrator", "source\tools\ed.schema.migrator\ed.schema.migrator.csproj", "{3A9E2F9F-D8A7-4020-B559-6BBE1AD55898}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.entities.dev", "source\subscribers\subscriber.entities.dev\subscriber.entities.dev.csproj", "{680E3EBE-6691-4DCD-A328-9D992F81B633}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -349,6 +351,10 @@ Global
 		{3A9E2F9F-D8A7-4020-B559-6BBE1AD55898}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A9E2F9F-D8A7-4020-B559-6BBE1AD55898}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A9E2F9F-D8A7-4020-B559-6BBE1AD55898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{680E3EBE-6691-4DCD-A328-9D992F81B633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{680E3EBE-6691-4DCD-A328-9D992F81B633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{680E3EBE-6691-4DCD-A328-9D992F81B633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{680E3EBE-6691-4DCD-A328-9D992F81B633}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -405,5 +411,6 @@ Global
 		{529768DA-DF59-416B-B180-EE5F742474F9} = {FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}
 		{590DC146-6BA1-4202-995D-9E46951A0E57} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{3A9E2F9F-D8A7-4020-B559-6BBE1AD55898} = {DB65484E-BE1F-4944-B216-4A57026360EB}
+		{680E3EBE-6691-4DCD-A328-9D992F81B633} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 	EndGlobalSection
 EndGlobal

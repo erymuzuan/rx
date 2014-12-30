@@ -7,40 +7,17 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
 
-using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
+
 
 namespace subscriber.entities
 {
     public class Builder
     {
-        private readonly INotificationService m_notifier;
         public EntityDefinition EntityDefinition { get; set; }
         public string Name { get; set; }
-
-        public Builder(INotificationService notifier)
-        {
-            m_notifier = notifier;
-        }
-
         private Column[] m_columns;
         public const string SPH_CONNECTION = "sph";
-
-
-        public string SetIdentityOn
-        {
-            get
-            {
-                return string.Format(" SET IDENTITY_INSERT [{1}].[{0}] ON      \r\n", this.Name, ConfigurationManager.ApplicationName);
-            }
-        }
-        public string SetIdentityOff
-        {
-            get
-            {
-                return string.Format(" SET IDENTITY_INSERT [{1}].[{0}] OFF      \r\n", this.Name, ConfigurationManager.ApplicationName);
-            }
-        }
-
+     
         public void Initialize()
         {
             var name = this.Name;
@@ -59,13 +36,11 @@ namespace subscriber.entities
         {
             var name = this.Name;
 
-            var sql = this.SetIdentityOn +
-                string.Format(@"INSERT INTO [{1}].[{0}](", name, ConfigurationManager.ApplicationName) +
+            var sql = string.Format(@"INSERT INTO [{1}].[{0}](", name, ConfigurationManager.ApplicationName) +
                 string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "[" + x.Name + "]"))
                 + " ) VALUES(" +
                 string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "@" + x.Name.Replace(".", "_")))
-                + ")\r\n"
-           + this.SetIdentityOff;
+                + ")\r\n";
 
             var parms = (from c in m_columns
                          select new SqlParameter("@" + c.Name.Replace(".", "_"), this.GetParameterValue(c, item))
