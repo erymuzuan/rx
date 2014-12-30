@@ -25,12 +25,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                             "filter": {
                "bool": {
                   "must": [
-                                     {
-                     "range":{
-                         "Age":{}
-                     }
-                 }
-
+                    
                   ],
                   "must_not": [
                     

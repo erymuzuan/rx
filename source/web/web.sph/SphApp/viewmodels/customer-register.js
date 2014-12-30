@@ -17,7 +17,7 @@
                     var query = String.format("Id eq '{0}'", entityId),
                         tcs = new $.Deferred(),
                         itemTask = context.loadOneAsync("Customer", query),
-                        formTask = context.loadOneAsync("EntityForm", "Route eq 'add-customer-form'"),
+                        formTask = context.loadOneAsync("EntityForm", "Route eq 'customer-register'"),
                         watcherTask = watcher.getIsWatchingAsync("Customer", entityId);
 
                     $.when(itemTask, formTask, watcherTask).done(function(b,f,w) {
@@ -152,56 +152,12 @@
                  },
                 attached = function (view) {
                     // validation
-                    validation.init($('#add-customer-form-form'), form());
+                    validation.init($('#customer-register-form'), form());
 
 
 
                 },
 
-                  checkTheRevenue = function(){
-
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
-
-                    context.post(data, "/Sph/BusinessRule/Validate?checkTheRevenue" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
-                },
-                  verifyTheGrade = function(){
-
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
-
-                    context.post(data, "/Sph/BusinessRule/Validate?verifyTheGrade" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
-                },
-                  verifyTheAge = function(){
-
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
-
-                    context.post(data, "/Sph/BusinessRule/Validate?verifyTheAge" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
-                },
-                  mustBeMalaysian = function(){
-
-                    var tcs = new $.Deferred(),
-                        data = ko.mapping.toJSON(entity);
-
-                    context.post(data, "/Sph/BusinessRule/Validate?mustBeMalaysian" )
-                        .then(function (result) {
-                            tcs.resolve(result);
-                        });
-                    return tcs.promise();
-                },
                                 save = function() {
                     if (!validation.valid()) {
                         return Task.fromResult(false);
@@ -212,25 +168,12 @@
 
                         
 
-                    context.post(data, "/Sph/BusinessRule/Validate?Customer;CheckTheRevenue;VerifyTheGrade;VerifyTheAge;MustBeMalaysian")
+                    context.post(data, "/Customer/Save")
                         .then(function(result) {
-                            if(result.success){
-                                context.post(data, "/Customer/Save")
-                                   .then(function(result) {
-                                       tcs.resolve(result);
-                                       entity().Id(result.id);
-                                       app.showMessage("Your Customer has been successfully saved", "SPH Platform Showcase", ["ok"]);
-                                   });
-                            }else{
-                                var ve = _(result.validationErrors).map(function(v){
-                                    return {
-                                        Message : v.message
-                                    };
-                                });
-                                errors(ve);
-                                logger.error("There are errors in your entity, !!!");
-                                tcs.resolve(result);
-                            }
+                            tcs.resolve(result);
+                            entity().Id(result.id);
+                            app.showMessage("Your Customer has been successfully saved", "SPH Platform Showcase", ["ok"]);
+
                         });
                     
 
@@ -258,11 +201,7 @@
                 };
 
             var vm = {
-                                        checkTheRevenue : checkTheRevenue,
-                    verifyTheGrade : verifyTheGrade,
-                    verifyTheAge : verifyTheAge,
-                    mustBeMalaysian : mustBeMalaysian,
-                activate: activate,
+                                    activate: activate,
                 config: config,
                 attached: attached,
                 entity: entity,
@@ -276,32 +215,10 @@
 
 
                 toolbar : {
-                        emailCommand : {
-                        entity : "Customer",
-                        id :id
-                    },
-                                            printCommand :{
-                        entity : 'Customer',
-                        id : id
-                    },
-                                                                
-                    watchCommand: function() {
-                        return watcher.watch("Customer", entity().Id())
-                            .done(function(){
-                                watching(true);
-                            });
-                    },
-                    unwatchCommand: function() {
-                        return watcher.unwatch("Customer", entity().Id())
-                            .done(function(){
-                                watching(false);
-                            });
-                    },
-                    watching: watching,
-                                            
+                                                                                                        
                     saveCommand : save,
                     
-                    commands : ko.observableArray([{ caption :"Demote", command : demote, icon:"fa fa-star-o" }])
+                    commands : ko.observableArray([])
                 }
             };
 
