@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -98,6 +99,7 @@ namespace subscriber.entities
 
                 }
 
+                WriteCreateTableSqlFile(item, createTable);
                 using (var createTableCommand = new SqlCommand(createTable, conn))
                 {
                     await createTableCommand.ExecuteNonQueryAsync();
@@ -138,6 +140,26 @@ namespace subscriber.entities
 
         }
 
+        private static void WriteCreateTableSqlFile(EntityDefinition item, string createTable)
+        {
+            var createTableFile = Path.Combine(ConfigurationManager.UserSourceDirectory,
+                "EntityDefinition\\" + item.Name + ".sql");
+            var createTableFileContent = string.Format(@"
+USE [{0}]
+GO
+IF (EXISTS (SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = '{0}' 
+                 AND  TABLE_NAME = '{1}'))
+BEGIN
+    exec sp_rename '[{0}.{1}]',[{0}.{1}_Original]
+END
+GO
+{2}", ConfigurationManager.ApplicationName, item.Name, createTable);
+
+            File.WriteAllText(createTableFile, createTableFileContent);
+        }
+
         private bool CheckForNewColumns(EntityDefinition item)
         {
             var members = this.GetFilterableMembers("", item.MemberCollection);
@@ -147,7 +169,7 @@ namespace subscriber.entities
             {
                 var colType = this.GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
                 var mb1 = mb;
-                var col = table.Columns.SingleOrDefault( c =>
+                var col = table.Columns.SingleOrDefault(c =>
                             c.Name.Equals(mb1.FullName, StringComparison.InvariantCultureIgnoreCase) &&
                             c.SqlType.Equals(colType, StringComparison.InvariantCultureIgnoreCase)
                             && c.IsNullable == mb1.IsNullable);
