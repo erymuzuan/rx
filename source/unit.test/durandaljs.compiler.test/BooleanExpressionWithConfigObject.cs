@@ -34,13 +34,16 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void UserName()
         {
-            StringAssert.Contains("config.UserName == \"Ali\"".CompileHtml(),"config.userName === 'Ali'");
+            Assert.AreEqual(
+                "config.userName === 'Ali'",
+                "config.UserName == \"Ali\"".CompileHtml());
         }
 
         [TestMethod]
         public void UserNameEqualItemName()
         {
-            StringAssert.Contains("config.UserName == item.Name".CompileHtml(),"config.userName === $data.Name()");
+            Assert.AreEqual("config.userName === $data.Name()",
+                "config.UserName == item.Name".CompileHtml());
         }
 
         [TestMethod]
@@ -52,21 +55,24 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void IsInRole()
         {
-            StringAssert.Contains("config.Roles.Contains(\"clerk\")".CompileHtml(),"config.roles.indexOf('clerk') > -1");
+            Assert.AreEqual("config.roles.indexOf('clerk') > -1",
+                "config.Roles.Contains(\"clerk\")".CompileHtml(),"");
         }
         [TestMethod]
         public void IsInRoleArgItem()
         {
-            StringAssert.Contains(
-                "config.Roles.Contains(item.Name)".CompileHtml(),
-                "config.roles.indexOf($data.Name()) > -1");
+            Assert.AreEqual(
+                "config.roles.indexOf($data.Name()) > -1",
+                "config.Roles.Contains(item.Name)".CompileHtml(),"");
         }
 
         [TestMethod]
         public void IsAuthenticatedAndItem()
         {
             var compileHtml = "config.IsAuthenticated && item.Name == \"Ali\"".CompileHtml();
-            StringAssert.Contains(compileHtml,"config.isAuthenticated && $data.Name() === 'Ali'");
+            Assert.AreEqual(
+                "config.isAuthenticated && $data.Name() === 'Ali'", 
+                compileHtml);
         }
     }
 }

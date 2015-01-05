@@ -9,18 +9,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     {
         class StringMemberAcessExpressionWalker : CSharpSyntaxWalker
         {
-            private readonly StringBuilder m_code = new StringBuilder("String.");
+            private string m_code = "";
             private string m_args;
-            internal static string Walk(SyntaxNode node, string args)
+            internal static string Walk(SyntaxNode node, string args = null)
             {
-                if (node.CSharpKind() == SyntaxKind.InvocationExpression)
-                {
-                    return MethodInvocationExpressionWalker.Walk(node);
-                }
-
+                if (node.CSharpKind() != SyntaxKind.SimpleMemberAccessExpression) return string.Empty;
+                var pts = ((MemberAccessExpressionSyntax)node).Expression as PredefinedTypeSyntax;
+                if (null == pts) return string.Empty;
+                if (pts.ToString().ToLower() != "string")
+                    return string.Empty;
                 var walker = new StringMemberAcessExpressionWalker {m_args = args};
                 walker.Visit(node);
-                return walker.m_code.ToString();
+                return walker.m_code;
             }
 
             public override void VisitIdentifierName(IdentifierNameSyntax node)
@@ -29,15 +29,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 if (text.StartsWith("string.") || text.StartsWith("!string."))
                 {
                     if (node.Identifier.Text == "Trim")
-                        m_code.Append("trim");
+                        m_code = string.Format("String.trim({0})", m_args);
                     if (node.Identifier.Text == "IsNullOrEmpty")
-                        m_code.Append("isNullOrEmpty");
+                        m_code = string.Format("String.isNullOrEmpty({0})", m_args);
                     if (node.Identifier.Text == "IsNullOrWhiteSpace")
-                        m_code.Append("isNullOrWhiteSpace");
+                        m_code = string.Format("String.isNullOrWhiteSpace({0})", m_args);
+                    if (node.Identifier.Text == "Empty")
+                        m_code = "''";
 
                 }
                 
-                m_code.AppendFormat("({0})", m_args);
 
                 base.VisitIdentifierName(node);
             }

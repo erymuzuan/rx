@@ -9,6 +9,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     public partial class BooleanExpressionCompiler
     {
+        
 
         class MethodInvocationExpressionWalker : CSharpSyntaxWalker
         {
@@ -17,28 +18,28 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             internal static string Walk(SyntaxNode node)
             {
+                var ies = node as InvocationExpressionSyntax;
+                if (null == ies) return string.Empty;
+
                 var walker = new MethodInvocationExpressionWalker();
                 walker.Visit(node);
                 return walker.m_code.ToString();
             }
-            private static string GetArgs(SyntaxNode node)
-            {
-                var walker = new MethodInvocationExpressionWalker();
-                walker.Visit(node);
-                return string.Join(", " ,walker.m_args);
-            }
+        
 
             public override void VisitInvocationExpression(InvocationExpressionSyntax node)
             {
                 var parent = node.Expression.GetText().ToString();
                 var itemMemberArgs = node.ArgumentList.DescendantNodes().OfType<MemberAccessExpressionSyntax>()
-                    .Select(ItemMemberAccessExpressionWalker.Walk);
+                    .Select(ItemMemberAccessExpressionWalker.Walk)
+                    .Where(x => !string.IsNullOrWhiteSpace(x));
                 var literalArgs = node.ArgumentList.DescendantNodes().OfType<LiteralExpressionSyntax>()
-                    .Select(GetArgs);
+                    .Select(x => x.Token)
+                    .Select(x => x.Value is string ? string.Format("'{0}'", x.Value) : x.ValueText)
+                    .Where(x => !string.IsNullOrWhiteSpace(x));
 
                 m_args.AddRange(itemMemberArgs);
                 m_args.AddRange(literalArgs);
-                m_args.RemoveAll(string.IsNullOrWhiteSpace);
 
                 var args = string.Join(", ", m_args);
 

@@ -87,16 +87,16 @@ namespace durandaljs.compiler.test
         {
 
             Assert.AreEqual(
-                "item.Name != null".CompileHtml(),
-                "$data.Name() !== null");
+                "$data.Name() !== null",
+                "item.Name != null".CompileHtml());
         }
         [TestMethod]
         public void NotStringEmptyConstant()
         {
 
             Assert.AreEqual(
-                "item.Name != string.Empty".CompileHtml(),
-                "$data.Name() !== ''");
+                "$data.Name() !== ''",
+                "item.Name != string.Empty".CompileHtml());
         }
         [TestMethod]
         public void StringIsNullOrWhiteSpace()
@@ -142,8 +142,8 @@ namespace durandaljs.compiler.test
         public void NotStringIsNullOrEmpty()
         {
             Assert.AreEqual(
-                "!string.IsNullOrEmpty(item.Name)".CompileHtml(),
-                "!String.isNullOrEmpty($data.Name())");
+                "!String.isNullOrEmpty($data.Name())",
+                "!string.IsNullOrEmpty(item.Name)".CompileHtml(),"");
         }
 
         [TestMethod]

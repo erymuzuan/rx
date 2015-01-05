@@ -36,6 +36,27 @@ namespace durandaljs.compiler.test
             var d = DateTime.ParseExact("01/02/2014", "dd/MM/yyyy", CultureInfo.CurrentCulture);
             Console.WriteLine(d);
         }
+
+        [TestMethod]
+        public void ParseExactDateTimeWithFormatValue()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment('05/06/2015', 'DD/MM/YYYY')",
+                "item.Dob > DateTime.ParseExact(\"05/06/2015\", item.Mrn, System.Globalization.CultureInfo.CurrentCulture)"
+                .CompileHtml());
+            var d = DateTime.ParseExact("01/02/2014", "dd/MM/yyyy", CultureInfo.CurrentCulture);
+            Console.WriteLine(d);
+        }
+        [TestMethod]
+        public void ParseExactDateTimeWithItem()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment($data.Name(), 'DD/MM/YYYY')",
+                "item.Dob > DateTime.ParseExact(item.Name, \"dd/MM/yyyy\",System.Globalization.CultureInfo.CurrentCulture)"
+                .CompileHtml());
+            var d = DateTime.ParseExact("01/02/2014", "dd/MM/yyyy", CultureInfo.CurrentCulture);
+            Console.WriteLine(d);
+        }
         [TestMethod]
         public void Now()
         {

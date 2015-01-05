@@ -127,6 +127,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 code = ConfigMemberAcessExpressionWalker.Walk(statement);
             if (string.IsNullOrWhiteSpace(code))
                 code = ItemMemberAccessExpressionWalker.Walk(statement);
+            if (string.IsNullOrWhiteSpace(code) || code == "!".Trim())
+                code += MethodInvocationExpressionWalker.Walk(statement);
 
             return code;
         }
@@ -148,6 +150,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     m_code.Append("!");
 
                 m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.Operand));
+                m_code.Append(MethodInvocationExpressionWalker.Walk(node.Operand));
                 base.VisitPrefixUnaryExpression(node);
             }
 

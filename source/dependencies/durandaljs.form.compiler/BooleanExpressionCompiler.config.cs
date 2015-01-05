@@ -28,10 +28,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             private readonly StringBuilder m_code = new StringBuilder();
             internal static string Walk(SyntaxNode node)
             {
-                if (node.CSharpKind() == SyntaxKind.InvocationExpression)
-                {
-                    return MethodInvocationExpressionWalker.Walk(node);
-                }
+
+                if (node.CSharpKind() != SyntaxKind.SimpleMemberAccessExpression) return string.Empty;
+                // NOTE : assuming there's only one member access config.Roles
+                var maes = ((MemberAccessExpressionSyntax)node).Expression as MemberAccessExpressionSyntax;
+                if (null != maes) return "config.roles";
+                var identifier = ((MemberAccessExpressionSyntax)node).Expression as IdentifierNameSyntax;
+                if (null == identifier) return string.Empty;
+                if (identifier.Identifier.Text != "config")
+                    return string.Empty;
 
                 var walker = new ConfigMemberAcessExpressionWalker();
                 walker.Visit(node);
@@ -50,8 +55,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         m_code.Append("userName");
                     if (node.Identifier.Text == "Roles")
                         m_code.Append("roles");
-
-
 
                     if (node.Identifier.Text == "config")
                         m_code.Append(".");

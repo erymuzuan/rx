@@ -13,16 +13,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             private readonly StringBuilder m_code = new StringBuilder();
             internal static string Walk(SyntaxNode node)
             {
-                if (node.CSharpKind() == SyntaxKind.InvocationExpression)
-                {
-                    return MethodInvocationExpressionWalker.Walk(node);
-                }
+
+                if (node.CSharpKind() != SyntaxKind.SimpleMemberAccessExpression) return string.Empty;
+                var identifier = ((MemberAccessExpressionSyntax)node).Expression as IdentifierNameSyntax;
+                if (null == identifier) return string.Empty;
+                if (identifier.Identifier.Text != "item")
+                    return string.Empty;
+
 
                 var walker = new ItemMemberAccessExpressionWalker();
-                if (node.Parent.GetText().ToString().StartsWith("config."))
-                {
-                    walker.m_code.Append(ConfigMemberAcessExpressionWalker.Walk(node));
-                }
                 walker.Visit(node);
                 return walker.m_code.ToString();
             }

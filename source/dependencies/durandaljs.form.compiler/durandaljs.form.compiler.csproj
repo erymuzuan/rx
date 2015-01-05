@@ -95,8 +95,13 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooleanExpressionCompiler.date.time.cs" />
-    <Compile Include="BooleanExpressionCompiler.logger.cs" />
+    <Compile Include="BooleanExpressionCompiler.date.time.cs">
+      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BooleanExpressionCompiler.literal.cs" />
+    <Compile Include="BooleanExpressionCompiler.logger.cs">
+      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
+    </Compile>
     <Compile Include="BooleanExpressionCompiler.member.access.cs">
       <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
     </Compile>

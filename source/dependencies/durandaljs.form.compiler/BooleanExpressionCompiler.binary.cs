@@ -31,16 +31,21 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 m_code.Append(MethodInvocationExpressionWalker.Walk(node.Left));
                 m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.Left));
                 m_code.Append(DateTimeMemberAcessExpressionWalker.Walk(node.Left));
+                m_code.Append(LiteralExpressionWalker.Walk(node.Left));
+                m_code.Append(ConfigMemberAcessExpressionWalker.Walk(node.Left));
+                m_code.Append(StringMemberAcessExpressionWalker.Walk(node.Left,null));
 
 
                 m_code.AppendFormat(" {0} ", operatorToken);
 
                 // TODO: refactor into another visitor
                 var right = node.Right;
-                m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.Right));
-                m_code.Append(MethodInvocationExpressionWalker.Walk(node.Right));
-                if (right is MemberAccessExpressionSyntax)
-                    m_code.Append(DateTimeMemberAcessExpressionWalker.Walk(right));
+                m_code.Append(ItemMemberAccessExpressionWalker.Walk(right));
+                m_code.Append(MethodInvocationExpressionWalker.Walk(right));
+                m_code.Append(DateTimeMemberAcessExpressionWalker.Walk(right));
+                m_code.Append(LiteralExpressionWalker.Walk(right));
+                m_code.Append(ConfigMemberAcessExpressionWalker.Walk(right));
+                m_code.Append(StringMemberAcessExpressionWalker.Walk(right,null));
 
                 base.VisitBinaryExpression(node);
             }
