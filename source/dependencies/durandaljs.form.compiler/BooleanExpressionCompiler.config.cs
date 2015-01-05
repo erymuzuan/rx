@@ -31,9 +31,19 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
 
                 if (node.CSharpKind() != SyntaxKind.SimpleMemberAccessExpression) return string.Empty;
-                // NOTE : assuming there's only one member access config.Roles
+                // maes.Name.Identifier.Text
+                //"Roles"
+                //((IdentifierNameSyntax)maes.Expression).Identifier.Text
+                //"config"
+                //node.ToString()
+                //"config.Roles.Contains"
+
                 var maes = ((MemberAccessExpressionSyntax)node).Expression as MemberAccessExpressionSyntax;
-                if (null != maes && maes.Name.Identifier.Text == "config") return "config.roles";
+                if (null != maes
+                    && node.ToString().StartsWith("config.Roles")
+                    && maes.Name.Identifier.Text == "Roles") return "config.roles";
+
+
                 var identifier = ((MemberAccessExpressionSyntax)node).Expression as IdentifierNameSyntax;
                 if (null == identifier) return string.Empty;
                 if (identifier.Identifier.Text != "config")
