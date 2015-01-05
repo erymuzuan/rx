@@ -11,7 +11,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     [Export(typeof(BooleanExpressionCompiler))]
-    public class BooleanExpressionCompiler
+    public partial class BooleanExpressionCompiler
     {
         public SnippetCompilerResult Compile(string expression, EntityDefinition entity)
         {
@@ -20,11 +20,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var file = new StringBuilder();
             file.AppendLine("using System;");
+            file.AppendLine("using System.Linq;");
+            file.AppendLine();
             file.AppendLine("namespace Bespoke." + ConfigurationManager.ApplicationName + "_" + entity.Id + ".Domain");
             file.AppendLine("{");
             file.AppendLine("   public class BooleanExpression");
             file.AppendLine("   {");
-            file.AppendLinf("       public bool Evaluate({0} item)  ", entity.Name);
+            file.AppendLinf("       public bool Evaluate({0} item, ConfigurationManager config)  ", entity.Name);
             file.AppendLine("       {");
             file.AppendLinf("           return {0};", expression);
             file.AppendLine("       }");
@@ -47,12 +49,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         .Replace("using System.Threading.Tasks;", string.Empty)
                         select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x);
             trees.AddRange(codes.ToArray());
+            trees.Add(this.ConfigObjectModel(entity));
 
             var compilation = CSharpCompilation.Create("eval")
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
                 .AddReference<object>()
                 .AddReference<XmlAttributeAttribute>()
                 .AddReference<EntityDefinition>()
+                .AddReference<EnumerableQuery>()
                 .AddSyntaxTrees(trees);
 
 
@@ -73,6 +77,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             result.Code = CompileExpression(statement);
             return result;
         }
+
 
         private string CompileExpression(SyntaxNode statement)
         {
@@ -119,7 +124,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var code = BinaryExpressionWalker.Walk(statement);
             if (string.IsNullOrWhiteSpace(code))
+                code = ConfigMemberAcessExpressionWalker.Walk(statement);
+            if (string.IsNullOrWhiteSpace(code))
                 code = ItemMemberAccessExpressionWalker.Walk(statement);
+
             return code;
         }
 
@@ -146,109 +154,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         }
 
-        class BinaryExpressionWalker : CSharpSyntaxWalker
-        {
-            private readonly StringBuilder m_code = new StringBuilder();
-            internal static string Walk(SyntaxNode node)
-            {
-                var walker = new BinaryExpressionWalker();
-                walker.Visit(node);
-                return walker.m_code.ToString();
-            }
-
-            public override void VisitBinaryExpression(BinaryExpressionSyntax node)
-            {
-                var operatorToken = node.OperatorToken.Text;
-                var ot = node.OperatorToken.RawKind;
-                if (ot == (int)SyntaxKind.EqualsEqualsToken)
-                    operatorToken = "===";
-                if (ot == (int)SyntaxKind.ExclamationEqualsToken)
-                    operatorToken = "!==";
 
 
-                m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.Left));
-                m_code.AppendFormat(" {0} ", operatorToken);
-                m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.Right));
-                base.VisitBinaryExpression(node);
-            }
-        }
 
-        class NativeMethodInvocationExpressionWalker : CSharpSyntaxWalker
-        {
-            private readonly StringBuilder m_code = new StringBuilder();
-            internal static string Walk(SyntaxNode node)
-            {
-                var walker = new NativeMethodInvocationExpressionWalker();
-                walker.Visit(node);
-                return walker.m_code.ToString();
-            }
-
-            public override void VisitInvocationExpression(InvocationExpressionSyntax node)
-            {
-                if (
-                    node.Expression.GetText()
-                        .ToString()
-                        .ToLowerInvariant()
-                        .StartsWith("string.IsNullOr".ToLowerInvariant()))
-                {
-                    m_code.Append("!");
-                    m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.ArgumentList.DescendantNodes().OfType<MemberAccessExpressionSyntax>()
-                        .Single()));
-                }
-                base.VisitInvocationExpression(node);
-            }
-        }
-
-        class ItemMemberAccessExpressionWalker : CSharpSyntaxWalker
-        {
-            private readonly StringBuilder m_code = new StringBuilder();
-            internal static string Walk(SyntaxNode node)
-            {
-                if (node.CSharpKind() == SyntaxKind.InvocationExpression)
-                {
-                    return NativeMethodInvocationExpressionWalker.Walk(node);
-                }
-
-                var walker = new ItemMemberAccessExpressionWalker();
-                walker.Visit(node);
-                return walker.m_code.ToString();
-            }
-
-            public override void VisitIdentifierName(IdentifierNameSyntax node)
-            {
-                if (node.Identifier.Text == "item")
-                    m_code.Append("$data");
-                if (node.Parent.GetText().ToString().StartsWith("item.") && node.Identifier.Text != "item")
-                    m_code.Append(node.Identifier.Text + "()");
-                if (node.Identifier.Text == "item")
-                    m_code.Append(".");
-                base.VisitIdentifierName(node);
-            }
-
-            public override void VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
-            {
-                var text = node.GetText().ToString();
-                if (text == "string.Empty" || text == "String.Empty")
-                    m_code.Append("''");
-                base.VisitMemberAccessExpression(node);
-            }
-
-            public override void VisitLiteralExpression(LiteralExpressionSyntax node)
-            {
-                var value = node.Token.Value;
-                if (value is string)
-                {
-                    m_code.AppendFormat("'{0}'", value);
-                }
-                else
-                {
-                    m_code.Append(value);
-                    if (node.Token.ValueText == "null")
-                        m_code.Append("null");
-                }
-                base.VisitLiteralExpression(node);
-            }
-        }
     }
 
 

@@ -53,6 +53,19 @@
         return this.replace(/^\s+|\s+$/g, '');
     };
 
+    $prototype.isNullOrWhiteSpace = function String$isNullOrWhiteSpace(value) {
+
+        var trimmedValue = String.trim(value);
+        if (!trimmedValue)
+            return true;
+        return false;
+    };
+    $prototype.isNullOrEmpty = function String$isNullOrWhiteSpace(value) {
+        if (!value)
+            return true;
+        return false;
+    };
+
     $prototype.trimEnd = function String$trimEnd() {
         /// <summary >Removes all trailing white spaces from the current String object.</summary>
         /// <returns type="String">The string that remains after all white-space characters are removed from the end of the current String object.</returns>
@@ -77,7 +90,7 @@
         var result = '';
         var format = args[0];
 
-        for (var i = 0;;) {
+        for (var i = 0; ;) {
             // Find the next opening or closing brace
             var open = format.indexOf('{', i);
             var close = format.indexOf('}', i);
@@ -123,7 +136,7 @@
             var argFormat = (colonIndex < 0) ? '' : brace.substring(colonIndex + 1);
 
             var arg = args[argNumber];
-            if (typeof(arg) === "undefined" || arg === null) {
+            if (typeof (arg) === "undefined" || arg === null) {
                 arg = '';
             }
 

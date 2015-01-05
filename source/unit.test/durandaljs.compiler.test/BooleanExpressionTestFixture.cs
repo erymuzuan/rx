@@ -1,5 +1,4 @@
-﻿using System;
-using Bespoke.Sph.Domain;
+﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.Templating;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -103,41 +102,41 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void StringIsNullOrWhiteSpace()
         {
-            StringAssert.Contains(
-                "string.IsNullOrWhiteSpace(item.Name)".CompileHtml(),
-                "enable: !$data.Name()");
+            Assert.AreEqual(
+                "String.isNullOrWhiteSpace($data.Name())",
+                "string.IsNullOrWhiteSpace(item.Name)".CompileHtml());
         }
         [TestMethod]
         public void NotStringIsNullOrWhiteSpace()
         {
 
-            StringAssert.Contains(
-                "!string.IsNullOrWhiteSpace(item.Name)".CompileHtml(),
-                "enable: !!$data.Name()");
+            Assert.AreEqual(
+                "!String.isNullOrWhiteSpace($data.Name())",
+                "!string.IsNullOrWhiteSpace(item.Name)".CompileHtml());
         }
 
         [TestMethod]
         public void StringIsNullOrEmpty()
         {
-            StringAssert.Contains(
-                "string.IsNullOrEmpty(item.Name)".CompileHtml(),
-                "enable: !$data.Name()");
+            Assert.AreEqual(
+                "String.isNullOrEmpty($data.Name())",
+                "string.IsNullOrEmpty(item.Name)".CompileHtml());
         }
 
 
         [TestMethod]
         public void LiteralTrueString()
         {
-            StringAssert.Contains(
+            Assert.AreEqual(
                 "true".CompileHtml(),
-                "enable: true");
+                "true");
         }
         [TestMethod]
         public void LiteralFalseString()
         {
-            StringAssert.Contains(
+            Assert.AreEqual(
                 "false".CompileHtml(),
-                "enable: false");
+                "false");
         }
 
         [TestMethod]
@@ -145,17 +144,15 @@ namespace durandaljs.compiler.test
         {
             StringAssert.Contains(
                 "!string.IsNullOrEmpty(item.Name)".CompileHtml(),
-                "enable: !!$data.Name()");
+                "!String.isNullOrEmpty($data.Name())");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void NotBooleanExpression()
         {
             "\"test\"".CompileHtml();
         }
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void IntegerExpression()
         {
             "0".CompileHtml();

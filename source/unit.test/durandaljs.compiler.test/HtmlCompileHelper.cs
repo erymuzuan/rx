@@ -8,7 +8,7 @@ namespace durandaljs.compiler.test
     static class HtmlCompileHelper
     {
 
-        public static string CompileHtml(this string enableExpression, bool verbose = false, string visibleExpression = "true")
+        public static string CompileHtml(this string enableExpression, bool verbose = false, string visibleExpression = "true" )
         {
             var patient = new EntityDefinition
             {
@@ -38,10 +38,9 @@ namespace durandaljs.compiler.test
             patient.MemberCollection.Add(address);
 
 
-            var button = new Button { Enable = enableExpression, Visible = visibleExpression };
-            var compiler = new ButtonCompiler();
-            var html = compiler.GenerateEditor(button, patient);
-            return html;
+            var compiler = new BooleanExpressionCompiler();
+            var result = compiler.Compile(enableExpression, patient);
+            return result.Code;
         }
     }
 }

@@ -95,7 +95,20 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BooleanExpressionCompiler.member.access.cs">
+      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BooleanExpressionCompiler.binary.cs">
+      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BooleanExpressionCompiler.config.cs">
+      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
+    </Compile>
     <Compile Include="BooleanExpressionCompiler.cs" />
+    <Compile Include="BooleanExpressionCompiler.method.invocation.cs">
+      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BooleanExpressionCompiler.string.cs" />
     <Compile Include="ButtonCompiler.cs" />
     <Compile Include="CheckBoxCompiler.cs" />
     <Compile Include="ChildEntityListViewCompiler.cs" />
