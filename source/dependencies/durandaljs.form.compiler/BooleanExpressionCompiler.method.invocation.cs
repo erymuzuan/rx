@@ -42,6 +42,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     m_args = w.m_args;
                 }
 
+                if (parent.StartsWith("logger"))
+                {
+                    m_code.Append(LoggerMemberAcessExpressionWalker.Walk(node.Expression, m_args));
+                }
                 if (parent.StartsWith("config"))
                 {
                     m_code.Append(ConfigMemberAcessExpressionWalker.Walk(node.Expression));
@@ -72,11 +76,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             public override void VisitIdentifierName(IdentifierNameSyntax node)
             {
+                // for array .ContainsMethod
                 if (node.Identifier.Text == "Contains")
                 {
-                    m_code.Append(".indexOf(");
-                    m_code.Append(m_args);
-                    m_code.Append(") > -1");
+                    m_code.AppendFormat(".indexOf({0}) > -1", m_args);
                 }
                 base.VisitIdentifierName(node);
             }
