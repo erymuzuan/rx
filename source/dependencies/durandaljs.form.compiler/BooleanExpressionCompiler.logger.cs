@@ -17,7 +17,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 if (node.CSharpKind() == SyntaxKind.InvocationExpression)
                 {
-                    return NativeMethodInvocationExpressionWalker.Walk(node);
+                    return MethodInvocationExpressionWalker.Walk(node);
                 }
 
                 var walker = new LoggerMemberAcessExpressionWalker { m_args = args };

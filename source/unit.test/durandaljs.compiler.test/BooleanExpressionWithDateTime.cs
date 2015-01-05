@@ -30,12 +30,22 @@ namespace durandaljs.compiler.test
         public void ParseExactDateTime()
         {
             Assert.AreEqual(
-                "$data.Dob() > moment('2005-10-01', 'DD/MM/YYYY')",
-                "item.Dob > DateTime.ParseExact(\"2005-10-01\", \"dd/MM/yyyy\",System.Globalization.CultureInfo.CurrentCulture)"
+                "$data.Dob() > moment('05/06/2015', 'DD/MM/YYYY')",
+                "item.Dob > DateTime.ParseExact(\"05/06/2015\", \"dd/MM/yyyy\",System.Globalization.CultureInfo.CurrentCulture)"
                 .CompileHtml());
-            var d = DateTime.ParseExact("1/2/2014", "dd/MM/yyyy", CultureInfo.CurrentCulture);
+            var d = DateTime.ParseExact("01/02/2014", "dd/MM/yyyy", CultureInfo.CurrentCulture);
             Console.WriteLine(d);
         }
+        [TestMethod]
+        public void Now()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment()",
+                "item.Dob > DateTime.Now"
+                .CompileHtml());
+        }
+     
+
 
 
     }

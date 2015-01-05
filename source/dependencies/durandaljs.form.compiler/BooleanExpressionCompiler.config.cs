@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Text;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -31,7 +30,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 if (node.CSharpKind() == SyntaxKind.InvocationExpression)
                 {
-                    return NativeMethodInvocationExpressionWalker.Walk(node);
+                    return MethodInvocationExpressionWalker.Walk(node);
                 }
 
                 var walker = new ConfigMemberAcessExpressionWalker();
