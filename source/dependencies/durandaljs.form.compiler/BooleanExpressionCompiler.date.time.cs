@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,7 +9,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     public partial class BooleanExpressionCompiler
     {
-
 
         class DateTimeMemberAcessExpressionWalker : CSharpSyntaxWalker
         {

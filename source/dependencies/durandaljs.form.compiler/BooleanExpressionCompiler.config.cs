@@ -18,6 +18,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             code.AppendLine("       public bool IsAuthenticated {get;}");
             code.AppendLine("       public string[] Roles {get;}");
             code.AppendLine("       public string UserName {get;}");
+            code.AppendLine("       public string ShortDateFormatString {get;}");
             code.AppendLine("   }");
             code.AppendLine("}");
             return (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(code.ToString());
@@ -32,7 +33,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 if (node.CSharpKind() != SyntaxKind.SimpleMemberAccessExpression) return string.Empty;
                 // NOTE : assuming there's only one member access config.Roles
                 var maes = ((MemberAccessExpressionSyntax)node).Expression as MemberAccessExpressionSyntax;
-                if (null != maes) return "config.roles";
+                if (null != maes && maes.Name.Identifier.Text == "config") return "config.roles";
                 var identifier = ((MemberAccessExpressionSyntax)node).Expression as IdentifierNameSyntax;
                 if (null == identifier) return string.Empty;
                 if (identifier.Identifier.Text != "config")
@@ -55,6 +56,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         m_code.Append("userName");
                     if (node.Identifier.Text == "Roles")
                         m_code.Append("roles");
+                    if (node.Identifier.Text == "ShortDateFormatString")
+                        m_code.Append("shortDateFormatString");
 
                     if (node.Identifier.Text == "config")
                         m_code.Append(".");

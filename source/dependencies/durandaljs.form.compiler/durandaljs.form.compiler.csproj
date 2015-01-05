@@ -98,7 +98,9 @@
     <Compile Include="BooleanExpressionCompiler.date.time.cs">
       <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
     </Compile>
-    <Compile Include="BooleanExpressionCompiler.literal.cs" />
+    <Compile Include="BooleanExpressionCompiler.literal.cs">
+      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
+    </Compile>
     <Compile Include="BooleanExpressionCompiler.logger.cs">
       <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
     </Compile>

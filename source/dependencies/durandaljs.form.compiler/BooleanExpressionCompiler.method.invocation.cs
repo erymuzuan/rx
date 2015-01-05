@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -9,7 +8,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     public partial class BooleanExpressionCompiler
     {
-        
+
 
         class MethodInvocationExpressionWalker : CSharpSyntaxWalker
         {
@@ -25,21 +24,54 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 walker.Visit(node);
                 return walker.m_code.ToString();
             }
-        
+
 
             public override void VisitInvocationExpression(InvocationExpressionSyntax node)
             {
                 var parent = node.Expression.GetText().ToString();
-                var itemMemberArgs = node.ArgumentList.DescendantNodes().OfType<MemberAccessExpressionSyntax>()
-                    .Select(ItemMemberAccessExpressionWalker.Walk)
-                    .Where(x => !string.IsNullOrWhiteSpace(x));
-                var literalArgs = node.ArgumentList.DescendantNodes().OfType<LiteralExpressionSyntax>()
-                    .Select(x => x.Token)
-                    .Select(x => x.Value is string ? string.Format("'{0}'", x.Value) : x.ValueText)
-                    .Where(x => !string.IsNullOrWhiteSpace(x));
 
-                m_args.AddRange(itemMemberArgs);
-                m_args.AddRange(literalArgs);
+                m_args.Clear();
+                foreach (var arg in node.ArgumentList.Arguments)
+                {
+                    var les = arg.Expression as LiteralExpressionSyntax;
+                    if (null != les)
+                    {
+                        if (null == les.Token.Value)
+                        {
+                            m_args.Add("null");
+                            continue;
+                        }
+                        if (les.Token.Value is string)
+                        {
+                            m_args.Add(string.Format("'{0}'", les.Token.Value));
+                            continue;
+                        }
+                        m_args.Add(string.Format("{0}", les.Token.Value));
+
+                        continue;
+                    }
+
+                    var maes = arg.Expression as MemberAccessExpressionSyntax;
+                    if (null != maes)
+                    {
+                        var value = ItemMemberAccessExpressionWalker.Walk(arg.Expression);
+                        if (!string.IsNullOrWhiteSpace(value))
+                            m_args.Add(value);
+                        value = ConfigMemberAcessExpressionWalker.Walk(arg.Expression);
+                        if (!string.IsNullOrWhiteSpace(value))
+                            m_args.Add(value);
+                        continue;
+                    }
+
+                    var ies = arg.Expression as InvocationExpressionSyntax;
+                    if (null != ies)
+                    {
+                        var value = Walk(arg.Expression);
+                        m_args.Add(value);
+                    }
+
+                }
+
 
                 var args = string.Join(", ", m_args);
 
@@ -83,7 +115,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 // for array .ContainsMethod
                 if (node.Identifier.Text == "Contains")
                 {
-                    m_code.AppendFormat(".indexOf({0}) > -1", string.Join(", ",m_args));
+                    m_code.AppendFormat(".indexOf({0}) > -1", string.Join(", ", m_args));
                 }
                 base.VisitIdentifierName(node);
             }

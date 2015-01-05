@@ -41,12 +41,22 @@ namespace durandaljs.compiler.test
         public void ParseExactDateTimeWithFormatValue()
         {
             Assert.AreEqual(
-                "$data.Dob() > moment('05/06/2015', 'DD/MM/YYYY')",
+                "$data.Dob() > moment('05/06/2015', $data.Mrn())",
                 "item.Dob > DateTime.ParseExact(\"05/06/2015\", item.Mrn, System.Globalization.CultureInfo.CurrentCulture)"
                 .CompileHtml());
             var d = DateTime.ParseExact("01/02/2014", "dd/MM/yyyy", CultureInfo.CurrentCulture);
             Console.WriteLine(d);
         }
+
+        [TestMethod]
+        public void ParseExactDateTimeWithWithFormatFromConfig()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment('05/06/2015', config.shortDateFormatString)",
+                "item.Dob > DateTime.ParseExact(\"05/06/2015\", config.ShortDateFormatString, System.Globalization.CultureInfo.CurrentCulture)"
+                .CompileHtml());
+        }
+
         [TestMethod]
         public void ParseExactDateTimeWithItem()
         {
