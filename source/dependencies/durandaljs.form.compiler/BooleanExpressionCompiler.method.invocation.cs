@@ -23,7 +23,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             public override void VisitInvocationExpression(InvocationExpressionSyntax node)
             {
-                var parent = node.Expression.GetText().ToString().ToLowerInvariant();
+                var parent = node.Expression.GetText().ToString();
                 var itemMember = node.ArgumentList.DescendantNodes().OfType<MemberAccessExpressionSyntax>()
                     .SingleOrDefault();
                 var literal = node.ArgumentList.DescendantNodes().OfType<LiteralExpressionSyntax>()
@@ -42,6 +42,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     m_args = w.m_args;
                 }
 
+                if (parent.StartsWith("DateTime"))
+                {
+                    m_code.Append(DateTimeMemberAcessExpressionWalker.Walk(node.Expression, m_args));
+                }
                 if (parent.StartsWith("logger"))
                 {
                     m_code.Append(LoggerMemberAcessExpressionWalker.Walk(node.Expression, m_args));

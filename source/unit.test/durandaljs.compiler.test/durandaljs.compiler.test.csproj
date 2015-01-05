@@ -56,6 +56,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BooleanExpressionTestFixture.cs" />
+    <Compile Include="BooleanExpressionWithDateTime.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
     <Compile Include="MockDirectoryService.cs" />
     <Compile Include="RazorDisplayTemplateTestFixture.cs" />
