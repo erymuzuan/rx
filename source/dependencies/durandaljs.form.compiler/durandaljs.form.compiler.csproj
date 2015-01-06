@@ -117,6 +117,9 @@
     <Compile Include="BooleanExpressionCompiler.method.invocation.cs">
       <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
     </Compile>
+    <Compile Include="BooleanExpressionCompiler.number.cs">
+      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
+    </Compile>
     <Compile Include="BooleanExpressionCompiler.string.cs">
       <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
     </Compile>
@@ -126,6 +129,7 @@
     <Compile Include="ComboBoxCompiler.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CurrencyElementCompiler.cs" />
+    <Compile Include="CustomObjectSyntaxWalker.cs" />
     <Compile Include="DateTimePickerCompiler.cs" />
     <Compile Include="DownloadLinkCompiler.cs" />
     <Compile Include="DurandalJsFormCompiler.cs" />

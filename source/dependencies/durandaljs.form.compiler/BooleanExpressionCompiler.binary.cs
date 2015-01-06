@@ -33,7 +33,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 m_code.Append(DateTimeMemberAcessExpressionWalker.Walk(node.Left));
                 m_code.Append(LiteralExpressionWalker.Walk(node.Left));
                 m_code.Append(ConfigMemberAcessExpressionWalker.Walk(node.Left));
-                m_code.Append(StringMemberAcessExpressionWalker.Walk(node.Left,null));
+                m_code.Append(StringMemberAcessExpressionWalker.Walk(node.Left));
 
 
                 m_code.AppendFormat(" {0} ", operatorToken);
@@ -45,7 +45,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 m_code.Append(DateTimeMemberAcessExpressionWalker.Walk(right));
                 m_code.Append(LiteralExpressionWalker.Walk(right));
                 m_code.Append(ConfigMemberAcessExpressionWalker.Walk(right));
-                m_code.Append(StringMemberAcessExpressionWalker.Walk(right,null));
+                m_code.Append(StringMemberAcessExpressionWalker.Walk(right));
+                m_code.Append(NumberSyntaxWalker.Walk(right));
 
                 base.VisitBinaryExpression(node);
             }

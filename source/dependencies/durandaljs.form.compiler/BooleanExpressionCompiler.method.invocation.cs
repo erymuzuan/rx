@@ -42,6 +42,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 {
                     m_code.Append(DateTimeMemberAcessExpressionWalker.Walk(node.Expression, args));
                 }
+                if (parent.StartsWith("int.")|| parent.StartsWith("Int32."))
+                {
+                    m_code.Append(NumberSyntaxWalker.Walk(node.Expression));
+                }
 
                 if (parent.StartsWith("logger"))
                 {
