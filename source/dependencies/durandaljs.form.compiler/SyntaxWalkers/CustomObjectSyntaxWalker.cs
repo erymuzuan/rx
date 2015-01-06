@@ -42,9 +42,19 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             if (this.IsPredefinedType)
             {
-                var pts = ((MemberAccessExpressionSyntax)node).Expression as PredefinedTypeSyntax;
-                if (null != pts)
-                    return this.ObjectNames.Contains(pts.ToString());
+                var maes5 = node as MemberAccessExpressionSyntax;
+                if (null != maes5)
+                {
+                    var pts = maes5.Expression as PredefinedTypeSyntax;
+                    if (null != pts)
+                        return this.ObjectNames.Contains(pts.ToString());
+                }
+
+                var ies5 = node as InvocationExpressionSyntax;
+                if (null != ies5)
+                {
+                    
+                }
             }
 
             if (null == this.ObjectNames)
@@ -75,8 +85,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 // check for the name
                 if (this.IsPredefinedType)
                 {
-                    var x = ((PredefinedTypeSyntax)((MemberAccessExpressionSyntax)ies.Expression).Expression);
-                    if (!this.ObjectNames.Contains(x.Keyword.ValueText)) return false;
+                    var x =(((MemberAccessExpressionSyntax) ies.Expression).Expression) as
+                            PredefinedTypeSyntax;
+                    if (null != x && this.ObjectNames.Contains(x.Keyword.ValueText)) return true;
                 }
                 var maes2 = ies.Expression as MemberAccessExpressionSyntax;
                 if (null != maes2)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using Bespoke.Sph.Domain;
-using Bespoke.Sph.FormCompilers.DurandalJs;
+﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.Templating;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -22,15 +19,51 @@ namespace durandaljs.compiler.test
         public void ParseInt()
         {
             Assert.AreEqual(
-                "$data.Dob() > parseInt('25')",
+                "$data.Age() > parseInt('25')",
                 "item.Age > int.Parse(\"25\")"
                 .CompileHtml());
         }
+
+
+        [TestMethod]
+        public void DecimalZero()
+        {
+            Assert.AreEqual(
+                "$data.Age() > 0",
+                "item.Age > decimal.Zero"
+                .CompileHtml());
+        }
+        [TestMethod]
+        public void DecimalOne()
+        {
+            Assert.AreEqual(
+                "$data.Age() > 1",
+                "item.Age > decimal.One"
+                .CompileHtml());
+        }
+
+        [TestMethod]
+        public void DecimalRound()
+        {
+            Assert.AreEqual(
+                "$data.Age() > -1",
+                "item.Age > decimal.Round(1.25m)"
+                .CompileHtml());
+        }
+        [TestMethod]
+        public void DecimalMinusOne()
+        {
+            Assert.AreEqual(
+                "$data.Age() > 1",
+                "item.Age > decimal.One"
+                .CompileHtml());
+        }
+
         [TestMethod]
         public void ParseInt32()
         {
             Assert.AreEqual(
-                "$data.Dob() > parseInt('25')",
+                "$data.Age() > parseInt('25')",
                 "item.Age > Int32.Parse(\"25\")"
                 .CompileHtml());
         }
@@ -39,9 +72,20 @@ namespace durandaljs.compiler.test
         public void IntMax()
         {
             Assert.AreEqual(
-                "$data.Age >Infinity",
-                "item.Age > int.Max"
+                "$data.Age() > Infinity",
+                "item.Age > int.MaxValue"
                 .CompileHtml());
+           
+        }
+
+        [TestMethod]
+        public void IntMinValue()
+        {
+            Assert.AreEqual(
+                "$data.Age() > -Infinity",
+                "item.Age > int.MinValue"
+                .CompileHtml());
+           
         }
         
 
