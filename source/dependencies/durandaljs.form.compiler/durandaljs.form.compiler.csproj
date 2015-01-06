@@ -134,11 +134,12 @@
     <Compile Include="SyntaxWalkers\BinaryExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ConfigMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\DateTimeMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\DecimalSyntaxWalker.cs" />
+    <Compile Include="SyntaxWalkers\Int32SyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LoggerMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\MethodInvocationExpressionWalker.cs" />
-    <Compile Include="SyntaxWalkers\NumberSyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\ParenthesizedExpressionWlaker.cs" />
     <Compile Include="SyntaxWalkers\StringMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\UnaryExpressionWalker.cs" />

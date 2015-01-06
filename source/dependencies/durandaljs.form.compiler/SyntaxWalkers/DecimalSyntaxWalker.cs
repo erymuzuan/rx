@@ -58,6 +58,21 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         throw new Exception("Parse must have at least 1 arg");
                     code = string.Format("parseInt({0})", this.EvaluateExpressionCode(arg));
                     break;
+                case "Round":
+                    var args = node.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
+                        .Single()
+                        .ChildNodes()
+                        .OfType<ArgumentSyntax>()
+                        .Select(x => x.Expression)
+                        .ToList();
+                    var number = args.FirstOrDefault();
+                    var round = "0";
+                    if (args.Count == 2)
+                        round = this.EvaluateExpressionCode(args[1]);
+                    if (null == number)
+                        throw new Exception("Round must have at least 1 args");
+                    code = string.Format("{0}.toFixed({1})", this.EvaluateExpressionCode(number), round);
+                    break;
                 case "MaxValue":
                     code = "Infinity";
                     break;

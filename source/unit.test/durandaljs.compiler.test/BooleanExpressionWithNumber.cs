@@ -45,11 +45,26 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void DecimalRound()
         {
+            var d = decimal.Round(1.24879889798897898795m);
+            Assert.AreEqual(1m,d);
             Assert.AreEqual(
-                "$data.Age() > -1",
-                "item.Age > decimal.Round(1.25m)"
+                "$data.Age() > 1.24879889798897898795.toFixed(0)",
+                "item.Age > decimal.Round(1.24879889798897898795m)"
                 .CompileHtml());
         }
+
+        [TestMethod]
+        public void DecimalRound2()
+        {
+            var d = decimal.Round(1.24879889798897898795m, 2);
+            Assert.AreEqual(1.25m,d);
+            Assert.AreEqual(
+                "$data.Age() > 1.24879889798897898795.toFixed(2)",
+                "item.Age > decimal.Round(1.24879889798897898795m, 2)"
+                .CompileHtml());
+        }
+
+
         [TestMethod]
         public void DecimalMinusOne()
         {
