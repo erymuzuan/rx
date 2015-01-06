@@ -46,7 +46,7 @@ namespace durandaljs.compiler.test
         }
 
         [TestMethod]
-        public void EqualExpressionToBooleanFalse()
+        public void ExclamationToFalse()
         {
             Assert.AreEqual(
                 "!item.IsMarried".CompileHtml(),
@@ -78,8 +78,8 @@ namespace durandaljs.compiler.test
         public void CompoundAndEOrxpression()
         {
             Assert.AreEqual(
-                "(item.Name == \"Zaki\" || item.IsMarried) && item.Age < 25".CompileHtml(),
-                "($data.Name() === 'Zaki' || $data.IsMarried()) && $data.Age() < 25");
+                "($data.Name() === 'Zaki' || $data.IsMarried()) && $data.Age() < 25",
+                "(item.Name == \"Zaki\" || item.IsMarried) && item.Age < 25".CompileHtml());
         }
 
         [TestMethod]
@@ -170,8 +170,8 @@ namespace durandaljs.compiler.test
         public void NotEqualExpressionToStringLiteral()
         {
             Assert.AreEqual(
-                "item.Name != \"Pantani\"".CompileHtml(),
-                "$data.Name() !== 'Pantani'");
+                "$data.Name() !== 'Pantani'",
+                "item.Name != \"Pantani\"".CompileHtml(),"");
         }
 
         [TestMethod]

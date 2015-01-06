@@ -24,8 +24,9 @@ namespace Bespoke.Sph.Domain
         public static void ComposeMefCatalog(object part, params Assembly[] assemblies)
         {
             var catalog = new AggregateCatalog();
-            catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetCallingAssembly()));
+            var calling = Assembly.GetCallingAssembly();
             var executing = Assembly.GetExecutingAssembly();
+            catalog.Catalogs.Add(new AssemblyCatalog(calling));
             catalog.Catalogs.Add(new AssemblyCatalog(executing));
 
             foreach (var dll in assemblies)
@@ -62,6 +63,8 @@ namespace Bespoke.Sph.Domain
 
                 var name = System.IO.Path.GetFileName(file) ?? "";
                 if (ignores.Any(name.StartsWith)) continue;
+                if (executing.Location == file) continue;
+                if (calling.Location == file) continue;
 
                 loadAssemblyCatalog(file);
                 Console.WriteLine("Loaded {0}", name);

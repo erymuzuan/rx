@@ -71,6 +71,10 @@
     <Reference Include="Microsoft.CodeAnalysis.Workspaces.Desktop">
       <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0-beta1-20141031-01\lib\net45\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.1.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -95,41 +99,14 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooleanExpressionCompiler.date.time.cs">
-      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BooleanExpressionCompiler.literal.cs">
-      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BooleanExpressionCompiler.logger.cs">
-      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BooleanExpressionCompiler.member.access.cs">
-      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BooleanExpressionCompiler.binary.cs">
-      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BooleanExpressionCompiler.config.cs">
-      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
-    </Compile>
     <Compile Include="BooleanExpressionCompiler.cs" />
-    <Compile Include="BooleanExpressionCompiler.method.invocation.cs">
-      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BooleanExpressionCompiler.number.cs">
-      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BooleanExpressionCompiler.string.cs">
-      <DependentUpon>BooleanExpressionCompiler.cs</DependentUpon>
-    </Compile>
     <Compile Include="ButtonCompiler.cs" />
     <Compile Include="CheckBoxCompiler.cs" />
     <Compile Include="ChildEntityListViewCompiler.cs" />
     <Compile Include="ComboBoxCompiler.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CurrencyElementCompiler.cs" />
-    <Compile Include="CustomObjectSyntaxWalker.cs" />
+    <Compile Include="SyntaxWalkers\CustomObjectSyntaxWalker.cs" />
     <Compile Include="DateTimePickerCompiler.cs" />
     <Compile Include="DownloadLinkCompiler.cs" />
     <Compile Include="DurandalJsFormCompiler.cs" />
@@ -154,6 +131,17 @@
       <DependentUpon>EditorTemplateResources.resx</DependentUpon>
     </Compile>
     <Compile Include="SectionFormElementCompiler.cs" />
+    <Compile Include="SyntaxWalkers\BinaryExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\ConfigMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\LoggerMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\MethodInvocationExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\NumberSyntaxWalker.cs" />
+    <Compile Include="SyntaxWalkers\ParenthesizedExpressionWlaker.cs" />
+    <Compile Include="SyntaxWalkers\StringMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\UnaryExpressionWalker.cs" />
     <Compile Include="TextAreaElementCompiler.cs" />
     <Compile Include="TextBoxCompiler.cs" />
     <Compile Include="WebsiteFormElementCompiler.cs" />

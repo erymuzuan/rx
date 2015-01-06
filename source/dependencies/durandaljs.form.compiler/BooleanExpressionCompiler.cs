@@ -11,10 +11,30 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     [Export(typeof(BooleanExpressionCompiler))]
-    public partial class BooleanExpressionCompiler
+    public class BooleanExpressionCompiler
     {
+        [ImportMany(typeof(CustomObjectSyntaxWalker), RequiredCreationPolicy = CreationPolicy.Shared, AllowRecomposition = true)]
+        public CustomObjectSyntaxWalker[] MefWalkers { get; set; }
+
+
+        protected CustomObjectSyntaxWalker[] Walkers
+        {
+            get
+            {
+                if (null == this.MefWalkers)
+                    ObjectBuilder.ComposeMefCatalog(this);
+                if (null == this.MefWalkers)
+                    throw new InvalidOperationException("Cannot import MEF");
+                return this.MefWalkers
+                    .Distinct(new CustomObjectSyntaxWalker.Comparer())
+                    .ToArray();
+
+            }
+        }
+
         public SnippetCompilerResult Compile(string expression, EntityDefinition entity)
         {
+
             if (string.IsNullOrWhiteSpace(expression))
                 return new SnippetCompilerResult { Code = "true" };
 
@@ -49,7 +69,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         .Replace("using System.Threading.Tasks;", string.Empty)
                         select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x);
             trees.AddRange(codes.ToArray());
-            trees.Add(this.ConfigObjectModel(entity));
+
+            var walkersObjectModels = this.Walkers
+                .Select(x => x.GetObjectModel(entity))
+                .Where(x => null != x);
+            trees.AddRange(walkersObjectModels);
 
             var compilation = CSharpCompilation.Create("eval")
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
@@ -81,81 +105,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         private string CompileExpression(SyntaxNode statement)
         {
-            if (statement is LiteralExpressionSyntax)
-            {
-                switch (statement.CSharpKind())
-                {
-                    case SyntaxKind.TrueLiteralExpression:
-                        return "true";
-                    case SyntaxKind.FalseLiteralExpression:
-                        return "false";
-                    default: throw new NotSupportedException("\"" + statement.GetText() + "\" expression is not supported");
-                }
-            }
-
-            var parenthesiz = statement as ParenthesizedExpressionSyntax;
-            if (null != parenthesiz)
-            {
-                return "(" + this.CompileExpression(parenthesiz.Expression) + ")";
-            }
-            var bes = statement as BinaryExpressionSyntax;
-            if (bes != null)
-            {
-                switch (bes.RawKind)
-                {
-                    case (int)SyntaxKind.LogicalAndExpression:
-                        return this.CompileExpression(bes.Left)
-                               + " && "
-                               + this.CompileExpression(bes.Right);
-                    case (int)SyntaxKind.LogicalOrExpression:
-                        return this.CompileExpression(bes.Left)
-                               + " || "
-                               + this.CompileExpression(bes.Right);
-                    case (int)SyntaxKind.LogicalNotExpression:
-                        throw new Exception("Not implemented for LogicalNotExpression :" + statement.GetText());
-                }
-            }
-
-            if (statement is PrefixUnaryExpressionSyntax)
-            {
-                return UnaryExpressionWalker.Walk(statement);
-            }
-
-
-            var code = BinaryExpressionWalker.Walk(statement);
-            if (string.IsNullOrWhiteSpace(code))
-                code = ConfigMemberAcessExpressionWalker.Walk(statement);
-            if (string.IsNullOrWhiteSpace(code))
-                code = ItemMemberAccessExpressionWalker.Walk(statement);
-            if (string.IsNullOrWhiteSpace(code) || code == "!".Trim())
-                code += MethodInvocationExpressionWalker.Walk(statement);
+            var code = this.Walkers
+                .Where(x => x.Filter(statement))
+                .Select(x => x.Walk(statement))
+                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
 
             return code;
         }
 
-        class UnaryExpressionWalker : CSharpSyntaxWalker
-        {
-            private readonly StringBuilder m_code = new StringBuilder();
-            internal static string Walk(SyntaxNode node)
-            {
-                var walker = new UnaryExpressionWalker();
-                walker.Visit(node);
-                return walker.m_code.ToString();
-            }
-
-            public override void VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
-            {
-                var ot = node.OperatorToken.RawKind;
-                if (ot == (int)SyntaxKind.ExclamationToken)
-                    m_code.Append("!");
-
-                m_code.Append(ItemMemberAccessExpressionWalker.Walk(node.Operand));
-                m_code.Append(MethodInvocationExpressionWalker.Walk(node.Operand));
-                base.VisitPrefixUnaryExpression(node);
-            }
-
-
-        }
 
 
 
