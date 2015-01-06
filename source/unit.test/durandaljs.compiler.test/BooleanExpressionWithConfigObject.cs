@@ -1,4 +1,5 @@
-﻿using Bespoke.Sph.Domain;
+﻿using System.Linq;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Templating;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -49,21 +50,36 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void IsAuthenticated()
         {
-            StringAssert.Contains("config.IsAuthenticated".CompileHtml(),"config.isAuthenticated");
+            StringAssert.Contains("config.IsAuthenticated".CompileHtml(), "config.isAuthenticated");
         }
 
         [TestMethod]
         public void IsInRole()
         {
             Assert.AreEqual("config.roles.indexOf('clerk') > -1",
-                "config.Roles.Contains(\"clerk\")".CompileHtml(),"");
+                "config.Roles.Contains(\"clerk\")".CompileHtml(), "");
         }
+        [TestMethod]
+        public void StringArrayCount()
+        {
+            Assert.AreEqual("config.roles.length  === 1",
+                "config.Roles.Count() == 1".CompileHtml(), "");
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void StringArrayLength()
+        {
+            Assert.AreEqual("config.roles.length  === 1",
+                "config.Roles.Length == 2".CompileHtml(), "");
+        }
+
         [TestMethod]
         public void IsInRoleArgItem()
         {
             Assert.AreEqual(
                 "config.roles.indexOf($data.Name()) > -1",
-                "config.Roles.Contains(item.Name)".CompileHtml(),"");
+                "config.Roles.Contains(item.Name)".CompileHtml(), "");
         }
 
         [TestMethod]
@@ -71,7 +87,7 @@ namespace durandaljs.compiler.test
         {
             var compileHtml = "config.IsAuthenticated && item.Name == \"Ali\"".CompileHtml();
             Assert.AreEqual(
-                "config.isAuthenticated && $data.Name() === 'Ali'", 
+                "config.isAuthenticated && $data.Name() === 'Ali'",
                 compileHtml);
         }
     }

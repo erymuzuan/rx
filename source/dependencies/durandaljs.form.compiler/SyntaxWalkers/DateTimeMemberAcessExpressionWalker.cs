@@ -11,17 +11,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     {
         protected override string[] ObjectNames
         {
-            get { return new[]{"DateTime"}; }
+            get { return new[] { "DateTime" }; }
         }
 
         protected override SyntaxKind[] Kinds
         {
-            get { return new[]{SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression}; }
+            get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }
         }
 
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
-            var args = this.ToString();
+            var arguments = this.GetArguments(node).Select(this.EvaluateExpressionCode).ToList();
+            var args = string.Join(", ", arguments);
             if (node.Identifier.Text == "Parse")
                 this.Code.AppendFormat("moment({0})", args);
             if (node.Identifier.Text == "ParseExact")
@@ -35,11 +36,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 {
                     var momentFormat = literalFormat.Token.ValueText.Replace("d", "D")
                         .Replace("y", "Y");
-                    this.Code.AppendFormat("moment({0})", args.Replace(literalFormat.Token.ValueText, momentFormat));
+                    this.Code.AppendFormat("moment({0}, {1})", arguments[0], arguments[1].Replace(literalFormat.Token.ValueText, momentFormat));
                 }
                 else
                 {
-                    this.Code.AppendFormat("moment({0})", args);
+                    this.Code.AppendFormat("moment({0}, {1})", arguments[0], arguments[1]);
 
                 }
 
@@ -47,6 +48,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
             if (node.Identifier.Text == "Now")
                 this.Code.Append("moment()");
+            if (node.Identifier.Text == "Today")
+                this.Code.Append("moment().startOf('day')");
 
             base.VisitIdentifierName(node);
         }

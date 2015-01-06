@@ -71,6 +71,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     m_code.Append("roles");
                 if (node.Identifier.Text == "ShortDateFormatString")
                     m_code.Append("shortDateFormatString");
+                if (node.Identifier.Text == "Length")
+                    m_code.Append("xxxxxxxx");
 
                 if (node.Identifier.Text == "config")
                     m_code.Append(".");

@@ -8,7 +8,9 @@ using Bespoke.Sph.Domain.Api;
 namespace Bespoke.Sph.Messaging
 {
     [Export(typeof(CustomAction))]
-    [DesignerMetadata(Name = "Messaging", TypeName = "Bespoke.Sph.Messaging.MessagingAction, trigger.action.messaging", Description = "Re route the message to the specified adapter send port", FontAwesomeIcon = "chevron-circle-right")]
+    [DesignerMetadata(Name = "Messaging", TypeName = "Bespoke.Sph.Messaging.MessagingAction, trigger.action.messaging", 
+        Description = "Re route the message to the specified adapter send port",
+        FontAwesomeIcon = "chevron-circle-right")]
     public partial class MessagingAction : CustomAction
     {
 

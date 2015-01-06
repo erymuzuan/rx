@@ -23,9 +23,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (node.Identifier.Text == "item")
                 this.Code.Append("$data");
             if (node.Parent.GetText().ToString().StartsWith("item.") && node.Identifier.Text != "item")
-                this.Code.Append(node.Identifier.Text + "()");
-            if (node.Identifier.Text == "item")
-                this.Code.Append(".");
+                this.Code.Append("." + node.Identifier.Text + "()");
+
             base.VisitIdentifierName(node);
         }
     }

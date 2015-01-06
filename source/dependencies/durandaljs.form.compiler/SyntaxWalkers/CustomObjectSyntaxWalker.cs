@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -36,7 +35,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return null;
         }
 
-        public bool Filter(SyntaxNode node)
+        public virtual bool Filter(SyntaxNode node)
         {
             this.Code = new StringBuilder();
             if (!this.Kinds.Contains(node.CSharpKind())) return false;
@@ -54,15 +53,38 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var maes = node as MemberAccessExpressionSyntax;
             if (null != maes)
             {
+                // TODO : should recurse in a while while 
+                // when you have something like item.Property1.proeprty2.Another property
+                var maes2 = maes.Expression as MemberAccessExpressionSyntax;
+                if (null != maes2)
+                {
+                    var id2 = maes2.Expression as IdentifierNameSyntax;
+                    if (null == id2) return false;
+                    if (this.ObjectNames.Contains(id2.Identifier.Text)) return true;
+                }
+
                 var identifier = maes.Expression as IdentifierNameSyntax;
                 if (null == identifier) return false;
                 if (!this.ObjectNames.Contains(identifier.Identifier.Text)) return false;
+
             }
 
             var ies = node as InvocationExpressionSyntax;
             if (null != ies && this.Kinds.Contains(SyntaxKind.InvocationExpression))
             {
                 // check for the name
+                if (this.IsPredefinedType)
+                {
+                    var x = ((PredefinedTypeSyntax)((MemberAccessExpressionSyntax)ies.Expression).Expression);
+                    if (!this.ObjectNames.Contains(x.Keyword.ValueText)) return false;
+                }
+                var maes2 = ies.Expression as MemberAccessExpressionSyntax;
+                if (null != maes2)
+                {
+                    var id2 = maes2.Expression as IdentifierNameSyntax;
+                    if (null == id2) return false;
+                    if (!this.ObjectNames.Contains(id2.Identifier.Text)) return false;
+                }
                 return true;
             }
 
@@ -71,14 +93,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public virtual string Walk(SyntaxNode node)
         {
-            var walker = this.Clone();
+            var walker = this;
             walker.Code = new StringBuilder();
             walker.Visit(node);
             return walker.Code.ToString();
         }
 
-        [Newtonsoft.Json.JsonIgnore]
-        [XmlIgnore]
         [ImportMany(RequiredCreationPolicy = CreationPolicy.Shared)]
         public CustomObjectSyntaxWalker[] Walkers { get; set; }
 
@@ -95,6 +115,23 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
         }
 
+
+        protected virtual IEnumerable<ExpressionSyntax> GetArguments(SyntaxNode node)
+        {
+            var parent = node;
+            while (null != parent && !parent.ChildNodes().OfType<ArgumentListSyntax>().Any())
+            {
+                parent = parent.Parent;
+            }
+            if (null == parent)
+                return new ExpressionSyntax[] { };
+
+            return parent.ChildNodes().OfType<ArgumentListSyntax>()
+                .Single()
+                .ChildNodes()
+                .OfType<ArgumentSyntax>()
+                .Select(x => x.Expression);
+        }
 
     }
 }

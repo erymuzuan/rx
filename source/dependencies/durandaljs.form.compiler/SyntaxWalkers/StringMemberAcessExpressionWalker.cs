@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -7,7 +8,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class StringMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
-    protected override string[] ObjectNames
+        protected override string[] ObjectNames
         {
             get { return new[] { "string", "String" }; }
         }
@@ -32,22 +33,35 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
             var code = "";
-            const string ARGS = "TODO: get the args";
-            string text = node.Identifier.Text;
-            if (text == "Trim")
-                code = string.Format("String.trim({0})", ARGS);
-            if (text == "IsNullOrEmpty")
-                code = string.Format("String.isNullOrEmpty({0})", ARGS);
-            if (text == "IsNullOrWhiteSpace")
-                code = string.Format("String.isNullOrWhiteSpace({0})", ARGS);
-            if (text == "Empty")
-                code = "''";
+
+            // NOTE: assuming there's only 1 argument for these methods
+            var args = this.GetArguments(node).Select(this.EvaluateExpressionCode);
+            var argumentSyntax = string.Join(", ", args);
+            var text = node.Identifier.Text;
+            switch (text)
+            {
+                case "Trim":
+                    code = string.Format("String.trim({0})", argumentSyntax);
+                    break;
+                case "IsNullOrEmpty":
+                    code = string.Format("String.isNullOrEmpty({0})", argumentSyntax);
+                    break;
+                case "IsNullOrWhiteSpace":
+                    code = string.Format("String.isNullOrWhiteSpace({0})", argumentSyntax);
+                    break;
+                case "Empty":
+                    code = "''";
+                    break;
+                default:
+                    code = "// Not Supported for " + text;
+                    break;
+            }
 
             this.Code.Append(code);
             base.VisitIdentifierName(node);
         }
 
 
-    
+
     }
 }

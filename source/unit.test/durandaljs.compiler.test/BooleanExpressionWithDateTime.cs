@@ -75,6 +75,14 @@ namespace durandaljs.compiler.test
                 "item.Dob > DateTime.Now"
                 .CompileHtml());
         }
+        [TestMethod]
+        public void Today()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment().startOf('day')",
+                "item.Dob > DateTime.Today"
+                .CompileHtml());
+        }
      
 
 

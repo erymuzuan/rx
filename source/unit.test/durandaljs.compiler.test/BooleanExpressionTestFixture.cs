@@ -13,7 +13,7 @@ namespace durandaljs.compiler.test
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
         }
-        
+
 
         [TestMethod]
         public void ReturnString()
@@ -75,11 +75,19 @@ namespace durandaljs.compiler.test
                 "item.Name == \"Pantani\" && item.IsMarried".CompileHtml());
         }
         [TestMethod]
-        public void CompoundAndEOrxpression()
+        public void CompoundAndOrExpression()
         {
             Assert.AreEqual(
                 "($data.Name() === 'Zaki' || $data.IsMarried()) && $data.Age() < 25",
                 "(item.Name == \"Zaki\" || item.IsMarried) && item.Age < 25".CompileHtml());
+        }
+
+        [TestMethod]
+        public void Aggregate()
+        {
+            Assert.AreEqual(
+                "$data.Address().State() === 'Kelantan'",
+                "item.Address.State == \"Kelantan\"".CompileHtml());
         }
 
         [TestMethod]
@@ -143,7 +151,7 @@ namespace durandaljs.compiler.test
         {
             Assert.AreEqual(
                 "!String.isNullOrEmpty($data.Name())",
-                "!string.IsNullOrEmpty(item.Name)".CompileHtml(),"");
+                "!string.IsNullOrEmpty(item.Name)".CompileHtml(), "");
         }
 
         [TestMethod]
@@ -171,7 +179,7 @@ namespace durandaljs.compiler.test
         {
             Assert.AreEqual(
                 "$data.Name() !== 'Pantani'",
-                "item.Name != \"Pantani\"".CompileHtml(),"");
+                "item.Name != \"Pantani\"".CompileHtml(), "");
         }
 
         [TestMethod]

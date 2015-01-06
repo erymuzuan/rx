@@ -1,6 +1,8 @@
+using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -19,7 +21,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         protected override string[] ObjectNames
         {
-            get { return null;}
+            get { return null; }
         }
 
         public override string Walk(SyntaxNode node)
@@ -35,6 +37,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override void VisitInvocationExpression(InvocationExpressionSyntax node)
         {
+            if (null == this.Walkers)
+                ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.Walkers)
+                throw new InvalidOperationException("MEF!!!");
+
             var code = this.Walkers
                 .Where(x => x.Filter(node.Expression))
                 .Select(w => w.Walk(node.Expression))
@@ -50,10 +57,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
             // for array .ContainsMethod
-            var args = "TODO://" + this;
+            var arguments = this.GetArguments(node).Select(this.EvaluateExpressionCode).ToList()
+                ;
             if (node.Identifier.Text == "Contains")
             {
-                m_code.AppendFormat(".indexOf({0}) > -1", string.Join(", ", args));
+                m_code.AppendFormat(".indexOf({0}) > -1", arguments[0]);
+            }
+            if (node.Identifier.Text == "Count")
+            {
+                m_code.Append(".length");
             }
             base.VisitIdentifierName(node);
         }
