@@ -16,6 +16,13 @@ namespace durandaljs.compiler.test
 
 
         [TestMethod]
+        public void StringConcat()
+        {
+            Assert.AreEqual(
+                "'test' + $data.Mrn() === $data.Name()",
+                "\"test\" + item.Mrn == item.Name".CompileHtml());
+        }
+        [TestMethod]
         public void ReturnString()
         {
             Assert.IsNull(

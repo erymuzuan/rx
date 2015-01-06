@@ -12,15 +12,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     {
         protected override string[] ObjectNames
         {
-            get { return new[] {  "decimal", "Decimal" }; }
+            get { return new[] { "decimal", "Decimal" }; }
         }
         protected override SyntaxKind[] Kinds
         {
-            get { return new[]
+            get
+            {
+                return new[]
             {
                 SyntaxKind.SimpleMemberAccessExpression ,
                 SyntaxKind.InvocationExpression
-            }; }
+            };
+            }
         }
 
         protected override bool IsPredefinedType
@@ -48,27 +51,26 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             switch (text)
             {
                 case "Parse":
-                    var aguments = node.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
-                        .Single()
-                        .ChildNodes()
-                        .OfType<ArgumentSyntax>()
-                        .Select(x => x.Expression);
-                    var arg = aguments.FirstOrDefault();
-                    if (null == arg)
-                        throw new Exception("Parse must have at least 1 arg");
-                    code = string.Format("parseInt({0})", this.EvaluateExpressionCode(arg));
-                    break;
-                case "Round":
-                    var args = node.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
+                    var parseArgs = node.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
                         .Single()
                         .ChildNodes()
                         .OfType<ArgumentSyntax>()
                         .Select(x => x.Expression)
                         .ToList();
-                    var number = args.FirstOrDefault();
+                    var parsedNumber = this.EvaluateExpressionCode(parseArgs[0]);
+                    code = string.Format("parseFloat({0})", parsedNumber);
+                    break;
+                case "Round":
+                    var roundArgs = node.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
+                        .Single()
+                        .ChildNodes()
+                        .OfType<ArgumentSyntax>()
+                        .Select(x => x.Expression)
+                        .ToList();
+                    var number = roundArgs.FirstOrDefault();
                     var round = "0";
-                    if (args.Count == 2)
-                        round = this.EvaluateExpressionCode(args[1]);
+                    if (roundArgs.Count == 2)
+                        round = this.EvaluateExpressionCode(roundArgs[1]);
                     if (null == number)
                         throw new Exception("Round must have at least 1 args");
                     code = string.Format("{0}.toFixed({1})", this.EvaluateExpressionCode(number), round);
@@ -87,6 +89,36 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     break;
                 case "MinusOne":
                     code = "-1";
+                    break;
+                case "ToOACurrency":
+                case "FromOACurrency":
+                case "Add":
+                case "Ceiling":
+                case "Compare":
+                case "Divide":
+                case "Equals":
+                case "Floor":
+                case "TryParse":
+                case "GetBits":
+                case "Remainder":
+                case "Multiply":
+                case "Negate":
+                case "Subtract":
+                case "ToByte":
+                case "ToSByte":
+                case "ToInt16":
+                case "ToDouble":
+                case "ToInt32":
+                case "ToInt64":
+                case "ToUInt16":
+                case "ToUInt32":
+                case "ToUInt64":
+                case "ToSingle":
+                case "Truncate":
+                    code = "/* " + text + " is not implemented in the Javascript compiler */";
+                    break;
+                default:
+                    code = "/* " + text + " is not recongnized for Decimal in the Javascript compiler */";
                     break;
             }
 

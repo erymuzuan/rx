@@ -63,6 +63,22 @@ namespace durandaljs.compiler.test
                 "item.Age > decimal.Round(1.24879889798897898795m, 2)"
                 .CompileHtml());
         }
+        [TestMethod]
+        public void Add()
+        {
+            Assert.AreEqual(
+                "1 + 2 > 15",
+                "1 + 2 > 15"
+                .CompileHtml());
+        }
+        [TestMethod]
+        public void Add2()
+        {
+            Assert.AreEqual(
+                "$data.Age() > 1 + 2",
+                "item.Age > 1 + 2"
+                .CompileHtml());
+        }
 
 
         [TestMethod]

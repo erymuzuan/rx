@@ -36,19 +36,45 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             var kind = node.CSharpKind();
             var bes = (BinaryExpressionSyntax)node;
+            var op = "";
             switch (kind)
             {
                 case SyntaxKind.LogicalAndExpression:
-                    return this.EvaluateExpressionCode(bes.Left)
-                           + " && "
-                           + this.EvaluateExpressionCode(bes.Right);
+                    op = "&&";
+                    break;
                 case SyntaxKind.LogicalOrExpression:
-                    return this.EvaluateExpressionCode(bes.Left)
-                           + " || "
-                           + this.EvaluateExpressionCode(bes.Right);
+                    op = "||";
+                    break;
+                case SyntaxKind.EqualsExpression:
+                    op = "===";
+                    break;
+                case SyntaxKind.NotEqualsExpression:
+                    op = "!==";
+                    break;
+                case SyntaxKind.GreaterThanExpression:
+                    op = ">";
+                    break;
+                case SyntaxKind.GreaterThanOrEqualExpression:
+                    op = ">=";
+                    break;
+                case SyntaxKind.LessThanExpression:
+                    op = "<";
+                    break;
+                case SyntaxKind.LessThanOrEqualExpression:
+                    op = "<=";
+                    break;
                 case SyntaxKind.LogicalNotExpression:
-                    throw new Exception("Not implemented for LogicalNotExpression :" + node);
+                    op = "/* LogicalNotExpression is not implemented */";
+                    break;
+                default:
+
+                    break;
             }
+            if(!string.IsNullOrWhiteSpace(op))
+
+                return this.EvaluateExpressionCode(bes.Left)
+                       + " " + op + " "
+                       + this.EvaluateExpressionCode(bes.Right);
 
             return base.Walk(node);
         }

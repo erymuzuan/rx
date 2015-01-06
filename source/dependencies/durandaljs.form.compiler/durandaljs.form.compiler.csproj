@@ -106,6 +106,7 @@
     <Compile Include="ComboBoxCompiler.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CurrencyElementCompiler.cs" />
+    <Compile Include="SyntaxWalkers\AddSyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectSyntaxWalker.cs" />
     <Compile Include="DateTimePickerCompiler.cs" />
     <Compile Include="DownloadLinkCompiler.cs" />

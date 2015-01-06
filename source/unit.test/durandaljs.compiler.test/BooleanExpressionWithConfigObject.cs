@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Bespoke.Sph.Domain;
+﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.Templating;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -62,7 +61,7 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void StringArrayCount()
         {
-            Assert.AreEqual("config.roles.length  === 1",
+            Assert.AreEqual("config.roles.length === 1",
                 "config.Roles.Count() == 1".CompileHtml(), "");
         }
 
@@ -71,7 +70,7 @@ namespace durandaljs.compiler.test
         public void StringArrayLength()
         {
             Assert.AreEqual("config.roles.length  === 1",
-                "config.Roles.Length == 2".CompileHtml(), "");
+                "config.Roles.Length == 2".CompileHtml(), "Use Count() method");
         }
 
         [TestMethod]
