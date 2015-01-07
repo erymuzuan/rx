@@ -21,9 +21,11 @@ namespace durandaljs.compiler.test
                 Id = "patient",
                 Name = "Patient",
                 WebId = "patient-webid",
-                Plural = "Patients"
+                Plural = "Patients",
+                RecordName = "Mrn"
             };
             m_patient.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string), IsNullable = true });
+            m_patient.MemberCollection.Add(new Member { Name = "Mrn", Type = typeof(string), IsNullable = false });
             m_patient.MemberCollection.Add(new Member { Name = "MyKad", Type = typeof(string), IsNullable = true });
             m_patient.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int), IsNullable = true });
             m_patient.MemberCollection.Add(new Member { Name = "Dob", Type = typeof(DateTime), IsNullable = true });
@@ -213,10 +215,10 @@ namespace durandaljs.compiler.test
         {
             var picker = new EmailFormElement
             {
-                Label = "Download",
+                Label = "Email",
                 Name = "dobTextBox",
-                ElementId = "dobTextBox",
-                Path = "Dob",
+                ElementId = "emailBox",
+                Path = "Email",
                 WebId = Guid.NewGuid().ToString(),
                 Tooltip = "The date",
                 Visible = "true",
@@ -225,7 +227,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new EmailFormElementCompiler();
             var html = compiler.GenerateDisplay(picker, m_patient);
-            StringAssert.Contains(html, "type=\"email\"");
+            StringAssert.Contains(html, "text: Email");
         }
 
         [TestMethod]
@@ -338,18 +340,19 @@ namespace durandaljs.compiler.test
         {
             var lv = new NumberTextBox
             {
-                Label = "Download",
-                Name = "dobTextBox",
-                ElementId = "dobTextBox",
-                Path = "Dob",
+                Label = "Amount",
+                Name = "amountBox",
+                ElementId = "amountBox",
+                Path = "Amount",
                 WebId = Guid.NewGuid().ToString(),
-                Tooltip = "The date",
+                Tooltip = "The amount",
                 Visible = "true",
+                Enable = "true"
             };
 
             var compiler = new NumberTextBoxCompiler();
             var html = compiler.GenerateDisplay(lv, m_patient);
-            StringAssert.Contains(html, "<input");
+            StringAssert.Contains(html, "text: Amount");
         }
         [TestMethod]
         public void SectionFormElement()

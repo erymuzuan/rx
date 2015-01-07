@@ -40,6 +40,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (string.IsNullOrWhiteSpace(expression))
                 return new SnippetCompilerResult { Code = "true" };
 
+            var walkersObjectModels = this.Walkers
+                .Select(x => x.GetObjectModel(entity))
+                .Where(x => null != x)
+                .ToList();
+
+            var parameters = string.Join(", ", walkersObjectModels
+                .Where(x => x.IncludeAsParameter)
+                .Select(x => x.ClassName + " " +x.IdentifierText));
+
             var file = new StringBuilder();
             file.AppendLine("using System;");
             file.AppendLine("using System.Linq;");
@@ -48,7 +57,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             file.AppendLine("{");
             file.AppendLine("   public class BooleanExpression");
             file.AppendLine("   {");
-            file.AppendLinf("       public bool Evaluate({0} item, ConfigurationManager config)  ", entity.Name);
+            file.AppendLinf("       public bool Evaluate({0} item, {1})  ", entity.Name, parameters);
             file.AppendLine("       {");
             file.AppendLinf("           return {0};", expression);
             file.AppendLine("       }");
@@ -71,11 +80,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         .Replace("using System.Threading.Tasks;", string.Empty)
                         select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x);
             trees.AddRange(codes.ToArray());
-
-            var walkersObjectModels = this.Walkers
-                .Select(x => x.GetObjectModel(entity))
-                .Where(x => null != x);
-            trees.AddRange(walkersObjectModels);
+            trees.AddRange(walkersObjectModels.Select(x => x.SyntaxTree));
 
             var compilation = CSharpCompilation.Create("eval")
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))

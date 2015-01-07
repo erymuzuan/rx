@@ -236,7 +236,7 @@
     <None Include="Resources\display.template.DatePicker.html" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\display.template.DatePickerTime.html" />
+    <None Include="Resources\display.template.DateTimePicker.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\display.template.EmailFormElement.html" />

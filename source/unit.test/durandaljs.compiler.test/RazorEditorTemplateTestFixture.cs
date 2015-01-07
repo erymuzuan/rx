@@ -22,10 +22,12 @@ namespace durandaljs.compiler.test
                 Id = "patient",
                 Name = "Patient",
                 WebId = "patient-webid",
-                Plural = "Patients"
+                Plural = "Patients",
+                RecordName = "Mrn"
             };
             m_patient.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string), IsNullable = true });
             m_patient.MemberCollection.Add(new Member { Name = "MyKad", Type = typeof(string), IsNullable = true });
+            m_patient.MemberCollection.Add(new Member { Name = "Mrn", Type = typeof(string), IsNullable = false });
             m_patient.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int), IsNullable = true });
             m_patient.MemberCollection.Add(new Member { Name = "Dob", Type = typeof(DateTime), IsNullable = true });
             m_patient.MemberCollection.Add(new Member { Name = "RegisteredDate", Type = typeof(DateTime), IsNullable = false });
@@ -297,6 +299,7 @@ namespace durandaljs.compiler.test
                 WebId = Guid.NewGuid().ToString(),
                 Tooltip = "The date",
                 Visible = "true",
+                Enable = "true"
             };
 
             var compiler = new ImageElementCompiler();
@@ -315,6 +318,7 @@ namespace durandaljs.compiler.test
                 WebId = Guid.NewGuid().ToString(),
                 Tooltip = "The date",
                 Visible = "true",
+                Enable = "true"
             };
             lv.ListViewColumnCollection.Add(new ListViewColumn
             {
@@ -333,7 +337,7 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void NumberTextBox()
         {
-            var lv = new NumberTextBox
+            var nt = new NumberTextBox
             {
                 Label = "Download",
                 Name = "dobTextBox",
@@ -342,10 +346,11 @@ namespace durandaljs.compiler.test
                 WebId = Guid.NewGuid().ToString(),
                 Tooltip = "The date",
                 Visible = "true",
+                Enable = "true"
             };
 
             var compiler = new NumberTextBoxCompiler();
-            var html = compiler.GenerateEditor(lv, m_patient);
+            var html = compiler.GenerateEditor(nt, m_patient);
             StringAssert.Contains(html, "<input");
         }
         [TestMethod]
@@ -360,6 +365,7 @@ namespace durandaljs.compiler.test
                 WebId = Guid.NewGuid().ToString(),
                 Tooltip = "The date",
                 Visible = "true",
+                Enable = "true"
             };
 
             var compiler = new SectionFormElementCompiler();
@@ -378,6 +384,7 @@ namespace durandaljs.compiler.test
                 WebId = Guid.NewGuid().ToString(),
                 Tooltip = "The date",
                 Visible = "true",
+                Enable = "true"
             };
 
             var compiler = new TextAreaElementCompiler();
@@ -387,7 +394,7 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void TextBox()
         {
-            var lv = new TextBox
+            var text = new TextBox
             {
                 Label = "Download",
                 Name = "dobTextBox",
@@ -396,10 +403,11 @@ namespace durandaljs.compiler.test
                 WebId = Guid.NewGuid().ToString(),
                 Tooltip = "The date",
                 Visible = "true",
+                Enable = "true"
             };
 
             var compiler = new TextBoxCompiler();
-            var html = compiler.GenerateEditor(lv, m_patient);
+            var html = compiler.GenerateEditor(text, m_patient);
             StringAssert.Contains(html, "text");
         }
         [TestMethod]
@@ -414,6 +422,7 @@ namespace durandaljs.compiler.test
                 WebId = Guid.NewGuid().ToString(),
                 Tooltip = "The date",
                 Visible = "true",
+                Enable = "true"
             };
 
             var compiler = new WebsiteFormElementCompiler();
