@@ -150,6 +150,16 @@
     <Compile Include="SyntaxWalkers\LoggerMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\MethodInvocationExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ParenthesizedExpressionWlaker.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringEmpty.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrEmpty.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrWhiteSpace.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringLength.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringSubstring.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToLower.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToLowerInvariant.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToUpper.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToUpperInvariant.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringTrim.cs" />
     <Compile Include="SyntaxWalkers\StringMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\UnaryExpressionWalker.cs" />
     <Compile Include="TextAreaElementCompiler.cs" />
@@ -305,7 +315,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SyntaxWalkers\MathIdentifiers\" />
-    <Folder Include="SyntaxWalkers\StringIdentifiers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyOutputDirClientAndWeb">

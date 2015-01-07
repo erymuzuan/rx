@@ -10,6 +10,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class StringMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
+        [ImportMany("String", typeof(IdentifierCompiler), AllowRecomposition = true)]
+        public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
+
         public override bool Filter(SymbolInfo info)
         {
             if (null == info.Symbol) return false;
@@ -52,73 +55,24 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
-            string code;
 
-            // NOTE: assuming there's only 1 argument for these methods
-            var args = this.GetArguments(node).Select(this.EvaluateExpressionCode);
-            var argumentSyntax = string.Join(", ", args);
+            // NOTE : calling this.Evaluate or this.GetArguments will reset this.Code
+            var code = this.Code.ToString();
             var text = node.Identifier.Text;
-            switch (text)
+
+            var compiler = this.IdentifierCompilers.LastOrDefault(x => string.Equals(x.Metadata.Text, text, StringComparison.InvariantCultureIgnoreCase));
+            if (null != compiler)
             {
-                case "Trim":
-                    code = string.Format("String.trim({0})", argumentSyntax);
-                    break;
-                case "IsNullOrEmpty":
-                    code = string.Format("String.isNullOrEmpty({0})", argumentSyntax);
-                    break;
-                case "IsNullOrWhiteSpace":
-                    code = string.Format("String.isNullOrWhiteSpace({0})", argumentSyntax);
-                    break;
-                case "Empty":
-                    code = "''";
-                    break;
-                case "Length":
-                    code = "length";
-                    break;
-                case "ToUpper":
-                    code = "toUpper()";
-                    break;
-                case "Equals":
-                case "CopyTo":
-                case "ToCharArray":
-                case "Split":
-                case "Substring":
-                case "TrimStart":
-                case "TrimEnd":
-                case "IsNormalized":
-                case "Normalize":
-                case "CompareTo":
-                case "Contains":
-                case "EndsWith":
-                case "IndexOf":
-                case "IndexOfAny":
-                case "LastIndexOf":
-                case "LastIndexOfAny":
-                case "PadLeft":
-                case "PadRight":
-                case "StartsWith":
-                case "ToLower":
-                case "ToLowerInvariant":
-                case "ToUpperInvariant":
-                case "ToString":
-                case "Clone":
-                case "Insert":
-                case "Replace":
-                case "Remove":
-                    code = "/* string." + text + " is not implemented for Javascript compiler */";
-                    break;
-                case "GetEnumerator":
-                case "GetTypeCode":
-                case "GetHashCode":
-                case "Chars":
-                    code = "/* string." + text + " is not supported for Javascript compiler */";
-                    break;
-                default:
-                    code = "/* string." + text + " is not supported for Javascript compiler */";
-                    break;
+                var argumentList = this.GetArguments(node).ToList();
+                var xp = compiler.Value.Compile(node, argumentList);
+                this.Code.Clear();
+                this.Code.Append(code);
+                if (string.IsNullOrWhiteSpace(code))
+                    this.Code.Append(xp);
+                else
+                    this.Code.Append("." + xp);
             }
 
-            this.Code.Append(code);
             base.VisitIdentifierName(node);
         }
 
