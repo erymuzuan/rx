@@ -134,8 +134,16 @@
     <Compile Include="SectionFormElementCompiler.cs" />
     <Compile Include="SyntaxWalkers\BinaryExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ConfigMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeNow.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeParse.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeParseExact.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeToday.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeToString.cs" />
     <Compile Include="SyntaxWalkers\DateTimeMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\DecimalSyntaxWalker.cs" />
+    <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />
+    <Compile Include="SyntaxWalkers\IdentifierCompilerMetadataAttribute.cs" />
+    <Compile Include="SyntaxWalkers\IIdentifierCompilerMetadata.cs" />
     <Compile Include="SyntaxWalkers\Int32SyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />
@@ -294,6 +302,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\display.template.ListView.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SyntaxWalkers\MathIdentifiers\" />
+    <Folder Include="SyntaxWalkers\StringIdentifiers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyOutputDirClientAndWeb">

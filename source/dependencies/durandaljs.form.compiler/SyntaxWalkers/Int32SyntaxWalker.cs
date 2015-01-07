@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -23,18 +22,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             get { return true; }
         }
-
-        public override string Walk(SyntaxNode node)
-        {
-            var walker = this;
-            if (!walker.Filter(node)) return string.Empty;
-
-
-            walker.Visit(node);
-            return walker.Code.ToString();
-        }
-
-
+        
 
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {

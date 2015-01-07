@@ -76,6 +76,22 @@ namespace durandaljs.compiler.test
                 .CompileHtml());
         }
         [TestMethod]
+        public void DateTimeToString()
+        {
+            Assert.AreEqual(
+                "$data.Name() === moment().toString()",
+                "item.Name == DateTime.Now.ToString()"
+                .CompileHtml());
+        }
+        [TestMethod]
+        public void DateTimeToStringWithFormat()
+        {
+            Assert.AreEqual(
+                "$data.Name() === moment().toString('g')",
+                "item.Name == DateTime.Now.ToString(\"g\")"
+                .CompileHtml());
+        }
+        [TestMethod]
         public void Today()
         {
             Assert.AreEqual(

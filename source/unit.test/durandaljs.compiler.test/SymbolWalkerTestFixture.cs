@@ -15,6 +15,7 @@ namespace durandaljs.compiler.test
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
         }
         [TestMethod]
+        [Ignore]
         public void LiteralStringToUpper()
         {
             Assert.AreEqual(
