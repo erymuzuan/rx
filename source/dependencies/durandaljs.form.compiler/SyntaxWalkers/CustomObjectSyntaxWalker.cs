@@ -13,21 +13,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
     public abstract class CustomObjectSyntaxWalker : CSharpSyntaxWalker
     {
-        public class Comparer : IEqualityComparer<CustomObjectSyntaxWalker>
-        {
-            public bool Equals(CustomObjectSyntaxWalker x, CustomObjectSyntaxWalker y)
-            {
-                return x.GetType() == y.GetType();
-            }
-
-            public int GetHashCode(CustomObjectSyntaxWalker obj)
-            {
-                return obj.GetType().GetHashCode();
-            }
-        }
+        public SemanticModel SemanticModel { get; set; }
         protected abstract string[] ObjectNames { get; }
         protected abstract SyntaxKind[] Kinds { get; }
         protected virtual bool IsPredefinedType { get { return false; } }
+        protected virtual SymbolKind[] SymbolKinds { get { return new SymbolKind[] { }; } }
+
         protected StringBuilder Code { get; private set; }
 
         public virtual CSharpSyntaxTree GetObjectModel(Entity entity)
@@ -53,7 +44,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var ies5 = node as InvocationExpressionSyntax;
                 if (null != ies5)
                 {
-                    
+
                 }
             }
 
@@ -61,23 +52,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 return true;
 
             var maes = node as MemberAccessExpressionSyntax;
-            if (null != maes)
+            while (null != maes)
             {
-                // TODO : should recurse in a while while 
-                // when you have something like item.Property1.proeprty2.Another property
-                var maes2 = maes.Expression as MemberAccessExpressionSyntax;
-                if (null != maes2)
-                {
-                    var id2 = maes2.Expression as IdentifierNameSyntax;
-                    if (null == id2) return false;
-                    if (this.ObjectNames.Contains(id2.Identifier.Text)) return true;
-                }
+                var id = maes.Expression as IdentifierNameSyntax;
+                if (null != id && this.ObjectNames.Contains(id.Identifier.Text))
+                    return true;
 
-                var identifier = maes.Expression as IdentifierNameSyntax;
-                if (null == identifier) return false;
-                if (!this.ObjectNames.Contains(identifier.Identifier.Text)) return false;
-
+                maes = maes.Expression as MemberAccessExpressionSyntax;
             }
+
+
 
             var ies = node as InvocationExpressionSyntax;
             if (null != ies && this.Kinds.Contains(SyntaxKind.InvocationExpression))
@@ -85,7 +69,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 // check for the name
                 if (this.IsPredefinedType)
                 {
-                    var x =(((MemberAccessExpressionSyntax) ies.Expression).Expression) as
+                    var x = (((MemberAccessExpressionSyntax)ies.Expression).Expression) as
                             PredefinedTypeSyntax;
                     if (null != x && this.ObjectNames.Contains(x.Keyword.ValueText)) return true;
                 }
@@ -93,13 +77,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 if (null != maes2)
                 {
                     var id2 = maes2.Expression as IdentifierNameSyntax;
-                    if (null == id2) return false;
-                    if (!this.ObjectNames.Contains(id2.Identifier.Text)) return false;
+                    if (null != id2 && this.ObjectNames.Contains(id2.Identifier.Text)) return true;
                 }
-                return true;
             }
 
-            return true;
+            return false;
         }
 
         public virtual string Walk(SyntaxNode node)
@@ -142,6 +124,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .ChildNodes()
                 .OfType<ArgumentSyntax>()
                 .Select(x => x.Expression);
+        }
+        public class Comparer : IEqualityComparer<CustomObjectSyntaxWalker>
+        {
+            public bool Equals(CustomObjectSyntaxWalker x, CustomObjectSyntaxWalker y)
+            {
+                return x.GetType() == y.GetType();
+            }
+
+            public int GetHashCode(CustomObjectSyntaxWalker obj)
+            {
+                return obj.GetType().GetHashCode();
+            }
         }
 
     }

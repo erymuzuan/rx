@@ -97,6 +97,7 @@ namespace durandaljs.compiler.test
                 "item.Address.State == \"Kelantan\"".CompileHtml());
         }
 
+
         [TestMethod]
         public void EqualExpressionNotNullLiteral()
         {

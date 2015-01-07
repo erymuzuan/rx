@@ -83,6 +83,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .AddReference<EnumerableQuery>()
                 .AddSyntaxTrees(trees);
 
+            var model = compilation.GetSemanticModel(tree);
+            this.Walkers.ToList().ForEach(x => x.SemanticModel = model);
 
             var diagnostics = compilation.GetDiagnostics();
 

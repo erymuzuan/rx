@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -18,6 +20,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return true; }
         }
 
+        protected override SymbolKind[] SymbolKinds
+        {
+            get { return new []{ SymbolKind.Method}; }
+        }
+
         protected override SyntaxKind[] Kinds
         {
             get
@@ -30,9 +37,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
         }
 
+        public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+        {
+            Console.WriteLine(node);
+            base.VisitInvocationExpression(node);
+        }
+
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
-            var code = "";
+            string code;
 
             // NOTE: assuming there's only 1 argument for these methods
             var args = this.GetArguments(node).Select(this.EvaluateExpressionCode);
@@ -51,6 +64,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     break;
                 case "Empty":
                     code = "''";
+                    break;
+                case "ToUpper":
+                    code = "toUpper()";
                     break;
                 default:
                     code = "// Not Supported for " + text;

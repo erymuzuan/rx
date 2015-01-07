@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Text;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -20,11 +23,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
-            if (node.Identifier.Text == "item")
-                this.Code.Append("$data");
-            if (node.Parent.GetText().ToString().StartsWith("item.") && node.Identifier.Text != "item")
-                this.Code.Append("." + node.Identifier.Text + "()");
+            var text = node.Identifier.Text;
+            var code = new StringBuilder();
+            if (text == "item")
+                code.Append("$data");
+            else
+                code.AppendFormat(".{0}()", text);
 
+            var model = this.SemanticModel;
+            var symbol = model.GetSymbolInfo(node);
+            Console.WriteLine(symbol);
+            
+            this.Code.Append(code);
             base.VisitIdentifierName(node);
         }
     }
