@@ -16,6 +16,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         [ImportMany(typeof(CustomObjectSyntaxWalker), RequiredCreationPolicy = CreationPolicy.Shared, AllowRecomposition = true)]
         public CustomObjectSyntaxWalker[] MefWalkers { get; set; }
 
+        [Import]
+        public CompilationUnitContainer CompilationUnitContainer { get; set; }
 
         protected CustomObjectSyntaxWalker[] Walkers
         {
@@ -84,7 +86,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .AddSyntaxTrees(trees);
 
             var model = compilation.GetSemanticModel(tree);
-            this.Walkers.ToList().ForEach(x => x.SemanticModel = model);
+            this.CompilationUnitContainer.SemanticModel = model;
+            this.CompilationUnitContainer.SyntaxTree = tree;
 
             var diagnostics = compilation.GetDiagnostics();
 
@@ -114,11 +117,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             return code;
         }
+    }
 
-
-
-
-
+    [Export]
+    public class CompilationUnitContainer
+    {
+        public SemanticModel SemanticModel { get; set; }
+        public CSharpSyntaxTree SyntaxTree { get; set; }
+        
     }
 
 

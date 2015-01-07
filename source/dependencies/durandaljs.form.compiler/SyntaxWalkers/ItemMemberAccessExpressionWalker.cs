@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -25,15 +24,22 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             var text = node.Identifier.Text;
             var code = new StringBuilder();
-            if (text == "item")
-                code.Append("$data");
-            else
-                code.AppendFormat(".{0}()", text);
 
-            var model = this.SemanticModel;
+            var model = this.Container.SemanticModel;
             var symbol = model.GetSymbolInfo(node);
-            Console.WriteLine(symbol);
-            
+            var sw = this.Walkers.FirstOrDefault(x => x.Filter(symbol));
+            if (null != sw)
+            {
+                code.Append("." + sw.Walk(node));
+            }
+            else
+            {
+                if (text == "item")
+                    code.Append("$data");
+                else
+                    code.AppendFormat(".{0}()", text);
+            }
+
             this.Code.Append(code);
             base.VisitIdentifierName(node);
         }

@@ -13,7 +13,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
     public abstract class CustomObjectSyntaxWalker : CSharpSyntaxWalker
     {
-        public SemanticModel SemanticModel { get; set; }
+        [Import]
+        public CompilationUnitContainer Container { get; set; }
         protected abstract string[] ObjectNames { get; }
         protected abstract SyntaxKind[] Kinds { get; }
         protected virtual bool IsPredefinedType { get { return false; } }
@@ -24,6 +25,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public virtual CSharpSyntaxTree GetObjectModel(Entity entity)
         {
             return null;
+        }
+
+        public virtual bool Filter(SymbolInfo info)
+        {
+            return false;
         }
 
         public virtual bool Filter(SyntaxNode node)
@@ -44,7 +50,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var ies5 = node as InvocationExpressionSyntax;
                 if (null != ies5)
                 {
-
+                    // TODO : what...???
                 }
             }
 

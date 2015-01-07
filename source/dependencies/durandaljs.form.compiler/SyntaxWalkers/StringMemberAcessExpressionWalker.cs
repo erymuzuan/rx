@@ -10,6 +10,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class StringMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
+        public override bool Filter(SymbolInfo info)
+        {
+            if (null == info.Symbol) return false;
+
+            return info.Symbol.ContainingType.ToString() == "string";
+        }
+
         protected override string[] ObjectNames
         {
             get { return new[] { "string", "String" }; }
@@ -22,7 +29,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         protected override SymbolKind[] SymbolKinds
         {
-            get { return new []{ SymbolKind.Method}; }
+            get { return new[] { SymbolKind.Method }; }
         }
 
         protected override SyntaxKind[] Kinds
@@ -65,11 +72,49 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 case "Empty":
                     code = "''";
                     break;
+                case "Length":
+                    code = "length";
+                    break;
                 case "ToUpper":
                     code = "toUpper()";
                     break;
+                case "Equals":
+                case "CopyTo":
+                case "ToCharArray":
+                case "Split":
+                case "Substring":
+                case "TrimStart":
+                case "TrimEnd":
+                case "IsNormalized":
+                case "Normalize":
+                case "CompareTo":
+                case "Contains":
+                case "EndsWith":
+                case "IndexOf":
+                case "IndexOfAny":
+                case "LastIndexOf":
+                case "LastIndexOfAny":
+                case "PadLeft":
+                case "PadRight":
+                case "StartsWith":
+                case "ToLower":
+                case "ToLowerInvariant":
+                case "ToUpperInvariant":
+                case "ToString":
+                case "Clone":
+                case "Insert":
+                case "Replace":
+                case "Remove":
+                    code = "/* string." + text + " is not implemented for Javascript compiler */";
+                    break;
+                case "GetEnumerator":
+                case "GetTypeCode":
+                case "GetHashCode":
+                case "Chars":
+                    code = "/* string." + text + " is not supported for Javascript compiler */";
+                    break;
                 default:
-                    code = "// Not Supported for " + text;
+                    code = "/* string." + text + " is not supported for Javascript compiler */";
                     break;
             }
 
