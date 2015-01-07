@@ -64,22 +64,22 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             file.AppendLine("   }");
             file.AppendLine("}");
 
-            var trees = new ObjectCollection<CSharpSyntaxTree>();
+            var trees = new ObjectCollection<SyntaxTree>();
 
             var tree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(file.ToString());
             var root = (CompilationUnitSyntax)tree.GetRoot();
             trees.Add(tree);
 
 
-            var codes = from c in entity.GenerateCode()
+            var codes = (from c in entity.GenerateCode()
                         where !c.Key.EndsWith("Controller")
                         where !c.Key.EndsWith("Controller.cs")
                         let x = c.Value.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
                         .Replace("using System.Web.Mvc;", string.Empty)
                         .Replace("using System.Linq;", string.Empty)
                         .Replace("using System.Threading.Tasks;", string.Empty)
-                        select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x);
-            trees.AddRange(codes.ToArray());
+                        select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)).ToList();
+            trees.AddRange(codes);
             trees.AddRange(walkersObjectModels.Select(x => x.SyntaxTree));
 
             var compilation = CSharpCompilation.Create("eval")
@@ -88,7 +88,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .AddReference<XmlAttributeAttribute>()
                 .AddReference<EntityDefinition>()
                 .AddReference<EnumerableQuery>()
-                .AddSyntaxTrees(trees);
+                .AddSyntaxTrees(trees.ToArray());
 
             var model = compilation.GetSemanticModel(tree);
             this.CompilationUnitContainer.SemanticModel = model;

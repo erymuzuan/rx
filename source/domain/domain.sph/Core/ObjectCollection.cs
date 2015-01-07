@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Bespoke.Sph.Domain.Properties;
 
 namespace Bespoke.Sph.Domain
 {
@@ -47,7 +48,7 @@ namespace Bespoke.Sph.Domain
         public void AddRange(params T[] items)
         {
 
-            foreach (T item in items)
+            foreach (var item in items)
             {
                 Add(item);
             }
@@ -167,8 +168,8 @@ namespace Bespoke.Sph.Domain
         /// <summary>
         /// Removes the all the elements that match the conditions defined by the specified  predicate.
         /// </summary>
-        /// <param name="match">The System.Predicate<T> delegate that defines the conditions of the elements  to remove</param>
-        /// <returns>the number of elements removed from the System.Collections.Generic.List<T></returns>
+        /// <param name="match">The System.Predicate<T/> delegate that defines the conditions of the elements  to remove</param>
+        /// <returns>the number of elements removed from the System.Collections.Generic.List<T/></returns>
         public int RemoveAll(Predicate<T> match)
         {
             var list = new List<T>(this);
@@ -195,7 +196,7 @@ namespace Bespoke.Sph.Domain
         {
             if (match == null)
             {
-                throw new ArgumentNullException("match", "match is null");
+                throw new ArgumentNullException("match", Resources.ObjectCollection_Find_match_is_null);
             }
 
             foreach (T item in this.Items)
@@ -228,7 +229,7 @@ namespace Bespoke.Sph.Domain
         {
             if (match == null)
             {
-                throw new ArgumentNullException("match", "match is null");
+                throw new ArgumentNullException("match", Resources.ObjectCollection_Find_match_is_null);
             }
             var list1 = new ObjectCollection<T>();
             for (int num1 = 0; num1 < this.Count; num1++)
@@ -245,7 +246,7 @@ namespace Bespoke.Sph.Domain
         {
             if (action == null)
             {
-                throw new ArgumentNullException("action", "action is null");
+                throw new ArgumentNullException("action", Resources.ObjectCollection_ForEach_action_is_null);
             }
             for (int num1 = 0; num1 < this.Count; num1++)
             {
@@ -281,7 +282,7 @@ namespace Bespoke.Sph.Domain
         {
             if (converter == null)
             {
-                throw new ArgumentNullException("converter", "cenverter is null");
+                throw new ArgumentNullException("converter", Resources.ObjectCollection_ConvertAll_Converter_is_null);
             }
             var list = new ObjectCollection<TOutput>();
             for (int i = 0; i < this.Count; i++)
