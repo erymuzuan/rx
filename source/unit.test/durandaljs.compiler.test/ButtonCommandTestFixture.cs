@@ -8,6 +8,7 @@ namespace durandaljs.compiler.test
     public class ButtonCommandTestFixture
     {
         [TestMethod]
+        [Ignore]
         public void CommandWithOneAsyncMethod()
         {
             const string COMMAND = @"

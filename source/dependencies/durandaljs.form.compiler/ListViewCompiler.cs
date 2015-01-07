@@ -8,7 +8,37 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [FormCompilerMetadata(Name = Constants.DURANDAL_JS, Type = typeof(ListView))]
     public class ListViewCompiler : DurandalJsElementCompiler<ListView>
     {
+
+        public override string GenerateDisplay(ListView element, EntityDefinition entity)
+        {
+            m_entity = entity;
+            return base.GenerateDisplay(element, entity);
+        }
+
+        public string RenderInput(FormElement input)
+        {
+            var download = input as DownloadLink;
+            if (null != download)
+            {
+                var dc = new DownloadLinkCompiler();
+                return "<td>" + dc.GenerateDisplay(download, m_entity) + "</td>";
+            }
+
+            var image = input as ImageElement;
+            if (null != image)
+            {
+                var ic = new ImageElementCompiler();
+                return "<td>" + ic.GenerateDisplay(image, m_entity) + "</td>";
+            }
+            return string.Format("<td data-bind=\"text:{0}\"></td>", input.Path.ConvertJavascriptObjectToFunction());
+
+        }
+        public string Expression
+        {
+            get { return this.Element.Path.ConvertJavascriptObjectToFunction(); }
+        }
         private readonly ObjectCollection<string> m_inputEditorCollection = new ObjectCollection<string>();
+        private EntityDefinition m_entity;
 
         public ObjectCollection<string> InputEditorCollection
         {
