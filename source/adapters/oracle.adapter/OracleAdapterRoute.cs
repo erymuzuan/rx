@@ -36,7 +36,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                     ModuleId = "viewmodels/adapter.oracle",
                     Role = "developers",
                     Settings = new JsRouteSetting(),
-                    ShowWhenLoggedIn = true
+                    ShowWhenLoggedIn = true,
+                    StartPageRoute = "adapter.oracle/0"
                 }};
                 return list;
             }

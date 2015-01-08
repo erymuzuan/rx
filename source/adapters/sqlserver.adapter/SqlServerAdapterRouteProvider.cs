@@ -40,7 +40,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                     ModuleId = "viewmodels/adapter.sqlserver",
                     Role = "developers",
                     Settings = new JsRouteSetting(),
-                    ShowWhenLoggedIn = true
+                    ShowWhenLoggedIn = true,
+                    StartPageRoute = "adapter.sqlserver/0"
                 },
                 new JsRoute
                 {
