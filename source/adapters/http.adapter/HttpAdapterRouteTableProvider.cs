@@ -28,11 +28,12 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             get
             {
-                return new[]{new JsRoute
+                return new[]{
+                new JsRoute
                 {
                     Caption = "Http Adapter",
                     GroupName = "Adapter",
-                    IsAdminPage = false,
+                    IsAdminPage = true,
                     Route = "adapter.http/:id",
                     Title = "Http Adapter",
                     Icon = "fa fa-html5",
@@ -40,7 +41,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                     ModuleId = "viewmodels/adapter.http",
                     Role = "developers",
                     Settings = new JsRouteSetting(),
-                    ShowWhenLoggedIn = true
+                    ShowWhenLoggedIn = true,
+                    StartPageRoute = "adapter.http/0"
                 },
                 new JsRoute
                 {
