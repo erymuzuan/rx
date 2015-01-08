@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Project>
-	<File FilePath=".\source\domain\domain.sph\Schema\_object.xslt" HomeFolder="Yes"/>
-	<File FilePath=".\source\domain\domain.sph\Schema\_refobjects.xslt" HomeFolder="Yes"/>
-	<File FilePath=".\source\domain\domain.sph\Schema\FormDesigner.xsd" HomeFolder="Yes"/>
-	<File FilePath=".\source\domain\domain.sph\Schema\ReportBuilder.xsd" HomeFolder="Yes"/>
-	<File FilePath=".\source\domain\domain.sph\Schema\SphDomain.xsd" HomeFolder="Yes"/>
-	<File FilePath=".\source\domain\domain.sph\Schema\TriggersWorkflow.xsd" HomeFolder="Yes"/>
-</Project>
