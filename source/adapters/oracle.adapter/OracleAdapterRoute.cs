@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                     Role = "developers",
                     Settings = new JsRouteSetting(),
                     ShowWhenLoggedIn = true,
-                    StartPageRoute = "adapter.adapter/0"
+                    StartPageRoute = "adapter.oracle/0"
                 }};
                 return list;
             }
