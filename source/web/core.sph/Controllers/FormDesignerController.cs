@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -17,6 +19,22 @@ namespace Bespoke.Sph.Web.Controllers
     {
         [ImportMany("FormDesigner", typeof(FormElement), AllowRecomposition = true)]
         public Lazy<FormElement, IDesignerMetadata>[] ToolboxItems { get; set; }
+
+
+        [HttpGet]
+        [Route("form.element.js")]
+        public ActionResult FormElementsJs()
+        {
+            if (null == this.ToolboxItems)
+                ObjectBuilder.ComposeMefCatalog(this);
+            if(null == this.ToolboxItems)
+                throw new InvalidOperationException("Cannot instantiate MEF for FormElement");
+            var customElements = this.ToolboxItems.Where(x => x.Value.GetType().Assembly != typeof (FormElement).Assembly)
+                .Select(x => x.Value.GetJavascriptSchema())
+                .ToArray();
+            this.Response.ContentType = "application/javascript";
+            return Content(string.Join("\r\n",customElements));
+        }
 
         [Route("toolbox-items")]
         public ActionResult GetToolboxItems()

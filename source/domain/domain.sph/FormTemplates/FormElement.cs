@@ -5,6 +5,8 @@ using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Text;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Properties;
 using Newtonsoft.Json;
@@ -175,6 +177,48 @@ namespace Bespoke.Sph.Domain
                 new ExpressionDescriptor(x => x.Visible, typeof (bool))
             };
             return list.ToImmutableList();
+        }
+
+        public virtual string GetJavascriptSchema()
+        {
+            var code = new StringBuilder();
+            var type = this.GetType();
+            var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+            code.AppendLinf("bespoke.sph.domain.{0} = function (optionOrWebid) {{", this.GetType().Name);
+
+            code.AppendLine("   var v = new bespoke.sph.domain.FormElement(optionOrWebid);");
+            foreach (var p in properties)
+            {
+                if (p.PropertyType == typeof(string))
+                    code.AppendLinf("    v.{0} = ko.observable('');", p.Name);
+                if (p.PropertyType == typeof(int))
+                    code.AppendLinf("    v.{0} = ko.observable(0);", p.Name);
+                if (p.PropertyType == typeof(bool))
+                    code.AppendLinf("    v.{0} = ko.observable(false);", p.Name);
+                if (p.PropertyType.Name == "Nullable`1")
+                    code.AppendLinf("    v.{0} = ko.observable();", p.Name);
+
+                // TODO : recurse for complex type
+            }
+
+            code.AppendLinf("    v[\"$type\"] = \"{0}\";", type.GetShortAssemblyQualifiedName());
+            code.AppendLine("    if (optionOrWebid && typeof optionOrWebid === \"object\") {");
+            code.AppendLine("        for (var n in optionOrWebid) {");
+            code.AppendLine("            if (typeof v[n] === \"function\") {");
+            code.AppendLine("                v[n](optionOrWebid[n]);");
+            code.AppendLine("            }");
+            code.AppendLine("        }");
+            code.AppendLine("    }");
+            code.AppendLine("    if (optionOrWebid && typeof optionOrWebid === \"string\") {");
+            code.AppendLine("        v.WebId(optionOrWebid);");
+            code.AppendLine("    }");
+            code.AppendLinf("    if (bespoke.sph.domain.{0}Partial) {{", type.Name);
+            code.AppendLinf("        return _(v).extend(new bespoke.sph.domain.{0}Partial(v));",type.Name);
+            code.AppendLine("    }");
+            code.AppendLine("    return v;");
+            code.AppendLine("};");
+
+            return code.ToString();
         }
 
     }

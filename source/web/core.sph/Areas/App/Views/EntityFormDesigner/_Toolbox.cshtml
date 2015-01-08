@@ -59,7 +59,7 @@
                     <label>Note</label>
                     <input class="form-control" data-bind="value: Note" id="form-design-Description" type="text" name="FormDesign.Description" />
                 </div>
-          
+
                 <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
                         <input data-bind="checked: IsDefault" id="form-design-isdefault" type="checkbox" name="FormDesign.IsDefault" />
@@ -99,7 +99,7 @@
                 </div>
                 <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
-                        <input data-bind="checked: IsAuditTrailAvailable" id="form-design-IsAuditTrailAvailable" type="checkbox" name="FormDesign.IsAuditTrailAvailable"/>
+                        <input data-bind="checked: IsAuditTrailAvailable" id="form-design-IsAuditTrailAvailable" type="checkbox" name="FormDesign.IsAuditTrailAvailable" />
                         Audit trail
                     </label>
                 </div>
@@ -114,7 +114,7 @@
                         </label>
                     </div>
                 }
-              
+
 
                 <!-- ko with : FormDesign -->
 
@@ -244,10 +244,17 @@
                     </a>
                 </div>
                 <div id="toolbox-advanced-settings" class="collapse">
-                  
+
                     @foreach (var fe in Model.FormElements)
                     {
-                        @Html.Raw(fe.GetDesignPropertyGrid())
+                        var grid = fe.GetDesignPropertyGrid();
+                        if (!string.IsNullOrWhiteSpace(grid))
+                        {
+                            <!--ko if: ko.unwrap($type) === "@(fe.GetType().GetShortAssemblyQualifiedName())" -->
+
+                            @Html.Raw(grid)
+                            <!--/ko-->
+                        }
                     }
                 </div>
 
