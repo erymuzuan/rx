@@ -20,7 +20,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             tableOptions = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function (id) {
-                var query = String.format("Id eq {0}", id),
+                var query = String.format("Id eq '{0}'", id),
                     tcs = new $.Deferred();
                 context.loadOneAsync("Adapter", query)
                     .done(function (b) {
@@ -30,10 +30,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                             adapter(
                                 {
                                     $type: "Bespoke.Sph.Integrations.Adapters.OracleAdapter, oracle.adapter",
-                                    Server: ko.observable("i90009638.cloudapp.net"),
-                                    UserId: ko.observable("system"),
-                                    Password: ko.observable("gsxr750wt"),
-                                    Sid: ko.observable("XE"),
+                                    Server: ko.observable(""),
+                                    UserId: ko.observable(""),
+                                    Password: ko.observable(""),
+                                    Sid: ko.observable(""),
                                     Port: ko.observable(1521),
                                     Schema: ko.observable(),
                                     Name: ko.observable(),
