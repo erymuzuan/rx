@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Domain.Codes;
 using Moq;
-using MySql.Data.MySqlClient;
-using Newtonsoft.Json;
 using NUnit.Framework;
-using sqlserver.adapter.test;
 
 namespace domain.test.workflows
 {
@@ -37,6 +30,7 @@ namespace domain.test.workflows
 
         }
 
+     
 
         [Test]
         public async Task ReceiveAndInitiate()
@@ -85,7 +79,7 @@ namespace domain.test.workflows
             dynamic patient = Activator.CreateInstance(patientType);
             patient.Mrn = "784529";
 
-            Assert.AreEqual("".GetType(),typeof(string), "String type should be the same");
+            Assert.AreEqual("".GetType(), typeof(string), "String type should be the same");
             Assert.AreEqual(patient.GetType(), wf.patient.GetType(), "Type should be the same");
             await wf.RegisterPatientAsync(patient);
             Assert.AreEqual(patient.Mrn, wf.patient.Mrn);
@@ -165,7 +159,7 @@ namespace domain.test.workflows
             patient.Mrn = "784529";
             patient.FullName = "Adam";
 
-            Assert.AreEqual("".GetType(),typeof(string), "String type should be the same");
+            Assert.AreEqual("".GetType(), typeof(string), "String type should be the same");
             Assert.AreEqual(patient.GetType(), wf.patient.GetType(), "Type should be the same");
             await wf.RegisterAsync(patient);
             Assert.AreEqual(patient.Mrn, wf.patient.Mrn);
@@ -188,7 +182,7 @@ namespace domain.test.workflows
                 IsInitiator = false,
                 WebId = "Register"
             };
-            var end = new EndActivity {WebId = "End", Name = "End"};
+            var end = new EndActivity { WebId = "End", Name = "End" };
             wd.ActivityCollection.Add(register);
             wd.ActivityCollection.Add(end);
 
@@ -207,7 +201,7 @@ namespace domain.test.workflows
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = PATIENT_TYPE_FULL_NAME });
 
-            
+
             var start = new ExpressionActivity
             {
                 WebId = "Start",
@@ -226,7 +220,7 @@ namespace domain.test.workflows
                 IsInitiator = false,
                 WebId = "Register"
             };
-            var end = new EndActivity {WebId = "End", Name = "End"};
+            var end = new EndActivity { WebId = "End", Name = "End" };
             wd.ActivityCollection.Add(register);
             wd.ActivityCollection.Add(end);
 
@@ -263,7 +257,7 @@ namespace domain.test.workflows
             dynamic patient = Activator.CreateInstance(patientType);
             patient.Mrn = "784529";
 
-            Assert.AreEqual("".GetType(),typeof(string), "String type should be the same");
+            Assert.AreEqual("".GetType(), typeof(string), "String type should be the same");
             Assert.AreEqual(patient.GetType(), wf.patient.GetType(), "Type should be the same");
             await wf.RegisterPatientAsync(patient);
             Assert.AreEqual(patient.Mrn, wf.patient.Mrn);

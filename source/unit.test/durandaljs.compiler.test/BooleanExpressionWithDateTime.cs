@@ -99,6 +99,63 @@ namespace durandaljs.compiler.test
                 "item.Dob > DateTime.Today"
                 .CompileHtml());
         }
+        [TestMethod]
+        public void AddDaysWithDouble()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment().add(1, 'day')",
+                "item.Dob > DateTime.Now.AddDays(1)"
+                .CompileHtml());
+        }
+        [TestMethod]
+        public void AddHoursWithDouble()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment().add(1, 'h')",
+                "item.Dob > DateTime.Now.AddHours(1)"
+                .CompileHtml());
+        }
+        [TestMethod]
+        public void AddMillisecondWithDouble()
+        {
+            Assert.AreEqual(
+                "$data.Dob() < moment().add(1, 'ms')",
+                "item.Dob < DateTime.Now.AddMilliseconds(1)"
+                .CompileHtml());
+        }
+        [TestMethod]
+        public void AddMinute()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment().add(1, 'm')",
+                "item.Dob > DateTime.Now.AddMinutes(1)"
+                .CompileHtml());
+        }
+        [TestMethod]
+        public void AddMonth()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment().add(1, 'M')",
+                "item.Dob > DateTime.Now.AddMonths(1)"
+                .CompileHtml());
+        }
+        [TestMethod]
+        public void AddSeconds()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment().add(1, 's')",
+                "item.Dob > DateTime.Now.AddSeconds(1)"
+                .CompileHtml());
+        }
+        [TestMethod]
+        public void AddYears()
+        {
+            Assert.AreEqual(
+                "$data.Dob() > moment().add(1, 'y')",
+                "item.Dob > DateTime.Now.AddYears(1)"
+                .CompileHtml());
+        }
+
      
 
 
