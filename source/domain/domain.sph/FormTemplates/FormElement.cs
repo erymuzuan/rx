@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel.Composition;
@@ -179,29 +180,79 @@ namespace Bespoke.Sph.Domain
             return list.ToImmutableList();
         }
 
-        public virtual string GetJavascriptSchema()
+        public virtual string GetJavascriptSchema(Type type = null)
         {
+            var nativeTypes = new[]
+            {
+                typeof (string), typeof(int), typeof(int?)
+            , typeof(float)
+            , typeof(float?)
+            , typeof(bool)
+            , typeof(bool?)
+            , typeof(decimal)
+            , typeof(decimal?)
+            , typeof(double)
+            , typeof(double?)
+            , typeof(char)
+            , typeof(char?)
+            , typeof(byte)
+            , typeof(byte?)
+            , typeof(DateTime)
+            , typeof(DateTime?)
+            };
+            if (null == type)
+                type = this.GetType();
             var code = new StringBuilder();
-            var type = this.GetType();
             var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
-            code.AppendLinf("bespoke.sph.domain.{0} = function (optionOrWebid) {{", this.GetType().Name);
 
-            code.AppendLine("   var v = new bespoke.sph.domain.FormElement(optionOrWebid);");
+
+            foreach (var p in properties)
+            {
+                if (nativeTypes.Contains(p.PropertyType)) continue;
+
+                code.AppendLine(p.PropertyType.GetInterfaces().Contains(typeof(IEnumerable))
+                    ? this.GetJavascriptSchema(p.PropertyType.GenericTypeArguments[0])
+                    : this.GetJavascriptSchema(p.PropertyType));
+            }
+
+            code.AppendLinf("bespoke.sph.domain.{0} = function (optionOrWebid) {{", type.Name);
+            code.AppendLine(type == this.GetType()
+                ? "   var v = new bespoke.sph.domain.FormElement(optionOrWebid);"
+                : "   var v = {};");
+
+            code.AppendLinf("    v.$type = \"{0}\";", type.GetShortAssemblyQualifiedName());
             foreach (var p in properties)
             {
                 if (p.PropertyType == typeof(string))
                     code.AppendLinf("    v.{0} = ko.observable('');", p.Name);
+                if (p.PropertyType == typeof(DateTime))
+                    code.AppendLinf("    v.{0} = ko.observable('');", p.Name);
                 if (p.PropertyType == typeof(int))
+                    code.AppendLinf("    v.{0} = ko.observable(0);", p.Name);
+                if (p.PropertyType == typeof(decimal))
+                    code.AppendLinf("    v.{0} = ko.observable(0);", p.Name);
+                if (p.PropertyType == typeof(double))
                     code.AppendLinf("    v.{0} = ko.observable(0);", p.Name);
                 if (p.PropertyType == typeof(bool))
                     code.AppendLinf("    v.{0} = ko.observable(false);", p.Name);
                 if (p.PropertyType.Name == "Nullable`1")
                     code.AppendLinf("    v.{0} = ko.observable();", p.Name);
 
+                if (nativeTypes.Contains(p.PropertyType)) continue;
                 // TODO : recurse for complex type
+                var interfaces = p.PropertyType.GetInterfaces();
+                if (interfaces.Contains(typeof(IEnumerable)))
+                {
+                    var collection = string.Format("    v.{0} = ko.observableArray();", p.Name);
+                    code.AppendLine(collection);
+                }
+                else
+                {
+                    code.AppendLinf("    v.{0} = ko.observable(new bespoke.sph.domain.{1}());", p.Name, p.PropertyType.Name);
+                }
+
             }
 
-            code.AppendLinf("    v[\"$type\"] = \"{0}\";", type.GetShortAssemblyQualifiedName());
             code.AppendLine("    if (optionOrWebid && typeof optionOrWebid === \"object\") {");
             code.AppendLine("        for (var n in optionOrWebid) {");
             code.AppendLine("            if (typeof v[n] === \"function\") {");
@@ -213,10 +264,11 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("        v.WebId(optionOrWebid);");
             code.AppendLine("    }");
             code.AppendLinf("    if (bespoke.sph.domain.{0}Partial) {{", type.Name);
-            code.AppendLinf("        return _(v).extend(new bespoke.sph.domain.{0}Partial(v));",type.Name);
+            code.AppendLinf("        return _(v).extend(new bespoke.sph.domain.{0}Partial(v));", type.Name);
             code.AppendLine("    }");
             code.AppendLine("    return v;");
             code.AppendLine("};");
+
 
             return code.ToString();
         }
