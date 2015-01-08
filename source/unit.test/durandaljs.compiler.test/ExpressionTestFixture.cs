@@ -46,6 +46,16 @@ namespace durandaljs.compiler.test
                 );
         }
 
+        [TestMethod]
+        public async Task MathAbs()
+        {
+
+            await AssertAsync<int>(
+                "Math.abs($data.Age() || 0)",
+                "Math.Abs(item.Age ?? 0)"
+                );
+        }
+
 
         [TestMethod]
         [Ignore]
