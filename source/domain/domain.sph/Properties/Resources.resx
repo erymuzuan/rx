@@ -166,4 +166,13 @@
   <data name="action_assembly_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\action.assembly.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ObjectCollection_Find_match_is_null" xml:space="preserve">
+    <value>match is null</value>
+  </data>
+  <data name="ObjectCollection_ForEach_action_is_null" xml:space="preserve">
+    <value>action is null</value>
+  </data>
+  <data name="ObjectCollection_ConvertAll_Converter_is_null" xml:space="preserve">
+    <value>Converter is null</value>
+  </data>
 </root>

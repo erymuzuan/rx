@@ -62,18 +62,17 @@ namespace Bespoke.Sph.Domain.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to 
-        ///&lt;section class=&quot;view-model-modal&quot; id=&quot;startwf-dialog&quot;&gt;
+        ///&lt;section class=&quot;view-model-modal&quot; id=&quot;assembly-action-dialog&quot;&gt;
         ///    &lt;div class=&quot;modal-dialog&quot;&gt;
         ///        &lt;div class=&quot;modal-content&quot;&gt;
         ///
         ///            &lt;div class=&quot;modal-header&quot;&gt;
         ///                &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; data-bind=&quot;click : cancelClick&quot;&gt;&amp;times;&lt;/button&gt;
-        ///                &lt;h3&gt;Start Workflow&lt;/h3&gt;
+        ///                &lt;h3&gt;Run compiled assembly code&lt;/h3&gt;
         ///            &lt;/div&gt;
         ///            &lt;div class=&quot;modal-body&quot; data-bind=&quot;with: action&quot;&gt;
         ///
-        ///                &lt;form class=&quot;form-horizontal&quot; id=&quot;start=wf-dialog-form&quot;&gt;
-        ///                     [rest of string was truncated]&quot;;.
+        ///                &lt;form class=&quot;form-horizontal&quot; id=&quot;assembly-action-dialog-f [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string action_assembly_html {
             get {
@@ -104,7 +103,7 @@ namespace Bespoke.Sph.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No source files supplied for compilation.
         /// </summary>
-        internal static string NoSourceSupplied {
+        internal static string Adapter_Compile_No_source_files_supplied_for_compilation {
             get {
                 return ResourceManager.GetString("Adapter_Compile_No_source_files_supplied_for_compilation", resourceCulture);
             }
@@ -219,6 +218,33 @@ namespace Bespoke.Sph.Domain.Properties {
             get {
                 object obj = ResourceManager.GetObject("Message_Mail", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Converter is null.
+        /// </summary>
+        internal static string ObjectCollection_ConvertAll_Converter_is_null {
+            get {
+                return ResourceManager.GetString("ObjectCollection_ConvertAll_Converter_is_null", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to match is null.
+        /// </summary>
+        internal static string ObjectCollection_Find_match_is_null {
+            get {
+                return ResourceManager.GetString("ObjectCollection_Find_match_is_null", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to action is null.
+        /// </summary>
+        internal static string ObjectCollection_ForEach_action_is_null {
+            get {
+                return ResourceManager.GetString("ObjectCollection_ForEach_action_is_null", resourceCulture);
             }
         }
         

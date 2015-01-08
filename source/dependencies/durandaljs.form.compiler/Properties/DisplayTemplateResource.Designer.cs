@@ -177,9 +177,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         ///    &lt;/div&gt;
         ///&lt;/div&gt;.
         /// </summary>
-        internal static string display_template_DatePickerTime {
+        internal static string display_template_DateTimePicker {
             get {
-                return ResourceManager.GetString("display_template_DatePickerTime", resourceCulture);
+                return ResourceManager.GetString("display_template_DateTimePicker", resourceCulture);
             }
         }
         

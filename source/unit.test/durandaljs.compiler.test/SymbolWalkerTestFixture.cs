@@ -26,9 +26,48 @@ namespace durandaljs.compiler.test
         public void StringToUpper()
         {
             Assert.AreEqual(
-                "$data.Address().State().toUpper() === 'KELANTAN'",
+                "$data.Address().State().toLocaleUpperCase() === 'KELANTAN'",
                 "item.Address.State.ToUpper() == \"KELANTAN\"".CompileHtml());
         }
+
+        [TestMethod]
+        public void StringToUpperInvariant()
+        {
+            Assert.AreEqual(
+                "$data.Address().State().toUpperCase() === 'KELANTAN'",
+                "item.Address.State.ToUpperInvariant() == \"KELANTAN\"".CompileHtml());
+        }
+        [TestMethod]
+        public void StringToLower()
+        {
+            Assert.AreEqual(
+                "$data.Address().State().toLocaleLowerCase() === 'kelantan'",
+                "item.Address.State.ToLower() == \"kelantan\"".CompileHtml());
+        }
+
+        [TestMethod]
+        public void StringToLowerInvariant()
+        {
+            Assert.AreEqual(
+                "$data.Address().State().toLowerCase() === 'kelantan'",
+                "item.Address.State.ToLowerInvariant() == \"kelantan\"".CompileHtml());
+        }
+        [TestMethod]
+        public void StringSubstringWithOneParameter()
+        {
+            Assert.AreEqual(
+                "$data.Address().State().substring(3) === 'kel'",
+                "item.Address.State.Substring(3) == \"kel\"".CompileHtml());
+        }
+
+        [TestMethod]
+        public void StringSubstringWithTwoParameters()
+        {
+            Assert.AreEqual(
+                "$data.Address().State().substring(3,1) === 'kel'",
+                "item.Address.State.Substring(3, 1) == \"kel\"".CompileHtml());
+        }
+
         [TestMethod]
         public void StringLength()
         {

@@ -21,9 +21,11 @@ namespace durandaljs.compiler.test
                 Id = "patient",
                 Name = "Patient",
                 WebId = "patient-webid",
-                Plural = "Patients"
+                Plural = "Patients",
+                RecordName = "Mrn"
             };
             m_patient.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string), IsNullable = true });
+            m_patient.MemberCollection.Add(new Member { Name = "Mrn", Type = typeof(string), IsNullable = false });
             m_patient.MemberCollection.Add(new Member { Name = "MyKad", Type = typeof(string), IsNullable = true });
             m_patient.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int), IsNullable = true });
             m_patient.MemberCollection.Add(new Member { Name = "Dob", Type = typeof(DateTime), IsNullable = true });
@@ -213,10 +215,10 @@ namespace durandaljs.compiler.test
         {
             var picker = new EmailFormElement
             {
-                Label = "Download",
+                Label = "Email",
                 Name = "dobTextBox",
-                ElementId = "dobTextBox",
-                Path = "Dob",
+                ElementId = "emailBox",
+                Path = "Email",
                 WebId = Guid.NewGuid().ToString(),
                 Tooltip = "The date",
                 Visible = "true",
@@ -225,28 +227,29 @@ namespace durandaljs.compiler.test
 
             var compiler = new EmailFormElementCompiler();
             var html = compiler.GenerateDisplay(picker, m_patient);
-            StringAssert.Contains(html, "type=\"email\"");
+            StringAssert.Contains(html, "text: Email");
         }
 
         [TestMethod]
+        [Ignore]
         public void EntityLookupElement()
         {
             var picker = new EntityLookupElement
             {
-                Label = "Download",
-                Name = "dobTextBox",
-                ElementId = "dobTextBox",
-                Path = "Dob",
+                Label = "Districts",
+                Name = "districtLookup",
+                ElementId = "districtLookup",
+                Path = "District",
                 WebId = Guid.NewGuid().ToString(),
-                Tooltip = "The date",
+                Tooltip = "The district",
                 Visible = "true",
                 Enable = "false",
-                Entity = "State"
+                Entity = "District"
             };
 
             var compiler = new EntityLookupElementCompiler();
             var html = compiler.GenerateDisplay(picker, m_patient);
-            StringAssert.Contains(html, "entity: 'State'");
+            StringAssert.Contains(html, "entity: 'District'");
         }
 
         [TestMethod]
@@ -271,21 +274,21 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void HtmlElement()
         {
-            var picker = new HtmlElement
+            var raw = new HtmlElement
             {
-                Label = "Download",
-                Name = "dobTextBox",
-                ElementId = "dobTextBox",
-                Path = "Dob",
+                Label = "Custom object",
+                Name = "rawTextBox",
+                ElementId = "rawTextBox",
+                Path = "Raw",
                 WebId = Guid.NewGuid().ToString(),
-                Tooltip = "The date",
+                Tooltip = "The raw",
                 Visible = "true",
                 Enable = "false",
-                Text = "<thi is my html>"
+                Text = "<this is my html>"
             };
 
             var compiler = new HtmlElementCompiler();
-            var html = compiler.GenerateDisplay(picker, m_patient);
+            var html = compiler.GenerateDisplay(raw, m_patient);
             StringAssert.Contains(html, "html");
         }
         [TestMethod]
@@ -311,58 +314,94 @@ namespace durandaljs.compiler.test
         {
             var lv = new ListView
             {
-                Label = "Download",
-                Name = "dobTextBox",
-                ElementId = "dobTextBox",
-                Path = "Dob",
+                Label = "Children",
+                Name = "itemListView",
+                ElementId = "itemListView",
+                Path = "items",
                 WebId = Guid.NewGuid().ToString(),
-                Tooltip = "The date",
+                Tooltip = "Your children list",
                 Visible = "true",
+                Enable = "true"
             };
             lv.ListViewColumnCollection.Add(new ListViewColumn
             {
-                Label = "Test",
+                Label = "Name",
                 Path = "Name",
                 Input = new TextBox
                 {
-                    Path = "Test"
+                    Path = "Name"
+                }
+            });
+            lv.ListViewColumnCollection.Add(new ListViewColumn
+            {
+                Label = "Age",
+                Path = "Age",
+                Input = new TextBox
+                {
+                    Path = "Age"
+                }
+            });
+            lv.ListViewColumnCollection.Add(new ListViewColumn
+            {
+                Label = "Photo",
+                Path = "Photo",
+                Input = new ImageElement
+                {
+                    Path = "Photo",
+                    Enable = "true",
+                    Visible = "true"
+                }
+            });
+            lv.ListViewColumnCollection.Add(new ListViewColumn
+            {
+                Label = "Document",
+                Path = "Document",
+                Input = new DownloadLink
+                {
+                    Path = "Document",
+                    Enable = "true",
+                    Visible = "true"
                 }
             });
 
             var compiler = new ListViewCompiler();
             var html = compiler.GenerateDisplay(lv, m_patient);
             StringAssert.Contains(html, "<table");
+            StringAssert.Contains(html, "binarystore");
         }
+
         [TestMethod]
         public void NumberTextBox()
         {
             var lv = new NumberTextBox
             {
-                Label = "Download",
-                Name = "dobTextBox",
-                ElementId = "dobTextBox",
-                Path = "Dob",
+                Label = "Amount",
+                Name = "amountBox",
+                ElementId = "amountBox",
+                Path = "Amount",
                 WebId = Guid.NewGuid().ToString(),
-                Tooltip = "The date",
+                Tooltip = "The amount",
                 Visible = "true",
+                Enable = "true"
             };
 
             var compiler = new NumberTextBoxCompiler();
             var html = compiler.GenerateDisplay(lv, m_patient);
-            StringAssert.Contains(html, "<input");
+            StringAssert.Contains(html, "text: Amount");
         }
         [TestMethod]
         public void SectionFormElement()
         {
             var lv = new SectionFormElement
             {
-                Label = "Download",
-                Name = "dobTextBox",
-                ElementId = "dobTextBox",
-                Path = "Dob",
+                Label = "Address",
+                Name = "addressSection",
+                ElementId = "addressSection",
+                Path = ".",
                 WebId = Guid.NewGuid().ToString(),
-                Tooltip = "The date",
+                Tooltip = "",
                 Visible = "true",
+                Enable = "trur"
             };
 
             var compiler = new SectionFormElementCompiler();
@@ -372,20 +411,21 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void TextAreaElement()
         {
-            var lv = new TextAreaElement
+            var text = new TextAreaElement
             {
-                Label = "Download",
-                Name = "dobTextBox",
-                ElementId = "dobTextBox",
-                Path = "Dob",
+                Label = "Summary",
+                Name = "summaryTextBox",
+                ElementId = "summaryTextBox",
+                Path = "Summary",
                 WebId = Guid.NewGuid().ToString(),
-                Tooltip = "The date",
+                Tooltip = "Short descriptions",
                 Visible = "true",
+                Enable = "true"
             };
 
             var compiler = new TextAreaElementCompiler();
-            var html = compiler.GenerateDisplay(lv, m_patient);
-            StringAssert.Contains(html, "<textarea");
+            var html = compiler.GenerateDisplay(text, m_patient);
+            StringAssert.Contains(html, "<p data-bind=\"text: Summary\"");
         }
         [TestMethod]
         public void TextBox()
@@ -410,18 +450,19 @@ namespace durandaljs.compiler.test
         {
             var lv = new WebsiteFormElement
             {
-                Label = "Download",
-                Name = "dobTextBox",
-                ElementId = "dobTextBox",
-                Path = "Dob",
+                Label = "Url",
+                Name = "urlBox",
+                ElementId = "urlBox",
+                Path = "Url",
                 WebId = Guid.NewGuid().ToString(),
-                Tooltip = "The date",
+                Tooltip = "Website address",
                 Visible = "true",
+                Enable = "true"
             };
 
             var compiler = new WebsiteFormElementCompiler();
             var html = compiler.GenerateDisplay(lv, m_patient);
-            StringAssert.Contains(html, "url");
+            StringAssert.Contains(html, "text: Url");
         }
     }
 }

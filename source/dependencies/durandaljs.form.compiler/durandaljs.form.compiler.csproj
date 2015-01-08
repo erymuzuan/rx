@@ -99,13 +99,14 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooleanExpressionCompiler.cs" />
     <Compile Include="ButtonCompiler.cs" />
     <Compile Include="CheckBoxCompiler.cs" />
     <Compile Include="ChildEntityListViewCompiler.cs" />
     <Compile Include="ComboBoxCompiler.cs" />
+    <Compile Include="CompilationUnitContainer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CurrencyElementCompiler.cs" />
+    <Compile Include="ExpressionCompiler.cs" />
     <Compile Include="SyntaxWalkers\AddSyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectSyntaxWalker.cs" />
     <Compile Include="DateTimePickerCompiler.cs" />
@@ -155,8 +156,20 @@
     <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LoggerMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\MathIdentifiers\Abs.cs" />
+    <Compile Include="SyntaxWalkers\MathWalker.cs" />
     <Compile Include="SyntaxWalkers\MethodInvocationExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ParenthesizedExpressionWlaker.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringEmpty.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrEmpty.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrWhiteSpace.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringLength.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringSubstring.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToLower.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToLowerInvariant.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToUpper.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToUpperInvariant.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\StringTrim.cs" />
     <Compile Include="SyntaxWalkers\StringMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\UnaryExpressionWalker.cs" />
     <Compile Include="TextAreaElementCompiler.cs" />
@@ -233,7 +246,7 @@
     <None Include="Resources\display.template.DatePicker.html" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\display.template.DatePickerTime.html" />
+    <None Include="Resources\display.template.DateTimePicker.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\display.template.EmailFormElement.html" />
@@ -310,10 +323,7 @@
   <ItemGroup>
     <None Include="Resources\display.template.ListView.html" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SyntaxWalkers\MathIdentifiers\" />
-    <Folder Include="SyntaxWalkers\StringIdentifiers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />

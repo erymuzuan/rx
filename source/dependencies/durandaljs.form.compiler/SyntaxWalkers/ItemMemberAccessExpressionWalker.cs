@@ -23,7 +23,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
             var text = node.Identifier.Text;
-            var code = new StringBuilder();
+            var code = new StringBuilder(this.Code.ToString());
 
             var model = this.Container.SemanticModel;
             var symbol = model.GetSymbolInfo(node);
@@ -40,6 +40,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     code.AppendFormat(".{0}()", text);
             }
 
+            this.Code.Clear();
             this.Code.Append(code);
             base.VisitIdentifierName(node);
         }

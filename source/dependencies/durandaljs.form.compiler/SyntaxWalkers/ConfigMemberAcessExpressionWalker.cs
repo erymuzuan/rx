@@ -20,7 +20,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
         }
 
-        public override CSharpSyntaxTree GetObjectModel(Entity entity)
+        public override CustomObjectModel GetObjectModel(Entity entity)
         {
             var code = new StringBuilder();
             code.AppendLine("namespace Bespoke." + ConfigurationManager.ApplicationName + "_" + entity.Id + ".Domain");
@@ -33,7 +33,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             code.AppendLine("       public string ShortDateFormatString {get;}");
             code.AppendLine("   }");
             code.AppendLine("}");
-            return (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(code.ToString());
+            var com = new CustomObjectModel
+            {
+                SyntaxTree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(code.ToString()),
+                IncludeAsParameter = true,
+                ClassName = "ConfigurationManager",
+                IdentifierText = "config"
+            };
+            return com;
         }
 
         private readonly StringBuilder m_code = new StringBuilder();

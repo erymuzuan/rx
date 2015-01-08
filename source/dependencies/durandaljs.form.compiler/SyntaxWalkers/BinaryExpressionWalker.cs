@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -27,7 +26,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 SyntaxKind.LessThanOrEqualExpression, 
                 SyntaxKind.GreaterThanOrEqualExpression,
                 SyntaxKind.LogicalAndExpression, 
-                SyntaxKind.LogicalOrExpression
+                SyntaxKind.LogicalOrExpression,
+                SyntaxKind.CoalesceExpression
             };
             }
         }
@@ -39,6 +39,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var op = "";
             switch (kind)
             {
+                case SyntaxKind.CoalesceExpression:
+                    op = "||";
+                    break;
                 case SyntaxKind.LogicalAndExpression:
                     op = "&&";
                     break;
