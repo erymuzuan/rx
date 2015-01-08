@@ -33,14 +33,15 @@ namespace Bespoke.Sph.Integrations.Adapters
                     Caption = "MySql Server Adapter",
                     GroupName = "developers",
                     IsAdminPage = true,
-                    Route = "adapter.mysql/:id",
+                    Route = "adapter.mysql/0",
                     Title = "MySql Server Adapter",
                     Icon = "fa fa-windows",
                     Nav = false,
                     ModuleId = "viewmodels/adapter.mysql",
                     Role = "developers",
                     Settings = new JsRouteSetting(),
-                    ShowWhenLoggedIn = true
+                    ShowWhenLoggedIn = true,
+                    startPage = true
                 },
                 new JsRoute
                 {
@@ -54,7 +55,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                     ModuleId = "viewmodels/adapter.mysql.sproc",
                     Role = "developers",
                     Settings = new JsRouteSetting(),
-                    ShowWhenLoggedIn = true
+                    ShowWhenLoggedIn = true,
+                    startPage = false
                 }};
                 return list;
             }

@@ -25,7 +25,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
                .map(function (g) {
                    return {
                        groupName: g,
-                       routes: _(config.routes).filter(function (v) { return v.groupName === g && v.isAdminPage; })
+                       routes: _(config.routes).filter(function (v) { return v.groupName === g && v.isAdminPage && v.startPage; })
                    };
                }).
                filter(function (v) { return v.groupName && v.routes.length; })
