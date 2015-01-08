@@ -34,7 +34,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             }
         }
-        public Task<SnippetCompilerResult> CompileAsync(string expression, EntityDefinition entity)
+        public Task<SnippetCompilerResult> CompileAsync<T>(string expression, EntityDefinition entity)
         {
          
             if (string.IsNullOrWhiteSpace(expression))
@@ -57,7 +57,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             file.AppendLine("{");
             file.AppendLine("   public class ExpressionCompilerSnippet");
             file.AppendLine("   {");
-            file.AppendLinf("       public object Evaluate({0} item, {1})  ", entity.Name, parameters);
+            file.AppendLinf("       public {2} Evaluate({0} item, {1})  ", entity.Name, parameters, typeof(T).ToCSharp());
             file.AppendLine("       {");
             file.AppendLinf("           return {0};", expression);
             file.AppendLine("       }");

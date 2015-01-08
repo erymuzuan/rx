@@ -12,8 +12,8 @@ namespace durandaljs.compiler.test
         {
             var patient = CreatePatientDefinition();
 
-            var compiler = new BooleanExpressionCompiler();
-            var result = compiler.Compile(expression, patient);
+            var compiler = new ExpressionCompiler();
+            var result = compiler.CompileAsync<bool>(expression, patient).Result;
             return result.Code;
         }
 

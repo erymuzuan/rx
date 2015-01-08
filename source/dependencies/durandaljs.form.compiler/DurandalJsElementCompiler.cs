@@ -38,11 +38,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override string GenerateEditor(T element, EntityDefinition entity)
         {
-            var booleanCompiler = new BooleanExpressionCompiler();
+            var booleanCompiler = new ExpressionCompiler();
             this.Element = element.Clone();
 
-            var visibleResult = booleanCompiler.Compile(element.Visible, entity);
-            var enableResult = booleanCompiler.Compile(element.Enable, entity);
+            var visibleResult = booleanCompiler.CompileAsync<bool>(element.Visible, entity).Result;
+            var enableResult = booleanCompiler.CompileAsync<bool>(element.Enable, entity).Result;
             if (!visibleResult.Success)
                 return string.Format("<span class=\"error\">{0}</span>", string.Join("<br/>", visibleResult.DiagnosticCollection.Select(x => x.ToString())));
             if (!enableResult.Success)

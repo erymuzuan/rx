@@ -79,16 +79,8 @@ namespace durandaljs.compiler.test
         public void DateTimeToString()
         {
             Assert.AreEqual(
-                "$data.Name() === moment().toString()",
+                "$data.Name() === moment().format()",
                 "item.Name == DateTime.Now.ToString()"
-                .CompileHtml());
-        }
-        [TestMethod]
-        public void DateTimeToStringWithFormat()
-        {
-            Assert.AreEqual(
-                "$data.Name() === moment().toString('g')",
-                "item.Name == DateTime.Now.ToString(\"g\")"
                 .CompileHtml());
         }
         [TestMethod]
