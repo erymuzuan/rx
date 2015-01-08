@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.DateTimeIdentifiers
 {
     [Export("DateTime", typeof(IdentifierCompiler))]
-    [IdentifierCompilerMetadataAttribute(TypeName = "DateTime", Text = "ToString")]
+    [IdentifierCompilerMetadata(TypeName = "DateTime", Text = "ToString")]
     public class DateTimeToString : IdentifierCompiler
     {
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)
@@ -15,7 +15,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.DateTimeIdentifiers
             var args = "";
             if (null != arguments)
                 args = string.Join(", ", arguments.Select(this.EvaluateExpressionCode));
-            return "toString(" + args + ")";
+            return "format(" + args + ")";
         }
     }
 }

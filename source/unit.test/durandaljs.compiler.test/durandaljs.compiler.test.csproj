@@ -70,6 +70,7 @@
     <Compile Include="ButtonCommandTestFixture.cs" />
     <Compile Include="BooleanExpressionWithConfigObject.cs" />
     <Compile Include="SymbolWalkerTestFixture.cs" />
+    <Compile Include="ExpressionTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\durandaljs.form.compiler\durandaljs.form.compiler.csproj">

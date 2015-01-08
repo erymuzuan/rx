@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
@@ -10,9 +11,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
-    [Export(typeof(BooleanExpressionCompiler))]
-    public class BooleanExpressionCompiler
+    public class ExpressionCompiler
     {
+
         [ImportMany(typeof(CustomObjectSyntaxWalker), RequiredCreationPolicy = CreationPolicy.Shared, AllowRecomposition = true)]
         public CustomObjectSyntaxWalker[] MefWalkers { get; set; }
 
@@ -33,12 +34,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             }
         }
-
-        public SnippetCompilerResult Compile(string expression, EntityDefinition entity)
+        public Task<SnippetCompilerResult> CompileAsync(string expression, EntityDefinition entity)
         {
-
+         
             if (string.IsNullOrWhiteSpace(expression))
-                return new SnippetCompilerResult { Code = "true" };
+                return Task.FromResult(new SnippetCompilerResult { Code = "true" });
 
             var walkersObjectModels = this.Walkers
                 .Select(x => x.GetObjectModel(entity))
@@ -47,7 +47,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var parameters = string.Join(", ", walkersObjectModels
                 .Where(x => x.IncludeAsParameter)
-                .Select(x => x.ClassName + " " +x.IdentifierText));
+                .Select(x => x.ClassName + " " + x.IdentifierText));
 
             var file = new StringBuilder();
             file.AppendLine("using System;");
@@ -55,9 +55,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             file.AppendLine();
             file.AppendLine("namespace Bespoke." + ConfigurationManager.ApplicationName + "_" + entity.Id + ".Domain");
             file.AppendLine("{");
-            file.AppendLine("   public class BooleanExpression");
+            file.AppendLine("   public class ExpressionCompilerSnippet");
             file.AppendLine("   {");
-            file.AppendLinf("       public bool Evaluate({0} item, {1})  ", entity.Name, parameters);
+            file.AppendLinf("       public object Evaluate({0} item, {1})  ", entity.Name, parameters);
             file.AppendLine("       {");
             file.AppendLinf("           return {0};", expression);
             file.AppendLine("       }");
@@ -72,13 +72,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
 
             var codes = (from c in entity.GenerateCode()
-                        where !c.Key.EndsWith("Controller")
-                        where !c.Key.EndsWith("Controller.cs")
-                        let x = c.Value.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
-                        .Replace("using System.Web.Mvc;", string.Empty)
-                        .Replace("using System.Linq;", string.Empty)
-                        .Replace("using System.Threading.Tasks;", string.Empty)
-                        select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)).ToList();
+                         where !c.Key.EndsWith("Controller")
+                         where !c.Key.EndsWith("Controller.cs")
+                         let x = c.Value.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
+                         .Replace("using System.Web.Mvc;", string.Empty)
+                         .Replace("using System.Linq;", string.Empty)
+                         .Replace("using System.Threading.Tasks;", string.Empty)
+                         select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)).ToList();
             trees.AddRange(codes);
             trees.AddRange(walkersObjectModels.Select(x => x.SyntaxTree));
 
@@ -101,7 +101,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             result.Success = result.DiagnosticCollection.Count == 0;
             result.DiagnosticCollection.ForEach(Console.WriteLine);
             if (!result.Success)
-                return result;
+                return Task.FromResult(result);
 
 
             var statement = root.DescendantNodes().OfType<ReturnStatementSyntax>()
@@ -109,7 +109,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .Expression;
 
             result.Code = CompileExpression(statement);
-            return result;
+            return Task.FromResult(result);
         }
 
 
