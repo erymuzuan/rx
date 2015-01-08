@@ -20,7 +20,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             tableOptions = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function (id) {
-                var query = String.format("AdapterId eq {0}", id),
+                var query = String.format("Id eq {0}", id),
                     tcs = new $.Deferred();
                 context.loadOneAsync("Adapter", query)
                     .done(function (b) {
