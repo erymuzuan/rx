@@ -51,18 +51,11 @@ bespoke.sph.domain.FormDesign = function (optionOrWebid) {
 bespoke.sph.domain.TextBox = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
-
     v.DefaultValue = ko.observable('');
-
     v.AutoCompletionEntity = ko.observable('');
-
     v.AutoCompletionField = ko.observable('');
-
     v.AutoCompletionQuery = ko.observable('');
-
     v["$type"] = "Bespoke.Sph.Domain.TextBox, domain.sph";
-
-
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (typeof v[n] === "function") {
@@ -73,8 +66,6 @@ bespoke.sph.domain.TextBox = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "string") {
         v.WebId(optionOrWebid);
     }
-
-
     if (bespoke.sph.domain.TextBoxPartial) {
         return _(v).extend(new bespoke.sph.domain.TextBoxPartial(v));
     }

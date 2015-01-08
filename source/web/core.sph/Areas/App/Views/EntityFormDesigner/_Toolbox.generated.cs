@@ -232,7 +232,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" name=\"FormDesign.Description\"");
 
-WriteLiteral(" />\r\n                </div>\r\n          \r\n                <div");
+WriteLiteral(" />\r\n                </div>\r\n\r\n                <div");
 
 WriteLiteral(" class=\"form-group checkbox checkbox-no-padding-left\"");
 
@@ -336,8 +336,8 @@ WriteLiteral(" type=\"checkbox\"");
 
 WriteLiteral(" name=\"FormDesign.IsAuditTrailAvailable\"");
 
-WriteLiteral("/>\r\n                        Audit trail\r\n                    </label>\r\n          " +
-"      </div>\r\n\r\n                <h3>Compilers</h3>\r\n");
+WriteLiteral(" />\r\n                        Audit trail\r\n                    </label>\r\n         " +
+"       </div>\r\n\r\n                <h3>Compilers</h3>\r\n");
 
             
             #line 108 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
@@ -361,38 +361,38 @@ WriteLiteral(">\r\n                        <label>\r\n                          
 
 WriteLiteral(" data-bind=\"checked: CompilerCollection\"");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 5878), Tuple.Create("\"", 5927)
-, Tuple.Create(Tuple.Create("", 5883), Tuple.Create("form-design-cpmpiler-", 5883), true)
+WriteAttribute("id", Tuple.Create(" id=\"", 5869), Tuple.Create("\"", 5918)
+, Tuple.Create(Tuple.Create("", 5874), Tuple.Create("form-design-cpmpiler-", 5874), true)
             
             #line 112 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                    , Tuple.Create(Tuple.Create("", 5904), Tuple.Create<System.Object, System.Int32>(compiler.Metadata.Name
+                    , Tuple.Create(Tuple.Create("", 5895), Tuple.Create<System.Object, System.Int32>(compiler.Metadata.Name
             
             #line default
             #line hidden
-, 5904), false)
+, 5895), false)
 );
 
 WriteLiteral(" type=\"checkbox\"");
 
-WriteAttribute("name", Tuple.Create(" name=\"", 5944), Tuple.Create("\"", 5985)
-, Tuple.Create(Tuple.Create("", 5951), Tuple.Create("FormDesign.", 5951), true)
+WriteAttribute("name", Tuple.Create(" name=\"", 5935), Tuple.Create("\"", 5976)
+, Tuple.Create(Tuple.Create("", 5942), Tuple.Create("FormDesign.", 5942), true)
             
             #line 112 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                                                                              , Tuple.Create(Tuple.Create("", 5962), Tuple.Create<System.Object, System.Int32>(compiler.Metadata.Name
+                                                                              , Tuple.Create(Tuple.Create("", 5953), Tuple.Create<System.Object, System.Int32>(compiler.Metadata.Name
             
             #line default
             #line hidden
-, 5962), false)
+, 5953), false)
 );
 
-WriteAttribute("value", Tuple.Create(" value=\"", 5986), Tuple.Create("\"", 6017)
+WriteAttribute("value", Tuple.Create(" value=\"", 5977), Tuple.Create("\"", 6008)
             
             #line 112 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                                                                                                              , Tuple.Create(Tuple.Create("", 5994), Tuple.Create<System.Object, System.Int32>(compiler.Metadata.Name
+                                                                                                              , Tuple.Create(Tuple.Create("", 5985), Tuple.Create<System.Object, System.Int32>(compiler.Metadata.Name
             
             #line default
             #line hidden
-, 5994), false)
+, 5985), false)
 );
 
 WriteLiteral(" />\r\n");
@@ -415,8 +415,7 @@ WriteLiteral("\r\n                        </label>\r\n                    </div>
             
             #line default
             #line hidden
-WriteLiteral("              \r\n\r\n                <!-- ko with : FormDesign -->\r\n\r\n\r\n            " +
-"    <div");
+WriteLiteral("\r\n\r\n                <!-- ko with : FormDesign -->\r\n\r\n\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -862,7 +861,7 @@ WriteLiteral(" id=\"toolbox-advanced-settings\"");
 
 WriteLiteral(" class=\"collapse\"");
 
-WriteLiteral(">\r\n                  \r\n");
+WriteLiteral(">\r\n\r\n");
 
             
             #line 248 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
@@ -874,20 +873,50 @@ WriteLiteral(">\r\n                  \r\n");
             #line 248 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements)
                     {
-                        
+                        var grid = fe.GetDesignPropertyGrid();
+                        if (!string.IsNullOrWhiteSpace(grid))
+                        {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                            <!--ko if: ko.unwrap($type) === \"");
+
+            
+            #line 253 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                                                         Write(fe.GetType().GetShortAssemblyQualifiedName());
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\" -->\r\n");
+
+            
+            #line 254 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+
+                            
             
             #line default
             #line hidden
             
-            #line 250 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                   Write(Html.Raw(fe.GetDesignPropertyGrid()));
+            #line 255 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                       Write(Html.Raw(grid));
 
             
             #line default
             #line hidden
             
-            #line 250 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
-                                                             
+            #line 255 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                                           
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                            <!--/ko-->\r\n");
+
+            
+            #line 257 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+                        }
                     }
 
             
@@ -915,7 +944,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 261 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 268 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

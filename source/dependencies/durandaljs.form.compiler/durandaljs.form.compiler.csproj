@@ -135,6 +135,13 @@
     <Compile Include="SectionFormElementCompiler.cs" />
     <Compile Include="SyntaxWalkers\BinaryExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ConfigMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeAddYears.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeAddSecond.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeAddMonths.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeAddMillis.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeAddMinute.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeAddHours.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeAddDays.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeNow.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeParse.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeParseExact.cs" />

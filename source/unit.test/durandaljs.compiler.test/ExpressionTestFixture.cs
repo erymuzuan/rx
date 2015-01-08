@@ -45,6 +45,15 @@ namespace durandaljs.compiler.test
                 "DateTime.Now.ToString(item.Name)"
                 );
         }
+        [TestMethod]
+        public async Task EjaMainMain()
+        {
+
+            await AssertAsync<string>(
+                "moment().format($data.Name())",
+                "DateTime.Now.ToString(item.Name)"
+                );
+        }
 
         [TestMethod]
         public async Task MathAbs()

@@ -32,9 +32,7 @@ function (logger, system, ko2) {
                 var bespokeTypeMatch = pattern.exec($typeFieldValue);
                 if (bespokeTypeMatch) {
                     type = bespokeTypeMatch[1];
-                } else {
-                    return item;
-                }
+                } 
             }
 
             for (var name in item) {

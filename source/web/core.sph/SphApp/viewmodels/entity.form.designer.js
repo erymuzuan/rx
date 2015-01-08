@@ -1,6 +1,6 @@
 ﻿
 
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog,"form.elements"],
     function (context, logger, router, system, app, eximp, dialog) {
 
         var errors = ko.observableArray(),
