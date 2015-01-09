@@ -25,10 +25,10 @@ namespace Bespoke.Sph.SqlRepository
                 return DBNull.Value;
             switch (this.SqlType.ToLowerInvariant())
             {
-                case "int": 
-                case "float": 
-                case "money": return 0;
-                case "bit":return false;
+                case "int":return default(int);
+                case "float": return default(float);
+                case "money": return default(decimal);
+                case "bit":return default(bool);
                 case "smalldatetime":return DateTime.Now;
                 case "nvarchar(255)":
                 case "nvarchar":

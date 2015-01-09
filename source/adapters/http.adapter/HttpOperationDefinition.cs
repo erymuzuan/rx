@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.IO;
-using Bespoke.Sph.Domain;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -154,7 +153,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var member in this.ResponseMemberCollection)
             {
                 code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
+                code.AppendLine(member.GeneratedCode().Code);
             }
 
 
@@ -214,7 +213,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var member in this.RequestMemberCollection)
             {
                 code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
+                code.AppendLine(member.GeneratedCode().Code);
             }
 
 
