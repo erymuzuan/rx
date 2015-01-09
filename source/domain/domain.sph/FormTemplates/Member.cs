@@ -45,10 +45,10 @@ namespace Bespoke.Sph.Domain
             {
                 var col = new Property
                 {
-                    Name = this.Name, 
-                    IsReadOnly = true ,
+                    Name = this.Name,
+                    IsReadOnly = true,
                     Initialized = true,
-                    TypeName = "ObjectCollection<" + this.Name.Replace("Collection","") + ">"
+                    TypeName = "ObjectCollection<" + this.Name.Replace("Collection", "") + ">"
                 };
 
                 return col;
@@ -71,61 +71,70 @@ namespace Bespoke.Sph.Domain
             return "?";
         }
 
-        public Class GeneratedCustomClass()
+        public Property CreateProperty()
         {
-            var code = new Class
+            var prop = new Property { Name = this.Name, Type = this.Type };
+            if (this.Type == typeof(Array))
+            {
+                prop.IsReadOnly = true;
+                prop.Initialized = true;
+            }
+            return prop;
+        }
+
+
+        private bool IsComplex {get { return (typeof (object) == this.Type || typeof (Array) == this.Type); }}
+        public IEnumerable<Class> GeneratedCustomClass()
+        {
+
+            if (!this.IsComplex)
+                throw new InvalidOperationException("cannot generate class for simple member type " + this.Type);
+            
+
+            var @class = new Class
             {
                 Name = this.Name,
                 BaseClass = typeof(DomainObject).Name
             };
 
             if (typeof(Array) == this.Type)
+                @class.Name = this.Name.Replace("Collection", "");
+
+            var ctor = GenerateConstructor();
+            @class.CtorCollection.Add(ctor.ToString());
+            @class.PropertyCollection.AddRange(this.MemberCollection.Select(x => x.CreateProperty()));
+
+            var @classes = this.MemberCollection
+                .Where(x => x.IsComplex)
+                .Select(x => x.GeneratedCustomClass())
+                .SelectMany(x =>
+                {
+                    var enumerable = x as Class[] ?? x.ToArray();
+                    return enumerable;
+                })
+                .ToList();
+            @classes.Add(@class);
+            return @classes;
+        }
+
+        private StringBuilder GenerateConstructor()
+        {
+            var ctor = new StringBuilder();
+            ctor.AppendLine("   {");
+            // ctor
+            ctor.AppendLine("       public " + this.Name.Replace("Collection", "") + "()");
+            ctor.AppendLine("       {");
+
+            foreach (var member in this.MemberCollection)
             {
-                code.Name = this.Name.Replace("Collection", "");
+                if (member.Type == typeof(object))
+                {
+                    ctor.AppendLinf("           this.{0} = new {0}();", member.Name);
+                }
+                // TODO : default value
             }
-
-            if (typeof(object) == this.Type || typeof(Array) == this.Type)
-            {
-
-                code.AppendLine("   {");
-                // ctor
-                code.AppendLine("       public " + this.Name.Replace("Collection", "") + "()");
-                code.AppendLine("       {");
-                //code.AppendLinf("           var rc = new RuleContext(this);");
-                //var count = 0;
-                foreach (var member in this.MemberCollection)
-                {
-                    if (member.Type == typeof(object))
-                    {
-                        code.AppendLinf("           this.{0} = new {0}();", member.Name);
-                    }
-                    /*
-                    if (null == member.DefaultValue) continue;
-                    count++;
-                    code.AppendLine();
-                    code.AppendLinf("           var mj{1} = \"{0}\";", member.DefaultValue.ToJsonString().Replace("\"", "\\\""), count);
-                    code.AppendLinf("           var field{0} = mj{0}.DeserializeFromJson<{1}>();", count, member.DefaultValue.GetType().Name);
-                    code.AppendLinf("           var val{0} = field{0}.GetValue(rc);", count);
-                    code.AppendLinf("           this.{0} = ({1})val{2};", member.Name, member.Type.FullName, count);
-                
-                     * 
-                     */
-                }
-                code.AppendLine("       }");
-
-
-                foreach (var member in this.MemberCollection)
-                {
-                    code.AppendLine(member.GeneratedCode());
-
-                }
-                code.AppendLine("   }");
-                foreach (var member in this.MemberCollection)
-                {
-                    code.AppendLine(member.GeneratedCustomClass());
-                }
-            }
-            return code.FormatCode();
+            ctor.AppendLine("       }");
+            return ctor;
         }
 
 
@@ -221,7 +230,7 @@ namespace Bespoke.Sph.Domain
         public Member AddMember(string name, Type type)
         {
 
-            var child = new Member { Name = name, Type = type, WebId = System.Guid.NewGuid().ToString() };
+            var child = new Member { Name = name, Type = type, WebId = Guid.NewGuid().ToString() };
             this.MemberCollection.Add(child);
             return child;
         }

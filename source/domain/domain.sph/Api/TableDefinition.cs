@@ -74,8 +74,7 @@ namespace Bespoke.Sph.Domain.Api
             // properties for each members
             foreach (var member in this.MemberCollection)
             {
-                code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
+                code.AppendLine(member.CreateProperty().Code);
             }
 
 
