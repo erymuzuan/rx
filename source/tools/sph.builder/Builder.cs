@@ -38,7 +38,7 @@ namespace sph.builder
             return list;
         }
 
-      
+
 
         public void Initialize()
         {
@@ -68,7 +68,7 @@ namespace sph.builder
             var name = typeof(T).Name;
             await SPH_CONNECTION.ExecuteNonQueryAsync(string.Format("DELETE FROM [Sph].[{0}] WHERE [Id] = '{1}'", name, item.Id));
 
-            var sql = 
+            var sql =
                 string.Format(@"INSERT INTO [Sph].[{0}](", name) +
                 string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "[" + x.Name + "]"))
                 + " ) VALUES(" +
@@ -99,34 +99,38 @@ namespace sph.builder
 
         }
 
-        private object GetParameterValue(Column prop, Entity item)
+        private object GetParameterValue(Column col, Entity item)
         {
-            if (prop.Name == "Data")
+            if (col.Name == "Data")
                 throw new InvalidOperationException("Xml [Data] column is no longer supporterd");
-            if (prop.Name == "Json")
+            if (col.Name == "Json")
                 return item.ToJsonString();
-            if (prop.Name == "CreatedDate")
+            if (col.Name == "CreatedDate")
                 return item.IsNewItem || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
-            if (prop.Name == "CreatedBy")
+            if (col.Name == "CreatedBy")
                 return "admin";
-            if (prop.Name == "ChangedDate")
+            if (col.Name == "ChangedDate")
                 return DateTime.Now;
-            if (prop.Name == "ChangedBy")
+            if (col.Name == "ChangedBy")
                 return "admin";
 
-            var itemProp = item.GetType().GetProperty(prop.Name);
-            if (null == itemProp) return item.MapColumnValue(prop.Name);
-            var value = itemProp.GetValue(item, null);
-            if (itemProp.PropertyType.IsEnum)
-                return value.ToString();
-            if (itemProp.PropertyType.IsGenericType)
+            var prop = item.GetType().GetProperty(col.Name);
+            if (null == prop)
             {
-                if (itemProp.PropertyType.GenericTypeArguments[0].IsEnum)
+                return item.MapColumnValue(col.Name)
+                    ?? col.GetDefaultValue();
+            }
+
+            var value = prop.GetValue(item, null);
+            if (prop.PropertyType.IsEnum)
+                return value.ToString();
+            if (prop.PropertyType.IsGenericType)
+            {
+                if (prop.PropertyType.GenericTypeArguments[0].IsEnum)
                     return value.ToString();
             }
 
-            if (null == value) return DBNull.Value;
-            return value;
+            return value ?? DBNull.Value;
         }
 
     }

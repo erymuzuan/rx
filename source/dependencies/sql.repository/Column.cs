@@ -1,4 +1,6 @@
-﻿namespace Bespoke.Sph.SqlRepository
+﻿using System;
+
+namespace Bespoke.Sph.SqlRepository
 {
     public class Column
     {
@@ -15,5 +17,25 @@
         public bool IsIdentity { get; set; }
         public bool CanWrite { get; set; }
         public bool CanRead { get; set; }
+
+
+        public object GetDefaultValue()
+        {
+            if (this.IsNullable)
+                return DBNull.Value;
+            switch (this.SqlType.ToLowerInvariant())
+            {
+                case "int": 
+                case "float": 
+                case "money": return 0;
+                case "bit":return false;
+                case "smalldatetime":return DateTime.Now;
+                case "nvarchar(255)":
+                case "nvarchar":
+                case "varchar":
+                case "varchar(255)": return string.Empty;
+            }
+            throw new Exception("No default value for " + this.SqlType);
+        }
     }
 }

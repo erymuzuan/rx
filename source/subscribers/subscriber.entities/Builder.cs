@@ -14,7 +14,7 @@ namespace subscriber.entities
         public string Name { get; set; }
         private Column[] m_columns;
         public const string SPH_CONNECTION = "sph";
-     
+
         public void Initialize()
         {
             var name = this.Name;
@@ -40,7 +40,7 @@ namespace subscriber.entities
                 + ")\r\n";
 
             var parms = (from c in m_columns
-                         select new SqlParameter("@" + c.Name.Replace(".", "_"), this.GetParameterValue(c, item))
+                         select new SqlParameter("@" + c.Name.Replace(".", "_"), GetParameterValue(c, item))
                         ).ToList();
             var paramsValue = string.Join("\r\n",
                 parms.Select(p => string.Format("{0}\t=> {1}", p.ParameterName, p.Value)));
@@ -50,48 +50,42 @@ namespace subscriber.entities
 
         }
 
-        private object GetParameterValue(Column prop, Entity item)
+        private static object GetParameterValue(Column col, Entity item)
         {
-            if (prop.Name == "Data")
+            if (col.Name == "Data")
                 throw new InvalidOperationException("Xml [Data] column is no longer supporterd");
-            if (prop.Name == "Json")
+            if (col.Name == "Json")
                 return item.ToJsonString();
-            if (prop.Name == "CreatedDate")
+            if (col.Name == "CreatedDate")
                 return item.IsNewItem || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
-            if (prop.Name == "CreatedBy")
+            if (col.Name == "CreatedBy")
                 return "admin";
-            if (prop.Name == "ChangedDate")
+            if (col.Name == "ChangedDate")
                 return DateTime.Now;
-            if (prop.Name == "ChangedBy")
+            if (col.Name == "ChangedBy")
                 return "admin";
 
-            var itemProp = item.GetType().GetProperty(prop.Name);
-            if (null == itemProp) return item.MapColumnValue(prop.Name);
-            var value = itemProp.GetValue(item, null);
-            if (itemProp.PropertyType.IsEnum)
-                return value.ToString();
-            if (itemProp.PropertyType.IsGenericType)
+            var prop = item.GetType().GetProperty(col.Name);
+
+            if (null == prop)
             {
-                if (itemProp.PropertyType.GenericTypeArguments[0].IsEnum)
+                return item.MapColumnValue(col.Name)
+                    ?? col.GetDefaultValue();
+            }
+
+            var value = prop.GetValue(item, null);
+            if (prop.PropertyType.IsEnum)
+                return value.ToString();
+            if (prop.PropertyType.IsGenericType)
+            {
+                if (prop.PropertyType.GenericTypeArguments[0].IsEnum)
                     return value.ToString();
             }
-            if (!prop.IsNullable && null == value)
+            if (!col.IsNullable && null == value)
             {
-                // get the default value
-                switch (prop.SqlType)
-                {
-                    case "varchar":
-                    case "nvarchar": return "";
-                    case "int": return 0;
-                    case "bit": return 0;
-                    case "money": return 0;
-                    case "float": return 0;
-                    case "smalldatetime": return DateTime.Today;
-                    default: throw new Exception("No default value for " + prop.SqlType);
-                }
+                return col.GetDefaultValue();
             }
-            if (null == value) return DBNull.Value;
-            return value;
+            return value ?? DBNull.Value;
         }
 
     }

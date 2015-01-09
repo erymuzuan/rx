@@ -24,7 +24,7 @@ namespace subscriber.entities
             get { return new[] { typeof(EntityDefinition).Name + ".changed.Publish" }; }
         }
 
-        private string GetSqlType(string typeName)
+        private static string GetSqlType(string typeName)
         {
             switch (typeName)
             {
@@ -145,7 +145,7 @@ namespace subscriber.entities
             var table = metadataProvider.GetTable(item.Name);
             foreach (var mb in members)
             {
-                var colType = this.GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
+                var colType = GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
                 var mb1 = mb;
                 var col = table.Columns.SingleOrDefault(c =>
                             c.Name.Equals(mb1.FullName, StringComparison.InvariantCultureIgnoreCase) &&
@@ -171,7 +171,7 @@ namespace subscriber.entities
             var members = this.GetFilterableMembers("", item.MemberCollection);
             foreach (var member in members)
             {
-                sql.AppendFormat(",[{0}] {1} {2} NULL", member.FullName, this.GetSqlType(member.TypeName), member.IsNullable ? "" : "NOT");
+                sql.AppendFormat(",[{0}] {1} {2} NULL", member.FullName, GetSqlType(member.TypeName), member.IsNullable ? "" : "NOT");
                 sql.AppendLine("");
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");
