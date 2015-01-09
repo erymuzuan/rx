@@ -25,5 +25,10 @@ namespace Bespoke.Sph.Domain.Codes
             }
             set { m_code = value; }
         }
+
+        public string TypeName { get; set; }
+        public bool Initialized { get; set; }
+        public bool IsReadOnly { get; set; }
+        public string IsNullable { get; set; }
     }
 }

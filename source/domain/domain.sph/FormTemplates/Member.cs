@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public string GeneratedCode(string padding = "      ")
+        public Property GeneratedCode(string padding = "      ")
         {
             if (null == this.Type)
                 throw new InvalidOperationException(this + " doesn't have a type");
@@ -39,21 +39,22 @@ namespace Bespoke.Sph.Domain
             if (typeof(object) == this.Type)
             {
                 code.AppendLinf(padding + "public {0} {1} {{get;set;}}", this.Name, this.Name);
-                return code.ToString();
+                return new Property { Name = this.Name, TypeName = this.Name };
             }
             if (typeof(Array) == this.Type)
             {
-                code.AppendLinf(padding + "private readonly ObjectCollection<{0}> m_{1} = new ObjectCollection<{0}>();", this.Name.Replace("Collection", ""), this.Name.ToCamelCase());
-                code.AppendLinf(padding + "public ObjectCollection<{0}> {1}", this.Name.Replace("Collection", ""), this.Name);
-                code.AppendLine(padding + "{");
-                code.AppendLinf(padding + "    get{{ return m_{0};}}", this.Name.ToCamelCase());
-                code.AppendLine(padding + "}");
-                return code.ToString();
+                var col = new Property
+                {
+                    Name = this.Name, 
+                    IsReadOnly = true ,
+                    Initialized = true,
+                    TypeName = "ObjectCollection<" + this.Name.Replace("Collection","") + ">"
+                };
+
+                return col;
             }
-            if (typeof(string) == this.Type || !this.IsNullable)
-                code.AppendLinf(padding + "[XmlAttribute]");
-            code.AppendLinf(padding + "public {0}{2} {1}{{get;set;}}", this.GetCsharpType(), this.Name, this.GetNullable());
-            return code.ToString();
+
+            return new Property { Name = this.Name, TypeName = this.GetCsharpType(), IsNullable = this.GetNullable() };
         }
 
         private string GetCsharpType()
