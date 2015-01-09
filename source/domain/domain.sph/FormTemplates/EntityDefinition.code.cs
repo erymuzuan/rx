@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Domain
             @class.AddNamespaceImport<DateTime>();
             @class.AddNamespaceImport<Entity>();
 
-            var ctor = GenerateContructorCode();
+            var ctor = GenerateConstructorCode();
 
             var toStringMethod = string.Format(@"     
         public override string ToString()
@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Domain
             return sourceCodes;
         }
 
-        private StringBuilder GenerateContructorCode()
+        private StringBuilder GenerateConstructorCode()
         {
             var ctor = new StringBuilder();
             // ctor

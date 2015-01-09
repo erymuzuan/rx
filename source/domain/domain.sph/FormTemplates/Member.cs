@@ -129,13 +129,16 @@ namespace Bespoke.Sph.Domain
             ctor.AppendLine("       public " + this.Name.Replace("Collection", "") + "()");
             ctor.AppendLine("       {");
 
-            foreach (var member in this.MemberCollection)
+            foreach (var mb in this.MemberCollection)
             {
-                if (member.Type == typeof(object))
+                if (mb.Type == typeof(object))
                 {
-                    ctor.AppendLinf("           this.{0} = new {0}();", member.Name);
+                    ctor.AppendLinf("           this.{0} = new {0}();", mb.Name);
                 }
-                // TODO : default value
+                if (null == mb.DefaultValue) continue;
+
+                var defaultValueExpression = mb.DefaultValue.GetCSharpExpression();
+                ctor.AppendLinf("           this.{0} = {1};", mb.Name, defaultValueExpression);
             }
             ctor.AppendLine("       }");
             return ctor;

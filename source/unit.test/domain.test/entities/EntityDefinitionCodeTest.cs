@@ -62,8 +62,10 @@ namespace domain.test.entities
                 DefaultValue = new FunctionField { Script = "new DateTime(2011,5,2)", ScriptEngine = new RoslynScriptEngine() }
             });
             var address = new Member { Name = "Address", Type = typeof(object) };
+            var malaysia = new ConstantField {Type = typeof (string), Value = "Malaysia"};
             address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, Type = typeof(string) });
             address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, Type = typeof(string) });
+            address.MemberCollection.Add(new Member { Name = "Country", IsFilterable = true, Type = typeof(string), DefaultValue = malaysia});
             ent.MemberCollection.Add(address);
             var options = new CompilerOptions
             {
