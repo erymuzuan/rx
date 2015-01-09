@@ -1,1 +1,1 @@
-".\rabbitmq_server\sbin\rabbitmq-server.bat"
+".\sph.packages\rabbitmq_server\sbin\rabbitmq-server.bat"

@@ -15,6 +15,6 @@ namespace Bespoke.Sph.Domain
         public JsRouteSetting Settings { set; get; }
         public bool ShowWhenLoggedIn { get; set; }
         public bool IsAdminPage { get; set; }
-
+        public string StartPageRoute { get; set; }
     }
 }

@@ -67,7 +67,7 @@ namespace Bespoke.Sph.SqlRepository
                     item.ChangedBy = user;
                     item.ChangedDate = DateTime.Now;
                     bool exist;
-                    using (var cmd2 = new SqlCommand("SELECT COUNT([ID]) FROM [" + this.GetSchema(entityType) + "].[" + entityType.Name + "] WHERE [Id] = '" +item.Id+"'", conn))
+                    using (var cmd2 = new SqlCommand("SELECT COUNT([ID]) FROM [" + this.GetSchema(entityType) + "].[" + entityType.Name + "] WHERE [Id] = '" + item.Id + "'", conn))
                     {
                         if (conn.State != ConnectionState.Open)
                             await conn.OpenAsync();
@@ -179,26 +179,29 @@ namespace Bespoke.Sph.SqlRepository
         }
 
 
-        private object GetParameterValue(Column prop, Entity item, string user)
+        private object GetParameterValue(Column col, Entity item, string user)
         {
 
-            var id = (string)item.GetType().GetProperty("Id")
-                .GetValue(item, null);
-            if (prop.Name == "Data")
+
+            if (col.Name == "Data")
                 throw new InvalidOperationException("Xml [Data] column is no longer supported");
-            if (prop.Name == "Json")
+            if (col.Name == "Json")
                 return item.ToJsonString();
-            if (prop.Name == "CreatedDate")
-                return string.IsNullOrWhiteSpace(id) || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
-            if (prop.Name == "CreatedBy")
+            if (col.Name == "CreatedDate")
+                return item.IsNewItem || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
+            if (col.Name == "CreatedBy")
                 return user;
-            if (prop.Name == "ChangedDate")
+            if (col.Name == "ChangedDate")
                 return DateTime.Now;
-            if (prop.Name == "ChangedBy")
+            if (col.Name == "ChangedBy")
                 return user;
 
-            var itemProp = item.GetType().GetProperty(prop.Name);
-            if (null == itemProp) return item.MapColumnValue(prop.Name);
+            var itemProp = item.GetType().GetProperty(col.Name);
+            if (null == itemProp)
+            {
+                return item.MapColumnValue(col.Name)
+                    ?? col.GetDefaultValue();
+            }
             var value = itemProp.GetValue(item, null);
             if (itemProp.PropertyType.IsEnum)
                 return value.ToString();
@@ -208,8 +211,7 @@ namespace Bespoke.Sph.SqlRepository
                     return value.ToString();
             }
 
-            if (null == value) return DBNull.Value;
-            return value;
+            return value ?? DBNull.Value;
         }
 
 
