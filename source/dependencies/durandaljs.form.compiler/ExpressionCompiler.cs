@@ -34,14 +34,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             }
         }
-        public Task<SnippetCompilerResult> CompileAsync<T>(string expression, EntityDefinition entity)
+        public Task<SnippetCompilerResult> CompileAsync<T>(string expression, IProjectProvider project)
         {
          
             if (string.IsNullOrWhiteSpace(expression))
                 return Task.FromResult(new SnippetCompilerResult { Code = "true" });
 
             var walkersObjectModels = this.Walkers
-                .Select(x => x.GetObjectModel(entity))
+                .Select(x => x.GetObjectModel(project))
                 .Where(x => null != x)
                 .ToList();
 
@@ -53,11 +53,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             file.AppendLine("using System;");
             file.AppendLine("using System.Linq;");
             file.AppendLine();
-            file.AppendLine("namespace Bespoke." + ConfigurationManager.ApplicationName + "_" + entity.Id + ".Domain");
+            file.AppendLine("namespace " + project.DefaultNamespace);
             file.AppendLine("{");
             file.AppendLine("   public class ExpressionCompilerSnippet");
             file.AppendLine("   {");
-            file.AppendLinf("       public {2} Evaluate({0} item, {1})  ", entity.Name, parameters, typeof(T).ToCSharp());
+            file.AppendLinf("       public {2} Evaluate({0} item, {1})  ", project.Name, parameters, typeof(T).ToCSharp());
             file.AppendLine("       {");
             file.AppendLinf("           return {0};", expression);
             file.AppendLine("       }");
@@ -71,10 +71,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             trees.Add(tree);
 
 
-            var codes = (from c in entity.GenerateCode()
-                         where !c.Key.EndsWith("Controller")
-                         where !c.Key.EndsWith("Controller.cs")
-                         let x = c.Value.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
+            var codes = (from c in project.GenerateCode()
+                         where !c.FileName.EndsWith("Controller")
+                         where !c.FileName.EndsWith("Controller.cs")
+                         let x = c.GetCode().Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
                          .Replace("using System.Web.Mvc;", string.Empty)
                          .Replace("using System.Linq;", string.Empty)
                          .Replace("using System.Threading.Tasks;", string.Empty)

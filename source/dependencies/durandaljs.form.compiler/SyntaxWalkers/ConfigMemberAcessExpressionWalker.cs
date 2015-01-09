@@ -20,10 +20,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
         }
 
-        public override CustomObjectModel GetObjectModel(Entity entity)
+        public override CustomObjectModel GetObjectModel(IProjectProvider project)
         {
             var code = new StringBuilder();
-            code.AppendLine("namespace Bespoke." + ConfigurationManager.ApplicationName + "_" + entity.Id + ".Domain");
+            code.AppendLine("namespace " + project.DefaultNamespace);
             code.AppendLine("{");
             code.AppendLine("   public class ConfigurationManager");
             code.AppendLine("   {");

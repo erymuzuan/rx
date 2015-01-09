@@ -8,10 +8,15 @@ using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class WorkflowDefinition
+    public partial class WorkflowDefinition : IProjectProvider
     {
+        public string DefaultNamespace
+        {
+            get { return this.CodeNamespace; }
+        }
 
-        private IEnumerable<Class> GenerateCode()
+
+        public IEnumerable<Class> GenerateCode()
         {
             var @classes = new List<Class>();
             var wcd = new Class

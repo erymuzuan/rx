@@ -269,102 +269,7 @@ WriteLiteral(@"></textarea>
                             </form>
                         </div>
                     </div>
-                    <div");
 
-WriteLiteral(" id=\"form-designer\"");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(">\r\n                        <div");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n                            <!-- left toolbox-->\r\n                            " +
-"<div");
-
-WriteLiteral(" class=\"col-lg-3\"");
-
-WriteLiteral(">\r\n");
-
-WriteLiteral("                                ");
-
-            
-            #line 73 "..\..\Areas\App\Views\ActivityScreen\Html.cshtml"
-                           Write(Html.Partial("_Toolbox"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                            </div>\r\n                            <!-- ko with : " +
-"activity -->\r\n                            <div");
-
-WriteLiteral(" id=\"screen-activity-designer\"");
-
-WriteLiteral(" style=\"min-height: 400px; max-height: 550px; overflow: scroll;\"");
-
-WriteLiteral(" class=\"col-lg-9\"");
-
-WriteLiteral(" data-bind=\"with: FormDesign\"");
-
-WriteLiteral(">\r\n                                <div");
-
-WriteLiteral(" id=\"template-form-designer\"");
-
-WriteLiteral(">\r\n                                    <h1");
-
-WriteLiteral(" data-bind=\"text: Name\"");
-
-WriteLiteral("></h1>\r\n                                    <span");
-
-WriteLiteral(" data-bind=\"text: Description\"");
-
-WriteLiteral("></span>\r\n\r\n                                    <form");
-
-WriteLiteral(" class=\"form-horizontal\"");
-
-WriteLiteral(">\r\n                                        <!--ko foreach:FormElementCollection -" +
-"->\r\n");
-
-            
-            #line 83 "..\..\Areas\App\Views\ActivityScreen\Html.cshtml"
-                                        
-            
-            #line default
-            #line hidden
-            
-            #line 83 "..\..\Areas\App\Views\ActivityScreen\Html.cshtml"
-                                         foreach (var fe in Model.FormElements)
-                                        {
-                                            var fe1 = fe;
-                                            
-            
-            #line default
-            #line hidden
-            
-            #line 86 "..\..\Areas\App\Views\ActivityScreen\Html.cshtml"
-                                       Write(Html.DisplayFor(m => fe1));
-
-            
-            #line default
-            #line hidden
-            
-            #line 86 "..\..\Areas\App\Views\ActivityScreen\Html.cshtml"
-                                                                      
-                                        }
-
-            
-            #line default
-            #line hidden
-WriteLiteral(@"                                        <!--/ko-->
-
-                                    </form>
-                                </div>
-
-                            </div>
-
-                            <!-- /ko -->
-                        </div>
-                    </div>
                     <div");
 
 WriteLiteral(" id=\"invite-message\"");
@@ -378,7 +283,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                        ");
 
             
-            #line 99 "..\..\Areas\App\Views\ActivityScreen\Html.cshtml"
+            #line 71 "..\..\Areas\App\Views\ActivityScreen\Html.cshtml"
                    Write(Html.Partial("_ScreenPerformer"));
 
             

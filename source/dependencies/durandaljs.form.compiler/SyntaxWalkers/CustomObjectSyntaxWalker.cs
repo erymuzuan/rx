@@ -28,7 +28,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         protected StringBuilder Code { get; private set; }
 
-        public virtual CustomObjectModel GetObjectModel(Entity entity)
+        public virtual CustomObjectModel GetObjectModel(IProjectProvider project)
         {
             return null;
         }

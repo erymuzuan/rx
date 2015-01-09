@@ -109,6 +109,8 @@ namespace Bespoke.Sph.Domain
             var build = new BuildValidationResult();
             if (null == this.FormRendererProviders)
                 ObjectBuilder.ComposeMefCatalog(this);
+            if(null == this.FormRendererProviders)throw new InvalidOperationException("Cannot instantiate MEF");
+
             var provider = this.FormRendererProviders.SingleOrDefault(x => x.Metadata.Name == name);
             if (null == provider)
             {

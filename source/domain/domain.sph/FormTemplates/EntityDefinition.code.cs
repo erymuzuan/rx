@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class EntityDefinition
+    public partial class EntityDefinition : IProjectProvider
     {
 
 
@@ -25,13 +26,18 @@ namespace Bespoke.Sph.Domain
             header.AppendLine("using Bespoke.Sph.Web.Helpers;");
             header.AppendLine();
 
-            header.AppendLine("namespace " + this.CodeNamespace);
+            header.AppendLine("namespace " + this.DefaultNamespace);
             header.AppendLine("{");
             return header.ToString();
 
         }
 
-        public Dictionary<string, string> GenerateCode()
+        public string DefaultNamespace
+        {
+            get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.Id); }
+        }
+
+        public IEnumerable<Class> GenerateCode()
         {
             var header = this.GetCodeHeader();
             var code = new StringBuilder(header);
@@ -79,7 +85,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
 
-            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.FormatCode() } };
+            var sourceCodes = new List<Class>();
 
             // classes for members
             foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
@@ -112,10 +118,6 @@ namespace Bespoke.Sph.Domain
                     .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.UserSourceDirectory, this.Name, f))
                     .ToArray();
         }
-        public string CodeNamespace
-        {
-            get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.Id); }
-        }
 
 
         public Task<string> GenerateCustomXsdJavascriptClassAsync()
@@ -130,7 +132,7 @@ namespace Bespoke.Sph.Domain
             script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, this.Name);
             script.AppendLine(" var system = require('services/system'),");
             script.AppendLine(" model = {");
-            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.CodeNamespace, this.Name, assemblyName);
+            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.DefaultNamespace, this.Name, assemblyName);
             script.AppendLine("     Id : ko.observable(\"0\"),");
             foreach (var item in this.MemberCollection)
             {
@@ -180,7 +182,7 @@ namespace Bespoke.Sph.Domain
             script.AppendLine("};");
             foreach (var item in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
-                var code = item.GenerateJavascriptClass(jsNamespace, this.CodeNamespace, assemblyName);
+                var code = item.GenerateJavascriptClass(jsNamespace, this.DefaultNamespace, assemblyName);
                 script.AppendLine(code);
             }
             return Task.FromResult(script.ToString());
@@ -383,5 +385,12 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       }");
 
         }
+    }
+
+    public interface IProjectProvider
+    {
+        string DefaultNamespace { get;  }
+        string Name { get;  }
+        IEnumerable<Class> GenerateCode();
     }
 }

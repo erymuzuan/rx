@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -69,16 +70,17 @@ namespace Bespoke.Sph.Domain
             return "?";
         }
 
-        public string GeneratedCustomClass()
+        public Class GeneratedCustomClass()
         {
-            var code = new StringBuilder();
-            if (typeof(object) == this.Type)
+            var code = new Class
             {
-                code.AppendLinf("   public class {0}: DomainObject", this.Name);
-            }
+                Name = this.Name,
+                BaseClass = typeof(DomainObject).Name
+            };
+
             if (typeof(Array) == this.Type)
             {
-                code.AppendLinf("   public class {0}: DomainObject", this.Name.Replace("Collection", ""));
+                code.Name = this.Name.Replace("Collection", "");
             }
 
             if (typeof(object) == this.Type || typeof(Array) == this.Type)
@@ -218,7 +220,7 @@ namespace Bespoke.Sph.Domain
         public Member AddMember(string name, Type type)
         {
 
-            var child = new Member {Name = name, Type = type, WebId = System.Guid.NewGuid().ToString()};
+            var child = new Member { Name = name, Type = type, WebId = System.Guid.NewGuid().ToString() };
             this.MemberCollection.Add(child);
             return child;
         }
