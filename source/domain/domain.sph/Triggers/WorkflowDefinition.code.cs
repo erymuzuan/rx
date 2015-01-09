@@ -15,6 +15,10 @@ namespace Bespoke.Sph.Domain
             get { return this.CodeNamespace; }
         }
 
+        string IProjectProvider.Name
+        {
+            get { return this.WorkflowTypeName; }
+        }
 
         public IEnumerable<Class> GenerateCode()
         {

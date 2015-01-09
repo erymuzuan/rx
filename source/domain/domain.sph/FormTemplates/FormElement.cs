@@ -138,7 +138,7 @@ namespace Bespoke.Sph.Domain
         [ImportMany(FormCompilerMetadataAttribute.FORM_ELEMENT_COMPILER_CONTRACT, typeof(FormElementCompiler), AllowRecomposition = true)]
         public Lazy<FormElementCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
 
-        public virtual string GenerateEditorTemplate(string compiler, EntityDefinition entity)
+        public virtual string GenerateEditorTemplate(string compiler, IProjectProvider project)
         {
             ObjectBuilder.ComposeMefCatalog(this);
             var fc = this.Compilers.FirstOrDefault(c => c.Metadata.Name == compiler
@@ -154,7 +154,7 @@ namespace Bespoke.Sph.Domain
                 var message = string.Format("Cannot find {0} compiler for {1} element", compiler, this.GetType().GetShortAssemblyQualifiedName());
                 return message;
             }
-            return fc.Value.GenerateEditorTemplate(this, entity);
+            return fc.Value.GenerateEditorTemplate(this, project);
         }
 
         public virtual string GenerateDisplayTemplate(string compiler, EntityDefinition entity)

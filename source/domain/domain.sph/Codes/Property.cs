@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace Bespoke.Sph.Domain.Codes
@@ -22,9 +23,11 @@ namespace Bespoke.Sph.Domain.Codes
             {
                 if (!string.IsNullOrWhiteSpace(m_code)) return m_code;
 
+                var nullability = GetNullability();
+
                 var code = new StringBuilder();
-                code.AppendFormat("public {0} {1}",
-                    string.IsNullOrWhiteSpace(this.TypeName) ? this.Type.ToCSharp() : this.TypeName, this.Name);
+                code.AppendFormat("public {0}{2} {1}",
+                    string.IsNullOrWhiteSpace(this.TypeName) ? this.Type.ToCSharp() : this.TypeName, this.Name, nullability);
                 code.Append("{");
                 if (this.IsReadOnly && this.Initialized)
                 {
@@ -40,9 +43,27 @@ namespace Bespoke.Sph.Domain.Codes
             set { m_code = value; }
         }
 
+        private string GetNullability()
+        {
+            if (null == this.Type) return string.Empty;
+
+            var nullability = this.IsNullable ? "?" : string.Empty;
+            if (this.Type == typeof(string)) return string.Empty;
+
+            var primitiveTypes = new[]
+            {
+                typeof (int),typeof (long),typeof (short),
+                typeof (double),typeof (float), typeof (decimal), 
+                typeof (DateTime), typeof (bool), typeof (char),typeof (byte)
+            };
+            if (!primitiveTypes.Contains(this.Type))
+                nullability = string.Empty;
+            return nullability;
+        }
+
         public string TypeName { get; set; }
         public bool Initialized { get; set; }
         public bool IsReadOnly { get; set; }
-        public string IsNullable { get; set; }
+        public bool IsNullable { get; set; }
     }
 }

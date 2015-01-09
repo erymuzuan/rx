@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Domain
                 return col;
             }
 
-            return new Property { Name = this.Name, TypeName = this.GetCsharpType(), IsNullable = this.GetNullable() };
+            return new Property { Name = this.Name, TypeName = this.GetCsharpType(), IsNullable = this.GetNullable() == "?" };
         }
 
         private string GetCsharpType()
@@ -73,28 +73,28 @@ namespace Bespoke.Sph.Domain
 
         public Property CreateProperty()
         {
-            var prop = new Property { Name = this.Name, Type = this.Type };
+            var prop = new Property { Name = this.Name, Type = this.Type, IsNullable = this.IsNullable };
             if (this.Type == typeof(Array))
             {
                 prop.IsReadOnly = true;
                 prop.Initialized = true;
-                prop.TypeName = "ObjectCollection<" + this.Name.Replace("Collection","") + ">";
+                prop.TypeName = "ObjectCollection<" + this.Name.Replace("Collection", "") + ">";
             }
 
-            if (this.Type == typeof (object))
+            if (this.Type == typeof(object))
             {
                 prop.TypeName = this.Name;
             }
             return prop;
         }
 
-        public bool IsComplex {get { return (typeof (object) == this.Type || typeof (Array) == this.Type); }}
+        public bool IsComplex { get { return (typeof(object) == this.Type || typeof(Array) == this.Type); } }
         public IEnumerable<Class> GeneratedCustomClass()
         {
 
             if (!this.IsComplex)
                 throw new InvalidOperationException("cannot generate class for simple member type " + this.Type);
-            
+
 
             var @class = new Class
             {

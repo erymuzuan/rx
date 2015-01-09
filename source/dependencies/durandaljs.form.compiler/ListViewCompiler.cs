@@ -9,7 +9,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     public class ListViewCompiler : DurandalJsElementCompiler<ListView>
     {
 
-        public override string GenerateDisplay(ListView element, EntityDefinition entity)
+        public override string GenerateDisplay(ListView element, IProjectProvider entity)
         {
             m_entity = entity;
             return base.GenerateDisplay(element, entity);
@@ -38,13 +38,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return this.Element.Path.ConvertJavascriptObjectToFunction(); }
         }
         private readonly ObjectCollection<string> m_inputEditorCollection = new ObjectCollection<string>();
-        private EntityDefinition m_entity;
+        private IProjectProvider m_entity;
 
         public ObjectCollection<string> InputEditorCollection
         {
             get { return m_inputEditorCollection; }
         }
-        public override string GenerateEditor(ListView element, EntityDefinition entity)
+        public override string GenerateEditor(ListView element, IProjectProvider entity)
         {
             this.InputEditorCollection.Clear();
             var editors = from x in element.ListViewColumnCollection

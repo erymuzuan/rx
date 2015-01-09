@@ -36,13 +36,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
 
-        public override string GenerateEditor(T element, EntityDefinition entity)
+        public override string GenerateEditor(T element, IProjectProvider project)
         {
             var booleanCompiler = new ExpressionCompiler();
             this.Element = element.Clone();
 
-            var visibleResult = booleanCompiler.CompileAsync<bool>(element.Visible, entity).Result;
-            var enableResult = booleanCompiler.CompileAsync<bool>(element.Enable, entity).Result;
+            var visibleResult = booleanCompiler.CompileAsync<bool>(element.Visible, project).Result;
+            var enableResult = booleanCompiler.CompileAsync<bool>(element.Enable, project).Result;
             if (!visibleResult.Success)
                 return string.Format("<span class=\"error\">{0}</span>", string.Join("<br/>", visibleResult.DiagnosticCollection.Select(x => x.ToString())));
             if (!enableResult.Success)
@@ -56,7 +56,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
 
-        public override string GenerateDisplay(T element, EntityDefinition entity)
+        public override string GenerateDisplay(T element, IProjectProvider project)
         {
             this.Element = element;
             var razor = ObjectBuilder.GetObject<ITemplateEngine>();
@@ -94,9 +94,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
 
             var codes = from c in entity.GenerateCode()
-                        where !c.Key.EndsWith("Controller")
-                        where !c.Key.EndsWith("Controller.cs")
-                        let x = c.Value.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
+                        where !c.Name.EndsWith("Controller")
+                        let text = c.GetCode()
+                        let x = text.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
                         .Replace("using System.Web.Mvc;", string.Empty)
                         .Replace("using System.Linq;", string.Empty)
                         .Replace("using System.Threading.Tasks;", string.Empty)

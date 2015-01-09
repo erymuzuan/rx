@@ -76,8 +76,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                          where !c.FileName.EndsWith("Controller.cs")
                          let x = c.GetCode().Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
                          .Replace("using System.Web.Mvc;", string.Empty)
-                         .Replace("using System.Linq;", string.Empty)
-                         .Replace("using System.Threading.Tasks;", string.Empty)
                          select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)).ToList();
             trees.AddRange(codes);
             trees.AddRange(walkersObjectModels.Select(x => x.SyntaxTree));

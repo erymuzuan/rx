@@ -44,6 +44,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0-beta1-20141031-01\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\..\packages\Moq.4.2.1408.0717\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -60,6 +63,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BooleanExpressionTestFixture.cs" />
+    <Compile Include="BooleanExpressionWithDateTimeAndWorkflow.cs" />
     <Compile Include="BooleanExpressionWithNumber.cs" />
     <Compile Include="BooleanExpressionWithDateTime.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
@@ -69,6 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ButtonCommandTestFixture.cs" />
     <Compile Include="BooleanExpressionWithConfigObject.cs" />
+    <Compile Include="ScreenActivityRazorEditorTemplateTestFixture.cs" />
     <Compile Include="SymbolWalkerTestFixture.cs" />
     <Compile Include="ExpressionTestFixture.cs" />
   </ItemGroup>
