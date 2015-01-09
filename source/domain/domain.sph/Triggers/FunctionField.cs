@@ -14,6 +14,11 @@ namespace Bespoke.Sph.Domain
 {
     public partial class FunctionField : Field
     {
+        public override string GetCSharpExpression()
+        {
+            return string.Format("{0}", this.Script);
+        }
+
         public FunctionField()
         {
             this.WebId = "ff" + Guid.NewGuid().ToString().Replace("-", string.Empty)

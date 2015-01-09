@@ -7,6 +7,15 @@ namespace Bespoke.Sph.Domain
     public partial class ConstantField : Field
     {
         private object m_value;
+        public override string GetCSharpExpression()
+        {
+            if (this.Type == typeof(string))
+                return string.Format("\"{0}\"", this.Value);
+            if (this.Type == typeof(DateTime))
+                return string.Format("DateTime.Parse(\"{0}\")", this.Value);
+
+            return string.Format("{0}", this.Value);
+        }
 
         [XmlIgnore]
         [JsonIgnore]
@@ -106,14 +115,6 @@ namespace Bespoke.Sph.Domain
             return this.Value;
         }
 
-        public override string GenerateCode()
-        {
-            if (this.Type == typeof (string))
-                return string.Format("\"{0}\"", this.Value);
-            if (this.Type == typeof (DateTime))
-                return string.Format("DateTime.Parse(\"{0}\")", this.Value);
-
-            return string.Format("{0}", this.Value);
-        }
+        
     }
 }

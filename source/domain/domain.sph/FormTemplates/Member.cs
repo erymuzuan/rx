@@ -78,12 +78,17 @@ namespace Bespoke.Sph.Domain
             {
                 prop.IsReadOnly = true;
                 prop.Initialized = true;
+                prop.TypeName = "ObjectCollection<" + this.Name.Replace("Collection","") + ">";
+            }
+
+            if (this.Type == typeof (object))
+            {
+                prop.TypeName = this.Name;
             }
             return prop;
         }
 
-
-        private bool IsComplex {get { return (typeof (object) == this.Type || typeof (Array) == this.Type); }}
+        public bool IsComplex {get { return (typeof (object) == this.Type || typeof (Array) == this.Type); }}
         public IEnumerable<Class> GeneratedCustomClass()
         {
 
@@ -96,6 +101,7 @@ namespace Bespoke.Sph.Domain
                 Name = this.Name,
                 BaseClass = typeof(DomainObject).Name
             };
+            @class.AddNamespaceImport<DomainObject>();
 
             if (typeof(Array) == this.Type)
                 @class.Name = this.Name.Replace("Collection", "");
@@ -120,8 +126,6 @@ namespace Bespoke.Sph.Domain
         private StringBuilder GenerateConstructor()
         {
             var ctor = new StringBuilder();
-            ctor.AppendLine("   {");
-            // ctor
             ctor.AppendLine("       public " + this.Name.Replace("Collection", "") + "()");
             ctor.AppendLine("       {");
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -26,6 +25,22 @@ namespace domain.test.entities
                 IsFilterable = true,
                 DefaultValue = new ConstantField { Value = "<Name>", Type = typeof(string) }
             });
+            ent.MemberCollection.Add(new Member
+            {
+                Name = "FullName",
+                Type = typeof(string),
+                IsFilterable = true,
+                DefaultValue = new DocumentField { Path = "Name", Type = typeof(string) }
+            });
+            
+            ent.MemberCollection.Add(new Member
+            {
+                Name = "LastName",
+                Type = typeof(string),
+                IsFilterable = true,
+                DefaultValue = new FunctionField  { Script = "item.Name.Split(new string[]{\" \"}, StringSplitOptions.RemoveEmptyEntries)[0]" }
+            });
+            
             ent.MemberCollection.Add(new Member
             {
                 Name = "Title",
@@ -71,7 +86,10 @@ namespace domain.test.entities
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
-            var assembly = Assembly.LoadFrom(result.Output);
+            var dll = AppDomain.CurrentDomain.BaseDirectory + "\\Dev.Lead.dll";
+            File.Copy(result.Output, dll,true);
+
+            var assembly = Assembly.LoadFrom(dll);
             var type = assembly.GetType("Bespoke.Dev_lead.Domain.Lead");
             Assert.IsNotNull(type, type.FullName + " is null");
 

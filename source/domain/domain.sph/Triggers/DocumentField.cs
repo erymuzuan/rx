@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public override string GenerateCode()
+        public override string GetCSharpExpression()
         {
             return string.Format("item.{0}", this.Path);
         }

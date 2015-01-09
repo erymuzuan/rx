@@ -18,8 +18,11 @@ namespace Bespoke.Sph.Domain
 
         public IEnumerable<Class> GenerateCode()
         {
-            var @class = new Class { Name = this.Name };
-            var ctor = GenerateContructoCode();
+            var @class = new Class { Name = this.Name, Namespace = this.DefaultNamespace, BaseClass = "Entity"};
+            @class.AddNamespaceImport<DateTime>();
+            @class.AddNamespaceImport<Entity>();
+
+            var ctor = GenerateContructorCode();
 
             var toStringMethod = string.Format(@"     
         public override string ToString()
@@ -31,42 +34,39 @@ namespace Bespoke.Sph.Domain
             @class.MethodCollection.Add(new Method { Code = toStringMethod, Name = "ToString" });
             @class.CtorCollection.Add(ctor.ToString());
 
-      
+
             var sourceCodes = new List<Class> { @class };
-            var customMembers = this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array))
+            var customMembers = this.MemberCollection.Where(m => m.IsComplex)
                 .SelectMany(member => member.GeneratedCustomClass());
             sourceCodes.AddRange(customMembers);
-            
+
             var controller = this.GenerateController();
             sourceCodes.Add(controller);
+
+            sourceCodes.ForEach(x => x.Namespace = DefaultNamespace);
 
 
             return sourceCodes;
         }
 
-        private StringBuilder GenerateContructoCode()
+        private StringBuilder GenerateContructorCode()
         {
             var ctor = new StringBuilder();
             // ctor
             ctor.AppendLine("       public " + this.Name + "()");
             ctor.AppendLine("       {");
-            ctor.AppendLinf("           var rc = new RuleContext(this);");
-            var count = 0;
+            ctor.AppendLine("           var item = this;");
+            ctor.AppendLinf("           var rc = new RuleContext(item);");
             foreach (var member in this.MemberCollection)
             {
-                if (member.Type == typeof (object))
+                if (member.Type == typeof(object))
                 {
                     ctor.AppendLinf("           this.{0} = new {0}();", member.Name);
                 }
                 if (null == member.DefaultValue) continue;
-                count++;
-                ctor.AppendLine();
-                ctor.AppendLinf("           var mj{1} = \"{0}\";", member.DefaultValue.ToJsonString().Replace("\"", "\\\""),
-                    count);
-                ctor.AppendLinf("           var field{0} = mj{0}.DeserializeFromJson<{1}>();", count,
-                    member.DefaultValue.GetType().Name);
-                ctor.AppendLinf("           var val{0} = field{0}.GetValue(rc);", count);
-                ctor.AppendLinf("           this.{0} = ({1})val{2};", member.Name, member.Type.FullName, count);
+
+                var defaultValueExpression = member.DefaultValue.GetCSharpExpression();
+                ctor.AppendLinf("           this.{0} = {1};", member.Name, defaultValueExpression);
             }
             ctor.AppendLine("       }");
             return ctor;
@@ -78,14 +78,8 @@ namespace Bespoke.Sph.Domain
             var folder = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Name);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
-            foreach (var cs in sources.Keys)
-            {
-                var file = Path.Combine(folder, cs);
-                File.WriteAllText(file, sources[cs]);
-            }
-            return sources.Keys.ToArray()
-                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.UserSourceDirectory, this.Name, f))
-                    .ToArray();
+            return sources.Select(x => x.Save(folder)).ToArray();
+
         }
 
 
@@ -159,14 +153,18 @@ namespace Bespoke.Sph.Domain
 
         private Class GenerateController()
         {
-            var @class = new Class {Name = this.Name + "Controller", BaseClass = "System.Web.Mvc.Controller"};
+            var @class = new Class { Name = this.Name + "Controller", Namespace = DefaultNamespace, BaseClass = "System.Web.Mvc.Controller" };
+            @class.AddNamespaceImport<string>();
+            @class.AddNamespaceImport<DomainObject>();
+            @class.AddNamespaceImport<Task>();
+            @class.ImportCollection.Add("System.Web.Mvc");
+            @class.ImportCollection.Add("System.Linq");
+            @class.ImportCollection.Add("Bespoke.Sph.Web.Helpers");
 
-            
+
             var search = GenerateControllerSearchMethod();
             @class.MethodCollection.Add(search);
 
-
-            // SAVE
             var save = GenerateControllerSaveAction();
             @class.MethodCollection.Add(save);
 
@@ -344,7 +342,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine("       }");
 
 
-                methods.Add(new Method{Name = operation.Name, Code = code.ToString()});
+                methods.Add(new Method { Name = operation.Name, Code = code.ToString() });
             }
 
 
@@ -388,15 +386,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             code.AppendLine("       }");
 
-            return new Method{Name = "Validate", Code = code.ToString()};
+            return new Method { Name = "Validate", Code = code.ToString() };
 
         }
-    }
-
-    public interface IProjectProvider
-    {
-        string DefaultNamespace { get; }
-        string Name { get; }
-        IEnumerable<Class> GenerateCode();
     }
 }
