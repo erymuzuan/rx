@@ -1,8 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Formatting;
+using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.QueryProviders;
+using domain.test.reports;
+using domain.test.triggers;
 using Moq;
 using NUnit.Framework;
 
@@ -24,60 +29,141 @@ namespace domain.test.workflows
                 .Returns(doc);
             ObjectBuilder.AddCacheList(store.Object);
 
+            ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
+            var tracker = new MockRepository<Tracker>();
+            tracker.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.Tracker]", new Tracker());
+            ObjectBuilder.AddCacheList<IRepository<Tracker>>(tracker);
+            ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
+            ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
+
 
 
         }
 
         [Test]
-        public async Task TryAndCatch()
+        public async Task ThrowException()
+        {
+            dynamic wf = CreateWorkflowInstance();
+            wf.Status = "A";
+
+            ActivityExecutionResult resultA = await wf.ExecuteAsync("B");
+            Assert.AreEqual("F", resultA.NextActivities[0]);
+
+        }
+        [Test]
+        public async Task Ok()
+        {
+            var wf = CreateWorkflowInstance();
+            wf.Status = "Something else";
+
+            ActivityExecutionResult b = await wf.ExecuteAsync("B");
+            Assert.AreEqual("C", b.NextActivities[0]);
+
+        }
+        [Test]
+        public void SanitizeSingleThrow()
+        {
+            CompilerOptions options;
+            var wd = CreateWorkflowDefinition(out options,"throw new InvalidOperationException(\"Test One\");");
+            var b = wd.ActivityCollection.OfType<ExpressionActivity>().Single(x => x.Name == "B");
+
+            var code = wd.SanitizeMethodBody(b);
+            Console.WriteLine(code);
+            StringAssert.DoesNotContain("item", code);
+            StringAssert.DoesNotContain("result", code);
+
+        }
+        [Test]
+        public async Task SingleThrow()
+        {
+            var wf = CreateWorkflowInstance("throw new InvalidOperationException(\"Test One\");");
+            wf.Status = "A";
+
+            ActivityExecutionResult b = await wf.ExecuteAsync("B");
+            Assert.AreEqual("F", b.NextActivities[0]);
+
+        }
+
+        private dynamic CreateWorkflowInstance(string code = null)
+        {
+            CompilerOptions options;
+            var wd = CreateWorkflowDefinition(out options, code);
+
+            var cr = wd.Compile(options);
+            cr.Errors.ForEach(Console.WriteLine);
+            Assert.IsTrue(cr.Result);
+
+            var dll = Assembly.LoadFile(cr.Output);
+            var type = dll.GetType(wd.CodeNamespace + "." + wd.WorkflowTypeName);
+            dynamic wf = Activator.CreateInstance(type);
+            wf.WorkflowDefinition = wd;
+            return wf;
+        }
+
+        private WorkflowDefinition CreateWorkflowDefinition(out CompilerOptions options, string code = null)
         {
             var wd = new WorkflowDefinition { Name = "Try and catch", Id = "try-and-catch", SchemaStoreId = m_schemaStoreId };
-
-            const string TRY_SCOPE = "tryscope1";  
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Status", Type = typeof(string) });
+            const string TRY_SCOPE = "tryscope1";
             const string CATCH_SCOPE = "catchscope1";
-            var eaA = new ExpressionActivity { Name = "Activity A", WebId = "ActA", TryScope = TRY_SCOPE,IsInitiator  = true};
-            var eaB = new ExpressionActivity { Name = "Activity B", WebId = "ActB", TryScope = TRY_SCOPE, NextActivityWebId = "ActC", Expression = "throw new System.IO.FileNotFoundException(\"cannot find it\");" };
-            var eaC = new ExpressionActivity { Name = "Activity C", WebId = "ActC" };
-            var eaF = new ExpressionActivity { Name = "Activity F", WebId = "ActF", CatchScope = CATCH_SCOPE, NextActivityWebId = "ActD" };
-            var eaD = new ExpressionActivity { Name = "Activity D", WebId = "ActD", CatchScope = CATCH_SCOPE, NextActivityWebId = "ActE" };
-            var eaE = new ExpressionActivity { Name = "Activity E", WebId = "ActE", CatchScope = CATCH_SCOPE };
-            var eaZ = new ExpressionActivity { Name = "Activity Z", WebId = "ActZ" };
+            const string EXPRESSION = @"
+if(this.Status == ""A"")
+{
+    throw new InvalidOperationException(""Test message"");
+}";
+            var a = new ExpressionActivity
+            {
+                Name = "A",
+                WebId = "A",
+                TryScope = TRY_SCOPE,
+                IsInitiator = true,
+                NextActivityWebId = "B"
+            };
+            var b = new ExpressionActivity
+            {
+                Name = "B",
+                WebId = "B",
+                TryScope = TRY_SCOPE,
+                NextActivityWebId = "C",
+                Expression = code ?? EXPRESSION
+            };
+            var c = new ExpressionActivity { Name = "C", WebId = "C" };
+            var f = new ExpressionActivity { Name = "F", WebId = "F", CatchScope = CATCH_SCOPE, NextActivityWebId = "D" };
+            var d = new ExpressionActivity { Name = "D", WebId = "D", CatchScope = CATCH_SCOPE, NextActivityWebId = "E" };
+            var e = new ExpressionActivity { Name = "E", WebId = "E", CatchScope = CATCH_SCOPE };
+            var z = new ExpressionActivity { Name = "Z", WebId = "Z" };
 
 
+            wd.ActivityCollection.Add(a);
+            wd.ActivityCollection.Add(b);
+            wd.ActivityCollection.Add(c);
+            wd.ActivityCollection.Add(f);
+            wd.ActivityCollection.Add(d);
+            wd.ActivityCollection.Add(e);
+            wd.ActivityCollection.Add(z);
 
-            wd.ActivityCollection.Add(eaA);
-            wd.ActivityCollection.Add(eaB);
-            wd.ActivityCollection.Add(eaC);
-            wd.ActivityCollection.Add(eaF);
-            wd.ActivityCollection.Add(eaD);
-            wd.ActivityCollection.Add(eaE);
-            wd.ActivityCollection.Add(eaZ);
-
-            var tryScope = new WorkflowDefinition.TryScope() 
-            { 
+            var tryScope = new WorkflowDefinition.TryScope()
+            {
                 Id = TRY_SCOPE
             };
 
             var catchScope1 = new WorkflowDefinition.CatchScope()
             {
                 Id = CATCH_SCOPE,
-                ExceptionType = "InvalidCastException",
-                ExceptionVar = "qwe"
+                ExceptionType = typeof(InvalidOperationException).Name,
+                ExceptionVar = "ioe"
             };
 
             tryScope.CatchScopeCollection.Add(catchScope1);
             wd.TryScopeCollection.Add(tryScope);
-            
 
-            var options = new CompilerOptions();
+
+            options = new CompilerOptions();
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
             options.AddReference(typeof(JsonMediaTypeFormatter));
-
-            var cr = wd.Compile(options);
-            cr.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(cr.Result);
+            return wd;
         }
     }
 }

@@ -63,8 +63,6 @@ namespace Bespoke.Sph.Domain
 
         public string SanitizeMethodBody(Activity activity)
         {
-
-
             var method = new StringBuilder();
             var body = activity.GenerateExecMethodBody(this);
             if (body.Contains("await "))
@@ -74,7 +72,7 @@ namespace Bespoke.Sph.Domain
             method.AppendLine("{");
             method.AppendLine(body);
 
-            
+
             var file = new StringBuilder();
             file.AppendLine(method.ToString());
             file.AppendLine("}");
@@ -112,7 +110,17 @@ namespace Bespoke.Sph.Domain
                 var resultNode = node.Declaration.Variables.SingleOrDefault(r => r.Identifier.Text == "result");
                 if (null != resultNode)
                     return null;
+                resultNode = node.Declaration.Variables.SingleOrDefault(r => r.Identifier.Text == "item");
+                if (null != resultNode)
+                    return null;
+
                 return base.VisitLocalDeclarationStatement(node);
+            }
+
+            public override SyntaxNode VisitExpressionStatement(ExpressionStatementSyntax node)
+            {
+                if (node.ToString().Contains("result")) return null;
+                return base.VisitExpressionStatement(node);
             }
         }
         class ActivityThrowSyntaxWalker : CSharpSyntaxWalker

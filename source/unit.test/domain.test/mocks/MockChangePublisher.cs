@@ -23,7 +23,7 @@ namespace domain.test
 
         public Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedEntities, IDictionary<string, object> headers)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(0);
         }
 
 
