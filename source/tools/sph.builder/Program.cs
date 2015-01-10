@@ -170,7 +170,7 @@ namespace sph.builder
             settingBuilder.Initialize();
             await settingBuilder.RestoreAllAsync();
 
-            var pageBuilder = new Builder<Page>();
+            var pageBuilder = new Builder<ScreenActivityForm>();
             pageBuilder.Initialize();
             await pageBuilder.RestoreAllAsync();
 

@@ -25,7 +25,7 @@ namespace subscriber.version.control
                     typeof(EmailTemplate).Name + ".#.#",
                     typeof(DocumentTemplate).Name + ".#.#",
                     typeof(ReportDelivery).Name + ".#.#",
-                    typeof(Page).Name + ".#.#",
+                    typeof(ScreenActivityForm).Name + ".#.#",
                     typeof(Organization).Name + ".#.#",
                     typeof(Setting).Name + ".#.#",
                     typeof(Designation).Name + ".#.#",

@@ -79,39 +79,17 @@ namespace sph.builder
         }
 
 
-        private async Task<IEnumerable<Page>> GetPublishPagesAsync(WorkflowDefinition wd)
+        private IEnumerable<ScreenActivityForm> GetPublishPages(WorkflowDefinition wd)
         {
-            var context = new SphDataContext();
             if (null == wd) throw new ArgumentNullException("wd");
             var screens = wd.ActivityCollection.OfType<ScreenActivity>();
-            var pages = new List<Page>();
-            foreach (var scr in screens)
+
+
+
+            return screens.Select(scr => new ScreenActivityForm
             {
-                // copy the previous version pages if there's any
-                var scr1 = scr;
-                var tag = string.Format("wf_{0}_{1}", wd.Id, scr1.WebId);
-                var currentVersion = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
-                var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
-                var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
-                var page = new Page
-                {
-                    Code = code,
-                    Name = scr1.Name,
-                    IsPartial = false,
-                    IsRazor = true,
-                    Tag = tag,
-                    Version = wd.Version,
-                    WebId = Guid.NewGuid().ToString(),
-                    VirtualPath = string.Format("~/Views/{0}/{1}.cshtml", wd.WorkflowTypeName, scr1.ActionName)
-                };
-
-
-                pages.Add(page);
-
-            }
-
-
-            return pages;
+                WorkflowDefinitionId = wd.Id, Version = wd.Version, WebId = Guid.NewGuid().ToString()
+            }).ToList();
 
         }
 
@@ -138,7 +116,7 @@ namespace sph.builder
                 return;
             }
             // save
-            var pages = await GetPublishPagesAsync(wd);
+            var pages = this.GetPublishPages(wd);
             //archive the WD
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var archived = new BinaryStore
@@ -151,7 +129,7 @@ namespace sph.builder
             };
             await store.DeleteAsync(archived.Id);
             await store.AddAsync(archived);
-            var pageBuilder = new Builder<Page>();
+            var pageBuilder = new Builder<ScreenActivityForm>();
             pageBuilder.Initialize();
             foreach (var page in pages)
             {

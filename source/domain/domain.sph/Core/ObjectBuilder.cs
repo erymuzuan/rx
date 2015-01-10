@@ -21,20 +21,7 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public static void ComposeMefCatalog(object part, params Assembly[] assemblies)
-        {
-            var catalog = new AggregateCatalog();
-            var calling = Assembly.GetCallingAssembly();
-            var executing = Assembly.GetExecutingAssembly();
-            catalog.Catalogs.Add(new AssemblyCatalog(calling));
-            catalog.Catalogs.Add(new AssemblyCatalog(executing));
-
-            foreach (var dll in assemblies)
-            {
-                catalog.Catalogs.Add(new AssemblyCatalog(dll));
-            }
-            var ignores = new[]
-                {
+         static string[] m_ignores = {
                     "Microsoft","Spring","WebGrease","WebActivator","WebMatrix",
                     "workflows","Antlr3.Runtime",
                     "DiffPlex","Common.Logging","EntityFramework",
@@ -44,45 +31,60 @@ namespace Bespoke.Sph.Domain
                     "RazorGenerator","RazorEngine","SQLSpatialTools","System",
                     "Antlr3","RazorEngine",
                     "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn",
-                    "domain.sph", executing.GetName().Name
+                    "domain.sph"
                 };
+        public static void ComposeMefCatalog(object part, params Assembly[] assemblies)
+        {
+            var catalog = new AggregateCatalog();
+            var calling = Assembly.GetCallingAssembly();
+            var executing = Assembly.GetExecutingAssembly();
+            catalog.Catalogs.Add(new AssemblyCatalog(calling));
+            catalog.Catalogs.Add(new AssemblyCatalog(executing));
+            var ignores = m_ignores.ToList();
+            ignores.Add(executing.GetName().Name);
+            ignores.Add(calling.GetName().Name);
 
-            Action<string> loadAssemblyCatalog = x =>
+            foreach (var dll in assemblies)
             {
-                try
+                catalog.Catalogs.Add(new AssemblyCatalog(dll));
+            }
+
+            Action<string> loadAssemblyCatalog = directory =>
+            {
+                foreach (var x in System.IO.Directory.GetFiles(directory, "*.dll"))
                 {
-                    catalog.Catalogs.Add(new AssemblyCatalog(x));
+                    var name = System.IO.Path.GetFileName(x) ?? "";
+                    if (ignores.Any(name.StartsWith)) return;
+                    if (executing.Location == x) return;
+                    if (calling.Location == x) return;
+                    try
+                    {
+                        catalog.Catalogs.Add(new AssemblyCatalog(x));
+                        Console.WriteLine("Loaded {0}", name);
+                    }
+                    catch (BadImageFormatException)
+                    {
+                        Console.WriteLine("BadImageFormatException for {0}", x);
+                    }
                 }
-                catch (BadImageFormatException)
-                {
-                    Console.WriteLine("cannot load {0}", x);
-                }
+
             };
-            foreach (var file in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll"))
+            var color = Console.ForegroundColor;
+            try
             {
-
-                var name = System.IO.Path.GetFileName(file) ?? "";
-                if (ignores.Any(name.StartsWith)) continue;
-                if (executing.Location == file) continue;
-                if (calling.Location == file) continue;
-
-                loadAssemblyCatalog(file);
-                Console.WriteLine("Loaded {0}", name);
-            }
-
-            var bin = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
-            if (System.IO.Directory.Exists(bin))
-            {
-                // for web
-                foreach (var file in System.IO.Directory.GetFiles(bin, "*.dll"))
-                {
-                    var name = System.IO.Path.GetFileName(file) ?? "";
-                    if (ignores.Any(name.StartsWith)) continue;
-                    loadAssemblyCatalog(file);
-                    Console.WriteLine("Loaded from bin {0}", name);
-                }
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("============= LOADING MEF ================");
+                loadAssemblyCatalog(AppDomain.CurrentDomain.BaseDirectory);
+                var webbin = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
+                loadAssemblyCatalog(webbin);
 
             }
+            finally
+            {
+                Console.ForegroundColor = color;
+            }
+
+
 
             m_container = new CompositionContainer(catalog);
             var batch = new CompositionBatch();
@@ -96,8 +98,19 @@ namespace Bespoke.Sph.Domain
             }
             catch (ReflectionTypeLoadException rtle)
             {
-                rtle.LoaderExceptions.ToList()
-                    .ForEach(Console.WriteLine);
+                color = Console.ForegroundColor;
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    rtle.LoaderExceptions.Select(x => x.Message).ToList().ForEach(Console.WriteLine);
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    rtle.LoaderExceptions.Select(x => x.StackTrace).ToList().ForEach(Console.WriteLine);
+                }
+                finally
+                {
+                    Console.ForegroundColor = color;
+                }
+
                 //Debugger.Break();
             }
             catch (CompositionException compositionException)

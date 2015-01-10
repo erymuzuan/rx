@@ -38,9 +38,9 @@ namespace web.sph
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            Console.WriteLine("ERROR*-***/*/*/*/*");
+
             WebApplicationHelper.Application_Error();
-            Console.WriteLine("ERROR*******************");
+
         }
 
 

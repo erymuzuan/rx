@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Domain
                 typeof(EntityView).Name, 
                 typeof(Message).Name, 
                 typeof(Organization).Name, 
-                typeof(Page).Name, 
+                typeof(ScreenActivityForm).Name, 
                 typeof(ReportDefinition).Name, 
                 typeof(ReportDelivery).Name, 
                 typeof(SpatialStore).Name, 

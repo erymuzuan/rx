@@ -100,12 +100,6 @@ WriteLiteral(" data-toggle=\"tab\"");
 
 WriteLiteral(">General Info</a></li>\r\n                    <li><a");
 
-WriteLiteral(" href=\"#form-designer\"");
-
-WriteLiteral(" data-toggle=\"tab\"");
-
-WriteLiteral(">Form Designer</a></li>\r\n                    <li><a");
-
 WriteLiteral(" href=\"#invite-message\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
@@ -283,7 +277,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                        ");
 
             
-            #line 71 "..\..\Areas\App\Views\ActivityScreen\Html.cshtml"
+            #line 70 "..\..\Areas\App\Views\ActivityScreen\Html.cshtml"
                    Write(Html.Partial("_ScreenPerformer"));
 
             

@@ -98,8 +98,8 @@ namespace domain.test.workflows
                 IsInitiator = true,
                 NextActivityWebId = "_B_"
             };
-            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
-            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
+            //pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
+            //pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
             wd.ActivityCollection.Add(pohon);
 
             var decide = new DecisionActivity
@@ -184,8 +184,8 @@ namespace domain.test.workflows
                 IsInitiator = true,
                 NextActivityWebId = "_EMAIL_"
             };
-            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
-            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
+            //pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
+            //pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
             wd.ActivityCollection.Add(pohon);
 
 

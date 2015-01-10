@@ -427,7 +427,6 @@
     <Compile Include="Triggers\MappingSource.cs" />
     <Compile Include="Triggers\MethodArg.cs" />
     <Compile Include="Triggers\NotificationActivity.cs" />
-    <Compile Include="Triggers\Page.cs" />
     <Compile Include="Triggers\ParallelActivity.cs" />
     <Compile Include="Triggers\ParallelBranch.cs" />
     <Compile Include="Triggers\PendingTask.cs" />
@@ -443,6 +442,7 @@
     <Compile Include="Triggers\ScheduledActivityExecution.cs" />
     <Compile Include="Triggers\ScheduledTriggerActivity.cs" />
     <Compile Include="Triggers\ScreenActivity.cs" />
+    <Compile Include="Triggers\ScreenActivityForm.cs" />
     <Compile Include="Triggers\ScriptFunctoid.cs" />
     <Compile Include="Triggers\SendActivity.cs" />
     <Compile Include="Triggers\SetterAction.cs" />

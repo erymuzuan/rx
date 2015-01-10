@@ -80,9 +80,9 @@ namespace Bespoke.Sph.Web.Api
         }
 
         [Route("Page")]
-        public async Task<ActionResult> Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        public async Task<ActionResult> ScreenActivityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return await ExecuteAsync<Page>(filter, page, size, includeTotal);
+            return await ExecuteAsync<ScreenActivityForm>(filter, page, size, includeTotal);
         }
 
         [Route("ReportDelivery")]

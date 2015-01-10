@@ -117,6 +117,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -144,6 +145,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Entity
         {
             set
@@ -171,6 +173,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string TypeOf
         {
             set
@@ -198,6 +201,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Note
         {
             set
@@ -225,6 +229,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool IsActive
         {
             set
@@ -252,6 +257,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool IsFiredOnAdded
         {
             set
@@ -279,6 +285,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool IsFiredOnDeleted
         {
             set
@@ -306,6 +313,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool IsFiredOnChanged
         {
             set
@@ -333,6 +341,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string FiredOnOperations
         {
             set
@@ -949,6 +958,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Path
         {
             set
@@ -1026,6 +1036,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -1053,6 +1064,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string TypeName
         {
             set
@@ -1196,6 +1208,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string VariablePath
         {
             set
@@ -1424,6 +1437,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -1451,6 +1465,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Note
         {
             set
@@ -1478,6 +1493,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool IsActive
         {
             set
@@ -1505,6 +1521,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string SchemaStoreId
         {
             set
@@ -1532,6 +1549,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public int Version
         {
             set
@@ -1607,6 +1625,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string WorkflowDefinitionId
         {
             set
@@ -1634,6 +1653,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -1661,6 +1681,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string State
         {
             set
@@ -1688,6 +1709,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool IsActive
         {
             set
@@ -1715,6 +1737,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public int Version
         {
             set
@@ -1859,22 +1882,21 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private FormDesign m_formDesign
-                = new FormDesign();
-
-        public const string PropertyNameFormDesign = "FormDesign";
-        [DebuggerHidden]
-
-        public FormDesign FormDesign
+        private string m_FormId;
+        [XmlAttribute]
+        public string FormId
         {
-            get { return m_formDesign; }
+            get
+            {
+                return m_FormId;
+            }
             set
             {
-                m_formDesign = value;
-                OnPropertyChanged();
+                m_FormId = value;
+                RaisePropertyChanged();
             }
         }
+
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Performer m_performer
@@ -1909,6 +1931,134 @@ namespace Bespoke.Sph.Domain
                 OnPropertyChanged();
             }
         }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ScreenActivityForm", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ScreenActivityForm
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_workflowDefinitionId;
+        public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_title;
+        public const string PropertyNameTitle = "Title";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_version;
+        public const string PropertyNameVersion = "Version";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private FormDesign m_formDesign
+                = new FormDesign();
+
+        public const string PropertyNameFormDesign = "FormDesign";
+        [DebuggerHidden]
+
+        public FormDesign FormDesign
+        {
+            get { return m_formDesign; }
+            set
+            {
+                m_formDesign = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+
+        public string WorkflowDefinitionId
+        {
+            set
+            {
+                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_workflowDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_workflowDefinitionId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+
+        public string Title
+        {
+            set
+            {
+                if (String.Equals(m_title, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTitle, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_title = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_title;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+
+        public int Version
+        {
+            set
+            {
+                if (m_version == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameVersion, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_version = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_version;
+            }
+        }
+
 
 
     }
@@ -2152,6 +2302,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -2171,302 +2322,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-
-
-    }
-
-    ///<summary>
-    /// 
-    ///</summary>
-    [DataObject(true)]
-    [Serializable]
-    [XmlType("Page", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class Page
-    {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_name;
-        public const string PropertyNameName = "Name";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isRazor;
-        public const string PropertyNameIsRazor = "IsRazor";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isPartial;
-        public const string PropertyNameIsPartial = "IsPartial";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_virtualPath;
-        public const string PropertyNameVirtualPath = "VirtualPath";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_tag;
-        public const string PropertyNameTag = "Tag";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_version;
-        public const string PropertyNameVersion = "Version";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_mode;
-        public const string PropertyNameMode = "Mode";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_extension;
-        public const string PropertyNameExtension = "Extension";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_code;
-        public const string PropertyNameCode = "Code";
-
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public string Name
-        {
-            set
-            {
-                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_name = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_name;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public bool IsRazor
-        {
-            set
-            {
-                if (m_isRazor == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsRazor, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isRazor = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isRazor;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public bool IsPartial
-        {
-            set
-            {
-                if (m_isPartial == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsPartial, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isPartial = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isPartial;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public string VirtualPath
-        {
-            set
-            {
-                if (String.Equals(m_virtualPath, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameVirtualPath, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_virtualPath = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_virtualPath;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public string Tag
-        {
-            set
-            {
-                if (String.Equals(m_tag, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTag, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_tag = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_tag;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public int Version
-        {
-            set
-            {
-                if (m_version == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameVersion, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_version = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_version;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public string Mode
-        {
-            set
-            {
-                if (String.Equals(m_mode, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameMode, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_mode = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_mode;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-        public string Extension
-        {
-            set
-            {
-                if (String.Equals(m_extension, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameExtension, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_extension = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_extension;
-            }
-        }
-
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public string Code
-        {
-            set
-            {
-                if (String.Equals(m_code, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameCode, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_code = value;
-                    OnPropertyChanged();
-                }
-            }
-            get { return m_code; }
-        }
 
 
     }
@@ -2530,6 +2385,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string UserProperty
         {
             set
@@ -2557,6 +2413,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Value
         {
             set
@@ -2960,6 +2817,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Type
         {
             set
@@ -2987,6 +2845,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Value
         {
             set
@@ -3581,6 +3440,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string WorkflowId
         {
             set
@@ -3608,6 +3468,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string WorkflowDefinitionId
         {
             set
@@ -3689,6 +3550,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string InstanceId
         {
             set
@@ -3716,6 +3578,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string ActivityWebId
         {
             set
@@ -3743,6 +3606,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string WorkflowDefinitionId
         {
             set
@@ -3770,6 +3634,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string User
         {
             set
@@ -3797,6 +3662,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -3824,6 +3690,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Type
         {
             set
@@ -3952,6 +3819,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool IsEnabled
         {
             set
@@ -3979,6 +3847,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string ActivityWebId
         {
             set
@@ -4006,6 +3875,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string WorkflowDefinitionId
         {
             set
@@ -4059,6 +3929,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public int HitCount
         {
             set
@@ -4112,6 +3983,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool WhenHitPrintMessage
         {
             set
@@ -4139,6 +4011,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool WhenHitContinueExecution
         {
             set
@@ -4224,6 +4097,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -4251,6 +4125,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string FullName
         {
             set
@@ -4278,6 +4153,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Version
         {
             set
@@ -4305,6 +4181,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Location
         {
             set
@@ -4425,6 +4302,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string TypeName
         {
             set
@@ -4452,6 +4330,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Variable
         {
             set
@@ -4543,6 +4422,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public int TransformDefinitionId
         {
             set
@@ -4570,6 +4450,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -4597,6 +4478,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Description
         {
             set
@@ -4624,6 +4506,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string InputTypeName
         {
             set
@@ -4651,6 +4534,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string OutputTypeName
         {
             set
@@ -4678,6 +4562,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool IsPublished
         {
             set
@@ -5078,6 +4963,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -5105,6 +4991,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string TypeName
         {
             set
@@ -5132,6 +5019,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Description
         {
             set
@@ -5159,6 +5047,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Label
         {
             set
@@ -5186,6 +5075,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Comment
         {
             set
@@ -5213,6 +5103,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public bool IsOptional
         {
             set
@@ -5240,6 +5131,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Functoid
         {
             set
@@ -5417,6 +5309,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string TypeName
         {
             set
@@ -5564,6 +5457,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -5613,6 +5507,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Type
         {
             set
@@ -5640,6 +5535,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Name
         {
             set
@@ -5694,6 +5590,7 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
+
         public string Path
         {
             set

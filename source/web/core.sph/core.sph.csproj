@@ -502,7 +502,6 @@
     <Compile Include="Areas\Sph\Controllers\BaseController.cs" />
     <Compile Include="Areas\Sph\Controllers\BinaryStoreController.cs" />
     <Compile Include="Areas\Sph\Controllers\EditorController.cs" />
-    <Compile Include="Areas\Sph\Controllers\PageController.cs" />
     <Compile Include="Areas\Sph\Controllers\DesignationController.cs" />
     <Compile Include="Areas\Sph\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sph\Controllers\ReportDeliveryController.cs" />
@@ -524,11 +523,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Help.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\Editor\Page.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Page.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Views\Editor\_VendorScripts.generated.cs">
       <AutoGen>True</AutoGen>
@@ -654,7 +648,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CreateMapModel.cs" />
-    <Compile Include="ViewModels\EditorPageViewModel.cs" />
     <Compile Include="ViewModels\FormRendererViewModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Areas\Sph\Controllers\ImageController.cs" />
@@ -796,9 +789,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="WorkflowHelpers\ScreenActivityVirtualFile.cs" />
-    <Compile Include="WorkflowHelpers\WorkflowScreenActivityPathProvider.cs" />
-    <Compile Include="WorkflowHelpers\WorklowPageCacheDependency.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\form.element.NumberTextBox.png" />
@@ -2465,10 +2455,6 @@
     <Content Include="Areas\Sph\Views\App\WorkflowDraftHtml.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>WorkflowDraftHtml.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\Editor\Page.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Page.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\Page\Compare.cshtml" />
     <Content Include="Areas\Sph\Views\Page\DiffLine.cshtml" />
