@@ -26,7 +26,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
-
+            
             var code = "";
             var text = node.Identifier.Text;
             switch (text)

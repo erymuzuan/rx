@@ -10,13 +10,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
-    public class CustomObjectModel
-    {
-        public CSharpSyntaxTree SyntaxTree { get; set; }
-        public bool IncludeAsParameter { get; set; }
-        public string ClassName { get; set; }
-        public string IdentifierText { get; set; }
-    }
     public abstract class CustomObjectSyntaxWalker : CSharpSyntaxWalker
     {
         [Import]

@@ -108,6 +108,7 @@
     <Compile Include="CurrencyElementCompiler.cs" />
     <Compile Include="ExpressionCompiler.cs" />
     <Compile Include="SyntaxWalkers\AddSyntaxWalker.cs" />
+    <Compile Include="SyntaxWalkers\CustomObjectModel.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectSyntaxWalker.cs" />
     <Compile Include="DateTimePickerCompiler.cs" />
     <Compile Include="DownloadLinkCompiler.cs" />

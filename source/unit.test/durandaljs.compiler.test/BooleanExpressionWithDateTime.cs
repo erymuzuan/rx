@@ -94,9 +94,11 @@ namespace durandaljs.compiler.test
         [TestMethod]
         public void AddDaysWithDouble()
         {
+            // TODO : extend javacscript string
+            // String.prototype.add = function (unit, period){ return moment(this).add(unit ,period);}
             Assert.AreEqual(
-                "$data.Dob() > moment().add(1, 'day')",
-                "item.Dob > DateTime.Now.AddDays(1)"
+                "$data.CreatedDate().add(2, 'day') > moment().add(1, 'day')",
+                "item.CreatedDate.AddDays(2) > DateTime.Now.AddDays(1)"
                 .CompileHtml());
         }
         [TestMethod]

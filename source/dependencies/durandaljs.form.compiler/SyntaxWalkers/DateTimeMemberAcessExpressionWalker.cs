@@ -17,8 +17,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public override bool Filter(SymbolInfo info)
         {
             if (null == info.Symbol) return false;
-
-            return info.Symbol.ContainingType.ToString() == "DateTime";
+            return 
+                info.Symbol.ContainingType.Name == "DateTime" &&
+                info.Symbol.ContainingNamespace.Name == "System"&&
+                info.Symbol.ContainingAssembly.Name == "mscorlib";
         }
         protected override string[] ObjectNames
         {

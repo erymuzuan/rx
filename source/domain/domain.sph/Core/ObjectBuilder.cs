@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Spring.Context.Support;
@@ -21,7 +22,7 @@ namespace Bespoke.Sph.Domain
 
         }
 
-         static string[] m_ignores = {
+        static readonly string[] m_ignores = {
                     "Microsoft","Spring","WebGrease","WebActivator","WebMatrix",
                     "workflows","Antlr3.Runtime",
                     "DiffPlex","Common.Logging","EntityFramework",
@@ -51,9 +52,10 @@ namespace Bespoke.Sph.Domain
 
             Action<string> loadAssemblyCatalog = directory =>
             {
-                foreach (var x in System.IO.Directory.GetFiles(directory, "*.dll"))
+                if (!Directory.Exists(directory)) return;
+                foreach (var x in Directory.GetFiles(directory, "*.dll"))
                 {
-                    var name = System.IO.Path.GetFileName(x) ?? "";
+                    var name = Path.GetFileName(x) ?? "";
                     if (ignores.Any(name.StartsWith)) return;
                     if (executing.Location == x) return;
                     if (calling.Location == x) return;
@@ -75,7 +77,7 @@ namespace Bespoke.Sph.Domain
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("============= LOADING MEF ================");
                 loadAssemblyCatalog(AppDomain.CurrentDomain.BaseDirectory);
-                var webbin = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
+                var webbin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
                 loadAssemblyCatalog(webbin);
 
             }
@@ -146,8 +148,11 @@ namespace Bespoke.Sph.Domain
         public static T GetObject<T>() where T : class
         {
             var key = typeof(T);
-            if (m_cacheList.ContainsKey(key))
-                return m_cacheList[key] as T;
+            lock (m_lock)
+            {
+                if (m_cacheList.ContainsKey(key))
+                    return m_cacheList[key] as T;
+            }
 
             try
             {
@@ -188,8 +193,11 @@ namespace Bespoke.Sph.Domain
 
         public static dynamic GetObject(Type key)
         {
-            if (m_cacheList.ContainsKey(key))
-                return m_cacheList[key];
+            lock (m_lock)
+            {
+                if (m_cacheList.ContainsKey(key))
+                    return m_cacheList[key];
+            }
 
             var name = key.ToString();
             if (key.IsGenericType)

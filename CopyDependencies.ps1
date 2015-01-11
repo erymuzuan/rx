@@ -11,6 +11,7 @@ function Copy-ToBin{
             Copy-Item $d.FullName -Destination .\bin\subscribers
             Copy-Item $d.FullName -Destination .\bin\tools
             Copy-Item $d.FullName -Destination .\bin\schedulers
+            Copy-Item $d.FullName -Destination .\source\unit.test\durandaljs.compiler.test\bin\Debug
       }
     }
 }
