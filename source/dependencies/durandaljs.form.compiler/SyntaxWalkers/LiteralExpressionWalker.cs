@@ -30,7 +30,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
         }
 
-        public override string Walk(SyntaxNode node)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var kind = node.CSharpKind();
             var walker = this;

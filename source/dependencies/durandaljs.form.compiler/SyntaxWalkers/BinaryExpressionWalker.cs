@@ -32,7 +32,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
         }
 
-        public override string Walk(SyntaxNode node)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var kind = node.CSharpKind();
             var bes = (BinaryExpressionSyntax)node;
@@ -79,7 +79,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                        + " " + op + " "
                        + this.EvaluateExpressionCode(bes.Right);
 
-            return base.Walk(node);
+            return base.Walk(node, model);
         }
 
 

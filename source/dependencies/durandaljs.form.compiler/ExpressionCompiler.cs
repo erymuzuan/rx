@@ -17,8 +17,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         [ImportMany(typeof(CustomObjectSyntaxWalker), RequiredCreationPolicy = CreationPolicy.Shared, AllowRecomposition = true)]
         public CustomObjectSyntaxWalker[] MefWalkers { get; set; }
 
-        [Import]
-        public CompilationUnitContainer CompilationUnitContainer { get; set; }
+
 
         protected CustomObjectSyntaxWalker[] Walkers
         {
@@ -89,8 +88,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .AddSyntaxTrees(trees.ToArray());
 
             var model = compilation.GetSemanticModel(tree);
-            this.CompilationUnitContainer.SemanticModel = model;
-            this.CompilationUnitContainer.SyntaxTree = tree;
+
 
             var diagnostics = compilation.GetDiagnostics();
 
@@ -106,16 +104,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .Single()
                 .Expression;
 
-            result.Code = CompileExpression(statement);
+            result.Code = CompileExpression(statement, model);
             return Task.FromResult(result);
         }
 
 
-        private string CompileExpression(SyntaxNode statement)
+        private string CompileExpression(SyntaxNode statement, SemanticModel model)
         {
             var code = this.Walkers
-                .Where(x => x.Filter(statement))
-                .Select(x => x.Walk(statement))
+                .Where(x => x.Filter(statement, model))
+                .Select(x => x.Walk(statement, model))
                 .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
 
             return code;

@@ -38,7 +38,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
 
-        public override string Walk(SyntaxNode node)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var walker = this;
             walker.Visit(node);

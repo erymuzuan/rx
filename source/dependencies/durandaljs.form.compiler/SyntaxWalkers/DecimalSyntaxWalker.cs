@@ -31,10 +31,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return true; }
         }
 
-        public override string Walk(SyntaxNode node)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var walker = this;
-            if (!walker.Filter(node)) return string.Empty;
+            if (!walker.Filter(node, model)) return string.Empty;
 
 
             walker.Visit(node);

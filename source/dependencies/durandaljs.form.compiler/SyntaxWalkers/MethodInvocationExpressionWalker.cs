@@ -32,8 +32,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 throw new InvalidOperationException("MEF!!!");
 
             var code = this.Walkers
-                .Where(x => x.Filter(node.Expression))
-                .Select(w => w.Walk(node.Expression))
+                .Where(x => x.Filter(node.Expression, this.SemanticModel))
+                .Select(w => w.Walk(node.Expression, this.SemanticModel))
                 .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
             if (!string.IsNullOrWhiteSpace(code))
                 this.Code.Append(code);

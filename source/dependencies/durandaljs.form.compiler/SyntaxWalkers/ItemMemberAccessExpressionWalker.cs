@@ -25,12 +25,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var text = node.Identifier.Text;
             var code = new StringBuilder(this.Code.ToString());
 
-            var model = this.Container.SemanticModel;
+            var model = this.SemanticModel;
             var symbol = model.GetSymbolInfo(node);
             var sw = this.Walkers.FirstOrDefault(x => x.Filter(symbol));
             if (null != sw)
             {
-                code.Append("." + sw.Walk(node));
+                code.Append("." + sw.Walk(node, model));
             }
             else
             {

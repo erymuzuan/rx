@@ -103,7 +103,6 @@
     <Compile Include="CheckBoxCompiler.cs" />
     <Compile Include="ChildEntityListViewCompiler.cs" />
     <Compile Include="ComboBoxCompiler.cs" />
-    <Compile Include="CompilationUnitContainer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CurrencyElementCompiler.cs" />
     <Compile Include="ExpressionCompiler.cs" />

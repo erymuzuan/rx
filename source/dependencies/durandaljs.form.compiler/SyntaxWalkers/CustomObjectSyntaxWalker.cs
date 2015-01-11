@@ -12,8 +12,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     public abstract class CustomObjectSyntaxWalker : CSharpSyntaxWalker
     {
-        [Import]
-        public CompilationUnitContainer Container { get; set; }
+
         protected abstract string[] ObjectNames { get; }
         protected abstract SyntaxKind[] Kinds { get; }
         protected virtual bool IsPredefinedType { get { return false; } }
@@ -31,8 +30,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return false;
         }
 
-        public virtual bool Filter(SyntaxNode node)
+        public virtual bool Filter(SyntaxNode node, SemanticModel model)
         {
+            SemanticModel = model;
             this.Code = new StringBuilder();
             if (!this.Kinds.Contains(node.CSharpKind())) return false;
 
@@ -89,8 +89,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return false;
         }
 
-        public virtual string Walk(SyntaxNode node)
+        protected SemanticModel SemanticModel { get; set; }
+        public virtual string Walk(SyntaxNode node, SemanticModel model)
         {
+            this.SemanticModel = model;
             var walker = this;
             walker.Code = new StringBuilder();
             walker.Visit(node);
@@ -108,8 +110,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 throw new InvalidOperationException("Failed to load MEF");
 
             return Walkers
-                .Where(x => x.Filter(expression))
-                .Select(x => x.Walk(expression))
+                .Where(x => x.Filter(expression, this.SemanticModel))
+                .Select(x => x.Walk(expression, this.SemanticModel))
                 .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
         }
 

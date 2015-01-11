@@ -18,7 +18,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             get { return new[] { SyntaxKind.ParenthesizedExpression }; }
         }
 
-        public override string Walk(SyntaxNode node)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var parenthesiz = node as ParenthesizedExpressionSyntax;
             if (null != parenthesiz)

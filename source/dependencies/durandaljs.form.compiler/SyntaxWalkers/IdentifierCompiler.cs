@@ -19,14 +19,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 ObjectBuilder.ComposeMefCatalog(this);
             if (null == this.Walkers)
                 throw new InvalidOperationException("Failed to load MEF");
+            
+
+            if(string.IsNullOrWhiteSpace(expression.ToString()))
+                throw new InvalidOperationException("Just a marker");
 
             return Walkers
-                .Where(x => x.Filter(expression))
-                .Select(x => x.Walk(expression))
+                .Where(x => x.Filter(expression, null))
+                .Select(x => x.Walk(expression, null))
                 .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
         }
 
-        public virtual string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments )
+        public virtual string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)
         {
             return string.Empty;
         }

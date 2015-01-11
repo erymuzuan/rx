@@ -44,7 +44,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
         private readonly StringBuilder m_code = new StringBuilder();
-        public override string Walk(SyntaxNode node)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var maes = ((MemberAccessExpressionSyntax)node).Expression as MemberAccessExpressionSyntax;
             if (null != maes
