@@ -8,10 +8,6 @@
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
 
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
-
 
 bespoke.sph.domain.ChildEntityListViewPartial = function (model) {
     // ViewColumn

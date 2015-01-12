@@ -1,6 +1,5 @@
-﻿///#source 1 1 /SphApp/schemas/form.designer.g.js
 
-/// <reference path="~/scripts/knockout-3.1.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -771,7 +770,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-        EntityDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Plural: ko.observable(''),
         IconStoreId: ko.observable(''),
@@ -849,8 +848,8 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
-        EntityFormId: ko.observable(0),
-        EntityDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
+        EntityDefinitionId: ko.observable(''),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),
@@ -869,9 +868,12 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         Operation: ko.observable(''),
         Entity: ko.observable(''),
         Partial: ko.observable(''),
+        Caption: ko.observable(''),
+        Layout: ko.observable(''),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         Rules: ko.observableArray([]),
         RouteParameterCollection: ko.observableArray([]),
+        FormLayoutCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -895,14 +897,50 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.FormLayout = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FormLayout, domain.sph",
+        Name: ko.observable(''),
+        Position: ko.observable(''),
+        IsForm: ko.observable(false),
+        IsAuditTrail: ko.observable(false),
+        Content: ko.observable(),
+        XsmallCol: ko.observable(),
+        MediumCol: ko.observable(),
+        SmallCol: ko.observable(),
+        LargeCol: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FormLayoutPartial) {
+        return _(model).extend(new bespoke.sph.domain.FormLayoutPartial(model));
+    }
+    return model;
+};
+
+
+
 bespoke.sph.domain.EntityView = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
-        EntityViewId: ko.observable(0),
+        Id: ko.observable("0"),
         IconClass: ko.observable(''),
         IconStoreId: ko.observable(''),
-        EntityDefinitionId: ko.observable(0),
+        EntityDefinitionId: ko.observable(''),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),
@@ -912,6 +950,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         TileColour: ko.observable(''),
         CountMessage: ko.observable(''),
         Entity: ko.observable(''),
+        Partial: ko.observable(''),
         FilterCollection: ko.observableArray([]),
         ViewColumnCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
@@ -1204,12 +1243,12 @@ bespoke.sph.domain.EntityChart = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
-        EntityChartId: ko.observable(0),
-        EntityDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
+        EntityDefinitionId: ko.observable(''),
         Entity: ko.observable(''),
         Name: ko.observable(''),
         Type: ko.observable(''),
-        EntityViewId: ko.observable(0),
+        EntityViewId: ko.observable(''),
         Query: ko.observable(''),
         Aggregate: ko.observable(''),
         Field: ko.observable(''),
@@ -1279,7 +1318,7 @@ bespoke.sph.domain.SearchDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.SearchDefinition, domain.sph",
-        SearchDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
         Entity: ko.observable(''),
         Name: ko.observable(''),
         IsPublished: ko.observable(false),
@@ -1560,9 +1599,8 @@ bespoke.sph.domain.OwnerType = function () {
 }();
 
 
-///#source 1 1 /SphApp/schemas/report.builder.g.js
 
-/// <reference path="~/scripts/knockout-3.1.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -1575,7 +1613,7 @@ bespoke.sph.domain.ReportDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReportDefinition, domain.sph",
-        ReportDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
         Title: ko.observable(''),
         Category: ko.observable(''),
         IsActive: ko.observable(false),
@@ -1644,8 +1682,11 @@ bespoke.sph.domain.BarChartItem = function (optionOrWebid) {
     var v = new bespoke.sph.domain.ReportItem(optionOrWebid);
 
     v.ValueLabelFormat = ko.observable('');
+
     v.HorizontalAxisField = ko.observable('');
+
     v.Title = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.BarChartItem, domain.sph";
 
     v.ChartSeriesCollection = ko.observableArray([]);
@@ -1675,8 +1716,11 @@ bespoke.sph.domain.LineChartItem = function (optionOrWebid) {
     var v = new bespoke.sph.domain.ReportItem(optionOrWebid);
 
     v.ValueLabelFormat = ko.observable('');
+
     v.HorizontalAxisField = ko.observable('');
+
     v.Title = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.LineChartItem, domain.sph";
 
     v.ChartSeriesCollection = ko.observableArray([]);
@@ -1706,9 +1750,13 @@ bespoke.sph.domain.PieChartItem = function (optionOrWebid) {
     var v = new bespoke.sph.domain.ReportItem(optionOrWebid);
 
     v.CategoryField = ko.observable('');
+
     v.ValueField = ko.observable('');
+
     v.Title = ko.observable('');
+
     v.TitlePlacement = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.PieChartItem, domain.sph";
 
 
@@ -2049,6 +2097,7 @@ bespoke.sph.domain.DailySchedule = function (optionOrWebid) {
     var v = new bespoke.sph.domain.IntervalSchedule(optionOrWebid);
 
     v.Recur = ko.observable(0);
+
     v["$type"] = "Bespoke.Sph.Domain.DailySchedule, domain.sph";
 
 
@@ -2077,15 +2126,25 @@ bespoke.sph.domain.WeeklySchedule = function (optionOrWebid) {
     var v = new bespoke.sph.domain.IntervalSchedule(optionOrWebid);
 
     v.Hour = ko.observable(0);
+
     v.Minute = ko.observable(0);
+
     v.IsSunday = ko.observable(false);
+
     v.IsMonday = ko.observable(false);
+
     v.IsTuesday = ko.observable(false);
+
     v.IsWednesday = ko.observable(false);
+
     v.IsThursday = ko.observable(false);
+
     v.IsFriday = ko.observable(false);
+
     v.IsSaturday = ko.observable(false);
+
     v.Recur = ko.observable(0);
+
     v["$type"] = "Bespoke.Sph.Domain.WeeklySchedule, domain.sph";
 
 
@@ -2114,21 +2173,37 @@ bespoke.sph.domain.MonthlySchedule = function (optionOrWebid) {
     var v = new bespoke.sph.domain.IntervalSchedule(optionOrWebid);
 
     v.Day = ko.observable(0);
+
     v.Hour = ko.observable(0);
+
     v.Minute = ko.observable(0);
+
     v.IsJanuary = ko.observable(false);
+
     v.IsFebruary = ko.observable(false);
+
     v.IsMarch = ko.observable(false);
+
     v.IsApril = ko.observable(false);
+
     v.IsMay = ko.observable(false);
+
     v.IsJune = ko.observable(false);
+
     v.IsJuly = ko.observable(false);
+
     v.IsAugust = ko.observable(false);
+
     v.IsSeptember = ko.observable(false);
+
     v.IsOctober = ko.observable(false);
+
     v.IsNovember = ko.observable(false);
+
     v.IsDecember = ko.observable(false);
+
     v.IsLastDay = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.MonthlySchedule, domain.sph";
 
     v.Days = ko.observableArray([]);
@@ -2157,11 +2232,11 @@ bespoke.sph.domain.ReportDelivery = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReportDelivery, domain.sph",
-        ReportDeliveryId: ko.observable(0),
+        Id: ko.observable("0"),
         IsActive: ko.observable(false),
         Title: ko.observable(''),
         Description: ko.observable(''),
-        ReportDefinitionId: ko.observable(0),
+        ReportDefinitionId: ko.observable(''),
         IntervalScheduleCollection: ko.observableArray([]),
         Users: ko.observableArray([]),
         Departments: ko.observableArray([]),
@@ -2192,9 +2267,8 @@ bespoke.sph.domain.ReportContent = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReportContent, domain.sph",
-        ReportContentId: ko.observable(0),
-        ReportDefinitionId: ko.observable(0),
-        ReportDeliveryId: ko.observable(0),
+        ReportDefinitionId: ko.observable(''),
+        ReportDeliveryId: ko.observable(''),
         HtmlOutput: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -2370,9 +2444,8 @@ bespoke.sph.domain.IntervalSchedule = function (optionOrWebid) {
 };
 
 
-///#source 1 1 /SphApp/schemas/sph.domain.g.js
 
-/// <reference path="~/scripts/knockout-3.1.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -2509,11 +2582,12 @@ bespoke.sph.domain.AuditTrail = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.AuditTrail, domain.sph",
+        Id: ko.observable("0"),
         User: ko.observable(''),
         DateTime: ko.observable(moment().format('DD/MM/YYYY')),
         Operation: ko.observable(''),
         Type: ko.observable(''),
-        EntityId: ko.observable(0),
+        EntityId: ko.observable(''),
         ChangeCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -2573,6 +2647,7 @@ bespoke.sph.domain.Organization = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Organization, domain.sph",
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         RegistrationNo: ko.observable(''),
         Email: ko.observable(''),
@@ -2606,6 +2681,7 @@ bespoke.sph.domain.UserProfile = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.UserProfile, domain.sph",
+        Id: ko.observable("0"),
         UserName: ko.observable(''),
         FullName: ko.observable(''),
         Designation: ko.observable(''),
@@ -2614,7 +2690,6 @@ bespoke.sph.domain.UserProfile = function (optionOrWebid) {
         RoleTypes: ko.observable(''),
         StartModule: ko.observable(''),
         Email: ko.observable(''),
-        UserProfileId: ko.observable(0),
         Department: ko.observable(''),
         HasChangedDefaultPassword: ko.observable(false),
         isBusy: ko.observable(false),
@@ -2644,7 +2719,7 @@ bespoke.sph.domain.Setting = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Setting, domain.sph",
-        SettingId: ko.observable(0),
+        Id: ko.observable("0"),
         UserName: ko.observable(''),
         Key: ko.observable(),
         Value: ko.observable(),
@@ -2675,7 +2750,7 @@ bespoke.sph.domain.Designation = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Designation, domain.sph",
-        DesignationId: ko.observable(0),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Description: ko.observable(''),
         IsActive: ko.observable(false),
@@ -2708,7 +2783,7 @@ bespoke.sph.domain.Watcher = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Watcher, domain.sph",
-        WatcherId: ko.observable(0),
+        Id: ko.observable("0"),
         EntityName: ko.observable(''),
         EntityId: ko.observable(0),
         User: ko.observable(''),
@@ -2779,7 +2854,7 @@ bespoke.sph.domain.Message = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Message, domain.sph",
-        MessageId: ko.observable(0),
+        Id: ko.observable("0"),
         Subject: ko.observable(''),
         IsRead: ko.observable(false),
         Body: ko.observable(''),
@@ -2877,7 +2952,7 @@ bespoke.sph.domain.EmailTemplate = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EmailTemplate, domain.sph",
-        EmailTemplateId: ko.observable(0),
+        Id: ko.observable("0"),
         Entity: ko.observable(''),
         Name: ko.observable(''),
         Note: ko.observable(''),
@@ -2911,7 +2986,7 @@ bespoke.sph.domain.DocumentTemplate = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.DocumentTemplate, domain.sph",
-        DocumentTemplateId: ko.observable(0),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Note: ko.observable(''),
         WordTemplateStoreId: ko.observable(''),
@@ -2939,9 +3014,8 @@ bespoke.sph.domain.DocumentTemplate = function (optionOrWebid) {
 };
 
 
-///#source 1 1 /SphApp/schemas/trigger.workflow.g.js
 
-/// <reference path="~/scripts/knockout-3.1.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -2954,10 +3028,10 @@ bespoke.sph.domain.Trigger = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Entity: ko.observable(''),
         TypeOf: ko.observable(''),
-        TriggerId: ko.observable(0),
         Note: ko.observable(''),
         IsActive: ko.observable(false),
         IsFiredOnAdded: ko.observable(false),
@@ -2966,6 +3040,8 @@ bespoke.sph.domain.Trigger = function (optionOrWebid) {
         FiredOnOperations: ko.observable(''),
         RuleCollection: ko.observableArray([]),
         ActionCollection: ko.observableArray([]),
+        ReferencedAssemblyCollection: ko.observableArray([]),
+        RequeueFilterCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -3344,7 +3420,7 @@ bespoke.sph.domain.StartWorkflowAction = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
 
-    v.WorkflowDefinitionId = ko.observable(0);
+    v.WorkflowDefinitionId = ko.observable('');
 
     v.Name = ko.observable('');
 
@@ -3403,11 +3479,47 @@ bespoke.sph.domain.WorkflowTriggerMap = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.AssemblyAction = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
+
+    v.IsAsyncMethod = ko.observable(false);
+
+    v.Assembly = ko.observable('');
+
+    v.TypeName = ko.observable('');
+
+    v.Method = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.AssemblyAction, domain.sph";
+
+    v.MethodArgCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.AssemblyActionPartial) {
+        return _(v).extend(new bespoke.sph.domain.AssemblyActionPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
-        WorkflowDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Note: ko.observable(''),
         IsActive: ko.observable(false),
@@ -3416,6 +3528,8 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
         ActivityCollection: ko.observableArray([]),
         VariableDefinitionCollection: ko.observableArray([]),
         ReferencedAssemblyCollection: ko.observableArray([]),
+        CorrelationSetCollection: ko.observableArray([]),
+        CorrelationTypeCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -3443,8 +3557,8 @@ bespoke.sph.domain.Workflow = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Workflow, domain.sph",
-        WorkflowId: ko.observable(0),
-        WorkflowDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
+        WorkflowDefinitionId: ko.observable(''),
         Name: ko.observable(''),
         State: ko.observable(''),
         IsActive: ko.observable(false),
@@ -3705,7 +3819,7 @@ bespoke.sph.domain.Page = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Page, domain.sph",
-        PageId: ko.observable(0),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         IsRazor: ko.observable(false),
         IsPartial: ko.observable(false),
@@ -4072,8 +4186,15 @@ bespoke.sph.domain.ReceiveActivity = function (optionOrWebid) {
 
     v.PortType = ko.observable('');
 
+    v.Operation = ko.observable('');
+
+    v.MessagePath = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ReceiveActivity, domain.sph";
 
+    v.InitializingCorrelationSetCollection = ko.observableArray([]);
+    v.FollowingCorrelationSetCollection = ko.observableArray([]);
+    v.CorrelationPropertyCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -4101,8 +4222,23 @@ bespoke.sph.domain.SendActivity = function (optionOrWebid) {
 
     v.PortType = ko.observable('');
 
+    v.Adapter = ko.observable('');
+
+    v.Method = ko.observable('');
+
+    v.AdapterAssembly = ko.observable('');
+
+    v.IsSynchronous = ko.observable(false);
+
+    v.ArgumentPath = ko.observable('');
+
+    v.ReturnValuePath = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.SendActivity, domain.sph";
 
+    v.ExceptionFilterCollection = ko.observableArray([]);
+    v.InitializingCorrelationSetCollection = ko.observableArray([]);
+    v.FollowingCorrelationSetCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -4394,9 +4530,9 @@ bespoke.sph.domain.Tracker = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Tracker, domain.sph",
-        TrackerId: ko.observable(0),
-        WorkflowId: ko.observable(0),
-        WorkflowDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
+        WorkflowId: ko.observable(''),
+        WorkflowDefinitionId: ko.observable(''),
         ForbiddenActivities: ko.observableArray([]),
         ExecutedActivityCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
@@ -4426,9 +4562,9 @@ bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ExecutedActivity, domain.sph",
-        InstanceId: ko.observable(0),
+        InstanceId: ko.observable(''),
         ActivityWebId: ko.observable(''),
-        WorkflowDefinitionId: ko.observable(0),
+        WorkflowDefinitionId: ko.observable(''),
         User: ko.observable(''),
         Name: ko.observable(''),
         Type: ko.observable(''),
@@ -4463,7 +4599,7 @@ bespoke.sph.domain.Breakpoint = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.Breakpoint, domain.sph",
         IsEnabled: ko.observable(false),
         ActivityWebId: ko.observable(''),
-        WorkflowDefinitionId: ko.observable(0),
+        WorkflowDefinitionId: ko.observable(''),
         ConditionExpression: ko.observable(''),
         HitCount: ko.observable(0),
         Label: ko.observable(''),
@@ -4532,6 +4668,8 @@ bespoke.sph.domain.MappingActivity = function (optionOrWebid) {
 
     v.DestinationType = ko.observable('');
 
+    v.OutputPath = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.MappingActivity, domain.sph";
 
     v.MappingSourceCollection = ko.observableArray([]);
@@ -4589,10 +4727,15 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+        Id: ko.observable("0"),
         TransformDefinitionId: ko.observable(0),
         Name: ko.observable(''),
         Description: ko.observable(''),
+        InputTypeName: ko.observable(''),
+        OutputTypeName: ko.observable(''),
+        IsPublished: ko.observable(false),
         MapCollection: ko.observableArray([]),
+        FunctoidCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -4653,6 +4796,8 @@ bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
 
     v.__uuid = ko.observable('');
 
+    v.Functoid = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.FunctoidMap, domain.sph";
 
 
@@ -4670,6 +4815,462 @@ bespoke.sph.domain.FunctoidMap = function (optionOrWebid) {
 
     if (bespoke.sph.domain.FunctoidMapPartial) {
         return _(v).extend(new bespoke.sph.domain.FunctoidMapPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.StringConcateFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v["$type"] = "Bespoke.Sph.Domain.StringConcateFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.StringConcateFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.StringConcateFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ParseBooleanFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Format = ko.observable('');
+
+    v.SourceField = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.ParseBooleanFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ParseBooleanFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParseBooleanFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ParseDoubleFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Styles = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.ParseDoubleFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ParseDoubleFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParseDoubleFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ParseDecimalFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Styles = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.ParseDecimalFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ParseDecimalFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParseDecimalFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ParseInt32Functoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Styles = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.ParseInt32Functoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ParseInt32FunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParseInt32FunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ParseDateTimeFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Format = ko.observable('');
+
+    v.Styles = ko.observable('');
+
+    v.Culture = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.ParseDateTimeFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ParseDateTimeFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParseDateTimeFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.FormattingFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Format = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.FormattingFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FormattingFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.FormattingFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+        Name: ko.observable(''),
+        TypeName: ko.observable(''),
+        Description: ko.observable(''),
+        Label: ko.observable(''),
+        Comment: ko.observable(''),
+        IsOptional: ko.observable(false),
+        Functoid: ko.observable(''),
+        Constant: ko.observable(''),
+        Default: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FunctoidArgPartial) {
+        return _(model).extend(new bespoke.sph.domain.FunctoidArgPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ConstantFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.TypeName = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.ConstantFunctoid, domain.sph";
+
+    v.Value = ko.observable();//type but not nillable
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ConstantFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ConstantFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.SourceFunctoid = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Functoid(optionOrWebid);
+
+    v.Field = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.SourceFunctoid, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SourceFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.SourceFunctoidPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ExceptionFilter = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ExceptionFilter, domain.sph",
+        TypeName: ko.observable(''),
+        Filter: ko.observable(''),
+        Interval: ko.observable(),
+        IntervalPeriod: ko.observable(),
+        MaxRequeue: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ExceptionFilterPartial) {
+        return _(model).extend(new bespoke.sph.domain.ExceptionFilterPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.CorrelationType = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.CorrelationType, domain.sph",
+        Name: ko.observable(''),
+        CorrelationPropertyCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CorrelationTypePartial) {
+        return _(model).extend(new bespoke.sph.domain.CorrelationTypePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.CorrelationSet = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.CorrelationSet, domain.sph",
+        Type: ko.observable(''),
+        Name: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CorrelationSetPartial) {
+        return _(model).extend(new bespoke.sph.domain.CorrelationSetPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.CorrelationProperty, domain.sph",
+        Path: ko.observable(''),
+        Name: ko.observable(''),
+        Origin: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CorrelationPropertyPartial) {
+        return _(model).extend(new bespoke.sph.domain.CorrelationPropertyPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Activity(optionOrWebid);
+
+    v.WorkflowDefinitionId = ko.observable('');
+
+    v.Version = ko.observable(0);
+
+    v.IsAsync = ko.observable(false);
+
+    v["$type"] = "Bespoke.Sph.Domain.ChildWorkflowActivity, domain.sph";
+
+    v.VariableMapCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ChildWorkflowActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.ChildWorkflowActivityPartial(v));
     }
     return v;
 };
@@ -4708,7 +5309,7 @@ bespoke.sph.domain.CustomAction = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.CustomAction, domain.sph",
         Title: ko.observable(''),
         IsActive: ko.observable(false),
-        TriggerId: ko.observable(0),
+        TriggerId: ko.observable(''),
         Note: ko.observable(''),
         CustomActionId: ko.observable(0),
         isBusy: ko.observable(false),
@@ -4820,6 +5421,13 @@ bespoke.sph.domain.Functoid = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Functoid, domain.sph",
+        Name: ko.observable(''),
+        OutputTypeName: ko.observable(''),
+        Label: ko.observable(''),
+        Comment: ko.observable(''),
+        X: ko.observable(0.00),
+        Y: ko.observable(0.00),
+        ArgumentCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -4846,6 +5454,8 @@ bespoke.sph.domain.Map = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Map, domain.sph",
         Destination: ko.observable(''),
+        SourceTypeName: ko.observable(''),
+        DestinationTypeName: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -4896,5 +5506,4 @@ bespoke.sph.domain.Operator = function () {
         DO_NOT_SELECT: 'DONTDOTHIS'
     };
 }();
-
 

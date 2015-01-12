@@ -1,0 +1,54 @@
+﻿
+<section class="view-model-modal" id="email-action-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Email notification</h3>
+            </div>
+            <div class="modal-body" data-bind="with: action">
+
+                <form class="form-horizontal" id="email-action-form">
+                 
+                    <div class="form-group">
+                        <label for="email-action-title" class="col-lg-2 control-label">Title</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" required data-bind="value: Title" id="email-action-title" type="text" name="email-action-title" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-action-to" class="col-lg-2 control-label">To</label>
+                        <div class="col-lg-9">
+                            <input class="form-control razor-field" data-bind="value: To" id="email-action-to" type="text" required name="email-action-to" />
+                            <span class="help-block">use @Model to access the document, e.g @Model.MemberPath, to hard code email address you must escape the "@" e.g admin@@bespoke.com.my</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-action-from" class="col-lg-2 control-label">From</label>
+                        <div class="col-lg-9">
+                            <input required class="form-control razor-field" data-bind="value: From" id="email-action-from" type="text" name="email-action-from" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-action-subject" class="col-lg-2 control-label">Subject Template</label>
+                        <div class="col-lg-9">
+                            <input type="text" required id="email-action-subject" name="email-action-subject" data-bind="value: SubjectTemplate" class="form-control razor-field"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-action-body" class="col-lg-2 control-label">Body Template</label>
+                        <div class="col-lg-9">
+                            <textarea required id="email-action-body" name="email-action-body" data-bind="value: BodyTemplate" class="form-control razor-field" rows="5"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="email-action-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

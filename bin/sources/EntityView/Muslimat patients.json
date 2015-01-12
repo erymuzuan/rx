@@ -64,6 +64,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "68c6c000-e6be-49ad-96d1-30d2d30d8579"
       },
       {
@@ -80,6 +81,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "9cb0b228-37a4-418b-90cd-8326b57b2a0d"
       },
       {
@@ -96,6 +98,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "f9c2eb3a-875b-4f14-8ce8-64179e5fc7bd"
       },
       {
@@ -112,6 +115,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "95f4726f-c70d-4a4f-80d8-c754d7a46459"
       },
       {
@@ -128,6 +132,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "date:{0}",
+        "RouteValueField": null,
         "WebId": "1e6b74fb-be00-4519-96c1-ed5a7a759127"
       },
       {
@@ -144,6 +149,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "bd61b9bd-7cf1-4e31-bbe1-9e0afebe4d86"
       },
       {
@@ -160,6 +166,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "76e9b490-fe52-4854-bb2c-0f0140d2f1b3"
       }
     ]
@@ -190,10 +197,9 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
-  "EntityViewId": 1005,
   "IconClass": "",
-  "IconStoreId": "6609ea01-9ed5-4e1a-8414-2c5babb0175b",
-  "EntityDefinitionId": 2002,
+  "IconStoreId": "06dc3c45-2ccd-4937-99fa-507b547c1159",
+  "EntityDefinitionId": "patient",
   "Name": "Muslimat patients",
   "Route": "patients-mulimat",
   "Note": "Women muslim patients",
@@ -203,9 +209,11 @@
   "TileColour": "bgreen",
   "CountMessage": "",
   "Entity": null,
+  "Partial": null,
   "CreatedBy": null,
+  "Id": "patients-mulimat",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-20T07:37:08.8170709+08:00",
+  "ChangedDate": "2014-09-17T11:01:05.2055023+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }

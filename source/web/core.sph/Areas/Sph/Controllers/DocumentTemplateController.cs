@@ -6,21 +6,31 @@ using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 
-namespace Bespoke.Sph.Web.Areas.Sph.Controllers
+namespace Bespoke.Sph.Web.Controllers
 {
+    [RoutePrefix("document-template")]
     public class DocumentTemplateController : Controller
     {
+        [HttpPost]
+        [Route("")]
         public async Task<ActionResult> Save()
         {
-            var ef = this.GetRequestJson<DocumentTemplate>();
+            var dt = this.GetRequestJson<DocumentTemplate>();
+            if (string.IsNullOrWhiteSpace(dt.Id) || dt.Id == "0")
+                dt.Id = Guid.NewGuid().ToString();
+
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(ef);
+                session.Attach(dt);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = ef.DocumentTemplateId });
+            return Json(new { success = true, status = "OK", id = dt.Id });
         }
+
+
+        [HttpPost]
+        [Route("publish")]
         public async Task<ActionResult> Publish()
         {
             var context = new SphDataContext();
@@ -37,15 +47,17 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(template);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = template.DocumentTemplateId });
+            return Json(new { success = true, status = "OK", message = "Your template has been successfully published", id = template.Id });
 
         }
 
-        public async Task<ActionResult> Transform(int id, string entity, int templateId)
+        [HttpGet]
+        [Route("transform/{entity}/{itemId}/{templateId}")]
+        public async Task<ActionResult> Transform(string itemId, string entity, string templateId)
         {
 
             var context = new SphDataContext();
-            var template = await context.LoadOneAsync<DocumentTemplate>(e => e.DocumentTemplateId == templateId);
+            var template = await context.LoadOneAsync<DocumentTemplate>(e => e.Id == templateId);
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Name == entity);
 
             var buildValidation = await template.ValidateBuildAsync(ed);
@@ -56,7 +68,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
             var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed.Name);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.EntityDefinitionId, ed.Name);
+            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
             var edType = edAssembly.GetType(edTypeName);
             if (null == edType)
                 Console.WriteLine("Cannot create type " + edTypeName);
@@ -64,7 +76,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var reposType = sqlRepositoryType.MakeGenericType(edType);
             dynamic repository = Activator.CreateInstance(reposType);
-            var item = await repository.LoadOneAsync(id);
+            var item = await repository.LoadOneAsync(itemId);
 
             var file = System.IO.Path.GetTempFileName() + ".docx";
             var store = ObjectBuilder.GetObject<IBinaryStore>();
@@ -75,7 +87,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             wordGen.Generate(file, item);
 
 
-            return File(System.IO.File.ReadAllBytes(file), MimeMapping.GetMimeMapping(file), string.Format("{0}.{1}.docx", template.Name, item.GetId()));
+            return File(System.IO.File.ReadAllBytes(file), MimeMapping.GetMimeMapping(file), string.Format("{0}.{1}.docx", template.Name, item.Id));
 
         }
     }

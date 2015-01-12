@@ -16,40 +16,40 @@ namespace Bespoke.Sph.Web.Api
 
         public async Task<ActionResult> Scalar(string column, string table, string filter)
         {
-            var translator = new OdataSqlTranslator<Entity>(column, table);
+            var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Scalar(filter);
             return await ExecuteScalarAsync(sql);
         }
 
         public async Task<ActionResult> Sum(string column, string table, string filter)
         {
-            var translator = new OdataSqlTranslator<Entity>(column, table);
+            var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Sum(filter);
             return await ExecuteScalarAsync(sql);
         }
 
         public async Task<ActionResult> Count(string column, string table, string filter)
         {
-            var translator = new OdataSqlTranslator<Entity>(column, table);
+            var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Count(filter);
             return await ExecuteScalarAsync(sql);
         }
         public async Task<ActionResult> Average(string column, string table, string filter)
         {
-            var translator = new OdataSqlTranslator<Entity>(column, table);
+            var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Average(filter);
             return await ExecuteScalarAsync(sql);
         }
         public async Task<ActionResult> Max(string column, string table, string filter)
         {
-            var translator = new OdataSqlTranslator<Entity>(column, table);
+            var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Max(filter);
             return await ExecuteScalarAsync(sql);
         }
 
         public async Task<ActionResult> Min(string column, string table, string filter)
         {
-            var translator = new OdataSqlTranslator<Entity>(column, table);
+            var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Min(filter);
             return await ExecuteScalarAsync(sql);
         }

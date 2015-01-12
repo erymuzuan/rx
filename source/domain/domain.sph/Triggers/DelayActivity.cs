@@ -1,12 +1,15 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Text;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Delay", TypeName = "Delay", Description = "Wait for a certain time")]
     public partial class DelayActivity : Activity
     {
-
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
             var result = base.ValidateBuild(wd);
@@ -32,7 +35,7 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
+        public override string GenerateInitAsyncMethod(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<InitiateActivityResult> InitiateAsync{0}()", this.MethodName);
@@ -63,7 +66,7 @@ namespace Bespoke.Sph.Domain
 
             var task = new ScheduledActivityExecution
             {
-                InstanceId = wf.WorkflowId,
+                InstanceId = wf.Id,
                 ActivityId = this.WebId,
                 Name = this.Name
             };
@@ -75,7 +78,7 @@ namespace Bespoke.Sph.Domain
             var ts = ObjectBuilder.GetObject<ITaskScheduler>();
             var task = new ScheduledActivityExecution
             {
-                InstanceId = wf.WorkflowId,
+                InstanceId = wf.Id,
                 ActivityId = this.WebId,
                 Name = this.Name
             };
@@ -91,42 +94,47 @@ namespace Bespoke.Sph.Domain
             get { return true; }
         }
 
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
 
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
+            
             code.AppendLine(this.ExecutingCode);
-            code.AppendLinf("       await Task.Delay(50);");
             code.AppendLinf("       this.State = \"Ready\";");
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
             code.AppendLine(this.ExecutedCode);
-            code.AppendLine("       return result;");
-            code.AppendLine("   }");
-
+            
             if (!string.IsNullOrWhiteSpace(this.Expression))
             {
-                code.AppendLinf("   public System.DateTime EvaluateExpression{0}()", this.MethodName);
-                code.AppendLine("   {");
-                code.AppendLine("       var item = this;");
-                code.AppendLinf(this.Expression.Trim().EndsWith(";") ? "       {0}" : "       return {0};", this.Expression);
-                code.AppendLine("   }");
+                var evaluateBody = new StringBuilder();
+                evaluateBody.AppendLinf("   public System.DateTime EvaluateExpression{0}()", this.MethodName);
+                evaluateBody.AppendLine("   {");
+                evaluateBody.AppendLine("       var item = this;");
+                evaluateBody.AppendLinf(this.Expression.Trim().EndsWith(";") ? "       {0}" : "       return {0};", this.Expression);
+                evaluateBody.AppendLine("   }");
+
+
+                this.OtherMethodCollection.Clear();
+                this.OtherMethodCollection.Add(new Method
+                {
+                    Code = evaluateBody.ToString()
+                });
 
             }
 
             return code.ToString();
         }
 
+
         public async override Task TerminateAsync(Workflow wf)
         {
             var ts = ObjectBuilder.GetObject<ITaskScheduler>();
             var task = new ScheduledActivityExecution
             {
-                InstanceId = wf.WorkflowId,
+                InstanceId = wf.Id,
                 ActivityId = this.WebId,
                 Name = this.Name
             };

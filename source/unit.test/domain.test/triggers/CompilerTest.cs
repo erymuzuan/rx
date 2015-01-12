@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace domain.test.triggers
                 IsFiredOnChanged = true,
                 IsFiredOnDeleted = true,
                 FiredOnOperations = "Save,Publish",
-                TriggerId = 33
+                Id = 33.ToString(CultureInfo.CurrentCulture)
             };
             var options = new CompilerOptions
             {
@@ -74,7 +75,7 @@ namespace domain.test.triggers
 
             // try to instantiate the EntityDefinition
             var assembly = Assembly.LoadFrom(result.Output);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.EntityDefinitionId, ed.Name);
+            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
 
             var edType = assembly.GetType(edTypeName);
             Assert.IsNotNull(edType, edTypeName + " is null in " + result.Output);
@@ -90,7 +91,7 @@ namespace domain.test.triggers
                 Name = "Account",
                 Plural = "Accounts",
                 RecordName = "AccountNo",
-                EntityDefinitionId = 72
+                Id = "72"
             };
             ent.MemberCollection.Add(new Member
             {

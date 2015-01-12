@@ -23,7 +23,7 @@ namespace subscriber.entities
         {
             var context = new SphDataContext();
             var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true
-                && f.EntityDefinitionId == item.EntityDefinitionId);
+                && f.EntityDefinitionId == item.Id);
             var vm = new
             {
                 Definition = item,

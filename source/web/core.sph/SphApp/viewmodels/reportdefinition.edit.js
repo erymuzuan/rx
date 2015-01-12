@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -29,23 +29,22 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
 
                 d.DataSource().EntityName.subscribe(loadEntityColumns);
             },
-            activate = function (rid) {
+            activate = function (id) {
                 designer.activate();
-                var id = parseInt(rid);
                 reportDefinitionId(id);
 
-                context.getListAsync("EntityDefinition", "EntityDefinitionId gt 0", "Name")
+                context.getListAsync("EntityDefinition", "Id ne ''", "Name")
                 .done(function (list) {
                     entities(list);
                 });
 
 
-                if (!id) {
+                if (!id || id === "0") {
                     var rdl = new bespoke.sph.domain.ReportDefinition(system.guid());
                     setRdl(rdl);
 
                 } else {
-                    var query = String.format("ReportDefinitionId eq {0}", id);
+                    var query = String.format("Id eq '{0}'", id);
                     var tcs = new $.Deferred();
                     context.loadOneAsync("ReportDefinition", query)
                         .done(function (r) {
@@ -65,6 +64,14 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                 designer.attached(view);
                 $('a.btn-close-configuration-dialog').click(function () {
                     loadSelectedEntityColumns(vm.reportDefinition().DataSource().EntityFieldCollection());
+                });
+
+                $(view).on('click', 'button.btn-context-action', function () {
+                    var ctp = $(this).siblings('div.context-action');
+                    ctp.show()
+                    .find('button.close').one('click', function () {
+                        ctp.hide();
+                    });
                 });
 
             },
@@ -126,7 +133,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
-                            vm.reportDefinition().ReportDefinitionId(result.id);
+                            vm.reportDefinition().Id(result.id);
                             errors.removeAll();
                         } else {
                             errors(result.Errors);
@@ -198,7 +205,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
             },
 
             exportTemplate = function () {
-                return eximp.exportJson("report.definition." + vm.reportDefinition().ReportDefinitionId() + ".json", ko.mapping.toJSON(vm.reportDefinition));
+                return eximp.exportJson("report.definition." + vm.reportDefinition().Id() + ".json", ko.mapping.toJSON(vm.reportDefinition));
             },
 
             importTemplateJson = function () {
@@ -212,7 +219,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                                     p.DefaultValue = "";
                                 }
                             });
-                            clone.ReportDefinitionId(0);
+                            clone.Id("0");
                             loadEntityColumns(clone.DataSource().EntityName());
                             setRdl(clone);
                         } catch (error) {

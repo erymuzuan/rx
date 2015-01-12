@@ -13,6 +13,23 @@ namespace Bespoke.Sph.Domain.Api
 {
     public partial class TableDefinition
     {
+        public TableDefinition()
+        {
+
+        }
+
+        public TableDefinition(AdapterTable table)
+        {
+            this.Name = table.Name;
+            this.ChildTableCollection.ClearAndAddRange(from a in table.ChildRelationCollection
+                                                       select new TableDefinition
+                                                       {
+                                                           Name = a.Table,
+                                                           CodeNamespace = this.CodeNamespace,
+                                                           Schema = this.Schema
+                                                       });
+
+        }
 
         private string GetCodeHeader()
         {

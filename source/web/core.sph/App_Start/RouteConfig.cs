@@ -62,7 +62,7 @@ namespace Bespoke.Sph.Web.App_Start
                 try
                 {
                     var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
-                    var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed1.EntityDefinitionId, ed1.Name);
+                    var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed1.Id, ed1.Name);
                     var edType = edAssembly.GetType(edTypeName);
                     if (null == edType)
                         Console.WriteLine("Cannot create type " + edTypeName);
@@ -198,11 +198,16 @@ namespace Bespoke.Sph.Web.App_Start
                             select new JsRoute
                             {
                                 Title = t.Title,
-                                Route = string.Format("reportdefinition.execute-id.{0}/:id", t.ReportDefinitionId),
+                                Route = string.Format("reportdefinition.execute-id.{0}/:id", t.Id),
                                 Caption = t.Title,
                                 Icon = "icon-bar-chart",
-                                ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.ReportDefinitionId)
+                                ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.Id)
                             };
+
+            // adapters
+            var adapterDesginer = new Domain.Api.AdapterDesigner();
+            var adapterRoutes = adapterDesginer.GetRoutes();
+            routes.AddRange(adapterRoutes);
 
             routes.AddRange(viewRoutes);
             routes.AddRange(formRoutes);

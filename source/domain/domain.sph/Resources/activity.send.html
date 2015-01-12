@@ -1,0 +1,150 @@
+﻿
+<section class="view-model-modal" id="send-activity-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Send Activity</h3>
+            </div>
+            <div class="modal-body" data-bind="with: activity">
+
+                <form class="form-horizontal" id="activity-send-modal-form">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" data-bind="value: Name"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                   placeholder="Name"
+                                   class="form-control" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="adapter-assembly" class="col-sm-3 control-label">Adapter Assembly</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="adapter-assembly" required data-bind="value:AdapterAssembly,
+                                    options: $root.adapterAssemblyOptions,
+                                    optionsCaption:'[Please select your adapter dll]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="adapter-name" class="col-sm-3 control-label">Adapter</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="adapter-name" required data-bind="value:Adapter,
+                                    options:$root.adapterOptions,
+                                    optionsCaption:'[Please select your adapter class]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="method" class="col-sm-3 control-label">Method</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="method" required data-bind="value:Method,
+                                    options: $root.methodOptions,
+                                    optionsCaption:'[Select a Method]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="argument-path" class="col-sm-3 control-label">Agument Path</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="argument-path" required data-bind="value:ArgumentPath,
+                                    options:$root.variableOptions,
+                                    optionsCaption:'[Please select your argument path]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="return-value-path" class="col-sm-3 control-label">Return Value Path</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="return-value-path" data-bind="value:ReturnValuePath,
+                                    optionsCaption : '[Select a return path(optional)]',
+                                    options: $root.variableOptions"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: IsSynchronous" id="is-sync" type="checkbox" name="IsSynchronous" />
+                                    Using synchronous method invocation
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <h4>Exception Filters</h4>
+                    <table id="setter-action-table" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Exception</th>
+                                <th>Requeue</th>
+                                <th>Interval</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: ExceptionFilterCollection">
+                            <tr>
+                                <td>
+                                    <input class="input-setter-path form-control" type="text" data-bind="value: TypeName" required
+                                           pattern="^[A-Za-z_\.][A-Za-z0-9_\.]*$" />
+                                </td>
+                                <td>
+
+                                    <input class="input-setter-path form-control" type="text" data-bind="value: MaxRequeue" required
+                                           pattern="^[0-9]$" />
+
+                                </td>
+                                <td>
+                                    <input class="input-setter-path form-control" type="text" data-bind="value: Interval" required
+                                           pattern="^[0-9]{1,6}$" />
+                                    <select required="" data-bind="value:IntervalPeriod" class="form-control">
+                                        <option value="miliseconds">miliseconds</option>
+                                        <option value="seconds">seconds</option>
+                                        <option value="minutes">minutes</option>
+                                        <option value="minutes">hourst</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <a href="#" data-bind="click : $root.removeExceptionFilter"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <a class="btn btn-link" data-bind="click: $root.addExceptionFilter">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a exception filter
+                    </a>
+
+                    <h4>Initializing Correlation Set</h4>
+                    <div class="form-group">
+                        <div data-bind="foreach :$root.wd().CorrelationSetCollection">
+                            <label>
+                                <input type="checkbox" data-bind="attr : {value:Name}, checked: $root.activity().InitializingCorrelationSetCollection" />
+                                <!-- ko text: Name-->
+                                <!-- /ko-->
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <h4>Following Correlation Set</h4>
+                    <div class="form-group">
+                        <div  data-bind="foreach :$root.wd().CorrelationSetCollection">
+                            <label>
+                                <input type="checkbox" data-bind="attr : {value:Name}, checked: $root.activity().FollowingCorrelationSetCollection" />
+                                <!-- ko text: Name-->
+                                <!-- /ko-->
+                            </label>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="activity-send-modal-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

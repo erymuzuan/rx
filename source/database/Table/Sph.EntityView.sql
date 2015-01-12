@@ -2,11 +2,11 @@ IF OBJECT_ID('Sph.EntityView', 'U') IS NOT NULL
   DROP TABLE Sph.EntityView
 GO
 
-CREATE TABLE Sph.EntityView
+CREATE TABLE [Sph].[EntityView]
 (
-	 [EntityViewId] INT PRIMARY KEY IDENTITY(1,1)
-	,[EntityDefinitionId] INT NOT NULL
-	,[Data] XML NOT NULL
+	[Id] VARCHAR(50) PRIMARY KEY NOT NULL
+	,[EntityDefinitionId]  VARCHAR(255) NOT NULL
+	,[Json] VARCHAR(MAX) NOT NULL
 	,[Name] VARCHAR(255) NOT NULL
 	,[IsPublished] BIT NOT NULL
 	,[Route] VARCHAR(255) NOT NULL

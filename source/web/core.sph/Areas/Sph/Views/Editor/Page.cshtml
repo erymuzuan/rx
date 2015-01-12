@@ -76,7 +76,7 @@
                 count++;
             }
             editor.setValue(window.code);
-            var cursor2 = localStorage.getItem("page_@Model.Page.PageId"),
+            var cursor2 = localStorage.getItem("page_@Model.Page.Id"),
                 c = JSON.parse(cursor2);
             if (c) {
                 editor.focus();
@@ -115,7 +115,7 @@
 
                     var cursor = editor.selection.getCursor();
                     if (cursor) {
-                        localStorage.setItem("page_@Model.Page.PageId", JSON.stringify(cursor));
+                        localStorage.setItem("page_@Model.Page.Id", JSON.stringify(cursor));
                     }
 
                 },
@@ -133,7 +133,7 @@
                 logs = function () {
 
                     require(['viewmodels/page.logs', 'services/app'], function (dialog, app2) {
-                        var query = "Type eq 'Page' and EntityId = @Model.Page.PageId";
+                        var query = "Type eq 'Page' and EntityId = @Model.Page.Id";
                         context.loadAsync("AuditTrail", query)
                             .done(function (lo) {
                                 dialog.logs(lo.itemCollection);

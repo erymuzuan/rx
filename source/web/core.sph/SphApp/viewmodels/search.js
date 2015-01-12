@@ -3,20 +3,18 @@
 
         var isBusy = ko.observable(),
             text = ko.observable(),
-            entities = ko.observable(),
+            entities = ko.observableArray(),
             activate = function () {
-                var query = String.format("IsPublished eq {0}", 1);
-                var tcs = new $.Deferred();
+                var query = String.format("IsPublished eq {0}", 1),
+                    tcs = new $.Deferred();
 
-                context.getTuplesAsync({
+                context.loadAsync({
                     entity: "EntityDefinition",
-                    query: query,
-                    field: "Name",
-                    field2: "RecordName"
+                    query: query
                 })
                     .then(function (lo) {
                         isBusy(false);
-                        entities(lo);
+                        entities(lo.itemCollection);
                         tcs.resolve(true);
                     });
                 return tcs.promise();
@@ -30,30 +28,30 @@
 
             },
             search = function () {
-                var tcs = new $.Deferred(),
-                    data = JSON.stringify({ text: vm.searchText() });
+                var tcs = new $.Deferred();
                 isBusy(true);
 
-                context.post(data, "/Search")
+                context.get("search/" + ko.unwrap(vm.searchText))
                     .then(function (result) {
                         isBusy(false);
                         var hits = _(result.hits.hits).map(function (v) {
                             var record = _(entities()).find(function (x) {
-                                return x.Item1.toLowerCase() == v._type.toLowerCase();
+                                return ko.unwrap(x.Name).toLowerCase() === v._type.toLowerCase();
                             });
                             if (!record) {
-                                console.log("whoaa canot find", v);
+                                console.log("whoaa cannot find", v);
                                 return {
                                     type: v._type,
                                     id: v._id,
                                     title: "",
-                                    iconClass: 'fa fa-user'
+                                    iconClass: ko.unwrap(v.IconClass)
                                 };
                             }
-                            var title = v._source[record.Item2];
+                            var rn = ko.unwrap(record.RecordName),
+                                title = v._source[rn];
                             if (v.highlight) {
-                                if (v.highlight[record.Item2]) {
-                                    title = v.highlight[record.Item2][0];
+                                if (v.highlight[rn]) {
+                                    title = v.highlight[rn][0];
                                 } else {
                                     title = v.highlight[Object.keys(v.highlight)[0]][0];
                                 }
@@ -63,7 +61,7 @@
                                 type: v._type,
                                 id: v._id,
                                 title: title,
-                                iconClass: 'fa fa-user'
+                                iconClass: ko.unwrap(record.IconClass)
                             };
                         });
                         vm.searchResults(hits);
@@ -89,9 +87,9 @@
                 return tcs.promise();
             };
 
-        text.subscribe(function (t) {
-            console.log(t);
-        });
+            text.subscribe(function (t) {
+                console.log(t);
+            });
 
         var vm = {
             entities: entities,

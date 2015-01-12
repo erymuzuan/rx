@@ -77,16 +77,19 @@
             <li>
                 <a href="#assemblies" data-toggle="tab">Referenced Assemblies</a>
             </li>
+            <li>
+                <a href="#correlations" data-toggle="tab">Correlations</a>
+            </li>
         </ul>
         <div class="tab-content">
             <div id="toolbox" class="tab-pane active">
                 <!-- ko foreach : toolboxElements -->
 
-                <div class="btn btn-default col-lg-12 toolbox-item" data-bind="attr : {id:WebId()}, visible : IsEnabled">
-                    <div data-bind="attr : {'class':CssClass}"></div>
-                    <strong data-bind="text:Name"></strong>
+                <div class="btn btn-default col-lg-12 toolbox-item">
+                    <div data-bind="attr : {'class':'pull-left activity32 activity32-'+ designer.TypeName +'Activity' }"></div>
+                    <strong data-bind="text:designer.Name"></strong>
                     <p>
-                        <span data-bind="text:Note"></span>
+                        <span data-bind="text:designer.Description"></span>
                     </p>
 
                 </div>
@@ -126,7 +129,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Note">Note</label>
-                        <textarea cols="4" rows="5" data-bind="value:Note" class="form-control" id="Note" placeholder="Note....." ></textarea>
+                        <textarea cols="4" rows="5" data-bind="value:Note" class="form-control" id="Note" placeholder="Note....."></textarea>
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
@@ -156,9 +159,9 @@
                     </div>
                 </form>
             </div>
-            
+
             <div id="assemblies" class="tab-pane" data-bind="with : wd">
-                <a href="#" data-bind="click : addReferencedAssembly" class="pull-right btn btn-link">+Add Assembly</a>
+   
                 <table class="table table-striped table-condensed">
                     <thead>
                         <tr>
@@ -179,6 +182,76 @@
                         </tr>
                     </tbody>
                 </table>
+                
+                <a href="#" data-bind="click : addReferencedAssembly" class="btn btn-link">
+                    <i class="fa fa-plus-circle"></i>
+                    Add an assembly
+                </a>
+            </div>
+            
+            <div id="correlations" class="tab-pane" data-bind="with : wd">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach : CorrelationSetCollection">
+                        <tr>
+                            <td>
+
+                                <a href="#" data-bind="click : $parent.editCorrelationSet.call($parent,$data)">
+                                    <!-- ko text: Name-->
+                                    <!-- /ko -->
+                                </a>
+                            </td>
+                            <td data-bind="text:Type"></td>
+                            <td>
+                                <a href="#" data-bind="click : $parent.removeCorrelationSet.call($parent,$data)">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a href="#" data-bind="click : addCorrelationSet" class="btn btn-link">
+                    <i class="fa fa-plus-circle"></i>
+                    Add a correlation set
+                </a>
+
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach : CorrelationTypeCollection">
+                        <tr>
+                            <td>
+                                <a href="#" data-bind="click : $parent.editCorrelationType.call($parent,$data)">
+                                    <!-- ko text: Name-->
+                                    <!-- /ko -->
+                                </a>
+                            </td>
+                            <td></td>
+                            <td>
+                                <a href="#" data-bind="click : $parent.removeCorrelationType.call($parent,$data)">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a href="#" data-bind="click : addCorrelationType" class="btn btn-link">
+                    <i class="fa fa-plus-circle"></i>
+                    Add a correlation type
+                </a>
             </div>
         </div>
     </div>

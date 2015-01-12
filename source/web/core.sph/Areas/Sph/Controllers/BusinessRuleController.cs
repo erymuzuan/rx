@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == edName);
             var assembly = Assembly.Load(string.Format("{0}.{1}", ConfigurationManager.ApplicationName, edName));
-            var type = assembly.GetType(string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.EntityDefinitionId, id));
+            var type = assembly.GetType(string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, id));
             
             var json = this.GetRequestBody();
             dynamic item = JsonConvert.DeserializeObject(json, type, new JsonSerializerSettings{TypeNameHandling = TypeNameHandling.All});

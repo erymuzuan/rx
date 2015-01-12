@@ -20,7 +20,7 @@
     <div class="tab-content">
         <div id="user-tab" class="tab-pane active">
             <div>
-                <table class="table table-striped" data-bind="serverPaging: { entity: 'UserProfile', query: 'UserProfileId gt 0', list: profiles, map: map },filter : {path:'tbody>tr'}">
+                <table class="table table-striped" data-bind="serverPaging: { entity: 'UserProfile', list: profiles, map: map },filter : {path:'tbody>tr'}">
                     <thead>
                         <tr>
                             <th>UserName</th>

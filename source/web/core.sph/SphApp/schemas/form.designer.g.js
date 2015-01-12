@@ -1,5 +1,5 @@
 ﻿
-/// <reference path="~/scripts/knockout-3.1.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -770,7 +770,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-        EntityDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
         Name: ko.observable(''),
         Plural: ko.observable(''),
         IconStoreId: ko.observable(''),
@@ -848,8 +848,8 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
-        EntityFormId: ko.observable(0),
-        EntityDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
+        EntityDefinitionId: ko.observable(''),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),
@@ -868,9 +868,12 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         Operation: ko.observable(''),
         Entity: ko.observable(''),
         Partial: ko.observable(''),
+        Caption: ko.observable(''),
+        Layout: ko.observable(''),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         Rules: ko.observableArray([]),
         RouteParameterCollection: ko.observableArray([]),
+        FormLayoutCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -894,14 +897,50 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.FormLayout = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FormLayout, domain.sph",
+        Name: ko.observable(''),
+        Position: ko.observable(''),
+        IsForm: ko.observable(false),
+        IsAuditTrail: ko.observable(false),
+        Content: ko.observable(),
+        XsmallCol: ko.observable(),
+        MediumCol: ko.observable(),
+        SmallCol: ko.observable(),
+        LargeCol: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FormLayoutPartial) {
+        return _(model).extend(new bespoke.sph.domain.FormLayoutPartial(model));
+    }
+    return model;
+};
+
+
+
 bespoke.sph.domain.EntityView = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
-        EntityViewId: ko.observable(0),
+        Id: ko.observable("0"),
         IconClass: ko.observable(''),
         IconStoreId: ko.observable(''),
-        EntityDefinitionId: ko.observable(0),
+        EntityDefinitionId: ko.observable(''),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),
@@ -911,6 +950,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         TileColour: ko.observable(''),
         CountMessage: ko.observable(''),
         Entity: ko.observable(''),
+        Partial: ko.observable(''),
         FilterCollection: ko.observableArray([]),
         ViewColumnCollection: ko.observableArray([]),
         SortCollection: ko.observableArray([]),
@@ -1203,12 +1243,12 @@ bespoke.sph.domain.EntityChart = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityChart, domain.sph",
-        EntityChartId: ko.observable(0),
-        EntityDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
+        EntityDefinitionId: ko.observable(''),
         Entity: ko.observable(''),
         Name: ko.observable(''),
         Type: ko.observable(''),
-        EntityViewId: ko.observable(0),
+        EntityViewId: ko.observable(''),
         Query: ko.observable(''),
         Aggregate: ko.observable(''),
         Field: ko.observable(''),
@@ -1278,7 +1318,7 @@ bespoke.sph.domain.SearchDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.SearchDefinition, domain.sph",
-        SearchDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
         Entity: ko.observable(''),
         Name: ko.observable(''),
         IsPublished: ko.observable(false),

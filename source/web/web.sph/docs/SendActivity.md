@@ -1,22 +1,23 @@
-#SendActivity
-##Overview
-*Future Used*
-Allows you to send a message to external systems
+#Send Activity
 
-
+SendActivity allows you to send a message to one of the adapter available in your solution.
 ##Properties
 <table class="table table-condensed table-bordered">
     <thead>
-<tr>
-<th>Property</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>PortType</td><td> - </td></tr>
-</tbody></table>
-
-
+        <tr>
+            <th>Property</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>AdapterAssembly</td><td> - Select the assembly(dll) where your adapter is defined </td></tr>
+        <tr><td>Adapter</td><td> - Select a type where your adapter is</td></tr>
+        <tr><td>Method</td><td> - The operation that will be called</td></tr>
+        <tr><td>ArgumentPath</td><td> - The argument or input path in your WorkflowDefinition that will be passed to the adapter method</td></tr>
+        <tr><td>ReturnValuePath</td><td> - You can optionally store the return value of the operation call</td></tr>
+        <tr><td>ExceptionFilterCollection</td><td> - Allows you to filter and retry the operation based on the Exception</td></tr>
+    </tbody>
+</table>
 
 ## See also
 

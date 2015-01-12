@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Save(Organization organization)
         {
             var context = new SphDataContext();
-            var dbItem = await context.LoadOneAsync<Organization>(o => o.OrganizationId == organization.OrganizationId) ?? organization;
+            var dbItem = await context.LoadOneAsync<Organization>(o => o.Id == organization.Id) ?? organization;
             if (dbItem != organization)
             {
                 dbItem.Name = organization.Name;

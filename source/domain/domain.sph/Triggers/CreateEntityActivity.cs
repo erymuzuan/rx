@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Reflection;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Create a record", TypeName = "CreateEntity", Description = "Create a new record for your entity")]
     public partial class CreateEntityActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
@@ -23,18 +26,19 @@ namespace Bespoke.Sph.Domain
             result.Result = result.Errors.Count == 0;
             return result;
         }
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+
+
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
             var context = new SphDataContext();
             var ed = context.LoadOne<EntityDefinition>(d => d.Name == this.EntityType);
             var entityFullName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName,
-                ed.EntityDefinitionId, ed.Name);
+                ed.Id, ed.Name);
 
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
+            
             code.AppendLinf("        var item = new {0}();", entityFullName);
             code.AppendLinf("        var self = this.WorkflowDefinition.ActivityCollection.OfType<CreateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
 
@@ -49,15 +53,16 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("          session.Attach(item);");
             code.AppendLine("          await session.SubmitChanges();");
             if (!string.IsNullOrWhiteSpace(this.ReturnValuePath))
-                code.AppendLinf("          this.{0} = item.{1}Id;", this.ReturnValuePath, this.EntityType);
+                code.AppendLinf("          this.{0} = item.Id;", this.ReturnValuePath);
             code.AppendLine("      }");
             // set the next activity
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
-            code.AppendLine("       return result;");
-            code.AppendLine("   }");
+            
 
             return code.ToString();
         }
+
+
     }
 }

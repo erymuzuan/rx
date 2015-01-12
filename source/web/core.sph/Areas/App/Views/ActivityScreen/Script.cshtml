@@ -6,7 +6,7 @@
     var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Formatting = Formatting.Indented };
 }
 <script src="~/SphApp/objectbuilders.js"></script>
-<script src="~/Scripts/knockout-3.1.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.2.0.debug.js"></script>
 <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
 <script src="~/SphApp/schemas/trigger.workflow.g.js"></script>
 <script src="~/SphApp/schemas/form.designer.g.js"></script>
@@ -20,9 +20,10 @@
                 entityOptions = ko.observableArray(),
                 activate = function (wdid, screenid) {
                     var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting)),
-                        oels = _(elements.$values).map(function (v){return context.toObservable(v);});
+                        oels = _(elements.$values).map(function (v){return context.toObservable(v);}),
+                        id = vm.wd().Id();
                     vm.formElements(oels);
-                    
+
                     context.getListAsync("EntityDefinition", null, "Name")
                         .then(function(entities) {
                             var list = _(entities).map(function(v) {
@@ -38,21 +39,26 @@
                             entityOptions(list);
                         });
 
-                    if (wdid) {
-                        var id = parseInt(wdid),
-                            query = String.format("WorkflowDefinitionId eq {0}", id),
-                            tcs = new $.Deferred();
+              
+                    console.log(typeof wdid);
+                    if (wdid && screenid) {
+                        var query = String.format("Id eq '{0}'", id),
+                        tcs = new $.Deferred();
 
                         context.loadOneAsync("WorkflowDefinition", query)
-                            .done(function (b) {
+                            .done(function(b) {
                                 vm.wd(b);
                                 tcs.resolve(true);
                                 b.loadSchema();
                                 var act = _(b.ActivityCollection()).find(function(v) { return v.WebId() == screenid; });
                                 vm.activity(act);
-
                             });
+
+                 
                         return tcs.promise();
+
+                    } else {
+                        vm.wd().loadSchema(); 
                     }
                     return Task.fromResult(true);
                 },
@@ -225,19 +231,19 @@
 
                 },
                 importCommand = function() {
-                   
+
                     return eximp.importJson()
                         .done(function (json) {
-                             try {
-                                 var obj = JSON.parse(json),
-                                     clone = context.toObservable(obj);
+                            try {
+                                var obj = JSON.parse(json),
+                                    clone = context.toObservable(obj);
 
-                                 vm.activity().FormDesign(clone.FormDesign());
+                                vm.activity().FormDesign(clone.FormDesign());
 
-                             } catch (error) {
-                                 logger.logError('Fail template import tidak sah', error, this, true);
-                             }
-                         });
+                            } catch (error) {
+                                logger.logError('Fail template import tidak sah', error, this, true);
+                            }
+                        });
                 };
 
             var vm = {

@@ -28,14 +28,16 @@ namespace domain.test.reports
             return Task.FromResult(m_dictionary[query.ToString()]);
         }
 
-        public Task<T> LoadOneAsync(int id)
+        public Task<T> LoadOneAsync(string id)
         {
             throw new NotImplementedException();
         }
 
         public T LoadOne(IQueryable<T> query)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("-----");
+            Console.WriteLine(query.ToString());
+            return m_dictionary[query.ToString()];
         }
 
         public Task<int> GetCountAsync(IQueryable<T> query)

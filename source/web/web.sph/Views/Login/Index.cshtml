@@ -1,0 +1,32 @@
+﻿@model dynamic
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Sample test</title>
+</head>
+<body>
+    <h1>Login Page</h1>
+    <div>
+        <form method="POST" action="/Sph/SphAccount/Login" accept-charset="UTF-8">
+            <input autofocus="autofocus" class="form-control" id="UserName" name="UserName" placeholder="UserName" required="True" type="text" value="" />
+            <span class="field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+            <label class="controls"></label>
+            <input class="form-control" id="Password" name="Password" placeholder="Password" required="True" type="password" />
+            <span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+            <label class="checkbox">
+                <input type="checkbox" name="remember" value="1">
+                Remember me
+            </label>
+
+            <input type="hidden" value="" name="ReturnUrl" />
+            <button type="submit" name="submit" class="btn btn-default">Login</button>
+        </form>
+    </div>
+</body>
+</html>

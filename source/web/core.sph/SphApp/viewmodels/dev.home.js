@@ -13,6 +13,9 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
     function (context, logger, config) {
 
         var isBusy = ko.observable(false),
+            groups = ko.observableArray(),
+            recentWorkflowDefinitions = ko.observableArray(),
+            recentEntityDefinitions = ko.observableArray(),
             activate = function () {
                 var groups2 = _(config.routes).chain()
                    .map(function (v) {
@@ -22,7 +25,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
                .map(function (g) {
                    return {
                        groupName: g,
-                       routes: _(config.routes).filter(function (v) { return v.groupName === g && v.isAdminPage; })
+                       routes: _(config.routes).filter(function (v) { return v.groupName === g && v.isAdminPage && v.startPageRoute; })
                    };
                }).
                filter(function (v) { return v.groupName && v.routes.length; })
@@ -32,10 +35,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.config],
             },
             attached = function (view) {
 
-            },
-            groups = ko.observableArray(),
-            recentWorkflowDefinitions = ko.observableArray(),
-            recentEntityDefinitions = ko.observableArray();
+            };
 
         var vm = {
             recentEntityDefinitions: recentEntityDefinitions,

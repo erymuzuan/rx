@@ -1,0 +1,28 @@
+{
+  "$type": "Bespoke.Sph.Integrations.Adapters.HttpAdapter, http.adapter",
+  "OdataTranslator": null,
+  "Har": null,
+  "BaseAddress": "https://www.rilek.my",
+  "AuthenticationMode": "Form",
+  "Timeout": null,
+  "TimeoutInterval": "Milliseconds",
+  "Tables": null,
+  "Schema": "rileks",
+  "CodeNamespace": "Dev.Adapters.rileks",
+  "TableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "OperationDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "TestRilek",
+  "Description": null,
+  "CreatedBy": "admin",
+  "Id": "testrilek",
+  "CreatedDate": "2014-09-19T07:05:37.0869256+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-09-19T07:05:37.0869256+08:00",
+  "WebId": "9abbc32f-39c4-48ce-bcef-ab9f1916f35c"
+}

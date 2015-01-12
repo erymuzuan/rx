@@ -24,7 +24,7 @@ namespace subscriber.entities
             get { return new[] { typeof(EntityDefinition).Name + ".changed.Publish" }; }
         }
 
-        private string GetSqlType(string typeName)
+        private static string GetSqlType(string typeName)
         {
             switch (typeName)
             {
@@ -107,10 +107,10 @@ namespace subscriber.entities
                 this.WriteMessage("Migrating data for {0}", item.Name);
 
                 //migrate
-                var readSql = string.Format("SELECT [{0}Id],[Json] FROM [{1}].[{2}]", item.Name, applicationName, oldTable);
+                var readSql = string.Format("SELECT [Id],[Json] FROM [{0}].[{1}]", applicationName, oldTable);
                 this.WriteMessage(readSql);
 
-                var builder = new Builder(this.NotificicationService) { EntityDefinition = item, Name = item.Name };
+                var builder = new Builder { EntityDefinition = item, Name = item.Name };
                 builder.Initialize();
 
                 using (var cmd = new SqlCommand(readSql, conn))
@@ -119,12 +119,12 @@ namespace subscriber.entities
                     {
                         while (reader.Read())
                         {
-                            var id = reader.GetInt32(0);
+                            var id = reader.GetString(0);
                             var json = reader.GetString(1);
                             this.WriteMessage("Migrating {0} : {1}", item.Name, id);
                             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
                             dynamic ent = JsonConvert.DeserializeObject(json, setting);
-                            ent.SetId(id);
+                            ent.Id = id;
                             //
                             await builder.InsertAsync(ent);
                         }
@@ -143,24 +143,21 @@ namespace subscriber.entities
             var members = this.GetFilterableMembers("", item.MemberCollection);
             var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
             var table = metadataProvider.GetTable(item.Name);
-            var ok = true;
             foreach (var mb in members)
             {
-                var colType = this.GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
+                var colType = GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
                 var mb1 = mb;
-                var col =
-                    table.Columns.SingleOrDefault(
-                        c =>
+                var col = table.Columns.SingleOrDefault(c =>
                             c.Name.Equals(mb1.FullName, StringComparison.InvariantCultureIgnoreCase) &&
-                            c.SqlType.Equals(colType, StringComparison.InvariantCultureIgnoreCase));
+                            c.SqlType.Equals(colType, StringComparison.InvariantCultureIgnoreCase)
+                            && c.IsNullable == mb1.IsNullable);
                 if (null == col)
                 {
                     this.WriteMessage("[COLUMN-COMPARE] - > Cannot find column {0} as {1}", mb1.FullName, colType);
-                    ok = false;
-                    break;
+                    return false;
                 }
             }
-            return ok;
+            return true;
         }
 
 
@@ -170,11 +167,11 @@ namespace subscriber.entities
             var sql = new StringBuilder();
             sql.AppendFormat("CREATE TABLE [{0}].[{1}]", applicationName, item.Name);
             sql.AppendLine("(");
-            sql.AppendLinf("  [{0}Id] INT PRIMARY KEY IDENTITY(1,1)", item.Name);
+            sql.AppendLinf("  [Id] VARCHAR(50) PRIMARY KEY NOT NULL", item.Name);
             var members = this.GetFilterableMembers("", item.MemberCollection);
             foreach (var member in members)
             {
-                sql.AppendFormat(",[{0}] {1} {2} NULL", member.FullName, this.GetSqlType(member.TypeName), member.IsNullable ? "" : "NOT");
+                sql.AppendFormat(",[{0}] {1} {2} NULL", member.FullName, GetSqlType(member.TypeName), member.IsNullable ? "" : "NOT");
                 sql.AppendLine("");
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");

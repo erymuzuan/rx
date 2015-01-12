@@ -28,7 +28,7 @@ define(['plugins/dialog'],
 
             },
             edit = function () {
-                var w = window.open("/sph/editor/ace", '_blank', 'height=600px,width=600px,toolbar=0,location=0');
+                var w = window.open("/sph/editor/ace", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
                 if (typeof w.window === "object") {
 
                     w.window.field = vm.field();

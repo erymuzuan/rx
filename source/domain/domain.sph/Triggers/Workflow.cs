@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -10,11 +13,6 @@ namespace Bespoke.Sph.Domain
     public partial class Workflow : Entity
     {
         private Tracker m_tracker;
-
-        public override int GetId()
-        {
-            return this.WorkflowId;
-        }
 
 
         /// <summary>
@@ -52,7 +50,10 @@ namespace Bespoke.Sph.Domain
 
         public async virtual Task SaveAsync(string activityId, ActivityExecutionResult result)
         {
-            const string operation = "Execute";
+            if (this.IsNewItem)
+                this.Id = Guid.NewGuid().ToString();
+
+            const string OPERATION = "Execute";
             var act = this.GetActivity<Activity>(activityId);
             var headers = new Dictionary<string, object>
                                 {
@@ -62,16 +63,16 @@ namespace Bespoke.Sph.Domain
                                     {"NextActivities",string.Join(",", result.NextActivities)}
                                 };
 
-            var tracker = await this.GetTrackerAsync();
+            var tracker = await this.GetTrackerAsync().ConfigureAwait(false);
             tracker.AddExecutedActivity(act, result.Correlation);
 
             var context = new SphDataContext();
-            if (this.WorkflowId > 0)
+            if (!string.IsNullOrWhiteSpace(this.Id))
             {
                 using (var session = context.OpenSession())
                 {
                     session.Attach(this, tracker);
-                    await session.SubmitChanges(operation, headers);
+                    await session.SubmitChanges(OPERATION, headers).ConfigureAwait(false);
                 }
                 return;
             }
@@ -80,15 +81,15 @@ namespace Bespoke.Sph.Domain
             using (var session = context.OpenSession())
             {
                 session.Attach(this);
-                await session.SubmitChanges("Start", headers);
+                await session.SubmitChanges("Start", headers).ConfigureAwait(false);
             }
 
-            tracker.WorkflowId = this.WorkflowId;
+            tracker.WorkflowId = this.Id;
             tracker.WorkflowDefinitionId = this.WorkflowDefinitionId;
             using (var session = context.OpenSession())
             {
                 session.Attach(this, tracker);
-                await session.SubmitChanges(operation, headers);
+                await session.SubmitChanges(OPERATION, headers).ConfigureAwait(false);
             }
         }
 
@@ -98,34 +99,70 @@ namespace Bespoke.Sph.Domain
             if (null != m_tracker)
                 return m_tracker;
 
-            if (this.WorkflowId == 0)
+            if (string.IsNullOrWhiteSpace(this.Id))
                 return m_tracker = new Tracker
                 {
                     Workflow = this,
                     WorkflowDefinition = this.WorkflowDefinition,
-                    WorkflowId = this.WorkflowId,
-                    WorkflowDefinitionId = this.WorkflowDefinitionId
+                    WorkflowId = this.Id,
+                    WorkflowDefinitionId = this.WorkflowDefinitionId,
+                    Id = Guid.NewGuid().ToString()
                 };
 
             var context = new SphDataContext();
-            m_tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.WorkflowId)
+            m_tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.Id).ConfigureAwait(false)
                           ??
-                          new Tracker { WorkflowId = this.WorkflowId, WorkflowDefinitionId = this.WorkflowDefinitionId };
+                          new Tracker { Id = Guid.NewGuid().ToString(), WorkflowId = this.Id, WorkflowDefinitionId = this.WorkflowDefinitionId };
             m_tracker.Workflow = this;
             m_tracker.WorkflowDefinition = this.WorkflowDefinition;
-            if (m_tracker.TrackerId == 0)
+            if (string.IsNullOrWhiteSpace(m_tracker.Id))
                 m_tracker.Init(this, this.WorkflowDefinition);
 
             return m_tracker;
         }
 
+
+        public async Task InitializeCorrelationSetAsync(string name, string value)
+        {
+            var tracker = await this.GetTrackerAsync().ConfigureAwait(false);
+            var cors = this.WorkflowDefinition.CorrelationSetCollection.Single(x => x.Name == name);
+            var cort = this.WorkflowDefinition.CorrelationTypeCollection.Single(x => x.Name == cors.Type);
+
+            // set to the es
+
+
+            var id = Guid.NewGuid().ToString();
+            var json = JsonConvert.SerializeObject(new
+            {
+                wid = this.Id,
+                wdid = this.WorkflowDefinitionId,
+                tracker,
+                id,
+                name = cort.Name,
+                value
+            });
+            var url = string.Format("{0}/{1}/{2}", ConfigurationManager.ElasticSearchIndex, "correlationset", id);
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                var response = await client.PutAsync(url, new StringContent(json)).ConfigureAwait(false);
+                if (null != response)
+                {
+                    Debug.Write(".");
+                }
+            }
+
+
+        }
+
         public async Task LoadWorkflowDefinitionAsync()
         {
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", this.WorkflowDefinitionId, this.Version));
-            using (var stream = new System.IO.MemoryStream(doc.Content))
+            var file = string.Format("wd.{0}.{1}", this.WorkflowDefinitionId, this.Version);
+            var doc = await store.GetContentAsync(file).ConfigureAwait(false);
+            using (var stream = new MemoryStream(doc.Content))
             {
-                this.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
+                this.WorkflowDefinition = stream.DeserializeFromJson<WorkflowDefinition>();
             }
         }
 
@@ -137,7 +174,7 @@ namespace Bespoke.Sph.Domain
             using (var session = context.OpenSession())
             {
                 session.Attach(this);
-                await session.SubmitChanges("Terminate");
+                await session.SubmitChanges("Terminate").ConfigureAwait(false);
             }
         }
     }

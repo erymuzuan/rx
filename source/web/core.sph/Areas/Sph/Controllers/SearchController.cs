@@ -7,22 +7,25 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 
-namespace Bespoke.Sph.Web.Areas.Sph.Controllers
+namespace Bespoke.Sph.Web.Controllers
 {
     [NoCache]
+    [RoutePrefix("search")]
     public class SearchController : Controller
     {
+        [HttpGet]
+        [Route("{text}")]
         public async Task<ActionResult> Index(string text)
         {
             var context = new SphDataContext();
             var en = (await context.GetListAsync<EntityDefinition, string>(e => e.IsPublished == true, e => e.RecordName))
-                .Select(a => string.Format("\"{0}\":{{}}",a));
-            var entNames =(await context.GetListAsync<EntityDefinition, string>(e => e.IsPublished == true, e => e.Name))
+                .Select(a => string.Format("\"{0}\":{{}}", a));
+            var entNames = (await context.GetListAsync<EntityDefinition, string>(e => e.IsPublished == true, e => e.Name))
                 .Select(a => a.ToLowerInvariant())
                 .ToArray();
             var types = string.Join(",", entNames);
 
-            var records = string.Join(",", en.Distinct().ToArray());  
+            var records = string.Join(",", en.Distinct().ToArray());
             var json = @"
                 {
                     ""query"": {
@@ -40,7 +43,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                   ""size"": 20
                 }
             ";
-            Console.WriteLine(json);
+
             var request = new StringContent(json);
             var url = string.Format("{0}/{1}/_search", ConfigurationManager.ApplicationName.ToLowerInvariant(), types);
 
@@ -52,7 +55,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 var content = response.Content as StreamContent;
                 if (null == content) throw new Exception("Cannot execute query on es " + request);
                 this.Response.ContentType = "application/json; charset=utf-8";
-                return Content(await content.ReadAsStringAsync());
+                var json2 = await content.ReadAsStringAsync();
+                return Content(json2);
 
             }
         }
@@ -74,11 +78,21 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             }
         }
+
+        [HttpPost]
+        [Route("workflow/{id}/v{version}")]
+        public async Task<ActionResult> Workflow(string id, int version, [RawRequestBody]string json)
+        {
+            var wfes = string.Format("workflow_{0}_{1}", id, version);
+            return await Es(wfes, json);
+        }
+
         public async Task<ActionResult> Activity()
         {
             return await Es("activity", this.GetRequestBody());
         }
 
+        [Route("log")]
         public async Task<ActionResult> Log()
         {
             return await Es("log", this.GetRequestBody());

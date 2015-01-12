@@ -17,8 +17,8 @@ define(['services/datacontext'],
             wd = ko.observable(),
             id = ko.observable(),
             activate = function (wdid) {
-                id(parseInt(wdid));
-                var query1 = String.format("WorkflowDefinitionId eq {0}", wdid),
+                id(wdid);
+                var query1 = String.format("Id eq '{0}'", wdid),
                     vt = $.get('/WorkflowMonitor/DeployedVersions/' + id()),
                     tcs = new $.Deferred(),
                     wdTask = context.loadOneAsync("WorkflowDefinition", query1);
@@ -36,7 +36,8 @@ define(['services/datacontext'],
                         if (!vr[0].Version) {
                             return;
                         }
-                        context.post(ko.mapping.toJSON(query), "workflow_" + wdid + "_" + ko.unwrap(vr[0].Version) + "/search")
+                        var version = ko.unwrap(vr[0].Version);
+                        context.post(ko.mapping.toJSON(query), "/search/workflow/" + wdid +"/v" + version)
                             .then(function (result) {
                                 if (result.status === 404) {
                                     return;
@@ -123,7 +124,7 @@ define(['services/datacontext'],
                     data = ko.mapping.toJSON(createdDateHistogramQuery);
                 console.log(data);
 
-                context.post(data, "/workflow_" + wdid + "_" + version + "/search")
+                context.post(data,  "/search/workflow/" + wdid + "/v" + version)
                     .then(function (result) {
 
                         tcs.resolve(result);

@@ -1,5 +1,9 @@
-﻿namespace Bespoke.Sph.Domain
+﻿using System.ComponentModel.Composition;
+
+namespace Bespoke.Sph.Domain
 {
+    [Export("FormDesigner", typeof(FormElement))]
+    [DesignerMetadata(Name = "Button", Order = 7d, FontAwesomeIcon = "square",TypeName = "Button", Description = "Creates a command button")]
     public partial class Button : FormElement
     {
         public override BuildError[] ValidateBuild(EntityDefinition ed)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -26,21 +27,28 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public async Task<ActionResult> Import(IEnumerable<HttpPostedFileBase> files)
         {
-            foreach (var postedFile in files)
+            try
             {
-                var fileName = Path.GetFileName(postedFile.FileName);
-                if (string.IsNullOrWhiteSpace(fileName)) throw new Exception("Filename is empty or null");
+                foreach (var postedFile in files)
+                {
+                    var fileName = Path.GetFileName(postedFile.FileName);
+                    if (string.IsNullOrWhiteSpace(fileName)) throw new Exception("Filename is empty or null");
 
-                var zip = Path.Combine(Path.GetTempPath(), fileName);
-                postedFile.SaveAs(zip);
+                    var zip = Path.Combine(Path.GetTempPath(), fileName);
+                    postedFile.SaveAs(zip);
 
-                var packager = new WorkflowDefinitionPackage();
-                var wd = await packager.UnpackAsync(zip);
+                    var packager = new WorkflowDefinitionPackage();
+                    var wd = await packager.UnpackAsync(zip);
 
-                this.Response.ContentType = APPLICATION_JAVASCRIPT;
-                var result = new { success = true, wd };
-                return Content(result.ToJsonString());
+                    this.Response.ContentType = APPLICATION_JAVASCRIPT;
+                    var result = new { success = true, wd };
+                    return Content(result.ToJsonString());
 
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, exception = e.GetType().FullName, message = e.Message, stack = e.StackTrace });
             }
             return Json(new { success = false });
 
@@ -53,7 +61,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var wd = this.GetRequestJson<WorkflowDefinition>();
             var package = new WorkflowDefinitionPackage();
             var zd = await package.PackAsync(wd);
-            return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.StoreId }) });
+            return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.Id }) });
         }
 
 
@@ -77,7 +85,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         [HttpPost]
         public async Task<ActionResult> Compile()
         {
-            var wd = this.GetRequestJson<WorkflowDefinition>();
+            var wd0 = this.GetRequestJson<WorkflowDefinition>();
+            var wd = wd0.ChangeActivitiesWebId();
             var buildValidation = wd.ValidateBuild();
 
             if (!buildValidation.Result)
@@ -87,17 +96,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
+                SourceCodeDirectory = Path.Combine(ConfigurationManager.UserSourceDirectory, wd.Id)
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
             options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
 
-            var entityAssembiles = Directory.GetFiles(ConfigurationManager.WorkflowCompilerOutputPath, ConfigurationManager.ApplicationName + ".*.dll");
-            foreach (var dll in entityAssembiles)
-            {
-                options.AddReference(dll);
-            }
+
 
             var result = wd.Compile(options);
 
@@ -122,20 +127,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             // compile , then save
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory
+                SourceCodeDirectory = ConfigurationManager.SphSourceDirectory
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
             options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
-
-            var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
-            var customDllPattern = ConfigurationManager.ApplicationName + ".*.dll";
-            var entityAssembiles = Directory.GetFiles(outputPath, customDllPattern);
-            foreach (var dll in entityAssembiles)
-            {
-                options.AddReference(dll);
-            }
-
+            
             var result = wd.Compile(options);
             if (!result.Result || !System.IO.File.Exists(result.Output))
             {
@@ -149,13 +146,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var archived = new BinaryStore
             {
-                StoreId = string.Format("wd.{0}.{1}", wd.WorkflowDefinitionId, wd.Version),
-                Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
+                Id = string.Format("wd.{0}.{1}", wd.Id, wd.Version),
+                Content = Encoding.Unicode.GetBytes(wd.ToJsonString(true)),
                 Extension = ".xml",
-                FileName = string.Format("wd.{0}.{1}.xml", wd.WorkflowDefinitionId, wd.Version)
+                FileName = string.Format("wd.{0}.{1}.xml", wd.Id, wd.Version)
 
             };
-            await store.DeleteAsync(archived.StoreId);
+            await store.DeleteAsync(archived.Id);
             await store.AddAsync(archived);
             await this.Save("Publish", wd, pages.Cast<Entity>().ToArray());
 
@@ -165,8 +162,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public async Task<ActionResult> Save()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
-            if (wd.WorkflowDefinitionId == 0 && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
+            if (string.IsNullOrWhiteSpace(wd.Name))
+                return Json(new { success = false, status = "Not OK", message = "Name cannot be empty" });
+            if (wd.IsNewItem && string.IsNullOrWhiteSpace(wd.SchemaStoreId))
             {
+                wd.Id = wd.Name.ToIdFormat();
                 // get the empty schema
                 var store = ObjectBuilder.GetObject<IBinaryStore>();
                 var xsd = new BinaryStore
@@ -174,15 +174,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     Extension = ".xsd",
                     FileName = "Empty.xsd",
                     WebId = Guid.NewGuid().ToString(),
-                    StoreId = Guid.NewGuid().ToString(),
+                    Id = Guid.NewGuid().ToString(),
                     Content = System.IO.File.ReadAllBytes(Server.MapPath(@"~/App_Data/empty.xsd"))
                 };
                 await store.AddAsync(xsd);
-                wd.SchemaStoreId = xsd.StoreId;
+                wd.SchemaStoreId = xsd.Id;
 
             }
-            var id = await this.Save(wd.WorkflowDefinitionId == 0 ? "Add" : "Update", wd);
-            return Json(new { success = id > 0, id, status = "OK" });
+            var id = await this.Save(string.IsNullOrWhiteSpace(wd.Id) ? "Add" : "Update", wd);
+            return Json(new { success = !string.IsNullOrWhiteSpace(wd.Id), id, status = "OK" });
         }
 
         public async Task<ActionResult> Remove()
@@ -195,13 +195,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 await session.SubmitChanges();
             }
 
-            return Json(new { success = true, id = wd.WorkflowDefinitionId, status = "OK" });
+            return Json(new { success = true, id = wd.Id, status = "OK" });
         }
 
-        public async Task<ActionResult> GetVariablePath(int id)
+        public async Task<ActionResult> GetVariablePath(string id)
         {
             var context = new SphDataContext();
-            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == id);
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == id);
             var list = wd.VariableDefinitionCollection.Select(v => v.Name).ToList();
             var schema = wd.GetCustomSchema();
             if (null != schema)
@@ -221,6 +221,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 {
                     list.AddRange(entity.GetMembersPath().Select(x => v.Name + "." + x));
                 }
+                else
+                {
+                    var properties = v.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                    list.AddRange(properties.Select(x => v.Name + "." + x.Name));
+                }
             }
 
             return Json(list.Select(d => new { Path = d }).ToArray(), JsonRequestBehavior.AllowGet);
@@ -236,7 +241,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 var act1 = act;
                 var page = await context.LoadOneAsync<Page>(p =>
                                 p.Version == wd.Version &&
-                                p.Tag == string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, act1.WebId));
+                                p.Tag == string.Format("wf_{0}_{1}", wd.Id, act1.WebId));
                 if (null != page)
                     pages.Add(page);
             }
@@ -257,7 +262,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             {
                 // copy the previous version pages if there's any
                 var scr1 = scr;
-                var tag = string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, scr1.WebId);
+                var tag = string.Format("wf_{0}_{1}", wd.Id, scr1.WebId);
                 var currentVersion = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
                 var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
                 var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
@@ -270,8 +275,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     Tag = tag,
                     Version = wd.Version,
                     WebId = Guid.NewGuid().ToString(),
-                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId,
-                        wd.Version, scr1.ActionName)
+                    Id = Guid.NewGuid().ToString(),
+                    VirtualPath = string.Format("~/Views/{0}/{1}V{2}.cshtml", wd.WorkflowTypeName, scr1.ActionName, wd.Version)
                 };
 
 
@@ -284,7 +289,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-        private async Task<int> Save(string operation, WorkflowDefinition wd, params Entity[] entities)
+        private async Task<string> Save(string operation, WorkflowDefinition wd, params Entity[] entities)
         {
             var context = new SphDataContext();
             if (null == wd) throw new ArgumentNullException("wd");
@@ -298,7 +303,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(wd);
                 await session.SubmitChanges(operation);
             }
-            return wd.WorkflowDefinitionId;
+            return wd.Id;
         }
 
         public ActionResult GetLoadedAssemblies()
@@ -317,6 +322,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
         }
+
+
 
 
     }

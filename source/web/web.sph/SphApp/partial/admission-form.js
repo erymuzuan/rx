@@ -4,7 +4,7 @@ define([], function(){
             var tcs = new $.Deferred();
             setTimeout(function(){
                 tcs.resolve(true);
-            }, 1521);
+            }, 165);
 
             return tcs.promise();
 

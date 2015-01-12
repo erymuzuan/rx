@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -24,14 +25,13 @@ namespace Bespoke.Sph.SqlRepository
             m_connectionString = connectionString;
         }
 
-        public Task<SubmitOperation> SubmitChanges(Entity item)
+        public Task<SubmitOperation> SubmitChanges(Entity item, string user)
         {
-            return this.SubmitChanges(new[] { item }, new Entity[] { }, null);
+            return this.SubmitChanges(new[] { item }, new Entity[] { }, null, user);
         }
 
-        public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session)
+        public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session, string user)
         {
-            var ad = ObjectBuilder.GetObject<IDirectoryService>();
             var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
 
             var addedList = addedOrUpdatedItems.ToList();
@@ -45,6 +45,7 @@ namespace Bespoke.Sph.SqlRepository
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
 
+
                 var addedItemsIdentityParameters = new List<Tuple<Entity, SqlParameter>>();
                 var count = 0;
                 var sql = new StringBuilder("BEGIN TRAN ");
@@ -56,34 +57,37 @@ namespace Bespoke.Sph.SqlRepository
                     count++;
                     int count1 = count;
                     var entityType = this.GetEntityType(item);
-
-                    var id = (int)item.GetType().GetProperty(entityType.Name + "Id").GetValue(item);
-
-
                     var metadataType = metadataProvider.GetTable(entityType.Name);
                     if (null == metadataType) throw new InvalidOperationException("Cannot find the Metadata type in SQL Server :" + entityType.Name);
 
                     var columns = metadataType.Columns
-                        .Where(p => p.Name != entityType.Name + "Id")
                         .Where(p => p.CanRead && p.CanWrite)
                         .ToArray();
 
-                    item.ChangedBy = ad.CurrentUserName;
+                    item.ChangedBy = user;
                     item.ChangedDate = DateTime.Now;
-                    if (id == 0)
+                    bool exist;
+                    using (var cmd2 = new SqlCommand("SELECT COUNT([ID]) FROM [" + this.GetSchema(entityType) + "].[" + entityType.Name + "] WHERE [Id] = '" + item.Id + "'", conn))
                     {
-                        item.CreatedBy = ad.CurrentUserName;
+                        if (conn.State != ConnectionState.Open)
+                            await conn.OpenAsync();
+                        exist = (int)(await cmd2.ExecuteScalarAsync()) > 0;
+
+                    }
+                    if (!exist)
+                    {
+                        item.CreatedBy = user;
                         item.CreatedDate = DateTime.Now;
-                        this.AppendInsertStatement(sql, entityType, columns, count1, cmd, addedItemsIdentityParameters, item);
+                        this.AppendInsertStatement(sql, entityType, columns, count1);
                     }
                     else
-                        this.AppendUpdateStatement(sql, entityType, columns, count1, cmd, id);
+                        this.AppendUpdateStatement(sql, entityType, columns, count1, cmd, item.Id);
 
 
                     foreach (var c in columns)
                     {
                         var parameterName = string.Format("@{0}{1}", c.Name.Replace(".", "_"), count1);
-                        var parameterValue = this.GetParameterValue(c, entityType, item);
+                        var parameterValue = this.GetParameterValue(c, item, user);
 
                         cmd.Parameters.AddWithValue(parameterName, parameterValue);
                     }
@@ -96,16 +100,20 @@ namespace Bespoke.Sph.SqlRepository
                     var entityType = this.GetEntityType(item);
                     var typeName = entityType.Name;
                     var schema = this.GetSchema(entityType);
-                    var id = (int)item.GetType().GetProperty(typeName + "Id").GetValue(item, null);
-                    sql.AppendFormat("DELETE FROM [{2}].[{0}] WHERE [{0}Id] = @{0}Id{1}", typeName, count, schema);
+                    var id = item.Id;
+                    sql.AppendFormat("DELETE FROM [{2}].[{0}] WHERE [Id] = @{0}Id{1}", typeName, count, schema);
                     sql.AppendLine();
                     cmd.Parameters.AddWithValue("@" + typeName + "Id" + count, id);
                 }
                 sql.AppendLine();
                 sql.AppendLine("COMMIT");
-                /**/
+                Debug.WriteLine(sql);
+
                 cmd.CommandText = sql.ToString();
-                await conn.OpenAsync();
+
+                if (conn.State == ConnectionState.Closed)
+                    await conn.OpenAsync();
+
                 var rows = await cmd.ExecuteNonQueryAsync();
 
                 var so = new SubmitOperation { RowsAffected = rows };
@@ -113,10 +121,8 @@ namespace Bespoke.Sph.SqlRepository
                 foreach (var t in addedItemsIdentityParameters)
                 {
                     var item = t.Item1;
-                    var id = (int)t.Item2.Value;
-                    var type = this.GetEntityType(item);
-                    type.GetProperty(type.Name + "Id")
-                        .SetValue(item, id);
+                    var id = (string)t.Item2.Value;
+                    item.Id = id;
                     so.Add(item.WebId, id);
                 }
 
@@ -126,13 +132,14 @@ namespace Bespoke.Sph.SqlRepository
 
         }
 
-        private void AppendUpdateStatement(StringBuilder sql, Type entityType, Column[] columns, int count1,
-                                                    SqlCommand cmd, int id)
+        private void AppendUpdateStatement(StringBuilder sql, Type entityType, IEnumerable<Column> columns, int count1,
+                                                    SqlCommand cmd, string id)
         {
             var schema = this.GetSchema(entityType);
             sql.AppendFormat("UPDATE [{1}].[{0}]", entityType.Name, schema);
 
             var updates = columns
+                .Where(p => p.Name != "Id")
                 .Where(p => p.Name != "CreatedDate")
                 .Where(p => p.Name != "CreatedBy")
                 .Select(p => string.Format("[{0}]=@{1}{2}", p.Name, p.Name.Replace(".", "_"), count1));
@@ -140,13 +147,12 @@ namespace Bespoke.Sph.SqlRepository
             sql.AppendFormat("SET {0}", string.Join(",\r\n", updates));
 
             sql.AppendLine();
-            sql.AppendFormat("WHERE [{0}Id] = @{0}Id{1}", entityType.Name, count1);
+            sql.AppendFormat("WHERE [Id] = @{0}Id{1}", entityType.Name, count1);
             sql.AppendLine();
             cmd.Parameters.AddWithValue(string.Format("@{0}Id{1}", entityType.Name, count1), id);
         }
 
-        private void AppendInsertStatement(StringBuilder sql, Type entityType, Column[] columns, int count1,
-                                                    SqlCommand cmd, List<Tuple<Entity, SqlParameter>> parameters, Entity item)
+        private void AppendInsertStatement(StringBuilder sql, Type entityType, Column[] columns, int count1)
         {
             var schema = this.GetSchema(entityType);
             sql.AppendFormat("INSERT INTO [{1}].[{0}]", entityType.Name, schema);
@@ -156,17 +162,12 @@ namespace Bespoke.Sph.SqlRepository
             sql.AppendFormat("VALUES");
             sql.AppendFormat("({0})", string.Join(",", columns.Select(p => string.Format("@{0}{1}", p.Name.Replace(".", "_"), count1))));
             sql.AppendLine();
-            sql.AppendFormat("SELECT @id{0} = @@IDENTITY", count1);
-            sql.AppendLine();
 
-            var idParam = new SqlParameter("@id" + count1, SqlDbType.Int) { Direction = ParameterDirection.Output };
-            cmd.Parameters.Add(idParam);
-            parameters.Add(new Tuple<Entity, SqlParameter>(item, idParam));
         }
 
         private string GetSchema(Type type)
         {
-            if (type.Namespace == typeof(Entity).Namespace) return "Sph";
+            if (type.Namespace.StartsWith(typeof(Entity).Namespace)) return "Sph";
             return ConfigurationManager.ApplicationName;
         }
 
@@ -178,27 +179,29 @@ namespace Bespoke.Sph.SqlRepository
         }
 
 
-        private object GetParameterValue(Column prop, Type entityType, Entity item)
+        private object GetParameterValue(Column col, Entity item, string user)
         {
-            var ad = ObjectBuilder.GetObject<IDirectoryService>();
 
-            var id = (int)item.GetType().GetProperty(entityType.Name + "Id")
-                .GetValue(item, null);
-            if (prop.Name == "Data")
-                return item.ToXmlString(entityType);
-            if (prop.Name == "Json")
+
+            if (col.Name == "Data")
+                throw new InvalidOperationException("Xml [Data] column is no longer supported");
+            if (col.Name == "Json")
                 return item.ToJsonString();
-            if (prop.Name == "CreatedDate")
-                return id == 0 || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
-            if (prop.Name == "CreatedBy")
-                return ad.CurrentUserName;
-            if (prop.Name == "ChangedDate")
+            if (col.Name == "CreatedDate")
+                return item.IsNewItem || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
+            if (col.Name == "CreatedBy")
+                return user;
+            if (col.Name == "ChangedDate")
                 return DateTime.Now;
-            if (prop.Name == "ChangedBy")
-                return ad.CurrentUserName;
+            if (col.Name == "ChangedBy")
+                return user;
 
-            var itemProp = item.GetType().GetProperty(prop.Name);
-            if (null == itemProp) return item.MapColumnValue(prop.Name);
+            var itemProp = item.GetType().GetProperty(col.Name);
+            if (null == itemProp)
+            {
+                return item.MapColumnValue(col.Name)
+                    ?? col.GetDefaultValue();
+            }
             var value = itemProp.GetValue(item, null);
             if (itemProp.PropertyType.IsEnum)
                 return value.ToString();
@@ -208,8 +211,7 @@ namespace Bespoke.Sph.SqlRepository
                     return value.ToString();
             }
 
-            if (null == value) return DBNull.Value;
-            return value;
+            return value ?? DBNull.Value;
         }
 
 

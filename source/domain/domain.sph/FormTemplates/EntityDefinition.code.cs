@@ -10,10 +10,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class EntityDefinition
     {
-        public override int GetId()
-        {
-            return this.EntityDefinitionId;
-        }
+
 
         private string GetCodeHeader()
         {
@@ -42,10 +39,6 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   public class " + this.Name + " : Entity");
             code.AppendLine("   {");
 
-            code.AppendLinf("       [XmlAttribute]");
-            code.AppendLinf("       public int {0}Id {{get; set;}}", this.Name);
-
-
             // ctor
             code.AppendLine("       public " + this.Name + "()");
             code.AppendLine("       {");
@@ -53,7 +46,7 @@ namespace Bespoke.Sph.Domain
             var count = 0;
             foreach (var member in this.MemberCollection)
             {
-                if (member.Type == typeof (object))
+                if (member.Type == typeof(object))
                 {
                     code.AppendLinf("           this.{0} = new {0}();", member.Name);
                 }
@@ -74,17 +67,6 @@ namespace Bespoke.Sph.Domain
             return ""{0}:"" + {1};
         }}", this.Name, this.RecordName);
 
-            code.AppendFormat(@"     
-        public override void SetId(int id)
-        {{
-            this.{0}Id = id;
-        }}", this.Name);
-            code.AppendFormat(@"     
-        public override int GetId()
-        {{
-            return this.{0}Id;
-        }}
-", this.Name);
 
             // properties for each members
             foreach (var member in this.MemberCollection)
@@ -97,13 +79,15 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
 
-            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.ToString() } };
+            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.FormatCode() } };
 
             // classes for members
             foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
-                var mc = header + member.GeneratedCustomClass() + "\r\n}";
-                sourceCodes.Add(member.Name + ".cs", mc);
+                var mc = new StringBuilder(header);
+                mc.AppendLine(member.GeneratedCustomClass());
+                mc.AppendLine("}");
+                sourceCodes.Add(member.Name + ".cs", mc.FormatCode());
             }
 
             var controller = this.GenerateController();
@@ -116,7 +100,7 @@ namespace Bespoke.Sph.Domain
 
         public string[] SaveSources(Dictionary<string, string> sources)
         {
-            var folder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, this.Name);
+            var folder = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Name);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             foreach (var cs in sources.Keys)
@@ -125,18 +109,18 @@ namespace Bespoke.Sph.Domain
                 File.WriteAllText(file, sources[cs]);
             }
             return sources.Keys.ToArray()
-                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.WorkflowSourceDirectory, this.Name, f))
+                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.UserSourceDirectory, this.Name, f))
                     .ToArray();
         }
         public string CodeNamespace
         {
-            get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.EntityDefinitionId); }
+            get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.Id); }
         }
 
 
         public Task<string> GenerateCustomXsdJavascriptClassAsync()
         {
-            var jsNamespace = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.EntityDefinitionId;
+            var jsNamespace = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Id;
             var assemblyName = ConfigurationManager.ApplicationName + "." + this.Name;
             var script = new StringBuilder();
             script.AppendLine("var bespoke = bespoke ||{};");
@@ -147,7 +131,7 @@ namespace Bespoke.Sph.Domain
             script.AppendLine(" var system = require('services/system'),");
             script.AppendLine(" model = {");
             script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.CodeNamespace, this.Name, assemblyName);
-            script.AppendLinf("     {0}Id : ko.observable(),", this.Name);
+            script.AppendLine("     Id : ko.observable(\"0\"),");
             foreach (var item in this.MemberCollection)
             {
                 if (item.Type == typeof(Array))
@@ -238,13 +222,15 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf(@"
             if(null == item) throw new ArgumentNullException(""item"");
             var context = new Bespoke.Sph.Domain.SphDataContext();
+            if(item.IsNewItem)item.Id = Guid.NewGuid().ToString();
+
             using(var session = context.OpenSession())
             {{
                 session.Attach(item);
                 await session.SubmitChanges(""save"");
             }}
             this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name);
+            return Json(new {{success = true, status=""OK"", id = item.Id, href = ""{1}/"" + item.Id}});", this.Name, this.Name.ToLowerInvariant());
             code.AppendLine("       }");
 
             //OPERATIONS
@@ -256,7 +242,7 @@ namespace Bespoke.Sph.Domain
             // REMOVE
             code.AppendLinf("       //exec:Remove");
             code.AppendLinf("       [HttpDelete]");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(int id)");
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(string id)");
             code.AppendLine("       {");
             code.AppendLinf(@"
             var repos = ObjectBuilder.GetObject<IRepository<{0}>>();
@@ -271,7 +257,7 @@ namespace Bespoke.Sph.Domain
                 await session.SubmitChanges(""delete"");
             }}
             this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name);
+            return Json(new {{success = true, status=""OK"", id = item.Id}});", this.Name);
             code.AppendLine("       }");
 
             //SCHEMAS
@@ -291,7 +277,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("}");// end class
 
             code.AppendLine("}"); // end namespace
-            return code.ToString();
+            return code.FormatCode();
 
 
         }
@@ -344,13 +330,15 @@ namespace Bespoke.Sph.Domain
                     code.AppendLinf("           var setter{0} = operation.SetterActionChildCollection.Single(a => a.WebId == \"{1}\");", count, act.WebId);
                     code.AppendLinf("           item.{1} = ({2})setter{0}.Field.GetValue(rc);", count, act.Path, this.GetMember(act.Path).Type.FullName);
                 }
-                code.AppendFormat(@"           
+                code.AppendFormat(@"
+            if(item.IsNewItem)item.Id = Guid.NewGuid().ToString();
+        
             using(var session = context.OpenSession())
             {{
                 session.Attach(item);
                 await session.SubmitChanges(""{1}"");
             }}
-            return Json(new {{success = true, message=""{2}"", status=""OK"", id = item.{0}Id}});", this.Name, operation.Name, operation.SuccessMessage);
+            return Json(new {{success = true, message=""{2}"", status=""OK"", id = item.Id}});", this.Name, operation.Name, operation.SuccessMessage);
 
                 code.AppendLine();
                 code.AppendLine("       }");
@@ -389,7 +377,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
 
             code.AppendFormat(@"   
-            return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name);
+            return Json(new {{success = true, status=""OK"", id = item.Id}});");
 
             code.AppendLine();
             code.AppendLine("       }");

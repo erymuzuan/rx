@@ -16,7 +16,7 @@
             <ul data-bind="foreach :recentItems" class="metro-tile">
                 <li class="blightblue">
                     @{
-                    var url = string.Format("'#{0}/' + {1}Id", Model.Form.Route, Model.Definition.Name);
+                    var url = string.Format("'#{0}/' + Id", Model.Form.Route);
                     }
                     <a data-bind="attr:{'href' : @Raw(url)}">
                         <i class="@Model.Definition.IconClass"></i>
@@ -78,7 +78,7 @@
     </h3>
     <ul data-bind="foreach: reports">
         <li>
-            <a data-bind="attr:{href:String.format('#/reportdefinition.execute-id.{0}/{0}', ReportDefinitionId()) }, text:Title"></a>
+            <a data-bind="attr:{href:String.format('#/reportdefinition.execute-id.{0}/{0}', Id()) }, text:Title"></a>
         </li>
     </ul>
 </div>

@@ -1,0 +1,336 @@
+﻿
+<link href="/Content/jstree/style.min.css" rel="stylesheet" />
+<h1>Web Page Operation Details</h1>
+<div class="row">
+    <a data-toggle="collapse" href="#request-panel">
+        <h3>
+            <i class="fa fa-chevron-down"></i>
+            Request Panel
+        </h3>
+    </a>
+    <div class="collapse in" id="request-panel">
+
+        <form class="form-horizontal" data-bind="with : operation">
+
+            <div class="form-group">
+                <label for="http-method" class="col-sm-2 control-label">HTTP Method</label>
+
+                <div class="col-sm-6">
+                    <input type="text" data-bind="value: HttpMethod"
+                           required="" readonly="readonly"
+                           class="form-control" id="http-method">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="url" class="col-sm-2 control-label">Url</label>
+
+                <div class="col-sm-6">
+                    <input type="text" data-bind="value: Url"
+                           required
+                           readonly="readonly"
+                           class="form-control" id="url">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="get-route" class="col-sm-2 control-label">Request Routing</label>
+                <div class="col-sm-6">
+                    <input type="text" data-bind="value: RequestRouting"
+                           title="Use /{param1}?param2={param2} to specify routing"
+                           placeholder="request route- parameters in the url/querystring"
+                           class="form-control" id="get-route">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Name</label>
+
+                <div class="col-sm-6">
+                    <input type="text" data-bind="value: Name"
+                           required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                           placeholder="Operation name"
+                           class="form-control" id="name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="method-name" class="col-sm-2 control-label">Method Name</label>
+
+                <div class="col-sm-6">
+                    <input type="text" data-bind="value: MethodName"
+                           required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                           placeholder="Method name in the adapter class"
+                           class="form-control" id="method-name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsLoginOperation" id="login-operation" type="checkbox"
+                                   name="IsLoginOperation" />
+                            Login Operation
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsLoginPage" id="login-page" type="checkbox" name="IsLoginPage" />
+                            Login Page
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsLoginRequired" id="login-required" type="checkbox"
+                                   name="IsLoginRequired" />
+                            Login Required
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="row" id="members-panel">
+    <h3>Request Schema Designer</h3>
+    <div class="col-sm-8">
+        <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree" value="" />
+        <div data-bind="responseSchemaTree : {entity: requestSchema, selected: member, searchbox: '#search-box-tree'}">
+        </div>
+    </div>
+
+    <div class="col-sm-4" data-bind="with: member">
+        <h3>Member properties</h3>
+
+        <form class="form" role="form" data-bind="visible:Name()">
+            <div class="form-group">
+                <label for="member_name">Name</label>
+                <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name" />
+            </div>
+
+            <div class="form-group">
+                <label for="member-type">Type</label>
+
+                <select class="form-control" id="member-type" data-bind="value:TypeName">
+                    <option value="">[Please Select]</option>
+                    <option value="System.String, mscorlib">String</option>
+                    <option value="System.Int32, mscorlib">Integer</option>
+                    <option value="System.Decimal, mscorlib">Decimal</option>
+                    <option value="System.DateTime, mscorlib">DateTime</option>
+                    <option value="System.Boolean, mscorlib">Boolean</option>
+                    <option value="System.Object, mscorlib">Complex</option>
+                    <option value="System.Array, mscorlib">Collection</option>
+                </select>
+
+            </div>
+            <div class="form-group">
+                <label class="checkbox">
+                    <input data-bind="checked: IsNullable" id="member-nullable1" type="checkbox" name="IsNullable" />
+                    Nullable
+                </label>
+            </div>
+
+            <div class="form-group" data-bind="visible: !(TypeName() === 'System.Object, mscorlib'||TypeName() === 'System.Array, mscorlib')">
+                <label for="member-default-value" class="control-label">Default Value</label>
+                <div class="btn-group" id="member-default-value">
+                    <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                        <!-- ko text : Name -->
+                        <!-- /ko -->
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li data-bind="with : DefaultValue">
+                            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.DefaultValue)">
+                                <i class="fa fa-edit"></i>
+                                Edit Default Value
+                            </a>
+                        </li>
+
+                        <li>
+                            <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.DefaultValue" href="#">
+                                <img src="/images/ConstantField.png" alt=" constantfield" class="pull-left" />
+                                + Constant Field
+                            </a>
+                        </li>
+                        <li>
+                            <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.DefaultValue" href="#">
+                                <img src="/images/FunctionField.png" alt=" FunctionField" class="pull-left" />
+                                + Function Field
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="row" id="members-panel">
+    <h3>Response Schema Designer</h3>
+    <div class="col-sm-8">
+        <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree2" value="" />
+        <div data-bind="responseSchemaTree : {entity: responseSchema, selected: responseMember, searchbox: '#search-box-tree2'}">
+        </div>
+    </div>
+    <div class="col-sm-4" data-bind="with: responseMember">
+        <h3>Member properties</h3>
+
+        <form class="form" role="form" data-bind="visible:Name()">
+            <div class="form-group">
+                <label for="member_name2">Name</label>
+                <input class="form-control" id="member_name2" name="member.name" type="text" required data-bind="value: Name" />
+            </div>
+
+            <div class="form-group">
+                <label for="member-type2">Type</label>
+
+                <select class="form-control" id="member-type2" data-bind="value:TypeName">
+                    <option value="">[Please Select]</option>
+                    <option value="System.String, mscorlib">String</option>
+                    <option value="System.Int32, mscorlib">Integer</option>
+                    <option value="System.Decimal, mscorlib">Decimal</option>
+                    <option value="System.DateTime, mscorlib">DateTime</option>
+                    <option value="System.Boolean, mscorlib">Boolean</option>
+                    <option value="System.Object, mscorlib">Complex</option>
+                    <option value="System.Array, mscorlib">Collection</option>
+                </select>
+
+            </div>
+            <div class="form-group">
+                <label class="checkbox">
+                    <input data-bind="checked: IsNullable" id="member-nullable" type="checkbox" name="IsNullable" />
+                    Nullable
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="member-pattern">Pattern</label>
+                <input class="form-control" id="member-pattern" name="member.pattern" type="text" required data-bind="value: Pattern" />
+                <a href="#member-pattern" data-bind="click : $root.pickRegex">
+                    <i class="fa fa-ticket"></i>
+                    Regex Editor
+                </a>
+            </div>
+
+            <div class="form-group">
+                <label for="member-group">Group</label>
+                <input class="form-control" id="member-group" name="member.group" type="text" required data-bind="value: Group" />
+            </div>
+
+            <div class="form-group" data-bind="visible:TypeName() === 'System.DateTime, mscorlib'">
+                <label for="member-dategformat" class="control-label">Date Format</label>
+                <input type="text" data-bind="value: DateFormat"
+                       placeholder=".Net date format styles"
+                       class="form-control" id="member-dategformat">
+            </div>
+
+            <div class="form-group" data-bind="visible: ko.unwrap(TypeName) === 'System.Decimal, mscorlib'">
+                <label for="member-numberformat" class="control-label">Number Format</label>
+                <input type="text" data-bind="value: NumberFormat"
+                       placeholder=".Net number format styles"
+                       class="form-control" id="member-numberformat">
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <a data-toggle="collapse" href="#request-headers-panel">
+        <h3>
+            <i class="fa fa-chevron-down"></i>
+            Request Headers
+        </h3>
+    </a>
+    <div class="collapse in" id="request-headers-panel" data-bind="with : operation">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Orginal Value</th>
+                    <th>New Value</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach : RequestHeaderDefinitionCollection">
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" data-bind="value:Name" />
+                    </td>
+                    <td>
+                        <input readonly="readonly" type="text" class="form-control" data-bind="value:OriginalValue" />
+                    </td>
+                    <td>
+                        <div class="btn-group">
+
+                            <a data-bind="with : Field, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                                <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                <!-- ko text : Name -->
+                                <!-- /ko -->
+                                <i class="fa fa-caret-down pull-right"></i>
+                            </a>
+
+
+                            <ul class="dropdown-menu">
+                                <li data-bind="with : Field">
+                                    <a class="btn-add-setter-field" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent,$data)">
+                                        <i class="fa fa-edit"></i>
+                                        Edit Field
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">
+                                        <img src="/images/ConstantField.png" class="pull-left" />
+
+                                        Constant Field
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">
+                                        <img src="/images/FunctionField.png" class="pull-left" />
+                                        Function Field
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn-add-assembly-field" data-bind="unwrapClick: addField,field : 'Assembly', accessor : $data.Field" href="#">
+                                        <img src="/images/AssemblyField.png" class="pull-left" />
+                                        Assembly Field
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="#request-headers-panel" data-bind="click : $parent.removeHeaderDefinition($data)">
+                            <i class="fa fa-times"></i>
+                            Remove
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-link" href="#member-pattern" data-bind="click : addHeaderDefinition">
+            <i class="fa fa-plus-circle"></i>
+            Add a header definition
+        </a>
+    </div>
+</div>
+<div class="row" style="height: 200px"></div>

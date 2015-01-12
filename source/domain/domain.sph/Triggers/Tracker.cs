@@ -96,11 +96,6 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public override int GetId()
-        {
-            return this.TrackerId;
-        }
-
         public string GetState(string activityId)
         {
             return null;

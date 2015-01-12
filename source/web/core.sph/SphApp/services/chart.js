@@ -35,7 +35,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                 query2 = String.format("Name eq '{0}'", entity);
 
             if (viewId) {
-                _viewId(parseInt(viewId));
+                _viewId(viewId);
             }
 
             _entity(entity);
@@ -49,11 +49,11 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                 .done(function (lo) {
                     _charts(lo.itemCollection);
                 });
-            context.getScalarAsync("EntityDefinition", query2, "EntityDefinitionId")
+            context.getScalarAsync("EntityDefinition", query2, "Id")
                 .done(function (id) {
-                    _entityDefinitionId(parseInt(id));
+                    _entityDefinitionId(id);
                     // get the fields
-                    $.get("/sph/EntityDefinition/GetVariablePath/" + id)
+                    $.get("/entity-definition/variable-path/" + id)
                         .done(function (ps) {
                             _fieldOptions(ps);
                             tcs.resolve(true);
@@ -203,7 +203,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
                             context.post(ko.mapping.toJSON(editedChart), '/sph/entitychart/save')
                                 .done(function (r1) {
                                     tcs.resolve(true);
-                                    editedChart.EntityChartId(r1.id);
+                                    editedChart.Id(r1.id);
                                     _charts.push(editedChart);
                                 });
                         } else {
@@ -247,7 +247,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
             context.post(ko.mapping.toJSON(_selectedChart), '/sph/entitychart/remove')
                 .done(function () {
                     tcs.resolve(true);
-                    var rt = _(_charts()).find(function (v) { return v.EntityChartId() === _selectedChartId(); });
+                    var rt = _(_charts()).find(function (v) { return v.Id() === _selectedChartId(); });
                     _charts.remove(rt);
                 });
 
@@ -310,7 +310,7 @@ define(['services/datacontext', objectbuilders.system], function (context, syste
             return Task.fromResult(0);
         }
         var tcs = new $.Deferred();
-        context.loadOneAsync("EntityChart", "EntityChartId eq " + di)
+        context.loadOneAsync("EntityChart", "Id eq '" + di + "'")
             .done(function (ec) {
                 if (!ec) {
                     return;

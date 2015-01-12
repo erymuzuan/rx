@@ -1,12 +1,12 @@
 ﻿/// <reference path="jstree.min.js" />
 /// <reference path="jstree.min.js" />
 /// <reference path="typeahead.bundle.js" />
-/// <reference path="knockout-3.1.0.debug.js" />
+/// <reference path="knockout-3.2.0.debug.js" />
 /// <reference path="knockout.mapping-latest.debug.js" />
 /// <reference path="../App/services/datacontext.js" />
 /// <reference path="../SphApp/objectbuilders.js" />
 /// <reference path="../App/durandal/amd/text.js" />
-/// <reference path="jquery-2.0.3.intellisense.js" />
+/// <reference path="jquery-2.1.1.intellisense.js" />
 /// <reference path="underscore.js" />
 /// <reference path="require.js" />
 

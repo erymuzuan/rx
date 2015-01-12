@@ -13,7 +13,7 @@ namespace taskscheduler.test
         [TestMethod]
         public void AddAndRemove()
         {
-            var info = new ScheduledActivityExecution { InstanceId = 1, ActivityId = "A", Name = "Unit test" };
+            var info = new ScheduledActivityExecution { InstanceId = "1", ActivityId = "A", Name = "Unit test" };
             var job = new TaskScheduler(@"C:\project\work\sph\source\scheduler\scheduler.delayactivity\bin\Debug\scheduler.delayactivity.exe");
             job.AddTaskAsync(DateTime.Now.AddSeconds(5), info).Wait();
 

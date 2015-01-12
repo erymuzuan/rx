@@ -32,10 +32,11 @@
         "Header": "FullName",
         "Sort": "",
         "IsLinkColumn": true,
-        "FormRoute": "customer-form-2",
-        "IconCssClass": "fa fa-table",
-        "IconStoreId": "19750e36-fd87-4215-abb7-f84fae4bf865",
+        "FormRoute": "add-customer-form",
+        "IconCssClass": "fa fa-tachometer",
+        "IconStoreId": "ad40513e-c237-4187-be0a-a879ffcf98e1",
         "Format": "text:{0}",
+        "RouteValueField": "Id",
         "WebId": "e2dd0f06-07e1-4a1e-8be3-b9464c21c984"
       },
       {
@@ -52,6 +53,7 @@
         "IconCssClass": "fa fa-book",
         "IconStoreId": "4f161e7d-cb33-4648-a72b-2244acffb1a3",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
       },
       {
@@ -68,6 +70,7 @@
         "IconCssClass": null,
         "IconStoreId": null,
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "09aa9000-fb6e-4106-b717-10ed19194663"
       },
       {
@@ -84,6 +87,7 @@
         "IconCssClass": "fa fa-wheelchair",
         "IconStoreId": "1589cc7a-0d0b-4873-9ffc-47bbc8e85a5e",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "f544b246-5c19-4279-a8ae-447dc8f7e02d"
       },
       {
@@ -100,6 +104,7 @@
         "IconCssClass": null,
         "IconStoreId": null,
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "61ee8ea4-4b48-433d-b60b-8ab5bb7184a0"
       }
     ]
@@ -119,10 +124,20 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
     "$values": []
   },
-  "EntityViewId": 1,
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": null,
+    "IsPublic": true,
+    "WebId": null
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
   "IconClass": "",
-  "IconStoreId": "3b4b7033-9925-4c3d-b96e-89d989f2a053",
-  "EntityDefinitionId": 1,
+  "IconStoreId": "c8fee004-fd5d-4cb1-ab99-446a1d003de3",
+  "EntityDefinitionId": "customer",
   "Name": "All customers",
   "Route": "all-customers",
   "Note": "all the customers.. do you get it",
@@ -131,10 +146,12 @@
   "Visibilty": "",
   "TileColour": "bgreen",
   "CountMessage": null,
-  "Entity": null,
+  "Entity": "Customer",
+  "Partial": null,
   "CreatedBy": "admin",
+  "Id": "all-customers",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-24T07:14:35.4483906+08:00",
+  "ChangedDate": "2014-12-15T15:34:40.4298775+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }

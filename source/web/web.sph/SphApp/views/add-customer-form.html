@@ -1,21 +1,23 @@
 
 
-<h1>Add New Customer</h1>
+
+<h1>Add new customer form</h1>
+<h1>Doing another test</h1>
 <div id="error-list" class="row" data-bind="visible:errors().length">
     <!-- ko foreach : errors -->
     <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <i class="fa fa-exclamation"></i>
         <span data-bind="text:Message"></span>
-    
+
     </div>
-    <div class="col-lg-2"></div>
+    <div class="col-sm-2"></div>
     <!-- /ko-->
 </div>
 <div class="row">
-
     <div class="col-sm-8">
-        <form class="form-horizontal" data-bind="with : entity" id="add-customer-form-form">
+        
+<form class="form-horizontal" data-bind="with : entity" id="add-customer-form-form">
 
 
 
@@ -64,7 +66,7 @@
     <div class="form-group" data-bind="visible:true">
         <label class="col-md-4">State</label>
         <div class="col-md-8">
-            <select data-bind=" visible :true, comboBoxLookupOptions : { value: Address().State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'StateId gt 0'}" name="Address().State" class="  form-control">
+            <select data-bind=" visible :true, comboBoxLookupOptions : { value: Address().State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'Id ne \'0\''}" name="Address().State" class="  form-control">
             </select>
         </div>
     </div>
@@ -88,9 +90,8 @@
         </div>
     </div>
 
-
 <div data-bind="visible:true">
-    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, bespoke.dev_1.domain.Attachment)">Attachment</button>
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, bespoke.dev_customer.domain.Attachment)">Attachment</button>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
@@ -186,11 +187,10 @@
         </div>
     </div>
     <div class="form-group" data-bind="visible:true">
-        <label for="" class="col-md-4">Revenue</label>
+        <label for="rev1" class="col-md-4">Revenue</label>
         <div class="col-md-8">
-            <input  class=" form-control "
-                   title="" data-bind="money: Revenue, visible :true, enable :true"
-                   id="" type="text" name="Revenue" />
+            <input  class=" form-control " data-bind="money: Revenue, visible :true, enable :true"
+                   id="rev1" type="text" name="Revenue" />
         </div>
     </div>
   
@@ -240,11 +240,12 @@
     </div>
 
 <button data-bind="command : $root.promoteTo, visible :true, enable: true" class="btn btn-default">Promote</button>
-        </form>
+</form>
     </div>
-        <div class="col-sm-4">
+    <div class="col-sm-4">
             <h3>Audit Trail</h3>
-            <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().CustomerId(), entity : 'Customer'}} -->
-            <!--/ko-->
-        </div>
+        <!--ko compose: {model:'viewmodels/_audittrail.list', activationData:{id:$root.entity().Id(), entity : 'Customer'}} -->
+        <!--/ko-->
+
+    </div>
 </div>

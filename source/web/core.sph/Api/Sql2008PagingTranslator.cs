@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Web.Api
 
             if (sql.Contains("WHERE"))
             {
-                const string predicatePattern = "WHERE (?<predicate>.*?)ORDER";
+                const string predicatePattern = "WHERE (?<predicate>.*?)ORDER BY";
                 predicate = string.Format("WHERE {0}", this.RegexSingleValue(sql, predicatePattern, "predicate"));
             }
 

@@ -18,7 +18,7 @@ namespace domain.test.entities
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
-            var ent = new EntityDefinition { Name = "Lead", EntityDefinitionId = 1, Plural = "Leads", RecordName = "Name" };
+            var ent = new EntityDefinition { Name = "Lead", Id = "lead", Plural = "Leads", RecordName = "Name" };
             ent.MemberCollection.Add(new Member
             {
                 Name = "Name",
@@ -72,7 +72,7 @@ namespace domain.test.entities
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
             var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType("Bespoke.Dev_1.Domain.Lead");
+            var type = assembly.GetType("Bespoke.Dev_lead.Domain.Lead");
             Assert.IsNotNull(type, type.FullName + " is null");
 
             dynamic lead = Activator.CreateInstance(type);

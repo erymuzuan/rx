@@ -30,12 +30,13 @@
                     <!-- ko with : Input -->
                     <td>
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.TextBox, domain.sph'-->
-                        <input class="form-control" type="text" value="sample data" />
+                        <input class="form-control" type="text" data-bind="attr : {'placeholder':' [ ' + Path() + ' ] '}" />
                         <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.DownloadLink, domain.sph'-->
                         <span>
                             <i class="fa fa-cloud-download"></i>
-                            Download
+                            <!-- ko text : ' [ ' + Path() + ' ] ' -->
+                            <!-- /ko -->
                         </span>
                         <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.Button, domain.sph'-->
@@ -58,10 +59,12 @@
                         </div>
                         <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.NumberTextBox, domain.sph'-->
-                        <input class="form-control" type="number" value="@i" />
+                        <input class="form-control" type="number" value="@i" data-bind="attr : {'placeholder':' [ ' + Path() + ' ] '}" />
                         <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.ComboBox, domain.sph'-->
-                        <select class="form-control"></select>
+                        <select class="form-control">
+                            <option data-bind="text:' [ ' + Path() + ' ] '"></option>
+                        </select>
                         <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.FileUploadElement, domain.sph'-->
                         <input type="file" />

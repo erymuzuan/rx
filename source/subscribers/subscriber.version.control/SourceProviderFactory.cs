@@ -1,5 +1,6 @@
 using System;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 
 namespace subscriber.version.control
 {
@@ -7,6 +8,8 @@ namespace subscriber.version.control
     {
         public static dynamic Create(Type type)
         {
+            if (type == typeof (Adapter))
+                return new AdapterSourceProvider();
             if (type == typeof (ReportDefinition))
                 return new ReportDefinitionSourceProvider();
 
@@ -28,4 +31,6 @@ namespace subscriber.version.control
             return new EntitySourceProvider();
         }
     }
+
+    
 }

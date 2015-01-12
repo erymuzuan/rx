@@ -23,7 +23,7 @@ namespace Bespoke.Sph.RoslynScriptEngines
             session.AddReference("mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
             try
             {
-                var domain = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, typeof (Entity).Assembly.Location);
+                var domain = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, typeof(Entity).Assembly.Location);
                 var dll = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, typeof(RoslynScriptEngine).Assembly.Location);
                 var argDll = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, arg1.GetType().Assembly.Location);
 
@@ -48,8 +48,9 @@ namespace Bespoke.Sph.RoslynScriptEngines
                 customScript = itemCustomScript.Script;
 
             var block = script;
-            if (!block.EndsWith(";"))
-                block = string.Format("return {0};", script);
+            if (!block.EndsWith(";"))block = string.Format("return {0};", script);
+
+
             var code = string.Format("using System;\r\n" +
                                      "using Bespoke.Sph.Domain;\r\n" +
                                      "using System.Linq;\r\n" +
@@ -63,18 +64,24 @@ namespace Bespoke.Sph.RoslynScriptEngines
             try
             {
                 session.Execute(code);
+                var result = session.Execute("Evaluate();");
+
+                return (T)result;
             }
             catch (CompilationErrorException e)
             {
-                throw new Exception("Error compiling this code : \r\n" + block + "\r\n The full code is \r\n" + code,e);
+                throw new Exception("Error compiling this code : \r\n" + block + "\r\n The full code is \r\n" + code, e);
             }
             catch (Exception e)
             {
-                throw new Exception("Error compiling this code : \r\n" + block + "\r\n The full code is \r\n" + code,e);
+                throw new Exception("Error compiling this code : \r\n" + block + "\r\n The full code is \r\n" + code, e);
             }
-            var result = session.Execute("Evaluate();");
-
-            return (T)result;
+            finally
+            {
+                session = null;
+                scriptEngine = null;
+                host = null;
+            }
 
         }
 

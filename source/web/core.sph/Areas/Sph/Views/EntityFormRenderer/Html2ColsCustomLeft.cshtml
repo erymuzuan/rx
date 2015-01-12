@@ -1,0 +1,26 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Web.ViewModels.FormRendererViewModel
+
+@{
+
+    Layout = null;
+    var caption = string.IsNullOrWhiteSpace(Model.Form.Caption) ? Model.Form.Name : Model.Form.Caption;
+    var header = Model.Form.FormLayoutCollection.SingleOrDefault(y => y.Position == "Header");
+}
+
+<h1>@caption</h1>
+@Html.Partial("_ErrorList")
+@if (null != header)
+{
+    <div class="row">
+        @Html.Raw(header.Content)
+    </div>
+}
+<div class="row">
+    <div class="col-sm-4">
+        @Html.Raw(Model.Form.FormLayoutCollection.Single(y => y.Position == "LeftSide").Content)
+    </div>
+    <div class="col-sm-8">
+        @Html.Partial("_FormContent")
+    </div>
+</div>

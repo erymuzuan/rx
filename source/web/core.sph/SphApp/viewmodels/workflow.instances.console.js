@@ -15,8 +15,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
         var isBusy = ko.observable(false),
             activate = function () {
-                var query = "WorkflowDefinitionId gt 0";
-                var tcs = new $.Deferred();
+                var query = "Id ne '0'",
+                    tcs = new $.Deferred();
 
                 context.loadAsync("WorkflowDefinition", query)
                     .then(function (lo) {
@@ -51,7 +51,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
                 var tcs = new $.Deferred(),
                     instancesId = _(vm.selectedItems()).map(function (v) {
-                        return v.WorkflowId();
+                        return v.Id();
                     }), terminate = function () {
 
                         var data = JSON.stringify({ instancesId: instancesId });

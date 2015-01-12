@@ -17,7 +17,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
             isBusy = ko.observable(false),
             activate = function (id) {
                 var query = String.format("IsPublished eq 1"),
-                    query1 = String.format("EmailTemplateId eq {0}", id),
+                    query1 = String.format("Id eq '{0}'", id),
                     entityTask = context.loadAsync("EntityDefinition", query),
                     templateTask = context.loadOneAsync("EmailTemplate", query1),
                     tcs = new $.Deferred();
@@ -27,7 +27,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                         return v.Name();
                     });
                     entityOptions(types);
-                    if (parseInt(id)) {
+                    if (b) {
                         template(b);
                     }
                     tcs.resolve(true);
@@ -42,10 +42,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                     data = ko.mapping.toJSON(template);
                 isBusy(true);
 
-                context.post(data, "/Sph/EmailTemplate/Save")
+                context.post(data, "email-template")
                     .then(function (result) {
                         isBusy(false);
-                        template().EmailTemplateId(result.id);
+                        template().Id(result.id);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -56,12 +56,12 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                     data = ko.mapping.toJSON(template);
                 isBusy(true);
 
-                context.post(data, "/EmailTemplate/Publish")
+                context.post(data, "/email-template")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            template().EmailTemplateId(result.id);
+                            template().Id(result.id);
                             errors.removeAll();
                         } else {
 
@@ -78,12 +78,12 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                     data = ko.mapping.toJSON(template);
                 isBusy(true);
 
-                context.post(data, "/EmailTemplate/Test")
+                context.post(data, "/email-template/test")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            template().EmailTemplateId(result.id);
+                            template().Id(result.id);
                             errors.removeAll();
                         } else {
 
@@ -111,7 +111,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                         caption: 'Publish',
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
-                            return template().EmailTemplateId() > 0;
+                            return template().Id() && template().Id() !=="0";
                         })
                     },
                     {

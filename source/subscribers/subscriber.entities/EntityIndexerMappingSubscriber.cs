@@ -52,10 +52,12 @@ namespace subscriber.entities
 
         protected override void OnStart()
         {
-
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = typeof(EntityDefinition);
             var folder = Path.Combine(wc, type.Name);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
             foreach (var marker in Directory.GetFiles(folder, "*.marker"))
             {
                 this.QueueUserWorkItem(MigrateData, Path.GetFileNameWithoutExtension(marker));
@@ -83,7 +85,7 @@ namespace subscriber.entities
             using (var conn = new SqlConnection(connectionString))
             {
                 await conn.OpenAsync();//migrate
-                var readSql = string.Format("SELECT [{0}Id],[Json] FROM [{1}].[{0}]", name, applicationName);
+                var readSql = string.Format("SELECT [Id],[Json] FROM [{1}].[{0}]", name, applicationName);
                 this.WriteMessage(readSql);
 
 
@@ -93,12 +95,12 @@ namespace subscriber.entities
                     {
                         while (reader.Read())
                         {
-                            var id = reader.GetInt32(0);
+                            var id = reader.GetString(0);
                             var json = reader.GetString(1);
                             this.WriteMessage("Migrating {0} : {1}", name, id);
                             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
                             dynamic ent = JsonConvert.DeserializeObject(json, setting);
-                            ent.SetId(id);
+                            ent.Id = id;
 
                             var task = IndexItemToElasticSearchAsync(ent);
                             taskBuckets.Add(task);
@@ -126,7 +128,7 @@ namespace subscriber.entities
             var json = JsonConvert.SerializeObject(item, setting);
 
             var content = new StringContent(json);
-            var id = item.GetId();
+            var id = item.Id;
             if (item.GetType().Namespace == typeof(Entity).Namespace) return;// just custom entity
 
 
@@ -176,8 +178,7 @@ namespace subscriber.entities
                 var response = await client.PutAsync(url, content);
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    Console.Write(".");
-                    // creates the index for the 1st time
+                    this.WriteMessage("creates the index for the 1st time for {0}", item.Name);
                     await client.PutAsync(ConfigurationManager.ApplicationName.ToLowerInvariant(), new StringContent(""));
                     return await this.PutMappingAsync(item);
                 }
@@ -189,7 +190,14 @@ namespace subscriber.entities
                     if (null != rc)
                         text = await rc.ReadAsStringAsync();
 
-                    this.WriteError(new Exception(" Error creating Elastic search map for " + item.Name + "/r/n" + text));
+                    if (text.Contains("MergeMappingException") && text.Contains("of different type, current_type"))
+                    {
+                        this.WriteMessage("Deleting current mapping because there's different in data type and schema");
+                        await client.DeleteAsync(url);
+                        return await PutMappingAsync(item);
+
+                    }
+                    this.WriteError(new Exception(string.Format(" Error creating Elastic search map for [{0}]\r\n{1}", item.Name, text)));
                 }
 
                 return response.StatusCode == HttpStatusCode.OK;
@@ -198,7 +206,7 @@ namespace subscriber.entities
 
         private bool Compare(EntityDefinition item, string map)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = typeof(EntityDefinition);
             var folder = Path.Combine(wc, type.Name);
             if (!Directory.Exists(folder))
@@ -215,7 +223,7 @@ namespace subscriber.entities
 
         private void SaveMap(EntityDefinition item, string map)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = item.GetType();
             var folder = Path.Combine(wc, type.Name);
             if (!Directory.Exists(folder))
@@ -229,7 +237,7 @@ namespace subscriber.entities
 
         private void SaveMigrationMarker(EntityDefinition item)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = item.GetType();
             var folder = Path.Combine(wc, type.Name);
 

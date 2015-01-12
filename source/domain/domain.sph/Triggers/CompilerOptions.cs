@@ -44,6 +44,13 @@ namespace Bespoke.Sph.Domain
         /// <summary>
         /// A helper to add referenced assembly location
         /// </summary>
+        public void AddReference<T>()
+        {
+            this.ReferencedAssembliesLocation.Add(typeof(T).Assembly.Location);
+        }
+        /// <summary>
+        /// A helper to add referenced assembly location
+        /// </summary>
         /// <param name="assembly"></param>
         public void AddReference(Assembly assembly)
         {

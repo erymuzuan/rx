@@ -5,7 +5,7 @@
     @Html.Partial("_DesignerContextAction")
     <label data-bind="text: Label" class="control-label col-lg-2"></label>
     <div class="col-lg-4">
-        <textarea data-bind="attr: { 'title': Tooltip, 'rows': Rows, 'class': CssClass() + ' control-form ' + Size() }" />
+        <textarea data-bind="attr: { 'title': Tooltip, 'rows': Rows, 'class': CssClass() + ' control-form ' + Size(),placeholder:' [ ' + Path() + ' ] ' }"></textarea>
         <span data-bind="text: HelpText" class="help-block"></span>
     </div>
 </div>

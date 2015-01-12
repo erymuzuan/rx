@@ -1,8 +1,9 @@
 ﻿/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/cultures.my.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="/Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="/Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="/Scripts/require.js" />
 /// <reference path="/Scripts/string.js" />
 
 
@@ -23,6 +24,10 @@ define([objectbuilders.datacontext, objectbuilders.cultures, objectbuilders.logg
                         logger.logError(e, e, this, true);
                     },
                     success: function (e) {
+                        if (!e.response.success) {
+                            logger.error(e.response.message);
+                            return;
+                        }
                         var uploaded = e.operation === "upload";
                         if (uploaded) {
                             var wd = e.response.wd,

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Humanizer;
@@ -26,7 +27,7 @@ namespace Bespoke.Sph.Domain
 
         public async Task<Workflow> InitiateAsync(VariableValue[] values = null, ScreenActivity screen = null)
         {
-            var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.WorkflowDefinitionId, this.Version, this.CodeNamespace);
+            var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.Id, this.Version, this.CodeNamespace);
             var type = Type.GetType(typeName);
             if (null == type) throw new InvalidOperationException("Cannot instantiate  " + typeName);
 
@@ -34,7 +35,7 @@ namespace Bespoke.Sph.Domain
 
             dynamic wf = Activator.CreateInstance(type);
             wf.Name = this.Name;
-            wf.WorkflowDefinitionId = this.WorkflowDefinitionId;
+            wf.WorkflowDefinitionId = this.Id;
             wf.State = "Active";
             wf.WorkflowDefinition = this;
 
@@ -116,15 +117,21 @@ namespace Bespoke.Sph.Domain
 
         public WorkflowCompilerResult Compile(CompilerOptions options)
         {
-            var code = this.GenerateCode();
-            Debug.WriteLineIf(options.IsVerbose, code);
+            var codes = this.GenerateCode();
+            Debug.WriteLineIf(options.IsVerbose, codes);
 
-            var sourceFile = string.Empty;
-            if (!string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
+            var sourceFiles = new List<string>();
+            if (string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
             {
-                sourceFile = Path.Combine(options.SourceCodeDirectory,
-                    string.Format("Workflow_{0}_{1}.cs", this.WorkflowDefinitionId, this.Version));
-                File.WriteAllText(sourceFile, code);
+                options.SourceCodeDirectory = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Id);
+            }
+            if (!Directory.Exists(options.SourceCodeDirectory))
+                Directory.CreateDirectory(options.SourceCodeDirectory);
+            foreach (var @class in codes)
+            {
+                var cs = Path.Combine(options.SourceCodeDirectory, @class.FileName);
+                File.WriteAllText(cs, @class.GetCode());
+                sourceFiles.Add(cs);
             }
 
             using (var provider = new CSharpCodeProvider())
@@ -132,7 +139,7 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.WorkflowDefinitionId, this.Version)),
+                    OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.Id, this.Version)),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
                 };
@@ -148,6 +155,9 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Binder).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(ApiController).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(RoutePrefixAttribute).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter).Assembly.Location);
                 foreach (var ra in this.ReferencedAssemblyCollection)
                 {
                     parameters.ReferencedAssemblies.Add(ra.Location);
@@ -156,41 +166,41 @@ namespace Bespoke.Sph.Domain
 
                 foreach (var ass in options.ReferencedAssembliesLocation)
                 {
-                    parameters.ReferencedAssemblies.Add(ass);
+                    if (!parameters.ReferencedAssemblies.Contains(ass))
+                        parameters.ReferencedAssemblies.Add(ass);
                 }
-                var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
-                    : provider.CompileAssemblyFromSource(parameters, code);
+                var result = provider.CompileAssemblyFromFile(parameters, sourceFiles.ToArray());
                 var cr = new WorkflowCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)
                 };
                 cr.Result = result.Errors.Count == 0;
-                cr.Errors.AddRange(this.GetCompileErrors(result, code));
+                cr.Errors.AddRange(this.GetCompileErrors(result));
 
                 return cr;
             }
         }
 
-        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
+        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result)
         {
-            var temp = Path.GetTempFileName() + ".cs";
-            File.WriteAllText(temp, code);
-            var sources = File.ReadAllLines(temp);
-            var list = (from object er in result.Errors.OfType<CompilerError>()
-                        select this.GetSourceError(er as CompilerError, sources));
-            File.Delete(temp);
 
+            var list = from CompilerError er in result.Errors.OfType<CompilerError>()
+                       select this.GetSourceError(er, er.FileName);
             return list;
         }
 
-        private BuildError GetSourceError(CompilerError er, string[] sources)
+        private BuildError GetSourceError(CompilerError er, string fileName)
         {
+            if (string.IsNullOrWhiteSpace(fileName) || !File.Exists(fileName))
+                return new BuildError(this.WebId, er.ErrorText);
+
+            var sources = File.ReadAllLines(fileName);
             var member = string.Empty;
             for (var i = 0; i < er.Line; i++)
             {
-                if (sources[i].StartsWith("//exec:"))
-                    member = sources[i].Replace("//exec:", string.Empty);
+                if (sources[i].Trim().StartsWith("//exec:"))
+                    member = sources[i].Trim().Replace("//exec:", string.Empty);
             }
             if (this.ActivityCollection.All(a => a.WebId != member))
             {
@@ -219,10 +229,8 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string WorkflowTypeName
         {
-            get
-            {
-                return string.Format("{0}_{1}_{2}", this.Name.Dehumanize().Replace(" ", string.Empty), this.WorkflowDefinitionId, this.Version);
-            }
+
+            get { return (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "Workflow").Replace("WorkflowWorkflow", "Workflow"); }
         }
         [XmlIgnore]
         [JsonIgnore]
@@ -230,9 +238,26 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return "Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId + "_" + this.Version;
+                var id = (this.Id.Humanize(LetterCasing.Title).Dehumanize());
+                return string.Format("Bespoke.Sph.Workflows_{0}_{1}", id, this.Version);
             }
         }
 
+
+        public WorkflowDefinition ChangeActivitiesWebId()
+        {
+            var json = this.ToJsonString();
+            foreach (var act in this.ActivityCollection)
+            {
+                var webid = act.WebId;
+                Guid id;
+                if (Guid.TryParse(webid, out id))
+                {
+                    json = json.Replace(webid, act.MethodName);
+                }
+            }
+
+            return json.DeserializeFromJson<WorkflowDefinition>();
+        }
     }
 }

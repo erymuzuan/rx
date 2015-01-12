@@ -55,7 +55,7 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
                     var trigger = t.GeTrigger();
                     td.Triggers.Add(trigger);
                 }
-                var action = new ExecAction(this.Executable, string.Format("{0} {1}", start.WebId, item.WorkflowDefinitionId))
+                var action = new ExecAction(this.Executable, string.Format("{0} {1}", start.WebId, item.Id))
                             {
                                 WorkingDirectory = System.IO.Path.GetDirectoryName(this.Executable)
                             };

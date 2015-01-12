@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Domain;
@@ -12,6 +13,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var rd = this.GetRequestJson<ReportDelivery>();
             var context = new SphDataContext();
+
+            if (rd.IsNewItem) rd.Id = rd.ReportDefinitionId + "-" + Guid.NewGuid().ToString().Substring(1,4);
+
             using (var session = context.OpenSession())
             {
                 session.Attach(rd);
@@ -19,7 +23,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
             this.Response.ContentType = "application/json; charset=utf-8";
-            return Content(JsonConvert.SerializeObject(rd.ReportDeliveryId));
+            return Content(JsonConvert.SerializeObject(rd.Id));
 
         }
 

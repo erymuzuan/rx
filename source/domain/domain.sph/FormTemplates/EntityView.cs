@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Domain
             var context = new SphDataContext();
 
             var formRouteCountTask = context.GetCountAsync<EntityForm>(f => f.Route == this.Route);
-            var viewRouteCountTask = context.GetCountAsync<EntityView>(f => f.Route == this.Route && f.EntityViewId != this.EntityViewId);
+            var viewRouteCountTask = context.GetCountAsync<EntityView>(f => f.Route == this.Route && f.Id != this.Id);
             var entityRouteCountTask = context.GetCountAsync<EntityDefinition>(f => f.Name == this.Route);
 
             await Task.WhenAll(formRouteCountTask, viewRouteCountTask, entityRouteCountTask).ConfigureAwait(false);
@@ -202,18 +202,10 @@ namespace Bespoke.Sph.Domain
 
         public override string ToString()
         {
-            return string.Format("[{0}] {1}", this.EntityViewId, this.Name);
+            return string.Format("[{0}] {1}", this.Id, this.Name);
         }
 
-        public override void SetId(int id)
-        {
-            this.EntityViewId = id;
-        }
-
-        public override int GetId()
-        {
-            return this.EntityViewId;
-        }
+    
 
         public string GenerateRoute()
         {

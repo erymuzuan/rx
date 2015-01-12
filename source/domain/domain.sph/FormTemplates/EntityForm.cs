@@ -1,6 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -25,7 +29,7 @@ namespace Bespoke.Sph.Domain
 
             var context = new SphDataContext();
 
-            var formRouteCountTask = context.GetCountAsync<EntityForm>(f => f.Route == this.Route && f.EntityFormId != this.EntityFormId);
+            var formRouteCountTask = context.GetCountAsync<EntityForm>(f => f.Route == this.Route && f.Id != this.Id);
             var viewRouteCountTask = context.GetCountAsync<EntityView>(f => f.Route == this.Route);
             var entityRouteCountTask = context.GetCountAsync<EntityDefinition>(f => f.Name == this.Route);
 
@@ -42,7 +46,7 @@ namespace Bespoke.Sph.Domain
 
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9 -]*$");
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
 
             var validRoute = new Regex(@"^[a-z0-9-._]*$");
             if (!validRoute.Match(this.Route).Success)
@@ -54,6 +58,27 @@ namespace Bespoke.Sph.Domain
             result.Result = result.Errors.Count == 0;
 
             return result;
+        }
+
+        [XmlIgnore]
+        [JsonIgnore]
+        [ImportMany("FormRenderer", typeof(IFormRenderer), AllowRecomposition = true)]
+        public Lazy<IFormRenderer, IFormRendererMetadata>[] FormRendererProviders { get; set; }
+
+        public async Task<BuildValidationResult> RenderAsync(string name)
+        {
+            var build = new BuildValidationResult();
+            if (null == this.FormRendererProviders)
+                ObjectBuilder.ComposeMefCatalog(this);
+            var provider = this.FormRendererProviders.SingleOrDefault(x => x.Metadata.Name == name);
+            if (null == provider)
+            {
+                build.Errors.Add(new BuildError(this.WebId, "Cannot find renderer for " + name));
+                return build;
+            }
+
+            var renderer = provider.Value;
+            return await renderer.RenderAsync(this);
         }
     }
 }

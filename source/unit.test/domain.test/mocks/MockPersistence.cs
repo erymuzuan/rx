@@ -8,7 +8,7 @@ namespace domain.test
 {
     internal class MockPersistence : IPersistence
     {
-        public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session)
+        public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session, string user)
         {
             foreach (var item in addedOrUpdatedItems)
             {
@@ -19,7 +19,7 @@ namespace domain.test
             return new SubmitOperation();
         }
 
-        public Task<SubmitOperation> SubmitChanges(Entity item)
+        public Task<SubmitOperation> SubmitChanges(Entity item, string user)
         {
             throw new System.NotImplementedException();
         }

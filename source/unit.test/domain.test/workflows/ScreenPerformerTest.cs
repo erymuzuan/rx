@@ -20,8 +20,8 @@ namespace domain.test.workflows
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
-            var qp = new Mock<QueryProvider>(MockBehavior.Loose);
-            ObjectBuilder.AddCacheList(qp.Object);
+            var qp = new MockQueryProvider();
+            ObjectBuilder.AddCacheList<QueryProvider>(qp);
 
 
             m_ds = new Mock<IDirectoryService>(MockBehavior.Strict);

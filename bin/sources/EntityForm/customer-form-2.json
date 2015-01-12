@@ -11,6 +11,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -36,6 +37,7 @@
           "HelpText": null,
           "UseDisplayTemplate": false,
           "ToolboxIconClass": null,
+          "IsUniqueName": false,
           "LabelColLg": null,
           "LabelColMd": null,
           "LabelColSm": null,
@@ -48,6 +50,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
+          "TypeName": "DatePicker",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -73,6 +76,7 @@
           "HelpText": null,
           "UseDisplayTemplate": false,
           "ToolboxIconClass": null,
+          "IsUniqueName": false,
           "LabelColLg": null,
           "LabelColMd": null,
           "LabelColSm": null,
@@ -89,6 +93,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -114,6 +119,7 @@
           "HelpText": null,
           "UseDisplayTemplate": false,
           "ToolboxIconClass": null,
+          "IsUniqueName": false,
           "LabelColLg": null,
           "LabelColMd": null,
           "LabelColSm": null,
@@ -144,8 +150,15 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
-  "EntityFormId": 1001,
-  "EntityDefinitionId": 1,
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "FormLayoutCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormLayout, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityDefinitionId": "customer",
   "Name": "customer-form-2",
   "Route": "customer-form-2",
   "Note": "",
@@ -162,8 +175,12 @@
   "IsImportAvailable": false,
   "IsExportAvailable": false,
   "Operation": null,
-  "Entity": null,
+  "Entity": "Customer",
+  "Partial": null,
+  "Caption": null,
+  "Layout": null,
   "CreatedBy": "admin",
+  "Id": "customer-form-2",
   "CreatedDate": "2014-02-27T18:45:55.0819033+08:00",
   "ChangedBy": "admin",
   "ChangedDate": "2014-04-25T09:04:14.2531157+08:00",

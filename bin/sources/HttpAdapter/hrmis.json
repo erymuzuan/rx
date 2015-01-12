@@ -1,0 +1,680 @@
+{
+  "$type": "Bespoke.Sph.Integrations.Adapters.HttpAdapter, http.adapter",
+  "OdataTranslator": null,
+  "Har": "ced55a4f-8eaf-4e1a-a62a-7a71f57f19c0",
+  "BaseAddress": "https://hrmisone.eghrmis.gov.my",
+  "AuthenticationMode": "None",
+  "Timeout": null,
+  "TimeoutInterval": "Milliseconds",
+  "Tables": null,
+  "Schema": "HrmisJpa",
+  "CodeNamespace": "Dev.Adapters.HrmisJpa",
+  "OperationDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Integrations.Adapters.HttpOperationDefinition, http.adapter",
+        "HarProcessors": {
+          "$type": "Bespoke.Sph.Integrations.Adapters.IHarProcessor[], http.adapter",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.DefaultNameSuggestionHarProcessor, http.adapter"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.JsonRequestHarProcess, http.adapter"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.JsonResponseHarProcessor, http.adapter"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.MultipPartFormHarProcess, http.adapter"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RequestHeadersHarProcessor, http.adapter"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RequestPostDataHarProcess, http.adapter"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RequestQueryStringHarProcess, http.adapter"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.ResponseHeadersHarProcess, http.adapter"
+            }
+          ]
+        },
+        "IsLoginPage": false,
+        "IsLoginOperation": true,
+        "IsLoginRequired": false,
+        "EnsureSuccessStatusCode": false,
+        "ExpectedStatusCode": 0,
+        "FollowRedirect": false,
+        "RequestRouting": "/51202010procloghrmisBM.asp?filedsn={filedsn}&EJsut={EJsut}&exQsut={exQsut}&strLanguage={strLanguage}&kira={kira}&block={block}&strResolution={strResolution}",
+        "ResponseMimeType": "text/html",
+        "ResponseIsJsonArray": false,
+        "HttpMethod": "POST",
+        "HttpVersion": null,
+        "ResponseHeaderDefinitionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Date",
+              "Description": null,
+              "OriginalValue": "Sat, 02 Aug 2014 00:37:30 GMT",
+              "DefaultValue": "Sat, 02 Aug 2014 00:37:30 GMT",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "Sat, 02 Aug 2014 00:37:30 GMT",
+                "Name": "Sat, 02 Aug 2014 ...",
+                "Note": null,
+                "WebId": "422137cc-f117-4781-ac10-5f65e8f2f921"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Server",
+              "Description": null,
+              "OriginalValue": "Microsoft-IIS/6.0",
+              "DefaultValue": "Microsoft-IIS/6.0",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "Microsoft-IIS/6.0",
+                "Name": "Microsoft-IIS/6.0",
+                "Note": null,
+                "WebId": "de0088f1-f8de-42ce-8099-cb6c06a2d85e"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "X-UA-Compatible",
+              "Description": null,
+              "OriginalValue": "IE=EmulateIE7",
+              "DefaultValue": "IE=EmulateIE7",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "IE=EmulateIE7",
+                "Name": "IE=EmulateIE7",
+                "Note": null,
+                "WebId": "88c6b527-4916-4b1e-92d6-10f8b22ceac6"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "X-Powered-By",
+              "Description": null,
+              "OriginalValue": "ASP.NET",
+              "DefaultValue": "ASP.NET",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "ASP.NET",
+                "Name": "ASP.NET",
+                "Note": null,
+                "WebId": "3e5ce464-0310-4302-b0e4-f9005e8f0186"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Content-Length",
+              "Description": null,
+              "OriginalValue": "2364",
+              "DefaultValue": "2364",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "2364",
+                "Name": "2364",
+                "Note": null,
+                "WebId": "312e0819-7b65-481c-bb53-c11dc22110ae"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Content-Type",
+              "Description": null,
+              "OriginalValue": "text/html",
+              "DefaultValue": "text/html",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "text/html",
+                "Name": "text/html",
+                "Note": null,
+                "WebId": "e447943f-323f-4240-af76-aec465f5bf30"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Expires",
+              "Description": null,
+              "OriginalValue": "Sun, 04 May 2014 00:37:30 GMT",
+              "DefaultValue": "Sun, 04 May 2014 00:37:30 GMT",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "Sun, 04 May 2014 00:37:30 GMT",
+                "Name": "Sun, 04 May 2014 ...",
+                "Note": null,
+                "WebId": "01c210e1-5193-498c-bf66-41222a6c9e63"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Cache-control",
+              "Description": null,
+              "OriginalValue": "private",
+              "DefaultValue": "private",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "private",
+                "Name": "private",
+                "Note": null,
+                "WebId": "ab20450c-f36e-4052-ae44-c45286dd2f9f"
+              },
+              "CanOverride": false,
+              "WebId": null
+            }
+          ]
+        },
+        "RequestHeaderDefinitionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Accept",
+              "Description": null,
+              "OriginalValue": "text/html, application/xhtml+xml, */*",
+              "DefaultValue": "text/html, application/xhtml+xml, */*",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "text/html, application/xhtml+xml, */*",
+                "Name": "text/html, applic...",
+                "Note": null,
+                "WebId": "cce23492-9170-490e-9085-b48c07f137f8"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Referer",
+              "Description": null,
+              "OriginalValue": "https://hrmisone.eghrmis.gov.my/51202010loginhrmisBM.asp",
+              "DefaultValue": "https://hrmisone.eghrmis.gov.my/51202010loginhrmisBM.asp",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "https://hrmisone.eghrmis.gov.my/51202010loginhrmisBM.asp",
+                "Name": "https://hrmisone....",
+                "Note": null,
+                "WebId": "1c8dfb2c-fd22-472f-bf96-95ab2ee30a85"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Accept-Language",
+              "Description": null,
+              "OriginalValue": "en-US,en;q=0.5",
+              "DefaultValue": "en-US,en;q=0.5",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "en-US,en;q=0.5",
+                "Name": "en-US,en;q=0.5",
+                "Note": null,
+                "WebId": "6a4ad3fa-ef09-4772-aeb9-7e3b5e4d6925"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "User-Agent",
+              "Description": null,
+              "OriginalValue": "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko",
+              "DefaultValue": "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko",
+                "Name": "Mozilla/5.0 (Wind...",
+                "Note": null,
+                "WebId": "d3c4c44b-c53b-401d-92b2-242a2f50e807"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Content-Type",
+              "Description": null,
+              "OriginalValue": "application/x-www-form-urlencoded",
+              "DefaultValue": "application/x-www-form-urlencoded",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "application/x-www-form-urlencoded",
+                "Name": "application/x-www...",
+                "Note": null,
+                "WebId": "d2e661a3-8157-4700-90e1-39c478b908bf"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Accept-Encoding",
+              "Description": null,
+              "OriginalValue": "gzip, deflate",
+              "DefaultValue": "gzip, deflate",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "gzip, deflate",
+                "Name": "gzip, deflate",
+                "Note": null,
+                "WebId": "abc56dbe-5054-4eeb-b167-68b2ba58e779"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Host",
+              "Description": null,
+              "OriginalValue": "hrmisone.eghrmis.gov.my",
+              "DefaultValue": "hrmisone.eghrmis.gov.my",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "hrmisone.eghrmis.gov.my",
+                "Name": "hrmisone.eghrmis....",
+                "Note": null,
+                "WebId": "d0df1429-1e1e-4adb-8dcc-ef535f4b3e1b"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Content-Length",
+              "Description": null,
+              "OriginalValue": "55",
+              "DefaultValue": "55",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "55",
+                "Name": "55",
+                "Note": null,
+                "WebId": "37494894-14e5-43b9-8d3d-2f86a8c502a6"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "DNT",
+              "Description": null,
+              "OriginalValue": "1",
+              "DefaultValue": "1",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "1",
+                "Name": "1",
+                "Note": null,
+                "WebId": "d5d69a84-b370-42ea-b94c-14d1e2332b36"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Connection",
+              "Description": null,
+              "OriginalValue": "Keep-Alive",
+              "DefaultValue": "Keep-Alive",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "Keep-Alive",
+                "Name": "Keep-Alive",
+                "Note": null,
+                "WebId": "7ab9661e-e52b-491c-a2b1-19b62ff1dff3"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Cache-Control",
+              "Description": null,
+              "OriginalValue": "no-cache",
+              "DefaultValue": "no-cache",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "no-cache",
+                "Name": "no-cache",
+                "Note": null,
+                "WebId": "70062fbd-b91a-46e2-acce-eaad00158d29"
+              },
+              "CanOverride": false,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.HttpHeaderDefinition, http.adapter",
+              "Name": "Cookie",
+              "Description": null,
+              "OriginalValue": "__utma=57193662.1704135038.1406939422.1406939422.1406939422.1; __utmb=57193662.1.10.1406939422; __utmc=57193662; __utmz=57193662.1406939422.1.1.utmcsr=bing|utmccn=(organic)|utmcmd=organic|utmctr=hrmis; ASPSESSIONIDACCSDCSR=GNLCHCPBJCHPBMJKMJHAFOMM; ASPSESSIONIDCACTCCTR=ODAOKCPBLEJBEECJALNEKNAE; language=BM; ASP.NET_SessionId=nlbqxmihuyxrxj454z5wekyr",
+              "DefaultValue": "__utma=57193662.1704135038.1406939422.1406939422.1406939422.1; __utmb=57193662.1.10.1406939422; __utmc=57193662; __utmz=57193662.1406939422.1.1.utmcsr=bing|utmccn=(organic)|utmcmd=organic|utmctr=hrmis; ASPSESSIONIDACCSDCSR=GNLCHCPBJCHPBMJKMJHAFOMM; ASPSESSIONIDCACTCCTR=ODAOKCPBLEJBEECJALNEKNAE; language=BM; ASP.NET_SessionId=nlbqxmihuyxrxj454z5wekyr",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                "TypeName": "System.String, mscorlib",
+                "Value": "__utma=57193662.1704135038.1406939422.1406939422.1406939422.1; __utmb=57193662.1.10.1406939422; __utmc=57193662; __utmz=57193662.1406939422.1.1.utmcsr=bing|utmccn=(organic)|utmcmd=organic|utmctr=hrmis; ASPSESSIONIDACCSDCSR=GNLCHCPBJCHPBMJKMJHAFOMM; ASPSESSIONIDCACTCCTR=ODAOKCPBLEJBEECJALNEKNAE; language=BM; ASP.NET_SessionId=nlbqxmihuyxrxj454z5wekyr",
+                "Name": "__utma=57193662.1...",
+                "Note": null,
+                "WebId": "6d595ce9-6371-4df2-9551-210fd07018c7"
+              },
+              "CanOverride": false,
+              "WebId": null
+            }
+          ]
+        },
+        "Url": "/51202010procloghrmisBM.asp",
+        "WebId": null,
+        "Name": "Login",
+        "MethodName": "Login",
+        "IsOneWay": false,
+        "IsEvent": false,
+        "RequestDefinition": null,
+        "ResponseDefinition": "Request",
+        "CodeNamespace": null,
+        "RequestMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter",
+              "Pattern": null,
+              "Group": null,
+              "DateFormat": null,
+              "NumberFormat": null,
+              "FieldName": "btnSecuritySubmit",
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "btnSecuritySubmit",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter",
+              "Pattern": null,
+              "Group": null,
+              "DateFormat": null,
+              "NumberFormat": null,
+              "FieldName": "txtSecurityControl",
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "txtSecurityControl",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter",
+              "Pattern": null,
+              "Group": null,
+              "DateFormat": null,
+              "NumberFormat": null,
+              "FieldName": null,
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "filedsn",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter",
+              "Pattern": null,
+              "Group": null,
+              "DateFormat": null,
+              "NumberFormat": null,
+              "FieldName": null,
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "EJsut",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter",
+              "Pattern": null,
+              "Group": null,
+              "DateFormat": null,
+              "NumberFormat": null,
+              "FieldName": null,
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "exQsut",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter",
+              "Pattern": null,
+              "Group": null,
+              "DateFormat": null,
+              "NumberFormat": null,
+              "FieldName": null,
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "strLanguage",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter",
+              "Pattern": null,
+              "Group": null,
+              "DateFormat": null,
+              "NumberFormat": null,
+              "FieldName": null,
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "kira",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter",
+              "Pattern": null,
+              "Group": null,
+              "DateFormat": null,
+              "NumberFormat": null,
+              "FieldName": null,
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "block",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "DefaultValue": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.RegexMember, http.adapter",
+              "Pattern": null,
+              "Group": null,
+              "DateFormat": null,
+              "NumberFormat": null,
+              "FieldName": null,
+              "FullName": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "strResolution",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "DefaultValue": null,
+              "WebId": null
+            }
+          ]
+        },
+        "ResponseMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Uuid": "44559f40-231a-481a-9696-06c0870bde39"
+      }
+    ]
+  },
+  "Name": "hrmis",
+  "Description": "hrmis",
+  "Id": "hrmis",
+  "CreatedBy": "admin",
+  "CreatedDate": "2014-08-02T09:17:16.4181903+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-08-02T10:34:41.8313453+08:00",
+  "WebId": "3af2fb8d-49f8-43e4-89c4-45b2ac65b9a8"
+}

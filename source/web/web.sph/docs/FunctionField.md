@@ -1,6 +1,6 @@
 #FunctionField
 ## Overview
-`FunctionField` is a primary and the easiest way to generate a dynamic values at runtime, this value be not be know at design time, as such using [ConstantField](ConstantField.htm) is imposible.
+`FunctionField` is a primary and the easiest way to generate a dynamic values at runtime, this value be not be know at design time, as such using [ConstantField](ConstantField.htm) is impossible.
 
 
 ##Properties
@@ -18,7 +18,7 @@
 
 
 ## C# Script
-Microsoft Roslyn Service script engine allows you to run any arbitary C# code within a host object. `Rx Developer` will create a host object for your script which allow you to access few this such as 
+Microsoft Roslyn Service script engine allows you to run any arbitrary C# code within a host object. `Rx Developer` will create a host object for your script which allow you to access few this such as
 
 * The current record as `item`
 * All the types within your Entity or Workflow assembly
@@ -28,16 +28,16 @@ Microsoft Roslyn Service script engine allows you to run any arbitary C# code wi
 You should only write your script in 2 ways
 
 Short expression
-```
+```csharp
 DateTime.Now
 ```
 The example give you the simplest form of expression that will return the current date time.
 
-Multile line script with complex script 
-<pre>
+Multi line line script with complex script
+```csharp
 var second = DateTime.Now.Seconds;
 return string.Format("ITEM_{0}",second);
-</pre>
+```
 
 
 ##Things to aware

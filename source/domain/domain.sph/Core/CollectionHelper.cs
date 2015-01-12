@@ -9,6 +9,19 @@ namespace Bespoke.Sph.Domain
     /// </summary>
     public static class CollectionHelper
     {
+
+        public static void Add(this IList<ValidationError> errors, ValidationError error)
+        {
+            errors.Add(error);
+        }
+        public static void Add(this IList<ValidationError> errors, string property, string message)
+        {
+            errors.Add(new ValidationError{PropertyName = property, Message = message});
+        }
+        public static void Add(this IList<ValidationError> errors, string property, string message, string location)
+        {
+            errors.Add(new ValidationError{PropertyName = property, Message = message, ErrorLocation = location});
+        }
         /// <summary>
         /// Creates a new ObjectCollection from the source, this will also set the Bil Property
         /// </summary>

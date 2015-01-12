@@ -1,0 +1,164 @@
+﻿<h1> Oracle Adapter</h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
+
+<div class="row" data-bind="with : adapter">
+    <form class="form-horizontal">
+
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">Name</label>
+
+            <div class="col-sm-6">
+                <input type="text" data-bind="value: Name"
+                       required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                       placeholder="Name for the adapter"
+                       class="form-control" id="name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="desc" class="col-sm-2 control-label">Description</label>
+
+            <div class="col-sm-6">
+                <textarea data-bind="value: Description"
+                          placeholder=""
+                          class="form-control" id="desc"></textarea>
+            </div>
+        </div>
+
+        <h3>Connection information</h3>
+
+        <div class="form-group">
+            <label for="server" class="col-sm-2 control-label">Server</label>
+
+            <div class="col-sm-6">
+                <input type="text" data-bind="value: Server"
+                       required
+                       placeholder="Oracle server DNS name or IP"
+                       class="form-control" id="server">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="userName" class="col-sm-2 control-label">User Id</label>
+
+            <div class="col-sm-6">
+                <input type="text" data-bind="value: UserId"
+                       required
+                       placeholder="User Id to connect to the Oracle Server"
+                       class="form-control" id="userName">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">Password</label>
+
+            <div class="col-sm-6">
+                <input type="password" data-bind="value: Password"
+                       required
+                       placeholder="Password"
+                       class="form-control" id="password">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="sid" class="col-sm-2 control-label">SID</label>
+
+            <div class="col-sm-6">
+                <input type="text" data-bind="value: Sid"
+                       required
+                       placeholder="SID"
+                       class="form-control" id="sid">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="port" class="col-sm-2 control-label">Port</label>
+
+            <div class="col-sm-6">
+                <input type="text" data-bind="value: Port"
+                       required pattern="[0-9]{1,5}"
+                       placeholder="Port"
+                       class="form-control" id="port">
+            </div>
+        </div>
+
+        <h3>Database Objects</h3>
+
+        <div class="form-group">
+            <label for="schema" class="col-sm-2 control-label">Schema</label>
+
+            <div class="col-sm-6">
+                <select class="form-control" id="schema"
+                        data-bind="value : Schema, options:$root.schemaOptions, optionsCaption:'[Select a schema]', enable : $root.connected"></select>
+
+            </div>
+            <div class="col-sm-1">
+                <i class="fa fa-spinner fa-spin" data-bind="visible:$root.loadingTables"></i>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Tables</label>
+
+            <div class="col-sm-6">
+                <!-- ko foreach : $root.tableOptions-->
+                <label>
+                    <input class="table-checkbox" type="checkbox" data-bind="value: name, attr : {title: name}"/>
+                    <!-- ko text: name -->
+                    <!-- /ko-->
+                    <br data-bind="visible:parentOptions.length > 0 || childrenOptions.length > 0"/>
+                    <!-- ko foreach : parentOptions-->
+                    <br/>
+                    <label style="margin-left: 20px">
+                        <input type="checkbox" data-bind="value: fk_table_name, checked: $parent.parents"/>
+                        <i class="fa fa-arrow-left"></i>
+                        <!-- ko text: parent + "(" + src_constraint_name + ")" -->
+                        <!-- /ko-->
+                    </label>
+                    <!-- /ko-->
+                    <!-- ko foreach : childrenOptions-->
+                    <br/>
+                    <label style="margin-left: 20px">
+                        <input type="checkbox" data-bind="value: src_table_name, checked: $parent.children"/>
+                        <i class="fa fa-arrow-right"></i>
+                        <!-- ko text: src_table_name -->
+                        <!-- /ko-->
+                    </label>
+                    <!-- /ko-->
+
+                </label>
+                <br/>
+                <!-- /ko-->
+            </div>
+        </div>
+
+        <h3>Web Api</h3>
+
+        <p>Creates HTTP Web API for your database objects</p>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="create-api">Creates Web API</label>
+
+            <div class="col-sm-6">
+                <input id="create-api" type="checkbox"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="route-prefix">Route prefix</label>
+            <div class="col-sm-6">
+                <input type="text" id="route-prefix" class="form-control"/>
+            </div>
+        </div>
+
+    </form>
+</div>

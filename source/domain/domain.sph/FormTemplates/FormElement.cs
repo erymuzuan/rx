@@ -1,30 +1,10 @@
-﻿using System.Xml.Serialization;
+﻿using System.Drawing;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 
 namespace Bespoke.Sph.Domain
 {
-    [XmlInclude(typeof(AddressElement))]
-    [XmlInclude(typeof(TextAreaElement))]
-    [XmlInclude(typeof(TextBox))]
-    [XmlInclude(typeof(NumberTextBox))]
-    [XmlInclude(typeof(DatePicker))]
-    [XmlInclude(typeof(DateTimePicker))]
-    [XmlInclude(typeof(CheckBox))]
-    [XmlInclude(typeof(ComboBox))]
-    [XmlInclude(typeof(MapElement))]
-    [XmlInclude(typeof(EmailFormElement))]
-    [XmlInclude(typeof(WebsiteFormElement))]
-    [XmlInclude(typeof(SectionFormElement))]
-    [XmlInclude(typeof(HtmlElement))]
-    [XmlInclude(typeof(ImageElement))]
-    [XmlInclude(typeof(DownloadLink))]
-    [XmlInclude(typeof(FileUploadElement))]
-    [XmlInclude(typeof(ListView))]
-    [XmlInclude(typeof(Button))]
-    [XmlInclude(typeof(ChildEntityListView))]
-    [XmlInclude(typeof(EntityLookupElement))]
-    [XmlInclude(typeof(CurrencyElement))]
     public partial class FormElement : DomainObject
     {
         public virtual string GetKnockoutBindingExpression()
@@ -40,13 +20,6 @@ namespace Bespoke.Sph.Domain
         public string GetNormalizedName()
         {
             if (string.IsNullOrWhiteSpace(this.Path)) return this.ElementId;
-            if (this.Path.StartsWith("CustomField"))
-            {
-                const string pattern = @"CustomField\('(?<field>.*?)'\)";
-                var customField = Strings.RegexSingleValue(this.Path, pattern, "field");
-                return customField;
-            }
-
             return this.Path;
         }
 
@@ -114,6 +87,29 @@ namespace Bespoke.Sph.Domain
         public virtual BuildError[] ValidateBuild(EntityDefinition ed)
         {
             return new BuildError[]{};
+        }
+
+        public virtual Bitmap GetPngIcon()
+        {
+            return null;
+        }
+
+        public string GetEditorViewModel()
+        {
+            return "";
+        }
+
+        public string GetEditorView()
+        {
+            return "";
+        }
+
+        /// <summary>
+        /// The unique typename for each activity, should be overriden if you wish to have different name to avoid conflict
+        /// </summary>
+        public virtual string TypeName
+        {
+            get { return this.GetType().Name; }
         }
     }
 }

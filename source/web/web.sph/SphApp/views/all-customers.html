@@ -1,6 +1,10 @@
 <h1>All customers</h1>
 <div class="row">
     <div class="col-md-8">
+        <button class="btn btn-link pull-right" data-bind="visible: chartFiltered, click: clearChartFilter">
+            <i class="fa fa-times"></i>
+            Clear chart's filter
+        </button>
         <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Customer', list:list}">
             <thead>
                 <tr>
@@ -13,20 +17,18 @@
             </thead>
             <tbody data-bind="foreach :list">
                 <tr data-bind="">
-  
 
                     <td>
-                        <a data-bind="attr : {href:'#customer-form-2' + '/' + CustomerId, title:'FullName' }">
-                            <i class="fa fa-table"></i>
-                                                        <img src="/sph/image/store/19750e36-fd87-4215-abb7-f84fae4bf865" alt="FullName" />
+                        <a data-bind="attr : {href:'#add-customer-form' + '/' + Id, title:'FullName' }">
+                            <i class="fa fa-tachometer"></i>
+                                                        <img src="/sph/image/store/ad40513e-c237-4187-be0a-a879ffcf98e1" alt="FullName" />
                             <span data-bind="text:FullName"></span>
                         </a>
                     </td>
                     <td>
-                        <a data-bind="attr : {href:'#customer-form-2' + '/' + CustomerId, title:'Street1' }">
+                        <a data-bind="attr : {href:'#customer-form-2' + '/' + Id, title:'Street1' }">
                             <i class="fa fa-book"></i>
-                                                        <img src="/sph/image/store/4f161e7d-cb33-4648-a72b-2244acffb1a3" alt="Street1" />
-                            <span data-bind="text:Address.Street1"></span>
+                                                        <span data-bind="text:Address.Street1"></span>
                         </a>
                     </td>
                     <td data-bind="text:Address.State"></td>
@@ -37,69 +39,9 @@
                 </tr>
             </tbody>
         </table>
+        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
     </div>
-    <div class="col-md-4" data-bind="with:chart">
-        <h3>Charts</h3>
-        <form class="form">
-            <div class="form-group">
-                <label for="chart-name">Charts</label>
-                <select class="form-control" name="chart.name" id="chart-name"
-                        data-bind="value: selectedChartId, options:charts, optionsText: 'Name', optionsValue : 'EntityChartId', optionsCaption:'[Select a chart]'"></select>
-            </div>
-            <div class="form-group">
-                <label for="chart-aggregate">Aggregate</label>
-                <select data-bind="value: aggregate" class="form-control" name="chart.aggregate" id="chart-aggregate">
-                    <option value="term">Term</option>
-                    <option value="histogram">Histogram</option>
-                    <option value="date_histogram">Date Histogram</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="field">Fields</label>
-                <select class="form-control" data-bind="value: field, options: fieldOptions, optionsCaption :'[Select a field]'" id="field"></select>
-            </div>
-            <div class="form-group" data-bind="visible : aggregate() === 'date_histogram'">
-                <label for="chart-date-interval">Date interval</label>
-                <select data-bind="value:dateInterval" class="form-control" name="chart.date-interval" id="chart-date-interval">
-                    <option value="year">Year</option>
-                    <option value="quarter">Quarter</option>
-                    <option value="month">Month</option>
-                    <option value="week">Week</option>
-                    <option value="day">Day</option>
-                    <option value="hour"> Hour</option>
-                    <option value="minute">minute</option>
-                    <option value="second">second</option>
-                </select>
-            </div>
-            <div class="form-group" data-bind="visible : aggregate() === 'histogram'">
-                <label for="histogram-interval">Interval</label>
-                <input class="form-control" step="10" type="number" id="histogram-interval" data-bind="value:histogramInterval" />
-            </div>
-            <div class="form-group">
-                <label for="chart-type">Type</label>
-                <select class="form-control" name="chart-type" id="chart-type" data-bind="value:type">
-                    <option value="pie">Pie</option>
-                    <option value="line">Line</option>
-                    <option value="bar">Bar</option>
-                    <option value="column">Column</option>
-                </select>
-            </div>
-            <div class="btn-group">
-                <a class="btn" href="#" data-bind="command:saveAs, tooltip:''" title="Creates a copy of the chart and save as">
-                    <i class="fa fa-copy"></i>
-                </a>
-                <a class="btn" href="#" data-bind="command:save, visible: selectedChartId, tooltip:''" title="Edit and save current chart">
-                    <i class="fa fa-save"></i>
-                </a>
-                <a class="btn" href="#" data-bind="command:remove, visible: selectedChartId, tooltip:''" title="Remove current chart permanently">
-                    <i class="fa fa-times"></i>
-                </a>
-                <a class="btn" href="#" data-bind="command:pin, visible: selectedChartId, tooltip:''" title="Pin to dashboard">
-                    <i class="fa fa-thumb-tack"></i>
-                </a>
-            </div>
-        </form>
-        <div id="chart-Customer">
-        </div>
-    </div>
+
+    <!-- ko compose : {view : '_chart.panel'}-->
+    <!-- /ko -->
 </div>

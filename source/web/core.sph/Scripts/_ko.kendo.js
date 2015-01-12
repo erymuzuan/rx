@@ -1,7 +1,7 @@
-﻿/// <reference path="knockout-2.3.0.debug.js" />
+﻿/// <reference path="knockout-3.2.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
-/// <reference path="~/Scripts/jquery-2.1.0.intellisense.js" />
+/// <reference path="~/Scripts/jquery-2.1.1.intellisense.js" />
 /// <reference path="~/Scripts/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
@@ -108,14 +108,24 @@ ko.bindingHandlers.kendoComboBox = {
 };
 
 
+ko.bindingHandlers.decimal = {};
 ko.bindingHandlers.money = {
-    init: function (element, valueAccessor) {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+
         var value = valueAccessor(),
+            allBindings = allBindingsAccessor(),
+            decimal = function () {
+                if (typeof allBindings.decimal === "undefined") {
+                    return 2;
+                }
+                return parseInt(allBindings.decimal);
+            },
             textbox = $(element),
             val = parseFloat(ko.unwrap(value) || "0"),
-            fm = val.toFixed(2).replace(/./g, function (c, i, a) {
+            fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
                 return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
             });
+
 
         if (element.tagName.toLowerCase() === "span") {
             textbox.text(fm);
@@ -131,11 +141,18 @@ ko.bindingHandlers.money = {
         });
 
     },
-    update: function (element, valueAccessor) {
+    update: function (element, valueAccessor, allBindingsAccessor) {
         var value = valueAccessor(),
+            allBindings = allBindingsAccessor(),
+            decimal = function () {
+                if (typeof allBindings.decimal === "undefined") {
+                    return 2;
+                }
+                return parseInt(allBindings.decimal);
+            },
              textbox = $(element),
              val = parseFloat(ko.unwrap(value) || "0"),
-             fm = val.toFixed(2).replace(/./g, function (c, i, a) {
+             fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
                  return i && c !== "." && !((a.length - i) % 3) ? ',' + c : c;
              });
 
@@ -149,7 +166,8 @@ ko.bindingHandlers.date = {
     init: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor()),
             dv = ko.unwrap(value.value),
-            date = moment(dv),
+            inputFormat = ko.unwrap(value.inputFormat) || 'YYYY-MM-DD',
+            date = moment(dv, inputFormat),
             invalid = ko.unwrap(value.invalid) || 'invalid date',
             format = ko.unwrap(value.format) || "DD/MM/YYYY";
 
@@ -191,7 +209,8 @@ ko.bindingHandlers.date = {
     update: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor()),
             dv = ko.unwrap(value.value),
-            date = moment(dv),
+            inputFormat = ko.unwrap(value.inputFormat) || 'YYYY-MM-DD',
+            date = moment(dv, inputFormat),
             invalid = ko.unwrap(value.invalid) || 'invalid date',
             format = ko.unwrap(value.format) || "DD/MM/YYYY";
 
@@ -303,7 +322,7 @@ ko.bindingHandlers.kendoDate = {
             $input = $(element),
             allBindings = allBindingsAccessor(),
             currentValue = ko.unwrap(value),
-            date = moment(currentValue),
+            date = moment(currentValue, "DD/MM/YYYY"),
             changed = function (e) {
                 console.log(e);
                 var nv = this.value();
@@ -387,7 +406,7 @@ ko.bindingHandlers.kendoDateTime = {
         var value = valueAccessor(),
             $input = $(element),
             currentValue = ko.utils.unwrapObservable(value),
-            date = moment(currentValue),
+            date = moment(currentValue,"DD/MM/YYYY "),
             changed = function (e) {
                 console.log(e);
                 var nv = this.value();
@@ -744,7 +763,7 @@ ko.bindingHandlers.filter = {
                 return tcs.promise();
             }
             if (pagedSearch && typeof pagedSearch.query !== "undefined" && typeof pagedSearch.query.filterAndSearch === "function") {
-              return pagedSearch.query.filterAndSearch(filter);
+                return pagedSearch.query.filterAndSearch(filter);
             }
             return tcs.promise();
         });
@@ -956,15 +975,15 @@ ko.bindingHandlers.searchPaging = {
                     q2 = {
                         "from": 0,
                         "size": 20,
-                        "query": {
-                            "query_string": {
-                                "default_field": "_all",
-                                "query": text
-                            }
-                        }
-
+                        "query": {}
                     };
                 q2.query.filtered = q.query.filtered;
+                q2.query.filtered.query = {
+                    "query_string": {
+                        "default_field": "_all",
+                        "query": text
+                    }
+                };
                 q2.sort = q.sort;
                 pager.destroy();
                 pager = null;

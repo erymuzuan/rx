@@ -1,7 +1,7 @@
 ﻿/// <reference path="typeahead.bundle.js" />
-/// <reference path="knockout-3.1.0.debug.js" />
+/// <reference path="knockout-3.2.0.debug.js" />
 /// <reference path="underscore.js" />
-/// <reference path="jquery-2.1.0.intellisense.js" />
+/// <reference path="jquery-2.1.1.intellisense.js" />
 
 ko.bindingHandlers.bootstrapDropDown = {
     init: function (element, valueAccesor) {

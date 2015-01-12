@@ -1,0 +1,22 @@
+{
+  "$type": "Bespoke.Sph.Domain.Designation, domain.sph",
+  "Title": null,
+  "Owner": null,
+  "Option": 0,
+  "RoleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "staff"
+    ]
+  },
+  "Name": "Clerks",
+  "Description": "Clerks",
+  "IsActive": false,
+  "StartModule": "patient",
+  "CreatedBy": "admin",
+  "Id": "clerks",
+  "CreatedDate": "2014-09-17T06:47:27.85989+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-09-17T06:47:27.85989+08:00",
+  "WebId": "bd3528f6-dfbb-413b-b2f6-d7e6b7437c96"
+}

@@ -17,23 +17,22 @@ define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', '
             delivery = ko.observable(),
             editedSchedule = ko.observable(),
             activate = function (id) {
-                var rdlid = parseInt(id),
-                    query = String.format("ReportDefinitionId eq {0}", rdlid),
+                var query = String.format("ReportDefinitionId eq '{0}'", id),
                     tcs = new $.Deferred();
-                
+
 
                 context.loadOneAsync("ReportDelivery", query)
-                    .done(tcs.resolve)
-                    .done(function (d) {
+                    .then(function (d) {
                         if (!d) {
                             d = new bespoke.sph.domain.ReportDelivery(system.guid());
-                            d.ReportDefinitionId(rdlid);
-                            d.ReportDeliveryId(0);
+                            d.ReportDefinitionId(id);
+                            d.Id("0");
                         }
                         delivery(d);
-                    });
+                    })
+                    .done(tcs.resolve);
 
-                context.getListAsync("UserProfile", "UserProfileId gt 0", "UserName")
+                context.getListAsync("UserProfile", "Id ne '0'", "UserName")
                     .done(vm.userOptions);
 
 
@@ -84,7 +83,7 @@ define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', '
 
                 context.post(data, "/ReportDelivery/Save")
                     .then(function (result) {
-                        delivery().ReportDeliveryId(result);
+                        delivery().Id(result);
                         tcs.resolve(result);
                         logger.info("Schedule is saved");
                     });
@@ -103,7 +102,7 @@ define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', '
             scheduleOptions: ko.observableArray(),
             startAddSchedule: startAddSchedule,
             editSchedule: editSchedule,
-            userOptions : ko.observableArray(),
+            userOptions: ko.observableArray(),
             toolbar: {
                 saveCommand: save
             }

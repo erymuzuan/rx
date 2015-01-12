@@ -22,7 +22,7 @@ define(['services/datacontext', 'plugins/router'],
 	                vm.roles.push(r);
 	            });
 	            
-	            var query = String.format("DesignationId gt 0");
+	            var query = String.format("Id ne '0'");
 	            var tcs = new $.Deferred();
 	            context.loadAsync("Designation", query)
                     .done(function (lo) {

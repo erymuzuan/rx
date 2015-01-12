@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#adapter.definition.list/0">
+                    <a href="#adapter.definition.list">
                         <i class="glyphicon glyphicon-hdd"></i>
                         New Adapter
                     </a>
@@ -59,7 +59,7 @@
             <ul class="nav nav-stacked">
                 <!-- ko foreach :routes -->
                 <li>
-                    <a href="#" data-bind=" attr: { href: hash }">
+                    <a href="#" data-bind=" attr: { href: '/sph#' + startPageRoute }">
                         <i data-bind="attr : {'class' : 'fa ' + icon}"></i><span style="margin-left: 10px" data-bind="text: title"></span>
                     </a>
                 </li>
@@ -101,7 +101,7 @@
         <h3>More informations about Rx Developer</h3>
         <ul class="nav">
             <li>
-                <a href="//www.reactivedeveloper.com/blog">
+                <a href="//www.reactivedeveloper.com/blogs">
                     <i class="fa fa-rss-square"></i>
                     Official Rx Developer Developers Blogs
                 </a>

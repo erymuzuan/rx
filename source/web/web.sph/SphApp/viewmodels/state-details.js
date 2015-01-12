@@ -1,16 +1,20 @@
 
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.validation, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config, objectbuilders.app],
-        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
+        objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
+        objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
+        objectbuilders.app ],
+        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app
+            ) {
 
-            var entity = ko.observable(new bespoke.dev_5003.domain.State({WebId:system.guid()})),
+            var entity = ko.observable(new bespoke.dev_state.domain.State({WebId:system.guid()})),
                 errors = ko.observableArray(),
                 form = ko.observable(new bespoke.sph.domain.EntityForm()),
                 watching = ko.observable(false),
                 id = ko.observable(),
                 activate = function (entityId) {
-                    id(parseInt(entityId));
+                    id(entityId);
 
-                    var query = String.format("StateId eq {0}", entityId),
+                    var query = String.format("Id eq '{0}'", entityId),
                         tcs = new $.Deferred(),
                         itemTask = context.loadOneAsync("State", query),
                         formTask = context.loadOneAsync("EntityForm", "Route eq 'state-details'"),
@@ -22,13 +26,15 @@
                             entity(item);
                         }
                         else {
-                            entity(new bespoke.dev_5003.domain.State({WebId:system.guid()}));
+                            entity(new bespoke.dev_state.domain.State({WebId:system.guid()}));
                         }
                         form(f);
                         watching(w);
-
-                        tcs.resolve(true);
+                            tcs.resolve(true);
+                        
                     });
+
+
 
                     return tcs.promise();
                 },
@@ -36,9 +42,11 @@
                     // validation
                     validation.init($('#state-details-form'), form());
 
+
+
                 },
 
-                save = function() {
+                                save = function() {
                     if (!validation.valid()) {
                         return Task.fromResult(false);
                     }
@@ -51,6 +59,9 @@
                     context.post(data, "/State/Save")
                         .then(function(result) {
                             tcs.resolve(result);
+                            entity().Id(result.id);
+                            app.showMessage("Your State has been successfully saved", "SPH Platform Showcase", ["ok"]);
+
                         });
                     
 
@@ -60,7 +71,7 @@
                     var tcs = new $.Deferred();
                     $.ajax({
                         type: "DELETE",
-                        url: "/State/Remove/" + entity().StateId(),
+                        url: "/State/Remove/" + entity().Id(),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         error: tcs.reject,
@@ -68,9 +79,9 @@
                             tcs.resolve(true);
                             app.showMessage("Your item has been successfully removed", "Removed", ["OK"])
                               .done(function () {
-                                window.location = "#state";
-                            });
-                        } 
+                                  window.location = "#state";
+                              });
+                        }
                     });
 
 
@@ -78,31 +89,34 @@
                 };
 
             var vm = {
-        activate: activate,
-        config: config,
-        attached: attached,
-        entity: entity,
-        errors: errors,
-        save : save,
-        //
+                                    activate: activate,
+                config: config,
+                attached: attached,
+                entity: entity,
+                errors: errors,
+                save : save,
+                //
 
 
-        toolbar : {
+                toolbar : {
                         emailCommand : {
-                entity : "State",
-                id :id
-            },
-                        printCommand :{
-                entity : 'State',
-                id : id
-            },
-                removeCommand :remove,
-                        
-            saveCommand : save,
-            
-            commands : ko.observableArray([])
-        }
-    };
+                        entity : "State",
+                        id :id
+                    },
+                                            printCommand :{
+                        entity : 'State',
+                        id : id
+                    },
+                                    removeCommand :remove,
+                    canExecuteRemoveCommand : ko.computed(function(){
+                        return entity().Id();
+                    }),
+                                                                
+                    saveCommand : save,
+                    
+                    commands : ko.observableArray([])
+                }
+            };
 
-    return vm;
-    });
+            return vm;
+        });

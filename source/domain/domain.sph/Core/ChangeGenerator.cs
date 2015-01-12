@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
                                      && natives.Contains(p.PropertyType.GenericTypeArguments[0])
                                        && p.CanRead && p.CanWrite
                                      select p;
-          
+
 
             var colls = from p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).AsQueryable()
                         where p.Name.EndsWith("Collection")
@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Domain
             var customProperties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public).AsQueryable()
                                        .Where(
                                            p =>
-                                           (p.PropertyType.Namespace == typeof(Entity).Namespace || p.PropertyType.Namespace == type.Namespace )&&
+                                           (p.PropertyType.Namespace == typeof(Entity).Namespace || p.PropertyType.Namespace == type.Namespace) &&
                                            !p.PropertyType.Name.EndsWith("Collection")
                                            );
 
@@ -42,7 +42,7 @@ namespace Bespoke.Sph.Domain
             {
                 var v1 = string.Format("{0}", p.GetValue(item1));
                 var v2 = string.Format("{0}", p.GetValue(item2));
-                if (p.PropertyType == typeof (decimal))
+                if (p.PropertyType == typeof(decimal))
                 {
                     var d1 = Convert.ToDecimal(v1);
                     var d2 = Convert.ToDecimal(v2);
@@ -61,13 +61,17 @@ namespace Bespoke.Sph.Domain
             foreach (var p in customProperties)
             {
                 if (p.Name == "Item" && type.IsGenericType) continue;
+                if (p.Name == "Item" && p.GetIndexParameters().Length > 0) continue;
 
                 try
                 {
                     var v1 = p.GetValue(item1);
                     var v2 = p.GetValue(item2);
-                    var pchanges = this.GetChanges(v1, v2, prepend + p.Name);
-                    changes.AddRange(pchanges);
+                    if (null != v1 && null != v2)
+                    {
+                        var pchanges = this.GetChanges(v1, v2, prepend + p.Name);
+                        changes.AddRange(pchanges);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -125,13 +129,9 @@ namespace Bespoke.Sph.Domain
                     var primitive2 = string.Join(",", v2);
                     if (string.Compare(primitive1, primitive2) != 0)
                     {
-                        changes.Add(new Change{ Action = "Update",OldValue = primitive1, NewValue = primitive2,PropertyName = p.Name});
+                        changes.Add(new Change { Action = "Update", OldValue = primitive1, NewValue = primitive2, PropertyName = p.Name });
                     }
                 }
-
-
-
-
 
             }
 

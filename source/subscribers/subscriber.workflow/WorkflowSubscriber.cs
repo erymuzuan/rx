@@ -32,7 +32,7 @@ namespace Bespoke.Sph.WorkflowsExecution
             await item.LoadWorkflowDefinitionAsync();
 
             var message = new StringBuilder();
-            message.AppendLine("Running " + item.Name + ":" + item.WorkflowId);
+            message.AppendLine("Running " + item.Name + ":" + item.Id);
             // get current activity
             dynamic headers = header;
             string executedActivityWebId = headers.ActivityWebId;

@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -26,13 +26,13 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                     roles.splice(0, 0, 'Everybody');
                 }
 
-                var query = String.format("EntityDefinitionId eq {0}", eid),
+                var query = String.format("Id eq '{0}'", eid),
                     tcs = new $.Deferred();
                 context.loadOneAsync("EntityDefinition", query)
                     .done(function (b) {
                         entity(b);
                         var o = _(b.EntityOperationCollection()).find(function (v) {
-                            return v.Name() == name;
+                            return v.Name() === name;
                         });
                         if (!o) {
                             o = new bespoke.sph.domain.EntityOperation({
@@ -55,13 +55,13 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/EntityDefinition/Save")
+                context.post(data, "/entity-definition")
                     .then(function (result) {
                         tcs.resolve(true);
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            entity().EntityDefinitionId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
                         } else {
 
@@ -77,12 +77,12 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                 data = ko.mapping.toJSON(entity);
             isBusy(true);
 
-            context.post(data, "/EntityDefinition/Publish")
+            context.post(data, "/entity-definition/publish")
                 .then(function (result) {
                     isBusy(false);
                     if (result.success) {
                         logger.info(result.message);
-                        entity().EntityDefinitionId(result.id);
+                        entity().Id(result.id);
                         errors.removeAll();
                     } else {
 
@@ -112,7 +112,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                                 caption: 'Publish',
                                 icon: "fa fa-sign-in",
                                 enable: ko.computed(function () {
-                                    return entity().EntityDefinitionId() > 0;
+                                    return entity().Id() && entity().Id() !== "0";
                                 })
                             }])
             }

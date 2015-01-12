@@ -142,7 +142,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return Content(JsonConvert.SerializeObject(new { success = true, status = "OK" }));
             }
 
-            return View();
+            return Redirect("/");
         }
 
     }

@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-  "CodeNamespace": "Bespoke.Dev_1.Domain",
+  "CodeNamespace": "Bespoke.Dev_customer.Domain",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -216,7 +216,7 @@
         },
         "Name": "Gender",
         "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
+        "IsNullable": true,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
         "IsFilterable": true,
@@ -577,7 +577,7 @@
         },
         "Name": "ProfileStoreId",
         "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
+        "IsNullable": true,
         "IsNotIndexed": true,
         "IsAnalyzed": false,
         "IsFilterable": false,
@@ -822,6 +822,7 @@
               "Path": "Rating",
               "Field": {
                 "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "CodeNamespace": "ff43a82985",
                 "Script": "item.Rating + 1",
                 "Name": "Rating + 1",
                 "Note": "",
@@ -865,6 +866,7 @@
               "Path": "Rating",
               "Field": {
                 "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "CodeNamespace": "ff392fe28f",
                 "Script": "return item.Rating -1;",
                 "Name": "Decerement",
                 "Note": "",
@@ -939,7 +941,13 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
-  "EntityDefinitionId": 1,
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": null,
+    "IsPublic": true,
+    "WebId": null
+  },
   "Name": "Customer",
   "Plural": "Customers",
   "IconStoreId": "e5a64533-4b4e-4f33-ad30-7fbb73d1ed67",
@@ -948,8 +956,9 @@
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
   "CreatedBy": "admin",
+  "Id": "customer",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-14T08:42:45.0955162+08:00",
+  "ChangedDate": "2014-12-20T08:42:00.8881039+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

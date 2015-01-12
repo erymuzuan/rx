@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -11,12 +12,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var chart = this.GetRequestJson<EntityChart>();
             var context = new SphDataContext();
+            if (chart.IsNewItem)
+                chart.Id = Guid.NewGuid().ToString();
+
             using (var session = context.OpenSession())
             {
                 session.Attach(chart);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = chart.EntityChartId });
+            return Json(new { success = true, status = "OK", id = chart.Id });
         }
 
 
@@ -29,7 +33,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Delete(chart);
                 await session.SubmitChanges("Delete");
             }
-            return Json(new { success = true, status = "OK", id = chart.EntityChartId });
+            return Json(new { success = true, status = "OK", id = chart.Id });
         }
 	}
 }

@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -17,10 +17,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
             activate = function (id2) {
                 id(id2);
-                var query = String.format("WorkflowDefinitionId eq {0}", id()),
+                var query = String.format("Id eq '{0}'", id()),
                     tcs = new $.Deferred(),
                     vt = $.get('/WorkflowMonitor/DeployedVersions/' + id()),
-                    wdt =context.loadOneAsync("WorkflowDefinition", query);
+                    wdt = context.loadOneAsync("WorkflowDefinition", query);
                 $.when(vt, wdt)
                     .done(function (versions, b) {
                         wd(b);

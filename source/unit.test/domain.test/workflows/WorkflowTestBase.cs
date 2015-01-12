@@ -9,6 +9,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Bespoke.Sph.Templating;
+using domain.test.reports;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -24,16 +25,22 @@ namespace domain.test.workflows
         [SetUp]
         public virtual void Init()
         {
+            var trackerRepos = new MockRepository<Tracker>();
+            trackerRepos.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.Tracker]", new Tracker());
             var doc = new BinaryStore
             {
                 Content = File.ReadAllBytes(@".\workflows\PemohonWakaf.xsd")
             };
+            
             BinaryStore = new Mock<IBinaryStore>(MockBehavior.Strict);
             BinaryStore.Setup(x => x.GetContent("schema-storeid"))
                 .Returns(doc);
-            ObjectBuilder.AddCacheList(BinaryStore.Object);
-            var qp = new Mock<QueryProvider>(MockBehavior.Loose);
-            ObjectBuilder.AddCacheList(qp.Object);
+            ObjectBuilder.AddCacheList<IBinaryStore>(BinaryStore.Object);
+            var qp = new MockQueryProvider();
+            ObjectBuilder.AddCacheList<QueryProvider>(qp);
+            ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(new MockRepository<WorkflowDefinition>());
+            ObjectBuilder.AddCacheList<IRepository<Tracker>>(trackerRepos);
+
 
             var ds = new Mock<IDirectoryService>(MockBehavior.Loose);
             ObjectBuilder.AddCacheList(ds.Object);
@@ -42,7 +49,7 @@ namespace domain.test.workflows
             ps.Setup(
                 x =>
                     x.SubmitChanges(It.IsAny<IEnumerable<Entity>>(), It.IsAny<IEnumerable<Entity>>(),
-                        It.IsAny<PersistenceSession>()))
+                        It.IsAny<PersistenceSession>(), It.IsAny<string>()))
                 .Returns(() => Task.FromResult(new SubmitOperation()));
             ObjectBuilder.AddCacheList(ps.Object);
 
@@ -60,9 +67,9 @@ namespace domain.test.workflows
 
             var edRepository = new Mock<IRepository<EntityDefinition>>(MockBehavior.Strict);
             edRepository.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<EntityDefinition>>()))
-                .Returns(Task.FromResult(new EntityDefinition { Name= "Building", Plural = "Buildings", EntityDefinitionId= 10 }));
+                .Returns(Task.FromResult(new EntityDefinition { Name= "Building", Plural = "Buildings", Id= "10"}));
             edRepository.Setup(x => x.LoadOne(It.IsAny<IQueryable<EntityDefinition>>()))
-                .Returns(new EntityDefinition { Name= "Building", Plural = "Buildings", EntityDefinitionId= 10 });
+                .Returns(new EntityDefinition { Name= "Building", Plural = "Buildings", Id= "10"});
             ObjectBuilder.AddCacheList(edRepository.Object);
 
             var usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);
@@ -81,9 +88,9 @@ namespace domain.test.workflows
 
 
 
-        protected WorkflowDefinition Create(int id = 8)
+        protected WorkflowDefinition Create(string id = "8")
         {
-            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = id, SchemaStoreId = "schema-storeid" };
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = id, SchemaStoreId = "schema-storeid" };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "email", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
@@ -96,7 +103,7 @@ namespace domain.test.workflows
             assertError = true)
         {
             this.BinaryStore.Setup(x => x.GetContent("wd-storeid"))
-               .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
+               .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToJsonString(true)), Id = "wd-storeid" });
 
             wd.Version = 25;
             var options = new CompilerOptions
@@ -122,7 +129,7 @@ namespace domain.test.workflows
         {
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(dll);
-            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.WorkflowDefinitionId, wd.Version,
+            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.Id, wd.Version,
                 wd.WorkflowTypeName);
 
             var wfType = assembly.GetType(wfTypeName);
@@ -132,7 +139,6 @@ namespace domain.test.workflows
             Assert.IsNotNull(wf);
 
             wf.SerializedDefinitionStoreId = "wd-storeid";
-            XmlSerializerService.RegisterKnownTypes(typeof(Workflow), wfType);
 
             var pemohonProperty = wf.GetType().GetProperty("pemohon");
             Assert.IsNotNull(pemohonProperty);

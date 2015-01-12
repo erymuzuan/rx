@@ -1,17 +1,42 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class FunctoidMap : Map
     {
-        public Functoid Functoid { get; set; }
-
-        public async override Task<string> ConvertAsync(object source)
+        public Functoid GetFunctoid(TransformDefinition map)
         {
-            var val =await  this.Functoid.ConvertAsync(source);
-            var json = string.Format("\"{0}\":\"{1}\"", this.Destination, val);
+            if (string.IsNullOrWhiteSpace(this.Functoid))
+                return null;
+            return map.FunctoidCollection.Single(x => x.WebId == this.Functoid);
+        }
 
-            return json;
+        public override async Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            var errors = new List<ValidationError>();
+            if (string.IsNullOrWhiteSpace(this.Destination))
+                errors.Add("Destination", "Destination is null or empty for " + this.GetType().Name);
+            var f = await this.GetFunctoid(this.TransformDefinition).ValidateAsync();
+            errors.AddRange(f);
+
+            return errors;
+        }
+
+
+        public override string GenerateCode()
+        {
+            var fnt = this.GetFunctoid(this.TransformDefinition);
+            var assigment = fnt.GenerateAssignmentCode();
+            if (string.IsNullOrWhiteSpace(assigment)) return string.Empty;
+            if (assigment.Contains("Collection."))
+                return string.Empty;
+            if (this.Destination.Contains("Collection."))
+                return string.Empty;
+
+            return string.Format("dest.{1} = {0};", assigment, this.Destination);
+
         }
     }
 }

@@ -4,8 +4,8 @@
 /// <reference path="../../Scripts/require.js" />
 
 
-define(['durandal/system', 'plugins/router', 'services/logger', 'services/datacontext', objectbuilders.config, objectbuilders.cultures],
-    function (system, router, logger, context, config) {
+define(['durandal/system','services/system', 'plugins/router', 'services/logger', 'services/datacontext', objectbuilders.config, objectbuilders.cultures],
+    function (system,system2, router, logger, context, config) {
 
         var activate = function () {
             return router.map(config.routes)
@@ -122,7 +122,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
                         if (_(config.roles).indexOf("developers") < 0) {
                             return;
                         }
-                        require(['viewmodels/dev.quick.nav', 'durandal/app'], function (dialog, app2) {
+                        require(['viewmodels/solution.explorer', 'durandal/app'], function (dialog, app2) {
 
                             app2.showDialog(dialog)
                                 .done(function (result) {

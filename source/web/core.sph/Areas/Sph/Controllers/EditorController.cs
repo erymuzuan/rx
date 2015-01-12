@@ -41,6 +41,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             switch (ext)
             {
+                case ".cshtml":
                 case ".html":
                 case ".htm":
                     mode = "html";
@@ -55,7 +56,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     mode = "javascript";
                     break;
                 default:
-                    throw new Exception("Don't know any for " + ext);
+                    throw new Exception("Don't know any extension mode for " + ext);
             }
             var vm = new
             {
@@ -74,10 +75,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return View();
         }
-        public async Task<ActionResult> Page(int id)
+        public async Task<ActionResult> Page(string id)
         {
             var context = new SphDataContext();
-            var page = await context.LoadOneAsync<Page>(p => p.PageId == id);
+            var page = await context.LoadOneAsync<Page>(p => p.Id == id);
             var vm = new EditorPageViewModel { Page = page };
             return View(vm);
         }

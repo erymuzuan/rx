@@ -17,7 +17,6 @@
                 <table class="table table-striped" data-bind="filter : {path:'tbody>tr'},
     serverPaging : {
         entity : 'DocumentTemplate',
-        query : 'DocumentTemplateId gt 0',
         list : documentTemplates
     }">
                     <thead>
@@ -31,7 +30,7 @@
                     <tbody data-bind="foreach :documentTemplates">
                         <tr>
                             <td>
-                                <a data-bind="attr : {href:'#/document.template.details/' + DocumentTemplateId()}">
+                                <a data-bind="attr : {href:'#/document.template.details/' + Id()}">
                                     <i class="fa fa-edit"></i>
                                     <span data-bind="text:Name"></span>
                                 </a>
@@ -52,7 +51,6 @@
                 <table class="table table-striped" data-bind="filter : {path:'tbody>tr'},
     serverPaging : {
         entity : 'EmailTemplate',
-        query : 'EmailTemplateId gt 0',
         list : emailTemplates
     }">
                     <thead>
@@ -66,7 +64,7 @@
                     <tbody data-bind="foreach :emailTemplates">
                         <tr>
                             <td>
-                                <a data-bind="attr : {href:'#/email.template.details/' + EmailTemplateId()}">
+                                <a data-bind="attr : {href:'#/email.template.details/' + Id()}">
                                     <i class="fa fa-edit"></i>
                                     <span data-bind="text:Name"></span>
                                 </a>

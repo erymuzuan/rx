@@ -2106,9 +2106,6 @@ namespace Bespoke.Sph.Domain
     public partial class EntityDefinition
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityDefinitionId;
-        public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2207,33 +2204,7 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EntityDefinitionId
-        {
-            set
-            {
-                if (m_entityDefinitionId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityDefinitionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityDefinitionId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityDefinitionId;
-            }
-        }
+    
 
 
         ///<summary>
@@ -2785,13 +2756,10 @@ namespace Bespoke.Sph.Domain
     public partial class EntityForm
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityFormId;
-        public const string PropertyNameEntityFormId = "EntityFormId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityDefinitionId;
+        private string m_entityDefinitionId;
         public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
 
 
@@ -2886,6 +2854,16 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_caption;
+        public const string PropertyNameCaption = "Caption";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_layout;
+        public const string PropertyNameLayout = "Layout";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();
 
@@ -2924,35 +2902,20 @@ namespace Bespoke.Sph.Domain
             get { return m_RouteParameterCollection; }
         }
 
+        private readonly ObjectCollection<FormLayout> m_FormLayoutCollection = new ObjectCollection<FormLayout>();
+
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EntityFormId
+        [XmlArrayItem("FormLayout", IsNullable = false)]
+        public ObjectCollection<FormLayout> FormLayoutCollection
         {
-            set
-            {
-                if (m_entityFormId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityFormId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityFormId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityFormId;
-            }
+            get { return m_FormLayoutCollection; }
         }
 
 
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -2962,7 +2925,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityDefinitionId
+        public string EntityDefinitionId
         {
             set
             {
@@ -3502,6 +3465,348 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string Caption
+        {
+            set
+            {
+                if (String.Equals(m_caption, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCaption, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_caption = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_caption;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string Layout
+        {
+            set
+            {
+                if (String.Equals(m_layout, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLayout, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_layout = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_layout;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("FormLayout", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FormLayout
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_position;
+        public const string PropertyNamePosition = "Position";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isForm;
+        public const string PropertyNameIsForm = "IsForm";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isAuditTrail;
+        public const string PropertyNameIsAuditTrail = "IsAuditTrail";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_content;
+        public const string PropertyNameContent = "Content";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_xsmallCol;
+        public const string PropertyNameXsmallCol = "XsmallCol";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_mediumCol;
+        public const string PropertyNameMediumCol = "MediumCol";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_smallCol;
+        public const string PropertyNameSmallCol = "SmallCol";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_largeCol;
+        public const string PropertyNameLargeCol = "LargeCol";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Position
+        {
+            set
+            {
+                if (String.Equals(m_position, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePosition, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_position = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_position;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsForm
+        {
+            set
+            {
+                if (m_isForm == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsForm, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isForm = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isForm;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsAuditTrail
+        {
+            set
+            {
+                if (m_isAuditTrail == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAuditTrail, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAuditTrail = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAuditTrail;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Content
+        {
+            set
+            {
+                if (String.Equals(m_content, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameContent, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_content = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_content; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? XsmallCol
+        {
+            set
+            {
+                if (m_xsmallCol == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameXsmallCol, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_xsmallCol = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_xsmallCol; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? MediumCol
+        {
+            set
+            {
+                if (m_mediumCol == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMediumCol, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_mediumCol = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_mediumCol; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? SmallCol
+        {
+            set
+            {
+                if (m_smallCol == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSmallCol, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_smallCol = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_smallCol; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? LargeCol
+        {
+            set
+            {
+                if (m_largeCol == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLargeCol, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_largeCol = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_largeCol; }
+        }
+
 
     }
 
@@ -3514,9 +3819,6 @@ namespace Bespoke.Sph.Domain
     public partial class EntityView
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityViewId;
-        public const string PropertyNameEntityViewId = "EntityViewId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -3530,7 +3832,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityDefinitionId;
+        private string m_entityDefinitionId;
         public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
 
 
@@ -3577,6 +3879,11 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entity;
         public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_partial;
+        public const string PropertyNamePartial = "Partial";
 
 
         private readonly ObjectCollection<Filter> m_FilterCollection = new ObjectCollection<Filter>();
@@ -3651,33 +3958,7 @@ namespace Bespoke.Sph.Domain
             get { return m_RouteParameterCollection; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EntityViewId
-        {
-            set
-            {
-                if (m_entityViewId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityViewId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityViewId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityViewId;
-            }
-        }
+    
 
 
         ///<summary>
@@ -3747,7 +4028,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityDefinitionId
+        public string EntityDefinitionId
         {
             set
             {
@@ -4022,6 +4303,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Partial
+        {
+            set
+            {
+                if (String.Equals(m_partial, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePartial, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_partial = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_partial;
             }
         }
 
@@ -5116,13 +5426,9 @@ namespace Bespoke.Sph.Domain
     public partial class EntityChart
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityChartId;
-        public const string PropertyNameEntityChartId = "EntityChartId";
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityDefinitionId;
+        private string m_entityDefinitionId;
         public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
 
 
@@ -5142,7 +5448,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityViewId;
+        private string m_entityViewId;
         public const string PropertyNameEntityViewId = "EntityViewId";
 
 
@@ -5193,33 +5499,7 @@ namespace Bespoke.Sph.Domain
             get { return m_SeriesCollection; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EntityChartId
-        {
-            set
-            {
-                if (m_entityChartId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityChartId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityChartId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityChartId;
-            }
-        }
+     
 
 
         ///<summary>
@@ -5231,7 +5511,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityDefinitionId
+        public string EntityDefinitionId
         {
             set
             {
@@ -5347,7 +5627,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityViewId
+        public string EntityViewId
         {
             set
             {
@@ -5824,12 +6104,6 @@ namespace Bespoke.Sph.Domain
     [XmlType("SearchDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SearchDefinition
     {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_searchDefinitionId;
-        public const string PropertyNameSearchDefinitionId = "SearchDefinitionId";
-
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entity;
         public const string PropertyNameEntity = "Entity";
@@ -5893,33 +6167,6 @@ namespace Bespoke.Sph.Domain
             get { return m_SortCollection; }
         }
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int SearchDefinitionId
-        {
-            set
-            {
-                if (m_searchDefinitionId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameSearchDefinitionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_searchDefinitionId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_searchDefinitionId;
-            }
-        }
 
 
         ///<summary>

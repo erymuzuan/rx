@@ -1,7 +1,7 @@
 ﻿
 <h1>Workflow Definition List</h1>
 <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'WorkflowDefinition',
-    query: 'WorkflowDefinitionId gt 0', list: definitions }">
+    list: definitions }">
     <thead>
         <tr>
             <th>Manage</th>
@@ -13,18 +13,18 @@
     <tbody data-bind="foreach: definitions">
         <tr>
             <td>
-                <a data-bind="attr: { href: '#/workflow.manage/' + WorkflowDefinitionId() }" title="Manage deployment">
+                <a data-bind="attr: { href: '#/workflow.manage/' + Id() }" title="Manage deployment">
                     <i style="color:rgb(118, 143, 207)" class="fa fa-gear fa-2x"></i>
                 </a>
-                <a data-bind="attr: { href: '#/workflow.debugger/' + WorkflowDefinitionId() }" title="Debugger">
+                <a data-bind="attr: { href: '#/workflow.debugger/' + Id() }" title="Debugger">
                     <i style="color:brown" class="fa fa-bug fa-2x"></i>
                 </a>
-                <a data-bind="attr: { href: '#/workflow.kpi/' + WorkflowDefinitionId() }" title="Performance indicator">
+                <a data-bind="attr: { href: '#/workflow.kpi/' + Id() }" title="Performance indicator">
                     <i style="color:rgb(33, 130, 214)" class="fa fa-bar-chart-o fa-2x"></i>
                 </a>
             </td>
             <td>
-                <a data-bind="attr: { href: '#/workflow.definition.visual/' + WorkflowDefinitionId() }">
+                <a data-bind="attr: { href: '#/workflow.definition.visual/' + Id() }">
                     <i class="fa fa-edit"></i>
                     <span data-bind="text:Name"></span>
                 </a>

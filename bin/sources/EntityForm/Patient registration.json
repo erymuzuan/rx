@@ -11,6 +11,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -19,12 +20,12 @@
             "Message": null,
             "Min": null,
             "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "MinLength": null,
+            "MaxLength": null,
             "WebId": null
           },
           "Name": "Single Line Text",
-          "Label": "Nama Penuh",
+          "Label": "FullName",
           "Tooltip": null,
           "Path": "FullName",
           "IsRequired": false,
@@ -48,7 +49,12 @@
           "WebId": null
         },
         {
-          "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
+          "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
+          "DefaultValue": null,
+          "AutoCompletionEntity": null,
+          "AutoCompletionField": null,
+          "AutoCompletionQuery": null,
+          "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -57,8 +63,47 @@
             "Message": null,
             "Min": null,
             "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "MinLength": null,
+            "MaxLength": null,
+            "WebId": null
+          },
+          "Name": "Single Line Text",
+          "Label": "ID",
+          "Tooltip": null,
+          "Path": "IdentificationNo",
+          "IsRequired": false,
+          "Size": "input-large",
+          "CssClass": "",
+          "Visible": "true",
+          "Enable": "true",
+          "ElementId": "d9f52c01-887a-4ae6-a0fd-c83002987323",
+          "HelpText": null,
+          "UseDisplayTemplate": false,
+          "ToolboxIconClass": null,
+          "IsUniqueName": false,
+          "LabelColLg": null,
+          "LabelColMd": null,
+          "LabelColSm": null,
+          "LabelColXs": null,
+          "InputColLg": null,
+          "InputColMd": null,
+          "InputColSm": null,
+          "InputColXs": null,
+          "WebId": null
+        },
+        {
+          "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
+          "TypeName": "DatePicker",
+          "FieldValidation": {
+            "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+            "IsRequired": false,
+            "Pattern": null,
+            "Mode": "",
+            "Message": null,
+            "Min": null,
+            "Max": null,
+            "MinLength": null,
+            "MaxLength": null,
             "WebId": null
           },
           "Name": "Date",
@@ -119,6 +164,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -127,8 +173,8 @@
             "Message": null,
             "Min": null,
             "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "MinLength": null,
+            "MaxLength": null,
             "WebId": null
           },
           "Name": "Select List",
@@ -195,6 +241,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -203,8 +250,8 @@
             "Message": null,
             "Min": null,
             "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "MinLength": null,
+            "MaxLength": null,
             "WebId": null
           },
           "Name": "Select List",
@@ -271,6 +318,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -279,8 +327,8 @@
             "Message": null,
             "Min": null,
             "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "MinLength": null,
+            "MaxLength": null,
             "WebId": null
           },
           "Name": "Select List",
@@ -310,6 +358,7 @@
         {
           "$type": "Bespoke.Sph.Domain.NumberTextBox, domain.sph",
           "Step": 0,
+          "TypeName": "NumberTextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -318,8 +367,8 @@
             "Message": null,
             "Min": null,
             "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "MinLength": null,
+            "MaxLength": null,
             "WebId": null
           },
           "Name": "Number",
@@ -349,16 +398,17 @@
         {
           "$type": "Bespoke.Sph.Domain.NumberTextBox, domain.sph",
           "Step": 0,
+          "TypeName": "NumberTextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
             "Pattern": null,
             "Mode": "",
             "Message": null,
-            "Min": null,
-            "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "Min": 0.0,
+            "Max": 125.0,
+            "MinLength": null,
+            "MaxLength": null,
             "WebId": null
           },
           "Name": "Number",
@@ -425,6 +475,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -433,8 +484,8 @@
             "Message": null,
             "Min": null,
             "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "MinLength": null,
+            "MaxLength": null,
             "WebId": null
           },
           "Name": "Select List",
@@ -471,6 +522,7 @@
           "IconClass": "fa fa-user",
           "IsToolbarItem": false,
           "Operation": null,
+          "TypeName": "Button",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
             "IsRequired": false,
@@ -479,8 +531,8 @@
             "Message": null,
             "Min": null,
             "Max": null,
-            "MinLength": 0,
-            "MaxLength": 0,
+            "MinLength": null,
+            "MaxLength": null,
             "WebId": null
           },
           "Name": "Button",
@@ -531,8 +583,11 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
-  "EntityFormId": 1004,
-  "EntityDefinitionId": 2002,
+  "FormLayoutCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormLayout, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "EntityDefinitionId": "patient",
   "Name": "Patient registration",
   "Route": "patient-registration",
   "Note": "",
@@ -549,11 +604,14 @@
   "IsImportAvailable": false,
   "IsExportAvailable": false,
   "Operation": "Register",
-  "Entity": null,
-  "Partial": "partial/patient.registration",
+  "Entity": "Patient",
+  "Partial": "partial/patient-registration",
+  "Caption": null,
+  "Layout": null,
   "CreatedBy": "admin",
+  "Id": "patient-registration",
   "CreatedDate": "2014-03-22T20:23:09.7138554+08:00",
-  "ChangedBy": "admin",
-  "ChangedDate": "2014-06-25T16:22:27.2445778+08:00",
+  "ChangedBy": "BESPOKE1-PC",
+  "ChangedDate": "2014-11-03T07:29:12.2378574+08:00",
   "WebId": "f555fb47-d9e7-4517-b696-482fc001cea2"
 }

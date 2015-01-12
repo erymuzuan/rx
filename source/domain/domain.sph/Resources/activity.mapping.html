@@ -1,0 +1,63 @@
+﻿
+<section class="view-model-modal" id="mapping-activity-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Message mapping</h3>
+            </div>
+            <div class="modal-body" data-bind="with: activity">
+
+                <form class="form-horizontal" id="am-form">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" data-bind="value: Name"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                   placeholder="Name"
+                                   class="form-control" id="name">
+                        </div>
+                    </div>
+                    
+                  
+                    <div class="form-group">
+                        <label for="mapping-definition" class="col-sm-3 control-label">Mapping Definition</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="mapping-definition" data-bind="value:MappingDefinition, 
+                                    options: $root.definitionOptions,
+                                    optionsValue : 'FullName',
+                                    optionsText :'Name',
+                                    optionsCaption :'[Please Select a mapping definition]'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapping-dest" class="col-sm-3 control-label">Input Path</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="mapping-dest" data-bind="value:MappingSourceCollection()[0].Variable,
+                                    options: $root.destinationOptions, optionsText: 'Name', optionsValue : 'Name'">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mapping-dest" class="col-sm-3 control-label">Output Path</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="mapping-dest" data-bind="value:OutputPath, options: $root.destinationOptions, optionsText: 'Name', optionsValue : 'Name'">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+
+               
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="am-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

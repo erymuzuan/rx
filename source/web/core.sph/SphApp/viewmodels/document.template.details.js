@@ -17,7 +17,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
             isBusy = ko.observable(false),
             activate = function (id) {
                 var query = String.format("IsPublished eq 1"),
-                    query1 = String.format("DocumentTemplateId eq {0}", id),
+                    query1 = String.format("Id eq '{0}'", id),
                     entityTask = context.loadAsync("EntityDefinition", query),
                     templateTask = context.loadOneAsync("DocumentTemplate", query1),
                     tcs = new $.Deferred();
@@ -28,7 +28,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                         return v.Name();
                     });
                     entityOptions(types);
-                    if (parseInt(id)) {
+                    if (b) {
                         template(b);
                     } else {
                         template(new bespoke.sph.domain.DocumentTemplate(system.guid()));
@@ -45,10 +45,10 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                     data = ko.mapping.toJSON(template);
                 isBusy(true);
 
-                context.post(data, "/Sph/DocumentTemplate/Save")
+                context.post(data, "/document-template")
                     .then(function (result) {
                         isBusy(false);
-                        template().DocumentTemplateId(result.id);
+                        template().Id(result.id);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -58,12 +58,12 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                     data = ko.mapping.toJSON(template);
                 isBusy(true);
 
-                context.post(data, "/DocumentTemplate/Publish")
+                context.post(data, "/document-Template/publish")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            template().DocumentTemplateId(result.id);
+                            template().Id(result.id);
                             errors.removeAll();
                         } else {
 
@@ -79,12 +79,12 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                     data = ko.mapping.toJSON(template);
                 isBusy(true);
 
-                context.post(data, "/DocumentTemplate/Test")
+                context.post(data, "/document-template/test")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            template().DocumentTemplateId(result.id);
+                            template().Id(result.id);
                             errors.removeAll();
                         } else {
 
@@ -112,7 +112,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                         caption: 'Publish',
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
-                            return template().DocumentTemplateId() > 0;
+                            return template().Id() && template().Id() !== "0";
                         })
                     },
                     {
@@ -120,7 +120,8 @@ define(['services/datacontext', 'services/logger', objectbuilders.system],
                         caption: 'Test',
                         icon: "fa fa-cog",
                         enable: ko.computed(function () {
-                            return template().DocumentTemplateId() > 0
+                            return template().Id()
+                                && template().Id() !== "0"
                                 && template().Entity()
                                 && template().WordTemplateStoreId();
                         })

@@ -36,6 +36,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "9cb0b228-37a4-418b-90cd-8326b57b2a0d"
       },
       {
@@ -52,6 +53,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
+        "RouteValueField": null,
         "WebId": "95f4726f-c70d-4a4f-80d8-c754d7a46459"
       },
       {
@@ -68,6 +70,7 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "date:{0}",
+        "RouteValueField": null,
         "WebId": "1e6b74fb-be00-4519-96c1-ed5a7a759127"
       }
     ]
@@ -94,10 +97,13 @@
     "IsPublic": true,
     "WebId": null
   },
-  "EntityViewId": 1004,
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
   "IconClass": "",
-  "IconStoreId": "e1afad33-98f4-418b-a874-5685ed571450",
-  "EntityDefinitionId": 2002,
+  "IconStoreId": "58eef903-a23a-4db6-a4e1-48911a9a772e",
+  "EntityDefinitionId": "patient",
   "Name": "Muslim patients",
   "Route": "patient-religion-islam",
   "Note": "Something else here and what do we care",
@@ -107,9 +113,11 @@
   "TileColour": "blightblue",
   "CountMessage": "",
   "Entity": null,
+  "Partial": null,
   "CreatedBy": null,
+  "Id": "patient-religion-islam",
   "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-05-12T13:46:54.0059609+08:00",
+  "ChangedDate": "2014-09-17T11:00:50.8897333+08:00",
   "WebId": "cd761b5c-1010-415e-b8e5-2845a4285604"
 }

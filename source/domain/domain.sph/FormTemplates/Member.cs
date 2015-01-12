@@ -122,7 +122,7 @@ namespace Bespoke.Sph.Domain
                     code.AppendLine(member.GeneratedCustomClass());
                 }
             }
-            return code.ToString();
+            return code.FormatCode();
         }
 
 

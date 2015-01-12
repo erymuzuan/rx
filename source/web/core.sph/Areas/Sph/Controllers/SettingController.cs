@@ -21,6 +21,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     var key1 = key;
                     var st = await context.LoadOneAsync<Setting>(s => s.Key == key1)
                         ?? settings.Single(s => s.Key == key1);
+                    if (string.IsNullOrWhiteSpace(st.Id) || st.Id == "0")
+                        st.Id = key;
 
                     st.Value = settings.Single(s => s.Key == key1).Value;
                     session.Attach(st);

@@ -17,8 +17,8 @@ define([objectbuilders.config],
 			overview = ko.observable(),
             activate = function() {
                 var tcs = new $.Deferred(),
-					queuesTask = $.get("/sph/management/api/queues"),
-				overviewTask = $.get("/sph/management/api/overview");
+					queuesTask = $.get("/management-api/rabbitmq?resource=queues"),
+				overviewTask = $.get("/management-api/rabbitmq?resource=overview");
 
                 $.when(queuesTask, overviewTask).done(function (queuesr, overviewr) {
                     queues(_(queuesr[0]).filter(function(v) { return v.vhost == config.applicationName; }));

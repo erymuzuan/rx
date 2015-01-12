@@ -8,21 +8,16 @@ namespace scheduler.report.delivery
     {
         static void Main(string[] args)
         {
-            int id;
-            if (!int.TryParse(args[0], out id))
-            {
-                Console.WriteLine("{0} is not a number");
-                return;
-            }
+            var id = args[0];
             var prog = new Program();
             prog.StartAsync(id).Wait();
         }
 
-        private async Task StartAsync(int id)
+        private async Task StartAsync(string id)
         {
             var context = new SphDataContext();
-            var del = await context.LoadOneAsync<ReportDelivery>(d => d.ReportDeliveryId == id);
-            var rdl = await context.LoadOneAsync<ReportDefinition>(d => d.ReportDefinitionId == del.ReportDefinitionId);
+            var del = await context.LoadOneAsync<ReportDelivery>(d => d.Id == id);
+            var rdl = await context.LoadOneAsync<ReportDefinition>(d => d.Id == del.ReportDefinitionId);
             foreach (var p in rdl.DataSource.ParameterCollection)
             {
                 Console.WriteLine(p);

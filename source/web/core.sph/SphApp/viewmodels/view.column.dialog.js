@@ -19,7 +19,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                 context.loadOneAsync("EntityDefinition", query)
                     .done(function (b) {
 
-                        var query2 = String.format("EntityDefinitionId eq {0}", b.EntityDefinitionId());
+                        var query2 = String.format("EntityDefinitionId eq '{0}'", b.Id());
                         context.loadAsync("EntityForm", query2)
                                             .then(function (lo) {
                                                 forms(lo.itemCollection);

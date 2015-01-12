@@ -153,23 +153,22 @@ function (logger, system, ko2) {
 
     window.addEventListener('online', updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
-    return {
-        searchAsync: searchAsync,
-        loadAsync: loadAsync,
-        loadOneAsync: loadOneAsync,
-        getScalarAsync: getScalarAsync,
-        getMaxAsync: getMaxAsync,
-        getMinAsync: getMinAsync,
-        getSumAsync: getSumAsync,
-        getCountAsync: getCountAsync,
-        getListAsync: getListAsync,
-        getDistinctAsync: getDistinctAsync,
-        getTuplesAsync: getTuplesAsync,
-        post: post,
-        clone: clone,
-        commit: commit,
-        toObservable: toObservable
-    };
+
+
+    function send(json, url, verb) {
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: verb,
+            data: json,
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: tcs.resolve
+        });
+
+        return tcs.promise();
+    }
 
     function post(json, url) {
 
@@ -178,6 +177,20 @@ function (logger, system, ko2) {
         $.ajax({
             type: "POST",
             data: json,
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: tcs.resolve
+        });
+
+        return tcs.promise();
+    }
+
+    function get(url) {
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: "GET",
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -463,4 +476,24 @@ function (logger, system, ko2) {
         self.previousPageToken = "";
     }
 
+
+    return {
+        searchAsync: searchAsync,
+        loadAsync: loadAsync,
+        loadOneAsync: loadOneAsync,
+        getScalarAsync: getScalarAsync,
+        getMaxAsync: getMaxAsync,
+        getMinAsync: getMinAsync,
+        getSumAsync: getSumAsync,
+        getCountAsync: getCountAsync,
+        getListAsync: getListAsync,
+        getDistinctAsync: getDistinctAsync,
+        getTuplesAsync: getTuplesAsync,
+        post: post,
+        send: send,
+        get: get,
+        clone: clone,
+        commit: commit,
+        toObservable: toObservable
+    };
 });

@@ -41,7 +41,7 @@
     "listen-dialog" : "ListenActivity.html",
     "delay-dialog" : "DelayActivity.html",
     "sch-act-dialog" : "ScheduledTriggerActivity.html",
-    "dev-quick-nav-dialog" : "quick.access.html",
+    "solution-explorer-dialog" : "solution.explorer.html",
 
     "constant-panel-modal" : "ConstantField.html",
     "document-panel-modal" : "DocumentField.html",
@@ -58,6 +58,23 @@
     "rule-dialog" : "BusinessRule.html",
     "icon-picker" : "IconPicker.html",
     "field-permission-dialog" : "FieldPermission.html",
+    "adapter.http" : "HttpAdapter.html",
+    "adapter.mysql" : "MySqlAdapter.html",
+    "adapter.mysql.sproc" : "adapter.mysql.sproc.html",
+    "adapter.sqlserver" : "SqlServerAdapter.html",
+    "adapter.oracle" : "OracleAdapter.html",
+    "adapter.postgre" : "PostgreAdapter.html",
+    "adapter.db2" : "Db2Adapter.html",
+    "adapter.access" : "AccessAdapter.html",
+    "adapter.definition.list" : "AdapterDefinitionList.html",
+
+
+    "mapping-activity-dialog" : "mapping-activity-dialog.html",
+    "send-activity-dialog" : "send-activity-dialog.html",
+    "receive-activity-dialog" : "receive-activity-dialog.html",
+
+    "email-action-modal" : "EmailAction.html",
+    "custom-login-page" : "custom-login-page.html",
 
     "default": "Overview.html"
 }

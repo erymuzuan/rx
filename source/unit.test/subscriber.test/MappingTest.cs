@@ -78,7 +78,7 @@ namespace subscriber.test
         [Test]
         public void MapCustomer()
         {
-            var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.WorkflowSourceDirectory, "EntityDefinition/Customer.json"));
+            var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             var ed = customerDefinition.DeserializeFromJson<EntityDefinition>();
 
             var sub = new EntityIndexerMappingSubscriber();
@@ -90,7 +90,7 @@ namespace subscriber.test
         [Test]
         public async Task CompareCustomerMapping()
         {
-            var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.WorkflowSourceDirectory, "EntityDefinition/Customer.json"));
+            var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             var ed = customerDefinition.DeserializeFromJson<EntityDefinition>();
 
             var sub = new EntityIndexerMappingSubscriber();

@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-  "CodeNamespace": "Bespoke.Dev_5003.Domain",
+  "CodeNamespace": "Bespoke.Dev_state.Domain",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -23,6 +23,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "e6321cbb-f0d9-4f5b-8caa-90d23863aac4"
       },
       {
@@ -44,6 +45,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "d4b33a1e-e6dc-408a-94d4-9784e87c53db"
       },
       {
@@ -65,6 +67,7 @@
         "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
+        "DefaultValue": null,
         "WebId": "51d0a90b-90a0-484d-99a6-3e0af1e57237"
       }
     ]
@@ -81,7 +84,13 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
-  "EntityDefinitionId": 5003,
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "Roles",
+    "Value": "developers",
+    "IsPublic": false,
+    "WebId": null
+  },
   "Name": "State",
   "Plural": "States",
   "IconStoreId": "f5640687-e31d-413d-8ff0-34cd749b4dad",
@@ -90,8 +99,9 @@
   "IsPublished": true,
   "IsShowOnNavigationBar": true,
   "CreatedBy": "admin",
+  "Id": "state",
   "CreatedDate": "2014-04-19T10:07:12.2060219+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-19T10:09:08.1628257+08:00",
+  "ChangedDate": "2014-12-19T08:44:45.3503217+08:00",
   "WebId": "e5d31c43-852d-4a9d-b3be-1fc94d5cea05"
 }

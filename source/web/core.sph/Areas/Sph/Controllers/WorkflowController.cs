@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var json = this.GetRequestJson<string>();
             var context = new SphDataContext();
             dynamic obj = JsonConvert.DeserializeObject(json);
-            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 1);
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == "1");
             var wf = new Workflow();
             foreach (var w in wd.VariableDefinitionCollection)
             {
@@ -34,10 +34,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetPendingTasks(int id)
+        public async Task<ActionResult> GetPendingTasks(string id)
         {
             var context = new SphDataContext();
-            var wf = await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id);
+            var wf = await context.LoadOneAsync<Workflow>(w => w.Id == id);
             var tracker = await wf.GetTrackerAsync();
             var pendingTasks = await tracker.GetPendingTasksAsync();
 

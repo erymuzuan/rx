@@ -17,7 +17,7 @@ Let you define a `Variable` from a simple native type, such as string, boolean ,
 
 
 
-## See also
+## See also (1)
 
 [Variable](Variable.html)
 [ClrTypeVariable](ClrTypeVariable.html)

@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Domain
 {
     public interface IPersistence
     {
-        Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session);
-        Task<SubmitOperation> SubmitChanges(Entity item);
+        Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session, string user);
+        Task<SubmitOperation> SubmitChanges(Entity item, string user);
     }
 }

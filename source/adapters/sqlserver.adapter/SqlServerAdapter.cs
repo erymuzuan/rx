@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -9,21 +10,33 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Bespoke.Sph.Integrations.Adapters.Properties;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
     public partial class SqlServerAdapter : Adapter
     {
-        public override string CodeNamespace
-        {
-            get { return string.Format("{0}.Adapters.{1}", ConfigurationManager.ApplicationName, this.Schema); }
-        }
+        
 
         public override string OdataTranslator
         {
             get { return "OdataSqlTranslator"; }
         }
 
+
+        public override async Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            var vr = (await base.ValidateAsync()).ToList();
+
+            if (string.IsNullOrWhiteSpace(this.Schema))
+                vr.Add("Schema", "Schema cannot be empty");
+
+            if (string.IsNullOrWhiteSpace(this.Database))
+                vr.Add("Database", "Database cannot be empty");
+
+
+            return vr.AsEnumerable();
+        }
 
 
         private const string PkSql = @"
@@ -57,10 +70,10 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         AND t.name <> N'sysname'
     ORDER 
         BY o.type";
-        private readonly ObjectCollection<TableDefinition> m_tableDefinitionCollection = new ObjectCollection<TableDefinition>();
 
         public async Task OpenAsync(bool verbose = false)
         {
+            this.TableDefinitionCollection.Clear();
             foreach (var table in this.Tables)
             {
 
@@ -100,12 +113,12 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                             {
                                 for (int i = 0; i < reader.FieldCount; i++)
                                 {
-                                    Console.Write("{0,-15}\t", reader.GetName(i));
+                                    Console.Write(Resources.Format15Tab, reader.GetName(i));
                                 }
                                 Console.WriteLine();
-                                for (int i = 0; i < reader.FieldCount; i++)
+                                for (var i = 0; i < reader.FieldCount; i++)
                                 {
-                                    Console.Write("{0,-15}\t", reader[i]);
+                                    Console.Write(Resources.Format15Tab, reader[i]);
                                 }
                             }
                             first = false;
@@ -136,7 +149,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                               };
                 td.MemberCollection.AddRange(members);
                 m_tableColumns.Add(table.Name, columns);
-                m_tableDefinitionCollection.Add(td);
+                this.TableDefinitionCollection.Add(td);
 
 
             }
@@ -156,6 +169,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
             header.AppendLine("using " + typeof(StringBuilder).Namespace + ";");
             header.AppendLine("using " + typeof(SqlConnection).Namespace + ";");
+            header.AppendLine("using " + typeof(CommandType).Namespace + ";");
             header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
             header.AppendLine("using System.Web.Mvc;");
             header.AppendLine("using Bespoke.Sph.Web.Helpers;");
@@ -178,13 +192,13 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         {
             options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
             var sources = new Dictionary<string, string>();
+            var header = this.GetCodeHeader(namespaces);
             foreach (var at in this.Tables)
             {
-                var table = m_tableDefinitionCollection.Single(t => t.Name == at.Name);
+                var table = this.TableDefinitionCollection.Single(t => t.Name == at.Name);
                 options.AddReference(typeof(SqlConnection));
                 var adapterName = table + "Adapter";
 
-                var header = this.GetCodeHeader(namespaces);
                 var code = new StringBuilder(header);
 
                 code.AppendLine("   public class " + adapterName);
@@ -203,12 +217,61 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                 code.AppendLine("}");// end namespace
 
 
-                sources.Add(adapterName + ".cs", code.ToString());
+                sources.Add(adapterName + ".cs", code.FormatCode());
 
 
             }
+
+            var code2 = new StringBuilder(header);
+
+            code2.AppendLine("   public partial class " + this.Name + "");
+            code2.AppendLine("   {");
+
+            code2.AppendLine("      public string ConnectionString{set;get;}");
+
+            var addedActions = new List<string>();
+            foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
+            {
+                op.CodeNamespace = this.CodeNamespace;
+                var methodName = op.MethodName;
+
+                if (addedActions.Contains(methodName)) continue;
+                addedActions.Add(methodName);
+
+                //
+                code2.AppendLine(op.GenerateActionCode(this, methodName));
+
+                var requestSources = op.GenerateRequestCode();
+                AddSources(requestSources, sources);
+
+                var responseSources = op.GenerateResponseCode();
+                AddSources(responseSources, sources);
+            }
+
+
+
+            code2.AppendLine("   }");// end class
+            code2.AppendLine("}");// end namespace
+            sources.Add(this.Name + ".sproc.cs", code2.FormatCode());
+
             return Task.FromResult(sources);
         }
+
+
+        private static void AddSources(Dictionary<string, string> classes, Dictionary<string, string> sources)
+        {
+            foreach (var cs in classes.Keys)
+            {
+                if (!sources.ContainsKey(cs))
+                {
+                    sources.Add(cs, classes[cs]);
+                    continue;
+                }
+                if (sources[cs] != classes[cs])
+                    throw new InvalidOperationException("You are generating 2 different sources for " + cs);
+            }
+        }
+
 
         private string GenerateExecuteScalarMethod()
         {
@@ -538,7 +601,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         protected override Task<TableDefinition> GetSchemaDefinitionAsync(string table)
         {
-            var td = m_tableDefinitionCollection.Single(t => t.Name == table);
+            var td = this.TableDefinitionCollection.Single(t => t.Name == table);
             return Task.FromResult(td);
         }
     }

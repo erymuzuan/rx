@@ -4,17 +4,9 @@ namespace Bespoke.Sph.Domain
     {
         public override string ToString()
         {
-            return string.Format("[{0}]{1}", this.EntityChartId, this.Name);
+            return string.Format("[{0}]{1}", this.Id, this.Name);
         }
 
-        public override void SetId(int id)
-        {
-            this.EntityChartId = id;
-        }
-
-        public override int GetId()
-        {
-            return this.EntityChartId;
-        }
+    
     }
 }

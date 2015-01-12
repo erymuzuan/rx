@@ -33,8 +33,8 @@ namespace Bespoke.Sph.WorkflowsExecution
         {
             Thread.Sleep(1000);
             var item = (WorkflowDefinition) obj;
-            var dll = string.Format("workflows.{0}.{1}.dll", item.WorkflowDefinitionId, item.Version);
-            var pdb = string.Format("workflows.{0}.{1}.pdb", item.WorkflowDefinitionId, item.Version);
+            var dll = string.Format("workflows.{0}.{1}.dll", item.Id, item.Version);
+            var pdb = string.Format("workflows.{0}.{1}.pdb", item.Id, item.Version);
             var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
             var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
 

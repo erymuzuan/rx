@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -17,7 +17,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
             activate = function (ent) {
                 var tcs = new $.Deferred();
 
-                $.get('/sph/entitydefinition/GetVariablePath/' + ko.unwrap(ent))
+                $.get('/entity-definition/variable-path/' + ko.unwrap(ent))
                     .done(function(list){
                         members(list);
                         tcs.resolve(true);

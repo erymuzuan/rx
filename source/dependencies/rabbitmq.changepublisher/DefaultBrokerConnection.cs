@@ -10,7 +10,16 @@ namespace Bespoke.Sph.RabbitMqPublisher
         private string m_password;
         private string m_userName;
         private string m_host;
+        private string m_managementScheme;
 
+        public string ManagementScheme
+        {
+            get { return string.IsNullOrWhiteSpace(m_managementScheme) ? "http" : m_managementScheme; }
+            set
+            {
+                m_managementScheme = value;
+            }
+        }
         public string Host
         {
             get

@@ -1,0 +1,107 @@
+﻿
+<section class="view-model-modal" id="assembly-action-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Run compiled assembly code</h3>
+            </div>
+            <div class="modal-body" data-bind="with: action">
+
+                <form class="form-horizontal" id="assembly-action-dialog-form">
+
+                    <div class="form-group">
+                        <label for="email-action-title" class="col-lg-2 control-label">Title</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" required data-bind="value: Title" id="email-action-title" type="text" name="email-action-title" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wd-option" class="col-lg-2 control-label">Assembly</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" required id="wd-option" data-bind="value: Assembly, options: $root.assemblyOptions,optionsText:'Name', optionsValue: 'Name', optionsCaption :'[Select an assembly]'"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type-option" class="col-lg-2 control-label">Type</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" required id="type-option" data-bind="value: TypeName, options: $root.typeOptions,optionsText:'TypeName', optionsValue: 'TypeName', optionsCaption :'[Select a Type]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="method-option" class="col-lg-2 control-label">Method</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" required id="method-option" data-bind="value: Method, options: $root.methodOptions,optionsText:'Name', optionsValue: 'Name', optionsCaption :'[Select a Method]'"></select>
+                        </div>
+                    </div>
+
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Argument</th>
+                                <th>Type</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :MethodArgCollection">
+                            <tr>
+                                <td data-bind="text:Name"></td>
+                                <td data-bind="text:TypeName"></td>
+                                <td>
+
+
+                                    <div class="btn-group">
+                                        <a data-bind="with : ValueProvider, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                            <!-- ko text : Name -->
+                                            <!-- /ko -->
+                                            <i class="fa fa-caret-down"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li data-bind="with : ValueProvider">
+                                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.ValueProvider)">
+                                                    <i class="fa fa-edit"></i>
+                                                    Edit Value Provider
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a data-bind="unwrapClick: addField,field : 'Document', accessor : $data.ValueProvider" href="#">
+                                                    <img src="/images/DocumentField.png" alt="DocumentField" class="pull-left" />
+                                                    + Document Field
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.ValueProvider" href="#">
+                                                    <img src="/images/ConstantField.png" alt=" constantfield" class="pull-left" />
+
+                                                    + Constant Field
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.ValueProvider" href="#">
+                                                    <img src="/images/FunctionField.png" alt=" FunctionField" class="pull-left" />
+                                                    + Function Field
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="assembly-action-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

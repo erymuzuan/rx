@@ -1,4 +1,3 @@
-﻿///#source 1 1 /SphApp/partial/Activity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -25,7 +24,6 @@ bespoke.sph.domain.ActivityPartial = function () {
         errors: errors
     };
 };
-///#source 1 1 /SphApp/partial/AssemblyField.js
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
@@ -49,7 +47,6 @@ bespoke.sph.domain.AssemblyFieldPartial = function () {
         removeParameter: removeParameter
     };
 };
-///#source 1 1 /SphApp/partial/BarChartItem.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -75,7 +72,6 @@ bespoke.sph.domain.BarChartItemPartial = function () {
         removeSeries: removeSeries
     };
 };
-///#source 1 1 /SphApp/partial/BusinessRule.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -134,7 +130,6 @@ bespoke.sph.domain.BusinessRulePartial = function (model) {
     };
 };
 
-///#source 1 1 /SphApp/partial/ButtonPartial.js
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
@@ -173,35 +168,6 @@ bespoke.sph.domain.ButtonPartial = function () {
         editCommand: editCommand
     };
 };
-///#source 1 1 /SphApp/partial/ComboBox.js
-/// <reference path="../schemas/form.designer.g.js" />
-/// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="/Scripts/require.js" />
-
-bespoke.sph.domain.ComboBoxPartial = function () {
-    var system = require('durandal/system'),
-        addItem = function () {
-            var self = this;
-            var item = new bespoke.sph.domain.ComboBoxItem(system.guid());
-            self.ComboBoxItemCollection.push(item);
-
-        },
-        removeItem = function (item) {
-            var self = this;
-            return function () {
-                self.ComboBoxItemCollection.remove(item);
-            };
-        };
-    return {
-        addItem: addItem,
-        removeItem: removeItem
-    };
-};
-///#source 1 1 /SphApp/partial/ChildEntityListView.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -211,10 +177,6 @@ bespoke.sph.domain.ComboBoxPartial = function () {
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
-
-var bespoke = bespoke || {};
-bespoke.sph = bespoke.sph || {};
-bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.ChildEntityListViewPartial = function (model) {
@@ -274,7 +236,33 @@ bespoke.sph.domain.ChildEntityListViewPartial = function (model) {
         removeViewColumn: removeViewColumn
     };
 };
-///#source 1 1 /SphApp/partial/ConstantField.js
+/// <reference path="../schemas/form.designer.g.js" />
+/// <reference path="../durandal/system.js" />
+/// <reference path="../durandal/amd/require.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="/Scripts/require.js" />
+
+bespoke.sph.domain.ComboBoxPartial = function () {
+    var system = require('durandal/system'),
+        addItem = function () {
+            var self = this;
+            var item = new bespoke.sph.domain.ComboBoxItem(system.guid());
+            self.ComboBoxItemCollection.push(item);
+
+        },
+        removeItem = function (item) {
+            var self = this;
+            return function () {
+                self.ComboBoxItemCollection.remove(item);
+            };
+        };
+    return {
+        addItem: addItem,
+        removeItem: removeItem
+    };
+};
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
@@ -293,7 +281,32 @@ bespoke.sph.domain.ConstantFieldPartial = function (model) {
     });
     return vm;
 };
-///#source 1 1 /SphApp/partial/CreateEntityActivity.js
+/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
+
+
+bespoke.sph.domain.CorrelationTypePartial = function () {
+
+    var system = require('durandal/system'),
+        removeCorrelationProperty = function (prop) {
+            var self = this;
+            return function () {
+                self.CorrelationPropertyCollection.remove(prop);
+            };
+        },
+        addCorrelationProperty = function () {
+            this.CorrelationPropertyCollection.push(new bespoke.sph.domain.CorrelationProperty(system.guid()));
+        };
+    return {
+        removeCorrelationProperty: removeCorrelationProperty,
+        addCorrelationProperty: addCorrelationProperty
+
+    };
+};
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -324,7 +337,6 @@ bespoke.sph.domain.CreateEntityActivityPartial = function () {
         removePropertyMapping: removePropertyMapping
     };
 };
-///#source 1 1 /SphApp/partial/DataGridItem.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -366,7 +378,6 @@ bespoke.sph.domain.DataGridItemPartial = function () {
         removeDataGridGroupDefinition: removeDataGridGroupDefinition
     };
 };
-///#source 1 1 /SphApp/partial/DecisionActivity.js
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -398,7 +409,6 @@ bespoke.sph.domain.DecisionActivityPartial = function () {
         multipleEndPoints: multipleEndPoints
     };
 };
-///#source 1 1 /SphApp/partial/DelayActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
@@ -412,7 +422,42 @@ bespoke.sph.domain.DelayActivityPartial = function () {
         isAsync:true
     };
 };
-///#source 1 1 /SphApp/partial/EntityDefinition.js
+
+bespoke.sph.domain.EntityChartPartial = function (model) {
+    var context = require(objectbuilders.datacontext),
+        pin = function () {
+            if (typeof model.IsDashboardItem === "function") {
+                model.IsDashboardItem(true);
+            } else {
+                model.IsDashboardItem = ko.observable(true);
+            }
+
+            var tcs = new $.Deferred();
+
+            context.post(ko.mapping.toJSON(model), '/sph/entitychart/save')
+                .done(tcs.resolve);
+
+            return tcs.promise();
+        },
+        unpin = function() {
+            if (typeof model.IsDashboardItem === "function") {
+                model.IsDashboardItem(false);
+            } else {
+                model.IsDashboardItem = ko.observable(false);
+            }
+
+            var tcs = new $.Deferred();
+
+            context.post(ko.mapping.toJSON(model), '/sph/entitychart/save')
+                .done(tcs.resolve);
+
+            return tcs.promise();
+        };
+    return {
+        pin: pin,
+        unpin : unpin
+    };
+};
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../objectbuilders.js" />
@@ -531,82 +576,6 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
         editMemberMap: editMemberMap
     };
 };
-///#source 1 1 /SphApp/partial/EntityOperation.js
-/// <reference path="../objectbuilders.js" />
-/// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/sph.domain.g.js" />
-/// <reference path="../schemas/form.designer.g.js" />
-/// <reference path="../schemas/trigger.workflow.g.js" />
-/// <reference path="../../Scripts/durandal/system.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-
-
-
-bespoke.sph.domain.EntityOperationPartial = function () {
-
-    var system = require('durandal/system'),
-        removeChildAction = function (child) {
-            var self = this;
-            return function() {
-                self.SetterActionChildCollection.remove(child);
-            };
-        },
-        addChildAction = function() {
-            var child = new bespoke.sph.domain.SetterActionChild(system.guid());
-            child.Field({ Name: ko.observable("+ Field") });
-            this.SetterActionChildCollection.push(child);
-        };
-
-    var vm = {
-        addChildAction: addChildAction,
-        removeChildAction: removeChildAction
-
-    };
-
-    return vm;
-};
-
-///#source 1 1 /SphApp/partial/EntityChart.js
-
-bespoke.sph.domain.EntityChartPartial = function (model) {
-    var context = require(objectbuilders.datacontext),
-        pin = function () {
-            if (typeof model.IsDashboardItem === "function") {
-                model.IsDashboardItem(true);
-            } else {
-                model.IsDashboardItem = ko.observable(true);
-            }
-
-            var tcs = new $.Deferred();
-
-            context.post(ko.mapping.toJSON(model), '/sph/entitychart/save')
-                .done(tcs.resolve);
-
-            return tcs.promise();
-        },
-        unpin = function() {
-            if (typeof model.IsDashboardItem === "function") {
-                model.IsDashboardItem(false);
-            } else {
-                model.IsDashboardItem = ko.observable(false);
-            }
-
-            var tcs = new $.Deferred();
-
-            context.post(ko.mapping.toJSON(model), '/sph/entitychart/save')
-                .done(tcs.resolve);
-
-            return tcs.promise();
-        };
-    return {
-        pin: pin,
-        unpin : unpin
-    };
-};
-///#source 1 1 /SphApp/partial/EntityLookupElement.js
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
@@ -660,7 +629,43 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
         editColumns: editColumns
     };
 };
-///#source 1 1 /SphApp/partial/EntityView.js
+/// <reference path="../objectbuilders.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../../Scripts/durandal/system.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+
+
+
+bespoke.sph.domain.EntityOperationPartial = function () {
+
+    var system = require('durandal/system'),
+        removeChildAction = function (child) {
+            var self = this;
+            return function() {
+                self.SetterActionChildCollection.remove(child);
+            };
+        },
+        addChildAction = function() {
+            var child = new bespoke.sph.domain.SetterActionChild(system.guid());
+            child.Field({ Name: ko.observable("+ Field") });
+            this.SetterActionChildCollection.push(child);
+        };
+
+    var vm = {
+        addChildAction: addChildAction,
+        removeChildAction: removeChildAction
+
+    };
+
+    return vm;
+};
+
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -736,7 +741,6 @@ bespoke.sph.domain.EntityViewPartial = function () {
         removeFilter: removeFilter
     };
 };
-///#source 1 1 /SphApp/partial/ExecutedActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -759,7 +763,6 @@ bespoke.sph.domain.ExecutedActivityPartial = function () {
         errors: errors
     };
 };
-///#source 1 1 /SphApp/partial/Filter.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -819,7 +822,6 @@ bespoke.sph.domain.FilterPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/FormElement.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/form.designer.g.js" />
@@ -833,7 +835,6 @@ bespoke.sph.domain.FormElementPartial = function () {
 };
 
 
-///#source 1 1 /SphApp/partial/HtmlElement.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -867,7 +868,6 @@ bespoke.sph.domain.HtmlElementPartial = function () {
         editHtml: editHtml
     };
 };
-///#source 1 1 /SphApp/partial/IFormTemplate.js
 
 bespoke.sph.domain.FormTemplatePartial = function () {
 
@@ -875,7 +875,6 @@ bespoke.sph.domain.FormTemplatePartial = function () {
     };
     return vm;
 }
-///#source 1 1 /SphApp/partial/IntervalSchedule.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -891,7 +890,6 @@ bespoke.sph.domain.IntervalSchedulePartial = function () {
         name : name
     };
 };
-///#source 1 1 /SphApp/partial/LineChartItem.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -916,7 +914,6 @@ bespoke.sph.domain.LineChartItemPartial = function () {
         removeSeries: removeSeries
     };
 };
-///#source 1 1 /SphApp/partial/ListenActivity.js
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -948,7 +945,6 @@ bespoke.sph.domain.ListenActivityPartial = function () {
         multipleEndPoints: multipleEndPoints
     };
 };
-///#source 1 1 /SphApp/partial/ListView.js
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -998,7 +994,6 @@ bespoke.sph.domain.ListViewPartial = function (model) {
         removeListViewColumn: removeListViewColumn
     };
 };
-///#source 1 1 /SphApp/partial/ListViewColumn.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1040,7 +1035,6 @@ bespoke.sph.domain.ListViewColumnPartial = function (model) {
         icon: icon
     };
 };
-///#source 1 1 /SphApp/partial/MappingActivity.js
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -1070,7 +1064,6 @@ bespoke.sph.domain.MappingActivityPartial = function () {
         removeMappingSource: removeMappingSource
     };
 };
-///#source 1 1 /SphApp/partial/Member.js
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../schemassystem.js" />
@@ -1182,7 +1175,6 @@ bespoke.sph.domain.MemberPartial = function () {
         editField: editField
     };
 };
-///#source 1 1 /SphApp/partial/MethodArg.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1239,7 +1231,6 @@ bespoke.sph.domain.MethodArgPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/NotificationActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1255,7 +1246,6 @@ bespoke.sph.domain.NotificationActivityPartial = function(model) {
     return {
     };
 };
-///#source 1 1 /SphApp/partial/ParallelActivity.js
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -1286,7 +1276,25 @@ bespoke.sph.domain.ParallelActivityPartial = function () {
         multipleEndPoints: multipleEndPoints
     };
 };
-///#source 1 1 /SphApp/partial/report.js
+bespoke.sph.domain.ReceiveActivityPartial = function () {
+    //
+    var system = require('durandal/system'),
+        removeCorrelationProperty = function (prop) {
+            var self = this;
+            return function () {
+                self.CorrelationPropertyCollection.remove(prop);
+            };
+        },
+        addCorrelationProperty = function () {
+            this.CorrelationPropertyCollection.push(new bespoke.sph.domain.CorrelationProperty(system.guid()));
+        };
+
+    return {
+        removeCorrelationProperty: removeCorrelationProperty,
+        addCorrelationProperty: addCorrelationProperty
+
+    };
+};
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -1319,7 +1327,6 @@ bespoke.sph.domain.MonthlySchedulePartial = function () {
 };
 
 
-///#source 1 1 /SphApp/partial/ReportDelivery.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1332,7 +1339,6 @@ bespoke.sph.domain.ReportDeliveryPartial = function () {
     return new bespoke.sph.domain.IntervalScheduleContainer();
 
 };
-///#source 1 1 /SphApp/partial/Rule.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1389,7 +1395,6 @@ bespoke.sph.domain.RulePartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/ScheduledTriggerActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
@@ -1408,7 +1413,6 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function (model) {
     return b;
 };
 
-///#source 1 1 /SphApp/partial/ScreenActivity.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1423,7 +1427,6 @@ bespoke.sph.domain.ScreenActivityPartial = function () {
         canStart: true
     };
 };
-///#source 1 1 /SphApp/partial/SearchDefinition.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1459,7 +1462,6 @@ bespoke.sph.domain.SearchDefinitionPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/SetterAction.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1496,7 +1498,6 @@ bespoke.sph.domain.SetterActionPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/SetterActionChild.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1557,14 +1558,14 @@ bespoke.sph.domain.SetterActionChildPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/StartWorkflowAction.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/durandal/system.js" />
 /// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
@@ -1583,9 +1584,13 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
             var child = new bespoke.sph.domain.WorkflowTriggerMap(system.guid());
             child.Field({ Name: ko.observable("+ Field") });
             this.WorkflowTriggerMapCollection.push(child);
+        },
+        editMapping = function (child) {
+            this.WorkflowTriggerMapCollection.push(child);
         };
 
     var vm = {
+        editMapping: editMapping,
         addMapping: addMapping,
         removeMapping: removeMapping
 
@@ -1594,7 +1599,6 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/Trigger.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1611,43 +1615,55 @@ bespoke.sph.domain.StartWorkflowActionPartial = function () {
 bespoke.sph.domain.TriggerPartial = function () {
 
     var system = require('durandal/system'),
-        removeAction = function(action) {
+        removeAction = function (action) {
             var self = this;
-            return function() {
+            return function () {
                 self.ActionCollection.remove(action);
             };
         },
         addAction = function (type) {
             var self = this;
             return function () {
-                var action = new bespoke.sph.domain[type + 'Action'](system.guid());
-                
-                require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
-                    dialog.action(action);
+                var t = type.toLowerCase().replace(", ", ",");
+                require(['viewmodels/action.' + t, 'durandal/app'], function (dialog, app2) {
+                    if (typeof dialog.action !== "function") {
+                        console.error("The dialog for " + t + " do not implement action as observable");
+                        return;
+                    }
+
+                    if (typeof dialog.trigger === "function") {
+                        dialog.trigger(self);
+                    }
+
                     app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
+
+                            var action = dialog.action();
+
+                            action.WebId(system.guid());
                             action.IsActive(true);
                             self.ActionCollection.push(action);
                         }
                     });
 
                 });
-                
+
             };
         },
         editAction = function (action) {
             var self = this;
             return function () {
-                var actionType = ko.unwrap(action.$type),
-                    clone = ko.mapping.fromJS(ko.mapping.toJS(action)),
-                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Action,/,
-                    type = pattern.exec(actionType)[1];
+                var type = ko.unwrap(action.$type),
+                    clone = ko.mapping.fromJS(ko.mapping.toJS(action));
 
-                require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                require(['viewmodels/action.' + type.toLowerCase().replace(", ", ","), 'durandal/app'], function (dialog, app2) {
                     dialog.action(clone);
-                    
+                    if (typeof dialog.trigger === "function") {
+                        dialog.trigger(self);
+                    }
+
                     app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
@@ -1668,12 +1684,42 @@ bespoke.sph.domain.TriggerPartial = function () {
          },
         removeRule = function (rule) {
             var self = this;
-            return function() {
+            return function () {
                 self.RuleCollection.remove(rule);
+            };
+        },
+        
+        addReferencedAssembly = function () {
+            var self = this;
+            require(['viewmodels/assembly.dialog', 'durandal/app'], function (dialog, app2) {
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            _(dialog.selectedAssemblies()).each(function (v) {
+                                self.ReferencedAssemblyCollection.push(v);
+                            });
+                        }
+                    });
+
+            });
+
+
+        },
+        editReferencedAssembly = function (dll) {
+            alert('not implemented' + dll);
+        },
+        removeReferencedAssembly = function (dll) {
+            var self = this;
+            return function () {
+                self.ReferencedAssemblyCollection.remove(dll);
             };
         };
 
     var vm = {
+        editReferencedAssembly: editReferencedAssembly,
+        removeReferencedAssembly: removeReferencedAssembly,
+        addReferencedAssembly: addReferencedAssembly,
         addRule: addRule,
         removeRule: removeRule,
         removeAction: removeAction,
@@ -1685,7 +1731,6 @@ bespoke.sph.domain.TriggerPartial = function () {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/UpdateEntityActivity.js
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -1716,7 +1761,6 @@ bespoke.sph.domain.UpdateEntityActivityPartial = function () {
         removePropertyMapping: removePropertyMapping
     };
 };
-///#source 1 1 /SphApp/partial/Variable.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -1737,7 +1781,6 @@ bespoke.sph.domain.VariablePartial = function () {
         errors: errors
     };
 };
-///#source 1 1 /SphApp/partial/ViewColumn.js
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -1773,10 +1816,9 @@ bespoke.sph.domain.ViewColumnPartial = function () {
         removeIconCssClass: removeIconCssClass
     };
 };
-///#source 1 1 /SphApp/partial/WorkflowDefinition.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -1833,10 +1875,8 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         editActivity = function (activity) {
             var self = this;
             return function () {
-                var activityType = ko.unwrap(activity.$type),
-                    clone = context.toObservable(ko.mapping.toJS(activity)),
-                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Activity,/,
-                    type = pattern.exec(activityType)[1];
+                var clone = context.toObservable(ko.mapping.toJS(activity)),
+                    type = ko.unwrap(activity.TypeName);
 
                 isBusy(true);
                 require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
@@ -1852,10 +1892,13 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                             if (!result) return;
                             if (result === "OK") {
                                 for (var g in activity) {
-                                    if (typeof activity[g] === "function" && activity[g].name === "observable") {
-                                        activity[g](ko.unwrap(clone[g]));
-                                    } else {
-                                        activity[g] = clone[g];
+                                    if (activity.hasOwnProperty(g)) {
+                                        var observable = activity[g].name === "observable" || activity[g].name === "d";
+                                        if (typeof activity[g] === "function" && observable) {
+                                            activity[g](ko.unwrap(clone[g]));
+                                        } else {
+                                            activity[g] = clone[g];
+                                        }
                                     }
                                 }
                             }
@@ -1925,6 +1968,118 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                 self.VariableDefinitionCollection.remove(variable);
             };
         },
+        addCorrelationType = function () {
+            var self = this;
+            var correlationType = new bespoke.sph.domain.CorrelationType(system.guid());
+
+            require(['viewmodels/correlation.type.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.correlationType(correlationType);
+                if (typeof dialog.wd === "function") {
+                    dialog.wd(self);
+                }
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.CorrelationTypeCollection.push(correlationType);
+                        }
+                    });
+
+            });
+
+
+        },
+        editCorrelationType = function (correlationType) {
+            var self = this;
+            return function () {
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(correlationType));
+
+                require(['viewmodels/correlation.type.dialog', 'durandal/app'], function (dialog, app2) {
+                    dialog.correlationType(clone);
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
+
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                for (var g in correlationType) {
+                                    if (typeof correlationType[g] === "function" && correlationType[g].name === "observable") {
+                                        correlationType[g](ko.unwrap(clone[g]));
+                                    } else {
+                                        correlationType[g] = clone[g];
+                                    }
+                                }
+                            }
+                        });
+
+                });
+
+            };
+        },
+        removeCorrelationType = function (correlationType) {
+            var self = this;
+            return function () {
+                self.CorrelationTypeCollection.remove(correlationType);
+            };
+        },
+        addCorrelationSet = function () {
+            var self = this;
+            var correlationSet = new bespoke.sph.domain.CorrelationSet(system.guid());
+
+            require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.correlationSet(correlationSet);
+                if (typeof dialog.wd === "function") {
+                    dialog.wd(self);
+                }
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.CorrelationSetCollection.push(correlationSet);
+                        }
+                    });
+
+            });
+
+
+        },
+        editCorrelationSet = function (correlationSet) {
+            var self = this;
+            return function () {
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(correlationSet));
+
+                require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
+                    dialog.correlationSet(clone);
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
+
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                for (var g in correlationSet) {
+                                    if (typeof correlationSet[g] === "function" && correlationSet[g].name === "observable") {
+                                        correlationSet[g](ko.unwrap(clone[g]));
+                                    } else {
+                                        correlationSet[g] = clone[g];
+                                    }
+                                }
+                            }
+                        });
+
+                });
+
+            };
+        },
+        removeCorrelationSet = function (correlationSet) {
+            var self = this;
+            return function () {
+                self.CorrelationSetCollection.remove(correlationSet);
+            };
+        },
         addReferencedAssembly = function () {
             var self = this;
             require(['viewmodels/assembly.dialog', 'durandal/app'], function (dialog, app2) {
@@ -1964,6 +2119,12 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
     var vm = {
         isBusy: isBusy,
+        removeCorrelationType: removeCorrelationType,
+        addCorrelationType: addCorrelationType,
+        editCorrelationType: editCorrelationType,
+        removeCorrelationSet: removeCorrelationSet,
+        addCorrelationSet: addCorrelationSet,
+        editCorrelationSet: editCorrelationSet,
         removeVariable: removeVariable,
         addVariable: addVariable,
         editVariable: editVariable,
@@ -1981,7 +2142,6 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
     return vm;
 };
 
-///#source 1 1 /SphApp/partial/WorkflowDesigner.js
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
@@ -1996,21 +2156,54 @@ bespoke.sph.domain.WorkflowDesignerPartial = function () {
     return {
     };
 };
-///#source 1 1 /SphApp/partial/WorkflowTriggerMap.js
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
+/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 
 bespoke.sph.domain.WorkflowTriggerMapPartial = function () {
-    var self = this;
+    var self = this,
+        system = require('durandal/system'),
+        showFieldDialog = function (accessor, field, path) {
+            require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
+                dialog.field(field);
+
+
+                app2.showDialog(dialog)
+                .done(function (result) {
+                    if (!result) return;
+                    if (result === "OK") {
+                        accessor(field);
+                    }
+                });
+
+            });
+        };
+
+    self.addField = function(accessor, type) {
+        var field = new bespoke.sph.domain[type + 'Field'](system.guid());
+            showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
+    };
+
+    self.editField = function(field, accessor) {
+        return function() {
+            var fieldType = ko.unwrap(field.$type),
+                clone = ko.mapping.fromJS(ko.mapping.toJS(field)),
+                pattern = /Bespoke\.Sph\.Domain\.(.*?)Field,/,
+                type = pattern.exec(fieldType)[1];
+
+
+            showFieldDialog(accessor, clone, 'field.' + type.toLowerCase());
+
+        };
+    };
+
     return self;
 };
 
 bespoke.sph.domain.WorkflowTriggerMapPartial.prototype = new bespoke.sph.domain.FieldContainer();
-

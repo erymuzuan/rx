@@ -9,7 +9,7 @@ namespace domain.test.workflows
         [Test]
         public void CompileError()
         {
-            var wd = new WorkflowDefinition { Name = "Test Workflow", SchemaStoreId = "schema-storeid" };
+            var wd = new WorkflowDefinition { Name = "Test Workflow", SchemaStoreId = "schema-storeid" , Id = "test-workflow"};
             var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A", NextActivityWebId = "B" };
             screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
             wd.ActivityCollection.Add(screen);
@@ -22,9 +22,9 @@ namespace domain.test.workflows
 
             Assert.IsFalse(result.Result);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(exp.WebId, result.Errors[0].ItemWebId);
-            StringAssert.Contains(exp.Expression, result.Errors[0].Code);
             StringAssert.Contains("; expected", result.Errors[0].Message);
+            StringAssert.Contains(exp.Expression, result.Errors[0].Code);
+            Assert.AreEqual(exp.WebId, result.Errors[0].ItemWebId);
 
         }
     }

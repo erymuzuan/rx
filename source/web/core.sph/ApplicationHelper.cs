@@ -18,6 +18,10 @@ namespace Bespoke.Sph.Web
             var logger = ObjectBuilder.GetObject<ILogger>();
             await logger.LogAsync(e);
 
+            if (null == this.Application) return;
+            if (null == this.Application.Request) return;
+            if (null == this.Application.Response) return;
+
             if (this.Application.Response.StatusCode == 404) return;
             if (e.Message.Contains("The file") && e.Message.Contains("does not exist")) return;
             // for dev. we stay putd

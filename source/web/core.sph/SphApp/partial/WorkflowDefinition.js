@@ -1,6 +1,6 @@
 ﻿/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -57,10 +57,8 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         editActivity = function (activity) {
             var self = this;
             return function () {
-                var activityType = ko.unwrap(activity.$type),
-                    clone = context.toObservable(ko.mapping.toJS(activity)),
-                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Activity,/,
-                    type = pattern.exec(activityType)[1];
+                var clone = context.toObservable(ko.mapping.toJS(activity)),
+                    type = ko.unwrap(activity.TypeName);
 
                 isBusy(true);
                 require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
@@ -76,10 +74,13 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                             if (!result) return;
                             if (result === "OK") {
                                 for (var g in activity) {
-                                    if (typeof activity[g] === "function" && activity[g].name === "observable") {
-                                        activity[g](ko.unwrap(clone[g]));
-                                    } else {
-                                        activity[g] = clone[g];
+                                    if (activity.hasOwnProperty(g)) {
+                                        var observable = activity[g].name === "observable" || activity[g].name === "d";
+                                        if (typeof activity[g] === "function" && observable) {
+                                            activity[g](ko.unwrap(clone[g]));
+                                        } else {
+                                            activity[g] = clone[g];
+                                        }
                                     }
                                 }
                             }
@@ -149,6 +150,118 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                 self.VariableDefinitionCollection.remove(variable);
             };
         },
+        addCorrelationType = function () {
+            var self = this;
+            var correlationType = new bespoke.sph.domain.CorrelationType(system.guid());
+
+            require(['viewmodels/correlation.type.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.correlationType(correlationType);
+                if (typeof dialog.wd === "function") {
+                    dialog.wd(self);
+                }
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.CorrelationTypeCollection.push(correlationType);
+                        }
+                    });
+
+            });
+
+
+        },
+        editCorrelationType = function (correlationType) {
+            var self = this;
+            return function () {
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(correlationType));
+
+                require(['viewmodels/correlation.type.dialog', 'durandal/app'], function (dialog, app2) {
+                    dialog.correlationType(clone);
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
+
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                for (var g in correlationType) {
+                                    if (typeof correlationType[g] === "function" && correlationType[g].name === "observable") {
+                                        correlationType[g](ko.unwrap(clone[g]));
+                                    } else {
+                                        correlationType[g] = clone[g];
+                                    }
+                                }
+                            }
+                        });
+
+                });
+
+            };
+        },
+        removeCorrelationType = function (correlationType) {
+            var self = this;
+            return function () {
+                self.CorrelationTypeCollection.remove(correlationType);
+            };
+        },
+        addCorrelationSet = function () {
+            var self = this;
+            var correlationSet = new bespoke.sph.domain.CorrelationSet(system.guid());
+
+            require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.correlationSet(correlationSet);
+                if (typeof dialog.wd === "function") {
+                    dialog.wd(self);
+                }
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.CorrelationSetCollection.push(correlationSet);
+                        }
+                    });
+
+            });
+
+
+        },
+        editCorrelationSet = function (correlationSet) {
+            var self = this;
+            return function () {
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(correlationSet));
+
+                require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
+                    dialog.correlationSet(clone);
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
+
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                for (var g in correlationSet) {
+                                    if (typeof correlationSet[g] === "function" && correlationSet[g].name === "observable") {
+                                        correlationSet[g](ko.unwrap(clone[g]));
+                                    } else {
+                                        correlationSet[g] = clone[g];
+                                    }
+                                }
+                            }
+                        });
+
+                });
+
+            };
+        },
+        removeCorrelationSet = function (correlationSet) {
+            var self = this;
+            return function () {
+                self.CorrelationSetCollection.remove(correlationSet);
+            };
+        },
         addReferencedAssembly = function () {
             var self = this;
             require(['viewmodels/assembly.dialog', 'durandal/app'], function (dialog, app2) {
@@ -188,6 +301,12 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
     var vm = {
         isBusy: isBusy,
+        removeCorrelationType: removeCorrelationType,
+        addCorrelationType: addCorrelationType,
+        editCorrelationType: editCorrelationType,
+        removeCorrelationSet: removeCorrelationSet,
+        addCorrelationSet: addCorrelationSet,
+        editCorrelationSet: editCorrelationSet,
         removeVariable: removeVariable,
         addVariable: addVariable,
         editVariable: editVariable,

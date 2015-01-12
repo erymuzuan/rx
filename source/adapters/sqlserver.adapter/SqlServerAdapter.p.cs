@@ -1,5 +1,12 @@
-﻿namespace Bespoke.Sph.Integrations.Adapters
+﻿using System.ComponentModel.Composition;
+using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
+
+namespace Bespoke.Sph.Integrations.Adapters
 {
+    [EntityType(typeof(Adapter))]
+    [Export("AdapterDesigner", typeof(Adapter))]
+    [DesignerMetadata(Name = "MS SQL database", FontAwesomeIcon = "windows", RouteTableProvider = typeof(SqlServerAdapterRouteProvider), Route = "adapter.sqlserver/0")]
     public partial class SqlServerAdapter
     {
         public string Server { get; set; }
@@ -19,5 +26,16 @@
             }
         }
 
+        private readonly ObjectCollection<OperationDefinition> m_operationDefinitionCollection = new ObjectCollection<OperationDefinition>();
+
+        public new ObjectCollection<OperationDefinition> OperationDefinitionCollection
+        {
+            get
+            {
+                return m_operationDefinitionCollection;
+            }
+        }
+
+        
     }
 }

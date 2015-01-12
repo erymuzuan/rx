@@ -1,0 +1,24 @@
+{
+  "$type": "Bespoke.Sph.Domain.Designation, domain.sph",
+  "Title": null,
+  "Owner": null,
+  "Option": 0,
+  "RoleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "administrators",
+      "developers",
+      "Supervisors"
+    ]
+  },
+  "Name": "Managers",
+  "Description": "Managers",
+  "IsActive": false,
+  "StartModule": "offline.storage",
+  "CreatedBy": "admin",
+  "Id": "managers",
+  "CreatedDate": "2014-09-17T06:39:27.5029581+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-09-17T06:51:27.1186987+08:00",
+  "WebId": "a4914c0a-d477-4c6a-a70b-96e5df78192b"
+}

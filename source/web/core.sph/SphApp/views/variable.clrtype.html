@@ -20,9 +20,23 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="type-name" class="col-lg-2 control-label">Entity name</label>
+                        <label for="dll-name" class="col-lg-2 control-label">Assembly</label>
                         <div class="col-lg-9">
-                            <select data-bind="value: TypeName, options: $root.entityOptions, optionsText:'name', optionsValue:'fullName'"
+                            <select data-bind="value: $root.selectedAssembly,
+                                    options: $root.assemblyOptions,
+                                    optionsValue:'Name',
+                                    optionsText:'Name',
+                                    optionsCaption:'[Please Select an assembly]'"
+                                    required 
+                                    class="form-control" id="dll-name">
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="type-name" class="col-lg-2 control-label">Type name</label>
+                        <div class="col-lg-9">
+                            <select data-bind="value: TypeName, options: $root.entityOptions,
+                                    optionsText:'displayName', optionsValue:'fullName'"
                                     required 
                                     class="form-control" id="type-name">
                                 </select>

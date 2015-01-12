@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
-<xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
-	<xs:element name="Trigger">
+<xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:bs="http://www.bespoke.com.my/" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
+	<xs:element name="Trigger" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="RuleCollection">
@@ -22,11 +22,24 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="ReferencedAssemblyCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ReferencedAssembly" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RequeueFilterCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ExceptionFilter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="TypeOf" type="xs:string" use="required"/>
-			<xs:attribute name="TriggerId" type="xs:int" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsFiredOnAdded" type="xs:boolean" use="required"/>
@@ -159,7 +172,7 @@
 	<xs:complexType name="CustomAction">
 		<xs:attribute name="Title" type="xs:string" use="required"/>
 		<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
-		<xs:attribute name="TriggerId" type="xs:int" use="required"/>
+		<xs:attribute name="TriggerId" type="xs:string" use="required"/>
 		<xs:attribute name="Note" type="xs:string" use="required"/>
 		<xs:attribute name="CustomActionId" type="xs:int" use="required"/>
 	</xs:complexType>
@@ -228,7 +241,7 @@
 							</xs:complexType>
 						</xs:element>
 					</xs:all>
-					<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+					<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
 					<xs:attribute name="Name" type="xs:string" use="required"/>
 					<xs:attribute name="Version" type="xs:int" use="required"/>
 				</xs:extension>
@@ -243,8 +256,28 @@
 			<xs:attribute name="VariablePath" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="AssemblyAction" type="CustomAction"/>
-	<xs:element name="WorkflowDefinition">
+	<xs:element name="AssemblyAction">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="CustomAction">
+					<xs:all>
+						<xs:element name="MethodArgCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="MethodArg" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="IsAsyncMethod" type="xs:boolean" use="required"/>
+					<xs:attribute name="Assembly" type="xs:string" use="required"/>
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+					<xs:attribute name="Method" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WorkflowDefinition" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="ActivityCollection">
@@ -268,8 +301,21 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="CorrelationSetCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CorrelationSet" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CorrelationTypeCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CorrelationType" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
-			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
@@ -285,7 +331,7 @@
 		<xs:attribute name="NextActivityWebId" type="xs:string" use="required"/>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 	</xs:complexType>
-	<xs:element name="Workflow">
+	<xs:element name="Workflow" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="VariableValueCollection">
@@ -296,8 +342,7 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="WorkflowId" type="xs:int" use="required"/>
-			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="State" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
@@ -399,12 +444,11 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Page">
+	<xs:element name="Page" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="Code" type="xs:string"/>
 			</xs:all>
-			<xs:attribute name="PageId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="IsRazor" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsPartial" type="xs:boolean" use="required"/>
@@ -520,7 +564,23 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="Functoid"/>
+	<xs:complexType name="Functoid">
+		<xs:all>
+			<xs:element name="ArgumentCollection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="FunctoidArg" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="OutputTypeName" type="xs:string" use="required"/>
+		<xs:attribute name="Label" type="xs:string" use="required"/>
+		<xs:attribute name="Comment" type="xs:string" use="required"/>
+		<xs:attribute name="X" type="xs:double" use="required"/>
+		<xs:attribute name="Y" type="xs:double" use="required"/>
+	</xs:complexType>
 	<xs:element name="ScriptFunctoid">
 		<xs:complexType>
 			<xs:complexContent>
@@ -540,7 +600,32 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="InitializingCorrelationSetCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="CorrelationSet" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FollowingCorrelationSetCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="CorrelationSet" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="CorrelationPropertyCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="CorrelationProperty" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="PortType" type="xs:string" use="required"/>
+					<xs:attribute name="Operation" type="xs:string" use="required"/>
+					<xs:attribute name="MessagePath" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -549,7 +634,36 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="ExceptionFilterCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ExceptionFilter" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="InitializingCorrelationSetCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="CorrelationSet" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FollowingCorrelationSetCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="CorrelationSet" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="PortType" type="xs:string" use="required"/>
+					<xs:attribute name="Adapter" type="xs:string" use="required"/>
+					<xs:attribute name="Method" type="xs:string" use="required"/>
+					<xs:attribute name="AdapterAssembly" type="xs:string" use="required"/>
+					<xs:attribute name="IsSynchronous" type="xs:boolean" use="required"/>
+					<xs:attribute name="ArgumentPath" type="xs:string" use="required"/>
+					<xs:attribute name="ReturnValuePath" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -680,7 +794,7 @@
 			<xs:documentation>Placeholder</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="Tracker">
+	<xs:element name="Tracker" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="ForbiddenActivities">
@@ -698,9 +812,8 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="TrackerId" type="xs:int" use="required"/>
-			<xs:attribute name="WorkflowId" type="xs:int" use="required"/>
-			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="WorkflowId" type="xs:string" use="required"/>
+			<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ExecutedActivity">
@@ -709,9 +822,9 @@
 				<xs:element name="Initiated" type="xs:dateTime" nillable="true"/>
 				<xs:element name="Run" type="xs:dateTime" nillable="true"/>
 			</xs:all>
-			<xs:attribute name="InstanceId" type="xs:int" use="required"/>
+			<xs:attribute name="InstanceId" type="xs:string" use="required"/>
 			<xs:attribute name="ActivityWebId" type="xs:string" use="required"/>
-			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
 			<xs:attribute name="User" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
@@ -721,7 +834,7 @@
 		<xs:complexType>
 			<xs:attribute name="IsEnabled" type="xs:boolean" use="required"/>
 			<xs:attribute name="ActivityWebId" type="xs:string" use="required"/>
-			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
 			<xs:attribute name="ConditionExpression" type="xs:string" use="optional"/>
 			<xs:attribute name="HitCount" type="xs:int" use="required"/>
 			<xs:attribute name="Label" type="xs:string" use="optional"/>
@@ -753,6 +866,7 @@
 					</xs:all>
 					<xs:attribute name="MappingDefinition" type="xs:string" use="required"/>
 					<xs:attribute name="DestinationType" type="xs:string" use="required"/>
+					<xs:attribute name="OutputPath" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -763,7 +877,7 @@
 			<xs:attribute name="Variable" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="TransformDefinition">
+	<xs:element name="TransformDefinition" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="MapCollection">
@@ -773,14 +887,26 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="FunctoidCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Functoid" type="Functoid" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="TransformDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="InputTypeName" type="xs:string" use="required"/>
+			<xs:attribute name="OutputTypeName" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="Map">
 		<xs:attribute name="Destination" type="xs:string" use="required"/>
+		<xs:attribute name="SourceTypeName" type="xs:string" use="required"/>
+		<xs:attribute name="DestinationTypeName" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:element name="DirectMap">
 		<xs:complexType>
@@ -797,6 +923,181 @@
 			<xs:complexContent>
 				<xs:extension base="Map">
 					<xs:attribute name="__uuid" type="xs:string" use="required"/>
+					<xs:attribute name="Functoid" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StringConcateFunctoid">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ParseBooleanFunctoid">
+		<xs:annotation>
+			<xs:documentation>Convert string to bool</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Format" type="xs:string" use="required"/>
+					<xs:attribute name="SourceField" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ParseDoubleFunctoid">
+		<xs:annotation>
+			<xs:documentation>Convert string to double</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Styles" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ParseDecimalFunctoid">
+		<xs:annotation>
+			<xs:documentation>Convert string to decimal</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Styles" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ParseInt32Functoid">
+		<xs:annotation>
+			<xs:documentation>Convert string to int 32</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Styles" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ParseDateTimeFunctoid">
+		<xs:annotation>
+			<xs:documentation>Convert string to date</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Format" type="xs:string" use="optional"/>
+					<xs:attribute name="Styles" type="xs:string" use="optional"/>
+					<xs:attribute name="Culture" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FormattingFunctoid">
+		<xs:annotation>
+			<xs:documentation>User string.format to format any object to string</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Format" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FunctoidArg">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="Label" type="xs:string" use="required"/>
+			<xs:attribute name="Comment" type="xs:string" use="required"/>
+			<xs:attribute name="IsOptional" type="xs:boolean" use="required"/>
+			<xs:attribute name="Functoid" type="xs:string" use="required"/>
+			<xs:attribute name="Constant" type="xs:string" use="optional"/>
+			<xs:attribute name="Default" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ConstantFunctoid">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:all>
+						<xs:element name="Value" type="xs:anySimpleType"/>
+					</xs:all>
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SourceFunctoid">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Field" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ExceptionFilter">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Interval" type="xs:int" nillable="true"/>
+				<xs:element name="IntervalPeriod" type="xs:string"/>
+				<xs:element name="MaxRequeue" type="xs:int" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+			<xs:attribute name="Filter" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CorrelationType">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CorrelationPropertyCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CorrelationProperty" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CorrelationSet">
+		<xs:complexType>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CorrelationProperty">
+		<xs:complexType>
+			<xs:attribute name="Path" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="optional"/>
+			<xs:attribute name="Origin" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChildWorkflowActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="VariableMapCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Variable" type="Variable" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
+					<xs:attribute name="Version" type="xs:int" use="required"/>
+					<xs:attribute name="IsAsync" type="xs:boolean" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

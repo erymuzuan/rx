@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json.Linq;
 
@@ -19,6 +21,7 @@ namespace subscriber.version.control
             {
                 return new[]
                 {
+                    typeof(Adapter).Name + ".#.#",
                     typeof(EmailTemplate).Name + ".#.#",
                     typeof(DocumentTemplate).Name + ".#.#",
                     typeof(ReportDelivery).Name + ".#.#",
@@ -32,6 +35,7 @@ namespace subscriber.version.control
                     typeof(EntityDefinition).Name + ".#.#",
                     typeof(ReportDefinition).Name + ".#.#",
                     typeof(WorkflowDefinition).Name + ".#.#",
+                    typeof(TransformDefinition).Name + ".#.#",
                     typeof(Trigger).Name + ".#.#"
                 };
             }
@@ -39,9 +43,12 @@ namespace subscriber.version.control
 
         private void RemoveExistingSource(Entity item)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var type = item.GetType();
             var folder = Path.Combine(wc, type.Name);
+            if(!Directory.Exists(folder))
+                return;
+
             var files = Directory.GetFiles(folder, "*.json");
             foreach (var f in files)
             {
@@ -52,8 +59,14 @@ namespace subscriber.version.control
                     continue;
                 }
                 var o = JObject.Parse(text);
-                var id = o.SelectToken("$." + type.Name + "Id").Value<int>();
-                if (id != item.GetId()) continue;
+                var idToken = o.SelectToken("$.Id");
+                if (null == idToken)
+                {
+                    this.WriteMessage("[Id] field cannot be found in in {0}",f);
+                    continue;
+                }
+                var id = idToken.Value<string>();
+                if (id != item.Id) continue;
                 File.Delete(f);
                 return;
             }

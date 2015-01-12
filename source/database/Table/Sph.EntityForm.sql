@@ -2,11 +2,12 @@ IF OBJECT_ID('Sph.EntityForm', 'U') IS NOT NULL
   DROP TABLE Sph.EntityForm
 GO
 
-CREATE TABLE Sph.EntityForm
+CREATE TABLE [Sph].[EntityForm]
 (
-	 [EntityFormId] INT PRIMARY KEY IDENTITY(1,1)
-	,[EntityDefinitionId] INT NOT NULL
-	,[Data] XML NOT NULL
+	[Id] VARCHAR(50) PRIMARY KEY NOT NULL
+	,[EntityDefinitionId] VARCHAR(255) NOT NULL 
+	,[Entity] VARCHAR(255) NOT NULL DEFAULT ''
+	,[Json] VARCHAR(MAX) NOT NULL
 	,[IsPublished] BIT NOT NULL
 	,[IsAllowedNewItem] BIT NOT NULL
 	,[IsDefault] BIT NOT NULL
@@ -18,13 +19,4 @@ CREATE TABLE Sph.EntityForm
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
-
-ALTER TABLE Sph.EntityForm
-ADD [IsAllowedNewItem] BIT NOT NULL DEFAULT 0
-
-GO 
-/*
-ALTER TABLE Sph.EntityForm
-ADD [Entity] VARCHAR(255) NOT NULL DEFAULT ''
-*/
 

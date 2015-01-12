@@ -4,8 +4,9 @@
 <!--ko if: $data['$type']() === "Bespoke.Sph.Domain.ImageElement, domain.sph" -->
 <div class="form-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
     <label data-bind="text: Label" class="control-label col-lg-2"></label>
-    <div class="col-lg-4">
+    <div class="col-lg-4" style="position: relative">
         <img alt="designer" src="/Images/no-image.png" />
+        <span data-bind="text:' [ ' + Path() + ' ] '" style="position: absolute; top:53px;left:60px "></span>
     </div>
     <span data-bind="text: HelpText" class="help-block"></span>
 </div>

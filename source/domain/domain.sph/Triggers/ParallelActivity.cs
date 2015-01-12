@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
+    [Export("ActivityDesigner", typeof(Activity))]
+    [DesignerMetadata(Name = "Parallel", TypeName = "Parallel", Description = "Run seperate activities concurently")]
     public partial class ParallelActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
@@ -20,22 +23,19 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        public override string GenerateExecMethodBody(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
 
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
-            code.AppendLine("   {");
+            
             code.AppendLine(this.ExecutingCode);
-            code.AppendLine("       await Task.Delay(40);");
             code.AppendLine("       this.State = \"Ready\";");
             var branches = this.ParallelBranchCollection.Select(b => "\"" + b.NextActivityWebId + "\"");
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       result.NextActivities = new[]{{{0}}};", string.Join(",", branches));
 
             code.AppendLine(this.ExecutedCode);
-            code.AppendLine("       return result;");
-            code.AppendLine("   }");
+            
             return code.ToString();
         }
     }

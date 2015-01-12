@@ -1,9 +1,9 @@
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/moment.js" />
+/// <reference path="Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="Scripts/require.js" />
+/// <reference path="Scripts/underscore.js" />
+/// <reference path="Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
@@ -13,15 +13,51 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
     function (context, logger, router, chart, config) {
 
         var isBusy = ko.observable(false),
+            chartFiltered = ko.observable(false),
             view = ko.observable(),
             list = ko.observableArray([]),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
+            query = ko.observable(),
             activate = function () {
+                query({
+                    "query": {
+                        "filtered": {
+                            "filter": {
+                                "bool": {
+                                    "must": [
+                                        {
+                                            "term": {
+                                                "Religion": "Islam"
+                                            }
+                                        }
+                                        ,
+                                        {
+                                            "term": {
+                                                "Gender": "Female"
+                                            }
+                                        }
 
+                                    ],
+                                    "must_not": [
+                                        {
+                                            "term": {
+                                                "Status": "Discharged"
+                                            }
+                                        }
+
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "sort": [
+                        {"FullName": {"order": "asc"}}
+                    ]
+                });
                 var edQuery = String.format("Name eq '{0}'", 'Patient'),
                     tcs = new $.Deferred(),
-                    formsQuery = String.format("EntityDefinitionId eq 2002 and IsPublished eq 1 and IsAllowedNewItem eq 1"),
-                    viewQuery = String.format("EntityDefinitionId eq 2002"),
+                    formsQuery = String.format("EntityDefinitionId eq 'patient' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                    viewQuery = String.format("EntityDefinitionId eq 'patient'"),
                     edTask = context.loadOneAsync("EntityDefinition", edQuery),
                     formsTask = context.loadAsync("EntityForm", formsQuery),
                     viewTask = context.loadOneAsync("EntityView", viewQuery);
@@ -49,45 +85,68 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                 return tcs.promise();
             },
             chartSeriesClick = function (e) {
-                console.log(e);
+
+                isBusy(true);
+                var q = ko.mapping.toJS(query),
+                    cat = {
+                        "term": {
+                        }
+                    },
+                    histogram = {
+                        "range": {
+                        }
+                    },
+                    date_histogram = {
+                        "range": {
+                        }
+                    };
+
+                if (e.aggregate === "histogram") {
+                    histogram.range[e.field] = {
+                        "gte": parseFloat(e.category),
+                        "lt": ( parseFloat(e.category) + e.query.aggs.category.histogram.interval )
+                    };
+
+                    q.query.filtered.filter.bool.must.push(histogram);
+                }
+                if (e.aggregate === "date_histogram") {
+                    logger.error('Filtering by date range is not supported just yet');
+                    isBusy(false);
+                    return;
+                    date_histogram.range[e.field] = {
+                        "gte": parseFloat(e.category),
+                        "lt": ( parseFloat(e.category) + e.query.aggs.category.date_histogram.interval )
+                    };
+
+                    q.query.filtered.filter.bool.must.push(date_histogram);
+                }
+                if (e.aggregate === "term") {
+                    cat.term[e.field] = e.category;
+                    q.query.filtered.filter.bool.must.push(cat);
+                }
+
+
+                context.searchAsync("Patient", q)
+                    .done(function (lo) {
+                        list(lo.itemCollection);
+                        chartFiltered(true);
+                        setTimeout(function () {
+                            isBusy(false);
+                        }, 500);
+                    });
             },
             attached = function () {
-                chart.init('Patient', query, chartSeriesClick, 1005);
+                chart.init("Patient", query, chartSeriesClick, "patients-mulimat");
             },
-            query = {
-                "query": {
-                    "filtered": {
-                        "filter": {
-                            "bool": {
-                                "must": [
-                                    {
-                                        "term": {
-                                            "Religion": "Islam"
-                                        }
-                                    }
-                                    ,
-                                    {
-                                        "term": {
-                                            "Gender": "Female"
-                                        }
-                                    }
-
-                                ],
-                                "must_not": [
-                                    {
-                                        "term": {
-                                            "Status": "Discharged"
-                                        }
-                                    }
-
-                                ]
-                            }
-                        }
-                    }
-                },
-                "sort": [
-                    {"FullName": {"order": "asc"}}
-                ]
+            clearChartFilter = function () {
+                chartFiltered(false);
+                var link = $('div.k-pager-wrap a.k-link').not('a.k-state-disabled').first();
+                link.trigger('click');
+                if (link.text() === "2") {
+                    setTimeout(function () {
+                        $('div.k-pager-wrap a.k-link').not('a.k-state-disabled').first().trigger('click');
+                    }, 500);
+                }
             };
 
         var vm = {
@@ -99,6 +158,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
             activate: activate,
             attached: attached,
             list: list,
+            clearChartFilter: clearChartFilter,
+            chartFiltered: chartFiltered,
             query: query,
             toolbar: {
                 commands: ko.observableArray([])

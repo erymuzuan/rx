@@ -4,7 +4,7 @@ GO
 
 CREATE TABLE Sph.Workflow
 (
-	 [WorkflowId] INT PRIMARY KEY IDENTITY(1,1)	
+	 [Id] VARCHAR(50) PRIMARY KEY NOT NULL
 	,[WorkflowDefinitionId] VARCHAR(255) NULL
 	,[Name] VARCHAR(255) NULL
 	,[Version] INT NOT NULL

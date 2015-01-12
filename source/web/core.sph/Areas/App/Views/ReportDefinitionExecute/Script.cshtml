@@ -6,13 +6,13 @@
 }
 
 <script type="text/javascript" data-script="true">
-    define(['services/datacontext'], function (context) {
+    define(['services/datacontext', 'durandal/app'], function (context, app) {
         var isBusy = ko.observable(false),
             id = 0,
             activate = function (rid) {
                 id = parseInt(rid);
 
-                var query = String.format("ReportDefinitionId eq {0}", @Model.ReportDefinitionId),
+                var query = "Id eq '@Model.Id'",
                     tcs = new $.Deferred();
 
 
@@ -26,7 +26,16 @@
                 $('#parameters-dialog').modal();
             },
             exportCommand = function () {
+                var tcs = new $.Deferred();
+                app.showMessage("Not implemented", "Rx Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
 
+                        }
+                    tcs.resolve();
+                });
+
+                return tcs.promise();
             },
             print = function () {
 

@@ -9,7 +9,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     public class ImageController : Controller
     {
-
         public async Task<ActionResult> Store(string id)
         {
             if (string.IsNullOrWhiteSpace(id))

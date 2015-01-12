@@ -1,5 +1,5 @@
 ﻿
-/// <reference path="~/scripts/knockout-3.1.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.2.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -12,7 +12,7 @@ bespoke.sph.domain.ReportDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReportDefinition, domain.sph",
-        ReportDefinitionId: ko.observable(0),
+        Id: ko.observable("0"),
         Title: ko.observable(''),
         Category: ko.observable(''),
         IsActive: ko.observable(false),
@@ -81,8 +81,11 @@ bespoke.sph.domain.BarChartItem = function (optionOrWebid) {
     var v = new bespoke.sph.domain.ReportItem(optionOrWebid);
 
     v.ValueLabelFormat = ko.observable('');
+
     v.HorizontalAxisField = ko.observable('');
+
     v.Title = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.BarChartItem, domain.sph";
 
     v.ChartSeriesCollection = ko.observableArray([]);
@@ -112,8 +115,11 @@ bespoke.sph.domain.LineChartItem = function (optionOrWebid) {
     var v = new bespoke.sph.domain.ReportItem(optionOrWebid);
 
     v.ValueLabelFormat = ko.observable('');
+
     v.HorizontalAxisField = ko.observable('');
+
     v.Title = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.LineChartItem, domain.sph";
 
     v.ChartSeriesCollection = ko.observableArray([]);
@@ -143,9 +149,13 @@ bespoke.sph.domain.PieChartItem = function (optionOrWebid) {
     var v = new bespoke.sph.domain.ReportItem(optionOrWebid);
 
     v.CategoryField = ko.observable('');
+
     v.ValueField = ko.observable('');
+
     v.Title = ko.observable('');
+
     v.TitlePlacement = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.PieChartItem, domain.sph";
 
 
@@ -486,6 +496,7 @@ bespoke.sph.domain.DailySchedule = function (optionOrWebid) {
     var v = new bespoke.sph.domain.IntervalSchedule(optionOrWebid);
 
     v.Recur = ko.observable(0);
+
     v["$type"] = "Bespoke.Sph.Domain.DailySchedule, domain.sph";
 
 
@@ -514,15 +525,25 @@ bespoke.sph.domain.WeeklySchedule = function (optionOrWebid) {
     var v = new bespoke.sph.domain.IntervalSchedule(optionOrWebid);
 
     v.Hour = ko.observable(0);
+
     v.Minute = ko.observable(0);
+
     v.IsSunday = ko.observable(false);
+
     v.IsMonday = ko.observable(false);
+
     v.IsTuesday = ko.observable(false);
+
     v.IsWednesday = ko.observable(false);
+
     v.IsThursday = ko.observable(false);
+
     v.IsFriday = ko.observable(false);
+
     v.IsSaturday = ko.observable(false);
+
     v.Recur = ko.observable(0);
+
     v["$type"] = "Bespoke.Sph.Domain.WeeklySchedule, domain.sph";
 
 
@@ -551,21 +572,37 @@ bespoke.sph.domain.MonthlySchedule = function (optionOrWebid) {
     var v = new bespoke.sph.domain.IntervalSchedule(optionOrWebid);
 
     v.Day = ko.observable(0);
+
     v.Hour = ko.observable(0);
+
     v.Minute = ko.observable(0);
+
     v.IsJanuary = ko.observable(false);
+
     v.IsFebruary = ko.observable(false);
+
     v.IsMarch = ko.observable(false);
+
     v.IsApril = ko.observable(false);
+
     v.IsMay = ko.observable(false);
+
     v.IsJune = ko.observable(false);
+
     v.IsJuly = ko.observable(false);
+
     v.IsAugust = ko.observable(false);
+
     v.IsSeptember = ko.observable(false);
+
     v.IsOctober = ko.observable(false);
+
     v.IsNovember = ko.observable(false);
+
     v.IsDecember = ko.observable(false);
+
     v.IsLastDay = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.MonthlySchedule, domain.sph";
 
     v.Days = ko.observableArray([]);
@@ -594,11 +631,11 @@ bespoke.sph.domain.ReportDelivery = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReportDelivery, domain.sph",
-        ReportDeliveryId: ko.observable(0),
+        Id: ko.observable("0"),
         IsActive: ko.observable(false),
         Title: ko.observable(''),
         Description: ko.observable(''),
-        ReportDefinitionId: ko.observable(0),
+        ReportDefinitionId: ko.observable(''),
         IntervalScheduleCollection: ko.observableArray([]),
         Users: ko.observableArray([]),
         Departments: ko.observableArray([]),
@@ -629,9 +666,8 @@ bespoke.sph.domain.ReportContent = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReportContent, domain.sph",
-        ReportContentId: ko.observable(0),
-        ReportDefinitionId: ko.observable(0),
-        ReportDeliveryId: ko.observable(0),
+        ReportDefinitionId: ko.observable(''),
+        ReportDeliveryId: ko.observable(''),
         HtmlOutput: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()

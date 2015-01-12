@@ -1,0 +1,34 @@
+<section class="view-model-modal" id="formatting-functoid-editor-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        data-bind="click : cancelClick">&times;</button>
+                <h3>Functoid Properties Editor</h3>
+            </div>
+            <div class="modal-body" data-bind="with:functoid">
+
+                <form class="form-horizontal" id="formatting-functoid-form">
+                    <div class="form-group">
+                        <label for="format" class="col-sm-2 control-label">Formatting</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" id="format" data-bind="value: Format" name="format"/>
+                        </div>
+                    </div>
+                </form>
+                <pre>
+Must be a valid .Net formatting string in this format {0:fomatting}
+e.g. RM {0:F2} for 2 decimal points
+or   RM {0:F0}.00 to round up
+</pre>
+
+            </div>
+            <div class="modal-footer">
+                <input form="formatting-functoid-form"  data-dismiss="modal" type="submit" class="btn btn-default"
+                       value="OK" data-bind="click: okClick"/>
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

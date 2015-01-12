@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
-<xs:schema xmlns="http://tempuri.org/FormDesigner.xsd" xmlns:mstns="http://tempuri.org/FormDesigner.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/TriggersWorkflow.xsd" targetNamespace="http://tempuri.org/FormDesigner.xsd" elementFormDefault="qualified" id="FormDesigner">
+<xs:schema xmlns="http://tempuri.org/FormDesigner.xsd" xmlns:mstns="http://tempuri.org/FormDesigner.xsd" xmlns:bspk="http://www.bespoke.com.my/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/TriggersWorkflow.xsd" targetNamespace="http://tempuri.org/FormDesigner.xsd" elementFormDefault="qualified" id="FormDesigner">
 	<xs:element name="FormDesign">
 		<xs:complexType>
 			<xs:all>
@@ -340,7 +340,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="EntityDefinition">
+	<xs:element name="EntityDefinition" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="MemberCollection">
@@ -373,7 +373,6 @@
 				</xs:element>
 				<xs:element ref="Performer"/>
 			</xs:all>
-			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Plural" type="xs:string" use="required"/>
 			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
@@ -412,7 +411,7 @@
 			<xs:attribute name="Boost" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="EntityForm">
+	<xs:element name="EntityForm" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element ref="FormDesign"/>
@@ -430,9 +429,15 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="FormLayoutCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="FormLayout" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
-			<xs:attribute name="EntityFormId" type="xs:int" use="required"/>
-			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityDefinitionId" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
@@ -451,9 +456,26 @@
 			<xs:attribute name="Operation" type="xs:string" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="Partial" type="xs:string" use="optional"/>
+			<xs:attribute name="Caption" type="xs:string" use="optional"/>
+			<xs:attribute name="Layout" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="EntityView">
+	<xs:element name="FormLayout">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Content" type="xs:string"/>
+				<xs:element name="XsmallCol" type="xs:int" nillable="true"/>
+				<xs:element name="MediumCol" type="xs:int" nillable="true"/>
+				<xs:element name="SmallCol" type="xs:int" nillable="true"/>
+				<xs:element name="LargeCol" type="xs:int" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Position" type="xs:string" use="required"/>
+			<xs:attribute name="IsForm" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsAuditTrail" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EntityView" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="FilterCollection">
@@ -493,10 +515,9 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>
 			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
-			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityDefinitionId" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
@@ -506,6 +527,7 @@
 			<xs:attribute name="TileColour" type="xs:string" use="required"/>
 			<xs:attribute name="CountMessage" type="xs:string" use="optional"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="Partial" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Filter">
@@ -652,7 +674,7 @@
 			<xs:documentation>Placeholder</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="EntityChart">
+	<xs:element name="EntityChart" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="HistogramInterval" type="xs:int" nillable="true"/>
@@ -664,12 +686,11 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="EntityChartId" type="xs:int" use="required"/>
-			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityDefinitionId" type="xs:string" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
-			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityViewId" type="xs:string" use="required"/>
 			<xs:attribute name="Query" type="xs:string" use="required"/>
 			<xs:attribute name="Aggregate" type="xs:string" use="required"/>
 			<xs:attribute name="Field" type="xs:string" use="required"/>
@@ -689,7 +710,7 @@
 			<xs:attribute name="DateInterval" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="SearchDefinition">
+	<xs:element name="SearchDefinition" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="FilterCollection">
@@ -714,7 +735,6 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="SearchDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>

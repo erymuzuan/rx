@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Humanizer;
 using Microsoft.CSharp;
 using Newtonsoft.Json;
 
@@ -21,16 +22,18 @@ namespace Bespoke.Sph.Domain
             return trigger;
         }
 
+
         public async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
         {
             var code = await this.GenerateCodeAsync();
+
             Debug.WriteLineIf(options.IsVerbose, code);
 
             var sourceFile = string.Empty;
             if (!string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
             {
                 sourceFile = Path.Combine(options.SourceCodeDirectory,
-                    string.Format("{0}.cs", this.Name));
+                    string.Format("{0}.cs", this.Id));
                 File.WriteAllText(sourceFile, code);
             }
 
@@ -39,7 +42,7 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("subscriber.trigger.{0}.dll", this.TriggerId)),
+                    OutputAssembly = Path.Combine(outputPath, string.Format("subscriber.trigger.{0}.dll", this.Id)),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 
@@ -49,7 +52,7 @@ namespace Bespoke.Sph.Domain
 
                 var subscriberInfraDll = Path.Combine(ConfigurationManager.SubscriberPath, "subscriber.infrastructure.dll");
                 options.ReferencedAssembliesLocation.Add(subscriberInfraDll);
-          
+
                 parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
@@ -60,6 +63,11 @@ namespace Bespoke.Sph.Domain
                 {
                     parameters.ReferencedAssemblies.Add(ass);
                 }
+                foreach (var ra in this.ReferencedAssemblyCollection)
+                {
+                    parameters.ReferencedAssemblies.Add(ra.Location);
+                }
+
                 var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
                     : provider.CompileAssemblyFromSource(parameters, code);
                 var cr = new WorkflowCompilerResult
@@ -74,6 +82,10 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public string ClassName
+        {
+            get { return (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "TriggerSubscriber").Replace("TriggerTrigger", "Trigger"); }
+        }
         public async Task<string> GenerateCodeAsync()
         {
             var context = new SphDataContext();
@@ -81,21 +93,21 @@ namespace Bespoke.Sph.Domain
 
 
             var routingKeys = new List<string>();
-            if(this.IsFiredOnAdded)
+            if (this.IsFiredOnAdded)
                 routingKeys.Add(string.Format("{0}.added.#", this.Entity));
-            if(this.IsFiredOnChanged)
+            if (this.IsFiredOnChanged)
                 routingKeys.Add(string.Format("{0}.changed.#", this.Entity));
-            if(this.IsFiredOnDeleted)
+            if (this.IsFiredOnDeleted)
                 routingKeys.Add(string.Format("{0}.deleted.#", this.Entity));
-            var ops = this.FiredOnOperations.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries)
+            var ops = this.FiredOnOperations.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => string.Format("{0}.#.{1}", this.Entity, s));
             routingKeys.AddRange(ops);
 
-            var keys =string.Join(",\r\n",routingKeys.Select(s => string.Format("\"{0}\"", s)).ToArray());
+            var keys = string.Join(",\r\n", routingKeys.Select(s => string.Format("\"{0}\"", s)).ToArray());
 
             var code = new StringBuilder();
             var edTypeFullName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName,
-                ed.EntityDefinitionId, ed.Name);
+                ed.Id, ed.Name);
             code.AppendLine("using " + typeof(Trigger).Namespace + ";");
             code.AppendLine("using " + typeof(Int32).Namespace + ";");
             code.AppendLine("using " + typeof(Task<>).Namespace + ";");
@@ -106,8 +118,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("namespace " + this.CodeNamespace);
             code.AppendLine("{");
 
-            code.AppendLinf("   public class Trigger{0}Subscriber: Subscriber<{1}>", 
-                this.TriggerId, edTypeFullName);
+            code.AppendLinf("   public class {0}: Subscriber<{1}>",
+                this.ClassName, edTypeFullName);
             code.AppendLine("   {");
 
             code.AppendFormat(@"  
@@ -124,7 +136,7 @@ namespace Bespoke.Sph.Domain
         protected override async Task ProcessMessage({2} item, MessageHeaders header)
         {{
             var context = new SphDataContext();
-            var trigger = await context.LoadOneAsync<Trigger>(t => t.TriggerId == {1});
+            var trigger = await context.LoadOneAsync<Trigger>(t => t.Id == ""{1}"");
 
             this.WriteMessage(""Running triggers({{0}}) with {{1}} actions and {{2}} rules"", trigger.Name,
                 trigger.ActionCollection.Count(x => x.IsActive),
@@ -149,7 +161,7 @@ namespace Bespoke.Sph.Domain
             }}
 
 
-            foreach (var customAction in trigger.ActionCollection.Where(a => a.IsActive))
+            foreach (var customAction in trigger.ActionCollection.Where(a => a.IsActive && !a.UseCode))
             {{
                 this.WriteMessage("" ==== Executing {{0}} ======"", customAction.Title);
                 if (customAction.UseAsync)
@@ -159,9 +171,29 @@ namespace Bespoke.Sph.Domain
 
                 this.WriteMessage(""done..."");
             }}
-        }}", keys, this.TriggerId, edTypeFullName);
+        ", keys, this.Id, edTypeFullName);
 
+
+            int count = 1;
+            foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
+            {
+                var method = ca.Title.ToCsharpIdentitfier();
+                code.AppendLinf("   var ca{0} = trigger.ActionCollection.Single(x => x.Title == \"{1}\");", count, method);
+                code.AppendLinf("           if(ca{0}.IsActive)", count, method);
+                code.AppendLinf("               await this.{0}(item);", method, edTypeFullName);
+                code.AppendLine();
+                count++;
+            }
+            code.AppendLine("}");
             code.AppendLine();
+            foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
+            {
+                var method = ca.Title.ToCsharpIdentitfier();
+                code.AppendLinf("       public async Task<object> {0}({1} item)", method, edTypeFullName);
+                code.AppendLine("       {");
+                ca.GeneratorCode().Split(new[] { "\r\n" }, StringSplitOptions.None).ToList().ForEach(x => code.AppendLine("            " + x));
+                code.AppendLine("       }");
+            }
             code.AppendLine("   }");// end class
 
 
@@ -177,13 +209,13 @@ namespace Bespoke.Sph.Domain
             File.WriteAllText(temp, code);
             var sources = File.ReadAllLines(temp);
             var list = (from object er in result.Errors.OfType<CompilerError>()
-                        select this.GetSourceError(er as CompilerError, sources));
+                        select GetSourceError(er as CompilerError, sources));
             File.Delete(temp);
 
             return list;
         }
 
-        private BuildError GetSourceError(CompilerError er, string[] sources)
+        private static BuildError GetSourceError(CompilerError er, IList<string> sources)
         {
             var member = string.Empty;
             for (var i = 0; i < er.Line; i++)
@@ -193,11 +225,22 @@ namespace Bespoke.Sph.Domain
             }
             var message = er.ErrorText;
 
-            return new BuildError(member, message)
+            try
             {
-                Code = sources[er.Line - 1],
-                Line = er.Line
-            };
+                return new BuildError(member, message)
+                {
+                    Code = sources[er.Line - 1],
+                    Line = er.Line
+                };
+            }
+            catch (Exception)
+            {
+                return new BuildError(member, message)
+                {
+                    Code = "",
+                    Line = er.Line
+                };
+            }
 
         }
     }

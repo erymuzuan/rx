@@ -74,7 +74,7 @@ namespace Bespoke.Sph.SqlRepository
                             };
                         column.CanWrite |= !column.IsIdentity;
                         column.CanRead = true;
-                        column.IsPrimaryKey = column.IsIdentity;
+                        column.IsPrimaryKey = column.Name == "Id";
 
                         // SpatialEntity
                         if (new[] { "Path", "EncodedWkt", "Wkt" }.Contains(column.Name)) continue;

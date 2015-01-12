@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Domain
         public IQueryable<T> CreateQueryable<T>()
         {
             return new Query<T>(m_provider);
-        } 
+        }
 
 
         public PersistenceSession OpenSession()
@@ -66,58 +66,18 @@ namespace Bespoke.Sph.Domain
             return session;
         }
 
-        private async Task<IEnumerable<Entity>> GetPreviousItems(IEnumerable<Entity> items)
+        internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session, IDictionary<string, object> headers)
         {
-            var list = new ObjectCollection<Entity>();
-            foreach (var item in items)
-            {
-                var o1 = item;
-                var type = item.GetEntityType();
-                var reposType = typeof(IRepository<>).MakeGenericType(new[] { type });
-                var repos = ObjectBuilder.GetObject(reposType);
-
-                var p = await repos.LoadOneAsync(o1.GetId()).ConfigureAwait(false);
-                list.Add(p);
-
-
-            }
-            return list;
-        }
-
-        internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session, Dictionary<string, object> headers)
-        {
-            var addedItems = session.AttachedCollection.Where(t => t.GetId() == 0).ToArray();
-            var changedItems = session.AttachedCollection.Where(t => t.GetId() > 0).ToArray();
-
-            var ds = ObjectBuilder.GetObject<IDirectoryService>();
-            var previous = await GetPreviousItems(changedItems);
-            // get changes to items
-            var logs = (from e in changedItems
-                        let e1 = previous.SingleOrDefault(t => t.WebId == e.WebId)
-                        where null != e1
-                        let diffs = (new ChangeGenerator().GetChanges(e1, e))
-                        select new AuditTrail(diffs)
-                        {
-                            Operation = operation,
-                            DateTime = DateTime.Now,
-                            User = ds.CurrentUserName,
-                            Type = e.GetType().Name,
-                            EntityId = e.GetId(),
-                            Note = "-"
-                        }).ToArray();
-            session.AttachedCollection.AddRange(logs.Cast<Entity>());
-
-            var persistence = ObjectBuilder.GetObject<IPersistence>();
-            var so = await persistence.SubmitChanges(session.AttachedCollection, session.DeletedCollection, session)
-                .ConfigureAwait(false);
+            if(null == headers)
+                headers = new Dictionary<string, object>();
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
-            var logsAddedTask = publisher.PublishAdded(operation, logs, headers);
-            var addedTask = publisher.PublishAdded(operation, addedItems, headers);
-            var changedTask = publisher.PublishChanges(operation, changedItems, logs, headers);
-            var deletedTask = publisher.PublishDeleted(operation, session.DeletedCollection, headers);
-            await Task.WhenAll(addedTask, changedTask, deletedTask, logsAddedTask).ConfigureAwait(false);
+            var so = new SubmitOperation { Token = Guid.NewGuid().ToString() };
+            headers.AddOrReplace("sph.token", so.Token);
+            headers.AddOrReplace("sph.timestamp", DateTime.Now.ToString("s"));
 
+            await publisher.SubmitChangesAsync(operation, session.AttachedCollection, session.DeletedCollection, headers)
+                .ConfigureAwait(false);
 
             return so;
         }

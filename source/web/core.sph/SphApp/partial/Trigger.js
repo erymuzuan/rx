@@ -14,43 +14,55 @@
 bespoke.sph.domain.TriggerPartial = function () {
 
     var system = require('durandal/system'),
-        removeAction = function(action) {
+        removeAction = function (action) {
             var self = this;
-            return function() {
+            return function () {
                 self.ActionCollection.remove(action);
             };
         },
         addAction = function (type) {
             var self = this;
             return function () {
-                var action = new bespoke.sph.domain[type + 'Action'](system.guid());
-                
-                require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
-                    dialog.action(action);
+                var t = type.toLowerCase().replace(", ", ",");
+                require(['viewmodels/action.' + t, 'durandal/app'], function (dialog, app2) {
+                    if (typeof dialog.action !== "function") {
+                        console.error("The dialog for " + t + " do not implement action as observable");
+                        return;
+                    }
+
+                    if (typeof dialog.trigger === "function") {
+                        dialog.trigger(self);
+                    }
+
                     app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
+
+                            var action = dialog.action();
+
+                            action.WebId(system.guid());
                             action.IsActive(true);
                             self.ActionCollection.push(action);
                         }
                     });
 
                 });
-                
+
             };
         },
         editAction = function (action) {
             var self = this;
             return function () {
-                var actionType = ko.unwrap(action.$type),
-                    clone = ko.mapping.fromJS(ko.mapping.toJS(action)),
-                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Action,/,
-                    type = pattern.exec(actionType)[1];
+                var type = ko.unwrap(action.$type),
+                    clone = ko.mapping.fromJS(ko.mapping.toJS(action));
 
-                require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                require(['viewmodels/action.' + type.toLowerCase().replace(", ", ","), 'durandal/app'], function (dialog, app2) {
                     dialog.action(clone);
-                    
+                    if (typeof dialog.trigger === "function") {
+                        dialog.trigger(self);
+                    }
+
                     app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
@@ -71,12 +83,42 @@ bespoke.sph.domain.TriggerPartial = function () {
          },
         removeRule = function (rule) {
             var self = this;
-            return function() {
+            return function () {
                 self.RuleCollection.remove(rule);
+            };
+        },
+        
+        addReferencedAssembly = function () {
+            var self = this;
+            require(['viewmodels/assembly.dialog', 'durandal/app'], function (dialog, app2) {
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            _(dialog.selectedAssemblies()).each(function (v) {
+                                self.ReferencedAssemblyCollection.push(v);
+                            });
+                        }
+                    });
+
+            });
+
+
+        },
+        editReferencedAssembly = function (dll) {
+            alert('not implemented' + dll);
+        },
+        removeReferencedAssembly = function (dll) {
+            var self = this;
+            return function () {
+                self.ReferencedAssemblyCollection.remove(dll);
             };
         };
 
     var vm = {
+        editReferencedAssembly: editReferencedAssembly,
+        removeReferencedAssembly: removeReferencedAssembly,
+        addReferencedAssembly: addReferencedAssembly,
         addRule: addRule,
         removeRule: removeRule,
         removeAction: removeAction,

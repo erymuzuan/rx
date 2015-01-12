@@ -32,7 +32,7 @@ namespace Bespoke.Sph.SqlReportDataSource
 
             if (useDefaultColumn)
             {
-                sql.AppendFormat("[{0}Id], [Json] ", dataSource.EntityName);
+                sql.Append("[Id], [Json] ");
             }
             else
             {

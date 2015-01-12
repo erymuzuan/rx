@@ -1,0 +1,136 @@
+﻿<link href="/Content/jsplumb/jsplumb.css" rel="stylesheet" />
+<link href="/Content/transformation-mapping.css" rel="stylesheet" />
+<script src="/Scripts/jsPlumb/bundle.js"></script>
+<h1 data-bind="text:td().Name">Mapping Transform Definition</h1>
+<style type="text/css">
+    .functoid {
+        border: 1px solid #356d55;
+        border: 1px solid rgba(49, 140, 101, 0.33);
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        padding: 5px;
+        cursor: move;
+    }
+
+    #container-canvas {
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAHElEQVQYV2NkIBIwEqmOYVQh3pAiKni6urpmAgAP3AJCVok6LAAAAABJRU5ErkJggg==)repeat;
+        min-height: 800px;
+    }
+
+    .category-common {
+        color: #ff1f46;
+    }
+
+    .category-string {
+        color: green;
+    }
+
+    .category-date {
+        color: #0000ff;
+    }
+
+    .category-null {
+        color: #a908c2;
+    }
+
+    div.error {
+        color: #ff0000;
+        content: "XX";
+    }
+
+    div.fep {
+        width: 15px;
+        height: 15px;
+        background-color: orange;
+        position: absolute;
+        bottom: -7px;
+        right: -7px;
+        cursor: pointer;
+    }
+</style>
+
+
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
+
+
+<div class="row">
+    <div class="col-lg-2">
+        <h3 data-bind="with : td">Source(<span data-bind="text:InputTypeName"></span>)</h3>
+        <a href="#" data-bind="visible:!sourceSchema(), click : editProp" style="margin-top: 50px">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            Pick a source
+            <i class="fa fa-sign-in fa-2x" style="color: green"></i>
+        </a>
+
+        <ul id="source-panel" style="list-style: none;margin-left: -49px"></ul>
+    </div>
+    <div class="col-lg-6" data-bind="with: td">
+        <h3>Maps</h3>
+        <div id="container-canvas" data-bind="foreach: FunctoidCollection">
+            <!-- ko ifnot : ko.unwrap($type) === 'Bespoke.Sph.Domain.SourceFunctoid, domain.sph' -->
+            <div class="functoid" style="z-index: 999" data-bind="style : {'left': X() + 'px','top': Y() + 'px'},
+                attr : {id : WebId},
+                functoidPopover : $data">
+                <div data-bind="with:designer">
+                    <div class="toolbox-item" data-bind="visible: FontAwesomeIcon">
+                        <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon + ' category-' + Category}"></i>
+                    </div>
+                    <div class="toolbox-item" data-bind="visible: BootstrapIcon">
+                        <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon + ' category-' + Category}"></i>
+                    </div>
+                </div>
+
+                <div class="fep"></div>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <h3 data-bind="with : td">Destination(<span data-bind="text:OutputTypeName"></span>)</h3>
+        <a href="#" data-bind="visible:!destinationSchema(), click : editProp" style="margin-top: 50px">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            Pick the output
+            <i class="fa fa-sign-out fa-2x" style="color: blue"></i>
+        </a>
+        <ul id="destination-panel" style="list-style: none;margin-left: -75px"></ul>
+    </div>
+    <div class="col-lg-2" id="functoid-toolbars">
+        <ul id="function-toolbox" class="list-group" data-bind="foreach :functoidToolboxItems">
+            <li class="list-group-item">
+                <div data-bind="with:designer">
+                    <div class="toolbox-item" data-bind="visible: FontAwesomeIcon" style="display: inline-block">
+                        <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon + ' category-' + Category}"></i>
+                    </div>
+                    <div class="toolbox-item" data-bind="visible: BootstrapIcon" style="display: inline-block">
+                        <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon + ' category-' + Category}"></i>
+                    </div>
+                    <span data-bind="text:Name"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+

@@ -10,6 +10,7 @@ using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Properties;
 using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain.Api
@@ -30,10 +31,21 @@ namespace Bespoke.Sph.Domain.Api
                     .ToArray();
         }
 
+        public override Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            var vr = new ObjectCollection<ValidationError>();
+            if (string.IsNullOrWhiteSpace(this.Name))
+                vr.Add("Name", "Name cannot be empty");
+
+            return Task.FromResult(vr.AsEnumerable());
+        }
+
+
+
         public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
-                throw new ArgumentException("No source files supplied for compilation", "files");
+                throw new ArgumentException(Resources.NoSourceSupplied, "files");
             foreach (var cs in files)
             {
                 Debug.WriteLineIf(options.IsVerbose, cs);
@@ -99,7 +111,7 @@ namespace Bespoke.Sph.Domain.Api
             options.AddReference(typeof(System.Data.UpdateStatus));
             options.AddReference(typeof(System.Configuration.ConfigurationManager));
 
-            var sourceFolder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, this.Name);
+            var sourceFolder = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Name);
             var sources = new List<string>();
 
             foreach (var table in this.Tables)
@@ -125,24 +137,32 @@ namespace Bespoke.Sph.Domain.Api
             sources.AddRange(adapterSources);
 
             var odataTranslatorCode = await this.GenerateOdataTranslatorSourceCodeAsync();
-            var odataSource = this.SaveSources(new Dictionary<string, string>
+            if (null != odataTranslatorCode)
             {
+                var odataSource = this.SaveSources(new Dictionary<string, string>
                 {
-                    odataTranslatorCode.Item1,
-                    odataTranslatorCode.Item2
-                }
-            }, sourceFolder);
-            sources.AddRange(odataSource);
+                    {
+                        odataTranslatorCode.Item1,
+                        odataTranslatorCode.Item2
+                    }
+                }, sourceFolder);
+                sources.AddRange(odataSource);
+                
+            }
 
             var pagingCode = await this.GeneratePagingSourceCodeAsync();
-            var pagingSource = this.SaveSources(new Dictionary<string, string>
-            {
+            if (null != pagingCode)
                 {
-                    pagingCode.Item1,
-                    pagingCode.Item2
-                }
-            }, sourceFolder);
-            sources.AddRange(pagingSource);
+                var pagingSource = this.SaveSources(new Dictionary<string, string>
+                {
+                    {
+                        pagingCode.Item1,
+                        pagingCode.Item2
+                    }
+                }, sourceFolder);
+                sources.AddRange(pagingSource);
+                
+            }
 
 
             var result = this.Compile(options, sources.ToArray());
@@ -158,5 +178,11 @@ namespace Bespoke.Sph.Domain.Api
         protected abstract Task<Tuple<string, string>> GenerateOdataTranslatorSourceCodeAsync();
         protected abstract Task<Tuple<string, string>> GeneratePagingSourceCodeAsync();
         protected abstract Task<TableDefinition> GetSchemaDefinitionAsync(string table);
+
+        public virtual  void SaveAssets()
+        {
+
+        }
+
     }
 }

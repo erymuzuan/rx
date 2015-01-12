@@ -38,8 +38,8 @@ namespace sph.builder
         private static void DeployTriggerAssembly(Trigger item)
         {
 
-            var dll = string.Format("subscriber.trigger.{0}.dll", item.TriggerId);
-            var pdb = string.Format("subscriber.trigger.{0}.pdb", item.TriggerId);
+            var dll = string.Format("subscriber.trigger.{0}.dll", item.Id);
+            var pdb = string.Format("subscriber.trigger.{0}.pdb", item.Id);
             var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
             var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
 

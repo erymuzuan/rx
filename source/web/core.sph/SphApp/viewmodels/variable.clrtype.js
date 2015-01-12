@@ -11,23 +11,34 @@ define(['plugins/dialog', objectbuilders.datacontext, objectbuilders.config],
     function (dialog, context, config) {
 
         var entityOptions = ko.observableArray(),
+            assemblyOptions = ko.observableArray(),
+            selectedAssembly = ko.observable(),
+            variable = ko.observable(new bespoke.sph.domain.ClrTypeVariable()),
             activate = function () {
-                var query = String.format("IsPublished eq 1"),
-                    tcs = new $.Deferred();
+                var tcs = new $.Deferred();
 
-                context.loadAsync("EntityDefinition", query)
+                $.get("/transform-definition/assemblies")
                     .then(function (lo) {
-                        var types = _(lo.itemCollection).map(function (v) {
-                            return {
-                                name: v.Name(),
-                                fullName: String.format("Bespoke.{0}_{1}.Domain.{2}, {0}.{2}", config.applicationName, v.EntityDefinitionId(), v.Name())
-                            };
-                        });
-                        entityOptions(types);
+                        assemblyOptions(lo);
                         tcs.resolve(true);
                     });
                 return tcs.promise();
 
+            },
+            attached = function () {
+                selectedAssembly.subscribe(function (dll) {
+
+                    $.get("/transform-definition/types/" + dll)
+                        .then(function (lo) {
+                            var types = _(lo).map(function (v) {
+                                return {
+                                    displayName: v.Name + " (" + v.FullName + ")",
+                                    fullName: v.FullName
+                                };
+                            });
+                            entityOptions(types);
+                        });
+                });
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
@@ -40,9 +51,12 @@ define(['plugins/dialog', objectbuilders.datacontext, objectbuilders.config],
             };
 
         var vm = {
+            selectedAssembly: selectedAssembly,
+            assemblyOptions: assemblyOptions,
             entityOptions: entityOptions,
             activate: activate,
-            variable: ko.observable(new bespoke.sph.domain.ClrTypeVariable()),
+            attached: attached,
+            variable: variable,
             okClick: okClick,
             cancelClick: cancelClick
         };

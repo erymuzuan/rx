@@ -5,56 +5,55 @@
             <i class="fa fa-times"></i>
             Clear chart's filter
         </button>
-        <table class="table table-striped"
-               data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : 'Patient', list:list}">
             <thead>
-            <tr>
-                <th>Name</th>
-                <th>Appointment</th>
-                <th>Age</th>
-                <th>Dob</th>
-                <th>Marital Status</th>
-                <th>Gender</th>
-                <th>Race</th>
-                <th>Religion</th>
-                <th>Admit</th>
-                <th>Discharge</th>
-            </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Appointment</th>
+                    <th>Age</th>
+                    <th>Dob</th>
+                    <th>Marital Status</th>
+                    <th>Gender</th>
+                    <th>Race</th>
+                    <th>Religion</th>
+                    <th>Admit</th>
+                    <th>Discharge</th>
+                </tr>
             </thead>
             <tbody data-bind="foreach :list">
-            <tr data-bind="css : {'success':Religion === 'Islam'}">
+                <tr data-bind="css : {'success':Religion === 'Islam'}">
 
-                <td data-bind="text:FullName"></td>
-                <td>
-                    <a data-bind="attr : {href:'#appointment-for-patients' + '/' + Mrn, title:'Appointment' }">
-                        <i class="fa fa-calendar-o"></i>
-                        <span data-bind="text:Mrn"></span>
-                    </a>
-                </td>
-                <td data-bind="text:Age"></td>
-                <td data-bind="date:Dob"></td>
-                <td data-bind="text:MaritalStatus"></td>
-                <td data-bind="text:Gender"></td>
-                <td data-bind="text:Race"></td>
-                <td data-bind="text:Religion"></td>
-                <td>
-                    <a data-bind="attr : {href:'#admission-form' + '/' + PatientId, title:'Admit' }">
-                        <i class="fa fa-hospital-o fa-2x"></i>
-                        <span data-bind="text:PassportNo"></span>
-                    </a>
-                </td>
-                <td>
-                    <a data-bind="attr : {href:'#patient-discharge-form' + '/' + PatientId, title:'Discharge' }">
-                        <i class="fa fa-wheelchair o fa-2x"></i>
-                        <span data-bind="text:PassportNo"></span>
-                    </a>
-                </td>
+                    <td data-bind="text:FullName"></td>
+                    <td>
+                        <a data-bind="attr : {href:'#appointment-for-patients' + '/' + Mrn, title:'Appointment' }">
+                            <i class="fa fa-calendar-o"></i>
+                                                        <span data-bind="text:Mrn"></span>
+                        </a>
+                    </td>
+                    <td data-bind="text:Age"></td>
+                    <td data-bind="date:Dob"></td>
+                    <td data-bind="text:MaritalStatus"></td>
+                    <td data-bind="text:Gender"></td>
+                    <td data-bind="text:Race"></td>
+                    <td data-bind="text:Religion"></td>
+                    <td>
+                        <a data-bind="attr : {href:'#admission-form' + '/' + Id, title:'Admit' }">
+                            <i class="fa fa-hospital-o fa-2x"></i>
+                                                        <span data-bind="text:PassportNo"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a data-bind="attr : {href:'#patient-discharge-form' + '/' + Id, title:'Discharge' }">
+                            <i class="fa fa-wheelchair o fa-2x"></i>
+                                                        <span data-bind="text:PassportNo"></span>
+                        </a>
+                    </td>
 
 
-            </tr>
+                </tr>
             </tbody>
         </table>
-        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy"/>
+        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
     </div>
 
     <!-- ko compose : {view : '_chart.panel'}-->

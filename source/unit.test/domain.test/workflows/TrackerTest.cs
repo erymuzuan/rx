@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
 using NUnit.Framework;
@@ -24,7 +25,7 @@ namespace domain.test.workflows
         [Test]
         public void GetTracker()
         {
-            var wf = new TestWorkflowForTracker { WorkflowDefinitionId = 5, WorkflowId = 1 };
+            var wf = new TestWorkflowForTracker { WorkflowDefinitionId = 5.ToString(CultureInfo.CurrentCulture), Id = "1" };
             var tracker = wf.GetTrackerAsync();
             Assert.IsNotNull(tracker);
 
@@ -35,7 +36,7 @@ namespace domain.test.workflows
         {
             var wd = new WorkflowDefinition
             {
-                WorkflowDefinitionId = 1,
+                Id = 1.ToString(CultureInfo.CurrentCulture),
                 Name = "Test start screen"
             };
             wd.ActivityCollection.Add(new ScreenActivity
@@ -45,7 +46,7 @@ namespace domain.test.workflows
                 WebId = "A",
                 Performer = new Performer { IsPublic = true }
             });
-            var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = 1, WorkflowId = 0 };
+            var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = "1", Id= "0" };
             var tracker = await wf.GetTrackerAsync();
             Assert.IsNotNull(tracker);
 
@@ -58,7 +59,7 @@ namespace domain.test.workflows
         {
             var wd = new WorkflowDefinition
             {
-                WorkflowDefinitionId = 1,
+                Id = "1",
                 Name = "Test start screen"
             };
 
@@ -77,7 +78,7 @@ namespace domain.test.workflows
                 Performer = new Performer { UserProperty = "UserName", Value = "admin" }
             });
 
-            var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = 1, WorkflowId = 0 };
+            var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = "1", Id = "0" };
             var tracker = await wf.GetTrackerAsync();
 
             var resultA = await wf.ExecuteAsync("A");
@@ -96,7 +97,7 @@ namespace domain.test.workflows
         {
             var wd = new WorkflowDefinition
             {
-                WorkflowDefinitionId = 1,
+                Id = "1",
                 Name = "Test start screen"
             };
 
@@ -116,7 +117,7 @@ namespace domain.test.workflows
             });
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
 
-            var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = 1, WorkflowId = 0 };
+            var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = "1", Id = "0" };
             var tracker = await wf.GetTrackerAsync();
 
             var resultA = await wf.ExecuteAsync("A");
@@ -138,7 +139,7 @@ namespace domain.test.workflows
         {
             var wd = new WorkflowDefinition
             {
-                WorkflowDefinitionId = 1,
+                Id = "1",
                 Name = "Test start screen"
             };
 
@@ -159,7 +160,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(screenB);
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
 
-            var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = 1, WorkflowId = 0 };
+            var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = "1", Id = "0" };
             var tracker = await wf.GetTrackerAsync();
 
             var resultA = await wf.ExecuteAsync("A");

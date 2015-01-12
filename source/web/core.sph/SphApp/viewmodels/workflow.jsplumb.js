@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -19,7 +19,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
             activate = function (id) {
                 isBusy(true);
-                var query = String.format("WorkflowDefinitionId eq {0}", id),
+                var query = String.format("Id eq '{0}'", id),
                     tcs = new $.Deferred();
 
                 context.loadOneAsync("WorkflowDefinition", query)

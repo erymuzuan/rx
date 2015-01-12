@@ -19,7 +19,7 @@ namespace domain.test.workflows
                 .Returns(Task.FromResult(0));
             ObjectBuilder.AddCacheList(ts.Object);
 
-            var wd = this.Create(25);
+            var wd = this.Create("Wf25");
             wd.ActivityCollection.Add(new ScreenActivity { Name = "Start isi borang", IsInitiator = true, WebId = "A", NextActivityWebId = "B" });
             wd.ActivityCollection.Add(new DelayActivity { Name = "Wait Delay", Seconds = 1, WebId = "B", NextActivityWebId = "C" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "C", Name = "Habis" });
@@ -30,7 +30,7 @@ namespace domain.test.workflows
             var resultA = await wf.ExecuteAsync("A");
             CollectionAssert.Contains(resultA.NextActivities, "B");
 
-            var initB = await wf.InitiateAsyncExecDelayActivityWaitDelay_BAsync();//this.GetType().Name, name, unique)
+            var initB = await wf.InitiateAsyncWaitDelayAsync();//this.GetType().Name, name, unique)
             Assert.IsNotNullOrEmpty(initB.Correlation);
             CollectionAssert.Contains(scheduledTask, "Wait Delay");
 
@@ -47,7 +47,7 @@ namespace domain.test.workflows
                 .Returns(Task.FromResult(0));
             ObjectBuilder.AddCacheList(ts.Object);
 
-            var wd = this.Create(586);
+            var wd = this.Create("Wf586");
             wd.ActivityCollection.Add(new ScreenActivity { Name = "Start isi borang", IsInitiator = true, WebId = "A", NextActivityWebId = "B" });
             wd.ActivityCollection.Add(new DelayActivity { Name = "Wait Delay", Seconds = 1, WebId = "B", NextActivityWebId = "C" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "C", Name = "Habis" });
@@ -58,7 +58,7 @@ namespace domain.test.workflows
             var resultA = await wf.ExecuteAsync("A");
             CollectionAssert.Contains(resultA.NextActivities, "B");
 
-            var initB = await wf.InitiateAsyncExecDelayActivityWaitDelay_BAsync();//this.GetType().Name, name, unique
+            var initB = await wf.InitiateAsyncWaitDelayAsync();//this.GetType().Name, name, unique
             Assert.IsNotNullOrEmpty(initB.Correlation);
             CollectionAssert.Contains(scheduledTask, "Wait Delay");
 

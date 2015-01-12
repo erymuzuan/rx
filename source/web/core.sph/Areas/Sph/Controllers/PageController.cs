@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.Web.ViewModels;
 using DiffPlex;
 using DiffPlex.DiffBuilder;
 
@@ -34,30 +35,30 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(new { status = "OK", success = true });
         }
 
-        public async Task<ActionResult> DownloadLog(int id)
+        public async Task<ActionResult> DownloadLog(string id)
         {
             var context = new SphDataContext();
-            var log = await context.LoadOneAsync<AuditTrail>(d => d.AuditTrailId == id);
+            var log = await context.LoadOneAsync<AuditTrail>(d => d.Id == id);
             if (null == log) return new HttpNotFoundResult("canno find code for log " + id);
             var change = log.ChangeCollection.SingleOrDefault(c => c.PropertyName == "Code");
             if (null == change) return new HttpNotFoundResult("no code for log " + id);
 
-            var page = await context.LoadOneAsync<Page>(p => p.PageId == log.EntityId);
+            var page = await context.LoadOneAsync<Page>(p => p.Id == log.EntityId);
 
             var content = Encoding.UTF8.GetBytes(change.OldValue);
             return File(content, "application/text", System.IO.Path.GetFileName(page.VirtualPath));
 
         }
 
-        public async Task<ActionResult> Compare(int id)
+        public async Task<ActionResult> Compare(string id)
         {
             var context = new SphDataContext();
-            var log = await context.LoadOneAsync<AuditTrail>(d => d.AuditTrailId == id);
+            var log = await context.LoadOneAsync<AuditTrail>(d => d.Id == id);
             if (null == log) return new HttpNotFoundResult("canno find code for log " + id);
             var change = log.ChangeCollection.SingleOrDefault(c => c.PropertyName == "Code");
             if (null == change) return new HttpNotFoundResult("no code for log " + id);
 
-            var page = await context.LoadOneAsync<Page>(p => p.PageId == log.EntityId);
+            var page = await context.LoadOneAsync<Page>(p => p.Id == log.EntityId);
             var vm = new PageCompareViewModel { Latest = page.Code, Old = change.OldValue, LogId = id };
 
 
@@ -67,13 +68,5 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return View(vm);
 
         }
-    }
-
-    public class PageCompareViewModel
-    {
-        public string Latest { get; set; }
-        public string Old { get; set; }
-        public int LogId { get; set; }
-        public DiffPlex.DiffBuilder.Model.SideBySideDiffModel Diff { get; set; }
     }
 }

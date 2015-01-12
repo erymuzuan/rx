@@ -12,7 +12,7 @@ namespace sph.builder
         {
             await base.RestoreAllAsync();
 
-            var folder = ConfigurationManager.WorkflowSourceDirectory + @"\EntityView";
+            var folder = ConfigurationManager.SphSourceDirectory + @"\EntityView";
             foreach (var file in Directory.GetFiles(folder, "*.json"))
             {
                 var json = File.ReadAllText(file);
@@ -25,7 +25,7 @@ namespace sph.builder
 
         private async Task InsertIconAsync(EntityView ed)
         {
-            var wc = ConfigurationManager.WorkflowSourceDirectory;
+            var wc = ConfigurationManager.SphSourceDirectory;
             var folder = Path.Combine(wc, typeof(EntityView).Name);
             var icon = Path.Combine(folder, ed.Name + ".png");
             if (!File.Exists(icon)) return;
@@ -35,7 +35,7 @@ namespace sph.builder
             {
                 Content = File.ReadAllBytes(icon),
                 Extension = ".png",
-                StoreId = ed.IconStoreId,
+                Id = ed.IconStoreId,
                 FileName = ed.Name + ".png",
                 WebId = ed.IconStoreId
             };

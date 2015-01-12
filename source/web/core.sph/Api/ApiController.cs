@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.Web.Properties;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Api
@@ -26,6 +28,12 @@ namespace Bespoke.Sph.Web.Api
         {
             return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
         }
+        [Route("adapter")]
+        public async Task<ActionResult> Adapter(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Adapter>(filter, page, size, includeTotal);
+        }
+
         [Route("Designation")]
         public async Task<ActionResult> Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
@@ -137,6 +145,13 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteAsync<Watcher>(filter, page, size, includeTotal);
         }
 
+        [Route("TransformDefinition")]
+        public async Task<ActionResult> TransformDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<TransformDefinition>(filter, page, size, includeTotal);
+        }
+
+
         [Route("WorkflowDefinition")]
         public async Task<ActionResult> WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
@@ -154,7 +169,7 @@ namespace Bespoke.Sph.Web.Api
         public async Task<ActionResult> Index(string typeName, string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             if (size > 200)
-                throw new ArgumentException("Your are not allowed to do more than 200", "size");
+                throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, "size");
 
 
             var orderby = this.Request.QueryString["$orderby"];
@@ -166,7 +181,7 @@ namespace Bespoke.Sph.Web.Api
 
             if (includeTotal || page > 1)
             {
-                var translator2 = new CustomEntityRestSqlTranslator(typeName + "Id", typeName);
+                var translator2 = new CustomEntityRestSqlTranslator("Id", typeName);
                 var sumSql = translator2.Count(filter);
                 rows = await ExecuteScalarAsync(sumSql);
 
@@ -176,8 +191,8 @@ namespace Bespoke.Sph.Web.Api
 
             }
 
-            string previousPageToken = DateTime.Now.ToShortTimeString();
-            var json =new  StringBuilder("{");
+            var previousPageToken = DateTime.Now.ToShortTimeString();
+            var json = new StringBuilder("{");
             json.AppendLinf("   \"results\":[{0}],", string.Join(",\r\n", list));
             json.AppendLinf("   \"rows\":{0},", rows);
             json.AppendLinf("   \"page\":{0},", page);
@@ -191,16 +206,16 @@ namespace Bespoke.Sph.Web.Api
             return Content(json.ToString());
         }
 
-        private async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false, Action<IEnumerable<T>> processAction = null ) where T : Entity
+        private async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false, Action<IEnumerable<T>> processAction = null) where T : Entity
         {
             if (size > 200)
-                throw new ArgumentException("Your are not allowed to do more than 200", "size");
+                throw new ArgumentException(Resources.ApiControllerYouAreNotAllowedToDoMoreThan200, "size");
 
             var typeName = typeof(T).Name;
 
             var orderby = this.Request.QueryString["$orderby"];
-            var translator = new OdataSqlTranslator<T>(null, typeName);
-            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ? typeof(T).Name + "Id gt 0" : filter, orderby);
+            var translator = new OdataSqlTranslator(null, typeName);
+            var sql = translator.Select(string.IsNullOrWhiteSpace(filter) ?  "Id ne ''" : filter, orderby);
             var rows = 0;
             var nextPageToken = "";
             var list = await this.ExecuteListTupleAsync<T>(sql, page, size);
@@ -209,13 +224,13 @@ namespace Bespoke.Sph.Web.Api
 
             if (includeTotal || page > 1)
             {
-                var translator2 = new OdataSqlTranslator<T>(typeName + "Id", typeName);
+                var translator2 = new OdataSqlTranslator("Id", typeName);
                 var sumSql = translator2.Count(filter);
                 rows = await ExecuteScalarAsync(sumSql);
 
                 if (rows >= list.Count)
                     nextPageToken = string.Format(
-                        "/Api/{3}/?filer={0}&includeTotal=true&page={1}&size={2}", filter, page + 1, size, typeName);
+                        "/api/{3}/?filer={0}&includeTotal=true&page={1}&size={2}", filter, page + 1, size, typeName);
             }
 
             string previousPageToken = DateTime.Now.ToShortTimeString();
@@ -255,7 +270,7 @@ namespace Bespoke.Sph.Web.Api
             var sql2 = sql;
             if (!sql2.Contains("ORDER"))
             {
-                sql2 += string.Format("\r\nORDER BY [{0}Id]", type);
+                sql2 += "\r\nORDER BY [Id]";
             }
 
             var paging = ObjectBuilder.GetObject<IPagingTranslator2>();
@@ -270,9 +285,9 @@ namespace Bespoke.Sph.Web.Api
                 {
                     while (reader.Read())
                     {
-                        var id = reader.GetInt32(0);
+                        var id = reader.GetString(0);
                         var json = reader.GetString(1)
-                            .Replace(type + "Id\":0", type+ "Id\":" + id);
+                            .Replace( "Id\":0", type + "Id\":\"" + id + "\"");
                         result.Add(json);
                     }
                 }
@@ -283,13 +298,10 @@ namespace Bespoke.Sph.Web.Api
 
         private async Task<List<T>> ExecuteListTupleAsync<T>(string sql, int page, int size) where T : Entity
         {
-            var type = typeof(IRepository<T>);
-            dynamic repos = ObjectBuilder.GetObject(type);
-
             var sql2 = sql;
             if (!sql2.Contains("ORDER"))
             {
-                sql2 += string.Format("\r\nORDER BY [{0}Id]", typeof(T).Name);
+                sql2 += "\r\nORDER BY [Id]";
             }
 
             var paging = ObjectBuilder.GetObject<IPagingTranslator2>();
@@ -304,18 +316,11 @@ namespace Bespoke.Sph.Web.Api
                 {
                     while (reader.Read())
                     {
-                        var id = reader.GetInt32(0);
-                        var prop = typeof(T).GetProperty(typeof(T).Name + "Id");
-                        if (repos.IsJson)
-                        {
-                            dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
-                            prop.SetValue(t1, id, null);
-                            result.Add(t1);
-                            continue;
-                        }
-                        var item = XmlSerializerService.DeserializeFromXml<T>(reader.GetString(1));
-                        prop.SetValue(item, id);
-                        result.Add(item);
+                        var id = reader.GetString(0);
+                        dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
+                        t1.Id = id;
+                        result.Add(t1);
+
                     }
                 }
 

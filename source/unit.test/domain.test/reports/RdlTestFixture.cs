@@ -70,7 +70,7 @@ namespace domain.test.reports
         [Test]
         public async Task GetColumnsValue()
         {
-            var vd = File.ReadAllText(Path.Combine(ConfigurationManager.WorkflowSourceDirectory, "EntityDefinition/Customer.json"));
+            var vd = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             var ed = vd.DeserializeFromJson<EntityDefinition>();
             var type = CompileCustomerDefinition(ed);
 
@@ -112,7 +112,7 @@ namespace domain.test.reports
             Assert.IsTrue(count > 0, "Fuck no contract");
 
             var contractId = "Sph".GetDatabaseScalarValue<int>("SELECT TOP 1 [ContractId] FROM [Sph].[Contract] ORDER BY NEWID()");
-            var sql = "SELECT [Data] FROM [Sph].[Contract] WHERE [ContractId] = " + contractId;
+            var sql = "SELECT [Json] FROM [Sph].[Contract] WHERE [ContractId] = " + contractId;
             var xml = XElement.Parse("Sph".GetDatabaseScalarValue<string>(sql));
 
             var tenantStreet = xml.GetAttributeStringValue("Tenant", "Address", "Street");
@@ -191,7 +191,7 @@ namespace domain.test.reports
             result.Errors.ForEach(Console.WriteLine);
 
             var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType("Bespoke.Dev_1.Domain.Customer");
+            var type = assembly.GetType("Bespoke.Dev_customer.Domain.Customer");
             return type;
         }
 

@@ -85,7 +85,7 @@ namespace Bespoke.Sph.WindowsTaskScheduler
                 // NOTE : when a screen is invoke from ListenActivity branch, a delay might be cancelled
                 // and this is invoke from ASP.net, thus we have to delegate this operation to a subscriber
                 var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
-                var item = new Entity[] { new Tracker { WebId = path } };
+                var item = new Entity[] { new Tracker { WebId = path,Id = Guid.NewGuid().ToString()} };
                 publisher.PublishDeleted("DeleteDelayActivity", item, new Dictionary<string, object>());
             }
 

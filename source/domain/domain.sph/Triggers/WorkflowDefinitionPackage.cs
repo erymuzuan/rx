@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Domain
             ZipFile.ExtractToDirectory(zipFile, folder);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var id = Strings.RegexSingleValue(Path.GetFileName(zipFile), "wd_(?<id>[0-9]{1,8})_.*?", "id");
+            var id = Strings.RegexSingleValue(Path.GetFileName(zipFile), "wd_(?<id>.*?)_.*?", "id");
 
             var wdFile = Path.Combine(folder, string.Format("wd_{0}.json", id));
             var wdJson = File.ReadAllText(wdFile);
@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Domain
                 {
                     Content = File.ReadAllBytes(xsdFile),
                     Extension = ".xsd",
-                    StoreId = wd.SchemaStoreId,
+                    Id = wd.SchemaStoreId,
                     WebId = wd.SchemaStoreId,
                     FileName = "schema.xsd"
                 };
@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Domain
             // get the pages
             using (var session = context.OpenSession())
             {
-                wd.WorkflowDefinitionId = 0;
+                wd.Id = string.Empty;
                 session.Attach(wd);
                 await session.SubmitChanges("Import");
             }
@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Domain
                 {
                     var pageJson = File.ReadAllText(pf);
                     var page = JsonConvert.DeserializeObject<Page>(pageJson, setting);
-                    page.ChangeWorkflowDefinitionVersion(int.Parse(id), wd.WorkflowDefinitionId);
+                    page.ChangeWorkflowDefinitionVersion(id, wd.Id);
 
                     session.Attach(page);
                 }
@@ -67,7 +67,7 @@ namespace Bespoke.Sph.Domain
 
         public async Task<BinaryStore> PackAsync(WorkflowDefinition wd)
         {
-            var path = Path.GetTempPath() + @"/wd" + wd.WorkflowDefinitionId;
+            var path = Path.GetTempPath() + @"/wd" + wd.Id;
             if (Directory.Exists(path)) Directory.Delete(path, true);
             Directory.CreateDirectory(path);
             var zip = path + ".zip";
@@ -77,7 +77,7 @@ namespace Bespoke.Sph.Domain
 
             var schema = await store.GetContentAsync(wd.SchemaStoreId);
             File.WriteAllBytes(Path.Combine(path, wd.SchemaStoreId + ".xsd"), schema.Content);
-            File.WriteAllBytes(Path.Combine(path, "wd_" + wd.WorkflowDefinitionId + ".json"), Encoding.UTF8.GetBytes(wd.ToJsonString()));
+            File.WriteAllBytes(Path.Combine(path, "wd_" + wd.Id + ".json"), Encoding.UTF8.GetBytes(wd.ToJsonString()));
             // get the screen view
             foreach (var screen in wd.ActivityCollection.OfType<ScreenActivity>())
             {
@@ -85,10 +85,10 @@ namespace Bespoke.Sph.Domain
                 var page =
                     await
                         context.LoadOneAsync<Page>(
-                            p => p.Version == wd.Version && p.Tag == string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, screen1.WebId));
+                            p => p.Version == wd.Version && p.Tag == string.Format("wf_{0}_{1}", wd.Id, screen1.WebId));
                 if (null != page)
                 {
-                    File.WriteAllBytes(Path.Combine(path, "page." + page.PageId + ".json"), Encoding.UTF8.GetBytes(page.ToJsonString()));
+                    File.WriteAllBytes(Path.Combine(path, "page." + page.Id + ".json"), Encoding.UTF8.GetBytes(page.ToJsonString()));
 
                 }
             }
@@ -97,10 +97,10 @@ namespace Bespoke.Sph.Domain
             ZipFile.CreateFromDirectory(path, zip);
             var zd = new BinaryStore
             {
-                StoreId = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 Content = File.ReadAllBytes(zip),
                 Extension = ".zip",
-                FileName = string.Format("wd_{0}_{1}.zip", wd.WorkflowDefinitionId, wd.Version),
+                FileName = string.Format("wd_{0}_{1}.zip", wd.Id, wd.Version),
                 WebId = Guid.NewGuid().ToString()
             };
             await store.AddAsync(zd);

@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Properties;
 using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain
@@ -18,6 +19,52 @@ namespace Bespoke.Sph.Domain
     [DebuggerDisplay("Name = {Name}")]
     public partial class EntityDefinition : Entity
     {
+        // reserved names
+        private readonly string[] m_reservedNames = new[] {"JavascriptTest", 
+                "Management",
+                "Image",
+                "Home",
+                "BaseSph",
+                "Map",
+                "Admin",
+                "ActivityScreen",
+                "BaseApp",
+                "Config",
+                "Nav",
+                "RoleSettings",
+                "ScreenEditor",
+                "TriggerSetup",
+                "Users",
+                "WorkflowDraft",
+                typeof(ScreenActivity).Name, 
+                typeof(EntityDefinition).Name, 
+                typeof(AuditTrail).Name, 
+                typeof(BusinessRule).Name, 
+                typeof(BinaryStore).Name, 
+                typeof(SpatialEntity).Name, 
+                typeof(Entity).Name, 
+                typeof(Designation).Name, 
+                typeof(DocumentTemplate).Name, 
+                typeof(EmailAction).Name, 
+                typeof(EntityChart).Name, 
+                typeof(EntityDefinition).Name, 
+                typeof(EntityForm).Name, 
+                typeof(EntityView).Name, 
+                typeof(Message).Name, 
+                typeof(Organization).Name, 
+                typeof(Page).Name, 
+                typeof(ReportDefinition).Name, 
+                typeof(ReportDelivery).Name, 
+                typeof(SpatialStore).Name, 
+                typeof(Tracker).Name, 
+                typeof(Trigger).Name, 
+                typeof(UserProfile).Name, 
+                typeof(Watcher).Name, 
+                typeof(Workflow).Name, 
+                typeof(WorkflowDefinition).Name, 
+                typeof(EntityForm).Name, typeof(Message).Name};
+
+
         private void ValidateMember(Member member, BuildValidationResult result)
         {
             var forbiddenNames =
@@ -68,13 +115,26 @@ namespace Bespoke.Sph.Domain
             return list.ToArray();
         }
 
-        public async Task<BuildValidationResult> ValidateBuildAsync()
+        public BuildValidationResult CanSave()
         {
             var result = new BuildValidationResult();
-            var context = new SphDataContext();
-            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_]*$");
+            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9]*$");
             if (!validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
+            if (string.IsNullOrWhiteSpace(this.Name))
+                result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
+            if (m_reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
+                result.Errors.Add(new BuildError(this.WebId, string.Format("The name [{0}] is reserved for the system", this.Name)));
+
+
+            result.Result = !result.Errors.Any();
+            return result;
+        }
+
+        public async Task<BuildValidationResult> ValidateBuildAsync()
+        {
+            var result = this.CanSave();
+            var context = new SphDataContext();
 
             foreach (var member in this.MemberCollection)
             {
@@ -88,8 +148,6 @@ namespace Bespoke.Sph.Domain
 
             if (string.IsNullOrWhiteSpace(this.RecordName))
                 result.Errors.Add(new BuildError(this.WebId, "Record name is missing"));
-            if (string.IsNullOrWhiteSpace(this.Name))
-                result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
             if (string.IsNullOrWhiteSpace(this.Plural))
                 result.Errors.Add(new BuildError(this.WebId, "Plural is missing"));
 
@@ -99,56 +157,11 @@ namespace Bespoke.Sph.Domain
             if (!this.Performer.Validate())
                 result.Errors.Add(new BuildError(this.WebId, "You have not set the permission correctly"));
 
-            var defaultForm = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true && f.EntityDefinitionId == this.EntityDefinitionId);
+            // ReSharper disable RedundantBoolCompare
+            var defaultForm = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true && f.EntityDefinitionId == this.Id);
+            // ReSharper restore RedundantBoolCompare
             if (null == defaultForm)
                 result.Errors.Add(new BuildError(this.WebId, "Please set a default form"));
-
-            // reserved names
-            var reservedNames = new[] {"JavascriptTest", 
-                "Management",
-                "Image",
-                "Home",
-                "BaseSph",
-                "Map",
-                "Admin",
-                "ActivityScreen",
-                "BaseApp",
-                "Config",
-                "Nav",
-                "RoleSettings",
-                "ScreenEditor",
-                "TriggerSetup",
-                "Users",
-                "WorkflowDraft",
-                typeof(ScreenActivity).Name, 
-                typeof(EntityDefinition).Name, 
-                typeof(AuditTrail).Name, 
-                typeof(BusinessRule).Name, 
-                typeof(BinaryStore).Name, 
-                typeof(SpatialEntity).Name, 
-                typeof(Entity).Name, 
-                typeof(Designation).Name, 
-                typeof(DocumentTemplate).Name, 
-                typeof(EmailAction).Name, 
-                typeof(EntityChart).Name, 
-                typeof(EntityDefinition).Name, 
-                typeof(EntityForm).Name, 
-                typeof(EntityView).Name, 
-                typeof(Message).Name, 
-                typeof(Organization).Name, 
-                typeof(Page).Name, 
-                typeof(ReportDefinition).Name, 
-                typeof(ReportDelivery).Name, 
-                typeof(SpatialStore).Name, 
-                typeof(Tracker).Name, 
-                typeof(Trigger).Name, 
-                typeof(UserProfile).Name, 
-                typeof(Watcher).Name, 
-                typeof(Workflow).Name, 
-                typeof(WorkflowDefinition).Name, 
-                typeof(EntityForm).Name, typeof(Message).Name};
-            if (reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
-                result.Errors.Add(new BuildError(this.WebId, string.Format("The name [{0}] is reserved for the system", this.Name)));
 
             foreach (var operation in this.EntityOperationCollection)
             {
@@ -156,9 +169,7 @@ namespace Bespoke.Sph.Domain
                 if (errors.Any())
                     result.Errors.AddRange(errors);
             }
-
-
-
+            
             result.Result = result.Errors.Count == 0;
             return result;
         }
@@ -166,7 +177,7 @@ namespace Bespoke.Sph.Domain
         public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
-                throw new ArgumentException("No source files supplied for compilation", "files");
+                throw new ArgumentException(Resources.NoSourceSupplied, "files");
             foreach (var cs in files)
             {
                 Debug.WriteLineIf(options.IsVerbose, cs);

@@ -97,15 +97,13 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         }
 
-        static Assembly CurrentDomainReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
+        static Assembly CurrentDomainReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs e)
         {
-            if (args.Name.StartsWith(ConfigurationManager.ApplicationName))
-            {
-                var dll = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, args.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).First() + ".dll");
-                Console.WriteLine("Cannot find {0}, now loading from {1}", args.Name, dll);
-                return Assembly.ReflectionOnlyLoad(File.ReadAllBytes(dll));
-            }
-            return Assembly.ReflectionOnlyLoad(args.Name);
+            if (!e.Name.StartsWith(ConfigurationManager.ApplicationName)) return Assembly.ReflectionOnlyLoad(e.Name);
+            Console.WriteLine("Fail to load {0}",e.RequestingAssembly.Location);
+            var dll = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, e.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).First() + ".dll");
+            Console.WriteLine("Cannot find {0}, now loading from {1}", e.Name, dll);
+            return Assembly.ReflectionOnlyLoad(File.ReadAllBytes(dll));
         }
 
 

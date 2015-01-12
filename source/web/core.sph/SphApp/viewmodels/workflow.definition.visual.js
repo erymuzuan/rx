@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -20,143 +20,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             publishingMessage = ko.observable(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
             populateToolbox = function () {
-                var elements = [],
-                    mapping = new bespoke.sph.domain.MappingActivity("@Guid.NewGuid()"),
-                    screen = new bespoke.sph.domain.ScreenActivity("@Guid.NewGuid()"),
-                    expr = new bespoke.sph.domain.ExpressionActivity("@Guid.NewGuid()"),
-                    decision = new bespoke.sph.domain.DecisionActivity("@Guid.NewGuid()"),
-                    ce = new bespoke.sph.domain.CreateEntityActivity("@Guid.NewGuid()"),
-                    ue = new bespoke.sph.domain.UpdateEntityActivity("@Guid.NewGuid()"),
-                    de = new bespoke.sph.domain.DeleteEntityActivity("@Guid.NewGuid()"),
-                    notification = new bespoke.sph.domain.NotificationActivity("@Guid.NewGuid()"),
-                    receive = new bespoke.sph.domain.ReceiveActivity("@Guid.NewGuid()"),
-                    send = new bespoke.sph.domain.SendActivity("@Guid.NewGuid()"),
-                    listen = new bespoke.sph.domain.ListenActivity("@Guid.NewGuid()"),
-                    parallel = new bespoke.sph.domain.ParallelActivity({
-                        WebId: system.guid(),
-                        Name: 'Parallel Activity',
-                        Note: 'Run procesess concurrently'
-                    }),
-                    join = new bespoke.sph.domain.JoinActivity({
-                        WebId: system.guid(),
-                        Name: 'Join Activity',
-                        Note: 'Wait for concurrent processes'
-                    }),
-                    delay = new bespoke.sph.domain.DelayActivity("@Guid.NewGuid()"),
-                    end = new bespoke.sph.domain.EndActivity("@Guid.NewGuid()"),
-                    scheduled = new bespoke.sph.domain.ScheduledTriggerActivity({
-                        WebId: system.guid(),
-                        Name: 'Scheduled Trigger',
-                        Note: 'A workflow could be start on schedule'
-                    });
-
-
-                screen.IsEnabled = ko.observable(true);
-                screen.Name("Screen");
-                screen.Note = "Creates a user interface activity";
-                screen.CssClass = "pull-left activity32 activity32-ScreenActivity";
-                elements.push(screen);
-
-                scheduled.IsEnabled = ko.observable(true);
-                scheduled.CssClass = "pull-left activity32 activity32-ScheduledTriggerActivity";
-                scheduled.Note = 'A workflow could be start on schedule';
-                elements.push(scheduled);
-
-                expr.IsEnabled = ko.observable(true);
-                expr.Name("Expression");
-                expr.Note = "Custom expression";
-                expr.CssClass = "pull-left activity32 activity32-ExpressionActivity";
-                elements.push(expr);
-
-                decision.IsEnabled = ko.observable(true);
-                decision.Name("Decision");
-                decision.Note = "Decision branches and expression";
-                decision.CssClass = "pull-left activity32 activity32-DecisionActivity";
-                elements.push(decision);
-
-                ce.IsEnabled = ko.observable(true);
-                ce.Name("Create Record");
-                ce.Note = "Create a new record";
-                ce.CssClass = "pull-left activity32 activity32-CreateEntityActivity";
-                elements.push(ce);
-
-
-                ue.IsEnabled = ko.observable(true);
-                ue.Name("Update Record");
-                ue.Note = "Update a record";
-                ue.CssClass = "pull-left activity32 activity32-UpdateEntityActivity";
-                elements.push(ue);
-
-
-                de.IsEnabled = ko.observable(true);
-                de.Name("Delete Record");
-                de.Note = "Delete a record";
-                de.CssClass = "pull-left activity32 activity32-DeleteEntityActivity";
-                elements.push(de);
-
-                notification.IsEnabled = ko.observable(true);
-                notification.Name("Notify");
-                notification.Note = "Notify via email and messages";
-                notification.CssClass = "pull-left activity32 activity32-NotificationActivity";
-                elements.push(notification);
-
-                receive.IsEnabled = ko.observable(false);
-                receive.Name("Receive");
-                receive.Note = "Receive a message from another system";
-                receive.CssClass = "pull-left activity32 activity32-ReceiveActivity";
-                elements.push(receive);
-
-                send.IsEnabled = ko.observable(false);
-                send.Name("Send");
-                send.Note = "Send a message to another system";
-                send.CssClass = "pull-left activity32 activity32-SendActivity";
-                elements.push(send);
-
-                listen.IsEnabled = ko.observable(true);
-                listen.Name("Listen");
-                listen.Note = "Creates a race condition, first one wins";
-                listen.CssClass = "pull-left activity32 activity32-ListenActivity";
-                elements.push(listen);
-
-                parallel.IsEnabled = ko.observable(true);
-                parallel.Note = "Concurrent running activities";
-                parallel.CssClass = "pull-left activity32 activity32-ParallelActivity";
-                elements.push(parallel);
-
-                join.IsEnabled = ko.observable(true);
-                join.Note = "Wait for concurrent activities";
-                join.CssClass = "pull-left activity32 activity32-JoinActivity";
-                elements.push(join);
-
-
-                delay.Name("Delay");
-                delay.IsEnabled = ko.observable(true);
-                delay.Note = "Wait for a certain time";
-                delay.CssClass = "pull-left activity32 activity32-DelayActivity";
-                elements.push(delay);
-
-
-                mapping.Name("Mapping");
-                mapping.IsEnabled = ko.observable(true);
-                mapping.Note = "Creates a mapping for transform";
-                mapping.CssClass = "pull-left activity32 activity32-MappingActivity";
-                elements.push(mapping);
-
-                end.Name("End");
-                end.IsEnabled = ko.observable(true);
-                end.Note = "Ends the workflow";
-                end.CssClass = "pull-left activity32 activity32-EndActivity";
-                elements.push(end);
-
-                vm.toolboxElements(elements);
+                return $.get('/wf-designer/toolbox-items', function (result) {
+                    vm.toolboxElements(result);
+                });
             },
-            activate = function (id2) {
+            activate = function (id) {
                 isBusy(true);
-                var id = parseInt(id2),
-                    query = String.format("WorkflowDefinitionId eq {0}", id),
+                var query = String.format("Id eq '{0}'", id),
                     tcs = new $.Deferred();
 
-                if (id) {
+                if (id && id !== "0") {
                     context.loadOneAsync("WorkflowDefinition", query)
                         .done(function (b) {
                             vm.wd(b);
@@ -396,13 +269,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 wd().ActivityCollection.subscribe(activitiesChanged, null, "arrayChange");
             },
             toolboxItemDraggedStop = function (arg) {
-                var act = context.toObservable(ko.mapping.toJS(ko.dataFor(this))),
+                var act = context.toObservable(ko.mapping.toJS(ko.dataFor(this).activity)),
                     x = arg.clientX,
                     y = arg.clientY;
 
-                act.Name(act.Name() + wd().ActivityCollection().length);
-                act.WorkflowDesigner().X(x);
-                act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top);
+                act.Name(act.TypeName() + "_" + wd().ActivityCollection().length);
+                act.WorkflowDesigner().X(x - 60);
+                act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top + $(window).scrollTop() - 30);
                 act.WebId(system.guid());
                 wd().ActivityCollection.push(act);
                 initializeActivity(act);
@@ -419,14 +292,15 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     }, 2500);
 
 
-                populateToolbox();
-
-                $('div.toolbox-item').draggable({
-                    helper: function () {
-                        return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('.activity32').clone());
-                    },
-                    stop: toolboxItemDraggedStop
+                populateToolbox().done(function () {
+                    $('div.toolbox-item').draggable({
+                        helper: function () {
+                            return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('.activity32').clone());
+                        },
+                        stop: toolboxItemDraggedStop
+                    });
                 });
+
 
 
                 var paintedConnectors = [],
@@ -503,7 +377,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 var clipboardItem = null;
                 $(view).on('copy', 'div.activity', function (e) {
                     e.preventDefault();
-                    clipboardItem = hoveredActivity ;
+                    clipboardItem = hoveredActivity;
                     console.log("Copied " + clipboardItem.Name());
                 });
                 $(view).on('paste', 'div#container-canvas', function (e) {
@@ -549,7 +423,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         isBusy(false);
                         if (result.success) {
                             logger.info("Data have been succesfully save");
-                            wd().WorkflowDefinitionId(result.id);
+                            wd().Id(result.id);
+                        } else {
+                            logger.error(result.message);
                         }
                         tcs.resolve(result);
                     });
@@ -655,20 +531,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             },
             reload = function () {
 
-                if (!wd().WorkflowDefinitionId()) {
+                if (!wd().Id()) {
                     var tcs = new $.Deferred();
                     app.showMessage('You have yet to save your work ', 'SPH - Workflow', ['OK'])
                        .done(tcs.resolve);
 
                     return tcs.promise();
                 }
-                return activate(wd().WorkflowDefinitionId())
+                return activate(wd().Id())
                 .done(function () {
                     $('div.modalHost, div.modalBlockout').remove();
                 });
             },
             viewPages = function () {
-                window.location = "#page.list/" + wd().WorkflowDefinitionId();
+                window.location = "#page.list/" + wd().Id();
                 return Task.fromResult(true, 1500);
             };
 
@@ -687,6 +563,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             autoSaveInterval: autoSaveInterval,
             toolbar: {
                 saveCommand: saveAsync,
+                canExecuteSaveCommand: function () {
+                    return wd().Name();
+                },
                 exportCommand: exportWd,
                 removeCommand: remove,
                 reloadCommand: reload,

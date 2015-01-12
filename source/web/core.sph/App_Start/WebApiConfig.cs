@@ -8,7 +8,5 @@ namespace Bespoke.Sph.Web.App_Start
         {
             config.MapHttpAttributeRoutes();
         }
-
-
     }
 }

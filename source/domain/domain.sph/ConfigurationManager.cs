@@ -13,6 +13,41 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public static long EsIndexingDelay
+        {
+            get
+            {
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:EsIndexingDelay"] ?? "15000";
+                return long.Parse(pn);
+            }
+        }
+
+        public static int EsIndexingMaxTry
+        {
+            get
+            {
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:EsIndexingMaxTry"] ?? "3";
+                return int.Parse(pn);
+            }
+        }
+        public static long SqlPersistenceDelay
+        {
+            get
+            {
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:SqlPersistenceDelay"] ?? "15000";
+                return long.Parse(pn);
+            }
+        }
+
+        public static int SqlPersistenceMaxTry
+        {
+            get
+            {
+                var pn = System.Configuration.ConfigurationManager.AppSettings["sph:SqlPersistenceMaxTry"] ?? "3";
+                return int.Parse(pn);
+            }
+        }
+
         public static bool EnableOfflineForm
         {
             get
@@ -49,11 +84,26 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public static string WorkflowSourceDirectory
+        /// <summary>
+        /// Ad directory where all the sph and systems source code like the *.json file for each asset definitions
+        /// </summary>
+        public static string SphSourceDirectory
         {
             get
             {
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowSourceDirectory"];
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SphSourceDirectory"];
+                if (Path.IsPathRooted(val)) return val;
+                return BaseDirectory + BinPath + @"\sources\";
+            }
+        }
+        /// <summary>
+        /// A directory where all the users source codes are
+        /// </summary>
+        public static string UserSourceDirectory
+        {
+            get
+            {
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:UserSourceDirectory"];
                 if (Path.IsPathRooted(val)) return val;
                 return BaseDirectory + BinPath + @"\sources\";
             }
@@ -209,7 +259,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ApplicationFullName"] ?? "SPH platform showcase";
+                return System.Configuration.ConfigurationManager.AppSettings["sph:ApplicationFullName"] ?? "Reactive Developer platform showcase";
             }
         }
     }

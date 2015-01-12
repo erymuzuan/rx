@@ -12,12 +12,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             var form = await context.LoadOneAsync<EntityForm>(f => f.Route == id);
-            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.EntityDefinitionId == form.EntityDefinitionId);
-
+            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == form.EntityDefinitionId);
+            
+            var layout = form.Layout ?? "Html2ColsWithAuditTrail";
             var vm = new FormRendererViewModel { Form = form, EntityDefinition = ed };
 
 
-            return View(vm);
+            return View(layout, vm);
         }
 
         [RazorScriptFilter]
@@ -25,7 +26,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             var form = await context.LoadOneAsync<EntityForm>(f => f.Route == id);
-            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.EntityDefinitionId == form.EntityDefinitionId);
+            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == form.EntityDefinitionId);
 
             var vm = new FormRendererViewModel { Form = form, EntityDefinition = ed };
             this.Response.ContentType = "application/javascript";
@@ -34,7 +35,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-      
+
 
     }
 }

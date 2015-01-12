@@ -1,15 +1,9 @@
-<h1>Member</h1>
-
-<h2>Overview</h2>
-
+<h1 id="member">Member</h1>
+<h2 id="overview">Overview</h2>
 <p>Member represent a field definition in your <code>EntityDefinition</code>, it allows you to specify the data type that it holds as well as other attributes.</p>
-
-<h2>Things to be aware</h2>
-
+<h2 id="things-to-be-aware">Things to be aware</h2>
 <p>For a member with type set to <code>Collection</code>, the name must be appended with the word <code>Collection</code> e.g. <code>Visit</code> list should names as <code>VisitCollection</code></p>
-
-<h2>Properties</h2>
-
+<h2 id="properties">Properties</h2>
 <table class="table table-condensed table-bordered">
     <thead>
 <tr>
@@ -18,7 +12,7 @@
 </tr>
 </thead>
 <tbody>
-<tr><td>FullName</td><td> - Must be a valid identifier for e.g. `FullName` instead of `Full name` </td></tr>
+<tr><td>FullName</td><td> - Must be a valid identifier for e.g. <code>FullName</code> instead of <code>Full name</code> </td></tr>
 <tr><td>Type</td><td> - The data type for the member, these are string, integer, datetime, boolean and decimal</td></tr>
 <tr><td>MemberCollection</td><td> - Child members for aggregates</td></tr>
 <tr><td>FieldPermissionCollection</td><td> - The user permission to the member</td></tr>
@@ -32,6 +26,7 @@
 <tr><td>Boost</td><td> - The scale in which how important is this member to the search engine</td></tr>
 </tbody></table>
 
-<h2>See also</h2>
 
+
+<h2 id="see-also">See also</h2>
 <p><a href="FieldPermission.html">FiedPermission</a></p>

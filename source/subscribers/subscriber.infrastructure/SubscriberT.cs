@@ -30,10 +30,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 RegisterServices();
                 PrintSubscriberInformation();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                // ReSharper disable CSharpWarnings::CS4014
-                // just let the StartConsume run in endless loop until stop is issued
                 this.StartConsume();
-                // ReSharper restore CSharpWarnings::CS4014
             }
             catch (Exception e)
             {
@@ -43,16 +40,58 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         protected override void OnStop()
         {
+            this.WriteMessage("!!Stoping : {0}", this.QueueName);
+
+            m_consumer.Received -= Received;
             if (null != m_stoppingTcs)
                 m_stoppingTcs.SetResult(true);
+
+            while (m_processing > 0)
+            {
+
+            }
+
+            if (null != m_connection)
+            {
+                m_connection.Close();
+                m_connection.Dispose();
+                m_connection = null;
+            }
+
+            if (null != m_channel)
+            {
+                m_channel.Close();
+                m_channel.Dispose();
+                m_channel = null;
+            }
+
+            this.WriteMessage("!!Stopped : {0}", this.QueueName);
         }
 
-        public async Task StartConsume()
+        protected void BasicReject(ulong tag, bool requeue = false)
         {
-            const bool noAck = false;
-            const string exchangeName = "sph.topic";
-            const string deadLetterExchange = "sph.ms-dead-letter";
-            const string deadLetterQueue = "ms_dead_letter_queue";
+            m_channel.BasicReject(tag, requeue);
+        }
+        protected void BasicAck(ulong tag, bool multiple = false)
+        {
+            m_channel.BasicAck(tag, multiple);
+        }
+        protected void BasicNack(ulong tag, bool multiple = false, bool requeue = false)
+        {
+            m_channel.BasicNack(tag, multiple, requeue);
+        }
+
+        private IConnection m_connection;
+        private IModel m_channel;
+        private TaskBasicConsumer m_consumer;
+        private int m_processing;
+
+        public void StartConsume()
+        {
+            const bool NO_ACK = false;
+            const string EXCHANGE_NAME = "sph.topic";
+            const string DEAD_LETTER_EXCHANGE = "sph.ms-dead-letter";
+            const string DEAD_LETTER_QUEUE = "ms_dead_letter_queue";
 
             this.OnStart();
 
@@ -64,78 +103,75 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 HostName = this.HostName,
                 Port = this.Port
             };
+            m_connection = factory.CreateConnection();
+            m_channel = m_connection.CreateModel();
 
-            using (var conn = factory.CreateConnection())
-            using (var channel = conn.CreateModel())
+
+            m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
+
+            m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
+            var args = new Dictionary<string, object> { { "x-dead-letter-exchange", DEAD_LETTER_EXCHANGE } };
+            m_channel.QueueDeclare(this.QueueName, true, false, false, args);
+
+            m_channel.QueueDeclare(DEAD_LETTER_QUEUE, true, false, false, args);
+            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "#", null);
+            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.added", null);
+            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.changed", null);
+
+            foreach (var s in this.RoutingKeys)
             {
-                channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
-
-                channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);
-                var args = new Dictionary<string, object> { { "x-dead-letter-exchange", deadLetterExchange } };
-                channel.QueueDeclare(this.QueueName, true, false, false, args);
-
-                channel.QueueDeclare(deadLetterQueue, true, false, false, args);
-                channel.QueueBind(deadLetterQueue, deadLetterExchange, "#", null);
-                channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.added", null);
-                channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.changed", null);
-
-                foreach (var s in this.RoutingKeys)
-                {
-                    channel.QueueBind(this.QueueName, exchangeName, s, null);
-                }
-                channel.BasicQos(0, (ushort)this.GetParallelProcessing(), false);
-
-                var consumer = new TaskBasicConsumer(channel);
-                var processing = 0;
-                consumer.Received += async (s, e) =>
-                {
-                    Interlocked.Increment(ref processing);
-                    byte[] body = e.Body;
-                    var json = await this.DecompressAsync(body);
-                    var header = new MessageHeaders(e);
-                    var item = json.DeserializeFromJson<T>();
-                    try
-                    {
-                        await ProcessMessage(item, header);
-                        channel.BasicAck(e.DeliveryTag, false);
-                    }
-                    catch (Exception exc)
-                    {
-                        this.WriteMessage("Error in {0}", this.GetType().Name);
-                        this.WriteError(exc);
-                        channel.BasicReject(e.DeliveryTag, false);
-                    }
-                    finally
-                    {
-                        Interlocked.Decrement(ref processing);
-                    }
-                };
+                m_channel.QueueBind(this.QueueName, EXCHANGE_NAME, s, null);
+            }
+            // delay exchange and queue
+            var delayExchange = "sph.delay.exchange." + this.QueueName;
+            var delayQueue = "sph.delay.queue." + this.QueueName;
+            var delayQueueArgs = new Dictionary<string, object>
+            {
+                {"x-dead-letter-exchange", delayExchange},
+                {"x-dead-letter-routing-key", this.QueueName}
+            };
+            m_channel.ExchangeDeclare(delayExchange, "direct");
+            m_channel.QueueDeclare(delayQueue, true, false, false, delayQueueArgs);
+            m_channel.QueueBind(delayQueue, delayExchange, string.Empty, null);
 
 
-                channel.BasicConsume(this.QueueName, noAck, consumer);
 
-                var stopRequested = await Stoping();
-                while (processing > 0)
-                {
-                }
-                if (stopRequested)
-                {
-                    channel.Close();
-                    conn.Close();
-                    this.WriteMessage("!!Stoping : {0}", this.QueueName);
+            m_channel.BasicQos(0, (ushort)this.GetParallelProcessing(), false);
 
-                }
+            m_consumer = new TaskBasicConsumer(m_channel);
+            m_consumer.Received += Received;
+            m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
 
 
+
+        }
+
+
+
+        private async void Received(object sender, ReceivedMessageArgs e)
+        {
+            Interlocked.Increment(ref m_processing);
+            byte[] body = e.Body;
+            var json = await this.DecompressAsync(body);
+            var header = new MessageHeaders(e);
+            try
+            {
+                var item = json.DeserializeFromJson<T>();
+                await ProcessMessage(item, header);
+                m_channel.BasicAck(e.DeliveryTag, false);
+            }
+            catch (Exception exc)
+            {
+                this.WriteMessage("Error in {0}", this.GetType().Name);
+                this.WriteError(exc);
+                m_channel.BasicReject(e.DeliveryTag, false);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref m_processing);
             }
         }
 
-        private Task<bool> Stoping()
-        {
-            return m_stoppingTcs.Task;
-        }
-
-        // ReSharper restore FunctionNeverReturns
 
         private async Task<string> DecompressAsync(byte[] content)
         {

@@ -1,0 +1,59 @@
+<section class="view-model-modal" id="parsedatetime-functoid-editor-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        data-bind="click : cancelClick">
+                    &times;
+                </button>
+                <h3>Functoid Properties Editor ParseDateTimeFunctoid</h3>
+            </div>
+            <div class="modal-body" data-bind="with:functoid">
+
+                <form class="form-horizontal" id="parsedatetime-functoid-form">
+                    <div class="form-group">
+                        <label for="styles" class="col-sm-2 control-label">DateTime Styles</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="styles" data-bind="value: Styles" name="styles">
+                                <option value="">[Use source]</option>
+                                <option value="None">None</option>
+                                <option value="AdjustToUniversal">AdjustToUniversal</option>
+                                <option value="AllowInnerWhite">AllowInnerWhite</option>
+                                <option value="AllowLeadingWhite">AllowLeadingWhite</option>
+                                <option value="AllowTrailingWhite">AllowTrailingWhite</option>
+                                <option value="AllowWhiteSpaces">AllowWhiteSpaces</option>
+                                <option value="AssumeLocal">AssumeLocal</option>
+                                <option value="AssumeUniversal">AssumeUniversal</option>
+                                <option value="NoCurrentDateDefault">NoCurrentDateDefault</option>
+                                <option value="RoundtripKind">RoundtripKind</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="culture" class="col-sm-2 control-label">Culture</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="culture" name="culture" data-bind2="value:Culture" placeholder="If your datetime format in particula culture, e.g ms-MY" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="format" class="col-sm-2 control-label">Date format</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" placeholder="date formatting according to .Net date format strings" type="text" id="format" data-bind="value: Format" name="format" />
+                        </div>
+                    </div>
+                </form>
+
+                <a href="http://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx" target="_blank">Standard Date and Time Format Strings</a>
+                <br/>
+                <a href="http://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx" target="_blank">Custom Date and Time Format Strings</a>
+
+            </div>
+            <div class="modal-footer">
+                <input form="parsedatetime-functoid-form" data-dismiss="modal" type="submit" class="btn btn-default"
+                       value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

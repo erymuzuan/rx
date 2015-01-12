@@ -86,10 +86,10 @@ namespace Bespoke.Sph.Web.Helpers
         {
 
 
-            var sql = string.Format("SELECT [{0}Id], [{1}] FROM [{2}].[{0}]", m_table, "Json", ConfigurationManager.ApplicationName);
+            var sql = string.Format("SELECT [Id], [{1}] FROM [{2}].[{0}]", m_table, "Json", ConfigurationManager.ApplicationName);
 
             if (!string.IsNullOrEmpty(filter))
-                sql = string.Format("SELECT [{0}Id], [{2}] FROM [{3}].[{0}] {1} ", m_table, this.Translate(filter), "Json", ConfigurationManager.ApplicationName);
+                sql = string.Format("SELECT [Id], [{2}] FROM [{3}].[{0}] {1} ", m_table, this.Translate(filter), "Json", ConfigurationManager.ApplicationName);
 
             if (!string.IsNullOrWhiteSpace(orderby))
             {

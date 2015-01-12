@@ -36,7 +36,7 @@ namespace Bespoke.Sph.CustomTriggers
             }
 
             this.WriteMessage("Restarting the subscriber, changed detected to {0}", item);
-            var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = ConfigurationManager.WorkflowSourceDirectory };
+            var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = ConfigurationManager.UserSourceDirectory };
             var result = await item.CompileAsync(options);
             this.WriteMessage("Compile result {0}", result.Result);
             result.Errors.ForEach(e => this.WriteError(new Exception(e.Message)));
@@ -49,10 +49,10 @@ namespace Bespoke.Sph.CustomTriggers
         private async void DeleteTrigger(Trigger trigger)
         {
             Thread.Sleep(1000);
-            var dll = Path.Combine(ConfigurationManager.SubscriberPath, string.Format("subscriber.trigger.{0}.dll", trigger.TriggerId));
+            var dll = Path.Combine(ConfigurationManager.SubscriberPath, string.Format("subscriber.trigger.{0}.dll", trigger.Id));
             if (File.Exists(dll))
                 File.Delete(dll);
-            var pdb = Path.Combine(ConfigurationManager.SubscriberPath, string.Format("subscriber.trigger.{0}.pdb", trigger.TriggerId));
+            var pdb = Path.Combine(ConfigurationManager.SubscriberPath, string.Format("subscriber.trigger.{0}.pdb", trigger.Id));
             if (File.Exists(pdb))
                 File.Delete(pdb);
 
@@ -69,10 +69,10 @@ namespace Bespoke.Sph.CustomTriggers
             using (var client = new HttpClient(handler) { BaseAddress = new Uri(url) })
             {
                 this.WriteMessage("Deleting the queue for trigger : " + trigger.Name);
-                var response = await client.DeleteAsync(string.Format("/api/queues/{1}/trigger_subs_{0}", trigger.TriggerId, ConfigurationManager.ApplicationName));
+                var response = await client.DeleteAsync(string.Format("/api/queues/{1}/trigger_subs_{0}", trigger.Id, ConfigurationManager.ApplicationName));
                 if (response.StatusCode != HttpStatusCode.NoContent)
                 {
-                    this.WriteError(new Exception(string.Format("Cannot delete queue trigger_subs_{0} for trigger {0}- return code is {1}", trigger.TriggerId, response.StatusCode)));
+                    this.WriteError(new Exception(string.Format("Cannot delete queue trigger_subs_{0} for trigger {0}- return code is {1}", trigger.Id, response.StatusCode)));
                 }
             }
         }
@@ -82,8 +82,8 @@ namespace Bespoke.Sph.CustomTriggers
         {
             Thread.Sleep(1000);
             var item = (Trigger)obj;
-            var dll = string.Format("subscriber.trigger.{0}.dll", item.TriggerId);
-            var pdb = string.Format("subscriber.trigger.{0}.pdb", item.TriggerId);
+            var dll = string.Format("subscriber.trigger.{0}.dll", item.Id);
+            var pdb = string.Format("subscriber.trigger.{0}.pdb", item.Id);
             var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
             var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
 

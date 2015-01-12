@@ -25,7 +25,7 @@ namespace postgres.repository
             throw new NotImplementedException();
         }
 
-        public Task<T> LoadOneAsync(int id)
+        public Task<T> LoadOneAsync(string id)
         {
             throw new NotImplementedException();
         }

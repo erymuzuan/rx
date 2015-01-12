@@ -3,18 +3,16 @@
 GO
 
 CREATE TABLE [Sph].[ReportDelivery](
-	[ReportDeliveryId] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[ReportDefinitionId] [int] NOT NULL,
+	[Id] VARCHAR(50) PRIMARY KEY NOT NULL,
+	[ReportDefinitionId] VARCHAR(50) NOT NULL,
 	[Title] VARCHAR(255) NOT NULL	,
 	[Description] VARCHAR(2000) NULL,
 	[IsActive] BIT NOT NULL	,
-	[Data] XML NOT NULL	,
+	[Json] VARCHAR(MAX) NOT NULL,
 	[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE(),
 	[CreatedBy] VARCHAR(255) NULL,
 	[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE(),
 	[ChangedBy] VARCHAR(255) NULL
 	)
 GO
-
-
 

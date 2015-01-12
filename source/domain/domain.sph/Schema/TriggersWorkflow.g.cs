@@ -37,11 +37,6 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_triggerId;
-        public const string PropertyNameTriggerId = "TriggerId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_note;
         public const string PropertyNameNote = "Note";
 
@@ -93,15 +88,35 @@ namespace Bespoke.Sph.Domain
             get { return m_ActionCollection; }
         }
 
+        private readonly ObjectCollection<ReferencedAssembly> m_ReferencedAssemblyCollection = new ObjectCollection<ReferencedAssembly>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ReferencedAssembly", IsNullable = false)]
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection
+        {
+            get { return m_ReferencedAssemblyCollection; }
+        }
+
+        private readonly ObjectCollection<ExceptionFilter> m_RequeueFilterCollection = new ObjectCollection<ExceptionFilter>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ExceptionFilter", IsNullable = false)]
+        public ObjectCollection<ExceptionFilter> RequeueFilterCollection
+        {
+            get { return m_RequeueFilterCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -126,11 +141,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Entity
         {
             set
@@ -155,11 +168,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string TypeOf
         {
             set
@@ -184,40 +195,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
-        public int TriggerId
-        {
-            set
-            {
-                if (m_triggerId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTriggerId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_triggerId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_triggerId;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
         [Required]
-
-        [DebuggerHidden]
-
         public string Note
         {
             set
@@ -242,11 +222,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsActive
         {
             set
@@ -271,11 +249,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsFiredOnAdded
         {
             set
@@ -300,11 +276,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsFiredOnDeleted
         {
             set
@@ -329,11 +303,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsFiredOnChanged
         {
             set
@@ -358,11 +330,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string FiredOnOperations
         {
             set
@@ -976,11 +946,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Path
         {
             set
@@ -1055,11 +1023,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -1084,11 +1050,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string TypeName
         {
             set
@@ -1143,9 +1107,9 @@ namespace Bespoke.Sph.Domain
     public partial class StartWorkflowAction
     {
 
-        private int m_WorkflowDefinitionId;
+        private string m_WorkflowDefinitionId;
         [XmlAttribute]
-        public int WorkflowDefinitionId
+        public string WorkflowDefinitionId
         {
             get
             {
@@ -1229,11 +1193,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string VariablePath
         {
             set
@@ -1284,14 +1246,96 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    [XmlType("AssemblyAction", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class AssemblyAction
+    {
+
+        private bool m_IsAsyncMethod;
+        [XmlAttribute]
+        public bool IsAsyncMethod
+        {
+            get
+            {
+                return m_IsAsyncMethod;
+            }
+            set
+            {
+                m_IsAsyncMethod = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Assembly;
+        [XmlAttribute]
+        public string Assembly
+        {
+            get
+            {
+                return m_Assembly;
+            }
+            set
+            {
+                m_Assembly = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_TypeName;
+        [XmlAttribute]
+        public string TypeName
+        {
+            get
+            {
+                return m_TypeName;
+            }
+            set
+            {
+                m_TypeName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Method;
+        [XmlAttribute]
+        public string Method
+        {
+            get
+            {
+                return m_Method;
+            }
+            set
+            {
+                m_Method = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<MethodArg> m_MethodArgCollection = new ObjectCollection<MethodArg>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("MethodArg", IsNullable = false)]
+        public ObjectCollection<MethodArg> MethodArgCollection
+        {
+            get { return m_MethodArgCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     [XmlType("WorkflowDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class WorkflowDefinition
     {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowDefinitionId;
-        public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_name;
@@ -1351,44 +1395,35 @@ namespace Bespoke.Sph.Domain
             get { return m_ReferencedAssemblyCollection; }
         }
 
+        private readonly ObjectCollection<CorrelationSet> m_CorrelationSetCollection = new ObjectCollection<CorrelationSet>();
+
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int WorkflowDefinitionId
+        [XmlArrayItem("CorrelationSet", IsNullable = false)]
+        public ObjectCollection<CorrelationSet> CorrelationSetCollection
         {
-            set
-            {
-                if (m_workflowDefinitionId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_workflowDefinitionId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_workflowDefinitionId;
-            }
+            get { return m_CorrelationSetCollection; }
         }
 
+        private readonly ObjectCollection<CorrelationType> m_CorrelationTypeCollection = new ObjectCollection<CorrelationType>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CorrelationType", IsNullable = false)]
+        public ObjectCollection<CorrelationType> CorrelationTypeCollection
+        {
+            get { return m_CorrelationTypeCollection; }
+        }
 
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -1413,11 +1448,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Note
         {
             set
@@ -1442,11 +1475,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsActive
         {
             set
@@ -1471,11 +1502,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string SchemaStoreId
         {
             set
@@ -1500,11 +1529,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public int Version
         {
             set
@@ -1538,12 +1565,7 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowId;
-        public const string PropertyNameWorkflowId = "WorkflowId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowDefinitionId;
+        private string m_workflowDefinitionId;
         public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
 
 
@@ -1582,45 +1604,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
-        public int WorkflowId
+        [Required]
+        public string WorkflowDefinitionId
         {
             set
             {
-                if (m_workflowId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_workflowId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_workflowId;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int WorkflowDefinitionId
-        {
-            set
-            {
-                if (m_workflowDefinitionId == value) return;
+                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -1640,11 +1631,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -1669,11 +1658,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string State
         {
             set
@@ -1698,11 +1685,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsActive
         {
             set
@@ -1727,11 +1712,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public int Version
         {
             set
@@ -2166,11 +2149,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -2202,11 +2183,6 @@ namespace Bespoke.Sph.Domain
     [XmlType("Page", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Page
     {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_pageId;
-        public const string PropertyNamePageId = "PageId";
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_name;
@@ -2258,40 +2234,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
-        public int PageId
-        {
-            set
-            {
-                if (m_pageId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNamePageId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_pageId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_pageId;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
         [Required]
-
-        [DebuggerHidden]
-
         public string Name
         {
             set
@@ -2316,11 +2261,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsRazor
         {
             set
@@ -2345,11 +2288,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsPartial
         {
             set
@@ -2374,11 +2315,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string VirtualPath
         {
             set
@@ -2403,11 +2342,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Tag
         {
             set
@@ -2432,11 +2369,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public int Version
         {
             set
@@ -2461,11 +2396,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Mode
         {
             set
@@ -2490,11 +2423,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Extension
         {
             set
@@ -2596,11 +2527,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string UserProperty
         {
             set
@@ -2625,11 +2554,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Value
         {
             set
@@ -2654,7 +2581,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public bool IsPublic
@@ -2703,7 +2629,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public int X
@@ -2730,7 +2655,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public int Y
@@ -3033,11 +2957,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Type
         {
             set
@@ -3062,11 +2984,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Value
         {
             set
@@ -3115,6 +3035,71 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_Operation;
+        [XmlAttribute]
+        public string Operation
+        {
+            get
+            {
+                return m_Operation;
+            }
+            set
+            {
+                m_Operation = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_MessagePath;
+        [XmlAttribute]
+        public string MessagePath
+        {
+            get
+            {
+                return m_MessagePath;
+            }
+            set
+            {
+                m_MessagePath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<string> m_InitializingCorrelationSetCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> InitializingCorrelationSetCollection
+        {
+            get { return m_InitializingCorrelationSetCollection; }
+        }
+
+        private readonly ObjectCollection<string> m_FollowingCorrelationSetCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> FollowingCorrelationSetCollection
+        {
+            get { return m_FollowingCorrelationSetCollection; }
+        }
+
+        private readonly ObjectCollection<CorrelationProperty> m_CorrelationPropertyCollection = new ObjectCollection<CorrelationProperty>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CorrelationProperty", IsNullable = false)]
+        public ObjectCollection<CorrelationProperty> CorrelationPropertyCollection
+        {
+            get { return m_CorrelationPropertyCollection; }
+        }
+
 
     }
 
@@ -3142,6 +3127,135 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+        private string m_Adapter;
+        [XmlAttribute]
+        public string Adapter
+        {
+            get
+            {
+                return m_Adapter;
+            }
+            set
+            {
+                m_Adapter = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Method;
+        [XmlAttribute]
+        public string Method
+        {
+            get
+            {
+                return m_Method;
+            }
+            set
+            {
+                m_Method = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_AdapterAssembly;
+        [XmlAttribute]
+        public string AdapterAssembly
+        {
+            get
+            {
+                return m_AdapterAssembly;
+            }
+            set
+            {
+                m_AdapterAssembly = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsSynchronous;
+        [XmlAttribute]
+        public bool IsSynchronous
+        {
+            get
+            {
+                return m_IsSynchronous;
+            }
+            set
+            {
+                m_IsSynchronous = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_ArgumentPath;
+        [XmlAttribute]
+        public string ArgumentPath
+        {
+            get
+            {
+                return m_ArgumentPath;
+            }
+            set
+            {
+                m_ArgumentPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_ReturnValuePath;
+        [XmlAttribute]
+        public string ReturnValuePath
+        {
+            get
+            {
+                return m_ReturnValuePath;
+            }
+            set
+            {
+                m_ReturnValuePath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<ExceptionFilter> m_ExceptionFilterCollection = new ObjectCollection<ExceptionFilter>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ExceptionFilter", IsNullable = false)]
+        public ObjectCollection<ExceptionFilter> ExceptionFilterCollection
+        {
+            get { return m_ExceptionFilterCollection; }
+        }
+
+        private readonly ObjectCollection<string> m_InitializingCorrelationSetCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> InitializingCorrelationSetCollection
+        {
+            get { return m_InitializingCorrelationSetCollection; }
+        }
+
+        private readonly ObjectCollection<string> m_FollowingCorrelationSetCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> FollowingCorrelationSetCollection
+        {
+            get { return m_FollowingCorrelationSetCollection; }
+        }
 
 
     }
@@ -3429,17 +3543,12 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_trackerId;
-        public const string PropertyNameTrackerId = "TrackerId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowId;
+        private string m_workflowId;
         public const string PropertyNameWorkflowId = "WorkflowId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowDefinitionId;
+        private string m_workflowDefinitionId;
         public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
 
 
@@ -3469,45 +3578,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
-        public int TrackerId
+        [Required]
+        public string WorkflowId
         {
             set
             {
-                if (m_trackerId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTrackerId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_trackerId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_trackerId;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int WorkflowId
-        {
-            set
-            {
-                if (m_workflowId == value) return;
+                if (String.Equals(m_workflowId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameWorkflowId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -3527,16 +3605,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
-        public int WorkflowDefinitionId
+        [Required]
+        public string WorkflowDefinitionId
         {
             set
             {
-                if (m_workflowDefinitionId == value) return;
+                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -3565,7 +3641,7 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_instanceId;
+        private string m_instanceId;
         public const string PropertyNameInstanceId = "InstanceId";
 
 
@@ -3575,7 +3651,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowDefinitionId;
+        private string m_workflowDefinitionId;
         public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
 
 
@@ -3610,16 +3686,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
-        public int InstanceId
+        [Required]
+        public string InstanceId
         {
             set
             {
-                if (m_instanceId == value) return;
+                if (String.Equals(m_instanceId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameInstanceId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -3639,11 +3713,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string ActivityWebId
         {
             set
@@ -3668,16 +3740,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
-        public int WorkflowDefinitionId
+        [Required]
+        public string WorkflowDefinitionId
         {
             set
             {
-                if (m_workflowDefinitionId == value) return;
+                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -3697,11 +3767,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string User
         {
             set
@@ -3726,11 +3794,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -3755,11 +3821,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Type
         {
             set
@@ -3847,7 +3911,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workflowDefinitionId;
+        private string m_workflowDefinitionId;
         public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
 
 
@@ -3885,11 +3949,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool IsEnabled
         {
             set
@@ -3914,11 +3976,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string ActivityWebId
         {
             set
@@ -3943,16 +4003,14 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
-        public int WorkflowDefinitionId
+        [Required]
+        public string WorkflowDefinitionId
         {
             set
             {
-                if (m_workflowDefinitionId == value) return;
+                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -3972,7 +4030,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string ConditionExpression
@@ -3999,11 +4056,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public int HitCount
         {
             set
@@ -4028,7 +4083,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string Label
@@ -4055,11 +4109,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool WhenHitPrintMessage
         {
             set
@@ -4084,11 +4136,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public bool WhenHitContinueExecution
         {
             set
@@ -4113,7 +4163,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string MessageExpression
@@ -4172,11 +4221,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -4201,11 +4248,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string FullName
         {
             set
@@ -4230,11 +4275,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Version
         {
             set
@@ -4259,11 +4302,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Location
         {
             set
@@ -4328,6 +4369,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_OutputPath;
+        [XmlAttribute]
+        public string OutputPath
+        {
+            get
+            {
+                return m_OutputPath;
+            }
+            set
+            {
+                m_OutputPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<MappingSource> m_MappingSourceCollection = new ObjectCollection<MappingSource>();
 
         ///<summary>
@@ -4365,11 +4422,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string TypeName
         {
             set
@@ -4394,11 +4449,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Variable
         {
             set
@@ -4446,6 +4499,21 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameDescription = "Description";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_inputTypeName;
+        public const string PropertyNameInputTypeName = "InputTypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_outputTypeName;
+        public const string PropertyNameOutputTypeName = "OutputTypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
+
+
         private readonly ObjectCollection<Map> m_MapCollection = new ObjectCollection<Map>();
 
         ///<summary>
@@ -4457,15 +4525,24 @@ namespace Bespoke.Sph.Domain
             get { return m_MapCollection; }
         }
 
+        private readonly ObjectCollection<Functoid> m_FunctoidCollection = new ObjectCollection<Functoid>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Functoid> FunctoidCollection
+        {
+            get { return m_FunctoidCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public int TransformDefinitionId
         {
             set
@@ -4490,11 +4567,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Name
         {
             set
@@ -4519,11 +4594,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
-        [Required]
-
         [DebuggerHidden]
 
+        [Required]
         public string Description
         {
             set
@@ -4540,6 +4613,87 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_description;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string InputTypeName
+        {
+            set
+            {
+                if (String.Equals(m_inputTypeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInputTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inputTypeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_inputTypeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string OutputTypeName
+        {
+            set
+            {
+                if (String.Equals(m_outputTypeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOutputTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_outputTypeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_outputTypeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsPublished
+        {
+            set
+            {
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isPublished = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isPublished;
             }
         }
 
@@ -4615,6 +4769,1073 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+        private string m_Functoid;
+        [XmlAttribute]
+        public string Functoid
+        {
+            get
+            {
+                return m_Functoid;
+            }
+            set
+            {
+                m_Functoid = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("StringConcateFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class StringConcateFunctoid
+    {
+
+
+    }
+
+    ///<summary>
+    /// Convert string to bool
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ParseBooleanFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ParseBooleanFunctoid
+    {
+
+        private string m_Format;
+        [XmlAttribute]
+        public string Format
+        {
+            get
+            {
+                return m_Format;
+            }
+            set
+            {
+                m_Format = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_SourceField;
+        [XmlAttribute]
+        public string SourceField
+        {
+            get
+            {
+                return m_SourceField;
+            }
+            set
+            {
+                m_SourceField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// Convert string to double
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ParseDoubleFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ParseDoubleFunctoid
+    {
+
+        private string m_Styles;
+        [XmlAttribute]
+        public string Styles
+        {
+            get
+            {
+                return m_Styles;
+            }
+            set
+            {
+                m_Styles = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// Convert string to decimal
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ParseDecimalFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ParseDecimalFunctoid
+    {
+
+        private string m_Styles;
+        [XmlAttribute]
+        public string Styles
+        {
+            get
+            {
+                return m_Styles;
+            }
+            set
+            {
+                m_Styles = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// Convert string to int 32
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ParseInt32Functoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ParseInt32Functoid
+    {
+
+        private string m_Styles;
+        [XmlAttribute]
+        public string Styles
+        {
+            get
+            {
+                return m_Styles;
+            }
+            set
+            {
+                m_Styles = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// Convert string to date
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ParseDateTimeFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ParseDateTimeFunctoid
+    {
+
+        private string m_Format;
+        [XmlAttribute]
+        public string Format
+        {
+            get
+            {
+                return m_Format;
+            }
+            set
+            {
+                m_Format = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Styles;
+        [XmlAttribute]
+        public string Styles
+        {
+            get
+            {
+                return m_Styles;
+            }
+            set
+            {
+                m_Styles = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Culture;
+        [XmlAttribute]
+        public string Culture
+        {
+            get
+            {
+                return m_Culture;
+            }
+            set
+            {
+                m_Culture = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// User string.format to format any object to string
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("FormattingFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FormattingFunctoid
+    {
+
+        private string m_Format;
+        [XmlAttribute]
+        public string Format
+        {
+            get
+            {
+                return m_Format;
+            }
+            set
+            {
+                m_Format = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("FunctoidArg", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FunctoidArg
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_description;
+        public const string PropertyNameDescription = "Description";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_label;
+        public const string PropertyNameLabel = "Label";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_comment;
+        public const string PropertyNameComment = "Comment";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isOptional;
+        public const string PropertyNameIsOptional = "IsOptional";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_functoid;
+        public const string PropertyNameFunctoid = "Functoid";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_constant;
+        public const string PropertyNameConstant = "Constant";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_default;
+        public const string PropertyNameDefault = "Default";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Description
+        {
+            set
+            {
+                if (String.Equals(m_description, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_description = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_description;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Label
+        {
+            set
+            {
+                if (String.Equals(m_label, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabel, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_label = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_label;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Comment
+        {
+            set
+            {
+                if (String.Equals(m_comment, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameComment, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_comment = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_comment;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsOptional
+        {
+            set
+            {
+                if (m_isOptional == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsOptional, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isOptional = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isOptional;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Functoid
+        {
+            set
+            {
+                if (String.Equals(m_functoid, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFunctoid, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_functoid = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_functoid;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Constant
+        {
+            set
+            {
+                if (String.Equals(m_constant, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameConstant, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_constant = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_constant;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Default
+        {
+            set
+            {
+                if (String.Equals(m_default, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefault, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_default = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_default;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ConstantFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ConstantFunctoid
+    {
+
+        private string m_TypeName;
+        [XmlAttribute]
+        public string TypeName
+        {
+            get
+            {
+                return m_TypeName;
+            }
+            set
+            {
+                m_TypeName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        public object Value { get; set; }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("SourceFunctoid", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class SourceFunctoid
+    {
+
+        private string m_Field;
+        [XmlAttribute]
+        public string Field
+        {
+            get
+            {
+                return m_Field;
+            }
+            set
+            {
+                m_Field = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ExceptionFilter", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ExceptionFilter
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_filter;
+        public const string PropertyNameFilter = "Filter";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_interval;
+        public const string PropertyNameInterval = "Interval";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_intervalPeriod;
+        public const string PropertyNameIntervalPeriod = "IntervalPeriod";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_maxRequeue;
+        public const string PropertyNameMaxRequeue = "MaxRequeue";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Filter
+        {
+            set
+            {
+                if (String.Equals(m_filter, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFilter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_filter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_filter;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? Interval
+        {
+            set
+            {
+                if (m_interval == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInterval, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_interval = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_interval; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string IntervalPeriod
+        {
+            set
+            {
+                if (String.Equals(m_intervalPeriod, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIntervalPeriod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_intervalPeriod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_intervalPeriod; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? MaxRequeue
+        {
+            set
+            {
+                if (m_maxRequeue == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMaxRequeue, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_maxRequeue = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_maxRequeue; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("CorrelationType", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class CorrelationType
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        private readonly ObjectCollection<CorrelationProperty> m_CorrelationPropertyCollection = new ObjectCollection<CorrelationProperty>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CorrelationProperty", IsNullable = false)]
+        public ObjectCollection<CorrelationProperty> CorrelationPropertyCollection
+        {
+            get { return m_CorrelationPropertyCollection; }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("CorrelationSet", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class CorrelationSet
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_type;
+        public const string PropertyNameType = "Type";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Type
+        {
+            set
+            {
+                if (String.Equals(m_type, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_type = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_type;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("CorrelationProperty", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class CorrelationProperty
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_path;
+        public const string PropertyNamePath = "Path";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_origin;
+        public const string PropertyNameOrigin = "Origin";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+        public string Path
+        {
+            set
+            {
+                if (String.Equals(m_path, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_path = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_path;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        public string Origin
+        {
+            set
+            {
+                if (String.Equals(m_origin, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOrigin, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_origin = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_origin;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ChildWorkflowActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ChildWorkflowActivity
+    {
+
+        private string m_WorkflowDefinitionId;
+        [XmlAttribute]
+        public string WorkflowDefinitionId
+        {
+            get
+            {
+                return m_WorkflowDefinitionId;
+            }
+            set
+            {
+                m_WorkflowDefinitionId = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int m_Version;
+        [XmlAttribute]
+        public int Version
+        {
+            get
+            {
+                return m_Version;
+            }
+            set
+            {
+                m_Version = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsAsync;
+        [XmlAttribute]
+        public bool IsAsync
+        {
+            get
+            {
+                return m_IsAsync;
+            }
+            set
+            {
+                m_IsAsync = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<Variable> m_VariableMapCollection = new ObjectCollection<Variable>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Variable> VariableMapCollection
+        {
+            get { return m_VariableMapCollection; }
+        }
 
 
     }
@@ -4705,7 +5926,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-        private int m_triggerId;
+        private string m_triggerId;
         public const string PropertyNameTriggerId = "TriggerId";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -4768,7 +5989,7 @@ namespace Bespoke.Sph.Domain
 
 
         [XmlAttribute]
-        public int TriggerId
+        public string TriggerId
         {
             set
             {
@@ -5117,8 +6338,181 @@ namespace Bespoke.Sph.Domain
     {
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_outputTypeName;
+        public const string PropertyNameOutputTypeName = "OutputTypeName";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_label;
+        public const string PropertyNameLabel = "Label";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_comment;
+        public const string PropertyNameComment = "Comment";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private double m_x;
+        public const string PropertyNameX = "X";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private double m_y;
+        public const string PropertyNameY = "Y";
+
+        private readonly ObjectCollection<FunctoidArg> m_ArgumentCollection = new ObjectCollection<FunctoidArg>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("FunctoidArg", IsNullable = false)]
+        public ObjectCollection<FunctoidArg> ArgumentCollection
+        {
+            get { return m_ArgumentCollection; }
+        }
+
 
         // public properties members
+
+
+
+        [XmlAttribute]
+        public string Name
+        {
+            set
+            {
+                if (m_name == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string OutputTypeName
+        {
+            set
+            {
+                if (m_outputTypeName == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOutputTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_outputTypeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_outputTypeName;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string Label
+        {
+            set
+            {
+                if (m_label == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabel, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_label = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_label;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string Comment
+        {
+            set
+            {
+                if (m_comment == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameComment, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_comment = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_comment;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public double X
+        {
+            set
+            {
+                if (m_x == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameX, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_x = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_x;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public double Y
+        {
+            set
+            {
+                if (m_y == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameY, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_y = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_y;
+            }
+        }
 
 
 
@@ -5135,6 +6529,16 @@ namespace Bespoke.Sph.Domain
 
         private string m_destination;
         public const string PropertyNameDestination = "Destination";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_sourceTypeName;
+        public const string PropertyNameSourceTypeName = "SourceTypeName";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_destinationTypeName;
+        public const string PropertyNameDestinationTypeName = "DestinationTypeName";
 
 
         // public properties members
@@ -5158,6 +6562,50 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_destination;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string SourceTypeName
+        {
+            set
+            {
+                if (m_sourceTypeName == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSourceTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_sourceTypeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_sourceTypeName;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string DestinationTypeName
+        {
+            set
+            {
+                if (m_destinationTypeName == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDestinationTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_destinationTypeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_destinationTypeName;
             }
         }
 

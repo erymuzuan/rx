@@ -312,7 +312,7 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": []
   },
-  "EntityDefinitionId": 6003,
+  "Id": "appointment",
   "Name": "Appointment",
   "Plural": "Appointments",
   "IconStoreId": "161593b6-1a0c-43f0-ab21-6f4804c8acbf",

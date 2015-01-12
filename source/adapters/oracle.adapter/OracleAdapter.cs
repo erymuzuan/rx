@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -11,9 +11,13 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using ParameterDirection = System.Data.ParameterDirection;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
+    [EntityType(typeof(Adapter))]
+    [Export("AdapterDesigner", typeof(Adapter))]
+    [DesignerMetadata(Name = "Oracle database", FontAwesomeIcon = "database", RouteTableProvider = typeof(OracleAdapterRoute), Route = "adapter.oracle/0")]
     public partial class OracleAdapter : Adapter
     {
         private readonly ObjectCollection<TableDefinition> m_tableDefinitions = new ObjectCollection<TableDefinition>();
@@ -644,7 +648,8 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        public Task<BuildValidationResult> ValidateAsync()
+
+        public new Task<BuildValidationResult> ValidateAsync()
         {
             var result = new BuildValidationResult();
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_]*$");

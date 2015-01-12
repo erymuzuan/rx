@@ -584,7 +584,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityId;
+        private string m_entityId;
         public const string PropertyNameEntityId = "EntityId";
 
 
@@ -724,7 +724,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityId
+        public string EntityId
         {
             set
             {
@@ -1143,9 +1143,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameEmail = "Email";
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_userProfileId;
-        public const string PropertyNameUserProfileId = "UserProfileId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1399,35 +1396,6 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int UserProfileId
-        {
-            set
-            {
-                if (m_userProfileId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameUserProfileId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_userProfileId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_userProfileId;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
         public string Department
         {
             set
@@ -1626,11 +1594,6 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_designationId;
-        public const string PropertyNameDesignationId = "DesignationId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_name;
         public const string PropertyNameName = "Name";
 
@@ -1659,34 +1622,6 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<string> RoleCollection
         {
             get { return m_RoleCollection; }
-        }
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int DesignationId
-        {
-            set
-            {
-                if (m_designationId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameDesignationId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_designationId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_designationId;
-            }
         }
 
 
@@ -1818,10 +1753,6 @@ namespace Bespoke.Sph.Domain
     public partial class Watcher
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_watcherId;
-        public const string PropertyNameWatcherId = "WatcherId";
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entityName;
@@ -1829,7 +1760,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityId;
+        private string m_entityId;
         public const string PropertyNameEntityId = "EntityId";
 
 
@@ -1847,34 +1778,6 @@ namespace Bespoke.Sph.Domain
         private DateTime m_dateTime;
         public const string PropertyNameDateTime = "DateTime";
 
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int WatcherId
-        {
-            set
-            {
-                if (m_watcherId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameWatcherId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_watcherId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_watcherId;
-            }
-        }
 
 
         ///<summary>
@@ -1915,7 +1818,7 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityId
+        public string EntityId
         {
             set
             {
@@ -2417,12 +2320,7 @@ namespace Bespoke.Sph.Domain
     [XmlType("Message", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Message
     {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_messageId;
-        public const string PropertyNameMessageId = "MessageId";
-
-
+        
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_subject;
         public const string PropertyNameSubject = "Subject";
@@ -2443,44 +2341,14 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameUserName = "UserName";
 
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int MessageId
-        {
-            set
-            {
-                if (m_messageId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameMessageId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_messageId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_messageId;
-            }
-        }
 
 
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
-
         [Required]
-
         [DebuggerHidden]
-
         public string Subject
         {
             set
@@ -3026,11 +2894,7 @@ namespace Bespoke.Sph.Domain
     public partial class EmailTemplate
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_emailTemplateId;
-        public const string PropertyNameEmailTemplateId = "EmailTemplateId";
-
-
+        
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entity;
         public const string PropertyNameEntity = "Entity";
@@ -3061,33 +2925,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsPublished = "IsPublished";
 
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EmailTemplateId
-        {
-            set
-            {
-                if (m_emailTemplateId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEmailTemplateId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_emailTemplateId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_emailTemplateId;
-            }
-        }
 
 
         ///<summary>
@@ -3276,10 +3113,6 @@ namespace Bespoke.Sph.Domain
     public partial class DocumentTemplate
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_documentTemplateId;
-        public const string PropertyNameDocumentTemplateId = "DocumentTemplateId";
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_name;
@@ -3306,33 +3139,7 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameEntity = "Entity";
 
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int DocumentTemplateId
-        {
-            set
-            {
-                if (m_documentTemplateId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameDocumentTemplateId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_documentTemplateId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_documentTemplateId;
-            }
-        }
+      
 
 
         ///<summary>

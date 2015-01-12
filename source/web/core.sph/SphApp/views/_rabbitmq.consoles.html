@@ -66,7 +66,14 @@
         </thead>
         <tbody data-bind="foreach :queues">
             <tr>
-                <td data-bind="text:name"></td>
+                <td>
+                    <span data-bind="text:name"></span>
+                    <!-- ko if : name === 'ms_dead_letter_queue'-->
+                    <a href="#rabbitmq-consoles-panel" data-bind="attr:{'href':'#deadletter.view'}">
+                        <i class="fa fa-arrow-right"></i>
+                    </a>
+                    <!-- /ko -->
+                </td>
                 <td data-bind="text:memory"></td>
                 <td data-bind="text:status"></td>
                 <td>

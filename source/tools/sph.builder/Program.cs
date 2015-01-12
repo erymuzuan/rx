@@ -28,7 +28,7 @@ namespace sph.builder
             var cont = Console.ReadLine();
             if (cont != "y")
             {
-                Console.WriteLine("BYE.");
+                Console.WriteLine(@"BYE.");
                 return;
             }
 
@@ -56,63 +56,81 @@ namespace sph.builder
 
                 if (type == typeof(EntityDefinition))
                 {
-                    var item = json.DeserializeFromJson<EntityDefinition>();
-
-                    var edb = new EntityDefinitionBuilder();
-                    edb.Initialize();
-                    await edb.RestoreAsync(item);
-
-                    // now build the EntityForm
-                    var formBuilder = new EntityFormBuilder();
-                    formBuilder.Initialize();
-                    var formTasks = from ff in GetJsonFiles(typeof(EntityForm))
-                                    let fjson = File.ReadAllText(ff)
-                                    let fo = JObject.Parse(fjson)
-                                    let edid = fo.SelectToken("$.EntityDefinitionId").Value<int>()
-                                    where edid == item.EntityDefinitionId
-                                    select formBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityForm>());
-                    await Task.WhenAll(formTasks);
-
-                    // then build the EntityView
-                    var viewBuilder = new EntityViewBuilder();
-                    viewBuilder.Initialize();
-                    var viewTasks = from ff in GetJsonFiles(typeof(EntityView))
-                                    let fjson = File.ReadAllText(ff)
-                                    let fo = JObject.Parse(fjson)
-                                    let edid = fo.SelectToken("$.EntityDefinitionId").Value<int>()
-                                    where edid == item.EntityDefinitionId
-                                    select viewBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityView>());
-                    await Task.WhenAll(viewTasks);
-
-                    // then build the charts
-                    var chartBuilder = new Builder<EntityChart>();
-                    chartBuilder.Initialize();
-                    var chartTasks = from ff in GetJsonFiles(typeof(EntityChart))
-                                     let fjson = File.ReadAllText(ff)
-                                     let fo = JObject.Parse(fjson)
-                                     let edid = fo.SelectToken("$.EntityDefinitionId").Value<int>()
-                                     where edid == item.EntityDefinitionId
-                                     select chartBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityChart>());
-                    await Task.WhenAll(chartTasks);
-
-                    // then the triggers
-                    var triggerBuilder = new TriggerBuilder();
-                    triggerBuilder.Initialize();
-                    var triggerTasks = from ff in GetJsonFiles(typeof(Trigger))
-                                       let fjson = File.ReadAllText(ff)
-                                       let fo = JObject.Parse(fjson)
-                                       let ent = fo.SelectToken("$.Entity").Value<string>()
-                                       where ent == item.Name
-                                       select triggerBuilder.RestoreAsync(fjson.DeserializeFromJson<Trigger>());
-                    await Task.WhenAll(triggerTasks);
-
+                    await BuildEntityDefinitionAsync(json);
+                }
+                if (type == typeof(WorkflowDefinition))
+                {
+                    await BuildWorkflowAsync(json);
                 }
             }
         }
 
+        private static async Task BuildWorkflowAsync(string json)
+        {
+            var wd = json.DeserializeFromJson<WorkflowDefinition>();
+            var builder = new WorkflowDefinitionBuilder();
+            builder.Initialize();
+            await builder.RestoreAsync(wd);
+        }
+
+        private static async Task BuildEntityDefinitionAsync(string json)
+        {
+            var item = json.DeserializeFromJson<EntityDefinition>();
+
+            var edb = new EntityDefinitionBuilder();
+            edb.Initialize();
+            await edb.RestoreAsync(item);
+
+            // now build the EntityForm
+            var formBuilder = new EntityFormBuilder();
+            formBuilder.Initialize();
+            var formTasks = from ff in GetJsonFiles(typeof (EntityForm))
+                let fjson = File.ReadAllText(ff)
+                let fo = JObject.Parse(fjson)
+                let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
+                where edid == item.Id
+                select formBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityForm>());
+            await Task.WhenAll(formTasks);
+
+            // then build the EntityView
+            var viewBuilder = new EntityViewBuilder();
+            viewBuilder.Initialize();
+            var viewTasks = from ff in GetJsonFiles(typeof (EntityView))
+                let fjson = File.ReadAllText(ff)
+                let fo = JObject.Parse(fjson)
+                let edidToken = fo.SelectToken("$.EntityDefinitionId")
+                where null != edidToken
+                let edid = edidToken.Value<string>()
+                where edid == item.Id
+                select viewBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityView>());
+            await Task.WhenAll(viewTasks);
+
+            // then build the charts
+            var chartBuilder = new Builder<EntityChart>();
+            chartBuilder.Initialize();
+            var chartTasks = from ff in GetJsonFiles(typeof (EntityChart))
+                let fjson = File.ReadAllText(ff)
+                let fo = JObject.Parse(fjson)
+                let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
+                where edid == item.Id
+                select chartBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityChart>());
+            await Task.WhenAll(chartTasks);
+
+            // then the triggers
+            var triggerBuilder = new TriggerBuilder();
+            triggerBuilder.Initialize();
+            var triggerTasks = from ff in GetJsonFiles(typeof (Trigger))
+                let fjson = File.ReadAllText(ff)
+                let fo = JObject.Parse(fjson)
+                let ent = fo.SelectToken("$.Entity").Value<string>()
+                where ent == item.Name
+                select triggerBuilder.RestoreAsync(fjson.DeserializeFromJson<Trigger>());
+            await Task.WhenAll(triggerTasks);
+        }
+
         private static IEnumerable<string> GetJsonFiles(Type type)
         {
-            var triggerfolder = Path.Combine(ConfigurationManager.WorkflowSourceDirectory, type.Name);
+            var triggerfolder = Path.Combine(ConfigurationManager.SphSourceDirectory, type.Name);
             return Directory.GetFiles(triggerfolder, "*.json");
         }
 

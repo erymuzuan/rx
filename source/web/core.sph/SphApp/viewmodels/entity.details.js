@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -11,8 +11,8 @@
 /// <reference path="../objectbuilders.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system],
-    function (context, logger, router, system) {
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, objectbuilders.app],
+    function (context, logger, router, system, app) {
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             isBusy = ko.observable(false),
@@ -22,8 +22,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
             activate = function (entityid) {
                 var id = parseInt(entityid);
-                if (id) {
-                    var query = String.format("EntityDefinitionId eq {0}", id),
+                if (isNaN(id)) {
+                    var query = String.format("Id eq '{0}'", entityid),
                         tcs = new $.Deferred();
                     context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
@@ -31,23 +31,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                             window.typeaheadEntity = b.Name();
                             tcs.resolve(true);
                         });
-                    // load forms and views
-                    context.loadAsync("EntityForm", "EntityDefinitionId eq " + id)
-                        .done(function (lo) {
-                            forms(lo.itemCollection);
-                        });
-                    context.loadAsync("EntityView", "EntityDefinitionId eq " + id)
-                        .done(function (lo) {
-                            views(lo.itemCollection);
-                        });
-
 
                     return tcs.promise();
                 }
                 var ed = new bespoke.sph.domain.EntityDefinition(system.guid());
                 ed.Name.subscribe(function (name) {
                     if (!entity().Plural()) {
-                        $.get('/Sph/EntityDefinition/GetPlural/' + name, function (v) {
+                        $.get('/entity-definition/plural/' + name, function (v) {
                             entity().Plural(v);
                         });
                     }
@@ -71,28 +61,28 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/EntityDefinition/Save")
+                context.post(data, "/entity-definition")
                     .then(function (result) {
                         tcs.resolve(true);
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            if (entity().EntityDefinitionId() === 0) {
+                            if (!entity().Id()) {
                                 //reload forms and views 
-                                context.loadAsync("EntityForm", "EntityDefinitionId eq " + result.id)
+                                context.loadAsync("EntityForm", "EntityDefinitionId eq '" + result.id + "'")
                                     .done(function (lo) {
                                         forms(lo.itemCollection);
                                     });
-                                context.loadAsync("EntityView", "EntityDefinitionId eq " + result.id)
+                                context.loadAsync("EntityView", "EntityDefinitionId eq '" + result.id + "'")
                                     .done(function (lo) {
                                         views(lo.itemCollection);
                                     });
 
                             }
-                            entity().EntityDefinitionId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
                         } else {
-                            errors(result.Errors);
+                            errors(result.errors);
                             logger.error("There are errors in your entity, !!!");
                         }
                     });
@@ -104,12 +94,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/EntityDefinition/Publish")
+                context.post(data, "/entity-definition/publish")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            entity().EntityDefinitionId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
                         } else {
 
@@ -127,12 +117,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
-                context.post(data, "/EntityDefinition/Depublish")
+                context.post(data, "/entity-definition/depublish")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
                             logger.info(result.message);
-                            entity().EntityDefinitionId(result.id);
+                            entity().Id(result.id);
                             errors.removeAll();
                         } else {
 
@@ -141,6 +131,38 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         }
                         tcs.resolve(result);
                     });
+                return tcs.promise();
+            },
+            removeAsync = function () {
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(entity);
+                isBusy(true);
+                app.showMessage("Are you sure you want to permanently remove this entity definition, this action cannot be undone and will also remove related forms, views, triggers, reports and business rules", "Reactive Developer", ["Yes", "No"])
+                    .done(function (dialogResult) {
+                        if (dialogResult === "Yes") {
+
+                            context.send(data, "/entity-definition/" + entity().Id(), "DELETE")
+                                .then(function (result) {
+                                    isBusy(false);
+                                    if (result.success) {
+                                        logger.info(result.message);
+                                        setTimeout(function () {
+                                            window.location = "/sph#entities.list";
+                                        }, 2000);
+                                    } else {
+
+                                        errors(result.Errors);
+                                        logger.error("There are errors in your schema, !!!");
+                                    }
+                                    tcs.resolve(result);
+                                });
+                        } else {
+
+                            tcs.resolve(false);
+                        }
+                    });
+
                 return tcs.promise();
             };
 
@@ -156,13 +178,17 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             member: member,
             toolbar: {
                 saveCommand: save,
+                removeCommand: removeAsync,
+                canExecuteRemoveCommand: function () {
+                    return false;
+                },
                 commands: ko.observableArray([{
                     caption: 'Clone',
                     icon: 'fa fa-copy',
                     command: function () {
                         entity().Name(entity().Name() + ' Copy (1)');
                         entity().Plural(null);
-                        entity().EntityDefinitionId(0);
+                        entity().Id('');
                         forms([]);
                         views([]);
                         return Task.fromResult(0);
@@ -173,7 +199,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         caption: 'Publish',
                         icon: "fa fa-sign-in",
                         enable: ko.computed(function () {
-                            return entity().EntityDefinitionId() > 0;
+                            return entity().Id();
                         })
                     },
                     {
@@ -181,7 +207,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         caption: 'Depublish',
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
-                            return entity().EntityDefinitionId() > 0 && entity().IsPublished();
+                            return entity().Id() && entity().IsPublished();
                         })
                     }])
             }

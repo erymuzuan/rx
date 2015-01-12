@@ -1,0 +1,65 @@
+﻿<h1>Integration Adapters </h1>
+<div class="row">
+
+    <div>
+        <div class="btn-group">
+            <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
+                Add Adapter&nbsp;<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" data-bind="foreach :adapterOptions">
+                <li>
+                    <a style="text-align: left" class="btn btn-link" data-bind="attr : {'href':'#' + designer.Route}">
+                        <!-- ko if : designer.FontAwesomeIcon -->
+                        <i  data-bind="attr : {'class':'fa fa-' + designer.FontAwesomeIcon}"></i>
+                        <!--/ko -->
+                        <!-- ko if : designer.BootstrapIcon -->
+                        <i  data-bind="attr : {'class':'glyphicon glyphicon-' + designer.BootstrapIcon}"></i>
+                        <!--/ko -->
+                        <!-- ko if : designer.PngIcon -->
+                        <img data-bind="attr : {'src': designer.PngIcon, 'alt': designer.Name}" alt="#"/>
+                        <!--/ko -->
+                        <!-- ko text: designer.Name-->
+                        <!--/ko -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <table class="table table-striped" data-bind="serverPaging :{entity : 'Adapter', list: adapters}">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach : adapters">
+            <tr>
+                <td>
+                    <a href="#" data-bind="attr : {'href':'#adapter.'+ $root.getAdapterType($data)+'/' + Id()},text: Name" ></a>
+                </td>
+                <td data-bind="with: $root.getDesigner($type)">
+                    <!-- ko if : FontAwesomeIcon -->
+                    <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon}"></i>
+                    <!--/ko -->
+                    <!-- ko if : BootstrapIcon -->
+                    <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon}"></i>
+                    <!--/ko -->
+                    <!-- ko if : PngIcon -->
+                    <img data-bind="attr : {'src': PngIcon, 'alt': Name}" alt="#" />
+                    <!--/ko -->
+                    <!-- ko text: Name-->
+                    <!--/ko -->
+                </td>
+                <td data-bind="text:Description"></td>
+                <td>
+                    <a href="#" data-bind="click: $root.remove" title="Remove the adapter">
+                        <i class="fa fa-times"></i>
+                    </a>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

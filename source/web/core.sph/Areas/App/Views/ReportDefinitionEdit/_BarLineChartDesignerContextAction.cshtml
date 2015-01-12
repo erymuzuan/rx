@@ -26,34 +26,36 @@
                 <select data-bind="value: HorizontalAxisField, options:$root.columnOptions" name="HorizontalAxisField"></select>
             </div>
         </div>
-        
-        
-        <div style="font-size: 10px">
-            <a href="/#" data-bind="click : addSeries">+Series</a>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Column</th>
-                        <th>Header</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach :ChartSeriesCollection">
-                    <tr>
-                        <td>
-                            <select data-bind="value: Column, options:$root.columnOptions" name="HorizontalAxisField"></select>
-                        </td>
-                        <td>
-                            <input type="text" data-bind="value:Header" />
-                        </td>
-                        <td>
-                            <a href="/#" data-bind="click : $parent.removeSeries.call($parent,$data)">&times;</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
 
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Header</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :ChartSeriesCollection">
+                <tr>
+                    <td>
+                        <select data-bind="value: Column, options:$root.columnOptions" name="HorizontalAxisField"></select>
+                    </td>
+                    <td>
+                        <input type="text" data-bind="value:Header" />
+                    </td>
+                    <td>
+                        <a href="/#" data-bind="click : $parent.removeSeries.call($parent,$data)">&times;</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <a class="btn btn-link" href="/#" data-bind="click : addSeries">
+            <i class="fa fa-plus-circle"></i>
+            Add a series
+        </a>
         <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
             <i class="fa fa-times"></i>
             Remove

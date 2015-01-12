@@ -27,11 +27,21 @@
             <form role="form">
                 <div class="form-group">
                     <label>Name</label>
-                    <input class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name" />
+                    <input required class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name" />
                 </div>
                 <div class="form-group">
                     <label>Route</label>
-                    <input class="form-control" data-bind="value: Route" id="form-design-Route" type="text" name="FormDesign.Route" />
+                    <input required class="form-control" data-bind="value: Route" id="form-design-Route" type="text" name="FormDesign.Route" />
+                </div>
+                <div class="form-group">
+                    <label for="form-design-caption">Caption</label>
+                    <input class="form-control" data-bind="value: Caption" id="form-design-caption" type="text" name="FormDesign.Caption" />
+                </div>
+                <div class="form-group">
+                    <label for="form-design-layout">Layout</label>
+                    <select class="form-control" data-bind="options :$root.layoutOptions,
+                            optionsCaption :'[Default Layout]',
+                            value: Layout" id="form-design-layout" name="FormDesign.Layout"></select>
                 </div>
                 <div class="form-group">
                     <label for="form-design-operation">Operation</label>
@@ -148,11 +158,11 @@
             </form>
         </div>
         <div id="add-field" class="tab-pane">
-            <ul class="nav" data-bind="foreach: formElements, filter : {path:'>li', tooltip :'elements filter', offset : 0}">
+            <ul class="nav" data-bind="foreach: formElements">
                 <li>
-                    <a class="btn btn-default" href="#add-field" data-bind="attr : {title:Tooltip}">
-                        <i data-bind="attr: { 'class': ToolboxIconClass }" class="pull-left"></i>
-                        <!-- ko text: Name -->
+                    <a class="btn btn-default" href="#add-field" data-bind="tooltip : designer.Description">
+                        <i data-bind="attr: { 'class':'fa fa-' + designer.FontAwesomeIcon }" class="pull-left"></i>
+                        <!-- ko text: designer.Name -->
                         <!-- /ko-->
                     </a>
                 </li>
@@ -164,7 +174,7 @@
 
                 <div class="form-group">
                     <label for="form-element-path">Path</label>
-                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().EntityDefinitionId()" id="form-element-path" type="text" name="Path" />
+                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" id="form-element-path" type="text" name="Path" />
                 </div>
                 <div class="form-group">
                     <label for="form-element-label">Label</label>
@@ -243,7 +253,7 @@
                     }
                 </div>
 
-                <button data-bind="click: $root.removeFormElement" class="btn btn-warning" title="remove this element">Remove</button>
+                <a data-bind="click: $root.removeFormElement" class="btn btn-warning" title="remove this element">Remove</a>
                 <!-- END OF EDITOR TOOLBOX -->
             </form>
 

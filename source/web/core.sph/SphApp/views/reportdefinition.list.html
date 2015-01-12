@@ -1,7 +1,7 @@
 ﻿
 <h1>Report Definitions</h1>
 
-<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'ReportDefinition', query: 'ReportDefinitionId gt 0', list: reports}">
+<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'ReportDefinition', list: reports}">
     <thead>
         <tr>
             <th>Execute</th>
@@ -16,12 +16,12 @@
     <tbody data-bind="foreach: reports">
         <tr>
             <td>
-                <a class="execute-report" data-bind="attr: { href: '#/reportdefinition.execute-id.' + ReportDefinitionId()  + '/' + ReportDefinitionId(), title:Title}">
+                <a class="execute-report" data-bind="attr: { href: '#/reportdefinition.execute-id.' + Id()  + '/' + Id(), title:Title}">
                     <i class="fa fa-play"></i>
                 </a>
             </td>
             <td>
-                <a data-bind="attr: { href: '#/reportdefinition.edit/' + ReportDefinitionId() }, text: Title"></a>
+                <a data-bind="attr: { href: '#/reportdefinition.edit/' + Id() }, text: Title"></a>
             </td>
             <td data-bind="text:DataSource().EntityName"></td>
             <td data-bind="text:CreatedBy"></td>
@@ -32,7 +32,7 @@
                 <i class="fa fa-check" data-bind="visible:IsActive"></i>
             </td>
             <td>
-                <a href="/#/reportdefinition.list" data-bind="attr: { href: '#/reportdelivery.schedule/' + ReportDefinitionId() }">
+                <a href="/#/reportdefinition.list" data-bind="attr: { href: '#/reportdelivery.schedule/' + Id() }">
                     <i class="fa fa-calendar"></i>
                 </a>
             </td>

@@ -7,7 +7,7 @@ define([], function(){
 		activate = function(patient){
 			console.clear();
 			console.log("**************************");
-			console.log("id read from partial", patient.PatientId());
+			console.log("id read from partial", patient.Id());
 			var tcs = new $.Deferred();
 			setTimeout(function(){
 				tcs.resolve(true);

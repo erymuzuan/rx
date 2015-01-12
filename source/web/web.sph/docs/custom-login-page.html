@@ -1,0 +1,46 @@
+<h1 id="creates-your-own-brand-login-page">Creates your own brand login page</h1>
+<p>Since Reactive Developer doesnot dictate on how your security is handled, it&#39;s all up to the developers responsibility to create their own security mecanishm that follows ASP.Net security pipe line.</p>
+<h2 id="custom-login-page-with-asp-net-mvc">Custom Login Page with ASP.Net MVC</h2>
+<p>You can easily create your own branded with ASP.Net MVC/Razor View</p>
+<p>Creates a new Controller in App_Code folder, name this controller something like <code>LoginController</code>.</p>
+<pre><code class="lang-csharp">
+using System.Web.Mvc;
+
+namespace web.sph.App_Code
+{
+    public class LoginController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+    }
+}
+</code></pre>
+<p>Now create the corresponsing Razor View in Views\Login\Index.cshtml, your view need to contains at least a form with UserName and password field and set to POST to <code>Sph/SphAccount/Login</code> to use Reactive Developer internal ASP.Net membership providers. Or you can post it to your own custom membership provider.</p>
+<pre><code class="lang-html">  &lt;form method=&quot;POST&quot; action=&quot;/Sph/SphAccount/Login&quot; accept-charset=&quot;UTF-8&quot;&gt;
+    &lt;input autofocus=&quot;autofocus&quot; class=&quot;form-control&quot; id=&quot;UserName&quot; name=&quot;UserName&quot; placeholder=&quot;UserName&quot; required=&quot;True&quot; type=&quot;text&quot; value=&quot;&quot; /&gt;
+    &lt;span class=&quot;field-validation-valid&quot; data-valmsg-for=&quot;UserName&quot; data-valmsg-replace=&quot;true&quot;&gt;&lt;/span&gt;
+    &lt;label class=&quot;controls&quot;&gt;&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;Password&quot; name=&quot;Password&quot; placeholder=&quot;Password&quot; required=&quot;True&quot; type=&quot;password&quot; /&gt;
+    &lt;span class=&quot;field-validation-valid&quot; data-valmsg-for=&quot;Password&quot; data-valmsg-replace=&quot;true&quot;&gt;&lt;/span&gt;
+    &lt;label class=&quot;checkbox&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name=&quot;remember&quot; value=&quot;1&quot;&gt;
+        Remember me
+    &lt;/label&gt;
+
+    &lt;input type=&quot;hidden&quot; value=&quot;&quot; name=&quot;ReturnUrl&quot;/&gt;
+    &lt;button type=&quot;submit&quot; name=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;Login&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>The final things you need to do it to let the runtime knwo that about your new Login page, go to <code>web.config</code> file now locate this section ins <code>system.web</code></p>
+<pre><code class="lang-xml">&lt;authentication mode=&quot;Forms&quot;&gt;
+    &lt;forms loginUrl=&quot;~/Sph/SphAccount/Login&quot; timeout=&quot;2880&quot; name=&quot;.rx-developer.dev&quot; /&gt;
+&lt;/authentication&gt;
+</code></pre>
+<p>to</p>
+<pre><code class="lang-xml">&lt;authentication mode=&quot;Forms&quot;&gt;
+    &lt;forms loginUrl=&quot;~/Login&quot; timeout=&quot;2880&quot; name=&quot;.rx-developer.dev&quot; /&gt;
+&lt;/authentication&gt;
+</code></pre>
+<p>Change the loginUrl to point to your new page</p>

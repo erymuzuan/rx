@@ -1,6 +1,9 @@
 ﻿using System;
+using System.CodeDom;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -28,6 +31,76 @@ namespace Bespoke.Sph.Domain
             return value.Equals(value2);
         }
 
+        /// <summary>
+        /// Find out if the type is part of SPH
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool IsSystemType(this object obj)
+        {
+            if (null == obj) throw new ArgumentNullException("obj");
+            var elementType = obj.GetType();
+            if (string.IsNullOrWhiteSpace(elementType.Namespace)) return false;
+            if (elementType.Namespace.StartsWith(typeof(Entity).Namespace))// custom entity
+            {
+                return true;
+            }
+            return false;
+        }
+        public static string ToCsharpIdentitfier(this string text)
+        {
+
+            var rg = new Regex("([a-z])([A-Z])");
+
+            var t = rg.Replace(text, "$1_$2");
+
+            var code = new List<char>();
+            bool first = true;
+            bool gap = false;
+            bool previousUpper = false;
+            foreach (var c in t)
+            {
+                if (first && !char.IsLetter(c))
+                {
+                    continue;
+                }
+                if (char.IsLetter(c) && first)
+                {
+                    code.Add(char.ToUpperInvariant(c));
+                    first = false;
+                    previousUpper = true;
+                    continue;
+                }
+
+                if (char.IsLetter(c) && gap)
+                {
+                    code.Add(char.ToUpperInvariant(c));
+                    gap = false;
+                    continue;
+                }
+
+                if (char.IsLetter(c) && char.IsUpper(c) && !previousUpper)
+                {
+                    code.Add(char.ToUpperInvariant(c));
+                    gap = false;
+                    previousUpper = true;
+                    continue;
+                }
+
+                if (char.IsLetter(c) || char.IsDigit(c))
+                {
+                    code.Add(char.ToLowerInvariant(c));
+                    gap = false;
+                }
+                else
+                {
+                    gap = true;
+                }
+
+
+            }
+            return new string(code.ToArray());
+        }
         public static string ToCamelCase(this string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -39,6 +112,52 @@ namespace Bespoke.Sph.Domain
 
             return new string(text.ToCamelCaseHelper().ToArray());
         }
+
+        public static string GenerateId()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
+        public static string ToIdFormat(this string text)
+        {
+            return text.Replace(".", "-")
+                .Replace("_", "-")
+                .Replace(",", "-")
+                .Replace("'", "-")
+                .Replace(";", "-")
+                .Replace(":", "-")
+                .Replace("~", "-")
+                .Replace("`", "-")
+                .Replace("!", "-")
+                .Replace("@", "-")
+                .Replace("#", "-")
+                .Replace("$", "-")
+                .Replace("%", "-")
+                .Replace("^", "-")
+                .Replace("&", "-")
+                .Replace("*", "-")
+                .Replace("(", "-")
+                .Replace(")", "-")
+                .Replace("+", "-")
+                .Replace("=", "-")
+                .Replace("{", "-")
+                .Replace("[", "-")
+                .Replace("}", "-")
+                .Replace("]", "-")
+                .Replace("|", "-")
+                .Replace("\\", "-")
+                .Replace(" ", "-")
+                .Replace("\"", "-")
+                .Replace("/", "-")
+                .Replace("?", "-")
+                .Replace("--", "-")
+                .Replace("--", "-")
+                .Replace("--", "-")
+                .ToLowerInvariant()
+                ;
+        }
+
+
         private static IEnumerable<char> ToCamelCaseHelper(this string text)
         {
             bool first = true;
@@ -55,6 +174,8 @@ namespace Bespoke.Sph.Domain
                 }
             }
         }
+
+
         private static IEnumerable<char> ToCamelCaseHelperWithAllUpper(this string text)
         {
             bool _ = false;
@@ -125,18 +246,75 @@ namespace Bespoke.Sph.Domain
             return value;
         }
 
+        public static string ToLiteral(this string input)
+        {
+            using (var writer = new StringWriter())
+            {
+                using (var provider = CodeDomProvider.CreateProvider("CSharp"))
+                {
+                    provider.GenerateCodeFromExpression(new CodePrimitiveExpression(input), writer, null);
+                    return writer.ToString();
+                }
+            }
+        }
+
+        public static string EscapeUriString(this string value)
+        {
+            return Uri.EscapeUriString(value.ToEmptyString());
+        }
+        public static string EscapeDataString(this string value)
+        {
+            return Uri.EscapeDataString(value.ToEmptyString());
+        }
 
         public static string ToEmptyString(this object value)
         {
             if (null == value) return string.Empty;
             return string.Format("{0}", value);
         }
+
+        public static DateTime? RegexDateTimeValue(string input, string pattern, string group, params  string[] formats)
+        {
+            var val = RegexSingleValue(input, pattern, group);
+            DateTime dv;
+            if (DateTime.TryParseExact(val, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dv))
+                return dv;
+            return null;
+        }
+        public static int? RegexInt32Value(string input, string pattern, string group)
+        {
+            var val = RegexSingleValue(input, pattern, group);
+            int dv;
+            if (int.TryParse(val, out dv))
+                return dv;
+            return null;
+        }
+        public static decimal? RegexDecimalValue(string input, string pattern, string group)
+        {
+            var val = RegexSingleValue(input, pattern, group);
+            decimal dv;
+            if (decimal.TryParse(val, out dv))
+                return dv;
+            return null;
+        }
+
         public static string RegexSingleValue(string input, string pattern, string group)
         {
             const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Singleline;
             var matches = Regex.Matches(input, pattern, OPTIONS);
             return matches.Count == 1 ? matches[0].Groups[@group].Value.Trim() : null;
         }
+
+        public static string[] RegexValues(string input, string pattern, string group)
+        {
+            const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Singleline;
+            var matches = Regex.Matches(input, pattern, OPTIONS);
+            var ff = from Match v in matches
+                     select v.Groups[@group].Value.Trim();
+            return ff.ToArray();
+        }
+
+
         public static string ToSDate(this string value)
         {
             if (string.IsNullOrEmpty(value)) return value;

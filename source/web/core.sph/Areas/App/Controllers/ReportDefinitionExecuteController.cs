@@ -11,20 +11,20 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
     public class ReportDefinitionExecuteController : BaseAppController
     {
         [RazorScriptFilter]
-        public async Task<ActionResult> Js(int id)
+        public async Task<ActionResult> Js(string id)
         {
             var context = new SphDataContext();
-            var rdl = await context.LoadOneAsync<ReportDefinition>(r => r.ReportDefinitionId == id);
+            var rdl = await context.LoadOneAsync<ReportDefinition>(r => r.Id == id);
 
             return View("Script", rdl);
         }
 
-        public async Task<ActionResult> Html(int id)
+        public async Task<ActionResult> Html(string id)
         {
             var context = new SphDataContext();
             var datasource = this.GetRequestJson<DataSource>();
             ReportDefinition rdl = null;
-            rdl = await context.LoadOneAsync<ReportDefinition>(r => r.ReportDefinitionId == id);
+            rdl = await context.LoadOneAsync<ReportDefinition>(r => r.Id == id);
             if (null != datasource)
             {
                 await Task.Delay(500);

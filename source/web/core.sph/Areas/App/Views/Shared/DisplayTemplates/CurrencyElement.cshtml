@@ -5,7 +5,7 @@
      @Html.Partial("_DesignerContextAction")
    <label data-bind="text: Label" class="control-label col-lg-2"></label>
     <div class="col-lg-4">
-        <input type="text" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' ' + Size() }" />
+        <input type="text" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' ' + Size() ,placeholder:' [ ' + Path() + ' ] '}" />
     </div>
 </div>
 <!--/ko-->

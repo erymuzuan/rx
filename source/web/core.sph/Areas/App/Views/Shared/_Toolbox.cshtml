@@ -37,7 +37,7 @@
                             <i class="fa fa-upload"></i>
                             Import
                         </button>
-                        <a href="#" class="btn btn-link" data-dismiss="modal" target="_blank" data-bind="attr : {'href':'#/screen.editor/' + $root.wd().WorkflowDefinitionId() + '/' + $root.activity().WebId()}, visible : $root.runningInDialog">
+                        <a href="#" class="btn btn-link" data-dismiss="modal" target="_blank" data-bind="attr : {'href':'#/screen.editor/' + $root.wd().Id() + '/' + $root.activity().WebId()}, visible : $root.runningInDialog">
                             <i class="fa fa-edit"></i>
                             Edit
                         </a>
@@ -111,7 +111,7 @@
 
                 <div class="form-group">
                     <label for="form-element-path">Path</label>
-                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, typeahead : $root.wd().WorkflowDefinitionId()" id="form-element-path" type="text" name="Path" />
+                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, typeahead : $root.wd().Id()" id="form-element-path" type="text" name="Path" />
                 </div>
          
 
