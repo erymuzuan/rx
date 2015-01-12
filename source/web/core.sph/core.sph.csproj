@@ -1516,6 +1516,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\transform.definition.prop.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\correlation.type.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\correlation.set.dialog.js" />
+    <EmbeddedResource Include="SphApp\services\form.designer.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -1948,17 +1949,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\App\Models\" />
-    <Folder Include="Areas\App\Views\ReportDefinition\" />
     <Folder Include="Areas\Sph\Models\" />
-    <Folder Include="Areas\Sph\Views\Adapter\" />
     <Folder Include="Areas\Sph\Views\App\DisplayTemplates\" />
     <Folder Include="Areas\Sph\Views\App\EditorTemplates\" />
-    <Folder Include="Areas\Sph\Views\Base\" />
-    <Folder Include="Areas\Sph\Views\BusinessRule\" />
-    <Folder Include="Areas\Sph\Views\EmailTemplate\" />
-    <Folder Include="Areas\Sph\Views\EntityChart\" />
-    <Folder Include="Areas\Sph\Views\EntityForm\" />
-    <Folder Include="Areas\Sph\Views\TransformDefinition\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
     <Folder Include="Views\WorkflowDesigner\" />

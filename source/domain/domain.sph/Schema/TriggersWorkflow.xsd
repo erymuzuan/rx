@@ -375,8 +375,9 @@
 				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
-			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Version" type="xs:int" use="required"/>
+			<xs:attribute name="Route" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="DecisionActivity">
