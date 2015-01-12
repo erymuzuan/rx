@@ -142,12 +142,12 @@ if(this.Status == ""A"")
             wd.ActivityCollection.Add(e);
             wd.ActivityCollection.Add(z);
 
-            var tryScope = new WorkflowDefinition.TryScope()
+            var tryScope = new TryScope
             {
                 Id = TRY_SCOPE
             };
 
-            var catchScope1 = new WorkflowDefinition.CatchScope()
+            var catchScope1 = new CatchScope
             {
                 Id = CATCH_SCOPE,
                 ExceptionType = typeof(InvalidOperationException).Name,

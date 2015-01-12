@@ -10,62 +10,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class WorkflowDefinition
     {
-        private readonly ObjectCollection<TryScope> m_tryScopeCollection = new ObjectCollection<TryScope>();
-        public ObjectCollection<TryScope> TryScopeCollection { get { return m_tryScopeCollection; } }
-
-        public class Scope
-        {
-            public string Id { get; set; }
-            public string Name { get; set; }
-        }
-
-        public class TryScope : Scope
-        {
-            private readonly ObjectCollection<CatchScope> m_catchScopeCollection = new ObjectCollection<CatchScope>();
-            public ObjectCollection<CatchScope> CatchScopeCollection { get { return m_catchScopeCollection; } }
-
-            public string GenerateCode(WorkflowDefinition wd, Activity activity)
-            {
-                var execute = new StringBuilder();
-                execute.AppendLine("try ");
-                execute.AppendLine("{ ");
-                execute.AppendLinf("    result = await this.{0}().ConfigureAwait(false);", activity.MethodName);
-                execute.AppendLine("}");
-
-
-                foreach (var xy in this.CatchScopeCollection)
-                {
-                    execute.AppendLinf("catch ({0})", xy.ExceptionType);
-                    execute.AppendLine("{");
-
-                    var xy1 = xy;
-                    var catchActivities = wd.ActivityCollection.FindAll(a => a.CatchScope == xy1.Id)
-                        .ToList();
-
-                    var firstCatchActivity = catchActivities.First();
-                    foreach (var act in catchActivities)
-                    {
-                        firstCatchActivity = act;
-                        var isThereAnyPreviousActivitiesPointToMe = catchActivities.Any(c => c.NextActivityWebId == act.WebId);
-                        if (!isThereAnyPreviousActivitiesPointToMe)
-                            break;
-                    }
-
-                    execute.AppendLinf("    return new ActivityExecutionResult {{ NextActivities = new []{{\"{0}\"}} }};", firstCatchActivity.WebId);
-                    execute.AppendLine("}");
-                }
-
-                return execute.ToString();
-            }
-        }
-
-        public class CatchScope : Scope
-        {
-            public String ExceptionType { get; set; }
-            public String ExceptionVar { get; set; }
-            public String ExceptionMessage { get; set; }
-        }
-
+      
         private IEnumerable<Class> GenerateCode()
         {
             var @classes = new List<Class>();

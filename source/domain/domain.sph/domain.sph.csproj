@@ -316,6 +316,7 @@
     <Compile Include="Triggers\Breakpoint.cs" />
     <Compile Include="Triggers\BuildError.cs" />
     <Compile Include="Triggers\BuildValidationResult.cs" />
+    <Compile Include="Triggers\CatchScope.cs" />
     <Compile Include="Triggers\ChildWorkflowActivity.cs" />
     <Compile Include="Triggers\ClrTypeVariable.cs" />
     <Compile Include="Triggers\CompilerOptions.cs" />
@@ -426,6 +427,7 @@
     <Compile Include="Triggers\RuleContext.cs" />
     <Compile Include="Triggers\ScheduledActivityExecution.cs" />
     <Compile Include="Triggers\ScheduledTriggerActivity.cs" />
+    <Compile Include="Triggers\Scope.cs" />
     <Compile Include="Triggers\ScreenActivity.cs" />
     <Compile Include="Triggers\ScriptFunctoid.cs" />
     <Compile Include="Triggers\SendActivity.cs" />
@@ -463,6 +465,7 @@
     <Compile Include="SubmitOperation.cs" />
     <Compile Include="Business\User.cs" />
     <Compile Include="Business\Watcher.cs" />
+    <Compile Include="Triggers\TryScope.cs" />
     <Compile Include="Triggers\UpdateEntityActivity.cs" />
     <Compile Include="Triggers\Variable.cs" />
     <Compile Include="Triggers\VariableValue.cs" />
