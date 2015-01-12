@@ -160,6 +160,9 @@
   <data name="activity_scheduledtrigger" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\activity.scheduledtrigger.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="activity_screen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\activity.screen.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="activity_send" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\activity.send.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

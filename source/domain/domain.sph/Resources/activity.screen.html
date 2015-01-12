@@ -1,15 +1,8 @@
-﻿@using System.Web.Mvc.Html
-@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
-
-@{
-    Layout = null;
-}
-
-
+﻿
 <div class="view-model-modal" id="activity-screen-modal">
     <div class="modal-dialog">
         <div class="modal-content">
-            
+
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
                 <h3>Screen Activity</h3>
@@ -28,6 +21,13 @@
                                         <label for="screen-vpath" class="col-lg-2 control-label">Name</label>
                                         <div class="col-lg-6">
                                             <input pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" required type="text" data-bind="value: Name" class="form-control" id="screen-vpath" placeholder="Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="form-option" class="col-lg-2 control-label">Form</label>
+                                        <div class="col-lg-6">
+                                            <select class="form-control" id="form-option" data-bind="value:FormId, options : $root.formOptions"></select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -67,7 +67,40 @@
                     </div>
 
                     <div id="invite-message" class="tab-pane" data-bind="with : activity">
-                        @Html.Partial("_ScreenPerformer")
+                        <form role="form" data-bind="with: Performer" class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
+                                            Is Public
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="performer-property" class="col-sm-2 control-label">User Property</label>
+                                <div class="col-sm-10 col-lg-9">
+                                    <select class="form-control" id="performer-property" data-bind="value:UserProperty">
+                                        <option value="">[Please Select]</option>
+                                        <option value="Roles">Roles</option>
+                                        <option value="UserName">UserName</option>
+                                        <option value="Department">Department</option>
+                                        <option value="Designation">Designation</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="performer-value" class="col-sm-2 control-label">Value</label>
+                                <div class="col-sm-10 col-lg-9">
+                                    <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value" />
+                                </div>
+                            </div>
+
+                        </form>
+
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label for="scr-ims" class="col-lg-2 control-label">Subject</label>
@@ -109,7 +142,7 @@
                         </form>
                     </div>
                 </div>
-             </div>
+            </div>
             <div class="modal-footer">
                 <input form="activity-screen-modal-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
                 <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>

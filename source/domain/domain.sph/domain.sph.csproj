@@ -553,6 +553,8 @@
     <None Include="Resources\form.element.property.grid.ImageElement.html" />
     <None Include="Resources\form.element.property.grid.ListView.html" />
     <None Include="Resources\form.element.property.grid.TextBox.html" />
+    <None Include="Resources\activity.screen.js" />
+    <None Include="Resources\activity.screen.html" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

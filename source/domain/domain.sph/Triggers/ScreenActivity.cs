@@ -26,7 +26,11 @@ namespace Bespoke.Sph.Domain
                              string.Format("[ScreenActivity] : {0} => does not have performer", this.Name)));
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 result.Errors.Add(new BuildError(this.WebId,
-                             string.Format("[ScreenActivity] : {0} => does not the next activity defined", this.Name)));
+                             string.Format("[ScreenActivity] : {0} => does not have the next activity defined", this.Name)));
+
+            if (string.IsNullOrWhiteSpace(this.FormId))
+                result.Errors.Add(new BuildError(this.WebId,
+                             string.Format("[ScreenActivity] : {0} => does not have a Form defined", this.Name)));
 
             return result;
         }

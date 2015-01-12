@@ -285,7 +285,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\App\AppAreaRegistration.cs" />
     <Compile Include="Areas\App\Controllers\ConfigController.cs" />
-    <Compile Include="Areas\App\Controllers\ActivityScreenController.cs" />
     <Compile Include="Areas\App\Controllers\EntityViewDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\EntityFormDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\HeaderController.cs" />
@@ -298,16 +297,6 @@
     <Compile Include="Areas\App\Controllers\UsersController.cs" />
     <Compile Include="Areas\App\Controllers\UserProfileController.cs" />
     <Compile Include="Areas\App\Controllers\WorkflowDraftController.cs" />
-    <Compile Include="Areas\App\Views\ActivityScreen\Html.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Html.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\App\Views\ActivityScreen\Script.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Script.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Areas\App\Views\EntityFormDesigner\Html.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2403,10 +2392,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>BusinessRuleDialog.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\App\Views\ActivityScreen\Html.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Html.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\App\Views\Shared\_Toolbox.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Toolbox.generated.cs</LastGenOutput>
@@ -2414,10 +2399,6 @@
     <Content Include="Areas\App\Views\Shared\_ValidationSetting.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_ValidationSetting.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\App\Views\ActivityScreen\Script.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Script.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\App\Views\Shared\_DesignerContextAction.cshtml">
       <Generator>RazorGenerator</Generator>

@@ -89,10 +89,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var wd = wd0.ChangeActivitiesWebId();
             var buildValidation = wd.ValidateBuild();
 
+            await this.Save("Compile", wd);
+
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
-            await this.Save("Compile", wd);
 
             var options = new CompilerOptions
             {
