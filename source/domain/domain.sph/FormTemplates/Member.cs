@@ -102,6 +102,7 @@ namespace Bespoke.Sph.Domain
                 BaseClass = typeof(DomainObject).Name
             };
             @class.AddNamespaceImport<DomainObject>();
+            @class.AddNamespaceImport<DateTime>();
 
             if (typeof(Array) == this.Type)
                 @class.Name = this.Name.Replace("Collection", "");

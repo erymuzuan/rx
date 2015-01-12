@@ -8,7 +8,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.DateTimeIdentifiers
 {
     [Export("DateTime", typeof(IdentifierCompiler))]
     [IdentifierCompilerMetadata(TypeName = "DateTime", Text = "ParseExact")]
-    public class DateTimeParseExact : IdentifierCompiler
+    public class ParseExact : IdentifierCompiler
     {
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> argumentList)
         {

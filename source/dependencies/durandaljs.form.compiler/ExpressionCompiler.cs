@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
@@ -33,11 +34,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             }
         }
+
         public Task<SnippetCompilerResult> CompileAsync<T>(string expression, IProjectProvider project)
         {
-         
+
             if (string.IsNullOrWhiteSpace(expression))
-                return Task.FromResult(new SnippetCompilerResult { Code = "true" });
+            {
+                expression = GetDefaultExpression<T>();
+            }
 
             var walkersObjectModels = this.Walkers
                 .Select(x => x.GetObjectModel(project))
@@ -48,34 +52,19 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .Where(x => x.IncludeAsParameter)
                 .Select(x => x.ClassName + " " + x.IdentifierText));
 
-            var file = new StringBuilder();
-            file.AppendLine("using System;");
-            file.AppendLine("using System.Linq;");
-            file.AppendLine();
-            file.AppendLine("namespace " + project.DefaultNamespace);
-            file.AppendLine("{");
-            file.AppendLine("   public class ExpressionCompilerSnippet");
-            file.AppendLine("   {");
-            file.AppendLinf("       public {2} Evaluate({0} item, {1})  ", project.Name, parameters, typeof(T).ToCSharp());
-            file.AppendLine("       {");
-            file.AppendLinf("           return {0};", expression);
-            file.AppendLine("       }");
-            file.AppendLine("   }");
-            file.AppendLine("}");
-
-            var trees = new ObjectCollection<SyntaxTree>();
-
-            var tree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(file.ToString());
-            var root = (CompilationUnitSyntax)tree.GetRoot();
-            trees.Add(tree);
-
-
+            var snippet = BuilExpressionClass<T>(expression, project, parameters);
             var codes = (from c in project.GenerateCode()
                          where !c.FileName.EndsWith("Controller")
                          where !c.FileName.EndsWith("Controller.cs")
                          let x = c.GetCode().Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
                          .Replace("using System.Web.Mvc;", string.Empty)
-                         select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)).ToList();
+                         select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)).ToArray();
+
+
+
+            var trees = new List<SyntaxTree> { snippet };
+            var root = (CompilationUnitSyntax)snippet.GetRoot();
+
             trees.AddRange(codes);
             trees.AddRange(walkersObjectModels.Select(x => x.SyntaxTree));
 
@@ -87,7 +76,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .AddReference<EnumerableQuery>()
                 .AddSyntaxTrees(trees.ToArray());
 
-            var model = compilation.GetSemanticModel(tree);
+            var model = compilation.GetSemanticModel(snippet);
 
 
             var diagnostics = compilation.GetDiagnostics();
@@ -106,6 +95,36 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             result.Code = CompileExpression(statement, model);
             return Task.FromResult(result);
+        }
+
+        private static string GetDefaultExpression<T>()
+        {
+            var type = typeof(T);
+            if (type == typeof(bool)) return "false";
+            if (type == typeof(string)) return "null";
+            if (type == typeof(DateTime)) return "DateTime.MinValue";
+
+            return string.Format("{0}", default(T));
+        }
+
+        private static CSharpSyntaxTree BuilExpressionClass<T>(string expression, IProjectProvider project, string parameters)
+        {
+            var file = new StringBuilder();
+            file.AppendLine("using System;");
+            file.AppendLine("using System.Linq;");
+            file.AppendLine();
+            file.AppendLine("namespace " + project.DefaultNamespace);
+            file.AppendLine("{");
+            file.AppendLine("   public class ExpressionCompilerSnippet");
+            file.AppendLine("   {");
+            file.AppendLinf("       public {2} Evaluate({0} item, {1})  ", project.Name, parameters, typeof(T).ToCSharp());
+            file.AppendLine("       {");
+            file.AppendLinf("           return {0};", expression);
+            file.AppendLine("       }");
+            file.AppendLine("   }");
+            file.AppendLine("}");
+
+            return (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(file.ToString());
         }
 
 

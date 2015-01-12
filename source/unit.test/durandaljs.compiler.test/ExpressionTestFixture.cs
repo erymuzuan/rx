@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.FormCompilers.DurandalJs;
@@ -17,14 +17,14 @@ namespace durandaljs.compiler.test
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
         }
 
-        private async Task AssertAsync<T>(string expected, string expression, string message = "")
+        public async Task AssertAsync<T>(string expected, string expression, string message = "")
         {
 
             var patient = HtmlCompileHelper.CreatePatientDefinition();
             var compiler = new ExpressionCompiler();
             var js = await compiler.CompileAsync<T>(expression, patient);
 
-            Assert.AreEqual(expected, js.Code, string.IsNullOrWhiteSpace(message) ? expression : message);
+            Assert.AreEqual(expected, js.Code, string.IsNullOrWhiteSpace(message) ? "\r\n Original C# Expression: "+expression : message);
         }
 
         [TestMethod]
@@ -45,13 +45,86 @@ namespace durandaljs.compiler.test
                 "DateTime.Now.ToString(item.Name)"
                 );
         }
+
         [TestMethod]
-        public async Task EjaMainMain()
+        public async Task DefaultString()
         {
 
             await AssertAsync<string>(
-                "moment().format($data.Name())",
-                "DateTime.Now.ToString(item.Name)"
+                "null",
+                ""
+                );
+        }
+        [TestMethod]
+        public async Task DefaultInt32()
+        {
+
+            await AssertAsync<int>(
+                "0",
+                ""
+                );
+        }
+        [TestMethod]
+        public async Task DefaultDecimal()
+        {
+
+            await AssertAsync<decimal>(
+                "0",
+                ""
+                );
+        }
+        [TestMethod]
+        public async Task DefaultDouble()
+        {
+
+            await AssertAsync<decimal>(
+                "0",
+                ""
+                );
+        }
+        [TestMethod]
+        public async Task DefaulSingle()
+        {
+
+            await AssertAsync<float>(
+                "0",
+                ""
+                );
+        }
+        [TestMethod]
+        public async Task DefaulInt64()
+        {
+
+            await AssertAsync<long>(
+                "0",
+                ""
+                );
+        }
+        [TestMethod]
+        public async Task DefaulInt16()
+        {
+
+            await AssertAsync<short>(
+                "0",
+                ""
+                );
+        }
+        [TestMethod]
+        public async Task DefaultBoolean()
+        {
+
+            await AssertAsync<bool>(
+                "false",
+                ""
+                );
+        }
+        [TestMethod]
+        public async Task DefaultDateTime()
+        {
+
+            await AssertAsync<DateTime>(
+                "moment('0001-01-01')",
+                ""
                 );
         }
 
@@ -62,19 +135,6 @@ namespace durandaljs.compiler.test
             await AssertAsync<int>(
                 "Math.abs($data.Age() || 0)",
                 "Math.Abs(item.Age ?? 0)"
-                );
-        }
-
-
-        [TestMethod]
-        [Ignore]
-        public async Task DateTimeToStringFormatd()
-        {
-            // TODO: need to translate .Net date format string to moment format string
-            Process.Start("http://momentjs.com/docs/#/displaying/");
-            await AssertAsync<string>(
-                "moment().format('DD/MM/YYYY')",
-                "DateTime.Now.ToString(\"d\")"
                 );
         }
     }

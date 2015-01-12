@@ -66,6 +66,7 @@
     <Compile Include="BooleanExpressionWithDateTimeAndWorkflow.cs" />
     <Compile Include="BooleanExpressionWithNumber.cs" />
     <Compile Include="BooleanExpressionWithDateTime.cs" />
+    <Compile Include="DateTimeExpressionTextFixure.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
     <Compile Include="MockDirectoryService.cs" />
     <Compile Include="RazorDisplayTemplateTestFixture.cs" />

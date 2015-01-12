@@ -29,6 +29,7 @@ namespace durandaljs.compiler.test
             };
             patient.MemberCollection.Add(new Member { Name = "Name", Type = typeof(string), IsNullable = true });
             patient.MemberCollection.Add(new Member { Name = "Mrn", Type = typeof(string), IsNullable = false });
+            patient.MemberCollection.Add(new Member { Name = "Tag", Type = typeof(string), IsNullable = false });
             patient.MemberCollection.Add(new Member { Name = "MyKad", Type = typeof(string), IsNullable = true });
             patient.MemberCollection.Add(new Member { Name = "Age", Type = typeof(int), IsNullable = true });
             patient.MemberCollection.Add(new Member { Name = "Dob", Type = typeof(DateTime), IsNullable = true });
@@ -38,6 +39,7 @@ namespace durandaljs.compiler.test
             var address = new Member { Name = "Address", Type = typeof(object) };
             address.Add(new Dictionary<string, Type>
             {
+                {"CreatedDate", typeof (DateTime)},
                 {"Street", typeof (string)},
                 {"Street2", typeof (string)},
                 {"City", typeof (string)},
@@ -52,6 +54,7 @@ namespace durandaljs.compiler.test
                 {"Name", typeof(string)},
                 {"Gender", typeof(string)},
                 {"Age", typeof(int)},
+                {"Dob", typeof(DateTime)},
             });
 
             return patient;

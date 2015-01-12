@@ -33,6 +33,14 @@
     $type.__class = true;
 
     $prototype = $type.prototype;
+    $prototype.moment = function String$moment(format) {
+        /// <summary>Create a moment date time object.</summary>
+        /// <param name="format" type="String">format.</param>
+        /// <returns type="moment"></returns>
+        if (format)
+            return moment(this, format);
+        return moment(this);
+    };
     $prototype.endsWith = function String$endsWith(suffix) {
         /// <summary>Determines whether the end of this instance matches the specified string.</summary>
         /// <param name="suffix" type="String">A string to compare to.</param>

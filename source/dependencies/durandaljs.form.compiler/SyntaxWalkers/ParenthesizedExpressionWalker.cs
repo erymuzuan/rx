@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 {
     [Export(typeof(CustomObjectSyntaxWalker))]
-    public class ParenthesizedExpressionWlaker : CustomObjectSyntaxWalker
+    public class ParenthesizedExpressionWalker : CustomObjectSyntaxWalker
     {
         protected override string[] ObjectNames
         {

@@ -16,11 +16,24 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override bool Filter(SymbolInfo info)
         {
-            if (null == info.Symbol) return false;
-            return 
-                info.Symbol.ContainingType.Name == "DateTime" &&
-                info.Symbol.ContainingNamespace.Name == "System"&&
-                info.Symbol.ContainingAssembly.Name == "mscorlib";
+            var symbol = info.Symbol;
+            if (null == symbol) return false;
+
+
+            var prop = symbol as IPropertySymbol;
+            if (prop != null)
+            {
+                var named = prop.Type;
+                return (named.Name == "DateTime" || named.ToString() == "System.DateTime?") &&
+                    named.ContainingNamespace.Name == "System" &&
+                    named.ContainingAssembly.Name == "mscorlib";
+
+            }
+
+            // static methods and propertues
+            return symbol.ContainingType.Name == "DateTime" &&
+                symbol.ContainingNamespace.Name == "System" &&
+                symbol.ContainingAssembly.Name == "mscorlib";
         }
         protected override string[] ObjectNames
         {
@@ -49,6 +62,23 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     this.Code.Append(xp);
                 else
                     this.Code.Append("." + xp);
+            }
+            else
+            {
+                // NOTE : assume it's an item property
+                var parent = node.Parent;
+                if (null != parent && parent.ToString().StartsWith("item."))
+                {
+                    // Filter again, to see if the node really is DateTime property
+                    var sym = this.Filter(this.SemanticModel.GetSymbolInfo(node));
+                    if (sym)
+                    {
+                        this.Code.Clear();
+                        this.Code.Append(code);
+                        this.Code.Append(text + "().moment()");
+
+                    }
+                }
             }
 
             base.VisitIdentifierName(node);

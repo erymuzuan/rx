@@ -144,9 +144,10 @@
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeAddDays.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeNow.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeParse.cs" />
-    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeParseExact.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\ParseExact.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeToday.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeToString.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\MinValue.cs" />
     <Compile Include="SyntaxWalkers\DateTimeMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\DecimalSyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />
@@ -159,7 +160,7 @@
     <Compile Include="SyntaxWalkers\MathIdentifiers\Abs.cs" />
     <Compile Include="SyntaxWalkers\MathWalker.cs" />
     <Compile Include="SyntaxWalkers\MethodInvocationExpressionWalker.cs" />
-    <Compile Include="SyntaxWalkers\ParenthesizedExpressionWlaker.cs" />
+    <Compile Include="SyntaxWalkers\ParenthesizedExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\StringEmpty.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrEmpty.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrWhiteSpace.cs" />
