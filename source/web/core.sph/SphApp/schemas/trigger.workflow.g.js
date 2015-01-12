@@ -514,6 +514,7 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
         ReferencedAssemblyCollection: ko.observableArray([]),
         CorrelationSetCollection: ko.observableArray([]),
         CorrelationTypeCollection: ko.observableArray([]),
+        TryScopeCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2260,6 +2261,65 @@ bespoke.sph.domain.ChildWorkflowActivity = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.TryScope = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Scope(optionOrWebid);
+
+    v["$type"] = "Bespoke.Sph.Domain.TryScope, domain.sph";
+
+    v.CatchScopeCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.TryScopePartial) {
+        return _(v).extend(new bespoke.sph.domain.TryScopePartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.CatchScope = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Scope(optionOrWebid);
+
+    v.ExceptionType = ko.observable('');
+
+    v.ExceptionVar = ko.observable('');
+
+    v["$type"] = "Bespoke.Sph.Domain.CatchScope, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.CatchScopePartial) {
+        return _(v).extend(new bespoke.sph.domain.CatchScopePartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.Field = function (optionOrWebid) {
 
     var model = {
@@ -2456,6 +2516,33 @@ bespoke.sph.domain.Map = function (optionOrWebid) {
 
     if (bespoke.sph.domain.MapPartial) {
         return _(model).extend(new bespoke.sph.domain.MapPartial(model));
+    }
+    return model;
+};
+
+
+bespoke.sph.domain.Scope = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Scope, domain.sph",
+        Id: ko.observable(''),
+        Name: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+    if (bespoke.sph.domain.ScopePartial) {
+        return _(model).extend(new bespoke.sph.domain.ScopePartial(model));
     }
     return model;
 };
