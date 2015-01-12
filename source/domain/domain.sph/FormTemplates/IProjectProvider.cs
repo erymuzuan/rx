@@ -7,6 +7,7 @@ namespace Bespoke.Sph.Domain
     {
         string DefaultNamespace { get; }
         string Name { get; }
+        string Id { get; set; }
         IEnumerable<Class> GenerateCode();
     }
 }

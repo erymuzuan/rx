@@ -1961,18 +1961,13 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_name;
-        public const string PropertyNameName = "Name";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int m_version;
         public const string PropertyNameVersion = "Version";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_route;
-        public const string PropertyNameRoute = "Route";
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2028,34 +2023,6 @@ namespace Bespoke.Sph.Domain
 
         [Required]
 
-        public string Name
-        {
-            set
-            {
-                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_name = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_name;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-
         public int Version
         {
             set
@@ -2084,22 +2051,22 @@ namespace Bespoke.Sph.Domain
 
         [Required]
 
-        public string Route
+        public bool IsPublished
         {
             set
             {
-                if (String.Equals(m_route, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_route = value;
+                    m_isPublished = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_route;
+                return m_isPublished;
             }
         }
 

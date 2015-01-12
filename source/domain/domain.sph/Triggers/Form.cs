@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,23 +8,24 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class EntityForm : Form
+    [EntityType(typeof (Form))]
+    public partial class Form : Entity, IForm
     {
-        public async Task<BuildValidationResult> ValidateBuildAsync(EntityDefinition ed)
+        public async Task<BuildValidationResult> ValidateBuildAsync(IProjectProvider wd)
         {
             var result = new BuildValidationResult();
             var errors = from f in this.FormDesign.FormElementCollection
-                         where f.IsPathIsRequired
-                             && string.IsNullOrWhiteSpace(f.Path) && (f.Name != "HTML Section")
-                         select new BuildError
-                         (
-                             this.WebId,
-                             string.Format("[Input] : {0} => '{1}' does not have path", this.Name, f.Label)
-                         );
+                where f.IsPathIsRequired
+                      && string.IsNullOrWhiteSpace(f.Path) && (f.Name != "HTML Section")
+                select new BuildError
+                    (
+                    this.WebId,
+                    string.Format("[Input] : {0} => '{1}' does not have path", this.Name, f.Label)
+                    );
             var elements = from f in this.FormDesign.FormElementCollection
-                           let err = f.ValidateBuild(ed)
-                           where null != err
-                           select err;
+                let err = f.ValidateBuild(wd)
+                where null != err
+                select err;
 
             var context = new SphDataContext();
 
@@ -72,9 +73,9 @@ namespace Bespoke.Sph.Domain
                     var expressions = fe.CodeExpressions();
                     foreach (var d in expressions)
                     {
-                        var diagnostics = from g in compiler.Value.GetDiagnostics(fe1, d, ed)
-                                          let m = string.Format("[{0}] {1}", fe1.ElementId, g)
-                                          select new BuildError(fe1.ElementId, m);
+                        var diagnostics = from g in compiler.Value.GetDiagnostics(fe1, d, wd)
+                            let m = string.Format("[{0}] {1}", fe1.ElementId, g)
+                            select new BuildError(fe1.ElementId, m);
                         result.Errors.AddRange(diagnostics);
                     }
                 }
@@ -90,35 +91,15 @@ namespace Bespoke.Sph.Domain
 
             return result;
         }
-
+        
         [XmlIgnore]
         [JsonIgnore]
         [ImportMany("FormRenderer", typeof(IFormRenderer), AllowRecomposition = true)]
         public Lazy<IFormRenderer, IFormRendererMetadata>[] FormRendererProviders { get; set; }
-
-
+        
         [XmlIgnore]
         [JsonIgnore]
         [ImportMany(FormCompilerMetadataAttribute.FORM_ELEMENT_COMPILER_CONTRACT, typeof(FormElementCompiler), AllowRecomposition = true)]
         public Lazy<FormElementCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
-
-
-        public async Task<BuildValidationResult> RenderAsync(string name)
-        {
-            var build = new BuildValidationResult();
-            if (null == this.FormRendererProviders)
-                ObjectBuilder.ComposeMefCatalog(this);
-            if(null == this.FormRendererProviders)throw new InvalidOperationException("Cannot instantiate MEF");
-
-            var provider = this.FormRendererProviders.SingleOrDefault(x => x.Metadata.Name == name);
-            if (null == provider)
-            {
-                build.Errors.Add(new BuildError(this.WebId, "Cannot find renderer for " + name));
-                return build;
-            }
-
-            var renderer = provider.Value;
-            return await renderer.RenderAsync(this);
-        }
     }
 }

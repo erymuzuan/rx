@@ -163,13 +163,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.system
                 }
             },
             getOrderedElements = function () {
-
-                // get the sorted element
                 var elements = _($("#template-form-designer>form>div")).map(function (div) {
                     return ko.dataFor(div);
                 });
-                return elements();
-
+                return elements;
             },
 
             selectFormElement = function (fe) {

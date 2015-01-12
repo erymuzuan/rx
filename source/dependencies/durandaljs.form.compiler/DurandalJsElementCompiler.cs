@@ -69,18 +69,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return string.Format("text: {0}", path);
         }
 
-        public override IImmutableList<Diagnostic> GetDiagnostics(FormElement element, ExpressionDescriptor expression, EntityDefinition entity)
+        public override IImmutableList<Diagnostic> GetDiagnostics(FormElement element, ExpressionDescriptor expression, IProjectProvider project)
         {
             var func = expression.Field.Compile();
             var code = func(element);
 
             var file = new StringBuilder();
             file.AppendLine("using System;");
-            file.AppendLine("namespace Bespoke." + ConfigurationManager.ApplicationName + "_" + entity.Id + ".Domain");
+            file.AppendLine("namespace Bespoke." + ConfigurationManager.ApplicationName + "_" + project.Id + ".Domain");
             file.AppendLine("{");
             file.AppendLine("   public class BooleanExpression");
             file.AppendLine("   {");
-            file.AppendLinf("       public {1} Evaluate({0} item)  ", entity.Name, expression.ReturnType.ToCSharp());
+            file.AppendLinf("       public {1} Evaluate({0} item)  ", project.Name, expression.ReturnType.ToCSharp());
             file.AppendLine("       {");
             file.AppendLinf("           return {0};", code);
             file.AppendLine("       }");
@@ -93,7 +93,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             trees.Add(tree);
 
 
-            var codes = from c in entity.GenerateCode()
+            var codes = from c in project.GenerateCode()
                         where !c.Name.EndsWith("Controller")
                         let text = c.GetCode()
                         let x = text.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)

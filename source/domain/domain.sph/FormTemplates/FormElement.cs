@@ -69,18 +69,12 @@ namespace Bespoke.Sph.Domain
         [XmlIgnore]
         public virtual bool IsPathIsRequired { get { return true; } }
 
-
-
-
-        public virtual BuildError[] ValidateBuild(WorkflowDefinition wd, ScreenActivity screen)
+    
+        public virtual BuildError[] ValidateBuild(IProjectProvider ed)
         {
             return new BuildError[] { };
         }
-        public virtual BuildError[] ValidateBuild(EntityDefinition ed)
-        {
-            return new BuildError[] { };
-        }
-        public virtual BuildError[] ValidateBuild(EntityForm form)
+        public virtual BuildError[] ValidateBuild(IForm form)
         {
             return new BuildError[] { };
         }

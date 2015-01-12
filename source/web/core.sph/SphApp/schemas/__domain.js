@@ -51,18 +51,11 @@ bespoke.sph.domain.FormDesign = function (optionOrWebid) {
 bespoke.sph.domain.TextBox = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
-
     v.DefaultValue = ko.observable('');
-
     v.AutoCompletionEntity = ko.observable('');
-
     v.AutoCompletionField = ko.observable('');
-
     v.AutoCompletionQuery = ko.observable('');
-
     v["$type"] = "Bespoke.Sph.Domain.TextBox, domain.sph";
-
-
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (typeof v[n] === "function") {
@@ -73,8 +66,6 @@ bespoke.sph.domain.TextBox = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "string") {
         v.WebId(optionOrWebid);
     }
-
-
     if (bespoke.sph.domain.TextBoxPartial) {
         return _(v).extend(new bespoke.sph.domain.TextBoxPartial(v));
     }
@@ -3607,9 +3598,10 @@ bespoke.sph.domain.ScreenActivity = function (optionOrWebid) {
 
     v.InvitationMessageBody = ko.observable('');
 
+    v.FormId = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ScreenActivity, domain.sph";
 
-    v.FormDesign = ko.observable(new bespoke.sph.domain.FormDesign());
     v.Performer = ko.observable(new bespoke.sph.domain.Performer());
     v.ConfirmationOptions = ko.observable(new bespoke.sph.domain.ConfirmationOptions());
 
@@ -3629,6 +3621,40 @@ bespoke.sph.domain.ScreenActivity = function (optionOrWebid) {
         return _(v).extend(new bespoke.sph.domain.ScreenActivityPartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sph.domain.ScreenActivityForm = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ScreenActivityForm, domain.sph",
+        Id: ko.observable("0"),
+        WorkflowDefinitionId: ko.observable(''),
+        Name: ko.observable(''),
+        Version: ko.observable(0),
+        Route: ko.observable(''),
+        IsPublished: ko.observable(false),
+        FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ScreenActivityFormPartial) {
+        return _(model).extend(new bespoke.sph.domain.ScreenActivityFormPartial(model));
+    }
+    return model;
 };
 
 
@@ -3811,43 +3837,6 @@ bespoke.sph.domain.VariableValue = function (optionOrWebid) {
 
     if (bespoke.sph.domain.VariableValuePartial) {
         return _(model).extend(new bespoke.sph.domain.VariableValuePartial(model));
-    }
-    return model;
-};
-
-
-
-bespoke.sph.domain.Page = function (optionOrWebid) {
-
-    var model = {
-        "$type": "Bespoke.Sph.Domain.Page, domain.sph",
-        Id: ko.observable("0"),
-        Name: ko.observable(''),
-        IsRazor: ko.observable(false),
-        IsPartial: ko.observable(false),
-        VirtualPath: ko.observable(''),
-        Tag: ko.observable(''),
-        Version: ko.observable(0),
-        Mode: ko.observable(''),
-        Extension: ko.observable(''),
-        Code: ko.observable(),
-        isBusy: ko.observable(false),
-        WebId: ko.observable()
-    };
-    if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
-            if (typeof model[n] === "function") {
-                model[n](optionOrWebid[n]);
-            }
-        }
-    }
-    if (optionOrWebid && typeof optionOrWebid === "string") {
-        model.WebId(optionOrWebid);
-    }
-
-
-    if (bespoke.sph.domain.PagePartial) {
-        return _(model).extend(new bespoke.sph.domain.PagePartial(model));
     }
     return model;
 };

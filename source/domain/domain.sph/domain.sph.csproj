@@ -352,6 +352,7 @@
     <Compile Include="Triggers\ExecutedAcitivityComparer.cs" />
     <Compile Include="Triggers\ExecutedActivity.cs" />
     <Compile Include="Triggers\ExpressionActivity.cs" />
+    <Compile Include="Triggers\Form.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />
     <Compile Include="IComputable.cs" />
@@ -418,6 +419,7 @@
     <Compile Include="Triggers\Field.cs" />
     <Compile Include="Transform\Functoid.cs" />
     <Compile Include="Triggers\FunctoidMapping.cs" />
+    <Compile Include="Triggers\IForm.cs" />
     <Compile Include="Triggers\InitiateActivityResult.cs" />
     <Compile Include="Triggers\ITaskScheduler.cs" />
     <Compile Include="Triggers\JavascriptExpressionField.cs" />

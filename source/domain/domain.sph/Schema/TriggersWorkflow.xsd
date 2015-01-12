@@ -376,15 +376,14 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="ScreenActivityForm">
+	<xs:element name="ScreenActivityForm" bs:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Version" type="xs:int" use="required"/>
-			<xs:attribute name="Route" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="DecisionActivity">

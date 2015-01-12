@@ -7,18 +7,18 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "ListView", Order = 13d, FontAwesomeIcon = "list-ul",TypeName = "ListView", Description = "ListView for collection")]
     public partial class ListView : FormElement
     {
-        public override BuildError[] ValidateBuild(WorkflowDefinition wd, ScreenActivity screen)
+        public override BuildError[] ValidateBuild(IForm form)
         {
             var errors = new List<BuildError>();
             if (string.IsNullOrWhiteSpace(this.ChildItemType))
-                errors.Add(new BuildError(screen.WebId, string.Format("[ScreenActivity] -> {1} Child item type cannot be empty for {0}", this.Path, screen.Name)));
+                errors.Add(new BuildError(form.WebId, string.Format("[ScreenActivity] -> {1} Child item type cannot be empty for {0}", this.Path, form.Name)));
 
             if (!this.ChildItemType.StartsWith("bespoke."))
-                errors.Add(new BuildError(null, string.Format("[ListView] ->{0} :Child item type normally in the form bespoke.sph.w_{1}_{2}.<ChildType> or one of the custom entity", this.Path, wd.Id, wd.Version)));
+                errors.Add(new BuildError(null, string.Format("[ListView] ->{0} : Child item type normally in the form bespoke.sph.w_{1}_{2}.<ChildType> or one of the custom entity", this.Path, form.Id, "ipp.Version")));
             return errors.ToArray();
         }
 
-        public override BuildError[] ValidateBuild(EntityDefinition ed)
+        public override BuildError[] ValidateBuild(IProjectProvider ed)
         {
             var errors = new List<BuildError>();
             if (string.IsNullOrWhiteSpace(this.ChildItemType))
