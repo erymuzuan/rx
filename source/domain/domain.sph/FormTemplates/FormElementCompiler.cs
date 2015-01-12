@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain
             throw new Exception("Not implemented");
         }
 
-        public virtual IImmutableList<Diagnostic> GetDiagnostics(FormElement element, ExpressionDescriptor expression, EntityDefinition entity)
+        public virtual IImmutableList<Diagnostic> GetDiagnostics(FormElement element, ExpressionDescriptor expression, IProjectProvider entity)
         {
             throw new NotImplementedException();
         }

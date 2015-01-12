@@ -1,0 +1,73 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
+
+@{
+    Layout = null;
+}
+<div class="row" data-bind="with : wd">
+    <h1>
+        Screen Activity form:
+        <span data-bind="text:Name"></span>
+    </h1>
+</div>
+<div id="error-list-wd-form" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-sm-8 col-sm-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+        <a href="#" class="alert-link alert" data-bind="click: $root.showError"> or Fix this</a>
+    </div>
+    <div class="col-sm-2"></div>
+    <!-- /ko-->
+</div>
+<div class="row">
+    <!-- left toolbox-->
+    <div class="col-sm-3">
+        @Html.Partial("_Toolbox")
+    </div>
+    <!-- ko with : form -->
+    <div id="screen-activity-designer" class="col-sm-9" data-bind="with: FormDesign">
+        <div id="template-form-designer" class="row">
+            <div class="row" data-bind="with : $root.form" id="toolbar-panel-design">
+                <button class="btn btn-default">
+                    <i class="fa fa-save"></i>
+                    Save
+                </button>
+
+            </div>
+            <h1 data-bind="text: Name"></h1>
+            <span data-bind="text: Description"></span>
+
+            <form class="form-horizontal">
+                <!--ko foreach:FormElementCollection -->
+                @foreach (var fe in Model.FormElements)
+                {
+                    <!--ko if: ko.unwrap($type) === "@(fe.GetType().GetShortAssemblyQualifiedName())" -->
+                    <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement" class="form-group">
+                        @Html.Partial("_DesignerContextAction")
+                        <i class="fa fa-exclamation error" style="float: left" data-bind="visible:hasError"></i>
+                        <label data-bind="text: Label" class="control-label col-lg-2"></label>
+                        <div class="col-lg-4">
+
+                            @Html.Raw(fe.GetDesignSurfaceElement())
+
+                            <span data-bind="text: HelpText" class="help-block"></span>
+                        </div>
+                    </div>
+                    <!--/ko-->
+
+                }
+                <!--/ko-->
+
+            </form>
+        </div>
+
+    </div>
+
+    <!-- /ko -->
+</div>

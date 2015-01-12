@@ -1430,6 +1430,17 @@ namespace Bespoke.Sph.Domain
             get { return m_CorrelationTypeCollection; }
         }
 
+        private readonly ObjectCollection<TryScope> m_TryScopeCollection = new ObjectCollection<TryScope>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("TryScope", IsNullable = false)]
+        public ObjectCollection<TryScope> TryScopeCollection
+        {
+            get { return m_TryScopeCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -1950,18 +1961,13 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_name;
-        public const string PropertyNameName = "Name";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int m_version;
         public const string PropertyNameVersion = "Version";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_route;
-        public const string PropertyNameRoute = "Route";
+        private bool m_isPublished;
+        public const string PropertyNameIsPublished = "IsPublished";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2017,34 +2023,6 @@ namespace Bespoke.Sph.Domain
 
         [Required]
 
-        public string Name
-        {
-            set
-            {
-                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_name = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_name;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-
         public int Version
         {
             set
@@ -2073,22 +2051,22 @@ namespace Bespoke.Sph.Domain
 
         [Required]
 
-        public string Route
+        public bool IsPublished
         {
             set
             {
-                if (String.Equals(m_route, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
+                if (m_isPublished == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_route = value;
+                    m_isPublished = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_route;
+                return m_isPublished;
             }
         }
 
@@ -5770,6 +5748,73 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("TryScope", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class TryScope
+    {
+
+        private readonly ObjectCollection<CatchScope> m_CatchScopeCollection = new ObjectCollection<CatchScope>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CatchScope", IsNullable = false)]
+        public ObjectCollection<CatchScope> CatchScopeCollection
+        {
+            get { return m_CatchScopeCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("CatchScope", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class CatchScope
+    {
+
+        private string m_ExceptionType;
+        [XmlAttribute]
+        public string ExceptionType
+        {
+            get
+            {
+                return m_ExceptionType;
+            }
+            set
+            {
+                m_ExceptionType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_ExceptionVar;
+        [XmlAttribute]
+        public string ExceptionVar
+        {
+            get
+            {
+                return m_ExceptionVar;
+            }
+            set
+            {
+                m_ExceptionVar = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
 
     [XmlType("Field", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Field
@@ -6536,6 +6581,74 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_destinationTypeName;
+            }
+        }
+
+
+
+    }
+
+
+
+    [XmlType("Scope", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Scope
+    {
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_id;
+        public const string PropertyNameId = "Id";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        // public properties members
+
+
+
+        [XmlAttribute]
+        public string Id
+        {
+            set
+            {
+                if (m_id == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_id = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_id;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string Name
+        {
+            set
+            {
+                if (m_name == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
             }
         }
 

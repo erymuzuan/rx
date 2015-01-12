@@ -1,10 +1,9 @@
-﻿
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class ScreenActivityForm : Entity
+    public partial class ScreenActivityForm : Form
     {
         public BuildValidationResult ValidateBuild(WorkflowDefinition wd, ScreenActivity activity)
         {
@@ -18,7 +17,7 @@ namespace Bespoke.Sph.Domain
                              string.Format("[ScreenActivity] : {0} => '{1}' does not have path", activity.Name, f.Label)
                              );
             var elements = from f in this.FormDesign.FormElementCollection
-                           let err = f.ValidateBuild(wd, activity)
+                           let err = f.ValidateBuild(wd/*, activity*/)
                            where null != err
                            select err;
 
@@ -29,6 +28,7 @@ namespace Bespoke.Sph.Domain
 
             return result;
         }
+
 
 
         public string GetView(WorkflowDefinition wd, ScreenActivity activity)
@@ -154,7 +154,6 @@ namespace Bespoke.Sph.Domain
 
             return code.ToString();
         }
-
 
 
     }

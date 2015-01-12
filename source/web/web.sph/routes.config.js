@@ -423,6 +423,20 @@
     },
     {
         "role": "developers",
+        "groupName": "Workflow",
+        "route": "screen.activity.form.designer/:wdid/:formid",
+        "moduleId": "viewmodels/screen.activity.form.designer",
+        "title": "Screen Activity Form Designer",
+        "nav": false,
+        "icon": "fa fa-bug",
+        "caption": "Screen Activity Form Designer",
+        "settings": null,
+        "isAdminPage": false,
+        "showWhenLoggedIn": false,
+        "error": ""
+    },
+    {
+        "role": "developers",
         "groupName": "Entity",
         "route": "entity.view.designer/:entityid/:viewid",
         "moduleId": "viewmodels/entity.view.designer",
