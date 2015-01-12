@@ -1,13 +1,14 @@
 ﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.Templating;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+
 
 namespace durandaljs.compiler.test
 {
-    [TestClass]
+    [TestFixture]
     public class BooleanExpressionWithNumber
     {
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
@@ -15,7 +16,7 @@ namespace durandaljs.compiler.test
         }
 
 
-        [TestMethod]
+        [Test]
         public void ParseInt()
         {
             Assert.AreEqual(
@@ -25,7 +26,7 @@ namespace durandaljs.compiler.test
         }
 
 
-        [TestMethod]
+        [Test]
         public void DecimalZero()
         {
             Assert.AreEqual(
@@ -33,7 +34,7 @@ namespace durandaljs.compiler.test
                 "item.Age > decimal.Zero"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void DecimalOne()
         {
             Assert.AreEqual(
@@ -42,7 +43,7 @@ namespace durandaljs.compiler.test
                 .CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void DecimalRound()
         {
             var d = decimal.Round(1.24879889798897898795m);
@@ -53,7 +54,7 @@ namespace durandaljs.compiler.test
                 .CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void DecimalRound2()
         {
             var d = decimal.Round(1.24879889798897898795m, 2);
@@ -63,7 +64,7 @@ namespace durandaljs.compiler.test
                 "item.Age > decimal.Round(1.24879889798897898795m, 2)"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void Add()
         {
             Assert.AreEqual(
@@ -71,7 +72,7 @@ namespace durandaljs.compiler.test
                 "1 + 2 > 15"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void Add2()
         {
             Assert.AreEqual(
@@ -81,7 +82,7 @@ namespace durandaljs.compiler.test
         }
 
 
-        [TestMethod]
+        [Test]
         public void DecimalMinusOne()
         {
             Assert.AreEqual(
@@ -90,7 +91,7 @@ namespace durandaljs.compiler.test
                 .CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void ParseInt32()
         {
             Assert.AreEqual(
@@ -99,7 +100,7 @@ namespace durandaljs.compiler.test
                 .CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void IntMax()
         {
             Assert.AreEqual(
@@ -109,7 +110,7 @@ namespace durandaljs.compiler.test
            
         }
 
-        [TestMethod]
+        [Test]
         public void IntMinValue()
         {
             Assert.AreEqual(

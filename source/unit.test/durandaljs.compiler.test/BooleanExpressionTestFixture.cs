@@ -1,13 +1,14 @@
 ﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.Templating;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+
 
 namespace durandaljs.compiler.test
 {
-    [TestClass]
+    [TestFixture]
     public class BooleanExpressionTestFixture
     {
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
@@ -15,14 +16,14 @@ namespace durandaljs.compiler.test
         }
 
 
-        [TestMethod]
+        [Test]
         public void StringConcat()
         {
             Assert.AreEqual(
                 "'test' + $data.Mrn() === $data.Name()",
                 "\"test\" + item.Mrn == item.Name".CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void ReturnString()
         {
             Assert.IsNull(
@@ -30,21 +31,21 @@ namespace durandaljs.compiler.test
                 "CS0029");
         }
 
-        [TestMethod]
+        [Test]
         public void ReturnDateTime()
         {
             Assert.IsNull(
                 "item.Dob".CompileHtml(),
                 "CS0029");
         }
-        [TestMethod]
+        [Test]
         public void InvalidCode()
         {
             var html = "item.Dobd && !k".CompileHtml();
             Assert.IsNull(html);
         }
 
-        [TestMethod]
+        [Test]
         public void EqualExpressionToBoolean()
         {
             Assert.AreEqual(
@@ -52,7 +53,7 @@ namespace durandaljs.compiler.test
                 "$data.IsMarried()");
         }
 
-        [TestMethod]
+        [Test]
         public void ExclamationToFalse()
         {
             Assert.AreEqual(
@@ -60,28 +61,28 @@ namespace durandaljs.compiler.test
                 "!$data.IsMarried()");
         }
 
-        [TestMethod]
+        [Test]
         public void EqualExpressionToStringLiteral()
         {
             Assert.AreEqual(
                 "item.Name == \"Pantani\"".CompileHtml(),
                 "$data.Name() === 'Pantani'");
         }
-        [TestMethod]
+        [Test]
         public void OrExpression()
         {
             Assert.AreEqual(
                 "$data.Name() === 'Pantani' || $data.IsMarried()",
                 "item.Name == \"Pantani\" || item.IsMarried".CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void AndExpression()
         {
             Assert.AreEqual(
                 "$data.Name() === 'Pantani' && $data.IsMarried()",
                 "item.Name == \"Pantani\" && item.IsMarried".CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void CompoundAndOrExpression()
         {
             Assert.AreEqual(
@@ -89,7 +90,7 @@ namespace durandaljs.compiler.test
                 "(item.Name == \"Zaki\" || item.IsMarried) && item.Age < 25".CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void Aggregate()
         {
             Assert.AreEqual(
@@ -98,7 +99,7 @@ namespace durandaljs.compiler.test
         }
 
 
-        [TestMethod]
+        [Test]
         public void EqualExpressionNotNullLiteral()
         {
 
@@ -106,7 +107,7 @@ namespace durandaljs.compiler.test
                 "$data.Name() !== null",
                 "item.Name != null".CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void NotStringEmptyConstant()
         {
 
@@ -114,14 +115,14 @@ namespace durandaljs.compiler.test
                 "$data.Name() !== ''",
                 "item.Name != string.Empty".CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void StringIsNullOrWhiteSpace()
         {
             Assert.AreEqual(
                 "String.isNullOrWhiteSpace($data.Name())",
                 "string.IsNullOrWhiteSpace(item.Name)".CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void NotStringIsNullOrWhiteSpace()
         {
 
@@ -130,7 +131,7 @@ namespace durandaljs.compiler.test
                 "!string.IsNullOrWhiteSpace(item.Name)".CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void StringIsNullOrEmpty()
         {
             Assert.AreEqual(
@@ -139,14 +140,14 @@ namespace durandaljs.compiler.test
         }
 
 
-        [TestMethod]
+        [Test]
         public void LiteralTrueString()
         {
             Assert.AreEqual(
                 "true".CompileHtml(),
                 "true");
         }
-        [TestMethod]
+        [Test]
         public void LiteralFalseString()
         {
             Assert.AreEqual(
@@ -154,7 +155,7 @@ namespace durandaljs.compiler.test
                 "false");
         }
 
-        [TestMethod]
+        [Test]
         public void NotStringIsNullOrEmpty()
         {
             Assert.AreEqual(
@@ -162,19 +163,19 @@ namespace durandaljs.compiler.test
                 "!string.IsNullOrEmpty(item.Name)".CompileHtml(), "");
         }
 
-        [TestMethod]
+        [Test]
         public void NotBooleanExpression()
         {
             "\"test\"".CompileHtml();
         }
-        [TestMethod]
+        [Test]
         public void IntegerExpression()
         {
             "0".CompileHtml();
         }
 
 
-        [TestMethod]
+        [Test]
         public void FlipOverEqualExpressionToStringLiteral()
         {
             Assert.AreEqual(
@@ -182,7 +183,7 @@ namespace durandaljs.compiler.test
                 "'Pantani' === $data.Name()");
         }
 
-        [TestMethod]
+        [Test]
         public void NotEqualExpressionToStringLiteral()
         {
             Assert.AreEqual(
@@ -190,7 +191,7 @@ namespace durandaljs.compiler.test
                 "item.Name != \"Pantani\"".CompileHtml(), "");
         }
 
-        [TestMethod]
+        [Test]
         public void GreaterExpressionToStringLiteral()
         {
             Assert.AreEqual(
@@ -198,7 +199,7 @@ namespace durandaljs.compiler.test
                 "$data.Age() > 25");
         }
 
-        [TestMethod]
+        [Test]
         public void GreaterOrEqualExpressionToStringLiteral()
         {
             Assert.AreEqual(

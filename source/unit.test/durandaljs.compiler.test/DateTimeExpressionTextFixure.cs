@@ -1,24 +1,24 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace durandaljs.compiler.test
 {
-    [TestClass]
+    [TestFixture]
     public class DateTimeExpressionTextFixure : ExpressionTestFixture
     {
 
 
-        [TestMethod]
-        public async Task NIllableDateTimeProperty()
+        [Test]
+        public async Task NillableDateTimeProperty()
         {
             await AssertAsync<DateTime?>(
                 "$data.Dob().moment()",
                 "item.Dob");
 
         }
-        [TestMethod]
+        [Test]
         public async Task ParseExactDateTimeWithFormatValue()
         {
             await AssertAsync<DateTime>(
@@ -27,7 +27,7 @@ namespace durandaljs.compiler.test
 
         }
 
-        [TestMethod]
+        [Test]
         public async Task ParseExactDateTimeWithWithFormatFromConfig()
         {
             await AssertAsync<DateTime>(
@@ -36,7 +36,7 @@ namespace durandaljs.compiler.test
                 );
         }
 
-        [TestMethod]
+        [Test]
         public async Task ParseExactDateTimeWithItem()
         {
             await AssertAsync<DateTime>("moment($data.Name(), 'DD/MM/YYYY')",
@@ -44,8 +44,46 @@ namespace durandaljs.compiler.test
 
         }
 
-        [TestMethod]
-        public async Task DateTimePropertyOnItem()
+        [Test]
+        public async Task InstanceDayPropertyOnNow()
+        {
+            await AssertAsync<int>(
+                "moment().date()",
+                "DateTime.Now.Day"
+                );
+        }
+
+
+        [Test]
+        public async Task InstanceYearPropertyOnNow()
+        {
+            await AssertAsync<int>(
+                "moment().year()",
+                "DateTime.Now.Year"
+                );
+            Console.WriteLine(DateTime.Today.Year);
+        }
+        [Test]
+        public async Task InstanceYearPropertyOnItem()
+        {
+            await AssertAsync<int>(
+                "$data.CreatedDate().moment().year()",
+                "item.CreatedDate.Year"
+                );
+        }
+
+        [Test]
+        public async Task ToShortDateString()
+        {
+            await AssertAsync<string>(
+                "$data.CreatedDate().moment().format('DD/MM/YYYY')",
+                "item.CreatedDate.ToShortDateString()"
+                );
+            Console.WriteLine(DateTime.Today.ToShortDateString());
+        }
+
+        [Test]
+        public async Task InstancePropertyOnItem()
         {
             await AssertAsync<DateTime>(
                 "$data.CreatedDate().moment()",
@@ -53,16 +91,17 @@ namespace durandaljs.compiler.test
                 );
         }
 
-        [TestMethod]
-        public async Task DateTimePropertyOnItem2()
+        [Test]
+        public async Task AggregateInstancePropertyOnItem()
         {
             await AssertAsync<DateTime>(
                 "$data.Address().CreatedDate().moment()",
                 "item.Address.CreatedDate"
                 );
+          
         }
 
-        [TestMethod]
+        [Test]
         [Ignore]
         public async Task DateTimeToStringFormatd()
         {

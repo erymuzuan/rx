@@ -1,13 +1,14 @@
 ﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.FormCompilers.DurandalJs;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+
 
 namespace durandaljs.compiler.test
 {
-    [TestClass]
+    [TestFixture]
     public class ButtonCommandTestFixture
     {
-        [TestMethod]
+        [Test]
         [Ignore]
         public void CommandWithOneAsyncMethod()
         {
