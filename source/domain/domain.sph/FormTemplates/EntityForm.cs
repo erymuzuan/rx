@@ -1,10 +1,7 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -90,18 +87,6 @@ namespace Bespoke.Sph.Domain
 
             return result;
         }
-
-        [XmlIgnore]
-        [JsonIgnore]
-        [ImportMany("FormRenderer", typeof(IFormRenderer), AllowRecomposition = true)]
-        public Lazy<IFormRenderer, IFormRendererMetadata>[] FormRendererProviders { get; set; }
-
-
-        [XmlIgnore]
-        [JsonIgnore]
-        [ImportMany(FormCompilerMetadataAttribute.FORM_ELEMENT_COMPILER_CONTRACT, typeof(FormElementCompiler), AllowRecomposition = true)]
-        public Lazy<FormElementCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
-
 
         public async Task<BuildValidationResult> RenderAsync(string name)
         {

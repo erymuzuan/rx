@@ -6,10 +6,16 @@
       {
         "$type": "Bespoke.Sph.Domain.ExpressionActivity, domain.sph",
         "Expression": "var admin = System.Web.Security.Membership.GetUser(\"admin\");\nConsole.WriteLine(admin.UserName);\n\nif(null == this.Patient)\n    throw new Exception(\"You cannot register billing on null patient\");",
+        "CatchScope": null,
+        "TryScope": null,
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
         "TypeName": "Expression",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 270,
@@ -17,9 +23,9 @@
           "WebId": "08966c33-a8b9-4405-8f8a-5b660854f0b7"
         },
         "IsInitiator": false,
-        "NextActivityWebId": "5e796abc-6629-4e40-99a2-d6e10db378b4",
+        "NextActivityWebId": "CreateAccountAsync",
         "Name": "Check if patient is null",
-        "WebId": "cb58e7bb-5c9d-4a6b-a141-8b256c7085e1"
+        "WebId": "CheckIfPatientIsNullAsync"
       },
       {
         "$type": "Bespoke.Sph.Domain.ScreenActivity, domain.sph",
@@ -30,247 +36,12 @@
         "InvitationMessageSubject": "[Sph] @Model.Screen.Name  task is assigned to you",
         "CancelMessageBody": "@Model.Screen.Name task was cancelled this url is not longer valid @Model.Url",
         "InvitationMessageBody": "@Model.Screen.Name task is assigned to you go here @Model.Url",
-        "FormDesign": {
-          "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
-          "FormElementCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormElement, domain.sph]], domain.sph",
-            "$values": [
-              {
-                "$type": "Bespoke.Sph.Domain.SectionFormElement, domain.sph",
-                "TypeName": "SectionFormElement",
-                "FieldValidation": {
-                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-                  "IsRequired": false,
-                  "Pattern": null,
-                  "Mode": null,
-                  "Message": null,
-                  "Min": null,
-                  "Max": null,
-                  "MinLength": 0,
-                  "MaxLength": 0,
-                  "WebId": null
-                },
-                "Name": "HTML Section",
-                "Label": "Patient - New Patient Registered - Billing Account Creation",
-                "Tooltip": null,
-                "Path": "",
-                "IsRequired": false,
-                "Size": "input-large",
-                "CssClass": "",
-                "Visible": "true",
-                "Enable": "true",
-                "ElementId": "539d6191-b159-4f22-82e0-8db67375cc1c",
-                "HelpText": null,
-                "UseDisplayTemplate": false,
-                "ToolboxIconClass": null,
-                "IsUniqueName": false,
-                "LabelColLg": null,
-                "LabelColMd": null,
-                "LabelColSm": null,
-                "LabelColXs": null,
-                "InputColLg": null,
-                "InputColMd": null,
-                "InputColSm": null,
-                "InputColXs": null,
-                "WebId": null
-              },
-              {
-                "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
-                "DefaultValue": null,
-                "AutoCompletionEntity": null,
-                "AutoCompletionField": null,
-                "AutoCompletionQuery": null,
-                "TypeName": "TextBox",
-                "FieldValidation": {
-                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-                  "IsRequired": false,
-                  "Pattern": null,
-                  "Mode": null,
-                  "Message": null,
-                  "Min": null,
-                  "Max": null,
-                  "MinLength": 0,
-                  "MaxLength": 0,
-                  "WebId": null
-                },
-                "Name": "Single Line Text",
-                "Label": "MRN",
-                "Tooltip": null,
-                "Path": "Patient.Mrn",
-                "IsRequired": false,
-                "Size": "input-large",
-                "CssClass": "",
-                "Visible": "true",
-                "Enable": "true",
-                "ElementId": "6cf30dd3-c4d9-4014-9314-691cac9dcf15",
-                "HelpText": null,
-                "UseDisplayTemplate": true,
-                "ToolboxIconClass": null,
-                "IsUniqueName": false,
-                "LabelColLg": null,
-                "LabelColMd": null,
-                "LabelColSm": null,
-                "LabelColXs": null,
-                "InputColLg": null,
-                "InputColMd": null,
-                "InputColSm": null,
-                "InputColXs": null,
-                "WebId": null
-              },
-              {
-                "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
-                "DefaultValue": null,
-                "AutoCompletionEntity": null,
-                "AutoCompletionField": null,
-                "AutoCompletionQuery": null,
-                "TypeName": "TextBox",
-                "FieldValidation": {
-                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-                  "IsRequired": false,
-                  "Pattern": null,
-                  "Mode": null,
-                  "Message": null,
-                  "Min": null,
-                  "Max": null,
-                  "MinLength": 0,
-                  "MaxLength": 0,
-                  "WebId": null
-                },
-                "Name": "Single Line Text",
-                "Label": "FullName",
-                "Tooltip": null,
-                "Path": "Patient.FullName",
-                "IsRequired": false,
-                "Size": "input-large",
-                "CssClass": "",
-                "Visible": "true",
-                "Enable": "true",
-                "ElementId": "4762f955-e3f1-40cb-91c5-eb77e976fd54",
-                "HelpText": null,
-                "UseDisplayTemplate": true,
-                "ToolboxIconClass": null,
-                "IsUniqueName": false,
-                "LabelColLg": null,
-                "LabelColMd": null,
-                "LabelColSm": null,
-                "LabelColXs": null,
-                "InputColLg": null,
-                "InputColMd": null,
-                "InputColSm": null,
-                "InputColXs": null,
-                "WebId": null
-              },
-              {
-                "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
-                "DefaultValue": null,
-                "AutoCompletionEntity": null,
-                "AutoCompletionField": null,
-                "AutoCompletionQuery": null,
-                "TypeName": "TextBox",
-                "FieldValidation": {
-                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-                  "IsRequired": false,
-                  "Pattern": null,
-                  "Mode": null,
-                  "Message": null,
-                  "Min": null,
-                  "Max": null,
-                  "MinLength": 0,
-                  "MaxLength": 0,
-                  "WebId": null
-                },
-                "Name": "Single Line Text",
-                "Label": "Gender",
-                "Tooltip": null,
-                "Path": "Patient.Gender",
-                "IsRequired": false,
-                "Size": "input-large",
-                "CssClass": "",
-                "Visible": "true",
-                "Enable": "true",
-                "ElementId": "425b420a-520c-4e11-baa5-980472998db4",
-                "HelpText": null,
-                "UseDisplayTemplate": true,
-                "ToolboxIconClass": null,
-                "IsUniqueName": false,
-                "LabelColLg": null,
-                "LabelColMd": null,
-                "LabelColSm": null,
-                "LabelColXs": null,
-                "InputColLg": null,
-                "InputColMd": null,
-                "InputColSm": null,
-                "InputColXs": null,
-                "WebId": null
-              },
-              {
-                "$type": "Bespoke.Sph.Domain.Button, domain.sph",
-                "Command": null,
-                "UseClick": false,
-                "CommandName": "save",
-                "LoadingText": null,
-                "CompleteText": null,
-                "IconClass": "",
-                "IsToolbarItem": true,
-                "Operation": null,
-                "TypeName": "Button",
-                "FieldValidation": {
-                  "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
-                  "IsRequired": false,
-                  "Pattern": null,
-                  "Mode": null,
-                  "Message": null,
-                  "Min": null,
-                  "Max": null,
-                  "MinLength": 0,
-                  "MaxLength": 0,
-                  "WebId": null
-                },
-                "Name": "Button",
-                "Label": "Create",
-                "Tooltip": null,
-                "Path": "Patient.Mrn",
-                "IsRequired": false,
-                "Size": "input-large",
-                "CssClass": "",
-                "Visible": "true",
-                "Enable": "true",
-                "ElementId": "6e8c0050-0409-4744-b2a4-4f56593fde5f",
-                "HelpText": null,
-                "UseDisplayTemplate": false,
-                "ToolboxIconClass": null,
-                "IsUniqueName": false,
-                "LabelColLg": null,
-                "LabelColMd": null,
-                "LabelColSm": null,
-                "LabelColXs": null,
-                "InputColLg": null,
-                "InputColMd": null,
-                "InputColSm": null,
-                "InputColXs": null,
-                "WebId": null
-              }
-            ]
-          },
-          "Name": "",
-          "Description": "",
-          "ConfirmationText": "",
-          "ImageStoreId": "",
-          "LabelColLg": null,
-          "LabelColMd": null,
-          "LabelColSm": null,
-          "LabelColXs": null,
-          "InputColLg": null,
-          "InputColMd": null,
-          "InputColSm": null,
-          "InputColXs": null,
-          "WebId": "a5942e30-4d87-4bc6-865e-92a63eafb079"
-        },
+        "FormId": null,
         "Performer": {
           "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
           "UserProperty": "UserName",
           "Value": "admin",
-          "IsPublic": false,
+          "IsPublic": true,
           "WebId": "a1a7dd7f-3f1e-4cc4-8b38-1291b5d3e07d"
         },
         "ConfirmationOptions": {
@@ -280,9 +51,15 @@
           "WebId": "2d419806-198f-4f54-8668-33fcef8eb2e7"
         },
         "IsAsync": true,
+        "CatchScope": null,
+        "TryScope": null,
         "ExecutedCode": null,
         "ExecutingCode": null,
         "TypeName": "Screen",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 81,
@@ -290,17 +67,23 @@
           "WebId": "4b04136a-d980-4bda-ada1-3adf4dccd8b9"
         },
         "IsInitiator": false,
-        "NextActivityWebId": "b817782d-d634-499a-c4ad-3bc127f6c4fb",
+        "NextActivityWebId": "CreaatePatientAsync",
         "Name": "Create Account",
-        "WebId": "5e796abc-6629-4e40-99a2-d6e10db378b4"
+        "WebId": "CreateAccountAsync"
       },
       {
         "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
         "IsTerminating": false,
+        "CatchScope": null,
+        "TryScope": null,
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
         "TypeName": "End",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 288,
@@ -310,7 +93,7 @@
         "IsInitiator": false,
         "NextActivityWebId": "",
         "Name": "End2",
-        "WebId": "36dab4d5-ae32-43bd-a434-45facebbb3aa"
+        "WebId": "End2Async"
       },
       {
         "$type": "Bespoke.Sph.Domain.NotificationActivity, domain.sph",
@@ -322,10 +105,16 @@
         "Cc": "",
         "Bcc": "",
         "IsHtmlEmail": false,
+        "CatchScope": null,
+        "TryScope": null,
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
         "TypeName": "Notification",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 681,
@@ -333,22 +122,28 @@
           "WebId": "af2a8d7c-16e5-4e3c-a3dc-b8b25a459c86"
         },
         "IsInitiator": true,
-        "NextActivityWebId": "cb58e7bb-5c9d-4a6b-a141-8b256c7085e1",
+        "NextActivityWebId": "CheckIfPatientIsNullAsync",
         "Name": "Tell my boss",
-        "WebId": "68b2e916-bdc7-4ee3-9873-b0775d637d10"
+        "WebId": "TellMyBossAsync"
       },
       {
         "$type": "Bespoke.Sph.Domain.CreateEntityActivity, domain.sph",
-        "EntityType": null,
+        "EntityType": "Patient",
         "ReturnValuePath": null,
         "PropertyMappingCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
           "$values": []
         },
+        "CatchScope": null,
+        "TryScope": null,
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
         "TypeName": "CreateEntity",
+        "OtherMethodCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Codes.Method, domain.sph]], domain.sph",
+          "$values": []
+        },
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 297,
@@ -356,9 +151,9 @@
           "WebId": null
         },
         "IsInitiator": false,
-        "NextActivityWebId": "36dab4d5-ae32-43bd-a434-45facebbb3aa",
-        "Name": "4",
-        "WebId": "b817782d-d634-499a-c4ad-3bc127f6c4fb"
+        "NextActivityWebId": "End2Async",
+        "Name": "Creaate patient",
+        "WebId": "CreaatePatientAsync"
       }
     ]
   },
@@ -386,18 +181,39 @@
         "Version": "4.0.0.0",
         "Location": "C:\\WINDOWS\\Microsoft.Net\\assembly\\GAC_MSIL\\System.Web.ApplicationServices\\v4.0_4.0.0.0__31bf3856ad364e35\\System.Web.ApplicationServices.dll",
         "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "Dev.Patient",
+        "FullName": "Dev.Patient, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "C:\\Users\\bespoke1\\AppData\\Local\\Temp\\Temporary ASP.NET Files\\root\\755d39e9\\aa490d05\\assembly\\dl3\\1ac0bbaf\\0a35bf62_c620d001\\Dev.Patient.dll",
+        "WebId": null
       }
     ]
+  },
+  "CorrelationSetCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationSet, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "CorrelationTypeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationType, domain.sph]], domain.sph",
+    "$values": []
   },
   "Name": "Create billing account for new patient",
   "Note": "",
   "IsActive": true,
   "SchemaStoreId": "557eed80-60fa-48f3-85e7-e0ae5edd0a80",
   "Version": 0,
+  "DefaultNamespace": "Bespoke.Sph.Workflows_CreateBillingAccountForNewPatient_0",
+  "TryScopeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.WorkflowDefinition+TryScope, domain.sph]], domain.sph",
+    "$values": []
+  },
   "CreatedBy": "admin",
   "Id": "create-billing-account-for-new-patient",
   "CreatedDate": "2014-03-23T17:26:27.7501833+08:00",
-  "ChangedBy": "BESPOKE1-PC",
-  "ChangedDate": "2014-11-14T10:49:48.055634+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-01-12T09:27:08.1261609+08:00",
   "WebId": "24471f9e-ffea-40ab-bcaf-049b80278ad9"
 }

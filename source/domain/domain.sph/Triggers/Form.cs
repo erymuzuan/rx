@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [EntityType(typeof (Form))]
     public partial class Form : Entity, IForm
     {
         public async Task<BuildValidationResult> ValidateBuildAsync(IProjectProvider wd)

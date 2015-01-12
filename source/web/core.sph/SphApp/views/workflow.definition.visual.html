@@ -266,20 +266,21 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody data-bind2="foreach : $root.forms">
+                    <tbody data-bind="foreach : $root.forms">
                         <tr>
-                            <td data-bind2="text:Name"></td>
-                            <td data-bind2="text:Version"></td>
                             <td>
-                                <a href="#" data-bind2="click : $parent.removeReferencedAssembly.call($parent,$data)">
-                                    <i class="fa fa-times"></i>
+                                <a href="#" target="_blank" data-bind="attr :{href:'/sph#screen.activity.form.designer/'+ $parent.Id() + '/' + Id()}" class="btn btn-link">
+                                    <i class="fa fa-plus-circle"></i>
+                                    <!-- ko text: Name-->
+                                    <!-- /ko-->
                                 </a>
                             </td>
+                            <td data-bind="text:Route"></td>
                         </tr>
                     </tbody>
                 </table>
 
-                <a href="#" data-bind="attr :{href:'/sph#screen.activity.form.designer/'+ Id() + '/0'}" class="btn btn-link">
+                <a href="#" target="_blank" data-bind="attr :{href:'/sph#screen.activity.form.designer/'+ Id() + '/0'}" class="btn btn-link">
                     <i class="fa fa-plus-circle"></i>
                     Add a new form
                 </a>
