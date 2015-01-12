@@ -1950,13 +1950,18 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_title;
-        public const string PropertyNameTitle = "Title";
+        private string m_name;
+        public const string PropertyNameName = "Name";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int m_version;
         public const string PropertyNameVersion = "Version";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_route;
+        public const string PropertyNameRoute = "Route";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2012,22 +2017,22 @@ namespace Bespoke.Sph.Domain
 
         [Required]
 
-        public string Title
+        public string Name
         {
             set
             {
-                if (String.Equals(m_title, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTitle, value);
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_title = value;
+                    m_name = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_title;
+                return m_name;
             }
         }
 
@@ -2056,6 +2061,34 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_version;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+
+        public string Route
+        {
+            set
+            {
+                if (String.Equals(m_route, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_route = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_route;
             }
         }
 
