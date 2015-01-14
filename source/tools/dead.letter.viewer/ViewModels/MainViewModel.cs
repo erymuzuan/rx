@@ -84,6 +84,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             var props = this.Connection.Channel.CreateBasicProperties();
             props.DeliveryMode = 2;
             props.ContentType = "application/json";
+            props.Headers = this.Result.BasicProperties.Headers;
 
             this.Connection.Channel.BasicPublish(this.Connection.Exchange.Name, this.RoutingKey, props, body);
 
