@@ -6,8 +6,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-                   xmlns:model="clr-namespace:Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels"
-                   d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:model="clr-namespace:Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels"
+             d:DesignHeight="300" d:DesignWidth="300"
+             WindowStartupLocation="CenterOwner"
+             WindowState="Normal"
+                   >
     <Grid d:DataContext="{d:DesignInstance d:Type={x:Type model:ConnectionViewModel}}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -40,7 +43,7 @@
         <telerik:RadWatermarkTextBox Grid.Column="3" Grid.Row="1" Text="{Binding SelectedConnection.UserName}"/>
 
         <Label Grid.Row="2" Grid.Column="2" Content="Password" />
-        <telerik:RadWatermarkTextBox Grid.Column="3" Grid.Row="2" Text="{Binding SelectedConnection.Password}"/>
+        <PasswordBox Margin="5"  Grid.Column="3" Grid.Row="2" x:Name="passwordBox"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="3">
             <telerik:RadButton Content="_OK" IsDefault="True" Click="OkButtonClick"/>
