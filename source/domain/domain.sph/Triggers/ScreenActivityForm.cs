@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
@@ -167,6 +168,13 @@ namespace Bespoke.Sph.Domain
                 ModuleId = string.Format("viewmodels/{0}", this.Route.ToLowerInvariant()),
                 Nav = false
             };
+        }
+
+        public async override Task<IProjectProvider> LoadProjectAsync()
+        {
+            var context = new SphDataContext();
+            var ed = await context.LoadOneAsync<WorkflowDefinition>(x => x.Id == this.WorkflowDefinitionId).ConfigureAwait(false);
+            return ed;
         }
     }
 }

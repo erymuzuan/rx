@@ -11,5 +11,6 @@
         }
 
         public string Output { get; set; }
+        public string[] Outputs { get; set; }
     }
 }

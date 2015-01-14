@@ -1,0 +1,318 @@
+﻿@using System.Linq
+@using Bespoke.Sph.Domain
+@inherits Bespoke.Sph.FormCompilers.DurandalJs.Template<Bespoke.Sph.FormCompilers.DurandalJs.FormRendererViewModel>
+@using Humanizer
+
+
+@{
+    
+    var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + Model.Project.Id;
+    var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:system.guid()}})", ns, Model.Project.Name);
+    var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.Project.Name);
+    var saveUrl = string.Format("/{0}/Save", @Model.Project.Name);
+    var validateUrl = string.Format("/Sph/BusinessRule/Validate?{0};{1}", @Model.Project.Name, string.Join(";", Model.Form.Rules.Select(r => r.Dehumanize())));
+    var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.Project.Id;
+    var buttonOperations = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
+        .Where(b => b.IsToolbarItem)
+        .Where(b => !string.IsNullOrWhiteSpace(b.Operation))
+        .Select(b => string.Format("{{ caption :\"{0}\", command : {1}, icon:\"{2}\" }}", b.Label, b.Operation.ToCamelCase(), b.IconClass));
+
+    var commands = Model.Form.FormDesign.FormElementCollection.OfType<Button>()
+        .Where(b => b.IsToolbarItem)
+        .Where(b => !string.IsNullOrWhiteSpace(b.CommandName))
+        .Select(b => string.Format("{{ caption :\"{0}\", command : {1}, icon:\"{2}\" }}", b.Label, b.CommandName, b.IconClass));
+    var commandsJs = string.Format("[{0}]", string.Join(",", commands.Concat(buttonOperations)));
+
+
+    var formId = @Model.Form.Route + "-form";
+    var saveOperation = Model.Form.Operation;
+    var partialPath = string.IsNullOrWhiteSpace(Model.Form.Partial) ? string.Empty: ",'" + Model.Form.Partial + "'" ;
+    var partialVariable = string.IsNullOrWhiteSpace(Model.Form.Partial) ? string.Empty : ",partial" ;
+}:
+
+
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router,
+        objectbuilders.system, objectbuilders.validation, objectbuilders.eximp,
+        objectbuilders.dialog, objectbuilders.watcher, objectbuilders.config,
+        objectbuilders.app @Raw(partialPath)],
+        function (context, logger, router, system, validation, eximp, dialog, watcher,config,app
+            @partialVariable) {
+
+            var entity = ko.observable(new @Raw(typeCtor)),
+                errors = ko.observableArray(),
+                form = ko.observable(new bespoke.sph.domain.EntityForm()),
+                watching = ko.observable(false),
+                id = ko.observable(),
+                activate = function (entityId) {
+                    id(entityId);
+
+                    var query = String.format("Id eq '{0}'", entityId),
+                        tcs = new $.Deferred(),
+                        itemTask = context.loadOneAsync("@Model.Project.Name", query),
+                        formTask = context.loadOneAsync("EntityForm", "Route eq '@Model.Form.Route'"),
+                        watcherTask = watcher.getIsWatchingAsync("@Model.Project.Name", entityId);
+
+                    $.when(itemTask, formTask, watcherTask).done(function(b,f,w) {
+                        if (b) {
+                            var item = context.toObservable(b);
+                            entity(item);
+                        }
+                        else {
+                            entity(new @Raw(typeCtor));
+                        }
+                        form(f);
+                        watching(w);
+                        @if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
+                        {
+                            <text>
+                            if(typeof partial.activate === "function"){
+                                var pt = partial.activate(entity());
+                                if(typeof pt.done === "function"){
+                                    pt.done(tcs.resolve);
+                                }else{
+                                    tcs.resolve(true);
+                                }
+                            }
+                            </text>
+                        }
+                        else
+                        {
+                            @:tcs.resolve(true);
+                        }
+                        
+                    });
+
+
+
+                    return tcs.promise();
+                },
+                 @foreach (var operation in Model.Project.EntityOperationCollection)
+            {
+                var opFunc = operation.Name.ToCamelCase();
+                <text>@opFunc = function(){
+
+                     if (!validation.valid()) {
+                         return Task.fromResult(false);
+                     }
+
+                     var tcs = new $.Deferred(),
+                         data = ko.mapping.toJSON(entity);
+
+                     context.post(data, "/@Model.Project.Name/@operation.Name" )
+                         .then(function (result) {
+                             if (result.success) {
+                                 logger.info(result.message);
+                                 entity().Id(result.id);
+                                 errors.removeAll();
+
+                                 @(Raw(operation.GetConfirmationMessage()))
+                             } else {
+                                 errors.removeAll();
+                                 _(result.rules).each(function(v){
+                                     errors(v.ValidationErrors);
+                                 });
+                                 logger.error("There are errors in your entity, !!!");
+                             }
+                             tcs.resolve(result);
+                         });
+                     return tcs.promise();
+                 },</text>
+            }
+                attached = function (view) {
+                    // validation
+                    validation.init($('#@formId'), form());
+
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
+                    {
+                        <text>
+                    if(typeof partial.attached === "function"){
+                        partial.attached(view);
+                    }
+
+                    </text>
+                    }
+
+                },
+
+                @foreach (var rule in Model.Form.Rules)
+                {
+                    var function = rule.Dehumanize().ToCamelCase();
+                  <text>@function = function(){
+
+                    var tcs = new $.Deferred(),
+                        data = ko.mapping.toJSON(entity);
+
+                    context.post(data, "/Sph/BusinessRule/Validate?@function" )
+                        .then(function (result) {
+                            tcs.resolve(result);
+                        });
+                    return tcs.promise();
+                },</text>
+                }
+                @foreach (var btn in Model.Form.FormDesign.FormElementCollection.OfType<Button>())
+                {
+                    if (string.IsNullOrWhiteSpace(btn.CommandName))
+                    {
+                        continue;
+                    }
+                    var function = btn.CommandName;
+                  <text>@function = function(){
+                    @Raw(btn.Command)
+                },</text>
+                }
+                save = function() {
+                    if (!validation.valid()) {
+                        return Task.fromResult(false);
+                    }
+
+                    var tcs = new $.Deferred(),
+                        data = ko.mapping.toJSON(entity);
+
+                    @if (Model.Form.Rules.Any())
+                    {
+
+                        <text>
+
+                    context.post(data, "@validateUrl")
+                        .then(function(result) {
+                            if(result.success){
+                                context.post(data, "@saveUrl")
+                                   .then(function(result) {
+                                       tcs.resolve(result);
+                                       entity().Id(result.id);
+                                       app.showMessage("Your @Model.Project.Name has been successfully saved", "@ConfigurationManager.ApplicationFullName", ["ok"]);
+                                   });
+                            }else{
+                                var ve = _(result.validationErrors).map(function(v){
+                                    return {
+                                        Message : v.message
+                                    };
+                                });
+                                errors(ve);
+                                logger.error("There are errors in your entity, !!!");
+                                tcs.resolve(result);
+                            }
+                        });
+                    </text>
+                    }
+                    else
+                    {
+                        <text>
+
+                    context.post(data, "@saveUrl")
+                        .then(function(result) {
+                            tcs.resolve(result);
+                            entity().Id(result.id);
+                            app.showMessage("Your @Model.Project.Name has been successfully saved", "@ConfigurationManager.ApplicationFullName", ["ok"]);
+
+                        });
+                    </text>
+                    }
+
+                    return tcs.promise();
+                },
+                remove = function() {
+                    var tcs = new $.Deferred();
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/@(Model.Project.Name)/Remove/" + entity().Id(),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        error: tcs.reject,
+                        success: function() {
+                            tcs.resolve(true);
+                            app.showMessage("Your item has been successfully removed", "Removed", ["OK"])
+                              .done(function () {
+                                  window.location = "#@(Model.Project.Name.ToLowerInvariant())";
+                              });
+                        }
+                    });
+
+
+                    return tcs.promise();
+                };
+
+            var vm = {
+                  @if (!string.IsNullOrWhiteSpace(Model.Form.Partial))
+                  {
+                            <text>
+                            partial : partial,
+                            </text>
+                    }
+                    @foreach (var rule in Model.Form.Rules)
+                    {
+                        var function = rule.Dehumanize().ToCamelCase();
+                    <text>@function : @function,</text>
+                    }
+                activate: activate,
+                config: config,
+                attached: attached,
+                entity: entity,
+                errors: errors,
+                save : save,
+                @foreach (var op in Model.Project.EntityOperationCollection)
+                {
+                        var function = op.Name.ToCamelCase();
+                    <text>@function : @function,</text>
+
+                }
+                //
+
+                @foreach (var btn in Model.Form.FormDesign.FormElementCollection.OfType<Button>().Where(b => !string.IsNullOrWhiteSpace(b.CommandName)))
+                {
+                    <text>@(btn.CommandName) : @(btn.CommandName) ,
+                </text>
+                }
+
+                toolbar : {
+                    @if (Model.Form.IsEmailAvailable)
+                    {
+                        <text>emailCommand : {
+                        entity : "@Model.Project.Name",
+                        id :id
+                    },</text>
+                    }
+                    @if (Model.Form.IsPrintAvailable)
+                    {
+                        <text>printCommand :{
+                        entity : '@Model.Project.Name',
+                        id : id
+                    },</text>
+                    }
+                    @if (Model.Form.IsRemoveAvailable)
+            {
+                <text>removeCommand :remove,
+                    canExecuteRemoveCommand : ko.computed(function(){
+                        return entity().Id();
+                    }),</text>
+            }
+                    @if (Model.Form.IsWatchAvailable)
+                    {
+                        <text>
+                    watchCommand: function() {
+                        return watcher.watch("@Model.Project.Name", entity().Id())
+                            .done(function(){
+                                watching(true);
+                            });
+                    },
+                    unwatchCommand: function() {
+                        return watcher.unwatch("@Model.Project.Name", entity().Id())
+                            .done(function(){
+                                watching(false);
+                            });
+                    },
+                    watching: watching,</text>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(@saveOperation))
+                    {
+                        <text>
+                    saveCommand : @saveOperation.ToCamelCase(),
+                    </text>
+                    }
+                    commands : ko.observableArray(@Raw(commandsJs))
+                }
+            };
+
+            return vm;
+        });

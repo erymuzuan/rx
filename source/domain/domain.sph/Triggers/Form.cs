@@ -100,5 +100,10 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         [ImportMany(FormCompilerMetadataAttribute.FORM_ELEMENT_COMPILER_CONTRACT, typeof(FormElementCompiler), AllowRecomposition = true)]
         public Lazy<FormElementCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
+
+        public virtual Task<IProjectProvider> LoadProjectAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
