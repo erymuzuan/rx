@@ -149,7 +149,9 @@
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeToday.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeToString.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\MinValue.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\ToShortDateString.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\UtcNow.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\Year.cs" />
     <Compile Include="SyntaxWalkers\DateTimeMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\DecimalSyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />

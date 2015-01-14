@@ -14,7 +14,7 @@ namespace durandaljs.compiler.test
     {
         private WorkflowDefinition m_wd;
 
-        [SetUp]
+        [TestFixtureSetUp]
         public void Init()
         {
             var doc = new BinaryStore
@@ -61,7 +61,7 @@ namespace durandaljs.compiler.test
             };
             var compiler = new ButtonCompiler();
             var html = compiler.GenerateEditor(button, m_wd);
-            StringAssert.Contains(html, "<button");
+            StringAssert.Contains("<button", html);
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace durandaljs.compiler.test
             };
             var compiler = new CheckBoxCompiler();
             var html = compiler.GenerateEditor(checkbox, m_wd);
-            StringAssert.Contains(html, "checked : IsSomething");
+            StringAssert.Contains("checked : IsSomething", html);
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace durandaljs.compiler.test
             };
             var compiler = new ChildEntityListViewCompiler();
             var html = compiler.GenerateEditor(checkbox, m_wd);
-            StringAssert.Contains(html, "<table");
+            StringAssert.Contains("<table", html);
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace durandaljs.compiler.test
             dropdown.ComboBoxItemCollection.Add(new ComboBoxItem { Caption = "Female", Value = "Female" });
             var compiler = new ComboBoxCompiler();
             var html = compiler.GenerateEditor(dropdown, m_wd);
-            StringAssert.Contains(html, "<option");
+            StringAssert.Contains("<option", html);
         }
 
 
@@ -143,7 +143,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new CurrencyElementCompiler();
             var html = compiler.GenerateEditor(dropdown, m_wd);
-            StringAssert.Contains(html, "money:");
+            StringAssert.Contains("money:", html);
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new DatePickerCompiler();
             var html = compiler.GenerateEditor(picker, m_wd);
-            StringAssert.Contains(html, "kendoDate:");
+            StringAssert.Contains("kendoDate:", html);
         }
         [Test]
         public void DateTimePicker()
@@ -182,7 +182,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new DateTimePickerCompiler();
             var html = compiler.GenerateEditor(picker, m_wd);
-            StringAssert.Contains(html, "kendoDateTime:");
+            StringAssert.Contains("kendoDateTime:", html);
         }
 
 
@@ -203,7 +203,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new DownloadLinkCompiler();
             var html = compiler.GenerateEditor(picker, m_wd);
-            StringAssert.Contains(html, "store");
+            StringAssert.Contains("store", html);
         }
         [Test]
         public void EmailFormElement()
@@ -222,7 +222,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new EmailFormElementCompiler();
             var html = compiler.GenerateEditor(picker, m_wd);
-            StringAssert.Contains(html, "type=\"email\"");
+            StringAssert.Contains("type=\"email\"", html);
         }
 
         [Test]
@@ -243,7 +243,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new EntityLookupElementCompiler();
             var html = compiler.GenerateEditor(picker, m_wd);
-            StringAssert.Contains(html, "entity: 'State'");
+            StringAssert.Contains("entity: 'State'", html);
         }
 
         [Test]
@@ -263,7 +263,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new FileUploadElementCompiler();
             var html = compiler.GenerateEditor(picker, m_wd);
-            StringAssert.Contains(html, "Upload");
+            StringAssert.Contains("Upload", html);
         }
         [Test]
         public void HtmlElement()
@@ -283,7 +283,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new HtmlElementCompiler();
             var html = compiler.GenerateEditor(picker, m_wd);
-            StringAssert.Contains(html, "html");
+            StringAssert.Contains("html", html);
         }
         [Test]
         public void ImageElement()
@@ -302,7 +302,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new ImageElementCompiler();
             var html = compiler.GenerateEditor(picker, m_wd);
-            StringAssert.Contains(html, "store");
+            StringAssert.Contains("store", html);
         }
         [Test]
         public void ListView()
@@ -330,7 +330,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new ListViewCompiler();
             var html = compiler.GenerateEditor(lv, m_wd);
-            StringAssert.Contains(html, "<table");
+            StringAssert.Contains("<table", html);
         }
         [Test]
         public void NumberTextBox()
@@ -349,7 +349,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new NumberTextBoxCompiler();
             var html = compiler.GenerateEditor(nt, m_wd);
-            StringAssert.Contains(html, "<input");
+            StringAssert.Contains("<input", html);
         }
         [Test]
         public void SectionFormElement()
@@ -368,7 +368,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new SectionFormElementCompiler();
             var html = compiler.GenerateEditor(lv, m_wd);
-            StringAssert.Contains(html, "<h2");
+            StringAssert.Contains("<h2", html);
         }
         [Test]
         public void TextAreaElement()
@@ -387,7 +387,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new TextAreaElementCompiler();
             var html = compiler.GenerateEditor(lv, m_wd);
-            StringAssert.Contains(html, "<textarea");
+            StringAssert.Contains("<textarea", html);
         }
         [Test]
         public void TextBox()
@@ -406,7 +406,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new TextBoxCompiler();
             var html = compiler.GenerateEditor(text, m_wd);
-            StringAssert.Contains(html, "text");
+            StringAssert.Contains("text", html);
         }
         [Test]
         public void WebsiteFormElement()
@@ -425,7 +425,7 @@ namespace durandaljs.compiler.test
 
             var compiler = new WebsiteFormElementCompiler();
             var html = compiler.GenerateEditor(lv, m_wd);
-            StringAssert.Contains(html, "url");
+            StringAssert.Contains("url", html);
         }
     }
 }

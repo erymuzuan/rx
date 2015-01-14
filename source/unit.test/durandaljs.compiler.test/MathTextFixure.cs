@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace durandaljs.compiler.test
 {
-    [TestClass]
+    [TestFixture]
     public class MathTextFixure : ExpressionTestFixture
     {
-        [TestMethod]
+        [Test]
         public async Task Abs()
         {
             
