@@ -12,7 +12,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     {
         public override async Task<WorkflowCompilerResult> CompileAsync(IForm item)
         {
-
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + item.Route.ToLower() + ".html");
             using (var client = new HttpClient())
             {

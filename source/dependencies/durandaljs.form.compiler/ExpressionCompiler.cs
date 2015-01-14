@@ -19,7 +19,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public CustomObjectSyntaxWalker[] MefWalkers { get; set; }
 
 
-
         protected CustomObjectSyntaxWalker[] Walkers
         {
             get

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.FormCompilers.DurandalJs;
+using Bespoke.Sph.FormCompilers.DurandalJs.FormElements;
 using Bespoke.Sph.Templating;
 
 using Moq;

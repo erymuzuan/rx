@@ -1,5 +1,6 @@
 ﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.FormCompilers.DurandalJs;
+using Bespoke.Sph.FormCompilers.DurandalJs.FormElements;
 using NUnit.Framework;
 
 

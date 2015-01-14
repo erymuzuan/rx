@@ -99,40 +99,40 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonCompiler.cs" />
-    <Compile Include="CheckBoxCompiler.cs" />
-    <Compile Include="ChildEntityListViewCompiler.cs" />
-    <Compile Include="ComboBoxCompiler.cs" />
+    <Compile Include="FormElements\ButtonCompiler.cs" />
+    <Compile Include="FormElements\CheckBoxCompiler.cs" />
+    <Compile Include="FormElements\ChildEntityListViewCompiler.cs" />
+    <Compile Include="FormElements\ComboBoxCompiler.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="CurrencyElementCompiler.cs" />
+    <Compile Include="FormElements\CurrencyElementCompiler.cs" />
     <Compile Include="ExpressionCompiler.cs" />
     <Compile Include="SyntaxWalkers\AddSyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectModel.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectSyntaxWalker.cs" />
-    <Compile Include="DateTimePickerCompiler.cs" />
-    <Compile Include="DownloadLinkCompiler.cs" />
+    <Compile Include="FormElements\DateTimePickerCompiler.cs" />
+    <Compile Include="FormElements\DownloadLinkCompiler.cs" />
     <Compile Include="DurandalJsFormCompiler.cs" />
-    <Compile Include="EntityLookupElementCompiler.cs" />
-    <Compile Include="FileUploadElementCompiler.cs" />
-    <Compile Include="HtmlElementCompiler.cs" />
-    <Compile Include="ImageElementCompiler.cs" />
-    <Compile Include="ListViewCompiler.cs" />
-    <Compile Include="NumberTextBoxCompiler.cs" />
+    <Compile Include="FormElements\EntityLookupElementCompiler.cs" />
+    <Compile Include="FormElements\FileUploadElementCompiler.cs" />
+    <Compile Include="FormElements\HtmlElementCompiler.cs" />
+    <Compile Include="FormElements\ImageElementCompiler.cs" />
+    <Compile Include="FormElements\ListViewCompiler.cs" />
+    <Compile Include="FormElements\NumberTextBoxCompiler.cs" />
     <Compile Include="Properties\DisplayTemplateResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DisplayTemplateResource.resx</DependentUpon>
     </Compile>
     <Compile Include="DurandalJsElementCompiler.cs" />
-    <Compile Include="EmailFormElementCompiler.cs" />
+    <Compile Include="FormElements\EmailFormElementCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DatePickerCompiler.cs" />
+    <Compile Include="FormElements\DatePickerCompiler.cs" />
     <Compile Include="Properties\EditorTemplateResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EditorTemplateResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SectionFormElementCompiler.cs" />
+    <Compile Include="FormElements\SectionFormElementCompiler.cs" />
     <Compile Include="SyntaxWalkers\BinaryExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ConfigMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTimeAddYears.cs" />
@@ -177,9 +177,9 @@
     <Compile Include="SyntaxWalkers\StringIdentifiers\StringTrim.cs" />
     <Compile Include="SyntaxWalkers\StringMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\UnaryExpressionWalker.cs" />
-    <Compile Include="TextAreaElementCompiler.cs" />
-    <Compile Include="TextBoxCompiler.cs" />
-    <Compile Include="WebsiteFormElementCompiler.cs" />
+    <Compile Include="FormElements\TextAreaElementCompiler.cs" />
+    <Compile Include="FormElements\TextBoxCompiler.cs" />
+    <Compile Include="FormElements\WebsiteFormElementCompiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
