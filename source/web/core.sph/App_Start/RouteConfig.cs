@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Bespoke.Sph.Web.Models;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Web.App_Start
@@ -93,6 +92,7 @@ namespace Bespoke.Sph.Web.App_Start
 
             var context = new SphDataContext();
             // ReSharper disable RedundantBoolCompare
+            var screenActivityFormQuery = context.ScreenActivityForms.Where(e => e.IsPublished == true);
             var formQuery = context.EntityForms.Where(e => e.IsPublished == true);
             var viewQuery = context.EntityViews.Where(e => e.IsPublished == true);
             var edQuery = context.EntityDefinitions.Where(e => e.IsPublished == true);
@@ -101,6 +101,7 @@ namespace Bespoke.Sph.Web.App_Start
             var rdlTask = context.LoadAsync(rdlQuery, includeTotalRows: true);
             var edTasks = context.LoadAsync(edQuery, includeTotalRows: true);
             var formTask = context.LoadAsync(formQuery, includeTotalRows: true);
+            var screenActivityFormTask = context.LoadAsync(screenActivityFormQuery, includeTotalRows: true);
             var viewTask = context.LoadAsync(viewQuery, includeTotalRows: true);
             // ReSharper restore RedundantBoolCompare
             await Task.WhenAll(rdlTask, edTasks, formTask, viewTask);
@@ -110,12 +111,14 @@ namespace Bespoke.Sph.Web.App_Start
             var edLo = await edTasks;
             var viewLo = await viewTask;
             var formsLo = await formTask;
+            var screenFormsLo = await screenActivityFormTask;
             var routes = new List<JsRoute>();
 
             var reportDefinitions = new ObjectCollection<ReportDefinition>(rdlLo.ItemCollection);
             var entityDefinitions = new ObjectCollection<EntityDefinition>(edLo.ItemCollection);
             var views = new ObjectCollection<EntityView>(viewLo.ItemCollection);
             var forms = new ObjectCollection<EntityForm>(formsLo.ItemCollection);
+            var screenActivityForms = new ObjectCollection<ScreenActivityForm>(screenFormsLo.ItemCollection);
 
 
             while (edLo.HasNextPage)
@@ -128,6 +131,11 @@ namespace Bespoke.Sph.Web.App_Start
             {
                 formsLo = await context.LoadAsync(formQuery, formsLo.CurrentPage + 1, includeTotalRows: true);
                 forms.AddRange(formsLo.ItemCollection);
+            }
+            while (screenFormsLo.HasNextPage)
+            {
+                screenFormsLo = await context.LoadAsync(screenActivityFormQuery, screenFormsLo.CurrentPage + 1, includeTotalRows: true);
+                screenActivityForms.AddRange(screenFormsLo.ItemCollection);
             }
             while (viewLo.HasNextPage)
             {
@@ -152,26 +160,11 @@ namespace Bespoke.Sph.Web.App_Start
                                        select ed.Performer.GetUsersAsync(ed);
             var edDashboardUsers = await Task.WhenAll(edDashboardUserTasks);
 
-            var formRoutes = from t in forms
-                             select new JsRoute
-                             {
-                                 Title = t.Name,
-                                 Route = string.Format("{0}/:id", t.Route.ToLowerInvariant()),
-                                 Caption = t.Name,
-                                 Icon = t.IconClass,
-                                 ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
-                                 Nav = false
-                             };
+            var screenActivityFormRoutes = from t in screenActivityForms
+                                           select t.CreateJsRoute();
+            var formRoutes = forms.Select(t => t.CreateJsRoute());
             var viewRoutes = from t in views
-                             select new JsRoute
-                             {
-                                 Title = t.Name,
-                                 Route = t.GenerateRoute(),
-                                 Caption = t.Name,
-                                 Icon = t.IconClass,
-                                 ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
-                                 Nav = false
-                             };
+                             select t.CreateJsRoute();
 
             var edRoutes = entityDefinitions
                 .Where(t => t.Performer.Validate())
@@ -194,15 +187,7 @@ namespace Bespoke.Sph.Web.App_Start
                                Nav = t.IsShowOnNavigationBar
                            });
 
-            var rdlRoutes = from t in reportDefinitions
-                            select new JsRoute
-                            {
-                                Title = t.Title,
-                                Route = string.Format("reportdefinition.execute-id.{0}/:id", t.Id),
-                                Caption = t.Title,
-                                Icon = "icon-bar-chart",
-                                ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.Id)
-                            };
+            var rdlRoutes = reportDefinitions.Select(t => t.CreateJsRoute());
 
             // adapters
             var adapterDesginer = new Domain.Api.AdapterDesigner();
@@ -211,6 +196,7 @@ namespace Bespoke.Sph.Web.App_Start
 
             routes.AddRange(viewRoutes);
             routes.AddRange(formRoutes);
+            routes.AddRange(screenActivityFormRoutes);
             routes.AddRange(edRoutes);
             routes.AddRange(rdlRoutes);
             return routes;

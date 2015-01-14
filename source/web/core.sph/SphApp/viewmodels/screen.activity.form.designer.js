@@ -111,11 +111,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
              });
             },
             publish = function () {
-                var fd = ko.unwrap(form().FormDesign);
-                fd.FormElementCollection(designer.getOrderedElements());
-
-                var tcs = new $.Deferred(),
+                var fd = ko.unwrap(form().FormDesign),
+                    elements = designer.getOrderedElements(),
+                    tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(form);
+
+                fd.FormElementCollection(elements);
 
                 context.post(data, "/screen-activity-form/publish")
                     .then(function (result) {

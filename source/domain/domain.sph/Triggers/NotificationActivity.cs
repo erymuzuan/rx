@@ -82,7 +82,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("                           {");
             code.AppendLinf("                               Subject = subject,");
             code.AppendLinf("                               UserName = user.UserName,");
-            code.AppendLinf("                               Body = body");
+            code.AppendLinf("                               Body = body,");
             code.AppendLinf("                               Id = Strings.GenerateId()");
             code.AppendLine("                           };");
             code.AppendLine("           using (var session = context.OpenSession())");

@@ -186,15 +186,16 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLinf("//exec:{0}", this.WebId);
             getAction.AppendLinf("       [HttpGet]");
             getAction.AppendLinf("       [Route(\"{0}/{{id}}/{{correlation?}}\")]", this.Name.ToIdFormat());
+            getAction.AppendLinf("       [Route(\"{0}{1}\")]", this.ActionName, this.IsInitiator ? "" : "{id}/{correlation}");
             getAction.AppendLinf("       public async Task<ActionResult> {0}({1})", this.ActionName, this.IsInitiator ? "" : "string id, string correlation=\"\"");
             getAction.AppendLine("       {");
 
 
             getAction.AppendLine("           var context = new SphDataContext();");
-            if (this.IsInitiator)
-                getAction.AppendLinf("           var wf =  new  {0}();", wd.WorkflowTypeName);
-            else
-                getAction.AppendLinf("           var wf = await context.LoadOneAsync<Workflow>(w => w.Id == id);", wd.WorkflowTypeName);
+            getAction.AppendLinf(
+                this.IsInitiator
+                    ? "                      var wf =  new  {0}();"
+                    : "                      var wf = await context.LoadOneAsync<Workflow>(w => w.Id == id);", wd.WorkflowTypeName);
 
             getAction.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
             getAction.AppendLinf("           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);");
@@ -204,7 +205,7 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLinf("                   Screen  = screen,");
             getAction.AppendLinf("                   Instance  = wf as {0},", wd.WorkflowTypeName);
             getAction.AppendLinf("                   Controller  = this.GetType().Name,");
-            getAction.AppendLinf("                   SaveAction  = \"Save{0}\",", this.ActionName);
+            getAction.AppendLinf("                   SaveAction  = \"{0}\",", this.ActionName);
             getAction.AppendLinf("                   Namespace  = \"{0}\"", wd.CodeNamespace);
             getAction.AppendLinf("               }};", wd.CodeNamespace);
 
@@ -230,9 +231,7 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLine("               canview = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);");
             getAction.AppendLine("           }");
 
-            getAction.AppendLinf("           if(canview) return View(\"{0}V{1}\", vm);", this.ActionName, wd.Version);
-            getAction.AppendLine("           return new HttpUnauthorizedResult();");
-
+            getAction.AppendLinf("           return Json(new {{ canView, vm,version = \"{0}\" }}, , JsonRequestBehavior.AllowGet);", this.ActionName, wd.Version);
 
             getAction.AppendLine("       }");// end GET action
             getAction.AppendLine();
@@ -242,8 +241,8 @@ namespace Bespoke.Sph.Domain
             var saveAction = new StringBuilder();
             saveAction.AppendLinf("//exec:{0}", this.WebId);
             saveAction.AppendLine("       [HttpPost]");
-            saveAction.AppendLinf("       [Route(\"{0}\")]", this.Name.ToIdFormat());
-            saveAction.AppendLine("       public async Task<ActionResult> Save" + this.ActionName + "()");
+            saveAction.AppendLinf("       [Route(\"{0}\")]", this.ActionName.ToIdFormat());
+            saveAction.AppendLine("       public async Task<ActionResult> " + this.ActionName + "()");
             saveAction.AppendLine("       {");
 
             saveAction.AppendLinf("           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", wd.WorkflowTypeName);// this is extension method

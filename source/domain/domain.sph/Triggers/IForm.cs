@@ -6,5 +6,6 @@ namespace Bespoke.Sph.Domain
         string Id { get; }
         FormDesign FormDesign { get; }
         string WebId { get; }
+        string Route { get;}
     }
 }

@@ -17,11 +17,11 @@ namespace Bespoke.Sph.Domain
             if (!validName.Match(this.Title).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = "Title must start a with letter.You cannot use symbol or number as first character" });
 
-           
+
             if (string.IsNullOrWhiteSpace(this.DataSource.EntityName))
                 result.Errors.Add(new BuildError(this.WebId) { Message = "You have not select an entity for your report" });
 
-           
+
 
 
             result.Result = result.Errors.Count == 0;
@@ -87,6 +87,19 @@ namespace Bespoke.Sph.Domain
                 script.AppendLine();
                 return script.ToString();
             }
+        }
+
+        public JsRoute CreateJsRoute()
+        {
+            var t = this;
+            return new JsRoute
+            {
+                Title = t.Title,
+                Route = string.Format("reportdefinition.execute-id.{0}/:id", t.Id),
+                Caption = t.Title,
+                Icon = "icon-bar-chart",
+                ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.Id)
+            };
         }
     }
 }

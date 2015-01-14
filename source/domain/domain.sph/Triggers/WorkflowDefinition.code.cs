@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
+using Microsoft.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class WorkflowDefinition : IProjectProvider
     {
-         public string DefaultNamespace
+        public string DefaultNamespace
         {
             get { return this.CodeNamespace; }
         }
@@ -20,6 +24,21 @@ namespace Bespoke.Sph.Domain
             get { return this.WorkflowTypeName; }
         }
 
+
+        [JsonIgnore]
+        public MetadataReference[] References
+        {
+            get
+            {
+                var clrTypes = from v in this.ReferencedAssemblyCollection
+                               let location = Path.Combine(ConfigurationManager.WebPath, @"bin\" + Path.GetFileName(v.Location))
+                               select MetadataReference.CreateFromAssembly(Assembly.LoadFile(location));
+                var references = clrTypes.ToList();
+                references.Add(MetadataReference.CreateFromAssembly(typeof(System.Net.WebClient).Assembly));
+
+                return references.ToArray();
+            }
+        }
 
         public IEnumerable<Class> GenerateCode()
         {

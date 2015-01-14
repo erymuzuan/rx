@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
+using Microsoft.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -16,9 +18,20 @@ namespace Bespoke.Sph.Domain
             get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.Id); }
         }
 
+        [JsonIgnore]
+        public MetadataReference[] References
+        {
+            get
+            {
+                return new MetadataReference[]
+                    {
+                    };
+            }
+        }
+
         public IEnumerable<Class> GenerateCode()
         {
-            var @class = new Class { Name = this.Name, Namespace = this.DefaultNamespace, BaseClass = "Entity"};
+            var @class = new Class { Name = this.Name, Namespace = this.DefaultNamespace, BaseClass = "Entity" };
             @class.AddNamespaceImport<DateTime>();
             @class.AddNamespaceImport<Entity>();
 

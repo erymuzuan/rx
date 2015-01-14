@@ -205,7 +205,7 @@ namespace Bespoke.Sph.Domain
             return string.Format("[{0}] {1}", this.Id, this.Name);
         }
 
-    
+
 
         public string GenerateRoute()
         {
@@ -213,6 +213,20 @@ namespace Bespoke.Sph.Domain
                 return string.Format("{0}", this.Route.ToLowerInvariant());
             return string.Format("{0}", this.Route.ToLowerInvariant())
                 + "/:" + string.Join("/:", this.RouteParameterCollection.Select(r => r.Name));
+        }
+
+        public JsRoute CreateJsRoute()
+        {
+            var t = this;
+            return new JsRoute
+            {
+                Title = t.Name,
+                Route = t.GenerateRoute(),
+                Caption = t.Name,
+                Icon = t.IconClass,
+                ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
+                Nav = false
+            };
         }
     }
 }

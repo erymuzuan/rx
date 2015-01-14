@@ -76,7 +76,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var file = new StringBuilder();
             file.AppendLine("using System;");
-            file.AppendLine("namespace Bespoke." + ConfigurationManager.ApplicationName + "_" + project.Id + ".Domain");
+            file.AppendLine("namespace " + project.DefaultNamespace);
             file.AppendLine("{");
             file.AppendLine("   public class BooleanExpression");
             file.AppendLine("   {");
@@ -98,8 +98,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         let text = c.GetCode()
                         let x = text.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
                         .Replace("using System.Web.Mvc;", string.Empty)
-                        .Replace("using System.Linq;", string.Empty)
-                        .Replace("using System.Threading.Tasks;", string.Empty)
                         select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x);
             trees.AddRange(codes.ToArray());
 
@@ -108,6 +106,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .AddReference<object>()
                 .AddReference<XmlAttributeAttribute>()
                 .AddReference<EntityDefinition>()
+                .AddReference<EnumerableExecutor>()
+                .AddReferences(project.References)
                 .AddSyntaxTrees(trees);
 
 

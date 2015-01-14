@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Web.Controllers
     {
         [ImportMany(FormCompilerMetadataAttribute.FORM_COMPILER_CONTRACT, typeof(FormCompiler), AllowRecomposition = true)]
         public Lazy<FormCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
-        
+
 
         [HttpGet]
         [Route("compilers")]
@@ -67,6 +67,9 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("publish")]
         public async Task<ActionResult> Publish()
         {
+            if(null == this.Compilers)
+                ObjectBuilder.ComposeMefCatalog(this);
+
             var context = new SphDataContext();
             var form = this.GetRequestJson<ScreenActivityForm>();
             form.IsPublished = true;
@@ -75,13 +78,26 @@ namespace Bespoke.Sph.Web.Controllers
             var buildValidation = await form.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
                 return Json(buildValidation);
+            var errors = "";
+            var message = "";
+            foreach (var name in form.CompilerCollection)
+            {
+                var name1 = name;
+                var lazy = this.Compilers.SingleOrDefault(x => x.Metadata.Name == name1);
+                if (null == lazy)
+                    throw new InvalidOperationException("Cannot find compiler " + name);
+                var compiler = lazy.Value;
+                var result = await compiler.CompileAsync(form);
+                errors += string.Join("\r\n", result.Errors.ToString());
+                message +=string.Format("{2} to compile {0} with {1}\r\n{3}, \r\n", form.Name, name, result.Result ? "Successfully" : "Failed", errors);
 
+            }
             using (var session = context.OpenSession())
             {
                 session.Attach(form);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your form has been successfully published", id = form.Id });
+            return Json(new { success = true, status = "OK", errors, message, id = form.Id });
 
         }
 

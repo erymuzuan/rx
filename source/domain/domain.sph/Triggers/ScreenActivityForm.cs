@@ -156,5 +156,17 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        public JsRoute CreateJsRoute()
+        {
+            return new JsRoute
+            {
+                Title = this.Name,
+                Route = string.Format("{0}/:id", this.Route.ToLowerInvariant()),
+                Caption = this.Name,
+                //Icon = t.IconClass,
+                ModuleId = string.Format("viewmodels/{0}", this.Route.ToLowerInvariant()),
+                Nav = false
+            };
+        }
     }
 }

@@ -32,10 +32,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             this.Response.ContentType = "application/javascript";
             return Script("Script", vm);
 
-
         }
-
-
 
     }
 }

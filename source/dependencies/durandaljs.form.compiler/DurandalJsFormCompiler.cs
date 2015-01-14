@@ -10,7 +10,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [FormCompilerMetadata(Name = Constants.DURANDAL_JS)]
     public class DurandalJsFormCompiler : FormCompiler
     {
-        public override async Task<WorkflowCompilerResult> CompileAsync(EntityForm item)
+        public override async Task<WorkflowCompilerResult> CompileAsync(IForm item)
         {
 
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + item.Route.ToLower() + ".html");

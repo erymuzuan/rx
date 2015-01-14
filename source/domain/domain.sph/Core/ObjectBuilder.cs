@@ -56,9 +56,9 @@ namespace Bespoke.Sph.Domain
                 foreach (var x in Directory.GetFiles(directory, "*.dll"))
                 {
                     var name = Path.GetFileName(x) ?? "";
-                    if (ignores.Any(name.StartsWith)) return;
-                    if (executing.Location == x) return;
-                    if (calling.Location == x) return;
+                    if (ignores.Any(name.StartsWith)) continue;
+                    if (executing.Location == x) continue;
+                    if (calling.Location == x) continue;
                     try
                     {
                         catalog.Catalogs.Add(new AssemblyCatalog(x));
@@ -105,7 +105,7 @@ namespace Bespoke.Sph.Domain
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     rtle.LoaderExceptions.Select(x => x.Message).ToList().ForEach(Console.WriteLine);
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     rtle.LoaderExceptions.Select(x => x.StackTrace).ToList().ForEach(Console.WriteLine);
                 }
                 finally
@@ -113,7 +113,6 @@ namespace Bespoke.Sph.Domain
                     Console.ForegroundColor = color;
                 }
 
-                //Debugger.Break();
             }
             catch (CompositionException compositionException)
             {
