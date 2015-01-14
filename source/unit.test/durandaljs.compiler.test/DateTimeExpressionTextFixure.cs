@@ -8,8 +8,6 @@ namespace durandaljs.compiler.test
     [TestClass]
     public class DateTimeExpressionTextFixure : ExpressionTestFixture
     {
-
-
         [TestMethod]
         public async Task NIllableDateTimeProperty()
         {
@@ -50,6 +48,40 @@ namespace durandaljs.compiler.test
             await AssertAsync<DateTime>(
                 "$data.CreatedDate().moment()",
                 "item.CreatedDate"
+                );
+        }
+
+        [TestMethod]
+        public async Task Now()
+        {
+            await AssertAsync<DateTime>(
+                "moment()",
+                "DateTime.Now"
+                );
+        }
+        [TestMethod]
+        public async Task Today()
+        {
+            await AssertAsync<DateTime>(
+                "moment().startOf('day')",
+                "DateTime.Today"
+                );
+        }
+
+        [TestMethod]
+        public async Task UtcNow()
+        {
+            await AssertAsync<DateTime>(
+                "moment.utc()",
+                "DateTime.UtcNow"
+                );
+        }
+        [TestMethod]
+        public async Task InstanceDay()
+        {
+            await AssertAsync<DateTime>(
+                "$data.RegisteredDate().moment().date()",
+                "item.RegisteredDate.Day"
                 );
         }
 

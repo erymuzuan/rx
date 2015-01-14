@@ -68,6 +68,7 @@
     <Compile Include="BooleanExpressionWithDateTime.cs" />
     <Compile Include="DateTimeExpressionTextFixure.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
+    <Compile Include="MathTextFixure.cs" />
     <Compile Include="MockDirectoryService.cs" />
     <Compile Include="RazorDisplayTemplateTestFixture.cs" />
     <Compile Include="RazorEditorTemplateTestFixture.cs" />
