@@ -52,26 +52,6 @@ namespace Bespoke.Sph.Web.Controllers
             var context = new SphDataContext();
             var form = this.GetRequestJson<ScreenActivityForm>();
 
-            // look for column which points to the form
-            // ReSharper disable RedundantBoolCompare
-            var viewQuery = context.EntityViews.Where(e => e.IsPublished == true && e.EntityDefinitionId == form.EntityDefinitionId);
-            // ReSharper restore RedundantBoolCompare
-            var viewLo = await context.LoadAsync(viewQuery, includeTotalRows: true);
-            var views = new ObjectCollection<EntityView>(viewLo.ItemCollection);
-            while (viewLo.HasNextPage)
-            {
-                viewLo = await context.LoadAsync(viewQuery, viewLo.CurrentPage + 1, includeTotalRows: true);
-                views.AddRange(viewLo.ItemCollection);
-            }
-
-            var violations = (from vw in views
-                where vw.ViewColumnCollection.Any(c => c.IsLinkColumn
-                                                       && c.FormRoute == form.Route)
-                select vw.Name).ToArray();
-            if (violations.Any())
-                return Json(new { success = false, status = "NO", message = "These views has a link to your form ", views = violations, id = form.Id });
-
-
             form.IsPublished = false;
             using (var session = context.OpenSession())
             {

@@ -2,22 +2,7 @@
   "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
-    "$values": [
-      {
-        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
-        "Term": "Age",
-        "Operator": "Gt",
-        "Field": {
-          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-          "TypeName": "System.Int32, mscorlib",
-          "Value": 0,
-          "Name": "0",
-          "Note": "",
-          "WebId": "9d0f186a-d342-47bf-a4c6-16c3f48651b8"
-        },
-        "WebId": "a54a5177-b64f-4c9e-b437-845526e884c9"
-      }
-    ]
+    "$values": []
   },
   "ViewColumnCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ViewColumn, domain.sph]], domain.sph",
@@ -51,9 +36,9 @@
         "IsLinkColumn": true,
         "FormRoute": "customer-form-2",
         "IconCssClass": "fa fa-book",
-        "IconStoreId": "4f161e7d-cb33-4648-a72b-2244acffb1a3",
+        "IconStoreId": "",
         "Format": "text:{0}",
-        "RouteValueField": null,
+        "RouteValueField": "Id",
         "WebId": "871bfdfc-2d98-4eb7-ad9b-1207449479c8"
       },
       {
@@ -152,6 +137,6 @@
   "Id": "all-customers",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-12-15T15:34:40.4298775+08:00",
+  "ChangedDate": "2014-12-31T07:34:21.7906283+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }

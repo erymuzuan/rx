@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedCode(WorkflowDefinition workflowDefinition)
         {
             var code = new StringBuilder();
-            if(null == this.Type)
+            if (null == this.Type)
                 throw new Exception("Cannot find type " + this.TypeName);
 
             code.AppendLinf(this.CanInitiateWithDefaultConstructor ?
@@ -51,6 +51,16 @@ namespace Bespoke.Sph.Domain
             {
                 this.TypeName = value.GetShortAssemblyQualifiedName();
             }
+        }
+
+
+        public override string GetJsonIntance(WorkflowDefinition wd)
+        {
+            var type = this.Type;
+            if (null == type) return base.GetJsonIntance(wd);
+
+            var instance = Activator.CreateInstance(type);
+            return "\"" + this.Name + "\" :" + JsonConvert.SerializeObject(instance);
         }
     }
 }

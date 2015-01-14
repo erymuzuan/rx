@@ -1,13 +1,14 @@
 ﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.Templating;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+
 
 namespace durandaljs.compiler.test
 {
-    [TestClass]
+    [TestFixture]
     public class BooleanExpressionWithDateTimeAndWorkflow
     {
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
@@ -15,7 +16,7 @@ namespace durandaljs.compiler.test
         }
 
 
-        [TestMethod]
+        [Test]
         public void ParseDateTime()
         {
             Assert.AreEqual(
@@ -24,7 +25,7 @@ namespace durandaljs.compiler.test
                 .CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void ParseExactDateTime()
         {
             Assert.AreEqual(
@@ -35,7 +36,7 @@ namespace durandaljs.compiler.test
         }
 
 
-        [TestMethod]
+        [Test]
         public void Now()
         {
             Assert.AreEqual(
@@ -43,7 +44,7 @@ namespace durandaljs.compiler.test
                 "item.CreatedDate> DateTime.Now"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void DateTimeToString()
         {
             Assert.AreEqual(
@@ -51,7 +52,7 @@ namespace durandaljs.compiler.test
                 "item.Name == DateTime.Now.ToString()"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void Today()
         {
             Assert.AreEqual(
@@ -59,7 +60,7 @@ namespace durandaljs.compiler.test
                 "item.CreatedDate> DateTime.Today"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void AddDaysWithDouble()
         {
             Assert.AreEqual(
@@ -67,7 +68,7 @@ namespace durandaljs.compiler.test
                 "item.CreatedDate> DateTime.Now.AddDays(1)"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void AddHoursWithDouble()
         {
             Assert.AreEqual(
@@ -75,7 +76,7 @@ namespace durandaljs.compiler.test
                 "item.CreatedDate> DateTime.Now.AddHours(1)"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void AddMillisecondWithDouble()
         {
             Assert.AreEqual(
@@ -83,7 +84,7 @@ namespace durandaljs.compiler.test
                 "item.CreatedDate< DateTime.Now.AddMilliseconds(1)"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void AddMinute()
         {
             Assert.AreEqual(
@@ -91,7 +92,7 @@ namespace durandaljs.compiler.test
                 "item.CreatedDate> DateTime.Now.AddMinutes(1)"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void AddMonth()
         {
             Assert.AreEqual(
@@ -99,7 +100,7 @@ namespace durandaljs.compiler.test
                 "item.CreatedDate> DateTime.Now.AddMonths(1)"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void AddSeconds()
         {
             Assert.AreEqual(
@@ -107,7 +108,7 @@ namespace durandaljs.compiler.test
                 "item.CreatedDate> DateTime.Now.AddSeconds(1)"
                 .CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void AddYears()
         {
             Assert.AreEqual(

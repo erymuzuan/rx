@@ -1,13 +1,14 @@
 ﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.Templating;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+
 
 namespace durandaljs.compiler.test
 {
-    [TestClass]
+    [TestFixture]
     public class BooleanExpressionWithConfigObject
     {
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
@@ -31,7 +32,7 @@ namespace durandaljs.compiler.test
     
          * */
 
-        [TestMethod]
+        [Test]
         public void UserName()
         {
             Assert.AreEqual(
@@ -39,33 +40,33 @@ namespace durandaljs.compiler.test
                 "config.UserName == \"Ali\"".CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void UserNameEqualItemName()
         {
             Assert.AreEqual("config.userName === $data.Name()",
                 "config.UserName == item.Name".CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void IsAuthenticated()
         {
             StringAssert.Contains("config.IsAuthenticated".CompileHtml(), "config.isAuthenticated");
         }
 
-        [TestMethod]
+        [Test]
         public void IsInRole()
         {
             Assert.AreEqual("config.roles.indexOf('clerk') > -1",
                 "config.Roles.Contains(\"clerk\")".CompileHtml(), "");
         }
-        [TestMethod]
+        [Test]
         public void StringArrayCount()
         {
             Assert.AreEqual("config.roles.length === 1",
                 "config.Roles.Count() == 1".CompileHtml(), "");
         }
 
-        [TestMethod]
+        [Test]
         [Ignore]
         public void StringArrayLength()
         {
@@ -73,7 +74,7 @@ namespace durandaljs.compiler.test
                 "config.Roles.Length == 2".CompileHtml(), "Use Count() method");
         }
 
-        [TestMethod]
+        [Test]
         public void IsInRoleArgItem()
         {
             Assert.AreEqual(
@@ -81,7 +82,7 @@ namespace durandaljs.compiler.test
                 "config.Roles.Contains(item.Name)".CompileHtml(), "");
         }
 
-        [TestMethod]
+        [Test]
         public void IsAuthenticatedAndItem()
         {
             var compileHtml = "config.IsAuthenticated && item.Name == \"Ali\"".CompileHtml();

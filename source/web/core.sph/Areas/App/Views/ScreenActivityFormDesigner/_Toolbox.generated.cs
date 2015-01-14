@@ -277,7 +277,7 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_.]*$\"");
 
-WriteLiteral(" data-bind=\"value: Path, wdTypeaheadPath : $root.wd().Id()\"");
+WriteLiteral(" data-bind=\"value: Path, wdTypeaheadPath : $root.instance\"");
 
 WriteLiteral(" id=\"form-element-path\"");
 

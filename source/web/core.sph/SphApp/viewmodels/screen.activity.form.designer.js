@@ -9,35 +9,42 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             entityOptions = ko.observableArray(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
             form = ko.observable(new bespoke.sph.domain.ScreenActivityForm({ WebId: system.guid() })),
+            instance = ko.observable(),
             activate = function (wdid, formid) {
 
                 var query = String.format("Id eq '{0}'", wdid),
                     tcs = new $.Deferred();
 
 
-                context.getListAsync("EntityDefinition", null, "Name")
-                    .then(function (entities) {
-                        var list = _(entities).map(function (v) {
-                            return {
-                                text: v,
-                                value: v
-                            };
-                        });
-
-                        list.push({ text: "UserProfile*", value: "UserProfile" });
-                        list.push({ text: "Designation*", value: "Designation" });
-                        list.push({ text: "Department*", value: "Department" });
-                        entityOptions(list);
+                var task1 = context.getListAsync("EntityDefinition", null, "Name"),
+                    task2 = context.loadOneAsync("WorkflowDefinition", query),
+                    task3 = $.getJSON("/sph/workflowdefinition/GetJavascriptWorkflowInstance/" + wdid);
+                $.when(task1, task2, task3).done(function (result1, result2, result3) {
+                    var entities = result1,
+                        b = result2;
+                    var list = _(entities).map(function (v) {
+                        return {
+                            text: v,
+                            value: v
+                        };
                     });
 
-                context.loadOneAsync("WorkflowDefinition", query)
-                    .done(function (b) {
-                        wd(b);
-                        if (formid === "0") {
-                            tcs.resolve(true);
-                        }
-                        //b.loadSchema();
-                    });
+                    list.push({ text: "UserProfile*", value: "UserProfile" });
+                    list.push({ text: "Designation*", value: "Designation" });
+                    list.push({ text: "Department*", value: "Department" });
+                    entityOptions(list);
+
+                    wd(b);
+                    if (formid === "0") {
+                        tcs.resolve(true);
+                    }
+                    instance(result3[0]);
+
+                });
+
+
+
+
 
                 $.get("/app/entityformdesigner/layoutoptions").done(function (options) {
                     layoutOptions(options);
@@ -65,7 +72,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     }
                 });
                 form().WorkflowDefinitionId(wdid);
-
                 return tcs.promise();
 
             },
@@ -210,18 +216,18 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             return tcs.promise();
         },
         partialEditor = null,
-        editCode = function() {
-                if (null == partialEditor || partialEditor.closed) {
-                    var partial = "partial/" + form().Route();
-                    partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
-                    form().Partial(partial);
-                } else {
-                    partialEditor.focus();
-                }
+        editCode = function () {
+            if (null == partialEditor || partialEditor.closed) {
+                var partial = "partial/" + form().Route();
+                partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
+                form().Partial(partial);
+            } else {
+                partialEditor.focus();
+            }
 
-                return Task.fromResult(true);
+            return Task.fromResult(true);
 
-            },
+        },
         layoutEditor = null,
         editLayout = function () {
             if (null == layoutEditor || layoutEditor.closed) {
@@ -246,6 +252,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             removeFormElement: designer.removeFormElement,
             form: form,
             wd: wd,
+            instance: instance,
             entityOptions: entityOptions,
             okClick: okClick,
             cancelClick: cancelClick,

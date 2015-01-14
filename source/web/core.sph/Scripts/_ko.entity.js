@@ -287,7 +287,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
                             if (i === "$type") continue;
                             if (i === "addChildItem") continue;
                             if (i === "removeChildItem") continue;
-                            c.options.push('' + i);
+                            c.options.push("" + i);
                         }
                         c.options.sort();
                         c.startFrom = text.lastIndexOf('.') + 1;
@@ -312,7 +312,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
 
         if (idOrName) {
-            context.loadOneAsync('EntityDefinition', "Name eq '" + idOrName + "' OR id eq '" + idOrName + "'", 'Id')
+            context.loadOneAsync("EntityDefinition", "Name eq '" + idOrName + "' OR id eq '" + idOrName + "'", "Id")
                 .done(function (edf) {
                     setup({ name: edf.Name(), id: edf.Id() });
                 });
@@ -322,7 +322,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
         if (typeof value === "function" && typeof value.subscribe === "function") {
             value.subscribe(function (entity) {
-                $(element).typeahead('destroy');
+                $(element).typeahead("destroy");
                 setup(entity);
             });
         }
@@ -530,7 +530,7 @@ bespoke.lookupText = function (element, valueAccessor) {
             if ((value === null) || (value === undefined))
                 value = "";
             var innerTextNode = ko.virtualElements.firstChild(ele);
-            if (!innerTextNode || innerTextNode.nodeType != 3 || ko.virtualElements.nextSibling(innerTextNode)) {
+            if (!innerTextNode || innerTextNode.nodeType !== 3 || ko.virtualElements.nextSibling(innerTextNode)) {
                 ko.virtualElements.setDomNodeChildren(ele, [ele.ownerDocument.createTextNode(value)]);
             } else {
                 innerTextNode.data = value;

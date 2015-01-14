@@ -23,6 +23,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var prop = symbol as IPropertySymbol;
             if (prop != null)
             {
+                if (null != prop.ContainingType && prop.ContainingType.Name == "DateTime")
+                {
+                    return prop.ContainingNamespace.Name == "System" &&
+                        prop.ContainingAssembly.Name == "mscorlib";
+                }
+
+
                 var named = prop.Type;
                 return (named.Name == "DateTime" || named.ToString() == "System.DateTime?") &&
                     named.ContainingNamespace.Name == "System" &&

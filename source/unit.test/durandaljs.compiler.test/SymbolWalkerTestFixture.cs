@@ -1,20 +1,21 @@
 ﻿using System;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Templating;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+
 
 namespace durandaljs.compiler.test
 {
-    [TestClass]
+    [TestFixture]
     public class SymbolWalkerTestFixture
     {
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
         }
-        [TestMethod]
+        [Test]
         [Ignore]
         public void LiteralStringToUpper()
         {
@@ -22,7 +23,7 @@ namespace durandaljs.compiler.test
                 "'whatever'.toUpper() === 'KELANTAN'",
                 "\"whatever\".ToUpper() == \"KELANTAN\"".CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void StringToUpper()
         {
             Assert.AreEqual(
@@ -30,14 +31,14 @@ namespace durandaljs.compiler.test
                 "item.Address.State.ToUpper() == \"KELANTAN\"".CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void StringToUpperInvariant()
         {
             Assert.AreEqual(
                 "$data.Address().State().toUpperCase() === 'KELANTAN'",
                 "item.Address.State.ToUpperInvariant() == \"KELANTAN\"".CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void StringToLower()
         {
             Assert.AreEqual(
@@ -45,14 +46,14 @@ namespace durandaljs.compiler.test
                 "item.Address.State.ToLower() == \"kelantan\"".CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void StringToLowerInvariant()
         {
             Assert.AreEqual(
                 "$data.Address().State().toLowerCase() === 'kelantan'",
                 "item.Address.State.ToLowerInvariant() == \"kelantan\"".CompileHtml());
         }
-        [TestMethod]
+        [Test]
         public void StringSubstringWithOneParameter()
         {
             Assert.AreEqual(
@@ -60,7 +61,7 @@ namespace durandaljs.compiler.test
                 "item.Address.State.Substring(3) == \"kel\"".CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void StringSubstringWithTwoParameters()
         {
             Assert.AreEqual(
@@ -68,7 +69,7 @@ namespace durandaljs.compiler.test
                 "item.Address.State.Substring(3, 1) == \"kel\"".CompileHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void StringLength()
         {
             Assert.AreEqual(

@@ -3,14 +3,15 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.FormCompilers.DurandalJs;
 using Bespoke.Sph.Templating;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+
 
 namespace durandaljs.compiler.test
 {
-    [TestClass]
+    [TestFixture]
     public class ExpressionTestFixture
     {
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
@@ -27,7 +28,7 @@ namespace durandaljs.compiler.test
             Assert.AreEqual(expected, js.Code, string.IsNullOrWhiteSpace(message) ? "\r\n Original C# Expression: "+expression : message);
         }
 
-        [TestMethod]
+        [Test]
         public async Task ItemAndString()
         {
             await AssertAsync<string>(
@@ -36,7 +37,7 @@ namespace durandaljs.compiler.test
                 );
         }
 
-        [TestMethod]
+        [Test]
         public async Task DateTimeToString()
         {
 
@@ -46,7 +47,7 @@ namespace durandaljs.compiler.test
                 );
         }
 
-        [TestMethod]
+        [Test]
         public async Task DefaultString()
         {
 
@@ -55,7 +56,7 @@ namespace durandaljs.compiler.test
                 ""
                 );
         }
-        [TestMethod]
+        [Test]
         public async Task DefaultInt32()
         {
 
@@ -64,7 +65,7 @@ namespace durandaljs.compiler.test
                 ""
                 );
         }
-        [TestMethod]
+        [Test]
         public async Task DefaultDecimal()
         {
 
@@ -73,7 +74,7 @@ namespace durandaljs.compiler.test
                 ""
                 );
         }
-        [TestMethod]
+        [Test]
         public async Task DefaultDouble()
         {
 
@@ -82,7 +83,7 @@ namespace durandaljs.compiler.test
                 ""
                 );
         }
-        [TestMethod]
+        [Test]
         public async Task DefaulSingle()
         {
 
@@ -91,7 +92,7 @@ namespace durandaljs.compiler.test
                 ""
                 );
         }
-        [TestMethod]
+        [Test]
         public async Task DefaulInt64()
         {
 
@@ -100,7 +101,7 @@ namespace durandaljs.compiler.test
                 ""
                 );
         }
-        [TestMethod]
+        [Test]
         public async Task DefaulInt16()
         {
 
@@ -109,7 +110,7 @@ namespace durandaljs.compiler.test
                 ""
                 );
         }
-        [TestMethod]
+        [Test]
         public async Task DefaultBoolean()
         {
 
@@ -118,7 +119,7 @@ namespace durandaljs.compiler.test
                 ""
                 );
         }
-        [TestMethod]
+        [Test]
         public async Task DefaultDateTime()
         {
 
@@ -128,7 +129,7 @@ namespace durandaljs.compiler.test
                 );
         }
 
-        [TestMethod]
+        [Test]
         public async Task MathAbs()
         {
 

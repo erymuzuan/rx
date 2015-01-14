@@ -1970,23 +1970,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsPublished = "IsPublished";
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private FormDesign m_formDesign
-                = new FormDesign();
-
-        public const string PropertyNameFormDesign = "FormDesign";
-        [DebuggerHidden]
-
-        public FormDesign FormDesign
-        {
-            get { return m_formDesign; }
-            set
-            {
-                m_formDesign = value;
-                OnPropertyChanged();
-            }
-        }
-
         ///<summary>
         /// 
         ///</summary>
@@ -5713,22 +5696,6 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_Version = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private bool m_IsAsync;
-        [XmlAttribute]
-        public bool IsAsync
-        {
-            get
-            {
-                return m_IsAsync;
-            }
-            set
-            {
-                m_IsAsync = value;
                 RaisePropertyChanged();
             }
         }
