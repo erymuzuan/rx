@@ -32,10 +32,10 @@
         <Label Grid.Row="1" Content="Host" />
         <telerik:RadWatermarkTextBox x:Name="hostTextBox" Focusable="True" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedConnection.HostName}"/>
 
-        <Label Grid.Row="2" Content="Virtual Host" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Virtual Host" />
         <telerik:RadWatermarkTextBox Grid.Column="1" Grid.Row="2" Text="{Binding SelectedConnection.VirtualHost}"/>
 
-        <Label Grid.Row="3" Content="Port" />
+        <Label Grid.Row="3" Grid.Column="0" Content="Port" />
         <telerik:RadWatermarkTextBox Grid.Column="1" Grid.Row="3" Text="{Binding SelectedConnection.Port}" HorizontalAlignment="Left" Width="80" ToolTip="Broker's port"/>
         <telerik:RadWatermarkTextBox Grid.Column="1" Grid.Row="3" Margin="100.333,5,0,5" HorizontalAlignment="Left" Width="94" Text="{Binding SelectedConnection.ApiPort}" ToolTip="Management API port"/>
 
