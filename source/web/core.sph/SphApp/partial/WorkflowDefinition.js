@@ -219,6 +219,8 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
+                            console.log("Adding new stuff in CorrelationSetCollection");
+                            console.log(self.CorrelationSetCollection);
                             self.CorrelationSetCollection.push(correlationSet);
                         }
                     });
@@ -288,6 +290,121 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                 self.ReferencedAssemblyCollection.remove(dll);
             };
         },
+        addTryScope = function () {
+            console.log("caling addTryScope");
+            var self = this;
+            var tryScope = new bespoke.sph.domain.TryScope(system.guid());
+            require(['viewmodels/try.scope.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.tryScope(tryScope);
+                if (typeof dialog.wd === "function") {
+                    dialog.wd(self);
+                }
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            console.log("I just pressed Okay");
+                            self.TryScopeCollection.push(tryScope);
+                        }
+                    });
+
+            });
+
+
+        },
+        editTryScope = function (tryScope) {
+            var self = this;
+            return function () {
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(tryScope));
+
+                require(['viewmodels/try.scope.dialog', 'durandal/app'], function (dialog, app2) {
+                    dialog.tryScope(clone);
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
+
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                for (var g in tryScope) {
+                                    if (typeof tryScope[g] === "function" && tryScope[g].name === "observable") {
+                                        tryScope[g](ko.unwrap(clone[g]));
+                                    } else {
+                                        tryScope[g] = clone[g];
+                                    }
+                                }
+                            }
+                        });
+
+                });
+
+            };
+        },
+        removeTryScope = function (tryScope) {
+            var self = this;
+            return function () {
+                self.TryScopeCollection.remove(tryScope);
+            };
+        },
+        addCatchScope = function () {
+            var self = this;
+            var correlationSet = new bespoke.sph.domain.CorrelationSet(system.guid());
+
+            require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.correlationSet(correlationSet);
+                if (typeof dialog.wd === "function") {
+                    dialog.wd(self);
+                }
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            console.log("Adding new stuff in CorrelationSetCollection");
+                            console.log(self.CorrelationSetCollection);
+                            self.CorrelationSetCollection.push(correlationSet);
+                        }
+                    });
+
+            });
+
+
+        },
+        editCatchScope = function (correlationSet) {
+            var self = this;
+            return function () {
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(correlationSet));
+
+                require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
+                    dialog.correlationSet(clone);
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
+
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                for (var g in correlationSet) {
+                                    if (typeof correlationSet[g] === "function" && correlationSet[g].name === "observable") {
+                                        correlationSet[g](ko.unwrap(clone[g]));
+                                    } else {
+                                        correlationSet[g] = clone[g];
+                                    }
+                                }
+                            }
+                        });
+
+                });
+
+            };
+        },
+        removeCatchScope = function (correlationSet) {
+            var self = this;
+            return function () {
+                self.CorrelationSetCollection.remove(correlationSet);
+            };
+        },
         loadSchema = function (storeId) {
             var id = storeId || this.SchemaStoreId();
             $.get("/WorkflowDefinition/GetXsdElementName/" + id)
@@ -318,7 +435,13 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         removeActivity: removeActivity,
         loadSchema: loadSchema,
         xsdElements: elementNameOptions,
-        setStartActivity: setStartActivity
+        setStartActivity: setStartActivity,
+        addTryScope: addTryScope,
+        editTryScope: editTryScope,
+        removeTryScope: removeTryScope,
+        addCatchScope: addCatchScope,
+        editCatchScope: editCatchScope,
+        removeCatchScope: removeCatchScope
     };
 
     return vm;

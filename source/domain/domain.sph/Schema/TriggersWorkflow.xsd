@@ -337,6 +337,8 @@
 		<xs:attribute name="IsInitiator" type="xs:boolean" use="required"/>
 		<xs:attribute name="NextActivityWebId" type="xs:string" use="required"/>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="TryScope" type="xs:string" use="optional"/>
+		<xs:attribute name="CatchScope" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:element name="Workflow" bs:entity="true">
 		<xs:complexType>
