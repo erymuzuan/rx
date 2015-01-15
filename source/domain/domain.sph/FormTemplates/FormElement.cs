@@ -50,7 +50,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        [JsonIgnore]
         [XmlIgnore]
         public virtual bool IsPathIsRequired { get { return true; } }
 

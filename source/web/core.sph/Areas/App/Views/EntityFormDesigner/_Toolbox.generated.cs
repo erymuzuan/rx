@@ -559,6 +559,8 @@ WriteLiteral(">\r\n\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
+WriteLiteral(" data-bind=\"visible:IsPathIsRequired\"");
+
 WriteLiteral(">\r\n                    <label");
 
 WriteLiteral(" for=\"form-element-path\"");

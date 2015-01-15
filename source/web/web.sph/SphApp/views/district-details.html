@@ -7,32 +7,44 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <i class="fa fa-exclamation"></i>
         <span data-bind="text:Message"></span>
-    
+
     </div>
-    <div class="col-lg-2"></div>
+    <div class="col-sm-2"></div>
     <!-- /ko-->
 </div>
 <div class="row">
-
     <div class="col-sm-8">
-        <form class="form-horizontal" data-bind="with : entity" id="district-details-form">
+        
+<form class="form-horizontal" data-bind="with : entity" id="district-details-form">
+
 
 
     <div data-bind="visible:true" class="form-group">
         <label for="192b1c71-491e-4142-b6b9-22f2b74947fa" class="col-md-4">Name</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
-                   data-bind="value: Name, enable :true"
+                   data-bind="value: Name, enable :true "
+                   maxlength="0"
+                   
+                    data-rule-maxlength="0"
+ data-rule-minlength="0"
+
                    id="192b1c71-491e-4142-b6b9-22f2b74947fa" type="text" name="Name" />
         </div>
     </div>
+
 
 
     <div data-bind="visible:true" class="form-group">
         <label for="eb5fe018-9530-4e5e-bf45-eb1683823971" class="col-md-4">Postcode</label>
         <div class="col-md-8">
             <input  class=" form-control input-large" title=""
-                   data-bind="value: Postcode, enable :true"
+                   data-bind="value: Postcode, enable :true "
+                   maxlength="0"
+                   
+                    data-rule-maxlength="0"
+ data-rule-minlength="0"
+
                    id="eb5fe018-9530-4e5e-bf45-eb1683823971" type="text" name="Postcode" />
         </div>
     </div>
@@ -40,10 +52,17 @@
     <div class="form-group" data-bind="visible:true">
         <label for="b5f141d1-5847-4ca9-a605-656531c4c1ee" class="col-md-4">State</label>
         <div class="col-md-8">
-            <select data-bind=" visible :true, comboBoxLookupOptions : { value: State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'StateId gt 0'}" id="b5f141d1-5847-4ca9-a605-656531c4c1ee" name="State" class=" input-large form-control">
+            <select data-bind=" visible :true, comboBoxLookupOptions : { value: State, entity : 'State', valuePath : 'Name', displayPath: 'Name', query :'Id ne \'0\''}" id="b5f141d1-5847-4ca9-a605-656531c4c1ee" name="State" class=" input-large form-control">
             </select>
         </div>
     </div>
-        </form>
+
+<button data-bind="command : $root., visible :true, enable: true" class="">Label 3</button>
+<h2 data-bind="visible:true">Label 4</h2>
+
+</form>
+    </div>
+    <div class="col-sm-4">
+        
     </div>
 </div>
