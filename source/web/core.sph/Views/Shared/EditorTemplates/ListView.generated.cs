@@ -190,15 +190,15 @@ WriteLiteral("                        ");
 
             
             #line 41 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
-                   Write(Html.EditorFor(f => col1.Input));
+                    Write(col1.Input.UseDisplayTemplate ? Html.DisplayFor(f => col1.Input) : Html.EditorFor(f => col1.Input));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                    </td>\r\n");
+WriteLiteral("\r\n\r\n\r\n                    </td>\r\n");
 
             
-            #line 43 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 45 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                 }
 
             
@@ -213,7 +213,7 @@ WriteLiteral(" href=\"#\"");
 WriteLiteral(" data-bind=\"click : $parent.removeChildItem.call($parent,$parent.");
 
             
-            #line 45 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 47 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                                                                                                           Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             
