@@ -40,16 +40,18 @@ namespace subscriber.entities
                 Form = form,
                 FilterDsl = view.GenerateElasticSearchFilterDsl(),
                 SortDsl = view.GenerateEsSortDsl(),
-                Routes = string.Join(",",view.RouteParameterCollection.Select(r => r.Name))
+                Routes = string.Join(",",view.RouteParameterCollection.Select(r => r.Name)),
+                PartialArg = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", partial",
+                PartialPath = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", \"" + view.Partial + "\""
             };
 
 
             var assembly = Assembly.GetExecutingAssembly();
-            const string resourceName = "subscriber.entities.entity.view";
+            const string RESOURCE_NAME = "subscriber.entities.entity.view";
 
 
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + view.Route.ToLower() + ".html");
-            using (var stream = assembly.GetManifestResourceStream(resourceName + ".html"))
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME + ".html"))
             using (var reader = new StreamReader(stream))
             {
                 var raw = reader.ReadToEnd();
@@ -60,7 +62,7 @@ namespace subscriber.entities
 
 
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + view.Route.ToLower() + ".js");
-            using (var stream = assembly.GetManifestResourceStream(resourceName + ".js"))
+            using (var stream = assembly.GetManifestResourceStream(RESOURCE_NAME + ".js"))
             using (var reader = new StreamReader(stream))
             {
                 var raw = reader.ReadToEnd();

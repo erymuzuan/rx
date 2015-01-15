@@ -1,19 +1,19 @@
-﻿<Window x:Class="Bespoke.Station.Windows.RabbitMqDeadLetter.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Icon="favicon.ico"
-        Title="RabbitMQ : x-dead-letter"
         xmlns:src="clr-namespace:Bespoke.Station.Windows.RabbitMqDeadLetter"
-        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
-
+        xmlns:avalon_edit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Bespoke.Station.Windows.RabbitMqDeadLetter.MainWindow"
+        Icon="favicon.ico"
+        Title="Reactive Developer : RabbitMQ x-dead-letter"
+        d:DesignWidth="1815.87" d:DesignHeight="1073.933">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <src:ConnectionPanel x:Name="connectionPanel" />
-        <GridSplitter Width="4" HorizontalAlignment="Right" />
+        <GridSplitter Grid.Column="0" Width="4" HorizontalAlignment="Right" />
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -41,7 +41,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Processing Dead Letter Queue" Grid.ColumnSpan="4" FontSize="20" FontWeight="Bold" />
+            <TextBlock Text="Processing Dead Letter Queue" Grid.ColumnSpan="4" FontSize="20" FontWeight="Bold" Margin="10" Foreground="#FFFF6600" />
 
 
             <TextBlock Grid.Row="5" Grid.Column="1" FontSize="14" FontWeight="Bold" Text="{Binding Connection.SelectedQueue.Name}" />
@@ -49,7 +49,7 @@
 
             <telerik:RadButton Grid.Row="7" Grid.Column="1" Content="Get a message" Command="{Binding LoadCommand}" />
 
-            <Grid Grid.Row="9" Grid.ColumnSpan="4">
+            <Grid Grid.Row="9" Grid.ColumnSpan="4" Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70*" />
                     <ColumnDefinition Width="30*" />
@@ -61,21 +61,21 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <avalonEdit:TextEditor
-                    x:Name="textEditor"
-                    ShowLineNumbers="True"
-                    LineNumbersForeground="#980000"
-                    FontFamily="Consolas"
-                    FontSize="14"
-                    SyntaxHighlighting="JavaScript" />
+                    <avalon_edit:TextEditor
+						x:Name="textEditor"
+						ShowLineNumbers="True"
+						LineNumbersForeground="#980000"
+						FontFamily="Consolas"
+						FontSize="14"
+						SyntaxHighlighting="JavaScript" />
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <telerik:RadNumericUpDown Margin="5" Width="40" x:Name="fontSizeComboBox"
-                                              Value="{Binding ElementName=textEditor,Path=FontSize}"
-                                              Minimum="8"
-                                              Maximum="24" />
+							Value="{Binding FontSize, ElementName=textEditor}"
+							Minimum="8"
+							Maximum="24" />
                         <telerik:RadComboBox Width="200" x:Name="fontComboBox"
-                            ItemsSource="{Binding Source={x:Static Member=Fonts.SystemFontFamilies}}"
-                            SelectedItem="{Binding ElementName=textEditor,Path=FontFamily}">
+							ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}"
+							SelectedItem="{Binding FontFamily, ElementName=textEditor}">
                             <telerik:RadComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock FontSize="12" FontFamily="{Binding}" Text="{Binding Source}"/>
@@ -83,20 +83,20 @@
                             </telerik:RadComboBox.ItemTemplate>
                         </telerik:RadComboBox>
 
-                        <telerik:RadButton Grid.Row="1" ToolTip="Decompress message" 
-                           Command="{Binding DecompressMessageCommand}"
-                           CommandParameter="{Binding Result}">
-                            <Image Source="/images/Defragmentation.png"></Image>
+                        <telerik:RadButton ToolTip="Decompress message" 
+							Command="{Binding DecompressMessageCommand}"
+							CommandParameter="{Binding Result}">
+                            <Image Source="/images/Defragmentation.png"/>
                         </telerik:RadButton>
                         <telerik:RadButton ToolTip="Format JSON" 
-                                       Command="{Binding FormatMessageCommand}"
-                                       CommandParameter="{Binding Message}">
-                            <Image Source="/images/format.png"></Image>
+							Command="{Binding FormatMessageCommand}"
+							CommandParameter="{Binding Message}">
+                            <Image Source="/images/format.png"/>
                         </telerik:RadButton>
                     </StackPanel>
 
                 </Grid>
-                <GridSplitter Width="4" HorizontalAlignment="Right" VerticalAlignment="Stretch" />
+                <GridSplitter Grid.Column="0" Width="4" HorizontalAlignment="Right" VerticalAlignment="Stretch" />
 
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
@@ -104,31 +104,30 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <telerik:RadPropertyGrid Grid.Row="0"
-                            IsReadOnly="True"
-                            NestedPropertiesVisibility="Visible"
-                            SearchInNestedProperties="True"
-                            SearchBoxVisibility="Visible"
-                            DescriptionPanelVisibility="Collapsed"
-                            Item="{Binding Result}" />
-                    <GridSplitter Height="4" 
-                              HorizontalAlignment="Stretch" 
-                              VerticalAlignment="Bottom" />
-
-
+						IsReadOnly="True"
+						NestedPropertiesVisibility="Visible"
+						SearchInNestedProperties="True"
+						SearchBoxVisibility="Visible"
+						DescriptionPanelVisibility="Collapsed"
+						Item="{Binding Result}" />
+                    <GridSplitter Grid.Row="0" Height="4" 
+						HorizontalAlignment="Stretch" 
+						VerticalAlignment="Bottom" />
+                    
                     <telerik:RadPropertyGrid Grid.Row="1"
-                                     IsReadOnly="True"
-                                     DescriptionPanelVisibility="Collapsed"
-                                    Item="{Binding DeathHeader}" />
+						IsReadOnly="True"
+						DescriptionPanelVisibility="Collapsed"
+						Item="{Binding DeathHeader}" />
                 </Grid>
 
             </Grid>
 
             <telerik:RadButton Grid.Row="10" Grid.Column="3" Content="Discard" Command="{Binding DiscardMessageCommand}" />
 
-            <TextBlock Text="Requeue the message" Grid.Row="11" Grid.ColumnSpan="4" FontSize="18" FontWeight="Bold" />
+            <TextBlock Text="Requeue the message" Grid.Row="11" Grid.ColumnSpan="4" Grid.Column="0" FontSize="18" FontWeight="Bold" />
             <Label Grid.Row="12" Grid.Column="0" Content="Exchange" />
             <telerik:RadComboBox ItemsSource="{Binding Connection.ExchangeCollection}" Grid.Row="12" Grid.Column="1" 
-                             SelectedItem="{Binding Connection.Exchange,Mode=TwoWay}" EmptyText="Exchange for" />
+				SelectedItem="{Binding Connection.Exchange, Mode=TwoWay}" EmptyText="Exchange for" />
 
             <Label Grid.Row="12" Grid.Column="2" Content="Routing key" />
             <telerik:RadWatermarkTextBox Grid.Row="12" Grid.Column="3" Text="{Binding RoutingKey}" WatermarkContent="Routing key for requeue.." />

@@ -7,10 +7,10 @@
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:model="clr-namespace:Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels"
              xmlns:models="clr-namespace:Bespoke.Station.Windows.RabbitMqDeadLetter.Models"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="669.666" d:DesignWidth="330.666">
     <UserControl.Resources>
         <DataTemplate x:Key="ConnectionDataTemplate" DataType="{x:Type models:RabbitMqConnection}">
-            <Grid>
+            <Grid MouseDown="UIElement_OnMouseDown">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />

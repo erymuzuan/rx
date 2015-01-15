@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart', objectbuilders.config],
-    function (context, logger, router, chart,config) {
+define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config @Raw(Model.PartialPath)],
+    function (context, logger, router, chart,config @Model.PartialArg) {
 
         var isBusy = ko.observable(false),
             chartFiltered = ko.observable(false),
@@ -51,7 +51,25 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                          };
                      });
                      vm.toolbar.commands(formsCommands);
-                     tcs.resolve(true);
+
+                     @if (!string.IsNullOrWhiteSpace(Model.PartialArg))
+                     {
+                         <text>
+                         if(typeof partial.activate === "function"){
+                             var pt = partial.activate(entity());
+                             if(typeof pt.done === "function"){
+                                 pt.done(tcs.resolve);
+                             }else{
+                                 tcs.resolve(true);
+                             }
+                         }
+                         </text>
+                     }
+                     else
+                     {
+                         @:tcs.resolve(true);
+                       }
+
                  });
 
 
@@ -108,8 +126,16 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                         setTimeout(function () { isBusy(false); }, 500);
                     });
             },
-            attached = function () {
+            attached = function (view) {
                 chart.init("@Model.Definition.Name", query, chartSeriesClick, "@Model.View.Id");
+                @if (!string.IsNullOrWhiteSpace(Model.PartialArg))
+                {
+                    <text>
+                    if(typeof partial.attached === "function"){
+                        partial.attached(view);
+                    }
+                    </text>
+                }
             },
             clearChartFilter = function(){
                 chartFiltered(false);

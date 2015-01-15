@@ -184,7 +184,7 @@
         <div id="fields-settings" class="tab-pane" data-bind="with: selectedFormElement">
             <form role="form">
 
-                <div class="form-group">
+                <div class="form-group" data-bind="visible:IsPathIsRequired">
                     <label for="form-element-path">Path</label>
                     <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path, entityTypeaheadPath : $root.entity().Id()" id="form-element-path" type="text" name="Path" />
                 </div>

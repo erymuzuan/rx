@@ -8,16 +8,22 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter
         public ConnectionDialog()
         {
             InitializeComponent();
-            this.Loaded += ConnectionDialog_Loaded;
+            this.Loaded += ConnectionDialogLoaded;
         }
 
-        void ConnectionDialog_Loaded(object sender, RoutedEventArgs e)
+        void ConnectionDialogLoaded(object sender, RoutedEventArgs e)
         {
             var context = this.DataContext as ConnectionViewModel;
             if (null != context)
             {
                 passwordBox.Password = context.SelectedConnection.Password;
+                if (context.SelectedConnection.Port == 0)
+                    context.SelectedConnection.Port = 5672;
+                if (context.SelectedConnection.ApiPort == 0)
+                    context.SelectedConnection.ApiPort = 15672;
             }
+            this.hostTextBox.Focus();
+
         }
 
         private void OkButtonClick(object sender, RoutedEventArgs e)

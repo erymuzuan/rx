@@ -249,7 +249,9 @@ ko.bindingHandlers.entityTypeaheadPath = {
             idOrName = ko.unwrap(valueAccessor()) || window.typeaheadEntity,
             setup = function (options) {
 
-                var ed = ko.mapping.toJS(bespoke[config.applicationName.toLowerCase() + "_" + options.id.toLowerCase()].domain[options.name]());
+                var name = options.name || options,
+                    eid = options.id || options;
+                var ed = ko.mapping.toJS(bespoke[config.applicationName.toLowerCase() + "_" + eid.toLowerCase()].domain[name]());
                 var input = $(element),
                          div = $('<div></div>').css({
                              'height': '28px'

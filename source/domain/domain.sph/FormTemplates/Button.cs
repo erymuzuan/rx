@@ -6,6 +6,11 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Button", Order = 7d, FontAwesomeIcon = "square",TypeName = "Button", Description = "Creates a command button")]
     public partial class Button : FormElement
     {
+        public override bool IsPathIsRequired
+        {
+            get { return false; }
+        }
+
         public override BuildError[] ValidateBuild(IProjectProvider ed)
         {
             var message =string.Format("[Button] -> '{0}' ",this.Label);

@@ -58,6 +58,70 @@
                    id="5eb9ffb1-6b66-4b31-ce16-2c68b6d2a59b" type="text" name="LastName" />
         </div>
     </div>
+
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="TextBox_4" class="col-md-4">Gender</label>
+        <div class="col-md-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Gender, enable :true "
+                   
+                   
+                   
+                   id="TextBox_4" type="text" name="Gender" />
+        </div>
+    </div>
+
+<div data-bind="visible:true">
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(SpouseCollection, bespoke.dev_employee.domain.Spouse)">Senarai Pasangan</button>
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :SpouseCollection">
+            <tr>
+                    <td>
+                        
+
+
+    <input  class=" form-control " title=""
+            data-bind="value: Name, visible :true, enable :true ,uniqueName:true"
+            
+             
+            type="text" 
+            name="Name" 
+            
+             />
+
+                    </td>
+                    <td>
+                        
+
+
+    <input  class=" form-control " title=""
+            data-bind="value: Age, visible :true, enable :true ,uniqueName:true"
+            
+             
+            type="text" 
+            name="Age" 
+            
+             />
+
+                    </td>
+                <td>
+                    <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.SpouseCollection, $data)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 </form>
     </div>
     <div class="col-sm-4">

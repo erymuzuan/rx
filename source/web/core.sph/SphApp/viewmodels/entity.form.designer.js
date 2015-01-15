@@ -7,6 +7,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         var errors = ko.observableArray(),
             operationsOption = ko.observableArray(),
             layoutOptions = ko.observableArray(),
+            collectionMemberOptions = ko.observableArray(),
             entityOptions = ko.observableArray(),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             form = ko.observable(new bespoke.sph.domain.EntityForm({ WebId: system.guid() })),
@@ -42,7 +43,28 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         });
                         operations.push("save");
                         operationsOption(operations);
-                        //b.loadSchema();
+
+                        var collectionMembers = [],
+                            findCollectionMembers = function (list) {
+                                _(list).each(function (v) { console.log(ko.unwrap(v.Name) + "->" + ko.unwrap(v.TypeName)); });
+                                var temp = _(list).chain()
+                                    .filter(function (v) {
+                                        return ko.unwrap(v.TypeName) === "System.Array, mscorlib";
+                                    })
+                                    .map(function (v) {
+                                        return {
+                                            "text": ko.unwrap(v.Name).replace("Collection", ""),
+                                            "value": "bespoke." + config.applicationName.toLowerCase() + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
+                                        }
+                                    })
+                                    .value();
+                                _(temp).each(function (v) { collectionMembers.push(v); });
+                                _(list).each(function (v) {
+                                    findCollectionMembers(v.MemberCollection());
+                                });
+                            };
+                        findCollectionMembers(b.MemberCollection());
+                        collectionMemberOptions(collectionMembers);
                     });
 
                 $.get("/app/entityformdesigner/layoutoptions").done(function (options) {
@@ -220,18 +242,18 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             return tcs.promise();
         },
         partialEditor = null,
-        editCode = function() {
-                if (null == partialEditor || partialEditor.closed) {
-                    var partial = "partial/" + form().Route();
-                    partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
-                    form().Partial(partial);
-                } else {
-                    partialEditor.focus();
-                }
+        editCode = function () {
+            if (null == partialEditor || partialEditor.closed) {
+                var partial = "partial/" + form().Route();
+                partialEditor = window.open("/sph/editor/file?id=/sphapp/" + partial + ".js", '_blank', 'height=600px,width=800px,toolbar=0,location=0');
+                form().Partial(partial);
+            } else {
+                partialEditor.focus();
+            }
 
-                return Task.fromResult(true);
+            return Task.fromResult(true);
 
-            },
+        },
         layoutEditor = null,
         editLayout = function () {
             if (null == layoutEditor || layoutEditor.closed) {
