@@ -51,6 +51,11 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
 
             },
             save = function () {
+                if (!document.getElementById('entity-operation-detail-form').checkValidity()) {
+                    logger.error("Please correct all the validations errors");
+                    return Task.fromResult(0);
+                }
+
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(entity);
                 isBusy(true);

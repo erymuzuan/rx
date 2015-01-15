@@ -1,6 +1,5 @@
 ﻿<h1>Start Page</h1>
-<div class="row"
-     >
+<div class="row">
     <div class="col-md-3">
         <h3>Start</h3>
         <nav>
@@ -24,7 +23,6 @@
                         <i class="fa fa-bolt"></i>
                         New Trigger
                     </a>
-
                 </li>
                 <li>
                     <a href="#reportdefinition.edit/0">
@@ -46,11 +44,10 @@
                 </li>
             </ul>
         </nav>
-        <!-- ko compose : 'viewmodels/_recent.workflow.definitions'-->
-        <!--/ko-->
-        <!-- ko compose : 'viewmodels/_recent.entity.definitions'-->
-        <!--/ko-->
-       
+    </div>
+
+    <div class="col-md-3">
+
         <!-- ko foreach : groups -->
 
         <h3 data-bind="text:groupName"></h3>
@@ -67,13 +64,23 @@
             </ul>
         </nav>
 
-
-
-
         <!-- /ko -->
-
     </div>
-    <div class="col-md-5">
+
+    <div class="col-md-3">
+        <!-- ko compose : 'viewmodels/_recent.workflow.definitions'-->
+        <!--/ko-->
+    </div>
+
+    <div class="col-md-3">
+        <!-- ko compose : 'viewmodels/_recent.entity.definitions'-->
+        <!--/ko-->
+    </div>
+
+</div>
+<div class="row">
+
+    <div class="col-md-8">
         <h2>Discover what's new in Rx Developer</h2>
         <h3>You can find information about new features and enhancements in Rx Developer by reviewing the following sections</h3>
         <a href="/docs">Learn about new features in Rx Developer</a>
