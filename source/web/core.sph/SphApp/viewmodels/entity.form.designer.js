@@ -1,11 +1,12 @@
 ﻿
 
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
-    function (context, logger, router, system, app, eximp, dialog) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.config],
+    function (context, logger, router, system, app, eximp, dialog, config) {
 
         var errors = ko.observableArray(),
             operationsOption = ko.observableArray(),
             layoutOptions = ko.observableArray(),
+            collectionMemberOptions = ko.observableArray(),
             formElements = ko.observableArray(),
             entityOptions = ko.observableArray(),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
@@ -42,6 +43,19 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         });
                         operations.push("save");
                         operationsOption(operations);
+
+                        var collectionMembers = _(b.MemberCollection()).chain().filter(function (v) {
+                            return ko.unwrap(v.TypeName) === "System.Array, mscorlib";
+                        })
+                            .map(function (v) {
+                                return {
+                                    "text": ko.unwrap(v.Name).replace("Collection", ""),
+                                    "value": "bespoke." + config.applicationName.toLowerCase() + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
+                                }
+                            })
+                            .value();
+
+                        collectionMemberOptions(collectionMembers);
                         //b.loadSchema();
                     });
 
@@ -410,6 +424,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         var vm = {
             errors: errors,
+            collectionMemberOptions: collectionMemberOptions,
             layoutOptions: layoutOptions,
             operationsOption: operationsOption,
             attached: attached,

@@ -53,32 +53,19 @@ WriteLiteral(">\r\n    <label");
 
 WriteLiteral(" for=\"form-element-list-view-type\"");
 
-WriteLiteral(">Child item type</label>\r\n    <input");
+WriteLiteral(">Child item type</label>\r\n    <select");
 
-WriteAttribute("placeholder", Tuple.Create(" placeholder=\"", 253), Tuple.Create("\"", 374)
-, Tuple.Create(Tuple.Create("", 267), Tuple.Create("e.g,", 267), true)
-, Tuple.Create(Tuple.Create(" ", 271), Tuple.Create("bespoke.", 272), true)
-            
-            #line 9 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
-, Tuple.Create(Tuple.Create("", 280), Tuple.Create<System.Object, System.Int32>(ConfigurationManager.ApplicationName.ToLowerInvariant()
-            
-            #line default
-            #line hidden
-, 280), false)
-, Tuple.Create(Tuple.Create("", 338), Tuple.Create("_&lt;id&gt;.domain.&lt;ChildType&gt;", 338), true)
-);
+WriteLiteral(" id=\"felv-entity\"");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: ChildItemType\"");
+WriteLiteral(" data-bind=\"value: ChildItemType,\r\n                options : $root.collectionMemb" +
+"erOptions,\r\n                optionsValue : \'value\',\r\n                optionsText" +
+" : \'text\',\r\n                optionsCaption: \'[Select Entity]\'\"");
 
-WriteLiteral(" id=\"form-element-list-view-type\"");
+WriteLiteral(" name=\"entity\"");
 
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(" name=\"MinLength\"");
-
-WriteLiteral(" />\r\n</div>\r\n\r\n<div");
+WriteLiteral("></select>\r\n</div>\r\n\r\n<div");
 
 WriteLiteral(" class=\"btn-group\"");
 
@@ -101,13 +88,13 @@ WriteLiteral(" class=\"dropdown-menu\"");
 WriteLiteral(">\r\n\r\n");
 
             
-            #line 19 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 23 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 19 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 23 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
           
             var fieldTypes = new[] {
                 typeof(TextBox)
@@ -128,13 +115,13 @@ WriteLiteral(">\r\n\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 33 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 37 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 33 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 37 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
          foreach (var type in fieldTypes)
         {
 
@@ -148,7 +135,7 @@ WriteLiteral(" class=\"btn btn-link\"");
 WriteLiteral(" data-bind=\"click: addListViewColumn(\'");
 
             
-            #line 36 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 40 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
                                                                         Write(type.Name);
 
             
@@ -160,14 +147,14 @@ WriteLiteral(" href=\"#\"");
 
 WriteLiteral(">\r\n                    <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1393), Tuple.Create("\"", 1455)
+WriteAttribute("src", Tuple.Create(" src=\"", 1438), Tuple.Create("\"", 1500)
             
-            #line 37 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
-, Tuple.Create(Tuple.Create("", 1399), Tuple.Create<System.Object, System.Int32>(string.Format("/images/form.element.{0}.png",type.Name)
+            #line 41 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+, Tuple.Create(Tuple.Create("", 1444), Tuple.Create<System.Object, System.Int32>(string.Format("/images/form.element.{0}.png",type.Name)
             
             #line default
             #line hidden
-, 1399), false)
+, 1444), false)
 );
 
 WriteLiteral(" class=\"pull-left\"");
@@ -175,7 +162,7 @@ WriteLiteral(" class=\"pull-left\"");
 WriteLiteral(" />\r\n                    + ");
 
             
-            #line 38 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 42 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
                  Write(type.Name);
 
             
@@ -184,7 +171,7 @@ WriteLiteral(" />\r\n                    + ");
 WriteLiteral("\r\n                </a>\r\n            </li>\r\n");
 
             
-            #line 41 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 45 "..\..\Areas\App\Views\Shared\EditorTemplates\ListView.cshtml"
         }
 
             

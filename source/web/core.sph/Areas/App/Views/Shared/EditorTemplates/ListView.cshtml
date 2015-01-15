@@ -6,7 +6,11 @@
 <!--ko if:ko.unwrap($type) === "Bespoke.Sph.Domain.ListView, domain.sph" -->
 <div class="form-group">
     <label for="form-element-list-view-type">Child item type</label>
-    <input placeholder="e.g, bespoke.@(ConfigurationManager.ApplicationName.ToLowerInvariant())_&lt;id&gt;.domain.&lt;ChildType&gt;" class="form-control" data-bind="value: ChildItemType" id="form-element-list-view-type" type="text" name="MinLength" />
+    <select id="felv-entity" class="form-control" data-bind="value: ChildItemType,
+                options : $root.collectionMemberOptions,
+                optionsValue : 'value',
+                optionsText : 'text',
+                optionsCaption: '[Select Entity]'" name="entity"></select>
 </div>
 
 <div class="btn-group">
