@@ -54,7 +54,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             },
             save = function () {
                 if (!document.getElementById('entity-form').checkValidity()) {
-                    logger.error("Please correct all the validations erros");
+                    logger.error("Please correct all the validations errors");
                     return Task.fromResult(0);
                 }
                 var tcs = new $.Deferred(),
