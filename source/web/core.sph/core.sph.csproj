@@ -544,41 +544,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_RuleFieldDropDown.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\EntityFormRenderer\Html2ColsCustomLeft.generated.cs">
-      <DependentUpon>Html2ColsCustomLeft.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\EntityFormRenderer\Html2ColsWithAuditTrail.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Html2ColsWithAuditTrail.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\EntityFormRenderer\Script.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Script.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\EntityFormRenderer\_AuditTrailContent.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_AuditTrailContent.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\EntityFormRenderer\_CustomSideContent.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_CustomSideContent.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\EntityFormRenderer\_ErrorList.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_ErrorList.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Sph\Views\EntityFormRenderer\_FormContent.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_FormContent.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Areas\Sph\Views\Home\index.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -886,14 +851,6 @@
     <EmbeddedResource Include="Content\theme.matyie\workflow.triggers.css.map">
       <DependentUpon>workflow.triggers.css</DependentUpon>
     </EmbeddedResource>
-    <Content Include="Areas\Sph\Views\EntityFormRenderer\Html2ColsWithAuditTrail.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Html2ColsWithAuditTrail.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\EntityFormRenderer\Script.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Script.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\App\Views\_ViewStart.cshtml" />
     <Content Include="Areas\App\Views\Shared\_Layout.cshtml" />
     <EmbeddedResource Include="Content\__css.css" />
@@ -958,26 +915,6 @@
     <Content Include="Areas\Sph\Views\Editor\_VendorScripts.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_VendorScripts.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\EntityFormRenderer\_FormContent.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_FormContent.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\EntityFormRenderer\_AuditTrailContent.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_AuditTrailContent.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\EntityFormRenderer\_ErrorList.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_ErrorList.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\EntityFormRenderer\_CustomSideContent.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_CustomSideContent.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Areas\Sph\Views\EntityFormRenderer\Html2ColsCustomLeft.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Html2ColsCustomLeft.generated.cs</LastGenOutput>
     </Content>
     <Content Include="kendo\js\kendo.dataviz.chart.min.js.map">
       <DependentUpon>kendo.dataviz.chart.min.js</DependentUpon>
