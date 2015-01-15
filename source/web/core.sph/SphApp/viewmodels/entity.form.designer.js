@@ -44,19 +44,27 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         operations.push("save");
                         operationsOption(operations);
 
-                        var collectionMembers = _(b.MemberCollection()).chain().filter(function (v) {
-                            return ko.unwrap(v.TypeName) === "System.Array, mscorlib";
-                        })
-                            .map(function (v) {
-                                return {
-                                    "text": ko.unwrap(v.Name).replace("Collection", ""),
-                                    "value": "bespoke." + config.applicationName.toLowerCase() + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
-                                }
-                            })
-                            .value();
-
+                        var collectionMembers = [],
+                            findCollectionMembers = function (list) {
+                                _(list).each(function (v) { console.log(ko.unwrap(v.Name) + "->" + ko.unwrap(v.TypeName)); });
+                                var temp = _(list).chain()
+                                    .filter(function (v) {
+                                        return ko.unwrap(v.TypeName) === "System.Array, mscorlib";
+                                    })
+                                    .map(function (v) {
+                                        return {
+                                            "text": ko.unwrap(v.Name).replace("Collection", ""),
+                                            "value": "bespoke." + config.applicationName.toLowerCase() + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
+                                        }
+                                    })
+                                    .value();
+                                _(temp).each(function (v) { collectionMembers.push(v); });
+                                _(list).each(function (v) {
+                                    findCollectionMembers(v.MemberCollection());
+                                });
+                            };
+                        findCollectionMembers(b.MemberCollection());
                         collectionMemberOptions(collectionMembers);
-                        //b.loadSchema();
                     });
 
                 $.get("/app/entityformdesigner/layoutoptions").done(function (options) {
