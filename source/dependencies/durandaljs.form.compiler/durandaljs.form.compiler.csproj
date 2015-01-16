@@ -116,6 +116,11 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormRenderers\EntityFormHtmlViewRenderer.cs" />
+    <Compile Include="FormRenderers\EntityFormJsViewModelRenderer.cs" />
+    <Compile Include="FormRenderers\FormRenderer.cs" />
+    <Compile Include="FormRenderers\FormRendererMetadata.cs" />
+    <Compile Include="FormRenderers\IFormRendererMetadata.cs" />
     <Compile Include="FormElements\ButtonCompiler.cs" />
     <Compile Include="FormElements\CheckBoxCompiler.cs" />
     <Compile Include="FormElements\ChildEntityListViewCompiler.cs" />
@@ -124,9 +129,10 @@
     <Compile Include="FormElements\CurrencyElementCompiler.cs" />
     <Compile Include="ExpressionCompiler.cs" />
     <Compile Include="FormRendererViewModel.cs" />
-    <Compile Include="Javascripts\Class.cs" />
-    <Compile Include="Javascripts\Field.cs" />
-    <Compile Include="Javascripts\Function.cs" />
+    <Compile Include="Javascripts\ClassDeclaration.cs" />
+    <Compile Include="Javascripts\FieldDeclaration.cs" />
+    <Compile Include="Javascripts\FunctionDeclaration.cs" />
+    <Compile Include="Javascripts\ReturnStatement.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

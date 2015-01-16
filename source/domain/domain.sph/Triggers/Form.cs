@@ -91,11 +91,7 @@ namespace Bespoke.Sph.Domain
             return result;
         }
         
-        [XmlIgnore]
-        [JsonIgnore]
-        [ImportMany("FormRenderer", typeof(IFormRenderer), AllowRecomposition = true)]
-        public Lazy<IFormRenderer, IFormRendererMetadata>[] FormRendererProviders { get; set; }
-        
+       
         [XmlIgnore]
         [JsonIgnore]
         [ImportMany(FormCompilerMetadataAttribute.FORM_ELEMENT_COMPILER_CONTRACT, typeof(FormElementCompiler), AllowRecomposition = true)]

@@ -209,9 +209,6 @@
     <Compile Include="FormTemplates\Filter.cs" />
     <Compile Include="FormTemplates\FormElementCompiler.cs" />
     <Compile Include="FormTemplates\FormLayout.cs" />
-    <Compile Include="FormTemplates\FormMetadataAttribute.cs" />
-    <Compile Include="FormTemplates\IFormRendererMetadata.cs" />
-    <Compile Include="FormTemplates\IFormRenderer.cs" />
     <Compile Include="FormTemplates\ImageElement.cs" />
     <Compile Include="FormTemplates\ListView.cs" />
     <Compile Include="FormTemplates\ListViewColumn.cs" />

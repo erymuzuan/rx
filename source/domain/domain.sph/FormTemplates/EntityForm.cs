@@ -87,25 +87,7 @@ namespace Bespoke.Sph.Domain
 
             return result;
         }
-
-        public async Task<BuildValidationResult> RenderAsync(string name)
-        {
-            var build = new BuildValidationResult();
-            if (null == this.FormRendererProviders)
-                ObjectBuilder.ComposeMefCatalog(this);
-            if (null == this.FormRendererProviders) throw new InvalidOperationException("Cannot instantiate MEF");
-
-            var provider = this.FormRendererProviders.SingleOrDefault(x => x.Metadata.Name == name);
-            if (null == provider)
-            {
-                build.Errors.Add(new BuildError(this.WebId, "Cannot find renderer for " + name));
-                return build;
-            }
-
-            var renderer = provider.Value;
-            return await renderer.RenderAsync(this);
-        }
-
+        
         public JsRoute CreateJsRoute()
         {
             var t = this;
