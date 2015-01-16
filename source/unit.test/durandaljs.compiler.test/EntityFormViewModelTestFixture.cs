@@ -4,6 +4,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.FormCompilers.DurandalJs;
 using Bespoke.Sph.FormCompilers.DurandalJs.FormRenderers;
+using Bespoke.Sph.Templating;
 using NUnit.Framework;
 
 namespace durandaljs.compiler.test
@@ -25,6 +26,8 @@ namespace durandaljs.compiler.test
             repos.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", m_ed);
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(repos);
+            ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
+            ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
 
         }
 
@@ -50,6 +53,8 @@ namespace durandaljs.compiler.test
                 IsToolbarItem = true
             };
             form.FormDesign.FormElementCollection.Add(button);
+            form.FormDesign.FormElementCollection.Add(new TextBox{Path = "No", Label = "Course No", ElementId = "noTextBox", Tooltip = "Course No"});
+            form.FormDesign.FormElementCollection.Add(new TextBox{Path = "Name", Label = "Course Name", ElementId = "nameTextBox", Tooltip = "Course Name"});
 
 
             var register = new EntityOperation { Name = "RegisterCourse", ShowSuccessMessage = true, SuccessMessage = "Ok done", NavigateSuccessUrl = "course" };

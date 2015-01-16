@@ -63,9 +63,49 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] _AuditTrailContent {
+            get {
+                object obj = ResourceManager.GetObject("_AuditTrailContent", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] _ErrorList {
+            get {
+                object obj = ResourceManager.GetObject("_ErrorList", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] _FormContent {
+            get {
+                object obj = ResourceManager.GetObject("_FormContent", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] FormViewModels {
             get {
                 object obj = ResourceManager.GetObject("FormViewModels", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Html2ColsWithAuditTrail {
+            get {
+                object obj = ResourceManager.GetObject("Html2ColsWithAuditTrail", resourceCulture);
                 return ((byte[])(obj));
             }
         }

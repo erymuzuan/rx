@@ -379,10 +379,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.FormRenderers
             if (!op.ShowSuccessMessage) return nav;
 
             return string.Format(@" 
-                                    app.showMessage(""{0}"", ""{1}"", [""OK""])
-	                                    .done(function () {{
-                                            {2}
-	                                    }});
+                        app.showMessage(""{0}"", ""{1}"", [""OK""])
+	                        .done(function () {{
+                                {2}
+	                        }});
                                  ", op.SuccessMessage, ConfigurationManager.ApplicationFullName, nav);
         }
     }

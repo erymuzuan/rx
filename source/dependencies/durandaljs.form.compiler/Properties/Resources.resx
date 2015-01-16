@@ -121,4 +121,16 @@
   <data name="FormViewModels" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FormViewModels.cshtml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Html2ColsWithAuditTrail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Html2ColsWithAuditTrail.cshtml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_AuditTrailContent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_AuditTrailContent.cshtml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_ErrorList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_ErrorList.cshtml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_FormContent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_FormContent.cshtml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

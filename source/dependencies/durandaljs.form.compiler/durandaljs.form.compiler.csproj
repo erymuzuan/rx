@@ -239,6 +239,10 @@
     <None Include="packages.config" />
     <None Include="Resources\editor.template.AddressElement.html" />
     <None Include="Resources\FormViewModels.cshtml" />
+    <None Include="Resources\Html2ColsWithAuditTrail.cshtml" />
+    <None Include="Resources\_AuditTrailContent.cshtml" />
+    <None Include="Resources\_ErrorList.cshtml" />
+    <None Include="Resources\_FormContent.cshtml" />
     <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>

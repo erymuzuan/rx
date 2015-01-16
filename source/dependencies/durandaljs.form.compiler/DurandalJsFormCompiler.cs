@@ -12,21 +12,21 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [FormCompilerMetadata(Name = Constants.DURANDAL_JS)]
     public class DurandalJsFormCompiler : FormCompiler
     {
-        [ImportMany("ViewModelRenderer", typeof(FormRenderer), AllowRecomposition = true)]
+        [ImportMany("ViewRenderer", typeof(FormRenderer), AllowRecomposition = true)]
         public Lazy<FormRenderer, IFormRendererMetadata>[] HtmlRenderers { get; set; }
 
-        [ImportMany("ViewRenderer", typeof(FormRenderer), AllowRecomposition = true)]
+        [ImportMany("ViewModelRenderer", typeof(FormRenderer), AllowRecomposition = true)]
         public Lazy<FormRenderer, IFormRendererMetadata>[] JavascriptRenderers { get; set; }
 
         public override async Task<WorkflowCompilerResult> CompileAsync(IForm form)
         {
             var project = await form.LoadProjectAsync();
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + form.Route.ToLower() + ".html");
-            var vc = this.HtmlRenderers.SingleOrDefault(x => x.Metadata.FormType == form.GetType()); 
+            var vc = this.HtmlRenderers.SingleOrDefault(x => x.Metadata.FormType == form.GetType());
             if (null != vc)
             {
                 var markup = await vc.Value.GenerateCodeAsync(form, project);
-                File.WriteAllText(html, markup);
+                File.WriteAllText(html, markup, System.Text.Encoding.ASCII);
             }
             else
             {
@@ -34,7 +34,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
 
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + form.Route.ToLower() + ".js");
-            var vmc = this.HtmlRenderers.SingleOrDefault(x => x.Metadata.FormType == form.GetType());
+            var vmc = this.JavascriptRenderers.SingleOrDefault(x => x.Metadata.FormType == form.GetType());
             if (null != vmc)
             {
                 var script = await vmc.Value.GenerateCodeAsync(form, project);
