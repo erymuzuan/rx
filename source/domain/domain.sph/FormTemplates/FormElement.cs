@@ -151,7 +151,7 @@ namespace Bespoke.Sph.Domain
             return fc.Value.GenerateEditorTemplate(this, project);
         }
 
-        public virtual string GenerateDisplayTemplate(string compiler, EntityDefinition entity)
+        public virtual string GenerateDisplayTemplate(string compiler, IProjectProvider entity)
         {
             ObjectBuilder.ComposeMefCatalog(this);
             var fc = this.Compilers.FirstOrDefault(c => c.Metadata.Name == compiler

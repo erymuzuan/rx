@@ -82,6 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ButtonCommandTestFixture.cs" />
     <Compile Include="BooleanExpressionWithConfigObject.cs" />
+    <Compile Include="ScreenActivityFormRendererTestFixture.cs" />
     <Compile Include="ScreenActivityRazorEditorTemplateTestFixture.cs" />
     <Compile Include="SymbolWalkerTestFixture.cs" />
     <Compile Include="ExpressionTestFixture.cs" />
@@ -106,7 +107,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="web\SphApp\viewmodels\test-form.js" />
     <Content Include="web\SphApp\viewmodels\this-is-a-test.js" />
+    <Content Include="web\SphApp\views\test-form.html" />
     <Content Include="web\SphApp\views\this-is-a-test.html" />
   </ItemGroup>
   <Choose>

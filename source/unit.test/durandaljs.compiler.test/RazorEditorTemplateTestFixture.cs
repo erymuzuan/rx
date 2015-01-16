@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.FormCompilers.DurandalJs;
 using Bespoke.Sph.FormCompilers.DurandalJs.FormElements;
 using Bespoke.Sph.Templating;
 using NUnit.Framework;
@@ -14,7 +13,7 @@ namespace durandaljs.compiler.test
     {
         private EntityDefinition m_patient;
 
-       [TestFixtureSetUp]
+        [TestFixtureSetUp]
         public void SetUp()
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
@@ -64,7 +63,7 @@ namespace durandaljs.compiler.test
                 Enable = "false"
             };
             var compiler = new ButtonCompiler();
-            var html = compiler.GenerateEditor(button,m_patient);
+            var html = compiler.GenerateEditor(button, m_patient);
             StringAssert.Contains("<button", html);
         }
 
@@ -122,8 +121,8 @@ namespace durandaljs.compiler.test
                 Visible = "true",
                 Enable = "false",
             };
-            dropdown.ComboBoxItemCollection.Add(new ComboBoxItem{Caption = "Male",Value = "Male"});
-            dropdown.ComboBoxItemCollection.Add(new ComboBoxItem{Caption = "Female",Value = "Female"});
+            dropdown.ComboBoxItemCollection.Add(new ComboBoxItem { Caption = "Male", Value = "Male" });
+            dropdown.ComboBoxItemCollection.Add(new ComboBoxItem { Caption = "Female", Value = "Female" });
             var compiler = new ComboBoxCompiler();
             var html = compiler.GenerateEditor(dropdown, m_patient);
             StringAssert.Contains("<option", html);

@@ -128,6 +128,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="FormElements\CurrencyElementCompiler.cs" />
     <Compile Include="ExpressionCompiler.cs" />
+    <Compile Include="FormRenderers\ScreenActivityFormHtmlViewRenderer.cs" />
+    <Compile Include="FormRenderers\ScreenActivityFormJsViewModelRenderer.cs" />
     <Compile Include="FormRendererViewModel.cs" />
     <Compile Include="Javascripts\ClassDeclaration.cs" />
     <Compile Include="Javascripts\FieldDeclaration.cs" />
@@ -232,6 +234,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +243,7 @@
     <None Include="Resources\editor.template.AddressElement.html" />
     <None Include="Resources\FormViewModels.cshtml" />
     <None Include="Resources\Html2ColsWithAuditTrail.cshtml" />
+    <None Include="Resources\ScreenActivityFormTemplate.cshtml" />
     <None Include="Resources\_AuditTrailContent.cshtml" />
     <None Include="Resources\_ErrorList.cshtml" />
     <None Include="Resources\_FormContent.cshtml" />

@@ -53,9 +53,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .Select(x => x.ClassName + " " + x.IdentifierText));
 
             var snippet = BuilExpressionClass<T>(expression, project, parameters);
-            var codes = (from c in project.GenerateCode()
-                         where !c.FileName.EndsWith("Controller")
-                         where !c.FileName.EndsWith("Controller.cs")
+            var projectDocuments = project.GenerateCode().ToList();
+            var codes = (from c in projectDocuments
+                         where !c.FileName.Contains("Controller")
                          let x = c.GetCode().Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
                          .Replace("using System.Web.Mvc;", string.Empty)
                          select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)).ToArray();

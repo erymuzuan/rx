@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   {");
             code.AppendLinf("       var correlation = Guid.NewGuid().ToString();", this.WebId);
             code.AppendLinf("       var self = this.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
-            code.AppendLine("       var baseUrl = ConfigurationManager.BaseUrl;");
+            code.AppendLine("       var baseUrl = Bespoke.Sph.Domain.ConfigurationManager.BaseUrl;");
             code.AppendLine("       var url = string.Format(\"{0}/wf/{1}/v{2}/{3}/{4}/{5}\", baseUrl, this.WorkflowDefinitionId, this.Version, self.Name.ToIdFormat(), this.Id, correlation);");
             code.AppendLine("       var imb = self.InvitationMessageBody ?? \"@Model.Screen.Name task is assigned to you go here @Model.Url\";");
             code.AppendLine("       var ims = self.InvitationMessageSubject ?? \"[Sph] @Model.Screen.Name task is assigned to you\";");

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
 namespace Bespoke.Sph.Domain.Codes
 {
+    [DebuggerDisplay("{Name}:{BaseClass} {FileName}")]
     public class Class
     {
         public string Name { get; set; }
