@@ -20,22 +20,48 @@
                         </div>
                     </div>
 
+                    <h3>Try Activities</h3>
+                    <table class="table table-condensed table-striped" data-bind="filter: {path:'tbody>tr'}">
 
+                        <thead style="display: block">
+                        <tr>
+                            <th style="width: 450px;">Name</th>
+                        </tr>
+                        </thead>
+                        <tbody style="max-height: 450px; overflow-y: scroll; display: block" data-bind="foreach:$root.activities2">
+                        <tr>
+                            <td style="width: 450px">
+                                <label>
+                                    <input type="checkbox" data-bind="attr :{id : 'tsd' + WebId()}"/>
+                                    <!-- ko text:Name -->
+                                    <!-- /ko -->
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Catch Scopes</h3>
                     <table class="table table-condensed table-striped" data-bind="filter: {path:'tbody>tr'}">
 
                         <thead style="display: block">
                             <tr>
-                                <th style="width: 450px;">Name</th>
+                                <th style="width: 450px;" colspan="3">Name</th>
                             </tr>
                         </thead>
-                        <tbody style="max-height: 450px; overflow-y: scroll; display: block" data-bind="foreach:$root.activities2">
+                        <tbody style="max-height: 450px; overflow-y: scroll; display: block" data-bind="foreach:CatchScopeCollection">
                             <tr>
-                                <td style="width: 450px">
-                                    <label>
-                                        <input type="checkbox" data-bind="attr :{id : 'tsd' + WebId()}" />
-                                        <!-- ko text:Name -->
+                                <td>
+                                    
+                                        <!-- ko text: Id -->
                                         <!-- /ko -->
-                                    </label>
+                                    
+                                </td>
+                                <td></td>
+                                <td>
+                                    <a href="#" data-bind="click : $parent.removeCatchScope.call($parent,$data,$root.wd)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

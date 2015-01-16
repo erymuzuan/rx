@@ -10,12 +10,10 @@
 
 define(['plugins/dialog'],
     function (dialog) {
-        console.log("try.scope.dialog.js");
-
         var activities = ko.observableArray(),
             tryScope = ko.observable(new bespoke.sph.domain.TryScope()),
             wd = ko.observable(),
-            activate = function () {
+            drawList = function() {
                 var list = _(wd().ActivityCollection())
                         .filter(function (v) {
                             if (v.CatchScope()) return false;
@@ -23,14 +21,20 @@ define(['plugins/dialog'],
                         });
                 activities(list);
             },
+            activate = function () {
+                drawList();
+            },
             attached = function (view) {
                 $(view).on('click', 'input[type=checkbox]', function () {
 
                     var act = ko.dataFor(this);
-
+                    if (tryScope().Id() === "") {
+                        alert("Please enter name for Try Scope before proceed");
+                        return false;
+                    }
                     if ($(this).is(':checked')) {
                         act.TryScope(tryScope().Id());
-                        $("#" + act.WebId()).css("background-color", "red");
+                        $("#" + act.WebId()).css("background-color", "#37c757");
                     } else {
                         act.TryScope(null);
                         $("#" + act.WebId()).css("background-color", "");
@@ -47,16 +51,24 @@ define(['plugins/dialog'],
                        });
                 };
                 setTimeout(init, 500);
+
+                _(wd().ActivityCollection())
+                     .each(function (v) {
+                         v.CatchScope.subscribe(drawList);
+                     });
+
             },
 
 
             okClick = function (data, ev) {
+                // todo: dispose
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
                 }
 
             },
             cancelClick = function () {
+                // todo: dispose
                 dialog.close(this, "Cancel");
             };
 

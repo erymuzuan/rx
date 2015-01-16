@@ -346,61 +346,8 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
             };
         },
         addCatchScope = function () {
-            //var self = this;
-            //console.log("addCatchScope");
-           // console.log(self);
-            //var correlationSet = new bespoke.sph.domain.CorrelationSet(system.guid());
-            //var catchScope = new bespoke.sph.domain.CatchScope(system.guid());
-
-            //require(['viewmodels/catch.scope.dialog', 'durandal/app'], function (dialog, app2) {
-                /*
-                dialog.catchScope(catchScope);
-                if (typeof dialog.wd === "function") {
-                    dialog.wd(self);
-                }
-                app2.showDialog(dialog)
-                    .done(function (result) {
-                        if (!result) return;
-                        if (result === "OK") {
-                            console.log("Adding new stuff in CorrelationSetCollection");
-                            console.log(self.CorrelationSetCollection);
-                            self.CorrelationSetCollection.push(catchScope);
-                        }
-                    });
-                    */
-
-           // });
-
-
         },
-        editCatchScope = function (correlationSet) {
-            var self = this;
-            return function () {
-                var clone = ko.mapping.fromJS(ko.mapping.toJS(correlationSet));
-
-                require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
-                    dialog.correlationSet(clone);
-                    if (typeof dialog.wd === "function") {
-                        dialog.wd(self);
-                    }
-
-                    app2.showDialog(dialog)
-                        .done(function (result) {
-                            if (!result) return;
-                            if (result === "OK") {
-                                for (var g in correlationSet) {
-                                    if (typeof correlationSet[g] === "function" && correlationSet[g].name === "observable") {
-                                        correlationSet[g](ko.unwrap(clone[g]));
-                                    } else {
-                                        correlationSet[g] = clone[g];
-                                    }
-                                }
-                            }
-                        });
-
-                });
-
-            };
+        editCatchScope = function () {
         },
         removeCatchScope = function (correlationSet) {
             var self = this;

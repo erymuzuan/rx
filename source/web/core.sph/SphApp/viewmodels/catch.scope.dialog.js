@@ -26,6 +26,10 @@ define(['plugins/dialog'],
             attached = function (view) {
                 $(view).on('click', 'input.catch-activities', function () {
                     var act = ko.dataFor(this);
+                    if (catchScope().Id() === "") {
+                        alert("Please enter name for Catch Scope before proceed");
+                        return false;
+                    }
                     if ($(this).is(':checked')) {
                         act.CatchScope(catchScope().Id());
                     } else {
