@@ -291,7 +291,6 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
             };
         },
         addTryScope = function () {
-            console.log("caling addTryScope");
             var self = this;
             var tryScope = new bespoke.sph.domain.TryScope(system.guid());
             require(['viewmodels/try.scope.dialog', 'durandal/app'], function (dialog, app2) {
@@ -303,7 +302,6 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
-                            console.log("I just pressed Okay");
                             self.TryScopeCollection.push(tryScope);
                         }
                     });
@@ -348,11 +346,15 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
             };
         },
         addCatchScope = function () {
-            var self = this;
-            var correlationSet = new bespoke.sph.domain.CorrelationSet(system.guid());
+            //var self = this;
+            //console.log("addCatchScope");
+           // console.log(self);
+            //var correlationSet = new bespoke.sph.domain.CorrelationSet(system.guid());
+            //var catchScope = new bespoke.sph.domain.CatchScope(system.guid());
 
-            require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
-                dialog.correlationSet(correlationSet);
+            //require(['viewmodels/catch.scope.dialog', 'durandal/app'], function (dialog, app2) {
+                /*
+                dialog.catchScope(catchScope);
                 if (typeof dialog.wd === "function") {
                     dialog.wd(self);
                 }
@@ -362,11 +364,12 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                         if (result === "OK") {
                             console.log("Adding new stuff in CorrelationSetCollection");
                             console.log(self.CorrelationSetCollection);
-                            self.CorrelationSetCollection.push(correlationSet);
+                            self.CorrelationSetCollection.push(catchScope);
                         }
                     });
+                    */
 
-            });
+           // });
 
 
         },

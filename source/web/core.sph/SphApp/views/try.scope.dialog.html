@@ -24,26 +24,26 @@
                     <table class="table table-condensed table-striped" data-bind="filter: {path:'tbody>tr'}">
 
                         <thead style="display: block">
-                        <tr>
-                            <th style="width: 450px;">Name</th>
-                        </tr>
+                            <tr>
+                                <th style="width: 450px;">Name</th>
+                            </tr>
                         </thead>
-                        <tbody style="max-height: 450px; overflow-y: scroll; display: block" data-bind="foreach:activities">
-                        <tr>
-                            <td style="width: 450px">
-                                <label>
-                                    <input type="checkbox"/>
-                                    <!-- ko text:Name -->
-                                    <!-- /ko -->
-                                </label>
-                            </td>
-                        </tr>
+                        <tbody style="max-height: 450px; overflow-y: scroll; display: block" data-bind="foreach:$root.activities2">
+                            <tr>
+                                <td style="width: 450px">
+                                    <label>
+                                        <input type="checkbox" data-bind="attr :{id : 'tsd' + WebId()}" />
+                                        <!-- ko text:Name -->
+                                        <!-- /ko -->
+                                    </label>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
 
                 </form>
 
-                <a href="#" data-bind="click : addCatchScope" class="btn btn-link">
+                <a href="#" data-bind="click : addCatchScope.call($data, $root.wd)" class="btn btn-link">
                     <i class="fa fa-plus-circle"></i>
                     Add Catch Scope
                 </a>

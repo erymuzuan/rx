@@ -12,37 +12,44 @@ define(['plugins/dialog'],
     function (dialog) {
         console.log("try.scope.dialog.js");
 
-        self = this,
-            selectedActivities = ko.observableArray(),
-            activities = ko.observableArray(),
+        var activities = ko.observableArray(),
+            tryScope = ko.observable(new bespoke.sph.domain.TryScope()),
+            wd = ko.observable(),
             activate = function () {
-                activities = (wd().ActivityCollection());
+                var list = _(wd().ActivityCollection())
+                        .filter(function (v) {
+                            if (v.CatchScope()) return false;
+                            return v.TryScope() === tryScope().Id() || !v.TryScope();
+                        });
+                activities(list);
             },
             attached = function (view) {
                 $(view).on('click', 'input[type=checkbox]', function () {
-                    console.log("clicking");
-                    console.log(this);
-                    var dll = ko.dataFor(this);
-                    console.log(dll);
+
+                    var act = ko.dataFor(this);
+
                     if ($(this).is(':checked')) {
-                        selectedActivities.push(dll);
-                        //console.log("selectedActivities" + selectedActivities);
-                        console.log(this);
-                        console.log($(this));
-                        console.log(dll);
-                        console.log(dll.WebId());
-                        $("#" + dll.WebId()).css("background-color", "red");
+                        act.TryScope(tryScope().Id());
+                        $("#" + act.WebId()).css("background-color", "red");
                     } else {
-                        selectedActivities.remove(dll);
-                        console.log("selectedActivities" + selectedActivities);
+                        act.TryScope(null);
+                        $("#" + act.WebId()).css("background-color", "");
                     }
                 });
 
+                // set check for existing activities to which refer to this scope
+                var init = function () {
+                    _(wd().ActivityCollection())
+                       .each(function (v) {
+                           if (v.TryScope() === tryScope().Id()) {
+                               $("#tsd" + v.WebId()).prop('checked', true);
+                           }
+                       });
+                };
+                setTimeout(init, 500);
+            },
 
-            }
 
-        var tryScope = ko.observable(new bespoke.sph.domain.TryScope()),
-            wd = ko.observable(),
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
@@ -59,7 +66,7 @@ define(['plugins/dialog'],
             okClick: okClick,
             cancelClick: cancelClick,
             activate: activate,
-            activities: activities,
+            activities2: activities,
             attached: attached
         };
 

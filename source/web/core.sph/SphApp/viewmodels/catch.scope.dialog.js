@@ -9,33 +9,56 @@
 
 
 define(['plugins/dialog'],
-    function(dialog) {
+    function (dialog) {
 
-        var typeOptions = ko.observableArray(),
-            //correlationSet = ko.observable(new bespoke.sph.domain.CorrelationSet()),
+        var tryOptions = ko.observableArray(),
             catchScope = ko.observable(new bespoke.sph.domain.CatchScope()),
             wd = ko.observable(),
-            activate = function() {
-                tryOptions(wd().TryScopeCollection());
+            activities = ko.observableArray(),
+            activate = function () {
+                var list = _(wd().ActivityCollection())
+                    .filter(function (v) {
+                        if (v.TryScope()) return false;
+                        return v.CatchScope() === catchScope().Id() || !v.CatchScope();
+                    });
+                activities(list);
+            },
+            attached = function (view) {
+                $(view).on('click', 'input.catch-activities', function () {
+                    var act = ko.dataFor(this);
+                    if ($(this).is(':checked')) {
+                        act.CatchScope(catchScope().Id());
+                    } else {
+                        act.CatchScope(null);
+                    }
+                });
+
+                // set check for existing activities to which refer to this scope
+                _(wd().ActivityCollection())
+                   .each(function (v) {
+                       if (v.CatchScope() === catchScope().Id()) {
+                           $("#csd" + v.WebId()).prop('checked', true);
+                       }
+                   });
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
                 }
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
         var vm = {
             activate: activate,
+            attached: attached,
             wd: wd,
-            typeOptions: typeOptions,
             tryOptions: tryOptions,
-            //correlationSet:correlationSet,
             okClick: okClick,
             cancelClick: cancelClick,
-            catchScope: catchScope
+            catchScope: catchScope,
+            activities: activities
         };
 
 

@@ -1,5 +1,5 @@
 ﻿
-<section class="view-model-modal" id="correlation-set-dialog">
+<section class="view-model-modal" id="catch-scope-dialog">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -7,32 +7,42 @@
                 <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
                 <h3>Catch Scope Exception</h3>
             </div>
-            <div class="modal-body" data-bind="with: correlationSet">
+            <div class="modal-body" data-bind="with: catchScope">
 
-                <form class="form-horizontal" id="correlation-set-dialog-form">
+                <form class="form-horizontal" id="catch-scope-dialog-form">
                     <div class="form-group">
                         <label for="set-name" class="col-sm-3 control-label">Name</label>
                         <div class="col-sm-9">
-                            <input type="text" data-bind="value: Name"
+                            <input type="text" data-bind="value: Id"
                                    required="" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
-                                   placeholder="Correlation set name"
+                                   placeholder="Catch Scope Name"
                                    class="form-control" id="set-name">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="type" class="col-sm-3 control-label">Type</label>
-                        <div class="col-sm-9">
-                            <select required class="form-control" id="type" data-bind="value:Type,
-                                        options:$root.typeOptions,
-                                        optionsValue : 'Name',
-                                        optionsText: 'Name',
-                                        optionsCaption : '[Please Select Correlation Type]'"></select>
-                        </div>
-                    </div>
+
+                    <table class="table table-condensed table-striped" data-bind="filter: {path:'tbody>tr'}">
+
+                        <thead style="display: block">
+                            <tr>
+                                <th style="width: 450px;">Name</th>
+                            </tr>
+                        </thead>
+                        <tbody style="max-height: 450px; overflow-y: scroll; display: block" data-bind="foreach: $root.activities">
+                            <tr>
+                                <td style="width: 450px">
+                                    <label>
+                                        <input type="checkbox" class="catch-activities" data-bind="attr :{id :'csd' + WebId()}"/>
+                                        <!-- ko text:Name -->
+                                        <!-- /ko -->
+                                    </label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </form>
             </div>
             <div class="modal-footer">
-                <input form="correlation-set-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <input form="catch-scope-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
                 <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
             </div>
         </div>

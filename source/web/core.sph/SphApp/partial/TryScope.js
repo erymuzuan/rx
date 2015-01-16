@@ -1,35 +1,39 @@
 ﻿bespoke.sph.domain.TryScopePartial = function () {
 
 
-    var addCatchScope = function (a, b) {
-        console.log(a);
-        console.log(b);
+    var
+        addCatchScope = function (wd) {
+            return function () {
+                console.log("addCatchScope in bespoke.sph.domain.TryScopePartial");
+                var system = require('durandal/system');
 
-        var self2 = this;
-        var correlationSet = new bespoke.sph.domain.CorrelationSet("123213213213");
 
-        require(['viewmodels/correlation.set.dialog', 'durandal/app'], function (dialog, app2) {
-            dialog.correlationSet(correlationSet);
-            if (typeof dialog.wd === "function") {
-                dialog.wd(self2);
-            }
-            console.log("dialog");
-            console.log(app2);
-            console.log("app2");
-            console.log(app2);
-            app2.showDialog(dialog)
-                .done(function (result) {
-                    if (!result) return;
-                    if (result === "OK") {
-                        //console.log("Adding new stuff in CorrelationSetCollection");
-                        //console.log(self2.CorrelationSetCollection);
-                        //self2.CorrelationSetCollection.push(correlationSet);
+                var self2 = this;
+                var catchScope = new bespoke.sph.domain.CatchScope(system.guid());
+
+                require(['viewmodels/catch.scope.dialog', 'durandal/app'], function (dialog, app2) {
+                    console.log("inside dialog");
+                    console.log(dialog);
+                    dialog.catchScope(catchScope);
+
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(wd());
                     }
 
-                });
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                console.log("Adding new stuff in CatchScopeCollection");
+                                console.log(self2.CatchScopeCollection);
+                                self2.CatchScopeCollection.push(catchScope);
+                            }
 
-        });
-    };
+                        });
+
+                });
+            };
+        };
 
     return {
         addCatchScope: addCatchScope
