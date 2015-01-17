@@ -1,0 +1,83 @@
+﻿
+<section class="view-model-modal" id="try-scope-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Try Exception</h3>
+            </div>
+            <div class="modal-body" data-bind="with: tryScope">
+
+                <form class="form-horizontal" id="correlation-type-dialog-form">
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Id</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: Id"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Try Scope Name"
+                                   class="form-control" id="name">
+                        </div>
+                    </div>
+
+                    <h3>Try Activities</h3>
+                    <table class="table table-condensed table-striped" data-bind="filter: {path:'tbody>tr'}">
+
+                        <thead style="display: block">
+                        <tr>
+                            <th style="width: 450px;">Name</th>
+                        </tr>
+                        </thead>
+                        <tbody style="max-height: 450px; overflow-y: scroll; display: block" data-bind="foreach:$root.activities2">
+                        <tr>
+                            <td style="width: 450px">
+                                <label>
+                                    <input type="checkbox" data-bind="attr :{id : 'tsd' + WebId()}"/>
+                                    <!-- ko text:Name -->
+                                    <!-- /ko -->
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Catch Scopes</h3>
+                    <table class="table table-condensed table-striped" data-bind="filter: {path:'tbody>tr'}">
+
+                        <thead style="display: block">
+                            <tr>
+                                <th style="width: 450px;" colspan="3">Name</th>
+                            </tr>
+                        </thead>
+                        <tbody style="max-height: 450px; overflow-y: scroll; display: block" data-bind="foreach:CatchScopeCollection">
+                            <tr>
+                                <td>
+                                    
+                                        <!-- ko text: Id -->
+                                        <!-- /ko -->
+                                    
+                                </td>
+                                <td></td>
+                                <td>
+                                    <a href="#" data-bind="click : $parent.removeCatchScope.call($parent,$data,$root.wd)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </form>
+
+                <a href="#" data-bind="click : addCatchScope.call($data, $root.wd)" class="btn btn-link">
+                    <i class="fa fa-plus-circle"></i>
+                    Add Catch Scope
+                </a>
+            </div>
+            <div class="modal-footer">
+                <input form="correlation-type-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

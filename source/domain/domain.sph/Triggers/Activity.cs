@@ -30,7 +30,6 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(SendActivity))]
     public partial class Activity : DomainObject
     {
-        public string CatchScope { get; set; }
         public virtual BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
             const string PATTERN = "^[A-Za-z][A-Za-z0-9_ ]*$";
@@ -87,7 +86,6 @@ namespace Bespoke.Sph.Domain
             throw new NotImplementedException();
         }
 
-        public string TryScope { get; set; }
 
         /// <summary>
         /// Flags to say that this activity listen to event
