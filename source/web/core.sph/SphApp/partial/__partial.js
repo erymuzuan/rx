@@ -167,6 +167,10 @@ bespoke.sph.domain.ButtonPartial = function () {
         editCommand: editCommand
     };
 };
+bespoke.sph.domain.CatchScopePartial = function () {
+
+
+};
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -930,6 +934,37 @@ bespoke.sph.domain.LineChartItemPartial = function () {
         removeSeries: removeSeries
     };
 };
+/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../durandal/system.js" />
+/// <reference path="../durandal/amd/require.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
+
+
+bespoke.sph.domain.ListenActivityPartial = function () {
+    var system = require('durandal/system'),
+        addBranch = function () {
+            var self = this;
+            var branch = new bespoke.sph.domain.ListenBranch(system.guid());
+            self.ListenBranchCollection.push(branch);
+
+        },
+        removeBranch = function (branch) {
+            var self = this;
+            return function () {
+                self.ListenBranchCollection.remove(branch);
+            };
+        },
+        multipleEndPoints = function () {
+            return this.ListenBranchCollection();
+        };
+    return {
+        addBranch: addBranch,
+        removeBranch: removeBranch,
+        multipleEndPoints: multipleEndPoints
+    };
+};
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -1018,37 +1053,6 @@ bespoke.sph.domain.ListViewColumnPartial = function (model) {
     });
     return {
         icon: icon
-    };
-};
-/// <reference path="../schemas/trigger.workflow.g.js" />
-/// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
-
-
-bespoke.sph.domain.ListenActivityPartial = function () {
-    var system = require('durandal/system'),
-        addBranch = function () {
-            var self = this;
-            var branch = new bespoke.sph.domain.ListenBranch(system.guid());
-            self.ListenBranchCollection.push(branch);
-
-        },
-        removeBranch = function (branch) {
-            var self = this;
-            return function () {
-                self.ListenBranchCollection.remove(branch);
-            };
-        },
-        multipleEndPoints = function () {
-            return this.ListenBranchCollection();
-        };
-    return {
-        addBranch: addBranch,
-        removeBranch: removeBranch,
-        multipleEndPoints: multipleEndPoints
     };
 };
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1311,6 +1315,38 @@ bespoke.sph.domain.ReceiveActivityPartial = function () {
 
     };
 };
+/// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+
+
+
+
+bespoke.sph.domain.DailySchedulePartial = function () {
+
+    return {
+        name: ko.observable("Daily Schedule"),
+        icon: ko.observable("fa fa-calendar")
+    };
+};
+bespoke.sph.domain.WeeklySchedulePartial = function () {
+
+    return {
+        name: ko.observable("Weekly Schedule"),
+        icon: ko.observable("fa fa-th-list")
+    };
+};
+bespoke.sph.domain.MonthlySchedulePartial = function () {
+
+    return {
+        name: ko.observable("Monthly Schedule"),
+        icon: ko.observable("fa fa-calendar-o"),
+        dateOptions : _.range(1,31)
+    };
+};
+
+
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -1715,6 +1751,60 @@ bespoke.sph.domain.TriggerPartial = function () {
     return vm;
 };
 
+bespoke.sph.domain.TryScopePartial = function () {
+
+
+    var
+        addCatchScope = function(wd) {
+            return function() {
+                var system = require('durandal/system');
+
+
+                var self2 = this;
+                var catchScope = new bespoke.sph.domain.CatchScope(system.guid());
+
+                require(['viewmodels/catch.scope.dialog', 'durandal/app'], function(dialog, app2) {
+                    dialog.catchScope(catchScope);
+
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(wd());
+                    }
+
+                    app2.showDialog(dialog)
+                        .done(function(result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                self2.CatchScopeCollection.push(catchScope);
+                            }
+
+                        });
+
+                });
+            };
+        },
+        editCatchScope = function (a, b) {            
+        },
+        removeCatchScope = function (catchScope, wdOutside) {
+            var self = this, wd = wdOutside;
+            
+            return function () {
+                wd().ActivityCollection().forEach(function (act) {
+                    if (act.CatchScope() === catchScope.Id()) {
+                        act.CatchScope("");
+                    }
+                });
+
+                self.CatchScopeCollection.remove(catchScope);
+            };
+            
+        };
+
+    return {
+        addCatchScope: addCatchScope,
+        editCatchScope: editCatchScope,
+        removeCatchScope: removeCatchScope
+    };
+};
 /// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
@@ -2090,13 +2180,67 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                 self.ReferencedAssemblyCollection.remove(dll);
             };
         },
+        addTryScope = function () {
+            var self = this;
+            var tryScope = new bespoke.sph.domain.TryScope(system.guid());
+            require(['viewmodels/try.scope.dialog', 'durandal/app'], function (dialog, app2) {
+                dialog.tryScope(tryScope);
+                if (typeof dialog.wd === "function") {
+                    dialog.wd(self);
+                }
+                app2.showDialog(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.TryScopeCollection.push(tryScope);
+                        }
+                    });
+
+            });
+
+
+        },
+        editTryScope = function (tryScope) {
+            var self = this;
+            return function () {
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(tryScope));
+
+                require(['viewmodels/try.scope.dialog', 'durandal/app'], function (dialog, app2) {
+                    dialog.tryScope(clone);
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
+
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                for (var g in tryScope) {
+                                    if (typeof tryScope[g] === "function" && tryScope[g].name === "observable") {
+                                        tryScope[g](ko.unwrap(clone[g]));
+                                    } else {
+                                        tryScope[g] = clone[g];
+                                    }
+                                }
+                            }
+                        });
+
+                });
+
+            };
+        },
+        removeTryScope = function (tryScope) {
+            var self = this;
+            return function () {
+                self.TryScopeCollection.remove(tryScope);
+            };
+        },
         loadSchema = function (storeId) {
             var id = storeId || this.SchemaStoreId();
             $.get("/WorkflowDefinition/GetXsdElementName/" + id)
                 .then(function (result) {
                     elementNameOptions(result);
                 });
-
         };
 
     model.SchemaStoreId.subscribe(loadSchema);
@@ -2120,7 +2264,10 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         removeActivity: removeActivity,
         loadSchema: loadSchema,
         xsdElements: elementNameOptions,
-        setStartActivity: setStartActivity
+        setStartActivity: setStartActivity,
+        addTryScope: addTryScope,
+        editTryScope: editTryScope,
+        removeTryScope: removeTryScope
     };
 
     return vm;
@@ -2191,35 +2338,3 @@ bespoke.sph.domain.WorkflowTriggerMapPartial = function () {
 };
 
 bespoke.sph.domain.WorkflowTriggerMapPartial.prototype = new bespoke.sph.domain.FieldContainer();
-
-/// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-
-
-
-
-bespoke.sph.domain.DailySchedulePartial = function () {
-
-    return {
-        name: ko.observable("Daily Schedule"),
-        icon: ko.observable("fa fa-calendar")
-    };
-};
-bespoke.sph.domain.WeeklySchedulePartial = function () {
-
-    return {
-        name: ko.observable("Weekly Schedule"),
-        icon: ko.observable("fa fa-th-list")
-    };
-};
-bespoke.sph.domain.MonthlySchedulePartial = function () {
-
-    return {
-        name: ko.observable("Monthly Schedule"),
-        icon: ko.observable("fa fa-calendar-o"),
-        dateOptions : _.range(1,31)
-    };
-};
-

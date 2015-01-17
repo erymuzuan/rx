@@ -6021,6 +6021,16 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameName = "Name";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_tryScope;
+        public const string PropertyNameTryScope = "TryScope";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_catchScope;
+        public const string PropertyNameCatchScope = "CatchScope";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private WorkflowDesigner m_workflowDesigner
                 = new WorkflowDesigner();
 
@@ -6103,6 +6113,50 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_name;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string TryScope
+        {
+            set
+            {
+                if (m_tryScope == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTryScope, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_tryScope = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_tryScope;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string CatchScope
+        {
+            set
+            {
+                if (m_catchScope == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCatchScope, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_catchScope = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_catchScope;
             }
         }
 

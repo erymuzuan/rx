@@ -2387,6 +2387,8 @@ bespoke.sph.domain.Activity = function (optionOrWebid) {
         IsInitiator: ko.observable(false),
         NextActivityWebId: ko.observable(""),
         Name: ko.observable(""),
+        TryScope: ko.observable(""),
+        CatchScope: ko.observable(""),
         WorkflowDesigner: ko.observable(new bespoke.sph.domain.WorkflowDesigner()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
