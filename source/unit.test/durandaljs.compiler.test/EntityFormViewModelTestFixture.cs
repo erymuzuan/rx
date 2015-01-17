@@ -55,6 +55,7 @@ namespace durandaljs.compiler.test
             form.FormDesign.FormElementCollection.Add(button);
             form.FormDesign.FormElementCollection.Add(new TextBox{Path = "No", Label = "Course No", ElementId = "noTextBox", Tooltip = "Course No"});
             form.FormDesign.FormElementCollection.Add(new TextBox{Path = "Name", Label = "Course Name", ElementId = "nameTextBox", Tooltip = "Course Name"});
+            form.FormDesign.FormElementCollection.Add(new TextBox{Path = "Author", Label = "Author", ElementId = "authorTextBox", Tooltip = "Course Author"});
 
 
             var register = new EntityOperation { Name = "RegisterCourse", ShowSuccessMessage = true, SuccessMessage = "Ok done", NavigateSuccessUrl = "course" };

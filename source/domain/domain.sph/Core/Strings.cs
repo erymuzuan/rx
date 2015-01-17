@@ -121,6 +121,9 @@ namespace Bespoke.Sph.Domain
 
         public static string ToIdFormat(this string text)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                return Guid.NewGuid().ToString();
+
             return text.Replace(".", "-")
                 .Replace("_", "-")
                 .Replace(",", "-")

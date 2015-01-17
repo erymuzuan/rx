@@ -40,6 +40,24 @@ namespace durandaljs.compiler.test
         }
 
         [Test]
+        public void Debuggin()
+        {
+            Assert.IsFalse(DebuggerHelper.IsVerbose);
+        }
+        [Test]
+        [TraceAttribute(Verbose = true)]
+        public void Verbose()
+        {
+            Assert.IsTrue(DebuggerHelper.IsVerbose);
+        }
+        [Test]
+        [TraceAttribute(Verbose = false)]
+        public void NotVerbose()
+        {
+            Assert.IsFalse(DebuggerHelper.IsVerbose);
+        }
+
+        [Test]
         public async Task WithDurandalJsFormCompiler()
         {
             var form = new ScreenActivityForm

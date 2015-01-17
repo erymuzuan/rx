@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
 using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
@@ -34,7 +33,13 @@ namespace Bespoke.Sph.Domain
                                let location = Path.Combine(ConfigurationManager.WebPath, @"bin\" + Path.GetFileName(v.Location))
                                select MetadataReference.CreateFromAssembly(Assembly.LoadFile(location));
                 var references = clrTypes.ToList();
-                references.Add(MetadataReference.CreateFromAssembly(typeof(System.Net.WebClient).Assembly));
+                references.AddMetadataReference<System.Net.WebClient>()
+                    .AddMetadataReference<System.Xml.Serialization.XmlAnyAttributeAttribute>()
+                    //.AddMetadataReference<object>()
+                    .AddMetadataReference<WorkflowDefinition>()
+                    .AddMetadataReference<EnumerableQuery>()
+                    .AddMetadataReference<System.Net.Mail.SmtpClient>();
+                references.Add(MetadataReference.CreateFromAssembly(Assembly.Load("mscorlib")));
 
                 return references.ToArray();
             }
@@ -56,7 +61,7 @@ namespace Bespoke.Sph.Domain
             wcd.ImportCollection.Add(typeof(Int32).Namespace);
             wcd.ImportCollection.Add(typeof(Task<>).Namespace);
             wcd.ImportCollection.Add(typeof(Enumerable).Namespace);
-            wcd.ImportCollection.Add(typeof(XmlAttributeAttribute).Namespace);
+            wcd.ImportCollection.Add(typeof(System.Xml.Serialization.XmlAttributeAttribute).Namespace);
             wcd.AttributeCollection.Add("   [EntityType(typeof(Workflow))]");
 
 
@@ -175,7 +180,7 @@ namespace Bespoke.Sph.Domain
                     actPartial.ImportCollection.Add(typeof(Int32).Namespace);
                     actPartial.ImportCollection.Add(typeof(Task<>).Namespace);
                     actPartial.ImportCollection.Add(typeof(Enumerable).Namespace);
-                    actPartial.ImportCollection.Add(typeof(XmlAttributeAttribute).Namespace);
+                    actPartial.ImportCollection.Add(typeof(System.Xml.Serialization.XmlAttributeAttribute).Namespace);
                     actPartial.MethodCollection.AddRange(activity.OtherMethodCollection);
                     @classes.Add(actPartial);
                 }
@@ -188,7 +193,7 @@ namespace Bespoke.Sph.Domain
             customSchemaCode.ForEach(c => c.Namespace = this.CodeNamespace);
             customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(DomainObject)));
             customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(DateTime)));
-            customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(XmlAttributeAttribute)));
+            customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(System.Xml.Serialization.XmlAttributeAttribute)));
             @classes.AddRange(customSchemaCode);
 
             var @accList = from a in this.ActivityCollection

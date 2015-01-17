@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Formatting;
 
 namespace Bespoke.Sph.Domain
 {
@@ -17,6 +19,12 @@ namespace Bespoke.Sph.Domain
         public static MetadataReference CreateMetadataReference<T>(this object type)
         {
             return MetadataReference.CreateFromAssembly((typeof(T)).Assembly);
+        }
+        public static IList<MetadataReference> AddMetadataReference<T>(this IList<MetadataReference> references)
+        {
+            var mr = MetadataReference.CreateFromAssembly((typeof(T)).Assembly);
+            references.Add(mr);
+            return references;
         }
 
 
@@ -70,7 +78,7 @@ namespace Bespoke.Sph.Domain
             var tree = CSharpSyntaxTree.ParseText(code.ToString());
             project.AddDocument("formatted", tree.GetText());
             
-            var res = Microsoft.CodeAnalysis.Formatting.Formatter.Format(tree.GetRoot(), ws);
+            var res = Formatter.Format(tree.GetRoot(), ws);
             return res.ToFullString();
         }
     }

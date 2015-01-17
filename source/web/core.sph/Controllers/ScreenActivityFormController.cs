@@ -31,18 +31,18 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("")]
         public async Task<ActionResult> Save()
         {
-            var ef = this.GetRequestJson<ScreenActivityForm>();
+            var saf = this.GetRequestJson<ScreenActivityForm>();
             var context = new SphDataContext();
 
-            if (string.IsNullOrWhiteSpace(ef.Id) || ef.Id == "0")
-                ef.Id = ef.Route.ToIdFormat();
+            if (saf.IsNewItem)
+                saf.Id = saf.Route.ToIdFormat();
 
             using (var session = context.OpenSession())
             {
-                session.Attach(ef);
+                session.Attach(saf);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = ef.Id });
+            return Json(new { success = true, status = "OK", id = saf.Id });
         }
 
         [HttpPost]
@@ -65,9 +65,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("publish")]
+        [Trace(Verbose = true)]
         public async Task<ActionResult> Publish()
         {
-            if(null == this.Compilers)
+            if (null == this.Compilers)
                 ObjectBuilder.ComposeMefCatalog(this);
 
             var context = new SphDataContext();
@@ -89,7 +90,7 @@ namespace Bespoke.Sph.Web.Controllers
                 var compiler = lazy.Value;
                 var result = await compiler.CompileAsync(form);
                 errors += string.Join("\r\n", result.Errors.ToString());
-                message +=string.Format("{2} to compile {0} with {1}\r\n{3}, \r\n", form.Name, name, result.Result ? "Successfully" : "Failed", errors);
+                message += string.Format("{2} to compile {0} with {1}\r\n{3}, \r\n", form.Name, name, result.Result ? "Successfully" : "Failed", errors);
 
             }
             using (var session = context.OpenSession())

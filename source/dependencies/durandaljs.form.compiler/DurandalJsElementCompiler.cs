@@ -1,7 +1,6 @@
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.FormCompilers.DurandalJs.Properties;
 using Microsoft.CodeAnalysis;
@@ -38,11 +37,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override string GenerateEditor(T element, IProjectProvider project)
         {
-            var booleanCompiler = new ExpressionCompiler();
+            var compiler = new ExpressionCompiler();
             this.Element = element.Clone();
 
-            var visibleResult = booleanCompiler.CompileAsync<bool>(element.Visible, project).Result;
-            var enableResult = booleanCompiler.CompileAsync<bool>(element.Enable, project).Result;
+            var visibleResult = compiler.CompileAsync<bool>(element.Visible, project).Result;
+            var enableResult = compiler.CompileAsync<bool>(element.Enable, project).Result;
             if (!visibleResult.Success)
                 return string.Format("<span class=\"error\">{0}</span>", string.Join("<br/>", visibleResult.DiagnosticCollection.Select(x => x.ToString())));
             if (!enableResult.Success)
@@ -97,16 +96,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         where !c.Name.EndsWith("Controller")
                         let text = c.GetCode()
                         let x = text.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
-                        .Replace("using System.Web.Mvc;", string.Empty)
+                                    .Replace("using System.Web.Mvc;", string.Empty)
                         select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x);
             trees.AddRange(codes.ToArray());
 
             var compilation = CSharpCompilation.Create("eval")
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
-                .AddReference<object>()
-                .AddReference<XmlAttributeAttribute>()
-                .AddReference<EntityDefinition>()
-                .AddReference<EnumerableExecutor>()
                 .AddReferences(project.References)
                 .AddSyntaxTrees(trees);
 

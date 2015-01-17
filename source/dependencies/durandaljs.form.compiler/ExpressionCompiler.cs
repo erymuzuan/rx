@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -70,10 +69,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var compilation = CSharpCompilation.Create("eval")
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
-                .AddReference<object>()
-                .AddReference<XmlAttributeAttribute>()
-                .AddReference<EntityDefinition>()
-                .AddReference<EnumerableQuery>()
+                .AddReferences(project.References)
                 .AddSyntaxTrees(trees.ToArray());
 
             var model = compilation.GetSemanticModel(snippet);
@@ -84,7 +80,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var result = new SnippetCompilerResult { Success = true };
             result.DiagnosticCollection.AddRange(diagnostics.Where(x => x.Id != "CS8019"));
             result.Success = result.DiagnosticCollection.Count == 0;
-            result.DiagnosticCollection.ForEach(Console.WriteLine);
+            if (DebuggerHelper.IsVerbose)
+            {
+                var color = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                result.DiagnosticCollection.ForEach(Console.WriteLine);
+                Console.ForegroundColor = color;
+            }
             if (!result.Success)
                 return Task.FromResult(result);
 

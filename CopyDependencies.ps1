@@ -20,3 +20,4 @@ function Copy-ToBin{
 ls -Path .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse | Copy-ToBin
 ls -Path .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81 -Filter *.dll -Recurse | Copy-ToBin
 ls -Path .\packages\odp.net.managed.121.1.2\lib\net40 -Filter Oracle.*.dll |Copy-ToBin
+ls .\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll | Copy-ToBin

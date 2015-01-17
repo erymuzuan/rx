@@ -50,6 +50,7 @@ namespace Bespoke.Sph.Domain
                 catalog.Catalogs.Add(new AssemblyCatalog(dll));
             }
 
+            var color = Console.ForegroundColor;
             Action<string> loadAssemblyCatalog = directory =>
             {
                 if (!Directory.Exists(directory)) return;
@@ -62,7 +63,8 @@ namespace Bespoke.Sph.Domain
                     try
                     {
                         catalog.Catalogs.Add(new AssemblyCatalog(x));
-                        Console.WriteLine("Loaded {0}", name);
+                        if (DebuggerHelper.IsVerbose)
+                            Console.WriteLine("Loaded {0}", name);
                     }
                     catch (BadImageFormatException)
                     {
@@ -71,7 +73,6 @@ namespace Bespoke.Sph.Domain
                 }
 
             };
-            var color = Console.ForegroundColor;
             try
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;

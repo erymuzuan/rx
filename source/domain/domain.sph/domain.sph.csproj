@@ -339,6 +339,7 @@
     <Compile Include="Triggers\CorrelationType.cs" />
     <Compile Include="Triggers\CreateEntityActivity.cs" />
     <Compile Include="Triggers\CsharpCodeGenerator.cs" />
+    <Compile Include="Triggers\DebuggerHelper.cs" />
     <Compile Include="Triggers\DecisionActivity.cs" />
     <Compile Include="Triggers\DecisionBranch.cs" />
     <Compile Include="Triggers\DelayActivity.cs" />

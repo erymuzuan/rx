@@ -23,9 +23,19 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return new MetadataReference[]
-                    {
-                    };
+                var references = new List<MetadataReference>
+                {
+                    this.CreateMetadataReference<System.Net.WebClient>(),
+                    this.CreateMetadataReference<System.Net.Mail.SmtpClient>(),
+                    this.CreateMetadataReference<System.Xml.Serialization.XmlAttributes>(),
+                    this.CreateMetadataReference<object>(),
+                    this.CreateMetadataReference<WorkflowDefinition>(),
+                    this.CreateMetadataReference<EnumerableQuery>()
+                };
+
+
+                return references.ToArray();
+
             }
         }
 
