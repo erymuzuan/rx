@@ -931,6 +931,37 @@ bespoke.sph.domain.LineChartItemPartial = function () {
         removeSeries: removeSeries
     };
 };
+/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../durandal/system.js" />
+/// <reference path="../durandal/amd/require.js" />
+/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
+/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
+
+
+bespoke.sph.domain.ListenActivityPartial = function () {
+    var system = require('durandal/system'),
+        addBranch = function () {
+            var self = this;
+            var branch = new bespoke.sph.domain.ListenBranch(system.guid());
+            self.ListenBranchCollection.push(branch);
+
+        },
+        removeBranch = function (branch) {
+            var self = this;
+            return function () {
+                self.ListenBranchCollection.remove(branch);
+            };
+        },
+        multipleEndPoints = function () {
+            return this.ListenBranchCollection();
+        };
+    return {
+        addBranch: addBranch,
+        removeBranch: removeBranch,
+        multipleEndPoints: multipleEndPoints
+    };
+};
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -1019,37 +1050,6 @@ bespoke.sph.domain.ListViewColumnPartial = function (model) {
     });
     return {
         icon: icon
-    };
-};
-/// <reference path="../schemas/trigger.workflow.g.js" />
-/// <reference path="../durandal/system.js" />
-/// <reference path="../durandal/amd/require.js" />
-/// <reference path="/Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="/Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
-
-
-bespoke.sph.domain.ListenActivityPartial = function () {
-    var system = require('durandal/system'),
-        addBranch = function () {
-            var self = this;
-            var branch = new bespoke.sph.domain.ListenBranch(system.guid());
-            self.ListenBranchCollection.push(branch);
-
-        },
-        removeBranch = function (branch) {
-            var self = this;
-            return function () {
-                self.ListenBranchCollection.remove(branch);
-            };
-        },
-        multipleEndPoints = function () {
-            return this.ListenBranchCollection();
-        };
-    return {
-        addBranch: addBranch,
-        removeBranch: removeBranch,
-        multipleEndPoints: multipleEndPoints
     };
 };
 /// <reference path="../schemas/sph.domain.g.js" />
@@ -1312,6 +1312,38 @@ bespoke.sph.domain.ReceiveActivityPartial = function () {
 
     };
 };
+/// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+
+
+
+
+bespoke.sph.domain.DailySchedulePartial = function () {
+
+    return {
+        name: ko.observable("Daily Schedule"),
+        icon: ko.observable("fa fa-calendar")
+    };
+};
+bespoke.sph.domain.WeeklySchedulePartial = function () {
+
+    return {
+        name: ko.observable("Weekly Schedule"),
+        icon: ko.observable("fa fa-th-list")
+    };
+};
+bespoke.sph.domain.MonthlySchedulePartial = function () {
+
+    return {
+        name: ko.observable("Monthly Schedule"),
+        icon: ko.observable("fa fa-calendar-o"),
+        dateOptions : _.range(1,31)
+    };
+};
+
+
 /// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
@@ -2192,35 +2224,3 @@ bespoke.sph.domain.WorkflowTriggerMapPartial = function () {
 };
 
 bespoke.sph.domain.WorkflowTriggerMapPartial.prototype = new bespoke.sph.domain.FieldContainer();
-
-/// <reference path="../schemas/report.builder.g.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-
-
-
-
-bespoke.sph.domain.DailySchedulePartial = function () {
-
-    return {
-        name: ko.observable("Daily Schedule"),
-        icon: ko.observable("fa fa-calendar")
-    };
-};
-bespoke.sph.domain.WeeklySchedulePartial = function () {
-
-    return {
-        name: ko.observable("Weekly Schedule"),
-        icon: ko.observable("fa fa-th-list")
-    };
-};
-bespoke.sph.domain.MonthlySchedulePartial = function () {
-
-    return {
-        name: ko.observable("Monthly Schedule"),
-        icon: ko.observable("fa fa-calendar-o"),
-        dateOptions : _.range(1,31)
-    };
-};
-
