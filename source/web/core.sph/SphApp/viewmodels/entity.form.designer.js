@@ -318,7 +318,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
-                            entity().Id(result.id);
+                            form().Id(result.id);
                             errors.removeAll();
                         } else {
                             errors(result.Errors);
