@@ -63,12 +63,15 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("   public class " + this.Name + " : DomainObject");
             code.AppendLine("   {");
 
+            var pk = "";
+            if (null != this.PrimaryKey)
+                pk = this.PrimaryKey.Name;
 
             code.AppendFormat(@"     
         public override string ToString()
         {{
             return ""{0}:"" + {1};
-        }}", this.Name, this.PrimaryKey.Name);
+        }}", this.Name, pk);
 
 
             // properties for each members
