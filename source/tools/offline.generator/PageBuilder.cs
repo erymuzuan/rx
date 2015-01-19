@@ -62,8 +62,7 @@ namespace offline.generator
             {
                 item.Name,
                 item.Plural,
-                item.Id,
-                ApplicationName = ConfigurationManager.ApplicationName.ToCamelCase(),
+                item.Id, ConfigurationManager.ApplicationName,
                 ConfigurationManager.ApplicationFullName,
                 Definition = item,
                 Forms = this.FormCollection,
@@ -129,8 +128,7 @@ namespace offline.generator
                     form.Id,
                     form.EntityDefinitionId,
                     Entity = this.Entity.Name,
-                    Form = form,
-                    ApplicationName = ConfigurationManager.ApplicationName.ToCamelCase(),
+                    Form = form, ConfigurationManager.ApplicationName,
                     FormMarkup = formMarkup
                 };
                 var html = Path.Combine(outputFolder, form.Route + ".html");

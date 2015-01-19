@@ -55,7 +55,7 @@ WriteLiteral("\r\n\r\n");
   
     ViewBag.Title = "title";
     Layout = null;
-    var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.Id;
+    var ns = ConfigurationManager.ApplicationName + "_" + this.Model.EntityDefinition.Id;
     var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:system.guid()}})", ns, Model.EntityDefinition.Name);
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
     var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
@@ -85,9 +85,9 @@ WriteLiteral(":\r\n\r\n<h2>title</h2>\r\n<script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1939), Tuple.Create("\"", 1978)
-, Tuple.Create(Tuple.Create("", 1945), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.2.0.debug.js")
-, 1945), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1925), Tuple.Create("\"", 1964)
+, Tuple.Create(Tuple.Create("", 1931), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.2.0.debug.js")
+, 1931), false)
 );
 
 WriteLiteral("></script>\r\n<script");

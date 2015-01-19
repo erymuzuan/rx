@@ -6,7 +6,7 @@
 @{
     ViewBag.Title = "title";
     Layout = null;
-    var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.Id;
+    var ns = ConfigurationManager.ApplicationName + "_" + this.Model.EntityDefinition.Id;
     var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:system.guid()}})", ns, Model.EntityDefinition.Name);
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
     var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
