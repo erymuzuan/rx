@@ -1,7 +1,8 @@
 @{
-    var element = Model.Element;
+var element = Model.Element; 
+var required = element.IsRequired ? "required" : null;
 }
 
-<input class="@(element.CssClass + " form-control "+ element.Size)" title="@element.Tooltip"
+<input @required class="@(element.CssClass + " form-control "+ element.Size)" title="@element.Tooltip"
        data-bind="@Raw(Model.GetKnockoutBindingExpression())" id="@element.ElementId" type="email" name="@element.Path" />
 
