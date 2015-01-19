@@ -1,12 +1,15 @@
 ﻿@model Bespoke.Sph.Domain.EmailFormElement
-@if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
-}
+@{
+    var required = (Model.IsRequired || Model.FieldValidation.IsRequired) ? "required" : null;
 
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
+}
 @if (Model.IsCompact)
 {
-    <input class="@(Model.CssClass + " form-control "+ Model.Size)" title="@Model.Tooltip"
+    <input @required class="@(Model.CssClass + " form-control "+ Model.Size)" title="@Model.Tooltip"
            data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="email" name="@Model.Path" />
 
 }
@@ -15,7 +18,7 @@ else
     <div class="form-group" data-bind="visible:@Model.Visible">
         <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
         <div class="@Model.InputPanelCssClass">
-            <input class="@(Model.CssClass + " form-control "+ Model.Size)" title="@Model.Tooltip"
+            <input @required class="@(Model.CssClass + " form-control "+ Model.Size)" title="@Model.Tooltip"
                    data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="email" name="@Model.Path" />
         </div>
     </div>
