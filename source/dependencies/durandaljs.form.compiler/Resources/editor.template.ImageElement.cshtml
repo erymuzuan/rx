@@ -1,0 +1,10 @@
+@using Bespoke.Sph.Domain
+@using Bespoke.Sph.FormCompilers.DurandalJs
+@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+@inherits Template<ImageElementCompiler>
+@{
+    var element = Model.Element;
+    var path = string.Format("'/sph/image/store/' + {0}()", element.Path);
+}
+<img alt="@element.Label" title="@element.Tooltip" width="@element.Width" height="@element.Height"
+     data-bind="attr : {'src':@Raw(path)}, visible:@Raw(element.Visible)" />

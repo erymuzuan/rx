@@ -1,0 +1,15 @@
+@using Bespoke.Sph.Domain
+@using Bespoke.Sph.FormCompilers.DurandalJs
+@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+@inherits Template<CheckBoxCompiler>
+@{
+    var element = Model.Element;
+}
+
+<div class="checkbox" data-bind="visible:@element.Visible">
+    <label class="checkbox">
+        <input data-bind="@(Raw(Model.GetKnockoutBindingExpression()))" id="@element.Path" title="@element.Tooltip" type="checkbox"
+               name="@element.Path" />
+        @element.Label
+    </label>
+</div>

@@ -1,0 +1,10 @@
+@using Bespoke.Sph.Domain
+@using Bespoke.Sph.FormCompilers.DurandalJs
+@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+@inherits Template<CheckBoxCompiler>
+@{
+    var element = Model.Element;
+}
+<span data-bind="text: @element.Path" id="@element.ElementId"></span>
+
+

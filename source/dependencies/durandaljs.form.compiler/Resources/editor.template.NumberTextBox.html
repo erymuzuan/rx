@@ -1,6 +1,0 @@
-@{
-    var element = Model.Element;
-}
-<input step="@element.Step" class="@(element.CssClass + " form-control "+ element.Size) form-control"
-       title="@element.Tooltip" data-bind="@Raw(Model.GetKnockoutBindingExpression())"
-       id="@element.ElementId" type="number" name="@element.Path" />

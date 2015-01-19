@@ -1,9 +1,0 @@
-@{
-    var element = Model.Element;
-}
-<input class="@(element.CssClass + " "+ element.Size)"
-       title="@element.Tooltip"
-       data-bind="@Raw(Model.GetKnockoutBindingExpression())" id="@element.ElementId" type="url" name="@element.Path" />
-
-
-

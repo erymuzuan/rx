@@ -1,0 +1,29 @@
+@using Bespoke.Sph.Domain
+@using Bespoke.Sph.FormCompilers.DurandalJs
+@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+@inherits Template<ChildEntityListViewCompiler>
+@{
+    var element = Model.Element;
+}
+<div data-bind="visible:@element.Visible">
+    <a class="btn btn-default pull-right">@element.Label</a>
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                @foreach (var col in element.ViewColumnCollection)
+                {
+                <th>@col.Header</th>
+                }
+
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :@Model.Expression">
+            <tr>
+                @foreach (var col in element.ViewColumnCollection)
+                {
+                <td data-bind="text:@col.Path"></td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>

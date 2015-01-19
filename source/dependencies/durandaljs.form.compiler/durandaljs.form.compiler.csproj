@@ -240,7 +240,48 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Resources\editor.template.AddressElement.html" />
+    <None Include="Resources\display.template.Button.cshtml" />
+    <None Include="Resources\display.template.CheckBox.cshtml" />
+    <None Include="Resources\display.template.ChildEntityListView.cshtml" />
+    <None Include="Resources\display.template.ComboBox.cshtml" />
+    <None Include="Resources\display.template.CurrencyElement.cshtml" />
+    <None Include="Resources\display.template.DatePicker.cshtml" />
+    <None Include="Resources\display.template.DateTimePicker.cshtml" />
+    <None Include="Resources\display.template.DownloadLink.cshtml" />
+    <None Include="Resources\display.template.EmailFormElement.cshtml" />
+    <None Include="Resources\display.template.FileUploadElement.cshtml" />
+    <None Include="Resources\display.template.FormElement.cshtml" />
+    <None Include="Resources\display.template.HtmlElement.cshtml" />
+    <None Include="Resources\display.template.ImageElement.cshtml" />
+    <None Include="Resources\display.template.ListView.cshtml" />
+    <None Include="Resources\display.template.MapElement.cshtml" />
+    <None Include="Resources\display.template.NumberTextBox.cshtml" />
+    <None Include="Resources\display.template.SectionFormElement.cshtml" />
+    <None Include="Resources\display.template.TextAreaElement.cshtml" />
+    <None Include="Resources\display.template.TextBox.cshtml" />
+    <None Include="Resources\display.template.WebsiteFormElement.cshtml" />
+    <None Include="Resources\editor.template.AddressElement.cshtml" />
+    <None Include="Resources\editor.template.Button.cshtml" />
+    <None Include="Resources\editor.template.CheckBox.cshtml" />
+    <None Include="Resources\editor.template.ChildEntityListView.cshtml" />
+    <None Include="Resources\editor.template.ComboBox.cshtml" />
+    <None Include="Resources\editor.template.CurrencyElement.cshtml" />
+    <None Include="Resources\editor.template.DatePicker.cshtml" />
+    <None Include="Resources\editor.template.DateTimePicker.cshtml" />
+    <None Include="Resources\editor.template.DownloadLink.cshtml" />
+    <None Include="Resources\editor.template.EmailFormElement.cshtml" />
+    <None Include="Resources\editor.template.EntityLookupElement.cshtml" />
+    <None Include="Resources\editor.template.FileUploadElement.cshtml" />
+    <None Include="Resources\editor.template.FormElement.cshtml" />
+    <None Include="Resources\editor.template.HtmlElement.cshtml" />
+    <None Include="Resources\editor.template.ImageElement.cshtml" />
+    <None Include="Resources\editor.template.ListView.cshtml" />
+    <None Include="Resources\editor.template.MapElement.cshtml" />
+    <None Include="Resources\editor.template.NumberTextBox.cshtml" />
+    <None Include="Resources\editor.template.SectionFormElement.cshtml" />
+    <None Include="Resources\editor.template.TextAreaElement.cshtml" />
+    <None Include="Resources\editor.template.TextBox.cshtml" />
+    <None Include="Resources\editor.template.WebsiteFormElement.cshtml" />
     <None Include="Resources\FormViewModels.cshtml" />
     <None Include="Resources\Html2ColsWithAuditTrail.cshtml" />
     <None Include="Resources\ScreenActivityFormTemplate.cshtml" />
@@ -248,132 +289,6 @@
     <None Include="Resources\_ErrorList.cshtml" />
     <None Include="Resources\_FormContent.cshtml" />
     <None Include="web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.CheckBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.ComboBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.CurrencyElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.DatePicker.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.EmailFormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.FormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.HtmlElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.LabelItem.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.MapElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.NumberTextBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.SectionFormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.TextAreaElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.TextBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.WebsiteFormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.ComboBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.DatePicker.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.DateTimePicker.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.EmailFormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.FormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.HtmlElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.MapElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.NumberTextBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.SectionFormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.TextAreaElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.TextBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.WebsiteFormElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.CheckBox.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.Button.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.ChildEntityListView.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.DateTimePicker.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.DownloadLink.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.EntityLookupElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.FileUploadElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.ImageElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editor.template.ListView.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.Button.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.ChildEntityListView.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.CurrencyElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.DownloadLink.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.FileUploadElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.ImageElement.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\display.template.ListView.html" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

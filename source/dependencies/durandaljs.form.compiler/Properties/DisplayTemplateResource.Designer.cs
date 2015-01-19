@@ -61,8 +61,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.Button
-        ///.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.ButtonCompiler&gt;
+        ///&lt;!-- button @Model.Element.ElementId in display mode --&gt;.
         /// </summary>
         internal static string display_template_Button {
             get {
@@ -71,16 +74,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.CheckBox
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;CheckBoxCompiler&gt;
         ///@{
-        ///    
+        ///    var element = Model.Element;
         ///}
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;label class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;span data-bind=&quot;text: @Model.Path&quot; id=&quot;ID&quot;  /&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;
+        ///&lt;span data-bind=&quot;text: @element.Path&quot; id=&quot;@element.ElementId&quot; /&gt;
+        ///
         ///
         ///.
         /// </summary>
@@ -91,24 +93,20 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @using System.Web.Mvc.Html
-        ///@using Bespoke.Sph.Domain
-        ///@model Bespoke.Sph.Domain.ChildEntityListView
-        ///
-        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///{
-        ///    Model.Enable = &quot;true&quot;;
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.ChildEntityListViewCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
         ///}
-        ///
-        ///&lt;div data-bind=&quot;visible:@Model.Visible&quot;&gt;
-        ///    &lt;a class=&quot;btn btn-default pull-right&quot;&gt;@Model.Label&lt;/a&gt;
+        ///&lt;div data-bind=&quot;visible:@element.Visible&quot;&gt;
+        ///    &lt;a class=&quot;btn btn-default pull-right&quot;&gt;@element.Label&lt;/a&gt;
         ///    &lt;table class=&quot;table table-condensed table-striped&quot;&gt;
         ///        &lt;thead&gt;
         ///            &lt;tr&gt;
-        ///                @foreach (var col in Model.ViewColumnCollection)
-        ///                {
-        ///                    &lt;th&gt;@col.Header&lt;/th&gt;
-        ///     [rest of string was truncated]&quot;;.
+        ///                @foreach (var col in element.ViewColumnCollection)
+        ///          [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string display_template_ChildEntityListView {
             get {
@@ -117,13 +115,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ComboBox
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;label class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;span data-bind=&quot;@Model.GetKnockoutDisplayBindingExpression()&quot;&gt;&lt;/span&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.ComboBoxCompiler&gt;
+        ///&lt;span data-bind=&quot;@Model.GetKnockoutDisplayBindingExpression()&quot;&gt;&lt;/span&gt;
         ///.
         /// </summary>
         internal static string display_template_ComboBox {
@@ -133,13 +129,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.CurrencyElement
-        ///&lt;div class=&quot;form-group&quot;&gt;
-        ///
-        ///    &lt;label class=&quot;col-md-4&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;span class=&quot;col-md-8&quot; data-bind=&quot;money: @Model.Path&quot;&gt;&lt;/span&gt;
-        ///
-        ///&lt;/div&gt;.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.CurrencyElementCompiler&gt;
+        ///&lt;span data-bind=&quot;money: @Model.Element.Path&quot;&gt;&lt;/span&gt;
+        ///.
         /// </summary>
         internal static string display_template_CurrencyElement {
             get {
@@ -148,16 +143,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.DatePicker
-        ///
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;input class=&quot;@(Model.CssClass + &quot; &quot;+ Model.Size)&quot; 
-        ///            data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.ElementId&quot; type=&quot;text&quot; 
-        ///            name=&quot;@Model.Path&quot; /&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.DatePickerCompiler&gt;
+        ///&lt;span data-bind=&quot;date: @Model.Element.Path&quot;&gt;&lt;/span&gt;.
         /// </summary>
         internal static string display_template_DatePicker {
             get {
@@ -166,16 +156,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.DatePicker
-        ///
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;input class=&quot;@(Model.CssClass + &quot; &quot;+ Model.Size)&quot; 
-        ///            data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.ElementId&quot; type=&quot;text&quot; 
-        ///            name=&quot;@Model.Path&quot; /&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.DateTimePickerCompiler&gt;
+        ///&lt;span data-bind=&quot;date: @Model.Element.Path&quot;&gt;&lt;/span&gt;.
         /// </summary>
         internal static string display_template_DateTimePicker {
             get {
@@ -184,22 +169,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.DownloadLink
-        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///{
-        ///    Model.Enable = &quot;true&quot;;
-        ///}
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.DownloadLinkCompiler&gt;
         ///@{
-        ///    var path = string.Format(&quot;&apos;/sph/binarystore/get/&apos; + {0}()&quot;, Model.Path);
-        ///    if (Model.IsTransformTemplate)
-        ///    {
-        ///        path = string.Format(&quot;&apos;/sph/documenttemplate/transform?entity={0}&amp;templateId={1}&amp;id=&apos; + {2}()&quot;, Model.Entity, Model.TemplateId, Model.Path);
-        ///    }
-        ///}
+        ///    var element = Model.Element;
         ///
-        ///@if (Model.IsCompact)
-        ///{
-        ///    &lt;a data-bind=&quot;attr : {&apos;href&apos;:@Html.Raw(path)}, visible:@Model.Visible&quot; dow [rest of string was truncated]&quot;;.
+        ///    var path = string.Format(&quot;&apos;/sph/binarystore/get/&apos; + {0}()&quot;, element.Path);
+        ///    if (element.IsTransformTemplate)
+        ///    {
+        ///        path = string.Format(&quot;&apos;/sph/documenttemplate/transform?entity={0}&amp;templateId={1}&amp;id=&apos; + {2}()&quot;, element.Entity, element.TemplateId, element.Path);
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string display_template_DownloadLink {
             get {
@@ -208,16 +189,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.EmailFormElement
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;input class=&quot;@(Model.CssClass + &quot; &quot;+ Model.Size)&quot; title=&quot;@Model.Tooltip&quot; 
-        ///            data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.ElementId&quot; type=&quot;email&quot; name=&quot;@Model.Path&quot; /&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;
-        ///
-        ///.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.EmailFormElementCompiler&gt;
+        ///&lt;span data-bind=&quot;@Model.GetKnockoutDisplayBindingExpression()&quot;&gt;&lt;/span&gt;.
         /// </summary>
         internal static string display_template_EmailFormElement {
             get {
@@ -226,8 +202,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.FileUploadElement
-        ///.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.FileUploadElementCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///}
+        ///&lt;!-- Display template for FileUpload element @element.ElementId is not available --&gt;.
         /// </summary>
         internal static string display_template_FileUploadElement {
             get {
@@ -236,10 +218,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.FormElement
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.FormElementCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///}
         ///
         ///&lt;div class=&quot;alert alert-error&quot;&gt;
-        ///    &lt;strong&gt;There&apos;s no EditorTemplate for @Model.GetType().Name&lt;/strong&gt;
+        ///    &lt;strong&gt;There&apos;s no EditorTemplate for @Model.Element.GetType().Name&lt;/strong&gt;
         ///&lt;/div&gt;
         ///.
         /// </summary>
@@ -250,8 +238,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.HtmlElement
-        ///@Html.Raw(Model.Text)
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.HtmlElementCompiler&gt;
+        ///&lt;!-- Html Element for @Model.Element.ElementId --&gt;
+        ///@Raw(Model.Element.Text)
         ///
         ///.
         /// </summary>
@@ -262,17 +254,19 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ImageElement
-        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///{
-        ///    Model.Enable = &quot;true&quot;;
-        ///}@{
-        ///    var path = string.Format(&quot;&apos;/sph/image/store/&apos; + {0}()&quot;, this.Model.Path);
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.ImageElementCompiler&gt;
+        ///@{
+        ///var element = Model.Element;
+        ///
+        ///    var path = string.Format(&quot;&apos;/sph/image/store/&apos; + {0}()&quot;, element.Path);
         /// }
-        ///&lt;div class=&quot;form-group&quot;&gt;
-        ///    &lt;label class=&quot;col-md-@(Model.LabelColMd ?? 4)&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;img alt=&quot;@Model.Label&quot; title=&quot;@Model.Tooltip&quot; width=&quot;@Model.Width&quot; height=&quot;@Model.Height&quot; data-bind=&quot;attr : {&apos;src&apos;:@Html.Raw(path)}, visible:@Html.Raw(Model.Visible)&quot; /&gt;
-        ///&lt;/div&gt;.
+        ///
+        ///&lt;img alt=&quot;@element.Label&quot; title=&quot;@element.Tooltip&quot; width=&quot;@element.Width&quot; height=&quot;@element.Height&quot;
+        ///     data-bind=&quot;attr : {&apos;src&apos;:@Raw(path)}, visible:@Raw(element.Visible)&quot; /&gt;
+        ///.
         /// </summary>
         internal static string display_template_ImageElement {
             get {
@@ -281,24 +275,21 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @using System.Web.Mvc.Html
-        ///@model Bespoke.Sph.Domain.ListView
-        ///
-        ///
-        ///&lt;div data-bind=&quot;visible:@Model.Visible&quot;&gt;
-        ///    &lt;span&gt; @Model.Label&lt;/span&gt;
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.ListViewCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///}
+        ///&lt;div data-bind=&quot;visible:@element.Visible&quot;&gt;
+        ///    &lt;span&gt; @element.Label&lt;/span&gt;
         ///    &lt;table class=&quot;table table-condensed table-striped&quot;&gt;
         ///        &lt;thead&gt;
         ///            &lt;tr&gt;
-        ///                @foreach (var col in Model.ListViewColumnCollection)
+        ///                @foreach (var col in element.ListViewColumnCollection)
         ///                {
-        ///                    &lt;th&gt;@col.Label&lt;/th&gt;
-        ///                }
-        ///            &lt;/tr&gt;
-        ///        &lt;/thead&gt;
-        ///        &lt;tbody data-bind=&quot;foreach :@Model.Path&quot;&gt;
-        ///            &lt;tr&gt;
-        ///                @foreach [rest of string was truncated]&quot;;.
+        ///                &lt;th&gt;@col. [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string display_template_ListView {
             get {
@@ -307,7 +298,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.MapElement
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.MapElementCompiler&gt;
+        ///@model Bespoke.Sph.Domain.MapElement
         ///           
         ///&lt;!-- ko if : staticMap --&gt;
         ///&lt;img data-bind=&quot;attr : {src:staticMap}&quot; src=&quot;/Images/no-image.png&quot; alt=&quot;map&quot; /&gt;
@@ -315,9 +310,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         ///&lt;div class=&quot;control-group&quot;&gt;
         ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
         ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;button title=&quot;@Model.Tooltip&quot; id=&quot;@Model.ElementId&quot; class=&quot;@Model.CssClass&quot; data-bind=&quot;click: $root.showMapCommand, visible:@Model.Visible&quot;&gt;
-        ///            &lt;i class=&quot;@Model.Icon&quot;&gt;&lt;/i&gt;
-        ///           [rest of string was truncated]&quot;;.
+        ///        &lt;button [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string display_template_MapElement {
             get {
@@ -326,15 +319,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.NumberTextBox
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;span  class=&quot;@(Model.CssClass + &quot; &quot;+ Model.Size)&quot; 
-        ///            title=&quot;@Model.Tooltip&quot; data-bind=&quot;text: @Model.Path&quot;
-        ///             id=&quot;@Model.ElementId&quot; /&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;  .
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.NumberTextBoxCompiler&gt;
+        ///&lt;span data-bind=&quot;@Model.GetKnockoutDisplayBindingExpression()&quot;&gt;&lt;/span&gt;
+        ///.
         /// </summary>
         internal static string display_template_NumberTextBox {
             get {
@@ -343,8 +333,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.SectionFormElement
-        ///&lt;h2 data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot;&gt;@Model.Label&lt;/h2&gt;
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.SectionFormElementCompiler&gt;
+        ///&lt;h2 data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot;&gt;@Model.Element.Label&lt;/h2&gt;
         ///
         ///.
         /// </summary>
@@ -355,13 +348,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.TextAreaElement
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;label class=&quot;control-label &quot;&gt;@Model.Label &lt;/label&gt;
-        ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;span data-bind=&quot;@Model.GetKnockoutDisplayBindingExpression()&quot;/&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.TextAreaElementCompiler&gt;
+        ///&lt;p data-bind=&quot;@Model.GetKnockoutDisplayBindingExpression()&quot;&gt;&lt;/p&gt;
+        ///.
         /// </summary>
         internal static string display_template_TextAreaElement {
             get {
@@ -370,13 +362,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.TextBox
-        ///&lt;div class=&quot;form-group&quot;&gt;
-        ///    &lt;label class=&quot;control-label&quot;&gt;@Model.Label &lt;/label&gt;
-        ///    &lt;div&gt;
-        ///        &lt;span data-bind=&quot;@Model.GetKnockoutDisplayBindingExpression()&quot; &gt;&lt;/span&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.TextBoxCompiler&gt;
+        ///&lt;span data-bind=&quot;@Model.GetKnockoutDisplayBindingExpression()&quot;&gt;&lt;/span&gt;
         ///.
         /// </summary>
         internal static string display_template_TextBox {
@@ -386,16 +376,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.WebsiteFormElement
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;input class=&quot;@(Model.CssClass + &quot; &quot;+ Model.Size)&quot; 
-        ///               title=&quot;@Model.Tooltip&quot; 
-        ///            data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.ElementId&quot; type=&quot;url&quot; name=&quot;@Model.Path&quot; /&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;
-        ///
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;display.template.WebsiteFormElementCompiler&gt;
+        ///&lt;span data-bind=&quot;@Model.GetKnockoutDisplayBindingExpression()&quot;&gt;&lt;/span&gt;
         ///
         ///.
         /// </summary>

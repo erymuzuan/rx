@@ -17,7 +17,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.FormRenderers
         public async override Task<string> GenerateCodeAsync(IForm form, IProjectProvider project)
         {
             var razor = ObjectBuilder.GetObject<ITemplateEngine>();
-            var resource = Encoding.Default.GetString(Properties.Resources.ScreenActivityFormTemplate);
+            var resource = Properties.Resources.ScreenActivityFormTemplate;
             // TODO : remove the BOM marker
             var start = resource.IndexOf('@');
             var template = resource.Substring(start, resource.Length - start);

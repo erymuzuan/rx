@@ -1,9 +1,0 @@
-@{
-    var textbox = Model.Element;
-    var required = textbox.IsRequired ? "required" : null;
-}
-
-<input @required class="@(textbox.CssClass + " form-control " + textbox.Size)" title="@textbox.Tooltip"
-       data-bind="@(Model.GetKnockoutBindingExpression())"
-       id="@textbox.ElementId" type="text" name="@textbox.Path" />
- 

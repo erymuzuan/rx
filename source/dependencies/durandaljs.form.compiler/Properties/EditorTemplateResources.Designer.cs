@@ -61,7 +61,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.AddressElement
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;AddressElementCompiler&gt;
+        ///@model Bespoke.Sph.Domain.AddressElement
         ///&lt;h3&gt;@Model.Label&lt;/h3&gt;
         ///&lt;!-- ko with : Address--&gt;
         ///@if (Model.IsUnitNoVisible)
@@ -70,17 +74,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         ///    &lt;div class=&quot;form-group&quot;&gt;
         ///        &lt;label class=&quot;control-label @Model.LabelColLg&quot;&gt;No Unit&lt;/label&gt;
         ///        &lt;div class=&quot;@Model.InputColLg&quot;&gt;
-        ///            &lt;input class=&quot;form-control form-control&quot; type=&quot;text&quot; data-bind=&quot;value: UnitNo&quot; /&gt;
-        ///        &lt;/div&gt;
-        ///    &lt;/div&gt;
-        ///
-        ///}
-        ///
-        ///@if (Model.IsBlockVisible)
-        ///{
-        ///
-        ///    &lt;div class=&quot;form-group&quot;&gt;
-        ///        &lt;label class=&quot;control-label @Model.LabelCo [rest of string was truncated]&quot;;.
+        ///            &lt;input class=&quot;form-control form-control&quot; type=&quot;text&quot; data [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_AddressElement {
             get {
@@ -90,18 +84,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
-        ///@model Bespoke.Sph.Domain.Button
-        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///{
-        ///    Model.Enable = &quot;true&quot;;
-        ///}
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;ButtonCompiler&gt;
+        ///
         ///@{
-        ///    var command = Model.UseClick ? &quot;click&quot; : &quot;command&quot;;
-        ///    var operation = Model.Operation.ToCamelCase();
-        ///    var handler =string.IsNullOrWhiteSpace(operation) ? Model.CommandName : operation;
+        ///    var command = Model.Element.IsAsynchronous ? &quot;click&quot; : &quot;command&quot;;
+        ///    var operation = Model.Element.Operation.ToCamelCase();
+        ///    var handler =string.IsNullOrWhiteSpace(operation) ? Model.Element.CommandName : operation;
         ///}
-        ///&lt;button data-bind=&quot;@command : $root.@handler, visible :@Model.Visible, enable: @Model.Enable&quot; class=&quot;@Model.CssClass&quot;&gt;@Model.Label&lt;/button&gt;
-        ///.
+        ///&lt;button data-bind=&quot;@command : $root.@handler, visible :@Raw(Model.Element.Visible), enable: @Raw(Model.Element [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_Button {
             get {
@@ -110,20 +102,20 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.CheckBox
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;CheckBoxCompiler&gt;
         ///@{
-        ///    
+        ///    var element = Model.Element;
         ///}
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;label class=&quot;checkbox&quot;&gt;
-        ///            &lt;input data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.Path&quot; title=&quot;@Model.Tooltip&quot; type=&quot;checkbox&quot; name=&quot;@Model.Path&quot; /&gt;
-        ///            @Model.Label
-        ///        &lt;/label&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;
         ///
-        ///.
+        ///&lt;div class=&quot;checkbox&quot; data-bind=&quot;visible:@element.Visible&quot;&gt;
+        ///    &lt;label class=&quot;checkbox&quot;&gt;
+        ///        &lt;input data-bind=&quot;@(Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@element.Path&quot; title=&quot;@element.Tooltip&quot; type=&quot;checkbox&quot;
+        ///               name=&quot;@element.Path&quot; /&gt;
+        ///        @element.Label
+        ///    &lt;/label&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_CheckBox {
             get {
@@ -132,22 +124,22 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ChildEntityListView
+        ///   Looks up a localized string similar to @using System
+        ///@using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;ChildEntityListViewCompiler&gt;
+        ///
         ///@{
-        ///    if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///    {
-        ///        Model.Enable = &quot;true&quot;;
-        ///    }
+        ///    var element = Model.Element;
         ///    var guid = Guid.NewGuid().ToString();
         ///}
         ///
         ///
         ///
-        ///&lt;div class=&quot;form-group&quot; data-bind=&quot;visible:@Model.Visible&quot;&gt;
-        ///    &lt;h3&gt;@Model.Label&lt;/h3&gt;
-        ///    &lt;table class=&quot;table table-condensed table-striped&quot; data-bind=&quot;serverPaging :{ query: @Html.Raw(Model.Query), entity : &apos;@Model.Entity&apos;, list: bespoke.getSingletonObservableArray(&apos;@guid&apos;)}&quot;&gt;
-        ///        &lt;thead&gt;
-        ///            &lt;t [rest of string was truncated]&quot;;.
+        ///&lt;div class=&quot;form-group&quot; data-bind=&quot;visible:@element.Visible&quot;&gt;
+        ///    &lt;h3&gt;@element.Label&lt;/h3&gt;
+        ///    &lt;table class=&quot;table table-condensed table-striped&quot; data-bind=&quot;serverPaging :{ query: @Raw(element.Query), entity : &apos;@element.Entit [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_ChildEntityListView {
             get {
@@ -156,14 +148,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ComboBox
-        ///&lt;div class=&quot;form-group&quot; data-bind=&quot;visible:@Model.Visible&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;@Model.LabelCssClass&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;@Model.InputPanelCssClass&quot;&gt;
-        ///        &lt;select data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.ElementId&quot; name=&quot;@(Model.Path)&quot; class=&quot;@(Model.CssClass + &quot; &quot;+ Model.Size) form-control&quot;&gt;
-        ///            @foreach (var op in Model.ComboBoxItemCollection)
-        ///            {
-        ///                &lt;option val [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;ComboBoxCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///    var required = element.IsRequired ? &quot;required&quot; : null;
+        ///}
+        ///
+        ///&lt;select @required data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot; id=&quot;@element.ElementId&quot; name=&quot;@(element.Path)&quot; class=&quot;@(element.CssClass + &quot; &quot;+ element.Size) form-control&quot;&gt;
+        ///    @foreach (var op in element.ComboBoxItemCollection)
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_ComboBox {
             get {
@@ -172,15 +168,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.CurrencyElement
-        ///&lt;div class=&quot;form-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;@Model.LabelCssClass&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;@Model.InputPanelCssClass&quot;&gt;
-        ///        &lt;input  class=&quot;@(Model.CssClass + &quot; form-control &quot;+ Model.Size) form-control&quot; 
-        ///               title=&quot;@Model.Tooltip&quot; data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot;
-        ///               id=&quot;@Model.ElementId&quot; type=&quot;number&quot; name=&quot;@Model.Path&quot; /&gt;
-        ///    &lt;/div&gt;
-        ///    @if (!string.IsNullOrWhiteSpace(Mo [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;CurrencyElementCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///    var required = element.IsRequired ? &quot;required&quot; : null;
+        ///}
+        ///&lt;input @required class=&quot;@(element.CssClass + &quot; form-control &quot;+ element.Size) form-control&quot;
+        ///       title=&quot;@element.Tooltip&quot; data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot;
+        ///       id=&quot;@element.ElementId&quot; type=&quot;number&quot; name=&quot;@elem [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_CurrencyElement {
             get {
@@ -189,16 +187,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.DatePicker
-        ///
-        ///&lt;div class=&quot;form-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label col-lg-2&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;controls col-lg-6&quot;&gt;
-        ///        &lt;input class=&quot;@(Model.CssClass + &quot; &quot;+ Model.Size)&quot; 
-        ///            data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.ElementId&quot; type=&quot;text&quot; 
-        ///            name=&quot;@Model.Path&quot; /&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;DatePickerCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///    var required = element.IsRequired ? &quot;required&quot; : null;
+        ///}
+        ///&lt;input @required class=&quot;@(element.CssClass + &quot; &quot;+ element.Size)&quot;
+        ///       data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot; id=&quot;@element.ElementId&quot; type=&quot;text&quot;
+        ///       name=&quot;@element.Path&quot; /&gt;
+        ///.
         /// </summary>
         internal static string editor_template_DatePicker {
             get {
@@ -207,23 +207,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.DateTimePicker
-        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///{
-        ///    Model.Enable = &quot;true&quot;;
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;DateTimePickerCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///    var required = element.IsRequired ? &quot;required&quot; : null;
         ///}
-        ///
-        ///@if (Model.IsCompact)
-        ///{
-        ///    &lt;input class=&quot;@(Model.CssClass + &quot; form-control &quot;+ Model.Size)&quot;
-        ///           data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.ElementId&quot; type=&quot;text&quot;
-        ///           name=&quot;@Model.Path&quot; /&gt;
-        ///}
-        ///else
-        ///{
-        ///
-        ///    &lt;div class=&quot;form-group&quot; data-bind=&quot;visible:@Model.Visible&quot;&gt;
-        ///        &lt;label for=&quot;@Model.ElementId&quot; class=&quot;@Model.LabelCssClass&quot;&gt;@Mod [rest of string was truncated]&quot;;.
+        ///&lt;input @required class=&quot;@(element.CssClass + &quot; form-control &quot;+ element.Size)&quot;
+        ///       data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot; id=&quot;@element.ElementId&quot; type=&quot;text&quot;
+        ///       name=&quot;@element.Path&quot; /&gt;
+        ///.
         /// </summary>
         internal static string editor_template_DateTimePicker {
             get {
@@ -232,22 +227,20 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.DownloadLink
-        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///{
-        ///    Model.Enable = &quot;true&quot;;
-        ///}
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;DownloadLinkCompiler&gt;
         ///@{
-        ///    var path = string.Format(&quot;&apos;/sph/binarystore/get/&apos; + {0}()&quot;, Model.Path);
-        ///    if (Model.IsTransformTemplate)
+        ///    var element = Model.Element;
+        ///
+        ///    var path = string.Format(&quot;&apos;/sph/binarystore/get/&apos; + {0}()&quot;, element.Path);
+        ///    if (element.IsTransformTemplate)
         ///    {
-        ///        path = string.Format(&quot;&apos;/sph/documenttemplate/transform?entity={0}&amp;templateId={1}&amp;id=&apos; + {2}()&quot;, Model.Entity, Model.TemplateId, Model.Path);
+        ///        path = string.Format(&quot;&apos;/sph/documenttemplate/transform?entity={0}&amp;templateId={1}&amp;id=&apos; + {2}()&quot;, element.Entity, element.TemplateId, element.Path);
         ///    }
         ///}
-        ///
-        ///@if (Model.IsCompact)
-        ///{
-        ///    &lt;a data-bind=&quot;attr : {&apos;href&apos;:@Html.Raw(path)}, visible:@Model.Visible&quot; dow [rest of string was truncated]&quot;;.
+        ///&lt;a id=&quot;@e [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_DownloadLink {
             get {
@@ -256,14 +249,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.EmailFormElement
-        ///&lt;div class=&quot;form-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label @Model.LabelCssClass&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;col-lg-6&quot;&gt;
-        ///        &lt;input class=&quot;@(Model.CssClass + &quot; form-control &quot;+ Model.Size)&quot; title=&quot;@Model.Tooltip&quot; 
-        ///            data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.ElementId&quot; type=&quot;email&quot; name=&quot;@Model.Path&quot; /&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;EmailFormElementCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///    var required = element.IsRequired ? &quot;required&quot; : null;
+        ///}
+        ///
+        ///&lt;input @required class=&quot;@(element.CssClass + &quot; form-control &quot;+ element.Size)&quot; title=&quot;@element.Tooltip&quot;
+        ///       data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot; id=&quot;@element.ElementId&quot; type=&quot;email&quot; name=&quot;@element.Path&quot; /&gt;
         ///
         ///.
         /// </summary>
@@ -274,24 +270,21 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
-        ///@model Bespoke.Sph.Domain.EntityLookupElement
+        ///   Looks up a localized string similar to @using System.Linq
+        ///@using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;EntityLookupElementCompiler&gt;
+        ///
         ///@{
-        ///    if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///    {
-        ///        Model.Enable = &quot;true&quot;;
-        ///    }
-        ///    
-        ///    var columns = string.Join(&quot;,&quot;, Model.LookupColumnCollection.Select(c =&gt; string.Format(&quot;&apos;{0}&apos;&quot;, c)));
-        ///    Console.WriteLine(columns);
+        ///    var element = Model.Element; 
+        ///    var columns = string.Join(&quot;,&quot;, element.LookupColumnCollection.Select(c =&gt; string.Format(&quot;&apos;{0}&apos;&quot;, c)));
+        ///
         ///}
         ///
         ///
-        ///@if (Model.IsCompact)
-        ///{
-        ///
-        ///    &lt;a class=&quot;btn btn-link&quot;
-        ///       data-bind=&quot;tooltip :&apos;@Model.Tooltip&apos;,lookup : {entity: &apos;@Model.Entity&apos;, member : &apos;@Model.ValueMemberPath&apos;, value : @Model. [rest of string was truncated]&quot;;.
+        ///    &lt;div data-bind=&quot;visible:@element.Visible&quot; class=&quot;form-group&quot;&gt;
+        ///        &lt;label for=&quot;@element.ElementId&quot; class=&quot;@element.LabelCssClass&quot;&gt;@element.Label&lt;/l [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_EntityLookupElement {
             get {
@@ -300,24 +293,21 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.FileUploadElement
-        ///@{
-        ///    var required = Model.IsRequired ? &quot;required&quot; : null;
-        ///}
-        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///{
-        ///    Model.Enable = &quot;true&quot;;
-        ///}
-        ///@if (Model.IsCompact)
-        ///{
-        ///    &lt;input @required class=&quot;@(Model.CssClass + &quot; form-control &quot; + Model.Size)&quot; title=&quot;@Model.Tooltip&quot;
-        ///           data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot;
-        ///           id=&quot;@Model.ElementId&quot; type=&quot;file&quot; name=&quot;files&quot; /&gt;
-        ///}
-        ///else
-        ///{
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;FileUploadElementCompiler&gt;
         ///
-        ///    &lt;div data-bind=&quot;visible:@Model.Visible [rest of string was truncated]&quot;;.
+        ///@{
+        ///var element = Model.Element;
+        ///var required = element.IsRequired ? &quot;required&quot; : string.Empty;
+        ///}
+        ///
+        ///
+        ///&lt;input @required class=&quot;@(element.CssClass + &quot; form-control &quot; + element.Size)&quot; title=&quot;@element.Tooltip&quot;
+        ///       data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot;
+        ///       id=&quot;@element.ElementId&quot; type=&quot;file&quot; name=&quot;files&quot; /&gt;
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_FileUploadElement {
             get {
@@ -326,7 +316,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.FormElement
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;FormElementCompiler&gt;
         ///
         ///&lt;div class=&quot;alert alert-error&quot;&gt;
         ///    &lt;strong&gt;There&apos;s no EditorTemplate for @Model.GetType().Name&lt;/strong&gt;
@@ -340,8 +333,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.HtmlElement
-        ///@Html.Raw(Model.Text)
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;HtmlElementCompiler&gt;
+        ///@Raw(Model.Element.Text)
         ///
         ///.
         /// </summary>
@@ -352,15 +348,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ImageElement
-        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///{
-        ///    Model.Enable = &quot;true&quot;;
-        ///}@{
-        ///    var path = string.Format(&quot;&apos;/sph/image/store/&apos; + {0}()&quot;, this.Model.Path);
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;ImageElementCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///    var path = string.Format(&quot;&apos;/sph/image/store/&apos; + {0}()&quot;, element.Path);
         ///}
-        ///&lt;label class=&quot;col-md-@(Model.LabelColMd ?? 4)&quot;&gt;@Model.Label&lt;/label&gt;
-        ///&lt;img alt=&quot;@Model.Label&quot; title=&quot;@Model.Tooltip&quot; width =&quot;@Model.Width&quot; height=&quot;@Model.Height&quot; data-bind=&quot;attr : {&apos;src&apos;:@Html.Raw(path)}, visible:@Html.Raw(Model.Visible)&quot; /&gt;.
+        ///&lt;img alt=&quot;@element.Label&quot; title=&quot;@element.Tooltip&quot; width=&quot;@element.Width&quot; height=&quot;@element.Height&quot;
+        ///     data-bind=&quot;attr : {&apos;src&apos;:@Raw(path)}, visible:@Raw(element.Visible)&quot; /&gt;.
         /// </summary>
         internal static string editor_template_ImageElement {
             get {
@@ -369,33 +366,20 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.LabelItem
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;label class=&quot;control-label&quot;&gt;@Model.Name&lt;/label&gt;
-        ///&lt;/div&gt;.
-        /// </summary>
-        internal static string editor_template_LabelItem {
-            get {
-                return ResourceManager.GetString("editor_template_LabelItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to @using System.Web.Mvc.Html
-        ///@using Bespoke.Sph.Domain
-        ///@model Bespoke.Sph.Domain.ListView
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;ListViewCompiler&gt;
         ///
-        ///@if (string.IsNullOrWhiteSpace(Model.Enable))
-        ///{
-        ///    Model.Enable = &quot;true&quot;;
+        ///@{
+        ///    var element = Model.Element;
         ///}
         ///
-        ///&lt;div data-bind=&quot;visible:@Model.Visible&quot;&gt;
-        ///    &lt;button class=&quot;btn btn-default pull-right&quot; data-bind=&quot;click : addChildItem(@Model.Path.ConvertJavascriptObjectToFunction(), @Model.ChildItemType)&quot;&gt;@Model.Label&lt;/button&gt;
+        ///&lt;div data-bind=&quot;visible:@element.Visible&quot;&gt;
+        ///    &lt;button class=&quot;btn btn-default pull-right&quot; data-bind=&quot;click : addChildItem(@element.Path.ConvertJavascriptObjectToFunction(), @element.ChildItemType)&quot;&gt;@element.Label&lt;/button&gt;
         ///    &lt;table class=&quot;table table-condensed table-striped&quot;&gt;
         ///        &lt;thead&gt;
-        ///            &lt;tr&gt;
-        ///                @foreach (va [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_ListView {
             get {
@@ -404,16 +388,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.MapElement
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;MapElementCompiler&gt;
         ///
         ///&lt;div class=&quot;control-group&quot; data-bind=&quot;visible:@Model.Visible&quot;&gt;
         ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
         ///    &lt;div class=&quot;controls&quot;&gt;
         ///        &lt;button title=&quot;@Model.Tooltip&quot; id=&quot;@Model.ElementId&quot; class=&quot;@Model.CssClass&quot; data-bind=&quot;click: $root.showMapCommand&quot;&gt;
         ///            &lt;!-- ko if : staticMap --&gt;
-        ///            &lt;img data-bind=&quot;attr : {src:staticMap}&quot; src=&quot;/Images/no-image.png&quot; alt=&quot;map&quot; /&gt;
-        ///            &lt;!-- /ko  --&gt;
-        ///            &lt;!- [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_MapElement {
             get {
@@ -422,15 +407,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.NumberTextBox
-        ///&lt;div class=&quot;form-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;@Model.LabelCssClass&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;@Model.InputPanelCssClass&quot;&gt;
-        ///        &lt;input step=&quot;@Model.Step&quot; class=&quot;@(Model.CssClass + &quot; form-control &quot;+ Model.Size) form-control&quot; 
-        ///               title=&quot;@Model.Tooltip&quot; data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot;
-        ///               id=&quot;@Model.ElementId&quot; type=&quot;number&quot; name=&quot;@Model.Path&quot; /&gt;
-        ///    &lt;/div&gt;
-        ///    @if (!string.IsNul [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;NumberTextBoxCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///    var required = element.IsRequired ? &quot;required&quot; : null;
+        ///}
+        ///&lt;input @required step=&quot;@element.Step&quot; class=&quot;@(element.CssClass + &quot; form-control &quot;+ element.Size) form-control&quot;
+        ///       title=&quot;@element.Tooltip&quot; data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot;
+        ///       id=&quot;@element.ElementId&quot; type=&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_NumberTextBox {
             get {
@@ -439,8 +426,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.SectionFormElement
-        ///&lt;h2 data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot;&gt;@Model.Label&lt;/h2&gt;
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;SectionFormElementCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///}
+        ///&lt;h2 data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot;&gt;@element.Label&lt;/h2&gt;
         ///
         ///.
         /// </summary>
@@ -451,17 +444,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.TextAreaElement
-        ///
-        ///&lt;div class=&quot;form-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label col-lg-2&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;col-lg-6&quot;&gt;
-        ///        &lt;textarea class=&quot;@(Model.CssClass + &quot; form-control &quot;+ Model.Size) form-control&quot;
-        ///                  title=&quot;@Model.Tooltip&quot; data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot;
-        ///                  id=&quot;@Model.ElementId&quot; name=&quot;@Model.Path&quot;&gt;&lt;/textarea&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;
-        ///.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;TextAreaElementCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///    var required = element.IsRequired ? &quot;required&quot; : null;
+        ///}
+        ///&lt;textarea @required class=&quot;@(element.CssClass + &quot; form-control &quot;+ element.Size) form-control&quot;
+        ///          title=&quot;@element.Tooltip&quot; data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot;
+        ///          id=&quot;@element.ElementId&quot; name=&quot;@element.P [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_TextAreaElement {
             get {
@@ -470,16 +463,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.TextBox
-        ///           @{
-        ///               var required = Model.IsRequired ? &quot;required&quot; : null;
-        ///           }
-        ///&lt;div data-bind=&quot;visible:@Model.Visible&quot; class=&quot;form-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label col-lg-2&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;col-lg-6&quot;&gt;
-        ///        &lt;input @required class=&quot;@(Model.CssClass + &quot; form-control &quot; + Model.Size)&quot; title=&quot;@Model.Tooltip&quot;
-        ///               data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot;
-        ///               id= [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///    @inherits Template&lt;TextBoxCompiler&gt;
+        ///    @{
+        ///        var textbox = Model.Element;
+        ///        var required = textbox.IsRequired ? &quot;required&quot; : null;
+        ///    }
+        ///
+        ///    &lt;input @required class=&quot;@(textbox.CssClass + &quot; form-control &quot; + textbox.Size)&quot; title=&quot;@textbox.Tooltip&quot;
+        ///           data-bind=&quot;@(Model.GetKnockoutBindingExpression())&quot;
+        ///           id=&quot;@textbox.ElementId&quot; type=&quot;text&quot; na [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string editor_template_TextBox {
             get {
@@ -488,15 +483,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.WebsiteFormElement
-        ///&lt;div class=&quot;control-group&quot;&gt;
-        ///    &lt;label for=&quot;@Model.ElementId&quot; class=&quot;control-label&quot;&gt;@Model.Label&lt;/label&gt;
-        ///    &lt;div class=&quot;controls&quot;&gt;
-        ///        &lt;input class=&quot;@(Model.CssClass + &quot; &quot;+ Model.Size)&quot; 
-        ///               title=&quot;@Model.Tooltip&quot; 
-        ///            data-bind=&quot;@(Html.Raw(Model.GetKnockoutBindingExpression()))&quot; id=&quot;@Model.ElementId&quot; type=&quot;url&quot; name=&quot;@Model.Path&quot; /&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs
+        ///@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+        ///@inherits Template&lt;WebsiteFormElementCompiler&gt;
+        ///@{
+        ///    var element = Model.Element;
+        ///    var required = element.IsRequired ? &quot;required&quot; : null;
+        ///}
+        ///&lt;input @required class=&quot;@(element.CssClass + &quot; &quot;+ element.Size)&quot;
+        ///       title=&quot;@element.Tooltip&quot;
+        ///       data-bind=&quot;@Raw(Model.GetKnockoutBindingExpression())&quot; id=&quot;@element.ElementId&quot; type=&quot;url&quot; name=&quot;@element.Path&quot; /&gt;
+        ///
         ///
         ///
         ///.

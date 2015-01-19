@@ -61,22 +61,45 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@inherits Bespoke.Sph.FormCompilers.DurandalJs.Template&lt;Bespoke.Sph.FormCompilers.DurandalJs.FormRendererViewModel&gt;
+        ///@{
+        ///
+        ///    Layout = null;
+        ///    var form = (EntityForm)Model.Form;
+        ///    var entity = (EntityDefinition)Model.Project;
+        ///    var formId = @Model.Form.Route + &quot;-form&quot;;
+        ///    var caption = string.IsNullOrWhiteSpace(form.Caption) ? Model.Form.Name : form.Caption;
+        ///
+        ///}&lt;h1&gt;@caption&lt;/h1&gt;
+        ///&lt;div id=&quot;error-list&quot; class=&quot;row&quot; data-bind=&quot;visible:errors().length&quot;&gt;
+        ///    &lt;!-- ko foreac [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] Html2ColsWithAuditTrail {
+        internal static string Html2ColsWithAuditTrail {
             get {
-                object obj = ResourceManager.GetObject("Html2ColsWithAuditTrail", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("Html2ColsWithAuditTrail", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@inherits Bespoke.Sph.FormCompilers.DurandalJs.Template&lt;Bespoke.Sph.FormCompilers.DurandalJs.FormRendererViewModel&gt;
+        ///@{
+        ///
+        ///    Layout = null;
+        ///    var form = (ScreenActivityForm)Model.Form;
+        ///    var wd = (WorkflowDefinition)Model.Project;
+        ///    var formId = @Model.Form.Route + &quot;-form&quot;;
+        ///    var caption = form.Name;
+        ///
+        ///}&lt;h1&gt;@caption&lt;/h1&gt;
+        ///&lt;div id=&quot;error-list&quot; class=&quot;row&quot; data-bind=&quot;visible:errors().length&quot;&gt;
+        ///    &lt;!-- ko foreach : errors --&gt;
+        ///    &lt;div class=&quot;col-sm-8 col-sm-offset-2  [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] ScreenActivityFormTemplate {
+        internal static string ScreenActivityFormTemplate {
             get {
-                object obj = ResourceManager.GetObject("ScreenActivityFormTemplate", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("ScreenActivityFormTemplate", resourceCulture);
             }
         }
     }
