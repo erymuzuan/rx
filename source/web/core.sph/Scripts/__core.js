@@ -650,7 +650,8 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
                 var name = options.name || options,
                     eid = options.id || options;
-                var ed = ko.mapping.toJS(bespoke[config.applicationName.toLowerCase() + "_" + eid.toLowerCase()].domain[name]());
+
+                var ed = ko.toJS(bespoke[config.applicationName + "_" + eid.toLowerCase()].domain[name]());
                 var input = $(element),
                          div = $('<div></div>').css({
                              'height': '28px'
@@ -952,7 +953,7 @@ ko.bindingHandlers.lookupText = {
 
 
 ko.bindingHandlers.readonly = {
-    init : function(element, valueAccessor) {
+    init: function (element, valueAccessor) {
         var input = $(element),
             ro = ko.unwrap(valueAccessor());
 
@@ -963,7 +964,7 @@ ko.bindingHandlers.readonly = {
             input.prop('readonly', false);
         }
     },
-    update : function(element, valueAccessor) {
+    update: function (element, valueAccessor) {
         var input = $(element),
              ro = ko.unwrap(valueAccessor());
 

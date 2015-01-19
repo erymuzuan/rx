@@ -54,7 +54,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                     .map(function (v) {
                                         return {
                                             "text": ko.unwrap(v.Name).replace("Collection", ""),
-                                            "value": "bespoke." + config.applicationName.toLowerCase() + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
+                                            "value": "bespoke." + config.applicationName + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
                                         }
                                     })
                                     .value();
