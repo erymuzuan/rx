@@ -91,7 +91,7 @@
     </div>
 
 <div data-bind="visible:true">
-    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, bespoke.dev_customer.domain.Attachment)">Attachment</button>
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, bespoke.Dev_customer.domain.Attachment)">Attachment</button>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
@@ -117,6 +117,8 @@
             
              />
 
+
+
                     </td>
                     <td>
                         
@@ -126,12 +128,16 @@
             <option value=".pdf">PDF</option>
     </select>
 
+
+
                     </td>
                     <td>
                         
     <input  class=" form-control " title=""
            data-bind="kendoUpload : StoreId, visible :true"
            id="" type="file" name="files" />
+
+
 
                     </td>
                     <td>
@@ -140,6 +146,8 @@
     <a data-bind="attr : {'href':'/sph/binarystore/get/' + StoreId()}, visible:true" download>
         Download
     </a>
+
+
 
 
                     </td>
@@ -212,7 +220,7 @@
     <div class="form-group" data-bind="visible:true">
         <label for="f7afcecf-9176-4446-b55d-2d5e43a3fea4" class=""></label>
         <div class="col-md-8">
-            <a id="f7afcecf-9176-4446-b55d-2d5e43a3fea4" data-bind="attr : {'href':'/sph/documenttemplate/transform?entity=Customer&templateId=2&id=' + CustomerId()}, visible:true" download>
+            <a id="f7afcecf-9176-4446-b55d-2d5e43a3fea4" data-bind="attr : {'href':'/sph/documenttemplate/transform?entity=Customer&templateId=2&id=' + Id()}, visible:true" download>
                 Download Profile
             </a>
         </div>

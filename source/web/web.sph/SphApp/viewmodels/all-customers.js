@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', 'services/chart', objectbuilders.config],
-    function (context, logger, router, chart,config) {
+define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config , "partial/all-customers"],
+    function (context, logger, router, chart,config , partial) {
 
         var isBusy = ko.observable(false),
             chartFiltered = ko.observable(false),
@@ -25,7 +25,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                             "filter": {
                "bool": {
                   "must": [
-                    
+                                     {
+                     "range":{
+                         "Age":{}
+                     }
+                 }
+
                   ],
                   "must_not": [
                     
@@ -60,7 +65,18 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                          };
                      });
                      vm.toolbar.commands(formsCommands);
-                     tcs.resolve(true);
+
+                         
+                         if(typeof partial.activate === "function"){
+                             var pt = partial.activate(list());
+                             if(typeof pt.done === "function"){
+                                 pt.done(tcs.resolve);
+                             }else{
+                                 tcs.resolve(true);
+                             }
+                         }
+                         
+
                  });
 
 
@@ -117,8 +133,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'services/c
                         setTimeout(function () { isBusy(false); }, 500);
                     });
             },
-            attached = function () {
+            attached = function (view) {
                 chart.init("Customer", query, chartSeriesClick, "all-customers");
+                    
+                    if(typeof partial.attached === "function"){
+                        partial.attached(view);
+                    }
+                    
             },
             clearChartFilter = function(){
                 chartFiltered(false);
