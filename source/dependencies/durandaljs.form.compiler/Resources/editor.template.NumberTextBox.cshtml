@@ -1,0 +1,11 @@
+@using Bespoke.Sph.Domain
+@using Bespoke.Sph.FormCompilers.DurandalJs
+@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+@inherits Template<NumberTextBoxCompiler>
+@{
+    var element = Model.Element;
+    var required = element.IsRequired ? "required" : null;
+}
+<input @required step="@element.Step" class="@(element.CssClass + " form-control "+ element.Size) form-control"
+       title="@element.Tooltip" data-bind="@Raw(Model.GetKnockoutBindingExpression())"
+       id="@element.ElementId" type="number" name="@element.Path" />
