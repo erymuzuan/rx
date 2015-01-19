@@ -56,7 +56,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                      {
                          <text>
                          if(typeof partial.activate === "function"){
-                             var pt = partial.activate(entity());
+                             var pt = partial.activate(list());
                              if(typeof pt.done === "function"){
                                  pt.done(tcs.resolve);
                              }else{

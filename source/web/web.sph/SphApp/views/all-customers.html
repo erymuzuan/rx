@@ -9,7 +9,6 @@
             <thead>
                 <tr>
                     <th>FullName</th>
-                    <th>Street1</th>
                     <th>State</th>
                     <th>Age</th>
                     <th>Gender</th>
@@ -20,15 +19,8 @@
 
                     <td>
                         <a data-bind="attr : {href:'#add-customer-form' + '/' + Id, title:'FullName' }">
-                            <i class="fa fa-tachometer"></i>
-                                                        <img src="/sph/image/store/ad40513e-c237-4187-be0a-a879ffcf98e1" alt="FullName" />
-                            <span data-bind="text:FullName"></span>
-                        </a>
-                    </td>
-                    <td>
-                        <a data-bind="attr : {href:'#customer-form-2' + '/' + Id, title:'Street1' }">
-                            <i class="fa fa-book"></i>
-                                                        <span data-bind="text:Address.Street1"></span>
+                            <i class="fa fa-plus-square-o"></i>
+                                                        <span data-bind="text:FullName"></span>
                         </a>
                     </td>
                     <td data-bind="text:Address.State"></td>

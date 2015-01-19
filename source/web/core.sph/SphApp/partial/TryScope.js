@@ -29,7 +29,35 @@
                 });
             };
         },
-        editCatchScope = function (a, b) {            
+        editCatchScope = function (catchScope, wdOutside) {
+            var self = this, wd = wdOutside;
+            var clone = ko.mapping.fromJS(ko.mapping.toJS(catchScope));
+
+            return function () {
+                require(['viewmodels/catch.scope.dialog', 'durandal/app'], function (dialog, app2) {
+                    dialog.catchScope(clone);
+
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(wd());
+                    }
+
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                for (var g in catchScope) {
+                                    if (typeof catchScope[g] === "function" && catchScope[g].name === "observable") {
+                                        catchScope[g](ko.unwrap(clone[g]));
+                                    } else {
+                                        catchScope[g] = clone[g];
+                                    }
+                                }
+                            }
+                        });
+
+                });
+            };
+
         },
         removeCatchScope = function (catchScope, wdOutside) {
             var self = this, wd = wdOutside;

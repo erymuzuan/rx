@@ -54,7 +54,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                                     .map(function (v) {
                                         return {
                                             "text": ko.unwrap(v.Name).replace("Collection", ""),
-                                            "value": "bespoke." + config.applicationName.toLowerCase() + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
+                                            "value": "bespoke." + config.applicationName + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
                                         }
                                     })
                                     .value();
@@ -147,7 +147,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                         if (result.success) {
                             logger.info(result.message);
-                            entity().Id(result.id);
+                            form().Id(result.id);
                             errors.removeAll();
                         } else {
                             errors(result.Errors);

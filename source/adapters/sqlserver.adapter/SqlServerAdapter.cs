@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public partial class SqlServerAdapter : Adapter
     {
-        
+
 
         public override string OdataTranslator
         {
@@ -148,7 +148,12 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
                                   Type = c.GetClrType()
                               };
                 td.MemberCollection.AddRange(members);
-                m_tableColumns.Add(table.Name, columns);
+
+                if (m_tableColumns.ContainsKey(table.Name))
+                    m_tableColumns[table.Name] = columns;
+                else
+                    m_tableColumns.Add(table.Name, columns);
+
                 this.TableDefinitionCollection.Add(td);
 
 
@@ -601,7 +606,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         protected override Task<TableDefinition> GetSchemaDefinitionAsync(string table)
         {
-            var td = this.TableDefinitionCollection.Single(t => t.Name == table);
+            var td = this.TableDefinitionCollection.Last(t => t.Name == table);
             return Task.FromResult(td);
         }
     }

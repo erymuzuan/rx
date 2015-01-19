@@ -35,6 +35,28 @@
         </div>
     </div>
 
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="514fc4d9-354f-4a38-eb18-435121df843c" class="col-md-4">Contact  Telephone</label>
+        <div class="col-md-8">
+            <input  class=" form-control " title=""
+                   data-bind="value: Contact().Telephone, enable :true "
+                   
+                   
+                   
+                   id="514fc4d9-354f-4a38-eb18-435121df843c" type="text" name="Contact().Telephone" />
+        </div>
+    </div>
+
+    <div class="form-group" data-bind="visible:true">
+        <label for="0fda54e0-c734-41d0-d669-eca89170fd24" class="col-md-4">Contact  Email</label>
+        <div class="col-md-8">
+            <input required class=" form-control " title=""
+                   data-bind="value: Contact().Email, visible :true, enable: true" id="0fda54e0-c734-41d0-d669-eca89170fd24" type="email" name="Contact().Email" />
+        </div>
+    </div>
+
     <div class="form-group" data-bind="visible:true">
         <label for="ff83f8d0-9dd7-4621-87b7-7b5ddbd0c985" class="col-md-4">Gender</label>
         <div class="col-md-8">
@@ -91,7 +113,7 @@
     </div>
 
 <div data-bind="visible:true">
-    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, bespoke.dev_customer.domain.Attachment)">Attachment</button>
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(Contact().AttachmentCollection, bespoke.Dev_customer.domain.Attachment)">Attachment</button>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
@@ -99,6 +121,7 @@
                     <th>Ext.</th>
                     <th>Upload</th>
                     <th>Download</th>
+                    <th>Title</th>
                 <th></th>
             </tr>
         </thead>
@@ -117,6 +140,7 @@
             
              />
 
+                        
                     </td>
                     <td>
                         
@@ -126,6 +150,7 @@
             <option value=".pdf">PDF</option>
     </select>
 
+                        
                     </td>
                     <td>
                         
@@ -133,6 +158,7 @@
            data-bind="kendoUpload : StoreId, visible :true"
            id="" type="file" name="files" />
 
+                        
                     </td>
                     <td>
                         
@@ -142,6 +168,12 @@
     </a>
 
 
+                        
+                    </td>
+                    <td>
+                            <span class="col-md-8" data-bind="text: Title"></span>
+
+                        
                     </td>
                 <td>
                     <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.Contact().AttachmentCollection, $data)">
@@ -212,7 +244,7 @@
     <div class="form-group" data-bind="visible:true">
         <label for="f7afcecf-9176-4446-b55d-2d5e43a3fea4" class=""></label>
         <div class="col-md-8">
-            <a id="f7afcecf-9176-4446-b55d-2d5e43a3fea4" data-bind="attr : {'href':'/sph/documenttemplate/transform?entity=Customer&templateId=2&id=' + CustomerId()}, visible:true" download>
+            <a id="f7afcecf-9176-4446-b55d-2d5e43a3fea4" data-bind="attr : {'href':'/sph/documenttemplate/transform?entity=Customer&templateId=2&id=' + Id()}, visible:true" download>
                 Download Profile
             </a>
         </div>

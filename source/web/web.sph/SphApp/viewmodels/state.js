@@ -1,9 +1,9 @@
-/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/moment.js" />
+/// <reference path="/Scripts/jquery-2.1.1.intellisense.js" />
+/// <reference path="/Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="/Scripts/require.js" />
+/// <reference path="/Scripts/underscore.js" />
+/// <reference path="/Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
@@ -24,13 +24,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                 var query = String.format("Name eq '{0}'", 'State'),
                   tcs = new $.Deferred(),
                   chartsQuery = String.format("Entity eq 'State' and IsDashboardItem eq 1"),
-                  viewsQuery = String.format("EntityDefinitionId eq '5003' and IsPublished eq 1"),
-                  formsQuery = String.format("EntityDefinitionId eq '5003' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                  formsQuery = String.format("EntityDefinitionId eq 'state' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
                   edTask = context.loadOneAsync("EntityDefinition", query),
                   chartsTask = context.loadAsync("EntityChart", chartsQuery),
                   formsTask = context.loadAsync("EntityForm", formsQuery),
                   reportTask = context.loadAsync("ReportDefinition", "[DataSource.EntityName] eq 'State'"),
-                  viewsTask = context.loadAsync("EntityView", viewsQuery);
+                  viewsTask = $.get("/Sph/EntityView/Dashboard/State");
 
 
                 $.when(edTask, formsTask, viewsTask, reportTask, chartsTask)
@@ -48,14 +47,19 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                      });
                      charts(chartsLo.itemCollection);
                      reports(reportsLo.itemCollection);
-                     views(viewsLo.itemCollection);
+
+                     var vj = _(JSON.parse(viewsLo[0])).map(function (v) {
+                         return context.toObservable(v);
+                     });
+                     views(vj);
+
                      // get counts
                      _(views()).each(function (v) {
                          v.CountMessage("....");
                          var tm = setInterval(function () {
                              v.CountMessage(v.CountMessage() == "...." ? "..." : "....");
                          }, 250);
-                         $.get("/Sph/EntityView/Count/" + v.EntityViewId())
+                         $.get("/Sph/EntityView/Count/" + v.Id())
                              .done(function(c) {
                                  clearInterval(tm);
                                  v.CountMessage(c.hits.total);

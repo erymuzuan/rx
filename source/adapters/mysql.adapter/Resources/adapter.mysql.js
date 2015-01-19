@@ -146,7 +146,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                             Name: table.name,
                             ChildRelationCollection: ko.observableArray()
                         }
-                        selectedTables.push(adapterTable);
+                        var existingTable = _(selectedTables()).find(function (v) { return v.Name === table.name; });
+                        if (!existingTable) {
+                            selectedTables.push(adapterTable);
+                        }
                     }
 
                     table.busy(true);

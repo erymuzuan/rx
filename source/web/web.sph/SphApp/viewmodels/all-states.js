@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config , "partial/all-customers"],
-    function (context, logger, router, chart,config , partial) {
+define(["services/datacontext", "services/logger", "plugins/router", "services/chart", objectbuilders.config ],
+    function (context, logger, router, chart,config ) {
 
         var isBusy = ko.observable(false),
             chartFiltered = ko.observable(false),
@@ -25,12 +25,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                             "filter": {
                "bool": {
                   "must": [
-                                     {
-                     "range":{
-                         "Age":{}
-                     }
-                 }
-
+                    
                   ],
                   "must_not": [
                     
@@ -39,12 +34,12 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
            }
                         }
                     },
-                    "sort" : [{"FullName":{"order":"desc"}}]
+                    "sort" : []
                 });
-                var edQuery = String.format("Name eq '{0}'", 'Customer'),
+                var edQuery = String.format("Name eq '{0}'", 'State'),
                   tcs = new $.Deferred(),
-                  formsQuery = String.format("EntityDefinitionId eq 'customer' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
-                  viewQuery = String.format("EntityDefinitionId eq 'customer'"),
+                  formsQuery = String.format("EntityDefinitionId eq 'state' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                  viewQuery = String.format("EntityDefinitionId eq 'state'"),
                   edTask = context.loadOneAsync("EntityDefinition", edQuery),
                   formsTask = context.loadAsync("EntityForm", formsQuery),
                   viewTask = context.loadOneAsync("EntityView", viewQuery);
@@ -66,16 +61,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                      });
                      vm.toolbar.commands(formsCommands);
 
-                         
-                         if(typeof partial.activate === "function"){
-                             var pt = partial.activate(list());
-                             if(typeof pt.done === "function"){
-                                 pt.done(tcs.resolve);
-                             }else{
-                                 tcs.resolve(true);
-                             }
-                         }
-                         
+                         tcs.resolve(true);
 
                  });
 
@@ -126,7 +112,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
 
 
 
-                context.searchAsync("Customer", q)
+                context.searchAsync("State", q)
                     .done(function (lo) {
                         list(lo.itemCollection);
                         chartFiltered(true);
@@ -134,12 +120,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                     });
             },
             attached = function (view) {
-                chart.init("Customer", query, chartSeriesClick, "all-customers");
-                    
-                    if(typeof partial.attached === "function"){
-                        partial.attached(view);
-                    }
-                    
+                chart.init("State", query, chartSeriesClick, "all-states");
             },
             clearChartFilter = function(){
                 chartFiltered(false);

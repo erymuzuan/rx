@@ -108,7 +108,7 @@ namespace Bespoke.Sph.Domain
 
         public Task<string> GenerateCustomXsdJavascriptClassAsync()
         {
-            var jsNamespace = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Id;
+            var jsNamespace = ConfigurationManager.ApplicationName + "_" + this.Id;
             var assemblyName = ConfigurationManager.ApplicationName + "." + this.Name;
             var script = new StringBuilder();
             script.AppendLine("var bespoke = bespoke ||{};");
