@@ -99,6 +99,7 @@
                     <th>Ext.</th>
                     <th>Upload</th>
                     <th>Download</th>
+                    <th>Title</th>
                 <th></th>
             </tr>
         </thead>
@@ -117,8 +118,7 @@
             
              />
 
-
-
+                        
                     </td>
                     <td>
                         
@@ -128,8 +128,7 @@
             <option value=".pdf">PDF</option>
     </select>
 
-
-
+                        
                     </td>
                     <td>
                         
@@ -137,8 +136,7 @@
            data-bind="kendoUpload : StoreId, visible :true"
            id="" type="file" name="files" />
 
-
-
+                        
                     </td>
                     <td>
                         
@@ -148,8 +146,12 @@
     </a>
 
 
+                        
+                    </td>
+                    <td>
+                            <span class="col-md-8" data-bind="text: Title"></span>
 
-
+                        
                     </td>
                 <td>
                     <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.Contact().AttachmentCollection, $data)">

@@ -119,3 +119,5 @@ bin/sources/BphTempahanRpp/
 source/web/web.sph/Views/*Workflow*/
 .idea/
 /telerik
+/source/web/web.sph/SphApp/partial/all-customers.js
+/source/web/web.sph/SphApp/partial/microsoft-net-courses.js

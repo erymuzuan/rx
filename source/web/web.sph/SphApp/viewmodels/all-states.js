@@ -36,10 +36,10 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                     },
                     "sort" : []
                 });
-                var edQuery = String.format("Name eq '{0}'", 'District'),
+                var edQuery = String.format("Name eq '{0}'", 'State'),
                   tcs = new $.Deferred(),
-                  formsQuery = String.format("EntityDefinitionId eq 'district' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
-                  viewQuery = String.format("EntityDefinitionId eq 'district'"),
+                  formsQuery = String.format("EntityDefinitionId eq 'state' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                  viewQuery = String.format("EntityDefinitionId eq 'state'"),
                   edTask = context.loadOneAsync("EntityDefinition", edQuery),
                   formsTask = context.loadAsync("EntityForm", formsQuery),
                   viewTask = context.loadOneAsync("EntityView", viewQuery);
@@ -112,7 +112,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
 
 
 
-                context.searchAsync("District", q)
+                context.searchAsync("State", q)
                     .done(function (lo) {
                         list(lo.itemCollection);
                         chartFiltered(true);
@@ -120,7 +120,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                     });
             },
             attached = function (view) {
-                chart.init("District", query, chartSeriesClick, "districts-all");
+                chart.init("State", query, chartSeriesClick, "all-states");
             },
             clearChartFilter = function(){
                 chartFiltered(false);

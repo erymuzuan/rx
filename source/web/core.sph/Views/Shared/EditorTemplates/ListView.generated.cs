@@ -195,10 +195,10 @@ WriteLiteral("                        ");
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n\r\n                    </td>\r\n");
+WriteLiteral("\r\n                        \r\n                    </td>\r\n");
 
             
-            #line 45 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 44 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                 }
 
             
@@ -213,7 +213,7 @@ WriteLiteral(" href=\"#\"");
 WriteLiteral(" data-bind=\"click : $parent.removeChildItem.call($parent,$parent.");
 
             
-            #line 47 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
+            #line 46 "..\..\Views\Shared\EditorTemplates\ListView.cshtml"
                                                                                                           Write(Model.Path.ConvertJavascriptObjectToFunction());
 
             

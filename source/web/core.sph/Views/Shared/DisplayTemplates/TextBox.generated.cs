@@ -36,24 +36,15 @@ namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
         }
         public override void Execute()
         {
-WriteLiteral("<div");
-
-WriteLiteral(" class=\"form-group\"");
-
-WriteLiteral(">\r\n\r\n    <label");
-
-WriteLiteral(" class=\"col-md-4\"");
-
-WriteLiteral(">");
-
             
-            #line 4 "..\..\Views\Shared\DisplayTemplates\TextBox.cshtml"
-                       Write(Model.Label);
+            #line 3 "..\..\Views\Shared\DisplayTemplates\TextBox.cshtml"
+ if (Model.IsCompact)
+{
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n    <span");
+WriteLiteral("    <span");
 
 WriteLiteral(" class=\"col-md-8\"");
 
@@ -68,8 +59,58 @@ WriteLiteral(" data-bind=\"text: ");
             #line hidden
 WriteLiteral("\"");
 
-WriteLiteral("></span>\r\n</div>");
+WriteLiteral("></span>\r\n");
 
+            
+            #line 6 "..\..\Views\Shared\DisplayTemplates\TextBox.cshtml"
+
+}
+else
+{
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n\r\n        <label");
+
+WriteLiteral(" class=\"col-md-4\"");
+
+WriteLiteral(">");
+
+            
+            #line 12 "..\..\Views\Shared\DisplayTemplates\TextBox.cshtml"
+                           Write(Model.Label);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</label>\r\n        <span");
+
+WriteLiteral(" class=\"col-md-8\"");
+
+WriteLiteral(" data-bind=\"text: ");
+
+            
+            #line 13 "..\..\Views\Shared\DisplayTemplates\TextBox.cshtml"
+                                           Write(Model.Path);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
+
+WriteLiteral("></span>\r\n    </div>\r\n");
+
+            
+            #line 15 "..\..\Views\Shared\DisplayTemplates\TextBox.cshtml"
+}
+            
+            #line default
+            #line hidden
         }
     }
 }
