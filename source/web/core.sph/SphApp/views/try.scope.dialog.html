@@ -52,10 +52,10 @@
                         <tbody style="max-height: 450px; overflow-y: scroll; display: block" data-bind="foreach:CatchScopeCollection">
                             <tr>
                                 <td>
-                                    
+                                    <a href="#" data-bind="click : $parent.editCatchScope.call($parent,$data,$root.wd)">
                                         <!-- ko text: Id -->
                                         <!-- /ko -->
-                                    
+                                    </a>                                    
                                 </td>
                                 <td></td>
                                 <td>
