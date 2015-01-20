@@ -20,6 +20,25 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="set-name" class="col-sm-3 control-label">Exception Type</label>
+                        <div class="col-sm-9">
+                            <input type="text" data-bind="value: ExceptionType"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Exception Type"
+                                   class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="set-name" class="col-sm-3 control-label">Exception Var</label>
+                        <div class="col-sm-9">
+                            <input type="text" data-bind="value: ExceptionVar"
+                                   required="" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Exception Var"
+                                   class="form-control">
+                        </div>
+                    </div>
                     <table class="table table-condensed table-striped" data-bind="filter: {path:'tbody>tr'}">
 
                         <thead style="display: block">
