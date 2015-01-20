@@ -1,11 +1,29 @@
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
     public class Solution : Entity
     {
+        [JsonIgnore]
+        [ImportMany("SolutionCompiler", typeof(SolutionCompiler), AllowRecomposition = true)]
+        public Lazy<SolutionCompiler, ISolutionCompilerMetadata>[] Compilers { get; set; }
+
+        public async Task<IEnumerable<WorkflowCompilerResult>> CompileAsync(string compilers)
+        {
+            var tasks = from c in this.Compilers.Where(x => compilers.Contains(x.Metadata.Name))
+                let compiler = c.Value
+                select compiler.CompileAsync(this);
+
+            var results = await Task.WhenAll(tasks);
+
+            return results;
+        }
+
         public static async Task<IEnumerable<JsRoute>> GetJsRoutes()
         {
             var ad = ObjectBuilder.GetObject<IDirectoryService>();

@@ -85,6 +85,7 @@
     <Compile Include="BooleanExpressionWithConfigObject.cs" />
     <Compile Include="ScreenActivityFormRendererTestFixture.cs" />
     <Compile Include="ScreenActivityRazorEditorTemplateTestFixture.cs" />
+    <Compile Include="SolutionCompilerTestFixture.cs" />
     <Compile Include="SymbolWalkerTestFixture.cs" />
     <Compile Include="ExpressionTestFixture.cs" />
   </ItemGroup>

@@ -180,6 +180,7 @@
     <Compile Include="Core\ValidationResult.cs" />
     <Compile Include="FormTemplates\FormCompiler.cs" />
     <Compile Include="FormTemplates\IProjectProvider.cs" />
+    <Compile Include="ISolutionCompilerMetadata.cs" />
     <Compile Include="Properties\FormElementDesigner.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -276,6 +277,7 @@
     </Compile>
     <Compile Include="SnippetCompilerResult.cs" />
     <Compile Include="Solution.cs" />
+    <Compile Include="SolutionCompiler.cs" />
     <Compile Include="Transform\AddDaysFunctoid.cs" />
     <Compile Include="Transform\FormCompilerMetadataAttribute.cs" />
     <Compile Include="Transform\FunctoidDependencyComparer.cs" />

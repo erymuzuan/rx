@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web;
 using Bespoke.Sph.Web.App_Start;
-using Bespoke.Sph.Web.Helpers;
 
-namespace web.sph
+namespace Bespoke.Sph.WebSph
 {
     public class MvcApplication : System.Web.HttpApplication
     {
@@ -19,12 +15,8 @@ namespace web.sph
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            RouteConfig.RegisterRoutes(RouteTable.Routes).Wait();
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-
-            ModelBinders.Binders.Add(typeof(IEnumerable<Rule>), new RuleModelBinder());
-
+            RouteConfig.RegisterRoutes(RouteTable.Routes).Wait();
         }
 
         public ApplicationHelper WebApplicationHelper

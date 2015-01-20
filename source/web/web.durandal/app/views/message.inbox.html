@@ -1,0 +1,41 @@
+﻿
+<h1>Messages</h1>
+<div class="row">
+</div>
+<div class="row">
+    <ul id="filter-messages" class="nav nav-tabs">
+        <li class="active" data-bind="click : thisWeek"><a href="#">This week</a></li>
+        <li><a href="#" data-bind="click : thisMonth">This month</a></li>
+        <li><a href="#" data-bind="click : older">Older</a></li>
+    </ul>
+    <label class="checkbox pull-right">
+        <input type="checkbox" />
+        Include read items
+    </label>
+    <table data-bind="filter: { path: 'tbody>tr' }" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Subject</th>
+                <th>Read</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: messages">
+            <tr>
+                <td data-bind="date: {value: CreatedDate, format :'D/MM/YYYY HH:mm'}"></td>
+                <td>
+                    <a data-bind="attr: { href: '#/message.detail/' + Id() }">
+                        <i class="fa fa-envelope-o"></i>
+                        <span data-bind="text:Subject"></span>
+                    </a>
+                </td>
+                <td>
+                    <i class="fa fa-check" data-bind="visible:IsRead"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modalBlockout" style="z-index: 1051; opacity: 0.4;" data-bind="visible: isBusy"></div>
+<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />

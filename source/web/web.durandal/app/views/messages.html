@@ -1,0 +1,29 @@
+﻿<li class="dropdown dropdown-big hidden-sm hidden-xs">
+    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+        <i class="fa fa-envelope-o"></i>Message <span class="badge badge-important" data-bind="text:unread">6</span>
+    </a>
+
+    <ul class="dropdown-menu">
+        <li>
+            <!-- Heading - h5 -->
+            <h5><i class="fa fa-envelope-o"></i>Messages</h5>
+            <!-- Use hr tag to add border -->
+            <hr>
+        </li>
+
+            <!-- ko foreach : messages -->
+        <li>
+            <a data-bind="text: Subject, attr: {href : '#/message.detail/' + ko.unwrap(Id)}"></a>
+            <p></p>
+            <hr>
+        </li>
+            <!-- /ko -->
+     
+        <li>
+            <div class="drop-foot">
+                <span class="fa fa-envelope-o"></span>
+                <a href="#/message.inbox">View All</a>
+            </div>
+        </li>
+    </ul>
+</li>
