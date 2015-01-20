@@ -1623,6 +1623,8 @@
     <Content Include="SphApp\partial\SetterActionChild.js" />
     <Content Include="SphApp\partial\StartWorkflowAction.js" />
     <Content Include="SphApp\partial\Trigger.js" />
+    <Content Include="SphApp\partial\CatchScope.js" />
+    <Content Include="SphApp\partial\TryScope.js" />
     <Content Include="SphApp\partial\UpdateEntityActivity.js" />
     <Content Include="SphApp\partial\Variable.js" />
     <Content Include="SphApp\partial\ViewColumn.js" />
@@ -2082,6 +2084,8 @@
     <EmbeddedResource Include="SphApp\viewmodels\transform.definition.prop.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\correlation.type.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\correlation.set.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\catch.scope.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\try.scope.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2557,6 +2561,8 @@
     <EmbeddedResource Include="SphApp\views\transform.definition.prop.dialog.html" />
     <EmbeddedResource Include="SphApp\views\correlation.type.dialog.html" />
     <EmbeddedResource Include="SphApp\views\correlation.set.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\catch.scope.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\try.scope.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
