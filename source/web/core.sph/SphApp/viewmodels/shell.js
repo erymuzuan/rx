@@ -26,7 +26,7 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                 });
                 // BUG:#1499
                 if (window.location.href.indexOf("/sph#") === -1) {
-                    window.location = "/sph#" + config.startModule;
+                    router.navigate(config.startModule);
                     return;
                 }
                 var dropDown = function (e) {

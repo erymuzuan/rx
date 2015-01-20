@@ -141,6 +141,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dead.letter.viewer", "sourc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "durandaljs.compiler.test", "source\unit.test\durandaljs.compiler.test\durandaljs.compiler.test.csproj", "{71A4AC03-F1B9-4D98-9C5A-C90F2A47ABB9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.durandal", "source\web\web.durandal\web.durandal.csproj", "{2661E912-501C-497D-B36E-1FEE268C680F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -355,6 +357,10 @@ Global
 		{71A4AC03-F1B9-4D98-9C5A-C90F2A47ABB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71A4AC03-F1B9-4D98-9C5A-C90F2A47ABB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71A4AC03-F1B9-4D98-9C5A-C90F2A47ABB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2661E912-501C-497D-B36E-1FEE268C680F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2661E912-501C-497D-B36E-1FEE268C680F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2661E912-501C-497D-B36E-1FEE268C680F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2661E912-501C-497D-B36E-1FEE268C680F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -412,5 +418,6 @@ Global
 		{4C30F0BE-A89F-4553-B216-CBF1D9453AF2} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{1FB70D66-D1D2-46B5-8C95-83B7A770781E} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{71A4AC03-F1B9-4D98-9C5A-C90F2A47ABB9} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{2661E912-501C-497D-B36E-1FEE268C680F} = {402F5682-5851-4DC5-AC3D-B176A302BBE1}
 	EndGlobalSection
 EndGlobal

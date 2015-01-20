@@ -1,0 +1,65 @@
+﻿@using System.Configuration
+@using System.Web.Mvc.Html
+@{
+    Layout = null;
+    var theme = ConfigurationManager.AppSettings["theme"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Bespoke.Sph.Domain.ConfigurationManager.ApplicationName</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="/Content/__css.css" rel="stylesheet" />
+    <link href="/Content/nprogress.css" rel="stylesheet" />
+    <link href="/Content/daterangepicker-bs3.css" rel="stylesheet" />
+    <script src="/Scripts/modernizr-2.8.3.js"></script>
+    <meta name="description" content="The description of my page" />
+</head>
+<body>
+    <div id="applicationHost">
+        @Html.Partial("_splash")
+    </div>
+
+    <script src="~/SphApp/objectbuilders.js"></script>
+    @if (HttpContext.Current.IsDebuggingEnabled)
+    {
+        <script src="/Scripts/__vendor.js"></script>
+        <script src="/Scripts/nprogress.js"></script>
+        <script src="/Scripts/jstree.min.js"></script>
+        <script src="/Scripts/__core.js"></script>
+        <script src="/SphApp/schemas/__domain.js"></script>
+        <script src="/SphApp/prototypes/prototypes.js"></script>
+        <script src="/SphApp/partial/__partial.js"></script>
+        <script type="text/javascript" src="/sph/entitydefinition/schemas"></script>
+        <script src="/Content/theme.@theme/theme.js"></script>
+        <script src="/kendo/js/kendo.all.js"></script>
+    }
+    else
+    {
+        <script src="/Scripts/__vendor.min.js"></script>
+        <script src="/Scripts/nprogress.js"></script>
+        <script src="/Scripts/jstree.min.js"></script>
+        <script src="/Scripts/__core.min.js"></script>
+        <script src="/Scripts/_ko.entity.js"></script>
+        <script src="/SphApp/schemas/domain.min.js"></script>
+        <script src="/SphApp/prototypes/prototypes.min.js"></script>
+        <script src="/SphApp/partial/__partial.min.js"></script>
+        <script type="text/javascript" src="/sph/entitydefinition/schemas"></script>
+        <script src="~/Content/theme.@theme/theme.js"></script>
+        <script src="/kendo/js/kendo.all.min.js"></script>
+    }
+
+
+    <script type="text/javascript" src="/Scripts/require.js" data-main="SphApp/main"></script>
+
+
+
+    @*<script type="text/javascript" src="https://www.google.com/jsapi"></script>*@
+</body>
+</html>
