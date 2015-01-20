@@ -1,8 +1,6 @@
-using System;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 namespace Bespoke.Sph.FormCompilers.DurandalJs.FormRenderers
@@ -19,7 +17,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.FormRenderers
             var start = resource.IndexOf('@');
             var template = resource.Substring(start, resource.Length - start);
 
-            Assembly.LoadFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "System.Runtime.dll"));
+            var mscorlib = Path.Combine(ConfigurationManager.WebPath, @"bin\System.Runtime.dll");
+            if (!File.Exists(mscorlib))
+                mscorlib = (typeof(object).Assembly.Location);
+
+            Assembly.LoadFile(mscorlib);
 
             var vm = new FormRendererViewModel
             {
