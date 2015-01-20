@@ -195,7 +195,8 @@
         "settings": null,
         "isAdminPage": true,
         "showWhenLoggedIn": false,
-        "error": ""
+        "error": "",
+        "startPageRoute": "trigger.list"
     },
     {
         "role": "developers",
@@ -209,7 +210,8 @@
         "settings": null,
         "isAdminPage": true,
         "showWhenLoggedIn": false,
-        "error": ""
+        "error": "",
+        "startPageRoute": "adapter.definition.list"
     },
     {
         "role": "everybody",
@@ -265,7 +267,8 @@
         "settings": null,
         "isAdminPage": true,
         "showWhenLoggedIn": false,
-        "error": ""
+        "error": "",
+        "startPageRoute": "reportdefinition.list"
     },
     {
         "role": "developers",
@@ -293,7 +296,8 @@
         "settings": null,
         "isAdminPage": true,
         "showWhenLoggedIn": false,
-        "error": ""
+        "error": "",
+        "startPageRoute": "workflow.definition.list"
     },
     {
         "role": "developers",
@@ -335,7 +339,8 @@
         "settings": null,
         "isAdminPage": true,
         "showWhenLoggedIn": false,
-        "error": ""
+        "error": "",
+        "startPageRoute": "workflow.instances.console"
     },
     {
         "role": "developers",
@@ -345,11 +350,12 @@
         "title": "Custom Entities Consoles",
         "nav": false,
         "icon": "fa fa-clipboard",
-        "caption": "Custom Entitites consoles",
+        "caption": "Custom Entities Consoles",
         "settings": null,
         "isAdminPage": true,
         "showWhenLoggedIn": false,
-        "error": ""
+        "error": "",
+        "startPageRoute": "entities.list"
     },
     {
         "role": "developers",
@@ -524,7 +530,7 @@
         "groupName": "Workflow",
         "route": "workflow.manage/:id",
         "moduleId": "viewmodels/workflow.manage",
-        "title": "Manage worflows",
+        "title": "Manage Workflow",
         "nav": false,
         "icon": "fa fa-gear:before,\r\n.fa-cog",
         "caption": "Manage Workflow",
