@@ -21,6 +21,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var project = await solution.LoadProjectAsync(pm);
                 var model = await project.GetModelAsync();
                 if (null == model) continue;
+                Console.WriteLine((new {model.Members}).ToJsonString(true));
                 var javascriptModel = this.GenerateModel(model);
                 models.Add(javascriptModel);
             }
