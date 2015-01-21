@@ -180,6 +180,7 @@
     <Compile Include="Core\ValidationResult.cs" />
     <Compile Include="EntityDefinitionProjectProvider.cs" />
     <Compile Include="FormTemplates\FormCompiler.cs" />
+    <Compile Include="FormTemplates\IProjectModel.cs" />
     <Compile Include="FormTemplates\IProjectProvider.cs" />
     <Compile Include="IProjectProviderMetadata.cs" />
     <Compile Include="ISolutionCompilerMetadata.cs" />

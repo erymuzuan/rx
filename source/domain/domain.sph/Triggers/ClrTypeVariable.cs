@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Domain
 
         public override Member CreateMember()
         {
-            var member = new Member { Name = this.Name, Type = typeof(object) };
+            var member = new Member { Name = this.Name, Type = typeof(object), PropertyType = this.Type};
 
             this.PopulateMember(member, this.Type);
             return member;
@@ -43,7 +43,8 @@ namespace Bespoke.Sph.Domain
                 typeof (string), typeof (int), typeof (double), typeof (decimal)
             ,typeof(bool), typeof(DateTime), typeof(float), typeof(char)
             };
-            foreach (var prop in childType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            var propertiest = childType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            foreach (var prop in propertiest)
             {
                 if (natives.Contains(prop.PropertyType))
                 {
@@ -58,15 +59,19 @@ namespace Bespoke.Sph.Domain
                     member.MemberCollection.Add(child);
                     continue;
                 }
-                if (prop.PropertyType.GetInterfaces().Contains(typeof (IEnumerable)))
+                if (prop.PropertyType.GetInterfaces().Contains(typeof(IEnumerable)))
                 {
                     Console.WriteLine("IEnumerable " + prop.Name);
-                    member.AddMember(prop.Name, typeof(Array));
+                    var coll = member.AddMember(prop.Name, typeof(Array));
+                    coll.PropertyType = prop.PropertyType.GenericTypeArguments[0];
+
+                    
                     continue;
                 }
 
                 // complex type
-                var complex = member.AddMember(prop.Name, Type = typeof (object));
+                var complex = member.AddMember(prop.Name, Type = typeof(object));
+                complex.PropertyType = prop.PropertyType;
                 this.PopulateMember(complex, prop.PropertyType);
             }
         }

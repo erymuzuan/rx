@@ -89,6 +89,9 @@ namespace Bespoke.Sph.Domain
         }
 
         public bool IsComplex { get { return (typeof(object) == this.Type || typeof(Array) == this.Type); } }
+        [JsonIgnore]
+        public Type PropertyType { get; set; }
+
         public IEnumerable<Class> GeneratedCustomClass()
         {
 
@@ -170,70 +173,6 @@ namespace Bespoke.Sph.Domain
             return list.ToArray();
         }
 
-        public string GenerateJavascriptClass(string jsNamespace, string codeNamespace, string assemblyName)
-        {
-            var script = new StringBuilder();
-            var name = this.Name.Replace("Collection", "");
-
-            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, name);
-            script.AppendLine(" var model = {");
-            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", codeNamespace, name,
-                assemblyName);
-            foreach (var item in this.MemberCollection)
-            {
-                if (item.Type == typeof(Array))
-                    script.AppendLinf("     {0}: ko.observableArray([]),", item.Name);
-                else if (item.Type == typeof(object))
-                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}()),", item.Name, jsNamespace);
-                else
-                    script.AppendLinf("     {0}: ko.observable(),", item.Name);
-            }
-            script.AppendFormat(@"
-    addChildItem : function(list, type){{
-                        return function(){{
-                            list.push(new childType(system.guid()));
-                        }}
-                    }},
-            
-   removeChildItem : function(list, obj){{
-                        return function(){{
-                            list.remove(obj);
-                        }}
-                    }},
-");
-            script.AppendLine("     WebId: ko.observable()");
-
-            script.AppendLine(" };");
-
-            script.AppendLine(@" 
-             if (optionOrWebid && typeof optionOrWebid === ""object"") {
-                for (var n in optionOrWebid) {
-                    if (typeof model[n] === ""function"") {
-                        model[n](optionOrWebid[n]);
-                    }
-                }
-            }
-            if (optionOrWebid && typeof optionOrWebid === ""string"") {
-                model.WebId(optionOrWebid);
-            }");
-
-            script.AppendFormat(@"
-
-    if (bespoke.{0}.domain.{1}Partial) {{
-        return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
-    }}
-", jsNamespace, this.Name.Replace("Collection", string.Empty));
-
-            script.AppendLine(" return model;");
-            script.AppendLine("};");
-
-            foreach (var item in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var code = item.GenerateJavascriptClass(jsNamespace, codeNamespace, assemblyName);
-                script.AppendLine(code);
-            }
-            return script.ToString();
-        }
 
         public Member AddMember(string name, Type type)
         {

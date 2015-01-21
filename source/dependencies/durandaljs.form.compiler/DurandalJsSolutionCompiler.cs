@@ -21,7 +21,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var project = await solution.LoadProjectAsync(pm);
                 var model = await project.GetModelAsync();
                 if (null == model) continue;
-                Console.WriteLine((new {model.Members}).ToJsonString(true));
+              
                 var javascriptModel = this.GenerateModel(model);
                 models.Add(javascriptModel);
             }
@@ -29,9 +29,46 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return result;
         }
 
+        #region "code snippets"
+
+        private const string OptionsCode = @" 
+             if (optionOrWebid && typeof optionOrWebid === ""object"") {
+                for (var n in optionOrWebid) {
+                    if (typeof model[n] === ""function"") {
+                        model[n](optionOrWebid[n]);
+                    }
+                }
+            }
+            if (optionOrWebid && typeof optionOrWebid === ""string"") {
+                model.WebId(optionOrWebid);
+            }";
+
+        private const string AddRemoveChildItemFunctions = @"
+    addChildItem : function(list, type){{
+                        return function(){{
+                            list.push(new childType(system.guid()));
+                        }}
+                    }},
+            
+   removeChildItem : function(list, obj){{
+                        return function(){{
+                            list.remove(obj);
+                        }}
+                    }},
+";
+
+        private const string ExtendWithPartial = @"
+
+                if (bespoke.{0}.domain.{1}Partial) {{
+                    return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
+                }}";
+
+        #endregion
+
+
         private string GenerateModel(IProjectModel model)
         {
-            var jsNamespace = ConfigurationManager.ApplicationName + "_" + model.Id.Replace("-","");
+            var jsNamespace = ConfigurationManager.ApplicationName + "_" + model.Id.Replace("-", "");
             var assemblyName = ConfigurationManager.ApplicationName + "." + model.Name;
             var script = new StringBuilder();
             script.AppendLine("var bespoke = bespoke ||{};");
@@ -52,51 +89,59 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 else
                     script.AppendLinf("     {0}: ko.observable(),", item.Name);
             }
-            script.AppendFormat(@"
-    addChildItem : function(list, type){{
-                        return function(){{                          
-                            list.push(new type(system.guid()));
-                        }}
-                    }},
-            
-   removeChildItem : function(list, obj){{
-                        return function(){{
-                            list.remove(obj);
-                        }}
-                    }},
-");
+            script.AppendFormat(AddRemoveChildItemFunctions);
             script.AppendLine("     WebId: ko.observable()");
 
             script.AppendLine(" };");
 
-            script.AppendLine(@" 
-             if (optionOrWebid && typeof optionOrWebid === ""object"") {
-                for (var n in optionOrWebid) {
-                    if (typeof model[n] === ""function"") {
-                        model[n](optionOrWebid[n]);
-                    }
-                }
-            }
-            if (optionOrWebid && typeof optionOrWebid === ""string"") {
-                model.WebId(optionOrWebid);
-            }");
-
-            script.AppendFormat(@"
-
-                if (bespoke.{0}.domain.{1}Partial) {{
-                    return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
-                }}", jsNamespace, model.Name);
+            script.AppendLine(OptionsCode);
+            script.AppendFormat(ExtendWithPartial, jsNamespace, model.Name);
 
             script.AppendLine(" return model;");
             script.AppendLine("};");
             foreach (var item in model.Members.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
             {
-                var code = item.GenerateJavascriptClass(jsNamespace, model.DefaultNamespace, assemblyName);
+                var code = this.GenerateJavascriptClass(item, jsNamespace, model.DefaultNamespace, assemblyName);
                 script.AppendLine(code);
             }
             return script.ToString();
         }
 
+        
+        public string GenerateJavascriptClass(Member member, string jsNamespace, string codeNamespace, string assemblyName)
+        {
+            var script = new StringBuilder();
+            var name = member.Name.Replace("Collection", "");
+
+            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, member.PropertyType.Name);
+            script.AppendLine(" var model = {");
+            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", codeNamespace, name,
+                assemblyName);
+            foreach (var item in member.MemberCollection)
+            {
+                if (item.Type == typeof(Array))
+                    script.AppendLinf("     {0}: ko.observableArray([]),", item.Name);
+                else if (item.Type == typeof(object))
+                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{2}()),", item.Name, jsNamespace, item.PropertyType.Name);
+                else
+                    script.AppendLinf("     {0}: ko.observable(),", item.Name);
+            }
+            script.AppendFormat(AddRemoveChildItemFunctions);
+            script.AppendLine("     WebId: ko.observable()");
+            script.AppendLine(" };");
+            script.AppendLine(OptionsCode);
+            script.AppendFormat(ExtendWithPartial, jsNamespace, member.Name.Replace("Collection", string.Empty));
+
+            script.AppendLine(" return model;");
+            script.AppendLine("};");
+
+            foreach (var item in member.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
+            {
+                var code = this.GenerateJavascriptClass(item, jsNamespace, codeNamespace, assemblyName);
+                script.AppendLine(code);
+            }
+            return script.ToString();
+        }
     }
 
 }

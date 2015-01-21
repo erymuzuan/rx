@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Domain
                     .Select(v => v.CreateMember())
                     .ToList();
 
-                return members.ToArray();
+                return members;
             }
         }
     }

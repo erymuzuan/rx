@@ -14,12 +14,4 @@ namespace Bespoke.Sph.Domain
         IEnumerable<Class> GenerateCode();
         Task<IProjectModel> GetModelAsync();
     }
-
-    public interface IProjectModel
-    {
-        IEnumerable<Member> Members { get; }
-        string Name { get; }
-        string DefaultNamespace { get;  }
-        string Id { get;  }
-    }
 }
