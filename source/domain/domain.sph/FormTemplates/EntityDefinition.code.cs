@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class EntityDefinition : IProjectProvider
+    public partial class EntityDefinition : IProjectProvider, IProjectModel
     {
 
         public string DefaultNamespace
@@ -72,6 +72,11 @@ namespace Bespoke.Sph.Domain
             return sourceCodes;
         }
 
+        public Task<IProjectModel> GetModelAsync()
+        {
+            return Task.FromResult((IProjectModel)this);
+        }
+
         private StringBuilder GenerateConstructorCode()
         {
             var ctor = new StringBuilder();
@@ -105,75 +110,7 @@ namespace Bespoke.Sph.Domain
 
         }
 
-
-        public Task<string> GenerateCustomXsdJavascriptClassAsync()
-        {
-            var jsNamespace = ConfigurationManager.ApplicationName + "_" + this.Id;
-            var assemblyName = ConfigurationManager.ApplicationName + "." + this.Name;
-            var script = new StringBuilder();
-            script.AppendLine("var bespoke = bespoke ||{};");
-            script.AppendLinf("bespoke.{0} = bespoke.{0} ||{{}};", jsNamespace);
-            script.AppendLinf("bespoke.{0}.domain = bespoke.{0}.domain ||{{}};", jsNamespace);
-
-            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, this.Name);
-            script.AppendLine(" var system = require('services/system'),");
-            script.AppendLine(" model = {");
-            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.DefaultNamespace, this.Name, assemblyName);
-            script.AppendLine("     Id : ko.observable(\"0\"),");
-            foreach (var item in this.MemberCollection)
-            {
-                if (item.Type == typeof(Array))
-                    script.AppendLinf("     {0}: ko.observableArray([]),", item.Name);
-                else if (item.Type == typeof(object))
-                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}()),", item.Name, jsNamespace);
-                else
-                    script.AppendLinf("     {0}: ko.observable(),", item.Name);
-            }
-            script.AppendFormat(@"
-    addChildItem : function(list, type){{
-                        return function(){{                          
-                            list.push(new type(system.guid()));
-                        }}
-                    }},
-            
-   removeChildItem : function(list, obj){{
-                        return function(){{
-                            list.remove(obj);
-                        }}
-                    }},
-");
-            script.AppendLine("     WebId: ko.observable()");
-
-            script.AppendLine(" };");
-
-            script.AppendLine(@" 
-             if (optionOrWebid && typeof optionOrWebid === ""object"") {
-                for (var n in optionOrWebid) {
-                    if (typeof model[n] === ""function"") {
-                        model[n](optionOrWebid[n]);
-                    }
-                }
-            }
-            if (optionOrWebid && typeof optionOrWebid === ""string"") {
-                model.WebId(optionOrWebid);
-            }");
-
-            script.AppendFormat(@"
-
-                if (bespoke.{0}.domain.{1}Partial) {{
-                    return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
-                }}", jsNamespace, this.Name);
-
-            script.AppendLine(" return model;");
-            script.AppendLine("};");
-            foreach (var item in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var code = item.GenerateJavascriptClass(jsNamespace, this.DefaultNamespace, assemblyName);
-                script.AppendLine(code);
-            }
-            return Task.FromResult(script.ToString());
-        }
-
+        
         private Class GenerateController()
         {
             var @class = new Class { Name = this.Name + "Controller", Namespace = DefaultNamespace, BaseClass = "System.Web.Mvc.Controller" };
@@ -412,5 +349,7 @@ namespace Bespoke.Sph.Domain
             return new Method { Name = "Validate", Code = code.ToString() };
 
         }
+
+        public IEnumerable<Member> Members { get { return this.MemberCollection; } }
     }
 }
