@@ -114,7 +114,7 @@ namespace durandaljs.compiler.test
 
             const string CHILD_CODE = "Address";
             StringAssert.Contains("xxxx.domain." + CHILD_CODE, script);
-            Assert.AreEqual(1, new Regex(CHILD_CODE).Matches(script).Count, script);
+            Assert.AreEqual(1, new Regex("xxxx\\.domain\\." + CHILD_CODE).Matches(script).Count, script);
 
 
         }
