@@ -67,6 +67,7 @@
   </ItemGroup>
   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\core.sph\bin" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers\" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\schedulers\" />
   </Target>
