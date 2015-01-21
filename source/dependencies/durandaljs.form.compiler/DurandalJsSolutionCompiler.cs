@@ -21,7 +21,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var project = await solution.LoadProjectAsync(pm);
                 var model = await project.GetModelAsync();
                 if (null == model) continue;
-              
+
                 var javascriptModel = this.GenerateModel(model);
                 models.Add(javascriptModel);
             }
@@ -82,11 +82,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             script.AppendLine("     Id : ko.observable(\"0\"),");
             foreach (var item in model.Members)
             {
-                if (item.Type == typeof(Array))
-                    script.AppendLinf("     {0}: ko.observableArray([]),", item.Name);
-                else if (item.Type == typeof(object))
-                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}()),", item.Name, jsNamespace);
-                else
+                if (item.AllowMultiple)
+                    script.AppendLinf("     {0} : ko.observableArray([]),", item.Name);
+                else if (item.IsComplex && !item.AllowMultiple && !string.IsNullOrWhiteSpace(item.InferredType))
+                    script.AppendLinf("     {0} : ko.observable(new bespoke.{1}.domain.{0}()),", item.Name, jsNamespace);
+                else if (Member.NativeTypes.Contains(item.Type))
                     script.AppendLinf("     {0}: ko.observable(),", item.Name);
             }
             script.AppendFormat(AddRemoveChildItemFunctions);
@@ -99,7 +99,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             script.AppendLine(" return model;");
             script.AppendLine("};");
-            foreach (var item in model.Members.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
+            foreach (var item in model.Members.Where(m => m.IsComplex && !string.IsNullOrWhiteSpace(m.InferredType)))
             {
                 var code = this.GenerateJavascriptClass(item, jsNamespace, model.DefaultNamespace, assemblyName);
                 script.AppendLine(code);
@@ -107,24 +107,32 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return script.ToString();
         }
 
-        
-        public string GenerateJavascriptClass(Member member, string jsNamespace, string codeNamespace, string assemblyName)
-        {
-            var script = new StringBuilder();
-            var name = member.Name.Replace("Collection", "");
 
-            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, member.PropertyType.Name);
+        public string GenerateJavascriptClass(Member member, string jsNamespace, string codeNamespace, string assemblyName, IList<string> generatedTypes = null)
+        {
+            if (null == generatedTypes)
+                generatedTypes = new List<string>();
+            var t0 = member.IsComplex && !string.IsNullOrWhiteSpace(member.InferredType)
+                  ? member.InferredType
+                  : member.Type.ToCSharp();
+            if (generatedTypes.Contains(t0)) return string.Empty;
+
+
+            var script = new StringBuilder();
+            var name = t0.Replace("ObjectCollection`1", "");
+
+            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, name);
             script.AppendLine(" var model = {");
             script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", codeNamespace, name,
                 assemblyName);
-            foreach (var item in member.MemberCollection)
+            foreach (var mb in member.MemberCollection)
             {
-                if (item.Type == typeof(Array))
-                    script.AppendLinf("     {0}: ko.observableArray([]),", item.Name);
-                else if (item.Type == typeof(object))
-                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{2}()),", item.Name, jsNamespace, item.PropertyType.Name);
+                if (Member.NativeTypes.Contains(mb.Type))
+                    script.AppendLinf("     {0}: ko.observable(),", mb.Name);
+                else if (mb.AllowMultiple)
+                    script.AppendLinf("     {0}: ko.observableArray([]),", mb.Name);
                 else
-                    script.AppendLinf("     {0}: ko.observable(),", item.Name);
+                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{2}()),", mb.Name, jsNamespace, mb.Type.Name);
             }
             script.AppendFormat(AddRemoveChildItemFunctions);
             script.AppendLine("     WebId: ko.observable()");
@@ -135,9 +143,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             script.AppendLine(" return model;");
             script.AppendLine("};");
 
-            foreach (var item in member.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
+
+            foreach (var mb in member.MemberCollection.Where(m => !Member.NativeTypes.Contains(m.Type)))
             {
-                var code = this.GenerateJavascriptClass(item, jsNamespace, codeNamespace, assemblyName);
+                var code = this.GenerateJavascriptClass(mb, jsNamespace, codeNamespace, assemblyName, generatedTypes);
+                var t = mb.IsComplex && !string.IsNullOrWhiteSpace(mb.InferredType)
+                    ? mb.InferredType
+                    : mb.Type.ToCSharp();
+                generatedTypes.Add(t);
                 script.AppendLine(code);
             }
             return script.ToString();

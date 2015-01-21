@@ -21,94 +21,80 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public Type Type
         {
+            get { return Type.GetType(this.TypeName); }
+            set { this.TypeName = value.GetShortAssemblyQualifiedName(); }
+        }
+
+        [XmlIgnore]
+        [JsonIgnore]
+        public string InferredType
+        {
             get
             {
-                return Type.GetType(this.TypeName);
-            }
-            set
-            {
-                this.TypeName = value.GetShortAssemblyQualifiedName();
-            }
-        }
-
-        public Property GeneratedCode(string padding = "      ")
-        {
-            if (null == this.Type)
-                throw new InvalidOperationException(this + " doesn't have a type");
-            var code = new StringBuilder();
-            if (typeof(object) == this.Type)
-            {
-                code.AppendLinf(padding + "public {0} {1} {{get;set;}}", this.Name, this.Name);
-                return new Property { Name = this.Name, TypeName = this.Name };
-            }
-            if (typeof(Array) == this.Type)
-            {
-                var col = new Property
+                if (string.IsNullOrWhiteSpace(this.TypeName) && this.MemberCollection.Any() && !this.AllowMultiple)
                 {
-                    Name = this.Name,
-                    IsReadOnly = true,
-                    Initialized = true,
-                    TypeName = "ObjectCollection<" + this.Name.Replace("Collection", "") + ">"
-                };
+                    return this.Name;
+                }
 
-                return col;
+                if (string.IsNullOrWhiteSpace(this.TypeName) && this.MemberCollection.Any() && this.AllowMultiple)
+                {
+                    return "ObjectCollection`1" + this.Name.Singularize();
+                }
+
+                return null;
             }
 
-            return new Property { Name = this.Name, TypeName = this.GetCsharpType(), IsNullable = this.GetNullable() == "?" };
-        }
-
-        private string GetCsharpType()
-        {
-            return this.Type.ToCSharp();
-        }
-
-        private string GetNullable()
-        {
-            if (!this.IsNullable) return string.Empty;
-            if (typeof(string) == this.Type) return string.Empty;
-            if (typeof(object) == this.Type) return string.Empty;
-            if (typeof(Array) == this.Type) return string.Empty;
-            return "?";
         }
 
         public Property CreateProperty()
         {
-            var prop = new Property { Name = this.Name, Type = this.Type, IsNullable = this.IsNullable };
-            if (this.Type == typeof(Array))
+            var prop = new Property { Name = this.Name, IsNullable = this.IsNullable };
+            if (this.AllowMultiple)
             {
                 prop.IsReadOnly = true;
                 prop.Initialized = true;
-                prop.TypeName = "ObjectCollection<" + this.Name.Replace("Collection", "") + ">";
             }
 
-            if (this.Type == typeof(object))
+            if (!string.IsNullOrWhiteSpace(this.InferredType))
             {
-                prop.TypeName = this.Name;
+                prop.TypeName = this.AllowMultiple ? "ObjectCollection<" + this.Name.Singularize() + ">" : this.Name;
+            }
+            else
+            {
+                prop.Type = this.AllowMultiple ? typeof(ObjectCollection<>).MakeGenericType(this.Type) : this.Type;
             }
             return prop;
         }
 
-        public bool IsComplex { get { return (typeof(object) == this.Type || typeof(Array) == this.Type); } }
-        [JsonIgnore]
-        public Type PropertyType { get; set; }
+        public static readonly Type[] NativeTypes =
+        {
+            typeof(string), typeof(long),typeof(short), typeof(int), typeof(double), typeof(bool), typeof(decimal), typeof(DateTime), typeof(char),
+            typeof(long?),typeof(short?),  typeof(int?), typeof(double?), typeof(bool?), typeof(decimal?), typeof(DateTime?), typeof(char?)
+        };
+
+        public bool IsComplex
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(this.InferredType)) return true;
+                return !NativeTypes.Contains(this.Type);
+            }
+        }
+
+        public bool AllowMultiple { get; set; }
 
         public IEnumerable<Class> GeneratedCustomClass()
         {
-
             if (!this.IsComplex)
                 throw new InvalidOperationException("cannot generate class for simple member type " + this.Type);
 
-
             var @class = new Class
             {
-                Name = this.Name,
+                Name = this.AllowMultiple ? this.Name.Singularize() : this.Name,
                 BaseClass = typeof(DomainObject).Name
             };
             @class.AddNamespaceImport<DomainObject>();
             @class.AddNamespaceImport<DateTime>();
-
-            if (typeof(Array) == this.Type)
-                @class.Name = this.Name.Replace("Collection", "");
 
             var ctor = GenerateConstructor();
             @class.CtorCollection.Add(ctor.ToString());
@@ -135,9 +121,10 @@ namespace Bespoke.Sph.Domain
 
             foreach (var mb in this.MemberCollection)
             {
-                if (mb.Type == typeof(object))
+                var type = mb.IsComplex ? mb.InferredType : mb.Name;
+                if (!mb.AllowMultiple && mb.IsComplex)
                 {
-                    ctor.AppendLinf("           this.{0} = new {0}();", mb.Name);
+                    ctor.AppendLinf("           this.{0} = new {0}();", mb.Name, type);
                 }
                 if (null == mb.DefaultValue) continue;
 
@@ -147,7 +134,6 @@ namespace Bespoke.Sph.Domain
             ctor.AppendLine("       }");
             return ctor;
         }
-
 
         public void Add(Dictionary<string, Type> members)
         {
@@ -172,7 +158,6 @@ namespace Bespoke.Sph.Domain
             }
             return list.ToArray();
         }
-
 
         public Member AddMember(string name, Type type)
         {

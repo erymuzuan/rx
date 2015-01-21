@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Domain
 
         public override Member CreateMember()
         {
-            var member = new Member { Name = this.Name, Type = typeof(object), PropertyType = this.Type};
+            var member = new Member { Name = this.Name, Type  = this.Type};
 
             this.PopulateMember(member, this.Type);
             return member;
@@ -62,16 +62,15 @@ namespace Bespoke.Sph.Domain
                 if (prop.PropertyType.GetInterfaces().Contains(typeof(IEnumerable)))
                 {
                     Console.WriteLine("IEnumerable " + prop.Name);
-                    var coll = member.AddMember(prop.Name, typeof(Array));
-                    coll.PropertyType = prop.PropertyType.GenericTypeArguments[0];
+                    var coll = member.AddMember(prop.Name, prop.PropertyType.GenericTypeArguments[0]);
+                    coll.AllowMultiple = true ;
 
                     
                     continue;
                 }
 
                 // complex type
-                var complex = member.AddMember(prop.Name, Type = typeof(object));
-                complex.PropertyType = prop.PropertyType;
+                var complex = member.AddMember(prop.Name, Type = prop.PropertyType);
                 this.PopulateMember(complex, prop.PropertyType);
             }
         }

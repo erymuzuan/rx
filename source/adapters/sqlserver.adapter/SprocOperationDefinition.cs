@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string GenerateActionCode(SqlServerAdapter adapter, string methodName)
         {
             var code = new StringBuilder();
-            code.AppendLine(CreateMethodCode(adapter));
+            code.AppendLine(CreateMethodCode());
 
 
             code.AppendLine("           using(var conn = new SqlConnection(this.ConnectionString))");
@@ -69,7 +69,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        private string CreateMethodCode(SqlServerAdapter adapter)
+        private string CreateMethodCode()
         {
             var code = new StringBuilder();
             code.AppendLinf("       public async Task<{0}Response> {0}Async({0}Request request)",

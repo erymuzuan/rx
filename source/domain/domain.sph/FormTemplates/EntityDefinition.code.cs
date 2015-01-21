@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
+using Humanizer;
 using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 
@@ -85,16 +86,17 @@ namespace Bespoke.Sph.Domain
             ctor.AppendLine("       {");
             ctor.AppendLine("           var item = this;");
             ctor.AppendLinf("           var rc = new RuleContext(item);");
-            foreach (var member in this.MemberCollection)
+            foreach (var mb in this.MemberCollection)
             {
-                if (member.Type == typeof(object))
+                var inferred = mb.InferredType;
+                if (!string.IsNullOrWhiteSpace(inferred))
                 {
-                    ctor.AppendLinf("           this.{0} = new {0}();", member.Name);
+                    ctor.AppendLinf("           this.{0} = new {1}();", mb.Name, inferred);
                 }
-                if (null == member.DefaultValue) continue;
+                if (null == mb.DefaultValue) continue;
 
-                var defaultValueExpression = member.DefaultValue.GetCSharpExpression();
-                ctor.AppendLinf("           this.{0} = {1};", member.Name, defaultValueExpression);
+                var defaultValueExpression = mb.DefaultValue.GetCSharpExpression();
+                ctor.AppendLinf("           this.{0} = {1};", mb.Name, defaultValueExpression);
             }
             ctor.AppendLine("       }");
             return ctor;
@@ -110,7 +112,7 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        
+
         private Class GenerateController()
         {
             var @class = new Class { Name = this.Name + "Controller", Namespace = DefaultNamespace, BaseClass = "System.Web.Mvc.Controller" };
