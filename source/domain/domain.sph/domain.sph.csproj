@@ -178,9 +178,14 @@
     <Compile Include="BoundedContextAttribute.cs" />
     <Compile Include="Business\ChangeSubmission.cs" />
     <Compile Include="Core\ValidationResult.cs" />
+    <Compile Include="EntityDefinitionProjectProvider.cs" />
     <Compile Include="FormTemplates\FormCompiler.cs" />
     <Compile Include="FormTemplates\IProjectProvider.cs" />
+    <Compile Include="IProjectProviderMetadata.cs" />
     <Compile Include="ISolutionCompilerMetadata.cs" />
+    <Compile Include="ProjectMetadata.cs" />
+    <Compile Include="ProjectProvider.cs" />
+    <Compile Include="ProjectProviderMetadataAttribute.cs" />
     <Compile Include="Properties\FormElementDesigner.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -278,6 +283,7 @@
     <Compile Include="SnippetCompilerResult.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionCompiler.cs" />
+    <Compile Include="SolutionCompilerMetadataAttribute.cs" />
     <Compile Include="Transform\AddDaysFunctoid.cs" />
     <Compile Include="Transform\FormCompilerMetadataAttribute.cs" />
     <Compile Include="Transform\FunctoidDependencyComparer.cs" />
@@ -493,6 +499,7 @@
       <DependentUpon>WorkflowDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="Triggers\WorkflowDefinition.cs" />
+    <Compile Include="Triggers\WorkflowDefinition.model.cs" />
     <Compile Include="Triggers\WorkflowDefinition.Roslyn.cs">
       <DependentUpon>WorkflowDefinition.cs</DependentUpon>
     </Compile>

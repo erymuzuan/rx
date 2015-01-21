@@ -1,5 +1,5 @@
 using System;
-using System.Composition;
+using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
@@ -12,6 +12,16 @@ namespace Bespoke.Sph.Domain
         {
             var context = new SphDataContext();
             return await context.LoadOneAsync<EntityDefinition>(x => x.Name == pm.Name);
+        }
+    }
+    [Export("ProjectProvider", typeof(ProjectProvider))]
+    [ProjectProviderMetadata(Type = typeof(WorkflowDefinition))]
+    class WorkflowDefinitionProjectProvider : ProjectProvider
+    {
+        public override async Task<IProjectProvider> LoadProjectAsync(ProjectMetadata pm)
+        {
+            var context = new SphDataContext();
+            return await context.LoadOneAsync<WorkflowDefinition>(x => x.Name == pm.Name);
         }
     }
 }

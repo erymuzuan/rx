@@ -30,7 +30,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         private string GenerateModel(IProjectModel model)
         {
-            var jsNamespace = ConfigurationManager.ApplicationName + "_" + model.Id;
+            var jsNamespace = ConfigurationManager.ApplicationName + "_" + model.Id.Replace("-","");
             var assemblyName = ConfigurationManager.ApplicationName + "." + model.Name;
             var script = new StringBuilder();
             script.AppendLine("var bespoke = bespoke ||{};");

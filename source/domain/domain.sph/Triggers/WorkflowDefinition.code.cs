@@ -226,7 +226,7 @@ namespace Bespoke.Sph.Domain
 
         public Task<IProjectModel> GetModelAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult((IProjectModel)this);
         }
 
         private Method GenerateJsSchemasController()

@@ -35,5 +35,10 @@ namespace Bespoke.Sph.Domain
         {
             return string.Format("\"{0}\" : null", this.Name);
         }
+
+        public virtual Member CreateMember()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

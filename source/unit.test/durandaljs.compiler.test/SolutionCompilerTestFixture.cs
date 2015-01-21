@@ -13,6 +13,7 @@ namespace durandaljs.compiler.test
     {
         // ReSharper disable InconsistentNaming
         private EntityDefinition course;
+        private WorkflowDefinition work;
         // ReSharper restore InconsistentNaming
         [TestFixtureSetUp]
         public void SetUp()
@@ -23,10 +24,18 @@ namespace durandaljs.compiler.test
             course.MemberCollection.Add(new Member { Type = typeof(int), Name = "Rating" });
             course.MemberCollection.Add(new Member { Type = typeof(string), Name = "Author" });
 
-            var repos = new MockRepository<EntityDefinition>();
-            repos.AddToDictionary("x.Name Equal pm.Name", course);
+            work = new WorkflowDefinition { Id = "simple-work", Name = "Simple Work" };
+            work.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Mrn", Type = typeof(string) });
+
+            var edr = new MockRepository<EntityDefinition>();
+            edr.AddToDictionary("x.Name == pm.Name", course);
+            var wdr = new MockRepository<WorkflowDefinition>();
+            wdr.AddToDictionary("x.Name == pm.Name", work);
+
+
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
-            ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(repos);
+            ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(edr);
+            ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(wdr);
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
 
@@ -34,7 +43,7 @@ namespace durandaljs.compiler.test
 
         [Test]
         [Trace(Verbose = false)]
-        public async Task CompileSimpleSolution()
+        public async Task CompileEntityDefinitionModel()
         {
             var sol = new Solution { Id = "dev" };
             sol.ProjectMetadataCollection.Add(new ProjectMetadata
@@ -48,7 +57,26 @@ namespace durandaljs.compiler.test
             if (DebuggerHelper.IsVerbose)
                 results.SelectMany(x => x.Outputs).ToList().ForEach(Console.WriteLine);
 
-            StringAssert.Contains("domain.Course",results[0].Outputs[0]);
+            StringAssert.Contains("domain.Course", results[0].Outputs[0]);
+        }
+        [Test]
+        [Trace(Verbose = false)]
+        public async Task CompileWorkflowDefinitionModel()
+        {
+            var sol = new Solution { Id = "dev" };
+            sol.ProjectMetadataCollection.Add(new ProjectMetadata
+            {
+                Name = "Simple Work",
+                Type = typeof(WorkflowDefinition)
+            });
+
+            ObjectBuilder.ComposeMefCatalog(sol);
+            var results = (await sol.CompileAsync("DurandalJs")).ToList();
+            if (DebuggerHelper.IsVerbose)
+                results.SelectMany(x => x.Outputs).ToList().ForEach(Console.WriteLine);
+
+            StringAssert.Contains("_simplework.domain.SimpleWorkWorkflow", results[0].Outputs[0]);
+            StringAssert.Contains("Mrn: ko.observable(),", results[0].Outputs[0]);
         }
     }
 }
