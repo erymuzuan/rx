@@ -14,42 +14,39 @@ namespace durandaljs.compiler.test
     public class SolutionCompilerTestFixture
     {
         // ReSharper disable InconsistentNaming
-        private EntityDefinition m_course;
-        private EntityDefinition GetCourseIntance()
+
+        private EntityDefinition CreateCourseInstance()
         {
-            lock (m_course)
-            {
-                return m_course;
-            }
+            var course = new EntityDefinition { Name = "Course", Id = "course", RecordName = "No" };
+            course.MemberCollection.Add(new Member { Type = typeof(string), Name = "No" });
+            course.MemberCollection.Add(new Member { Type = typeof(string), Name = "Name" });
+            course.MemberCollection.Add(new Member { Type = typeof(int), Name = "Rating" });
+            course.MemberCollection.Add(new Member { Type = typeof(string), Name = "Author" });
+
+            var edr = new MockRepository<EntityDefinition>();
+            ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(edr);
+
+            edr.AddToDictionary(XNamePmName, course);
+            return course;
         }
 
+        private WorkflowDefinition CreateWorkflowInstance()
+        {
+            var wdr = new MockRepository<WorkflowDefinition>();
+            ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(wdr);
 
-        private WorkflowDefinition work;
+            var work = new WorkflowDefinition { Id = "simple-work", Name = "Simple Work" };
+            wdr.AddToDictionary(XNamePmName, work);
+            return work;
+        }
         // ReSharper restore InconsistentNaming
         private const string XNamePmName = "x.Name == pm.Name";
-        private MockRepository<EntityDefinition> edr;
-        private MockRepository<WorkflowDefinition> wdr;
         [TestFixtureSetUp]
         public void SetUp()
         {
-            m_course = new EntityDefinition { Name = "Course", Id = "course", RecordName = "No" };
-            m_course.MemberCollection.Add(new Member { Type = typeof(string), Name = "No" });
-            m_course.MemberCollection.Add(new Member { Type = typeof(string), Name = "Name" });
-            m_course.MemberCollection.Add(new Member { Type = typeof(int), Name = "Rating" });
-            m_course.MemberCollection.Add(new Member { Type = typeof(string), Name = "Author" });
-
-            work = new WorkflowDefinition { Id = "simple-work", Name = "Simple Work" };
-
-            edr = new MockRepository<EntityDefinition>();
-            edr.AddToDictionary(XNamePmName, m_course);
-
-            wdr = new MockRepository<WorkflowDefinition>();
-            wdr.AddToDictionary(XNamePmName, work);
 
 
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
-            ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(edr);
-            ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(wdr);
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
 
@@ -59,7 +56,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public async Task CompileEntityDefinitionModelWithAggregate()
         {
-            var course = this.GetCourseIntance();
+            var course = this.CreateCourseInstance();
             var tutor = new Member { Name = "Tutor" };
             tutor.AddMember("Age", typeof(int));
             tutor.AddMember("Name", typeof(string));
@@ -86,7 +83,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public void GenerateCodeEntityDefinitionModelWithAggregate()
         {
-            var course = this.GetCourseIntance();
+            var course = this.CreateCourseInstance();
             var tutor = new Member { Name = "Tutor" };
             tutor.AddMember("Age", typeof(int));
             tutor.AddMember("Name", typeof(string));
@@ -113,7 +110,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public void GenerateCodeEntityDefinitionWithCollection()
         {
-            var course = this.GetCourseIntance();
+            var course = this.CreateCourseInstance();
             var ratings = new Member { Name = "RatingCollection", AllowMultiple = true };
             ratings.AddMember("Star", typeof(int));
             ratings.AddMember("Date", typeof(DateTime));
@@ -133,7 +130,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public void GenerateCodeEntityDefinitionWithPlural()
         {
-            var course = this.GetCourseIntance();
+            var course = this.CreateCourseInstance();
             var ratings = new Member { Name = "Ratings", AllowMultiple = true };
             ratings.AddMember("Star", typeof(int));
             ratings.AddMember("Date", typeof(DateTime));
@@ -153,7 +150,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public async Task CompileEntityDefinitionModel()
         {
-            var course = this.GetCourseIntance();
+            var course = this.CreateCourseInstance();
             var ratings = new Member { Name = "Ratings", AllowMultiple = true };
             ratings.AddMember("Star", typeof(int));
             ratings.AddMember("Date", typeof(DateTime));
@@ -167,7 +164,6 @@ namespace durandaljs.compiler.test
             tutor.AddMember("Title", typeof(string));
             course.MemberCollection.Add(tutor);
 
-            edr.AddToDictionary(XNamePmName, course);
 
             var sol = new Solution { Id = "dev" };
             sol.ProjectMetadataCollection.Add(new ProjectMetadata
@@ -189,6 +185,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public async Task CompileWorkflowDefinitionModelSimpleVariable()
         {
+            var work = this.CreateWorkflowInstance();
             work.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Mrn", Type = typeof(string) });
 
             var sol = new Solution { Id = "dev" };
@@ -308,6 +305,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public void WdWithClrVariable_CheckMembers()
         {
+            var work = CreateWorkflowInstance();
             work.VariableDefinitionCollection.Add(new ClrTypeVariable
             {
                 Type = typeof(Patient),
@@ -334,6 +332,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public async Task WdWithClrVariable_GenerateJs()
         {
+            var work = CreateWorkflowInstance();
             work.VariableDefinitionCollection.Add(new ClrTypeVariable
             {
                 Type = typeof(Patient),
