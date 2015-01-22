@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.FormCompilers.DurandalJs;
 using Bespoke.Sph.Templating;
+using Moq;
 using NUnit.Framework;
 
 namespace durandaljs.compiler.test
@@ -35,7 +37,7 @@ namespace durandaljs.compiler.test
             var wdr = new MockRepository<WorkflowDefinition>();
             ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(wdr);
 
-            var work = new WorkflowDefinition { Id = "simple-work", Name = "Simple Work" };
+            var work = new WorkflowDefinition { Id = "simple-work", Name = "Simple Work", SchemaStoreId = "x" };
             wdr.AddToDictionary(XNamePmName, work);
             return work;
         }
@@ -44,7 +46,14 @@ namespace durandaljs.compiler.test
         [TestFixtureSetUp]
         public void SetUp()
         {
-
+            var doc = new BinaryStore
+            {
+                Content = File.ReadAllBytes(@"C:\project\work\sph\source\unit.test\domain.test\workflows\PemohonWakaf.xsd")
+            };
+            var store = new Mock<IBinaryStore>(MockBehavior.Strict);
+            store.Setup(x => x.GetContent("x"))
+                .Returns(doc);
+            ObjectBuilder.AddCacheList(store.Object);
 
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
@@ -216,6 +225,7 @@ namespace durandaljs.compiler.test
             Assert.IsTrue(prop.IsReadOnly, prop.Code);
             Console.WriteLine(prop);
         }
+
         [Test]
         [Trace(Verbose = true)]
         public void CreatePropertyOnMemberNativeArray()
@@ -227,6 +237,7 @@ namespace durandaljs.compiler.test
             Assert.IsTrue(prop.IsReadOnly, prop.Code);
             Console.WriteLine(prop);
         }
+
         [Test]
         [Trace(Verbose = true)]
         public void CreatePropertyOnMemberNativeNullableArray()
@@ -238,6 +249,7 @@ namespace durandaljs.compiler.test
             Assert.IsTrue(prop.IsReadOnly, prop.Code);
             Console.WriteLine(prop);
         }
+
         [Test]
         [Trace(Verbose = true)]
         public void CreatePropertyOnMemberSimpleString()
@@ -272,8 +284,9 @@ namespace durandaljs.compiler.test
                 Name = "SamplePerson",
                 CanInitiateWithDefaultConstructor = true,
             };
+            var wd = CreateWorkflowInstance();
 
-            var member = clr.CreateMember();
+            var member = clr.CreateMember(wd);
             Assert.AreEqual(6, member.MemberCollection.Count);
             Assert.AreEqual("Name", member.MemberCollection[0].Name);
             Assert.AreEqual("Age", member.MemberCollection[1].Name);
@@ -297,9 +310,32 @@ namespace durandaljs.compiler.test
 
 
         }
+        
+
+        [Test]
+        [Trace(Verbose = false)]
+        public void WdWithXsdVariable_CheckMembers()
+        {
+            var work = CreateWorkflowInstance();
+            work.VariableDefinitionCollection.Add(new ComplexVariable
+            {
+                Name = "Pemohon",
+                TypeName = "Applicant",
+                WebId = "a"
+            });
 
 
+            var members = work.Members.ToList();
+            Assert.AreEqual(1, members.Count);
+            var pemohon = members.First();
+            Assert.AreEqual("Pemohon", pemohon.Name);
+            Assert.AreEqual(10, pemohon.MemberCollection.Count);
+            Assert.AreEqual("Name", pemohon.MemberCollection[0].Name);
+            Assert.AreEqual("MyKad", pemohon.MemberCollection[1].Name);
+            Assert.AreEqual("RegisteredDate", pemohon.MemberCollection[2].Name);
+            Assert.AreEqual(typeof(DateTime), pemohon.MemberCollection[2].Type);
 
+        }
 
         [Test]
         [Trace(Verbose = false)]

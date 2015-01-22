@@ -19,56 +19,6 @@ namespace Bespoke.Sph.Domain
             return gen.Generate();
         }
 
-        public static string GetClrDataType(XElement element)
-        {
-
-            var typeAttribute = element.Attribute("type");
-            var nillableAttribute = element.Attribute("nillable");
-
-            var xsType = typeAttribute != null ? typeAttribute.Value : "";
-            var nillable = nillableAttribute != null && bool.Parse(nillableAttribute.Value);
-            
-            string type;
-            switch (xsType)
-            {
-                case "xs:string":
-                    type = "string";
-                    break;
-                case "xs:date":
-                case "xs:dateTime":
-                    type = "DateTime";
-                    break;
-                case "xs:int":
-                    type = "int";
-                    break;
-                case "xs:long":
-                    type = "long";
-                    break;
-                case "xs:boolean":
-                    type = "bool";
-                    break;
-                case "xs:float":
-                    type = "float";
-                    break;
-                case "xs:double":
-                    type = "double";
-                    break;
-                case "xs:decimal":
-                    type = "decimal";
-                    break;
-                case "State":
-                    type = "State";
-                    break;
-                case "xs:anySimpleType":
-                    type = "object";
-                    break;
-                default:
-                    type = xsType;
-                    break;
-            }
-            if (nillable) type += "?";
-            return type;
-        }
 
 
         public XElement GetCustomSchema(string id = null)

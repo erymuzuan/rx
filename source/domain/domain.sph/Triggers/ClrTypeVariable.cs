@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Domain
             base.OnPropertyChanged(e);
         }
 
-        public override Member CreateMember()
+        public override Member CreateMember(WorkflowDefinition wd)
         {
             if (null != m_member)
                 return m_member;
@@ -113,10 +113,10 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GetJsonIntance(WorkflowDefinition wd)
+        public string GetJsonIntance(WorkflowDefinition wd)
         {
             var type = this.Type;
-            if (null == type) return base.GetJsonIntance(wd);
+            //if (null == type) return base.GetJsonIntance(wd);
 
             var instance = Activator.CreateInstance(type);
             return "\"" + this.Name + "\" :" + JsonConvert.SerializeObject(instance);

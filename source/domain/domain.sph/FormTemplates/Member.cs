@@ -80,6 +80,7 @@ namespace Bespoke.Sph.Domain
             get
             {
                 if (!string.IsNullOrWhiteSpace(this.InferredType)) return true;
+                if (string.IsNullOrWhiteSpace(this.TypeName) && this.MemberCollection.Any()) return true;
                 return !NativeTypes.Contains(this.Type);
             }
         }
@@ -169,5 +170,7 @@ namespace Bespoke.Sph.Domain
             this.MemberCollection.Add(child);
             return child;
         }
+
+   
     }
 }

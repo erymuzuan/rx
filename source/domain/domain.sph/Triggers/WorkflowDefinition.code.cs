@@ -218,7 +218,6 @@ namespace Bespoke.Sph.Domain
             @controller.AttributeCollection.Add(string.Format("     [RoutePrefix(\"wf/{0}/v{1}\")]", this.Id, this.Version));
 
             @controller.MethodCollection.Add(this.GenerateSearchMethod());
-            @controller.MethodCollection.Add(this.GenerateJsSchemasController());
             @classes.Add(@controller);
 
             return @classes;
@@ -229,64 +228,12 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult((IProjectModel)this);
         }
 
-        private Method GenerateJsSchemasController()
-        {
-            var code = new StringBuilder();
 
-
-            // custom schema
-            code.AppendLine("       [HttpGet]");
-            code.AppendLine("       [Route(\"schemas\")]");
-            code.AppendLinf("       public async Task<ActionResult> Schemas()");
-            code.AppendLine("       {");
-            code.AppendLine("           var store = ObjectBuilder.GetObject<IBinaryStore>();");
-            code.AppendLinf("           var doc = await store.GetContentAsync(\"wd.{0}.{1}\");", this.Id, this.Version);
-            code.AppendLine(@"           WorkflowDefinition wd;
-            using (var stream = new System.IO.MemoryStream(doc.Content))
-            {
-                wd = stream.DeserializeFromJson<WorkflowDefinition>();
-            }
-
-                                        ");
-            code.AppendLinf("           var script = await wd.GenerateCustomXsdJavascriptClassAsync();", this.WebId);
-            code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
-
-            code.AppendLine("           return Content(script);");
-            code.AppendLine("       }");
-
-            return new Method { Code = code.ToString(), Name = "Schemas" };
-
-        }
-
-        public Task<string> GenerateCustomXsdJavascriptClassAsync()
-        {
-            var wd = this;
-            var script = new StringBuilder();
-            script.AppendLine("var bespoke = bespoke ||{};");
-            script.AppendLine("bespoke.sph = bespoke.sph ||{};");
-            script.AppendLine("bespoke.sph.wf = bespoke.sph.wf ||{};");
-            script.AppendLinf("bespoke.sph.wf.{0} = bespoke.sph.wf.{0} ||{{}};", wd.WorkflowTypeName, wd.Version);
-
-            var xsd = wd.GetCustomSchema();
-
-            var complexTypesElement = xsd.Elements(x + "complexType").ToList();
-            var complexTypeClasses = complexTypesElement.Select(wd.GenerateXsdComplexTypeJavascript).ToList();
-            complexTypeClasses.ForEach(c => script.AppendLine(c));
-
-            var elements = xsd.Elements(x + "element").ToList();
-            var elementClasses = elements.Select(e => wd.GenerateXsdElementJavascript(e, 0, s => complexTypesElement.Single(f => f.Attribute("name").Value == s))).ToList();
-            elementClasses.ForEach(c => script.AppendLine(c));
-
-
-
-            return Task.FromResult(script.ToString());
-        }
 
         private Method GenerateSearchMethod()
         {
             var code = new StringBuilder();
 
-            code.AppendLinf("//exec:Search");
             code.AppendLine("       [HttpPost]");
             code.AppendLine("       [Route(\"search\")]");
             code.AppendLinf("       public async Task<ActionResult> Search()");
@@ -308,8 +255,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       }");
 
-
-            return new Method { Code = code.ToString(), Name = "Search" };
+            return new Method { Code = code.ToString(), Name = "Search" , Comment = "//exec:Search"};
         }
 
 

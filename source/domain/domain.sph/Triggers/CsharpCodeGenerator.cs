@@ -68,10 +68,7 @@ namespace Bespoke.Sph.Domain
             var ns = m_xsd.Attribute("targetNamespace");
 
             @class.AttributeCollection.Add(string.Format("   [XmlType(\"{0}\",  Namespace=\"{1}\")]", name, ns != null ? ns.Value : ""));
-
-
             members.AddRange(this.GetMembers(ct));
-
             @class.PropertyCollection.AddRange(members);
 
             return @class;
@@ -81,15 +78,14 @@ namespace Bespoke.Sph.Domain
         {
             var properties = new List<Property>();
             if (null == ct) return properties;
-
             var attributes = from at in ct.Elements(x + "attribute")
                              let n = at.Attribute("name").Value
                              select new Property
                              {
                                  Name = n,
-                                 Type = Type.GetType(WorkflowDefinition.GetClrDataType(at)),
+                                 Type = Type.GetType(ComplexVariable.GetClrDataType(at)),
                                  Code =  "      [XmlAttribute]\r\n"
-                                         + string.Format("      public {1} {0} {{get;set;}}", n, WorkflowDefinition.GetClrDataType(at))
+                                         + string.Format("      public {1} {0} {{get;set;}}", n, ComplexVariable.GetClrDataType(at))
                              };
 
             properties.AddRange(attributes);
@@ -103,7 +99,7 @@ namespace Bespoke.Sph.Domain
                     select new Property
                     {
                         Name = at.Attribute("name").Value,
-                        Code =  string.Format("      public {1} {0} {{get;set;}}", at.Attribute("name").Value, WorkflowDefinition.GetClrDataType(at))
+                        Code =  string.Format("      public {1} {0} {{get;set;}}", at.Attribute("name").Value, ComplexVariable.GetClrDataType(at))
                     };
                 properties.AddRange(allElements);
 
