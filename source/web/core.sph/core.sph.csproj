@@ -2034,6 +2034,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\screen.activity.form.designer.js" />
     <Content Include="SphApp\viewmodels\not.found.js" />
     <Content Include="SphApp\viewmodels\public.index.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.docking.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2422,6 +2423,7 @@
     <EmbeddedResource Include="SphApp\views\correlation.set.dialog.html" />
     <Content Include="SphApp\views\not.found.html" />
     <Content Include="SphApp\views\public.index.html" />
+    <EmbeddedResource Include="SphApp\views\solution.explorer.docking.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
     </Content>
     <Content Include="web.config">

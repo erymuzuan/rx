@@ -2,6 +2,10 @@
 @menu-color: #252526;
 @menu-color-hover: #ff0000;
 
+@solution-explorer-color : #666;
+@solution-explorer-color-hover : #252526;
+
+
 #slider-menu {
     width: 0px;
     display: none;
@@ -36,6 +40,36 @@
 
     .nav > li > a > i {
         margin-right: 5px;
+    }
+
+    #solution-explorer-docking {
+        background-color: #FFF;
+        border-right-color: #252526;
+        border-right-style: solid;
+        padding-left: 10px;
+        
+        .nav li:hover {
+            background-color: #fff !important;
+        }
+
+        .nav > li {
+            padding: 5px;
+            margin-left: 5px;
+            margin-top: 2px;
+        }
+
+        .nav > li > a {
+            margin-right: 5px;
+            color: @solution-explorer-color ;
+            padding: 0px;
+        }
+
+        .nav > li > a:hover {
+            color : white;
+            background-color: @solution-explorer-color-hover;
+        }
+        
+         
     }
 }
 
