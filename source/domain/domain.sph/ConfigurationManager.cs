@@ -221,6 +221,20 @@ namespace Bespoke.Sph.Domain
                 return BaseDirectory + BinPath + @"\tools";
             }
         }
+        public static string CorePath
+        {
+            get
+            {
+
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:CorePath"];
+                if (Path.IsPathRooted(val)) return val;
+
+                if (ApplicationName == "Dev")
+                    return BaseDirectory  + @"\source\web\core.sph";
+
+                return BaseDirectory + BinPath + @"\core";
+            }
+        }
         public static string WebPath
         {
             get

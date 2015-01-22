@@ -97,7 +97,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var member in this.RequestMemberCollection)
             {
                 code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode().Code);
+                code.AppendLine(member.CreateProperty().Code);
             }
 
 
@@ -166,7 +166,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var member in this.ResponseMemberCollection.OfType<SprocResultMember>())
             {
                 code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode().Code);
+                code.AppendLine(member.CreateProperty().Code);
             }
 
 

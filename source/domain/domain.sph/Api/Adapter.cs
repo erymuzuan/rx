@@ -105,7 +105,7 @@ namespace Bespoke.Sph.Domain.Api
 
             var options = new CompilerOptions();
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.CorePath + @"\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll"));
             options.AddReference(typeof(System.Data.UpdateStatus));

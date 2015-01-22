@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="HisSqlServerAdapterTest.cs" />
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />
     <Compile Include="SqlServerAdapterTest.cs" />
