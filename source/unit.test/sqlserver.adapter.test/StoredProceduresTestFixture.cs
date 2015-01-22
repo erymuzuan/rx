@@ -31,7 +31,7 @@ namespace sqlserver.adapter.test
                 Name = "CmrcProductsByCategory",
             };
 
-            var categoryID = new SprocParameter
+            var categoryId = new SprocParameter
             {
                 Name = "@CategoryID",
                 Type = typeof(int),
@@ -40,7 +40,7 @@ namespace sqlserver.adapter.test
                 MaxLength = null
             };
 
-            productByCategory.RequestMemberCollection.Add(categoryID);
+            productByCategory.RequestMemberCollection.Add(categoryId);
 
 
 
@@ -123,7 +123,7 @@ namespace sqlserver.adapter.test
                 Name = "uspUpdateEmployeePersonalInfo",
             };
 
-            var businessEntityID = new SprocParameter
+            var businessEntityId = new SprocParameter
             {
                 Name = "@BusinessEntityID",
                 Type = typeof(int),
@@ -131,7 +131,7 @@ namespace sqlserver.adapter.test
                 Position = 5,
                 MaxLength = null
             };
-            var nationalIDNumber = new SprocParameter
+            var nationalIdNumber = new SprocParameter
             {
                 Name = "@NationalIDNumber",
                 Type = typeof(string),
@@ -163,8 +163,8 @@ namespace sqlserver.adapter.test
                 Position = 5,
                 MaxLength = null
             };
-            uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(businessEntityID);
-            uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(nationalIDNumber);
+            uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(businessEntityId);
+            uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(nationalIdNumber);
             uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(birthDate);
             uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(maritalStatus);
             uspUpdateEmployeePersonalInfo.RequestMemberCollection.Add(gender);

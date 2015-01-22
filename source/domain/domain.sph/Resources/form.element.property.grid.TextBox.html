@@ -1,0 +1,17 @@
+<div class="form-group">
+    <label for="fetb-entity">Autocompletion Entity</label>
+    <select id="fetb-entity" class="form-control" data-bind="value: AutoCompletionEntity,
+                options : $root.entityOptions,
+                optionsValue : 'value',
+                optionsText : 'text',
+                optionsCaption: '[Select Entity]'" name="entity"></select>
+</div>
+<div class="form-group">
+    <label for="fetb-field">Autocompletion Field</label>
+    <input class="form-control" data-bind="value: AutoCompletionField,entityTypeaheadPath : AutoCompletionEntity,enable:AutoCompletionEntity()" id="fetb-field" type="text" name="Field" />
+</div>
+<div class="form-group">
+    <label for="fetb-Query">Autocompletion Query</label>
+    <input class="form-control" data-bind="value: AutoCompletionQuery,enable:AutoCompletionEntity()" id="fetb-Query" type="text" name="Query" />
+</div>
+

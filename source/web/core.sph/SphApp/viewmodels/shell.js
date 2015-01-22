@@ -4,7 +4,7 @@
 /// <reference path="../../Scripts/require.js" />
 
 
-define(['durandal/system','services/system', 'plugins/router', 'services/logger', 'services/datacontext', objectbuilders.config, objectbuilders.cultures],
+define(['durandal/system', 'services/system', 'plugins/router', 'services/logger', 'services/datacontext', objectbuilders.config, objectbuilders.cultures],
     function (system,system2, router, logger, context, config) {
 
         var activate = function () {
@@ -24,11 +24,6 @@ define(['durandal/system','services/system', 'plugins/router', 'services/logger'
                     var topic = $(this).data("dialog");
                     window.open("/docs/#" + topic);
                 });
-                // BUG:#1499
-                if (window.location.href.indexOf("/sph#") === -1) {
-                    window.location = "/sph#" + config.startModule;
-                    return;
-                }
                 var dropDown = function (e) {
                     e.preventDefault();
                     e.stopPropagation();

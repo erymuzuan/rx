@@ -4,199 +4,156 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
+using Humanizer;
+using Microsoft.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class EntityDefinition
+    public partial class EntityDefinition : IProjectProvider, IProjectModel
     {
 
-
-        private string GetCodeHeader()
+        public string DefaultNamespace
         {
-
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
-            header.AppendLine("using System.Web.Mvc;");
-            header.AppendLine("using Bespoke.Sph.Web.Helpers;");
-            header.AppendLine();
-
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
-
+            get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.Id); }
         }
 
-        public Dictionary<string, string> GenerateCode()
+        [JsonIgnore]
+        public MetadataReference[] References
         {
-            var header = this.GetCodeHeader();
-            var code = new StringBuilder(header);
-
-            code.AppendLine("   public class " + this.Name + " : Entity");
-            code.AppendLine("   {");
-
-            // ctor
-            code.AppendLine("       public " + this.Name + "()");
-            code.AppendLine("       {");
-            code.AppendLinf("           var rc = new RuleContext(this);");
-            var count = 0;
-            foreach (var member in this.MemberCollection)
+            get
             {
-                if (member.Type == typeof(object))
+                var references = new List<MetadataReference>
                 {
-                    code.AppendLinf("           this.{0} = new {0}();", member.Name);
-                }
-                if (null == member.DefaultValue) continue;
-                count++;
-                code.AppendLine();
-                code.AppendLinf("           var mj{1} = \"{0}\";", member.DefaultValue.ToJsonString().Replace("\"", "\\\""), count);
-                code.AppendLinf("           var field{0} = mj{0}.DeserializeFromJson<{1}>();", count, member.DefaultValue.GetType().Name);
-                code.AppendLinf("           var val{0} = field{0}.GetValue(rc);", count);
-                code.AppendLinf("           this.{0} = ({1})val{2};", member.Name, member.Type.FullName, count);
+                    this.CreateMetadataReference<System.Net.WebClient>(),
+                    this.CreateMetadataReference<System.Net.Mail.SmtpClient>(),
+                    this.CreateMetadataReference<System.Xml.Serialization.XmlAttributes>(),
+                    this.CreateMetadataReference<object>(),
+                    this.CreateMetadataReference<WorkflowDefinition>(),
+                    this.CreateMetadataReference<EnumerableQuery>()
+                };
+
+
+                return references.ToArray();
+
             }
-            code.AppendLine("       }");
+        }
 
+        public IEnumerable<Class> GenerateCode()
+        {
+            var @class = new Class { Name = this.Name, Namespace = this.DefaultNamespace, BaseClass = "Entity" };
+            @class.AddNamespaceImport<DateTime>();
+            @class.AddNamespaceImport<Entity>();
 
-            code.AppendFormat(@"     
+            var ctor = GenerateConstructorCode();
+
+            var toStringMethod = string.Format(@"     
         public override string ToString()
         {{
             return ""{0}:"" + {1};
         }}", this.Name, this.RecordName);
 
-
-            // properties for each members
-            foreach (var member in this.MemberCollection)
-            {
-                code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
-            }
+            @class.PropertyCollection.AddRange(this.MemberCollection.Select(x => x.CreateProperty()));
+            @class.MethodCollection.Add(new Method { Code = toStringMethod, Name = "ToString" });
+            @class.CtorCollection.Add(ctor.ToString());
 
 
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
-
-            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.FormatCode() } };
-
-            // classes for members
-            foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var mc = new StringBuilder(header);
-                mc.AppendLine(member.GeneratedCustomClass());
-                mc.AppendLine("}");
-                sourceCodes.Add(member.Name + ".cs", mc.FormatCode());
-            }
+            var sourceCodes = new List<Class> { @class };
+            var customMembers = this.MemberCollection.Where(m => m.IsComplex)
+                .SelectMany(member => member.GeneratedCustomClass());
+            sourceCodes.AddRange(customMembers);
 
             var controller = this.GenerateController();
-            sourceCodes.Add(this.Name + "Controller.cs", controller);
+            sourceCodes.Add(controller);
+
+            sourceCodes.ForEach(x => x.Namespace = DefaultNamespace);
 
 
             return sourceCodes;
         }
 
+        public Task<IProjectModel> GetModelAsync()
+        {
+            return Task.FromResult((IProjectModel)this);
+        }
 
-        public string[] SaveSources(Dictionary<string, string> sources)
+        private StringBuilder GenerateConstructorCode()
+        {
+            var ctor = new StringBuilder();
+            // ctor
+            ctor.AppendLine("       public " + this.Name + "()");
+            ctor.AppendLine("       {");
+            ctor.AppendLine("           var item = this;");
+            ctor.AppendLinf("           var rc = new RuleContext(item);");
+            foreach (var mb in this.MemberCollection)
+            {
+                var inferred = mb.InferredType;
+                if (!string.IsNullOrWhiteSpace(inferred))
+                {
+                    ctor.AppendLinf("           this.{0} = new {1}();", mb.Name, inferred);
+                }
+                if (null == mb.DefaultValue) continue;
+
+                var defaultValueExpression = mb.DefaultValue.GetCSharpExpression();
+                ctor.AppendLinf("           this.{0} = {1};", mb.Name, defaultValueExpression);
+            }
+            ctor.AppendLine("       }");
+            return ctor;
+        }
+
+
+        public string[] SaveSources(IEnumerable<Class> sources)
         {
             var folder = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Name);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
-            foreach (var cs in sources.Keys)
-            {
-                var file = Path.Combine(folder, cs);
-                File.WriteAllText(file, sources[cs]);
-            }
-            return sources.Keys.ToArray()
-                    .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.UserSourceDirectory, this.Name, f))
-                    .ToArray();
-        }
-        public string CodeNamespace
-        {
-            get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.Id); }
+            return sources.Select(x => x.Save(folder)).ToArray();
+
         }
 
 
-        public Task<string> GenerateCustomXsdJavascriptClassAsync()
+        private Class GenerateController()
         {
-            var jsNamespace = ConfigurationManager.ApplicationName + "_" + this.Id;
-            var assemblyName = ConfigurationManager.ApplicationName + "." + this.Name;
-            var script = new StringBuilder();
-            script.AppendLine("var bespoke = bespoke ||{};");
-            script.AppendLinf("bespoke.{0} = bespoke.{0} ||{{}};", jsNamespace);
-            script.AppendLinf("bespoke.{0}.domain = bespoke.{0}.domain ||{{}};", jsNamespace);
+            var @class = new Class { Name = this.Name + "Controller", Namespace = DefaultNamespace, BaseClass = "System.Web.Mvc.Controller" };
+            @class.AddNamespaceImport<string>();
+            @class.AddNamespaceImport<DomainObject>();
+            @class.AddNamespaceImport<Task>();
+            @class.ImportCollection.Add("System.Web.Mvc");
+            @class.ImportCollection.Add("System.Linq");
+            @class.ImportCollection.Add("Bespoke.Sph.Web.Helpers");
 
-            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, this.Name);
-            script.AppendLine(" var system = require('services/system'),");
-            script.AppendLine(" model = {");
-            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", this.CodeNamespace, this.Name, assemblyName);
-            script.AppendLine("     Id : ko.observable(\"0\"),");
-            foreach (var item in this.MemberCollection)
-            {
-                if (item.Type == typeof(Array))
-                    script.AppendLinf("     {0}: ko.observableArray([]),", item.Name);
-                else if (item.Type == typeof(object))
-                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}()),", item.Name, jsNamespace);
-                else
-                    script.AppendLinf("     {0}: ko.observable(),", item.Name);
-            }
-            script.AppendFormat(@"
-    addChildItem : function(list, type){{
-                        return function(){{                          
-                            list.push(new type(system.guid()));
-                        }}
-                    }},
-            
-   removeChildItem : function(list, obj){{
-                        return function(){{
-                            list.remove(obj);
-                        }}
-                    }},
-");
-            script.AppendLine("     WebId: ko.observable()");
 
-            script.AppendLine(" };");
+            var search = GenerateControllerSearchMethod();
+            @class.MethodCollection.Add(search);
 
-            script.AppendLine(@" 
-             if (optionOrWebid && typeof optionOrWebid === ""object"") {
-                for (var n in optionOrWebid) {
-                    if (typeof model[n] === ""function"") {
-                        model[n](optionOrWebid[n]);
-                    }
-                }
-            }
-            if (optionOrWebid && typeof optionOrWebid === ""string"") {
-                model.WebId(optionOrWebid);
-            }");
+            var save = GenerateControllerSaveAction();
+            @class.MethodCollection.Add(save);
 
-            script.AppendFormat(@"
+            @class.MethodCollection.AddRange(this.GenerateControlerOperationMethods());
+            @class.MethodCollection.Add(this.GenerateControllerValidateMethod());
 
-                if (bespoke.{0}.domain.{1}Partial) {{
-                    return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
-                }}", jsNamespace, this.Name);
+            // REMOVE
+            var remove = GenerateControllerRemoveAction();
+            @class.MethodCollection.Add(remove);
 
-            script.AppendLine(" return model;");
-            script.AppendLine("};");
-            foreach (var item in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var code = item.GenerateJavascriptClass(jsNamespace, this.CodeNamespace, assemblyName);
-                script.AppendLine(code);
-            }
-            return Task.FromResult(script.ToString());
+
+            var schemas = GenerateControllerSchemasMethod();
+            @class.MethodCollection.Add(schemas);
+
+
+            return @class;
+
+
         }
 
-        private string GenerateController()
+        private Method GenerateControllerSearchMethod()
         {
-            var header = this.GetCodeHeader();
-            var code = new StringBuilder(header);
-
-            code.AppendLinf("public partial class {0}Controller : System.Web.Mvc.Controller", this.Name);
-            code.AppendLine("{");
-            code.AppendLinf("       //exec:Search");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
-            code.AppendLine("       {");
-            code.AppendFormat(@"
+            var search = new StringBuilder();
+            search.AppendLinf("       //exec:Search");
+            search.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
+            search.AppendLine("       {");
+            search.AppendFormat(@"
             var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
             var request = new System.Net.Http.StringContent(json);
             var url = ""{1}/{0}/_search"";
@@ -211,15 +168,19 @@ namespace Bespoke.Sph.Domain
                 return Content(await content.ReadAsStringAsync());
             }}
             ", this.Name.ToLower(), ConfigurationManager.ApplicationName.ToLower());
-            code.AppendLine();
-            code.AppendLine("       }");
-            code.AppendLine();
+            search.AppendLine();
+            search.AppendLine("       }");
+            search.AppendLine();
+            return new Method { Name = "Search", Code = search.ToString() };
+        }
 
-            // SAVE
-            code.AppendLinf("       //exec:Save");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]{0} item)", this.Name);
-            code.AppendLine("       {");
-            code.AppendLinf(@"
+        private Method GenerateControllerSaveAction()
+        {
+            var save = new StringBuilder();
+            save.AppendLinf("       //exec:Save");
+            save.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]{0} item)", this.Name);
+            save.AppendLine("       {");
+            save.AppendLinf(@"
             if(null == item) throw new ArgumentNullException(""item"");
             var context = new Bespoke.Sph.Domain.SphDataContext();
             if(item.IsNewItem)item.Id = Guid.NewGuid().ToString();
@@ -230,21 +191,20 @@ namespace Bespoke.Sph.Domain
                 await session.SubmitChanges(""save"");
             }}
             this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.Id, href = ""{1}/"" + item.Id}});", this.Name, this.Name.ToLowerInvariant());
-            code.AppendLine("       }");
+            return Json(new {{success = true, status=""OK"", id = item.Id, href = ""{1}/"" + item.Id}});", this.Name,
+                this.Name.ToLowerInvariant());
+            save.AppendLine("       }");
+            return new Method { Name = "Save", Code = save.ToString() };
+        }
 
-            //OPERATIONS
-            this.AppendOperationsCode(code);
-
-            // Validations
-            this.AppendValidationCode(code);
-
-            // REMOVE
-            code.AppendLinf("       //exec:Remove");
-            code.AppendLinf("       [HttpDelete]");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(string id)");
-            code.AppendLine("       {");
-            code.AppendLinf(@"
+        private Method GenerateControllerRemoveAction()
+        {
+            var remove = new StringBuilder();
+            remove.AppendLinf("       //exec:Remove");
+            remove.AppendLinf("       [HttpDelete]");
+            remove.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(string id)");
+            remove.AppendLine("       {");
+            remove.AppendLinf(@"
             var repos = ObjectBuilder.GetObject<IRepository<{0}>>();
             var item = await repos.LoadOneAsync(id);
             if(null == item)
@@ -258,34 +218,34 @@ namespace Bespoke.Sph.Domain
             }}
             this.Response.ContentType = ""application/json; charset=utf-8"";
             return Json(new {{success = true, status=""OK"", id = item.Id}});", this.Name);
-            code.AppendLine("       }");
-
-            //SCHEMAS
-
-            code.AppendLinf("       //exec:Schemas");
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Schemas()");
-            code.AppendLine("       {");
-            code.AppendLine("           var context = new SphDataContext();");
-            code.AppendLinf("           var ed = await context.LoadOneAsync<EntityDefinition>(t => t.Name == \"{0}\");", this.Name);
-
-            code.AppendLine("           var script = await ed.GenerateCustomXsdJavascriptClassAsync();");
-            code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
-
-            code.AppendLine("           return Content(script);");
-            code.AppendLine("       }");
-
-            code.AppendLine("}");// end class
-
-            code.AppendLine("}"); // end namespace
-            return code.FormatCode();
-
-
+            remove.AppendLine("       }");
+            return new Method { Name = "Remove", Code = remove.ToString() };
         }
 
-        private void AppendOperationsCode(StringBuilder code)
+        private Method GenerateControllerSchemasMethod()
         {
+            var schemas = new StringBuilder();
+            schemas.AppendLinf("       //exec:Schemas");
+            schemas.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Schemas()");
+            schemas.AppendLine("       {");
+            schemas.AppendLine("           var context = new SphDataContext();");
+            schemas.AppendLinf("           var ed = await context.LoadOneAsync<EntityDefinition>(t => t.Name == \"{0}\");",
+                this.Name);
+
+            schemas.AppendLine("           var script = await ed.GenerateCustomXsdJavascriptClassAsync();");
+            schemas.AppendLine("           this.Response.ContentType = \"application/javascript\";");
+
+            schemas.AppendLine("           return Content(script);");
+            schemas.AppendLine("       }");
+            return new Method { Name = "Schemas", Code = schemas.ToString() };
+        }
+
+        private IEnumerable<Method> GenerateControlerOperationMethods()
+        {
+            var methods = new List<Method>();
             foreach (var operation in this.EntityOperationCollection)
             {
+                var code = new StringBuilder();
                 var everybody = operation.Permissions.Contains("Everybody");
                 var anonymous = operation.Permissions.Contains("Anonymous");
                 // SAVE
@@ -342,13 +302,19 @@ namespace Bespoke.Sph.Domain
 
                 code.AppendLine();
                 code.AppendLine("       }");
+
+
+                methods.Add(new Method { Name = operation.Name, Code = code.ToString() });
             }
+
+
+            return methods;
         }
 
 
-        private void AppendValidationCode(StringBuilder code)
+        private Method GenerateControllerValidateMethod()
         {
-            // validates
+            var code = new StringBuilder();
             code.AppendLinf("       //exec:validate");
             code.AppendLine("       [HttpPost]");
 
@@ -382,6 +348,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             code.AppendLine("       }");
 
+            return new Method { Name = "Validate", Code = code.ToString() };
+
         }
+
+        public IEnumerable<Member> Members { get { return this.MemberCollection; } }
     }
 }

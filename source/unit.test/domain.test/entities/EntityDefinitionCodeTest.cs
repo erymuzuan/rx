@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -28,6 +27,22 @@ namespace domain.test.entities
             });
             ent.MemberCollection.Add(new Member
             {
+                Name = "FullName",
+                Type = typeof(string),
+                IsFilterable = true,
+                DefaultValue = new DocumentField { Path = "Name", Type = typeof(string) }
+            });
+            
+            ent.MemberCollection.Add(new Member
+            {
+                Name = "LastName",
+                Type = typeof(string),
+                IsFilterable = true,
+                DefaultValue = new FunctionField  { Script = "item.Name.Split(new string[]{\" \"}, StringSplitOptions.RemoveEmptyEntries)[0]" }
+            });
+            
+            ent.MemberCollection.Add(new Member
+            {
                 Name = "Title",
                 Type = typeof(string),
                 IsFilterable = true
@@ -47,8 +62,10 @@ namespace domain.test.entities
                 DefaultValue = new FunctionField { Script = "new DateTime(2011,5,2)", ScriptEngine = new RoslynScriptEngine() }
             });
             var address = new Member { Name = "Address", Type = typeof(object) };
+            var malaysia = new ConstantField {Type = typeof (string), Value = "Malaysia"};
             address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, Type = typeof(string) });
             address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, Type = typeof(string) });
+            address.MemberCollection.Add(new Member { Name = "Country", IsFilterable = true, Type = typeof(string), DefaultValue = malaysia});
             ent.MemberCollection.Add(address);
             var options = new CompilerOptions
             {
@@ -71,7 +88,10 @@ namespace domain.test.entities
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
-            var assembly = Assembly.LoadFrom(result.Output);
+            var dll = AppDomain.CurrentDomain.BaseDirectory + "\\Dev.Lead.dll";
+            File.Copy(result.Output, dll,true);
+
+            var assembly = Assembly.LoadFrom(dll);
             var type = assembly.GetType("Bespoke.Dev_lead.Domain.Lead");
             Assert.IsNotNull(type, type.FullName + " is null");
 

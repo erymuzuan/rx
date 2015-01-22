@@ -6,5 +6,9 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "MapElement",TypeName = "MapElement", Description = "")]
     public partial class MapElement : FormElement
     {
+        public override string GetDesignSurfaceElement()
+        {
+            return @"<span class=""error"">The map element is not implemented</span>";
+        }
     }
 }

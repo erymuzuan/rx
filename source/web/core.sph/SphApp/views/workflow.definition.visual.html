@@ -81,6 +81,9 @@
                 <a href="#correlations" data-toggle="tab">Correlations</a>
             </li>
             <li>
+                <a href="#forms" data-toggle="tab">Forms</a>
+            </li>
+           <li>
                 <a href="#exception-handling" data-toggle="tab">Exception Handling</a>
             </li>
         </ul>
@@ -191,32 +194,32 @@
                     Add an assembly
                 </a>
             </div>
-
+            
             <div id="correlations" class="tab-pane" data-bind="with : wd">
                 <table class="table table-striped table-condensed">
                     <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody data-bind="foreach : CorrelationSetCollection">
-                    <tr>
-                        <td>
+                        <tr>
+                            <td>
 
-                            <a href="#" data-bind="click : $parent.editCorrelationSet.call($parent,$data)">
-                                <!-- ko text: Name-->
-                                <!-- /ko -->
-                            </a>
-                        </td>
-                        <td data-bind="text:Type"></td>
-                        <td>
-                            <a href="#" data-bind="click : $parent.removeCorrelationSet.call($parent,$data)">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </td>
-                    </tr>
+                                <a href="#" data-bind="click : $parent.editCorrelationSet.call($parent,$data)">
+                                    <!-- ko text: Name-->
+                                    <!-- /ko -->
+                                </a>
+                            </td>
+                            <td data-bind="text:Type"></td>
+                            <td>
+                                <a href="#" data-bind="click : $parent.removeCorrelationSet.call($parent,$data)">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -227,27 +230,27 @@
 
                 <table class="table table-striped table-condensed">
                     <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody data-bind="foreach : CorrelationTypeCollection">
-                    <tr>
-                        <td>
-                            <a href="#" data-bind="click : $parent.editCorrelationType.call($parent,$data)">
-                                <!-- ko text: Name-->
-                                <!-- /ko -->
-                            </a>
-                        </td>
-                        <td></td>
-                        <td>
-                            <a href="#" data-bind="click : $parent.removeCorrelationType.call($parent,$data)">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <a href="#" data-bind="click : $parent.editCorrelationType.call($parent,$data)">
+                                    <!-- ko text: Name-->
+                                    <!-- /ko -->
+                                </a>
+                            </td>
+                            <td></td>
+                            <td>
+                                <a href="#" data-bind="click : $parent.removeCorrelationType.call($parent,$data)">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -257,8 +260,7 @@
                 </a>
             </div>
 
-            <div id="exception-handling" class="tab-pane" data-bind="with : wd">                
-
+            <div id="exception-handling" class="tab-pane" data-bind="with : wd">             
                 <table class="table table-striped table-condensed">
                     <thead>
                         <tr>
@@ -284,12 +286,39 @@
                         </tr>
                     </tbody>
                 </table>
-
                 <a href="#" data-bind="click : addTryScope" class="btn btn-link">
                     <i class="fa fa-plus-circle"></i>
-                    Add Try Scope
+                    Add a Try Scope
                 </a>
+            </div>
+            
+            <div id="forms" class="tab-pane" data-bind="with : wd">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Version</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach : $root.forms">
+                        <tr>
+                            <td>
+                                <a href="#" target="_blank" data-bind="attr :{href:'/sph#screen.activity.form.designer/'+ $parent.Id() + '/' + Id()}" class="btn btn-link">
+                                    <i class="fa fa-plus-circle"></i>
+                                    <!-- ko text: Name-->
+                                    <!-- /ko-->
+                                </a>
+                            </td>
+                            <td data-bind="text:Route"></td>
+                        </tr>
+                    </tbody>
+                </table>
 
+                <a href="#" target="_blank" data-bind="attr :{href:'/sph#screen.activity.form.designer/'+ Id() + '/0'}" class="btn btn-link">
+                    <i class="fa fa-plus-circle"></i>
+                    Add a new form
+                </a>
             </div>
         </div>
     </div>

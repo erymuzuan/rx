@@ -32,10 +32,13 @@
 	"buffers":
 	[
 		{
-			"file": "bin/sources/__CisFinance/OdataSqlTranslator.cs",
+			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Collections.Generic;\nusing System.Linq;\n\nnamespace Dev.Integrations.Transforms\n{\n    public class PatientToMySqlEmployee002\n    {\n        public Task<Dev.Adapters.employees.MySqlSampleTest001.employees> TransformAsync(Bespoke.Dev_patient.Domain.Patient item)\n        {\n            var dest = new Dev.Adapters.employees.MySqlSampleTest001.employees();\n\n            //:ParseInt32Functoid:7b95198b-9e70-4a15-e762-80dd8d2d102d\n            var val3 = item.Mrn;\n            var styles3 = System.Globalization.NumberStyles.None;\n\n            //GetGender:ScriptFunctoid:75e3769c-97e7-4564-854a-3dd6b519cbd7\n            Func<Bespoke.Dev_patient.Domain.Patient, string> GetGender = d =>\n                                        {\n                                            if (item.Gender == \"Male\") return \"M\";\n                                            return \"F\";\n                                        };\n\n            //GetLastName:ScriptFunctoid:575563f1-f674-4a88-8951-2eb28aa46858\n            Func<Bespoke.Dev_patient.Domain.Patient, string> GetLastName = d =>\n                                        {\n                                            var name = item.FullName;\n                                            if (name.ToLower().Contains(\"binti\"))\n                                                return item.FullName.Split(new string[] { \"binti\", \"BINTI\", \"Binti\" }, 2, StringSplitOptions.RemoveEmptyEntries)[1];\n                                            if (name.ToLower().Contains(\"bin\"))\n                                                return item.FullName.Split(new string[] { \"bin\", \"Bin\", \"BIN\" }, 2, StringSplitOptions.RemoveEmptyEntries)[1];\n\n                                            return name;\n                                        };\n\n            //GetFirstName:ScriptFunctoid:fd7ba63c-f297-4f2a-c4ae-9acdb503f6da\n            Func<Bespoke.Dev_patient.Domain.Patient, string> GetFirstName = d =>\n                                        {\n                                            var name = item.FullName;\n                                            if (name.ToLower().Contains(\"binti\"))\n                                                return item.FullName.Split(new string[] { \"binti\", \"BINTI\", \"Binti\" }, 2, StringSplitOptions.RemoveEmptyEntries)[0];\n                                            if (name.ToLower().Contains(\"bin\"))\n                                                return item.FullName.Split(new string[] { \"bin\", \"Bin\", \"BIN\" }, 2, StringSplitOptions.RemoveEmptyEntries)[0];\n\n                                            return name;\n                                        };\n\n\n            dest.first_name = GetFirstName(item);\n            dest.last_name = GetLastName(item);\n            dest.gender = GetGender(item);\n            dest.birth_date = item.Dob;\n            dest.emp_no = int.Parse(val3, styles3);\n\n\n            return Task.FromResult(dest);\n        }\n\n        //TODO : return the list of destinations objects\n    }\n}\n",
+			"file": "bin/sources/PatientToMySqlEmployee002/PatientToMySqlEmployee002.cs",
+			"file_size": 3134,
+			"file_write_time": 130637796753846925,
 			"settings":
 			{
-				"buffer_size": 3682,
+				"buffer_size": 3057,
 				"line_ending": "Windows"
 			}
 		}
@@ -70,11 +73,11 @@
 		"/C/project/work/sph",
 		"/C/project/work/sph/bin",
 		"/C/project/work/sph/bin/sources",
-		"/C/project/work/sph/bin/sources/__AdwJobCandidates",
-		"/C/project/work/sph/bin/sources/__CisFinance"
+		"/C/project/work/sph/bin/sources/PatientToMySqlEmployee002"
 	],
 	"file_history":
 	[
+		"/C/project/work/sph/bin/sources/__CisFinance/OdataSqlTranslator.cs",
 		"/C/project/work/sph/deployment/Ed.csproj",
 		"/C/project/work/sph/.gitignore",
 		"/C/project/work/sph/bin/sources/Customer/Customer.csproj",
@@ -220,19 +223,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "bin/sources/__CisFinance/OdataSqlTranslator.cs",
+					"file": "bin/sources/PatientToMySqlEmployee002/PatientToMySqlEmployee002.cs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3682,
+						"buffer_size": 3057,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								123,
+								123
 							]
 						],
 						"settings":

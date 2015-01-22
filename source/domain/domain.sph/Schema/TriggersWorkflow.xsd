@@ -363,7 +363,6 @@
 			<xs:complexContent>
 				<xs:extension base="Activity">
 					<xs:all>
-						<xs:element ref="FormDesign"/>
 						<xs:element ref="Performer"/>
 						<xs:element ref="ConfirmationOptions"/>
 					</xs:all>
@@ -374,6 +373,18 @@
 					<xs:attribute name="InvitationMessageSubject" type="xs:string" use="required"/>
 					<xs:attribute name="CancelMessageBody" type="xs:string" use="required"/>
 					<xs:attribute name="InvitationMessageBody" type="xs:string" use="required"/>
+					<xs:attribute name="FormId" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ScreenActivityForm" bs:entity="true">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Form">
+					<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
+					<xs:attribute name="Version" type="xs:int" use="required"/>
+					<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -451,21 +462,6 @@
 	<xs:element name="VariableValue">
 		<xs:complexType>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Page" bs:entity="true">
-		<xs:complexType>
-			<xs:all>
-				<xs:element name="Code" type="xs:string"/>
-			</xs:all>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="IsRazor" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsPartial" type="xs:boolean" use="required"/>
-			<xs:attribute name="VirtualPath" type="xs:string" use="required"/>
-			<xs:attribute name="Tag" type="xs:string" use="required"/>
-			<xs:attribute name="Version" type="xs:int" use="required"/>
-			<xs:attribute name="Mode" type="xs:string" use="required"/>
-			<xs:attribute name="Extension" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EndActivity">
@@ -1106,7 +1102,6 @@
 					</xs:all>
 					<xs:attribute name="WorkflowDefinitionId" type="xs:string" use="required"/>
 					<xs:attribute name="Version" type="xs:int" use="required"/>
-					<xs:attribute name="IsAsync" type="xs:boolean" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -1142,4 +1137,9 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:complexType name="Form">
+		<xs:annotation>
+			<xs:documentation>Placeholder</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
 </xs:schema>

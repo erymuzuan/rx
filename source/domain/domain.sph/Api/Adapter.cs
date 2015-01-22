@@ -45,7 +45,7 @@ namespace Bespoke.Sph.Domain.Api
         public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
-                throw new ArgumentException(Resources.NoSourceSupplied, "files");
+                throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, "files");
             foreach (var cs in files)
             {
                 Debug.WriteLineIf(options.IsVerbose, cs);
@@ -105,7 +105,7 @@ namespace Bespoke.Sph.Domain.Api
 
             var options = new CompilerOptions();
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.CorePath + @"\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll"));
             options.AddReference(typeof(System.Data.UpdateStatus));

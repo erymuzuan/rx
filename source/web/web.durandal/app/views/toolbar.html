@@ -1,0 +1,184 @@
+﻿
+
+<div id="toolbar-panel"  data-bind="visible: typeof router.activeItem().toolbar === 'object' || typeof router.activeItem().toolbar === 'function'">
+    <div data-bind="with: router.activeItem().toolbar">
+
+
+        <!-- ko if: typeof groupCommands === "function"-->
+        <!-- ko foreach: groupCommands-->
+
+        <div class="btn-group">
+            <a class="btn btn-default dropdown-toggle" data-toggle="drop-down" href="#">
+
+                <!-- ko text : caption -->
+                <!-- /ko -->
+                <span class="caret pull-right"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <!-- ko foreach: commands-->
+                <li>
+                    <a class="btn btn-link pull-left" data-bind="command: command" href="#">
+                        <i data-bind="attr: { 'class': icon }"></i>
+                        <!-- ko text : caption -->
+                        <!-- /ko -->
+                    </a>
+                </li>
+                <!-- /ko -->
+
+            </ul>
+        </div>
+
+        <!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: typeof addNewCommand === "function"-->
+        <button id="save" class="btn btn-default" data-bind="command: addNewCommand" data-loading-text="Simpan....">
+            <i class="fa fa-plus"></i>
+            Add
+        </button>
+        <!-- /ko -->
+
+        <!-- ko if: typeof addNew === "object"-->
+        <!-- ko with: addNew-->
+        <a id="addbutton" class="btn btn-default" data-bind="attr: { href: location }" data-loading-text="Simpan....">
+            <i class="fa fa-plus"></i>
+            <!-- ko text : caption -->
+            <!-- /ko -->
+        </a>
+        <!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: typeof saveCommand === "function" && typeof canExecuteSaveCommand === "undefined"-->
+        <button id="save-button" class="btn btn-default" data-bind="command: saveCommand">
+            <i class="fa fa-save"></i>
+            Save
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof saveCommand === "function" && typeof canExecuteSaveCommand === "function"-->
+        <button class="btn btn-default" data-bind="command: saveCommand, enable :canExecuteSaveCommand">
+            <i class="fa fa-save"></i>
+            Save
+        </button>
+        <!-- /ko -->
+        
+
+        <!-- ko if: typeof removeCommand === "function"&& typeof canExecuteRemoveCommand === "undefined"-->
+        <button class="btn btn-default" data-bind="command: removeCommand">
+            <i class="fa fa-trash-o"></i>
+            Delete
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof removeCommand === "function" && typeof canExecuteRemoveCommand === "function"-->
+        <button class="btn btn-default" data-bind="command: removeCommand, enable :canExecuteRemoveCommand">
+            <i class="fa fa-trash-o"></i>
+            Delete
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof reloadCommand === "function"-->
+        <button class="btn btn-default" data-bind="command: reloadCommand">
+            <i class="fa fa-refresh"></i>
+            Reload
+        </button>
+        <!-- /ko -->
+
+        <!-- ko if: typeof emailCommand === "object"-->
+        <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.emailCommand, commandParameter: emailCommand }">
+            <i class="fa fa-envelope-o"></i>
+            Email
+        </button>
+        <!-- /ko -->
+
+        <!-- ko if: typeof printCommand === "object"-->
+        <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.printCommand, commandParameter: printCommand }" data-loading-text="Cetak....">
+            <i class="fa fa-print"></i>
+            Print
+        </button>
+        <!-- /ko -->
+
+        <!-- ko if: typeof pdfCommand === "object"-->
+        <button class="btn btn-default" data-bind="commandWithParameter: { command: $root.pdfCommand, commandParameter: pdfCommand }" data-loading-text="Cetak....">
+            <i class="fa fa-print"></i>
+            Print
+        </button>
+        <!-- /ko -->
+
+
+        <!-- ko if: typeof exportCommand === "function"-->
+        <button class="btn btn-default" data-bind="command: exportCommand">
+            <i class="fa fa-download"></i>
+            Export
+        </button>
+        <!-- /ko -->
+        
+        <!-- ko if: typeof importCommand === "function"-->
+        <button class="btn btn-default" data-bind="command: importCommand">
+            <i class="fa fa-upload"></i>
+            Import
+        </button>
+        <!-- /ko -->
+
+
+        <!-- ko if: typeof watchCommand === "function"-->
+        <button class="btn btn-default" data-bind="command: watchCommand, visible: watching() === false" >
+            <i class="glyphicon glyphicon-eye-open"></i>
+            Watch
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof unwatchCommand === "function"-->
+        <button class="btn btn-default" data-bind="command: unwatchCommand, visible: watching">
+            <i class="glyphicon glyphicon-eye-close"></i>
+            Unwatch
+        </button>
+        <!-- /ko -->
+
+        <!-- ko if: typeof commands === "function"-->
+        <!-- ko foreach: commands-->
+
+        <!-- ko if: typeof visible === "undefined" && typeof enable === "undefined"-->
+        <button class="btn btn-default" data-bind="command: command">
+            <i data-bind=" attr: { 'class': icon }"></i>
+            <!-- ko text: caption -->
+            <!-- /ko -->
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof visible === "function"-->
+        <button class="btn btn-default" data-bind="command: command, visible: visible">
+            <i data-bind=" attr: { 'class': icon }"></i>
+            <!-- ko text: caption -->
+            <!-- /ko -->
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof enable === "function"-->
+        <button class="btn btn-default" data-bind="command: command, enable: enable">
+            <i data-bind=" attr: { 'class': icon }"></i>
+            <!-- ko text: caption -->
+            <!-- /ko -->
+        </button>
+        <!-- /ko -->
+
+        <!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: typeof clicks === "function"-->
+        <!-- ko foreach: clicks-->
+
+        <!-- ko if: typeof visible === "undefined"-->
+        <button class="btn btn-default" data-bind="click: command">
+            <i data-bind=" attr: { 'class': icon }"></i>
+            <!-- ko text: caption -->
+            <!-- /ko -->
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof visible === "function"-->
+        <button class="btn btn-default" data-bind="click: command, visible: visible">
+            <i data-bind=" attr: { 'class': icon }"></i>
+            <!-- ko text: caption -->
+            <!-- /ko -->
+        </button>
+        <!-- /ko -->
+
+        <!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+

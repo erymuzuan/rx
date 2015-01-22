@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -10,7 +14,7 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedCode(WorkflowDefinition workflowDefinition)
         {
             var code = new StringBuilder();
-            if(null == this.Type)
+            if (null == this.Type)
                 throw new Exception("Cannot find type " + this.TypeName);
 
             code.AppendLinf(this.CanInitiateWithDefaultConstructor ?
@@ -22,6 +26,61 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       set{{ m_{0} = value;}}", this.Name);
             code.AppendLine("   }");
             return code.ToString();
+        }
+
+        private Member m_member;
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            m_member = null;
+            base.OnPropertyChanged(e);
+        }
+
+        public override Member CreateMember(WorkflowDefinition wd)
+        {
+            if (null != m_member)
+                return m_member;
+            var member = new Member { Name = this.Name, Type = this.Type };
+            this.PopulateMember(member, this.Type);
+            return m_member = member;
+        }
+
+        private void PopulateMember(Member member, Type childType)
+        {
+            var natives = new[]
+            {
+                typeof (string), typeof (int), typeof (double), typeof (decimal)
+            ,typeof(bool), typeof(DateTime), typeof(float), typeof(char)
+            };
+            var propertiest = childType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            foreach (var prop in propertiest)
+            {
+                if (natives.Contains(prop.PropertyType))
+                {
+                    var child = new Member { Name = prop.Name, Type = prop.PropertyType, IsNullable = prop.PropertyType == typeof(string) };
+                    member.MemberCollection.Add(child);
+                    continue;
+                }
+
+                if (prop.PropertyType.Name == "Nullable`1")
+                {
+                    var child = new Member { Name = prop.Name, Type = prop.PropertyType.GenericTypeArguments[0], IsNullable = true };
+                    member.MemberCollection.Add(child);
+                    continue;
+                }
+                if (prop.PropertyType.GetInterfaces().Contains(typeof(IEnumerable)))
+                {
+                    Console.WriteLine("IEnumerable " + prop.Name);
+                    var coll = member.AddMember(prop.Name, prop.PropertyType.GenericTypeArguments[0]);
+                    coll.AllowMultiple = true;
+
+
+                    continue;
+                }
+
+                // complex type
+                var complex = member.AddMember(prop.Name, Type = prop.PropertyType);
+                this.PopulateMember(complex, prop.PropertyType);
+            }
         }
 
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
@@ -51,6 +110,16 @@ namespace Bespoke.Sph.Domain
             {
                 this.TypeName = value.GetShortAssemblyQualifiedName();
             }
+        }
+
+
+        public string GetJsonIntance(WorkflowDefinition wd)
+        {
+            var type = this.Type;
+            //if (null == type) return base.GetJsonIntance(wd);
+
+            var instance = Activator.CreateInstance(type);
+            return "\"" + this.Name + "\" :" + JsonConvert.SerializeObject(instance);
         }
     }
 }

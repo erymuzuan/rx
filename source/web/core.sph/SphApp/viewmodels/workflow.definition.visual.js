@@ -18,10 +18,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
         var isBusy = ko.observable(false),
             isPublishing = ko.observable(false),
             publishingMessage = ko.observable(),
+            forms = ko.observableArray(),
+            toolboxElements = ko.observableArray(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
             populateToolbox = function () {
                 return $.get('/wf-designer/toolbox-items', function (result) {
-                    vm.toolboxElements(result);
+                    toolboxElements(result);
                 });
             },
             activate = function (id) {
@@ -29,10 +31,11 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 var query = String.format("Id eq '{0}'", id),
                     tcs = new $.Deferred();
 
+
                 if (id && id !== "0") {
                     context.loadOneAsync("WorkflowDefinition", query)
                         .done(function (b) {
-                            vm.wd(b);
+                            wd(b);
                             tcs.resolve(true);
                             b.loadSchema();
 
@@ -43,6 +46,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                                 }
                             }, 500);
 
+                        });
+
+                    // load forms
+                    context.loadAsync("ScreenActivityForm", "WorkflowDefinitionId eq '" + id + "'")
+                        .done(function (lo) {
+                            forms(lo.itemCollection);
                         });
 
                 } else {
@@ -513,7 +522,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             },
             showError = function (error) {
                 console.log(error);
-                wd().editActivity(_(wd().ActivityCollection()).find(function (v) { return v.WebId() == error.ItemWebId; }))();
+                wd().editActivity(_(wd().ActivityCollection()).find(function (v) { return v.WebId() === error.ItemWebId; }))();
             },
             remove = function () {
                 var tcs = new $.Deferred(),
@@ -554,8 +563,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             isBusy: isBusy,
             activate: activate,
             attached: attached,
-            toolboxElements: ko.observableArray(),
+            toolboxElements: toolboxElements,
             wd: wd,
+            forms: forms,
             itemAdded: itemAdded,
             errors: ko.observableArray(),
             showError: showError,

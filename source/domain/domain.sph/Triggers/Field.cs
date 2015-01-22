@@ -16,9 +16,10 @@ namespace Bespoke.Sph.Domain
             throw new NotImplementedException("whoaaa");
         }
 
-        public virtual  string GenerateCode()
+
+        public virtual string GetCSharpExpression()
         {
-            return string.Format("// NOT IMPLEMENTED => {0}", this.GetType().Name);
+            return "/* no code expression implemented for " + this.GetType().Name + "*/";
         }
     }
 }

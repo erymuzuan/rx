@@ -65,27 +65,26 @@ namespace Bespoke.Sph.Domain.Api
 
             var pk = "";
             if (null != this.PrimaryKey)
-                pk = this.PrimaryKey.Name;
+                pk = "+" + this.PrimaryKey.Name;
 
             code.AppendFormat(@"     
         public override string ToString()
         {{
-            return ""{0}:"" + {1};
+            return ""{0}:"" {1};
         }}", this.Name, pk);
 
 
             // properties for each members
             foreach (var member in this.MemberCollection)
             {
-                code.AppendLinf("       //member:{0}", member.Name);
-                code.AppendLine(member.GeneratedCode());
+                code.AppendLine(member.CreateProperty().Code);
             }
 
 
             code.AppendLine("   }");// end class
             code.AppendLine("}");// end namespace
 
-            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.ToString() } };
+            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.FormatCode()} };
 
             // classes for members
             foreach (var member in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
@@ -96,7 +95,6 @@ namespace Bespoke.Sph.Domain.Api
 
             var controller = this.GenerateController(adapter);
             sourceCodes.Add(this.Name + "Controller.cs", controller);
-
 
             return sourceCodes;
         }

@@ -164,10 +164,10 @@ namespace Bespoke.Sph.Domain
                 }
                 // custom entities
 
-                foreach (var ass in options.ReferencedAssembliesLocation)
+                foreach (var loc in options.ReferencedAssembliesLocation)
                 {
-                    if (!parameters.ReferencedAssemblies.Contains(ass))
-                        parameters.ReferencedAssemblies.Add(ass);
+                    if (!parameters.ReferencedAssemblies.Contains(loc))
+                        parameters.ReferencedAssemblies.Add(loc);
                 }
                 var result = provider.CompileAssemblyFromFile(parameters, sourceFiles.ToArray());
                 var cr = new WorkflowCompilerResult

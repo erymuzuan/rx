@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Spring.Context.Support;
@@ -21,19 +22,7 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public static void ComposeMefCatalog(object part, params Assembly[] assemblies)
-        {
-            var catalog = new AggregateCatalog();
-            catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetCallingAssembly()));
-            var executing = Assembly.GetExecutingAssembly();
-            catalog.Catalogs.Add(new AssemblyCatalog(executing));
-
-            foreach (var dll in assemblies)
-            {
-                catalog.Catalogs.Add(new AssemblyCatalog(dll));
-            }
-            var ignores = new[]
-                {
+        static readonly string[] m_ignores = {
                     "Microsoft","Spring","WebGrease","WebActivator","WebMatrix",
                     "workflows","Antlr3.Runtime",
                     "DiffPlex","Common.Logging","EntityFramework",
@@ -43,43 +32,62 @@ namespace Bespoke.Sph.Domain
                     "RazorGenerator","RazorEngine","SQLSpatialTools","System",
                     "Antlr3","RazorEngine",
                     "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn",
-                    "domain.sph", executing.GetName().Name
+                    "domain.sph"
                 };
+        public static void ComposeMefCatalog(object part, params Assembly[] assemblies)
+        {
+            var catalog = new AggregateCatalog();
+            var calling = Assembly.GetCallingAssembly();
+            var executing = Assembly.GetExecutingAssembly();
+            catalog.Catalogs.Add(new AssemblyCatalog(calling));
+            catalog.Catalogs.Add(new AssemblyCatalog(executing));
+            var ignores = m_ignores.ToList();
+            ignores.Add(executing.GetName().Name);
+            ignores.Add(calling.GetName().Name);
 
-            Action<string> loadAssemblyCatalog = x =>
+            foreach (var dll in assemblies)
             {
-                try
-                {
-                    catalog.Catalogs.Add(new AssemblyCatalog(x));
-                }
-                catch (BadImageFormatException)
-                {
-                    Console.WriteLine("cannot load {0}", x);
-                }
-            };
-            foreach (var file in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll"))
-            {
-
-                var name = System.IO.Path.GetFileName(file) ?? "";
-                if (ignores.Any(name.StartsWith)) continue;
-
-                loadAssemblyCatalog(file);
-                Console.WriteLine("Loaded {0}", name);
+                catalog.Catalogs.Add(new AssemblyCatalog(dll));
             }
 
-            var bin = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
-            if (System.IO.Directory.Exists(bin))
+            var color = Console.ForegroundColor;
+            Action<string> loadAssemblyCatalog = directory =>
             {
-                // for web
-                foreach (var file in System.IO.Directory.GetFiles(bin, "*.dll"))
+                if (!Directory.Exists(directory)) return;
+                foreach (var x in Directory.GetFiles(directory, "*.dll"))
                 {
-                    var name = System.IO.Path.GetFileName(file) ?? "";
+                    var name = Path.GetFileName(x) ?? "";
                     if (ignores.Any(name.StartsWith)) continue;
-                    loadAssemblyCatalog(file);
-                    Console.WriteLine("Loaded from bin {0}", name);
+                    if (executing.Location == x) continue;
+                    if (calling.Location == x) continue;
+                    try
+                    {
+                        catalog.Catalogs.Add(new AssemblyCatalog(x));
+                        if (DebuggerHelper.IsVerbose)
+                            Console.WriteLine("Loaded {0}", name);
+                    }
+                    catch (BadImageFormatException)
+                    {
+                        Console.WriteLine("BadImageFormatException for {0}", x);
+                    }
                 }
 
+            };
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("============= LOADING MEF ================");
+                loadAssemblyCatalog(AppDomain.CurrentDomain.BaseDirectory);
+                var webbin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
+                loadAssemblyCatalog(webbin);
+
             }
+            finally
+            {
+                Console.ForegroundColor = color;
+            }
+
+
 
             m_container = new CompositionContainer(catalog);
             var batch = new CompositionBatch();
@@ -93,9 +101,19 @@ namespace Bespoke.Sph.Domain
             }
             catch (ReflectionTypeLoadException rtle)
             {
-                rtle.LoaderExceptions.ToList()
-                    .ForEach(Console.WriteLine);
-                //Debugger.Break();
+                color = Console.ForegroundColor;
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    rtle.LoaderExceptions.Select(x => x.Message).ToList().ForEach(Console.WriteLine);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    rtle.LoaderExceptions.Select(x => x.StackTrace).ToList().ForEach(Console.WriteLine);
+                }
+                finally
+                {
+                    Console.ForegroundColor = color;
+                }
+
             }
             catch (CompositionException compositionException)
             {
@@ -130,8 +148,11 @@ namespace Bespoke.Sph.Domain
         public static T GetObject<T>() where T : class
         {
             var key = typeof(T);
-            if (m_cacheList.ContainsKey(key))
-                return m_cacheList[key] as T;
+            lock (m_lock)
+            {
+                if (m_cacheList.ContainsKey(key))
+                    return m_cacheList[key] as T;
+            }
 
             try
             {
@@ -172,8 +193,11 @@ namespace Bespoke.Sph.Domain
 
         public static dynamic GetObject(Type key)
         {
-            if (m_cacheList.ContainsKey(key))
-                return m_cacheList[key];
+            lock (m_lock)
+            {
+                if (m_cacheList.ContainsKey(key))
+                    return m_cacheList[key];
+            }
 
             var name = key.ToString();
             if (key.IsGenericType)

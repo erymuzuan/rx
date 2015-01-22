@@ -142,9 +142,10 @@ namespace Bespoke.Sph.Domain
                         SelectMany(v => v.Declaration.Variables)
                         .SingleOrDefault(r => r.Identifier.Text == "result");
 
-                    //&& var creation = ((ObjectCreationExpressionSyntax)resultDeclarator.Identifier.Value).Type.I)
-                    if (null != resultDeclarator)
-                        Debug.WriteLine(resultDeclarator.Initializer);
+                    // TODO : do something if it is a new ActivityExecutionResult
+                    if (null != resultDeclarator && DebuggerHelper.IsVerbose)
+                        Debug.WriteLine(":::" + resultDeclarator.Initializer);
+
                 }
                 base.VisitMethodDeclaration(node);
             }

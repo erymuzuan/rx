@@ -1,13 +1,13 @@
 ﻿
 
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.config],
-    function (context, logger, router, system, app, eximp, dialog, config) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog,
+     "services/form.designer"],
+    function (context, logger, router, system, app, eximp, dialog, designer) {
 
         var errors = ko.observableArray(),
             operationsOption = ko.observableArray(),
             layoutOptions = ko.observableArray(),
             collectionMemberOptions = ko.observableArray(),
-            formElements = ko.observableArray(),
             entityOptions = ko.observableArray(),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             form = ko.observable(new bespoke.sph.domain.EntityForm({ WebId: system.guid() })),
@@ -26,9 +26,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             };
                         });
 
-                        list.push({ text: 'UserProfile*', value: 'UserProfile' });
-                        list.push({ text: 'Designation*', value: 'Designation' });
-                        list.push({ text: 'Department*', value: 'Department' });
+                        list.push({ text: "UserProfile*", value: "UserProfile" });
+                        list.push({ text: "Designation*", value: "Designation" });
+                        list.push({ text: "Department*", value: "Department" });
                         entityOptions(list);
                     });
 
@@ -76,6 +76,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     .done(function (f) {
                         _(f.FormDesign().FormElementCollection()).each(function (v) {
                             v.isSelected = ko.observable(false);
+                            v.hasError = ko.observable(false);
                         });
                         form(f);
                         tcs.resolve(true);
@@ -97,195 +98,24 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
             },
             attached = function (view) {
-
-                var fd = ko.unwrap(form().FormDesign);
-
-                var dropDown = function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    var button = $(this);
-                    button.parent().addClass("open")
-                        .find("input:first").focus()
-                        .select();
-                };
-
-                // Fix input element click problem
-                $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
-                    function (e) {
-                        e.stopPropagation();
-                    });
-                $('#template-form-designer').on('click', 'button.dropdown-toggle', dropDown);
-
-
-                //toolbox item clicked
-                $('#add-field').on("click", 'a', function (e) {
-                    e.preventDefault();
-                    _(fd.FormElementCollection()).each(function (f) {
-                        f.isSelected(false);
-                    });
-
-                    // clone
-                    var el = ko.dataFor(this).element;
-                    var fe = context.clone(el);
-                    fe.isSelected = ko.observable(true);
-                    fe.Label("Label " + fd.FormElementCollection().length);
-                    fe.CssClass("");
-                    fe.Visible("true");
-                    fe.Enable("true");
-                    fe.Size("input-large");
-                    fe.ElementId(system.guid());
-                    fe.WebId(system.guid());
-
-                    fd.FormElementCollection.push(fe);
-                    vm.selectedFormElement(fe);
-
-
-                });
-
-                // kendoEditor
-                $('#template-form-designer').on('click', 'textarea', function () {
-                    var $editor = $(this),
-                        kendoEditor = $editor.data("kendoEditor");
-                    if (!kendoEditor) {
-                        var htmlElement = ko.dataFor(this),
-                            editor = $editor.kendoEditor({
-                                change: function () {
-                                    htmlElement.Text(this.value());
-                                }
-                            }).data("kendoEditor");
-
-                        htmlElement.Text.subscribe(function (t) {
-                            editor.value(ko.unwrap(t));
-                        });
-
-                    }
-                }
-                );
-
-
-                var receive = function (evt, ui) {
-                    $('.selected-form-element').each(function () {
-                        var kd = ko.dataFor(this);
-                        if (typeof kd.isSelected === "function")
-                            kd.isSelected(false);
-                    });
-
-                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
-                        return ko.dataFor(div);
-                    }),
-                    fe = context.clone(ko.dataFor(ui.item[0]).element),
-                    sortable = $(this),
-                    position = 0,
-                    children = sortable.children();
-
-                    fe.isSelected = ko.observable(true);
-                    fe.Enable("true");
-                    fe.Visible("true");
-                    fe.Label("Label " + fd.FormElementCollection().length);
-                    fe.ElementId(system.guid());
-                    fe.WebId(system.guid());
-
-                    for (var i = 0; i < children.length; i++) {
-                        if ($(children[i]).position().top > ui.position.top) {
-                            position = i;
-                            break;
-                        }
-                    }
-                    elements.splice(position, 0, fe);
-                    $('#template-form-designer>form').sortable("destroy");
-                    //rebuild
-                    fd.FormElementCollection(elements);
-                    initDesigner();
-                    $('#template-form-designer>form li.ui-draggable').remove();
-                    vm.selectedFormElement(fe);
-                },
-                    initDesigner = function () {
-                        $('#template-form-designer>form').sortable({
-                            items: '>div',
-                            placeholder: 'ph',
-                            helper: 'original',
-                            dropOnEmpty: true,
-                            forcePlaceholderSize: true,
-                            forceHelperSize: false,
-                            receive: receive
-                        });
-                    };
-
-                initDesigner();
-
-                $.get('form-designer/toolbox-items', function (elements) {
-                    formElements(elements);
-                    $('#add-field>ul>li').draggable({
-                        helper: 'clone',
-                        connectToSortable: "#template-form-designer>form"
-                    });
-                });
-
-
-                $('div.context-action-panel').on('click', 'buton.close', function () {
-                    $(this).parents('div.context-action').hide();
-                });
-
-                vm.selectedFormElement.subscribe(function (model) {
-                    model.Path.subscribe(function (p) {
-                        if (ko.unwrap(model.Label).indexOf("Label ") > -1) {
-                            model.Label(p.replace(".", " ")
-                                .replace(/([A-Z])/g, " $1").trim());
-                        }
-                    });
-                });
-
-
-            },
-            supportsHtml5Storage = function () {
-                try {
-                    return 'localStorage' in window && window['localStorage'] !== null;
-                } catch (e) {
-                    return false;
-                }
+                designer.attached(view, form);
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
 
                     var fd = ko.unwrap(form().FormDesign);
-                    // get the sorted element
-                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
-                        return ko.dataFor(div);
-                    });
-                    fd.FormElementCollection(elements);
+                    fd.FormElementCollection(designer.getOrderedElements());
                     dialog.close(this, "OK");
-                    if (supportsHtml5Storage()) {
+                    if (designer.supportsHtml5Storage()) {
                         localStorage.removeItem(form().WebId());
                     }
                 }
             },
             cancelClick = function () {
-                if (supportsHtml5Storage()) {
+                if (designer.supportsHtml5Storage()) {
                     localStorage.removeItem(form().WebId());
                 }
                 dialog.close(this, "Cancel");
-            },
-            selectFormElement = function (fe) {
-
-                $('.selected-form-element').each(function (e) {
-                    var kd = ko.dataFor(this);
-                    if (typeof kd.isSelected === "function")
-                        kd.isSelected(false);
-                });
-
-                if (typeof fe.isSelected === "undefined") {
-                    fe.isSelected = ko.observable(true);
-                }
-                fe.isSelected(true);
-                vm.selectedFormElement(fe);
-                if (supportsHtml5Storage()) {
-                    localStorage.setItem(form().WebId(), ko.mapping.toJSON(form));
-                }
-            },
-            removeFormElement = function (fe) {
-                var fd = ko.unwrap(form().FormDesign);
-                fd.FormElementCollection.remove(fe);
             },
             importCommand = function () {
                 return eximp.importJson()
@@ -298,30 +128,36 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                      form().FormDesign(clone.FormDesign());
 
                  } catch (error) {
-                     logger.logError('Fail template import tidak sah', error, this, true);
+                     logger.logError("Fail template import tidak sah", error, this, true);
                  }
              });
             },
             publish = function () {
                 var fd = ko.unwrap(form().FormDesign);
-                // get the sorted element
-                var elements = _($('#template-form-designer>form>div')).map(function (div) {
-                    return ko.dataFor(div);
-                });
-                fd.FormElementCollection(elements);
-
+                fd.FormElementCollection(designer.getOrderedElements());
 
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(form);
 
                 context.post(data, "/entity-form/publish")
                     .then(function (result) {
+                        _(elements).each(function (f) {
+                            f.hasError(false);
+                        });
+
                         if (result.success) {
                             logger.info(result.message);
                             form().Id(result.id);
                             errors.removeAll();
                         } else {
                             errors(result.Errors);
+                            _(result.Errors).each(function (v) {
+                                _(elements).each(function (f) {
+                                    if (ko.unwrap(f.ElementId) === v.ItemWebId) {
+                                        f.hasError(true);
+                                    }
+                                });
+                            });
                             logger.error("There are errors in your entity, !!!");
                         }
                         tcs.resolve(result);
@@ -432,15 +268,15 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         var vm = {
             errors: errors,
-            collectionMemberOptions: collectionMemberOptions,
+            showError: designer.showError,
             layoutOptions: layoutOptions,
             operationsOption: operationsOption,
             attached: attached,
             activate: activate,
-            formElements: formElements,
-            selectedFormElement: ko.observable(),
-            selectFormElement: selectFormElement,
-            removeFormElement: removeFormElement,
+            formElements: designer.formElements,
+            selectedFormElement: designer.selectedFormElement,
+            selectFormElement: designer.selectFormElement,
+            removeFormElement: designer.removeFormElement,
             form: form,
             entity: entity,
             entityOptions: entityOptions,

@@ -59,7 +59,7 @@
                     <label>Note</label>
                     <input class="form-control" data-bind="value: Note" id="form-design-Description" type="text" name="FormDesign.Description" />
                 </div>
-          
+
                 <div class="form-group checkbox checkbox-no-padding-left">
                     <label>
                         <input data-bind="checked: IsDefault" id="form-design-isdefault" type="checkbox" name="FormDesign.IsDefault" />
@@ -103,6 +103,18 @@
                         Audit trail
                     </label>
                 </div>
+
+                <h3>Compilers</h3>
+                @foreach (var compiler in Model.Compilers)
+                {
+                    <div class="form-group checkbox checkbox-no-padding-left">
+                        <label>
+                            <input data-bind="checked: CompilerCollection" id="form-design-cpmpiler-@compiler.Metadata.Name" type="checkbox" name="FormDesign.@compiler.Metadata.Name" value="@compiler.Metadata.Name" />
+                            @compiler.Metadata.Name
+                        </label>
+                    </div>
+                }
+
 
                 <!-- ko with : FormDesign -->
 
@@ -232,24 +244,17 @@
                     </a>
                 </div>
                 <div id="toolbox-advanced-settings" class="collapse">
-                    @{
-                        var types = new[]
-                        {
-                            typeof(TextBox),
-                            typeof(ComboBox),
-                            typeof(Button),
-                            typeof(DownloadLink),
-                            typeof(ImageElement),
-                            typeof(ChildEntityListView),
-                            typeof(EntityLookupElement),
-                            typeof(FileUploadElement),
-                            typeof(ListView)
-                        };
-                    }
-                    @foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
+
+                    @foreach (var fe in Model.FormElements)
                     {
-                        FormElement fe1 = fe;
-                        @Html.EditorFor(m => fe1)
+                        var grid = fe.GetDesignPropertyGrid();
+                        if (!string.IsNullOrWhiteSpace(grid))
+                        {
+                            <!--ko if: ko.unwrap($type) === "@(fe.GetType().GetShortAssemblyQualifiedName())" -->
+
+                            @Html.Raw(grid)
+                            <!--/ko-->
+                        }
                     }
                 </div>
 

@@ -1,0 +1,78 @@
+@model Bespoke.Sph.Domain.DataGridItem
+@{
+    var index = 0;
+}
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                @foreach (var c in Model.DataGridColumnCollection)
+                {
+                    <th>@c.Header</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var group in Model.GetGroupHeaders())
+            {
+                <tr class="alert alert-success">
+                    <td colspan="@Model.DataGridColumnCollection.Count">
+                        @group.Text
+                    </td>
+                </tr>
+
+                foreach (var r in group.ReportRowCollection)
+                {
+                    index++;
+                    <tr>
+
+                        @foreach (var c in Model.DataGridColumnCollection)
+                        {
+                            if (c.Expression == "$index" || c.Expression == "$row")
+                            {
+                                <td>@index</td>
+                            }
+                            else
+                            {
+                                var output = c.GenerateHtml(r);
+                                <td>@output</td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+            @if (Model.DataGridGroupDefinitionCollection.Count == 0)
+            {
+                foreach (var r in Model.ReportRowCollection)
+                {
+                    index++;
+                    <tr>
+
+                        @foreach (var c in Model.DataGridColumnCollection)
+                        {
+                            if (c.Expression == "$index" || c.Expression == "$row")
+                            {
+                                <td>@index</td>
+                            }
+                            else
+                            {
+                                var output = c.GenerateHtml(r);
+                                <td>@output</td>
+                            }
+                        }
+                    </tr>
+                }
+
+                <!-- FOOTER -->
+                <tr>
+
+                    @foreach (var c in Model.DataGridColumnCollection)
+                    {
+                            <td>@Model.GetFooterText(c.FooterExpression)</td>
+                        
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -319,6 +319,26 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///
+        ///    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
+        ///        function (context, logger, router, system, app, eximp, dialog) {
+        ///
+        ///            var runningInDialog = ko.observable(),
+        ///                entityOptions = ko.observableArray(),
+        ///                formOptions = ko.observableArray(),
+        ///                wd = ko.observable(),
+        ///                activity = ko.observable(),
+        ///
+        ///           [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string activity_screen {
+            get {
+                return ResourceManager.GetString("activity_screen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /// &lt;reference path=&quot;../Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/knockout-3.2.0.debug.js&quot; /&gt;
         ////// &lt;reference path=&quot;../Scripts/knockout.mapping-latest.debug.js&quot; /&gt;

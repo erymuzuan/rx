@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Domain
     public static class Strings
     {
         public const string DEFAULT_NAMESPACE = "http://www.bespoke.com.my/";
+        public const string FORM_ELEMENT_CONTRACT = "FormDesigner";
 
         public static string WriteLine2(this string value)
         {
@@ -120,6 +121,9 @@ namespace Bespoke.Sph.Domain
 
         public static string ToIdFormat(this string text)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                return Guid.NewGuid().ToString();
+
             return text.Replace(".", "-")
                 .Replace("_", "-")
                 .Replace(",", "-")
@@ -267,9 +271,12 @@ namespace Bespoke.Sph.Domain
             return Uri.EscapeDataString(value.ToEmptyString());
         }
 
-        public static string ToEmptyString(this object value)
+        public static string ToEmptyString(this object value, string defaultValue = "")
         {
-            if (null == value) return string.Empty;
+            if (null == value) return defaultValue;
+            var s = value as string;
+            if (s != null && string.IsNullOrWhiteSpace(s)) return defaultValue;
+
             return string.Format("{0}", value);
         }
 
@@ -366,11 +373,24 @@ namespace Bespoke.Sph.Domain
             if (type == typeof(double?)) return "double?";
             if (type == typeof(short?)) return "short?";
             if (type == typeof(long?)) return "long?";
+
+            if (type.IsGenericType && type.UnderlyingSystemType.Name == "ObjectCollection`1")
+            {
+                return string.Format("ObjectCollection<{0}>", type.GenericTypeArguments[0].ToCSharp());
+            }
+
             return type.FullName;
         }
         public static object ToDbNull(this object value)
         {
             return value ?? DBNull.Value;
+        }
+
+        public static string Singularize(this string value, bool inputKnownTobePlural = true)
+        {
+            if (value.EndsWith("Collection"))
+                return value.Substring(0, value.Length - "Collection".Length);
+            return Humanizer.InflectorExtensions.Singularize(value, inputKnownTobePlural);
         }
 
 

@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLinf(
                 "       public async Task<object> List(string filter = null, int page = 1, int size = 40, bool includeTotal = false, string orderby = null)");
             code.AppendLine("       {");
+            var pk = table.PrimaryKey == null ? "": table.PrimaryKey.Name;
             code.AppendFormat(@"
            if (size > 200)
                 throw new ArgumentException(""Your are not allowed to do more than 200"", ""size"");
@@ -49,7 +50,7 @@ namespace Bespoke.Sph.Domain.Api
                 results = lo.ItemCollection.ToArray()
             }};
             return json;
-            ", adapter.OdataTranslator, table.Name, table.PrimaryKey.Name, table.Schema, table.Name.ToLowerInvariant(), table.Schema.ToLowerInvariant());
+            ", adapter.OdataTranslator, table.Name, pk, table.Schema, table.Name.ToLowerInvariant(), table.Schema.ToLowerInvariant());
 
 
             code.AppendLine();

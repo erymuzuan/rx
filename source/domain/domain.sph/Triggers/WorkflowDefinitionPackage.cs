@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Domain
             var context = new SphDataContext();
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            
+
             var folder = Directory.CreateDirectory(Path.GetTempFileName() + "extract").FullName;
             ZipFile.ExtractToDirectory(zipFile, folder);
 
@@ -53,8 +53,7 @@ namespace Bespoke.Sph.Domain
                 foreach (var pf in Directory.GetFiles(folder, "page.*.json"))
                 {
                     var pageJson = File.ReadAllText(pf);
-                    var page = JsonConvert.DeserializeObject<Page>(pageJson, setting);
-                    page.ChangeWorkflowDefinitionVersion(id, wd.Id);
+                    var page = JsonConvert.DeserializeObject<ScreenActivityForm>(pageJson, setting);
 
                     session.Attach(page);
                 }
@@ -78,14 +77,9 @@ namespace Bespoke.Sph.Domain
             var schema = await store.GetContentAsync(wd.SchemaStoreId);
             File.WriteAllBytes(Path.Combine(path, wd.SchemaStoreId + ".xsd"), schema.Content);
             File.WriteAllBytes(Path.Combine(path, "wd_" + wd.Id + ".json"), Encoding.UTF8.GetBytes(wd.ToJsonString()));
-            // get the screen view
-            foreach (var screen in wd.ActivityCollection.OfType<ScreenActivity>())
+            var pages = await context.LoadAsync(context.ScreenActivityForms.Where(x => x.WorkflowDefinitionId == wd.Id), 1, 1000);
+            foreach (var page in pages.ItemCollection)
             {
-                var screen1 = screen;
-                var page =
-                    await
-                        context.LoadOneAsync<Page>(
-                            p => p.Version == wd.Version && p.Tag == string.Format("wf_{0}_{1}", wd.Id, screen1.WebId));
                 if (null != page)
                 {
                     File.WriteAllBytes(Path.Combine(path, "page." + page.Id + ".json"), Encoding.UTF8.GetBytes(page.ToJsonString()));

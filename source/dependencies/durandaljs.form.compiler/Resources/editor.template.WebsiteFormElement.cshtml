@@ -1,0 +1,14 @@
+@using Bespoke.Sph.Domain
+@using Bespoke.Sph.FormCompilers.DurandalJs
+@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+@inherits Template<WebsiteFormElementCompiler>
+@{
+    var element = Model.Element;
+    var required = element.IsRequired ? "required" : null;
+}
+<input @required class="@(element.CssClass + " "+ element.Size)"
+       title="@element.Tooltip"
+       data-bind="@Raw(Model.GetKnockoutBindingExpression())" id="@element.ElementId" type="url" name="@element.Path" />
+
+
+

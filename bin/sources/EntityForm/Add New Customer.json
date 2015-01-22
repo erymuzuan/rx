@@ -11,6 +11,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "RenderOwnLabel": false,
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -76,6 +77,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "RenderOwnLabel": false,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -119,6 +121,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "RenderOwnLabel": false,
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -171,6 +174,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "RenderOwnLabel": false,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -223,6 +227,7 @@
             "IsComputedQuery": true,
             "WebId": null
           },
+          "RenderOwnLabel": false,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -294,6 +299,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "RenderOwnLabel": false,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -333,7 +339,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.ListView, domain.sph",
-          "ChildItemType": "bespoke.dev_1.domain.Attachment",
+          "ChildItemType": "bespoke.dev_customer.domain.Attachment",
           "IsChildItemFunction": false,
           "ListViewColumnCollection": {
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ListViewColumn, domain.sph]], domain.sph",
@@ -348,6 +354,7 @@
                   "AutoCompletionEntity": "",
                   "AutoCompletionField": "",
                   "AutoCompletionQuery": "",
+                  "RenderOwnLabel": false,
                   "TypeName": "TextBox",
                   "FieldValidation": {
                     "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -425,6 +432,7 @@
                     "IsComputedQuery": false,
                     "WebId": null
                   },
+                  "RenderOwnLabel": false,
                   "TypeName": "ComboBox",
                   "FieldValidation": {
                     "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -471,6 +479,7 @@
                 "Input": {
                   "$type": "Bespoke.Sph.Domain.FileUploadElement, domain.sph",
                   "AllowedExtensions": "",
+                  "RenderOwnLabel": false,
                   "TypeName": "FileUploadElement",
                   "FieldValidation": {
                     "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -516,6 +525,7 @@
                 "Path": "StoreId",
                 "Input": {
                   "$type": "Bespoke.Sph.Domain.DownloadLink, domain.sph",
+                  "RenderOwnLabel": true,
                   "IsTransformTemplate": false,
                   "TemplateId": 0,
                   "Entity": "",
@@ -561,6 +571,7 @@
               }
             ]
           },
+          "RenderOwnLabel": false,
           "TypeName": "ListView",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -604,6 +615,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "RenderOwnLabel": false,
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -643,6 +655,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.CheckBox, domain.sph",
+          "RenderOwnLabel": true,
           "TypeName": "CheckBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -682,6 +695,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
+          "RenderOwnLabel": false,
           "TypeName": "DatePicker",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -722,6 +736,7 @@
         {
           "$type": "Bespoke.Sph.Domain.CurrencyElement, domain.sph",
           "Currency": null,
+          "RenderOwnLabel": false,
           "TypeName": "CurrencyElement",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -765,6 +780,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "RenderOwnLabel": false,
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -804,6 +820,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.DownloadLink, domain.sph",
+          "RenderOwnLabel": true,
           "IsTransformTemplate": true,
           "TemplateId": 2,
           "Entity": "Customer",
@@ -848,6 +865,7 @@
         {
           "$type": "Bespoke.Sph.Domain.FileUploadElement, domain.sph",
           "AllowedExtensions": null,
+          "RenderOwnLabel": false,
           "TypeName": "FileUploadElement",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -890,6 +908,7 @@
           "IsThumbnail": false,
           "Width": null,
           "Height": null,
+          "RenderOwnLabel": false,
           "TypeName": "ImageElement",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -930,6 +949,7 @@
         {
           "$type": "Bespoke.Sph.Domain.FileUploadElement, domain.sph",
           "AllowedExtensions": ".jpg,.png,.gif",
+          "RenderOwnLabel": false,
           "TypeName": "FileUploadElement",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -970,13 +990,14 @@
         {
           "$type": "Bespoke.Sph.Domain.Button, domain.sph",
           "Command": "",
-          "UseClick": false,
+          "IsAsynchronous": false,
           "CommandName": "",
           "LoadingText": null,
           "CompleteText": null,
           "IconClass": "fa fa-star-o",
           "IsToolbarItem": true,
           "Operation": "Demote",
+          "RenderOwnLabel": false,
           "TypeName": "Button",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -1017,13 +1038,14 @@
         {
           "$type": "Bespoke.Sph.Domain.Button, domain.sph",
           "Command": null,
-          "UseClick": false,
+          "IsAsynchronous": false,
           "CommandName": null,
           "LoadingText": null,
           "CompleteText": null,
           "IconClass": "glyphicon glyphicon-star",
           "IsToolbarItem": false,
           "Operation": "PromoteTo",
+          "RenderOwnLabel": false,
           "TypeName": "Button",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -1094,6 +1116,10 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FormLayout, domain.sph]], domain.sph",
     "$values": []
   },
+  "CompilerCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
   "EntityDefinitionId": "customer",
   "Name": "Add New Customer",
   "Route": "add-customer-form",
@@ -1102,7 +1128,7 @@
   "IconClass": "glyphicon glyphicon-new-window",
   "IconStoreId": null,
   "IsPublished": true,
-  "IsDefault": true,
+  "IsDefault": false,
   "IsWatchAvailable": true,
   "IsEmailAvailable": true,
   "IsPrintAvailable": true,
@@ -1118,7 +1144,7 @@
   "CreatedBy": "admin",
   "Id": "add-customer-form",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
-  "ChangedBy": "BESPOKE1-PC",
-  "ChangedDate": "2014-09-24T15:27:12.0241253+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2014-12-31T07:19:27.8521413+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

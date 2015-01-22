@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Domain
                 typeof(EntityView).Name, 
                 typeof(Message).Name, 
                 typeof(Organization).Name, 
-                typeof(Page).Name, 
+                typeof(ScreenActivityForm).Name, 
                 typeof(ReportDefinition).Name, 
                 typeof(ReportDelivery).Name, 
                 typeof(SpatialStore).Name, 
@@ -177,7 +177,7 @@ namespace Bespoke.Sph.Domain
         public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
-                throw new ArgumentException(Resources.NoSourceSupplied, "files");
+                throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, "files");
             foreach (var cs in files)
             {
                 Debug.WriteLineIf(options.IsVerbose, cs);

@@ -1,0 +1,31 @@
+﻿<li class="dropdown dropdown-big hidden-xs hidden-sm" data-bind="css: { open: searchResults().length > 0 }">
+    <form data-bind="submit: searchCommand" class="form-inline">
+        <div class="form-group has-success has-feedback">
+            <input data-bind="value: searchText, valueUpdate : 'keyup'" placeholder="Search..." type="search" class="form-control" />
+            <a style="color: white" href="#" data-bind="style : { visibility : searchText() === '' ? 'hidden' : 'visible'}, click : function(vm){ vm.searchText('');}"><i class="fa fa-times"></i></a>
+        </div>
+    </form>
+    <ul class="dropdown-menu search-panel" id="search-result">
+        <li>
+            <h5><i class="fa fa-search-plus"></i>Search results</h5>
+            <hr>
+        </li>
+        <!-- ko  foreach : searchResults -->
+        <li>
+            <!-- List item heading h6-->
+            <a href="#" data-bind="html: title, click: $root.navigateSearch"></a><span class="label label-warning pull-right">
+                <i data-bind="css : iconClass"></i>
+                <span data-bind2="text:type"></span>
+            </span>
+            <div class="clearfix"></div>
+            <hr>
+        </li>
+        <!-- /ko -->
+        <li>
+            <div class="drop-foot">
+                <a href="#advanced-search">Advanced search</a>
+                <a id="close-search-result" href="#" class="pull-right">&times;</a>
+            </div>
+        </li>
+    </ul>
+</li>

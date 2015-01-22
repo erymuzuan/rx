@@ -1,17 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
+using Microsoft.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class WorkflowDefinition
+    public partial class WorkflowDefinition : IProjectProvider
     {
-      
-        private IEnumerable<Class> GenerateCode()
+        public string DefaultNamespace
+        {
+            get { return this.CodeNamespace; }
+        }
+
+        string IProjectProvider.Name
+        {
+            get { return this.WorkflowTypeName; }
+        }
+
+
+        [JsonIgnore]
+        public MetadataReference[] References
+        {
+            get
+            {
+                var clrTypes = from v in this.ReferencedAssemblyCollection
+                               let location = Path.Combine(ConfigurationManager.WebPath, @"bin\" + Path.GetFileName(v.Location))
+                               select MetadataReference.CreateFromAssembly(Assembly.LoadFile(location));
+                var references = clrTypes.ToList();
+                references.AddMetadataReference<System.Net.WebClient>()
+                    .AddMetadataReference<System.Xml.Serialization.XmlAnyAttributeAttribute>()
+                    //.AddMetadataReference<object>()
+                    .AddMetadataReference<WorkflowDefinition>()
+                    .AddMetadataReference<EnumerableQuery>()
+                    .AddMetadataReference<System.Net.Mail.SmtpClient>();
+                references.Add(MetadataReference.CreateFromAssembly(Assembly.Load("mscorlib")));
+
+                return references.ToArray();
+            }
+        }
+
+        public IEnumerable<Class> GenerateCode()
         {
             var @classes = new List<Class>();
             var wcd = new Class
@@ -27,7 +61,7 @@ namespace Bespoke.Sph.Domain
             wcd.ImportCollection.Add(typeof(Int32).Namespace);
             wcd.ImportCollection.Add(typeof(Task<>).Namespace);
             wcd.ImportCollection.Add(typeof(Enumerable).Namespace);
-            wcd.ImportCollection.Add(typeof(XmlAttributeAttribute).Namespace);
+            wcd.ImportCollection.Add(typeof(System.Xml.Serialization.XmlAttributeAttribute).Namespace);
             wcd.AttributeCollection.Add("   [EntityType(typeof(Workflow))]");
 
 
@@ -146,7 +180,7 @@ namespace Bespoke.Sph.Domain
                     actPartial.ImportCollection.Add(typeof(Int32).Namespace);
                     actPartial.ImportCollection.Add(typeof(Task<>).Namespace);
                     actPartial.ImportCollection.Add(typeof(Enumerable).Namespace);
-                    actPartial.ImportCollection.Add(typeof(XmlAttributeAttribute).Namespace);
+                    actPartial.ImportCollection.Add(typeof(System.Xml.Serialization.XmlAttributeAttribute).Namespace);
                     actPartial.MethodCollection.AddRange(activity.OtherMethodCollection);
                     @classes.Add(actPartial);
                 }
@@ -159,7 +193,7 @@ namespace Bespoke.Sph.Domain
             customSchemaCode.ForEach(c => c.Namespace = this.CodeNamespace);
             customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(DomainObject)));
             customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(DateTime)));
-            customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(XmlAttributeAttribute)));
+            customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(System.Xml.Serialization.XmlAttributeAttribute)));
             @classes.AddRange(customSchemaCode);
 
             var @accList = from a in this.ActivityCollection
@@ -184,70 +218,22 @@ namespace Bespoke.Sph.Domain
             @controller.AttributeCollection.Add(string.Format("     [RoutePrefix(\"wf/{0}/v{1}\")]", this.Id, this.Version));
 
             @controller.MethodCollection.Add(this.GenerateSearchMethod());
-            @controller.MethodCollection.Add(this.GenerateJsSchemasController());
             @classes.Add(@controller);
 
             return @classes;
         }
 
-        private Method GenerateJsSchemasController()
+        public Task<IProjectModel> GetModelAsync()
         {
-            var code = new StringBuilder();
-
-
-            // custom schema
-            code.AppendLine("       [HttpGet]");
-            code.AppendLine("       [Route(\"schemas\")]");
-            code.AppendLinf("       public async Task<ActionResult> Schemas()");
-            code.AppendLine("       {");
-            code.AppendLine("           var store = ObjectBuilder.GetObject<IBinaryStore>();");
-            code.AppendLinf("           var doc = await store.GetContentAsync(\"wd.{0}.{1}\");", this.Id, this.Version);
-            code.AppendLine(@"           WorkflowDefinition wd;
-            using (var stream = new System.IO.MemoryStream(doc.Content))
-            {
-                wd = stream.DeserializeFromJson<WorkflowDefinition>();
-            }
-
-                                        ");
-            code.AppendLinf("           var script = await wd.GenerateCustomXsdJavascriptClassAsync();", this.WebId);
-            code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
-
-            code.AppendLine("           return Content(script);");
-            code.AppendLine("       }");
-
-            return new Method { Code = code.ToString(), Name = "Schemas" };
-
+            return Task.FromResult((IProjectModel)this);
         }
 
-        public Task<string> GenerateCustomXsdJavascriptClassAsync()
-        {
-            var wd = this;
-            var script = new StringBuilder();
-            script.AppendLine("var bespoke = bespoke ||{};");
-            script.AppendLine("bespoke.sph = bespoke.sph ||{};");
-            script.AppendLine("bespoke.sph.wf = bespoke.sph.wf ||{};");
-            script.AppendLinf("bespoke.sph.wf.{0} = bespoke.sph.wf.{0} ||{{}};", wd.WorkflowTypeName, wd.Version);
 
-            var xsd = wd.GetCustomSchema();
-
-            var complexTypesElement = xsd.Elements(x + "complexType").ToList();
-            var complexTypeClasses = complexTypesElement.Select(wd.GenerateXsdComplexTypeJavascript).ToList();
-            complexTypeClasses.ForEach(c => script.AppendLine(c));
-
-            var elements = xsd.Elements(x + "element").ToList();
-            var elementClasses = elements.Select(e => wd.GenerateXsdElementJavascript(e, 0, s => complexTypesElement.Single(f => f.Attribute("name").Value == s))).ToList();
-            elementClasses.ForEach(c => script.AppendLine(c));
-
-
-
-            return Task.FromResult(script.ToString());
-        }
 
         private Method GenerateSearchMethod()
         {
             var code = new StringBuilder();
 
-            code.AppendLinf("//exec:Search");
             code.AppendLine("       [HttpPost]");
             code.AppendLine("       [Route(\"search\")]");
             code.AppendLinf("       public async Task<ActionResult> Search()");
@@ -269,8 +255,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       }");
 
-
-            return new Method { Code = code.ToString(), Name = "Search" };
+            return new Method { Code = code.ToString(), Name = "Search" , Comment = "//exec:Search"};
         }
 
 

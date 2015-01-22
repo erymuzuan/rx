@@ -87,7 +87,9 @@ namespace Bespoke.Sph.Domain.QueryProviders {
 
         class Enumerator : ProjectionRow, IEnumerator<T> {
             //DbDataReader reader;
+#pragma warning disable 649
             T current;
+#pragma warning restore 649
             Func<ProjectionRow, T> m_projector;
             readonly IQueryProvider m_provider;
 

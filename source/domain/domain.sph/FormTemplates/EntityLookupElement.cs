@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Entity Lookup", Order = 15d, FontAwesomeIcon = "search", TypeName = "EntityLookupElement", Description = "Creates a command button to search for another entity to link to")]
     public partial class EntityLookupElement : FormElement
     {
-        public override BuildError[] ValidateBuild(EntityDefinition ed)
+        public override BuildError[] ValidateBuild(IProjectProvider ed)
         {
             var errors = new List<BuildError>();
             if (string.IsNullOrWhiteSpace(this.Entity))
@@ -25,5 +25,6 @@ namespace Bespoke.Sph.Domain
           
             return errors.ToArray();
         }
+
     }
 }

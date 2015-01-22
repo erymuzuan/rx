@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Security;
 using System.Threading.Tasks;
 using System.Web;
@@ -15,12 +14,38 @@ namespace Bespoke.Sph.Web
 
         private async Task LogOtherException(Exception e, string errorPage = "~/error.aspx?error_id=")
         {
+
+#if DEBUG
+
+            var color = Console.ForegroundColor;
+            try
+            {
+                if (HttpContext.Current.IsDebuggingEnabled)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("{0} => {1}", e.GetType().FullName, e.Message);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    var log = Path.Combine(ConfigurationManager.UserSourceDirectory,
+                        "logs\\" + DateTime.Now.ToString("s").Replace(":", ""));
+                    while (File.Exists(log))
+                    {
+                        log += Guid.NewGuid().ToString().Substring(1, 2);
+                    }
+                    Console.WriteLine("Stack Trace is written to " + log);
+                    File.WriteAllText(log + ".log", e.ToString());
+                }
+            }
+            finally
+            {
+                Console.ForegroundColor = color;
+            }
+#endif
+
+
             var logger = ObjectBuilder.GetObject<ILogger>();
             await logger.LogAsync(e);
 
             if (null == this.Application) return;
-            if (null == this.Application.Request) return;
-            if (null == this.Application.Response) return;
 
             if (this.Application.Response.StatusCode == 404) return;
             if (e.Message.Contains("The file") && e.Message.Contains("does not exist")) return;
@@ -49,7 +74,7 @@ namespace Bespoke.Sph.Web
         }
 
 
-        public async void Application_Error(string errorPage = "~/error.aspx?error_id=", string unauthorizedPage = "~/unauthorized_request.aspx")
+        public void Application_Error(string errorPage = "~/error.aspx?error_id=", string unauthorizedPage = "~/unauthorized_request.aspx")
         {
 
             var ex = this.Application.Server.GetLastError();
@@ -66,7 +91,7 @@ namespace Bespoke.Sph.Web
 
 
             /* other exceptions */
-            await LogOtherException(ex, errorPage);
+            LogOtherException(ex, errorPage).Wait();
         }
     }
 }

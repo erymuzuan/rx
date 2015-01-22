@@ -1,0 +1,25 @@
+<h3 data-bind="text: Label"></h3>
+<table class="table table-condensed table-striped">
+    <thead>
+        <tr data-bind="foreach: ViewColumnCollection">
+            <th>
+                <a href="#" >
+                    <span data-bind="text:Header"></span>
+                    <i class="fa fa-check"></i>
+
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < 5; i++)
+        {
+            <tr data-bind="foreach: ViewColumnCollection">
+                <td>
+                    Sample
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

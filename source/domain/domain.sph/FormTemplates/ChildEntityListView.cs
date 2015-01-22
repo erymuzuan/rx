@@ -6,6 +6,9 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "Child Entity Table", FontAwesomeIcon = "list-alt", Order = 14d, TypeName = "ChildEntityListView", Description = "Creates a table for child item entry")]
     public partial class ChildEntityListView : FormElement
     {
-
+        public override bool RenderOwnLabel
+        {
+            get { return true; }
+        }
     }
 }

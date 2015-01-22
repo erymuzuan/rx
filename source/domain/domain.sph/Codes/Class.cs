@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 
 namespace Bespoke.Sph.Domain.Codes
 {
+    [DebuggerDisplay("{Name}:{BaseClass} {FileName}")]
     public class Class
     {
         public string Name { get; set; }
@@ -57,6 +60,10 @@ namespace Bespoke.Sph.Domain.Codes
         {
             this.ImportCollection.Add(type.Namespace);
         }
+        public void AddNamespaceImport<T>()
+        {
+            this.ImportCollection.Add(typeof(T).Namespace);
+        }
 
         public string GetCode()
         {
@@ -102,6 +109,19 @@ namespace Bespoke.Sph.Domain.Codes
         public void AddProperty(string format, params object[] args)
         {
             this.PropertyCollection.Add(new Property { Code = string.Format(format, args) });
+        }
+
+        public string Save(string folder)
+        {
+            var cs = Path.Combine(folder, this.FileName);
+            File.WriteAllText(cs, this.GetCode());
+            return cs;
+
+        }
+
+        public override string ToString()
+        {
+            return GetCode();
         }
     }
 }

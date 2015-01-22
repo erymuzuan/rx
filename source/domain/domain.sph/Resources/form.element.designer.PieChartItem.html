@@ -1,0 +1,39 @@
+@model Bespoke.Sph.Domain.PieChartItem
+
+<div>
+    <div id="pie-chart" ></div>
+    <script>
+        (function () {
+            $("#pie-chart").kendoChart({
+                title: {
+                    position: '@(string.IsNullOrWhiteSpace(Model.TitlePlacement) ? "bottom" : Model.TitlePlacement )',
+                    text: "@Model.EvaluateTitle()"
+                },
+                legend: {
+                    visible: false
+                },
+                chartArea: {
+                    width : 400,
+                    height : 300
+                },
+                seriesDefaults: {
+                    labels: {
+                        visible: true,
+                        background: "transparent",
+                        template: "#= category #: #= value#"
+                    }
+                },
+                series: [{
+                    type: "pie",
+                    startAngle: 150,
+                    data: @Html.Raw(Model.JsonValues)
+                }],
+                tooltip: {
+                    visible: true,
+                    format: "{0}"
+                }
+            });
+        })();
+
+    </script>
+</div>

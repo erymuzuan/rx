@@ -104,10 +104,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -133,10 +132,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Description
         {
@@ -162,10 +160,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string ConfirmationText
         {
@@ -191,10 +188,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string ImageStoreId
         {
@@ -706,10 +702,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Caption
         {
@@ -735,10 +730,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Value
         {
@@ -903,10 +897,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string PropertyName
         {
@@ -932,10 +925,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string TypeName
         {
@@ -961,10 +953,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsNullable
         {
@@ -1068,10 +1059,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsRequired
         {
@@ -1097,10 +1087,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Pattern
         {
@@ -1126,10 +1115,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Mode
         {
@@ -1155,10 +1143,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Message
         {
@@ -1327,10 +1314,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Description
         {
@@ -1356,10 +1342,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -1385,10 +1370,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string ErrorLocation
         {
@@ -1414,10 +1398,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string ErrorMessage
         {
@@ -1509,10 +1492,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Entity
         {
@@ -1538,10 +1520,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string ValuePath
         {
@@ -1567,10 +1548,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string DisplayPath
         {
@@ -1596,10 +1576,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Query
         {
@@ -1625,10 +1604,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsComputedQuery
         {
@@ -1878,10 +1856,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Label
         {
@@ -1907,10 +1884,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Path
         {
@@ -1982,17 +1958,17 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private bool m_UseClick;
+        private bool m_IsAsynchronous;
         [XmlAttribute]
-        public bool UseClick
+        public bool IsAsynchronous
         {
             get
             {
-                return m_UseClick;
+                return m_IsAsynchronous;
             }
             set
             {
-                m_UseClick = value;
+                m_IsAsynchronous = value;
                 RaisePropertyChanged();
             }
         }
@@ -2106,8 +2082,6 @@ namespace Bespoke.Sph.Domain
     public partial class EntityDefinition
     {
 
-
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_name;
         public const string PropertyNameName = "Name";
@@ -2204,17 +2178,13 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-    
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -2240,10 +2210,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Plural
         {
@@ -2269,10 +2238,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string IconStoreId
         {
@@ -2298,10 +2266,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string IconClass
         {
@@ -2327,10 +2294,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string RecordName
         {
@@ -2356,10 +2322,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsPublished
         {
@@ -2385,10 +2350,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsShowOnNavigationBar
         {
@@ -2494,10 +2458,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -2523,10 +2486,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string TypeName
         {
@@ -2552,10 +2514,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsNullable
         {
@@ -2581,10 +2542,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsNotIndexed
         {
@@ -2610,10 +2570,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsAnalyzed
         {
@@ -2639,10 +2598,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsFilterable
         {
@@ -2668,10 +2626,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsExcludeInAll
         {
@@ -2697,10 +2654,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public int Boost
         {
@@ -2756,129 +2712,309 @@ namespace Bespoke.Sph.Domain
     public partial class EntityForm
     {
 
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_entityDefinitionId;
-        public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_name;
-        public const string PropertyNameName = "Name";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_route;
-        public const string PropertyNameRoute = "Route";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_note;
-        public const string PropertyNameNote = "Note";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isAllowedNewItem;
-        public const string PropertyNameIsAllowedNewItem = "IsAllowedNewItem";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_iconClass;
-        public const string PropertyNameIconClass = "IconClass";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_iconStoreId;
-        public const string PropertyNameIconStoreId = "IconStoreId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isPublished;
-        public const string PropertyNameIsPublished = "IsPublished";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isDefault;
-        public const string PropertyNameIsDefault = "IsDefault";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isWatchAvailable;
-        public const string PropertyNameIsWatchAvailable = "IsWatchAvailable";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isEmailAvailable;
-        public const string PropertyNameIsEmailAvailable = "IsEmailAvailable";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isPrintAvailable;
-        public const string PropertyNameIsPrintAvailable = "IsPrintAvailable";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isAuditTrailAvailable;
-        public const string PropertyNameIsAuditTrailAvailable = "IsAuditTrailAvailable";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isRemoveAvailable;
-        public const string PropertyNameIsRemoveAvailable = "IsRemoveAvailable";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isImportAvailable;
-        public const string PropertyNameIsImportAvailable = "IsImportAvailable";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isExportAvailable;
-        public const string PropertyNameIsExportAvailable = "IsExportAvailable";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_operation;
-        public const string PropertyNameOperation = "Operation";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_entity;
-        public const string PropertyNameEntity = "Entity";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_partial;
-        public const string PropertyNamePartial = "Partial";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_caption;
-        public const string PropertyNameCaption = "Caption";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_layout;
-        public const string PropertyNameLayout = "Layout";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private FormDesign m_formDesign
-                = new FormDesign();
-
-        public const string PropertyNameFormDesign = "FormDesign";
-        [DebuggerHidden]
-
-        public FormDesign FormDesign
+        private string m_EntityDefinitionId;
+        [XmlAttribute]
+        public string EntityDefinitionId
         {
-            get { return m_formDesign; }
+            get
+            {
+                return m_EntityDefinitionId;
+            }
             set
             {
-                m_formDesign = value;
-                OnPropertyChanged();
+                m_EntityDefinitionId = value;
+                RaisePropertyChanged();
             }
         }
+
+
+        private string m_Note;
+        [XmlAttribute]
+        public string Note
+        {
+            get
+            {
+                return m_Note;
+            }
+            set
+            {
+                m_Note = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsAllowedNewItem;
+        [XmlAttribute]
+        public bool IsAllowedNewItem
+        {
+            get
+            {
+                return m_IsAllowedNewItem;
+            }
+            set
+            {
+                m_IsAllowedNewItem = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_IconClass;
+        [XmlAttribute]
+        public string IconClass
+        {
+            get
+            {
+                return m_IconClass;
+            }
+            set
+            {
+                m_IconClass = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_IconStoreId;
+        [XmlAttribute]
+        public string IconStoreId
+        {
+            get
+            {
+                return m_IconStoreId;
+            }
+            set
+            {
+                m_IconStoreId = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsPublished;
+        [XmlAttribute]
+        public bool IsPublished
+        {
+            get
+            {
+                return m_IsPublished;
+            }
+            set
+            {
+                m_IsPublished = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsDefault;
+        [XmlAttribute]
+        public bool IsDefault
+        {
+            get
+            {
+                return m_IsDefault;
+            }
+            set
+            {
+                m_IsDefault = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsWatchAvailable;
+        [XmlAttribute]
+        public bool IsWatchAvailable
+        {
+            get
+            {
+                return m_IsWatchAvailable;
+            }
+            set
+            {
+                m_IsWatchAvailable = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsEmailAvailable;
+        [XmlAttribute]
+        public bool IsEmailAvailable
+        {
+            get
+            {
+                return m_IsEmailAvailable;
+            }
+            set
+            {
+                m_IsEmailAvailable = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsPrintAvailable;
+        [XmlAttribute]
+        public bool IsPrintAvailable
+        {
+            get
+            {
+                return m_IsPrintAvailable;
+            }
+            set
+            {
+                m_IsPrintAvailable = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsAuditTrailAvailable;
+        [XmlAttribute]
+        public bool IsAuditTrailAvailable
+        {
+            get
+            {
+                return m_IsAuditTrailAvailable;
+            }
+            set
+            {
+                m_IsAuditTrailAvailable = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsRemoveAvailable;
+        [XmlAttribute]
+        public bool IsRemoveAvailable
+        {
+            get
+            {
+                return m_IsRemoveAvailable;
+            }
+            set
+            {
+                m_IsRemoveAvailable = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsImportAvailable;
+        [XmlAttribute]
+        public bool IsImportAvailable
+        {
+            get
+            {
+                return m_IsImportAvailable;
+            }
+            set
+            {
+                m_IsImportAvailable = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsExportAvailable;
+        [XmlAttribute]
+        public bool IsExportAvailable
+        {
+            get
+            {
+                return m_IsExportAvailable;
+            }
+            set
+            {
+                m_IsExportAvailable = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Operation;
+        [XmlAttribute]
+        public string Operation
+        {
+            get
+            {
+                return m_Operation;
+            }
+            set
+            {
+                m_Operation = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Entity;
+        [XmlAttribute]
+        public string Entity
+        {
+            get
+            {
+                return m_Entity;
+            }
+            set
+            {
+                m_Entity = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Partial;
+        [XmlAttribute]
+        public string Partial
+        {
+            get
+            {
+                return m_Partial;
+            }
+            set
+            {
+                m_Partial = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Caption;
+        [XmlAttribute]
+        public string Caption
+        {
+            get
+            {
+                return m_Caption;
+            }
+            set
+            {
+                m_Caption = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Layout;
+        [XmlAttribute]
+        public string Layout
+        {
+            get
+            {
+                return m_Layout;
+            }
+            set
+            {
+                m_Layout = value;
+                RaisePropertyChanged();
+            }
+        }
+
 
         private readonly ObjectCollection<string> m_Rules = new ObjectCollection<string>();
 
@@ -2912,612 +3048,6 @@ namespace Bespoke.Sph.Domain
         {
             get { return m_FormLayoutCollection; }
         }
-
-
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public string EntityDefinitionId
-        {
-            set
-            {
-                if (m_entityDefinitionId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityDefinitionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityDefinitionId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityDefinitionId;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public string Name
-        {
-            set
-            {
-                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_name = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_name;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public string Route
-        {
-            set
-            {
-                if (String.Equals(m_route, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_route = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_route;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public string Note
-        {
-            set
-            {
-                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_note = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_note;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsAllowedNewItem
-        {
-            set
-            {
-                if (m_isAllowedNewItem == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsAllowedNewItem, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isAllowedNewItem = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isAllowedNewItem;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public string IconClass
-        {
-            set
-            {
-                if (String.Equals(m_iconClass, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIconClass, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_iconClass = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_iconClass;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public string IconStoreId
-        {
-            set
-            {
-                if (String.Equals(m_iconStoreId, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIconStoreId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_iconStoreId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_iconStoreId;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsPublished
-        {
-            set
-            {
-                if (m_isPublished == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isPublished = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isPublished;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsDefault
-        {
-            set
-            {
-                if (m_isDefault == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsDefault, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isDefault = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isDefault;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsWatchAvailable
-        {
-            set
-            {
-                if (m_isWatchAvailable == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsWatchAvailable, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isWatchAvailable = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isWatchAvailable;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsEmailAvailable
-        {
-            set
-            {
-                if (m_isEmailAvailable == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsEmailAvailable, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isEmailAvailable = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isEmailAvailable;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsPrintAvailable
-        {
-            set
-            {
-                if (m_isPrintAvailable == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsPrintAvailable, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isPrintAvailable = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isPrintAvailable;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsAuditTrailAvailable
-        {
-            set
-            {
-                if (m_isAuditTrailAvailable == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsAuditTrailAvailable, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isAuditTrailAvailable = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isAuditTrailAvailable;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsRemoveAvailable
-        {
-            set
-            {
-                if (m_isRemoveAvailable == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsRemoveAvailable, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isRemoveAvailable = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isRemoveAvailable;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsImportAvailable
-        {
-            set
-            {
-                if (m_isImportAvailable == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsImportAvailable, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isImportAvailable = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isImportAvailable;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsExportAvailable
-        {
-            set
-            {
-                if (m_isExportAvailable == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsExportAvailable, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isExportAvailable = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isExportAvailable;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public string Operation
-        {
-            set
-            {
-                if (String.Equals(m_operation, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameOperation, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_operation = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_operation;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public string Entity
-        {
-            set
-            {
-                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entity = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entity;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [DebuggerHidden]
-
-        public string Partial
-        {
-            set
-            {
-                if (String.Equals(m_partial, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNamePartial, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_partial = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_partial;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [DebuggerHidden]
-
-        public string Caption
-        {
-            set
-            {
-                if (String.Equals(m_caption, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameCaption, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_caption = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_caption;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [DebuggerHidden]
-
-        public string Layout
-        {
-            set
-            {
-                if (String.Equals(m_layout, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameLayout, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_layout = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_layout;
-            }
-        }
-
 
 
     }
@@ -3585,10 +3115,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -3614,10 +3143,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Position
         {
@@ -3643,10 +3171,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsForm
         {
@@ -3672,10 +3199,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsAuditTrail
         {
@@ -3819,8 +3345,6 @@ namespace Bespoke.Sph.Domain
     public partial class EntityView
     {
 
-
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_iconClass;
         public const string PropertyNameIconClass = "IconClass";
@@ -3958,17 +3482,13 @@ namespace Bespoke.Sph.Domain
             get { return m_RouteParameterCollection; }
         }
 
-    
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string IconClass
         {
@@ -3994,10 +3514,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string IconStoreId
         {
@@ -4023,16 +3542,15 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string EntityDefinitionId
         {
             set
             {
-                if (m_entityDefinitionId == value) return;
+                if (String.Equals(m_entityDefinitionId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameEntityDefinitionId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -4052,10 +3570,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -4081,10 +3598,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Route
         {
@@ -4110,10 +3626,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Note
         {
@@ -4139,10 +3654,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Query
         {
@@ -4168,10 +3682,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsPublished
         {
@@ -4197,10 +3710,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Visibilty
         {
@@ -4226,10 +3738,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string TileColour
         {
@@ -4255,7 +3766,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string CountMessage
@@ -4282,10 +3792,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Entity
         {
@@ -4311,10 +3820,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Partial
         {
@@ -4368,10 +3876,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Term
         {
@@ -4397,10 +3904,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public Operator Operator
         {
@@ -4516,10 +4022,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Path
         {
@@ -4545,10 +4050,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Header
         {
@@ -4574,7 +4078,6 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
-
         [DebuggerHidden]
 
         public string Sort
@@ -4601,10 +4104,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsLinkColumn
         {
@@ -4630,10 +4132,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string FormRoute
         {
@@ -4659,10 +4160,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string IconCssClass
         {
@@ -4688,10 +4188,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string IconStoreId
         {
@@ -4717,10 +4216,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Format
         {
@@ -4746,10 +4244,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string RouteValueField
         {
@@ -4797,10 +4294,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Path
         {
@@ -4826,10 +4322,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public SortDirection Direction
         {
@@ -4990,10 +4485,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Role
         {
@@ -5019,10 +4513,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsHidden
         {
@@ -5048,10 +4541,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsReadOnly
         {
@@ -5104,10 +4596,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Role
         {
@@ -5133,10 +4624,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsHidden
         {
@@ -5162,10 +4652,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsReadOnly
         {
@@ -5272,10 +4761,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -5301,10 +4789,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string SuccessMessage
         {
@@ -5330,10 +4817,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool ShowSuccessMessage
         {
@@ -5359,10 +4845,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string NavigateSuccessUrl
         {
@@ -5388,10 +4873,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string SuccessCommand
         {
@@ -5425,7 +4909,6 @@ namespace Bespoke.Sph.Domain
     [XmlType("EntityChart", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EntityChart
     {
-
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entityDefinitionId;
@@ -5499,23 +4982,19 @@ namespace Bespoke.Sph.Domain
             get { return m_SeriesCollection; }
         }
 
-     
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string EntityDefinitionId
         {
             set
             {
-                if (m_entityDefinitionId == value) return;
+                if (String.Equals(m_entityDefinitionId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameEntityDefinitionId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -5535,10 +5014,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Entity
         {
@@ -5564,10 +5042,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -5593,10 +5070,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Type
         {
@@ -5622,16 +5098,15 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string EntityViewId
         {
             set
             {
-                if (m_entityViewId == value) return;
+                if (String.Equals(m_entityViewId, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameEntityViewId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -5651,10 +5126,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Query
         {
@@ -5680,10 +5154,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Aggregate
         {
@@ -5709,10 +5182,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Field
         {
@@ -5738,10 +5210,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string DateInterval
         {
@@ -5767,10 +5238,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsDashboardItem
         {
@@ -5796,10 +5266,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public int DasboardItemPosition
         {
@@ -5894,10 +5363,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -5923,10 +5391,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Entity
         {
@@ -5952,10 +5419,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Color
         {
@@ -5981,10 +5447,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Query
         {
@@ -6010,10 +5475,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Aggregate
         {
@@ -6039,10 +5503,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Field
         {
@@ -6068,10 +5531,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string DateInterval
         {
@@ -6104,6 +5566,7 @@ namespace Bespoke.Sph.Domain
     [XmlType("SearchDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SearchDefinition
     {
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_entity;
         public const string PropertyNameEntity = "Entity";
@@ -6167,16 +5630,13 @@ namespace Bespoke.Sph.Domain
             get { return m_SortCollection; }
         }
 
-
-
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Entity
         {
@@ -6202,10 +5662,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -6231,10 +5690,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public bool IsPublished
         {
@@ -6260,10 +5718,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Route
         {
@@ -6289,10 +5746,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public OwnerType OwnerType
         {
@@ -6318,10 +5774,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Owner
         {
@@ -6369,10 +5824,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string CssClass
         {
@@ -6398,10 +5852,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Condition
         {
@@ -6564,10 +6017,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Name
         {
@@ -6593,10 +6045,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Type
         {
@@ -6639,10 +6090,9 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [XmlAttribute]
+        [DebuggerHidden]
 
         [Required]
-
-        [DebuggerHidden]
 
         public string Path
         {
@@ -6666,6 +6116,102 @@ namespace Bespoke.Sph.Domain
 
 
     }
+
+
+    [XmlType("Form", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Form
+    {
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_route;
+        public const string PropertyNameRoute = "Route";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private FormDesign m_formDesign
+                = new FormDesign();
+
+        public const string PropertyNameFormDesign = "FormDesign";
+        [DebuggerHidden]
+
+        public FormDesign FormDesign
+        {
+            get { return m_formDesign; }
+            set
+            {
+                m_formDesign = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private readonly ObjectCollection<string> m_CompilerCollection = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> CompilerCollection
+        {
+            get { return m_CompilerCollection; }
+        }
+
+
+        // public properties members
+
+
+
+        [XmlAttribute]
+        public string Name
+        {
+            set
+            {
+                if (m_name == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string Route
+        {
+            set
+            {
+                if (m_route == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRoute, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_route = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_route;
+            }
+        }
+
+
+
+    }
+
 
 
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]

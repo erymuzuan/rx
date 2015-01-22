@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -89,10 +90,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var wd = wd0.ChangeActivitiesWebId();
             var buildValidation = wd.ValidateBuild();
 
+            await this.Save("Compile", wd);
+
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
-            await this.Save("Compile", wd);
 
             var options = new CompilerOptions
             {
@@ -100,7 +102,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
-            options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
+            options.AddReference(typeof(JsonConvert));
 
 
 
@@ -131,8 +133,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
-            options.AddReference(typeof(Newtonsoft.Json.JsonConvert));
-            
+            options.AddReference(typeof(JsonConvert));
+
             var result = wd.Compile(options);
             if (!result.Result || !System.IO.File.Exists(result.Output))
             {
@@ -140,8 +142,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
             // save
-            var pages = await GetPublishPagesAsync(wd);
-            await this.DeletePreviousPagesAsync(wd);
             //archive the WD
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var archived = new BinaryStore
@@ -154,7 +154,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             };
             await store.DeleteAsync(archived.Id);
             await store.AddAsync(archived);
-            await this.Save("Publish", wd, pages.Cast<Entity>().ToArray());
+            await this.Save("Publish", wd);
 
             return Json(new { success = true, version = wd.Version, status = "OK", message = "Your workflow has been successfully compiled and published : " + Path.GetFileName(result.Output) });
         }
@@ -231,63 +231,22 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(list.Select(d => new { Path = d }).ToArray(), JsonRequestBehavior.AllowGet);
         }
 
-
-        private async Task DeletePreviousPagesAsync(WorkflowDefinition wd)
+        public async Task<ActionResult> GetJavascriptWorkflowInstance(string id)
         {
             var context = new SphDataContext();
-            var pages = new List<Page>();
-            foreach (var act in wd.ActivityCollection.OfType<ScreenActivity>())
-            {
-                var act1 = act;
-                var page = await context.LoadOneAsync<Page>(p =>
-                                p.Version == wd.Version &&
-                                p.Tag == string.Format("wf_{0}_{1}", wd.Id, act1.WebId));
-                if (null != page)
-                    pages.Add(page);
-            }
-            using (var session = context.OpenSession())
-            {
-                session.Delete(pages.Cast<Entity>().ToArray());
-                await session.SubmitChanges();
-            }
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == id);
+
+            var json = new StringBuilder();
+            json.AppendLine("{");
+            var variables = wd.VariableDefinitionCollection.Select(x => x.GetJsonIntance(wd));
+            json.AppendLine(string.Join(",\r\n", variables));
+            json.AppendLine("}");
+
+            this.Response.ContentType = "application/json";
+            return Content(json.ToString());
         }
 
-        private async Task<IEnumerable<Page>> GetPublishPagesAsync(WorkflowDefinition wd)
-        {
-            var context = new SphDataContext();
-            if (null == wd) throw new ArgumentNullException("wd");
-            var screens = wd.ActivityCollection.OfType<ScreenActivity>();
-            var pages = new List<Page>();
-            foreach (var scr in screens)
-            {
-                // copy the previous version pages if there's any
-                var scr1 = scr;
-                var tag = string.Format("wf_{0}_{1}", wd.Id, scr1.WebId);
-                var currentVersion = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
-                var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == currentVersion);
-                var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
-                var page = new Page
-                {
-                    Code = code,
-                    Name = scr1.Name,
-                    IsPartial = false,
-                    IsRazor = true,
-                    Tag = tag,
-                    Version = wd.Version,
-                    WebId = Guid.NewGuid().ToString(),
-                    Id = Guid.NewGuid().ToString(),
-                    VirtualPath = string.Format("~/Views/{0}/{1}V{2}.cshtml", wd.WorkflowTypeName, scr1.ActionName, wd.Version)
-                };
 
-
-                pages.Add(page);
-
-            }
-
-
-            return pages;
-
-        }
 
         private async Task<string> Save(string operation, WorkflowDefinition wd, params Entity[] entities)
         {

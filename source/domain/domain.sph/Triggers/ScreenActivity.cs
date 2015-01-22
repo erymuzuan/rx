@@ -18,30 +18,19 @@ namespace Bespoke.Sph.Domain
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
-            var errors = from f in this.FormDesign.FormElementCollection
-                         where f.IsPathIsRequired
-                             && string.IsNullOrWhiteSpace(f.Path) && (f.Name != "HTML Section")
-
-                         select new BuildError
-                         (
-                             this.WebId,
-                             string.Format("[ScreenActivity] : {0} => '{1}' does not have path", this.Name, f.Label)
-                         );
-            var elements = from f in this.FormDesign.FormElementCollection
-                           let err = f.ValidateBuild(wd, this)
-                           where null != err
-                           select err;
 
             var result = base.ValidateBuild(wd);
-            result.Errors.AddRange(errors);
-            result.Errors.AddRange(elements.SelectMany(v => v));
 
             if (!this.Performer.IsPublic && string.IsNullOrWhiteSpace(this.Performer.UserProperty))
                 result.Errors.Add(new BuildError(this.WebId,
                              string.Format("[ScreenActivity] : {0} => does not have performer", this.Name)));
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
                 result.Errors.Add(new BuildError(this.WebId,
-                             string.Format("[ScreenActivity] : {0} => does not the next activity defined", this.Name)));
+                             string.Format("[ScreenActivity] : {0} => does not have the next activity defined", this.Name)));
+
+            if (string.IsNullOrWhiteSpace(this.FormId))
+                result.Errors.Add(new BuildError(this.WebId,
+                             string.Format("[ScreenActivity] : {0} => does not have a Form defined", this.Name)));
 
             return result;
         }
@@ -67,7 +56,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   {");
             code.AppendLinf("       var correlation = Guid.NewGuid().ToString();", this.WebId);
             code.AppendLinf("       var self = this.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
-            code.AppendLine("       var baseUrl = ConfigurationManager.BaseUrl;");
+            code.AppendLine("       var baseUrl = Bespoke.Sph.Domain.ConfigurationManager.BaseUrl;");
             code.AppendLine("       var url = string.Format(\"{0}/wf/{1}/v{2}/{3}/{4}/{5}\", baseUrl, this.WorkflowDefinitionId, this.Version, self.Name.ToIdFormat(), this.Id, correlation);");
             code.AppendLine("       var imb = self.InvitationMessageBody ?? \"@Model.Screen.Name task is assigned to you go here @Model.Url\";");
             code.AppendLine("       var ims = self.InvitationMessageSubject ?? \"[Sph] @Model.Screen.Name task is assigned to you\";");
@@ -197,15 +186,16 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLinf("//exec:{0}", this.WebId);
             getAction.AppendLinf("       [HttpGet]");
             getAction.AppendLinf("       [Route(\"{0}/{{id}}/{{correlation?}}\")]", this.Name.ToIdFormat());
+            getAction.AppendLinf("       [Route(\"{0}{1}\")]", this.ActionName, this.IsInitiator ? "" : "{id}/{correlation}");
             getAction.AppendLinf("       public async Task<ActionResult> {0}({1})", this.ActionName, this.IsInitiator ? "" : "string id, string correlation=\"\"");
             getAction.AppendLine("       {");
 
 
             getAction.AppendLine("           var context = new SphDataContext();");
-            if (this.IsInitiator)
-                getAction.AppendLinf("           var wf =  new  {0}();", wd.WorkflowTypeName);
-            else
-                getAction.AppendLinf("           var wf = await context.LoadOneAsync<Workflow>(w => w.Id == id);", wd.WorkflowTypeName);
+            getAction.AppendLinf(
+                this.IsInitiator
+                    ? "                      var wf =  new  {0}();"
+                    : "                      var wf = await context.LoadOneAsync<Workflow>(w => w.Id == id);", wd.WorkflowTypeName);
 
             getAction.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
             getAction.AppendLinf("           var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);");
@@ -215,7 +205,7 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLinf("                   Screen  = screen,");
             getAction.AppendLinf("                   Instance  = wf as {0},", wd.WorkflowTypeName);
             getAction.AppendLinf("                   Controller  = this.GetType().Name,");
-            getAction.AppendLinf("                   SaveAction  = \"Save{0}\",", this.ActionName);
+            getAction.AppendLinf("                   SaveAction  = \"{0}\",", this.ActionName);
             getAction.AppendLinf("                   Namespace  = \"{0}\"", wd.CodeNamespace);
             getAction.AppendLinf("               }};", wd.CodeNamespace);
 
@@ -241,9 +231,7 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLine("               canview = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);");
             getAction.AppendLine("           }");
 
-            getAction.AppendLinf("           if(canview) return View(\"{0}V{1}\", vm);", this.ActionName, wd.Version);
-            getAction.AppendLine("           return new HttpUnauthorizedResult();");
-
+            getAction.AppendLinf("           return Json(new {{ canView, vm,version = \"{0}\" }}, , JsonRequestBehavior.AllowGet);", this.ActionName, wd.Version);
 
             getAction.AppendLine("       }");// end GET action
             getAction.AppendLine();
@@ -253,8 +241,8 @@ namespace Bespoke.Sph.Domain
             var saveAction = new StringBuilder();
             saveAction.AppendLinf("//exec:{0}", this.WebId);
             saveAction.AppendLine("       [HttpPost]");
-            saveAction.AppendLinf("       [Route(\"{0}\")]", this.Name.ToIdFormat());
-            saveAction.AppendLine("       public async Task<ActionResult> Save" + this.ActionName + "()");
+            saveAction.AppendLinf("       [Route(\"{0}\")]", this.ActionName.ToIdFormat());
+            saveAction.AppendLine("       public async Task<ActionResult> " + this.ActionName + "()");
             saveAction.AppendLine("       {");
 
             saveAction.AppendLinf("           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", wd.WorkflowTypeName);// this is extension method
@@ -297,130 +285,6 @@ namespace Bespoke.Sph.Domain
             {
                 return String.Format(this.Name.Replace(" ", string.Empty) + "ViewModel");
             }
-        }
-
-        public string GetView(WorkflowDefinition wd)
-        {
-
-            var code = new StringBuilder();
-
-            // buttons
-            var buttonCommands = this.FormDesign.FormElementCollection.OfType<Button>()
-                .Where(b => b.CommandName != "save")
-                .Select(b => string.Format("{0} : function(){{" +
-                                           "{1}" +
-                                           "}}", b.CommandName, b.Command))
-                                           .ToArray();
-            var buttonCommandJs = string.Join(",\r\n", buttonCommands);
-            var saveCommand = string.Format(@",
-                save : function(){{
-                      var tcs = new $.Deferred(),
-                            data = ko.mapping.toJSON(vm.instance),
-                            button = $(this);
-
-                        button.prop('disabled', true);
-                        context.post(data, ""/wf/{0}/v{1}/{2}"")
-                            .then(function(result) {{
-                                tcs.resolve(result);
-                                @if(Model.Screen.ConfirmationOptions.Type == ""Message"")
-                                {{
-                                    <text>
-                                    var msg = _.template('@Html.Raw(confirmationText)')(result.wf);
-                                    app.showMessage(msg, '@Model.Screen.Name', ['OK'])
-                                        .done(function(dr){{
-                                            console.log(dr);
-                                        }});
-                                    </text>
-                                }}else
-                                {{
-                                    <text>
-                                    window.location = ""@confirmationText"";
-                                    </text>
-                                }}
-                       
-
-                            }});
-                        return tcs.promise();
-                }}", wd.Id, wd.Version, this.Name.ToIdFormat());
-            if (buttonCommandJs.Length > 0)
-                buttonCommandJs = saveCommand + "," + buttonCommandJs;
-            else
-                buttonCommandJs = saveCommand;
-
-            code.AppendLine("@using System.Web.Mvc.Html");
-            code.AppendLine("@using Bespoke.Sph.Domain");
-            code.AppendLine("@using Newtonsoft.Json");
-            code.AppendLine("@model " + wd.CodeNamespace + "." + this.ViewModelType);
-
-            code.AppendFormat(@"
-@{{
-    ViewBag.Title = Model.Instance.Name;
-    Layout = ""~/Views/Shared/_Layout.cshtml"";
-    const string controllerString = ""Controller"";
-    var setting = new JsonSerializerSettings {{TypeNameHandling = TypeNameHandling.All}};
-    var confirmationText = Model.Screen.ConfirmationOptions.Value;
-    
-}}
-
-<div class=""row"">
-    <h1>@Model.Screen.FormDesign.Name</h1>
-    <span>@Model.Screen.FormDesign.Description</span>
-</div>
-<div class=""row"">
-    <form class=""form-horizontal"" id=""workflow-start-form"" data-bind=""with: instance"">
-        @foreach (var fe in Model.Screen.FormDesign.FormElementCollection)
-        {{
-            var fe1 = fe;
-            fe1.Path = fe.Path.ConvertJavascriptObjectToFunction();
-            fe1.SetDefaultLayout(Model.Screen.FormDesign);
-            @(fe.UseDisplayTemplate ? Html.DisplayFor(f => fe1) : Html.EditorFor(f => fe1))
-        }}
-   
-    </form>
-
-</div>
-
-
-@section scripts
-{{
-    <script type=""text/javascript"" src=""/wf/{0}/v{1}/schemas""></script>
-    <script type=""text/javascript"">
-        require(['services/datacontext', 'jquery','services/app', 'services/system', 'services/config'], function(context,jquery,app, system, config) {{
-
-            
-           var instance = context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Instance, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
-               screen = context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Screen, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
-               vm = {{
-                id : ""{0}"",
-                instance : ko.observable(instance),    
-                screen : ko.observable(screen),
-                config : config,
-                isBusy : ko.observable(){2}
-            }};
-            
-            instance.addChildItem = function(list, type){{
-                return function(){{
-                     list.push(new type(system.guid()));                  
-                }}
-            }};
-            
-            instance.removeChildItem = function(list, obj){{
-                return function(){{
-                    list.remove(obj);
-                }}
-            }};
-
-            ko.applyBindings(vm, document.getElementById('body'));
-            @*  the div#body is defined in _Layout.cshtml, if you use different Layout then this has got to changed accordingly *@
-
-      
-        }});
-
-    </script>
-}}", wd.Id, wd.Version, buttonCommandJs);
-
-
-            return code.ToString();
         }
 
         [JsonIgnore]

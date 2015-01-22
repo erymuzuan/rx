@@ -7,5 +7,9 @@ namespace Bespoke.Sph.Domain
     public partial class AddressElement : FormElement
     {
 
+        public override string GetDesignSurfaceElement()
+        {
+            return @"<span class=""error"">The address element is not implemented</span>";
+        }
     }
 }

@@ -133,7 +133,7 @@ namespace Bespoke.Sph.Web.Controllers
         }
         public async Task<ActionResult> Page()
         {
-            return await Es(typeof(Page).Name.ToLowerInvariant(), this.GetRequestBody());
+            return await Es(typeof(ScreenActivityForm).Name.ToLowerInvariant(), this.GetRequestBody());
         }
 
 

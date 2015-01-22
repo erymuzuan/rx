@@ -33,6 +33,14 @@
     $type.__class = true;
 
     $prototype = $type.prototype;
+    $prototype.moment = function String$moment(format) {
+        /// <summary>Create a moment date time object.</summary>
+        /// <param name="format" type="String">format.</param>
+        /// <returns type="moment"></returns>
+        if (format)
+            return moment(this, format);
+        return moment(this);
+    };
     $prototype.endsWith = function String$endsWith(suffix) {
         /// <summary>Determines whether the end of this instance matches the specified string.</summary>
         /// <param name="suffix" type="String">A string to compare to.</param>
@@ -51,6 +59,19 @@
         /// <summary >Removes all leading and trailing white-space characters from the current String object.</summary>
         /// <returns type="String">The string that remains after all white-space characters are removed from the start and end of the current String object.</returns>
         return this.replace(/^\s+|\s+$/g, '');
+    };
+
+    $prototype.isNullOrWhiteSpace = function String$isNullOrWhiteSpace(value) {
+
+        var trimmedValue = String.trim(value);
+        if (!trimmedValue)
+            return true;
+        return false;
+    };
+    $prototype.isNullOrEmpty = function String$isNullOrWhiteSpace(value) {
+        if (!value)
+            return true;
+        return false;
     };
 
     $prototype.trimEnd = function String$trimEnd() {
@@ -77,7 +98,7 @@
         var result = '';
         var format = args[0];
 
-        for (var i = 0;;) {
+        for (var i = 0; ;) {
             // Find the next opening or closing brace
             var open = format.indexOf('{', i);
             var close = format.indexOf('}', i);
@@ -123,7 +144,7 @@
             var argFormat = (colonIndex < 0) ? '' : brace.substring(colonIndex + 1);
 
             var arg = args[argNumber];
-            if (typeof(arg) === "undefined" || arg === null) {
+            if (typeof (arg) === "undefined" || arg === null) {
                 arg = '';
             }
 
@@ -143,4 +164,4 @@
         return result;
     };
 
-})(window);
+})(window); 

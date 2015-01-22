@@ -11,7 +11,7 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>web.sph</RootNamespace>
+    <RootNamespace>Bespoke.Sph.WebSph</RootNamespace>
     <AssemblyName>web.sph</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
@@ -45,6 +45,14 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.Common.1.0.0-beta1-20141031-01\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
@@ -103,6 +111,9 @@
       <HintPath>..\..\..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\..\..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -112,21 +123,25 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\System.Collections.Immutable.1.1.32-beta\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
-    <Reference Include="System.Composition.AttributedModel">
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Composition.AttributedModel, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
     </Reference>
-    <Reference Include="System.Composition.Convention">
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
+    <Reference Include="System.Composition.Convention, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
     </Reference>
-    <Reference Include="System.Composition.Hosting">
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
+    <Reference Include="System.Composition.Hosting, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Composition.Runtime">
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
+    <Reference Include="System.Composition.Runtime, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="System.Composition.TypedParts">
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
+    <Reference Include="System.Composition.TypedParts, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -210,1072 +225,40 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
-    <Content Include="App_Code\LoginController.cs" />
+    <Compile Include="ApplicationHelper.cs" />
+    <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SignalRHub.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AggregateController.cs" />
+    <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Helpers\IPagingTranslator2.cs" />
+    <Compile Include="Controllers\ListController.cs" />
+    <Compile Include="Helpers\Sql2008PagingTranslator.cs" />
+    <Compile Include="Helpers\Sql2012PagingTranslator.cs" />
+    <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
+    <Compile Include="Helpers\OdataSqlTranslator.cs" />
+    <Compile Include="Hubs\AuditTrailHub.cs" />
+    <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="code.snippets.json" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\daterangepicker-bs3.css" />
-    <Content Include="Content\prism.css" />
-    <Content Include="Content\transformation-mapping.css">
-      <DependentUpon>transformation-mapping.less</DependentUpon>
-    </Content>
-    <Content Include="Content\transformation-mapping.min.css">
-      <DependentUpon>transformation-mapping.css</DependentUpon>
-    </Content>
-    <Content Include="docs\Action.html">
-      <DependentUpon>Action.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Activity.html">
-      <DependentUpon>Activity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ActivityExecutionResult.html">
-      <DependentUpon>ActivityExecutionResult.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ActivityExecutionStatus.html">
-      <DependentUpon>ActivityExecutionStatus.md</DependentUpon>
-    </Content>
-    <Content Include="docs\adapter.mysql.sproc.html">
-      <DependentUpon>adapter.mysql.sproc.md</DependentUpon>
-    </Content>
-    <Content Include="docs\alm.html">
-      <DependentUpon>alm.md</DependentUpon>
-    </Content>
-    <Content Include="docs\architecture.html">
-      <DependentUpon>architecture.md</DependentUpon>
-    </Content>
-    <Content Include="docs\AssemblyAction.html">
-      <DependentUpon>AssemblyAction.md</DependentUpon>
-    </Content>
-    <Content Include="docs\AssemblyField.html">
-      <DependentUpon>AssemblyField.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Attachment.html">
-      <DependentUpon>Attachment.md</DependentUpon>
-    </Content>
-    <Content Include="docs\AuditTrail.html">
-      <DependentUpon>AuditTrail.md</DependentUpon>
-    </Content>
-    <Content Include="docs\BarChartItem.html">
-      <DependentUpon>BarChartItem.md</DependentUpon>
-    </Content>
-    <Content Include="docs\BarChartItem.md" />
-    <Content Include="docs\BinaryStore.html">
-      <DependentUpon>BinaryStore.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Breakpoint.html">
-      <DependentUpon>Breakpoint.md</DependentUpon>
-    </Content>
-    <Content Include="docs\BuildError.html">
-      <DependentUpon>BuildError.md</DependentUpon>
-    </Content>
-    <Content Include="docs\BuildValidationResult.html">
-      <DependentUpon>BuildValidationResult.md</DependentUpon>
-    </Content>
-    <Content Include="docs\BusinessRule.html">
-      <DependentUpon>BusinessRule.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Button.html">
-      <DependentUpon>Button.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Button.md" />
-    <Content Include="docs\Change.html">
-      <DependentUpon>Change.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ChangeSubmission.html">
-      <DependentUpon>ChangeSubmission.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ChartSeries.html">
-      <DependentUpon>ChartSeries.md</DependentUpon>
-    </Content>
-    <Content Include="docs\CheckBox.html">
-      <DependentUpon>CheckBox.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ChildEntityListView.html">
-      <DependentUpon>ChildEntityListView.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ClrTypeVariable.html">
-      <DependentUpon>ClrTypeVariable.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ComboBox.html">
-      <DependentUpon>ComboBox.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ComboBoxItem.html">
-      <DependentUpon>ComboBoxItem.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ComboBoxLookup.html">
-      <DependentUpon>ComboBoxLookup.md</DependentUpon>
-    </Content>
-    <Content Include="docs\CompilerOptions.html">
-      <DependentUpon>CompilerOptions.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ComplexVariable.html">
-      <DependentUpon>ComplexVariable.md</DependentUpon>
-    </Content>
-    <Content Include="docs\components.html">
-      <DependentUpon>components.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ConfigurationManager.html">
-      <DependentUpon>ConfigurationManager.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ConfirmationOptions.html">
-      <DependentUpon>ConfirmationOptions.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ConstantField.html">
-      <DependentUpon>ConstantField.md</DependentUpon>
-    </Content>
-    <Content Include="docs\CreateEntityActivity.html">
-      <DependentUpon>CreateEntityActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\CredentialProvider.html">
-      <DependentUpon>CredentialProvider.md</DependentUpon>
-    </Content>
-    <Content Include="docs\CustomAction.html">
-      <DependentUpon>CustomAction.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DailySchedule.html">
-      <DependentUpon>DailySchedule.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DataGridColumn.html">
-      <DependentUpon>DataGridColumn.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DataGridColumnHost.html">
-      <DependentUpon>DataGridColumnHost.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DataGridGroup.html">
-      <DependentUpon>DataGridGroup.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DataGridGroupDefinition.html">
-      <DependentUpon>DataGridGroupDefinition.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DataGridItem.html">
-      <DependentUpon>DataGridItem.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DataSource.html">
-      <DependentUpon>DataSource.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DatePicker.html">
-      <DependentUpon>DatePicker.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DateTimePicker.html">
-      <DependentUpon>DateTimePicker.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DecisionActivity.html">
-      <DependentUpon>DecisionActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DecisionBranch.html">
-      <DependentUpon>DecisionBranch.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DelayActivity.html">
-      <DependentUpon>DelayActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DeleteEntityActivity.html">
-      <DependentUpon>DeleteEntityActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DocumentField.html">
-      <DependentUpon>DocumentField.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DocumentTemplate.html">
-      <DependentUpon>DocumentTemplate.md</DependentUpon>
-    </Content>
-    <Content Include="docs\DownloadLink.html">
-      <DependentUpon>DownloadLink.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EmailAction.html">
-      <DependentUpon>EmailAction.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EmailFormElement.html">
-      <DependentUpon>EmailFormElement.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EmailMessage.html">
-      <DependentUpon>EmailMessage.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EmailTemplate.html">
-      <DependentUpon>EmailTemplate.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EndActivity.html">
-      <DependentUpon>EndActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Entity.html">
-      <DependentUpon>Entity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityChart.html">
-      <DependentUpon>EntityChart.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityDefinition.HowTo.AddChartToDashboard.html">
-      <DependentUpon>EntityDefinition.HowTo.AddChartToDashboard.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityDefinition.HowTo.AddRecordName.html">
-      <DependentUpon>EntityDefinition.HowTo.AddRecordName.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityDefinition.HowTo.ColumnWithLink.html">
-      <DependentUpon>EntityDefinition.HowTo.ColumnWithLink.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityDefinition.HowTo.DefaultForm.html">
-      <DependentUpon>EntityDefinition.HowTo.DefaultForm.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityDefinition.HowTo.FilterByCurrentUser.html">
-      <DependentUpon>EntityDefinition.HowTo.FilterByCurrentUser.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityDefinition.html">
-      <DependentUpon>EntityDefinition.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityDefinition.md" />
-    <Content Include="docs\EntityField.html">
-      <DependentUpon>EntityField.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityForm.HowTo.CreateCascadingCombobox.html">
-      <DependentUpon>EntityForm.HowTo.CreateCascadingCombobox.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityForm.html">
-      <DependentUpon>EntityForm.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityForm.md" />
-    <Content Include="docs\EntityOperation.html">
-      <DependentUpon>EntityOperation.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityOperation.md" />
-    <Content Include="docs\EntityPermission.html">
-      <DependentUpon>EntityPermission.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityTypeAttribute.html">
-      <DependentUpon>EntityTypeAttribute.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityView.html">
-      <DependentUpon>EntityView.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ExecutedAcitivityComparer.html">
-      <DependentUpon>ExecutedAcitivityComparer.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ExecutedActivity.html">
-      <DependentUpon>ExecutedActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ExpressionActivity.html">
-      <DependentUpon>ExpressionActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Field.html">
-      <DependentUpon>Field.md</DependentUpon>
-    </Content>
-    <Content Include="docs\FieldPermission.html">
-      <DependentUpon>FieldPermission.md</DependentUpon>
-    </Content>
-    <Content Include="docs\FieldType.html">
-      <DependentUpon>FieldType.md</DependentUpon>
-    </Content>
-    <Content Include="docs\FieldValidation.html">
-      <DependentUpon>FieldValidation.md</DependentUpon>
-    </Content>
-    <Content Include="docs\FileUploadElement.html">
-      <DependentUpon>FileUploadElement.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Filter.html">
-      <DependentUpon>Filter.md</DependentUpon>
-    </Content>
-    <Content Include="docs\FormDesign.html">
-      <DependentUpon>FormDesign.md</DependentUpon>
-    </Content>
-    <Content Include="docs\FormElement.html">
-      <DependentUpon>FormElement.md</DependentUpon>
-    </Content>
-    <Content Include="docs\FormElement.md" />
-    <Content Include="docs\FunctionField.html">
-      <DependentUpon>FunctionField.md</DependentUpon>
-    </Content>
-    <Content Include="docs\FunctionField.md" />
-    <Content Include="docs\Functoid.html">
-      <DependentUpon>Functoid.md</DependentUpon>
-    </Content>
-    <Content Include="docs\FunctoidMapping.html">
-      <DependentUpon>FunctoidMapping.md</DependentUpon>
-    </Content>
-    <Content Include="docs\alm.md" />
-    <None Include="App_Data\empty.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="docs\EntityDefinition.HowTo.ColumnWithLink.md" />
-    <Content Include="docs\EntityDefinition.HowTo.FilterByCurrentUser.md" />
-    <Content Include="docs\EntityDefinition.HowTo.AddRecordName.md" />
-    <Content Include="docs\EntityChart.md" />
-    <Content Include="docs\EntityDefinition.HowTo.DefaultForm.md" />
-    <Content Include="docs\EntityDefinition.HowTo.AddChartToDashboard.md" />
-    <Content Include="docs\EntityForm.HowTo.CreateCascadingCombobox.md" />
-    <Content Include="docs\ChildEntityListView.md" />
-    <Content Include="Content\transformation-mapping.less" />
-    <Content Include="Content\transformation-mapping.css.map">
-      <DependentUpon>transformation-mapping.css</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="docs\adapter.mysql.sproc.md" />
-    <Content Include="docs\ExceptionFilter.md" />
-    <Content Include="docs\custom-login-page.md" />
-    <None Include="docs\getting-started.md" />
-    <Content Include="docs\getting-started.html">
-      <DependentUpon>getting-started.md</DependentUpon>
-    </Content>
-    <Content Include="docs\HourlySchedule.html">
-      <DependentUpon>HourlySchedule.md</DependentUpon>
-    </Content>
-    <Content Include="docs\HtmlElement.html">
-      <DependentUpon>HtmlElement.md</DependentUpon>
-    </Content>
-    <Content Include="docs\HttpAdapter.html">
-      <DependentUpon>HttpAdapter.md</DependentUpon>
-    </Content>
-    <Content Include="docs\IBinaryStore.html">
-      <DependentUpon>IBinaryStore.md</DependentUpon>
-    </Content>
-    <Content Include="docs\IconPicker.html">
-      <DependentUpon>IconPicker.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ICustomScript.html">
-      <DependentUpon>ICustomScript.md</DependentUpon>
-    </Content>
-    <Content Include="docs\IDirectoryService.html">
-      <DependentUpon>IDirectoryService.md</DependentUpon>
-    </Content>
-    <Content Include="docs\IDocumentExport.html">
-      <DependentUpon>IDocumentExport.md</DependentUpon>
-    </Content>
-    <Content Include="docs\IDocumentGenerator.html">
-      <DependentUpon>IDocumentGenerator.md</DependentUpon>
-    </Content>
-    <Content Include="docs\IEntityChangePublisher.html">
-      <DependentUpon>IEntityChangePublisher.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ILogger.html">
-      <DependentUpon>ILogger.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ImageElement.html">
-      <DependentUpon>ImageElement.md</DependentUpon>
-    </Content>
-    <Content Include="docs\index.html" />
-    <Content Include="docs\InitiateActivityResult.html">
-      <DependentUpon>InitiateActivityResult.md</DependentUpon>
-    </Content>
-    <Content Include="docs\INotificationChannel.html">
-      <DependentUpon>INotificationChannel.md</DependentUpon>
-    </Content>
-    <Content Include="docs\INotificationService.html">
-      <DependentUpon>INotificationService.md</DependentUpon>
-    </Content>
-    <Content Include="docs\IntervalSchedule.html">
-      <DependentUpon>IntervalSchedule.md</DependentUpon>
-    </Content>
-    <Content Include="docs\IPersistence.html">
-      <DependentUpon>IPersistence.md</DependentUpon>
-    </Content>
-    <Content Include="docs\IReportDataSource.html">
-      <DependentUpon>IReportDataSource.md</DependentUpon>
-    </Content>
-    <Content Include="docs\IScriptEngine.html">
-      <DependentUpon>IScriptEngine.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ISearchProvider.html">
-      <DependentUpon>ISearchProvider.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ISettingProvider.html">
-      <DependentUpon>ISettingProvider.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ITaskScheduler.html">
-      <DependentUpon>ITaskScheduler.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ITemplateEngine.html">
-      <DependentUpon>ITemplateEngine.md</DependentUpon>
-    </Content>
-    <Content Include="docs\JoinActivity.html">
-      <DependentUpon>JoinActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\JoinExpression.html">
-      <DependentUpon>JoinExpression.md</DependentUpon>
-    </Content>
-    <Content Include="docs\JoinType.html">
-      <DependentUpon>JoinType.md</DependentUpon>
-    </Content>
-    <Content Include="docs\JsonSerializerService.html">
-      <DependentUpon>JsonSerializerService.md</DependentUpon>
-    </Content>
-    <Content Include="docs\LabelItem.html">
-      <DependentUpon>LabelItem.md</DependentUpon>
-    </Content>
-    <Content Include="docs\LabelItemScriptHost.html">
-      <DependentUpon>LabelItemScriptHost.md</DependentUpon>
-    </Content>
-    <Content Include="docs\LatLng.html">
-      <DependentUpon>LatLng.md</DependentUpon>
-    </Content>
-    <Content Include="docs\LineChartItem.html">
-      <DependentUpon>LineChartItem.md</DependentUpon>
-    </Content>
-    <Content Include="docs\LineItem.html">
-      <DependentUpon>LineItem.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ListenActivity.html">
-      <DependentUpon>ListenActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ListenBranch.html">
-      <DependentUpon>ListenBranch.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ListView.html">
-      <DependentUpon>ListView.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ListView.md" />
-    <Content Include="docs\ListViewColumn.html">
-      <DependentUpon>ListViewColumn.md</DependentUpon>
-    </Content>
-    <Content Include="docs\LogEntry.html">
-      <DependentUpon>LogEntry.md</DependentUpon>
-    </Content>
-    <Content Include="docs\MapElement.html">
-      <DependentUpon>MapElement.md</DependentUpon>
-    </Content>
-    <Content Include="docs\mapping-activity-dialog.html">
-      <DependentUpon>mapping-activity-dialog.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Member.html">
-      <DependentUpon>Member.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Message.html">
-      <DependentUpon>Message.md</DependentUpon>
-    </Content>
-    <Content Include="docs\MethodArg.html">
-      <DependentUpon>MethodArg.md</DependentUpon>
-    </Content>
-    <Content Include="docs\MonthlySchedule.html">
-      <DependentUpon>MonthlySchedule.md</DependentUpon>
-    </Content>
-    <Content Include="docs\MySqlAdapter.html">
-      <DependentUpon>MySqlAdapter.md</DependentUpon>
-    </Content>
-    <Content Include="docs\NotificationActivity.html">
-      <DependentUpon>NotificationActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\NumberTextBox.html">
-      <DependentUpon>NumberTextBox.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ObjectBuilder.html">
-      <DependentUpon>ObjectBuilder.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Operator.html">
-      <DependentUpon>Operator.md</DependentUpon>
-    </Content>
-    <Content Include="docs\OrderType.html">
-      <DependentUpon>OrderType.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Organization.html">
-      <DependentUpon>Organization.md</DependentUpon>
-    </Content>
-    <Content Include="docs\overview.html">
-      <DependentUpon>overview.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Owner.html">
-      <DependentUpon>Owner.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Page.html">
-      <DependentUpon>Page.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ParallelActivity.html">
-      <DependentUpon>ParallelActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ParallelBranch.html">
-      <DependentUpon>ParallelBranch.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Parameter.html">
-      <DependentUpon>Parameter.md</DependentUpon>
-    </Content>
-    <Content Include="docs\PendingTask.html">
-      <DependentUpon>PendingTask.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Performer.html">
-      <DependentUpon>Performer.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Permission.html">
-      <DependentUpon>Permission.md</DependentUpon>
-    </Content>
-    <Content Include="docs\PersistenceSession.html">
-      <DependentUpon>PersistenceSession.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Photo.html">
-      <DependentUpon>Photo.md</DependentUpon>
-    </Content>
-    <Content Include="docs\PieChartItem.html">
-      <DependentUpon>PieChartItem.md</DependentUpon>
-    </Content>
-    <Content Include="docs\PredicateBuilder.html">
-      <DependentUpon>PredicateBuilder.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Profile.html">
-      <DependentUpon>Profile.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ProjectedColumns.html">
-      <DependentUpon>ProjectedColumns.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ProjectionBuilder.html">
-      <DependentUpon>ProjectionBuilder.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ProjectionExpression.html">
-      <DependentUpon>ProjectionExpression.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ProjectionRow.html">
-      <DependentUpon>ProjectionRow.md</DependentUpon>
-    </Content>
-    <Content Include="docs\PropertyChangedField.html">
-      <DependentUpon>PropertyChangedField.md</DependentUpon>
-    </Content>
-    <Content Include="docs\PropertyChangingEventArgs.html">
-      <DependentUpon>PropertyChangingEventArgs.md</DependentUpon>
-    </Content>
-    <Content Include="docs\PropertyChangingEventHandler.html">
-      <DependentUpon>PropertyChangingEventHandler.md</DependentUpon>
-    </Content>
-    <Content Include="docs\PropertyMapping.html">
-      <DependentUpon>PropertyMapping.md</DependentUpon>
-    </Content>
-    <Content Include="docs\RazorTemplate.md" />
-    <None Include="docs\receive-activity-dialog.md" />
-    <Content Include="docs\receive-activity-dialog.html">
-      <DependentUpon>receive-activity-dialog.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ReceiveActivity.html">
-      <DependentUpon>ReceiveActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ReferencedAssembly.html">
-      <DependentUpon>ReferencedAssembly.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ReportDefinition.html">
-      <DependentUpon>ReportDefinition.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ReportDelivery.html">
-      <DependentUpon>ReportDelivery.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ReportItem.html">
-      <DependentUpon>ReportItem.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ReportLayout.html">
-      <DependentUpon>ReportLayout.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ReportRow.html">
-      <DependentUpon>ReportRow.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Role.html">
-      <DependentUpon>Role.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Rule.html">
-      <DependentUpon>Rule.md</DependentUpon>
-    </Content>
-    <Content Include="docs\RuleContext.html">
-      <DependentUpon>RuleContext.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ScheduledActivityExecution.html">
-      <DependentUpon>ScheduledActivityExecution.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ScheduledTriggerActivity.html">
-      <DependentUpon>ScheduledTriggerActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ScreenActivity.html">
-      <DependentUpon>ScreenActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ScriptFunctoid.html">
-      <DependentUpon>ScriptFunctoid.md</DependentUpon>
-    </Content>
-    <Content Include="docs\scripts\main.min.js">
-      <DependentUpon>main.js</DependentUpon>
-    </Content>
-    <Content Include="docs\ReferencedAssembly.md" />
-    <Content Include="docs\IconPicker.md" />
-    <Content Include="docs\HttpAdapter.md" />
-    <Content Include="docs\MySqlAdapter.md" />
-    <Content Include="docs\mapping-activity-dialog.md" />
-    <None Include="docs\scripts\topics.map" />
-    <Content Include="docs\scripts\main.js" />
-    <Content Include="docs\scripts\types.js" />
-    <Content Include="docs\SearchResult.html">
-      <DependentUpon>SearchResult.md</DependentUpon>
-    </Content>
-    <Content Include="docs\SectionFormElement.html">
-      <DependentUpon>SectionFormElement.md</DependentUpon>
-    </Content>
-    <None Include="docs\send-activity-dialog.md" />
-    <Content Include="docs\send-activity-dialog.html">
-      <DependentUpon>send-activity-dialog.md</DependentUpon>
-    </Content>
-    <Content Include="docs\SendActivity.html">
-      <DependentUpon>SendActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\SetterAction.html">
-      <DependentUpon>SetterAction.md</DependentUpon>
-    </Content>
-    <Content Include="docs\SetterActionChild.html">
-      <DependentUpon>SetterActionChild.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Setting.html">
-      <DependentUpon>Setting.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Severity.html">
-      <DependentUpon>Severity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\sidebar.html" />
-    <Content Include="docs\SimpleMapping.html">
-      <DependentUpon>SimpleMapping.md</DependentUpon>
-    </Content>
-    <Content Include="docs\SimpleVariable.html">
-      <DependentUpon>SimpleVariable.md</DependentUpon>
-    </Content>
-    <Content Include="docs\solution.explorer.html">
-      <DependentUpon>solution.explorer.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Sort.html">
-      <DependentUpon>Sort.md</DependentUpon>
-    </Content>
-    <Content Include="docs\SortDirection.html">
-      <DependentUpon>SortDirection.md</DependentUpon>
-    </Content>
-    <Content Include="docs\SpatialEntity.html">
-      <DependentUpon>SpatialEntity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\SpatialStore.html">
-      <DependentUpon>SpatialStore.md</DependentUpon>
-    </Content>
-    <Content Include="docs\SphDataContext.html">
-      <DependentUpon>SphDataContext.md</DependentUpon>
-    </Content>
-    <Content Include="docs\StartWorkflowAction.html">
-      <DependentUpon>StartWorkflowAction.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Strings.html">
-      <DependentUpon>Strings.md</DependentUpon>
-    </Content>
-    <Content Include="docs\SubmitOperation.html">
-      <DependentUpon>SubmitOperation.md</DependentUpon>
-    </Content>
-    <Content Include="docs\TableExpression.html">
-      <DependentUpon>TableExpression.md</DependentUpon>
-    </Content>
-    <Content Include="docs\TextAreaElement.html">
-      <DependentUpon>TextAreaElement.md</DependentUpon>
-    </Content>
-    <Content Include="docs\TextBox.html">
-      <DependentUpon>TextBox.md</DependentUpon>
-    </Content>
-    <Content Include="docs\TextBox.md" />
-    <Content Include="docs\ThrowActivity.html">
-      <DependentUpon>ThrowActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\tree.html" />
-    <Content Include="docs\Trigger.HowTo.PassCurrentRecordToWorkflow.html">
-      <DependentUpon>Trigger.HowTo.PassCurrentRecordToWorkflow.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Trigger.html">
-      <DependentUpon>Trigger.md</DependentUpon>
-    </Content>
-    <Content Include="docs\UpdateEntityActivity.html">
-      <DependentUpon>UpdateEntityActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\Variable.html">
-      <DependentUpon>Variable.md</DependentUpon>
-    </Content>
-    <Content Include="docs\ViewColumn.html">
-      <DependentUpon>ViewColumn.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WebsiteFormElement.html">
-      <DependentUpon>WebsiteFormElement.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WeeklySchedule.html">
-      <DependentUpon>WeeklySchedule.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.html">
-      <DependentUpon>WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefinition.HowTo.DetermineKpiForYourUsers.html">
-      <DependentUpon>WorkflowDefinition.HowTo.DetermineKpiForYourUsers.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefinition.HowTo.DoAWhileLoop.html">
-      <DependentUpon>WorkflowDefinition.HowTo.DoAWhileLoop.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefinition.HowTo.RetrieveARecord.html">
-      <DependentUpon>WorkflowDefinition.HowTo.RetrieveARecord.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefinition.HowTo.SechedulingAWorkflow.html">
-      <DependentUpon>WorkflowDefinition.HowTo.SechedulingAWorkflow.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefinition.HowTo.SetADatelineToActivityScreen.html">
-      <DependentUpon>WorkflowDefinition.HowTo.SetADatelineToActivityScreen.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefinition.HowTo.UploadDataToFtp.html">
-      <DependentUpon>WorkflowDefinition.HowTo.UploadDataToFtp.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefinition.HowTo.UseCustomObjectInExpressionActivity.html">
-      <DependentUpon>WorkflowDefinition.HowTo.UseCustomObjectInExpressionActivity.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefinition.HowTo.UseExistingEntityDefinitionAsVariable.html">
-      <DependentUpon>WorkflowDefinition.HowTo.UseExistingEntityDefinitionAsVariable.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefinition.html">
-      <DependentUpon>WorkflowDefinition.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDefiniton.HowTo.DebugYourWorkflow.html">
-      <DependentUpon>WorkflowDefiniton.HowTo.DebugYourWorkflow.md</DependentUpon>
-    </Content>
-    <Content Include="docs\WorkflowDesigner.html">
-      <DependentUpon>WorkflowDesigner.md</DependentUpon>
-    </Content>
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
-    <Content Include="docs\Action.md" />
-    <Content Include="docs\Activity.md" />
-    <Content Include="docs\ActivityExecutionResult.md" />
-    <Content Include="docs\ActivityExecutionStatus.md" />
-    <Content Include="docs\AssemblyAction.md" />
-    <Content Include="docs\AssemblyField.md" />
-    <Content Include="docs\Attachment.md" />
-    <Content Include="docs\AuditTrail.md" />
-    <Content Include="docs\BinaryStore.md" />
-    <Content Include="docs\Breakpoint.md" />
-    <Content Include="docs\BuildError.md" />
-    <Content Include="docs\BuildValidationResult.md" />
-    <Content Include="docs\BusinessRule.md" />
-    <Content Include="docs\Change.md" />
-    <Content Include="docs\ChangeSubmission.md" />
-    <Content Include="docs\ChartSeries.md" />
-    <Content Include="docs\CheckBox.md" />
-    <Content Include="docs\ClrTypeVariable.md" />
-    <Content Include="docs\ComboBox.md" />
-    <Content Include="docs\ComboBoxItem.md" />
-    <Content Include="docs\ComboBoxLookup.md" />
-    <Content Include="docs\CompilerOptions.md" />
-    <Content Include="docs\ComplexVariable.md" />
-    <Content Include="docs\ConfigurationManager.md" />
-    <Content Include="docs\ConfirmationOptions.md" />
-    <Content Include="docs\ConstantField.md" />
-    <Content Include="docs\CreateEntityActivity.md" />
-    <Content Include="docs\CredentialProvider.md" />
-    <Content Include="docs\CustomAction.md" />
-    <Content Include="docs\DailySchedule.md" />
-    <Content Include="docs\DataGridColumn.md" />
-    <Content Include="docs\DataGridColumnHost.md" />
-    <Content Include="docs\DataGridGroup.md" />
-    <Content Include="docs\DataGridGroupDefinition.md" />
-    <Content Include="docs\DataGridItem.md" />
-    <Content Include="docs\DataSource.md" />
-    <Content Include="docs\DatePicker.md" />
-    <Content Include="docs\DateTimePicker.md" />
-    <Content Include="docs\DecisionActivity.md" />
-    <Content Include="docs\DecisionBranch.md" />
-    <Content Include="docs\DefaultValue.md" />
-    <Content Include="docs\DelayActivity.md" />
-    <Content Include="docs\DeleteEntityActivity.md" />
-    <Content Include="docs\Designation.md" />
-    <Content Include="docs\Document.md" />
-    <Content Include="docs\DocumentField.md" />
-    <Content Include="docs\DocumentTemplate.md" />
-    <Content Include="docs\DocumentVersion.md" />
-    <Content Include="docs\DownloadLink.md" />
-    <Content Include="docs\EmailAction.md" />
-    <Content Include="docs\EmailFormElement.md" />
-    <Content Include="docs\EmailMessage.md" />
-    <Content Include="docs\EmailTemplate.md" />
-    <Content Include="docs\EndActivity.md" />
-    <Content Include="docs\Entity.md" />
-    <Content Include="docs\EntityField.md" />
-    <Content Include="docs\EntityPermission.md" />
-    <Content Include="docs\EntityTypeAttribute.md" />
-    <Content Include="docs\EntityView.md" />
-    <Content Include="docs\ExecutedAcitivityComparer.md" />
-    <Content Include="docs\ExecutedActivity.md" />
-    <Content Include="docs\ExpressionActivity.md" />
-    <Content Include="docs\Field.md" />
-    <Content Include="docs\FieldPermission.md" />
-    <Content Include="docs\FieldType.md" />
-    <Content Include="docs\FieldValidation.md" />
-    <Content Include="docs\FileUploadElement.md" />
-    <Content Include="docs\Filter.md" />
-    <Content Include="docs\FormDesign.md" />
-    <Content Include="docs\Functoid.md" />
-    <Content Include="docs\FunctoidMapping.md" />
-    <Content Include="docs\HourlySchedule.md" />
-    <Content Include="docs\HtmlElement.md" />
-    <Content Include="docs\IBinaryStore.md" />
-    <Content Include="docs\ICustomScript.md" />
-    <Content Include="docs\IDirectoryService.md" />
-    <Content Include="docs\IDocumentExport.md" />
-    <Content Include="docs\IDocumentGenerator.md" />
-    <Content Include="docs\IEntityChangePublisher.md" />
-    <Content Include="docs\ILogger.md" />
-    <Content Include="docs\ImageElement.md" />
-    <Content Include="docs\InitiateActivityResult.md" />
-    <Content Include="docs\INotificationChannel.md" />
-    <Content Include="docs\INotificationService.md" />
-    <Content Include="docs\IntervalSchedule.md" />
-    <Content Include="docs\IPersistence.md" />
-    <Content Include="docs\IReportDataSource.md" />
-    <Content Include="docs\IScriptEngine.md" />
-    <Content Include="docs\ISearchProvider.md" />
-    <Content Include="docs\ISettingProvider.md" />
-    <Content Include="docs\ITaskScheduler.md" />
-    <Content Include="docs\ITemplateEngine.md" />
-    <Content Include="docs\JoinActivity.md" />
-    <Content Include="docs\JoinExpression.md" />
-    <Content Include="docs\JoinType.md" />
-    <Content Include="docs\JsonSerializerService.md" />
-    <Content Include="docs\LabelItem.md" />
-    <Content Include="docs\LabelItemScriptHost.md" />
-    <Content Include="docs\LatLng.md" />
-    <Content Include="docs\LineChartItem.md" />
-    <Content Include="docs\LineItem.md" />
-    <Content Include="docs\ListenActivity.md" />
-    <Content Include="docs\ListenBranch.md" />
-    <Content Include="docs\ListViewColumn.md" />
-    <Content Include="docs\LogEntry.md" />
-    <Content Include="docs\MapElement.md" />
-    <Content Include="docs\Member.md" />
-    <Content Include="docs\Message.md" />
-    <Content Include="docs\MethodArg.md" />
-    <Content Include="docs\MonthlySchedule.md" />
-    <Content Include="docs\NotificationActivity.md" />
-    <Content Include="docs\NumberTextBox.md" />
-    <Content Include="docs\ObjectBuilder.md" />
-    <Content Include="docs\Operator.md" />
-    <Content Include="docs\OrderType.md" />
-    <Content Include="docs\Organization.md" />
-    <Content Include="docs\overview.md" />
-    <Content Include="docs\Owner.md" />
-    <Content Include="docs\Page.md" />
-    <Content Include="docs\ParallelActivity.md" />
-    <Content Include="docs\ParallelBranch.md" />
-    <Content Include="docs\Parameter.md" />
-    <Content Include="docs\PendingTask.md" />
-    <Content Include="docs\Performer.md" />
-    <Content Include="docs\Permission.md" />
-    <Content Include="docs\PersistenceSession.md" />
-    <Content Include="docs\Photo.md" />
-    <Content Include="docs\PieChartItem.md" />
-    <Content Include="docs\PredicateBuilder.md" />
-    <Content Include="docs\Profile.md" />
-    <Content Include="docs\ProjectedColumns.md" />
-    <Content Include="docs\ProjectionBuilder.md" />
-    <Content Include="docs\ProjectionExpression.md" />
-    <Content Include="docs\ProjectionRow.md" />
-    <Content Include="docs\PropertyChangedField.md" />
-    <Content Include="docs\PropertyChangingEventArgs.md" />
-    <Content Include="docs\PropertyChangingEventHandler.md" />
-    <Content Include="docs\PropertyMapping.md" />
-    <Content Include="docs\ReceiveActivity.md" />
-    <Content Include="docs\ReportColumn.md" />
-    <Content Include="docs\ReportContent.md" />
-    <Content Include="docs\ReportDefinition.md" />
-    <Content Include="docs\ReportDelivery.md" />
-    <Content Include="docs\ReportFilter.md" />
-    <Content Include="docs\ReportItem.md" />
-    <Content Include="docs\ReportLayout.md" />
-    <Content Include="docs\ReportRow.md" />
-    <Content Include="docs\Role.md" />
-    <Content Include="docs\Rule.md" />
-    <Content Include="docs\RuleContext.md" />
-    <Content Include="docs\ScheduledActivityExecution.md" />
-    <Content Include="docs\ScheduledTriggerActivity.md" />
-    <Content Include="docs\ScreenActivity.md" />
-    <Content Include="docs\ScriptFunctoid.md" />
-    <Content Include="docs\SearchResult.md" />
-    <Content Include="docs\SectionFormElement.md" />
-    <Content Include="docs\SendActivity.md" />
-    <Content Include="docs\SetterAction.md" />
-    <Content Include="docs\SetterActionChild.md" />
-    <Content Include="docs\Setting.md" />
-    <Content Include="docs\Severity.md" />
-    <Content Include="docs\SimpleMapping.md" />
-    <Content Include="docs\SimpleVariable.md" />
-    <Content Include="docs\Sort.md" />
-    <Content Include="docs\SortDirection.md" />
-    <Content Include="docs\SpatialEntity.md" />
-    <Content Include="docs\SpatialStore.md" />
-    <Content Include="docs\SphDataContext.md" />
-    <Content Include="docs\StartWorkflowAction.md" />
-    <Content Include="docs\Strings.md" />
-    <Content Include="docs\SubmitOperation.md" />
-    <Content Include="docs\TableExpression.md" />
-    <Content Include="docs\TextAreaElement.md" />
-    <Content Include="docs\ThrowActivity.md" />
-    <Content Include="docs\Tracker.md" />
-    <Content Include="docs\Trigger.md" />
-    <Content Include="docs\UpdateEntityActivity.md" />
-    <Content Include="docs\User.md" />
-    <Content Include="docs\UserProfile.md" />
-    <Content Include="docs\ValidationError.md" />
-    <Content Include="docs\ValidationResult.md" />
-    <Content Include="docs\Variable.md" />
-    <Content Include="docs\VariableValue.md" />
-    <Content Include="docs\ViewColumn.md" />
-    <Content Include="docs\Watcher.md" />
-    <Content Include="docs\WebsiteFormElement.md" />
-    <Content Include="docs\WeeklySchedule.md" />
-    <Content Include="docs\Workflow.md" />
-    <Content Include="docs\WorkflowCompilerResult.md" />
-    <Content Include="docs\WorkflowDefinition.md" />
-    <Content Include="docs\WorkflowDefinitionPackage.md" />
-    <Content Include="docs\WorkflowDesigner.md" />
-    <Content Include="docs\WorkflowTriggerMap.md" />
-    <Content Include="docs\XmlSerializerService.md" />
-    <Content Include="docs\XsdMetadata.md" />
-    <Content Include="docs\architecture.md" />
-    <Content Include="docs\components.md" />
-    <Content Include="docs\solution.explorer.md" />
-    <Content Include="docs\Trigger.HowTo.PassCurrentRecordToWorkflow.md" />
-    <Content Include="images\charts.png" />
-    <Content Include="docs\WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.md" />
-    <Content Include="docs\WorkflowDefinition.HowTo.DetermineKpiForYourUsers.md" />
-    <Content Include="docs\WorkflowDefinition.HowTo.DoAWhileLoop.md" />
-    <Content Include="docs\WorkflowDefinition.HowTo.RetrieveARecord.md" />
-    <Content Include="docs\WorkflowDefinition.HowTo.SetADatelineToActivityScreen.md" />
-    <Content Include="docs\WorkflowDefinition.HowTo.SechedulingAWorkflow.md" />
-    <Content Include="docs\WorkflowDefinition.HowTo.UploadDataToFtp.md" />
-    <Content Include="docs\WorkflowDefinition.HowTo.UseCustomObjectInExpressionActivity.md" />
-    <Content Include="docs\WorkflowDefinition.HowTo.UseExistingEntityDefinitionAsVariable.md" />
-    <Content Include="docs\WorkflowDefiniton.HowTo.DebugYourWorkflow.md" />
-    <Content Include="docs\scripts\main.min.js.map">
-      <DependentUpon>main.min.js</DependentUpon>
-    </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <None Include="Properties\PublishProfiles\bin.pubxml" />
-    <Content Include="images\1.png" />
-    <Content Include="images\2.png" />
-    <Content Include="images\3.png" />
-    <Content Include="images\4.png" />
-    <Content Include="images\5.png" />
-    <Content Include="images\6.png" />
-    <Content Include="images\document.png" />
-    <Content Include="images\form.element.Button.png" />
-    <Content Include="images\form.element.CheckBox.png" />
-    <Content Include="images\form.element.ComboBox.png" />
-    <Content Include="images\form.element.DatePicker.png" />
-    <Content Include="images\form.element.DateTimePicker.png" />
-    <Content Include="images\form.element.DownloadLink.png" />
-    <Content Include="images\form.element.FileUploadElement.png" />
-    <Content Include="images\form.element.HtmlElement.png" />
-    <Content Include="images\form.element.ImageElement.png" />
-    <Content Include="images\form.element.NumberTextBox.png" />
-    <Content Include="images\form.element.TextArea.png" />
-    <Content Include="images\form.element.TextBox.png" />
-    <Content Include="images\list.png" />
-    <Content Include="images\logo_sph.png" />
-    <Content Include="images\mysql-24-black.png" />
-    <Content Include="offline\header.html" />
-    <Content Include="offline\IndexedDB.js" />
-    <Content Include="offline\offline.js" />
-    <Content Include="regex.picker.html" />
-    <Content Include="roles.config.js" />
-    <Content Include="routes.config.js" />
-    <Content Include="Scripts\ace\ace.js" />
-    <Content Include="Scripts\ace\ext-chromevox.js" />
-    <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
-    <Content Include="Scripts\ace\ext-emmet.js" />
-    <Content Include="Scripts\ace\ext-keybinding_menu.js" />
-    <Content Include="Scripts\ace\ext-language_tools.js" />
-    <Content Include="Scripts\ace\ext-modelist.js" />
-    <Content Include="Scripts\ace\ext-old_ie.js" />
-    <Content Include="Scripts\ace\ext-searchbox.js" />
-    <Content Include="Scripts\ace\ext-settings_menu.js" />
-    <Content Include="Scripts\ace\ext-spellcheck.js" />
-    <Content Include="Scripts\ace\ext-split.js" />
-    <Content Include="Scripts\ace\ext-static_highlight.js" />
-    <Content Include="Scripts\ace\ext-statusbar.js" />
-    <Content Include="Scripts\ace\ext-textarea.js" />
-    <Content Include="Scripts\ace\ext-themelist.js" />
-    <Content Include="Scripts\ace\ext-whitespace.js" />
-    <Content Include="Scripts\ace\keybinding-emacs.js" />
-    <Content Include="Scripts\ace\keybinding-vim.js" />
-    <Content Include="Scripts\ace\mode-csharp.js" />
-    <Content Include="Scripts\ace\mode-css.js" />
-    <Content Include="Scripts\ace\mode-html.js" />
-    <Content Include="Scripts\ace\mode-html_completions.js" />
-    <Content Include="Scripts\ace\mode-javascript.js" />
-    <Content Include="Scripts\ace\mode-typescript.js" />
-    <Content Include="Scripts\ace\snippets\csharp.js" />
-    <Content Include="Scripts\ace\snippets\css.js" />
-    <Content Include="Scripts\ace\snippets\html.js" />
-    <Content Include="Scripts\ace\snippets\html_completions.js" />
-    <Content Include="Scripts\ace\snippets\javascript.js" />
-    <Content Include="Scripts\ace\theme-monokai.js" />
-    <Content Include="Scripts\ace\worker-css.js" />
-    <Content Include="Scripts\ace\worker-javascript.js" />
-    <Content Include="Scripts\ace\worker-json.js" />
-    <Content Include="Scripts\ace\worker-xquery.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\complete.ly.1.0.1.min.js" />
-    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.1.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-3.2.0.debug.js" />
-    <Content Include="Scripts\knockout-3.2.0.js" />
-    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
-    <Content Include="Scripts\knockout.mapping-latest.js" />
-    <Content Include="Scripts\localforage\localforage.js" />
-    <Content Include="Scripts\localforage\localforage.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\moment-with-locales.js" />
-    <Content Include="Scripts\moment-with-locales.min.js" />
-    <Content Include="Scripts\moment.js" />
-    <Content Include="Scripts\moment.min.js" />
-    <Content Include="Scripts\npm.js" />
-    <Content Include="Scripts\prism.js" />
-    <Content Include="Scripts\promise-1.0.0.min.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.matchmedia.addListener.js" />
-    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\underscore.js" />
-    <Content Include="Scripts\underscore.min.js" />
-    <Content Include="Scripts\_references.js" />
-    <Content Include="SphApp\ko\_ko.mapping.js" />
-    <Content Include="SphApp\ko\_ko.adapter.http.js" />
-    <Content Include="SphApp\partial\admission-form.js" />
-    <Content Include="SphApp\gulpfile.js" />
-    <Content Include="SphApp\partial\patient-discharge-form.js" />
-    <Content Include="SphApp\partial\patient-registration.js" />
-    <Content Include="SphApp\services\cultures.my.js" />
-    <Content Include="SphApp\services\jsonimportexport.js" />
-    <Content Include="SphApp\viewmodels\advanced-search.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
-    <Content Include="SphApp\viewmodels\deadletter.view.js" />
-    <Content Include="SphApp\viewmodels\functoid-args.js" />
-    <Content Include="SphApp\viewmodels\icon.picker.js" />
-    <Content Include="SphApp\viewmodels\members.selector.dialog.js" />
-    <Content Include="SphApp\viewmodels\not.found.js" />
-    <Content Include="SphApp\viewmodels\search.definition.dialog.js" />
-    <Content Include="SphApp\views\advanced-search.html" />
-    <EmbeddedResource Include="SphApp\views\public.index.html" />
-    <Content Include="SphApp\views\deadletter.view.html" />
-    <Content Include="SphApp\views\functoid-args.html" />
-    <Content Include="SphApp\views\icon.picker.html" />
-    <Content Include="SphApp\views\members.selector.dialog.html" />
-    <Content Include="SphApp\views\not.found.html" />
-    <Content Include="SphApp\views\offline.storage.html" />
-    <Content Include="SphApp\views\search.definition.dialog.html" />
+    <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="SphApp\viewmodels\offline.storage.js" />
-    <Content Include="Views\EntityFormRenderer\TestCustomLayout.cshtml" />
-    <Content Include="Scripts\underscore.min.map" />
-    <Content Include="Views\Login\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1286,14 +269,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\snippets\csharp\" />
-    <Folder Include="App_Data\snippets\css\" />
-    <Folder Include="App_Data\snippets\html\" />
-    <Folder Include="App_Data\snippets\javascript\" />
-    <Folder Include="App_Start\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
-    <Folder Include="Views\OracleAdapter\" />
+    <Folder Include="App_Code\" />
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1302,10 +279,6 @@
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7bf1de5a-3756-4a31-8b82-491c71d263d7}</Project>
       <Name>domain.sph</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\core.sph\core.sph.csproj">
-      <Project>{a2b488b2-a536-49df-9741-b87bdd745d8f}</Project>
-      <Name>core.sph</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -1326,7 +299,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5451</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:4436/</IISUrl>
+          <IISUrl>http://localhost:8081</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

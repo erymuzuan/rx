@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.App_Start;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Models;
 using Newtonsoft.Json;
@@ -59,9 +58,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role) || r.Role == "everybody", User.Identity.IsAuthenticated)
                 .WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
             vm.Routes.AddRange(routes);
-
-            vm.Routes.AddRange(await RouteConfig.GetJsRoutes());
-
+            
             return Script("Index", vm);
         }
 

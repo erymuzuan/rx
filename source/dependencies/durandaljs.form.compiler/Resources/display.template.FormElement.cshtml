@@ -1,0 +1,10 @@
+@using Bespoke.Sph.Domain
+@using Bespoke.Sph.FormCompilers.DurandalJs
+@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+@inherits Template<DurandalJsElementCompiler<FormElement>>
+@{
+}
+
+<div class="alert alert-error">
+    <strong>There's no EditorTemplate for @Model.Element.GetType().Name</strong>
+</div>

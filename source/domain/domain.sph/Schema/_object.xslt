@@ -108,7 +108,8 @@
                 [XmlAttribute]
                 [DebuggerHidden]
                 <xsl:if test="@use='required'">
-                  [Required]</xsl:if>
+                  [Required]
+                </xsl:if>
                 <xsl:choose>
                   <xsl:when test="@type">
                     public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/>

@@ -1,4 +1,6 @@
-﻿namespace Bespoke.Sph.Domain
+﻿using Newtonsoft.Json;
+
+namespace Bespoke.Sph.Domain
 {
     public class WorkflowCompilerResult
     {
@@ -11,5 +13,11 @@
         }
 
         public string Output { get; set; }
+        public string[] Outputs { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
+        }
     }
 }

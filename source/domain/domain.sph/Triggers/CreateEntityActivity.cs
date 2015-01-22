@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf("          this.{0} = item.Id;", this.ReturnValuePath);
             code.AppendLine("      }");
             // set the next activity
-            code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+            code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success };");
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
             
 

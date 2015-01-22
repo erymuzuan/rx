@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/FormDesigner.xsd" xmlns:mstns="http://tempuri.org/FormDesigner.xsd" xmlns:bspk="http://www.bespoke.com.my/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/TriggersWorkflow.xsd" targetNamespace="http://tempuri.org/FormDesigner.xsd" elementFormDefault="qualified" id="FormDesigner">
+	<xs:complexType name="Form" bspk:entity="true">
+		<xs:all>
+			<xs:element ref="FormDesign"/>
+			<xs:element name="CompilerCollection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Compiler" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="Route" type="xs:string" use="required"/>
+	</xs:complexType>
 	<xs:element name="FormDesign">
 		<xs:complexType>
 			<xs:all>
@@ -329,7 +343,7 @@
 			<xs:complexContent>
 				<xs:extension base="FormElement">
 					<xs:attribute name="Command" type="xs:string" use="required"/>
-					<xs:attribute name="UseClick" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsAsynchronous" type="xs:boolean" use="required"/>
 					<xs:attribute name="CommandName" type="xs:string" use="required"/>
 					<xs:attribute name="LoadingText" type="xs:string" use="optional"/>
 					<xs:attribute name="CompleteText" type="xs:string" use="optional"/>
@@ -413,51 +427,52 @@
 	</xs:element>
 	<xs:element name="EntityForm" bspk:entity="true">
 		<xs:complexType>
-			<xs:all>
-				<xs:element ref="FormDesign"/>
-				<xs:element name="Rules">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Rule" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="RouteParameterCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="RouteParameter" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="FormLayoutCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="FormLayout" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:all>
-			<xs:attribute name="EntityDefinitionId" type="xs:string" use="required"/>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Route" type="xs:string" use="required"/>
-			<xs:attribute name="Note" type="xs:string" use="required"/>
-			<xs:attribute name="IsAllowedNewItem" type="xs:boolean" use="required"/>
-			<xs:attribute name="IconClass" type="xs:string" use="required"/>
-			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
-			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsDefault" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsWatchAvailable" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsEmailAvailable" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsPrintAvailable" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsAuditTrailAvailable" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsRemoveAvailable" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsImportAvailable" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsExportAvailable" type="xs:boolean" use="required"/>
-			<xs:attribute name="Operation" type="xs:string" use="required"/>
-			<xs:attribute name="Entity" type="xs:string" use="required"/>
-			<xs:attribute name="Partial" type="xs:string" use="optional"/>
-			<xs:attribute name="Caption" type="xs:string" use="optional"/>
-			<xs:attribute name="Layout" type="xs:string" use="optional"/>
+			<xs:complexContent>
+				<xs:extension base="Form">
+					<xs:all>
+						<xs:element name="Rules">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Rule" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="RouteParameterCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="RouteParameter" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FormLayoutCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="FormLayout" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="EntityDefinitionId" type="xs:string" use="required"/>
+					<xs:attribute name="Note" type="xs:string" use="required"/>
+					<xs:attribute name="IsAllowedNewItem" type="xs:boolean" use="required"/>
+					<xs:attribute name="IconClass" type="xs:string" use="required"/>
+					<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
+					<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsDefault" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsWatchAvailable" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsEmailAvailable" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsPrintAvailable" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsAuditTrailAvailable" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsRemoveAvailable" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsImportAvailable" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsExportAvailable" type="xs:boolean" use="required"/>
+					<xs:attribute name="Operation" type="xs:string" use="required"/>
+					<xs:attribute name="Entity" type="xs:string" use="required"/>
+					<xs:attribute name="Partial" type="xs:string" use="optional"/>
+					<xs:attribute name="Caption" type="xs:string" use="optional"/>
+					<xs:attribute name="Layout" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="FormLayout">

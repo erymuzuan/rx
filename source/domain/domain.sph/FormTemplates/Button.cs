@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Domain
             get { return false; }
         }
 
-        public override BuildError[] ValidateBuild(EntityDefinition ed)
+        public override BuildError[] ValidateBuild(IProjectProvider ed)
         {
             var message =string.Format("[Button] -> '{0}' ",this.Label);
             if(!string.IsNullOrWhiteSpace(this.Operation) && !string.IsNullOrWhiteSpace(this.CommandName))
@@ -23,6 +23,8 @@ namespace Bespoke.Sph.Domain
             }
             return base.ValidateBuild(ed);
         }
+
+
 
     }
 }

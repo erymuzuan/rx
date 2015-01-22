@@ -33,6 +33,14 @@
     $type.__class = true;
 
     $prototype = $type.prototype;
+    $prototype.moment = function String$moment(format) {
+        /// <summary>Create a moment date time object.</summary>
+        /// <param name="format" type="String">format.</param>
+        /// <returns type="moment"></returns>
+        if (format)
+            return moment(this, format);
+        return moment(this);
+    };
     $prototype.endsWith = function String$endsWith(suffix) {
         /// <summary>Determines whether the end of this instance matches the specified string.</summary>
         /// <param name="suffix" type="String">A string to compare to.</param>
@@ -51,6 +59,19 @@
         /// <summary >Removes all leading and trailing white-space characters from the current String object.</summary>
         /// <returns type="String">The string that remains after all white-space characters are removed from the start and end of the current String object.</returns>
         return this.replace(/^\s+|\s+$/g, '');
+    };
+
+    $prototype.isNullOrWhiteSpace = function String$isNullOrWhiteSpace(value) {
+
+        var trimmedValue = String.trim(value);
+        if (!trimmedValue)
+            return true;
+        return false;
+    };
+    $prototype.isNullOrEmpty = function String$isNullOrWhiteSpace(value) {
+        if (!value)
+            return true;
+        return false;
     };
 
     $prototype.trimEnd = function String$trimEnd() {
@@ -77,7 +98,7 @@
         var result = '';
         var format = args[0];
 
-        for (var i = 0;;) {
+        for (var i = 0; ;) {
             // Find the next opening or closing brace
             var open = format.indexOf('{', i);
             var close = format.indexOf('}', i);
@@ -123,7 +144,7 @@
             var argFormat = (colonIndex < 0) ? '' : brace.substring(colonIndex + 1);
 
             var arg = args[argNumber];
-            if (typeof(arg) === "undefined" || arg === null) {
+            if (typeof (arg) === "undefined" || arg === null) {
                 arg = '';
             }
 
@@ -143,7 +164,7 @@
         return result;
     };
 
-})(window);
+})(window); 
 /// <reference path="toastr.js" />
 /// <reference path="_ko.kendo.js" />
 /// <reference path="../kendo/js/kendo.pager.js" />
@@ -247,6 +268,7 @@ bespoke.utils.ServerPager = function (options) {
 /// <reference path="jquery-2.1.1.intellisense.js" />
 /// <reference path="underscore.js" />
 /// <reference path="require.js" />
+/// <reference path="C:\project\work\sph\source\web\core.sph\SphApp/services/datacontext.js" />
 
 ko.bindingHandlers.activityClass = {
     init: function (element, valueAccessor) {
@@ -277,28 +299,85 @@ ko.bindingHandlers.checkedItems = {
     }
 };
 
-ko.bindingHandlers.typeahead = {
-    init: function (element, valueAccessor, allBindingsAccessor) {
-        var id = ko.unwrap(valueAccessor()),
-            allBindings = allBindingsAccessor(),
-            members = new Bloodhound({
-                datumTokenizer: function (d) { return Bloodhound.tokenizers.whitespace(d.Path); },
-                queryTokenizer: Bloodhound.tokenizers.nonword,
-                prefetch: '/WorkflowDefinition/GetVariablePath/' + id
 
+ko.bindingHandlers.wdTypeaheadPath = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var value = valueAccessor(),
+            allBindings = allBindingsAccessor(),
+            instance = ko.unwrap(valueAccessor()),
+            setup = function () {
+
+                var wd = ko.mapping.toJS(instance);
+                var input = $(element),
+                         div = $('<div></div>').css({
+                             'height': '28px'
+                         });
+                input.hide().before(div);
+
+                var c = completely(div[0], {
+                    fontSize: '12px',
+                    color: '#555;',
+                    fontFamily: '"Open Sans", Arial, Helvetica, sans-serif'
+                });
+
+                c.setText(ko.unwrap(allBindings.value));
+                for (var ix in wd) {
+                    if (ix === "$type") continue;
+                    if (ix === "addChildItem") continue;
+                    if (ix === "removeChildItem") continue;
+                    c.options.push("" + ix);
+                }
+                c.options.sort();
+
+                var currentObject = wd;
+                c.onChange = function (text) {
+                    if (text.lastIndexOf(".") === text.length - 1) {
+                        c.options = [];
+                        var props = text.split(".");
+
+                        currentObject = wd;
+                        _(props).each(function (v) {
+                            if (v === "") { return; }
+                            currentObject = currentObject[v];
+                        });
+                        console.log("currentObject", currentObject);
+                        for (var i in currentObject) {
+                            if (i === "$type") continue;
+                            if (i === "addChildItem") continue;
+                            if (i === "removeChildItem") continue;
+                            c.options.push("" + i);
+                        }
+                        c.options.sort();
+                        c.startFrom = text.lastIndexOf(".") + 1;
+                    }
+                    c.repaint();
+                };
+
+                c.repaint();
+                $(c.input)
+                    .attr("autocomplete", "off")
+                    .blur(function () {
+                        allBindings.value($(this).val());
+                    }).parent().find('input')
+                    .css({ "padding": "6px 12px", "height": "28px" });
+
+                if ($(element).prop("required")) {
+                    $(c.input).prop("required", true);
+                }
+
+
+            };
+
+
+        if (typeof value === "function" && typeof value.subscribe === "function") {
+            value.subscribe(function () {
+                $(element).typeahead("destroy");
+                setup();
             });
-        members.initialize();
-        $(element).typeahead({ highlight: true }, {
-            name: 'schema_paths' + id,
-            displayKey: "Path",
-            source: members.ttAdapter()
-        })
-            .on('typeahead:closed', function () {
-                allBindings.value($(this).val());
-            });
+        }
+        setup();
     }
 };
-
 
 ko.bindingHandlers.activityPopover = {
     init: function (element, valueAccessor) {
@@ -689,7 +768,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
                             if (i === "$type") continue;
                             if (i === "addChildItem") continue;
                             if (i === "removeChildItem") continue;
-                            c.options.push('' + i);
+                            c.options.push("" + i);
                         }
                         c.options.sort();
                         c.startFrom = text.lastIndexOf('.') + 1;
@@ -714,7 +793,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
 
         if (idOrName) {
-            context.loadOneAsync('EntityDefinition', "Name eq '" + idOrName + "' OR id eq '" + idOrName + "'", 'Id')
+            context.loadOneAsync("EntityDefinition", "Name eq '" + idOrName + "' OR id eq '" + idOrName + "'", "Id")
                 .done(function (edf) {
                     setup({ name: edf.Name(), id: edf.Id() });
                 });
@@ -724,7 +803,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
         if (typeof value === "function" && typeof value.subscribe === "function") {
             value.subscribe(function (entity) {
-                $(element).typeahead('destroy');
+                $(element).typeahead("destroy");
                 setup(entity);
             });
         }
@@ -932,7 +1011,7 @@ bespoke.lookupText = function (element, valueAccessor) {
             if ((value === null) || (value === undefined))
                 value = "";
             var innerTextNode = ko.virtualElements.firstChild(ele);
-            if (!innerTextNode || innerTextNode.nodeType != 3 || ko.virtualElements.nextSibling(innerTextNode)) {
+            if (!innerTextNode || innerTextNode.nodeType !== 3 || ko.virtualElements.nextSibling(innerTextNode)) {
                 ko.virtualElements.setDomNodeChildren(ele, [ele.ownerDocument.createTextNode(value)]);
             } else {
                 innerTextNode.data = value;

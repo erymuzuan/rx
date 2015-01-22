@@ -24,32 +24,6 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(errors.AsEnumerable());
         }
 
-        public string GetConfirmationMessage()
-        {
-            var nav = string.Empty;
-            if (!string.IsNullOrWhiteSpace(this.NavigateSuccessUrl))
-            {
-                nav = "window.location='" + this.NavigateSuccessUrl + "'";
-                if (this.NavigateSuccessUrl.StartsWith("="))
-                {
-                    nav = "window.location" + this.NavigateSuccessUrl;
-                }
-                if (string.IsNullOrWhiteSpace(this.SuccessMessage))
-                    return nav;
-            }
-
-            if (string.IsNullOrWhiteSpace(this.SuccessMessage)
-                && string.IsNullOrWhiteSpace(this.NavigateSuccessUrl))
-                return string.Empty;
-
-            if (!this.ShowSuccessMessage) return nav;
-
-            return string.Format(@" 
-                                    app.showMessage(""{0}"", ""{1}"", [""OK""])
-	                                    .done(function () {{
-                                            {2}
-	                                    }});
-                                 ", this.SuccessMessage, ConfigurationManager.ApplicationFullName, nav);
-        }
+        
     }
 }

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    [DebuggerDisplay("{Name} :{TypeName}/i{InferredType}")]
     public partial class Member : DomainObject
     {
         [XmlAttribute]
@@ -16,115 +19,125 @@ namespace Bespoke.Sph.Domain
         {
             return string.Format("{0}->{1}:{2}", this.Name, this.FullName, this.TypeName);
         }
+
         [XmlIgnore]
         [JsonIgnore]
         public Type Type
         {
+            get { return Type.GetType(this.TypeName); }
+            set { this.TypeName = value.GetShortAssemblyQualifiedName(); }
+        }
+
+        [XmlIgnore]
+        [JsonIgnore]
+        public string InferredType
+        {
             get
             {
-                return Type.GetType(this.TypeName);
-            }
-            set
-            {
-                this.TypeName = value.GetShortAssemblyQualifiedName();
-            }
-        }
-
-        public string GeneratedCode(string padding = "      ")
-        {
-            if (null == this.Type)
-                throw new InvalidOperationException(this + " doesn't have a type");
-            var code = new StringBuilder();
-            if (typeof(object) == this.Type)
-            {
-                code.AppendLinf(padding + "public {0} {1} {{get;set;}}", this.Name, this.Name);
-                return code.ToString();
-            }
-            if (typeof(Array) == this.Type)
-            {
-                code.AppendLinf(padding + "private readonly ObjectCollection<{0}> m_{1} = new ObjectCollection<{0}>();", this.Name.Replace("Collection", ""), this.Name.ToCamelCase());
-                code.AppendLinf(padding + "public ObjectCollection<{0}> {1}", this.Name.Replace("Collection", ""), this.Name);
-                code.AppendLine(padding + "{");
-                code.AppendLinf(padding + "    get{{ return m_{0};}}", this.Name.ToCamelCase());
-                code.AppendLine(padding + "}");
-                return code.ToString();
-            }
-            if (typeof(string) == this.Type || !this.IsNullable)
-                code.AppendLinf(padding + "[XmlAttribute]");
-            code.AppendLinf(padding + "public {0}{2} {1}{{get;set;}}", this.GetCsharpType(), this.Name, this.GetNullable());
-            return code.ToString();
-        }
-
-        private string GetCsharpType()
-        {
-            return this.Type.ToCSharp();
-        }
-
-        private string GetNullable()
-        {
-            if (!this.IsNullable) return string.Empty;
-            if (typeof(string) == this.Type) return string.Empty;
-            if (typeof(object) == this.Type) return string.Empty;
-            if (typeof(Array) == this.Type) return string.Empty;
-            return "?";
-        }
-
-        public string GeneratedCustomClass()
-        {
-            var code = new StringBuilder();
-            if (typeof(object) == this.Type)
-            {
-                code.AppendLinf("   public class {0}: DomainObject", this.Name);
-            }
-            if (typeof(Array) == this.Type)
-            {
-                code.AppendLinf("   public class {0}: DomainObject", this.Name.Replace("Collection", ""));
-            }
-
-            if (typeof(object) == this.Type || typeof(Array) == this.Type)
-            {
-
-                code.AppendLine("   {");
-                // ctor
-                code.AppendLine("       public " + this.Name.Replace("Collection", "") + "()");
-                code.AppendLine("       {");
-                //code.AppendLinf("           var rc = new RuleContext(this);");
-                //var count = 0;
-                foreach (var member in this.MemberCollection)
+                if (string.IsNullOrWhiteSpace(this.TypeName) && this.MemberCollection.Any() && !this.AllowMultiple)
                 {
-                    if (member.Type == typeof(object))
-                    {
-                        code.AppendLinf("           this.{0} = new {0}();", member.Name);
-                    }
-                    /*
-                    if (null == member.DefaultValue) continue;
-                    count++;
-                    code.AppendLine();
-                    code.AppendLinf("           var mj{1} = \"{0}\";", member.DefaultValue.ToJsonString().Replace("\"", "\\\""), count);
-                    code.AppendLinf("           var field{0} = mj{0}.DeserializeFromJson<{1}>();", count, member.DefaultValue.GetType().Name);
-                    code.AppendLinf("           var val{0} = field{0}.GetValue(rc);", count);
-                    code.AppendLinf("           this.{0} = ({1})val{2};", member.Name, member.Type.FullName, count);
-                
-                     * 
-                     */
+                    return this.Name;
                 }
-                code.AppendLine("       }");
 
-
-                foreach (var member in this.MemberCollection)
+                if (string.IsNullOrWhiteSpace(this.TypeName) && this.MemberCollection.Any() && this.AllowMultiple)
                 {
-                    code.AppendLine(member.GeneratedCode());
+                    return "ObjectCollection`1" + this.Name.Singularize();
+                }
 
-                }
-                code.AppendLine("   }");
-                foreach (var member in this.MemberCollection)
-                {
-                    code.AppendLine(member.GeneratedCustomClass());
-                }
+                return null;
             }
-            return code.FormatCode();
+
         }
 
+        public Property CreateProperty()
+        {
+            var prop = new Property { Name = this.Name, IsNullable = this.IsNullable };
+            if (this.AllowMultiple)
+            {
+                prop.IsReadOnly = true;
+                prop.Initialized = true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(this.InferredType))
+            {
+                prop.TypeName = this.AllowMultiple ? "ObjectCollection<" + this.Name.Singularize() + ">" : this.Name;
+            }
+            else
+            {
+                prop.Type = this.AllowMultiple ? typeof(ObjectCollection<>).MakeGenericType(this.Type) : this.Type;
+            }
+            return prop;
+        }
+
+        public static readonly Type[] NativeTypes =
+        {
+            typeof(string), typeof(long),typeof(short), typeof(int), typeof(double), typeof(bool), typeof(decimal), typeof(DateTime), typeof(char),
+            typeof(long?),typeof(short?),  typeof(int?), typeof(double?), typeof(bool?), typeof(decimal?), typeof(DateTime?), typeof(char?)
+        };
+
+        public bool IsComplex
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(this.InferredType)) return true;
+                if (string.IsNullOrWhiteSpace(this.TypeName) && this.MemberCollection.Any()) return true;
+                return !NativeTypes.Contains(this.Type);
+            }
+        }
+
+        public bool AllowMultiple { get; set; }
+
+        public IEnumerable<Class> GeneratedCustomClass()
+        {
+            if (!this.IsComplex)
+                throw new InvalidOperationException("cannot generate class for simple member type " + this.Type);
+
+            var @class = new Class
+            {
+                Name = this.AllowMultiple ? this.Name.Singularize() : this.Name,
+                BaseClass = typeof(DomainObject).Name
+            };
+            @class.AddNamespaceImport<DomainObject>();
+            @class.AddNamespaceImport<DateTime>();
+
+            var ctor = GenerateConstructor();
+            @class.CtorCollection.Add(ctor.ToString());
+            @class.PropertyCollection.AddRange(this.MemberCollection.Select(x => x.CreateProperty()));
+
+            var @classes = this.MemberCollection
+                .Where(x => x.IsComplex)
+                .Select(x => x.GeneratedCustomClass())
+                .SelectMany(x =>
+                {
+                    var enumerable = x as Class[] ?? x.ToArray();
+                    return enumerable;
+                })
+                .ToList();
+            @classes.Add(@class);
+            return @classes;
+        }
+
+        private StringBuilder GenerateConstructor()
+        {
+            var ctor = new StringBuilder();
+            ctor.AppendLine("       public " + this.Name.Replace("Collection", "") + "()");
+            ctor.AppendLine("       {");
+
+            foreach (var mb in this.MemberCollection)
+            {
+                var type = mb.IsComplex ? mb.InferredType : mb.Name;
+                if (!mb.AllowMultiple && mb.IsComplex)
+                {
+                    ctor.AppendLinf("           this.{0} = new {0}();", mb.Name, type);
+                }
+                if (null == mb.DefaultValue) continue;
+
+                var defaultValueExpression = mb.DefaultValue.GetCSharpExpression();
+                ctor.AppendLinf("           this.{0} = {1};", mb.Name, defaultValueExpression);
+            }
+            ctor.AppendLine("       }");
+            return ctor;
+        }
 
         public void Add(Dictionary<string, Type> members)
         {
@@ -150,69 +163,14 @@ namespace Bespoke.Sph.Domain
             return list.ToArray();
         }
 
-        public string GenerateJavascriptClass(string jsNamespace, string codeNamespace, string assemblyName)
+        public Member AddMember(string name, Type type)
         {
-            var script = new StringBuilder();
-            var name = this.Name.Replace("Collection", "");
 
-            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, name);
-            script.AppendLine(" var model = {");
-            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", codeNamespace, name,
-                assemblyName);
-            foreach (var item in this.MemberCollection)
-            {
-                if (item.Type == typeof(Array))
-                    script.AppendLinf("     {0}: ko.observableArray([]),", item.Name);
-                else if (item.Type == typeof(object))
-                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}()),", item.Name, jsNamespace);
-                else
-                    script.AppendLinf("     {0}: ko.observable(),", item.Name);
-            }
-            script.AppendFormat(@"
-    addChildItem : function(list, type){{
-                        return function(){{
-                            list.push(new childType(system.guid()));
-                        }}
-                    }},
-            
-   removeChildItem : function(list, obj){{
-                        return function(){{
-                            list.remove(obj);
-                        }}
-                    }},
-");
-            script.AppendLine("     WebId: ko.observable()");
-
-            script.AppendLine(" };");
-
-            script.AppendLine(@" 
-             if (optionOrWebid && typeof optionOrWebid === ""object"") {
-                for (var n in optionOrWebid) {
-                    if (typeof model[n] === ""function"") {
-                        model[n](optionOrWebid[n]);
-                    }
-                }
-            }
-            if (optionOrWebid && typeof optionOrWebid === ""string"") {
-                model.WebId(optionOrWebid);
-            }");
-
-            script.AppendFormat(@"
-
-    if (bespoke.{0}.domain.{1}Partial) {{
-        return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
-    }}
-", jsNamespace, this.Name.Replace("Collection", string.Empty));
-
-            script.AppendLine(" return model;");
-            script.AppendLine("};");
-
-            foreach (var item in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
-            {
-                var code = item.GenerateJavascriptClass(jsNamespace, codeNamespace, assemblyName);
-                script.AppendLine(code);
-            }
-            return script.ToString();
+            var child = new Member { Name = name, Type = type, WebId = Guid.NewGuid().ToString() };
+            this.MemberCollection.Add(child);
+            return child;
         }
+
+   
     }
 }

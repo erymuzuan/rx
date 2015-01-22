@@ -1,0 +1,40 @@
+@using System.Linq
+@using Bespoke.Sph.Domain
+@using Bespoke.Sph.FormCompilers.DurandalJs
+@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+@inherits Template<EntityLookupElementCompiler>
+
+@{
+    var element = Model.Element; 
+    var columns = string.Join(",", element.LookupColumnCollection.Select(c => string.Format("'{0}'", c)));
+
+}
+
+
+    <div data-bind="visible:@element.Visible" class="form-group">
+        <label for="@element.ElementId" class="@element.LabelCssClass">@element.Label</label>
+    
+        
+
+        <div class="@element.InputPanelCssClass">
+            <a class="btn btn-link" 
+               data-bind="tooltip :'@element.Tooltip',lookup : {entity: '@element.Entity', member : '@element.ValueMemberPath', value : @element.Path.ConvertJavascriptObjectToFunction(), columns : [@Raw(columns)]}"
+               id="@element.ElementId">
+                @if (!string.IsNullOrWhiteSpace(element.DisplayTemplate))
+                {
+                    @Raw(element.DisplayTemplate);
+                }
+                else
+                {
+                         <!-- ko lookupText: { entity : '@element.Entity', value : @element.Path.ConvertJavascriptObjectToFunction(), valuePath :'@element.ValueMemberPath', displayPath : '@element.DisplayMemberPath'} -->
+                            <!-- /ko -->
+                }
+                <i class="fa fa-search"></i>
+            </a>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(element.HelpText))
+        {
+            <span class="help-block">@element.HelpText</span>
+        }
+    </div>
+

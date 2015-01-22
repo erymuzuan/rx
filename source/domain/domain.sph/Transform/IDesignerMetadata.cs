@@ -15,6 +15,6 @@ namespace Bespoke.Sph.Domain
         string FontAwesomeIcon { get; }
         string BootstrapIcon { get; }
         string PngIcon { get;  }
+        bool IsEnabled{ get;  }
     }
-
 }

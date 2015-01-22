@@ -1,5 +1,6 @@
-using System.IO;
-using System.Net.Http;
+using System;
+using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -19,23 +20,29 @@ namespace subscriber.entities
 
         }
 
+        [ImportMany(FormCompilerMetadataAttribute.FORM_COMPILER_CONTRACT, typeof(FormCompiler), AllowRecomposition = true)]
+        public Lazy<FormCompiler, IFormCompilerMetadata>[] Compilers { get; set; }
+
+
         protected async override Task ProcessMessage(EntityForm item, MessageHeaders header)
         {
-            var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + item.Route.ToLower() + ".html");
-            using (var client = new HttpClient())
-            {
-                var uri = ConfigurationManager.BaseUrl + "/Sph/EntityFormRenderer/Html/" + item.Route;
-                this.WriteMessage("Rendering {0}", uri);
-                var markup = await client.GetStringAsync(uri);
-                File.WriteAllText(html, markup);
-            }
+            if (null == this.Compilers)
+                ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.Compilers)
+                throw new InvalidOperationException("Cannot initiate MEF");
 
-
-            var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + item.Route.ToLower() + ".js");
-            using (var client = new HttpClient())
+            foreach (var name in item.CompilerCollection)
             {
-                var script = await client.GetStringAsync(ConfigurationManager.BaseUrl + "/Sph/EntityFormRenderer/Js/" + item.Route);
-                File.WriteAllText(js, script);
+
+                var name1 = name;
+                var lazy = this.Compilers.SingleOrDefault(x => x.Metadata.Name == name1);
+                if (null == lazy)
+                    throw new InvalidOperationException("Cannot find compiler " + name);
+                var compiler = lazy.Value;
+                var result = await compiler.CompileAsync(item);
+                var errors = string.Join("\r\n", result.Errors.ToString());
+                this.WriteMessage("{2} to compile {0} with {1}\r\n{3}", item.Name, name, result.Result ? "Successfully" : "Failed", errors);
+
             }
 
         }

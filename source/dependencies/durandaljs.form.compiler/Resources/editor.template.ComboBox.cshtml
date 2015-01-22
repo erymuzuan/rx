@@ -1,0 +1,16 @@
+@using Bespoke.Sph.Domain
+@using Bespoke.Sph.FormCompilers.DurandalJs
+@using Bespoke.Sph.FormCompilers.DurandalJs.FormElements
+@inherits Template<ComboBoxCompiler>
+@{
+    var element = Model.Element;
+    var required = element.IsRequired ? "required" : null;
+}
+
+<select @required data-bind="@Raw(Model.GetKnockoutBindingExpression())" id="@element.ElementId" name="@(element.Path)" class="@(element.CssClass + " "+ element.Size) form-control">
+    @foreach (var op in element.ComboBoxItemCollection)
+    {
+    <option value="@op.Value">@op.Caption</option>
+    }
+</select>
+

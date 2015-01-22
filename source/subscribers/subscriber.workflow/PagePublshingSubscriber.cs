@@ -1,11 +1,11 @@
-﻿using System.IO;
+﻿using System;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace Bespoke.Sph.WorkflowsExecution
 {
-    public class PagePublshingSubscriber : Subscriber<Page>
+    public class ScreenActivityFormPublshingSubscriber : Subscriber<ScreenActivityForm>
     {
         public override string QueueName
         {
@@ -18,20 +18,15 @@ namespace Bespoke.Sph.WorkflowsExecution
             {
                 return new[]
                 {
-                    typeof(Page).Name + ".#.#"
+                    typeof(ScreenActivityForm).Name + ".#.#"
                 };
             }
         }
 
-        protected override Task ProcessMessage(Page item, MessageHeaders header)
+        protected override Task ProcessMessage(ScreenActivityForm item, MessageHeaders header)
         {
-            var wc = ConfigurationManager.WebPath + item.VirtualPath.Replace("~", "");
-            var folder = Path.GetDirectoryName(wc) ?? "";
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
 
-
-            File.WriteAllText(wc, item.Code);
+            this.WriteError(new NotImplementedException("Whoaaa ScreenActivityForm not implemented"));
             return Task.FromResult(0);
         }
     }
