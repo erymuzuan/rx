@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.FormCompilers.DurandalJs;
 using Bespoke.Sph.Templating;
+using Moq;
 using NUnit.Framework;
 
 namespace durandaljs.compiler.test
@@ -14,42 +16,46 @@ namespace durandaljs.compiler.test
     public class SolutionCompilerTestFixture
     {
         // ReSharper disable InconsistentNaming
-        private EntityDefinition m_course;
-        private EntityDefinition GetCourseIntance()
+
+        private EntityDefinition CreateCourseInstance()
         {
-            lock (m_course)
-            {
-                return m_course;
-            }
+            var course = new EntityDefinition { Name = "Course", Id = "course", RecordName = "No" };
+            course.MemberCollection.Add(new Member { Type = typeof(string), Name = "No" });
+            course.MemberCollection.Add(new Member { Type = typeof(string), Name = "Name" });
+            course.MemberCollection.Add(new Member { Type = typeof(int), Name = "Rating" });
+            course.MemberCollection.Add(new Member { Type = typeof(string), Name = "Author" });
+
+            var edr = new MockRepository<EntityDefinition>();
+            ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(edr);
+
+            edr.AddToDictionary(XNamePmName, course);
+            return course;
         }
 
+        private WorkflowDefinition CreateWorkflowInstance()
+        {
+            var wdr = new MockRepository<WorkflowDefinition>();
+            ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(wdr);
 
-        private WorkflowDefinition work;
+            var work = new WorkflowDefinition { Id = "simple-work", Name = "Simple Work", SchemaStoreId = "x" };
+            wdr.AddToDictionary(XNamePmName, work);
+            return work;
+        }
         // ReSharper restore InconsistentNaming
         private const string XNamePmName = "x.Name == pm.Name";
-        private MockRepository<EntityDefinition> edr;
-        private MockRepository<WorkflowDefinition> wdr;
         [TestFixtureSetUp]
         public void SetUp()
         {
-            m_course = new EntityDefinition { Name = "Course", Id = "course", RecordName = "No" };
-            m_course.MemberCollection.Add(new Member { Type = typeof(string), Name = "No" });
-            m_course.MemberCollection.Add(new Member { Type = typeof(string), Name = "Name" });
-            m_course.MemberCollection.Add(new Member { Type = typeof(int), Name = "Rating" });
-            m_course.MemberCollection.Add(new Member { Type = typeof(string), Name = "Author" });
-
-            work = new WorkflowDefinition { Id = "simple-work", Name = "Simple Work" };
-
-            edr = new MockRepository<EntityDefinition>();
-            edr.AddToDictionary(XNamePmName, m_course);
-
-            wdr = new MockRepository<WorkflowDefinition>();
-            wdr.AddToDictionary(XNamePmName, work);
-
+            var doc = new BinaryStore
+            {
+                Content = File.ReadAllBytes(@"C:\project\work\sph\source\unit.test\domain.test\workflows\PemohonWakaf.xsd")
+            };
+            var store = new Mock<IBinaryStore>(MockBehavior.Strict);
+            store.Setup(x => x.GetContent("x"))
+                .Returns(doc);
+            ObjectBuilder.AddCacheList(store.Object);
 
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
-            ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(edr);
-            ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(wdr);
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
 
@@ -59,7 +65,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public async Task CompileEntityDefinitionModelWithAggregate()
         {
-            var course = this.GetCourseIntance();
+            var course = this.CreateCourseInstance();
             var tutor = new Member { Name = "Tutor" };
             tutor.AddMember("Age", typeof(int));
             tutor.AddMember("Name", typeof(string));
@@ -79,13 +85,14 @@ namespace durandaljs.compiler.test
             if (DebuggerHelper.IsVerbose)
                 results.SelectMany(x => x.Outputs).ToList().ForEach(Console.WriteLine);
 
-            StringAssert.Contains("domain.Coursed", results[0].Outputs[0]);
+            StringAssert.Contains("domain.Course", results[0].Outputs[0]);
         }
+
         [Test]
         [Trace(Verbose = false)]
         public void GenerateCodeEntityDefinitionModelWithAggregate()
         {
-            var course = this.GetCourseIntance();
+            var course = this.CreateCourseInstance();
             var tutor = new Member { Name = "Tutor" };
             tutor.AddMember("Age", typeof(int));
             tutor.AddMember("Name", typeof(string));
@@ -112,7 +119,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public void GenerateCodeEntityDefinitionWithCollection()
         {
-            var course = this.GetCourseIntance();
+            var course = this.CreateCourseInstance();
             var ratings = new Member { Name = "RatingCollection", AllowMultiple = true };
             ratings.AddMember("Star", typeof(int));
             ratings.AddMember("Date", typeof(DateTime));
@@ -132,7 +139,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public void GenerateCodeEntityDefinitionWithPlural()
         {
-            var course = this.GetCourseIntance();
+            var course = this.CreateCourseInstance();
             var ratings = new Member { Name = "Ratings", AllowMultiple = true };
             ratings.AddMember("Star", typeof(int));
             ratings.AddMember("Date", typeof(DateTime));
@@ -152,7 +159,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public async Task CompileEntityDefinitionModel()
         {
-            var course = this.GetCourseIntance();
+            var course = this.CreateCourseInstance();
             var ratings = new Member { Name = "Ratings", AllowMultiple = true };
             ratings.AddMember("Star", typeof(int));
             ratings.AddMember("Date", typeof(DateTime));
@@ -166,7 +173,6 @@ namespace durandaljs.compiler.test
             tutor.AddMember("Title", typeof(string));
             course.MemberCollection.Add(tutor);
 
-            edr.AddToDictionary(XNamePmName, course);
 
             var sol = new Solution { Id = "dev" };
             sol.ProjectMetadataCollection.Add(new ProjectMetadata
@@ -188,6 +194,7 @@ namespace durandaljs.compiler.test
         [Trace(Verbose = false)]
         public async Task CompileWorkflowDefinitionModelSimpleVariable()
         {
+            var work = this.CreateWorkflowInstance();
             work.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Mrn", Type = typeof(string) });
 
             var sol = new Solution { Id = "dev" };
@@ -203,7 +210,7 @@ namespace durandaljs.compiler.test
                 results.SelectMany(x => x.Outputs).ToList().ForEach(Console.WriteLine);
 
             StringAssert.Contains("_simplework.domain.SimpleWorkWorkflow", results[0].Outputs[0]);
-            StringAssert.Contains("Mrn: ko.observable(),", results[0].Outputs[0]);
+            StringAssert.Contains("Mrn : ko.observable(),", results[0].Outputs[0]);
         }
 
 
@@ -218,6 +225,7 @@ namespace durandaljs.compiler.test
             Assert.IsTrue(prop.IsReadOnly, prop.Code);
             Console.WriteLine(prop);
         }
+
         [Test]
         [Trace(Verbose = true)]
         public void CreatePropertyOnMemberNativeArray()
@@ -229,6 +237,7 @@ namespace durandaljs.compiler.test
             Assert.IsTrue(prop.IsReadOnly, prop.Code);
             Console.WriteLine(prop);
         }
+
         [Test]
         [Trace(Verbose = true)]
         public void CreatePropertyOnMemberNativeNullableArray()
@@ -240,6 +249,7 @@ namespace durandaljs.compiler.test
             Assert.IsTrue(prop.IsReadOnly, prop.Code);
             Console.WriteLine(prop);
         }
+
         [Test]
         [Trace(Verbose = true)]
         public void CreatePropertyOnMemberSimpleString()
@@ -274,8 +284,9 @@ namespace durandaljs.compiler.test
                 Name = "SamplePerson",
                 CanInitiateWithDefaultConstructor = true,
             };
+            var wd = CreateWorkflowInstance();
 
-            var member = clr.CreateMember();
+            var member = clr.CreateMember(wd);
             Assert.AreEqual(6, member.MemberCollection.Count);
             Assert.AreEqual("Name", member.MemberCollection[0].Name);
             Assert.AreEqual("Age", member.MemberCollection[1].Name);
@@ -299,16 +310,70 @@ namespace durandaljs.compiler.test
 
 
         }
+        
 
         [Test]
-        [Trace(Verbose = true)]
-        public async Task CompileWorkflowDefinitionModelClrTypeVariable()
+        [Trace(Verbose = false)]
+        public void WdWithXsdVariable_CheckMembers()
         {
+            var work = CreateWorkflowInstance();
+            work.VariableDefinitionCollection.Add(new ComplexVariable
+            {
+                Name = "Pemohon",
+                TypeName = "Applicant",
+                WebId = "a"
+            });
+
+
+            var members = work.Members.ToList();
+            Assert.AreEqual(1, members.Count);
+            var pemohon = members.First();
+            Assert.AreEqual("Pemohon", pemohon.Name);
+            Assert.AreEqual(10, pemohon.MemberCollection.Count);
+            Assert.AreEqual("Name", pemohon.MemberCollection[0].Name);
+            Assert.AreEqual("MyKad", pemohon.MemberCollection[1].Name);
+            Assert.AreEqual("RegisteredDate", pemohon.MemberCollection[2].Name);
+            Assert.AreEqual(typeof(DateTime), pemohon.MemberCollection[2].Type);
+
+        }
+
+        [Test]
+        [Trace(Verbose = false)]
+        public void WdWithClrVariable_CheckMembers()
+        {
+            var work = CreateWorkflowInstance();
             work.VariableDefinitionCollection.Add(new ClrTypeVariable
             {
-                Type = typeof(Address),
-                Assembly = typeof(Address).GetShortAssemblyQualifiedName(),
-                Name = "SamplePerson",
+                Type = typeof(Patient),
+                Assembly = typeof(Patient).GetShortAssemblyQualifiedName(),
+                Name = "Pesakit",
+                CanInitiateWithDefaultConstructor = true,
+            });
+
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine("iteration : {0}", i + 1);
+                var members = work.Members.ToList();
+                Assert.AreEqual(1, members.Count);
+                var pesakit = members.First();
+                Assert.AreEqual("Pesakit", pesakit.Name);
+                Assert.AreEqual(typeof(Patient), pesakit.Type);
+                Assert.IsTrue(pesakit.IsComplex);
+                Assert.IsTrue(string.IsNullOrWhiteSpace(pesakit.InferredType));
+                Assert.AreEqual(6, pesakit.MemberCollection.Count);
+            }
+        }
+
+        [Test]
+        [Trace(Verbose = false)]
+        public async Task WdWithClrVariable_GenerateJs()
+        {
+            var work = CreateWorkflowInstance();
+            work.VariableDefinitionCollection.Add(new ClrTypeVariable
+            {
+                Type = typeof(Patient),
+                Assembly = typeof(Patient).GetShortAssemblyQualifiedName(),
+                Name = "Pesakit",
                 CanInitiateWithDefaultConstructor = true,
             });
 
@@ -325,9 +390,9 @@ namespace durandaljs.compiler.test
             if (DebuggerHelper.IsVerbose)
                 results.SelectMany(x => x.Outputs).ToList().ForEach(Console.WriteLine);
 
-            StringAssert.Contains("_simplework.domain.SimpleWorkWorkflow", results[0].Outputs[0]);
-            StringAssert.Contains("bespoke.TestATM_simplework.domain.SampleCrlVariable", results[0].Outputs[0]);
-            StringAssert.Contains("bespoke.TestATM_simplework.domain.SampleChildCrlVariable", results[0].Outputs[0]);
+            StringAssert.Contains("_simplework.domain.SimpleWorkWorkflow = function(", results[0].Outputs[0]);
+            StringAssert.Contains("bespoke.TestATM_simplework.domain.Patient = function(", results[0].Outputs[0]);
+            StringAssert.Contains("bespoke.TestATM_simplework.domain.Address = function(", results[0].Outputs[0]);
         }
     }
 

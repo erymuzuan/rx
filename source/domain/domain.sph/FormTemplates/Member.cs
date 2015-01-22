@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
@@ -8,6 +9,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    [DebuggerDisplay("{Name} :{TypeName}/i{InferredType}")]
     public partial class Member : DomainObject
     {
         [XmlAttribute]
@@ -17,6 +19,7 @@ namespace Bespoke.Sph.Domain
         {
             return string.Format("{0}->{1}:{2}", this.Name, this.FullName, this.TypeName);
         }
+
         [XmlIgnore]
         [JsonIgnore]
         public Type Type
@@ -77,6 +80,7 @@ namespace Bespoke.Sph.Domain
             get
             {
                 if (!string.IsNullOrWhiteSpace(this.InferredType)) return true;
+                if (string.IsNullOrWhiteSpace(this.TypeName) && this.MemberCollection.Any()) return true;
                 return !NativeTypes.Contains(this.Type);
             }
         }
@@ -166,5 +170,7 @@ namespace Bespoke.Sph.Domain
             this.MemberCollection.Add(child);
             return child;
         }
+
+   
     }
 }

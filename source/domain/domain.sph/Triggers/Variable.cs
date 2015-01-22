@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(ClrTypeVariable))]
     public partial class Variable : DomainObject
     {
-        public virtual string GeneratedCode(WorkflowDefinition workflowDefinition)
+        public virtual string GeneratedCode(WorkflowDefinition wd)
         {
             throw new System.NotImplementedException();
         }
@@ -31,12 +31,9 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public virtual string GetJsonIntance(WorkflowDefinition wd)
-        {
-            return string.Format("\"{0}\" : null", this.Name);
-        }
+  
 
-        public virtual Member CreateMember()
+        public virtual Member CreateMember(WorkflowDefinition wd)
         {
             throw new System.NotImplementedException();
         }

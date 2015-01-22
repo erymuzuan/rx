@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -27,13 +28,20 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-
-        public override Member CreateMember()
+        private Member m_member;
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            var member = new Member { Name = this.Name, Type  = this.Type};
+            m_member = null;
+            base.OnPropertyChanged(e);
+        }
 
+        public override Member CreateMember(WorkflowDefinition wd)
+        {
+            if (null != m_member)
+                return m_member;
+            var member = new Member { Name = this.Name, Type = this.Type };
             this.PopulateMember(member, this.Type);
-            return member;
+            return m_member = member;
         }
 
         private void PopulateMember(Member member, Type childType)
@@ -63,9 +71,9 @@ namespace Bespoke.Sph.Domain
                 {
                     Console.WriteLine("IEnumerable " + prop.Name);
                     var coll = member.AddMember(prop.Name, prop.PropertyType.GenericTypeArguments[0]);
-                    coll.AllowMultiple = true ;
+                    coll.AllowMultiple = true;
 
-                    
+
                     continue;
                 }
 
@@ -105,10 +113,10 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public override string GetJsonIntance(WorkflowDefinition wd)
+        public string GetJsonIntance(WorkflowDefinition wd)
         {
             var type = this.Type;
-            if (null == type) return base.GetJsonIntance(wd);
+            //if (null == type) return base.GetJsonIntance(wd);
 
             var instance = Activator.CreateInstance(type);
             return "\"" + this.Name + "\" :" + JsonConvert.SerializeObject(instance);

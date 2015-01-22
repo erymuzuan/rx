@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public override Member CreateMember()
+        public override Member CreateMember(WorkflowDefinition wd)
         {
             return new Member { Name = this.Name, Type = this.Type, IsNullable = true, DefaultValue = new ConstantField { Value = this.DefaultValue } };
         }

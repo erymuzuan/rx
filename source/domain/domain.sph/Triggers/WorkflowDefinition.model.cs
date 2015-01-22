@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Domain
             get
             {
                 var members = this.VariableDefinitionCollection
-                    .Select(v => v.CreateMember())
+                    .Select(v => v.CreateMember(this))
                     .ToList();
 
                 return members;

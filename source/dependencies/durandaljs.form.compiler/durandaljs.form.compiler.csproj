@@ -216,6 +216,7 @@
     <Compile Include="FormElements\TextBoxCompiler.cs" />
     <Compile Include="FormElements\WebsiteFormElementCompiler.cs" />
     <Compile Include="Template.cs" />
+    <Compile Include="XsdJavascript.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
