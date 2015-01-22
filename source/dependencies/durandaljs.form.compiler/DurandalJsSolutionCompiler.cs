@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,23 +75,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             script.AppendLine("var bespoke = bespoke ||{};");
             script.AppendLinf("bespoke.{0} = bespoke.{0} ||{{}};", jsNamespace);
             script.AppendLinf("bespoke.{0}.domain = bespoke.{0}.domain ||{{}};", jsNamespace);
-
+            script.AppendLine();
+            script.AppendLine();
             script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, model.Name);
             script.AppendLine(" var system = require('services/system'),");
             script.AppendLine(" model = {");
             script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", model.DefaultNamespace, model.Name, assemblyName);
             script.AppendLine("     Id : ko.observable(\"0\"),");
-            foreach (var item in model.Members)
-            {
-                if (item.AllowMultiple)
-                    script.AppendLinf("     {0} : ko.observableArray([]),", item.Name);
-                else if (item.IsComplex && !item.AllowMultiple && !string.IsNullOrWhiteSpace(item.InferredType))
-                    script.AppendLinf("     {0} : ko.observable(new bespoke.{1}.domain.{0}()),", item.Name, jsNamespace);
-                else if (Member.NativeTypes.Contains(item.Type))
-                    script.AppendLinf("     {0}: ko.observable(),", item.Name);
-            }
+
+            var membersDeclarations = model.Members.Select(m => "     " + m.GetMemberDeclaration(jsNamespace));
+            script.AppendLine(string.Join(", \r\n", membersDeclarations) + ",");
             script.AppendFormat(AddRemoveChildItemFunctions);
-            script.AppendLine("     WebId: ko.observable()");
+            script.AppendLine("     WebId : ko.observable()");
 
             script.AppendLine(" };");
 
@@ -99,9 +95,20 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             script.AppendLine(" return model;");
             script.AppendLine("};");
-            foreach (var item in model.Members.Where(m => m.IsComplex && !string.IsNullOrWhiteSpace(m.InferredType)))
+
+            var generated = new List<string>();
+            // unknown member types
+            foreach (var mb in model.Members.Where(m => m.IsComplex && !string.IsNullOrWhiteSpace(m.InferredType)))
             {
-                var code = this.GenerateJavascriptClass(item, jsNamespace, model.DefaultNamespace, assemblyName);
+                var code = this.GenerateJavascriptClass(mb, jsNamespace, model.DefaultNamespace, assemblyName, generated);
+                generated.Add(mb.InferredType);
+                script.AppendLine(code);
+            }
+            // known member types
+            foreach (var mb in model.Members.Where(m => m.IsComplex && !string.IsNullOrWhiteSpace(m.TypeName)))
+            {
+                var code = this.GenerateJavascriptClass(mb, jsNamespace, model.DefaultNamespace, assemblyName, generated);
+                generated.Add(mb.Type.Name);
                 script.AppendLine(code);
             }
             return script.ToString();
@@ -114,7 +121,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 generatedTypes = new List<string>();
             var t0 = member.IsComplex && !string.IsNullOrWhiteSpace(member.InferredType)
                   ? member.InferredType
-                  : member.Type.ToCSharp();
+                  : member.Type.Name;
+            Console.WriteLine("Generating : {0} \t-> {1}", t0, string.Join(", ", generatedTypes));
             if (generatedTypes.Contains(t0)) return string.Empty;
 
 
@@ -149,11 +157,37 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var code = this.GenerateJavascriptClass(mb, jsNamespace, codeNamespace, assemblyName, generatedTypes);
                 var t = mb.IsComplex && !string.IsNullOrWhiteSpace(mb.InferredType)
                     ? mb.InferredType
-                    : mb.Type.ToCSharp();
+                    : mb.Type.Name;
                 generatedTypes.Add(t);
                 script.AppendLine(code);
             }
             return script.ToString();
+        }
+    }
+
+    internal static class JavascriptCodeHelpers
+    {
+        internal static string GetMemberDeclaration(this Member mb, string jsNamespace, string operand = ":")
+        {
+            var array = mb.AllowMultiple;
+            var unknowComplex = mb.IsComplex && !mb.AllowMultiple &&
+                                !string.IsNullOrWhiteSpace(mb.InferredType);
+            var knowComplex = mb.IsComplex && !mb.AllowMultiple
+                              && !string.IsNullOrWhiteSpace(mb.TypeName);
+            if (array)
+            {
+                return string.Format("{0} {1} ko.observableArray([])", mb.Name, operand);
+            }
+            if (unknowComplex)
+            {
+                return string.Format("{0} :{2} ko.observable(new bespoke.{1}.domain.{0}())", mb.Name, jsNamespace, operand);
+            }
+            if (knowComplex)
+            {
+                return string.Format("{0} {3} ko.observable(new bespoke.{1}.domain.{2}())", mb.Name, jsNamespace, mb.Type.Name, operand);
+            }
+            //simple
+            return string.Format("{0} {1} ko.observable()", mb.Name, operand);
         }
     }
 

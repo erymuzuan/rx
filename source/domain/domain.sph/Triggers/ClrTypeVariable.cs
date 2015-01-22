@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -27,13 +28,20 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+        private Member m_member;
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            m_member = null;
+            base.OnPropertyChanged(e);
+        }
 
         public override Member CreateMember()
         {
-            var member = new Member { Name = this.Name, Type  = this.Type};
-
+            if (null != m_member)
+                return m_member;
+            var member = new Member { Name = this.Name, Type = this.Type };
             this.PopulateMember(member, this.Type);
-            return member;
+            return m_member = member;
         }
 
         private void PopulateMember(Member member, Type childType)
@@ -63,9 +71,9 @@ namespace Bespoke.Sph.Domain
                 {
                     Console.WriteLine("IEnumerable " + prop.Name);
                     var coll = member.AddMember(prop.Name, prop.PropertyType.GenericTypeArguments[0]);
-                    coll.AllowMultiple = true ;
+                    coll.AllowMultiple = true;
 
-                    
+
                     continue;
                 }
 

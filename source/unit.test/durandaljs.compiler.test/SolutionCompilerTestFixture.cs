@@ -79,8 +79,9 @@ namespace durandaljs.compiler.test
             if (DebuggerHelper.IsVerbose)
                 results.SelectMany(x => x.Outputs).ToList().ForEach(Console.WriteLine);
 
-            StringAssert.Contains("domain.Coursed", results[0].Outputs[0]);
+            StringAssert.Contains("domain.Course", results[0].Outputs[0]);
         }
+
         [Test]
         [Trace(Verbose = false)]
         public void GenerateCodeEntityDefinitionModelWithAggregate()
@@ -203,7 +204,7 @@ namespace durandaljs.compiler.test
                 results.SelectMany(x => x.Outputs).ToList().ForEach(Console.WriteLine);
 
             StringAssert.Contains("_simplework.domain.SimpleWorkWorkflow", results[0].Outputs[0]);
-            StringAssert.Contains("Mrn: ko.observable(),", results[0].Outputs[0]);
+            StringAssert.Contains("Mrn : ko.observable(),", results[0].Outputs[0]);
         }
 
 
@@ -300,15 +301,44 @@ namespace durandaljs.compiler.test
 
         }
 
+
+
+
         [Test]
-        [Trace(Verbose = true)]
-        public async Task CompileWorkflowDefinitionModelClrTypeVariable()
+        [Trace(Verbose = false)]
+        public void WdWithClrVariable_CheckMembers()
         {
             work.VariableDefinitionCollection.Add(new ClrTypeVariable
             {
-                Type = typeof(Address),
-                Assembly = typeof(Address).GetShortAssemblyQualifiedName(),
-                Name = "SamplePerson",
+                Type = typeof(Patient),
+                Assembly = typeof(Patient).GetShortAssemblyQualifiedName(),
+                Name = "Pesakit",
+                CanInitiateWithDefaultConstructor = true,
+            });
+
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine("iteration : {0}", i + 1);
+                var members = work.Members.ToList();
+                Assert.AreEqual(1, members.Count);
+                var pesakit = members.First();
+                Assert.AreEqual("Pesakit", pesakit.Name);
+                Assert.AreEqual(typeof(Patient), pesakit.Type);
+                Assert.IsTrue(pesakit.IsComplex);
+                Assert.IsTrue(string.IsNullOrWhiteSpace(pesakit.InferredType));
+                Assert.AreEqual(6, pesakit.MemberCollection.Count);
+            }
+        }
+
+        [Test]
+        [Trace(Verbose = false)]
+        public async Task WdWithClrVariable_GenerateJs()
+        {
+            work.VariableDefinitionCollection.Add(new ClrTypeVariable
+            {
+                Type = typeof(Patient),
+                Assembly = typeof(Patient).GetShortAssemblyQualifiedName(),
+                Name = "Pesakit",
                 CanInitiateWithDefaultConstructor = true,
             });
 
@@ -325,9 +355,9 @@ namespace durandaljs.compiler.test
             if (DebuggerHelper.IsVerbose)
                 results.SelectMany(x => x.Outputs).ToList().ForEach(Console.WriteLine);
 
-            StringAssert.Contains("_simplework.domain.SimpleWorkWorkflow", results[0].Outputs[0]);
-            StringAssert.Contains("bespoke.TestATM_simplework.domain.SampleCrlVariable", results[0].Outputs[0]);
-            StringAssert.Contains("bespoke.TestATM_simplework.domain.SampleChildCrlVariable", results[0].Outputs[0]);
+            StringAssert.Contains("_simplework.domain.SimpleWorkWorkflow = function(", results[0].Outputs[0]);
+            StringAssert.Contains("bespoke.TestATM_simplework.domain.Patient = function(", results[0].Outputs[0]);
+            StringAssert.Contains("bespoke.TestATM_simplework.domain.Address = function(", results[0].Outputs[0]);
         }
     }
 
