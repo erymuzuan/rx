@@ -13,11 +13,16 @@ ls -Filter *.sql -Path .\source\database\Table `
 
 
 #asp.net memberships
-& C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe -E -S "(localdb)\Projects" -d "SphV1" -A mr
+Write-Host "Executing Aspnet membership provider"
+Start-Process -RedirectStandardOutput  $true -WindowStyle Hidden -FilePath "C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe" `
+-ArgumentList  '-E','-S','"(localdb)\Projects"','-d "SphV1"','-A mr'
+
+
+Write-Host "Aspnet membership has been added"
+Write-Host "Please wait....."
 #roles
 & mru -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c ".\source\web\web.sph\web.config"
 & mru -u admin -p 123456 -e admin@bespoke.com.my -r administrators -r developers -r can_edit_entity -r can_edit_workflow -c ".\source\web\web.sph\web.config"
-
 
 
 
@@ -41,5 +46,3 @@ Get-ChildItem -Filter *.json -Path .\source\elasticsearch\mapping `
 
 # run restore Nuget packages
 .\restore-package.ps1
-
-
