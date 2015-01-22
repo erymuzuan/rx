@@ -8,7 +8,7 @@ GO
 IF  EXISTS (
 	SELECT name 
 		FROM sys.databases 
-		WHERE name = N'Sph'
+		WHERE name = N'SphV1'
 )
 DROP DATABASE Sph
 GO

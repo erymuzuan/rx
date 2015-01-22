@@ -4,6 +4,8 @@ namespace Bespoke.Sph.Domain
 {
     public static class ConfigurationManager
     {
+        const string DefaultApplicationName = "DevV1";
+        
         public static int WorkflowDebuggerPort
         {
             get
@@ -130,7 +132,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                if (ApplicationName == "Dev")
+                if (ApplicationName == DefaultApplicationName)
                     return @"\bin";
                 return string.Empty;
             }
@@ -229,8 +231,8 @@ namespace Bespoke.Sph.Domain
                 var val = System.Configuration.ConfigurationManager.AppSettings["sph:WebPath"];
                 if (Path.IsPathRooted(val)) return val;
 
-                if (ApplicationName == "Dev")
-                    return BaseDirectory  + @"\source\web\web.sph";
+                if (ApplicationName == DefaultApplicationName)
+                    return BaseDirectory + @"\source\web\web.sph";
 
                 return BaseDirectory + BinPath + @"\web";
             }
