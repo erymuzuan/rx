@@ -245,8 +245,8 @@ WriteLiteral(">\r\n                        </div>\r\n                        <di
 
 WriteLiteral(" style=\"font-size: 32px; font-weight: bold; margin: 5px\"");
 
-WriteLiteral(">2631</span>\r\n                        </div>\r\n                        <div>\r\n    " +
-"                        <h5");
+WriteLiteral(">0</span>\r\n                        </div>\r\n                        <div>\r\n       " +
+"                     <h5");
 
 WriteLiteral(" data-bind=\"text: Name\"");
 
