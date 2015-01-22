@@ -231,23 +231,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(list.Select(d => new { Path = d }).ToArray(), JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> GetJavascriptWorkflowInstance(string id)
-        {
-            var context = new SphDataContext();
-            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.Id == id);
-
-            var json = new StringBuilder();
-            json.AppendLine("{");
-            var variables = wd.VariableDefinitionCollection.Select(x => x.GetJsonIntance(wd));
-            json.AppendLine(string.Join(",\r\n", variables));
-            json.AppendLine("}");
-
-            this.Response.ContentType = "application/json";
-            return Content(json.ToString());
-        }
-
-
-
         private async Task<string> Save(string operation, WorkflowDefinition wd, params Entity[] entities)
         {
             var context = new SphDataContext();
