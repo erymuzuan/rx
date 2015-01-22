@@ -117,7 +117,6 @@
     <Content Include="app\services\cultures.my.js" />
     <Content Include="app\services\datacontext.js" />
     <Content Include="app\services\default.value.provider.js" />
-    <Content Include="app\services\form.designer.js" />
     <Content Include="app\services\jsonimportexport.js" />
     <Content Include="app\services\logger.js" />
     <Content Include="app\services\system.js" />

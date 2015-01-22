@@ -14,7 +14,10 @@ namespace durandaljs.compiler.test
 
         public void AddToDictionary(string query, T data)
         {
-            m_dictionary.Add(query, data);
+            if (m_dictionary.ContainsKey(query))
+                m_dictionary[query] = data;
+            else
+                m_dictionary.Add(query, data);
         }
         public Task<LoadOperation<T>> LoadAsync(IQueryable<T> query, int page, int size, bool includeTotalRows)
         {

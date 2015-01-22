@@ -12,6 +12,9 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         [ImportMany("SolutionCompiler", typeof(SolutionCompiler), AllowRecomposition = true)]
         public Lazy<SolutionCompiler, ISolutionCompilerMetadata>[] Compilers { get; set; }
+        [JsonIgnore]
+        [ImportMany("ProjectProvider", typeof(ProjectProvider), AllowRecomposition = true)]
+        public Lazy<ProjectProvider, IProjectProviderMetadata>[] ProjectProviders { get; set; }
 
         public async Task<IEnumerable<WorkflowCompilerResult>> CompileAsync(string compilers)
         {
@@ -24,6 +27,21 @@ namespace Bespoke.Sph.Domain
             return results;
         }
 
+        public Task<IProjectProvider> LoadProjectAsync(ProjectMetadata pm)
+        {
+            var provider = this.ProjectProviders.SingleOrDefault(x => x.Metadata.Type == pm.Type);
+            if(null == provider)
+                throw new InvalidOperationException("Cannot find project provider for " + pm.Type);
+
+            return provider.Value.LoadProjectAsync(pm);
+        }
+
+        private readonly ObjectCollection<ProjectMetadata> m_projectMetadataCollection = new ObjectCollection<ProjectMetadata>();
+
+        public ObjectCollection<ProjectMetadata> ProjectMetadataCollection
+        {
+            get { return m_projectMetadataCollection; }
+        }
         public static async Task<IEnumerable<JsRoute>> GetJsRoutes()
         {
             var ad = ObjectBuilder.GetObject<IDirectoryService>();

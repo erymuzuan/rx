@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -22,6 +25,54 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       set{{ m_{0} = value;}}", this.Name);
             code.AppendLine("   }");
             return code.ToString();
+        }
+
+
+        public override Member CreateMember()
+        {
+            var member = new Member { Name = this.Name, Type  = this.Type};
+
+            this.PopulateMember(member, this.Type);
+            return member;
+        }
+
+        private void PopulateMember(Member member, Type childType)
+        {
+            var natives = new[]
+            {
+                typeof (string), typeof (int), typeof (double), typeof (decimal)
+            ,typeof(bool), typeof(DateTime), typeof(float), typeof(char)
+            };
+            var propertiest = childType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            foreach (var prop in propertiest)
+            {
+                if (natives.Contains(prop.PropertyType))
+                {
+                    var child = new Member { Name = prop.Name, Type = prop.PropertyType, IsNullable = prop.PropertyType == typeof(string) };
+                    member.MemberCollection.Add(child);
+                    continue;
+                }
+
+                if (prop.PropertyType.Name == "Nullable`1")
+                {
+                    var child = new Member { Name = prop.Name, Type = prop.PropertyType.GenericTypeArguments[0], IsNullable = true };
+                    member.MemberCollection.Add(child);
+                    continue;
+                }
+                if (prop.PropertyType.GetInterfaces().Contains(typeof(IEnumerable)))
+                {
+                    Console.WriteLine("IEnumerable " + prop.Name);
+                    var coll = member.AddMember(prop.Name, prop.PropertyType.GenericTypeArguments[0]);
+                    coll.AllowMultiple = true ;
+
+                    
+                    continue;
+                }
+
+                // complex type
+                var complex = member.AddMember(prop.Name, Type = prop.PropertyType);
+                this.PopulateMember(complex, prop.PropertyType);
+            }
         }
 
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

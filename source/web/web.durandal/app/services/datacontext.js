@@ -5,7 +5,6 @@
 /// <reference path="../../Scripts/modernizr-2.7.2.js" />
 /// <reference path="logger.js" />
 /// <reference path="../objectbuilders.js" />
-/// <reference path="/SphApp/schemas/sph.domain.g.js" />
 
 define(['services/logger', objectbuilders.system, 'durandal/knockout'],
 function (logger, system, ko2) {

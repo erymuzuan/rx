@@ -373,11 +373,24 @@ namespace Bespoke.Sph.Domain
             if (type == typeof(double?)) return "double?";
             if (type == typeof(short?)) return "short?";
             if (type == typeof(long?)) return "long?";
+
+            if (type.IsGenericType && type.UnderlyingSystemType.Name == "ObjectCollection`1")
+            {
+                return string.Format("ObjectCollection<{0}>", type.GenericTypeArguments[0].ToCSharp());
+            }
+
             return type.FullName;
         }
         public static object ToDbNull(this object value)
         {
             return value ?? DBNull.Value;
+        }
+
+        public static string Singularize(this string value, bool inputKnownTobePlural = true)
+        {
+            if (value.EndsWith("Collection"))
+                return value.Substring(0, value.Length - "Collection".Length);
+            return Humanizer.InflectorExtensions.Singularize(value, inputKnownTobePlural);
         }
 
 

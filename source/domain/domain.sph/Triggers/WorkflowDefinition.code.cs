@@ -224,6 +224,11 @@ namespace Bespoke.Sph.Domain
             return @classes;
         }
 
+        public Task<IProjectModel> GetModelAsync()
+        {
+            return Task.FromResult((IProjectModel)this);
+        }
+
         private Method GenerateJsSchemasController()
         {
             var code = new StringBuilder();

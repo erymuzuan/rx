@@ -118,5 +118,10 @@ namespace Bespoke.Sph.Domain.Codes
             return cs;
 
         }
+
+        public override string ToString()
+        {
+            return GetCode();
+        }
     }
 }

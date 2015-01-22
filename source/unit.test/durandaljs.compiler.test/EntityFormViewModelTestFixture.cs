@@ -23,7 +23,7 @@ namespace durandaljs.compiler.test
             m_ed.MemberCollection.Add(new Member { Type = typeof(string), Name = "Author" });
 
             var repos = new MockRepository<EntityDefinition>();
-            repos.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", m_ed);
+            repos.AddToDictionary("x.Id == EntityDefinitionId.EntityDefinitionId", m_ed);
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(repos);
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
@@ -32,6 +32,7 @@ namespace durandaljs.compiler.test
         }
 
         [Test]
+        [Trace(Verbose = false)]
         public async Task WithDurandalJsFormCompiler()
         {
             var form = new EntityForm

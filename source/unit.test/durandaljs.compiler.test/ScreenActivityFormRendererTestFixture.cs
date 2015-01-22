@@ -31,7 +31,7 @@ namespace durandaljs.compiler.test
             wd = new WorkflowDefinition { Id = "simple-screen-workflow", SchemaStoreId = "x", Name = "Simple Screen Workflow" };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "CourseNo", Type = typeof(string) });
             var repos = new MockRepository<WorkflowDefinition>();
-            repos.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.WorkflowDefinition]", wd);
+            repos.AddToDictionary("x.Id == WorkflowDefinitionId.WorkflowDefinitionId", wd);
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(repos);
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
@@ -58,6 +58,7 @@ namespace durandaljs.compiler.test
         }
 
         [Test]
+        [Trace(Verbose = false)]
         public async Task WithDurandalJsFormCompiler()
         {
             var form = new ScreenActivityForm

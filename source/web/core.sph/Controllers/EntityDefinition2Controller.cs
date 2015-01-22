@@ -92,33 +92,6 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
-        [HttpGet]
-        [Route("schema")]
-        public async Task<ActionResult> Schemas()
-        {
-            var context = new SphDataContext();
-            var query = context.EntityDefinitions;
-            var lo = await context.LoadAsync(query, includeTotalRows: true);
-            var list = new ObjectCollection<EntityDefinition>(lo.ItemCollection);
-
-            while (lo.HasNextPage)
-            {
-                lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true);
-                list.AddRange(lo.ItemCollection);
-            }
-
-            var script = new StringBuilder();
-            foreach (var ef in list)
-            {
-                var code = await ef.GenerateCustomXsdJavascriptClassAsync();
-                script.AppendLine(code);
-            }
-
-            this.Response.ContentType = "application/javascript";
-            return Content(script.ToString());
-        }
-
-
 
         [HttpPost]
         [Route("depublish")]
