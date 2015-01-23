@@ -12,6 +12,17 @@ ls -Path .\source -Filter *.dll -Recurse | Remove-Item
 & git checkout source/unit.test/mapping.transformation.test/rsc.Driver.dll
 & git checkout source/unit.test/mapping.transformation.test/rsc.RilekWeb.dll
 
+Write-Host "Removing packages folder is recommended for truely clean build, but it might take long time to restore if your internet connection is slow" -ForegroundColor Yellow
+Write-Host "Do you want to clean the packages folder ? (y/n) : " -ForegroundColor Yellow -NoNewline
+$cleanPackage = Read-Host
+if($cleanPackage -ne "y")
+{
+    # run restore Nuget packages
+    Remove-Item .\packages -Recurse
+    mkdir .\packages
+    .\restore-package.ps1
+}
+
 
 ls -Path .\bin\subscribers -Filter *.* -Recurse | Remove-Item -Recurse
 ls -Path .\bin\subscribers.host -Filter *.* -Recurse | Remove-Item -Recurse
