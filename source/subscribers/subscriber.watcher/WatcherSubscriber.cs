@@ -154,6 +154,11 @@ namespace Bespoke.Sph.WathersSubscribers
                 var text = await content.ReadAsStringAsync();
                 var jo = JObject.Parse(text);
                 var tokens = jo.SelectToken("$.hits.hits");
+                if (null == tokens)
+                {
+                    this.WriteMessage("No getting the expected json from watcher _search !!!!!!!");
+                    return;
+                }
                 var list = from t in tokens
                            let user = t.SelectToken("$._source.User")
                            where null != user
