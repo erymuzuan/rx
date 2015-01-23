@@ -140,3 +140,4 @@ if($success){
 
 copy .\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll .\source\web\web.sph\bin
 copy .\packages\RabbitMQ.Client.3.4.0\lib\net35\RabbitMQ.Client.dll .\source\web\web.sph\bin
+ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll | Copy-Item -Destination .\bin\tools

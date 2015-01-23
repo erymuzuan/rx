@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -29,11 +28,13 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.Models
         {
             unchecked
             {
+// ReSharper disable NonReadonlyFieldInGetHashCode
                 int hashCode = (m_reason != null ? m_reason.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (m_queue != null ? m_queue.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (m_exchange != null ? m_exchange.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (m_routingKeys != null ? m_routingKeys.GetHashCode() : 0);
                 return hashCode;
+// ReSharper restore NonReadonlyFieldInGetHashCode
             }
         }
 
@@ -56,19 +57,19 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.Models
 
         }
 
-        public XDeathHeader(IDictionary entries)
+        public XDeathHeader(IDictionary<string, object> entries)
         {
             if (null == entries) return;
 
-            var temp = entries.Keys.Cast<object>()
-                .Where(key => key as string != "x-death")
-                .ToDictionary(key => key as string, key => GetStringValue(entries[key]));
+            var temp = entries.Keys
+                .Where(key => key != "x-death")
+                .ToDictionary(key => key, key => GetStringValue(entries[key]));
             this.OtherHeaders = JsonConvert.SerializeObject(temp, Formatting.Indented);
-            if (entries.Contains("log"))
+            if (entries.ContainsKey("log"))
                 this.Log = GetStringValue(entries["log"]);
 
 
-            if (!entries.Contains("x-death")) return;
+            if (!entries.ContainsKey("x-death")) return;
             var vals = entries["x-death"] as ArrayList;
             if (null == vals) return;
             if (vals.Count == 0) return;
@@ -99,7 +100,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.Models
             set
             {
                 m_log = value;
-                RaisePropertyChanged("Log");
+                RaisePropertyChanged();
             }
         }
 
@@ -141,7 +142,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.Models
             set
             {
                 m_exchange = value;
-                RaisePropertyChanged("Exchange");
+                RaisePropertyChanged();
             }
         }
 

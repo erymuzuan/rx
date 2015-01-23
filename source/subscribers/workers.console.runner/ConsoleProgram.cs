@@ -14,7 +14,7 @@ namespace workers.console.runner
         {
 
             var host = ParseArg("h") ?? "localhost";
-            var vhost = ParseArg("v") ?? "Dev";
+            var vhost = ParseArg("v") ?? "DevV1";
             var userName = ParseArg("u") ?? "guest";
             var password = ParseArg("p") ?? "guest";
             var debug = ParseArgExist("debug");
