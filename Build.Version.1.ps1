@@ -15,10 +15,11 @@ ls -Path .\source -Filter *.dll -Recurse | Remove-Item
 Write-Host "Removing packages folder is recommended for truely clean build, but it might take long time to restore if your internet connection is slow" -ForegroundColor Yellow
 Write-Host "Do you want to clean the packages folder ? (y/n) : " -ForegroundColor Yellow -NoNewline
 $cleanPackage = Read-Host
-if($cleanPackage -ne "y")
+if($cleanPackage -eq "y")
 {
     # run restore Nuget packages
-    Remove-Item .\packages -Recurse
+    rmdir .\source\web\web.sph\obj -Recurse -Force
+    rmdir .\packages -Recurse -Force
     mkdir .\packages
     .\restore-package.ps1
 }
@@ -83,7 +84,7 @@ $subscribers | `
 
 #adapters
 Write-Host "Building adapters" -ForegroundColor Magenta
-$adapters = @("http.adapter","mysql.adapter","oracle.adapter","sqlserver.adapter.csproj.gen")
+$adapters = @("http.adapter","mysql.adapter","oracle.adapter","sqlserver.adapter")
 $adapters | %{
     $project = ".\source\adapters\" + $_ + "\" + $_ + ".csproj"
     $output = ".\source\adapters\" + $_ + "\bin\Debug"

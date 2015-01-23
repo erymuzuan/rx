@@ -1,4 +1,4 @@
-$packagesFiles = ls -Recurse -Filter packages.config 
+$packagesFiles = ls -Path .\source -Recurse -Filter packages.config 
 $packagesFiles | foreach{
     Write-Host "Getting content from "  $_.FullName
     [xml]$packagesXml = Get-Content $_.FullName
