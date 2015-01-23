@@ -1,6 +1,10 @@
-$packagesFiles = ls -Recurse -Filter packages.config 
+if((Test-Path .\packages) -eq $false){
+        mkdir .\packages
+}
+$pwd = pwd
+$packagesFiles = ls -Path .\source -Recurse -Filter packages.config 
 $packagesFiles | foreach{
-    Write-Host "Getting content from "  $_.FullName -ForegroundColor Cyan
+    Write-Host "Reading "  $_.FullName.Replace($pwd,"").Replace("packages.config","") -ForegroundColor Cyan
     [xml]$packagesXml = Get-Content $_.FullName
     $packagesXml.packages.package | foreach    {
         $folder = ".\packages\" + $_.id + "." + $_.version

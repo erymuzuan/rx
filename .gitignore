@@ -120,3 +120,5 @@ source/web/web.sph/Views/*Workflow*/
 .idea/
 /telerik
 /TestResults
+*.log
+*.err

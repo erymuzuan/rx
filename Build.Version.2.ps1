@@ -1,9 +1,14 @@
+Param(
+       [switch]$RemovePackages = $false
+     )
 #switch to v2
 $pwd = pwd
 $sw = [Diagnostics.Stopwatch]::StartNew()
-
-Write-Host "This script will clean all your outputs, and rebuild everything, this include all the dll, pdb, err files" -ForegroundColor Yellow
-Write-Host "You should run the  .\SetUpV1Environment.ps1 before running this script" -ForegroundColor Yellow
+Write-Host " ==================================================================== "
+Write-Host "     This script will clean all your outputs, and rebuild everything,"
+Write-Host "     this include all the dll, pdb, err files" 
+Write-Host "     You should run the  .\SetUpV1Environment.ps1 before running this script"
+Write-Host " ==================================================================== "
 
 #remove all V2 dll, and pdb from subscribers, web.sph etc
 Write-Host "Cleaning up....." -ForegroundColor Magenta
@@ -13,10 +18,10 @@ ls -Path .\source -Filter *.dll -Recurse | Remove-Item
 & git checkout source/unit.test/mapping.transformation.test/rsc.Driver.dll
 & git checkout source/unit.test/mapping.transformation.test/rsc.RilekWeb.dll
 
-Write-Host "Removing packages folder is recommended for truely clean build, but it might take long time to restore if your internet connection is slow" -ForegroundColor Yellow
-Write-Host "Do you want to clean the packages folder ? (y/n) : " -ForegroundColor Yellow -NoNewline
-$cleanPackage = Read-Host
-if($cleanPackage -eq "y")
+Write-Host "  Removing packages folder is recommended for truely clean build,"
+Write-Host "  but it might take long time to restore if your internet connection is slow "
+
+if($RemovePackages)
 {
     # run restore Nuget packages
     if(Test-Path .\source\web\web.sph\obj){
@@ -43,109 +48,93 @@ ls -Path .\bin\schedulers -Filter *.* -Recurse | Remove-Item -Recurse
 $outputs = @(".\source\web\web.sph\bin", ".\bin\subscribers", ".\bin\subscribers.host", ".\bin\schedulers", ".\bin\tools")
 
 
-Write-Host "Building dependencies" -ForegroundColor Magenta
+function Parallel-Build {
+  param(
+    [Parameter(Mandatory=$true)]
+    [string]
+    $name,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $folder,
+    [Parameter(Mandatory=$true)]
+    [string[]]
+    $projects,
+    [Switch]$CopyToOutput
 
-$dependencies = @("elasticsearch.logger","email.service", "rabbitmq.changepublisher","rabbitmq.persistence","razor.template"`
-,"report.sqldatasource","roslyn.scriptengine","sql.repository","sqlmembership.directoryservices","windows.taskschedulers","word.document.generator")
+  )
+    Write-Host ""
+    Write-Host "Building $name" -ForegroundColor Magenta
+    Write-Host "---------------------------------------"
 
+    $projects | `
+    %{
+        Write-Host "Building $_" -ForegroundColor White
+        $project = ".\source\$folder\$_\$_.csproj"
 
-$dependencies | `
-%{
-    Write-Host "Building $_" -ForegroundColor White
-    $project = ".\source\dependencies\" + $_ + "\" + $_ + ".csproj"
-
-    $arg = @("$project" ,"/property:SolutionDir=$pwd", "/nologo", "/noconsolelogger", "/fileLogger", "/flp2:errorsonly;logfile=$_.err")
-    Start-Process msbuild -WorkingDirectory "." -WindowStyle Hidden -ArgumentList $arg > output.txt
+        $arg = @("$project" ,"/property:SolutionDir=$pwd", "/nologo", "/noconsolelogger", "/fileLogger", "/flp2:errorsonly;logfile=$_.err")
+        Start-Process msbuild -WorkingDirectory "." -WindowStyle Hidden -ArgumentList $arg > output.txt
   
 
-}
-
-$msbuilds = gps msbuild* | measure
-while($msbuilds.Count -gt 0){
-    Start-Sleep -Milliseconds 500
-    Write-Host "." -NoNewline    
-    $msbuilds = gps msbuild* | measure
-}
-
-$dependencies | `
-%{
-    $output = ".\source\dependencies\" + $_ + "\bin\Debug"       
-    $outputs | %{
-        ls -Path $output -Filter *.* | Copy-Item -Force -Destination $_
     }
+
+    $msbuilds = gps msbuild* | measure
+    while($msbuilds.Count -gt 0){
+        Start-Sleep -Milliseconds 500
+        Write-Host "." -NoNewline    
+        $msbuilds = gps msbuild* | measure
+    }
+
+    if($CopyToOutput){
+        $projects | `
+        %{
+            $output = ".\source\$folder\" + $_ + "\bin\Debug"       
+            $outputs | %{
+                ls -Path $output -Filter *.* | Copy-Item -Force -Destination $_
+            }
+        }
+    }
+    Write-Host ""
+    Write-Host "Done building $name"
+
 }
-Write-Host ""
-Write-Host "Done building dependencies"
+$dependencies = @("elasticsearch.logger","email.service", "rabbitmq.changepublisher","rabbitmq.persistence","razor.template"`
+,"report.sqldatasource","roslyn.scriptengine","sql.repository","sqlmembership.directoryservices","windows.taskschedulers",`
+"word.document.generator","durandaljs.form.compiler")
+
+Parallel-Build -name "dependencies" -folder "dependencies" -projects $dependencies -CopyToOutput
 
 
 #build subscribers
-Write-Host "Building subscribers" -ForegroundColor Magenta
 $subscribers = @("subscriber.deletedelay","subscriber.elasticsearch.indexer","subscriber.entities",`
 "subscriber.entities.dev","subscriber.infrastructure","subscriber.workflowscheduler","subscriber.workflow",`
 "subscriber.persistence","subscriber.watcher","subscriber.version.control","subscriber.trigger","subscriber.report.delivery")
-$subscribers | `
-%{
-    $project = ".\source\subscribers\" + $_ + "\" + $_ + ".csproj"
-    $output = ".\source\subscribers\" + $_ + "\bin\Debug"
-    Write-Host "Building $_" -ForegroundColor Gray -NoNewline
-    Write-Host "....."
-    & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
 
-    if(Test-Path $output){
-        ls -Path $output -Filter *.* | Copy-Item -Force -Destination .\bin\subscribers  
-    }
-}
-
-& msbuild .\source\subscribers\workers.console.runner\workers.console.runner.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=workers.console.runner.err"
-& msbuild .\source\subscribers\workers.windowsservice.runner\workers.windowsservice.runner.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=workers.windowsservice.runner.err"
+Parallel-Build -name "Subscribers" -folder "subscribers" -projects $subscribers -CopyToOutput
+Parallel-Build -name "workers" -folder "subscribers" -projects @("workers.console.runner","workers.windowsservice.runner")
 
 
 #adapters
-Write-Host "Building adapters" -ForegroundColor Magenta
 $adapters = @("http.adapter","mysql.adapter","oracle.adapter","sqlserver.adapter")
-$adapters | %{
-    $project = ".\source\adapters\" + $_ + "\" + $_ + ".csproj"
-    $output = ".\source\adapters\" + $_ + "\bin\Debug"
-    Write-Host "Building $_" -ForegroundColor Gray
-    & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
-    
-}
-
+Parallel-Build -name "adapters" -folder "adapters" -projects $adapters -CopyToOutput
 
 
 #schedulers
-Write-Host "Building scheduler" -ForegroundColor Magenta
-$adapters = @("scheduler.delayactivity","scheduler.report.delivery","scheduler.workflow.trigger")
-$adapters | %{
-    $project = ".\source\scheduler\" + $_ + "\" + $_ + ".csproj"
-    $output = ".\source\scheduler\" + $_ + "\bin\Debug"
-    Write-Host "Building $_" -ForegroundColor Gray
-    & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
+Parallel-Build -name "schedulers" -folder "scheduler" -projects @("scheduler.delayactivity","scheduler.report.delivery","scheduler.workflow.trigger")
 
-
-}
 
 #tools
-Write-Host "Building tools" -ForegroundColor Magenta
 $tools = @("csproj.gen","control.center","dead.letter.viewer","offline.generator","sph.builder")
+Parallel-Build -name "tools" -folder "tools" -projects $tools
 $tools | %{
-    $project = ".\source\tools\" + $_ + "\" + $_ + ".csproj"
-    $output = ".\source\tools\" + $_ + "\bin\Debug"
-    Write-Host "Building $_" -ForegroundColor Gray
-    Write-Host "..."
-    & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
-
+    $output = ".\source\tools\" + $_ + "\bin\Debug"   
     if(Test-Path $output){
         ls -Path $output -Filter *.* | Copy-Item -Force -Destination .\bin\tools  
     }
 }
 
-Write-Host "Building web.sph and core.sph...." -ForegroundColor Magenta
 #build core.sph and web.sph
-& msbuild .\source\web\core.sph\core.sph.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=core.sph.err"
-& msbuild .\source\web\web.sph\web.sph.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=web.sph.err"
+Parallel-Build -name "web" -folder "web" -projects @("core.sph", "web.sph")
 
-Write-Host "Succesfully built core.sph and web.sph" -ForegroundColor DarkGray
 
 
 Write-Host "Removing dll.config and xml files from output folders"
@@ -199,5 +188,4 @@ if($success){
 }
 
 $sw.Stop()
-$sw.Elapsed
-Write-Host $sw.Elapsed.Minutes + " minutes and " + $sw.Elapsed.Seconds + " seconds"
+Write-Host $sw.Elapsed.Minutes  " minutes and "  $sw.Elapsed.Seconds  " seconds"
