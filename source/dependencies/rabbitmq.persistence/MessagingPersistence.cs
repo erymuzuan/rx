@@ -48,5 +48,15 @@ namespace Bespoke.Station.MessagingPersistences
                 return await broker.SubmitChanges(new[] { item }, new Entity[] { });
             }
         }
+
+        public Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session, string user)
+        {
+            return this.SubmitChanges(addedOrUpdatedItems, deletedItems, session);
+        }
+
+        public Task<SubmitOperation> SubmitChanges(Entity item, string user)
+        {
+            return this.SubmitChanges(new[] {item}, new Entity[]{}, null);
+        }
     }
 }

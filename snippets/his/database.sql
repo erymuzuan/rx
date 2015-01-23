@@ -1,0 +1,34 @@
+CREATE DATABASE [His]
+
+GO
+USE [His]
+
+GO
+
+CREATE TABLE [Patient]
+(
+	 [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1)
+	,[Name] VARCHAR(255) NOT NULL
+	,[Mrn] VARCHAR(255) NOT NULL
+	,[Gender] VARCHAR(255) NOT NULL
+	,[Income] DECIMAL(18,0) NOT NULL
+	,[Dob] SMALLDATETIME NOT NULL
+)
+GO
+
+CREATE TABLE [Department]
+(
+	 [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1)
+	,[Name] VARCHAR(255) NOT NULL
+)
+
+GO
+
+CREATE TABLE [PatientDepartment]
+(
+	 [PatientId] INT NOT NULL 
+	,[DepartmentId] INT NOT NULL
+)
+
+
+

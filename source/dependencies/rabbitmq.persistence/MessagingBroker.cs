@@ -60,7 +60,7 @@ namespace Bespoke.Station.MessagingPersistences
                 ChangedCollection = new ObjectCollection<Entity>(addedOrUpdatedItems),
                 DeletedCollection = new ObjectCollection<Entity>(deletedItems)
             };
-            var request = XmlSerializerService.ToUTF8EncodedXmlString(changes);
+            var request = changes.ToJsonString();
             var requestBody = System.Text.Encoding.UTF8.GetBytes(request);
 
 
