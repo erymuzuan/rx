@@ -136,3 +136,7 @@ ls -Filter *.err | %{
 if($success){
     Write-Host "Successfully building V1, Now starts web.sph on 4436" -ForegroundColor Cyan
 }
+
+
+copy .\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll .\source\web\web.sph\bin
+copy .\packages\RabbitMQ.Client.3.4.0\lib\net35\RabbitMQ.Client.dll .\source\web\web.sph\bin
