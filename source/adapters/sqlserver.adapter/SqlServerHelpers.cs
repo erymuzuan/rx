@@ -35,10 +35,22 @@ namespace Bespoke.Sph.Integrations.Adapters
                 case "bit": return typeof(bool);
                 case "numeric":
                 case "smallmoney":
+                case "decimal":
                 case "money": return typeof(decimal);
-                case "real":
+                case "real": return typeof(float);
                 case "float": return typeof(double);
             }
+            ConsoleColor color = Console.ForegroundColor;
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Cannot find mapping to \"{0}\"", typeName);
+            }
+            finally
+            {
+                Console.ForegroundColor = color;
+            }
+
             return null;
         }
 

@@ -63,7 +63,7 @@ namespace Bespoke.Sph.Domain.Api
             code.AppendLine("   public class " + this.Name + " : DomainObject");
             code.AppendLine("   {");
 
-            var pk = "";
+            var pk = "\"\"";
             if (null != this.PrimaryKey)
                 pk = this.PrimaryKey.Name;
 
