@@ -53,8 +53,8 @@ namespace Bespoke.Sph.Domain
             if (m_ff.ContainsKey(this.WebId))
                 return m_ff[this.WebId].Evaluate(context.Item);
 
-            var dll = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath,string.Format("{0}.dll", this.CodeNamespace));
-            if(!File.Exists(dll)) this.Compile(context);
+            var dll = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, string.Format("{0}.dll", this.CodeNamespace));
+            if (!File.Exists(dll)) this.Compile(context);
 
             var assembly = Assembly.LoadFile(dll);
             dynamic ff = Activator.CreateInstance(assembly.GetType(this.CodeNamespace + ".FunctionFieldHost"));
@@ -123,8 +123,14 @@ namespace Bespoke.Sph.Domain
                 {
                     Console.WriteLine(error);
                     var guid = Guid.NewGuid();
-                    File.WriteAllText(@"d:\temp\error\" + guid + ".txt", error.ToString());
-                    File.WriteAllText(@"d:\temp\error\" + guid + ".cs", code);
+                    var log = Path.Combine(ConfigurationManager.UserSourceDirectory, @"\logs");
+                    if (!Directory.Exists(log)) Directory.CreateDirectory(log);
+
+                    var logFile = string.Format("{0}\\{1}.log", log, guid);
+                    var cs = string.Format("{0}\\{1}.cs", log, guid);
+
+                    File.WriteAllText(logFile, error.ToString());
+                    File.WriteAllText(cs, code);
                 }
 
                 return cr;
