@@ -47,3 +47,7 @@ Get-ChildItem -Filter *.json -Path .\source\elasticsearch\mapping `
 
 # run restore Nuget packages
 .\restore-package.ps1
+
+
+Write-Host "Now manually create a new IISExpress site to add web.sph.v1 and run on port 4436" -ForegroundColor Yellow
+Write-Host "Done....."

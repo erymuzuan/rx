@@ -1,5 +1,6 @@
 #switch to v1
 $pwd = pwd
+$sw = [Diagnostics.Stopwatch]::StartNew()
 
 Write-Host "This script will clean all your outputs, and rebuild everything, this include all the dll, pdb, err files" -ForegroundColor Yellow
 Write-Host "You should run the  .\SetUpV1Environment.ps1 before running this script" -ForegroundColor Yellow
@@ -18,8 +19,12 @@ $cleanPackage = Read-Host
 if($cleanPackage -eq "y")
 {
     # run restore Nuget packages
-    rmdir .\source\web\web.sph\obj -Recurse -Force
-    rmdir .\packages -Recurse -Force
+    if(Test-Path .\source\web\web.sph\obj){
+        rmdir .\source\web\web.sph\obj -Recurse -Force
+    }
+    if(Test-Path .\packages){
+        rmdir .\packages -Recurse -Force
+    }
     mkdir .\packages
     .\restore-package.ps1
 }
@@ -123,12 +128,15 @@ $tools | %{
     }
 }
 
+Write-Host "Building web.sph and core.sph...." -ForegroundColor Magenta
 #build core.sph and web.sph
 & msbuild .\source\web\core.sph\core.sph.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=core.sph.err"
-& msbuild .\source\web\web.sph\web.sph.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=web.sph.err"
+& msbuild .\source\web\web.sph\web.sph.v1.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=web.sph.err"
+
+Write-Host "Succesfully built core.sph and web.sph" -ForegroundColor DarkGray
 
 
-
+Write-Host "Removing dll.config and xml files from output folders"
 $outputs | % {
     ls -Path $_ -Filter *.dll.config | Remove-Item -Recurse
     ls -Path $_ -Filter *.xml | Remove-Item -Recurse
@@ -145,11 +153,7 @@ ls -Filter *.err | %{
     }
 }
 
-if($success){
-    Write-Host "Successfully building V1, Now starts web.sph on 4436" -ForegroundColor Cyan
-}
-
-
+Write-Host "Copying some packages files to output"
 copy .\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll .\source\web\web.sph\bin
 copy .\packages\RabbitMQ.Client.3.4.0\lib\net35\RabbitMQ.Client.dll .\source\web\web.sph\bin
 ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll | Copy-Item -Destination .\bin\tools
@@ -162,3 +166,13 @@ ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse | Copy-Item -Destina
 ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll | Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
 ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse | Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
 copy .\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll .\source\web\web.sph\bin
+
+
+
+if($success){
+    Write-Host "Successfully building V1, Now starts web.sph on 4436" -ForegroundColor Cyan
+}
+
+$sw.Stop()
+$sw.Elapsed
+Write-Host $sw.Elapsed

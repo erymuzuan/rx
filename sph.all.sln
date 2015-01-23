@@ -93,7 +93,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workers.windowsservice.runn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core.sph", "source\web\core.sph\core.sph.csproj", "{A2B488B2-A536-49DF-9741-B87BDD745D8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.sph", "source\web\web.sph\web.sph.csproj", "{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.sph.v1", "source\web\web.sph\web.sph.v1.csproj", "{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.entities", "source\subscribers\subscriber.entities\subscriber.entities.csproj", "{954AD880-4C7D-4DEE-9455-3A670FE9767B}"
 EndProject
