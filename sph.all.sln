@@ -143,6 +143,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rabbitmq.persistence", "sou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.adapter.compiler", "source\subscribers\subscriber.adapter.compiler\subscriber.adapter.compiler.csproj", "{18026DFA-33A4-4038-8E27-C7A99CFB77D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adapter.csproj.gen", "source\tools\adapter.csproj.gen\adapter.csproj.gen.csproj", "{201D4EED-C13C-4645-8EFF-7310ADAC4911}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -361,6 +363,10 @@ Global
 		{18026DFA-33A4-4038-8E27-C7A99CFB77D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18026DFA-33A4-4038-8E27-C7A99CFB77D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18026DFA-33A4-4038-8E27-C7A99CFB77D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -419,5 +425,6 @@ Global
 		{4DB11B5C-2618-4E36-A2FF-2AA4CB328483} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{4962F4E8-F84D-4F42-AD16-9F466495E07A} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{18026DFA-33A4-4038-8E27-C7A99CFB77D5} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
+		{201D4EED-C13C-4645-8EFF-7310ADAC4911} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 	EndGlobalSection
 EndGlobal
