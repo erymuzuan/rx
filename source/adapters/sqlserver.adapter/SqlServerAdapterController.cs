@@ -338,7 +338,7 @@ order by ORDINAL_POSITION";
                 return response;
             }
             await adapter.OpenAsync(true);
-            var cr = await adapter.CompileAsync();
+            var result = await adapter.CompileAsync();
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())
@@ -346,8 +346,8 @@ order by ORDINAL_POSITION";
                 session.Attach(adapter);
                 await session.SubmitChanges("Publish");
             }
-
-            var json2 = JsonConvert.SerializeObject(new { message = "Successfully compiled", success = cr.Result, status = "OK" });
+            
+            var json2 = JsonConvert.SerializeObject(new { message = "Successfully compiled", success = result.Result, status = "OK" });
             var response2 = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json2) };
             return response2;
         }

@@ -71,7 +71,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
     ORDER 
         BY o.type";
 
-        public async Task OpenAsync(bool verbose = false)
+        public override async Task OpenAsync(bool verbose = false)
         {
             this.TableDefinitionCollection.Clear();
             foreach (var table in this.Tables)
@@ -609,6 +609,8 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var td = this.TableDefinitionCollection.Last(t => t.Name == table);
             return Task.FromResult(td);
         }
+
+        
     }
 
 }

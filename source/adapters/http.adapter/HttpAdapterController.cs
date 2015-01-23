@@ -78,16 +78,6 @@ namespace Bespoke.Sph.Integrations.Adapters
                 session.Attach(ha);
                 await session.SubmitChanges();
             }
-
-            // NOTE : this will recycle the asp.net process
-            if (result.Result)
-            {
-                var output = Path.GetFileNameWithoutExtension(result.Output);
-                File.Copy(result.Output, ConfigurationManager.WebPath + @"\bin\" + output + ".dll");
-                File.Copy(result.Output.Replace(".dll", ".pdb"), ConfigurationManager.WebPath + @"\bin\" + output + ".pdb");
-            }
-
-
             return Ok(new
             {
                 success = true,

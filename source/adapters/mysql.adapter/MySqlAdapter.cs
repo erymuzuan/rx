@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         private string m_connectionString;
 
-        public async Task OpenAsync(bool verbose = false)
+        public override async Task OpenAsync(bool verbose = false)
         {
             this.TableDefinitionCollection.Clear();
             foreach (var table in this.Tables)
