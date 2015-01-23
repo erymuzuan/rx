@@ -1,4 +1,4 @@
-Param(
+﻿Param(
        [switch]$RemovePackages = $false
      )
 #switch to v2
@@ -7,7 +7,7 @@ $sw = [Diagnostics.Stopwatch]::StartNew()
 Write-Host " ==================================================================== "
 Write-Host "     This script will clean all your outputs, and rebuild everything,"
 Write-Host "     this include all the dll, pdb, err files" 
-Write-Host "     You should run the  .\SetUpV1Environment.ps1 before running this script"
+Write-Host "     You should run the  .\SetUpV2Environment.ps1 before running this script"
 Write-Host " ==================================================================== "
 
 #remove all V2 dll, and pdb from subscribers, web.sph etc
