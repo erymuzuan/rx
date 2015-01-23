@@ -100,6 +100,10 @@ namespace Bespoke.Sph.Domain.Api
             }
         }
 
+        public virtual Task OpenAsync(bool verbose = false)
+        {
+            return Task.FromResult(0);
+        }
         public async Task<WorkflowCompilerResult> CompileAsync()
         {
 
@@ -147,12 +151,12 @@ namespace Bespoke.Sph.Domain.Api
                     }
                 }, sourceFolder);
                 sources.AddRange(odataSource);
-                
+
             }
 
             var pagingCode = await this.GeneratePagingSourceCodeAsync();
             if (null != pagingCode)
-                {
+            {
                 var pagingSource = this.SaveSources(new Dictionary<string, string>
                 {
                     {
@@ -161,7 +165,7 @@ namespace Bespoke.Sph.Domain.Api
                     }
                 }, sourceFolder);
                 sources.AddRange(pagingSource);
-                
+
             }
 
 
@@ -179,10 +183,11 @@ namespace Bespoke.Sph.Domain.Api
         protected abstract Task<Tuple<string, string>> GeneratePagingSourceCodeAsync();
         protected abstract Task<TableDefinition> GetSchemaDefinitionAsync(string table);
 
-        public virtual  void SaveAssets()
+        public virtual void SaveAssets()
         {
 
         }
+
 
     }
 }

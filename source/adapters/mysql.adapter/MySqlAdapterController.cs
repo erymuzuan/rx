@@ -323,7 +323,6 @@ WHERE
             }
             await adapter.OpenAsync(true);
             var cr = await adapter.CompileAsync();
-
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {

@@ -71,7 +71,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        public async Task OpenAsync(bool verbose = false)
+        public override async Task OpenAsync(bool verbose = false)
         {
             foreach (var table in this.Tables)
             {

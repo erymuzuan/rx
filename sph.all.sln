@@ -141,6 +141,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticsearch.logger", "sou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rabbitmq.persistence", "source\dependencies\rabbitmq.persistence\rabbitmq.persistence.csproj", "{4962F4E8-F84D-4F42-AD16-9F466495E07A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.adapter.compiler", "source\subscribers\subscriber.adapter.compiler\subscriber.adapter.compiler.csproj", "{18026DFA-33A4-4038-8E27-C7A99CFB77D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -355,6 +357,10 @@ Global
 		{4962F4E8-F84D-4F42-AD16-9F466495E07A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4962F4E8-F84D-4F42-AD16-9F466495E07A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4962F4E8-F84D-4F42-AD16-9F466495E07A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18026DFA-33A4-4038-8E27-C7A99CFB77D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18026DFA-33A4-4038-8E27-C7A99CFB77D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18026DFA-33A4-4038-8E27-C7A99CFB77D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18026DFA-33A4-4038-8E27-C7A99CFB77D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -412,5 +418,6 @@ Global
 		{1FB70D66-D1D2-46B5-8C95-83B7A770781E} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{4DB11B5C-2618-4E36-A2FF-2AA4CB328483} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{4962F4E8-F84D-4F42-AD16-9F466495E07A} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{18026DFA-33A4-4038-8E27-C7A99CFB77D5} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 	EndGlobalSection
 EndGlobal

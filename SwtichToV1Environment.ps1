@@ -142,5 +142,11 @@ copy .\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.
 copy .\packages\RabbitMQ.Client.3.4.0\lib\net35\RabbitMQ.Client.dll .\source\web\web.sph\bin
 ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll | Copy-Item -Destination .\bin\tools
 ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse | Copy-Item -Destination .\bin\tools
+
+ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll | Copy-Item -Destination .\bin\subscribers
+ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse | Copy-Item -Destination .\bin\subscribers
+
+
 ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll | Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
 ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse | Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
+copy .\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll .\source\web\web.sph\bin
