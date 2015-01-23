@@ -94,8 +94,7 @@ $adapters | %{
     $output = ".\source\adapters\" + $_ + "\bin\Debug"
     Write-Host "Building $_" -ForegroundColor Gray
     & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
-
-
+    
 }
 
 
@@ -159,8 +158,11 @@ $Microsoft_Owin_Security = ls .\packages\Microsoft.Owin.Security.3.0.0\lib\net45
 $Microsoft_Code_Analysis = ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse
 $odp_net_managed = ls .\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll
 
+
+## copy all the packages to the run directory
 $Microsoft_Owin_Security | Copy-Item -Destination .\source\web\web.sph\bin
 $RabbitMq_Client | Copy-Item -Destination .\source\web\web.sph\bin
+
 $Microsoft_Composition | Copy-Item -Destination .\bin\tools
 $Microsoft_Code_Analysis | Copy-Item -Destination .\bin\tools
 
@@ -170,12 +172,16 @@ $Microsoft_Code_Analysis | Copy-Item -Destination .\bin\subscribers
 
 $Microsoft_Composition | Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
 $Microsoft_Code_Analysis | Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
+
+$Microsoft_Composition | Copy-Item -Destination .\source\unit.test\durandaljs.compiler.test\bin\Debug
+$Microsoft_Code_Analysis | Copy-Item -Destination .\source\unit.test\durandaljs.compiler.test\bin\Debug
+
 $odp_net_managed | Copy-Item -Destination  .\source\web\web.sph\bin
 
 
 
 if($success){
-    Write-Host "Successfully building V1, Now starts web.sph on 4436" -ForegroundColor Cyan
+    Write-Host "Successfully building V2, Now starts web.sph on 8081, core.sph on 8080 and web.durandal on 8082" -ForegroundColor Cyan
 }
 
 $sw.Stop()

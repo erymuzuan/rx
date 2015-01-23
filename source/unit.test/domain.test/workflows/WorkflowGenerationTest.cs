@@ -91,11 +91,6 @@ namespace domain.test.workflows
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll"));
 
-            var script = await wd.GenerateCustomXsdJavascriptClassAsync();
-            Assert.IsNotNull(script);
-            StringAssert.Contains("bespoke.sph.wf.PermohonanTanahWakafWorkflow.Vehicle", script);
-            Console.WriteLine(script);
-
 
         }
 
