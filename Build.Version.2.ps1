@@ -10,7 +10,7 @@ Write-Host "     this include all the dll, pdb, err files"
 Write-Host "     You should run the  .\SetUpV1Environment.ps1 before running this script"
 Write-Host " ==================================================================== "
 
-#remove all V2 dll, and pdb from subscribers, web.sph etc
+#remove all V1 dll, and pdb from subscribers, web.sph etc
 Write-Host "Cleaning up....." -ForegroundColor Magenta
 ls -Filter *.err | Remove-Item
 ls -Path .\source -Filter *.pdb -Recurse | Remove-Item

@@ -25,4 +25,5 @@ while($nuget.Count -gt 0){
     Write-Host "." -NoNewline    
     $nuget = gps nuget* | measure
 }
+Write-Host ""
 Write-Host "Done downloading nuget. packages"
