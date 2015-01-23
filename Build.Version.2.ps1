@@ -51,17 +51,31 @@ $dependencies = @("elasticsearch.logger","email.service", "rabbitmq.changepublis
 
 $dependencies | `
 %{
-    $project = ".\source\dependencies\" + $_ + "\" + $_ + ".csproj"
-    $output = ".\source\dependencies\" + $_ + "\bin\Debug"
     Write-Host "Building $_" -ForegroundColor White
-    & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
+    $project = ".\source\dependencies\" + $_ + "\" + $_ + ".csproj"
 
+    $arg = @("$project" ,"/property:SolutionDir=$pwd", "/nologo", "/noconsolelogger", "/fileLogger", "/flp2:errorsonly;logfile=$_.err")
+    Start-Process msbuild -WorkingDirectory "." -WindowStyle Hidden -ArgumentList $arg > output.txt
+  
+
+}
+
+$msbuilds = gps msbuild* | measure
+while($msbuilds.Count -gt 0){
+    Start-Sleep -Milliseconds 500
+    Write-Host "." -NoNewline    
+    $msbuilds = gps msbuild* | measure
+}
+
+$dependencies | `
+%{
+    $output = ".\source\dependencies\" + $_ + "\bin\Debug"       
     $outputs | %{
         ls -Path $output -Filter *.* | Copy-Item -Force -Destination $_
     }
-
-
 }
+Write-Host ""
+Write-Host "Done building dependencies"
 
 
 #build subscribers
@@ -186,4 +200,4 @@ if($success){
 
 $sw.Stop()
 $sw.Elapsed
-Write-Host $sw.Elapsed
+Write-Host $sw.Elapsed.Minutes + " minutes and " + $sw.Elapsed.Seconds + " seconds"
