@@ -1,51 +1,69 @@
 ﻿Param(
-       [switch]$RemovePackages = $false
+       [switch]$KeepPackages = $false
      )
 #switch to v2
+
+$outputs = @(".\source\web\web.sph\bin", ".\bin\subscribers", ".\bin\subscribers.host", ".\bin\schedulers", ".\bin\tools")
 $pwd = pwd
-$sw = [Diagnostics.Stopwatch]::StartNew()
+$applicationName = "Dev"
+
+
 Write-Host " ==================================================================== "
 Write-Host "     This script will clean all your outputs, and rebuild everything,"
 Write-Host "     this include all the dll, pdb, err files" 
 Write-Host "     You should run the  .\SetUpV2Environment.ps1 before running this script"
 Write-Host " ==================================================================== "
 
+$msbuild = gps msbuild* | measure 
+if($msbuild.Count -gt 0){
+    $count = $msbuild.Count
+    Write-Host "  You still have $count MsBuild running do you want to kill them, or let me kill them for you? [y/n] : " -NoNewline -BackgroundColor DarkBlue -ForegroundColor White
+    $killMsBuild = Read-Host
+    if($killMsBuild -eq "y"){
+        gps msbuild* | kill
+    }
+    
+}
+
+$sw = [Diagnostics.Stopwatch]::StartNew()
+
+
 #remove all V2 dll, and pdb from subscribers, web.sph etc
 Write-Host "Cleaning up....." -ForegroundColor Magenta
 ls -Filter *.err | Remove-Item
-ls -Path .\source -Filter *.pdb -Recurse | Remove-Item
-ls -Path .\source -Filter *.dll -Recurse | Remove-Item
+ls -Path .\source -Filter *.pdb -Recurse | Remove-Item -Force -WarningAction Continue
+ls -Path .\source -Filter *.dll -Recurse | Remove-Item -Force -WarningAction Continue
+ls -Path .\source\ -Filter obj -Recurse | ? {$_.PSIsContainer} |  Remove-Item -Force -Recurse -WarningAction Continue
+
 & git checkout source/unit.test/mapping.transformation.test/rsc.Driver.dll
 & git checkout source/unit.test/mapping.transformation.test/rsc.RilekWeb.dll
+& git checkout source/unit.test/durandaljs.compiler.test/web/bin/System.Runtime.dll
 
-Write-Host "  Removing packages folder is recommended for truely clean build,"
-Write-Host "  but it might take long time to restore if your internet connection is slow "
+#clean
+$outputs | %{
+    ls -Path $_ -Filter *.* -Recurse | Remove-Item -Recurse -WarningAction Continue
+}
 
-if($RemovePackages)
+if($KeepPackages -eq $false)
 {
+
+    Write-Host "  Removing packages folder is recommended for truely clean build,"
+    Write-Host "  but it might take long time to restore if your internet connection is slow "
     # run restore Nuget packages
     if(Test-Path .\source\web\web.sph\obj){
         rmdir .\source\web\web.sph\obj -Recurse -Force
     }
     if(Test-Path .\packages){
-        rmdir .\packages -Recurse -Force
+        ls -Path .\packages -Recurse | Remove-Item -Force -Recurse -WarningAction Continue
+        #Invoke-Command -ScriptBlock { rmdir /S /Q packages }
+        Remove-Item .\packages -Recurse -Force -WarningAction Continue
     }
     mkdir .\packages
 }
 
 
-ls -Path .\bin\subscribers -Filter *.* -Recurse | Remove-Item -Recurse
-ls -Path .\bin\subscribers.host -Filter *.* -Recurse | Remove-Item -Recurse
-ls -Path .\bin\tools -Filter *.* -Recurse | Remove-Item -Recurse
-ls -Path .\bin\schedulers -Filter *.* -Recurse | Remove-Item -Recurse
-
 #restore the NuGet packages
 .\restore-package.ps1
-
-#build  dependencies
-& msbuild .\source\domain\domain.sph\domain.sph.csproj /p:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=domain.sph.err"
-
-$outputs = @(".\source\web\web.sph\bin", ".\bin\subscribers", ".\bin\subscribers.host", ".\bin\schedulers", ".\bin\tools")
 
 
 function Parallel-Build {
@@ -63,41 +81,35 @@ function Parallel-Build {
 
   )
     Write-Host ""
-    Write-Host "Building $name" -ForegroundColor Magenta
+    Write-Host "Copying $name" -ForegroundColor Magenta
     Write-Host "---------------------------------------"
-
-    $projects | `
-    %{
-        Write-Host "Building $_" -ForegroundColor White
-        $project = ".\source\$folder\$_\$_.csproj"
-
-        $arg = @("$project" ,"/property:SolutionDir=$pwd", "/nologo", "/noconsolelogger", "/fileLogger", "/flp2:errorsonly;logfile=$_.err")
-        Start-Process msbuild -WorkingDirectory "." -WindowStyle Hidden -ArgumentList $arg > output.txt
-  
-
-    }
-
-    $msbuilds = gps msbuild* | measure
-    while($msbuilds.Count -gt 0){
-        Start-Sleep -Milliseconds 500
-        Write-Host "." -NoNewline    
-        $msbuilds = gps msbuild* | measure
-    }
-
+    
     if($CopyToOutput){
         $projects | `
         %{
-            $output = ".\source\$folder\" + $_ + "\bin\Debug"       
-            $outputs | %{
-                ls -Path $output -Filter *.* | Copy-Item -Force -Destination $_
+            Write-Host "$_" -NoNewline
+            $output = ".\source\$folder\" + $_ + "\bin\Debug"
+            if(Test-Path $output){       
+                $outputs | %{
+                    Write-Host "." -NoNewline
+                    ls -Path $output -Filter *.dll | Copy-Item -Force -Destination $_
+                    ls -Path $output -Filter *.pdb | Copy-Item -Force -Destination $_
+                }
+            }else{
+                Write-Host "Cannot find output folder for $_" -ForegroundColor Red
             }
+            Write-Host ""
         }
     }
     Write-Host ""
     Write-Host "Done building $name"
 
 }
-$dependencies = @("elasticsearch.logger","email.service", "rabbitmq.changepublisher","rabbitmq.persistence","razor.template"`
+
+#build the solution
+& msbuild .\sph.all.sln /m
+
+$dependencies = @("elasticsearch.logger","email.service", "rabbitmq.changepublisher","razor.template"`
 ,"report.sqldatasource","roslyn.scriptengine","sql.repository","sqlmembership.directoryservices","windows.taskschedulers",`
 "word.document.generator","durandaljs.form.compiler")
 
@@ -109,7 +121,14 @@ $subscribers = @("subscriber.deletedelay","subscriber.elasticsearch.indexer","su
 "subscriber.entities.dev","subscriber.infrastructure","subscriber.workflowscheduler","subscriber.workflow",`
 "subscriber.persistence","subscriber.watcher","subscriber.version.control","subscriber.trigger","subscriber.report.delivery")
 
-Parallel-Build -name "Subscribers" -folder "subscribers" -projects $subscribers -CopyToOutput
+Parallel-Build -name "Subscribers" -folder "subscribers" -projects $subscribers
+$subscribers | %{
+    $output = ".\source\subscribers\" + $_ + "\bin\Debug"   
+    if(Test-Path $output){
+        ls -Path $output -Filter *.* | Copy-Item -Force -Destination .\bin\subscribers  
+    }
+}
+
 Parallel-Build -name "workers" -folder "subscribers" -projects @("workers.console.runner","workers.windowsservice.runner")
 
 
@@ -132,15 +151,17 @@ $tools | %{
     }
 }
 
-#build core.sph and web.sph
-Parallel-Build -name "web" -folder "web" -projects @("core.sph", "web.sph")
-
-
-
 Write-Host "Removing dll.config and xml files from output folders"
 $outputs | % {
+    ls -Path $_ -Filter *.appcache | Remove-Item -Recurse
     ls -Path $_ -Filter *.dll.config | Remove-Item -Recurse
     ls -Path $_ -Filter *.xml | Remove-Item -Recurse
+    ls -Path $_ -Filter *.manifest | Remove-Item -Recurse
+    ls -Path $_ -Filter *.vshost.exe | Remove-Item -Recurse
+    ls -Path $_ -Filter *.vshost.exe.config | Remove-Item -Recurse
+    ls -Path $_ -Filter *.dll.config | Remove-Item -Recurse
+    ls -Path $_ -Filter Common.Logging.pdb | Remove-Item -Recurse
+    ls -Path $_ | ?{$_.PSIsContainer} | Remove-Item -Recurse -WarningAction Continue
 }
 
 #check the build errors
@@ -160,6 +181,10 @@ $RabbitMq_Client = ls .\packages\RabbitMQ.Client.3.4.3\lib\net35\RabbitMQ.Client
 $Microsoft_Owin_Security = ls .\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll
 $Microsoft_Code_Analysis = ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse
 $odp_net_managed = ls .\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll
+#TODO : thes -Filter should get it from the application name
+$filter = "$applicationName.*";
+$user_dll = ls -Path .\bin\output -Filter $filter | ? {$_.Extension -eq '.dll' -or $_.Extension -eq '.pdb'}
+$user_dll
 
 
 ## copy all the packages to the run directory
@@ -180,6 +205,10 @@ $Microsoft_Composition | Copy-Item -Destination .\source\unit.test\durandaljs.co
 $Microsoft_Code_Analysis | Copy-Item -Destination .\source\unit.test\durandaljs.compiler.test\bin\Debug
 
 $odp_net_managed | Copy-Item -Destination  .\source\web\web.sph\bin
+
+$user_dll | Copy-Item -Destination .\bin\subscribers
+$user_dll | Copy-Item -Destination .\bin\schedulers
+$user_dll | Copy-Item -Destination .\source\web\web.sph\bin
 
 
 
