@@ -66,7 +66,8 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter
         {
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
-            catalog.Catalogs.Add(new DirectoryCatalog("."));
+            // TODO : there's conflic with other assemblies
+            // catalog.Catalogs.Add(new DirectoryCatalog("."));
 
             m_container = new CompositionContainer(catalog);
             var batch = new CompositionBatch();
