@@ -200,7 +200,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                 this.QueueCollection.Clear();
                 this.ExchangeCollection.Clear();
                 var queueResponse = await client.GetStringAsync(string.Format("http://{0}:{1}/api/queues", this.SelectedConnection.HostName, this.SelectedConnection.ApiPort));
-                var queueJson = (await JsonConvert.DeserializeObjectAsync(queueResponse)) as Newtonsoft.Json.Linq.JArray;
+                var queueJson = ( JsonConvert.DeserializeObject(queueResponse)) as Newtonsoft.Json.Linq.JArray;
                 if (null != queueJson)
                 {
                     foreach (dynamic q in queueJson)
@@ -227,7 +227,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
                 }
                 var excahngeResponse = await client.GetStringAsync(string.Format("http://{0}:{1}/api/exchanges", this.SelectedConnection.HostName, this.SelectedConnection.ApiPort));
-                var exchangeJson = (await JsonConvert.DeserializeObjectAsync(excahngeResponse)) as Newtonsoft.Json.Linq.JArray;
+                var exchangeJson = (JsonConvert.DeserializeObject(excahngeResponse)) as Newtonsoft.Json.Linq.JArray;
                 if (null != exchangeJson)
                 {
                     foreach (var q in exchangeJson)
@@ -264,7 +264,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             {
                 var queueResponse = await client.GetStringAsync(string.Format("http://{0}:{1}/api/queues/{2}/{3}", this.SelectedConnection.HostName, this.SelectedConnection.ApiPort,
                     HttpUtility.UrlEncode(this.SelectedConnection.VirtualHost), this.SelectedQueue.Name));
-                dynamic q = (await JsonConvert.DeserializeObjectAsync(queueResponse));
+                dynamic q = ( JsonConvert.DeserializeObject(queueResponse));
                 this.SelectedQueue.MessagesCount = q.messages.Value;
             }
             await Task.Delay(2500);
@@ -282,9 +282,9 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             base.RaisePropertyChanged(propertyName);
         }
 
-        private async void SaveConnection()
+        private void SaveConnection()
         {
-            var json = await JsonConvert.SerializeObjectAsync(this.ConnectionCollection);
+            var json =  JsonConvert.SerializeObject(this.ConnectionCollection);
             Properties.Settings.Default.Connections = json;
             Properties.Settings.Default.Save();
         }
