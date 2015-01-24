@@ -1,9 +1,16 @@
+Param(
+       [switch]$RemovePackages = $false
+     )
 #switch to v1
 $pwd = pwd
 $sw = [Diagnostics.Stopwatch]::StartNew()
 
-Write-Host "This script will clean all your outputs, and rebuild everything, this include all the dll, pdb, err files" -ForegroundColor Yellow
-Write-Host "You should run the  .\SetUpV1Environment.ps1 before running this script" -ForegroundColor Yellow
+Write-Host " ==================================================================== "
+Write-Host "     This script will clean all your outputs, and rebuild everything,"
+Write-Host "     this include all the dll, pdb, err files" 
+Write-Host "     You should run the  .\SetUpV1Environment.ps1 before running this script"
+Write-Host " ==================================================================== "
+
 
 #remove all V2 dll, and pdb from subscribers, web.sph etc
 Write-Host "Cleaning up....." -ForegroundColor Magenta
@@ -13,27 +20,30 @@ ls -Path .\source -Filter *.dll -Recurse | Remove-Item
 & git checkout source/unit.test/mapping.transformation.test/rsc.Driver.dll
 & git checkout source/unit.test/mapping.transformation.test/rsc.RilekWeb.dll
 
-Write-Host "Removing packages folder is recommended for truely clean build, but it might take long time to restore if your internet connection is slow" -ForegroundColor Yellow
-Write-Host "Do you want to clean the packages folder ? (y/n) : " -ForegroundColor Yellow -NoNewline
-$cleanPackage = Read-Host
-if($cleanPackage -eq "y")
+Write-Host "  Removing packages folder is recommended for truely clean build,"
+Write-Host "  but it might take long time to restore if your internet connection is slow "
+
+if($RemovePackages)
 {
     # run restore Nuget packages
     if(Test-Path .\source\web\web.sph\obj){
         rmdir .\source\web\web.sph\obj -Recurse -Force
     }
     if(Test-Path .\packages){
-        rmdir .\packages -Recurse -Force
+        rmdir -Recurse -Force -WarningAction Continue .\packages
     }
     mkdir .\packages
-    .\restore-package.ps1
 }
 
+if(Test-Path .\source\web\web.durandal){
+    rmdir -Recurse -Force .\source\web\web.durandal -WarningAction Continue
+}
+ls -Path .\source -Filter Debug -Recurse | Remove-Item -Force -Recurse -WarningAction Continue
 
-ls -Path .\bin\subscribers -Filter *.* -Recurse | Remove-Item -Recurse
-ls -Path .\bin\subscribers.host -Filter *.* -Recurse | Remove-Item -Recurse
-ls -Path .\bin\tools -Filter *.* -Recurse | Remove-Item -Recurse
-ls -Path .\bin\schedulers -Filter *.* -Recurse | Remove-Item -Recurse
+ls -Path .\bin\subscribers -Filter *.* -Recurse | Remove-Item -Recurse -Force -WarningAction Continue
+ls -Path .\bin\subscribers.host -Filter *.* -Recurse | Remove-Item -Recurse -Force -WarningAction Continue
+ls -Path .\bin\tools -Filter *.* -Recurse | Remove-Item -Recurse -Force -WarningAction Continue
+ls -Path .\bin\schedulers -Filter *.* -Recurse | Remove-Item -Recurse -Force -WarningAction Continue
 
 #restore the NuGet packages
 .\restore-package.ps1
@@ -44,102 +54,114 @@ ls -Path .\bin\schedulers -Filter *.* -Recurse | Remove-Item -Recurse
 $outputs = @(".\source\web\web.sph\bin", ".\bin\subscribers", ".\bin\subscribers.host", ".\bin\schedulers", ".\bin\tools")
 
 
-Write-Host "Building dependencies" -ForegroundColor Magenta
+function Parallel-Build {
+  param(
+    [Parameter(Mandatory=$true)]
+    [string]
+    $Name,
+    [Parameter(Mandatory=$true)]
+    [string]
+    $folder,
+    [Parameter(Mandatory=$true)]
+    [string[]]
+    $projects,
+    [Switch]$CopyToOutput
+
+  )
+    Write-Host ""
+    Write-Host "Building $Name" -ForegroundColor Magenta
+    Write-Host "---------------------------------------"
+
+    $projects | `
+    %{
+        Write-Host "$_  ..." -ForegroundColor DarkGray
+        $project = ".\source\$folder\$_\$_.csproj"
+
+        $arg = @("$project" ,"/p:SolutionDir=$pwd","/p:Configuration=Debug", "/nologo", "/noconsolelogger", "/fileLogger", "/flp2:errorsonly;logfile=$_.err")
+        Start-Process msbuild -WorkingDirectory "." -WindowStyle Hidden -ArgumentList $arg > output.txt
+  
+
+    }
+
+    $msbuilds = gps msbuild* | measure
+    while($msbuilds.Count -gt 0){
+        Start-Sleep -Milliseconds 500
+        Write-Host "." -NoNewline    
+        $msbuilds = gps msbuild* | measure
+    }
+
+    if($CopyToOutput){
+        $projects | `
+        %{
+            $output = ".\source\$folder\" + $_ + "\bin\Debug"
+            if(Test-Path $output){       
+                $outputs | %{
+                    ls -Path $output -Filter *.dll | Copy-Item -Force -Destination $_
+                    ls -Path $output -Filter *.pdb | Copy-Item -Force -Destination $_
+                }
+            }else{
+                Write-Host "Cannot find output folder for $_" -ForegroundColor Red
+            }
+        }
+    }
+    Write-Host "...done" -NoNewline
+    Write-Host ""
+
+}
+
+#build  dependencies
+$domains = @("domain.sph", "trigger.action.messaging")
+Parallel-Build -Name "domain" -folder "domain" -projects $domains
 
 $dependencies = @("elasticsearch.logger","email.service", "rabbitmq.changepublisher","rabbitmq.persistence","razor.template"`
 ,"report.sqldatasource","roslyn.scriptengine","sql.repository","sqlmembership.directoryservices","windows.taskschedulers","word.document.generator")
 
-
-$dependencies | `
-%{
-    $project = ".\source\dependencies\" + $_ + "\" + $_ + ".csproj"
-    $output = ".\source\dependencies\" + $_ + "\bin\Debug"
-    Write-Host "Building $_" -ForegroundColor White
-    & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
-
-    $outputs | %{
-        ls -Path $output -Filter *.* | Copy-Item -Force -Destination $_
-    }
-
-
-}
+Parallel-Build -Name "dependencies" -folder "dependencies" -projects $dependencies -CopyToOutput
 
 
 #build subscribers
-Write-Host "Building subscribers" -ForegroundColor Magenta
 $subscribers = @("subscriber.deletedelay","subscriber.elasticsearch.indexer","subscriber.entities",`
 "subscriber.entities.dev","subscriber.infrastructure","subscriber.workflowscheduler","subscriber.workflow",`
 "subscriber.persistence","subscriber.watcher","subscriber.version.control","subscriber.trigger","subscriber.report.delivery")
-$subscribers | `
-%{
-    $project = ".\source\subscribers\" + $_ + "\" + $_ + ".csproj"
-    $output = ".\source\subscribers\" + $_ + "\bin\Debug"
-    Write-Host "Building $_" -ForegroundColor Gray -NoNewline
-    Write-Host "....."
-    & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
 
-    if(Test-Path $output){
-        ls -Path $output -Filter *.* | Copy-Item -Force -Destination .\bin\subscribers  
-    }
-}
-
-& msbuild .\source\subscribers\workers.console.runner\workers.console.runner.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=workers.console.runner.err"
-& msbuild .\source\subscribers\workers.windowsservice.runner\workers.windowsservice.runner.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=workers.windowsservice.runner.err"
+Parallel-Build -Name "Subscribers" -folder "subscribers" -projects $subscribers
+Parallel-Build -Name "workers" -folder "subscribers" -projects @("workers.console.runner","workers.windowsservice.runner")
 
 
 #adapters
-Write-Host "Building adapters" -ForegroundColor Magenta
 $adapters = @("http.adapter","mysql.adapter","oracle.adapter","sqlserver.adapter")
-$adapters | %{
-    $project = ".\source\adapters\" + $_ + "\" + $_ + ".csproj"
-    $output = ".\source\adapters\" + $_ + "\bin\Debug"
-    Write-Host "Building $_" -ForegroundColor Gray
-    & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
-
-
-}
-
+Parallel-Build -Name "adapters" -folder "adapters" -projects $adapters -CopyToOutput
 
 
 #schedulers
-Write-Host "Building scheduler" -ForegroundColor Magenta
-$adapters = @("scheduler.delayactivity","scheduler.report.delivery","scheduler.workflow.trigger")
-$adapters | %{
-    $project = ".\source\scheduler\" + $_ + "\" + $_ + ".csproj"
-    $output = ".\source\scheduler\" + $_ + "\bin\Debug"
-    Write-Host "Building $_" -ForegroundColor Gray
-    & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
+Parallel-Build -Name "schedulers" -folder "scheduler" -projects @("scheduler.delayactivity","scheduler.report.delivery","scheduler.workflow.trigger")
 
-
-}
 
 #tools
-Write-Host "Building tools" -ForegroundColor Magenta
 $tools = @("csproj.gen","control.center","dead.letter.viewer","offline.generator","sph.builder")
+Parallel-Build -Name "tools" -folder "tools" -projects $tools
 $tools | %{
-    $project = ".\source\tools\" + $_ + "\" + $_ + ".csproj"
-    $output = ".\source\tools\" + $_ + "\bin\Debug"
-    Write-Host "Building $_" -ForegroundColor Gray
-    Write-Host "..."
-    & msbuild $project  /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=$_.err"
-
+    $output = ".\source\tools\" + $_ + "\bin\Debug"   
     if(Test-Path $output){
         ls -Path $output -Filter *.* | Copy-Item -Force -Destination .\bin\tools  
     }
 }
 
-Write-Host "Building web.sph and core.sph...." -ForegroundColor Magenta
 #build core.sph and web.sph
-& msbuild .\source\web\core.sph\core.sph.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=core.sph.err"
-& msbuild .\source\web\web.sph\web.sph.v1.csproj /property:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=web.sph.err"
-
-Write-Host "Succesfully built core.sph and web.sph" -ForegroundColor DarkGray
+Parallel-Build -Name "web" -folder "web" -projects @("core.sph")
+& msbuild .\source\web\web.sph\web.sph.v1.csproj /p:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=web.sph.v1.err"
 
 
 Write-Host "Removing dll.config and xml files from output folders"
 $outputs | % {
     ls -Path $_ -Filter *.dll.config | Remove-Item -Recurse
     ls -Path $_ -Filter *.xml | Remove-Item -Recurse
+    ls -Path $_ -Filter *.manifest | Remove-Item -Recurse
+    ls -Path $_ -Filter *.vshost.exe | Remove-Item -Recurse
+    ls -Path $_ -Filter *.vshost.exe.config | Remove-Item -Recurse
+    ls -Path $_ -Filter *.dll.config | Remove-Item -Recurse
+    ls -Path $_ -Filter Common.Logging.pdb | Remove-Item -Recurse
+    
 }
 
 #check the build errors
@@ -153,19 +175,34 @@ ls -Filter *.err | %{
     }
 }
 
+
+
 Write-Host "Copying some packages files to output"
-copy .\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll .\source\web\web.sph\bin
-copy .\packages\RabbitMQ.Client.3.4.0\lib\net35\RabbitMQ.Client.dll .\source\web\web.sph\bin
-ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll | Copy-Item -Destination .\bin\tools
-ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse | Copy-Item -Destination .\bin\tools
+$Microsoft_Owin_Security = ls .\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll
+$RabbitmMq_Client = ls .\packages\RabbitMQ.Client.3.4.0\lib\net35\RabbitMQ.Client.dll
+$Microsoft_Compostition = ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll
+$Microsoft_Code_Analysis = ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse
+$odp_managed_data_provider = ls .\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll
+$user_dll = ls .\bin\output\$applicationName.*.dll
 
-ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll | Copy-Item -Destination .\bin\subscribers
-ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse | Copy-Item -Destination .\bin\subscribers
+$Microsoft_Owin_Security | Copy-Item -Destination .\source\web\web.sph\bin
+$RabbitmMq_Client | Copy-Item -Destination .\source\web\web.sph\bin
+
+$Microsoft_Compostition | Copy-Item -Destination .\bin\tools
+$Microsoft_Code_Analysis | Copy-Item -Destination .\bin\tools
+
+$Microsoft_Compostition | Copy-Item -Destination .\bin\subscribers
+$Microsoft_Code_Analysis | Copy-Item -Destination .\bin\subscribers
 
 
-ls .\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\*.dll | Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
-ls .\packages -Filter Microsoft.CodeAnalysis.*.dll -Recurse | Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
-copy .\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll .\source\web\web.sph\bin
+$Microsoft_Compostition| Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
+$Microsoft_Code_Analysis | Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
+$odp_managed_data_provider| Copy-Item -Destination .\source\web\web.sph\bin
+
+$user_dll | Copy-Item -Destination .\bin\subscribers
+$user_dll | Copy-Item -Destination .\bin\schedulers
+$user_dll | Copy-Item -Destination .\source\web\web.sph\bin
+
 
 
 
@@ -174,5 +211,4 @@ if($success){
 }
 
 $sw.Stop()
-$sw.Elapsed
-Write-Host $sw.Elapsed
+Write-Host $sw.Elapsed.Minutes  " minutes and "  $sw.Elapsed.Seconds  " seconds"

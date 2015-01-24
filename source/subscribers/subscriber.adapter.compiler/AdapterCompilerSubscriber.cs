@@ -45,7 +45,7 @@ namespace subscriber.adapter.compiler
                 File.Copy(result.Output, ConfigurationManager.SchedulerPath + "\\" + output + ".dll", true);
                 File.Copy(result.Output.Replace(".dll", ".pdb"), ConfigurationManager.SchedulerPath + "\\" + output + ".pdb", true);
 
-                File.Copy(result.Output, ConfigurationManager.SubscriberPath + "\\" + output + ".dll", true);
+                File.Copy(result.Output, string.Format("{0}\\{1}.dll", ConfigurationManager.SubscriberPath, output), true);
                 File.Copy(result.Output.Replace(".dll", ".pdb"), ConfigurationManager.SubscriberPath + "\\" + output + ".pdb", true);
 
                 File.Copy(result.Output, ConfigurationManager.WebPath + @"\bin\" + output + ".dll", true);
