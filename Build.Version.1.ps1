@@ -78,17 +78,17 @@ function Parallel-Build {
         $project = ".\source\$folder\$_\$_.csproj"
 
         $arg = @("$project" ,"/p:SolutionDir=$pwd","/p:Configuration=Debug", "/nologo", "/noconsolelogger", "/fileLogger", "/flp2:errorsonly;logfile=$_.err")
-        Start-Process msbuild -WorkingDirectory "." -WindowStyle Hidden -ArgumentList $arg > output.txt
+        #Start-Process msbuild -WorkingDirectory "." -WindowStyle Hidden -ArgumentList $arg > output.txt
   
 
     }
 
-    $msbuilds = gps msbuild* | measure
-    while($msbuilds.Count -gt 0){
-        Start-Sleep -Milliseconds 500
-        Write-Host "." -NoNewline    
-        $msbuilds = gps msbuild* | measure
-    }
+  #  $msbuilds = gps msbuild* | measure
+  #  while($msbuilds.Count -gt 0){
+  #      Start-Sleep -Milliseconds 500
+  #      Write-Host "." -NoNewline    
+  #      $msbuilds = gps msbuild* | measure
+  #  }
 
     if($CopyToOutput){
         $projects | `
@@ -108,6 +108,7 @@ function Parallel-Build {
     Write-Host ""
 
 }
+msbuild .\sph.all.sln /m
 
 #build  dependencies
 $domains = @("domain.sph", "trigger.action.messaging")
@@ -125,6 +126,13 @@ $subscribers = @("subscriber.deletedelay","subscriber.elasticsearch.indexer","su
 "subscriber.persistence","subscriber.watcher","subscriber.version.control","subscriber.trigger","subscriber.report.delivery")
 
 Parallel-Build -Name "Subscribers" -folder "subscribers" -projects $subscribers
+$subscribers | %{
+    $output = ".\source\subscribers\" + $_ + "\bin\Debug"   
+    if(Test-Path $output){
+        ls -Path $output -Filter *.* | Copy-Item -Force -Destination .\bin\subscribers  
+    }
+}
+
 Parallel-Build -Name "workers" -folder "subscribers" -projects @("workers.console.runner","workers.windowsservice.runner")
 
 
