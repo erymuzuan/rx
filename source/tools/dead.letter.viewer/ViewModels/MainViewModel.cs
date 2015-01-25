@@ -37,7 +37,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             this.FormatMessageCommand = new RelayCommand<string>(FormatJson, b => !string.IsNullOrWhiteSpace(b));
             this.AutomaticallyRequeCommand = new RelayCommand<XDeathHeader>(AutomaticallyReque, xd => null != xd);
         }
-        private readonly List<XDeathHeader> m_autoRequeList  = new List<XDeathHeader>();
+        private readonly List<XDeathHeader> m_autoRequeList = new List<XDeathHeader>();
         private void AutomaticallyReque(XDeathHeader obj)
         {
             m_autoRequeList.Add(obj);
@@ -99,13 +99,13 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                 this.Load();
                 if (null == this.Result) return;
                 if (this.IsNextMessageDecompress)
-                    this.Message = await this.DecompressAsync(this.Result.Body);
+                    this.Message = await DecompressAsync(this.Result.Body);
                 if (this.IsNextMessageReformat)
                     this.FormatJson(this.Message);
                 if (m_autoRequeList.Any(d => d.Equals(this.DeathHeader)))
                 {
                     this.Requeue();
-                    
+
                 }
 
 
@@ -159,17 +159,17 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
         private async void Decompress(BasicGetResult result)
         {
-            this.Message = await this.DecompressAsync(result.Body);
+            this.Message = await DecompressAsync(result.Body);
         }
 
-        private async void FormatJson(string message)
+        private void FormatJson(string message)
         {
             var jo = JsonConvert.DeserializeObject(message);
-            this.Message = await JsonConvert.SerializeObjectAsync(jo, Formatting.Indented);
+            this.Message = JsonConvert.SerializeObject(jo, Formatting.Indented);
 
         }
 
-        private async Task<string> DecompressAsync(byte[] content)
+        private static async Task<string> DecompressAsync(byte[] content)
         {
 
             using (var orginalStream = new MemoryStream(content))
@@ -180,7 +180,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                 {
                     await gzip.CopyToAsync(destinationStream);
                 }
-                catch (InvalidDataException e)
+                catch (InvalidDataException)
                 {
                     orginalStream.CopyTo(destinationStream);
                 }

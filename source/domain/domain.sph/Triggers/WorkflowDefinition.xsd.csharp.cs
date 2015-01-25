@@ -24,6 +24,8 @@ namespace Bespoke.Sph.Domain
         public XElement GetCustomSchema(string id = null)
         {
             if (null != m_customSchema) return m_customSchema;
+            if (string.IsNullOrWhiteSpace(this.SchemaStoreId))
+                return null;
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var content = store.GetContent(id ?? this.SchemaStoreId);

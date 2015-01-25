@@ -23,7 +23,7 @@ namespace durandaljs.compiler.test
             m_ed.MemberCollection.Add(new Member { Type = typeof(string), Name = "Author" });
 
             var repos = new MockRepository<EntityDefinition>();
-            repos.AddToDictionary("x.Id == EntityDefinitionId.EntityDefinitionId", m_ed);
+            repos.AddToDictionary("x.Id == value(Bespoke.Sph.Domain.EntityForm).EntityDefinitionId", m_ed);
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(repos);
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());

@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Domain.Codes
         {
             if (null == this.Type) return string.Empty;
             if (this.Type == typeof(string)) return string.Empty;
-            return Member.NativeTypes.Contains(this.Type) ? "?" : string.Empty;
+            return this.IsNullable && Member.NativeTypes.Contains(this.Type) ? "?" : string.Empty;
         }
 
         public string TypeName { get; set; }

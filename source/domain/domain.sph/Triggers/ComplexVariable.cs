@@ -156,8 +156,8 @@ namespace Bespoke.Sph.Domain
             return member;
         }
 
-        
-        public static string GetClrDataType(XElement element)
+
+        public static Type GetClrDataType(XElement element)
         {
             var typeAttribute = element.Attribute("type");
             var nillableAttribute = element.Attribute("nillable");
@@ -165,42 +165,55 @@ namespace Bespoke.Sph.Domain
             var xsType = typeAttribute != null ? typeAttribute.Value : "";
             var nillable = nillableAttribute != null && bool.Parse(nillableAttribute.Value);
 
-            string type;
+            Type type;
             switch (xsType)
             {
+                case "xs:anyURI":
                 case "xs:string":
-                    type = "string";
-                    break;
+                    return typeof(string);
                 case "xs:date":
                 case "xs:dateTime":
-                    type = "DateTime";
+                    type = typeof(DateTime);
                     break;
+                case "xs:duration":
+                    type = typeof(TimeSpan);
+                    break;
+                case "xs:base64Binary":
+                    type = typeof(byte[]);
+                    break;
+                case "xs:gYear":
                 case "xs:int":
-                    type = "int";
+                    type = typeof(int);
+                    break;
+                case "xs:unsignedByte":
+                case "xs:short":
+                    type = typeof(short);
                     break;
                 case "xs:long":
-                    type = "long";
+                    type = typeof(long);
                     break;
                 case "xs:boolean":
-                    type = "bool";
+                    type = typeof(bool);
                     break;
                 case "xs:float":
-                    type = "float";
+                    type = typeof(float);
                     break;
                 case "xs:double":
-                    type = "double";
+                    type = typeof(double);
                     break;
                 case "xs:decimal":
-                    type = "decimal";
+                    type = typeof(decimal);
                     break;
                 case "xs:anySimpleType":
-                    type = "object";
+                    type = typeof(object);
                     break;
                 default:
-                    type = xsType;
-                    break;
+                    if(xsType.StartsWith("xs:"))
+                        throw new ArgumentException("The type \"" + xsType + "\" is not supporter");
+                    return null;
             }
-            if (nillable) type += "?";
+            if (nillable)
+                return typeof(Nullable<>).MakeGenericType(type);
             return type;
         }
 

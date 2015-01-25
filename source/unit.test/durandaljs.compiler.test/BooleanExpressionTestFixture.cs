@@ -69,6 +69,7 @@ namespace durandaljs.compiler.test
                 "$data.Name() === 'Pantani'");
         }
         [Test]
+        [Trace(Verbose = true)]
         public void OrExpression()
         {
             Assert.AreEqual(
@@ -91,6 +92,7 @@ namespace durandaljs.compiler.test
         }
 
         [Test]
+        [Trace(Verbose = true)]
         public void Aggregate()
         {
             Assert.AreEqual(
