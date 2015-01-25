@@ -21,7 +21,7 @@ namespace durandaljs.compiler.test
         {
             var doc = new BinaryStore
             {
-                Content = File.ReadAllBytes(@"C:\project\work\sph\source\unit.test\domain.test\bin\Debug\workflows\PemohonWakaf.xsd")
+                Content = File.ReadAllBytes(@"C:\project\work\sph\source\unit.test\domain.test\workflows\PemohonWakaf.xsd")
             };
             var store = new Mock<IBinaryStore>(MockBehavior.Strict);
             store.Setup(x => x.GetContent("x"))
@@ -31,7 +31,7 @@ namespace durandaljs.compiler.test
             wd = new WorkflowDefinition { Id = "simple-screen-workflow", SchemaStoreId = "x", Name = "Simple Screen Workflow" };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "CourseNo", Type = typeof(string) });
             var repos = new MockRepository<WorkflowDefinition>();
-            repos.AddToDictionary("x.Id == WorkflowDefinitionId.WorkflowDefinitionId", wd);
+            repos.AddToDictionary("x.Id == value(Bespoke.Sph.Domain.ScreenActivityForm).WorkflowDefinitionId", wd);
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(repos);
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());

@@ -1,10 +1,7 @@
 using System;
-using System.IO;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.FormCompilers.DurandalJs.FormElements;
 using Bespoke.Sph.Templating;
-
-using Moq;
 using NUnit.Framework;
 
 namespace durandaljs.compiler.test
@@ -17,24 +14,13 @@ namespace durandaljs.compiler.test
         [TestFixtureSetUp]
         public void Init()
         {
-            var doc = new BinaryStore
-            {
-                Content = File.ReadAllBytes(@"C:\project\work\sph\source\unit.test\domain.test\workflows\PemohonWakaf.xsd")
-            };
-            var store = new Mock<IBinaryStore>(MockBehavior.Strict);
-            store.Setup(x => x.GetContent("x"))
-                .Returns(doc);
-            ObjectBuilder.AddCacheList(store.Object);
-
-
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
             m_wd = new WorkflowDefinition
             {
                 Id = "simple-wf",
                 Name = "Simple Workflow",
-                WebId = "simple-webid",
-                SchemaStoreId = "x"
+                WebId = "simple-webid"
             };
             var start = new ExpressionActivity { IsInitiator = true, WebId = "FireMe", Name = "FireMe", NextActivityWebId = "b" };
             var end = new EndActivity { Name = "End", WebId = "End" };

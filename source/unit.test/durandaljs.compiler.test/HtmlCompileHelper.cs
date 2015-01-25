@@ -36,7 +36,7 @@ namespace durandaljs.compiler.test
             patient.MemberCollection.Add(new Member { Name = "RegisteredDate", Type = typeof(DateTime), IsNullable = false });
             patient.MemberCollection.Add(new Member { Name = "IsMarried", Type = typeof(bool), IsNullable = false });
 
-            var address = new Member { Name = "Address", Type = typeof(object) };
+            var address = new Member { Name = "Address"};
             address.Add(new Dictionary<string, Type>
             {
                 {"CreatedDate", typeof (DateTime)},

@@ -34,8 +34,6 @@ namespace durandaljs.compiler.test
                 "$data.CreatedDate().moment() > moment('05/06/2015', 'DD/MM/YYYY')",
                 "item.CreatedDate > DateTime.ParseExact(\"05/06/2015\", \"dd/MM/yyyy\",System.Globalization.CultureInfo.CurrentCulture)"
                 .CompileHtml());
-            var d = DateTime.ParseExact("01/02/2014", "dd/MM/yyyy", CultureInfo.CurrentCulture);
-            Console.WriteLine(d);
         }
 
     

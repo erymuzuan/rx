@@ -60,13 +60,29 @@ namespace durandaljs.compiler.test
                 var me = body.Right as MemberExpression;
                 if (null != me)
                 {
-                    predicate = string.Format("{0}.{1} {2} {3}.{4}",
-                       body.Left.Expression.Name,
-                       body.Left.Member.Name,
-                       operatorExpression,
-                       body.Right.Expression.Member.Name,
-                       body.Right.Member.Name
-                       );
+                    var rce = body.Right.Expression as ConstantExpression;
+                    if (null != rce)
+                    {
+                        predicate = string.Format("{0}.{1} {2} {3}",
+                           body.Left.Expression.Name,
+                           body.Left.Member.Name,
+                           operatorExpression,
+                           me
+                           );
+
+                    }
+                    var rme = body.Right.Expression as MemberExpression;
+                    if (null != rme)
+                    {
+
+                        predicate = string.Format("{0}.{1} {2} {3}.{4}",
+                           body.Left.Expression.Name,
+                           body.Left.Member.Name,
+                           operatorExpression,
+                           body.Right.Expression.Member.Name,
+                           body.Right.Member.Name
+                           );
+                    }
 
                 }
                 if (DebuggerHelper.IsVerbose)
