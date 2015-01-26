@@ -113,13 +113,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 {
                     var f = w.Walk(st1, model);
                     if (string.IsNullOrWhiteSpace(f)) continue;
-
-                    Console.WriteLine("*****");
-                    Console.WriteLine("{0} -> {1}", st1.CSharpKind(), w.GetType().Name);
-                    Console.WriteLine(f);
-                    Console.WriteLine("------------");
-
                     code.AppendLine(f.TrimEnd());
+                    if (st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any())
+                        return code.ToString();
                 }
                 if (!walkers.Any())
                 {

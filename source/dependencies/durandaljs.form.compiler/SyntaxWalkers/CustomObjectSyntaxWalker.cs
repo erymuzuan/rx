@@ -154,10 +154,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var f = w.Walk(node, model);
                 if (string.IsNullOrWhiteSpace(f)) continue;
 
-                Console.WriteLine("*****");
-                Console.WriteLine("{0} -> {1}", node.CSharpKind(), w.GetType().Name);
-                Console.WriteLine(f);
-                Console.WriteLine("------------");
+                //Console.WriteLine("*****");
+                //Console.WriteLine("{0} -> {1}", node.CSharpKind(), w.GetType().Name);
+                //Console.WriteLine(f);
+                //Console.WriteLine("------------");
 
                 code.AppendLine(f.TrimEnd());
             }
@@ -168,5 +168,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
             return code.ToString().TrimEnd();
         }
+
+
     }
 }
