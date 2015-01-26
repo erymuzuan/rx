@@ -17,304 +17,305 @@
     <!-- /ko-->
 </div>
 <div class="row">
-    <a data-toggle="collapse" href="#general-ev-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            General options
-        </h3>
-    </a>
-    <div class="collapse in" id="general-ev-panel">
-        <form class="form-horizontal" data-bind="with : view">
-            <div class="form-group">
-                <label for="view-name" class="col-sm-2 control-label">Name</label>
-                <div class="col-sm-6">
-                    <input type="text" data-bind="value: Name, valueUpdate: 'keyup'"
-                           required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
-                           placeholder="Name for the view"
-                           class="form-control" id="view-name">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="view-route" class="col-sm-2 control-label">Route</label>
-                <div class="col-sm-6">
-                    <input type="text" data-bind="value: Route"
-                           required pattern="^[A-Za-z_][A-Za-z0-9_-]*$"
-                           placeholder="route url"
-                           class="form-control" id="view-route">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="view-note" class="col-sm-2 control-label">Note</label>
-                <div class="col-sm-6">
-                    <textarea data-bind="value: Note, valueUpdate: 'keyup'"
-                              placeholder="Note about the view"
-                              class="form-control" id="view-note"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="icon-storeid" class="col-sm-2 control-label">Icon/Logo</label>
-                <div class="col-sm-6">
-                    <div data-bind="attr : {'class':TileColour}" style="padding: 10px;">
-                        <div class="pull-left">
-                            <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon">
-                        </div>
-                        <div>
-                            <span style="font-size: 32px; font-weight: bold; margin: 5px">0</span>
-                        </div>
-                        <div>
-                            <h5 data-bind="text: Name"></h5>
-                            <label data-bind="text: Note"></label>
-                        </div>
-                    </div>
-                    <input type="file" data-bind="kendoUpload: {value: IconStoreId, extensions : ['.png', '.gif']}" name="files" class="form-control" id="icon-storeid">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="ev-tl-color" class="col-sm-2 control-label">Tile Color</label>
-                <div class="col-sm-6">
-                    <select class="form-control" id="ev-tl-color" data-bind="value:TileColour">
-                        <option value="bblue">Blue</option>
-                        <option value="blightblue">Light blue</option>
-                        <option value="bred">Red</option>
-                        <option value="bgreen">Green</option>
-                        <option value="borange">Orange</option>
-                        <option value="bviolet">Violet</option>
-                    </select>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="row" data-bind="with : view">
-    <a data-toggle="collapse" href="#filters-ev-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Filters
-        </h3>
-    </a>
-    <div class="collapse collapsed" id="filters-ev-panel">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Term</th>
-                    <th>Operator</th>
-                    <th>Value</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach :FilterCollection">
-                <tr>
-                    <td>
-                        <input class="form-control" type="text"
-                               data-bind="value:Term,entityTypeaheadPath :$root.entity().Id()"
-                               required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
-                    </td>
-                    <td>
-                        <select name="rule-operator" class="form-control" data-bind="value: Operator">
-                            <option value="Eq">=</option>
-                            <option value="Neq">!=</option>
-                            <option value="Le">&lt;=</option>
-                            <option value="Lt">&lt;</option>
-                            <option value="Ge">&gt;=</option>
-                            <option value="Gt">&gt;</option>
-                            <option value="Substringof">Substringof</option>
-                            <option value="StartsWith">StartsWith</option>
-                            <option value="EndsWith">EndsWith</option>
-                            <option value="NotContains">Not Substringof</option>
-                            <option value="NotStartsWith">Not StartsWith</option>
-                            <option value="NotEndsWith">Not EndsWith</option>
-                        </select>
-                    </td>
-                    <td>                    @Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" })</td>
-                    <td>
-                        <a href="#" data-bind="click : $parent.removeFilter.call($parent,$data)">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="col-md-6">
 
-        <a class="btn btn-link" data-bind="click : addFilter">
-            <i class="fa fa-plus-circle"></i> Add a filter
-        </a>
-    </div>
-</div>
+        <div class="row">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#general-options" data-toggle="tab">General Options</a>
+                </li>
+                <li>
+                    <a href="#filters" data-toggle="tab">Filters</a>
+                </li>
+                <li>
+                    <a href="#sorts" data-toggle="tab">Sorts</a>
+                </li>
+                <li>
+                    <a href="#conditional-formatting" data-toggle="tab">Conditional Formatting</a>
+                </li>
+                <li>
+                    <a href="#permission" data-toggle="tab">Permission</a>
+                </li>
+                <li>
+                    <a href="#route-parameters" data-toggle="tab">Route Parameters</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="general-options" class="tab-pane active">
+                    <form class="form-horizontal" data-bind="with : view">
+                        <div class="form-group">
+                            <label for="view-name" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" data-bind="value: Name, valueUpdate: 'keyup'"
+                                       required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                       placeholder="Name for the view"
+                                       class="form-control" id="view-name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="view-route" class="col-sm-2 control-label">Route</label>
+                            <div class="col-sm-6">
+                                <input type="text" data-bind="value: Route"
+                                       required pattern="^[A-Za-z_][A-Za-z0-9_-]*$"
+                                       placeholder="route url"
+                                       class="form-control" id="view-route">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="view-note" class="col-sm-2 control-label">Note</label>
+                            <div class="col-sm-6">
+                                <textarea data-bind="value: Note, valueUpdate: 'keyup'"
+                                          placeholder="Note about the view"
+                                          class="form-control" id="view-note"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="icon-storeid" class="col-sm-2 control-label">Icon/Logo</label>
+                            <div class="col-sm-6">
+                                <div data-bind="attr : {'class':TileColour}" style="padding: 10px;">
+                                    <div class="pull-left">
+                                        <img data-bind="attr:{src: '/sph/image/store/' + IconStoreId() }" alt="Icon">
+                                    </div>
+                                    <div>
+                                        <span style="font-size: 32px; font-weight: bold; margin: 5px">0</span>
+                                    </div>
+                                    <div>
+                                        <h5 data-bind="text: Name"></h5>
+                                        <label data-bind="text: Note"></label>
+                                    </div>
+                                </div>
+                                <input type="file" data-bind="kendoUpload: {value: IconStoreId, extensions : ['.png', '.gif']}" name="files" class="form-control" id="icon-storeid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ev-tl-color" class="col-sm-2 control-label">Tile Color</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="ev-tl-color" data-bind="value:TileColour">
+                                    <option value="bblue">Blue</option>
+                                    <option value="blightblue">Light blue</option>
+                                    <option value="bred">Red</option>
+                                    <option value="bgreen">Green</option>
+                                    <option value="borange">Orange</option>
+                                    <option value="bviolet">Violet</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>                    
+                </div>
 
-<div class="row" data-bind="with : view">
-    <a data-toggle="collapse" href="#sorts-ev-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Sorts
-        </h3>
-    </a>
-    <div class="collapse collapsed" id="sorts-ev-panel">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Path</th>
-                    <th>Direction</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach :SortCollection">
-                <tr>
-                    <td>
-                        <input class="form-control" type="text"
-                               data-bind="value:Path,entityTypeaheadPath :$root.entity().Id()"
-                               required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
-                    </td>
-                    <td>
-                        <select name="rule-operator" class="form-control" data-bind="value: Direction">
-                            <option value="Asc">Ascending</option>
-                            <option value="Desc">Desc</option>
-                        </select>
-                    </td>
-                    <td>
-                        <a href="#" data-bind="click : $parent.removeSort.call($parent,$data)">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <a class="btn btn-link" data-bind="click : addSort">
-            <i class="fa fa-plus-circle"></i>
-            Add a sort
-        </a>
-    </div>
-</div>
-<div>
-    <!-- ko compose : {model: 'viewmodels/_view.columns.designer', activationData:$root.view()}-->
-    <!--/ko-->
-</div>
-<div class="row" data-bind="with : view">
-    <a data-toggle="collapse" href="#cf-ev-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Conditional Formatting
-        </h3>
-    </a>
-    <div class="collapse collapsed" id="cf-ev-panel">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Css Class</th>
-                    <th>Condition</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach :ConditionalFormattingCollection">
-                <tr>
-                    <td>
-                        <select name="rule-operator" class="form-control" data-bind="value: CssClass">
-                            <option value="active">active</option>
-                            <option value="success">success</option>
-                            <option value="warning">warning</option>
-                            <option value="danger">danger</option>
-                            <option value="info">info</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text" required class="form-control" data-bind="value:Condition" />
-                    </td>
-                    <td>
-                        <a href="#" data-bind="click : $parent.removeConditionalFormatting.call($parent,$data)">
-                            <span class="fa fa-times"></span>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <a class="btn btn-link" data-bind="click : addConditionalFormatting">
-            <i class="fa fa-plus-circle"></i> Add a conditional formatting
-        </a>
-    </div>
-</div>
-<div class="row" data-bind="with : view">
+                <div id="filters" class="tab-pane">
+                    <div class="row" data-bind="with : view">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Term</th>
+                                        <th>Operator</th>
+                                        <th>Value</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach :FilterCollection">
+                                    <tr>
+                                        <td>
+                                            <input class="form-control" type="text"
+                                                   data-bind="value:Term,entityTypeaheadPath :$root.entity().Id()"
+                                                   required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                                        </td>
+                                        <td>
+                                            <select name="rule-operator" class="form-control" data-bind="value: Operator">
+                                                <option value="Eq">=</option>
+                                                <option value="Neq">!=</option>
+                                                <option value="Le">&lt;=</option>
+                                                <option value="Lt">&lt;</option>
+                                                <option value="Ge">&gt;=</option>
+                                                <option value="Gt">&gt;</option>
+                                                <option value="Substringof">Substringof</option>
+                                                <option value="StartsWith">StartsWith</option>
+                                                <option value="EndsWith">EndsWith</option>
+                                                <option value="NotContains">Not Substringof</option>
+                                                <option value="NotStartsWith">Not StartsWith</option>
+                                                <option value="NotEndsWith">Not EndsWith</option>
+                                            </select>
+                                        </td>
+                                        <td> @Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" })</td>
+                                        <td>
+                                            <a href="#" data-bind="click : $parent.removeFilter.call($parent,$data)">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-    <a data-toggle="collapse" href="#performer-ev-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Permission
-        </h3>
-    </a>
-    <div id="performer-ev-panel" class="collapse collapsed" data-bind="with: Performer">
-        <form class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <div class="checkbox">
-                        <label>
-                            <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
-                            Is Public
-                        </label>
+                        <a class="btn btn-link" data-bind="click : addFilter">
+                            <i class="fa fa-plus-circle"></i> Add a filter
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="performer-property" class="col-sm-2 control-label">User Property</label>
-                <div class="col-sm-6">
-                    <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
-                        <option value="">[Please Select]</option>
-                        <option value="Roles">Roles</option>
-                        <option value="UserName">UserName</option>
-                        <option value="Department">Department</option>
-                        <option value="Designation">Designation</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="performer-value" class="col-sm-2 control-label">Value</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:IsPublic" />
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 
-<div class="row" data-bind="with : view">
-
-    <a data-toggle="collapse" href="#route-parameters-ev-panel">
-        <h3>
-            <i class="fa fa-chevron-down"></i>
-            Route Parameters
-        </h3>
-    </a>
-    <div id="route-parameters-ev-panel" class="collapse collapsed">
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach :RouteParameterCollection">
-                <tr>
-                    <td>
-                        <select name="rule-operator" class="form-control" data-bind="value: Type, uniqueName: true">
-                            <option value="Number">Integer</option>
-                            <option value="boolean">Boolean</option>
-                            <option value="string">String</option>
-                            <option value="float">Decimal</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input pattern="^[A-Za-z][A-Za-z0-9_]*$" type="text" required class="form-control" data-bind="value:Name, uniqueName:true" />
-                    </td>
-                    <td>
-                        <a href="#" data-bind="click : $parent.removeRouteParameter.call($parent,$data)">
-                            <span class="fa fa-times"></span>
+                <div id="sorts" class="tab-pane">
+                    <div class="row" data-bind="with : view">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Path</th>
+                                    <th>Direction</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach :SortCollection">
+                                <tr>
+                                    <td>
+                                        <input class="form-control" type="text"
+                                                data-bind="value:Path,entityTypeaheadPath :$root.entity().Id()"
+                                                required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                                    </td>
+                                    <td>
+                                        <select name="rule-operator" class="form-control" data-bind="value: Direction">
+                                            <option value="Asc">Ascending</option>
+                                            <option value="Desc">Desc</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-bind="click : $parent.removeSort.call($parent,$data)">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a class="btn btn-link" data-bind="click : addSort">
+                            <i class="fa fa-plus-circle"></i>
+                            Add a sort
                         </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <a class="btn btn-link" data-bind="click : addRouteParameter">
-            <i class="fa fa-plus-circle"></i> Add a route parameter
-        </a>
+                    </div>                    
+                </div>
+
+                <div id="conditional-formatting" class="tab-pane">
+                    <div class="row" data-bind="with : view">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Css Class</th>
+                                    <th>Condition</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach :ConditionalFormattingCollection">
+                                <tr>
+                                    <td>
+                                        <select name="rule-operator" class="form-control" data-bind="value: CssClass">
+                                            <option value="active">active</option>
+                                            <option value="success">success</option>
+                                            <option value="warning">warning</option>
+                                            <option value="danger">danger</option>
+                                            <option value="info">info</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" required class="form-control" data-bind="value:Condition" />
+                                    </td>
+                                    <td>
+                                        <a href="#" data-bind="click : $parent.removeConditionalFormatting.call($parent,$data)">
+                                            <span class="fa fa-times"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a class="btn btn-link" data-bind="click : addConditionalFormatting">
+                            <i class="fa fa-plus-circle"></i> Add a conditional formatting
+                        </a>
+                    </div>
+                </div>
+
+                <div id="permission" class="tab-pane">
+                    <div class="row" data-bind="with : view">                        
+                        <div data-bind="with: Performer">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
+                                                Is Public
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="performer-property" class="col-sm-2 control-label">User Property</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" id="performer-property" data-bind="value:UserProperty, disable:IsPublic">
+                                            <option value="">[Please Select]</option>
+                                            <option value="Roles">Roles</option>
+                                            <option value="UserName">UserName</option>
+                                            <option value="Department">Department</option>
+                                            <option value="Designation">Designation</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="performer-value" class="col-sm-2 control-label">Value</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value, disable:IsPublic" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+                <div id="route-parameters" class="tab-pane">
+                    <div class="row" data-bind="with : view">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Name</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach :RouteParameterCollection">
+                                <tr>
+                                    <td>
+                                        <select name="rule-operator" class="form-control" data-bind="value: Type, uniqueName: true">
+                                            <option value="Number">Integer</option>
+                                            <option value="boolean">Boolean</option>
+                                            <option value="string">String</option>
+                                            <option value="float">Decimal</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input pattern="^[A-Za-z][A-Za-z0-9_]*$" type="text" required class="form-control" data-bind="value:Name, uniqueName:true" />
+                                    </td>
+                                    <td>
+                                        <a href="#" data-bind="click : $parent.removeRouteParameter.call($parent,$data)">
+                                            <span class="fa fa-times"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a class="btn btn-link" data-bind="click : addRouteParameter">
+                            <i class="fa fa-plus-circle"></i> Add a route parameter
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <div class="col-md-6">
+        <div>
+            <!-- ko compose : {model: 'viewmodels/_view.columns.designer', activationData:$root.view()}-->
+            <!--/ko-->
+        </div>
     </div>
 </div>
+
 <div class="row" style="height: 200px;"></div>
