@@ -30,8 +30,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             var code = new StringBuilder();
             foreach (var v in local.Declaration.Variables)
             {
-                code.AppendFormat("var {0} = ", v.Identifier.Text);
                 var iv = v.Initializer.Value;
+                if (!(iv is AwaitExpressionSyntax))
+                {
+                    code.AppendFormat("var {0} = ", v.Identifier.Text);
+                }
                 code.Append(base.GetStatementCode(model, iv));
             }
             code.Append(";");

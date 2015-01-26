@@ -24,9 +24,12 @@ return null;";
 return null;
 ", cr.Code);
         }
+
+
+
         [Test]
         [Trace(Verbose = true)]
-        public async Task LoggerInfoWithItem()
+        public async Task LoggerWithItem()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();
             var compiler = new StatementCompiler();
@@ -42,7 +45,7 @@ return null;
 
         [Test]
         [Trace(Verbose = true)]
-        public async Task AppShowMessage()
+        public async Task AwaitWithLocalVariableDeclaration()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();
             var compiler = new StatementCompiler();
@@ -51,19 +54,34 @@ var name = item.Name;
 var result = await app.ShowMessageAsync(""Are you sure you want to delete"" + name, new []{""Yes"", ""No""} );
 if(result == ""Yes"")
 {
-    return string.Empty;
+    logger.Info(""User say Yes"");
 }
-if(result == ""No"")
-    await app.ShowMessageAsync(item.Name,new []{""OK""});
 
 return null;";
             var cr = await compiler.CompileAsync<Task<string>>(CODE, patient);
 
             Assert.IsTrue(cr.Success);
             Console.WriteLine(cr.Code);
-            Assert.AreEqual(@"logger.info('The name is ' + $data.Name(),new []{""OK""});
-return null;
-", cr.Code);
+            StringAssert.Contains("return __tcs1.promise()", cr.Code);
+        }
+
+        [Test]
+        [Trace(Verbose = true)]
+        public async Task AwaitExpresion()
+        {
+            var patient = HtmlCompileHelper.CreatePatientDefinition();
+            var compiler = new StatementCompiler();
+            const string CODE = @"
+            await app.ShowMessageAsync(""Are you sure you want to delete"" , new []{""OK""} );
+            logger.Info(""The user click OK"");
+
+";
+            var cr = await compiler.CompileAsync<Task>(CODE, patient);
+
+            Assert.IsTrue(cr.Success);
+            Console.WriteLine(cr.Code);
+
+            StringAssert.Contains("logger.info", cr.Code);
         }
     }
 }

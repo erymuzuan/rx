@@ -39,12 +39,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             {
                 foreach (var st in block.Statements)
                 {
-                    code.AppendLine(this.GetStatementCode(model, st));
+                    code.AppendLine("       " + this.GetStatementCode(model, st).TrimEnd() + ";");
                 }
             }
             else
             {
-                code.AppendLine(this.GetStatementCode(model, iss.Statement));
+                code.AppendLine("       " + this.GetStatementCode(model, iss.Statement).TrimEnd() + ";");
             }
 
 
