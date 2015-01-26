@@ -69,6 +69,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var compilation = CSharpCompilation.Create("eval")
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+                .AddReference<Task>()
                 .AddReferences(project.References)
                 .AddSyntaxTrees(trees.ToArray());
 
@@ -114,11 +115,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     if (string.IsNullOrWhiteSpace(f)) continue;
 
                     Console.WriteLine("*****");
-                    Console.WriteLine("{0} -> {1}",st1.CSharpKind(),w.GetType().Name);
+                    Console.WriteLine("{0} -> {1}", st1.CSharpKind(), w.GetType().Name);
                     Console.WriteLine(f);
                     Console.WriteLine("------------");
 
-                    code.AppendLine(f + ";");
+                    code.AppendLine(f.TrimEnd());
                 }
                 if (!walkers.Any())
                 {
@@ -143,14 +144,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         private static CSharpSyntaxTree BuilExpressionClass<T>(string code, IProjectProvider project, string parameters)
         {
             var file = new StringBuilder();
+            var async = code.Contains("await ");
+
             file.AppendLine("using System;");
+            if (async)
+                file.AppendLine("using System.Threading.Tasks;");
             file.AppendLine("using System.Linq;");
             file.AppendLine();
             file.AppendLine("namespace " + project.DefaultNamespace);
             file.AppendLine("{");
             file.AppendLine("   public class ExpressionCompilerSnippet");
             file.AppendLine("   {");
-            file.AppendLinf("       public {2} Evaluate({0} item, {1})  ", project.Name, parameters, typeof(T).ToCSharp());
+            file.AppendLinf("       public {3}{2} Evaluate({0} item, {1})  ", project.Name, parameters, typeof(T).ToCSharp(), async ? "async " : "");
             file.AppendLine("       {");
             file.AppendLinf("           {0}", code);
             file.AppendLine("       }");

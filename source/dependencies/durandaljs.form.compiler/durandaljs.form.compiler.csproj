@@ -143,6 +143,9 @@
     </Compile>
     <Compile Include="StatementCompiler.cs" />
     <Compile Include="SyntaxWalkers\AddSyntaxWalker.cs" />
+    <Compile Include="SyntaxWalkers\AppExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\AppIdentifiers\ShowMessageAsync.cs" />
+    <Compile Include="SyntaxWalkers\AwaitExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectModel.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectSyntaxWalker.cs" />
     <Compile Include="FormElements\DateTimePickerCompiler.cs" />
@@ -193,10 +196,12 @@
     <Compile Include="SyntaxWalkers\ExpressionStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompilerMetadataAttribute.cs" />
+    <Compile Include="SyntaxWalkers\IfStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\IIdentifierCompilerMetadata.cs" />
     <Compile Include="SyntaxWalkers\Int32SyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\LocalDeclarationStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\LoggerIdentifiers\Error.cs" />
     <Compile Include="SyntaxWalkers\LoggerIdentifiers\Info.cs" />
     <Compile Include="SyntaxWalkers\LoggerIdentifiers\Warning.cs" />

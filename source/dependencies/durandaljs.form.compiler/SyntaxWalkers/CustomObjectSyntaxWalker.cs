@@ -145,5 +145,28 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
         }
 
+        protected string GetStatementCode(SemanticModel model, SyntaxNode node)
+        {
+            var code = new StringBuilder();
+            var walkers = this.Walkers.Where(x => x.Filter(node, model)).ToList();
+            foreach (var w in walkers)
+            {
+                var f = w.Walk(node, model);
+                if (string.IsNullOrWhiteSpace(f)) continue;
+
+                Console.WriteLine("*****");
+                Console.WriteLine("{0} -> {1}", node.CSharpKind(), w.GetType().Name);
+                Console.WriteLine(f);
+                Console.WriteLine("------------");
+
+                code.AppendLine(f.TrimEnd());
+            }
+            if (!walkers.Any())
+            {
+                Console.WriteLine("!!!!!!");
+                Console.WriteLine("Cannot find statement walker for " + node.CSharpKind());
+            }
+            return code.ToString().TrimEnd();
+        }
     }
 }

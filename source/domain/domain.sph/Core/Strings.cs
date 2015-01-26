@@ -378,6 +378,10 @@ namespace Bespoke.Sph.Domain
             {
                 return string.Format("ObjectCollection<{0}>", type.GenericTypeArguments[0].ToCSharp());
             }
+            if (type.IsGenericType && type.UnderlyingSystemType.Name == "Task`1")
+            {
+                return string.Format("Task<{0}>", type.GenericTypeArguments[0].ToCSharp());
+            }
 
             return type.FullName;
         }
