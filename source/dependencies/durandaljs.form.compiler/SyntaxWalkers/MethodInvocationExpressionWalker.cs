@@ -29,12 +29,27 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null == this.Walkers)
                 throw new InvalidOperationException("MEF!!!");
 
+            var sb = this.Code.ToString();
+            var ok = "";
+
             var code = this.Walkers
                 .Where(x => x.Filter(node.Expression, this.SemanticModel))
                 .Select(w => w.Walk(node.Expression, this.SemanticModel))
                 .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
             if (!string.IsNullOrWhiteSpace(code))
-                this.Code.Append(code);
+                ok = code;
+
+            //code = this.Walkers
+            //   .Where(x => x.Filter(this.SemanticModel.GetSymbolInfo(node.Expression)))
+            //   .Select(w => w.Walk(node.Expression, this.SemanticModel))
+            //   .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
+            //if (!string.IsNullOrWhiteSpace(code))
+            //    ok = code;
+
+            this.Code.Clear();
+            this.Code.Append(sb);
+            this.Code.Append(ok);
+
 
             base.VisitInvocationExpression(node);
         }
@@ -44,8 +59,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
             // for array .ContainsMethod
-            var arguments = this.GetArguments(node).Select(this.EvaluateExpressionCode).ToList()
-                ;
+            var code = this.Code.ToString();
+            var arguments = this.GetArguments(node)
+                .Select(this.EvaluateExpressionCode)
+                .ToList();
 
             if (node.Identifier.Text == "Contains")
             {
@@ -56,12 +73,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 this.Code.Append(".length");
             }
 
-            //var info = this.Container.SemanticModel.GetSymbolInfo(node.Parent);
-            //var sw = this.Walkers.FirstOrDefault(x => x.Filter(info));
-            //if (null != sw)
-            //{
-            //    this.Code.Append("." + sw.Walk(node));
-            //}
+            var info = this.SemanticModel.GetSymbolInfo(node);
+            var sw = this.Walkers.FirstOrDefault(x => x.Filter(info));
+            if (null != sw)
+            {
+                this.Code.Append("." + sw.Walk(node, this.SemanticModel));
+            }
+
+            this.Code.Clear();
+            this.Code.Append(code);
 
             base.VisitIdentifierName(node);
         }

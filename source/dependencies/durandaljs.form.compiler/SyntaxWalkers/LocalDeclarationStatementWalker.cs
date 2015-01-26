@@ -35,7 +35,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
                 {
                     code.AppendFormat("var {0} = ", v.Identifier.Text);
                 }
-                code.Append(base.GetStatementCode(model, iv));
+                var c = base.GetStatementCode(model, iv);
+                code.Append(c);
             }
             code.Append(";");
             return code.ToString();

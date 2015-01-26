@@ -45,6 +45,26 @@ return null;
 
         [Test]
         [Trace(Verbose = true)]
+        public async Task NestedAwaitWithLocalVariableDeclaration()
+        {
+            var patient = HtmlCompileHelper.CreatePatientDefinition();
+            var compiler = new StatementCompiler();
+            const string CODE = @"
+var name = item.Name;
+var result = await app.ShowMessageAsync(""Are you sure you want to delete"" + name, new []{""Yes"", ""No""} );
+var result1 = await app.ShowMessageAsync(""You say "" +  result, new []{""Yes"", ""No""}  );
+if(result1 == ""Yes"")
+{
+    logger.Info(""User say"" + result1);
+}";
+            var cr = await compiler.CompileAsync<Task>(CODE, patient);
+
+            Assert.IsTrue(cr.Success);
+            Console.WriteLine(cr.Code);
+            StringAssert.Contains("return __tcs1.promise()", cr.Code);
+        }
+        [Test]
+        [Trace(Verbose = true)]
         public async Task AwaitWithLocalVariableDeclaration()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();
@@ -82,6 +102,28 @@ return null;";
             Console.WriteLine(cr.Code);
 
             StringAssert.Contains("logger.info", cr.Code);
+        }
+
+        [Test]
+        [Trace(Verbose = true)]
+        public async Task LambdaExpression()
+        {
+            var patient = HtmlCompileHelper.CreatePatientDefinition();
+            var compiler = new StatementCompiler();
+            const string CODE = @"
+            var numbers = new []{1,2,3,4,5};
+            var odd = numbers.Where(x => x % 2 != 0);
+
+            return 0;
+
+";
+            var cr = await compiler.CompileAsync<object>(CODE, patient);
+
+            Assert.IsTrue(cr.Success);
+            Console.WriteLine(cr.Code);
+
+            StringAssert.Contains("_(numbers).filter(function(v)", cr.Code);
+            StringAssert.Contains("v % 2 !== 0", cr.Code);
         }
     }
 }

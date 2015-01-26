@@ -16,6 +16,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public override bool Filter(SymbolInfo info)
         {
             if (null == info.Symbol) return false;
+
+            var nts = info.Symbol as INamedTypeSymbol;
+            if (null != nts) return nts.ToString() == "System.String";
+
             return info.Symbol.ContainingType.Name == "string" ||
                 info.Symbol.ContainingType.Name == "String";
         }

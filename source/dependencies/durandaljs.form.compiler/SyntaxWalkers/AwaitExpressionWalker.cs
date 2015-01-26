@@ -71,15 +71,26 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 
             for (int i = index + 1; i < statements.Count; i++)
             {
+                var awaitStatement = statements[i].DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
+                if (awaitStatement)
+                {
+                    code.AppendLine();
+                    code.AppendLinf("  var __tcs{0} = new $.Deferred();", i);
+                }
+
                 var rs = statements[i] as ReturnStatementSyntax;
                 if (null != rs)
                 {
-                    code.AppendLine("   __tcs.resolve(" + base.GetStatementCode(model, rs.Expression) + ");");
-                    code.AppendLine("   return __tcs.promise();");
+                    code.AppendLinf("   __tcs{0}.resolve({1});", index, base.GetStatementCode(model, rs.Expression));
+                    code.AppendLinf("   return __tcs.promise();", index);
                 }
                 else
                 {
                     code.AppendLine("       " + base.GetStatementCode(model, statements[i]).TrimEnd() + ";");
+                }
+                if (awaitStatement)
+                {
+                    break;
                 }
             }
 
@@ -87,6 +98,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             code.AppendLinf("   __tcs{0}.resolve({1});", index, result);
             code.AppendLine("});");
             code.AppendLinf("return __tcs{0}.promise();", index);
+            code.AppendLine();
+            code.AppendLine();
 
             return code.ToString();
         }

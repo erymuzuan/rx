@@ -112,6 +112,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var awaitStatement = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
                 if (awaitStatement)
                 {
+                    code.AppendLine();
                     code.AppendLinf("  var __tcs{0} = new $.Deferred();", count);
                 }
 
@@ -170,14 +171,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
 
-        private string CompileExpression(SyntaxNode statement, SemanticModel model)
-        {
-            var code = this.Walkers
-                .Where(x => x.Filter(statement, model))
-                .Select(x => x.Walk(statement, model))
-                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
 
-            return code;
-        }
     }
 }

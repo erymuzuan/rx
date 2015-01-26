@@ -8,10 +8,10 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     [Export(typeof(CustomObjectSyntaxWalker))]
-    class DateTimeMemberAcessExpressionWalker : CustomObjectSyntaxWalker
+    public class LinqEnumerableMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
 
-        [ImportMany("DateTime", typeof(IdentifierCompiler), AllowRecomposition = true)]
+        [ImportMany("Enumerable", typeof(IdentifierCompiler), AllowRecomposition = true)]
         public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
 
         public override bool Filter(SymbolInfo info)
@@ -22,32 +22,30 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var prop = symbol as IPropertySymbol;
             if (prop != null)
-            {
-                if (null != prop.ContainingType && prop.ContainingType.Name == "DateTime")
+            {   //System.Linq.Enumerable
+                if (null != prop.ContainingType && prop.ContainingType.Name == "Enumerable")
                 {
                     return prop.ContainingNamespace.Name == "System" &&
-                        prop.ContainingAssembly.Name == "mscorlib";
+                           prop.ContainingAssembly.Name == "mscorlib";
                 }
 
 
                 var named = prop.Type;
-                return (named.Name == "DateTime" || named.ToString() == "System.DateTime?") &&
-                    named.ContainingNamespace.Name == "System" &&
-                    named.ContainingAssembly.Name == "mscorlib";
+                return (named.Name == "Enumerable" || named.ToString() == "System.Linq.Enumerable?") &&
+                       named.ContainingNamespace.Name == "System";
 
             }
             var nts = symbol as INamedTypeSymbol;
             if (null != nts)
-                return nts.ToString() == "System.DateTime";
+                return nts.ToString() == "System.Linq.Enumerable";
 
             // static methods and propertues
-            return symbol.ContainingType.Name == "DateTime" &&
-                symbol.ContainingNamespace.Name == "System" &&
-                symbol.ContainingAssembly.Name == "mscorlib";
+            return symbol.ContainingType.Name == "Enumerable" &&
+                   symbol.ContainingNamespace.ToString() == "System.Linq";
         }
         protected override string[] ObjectNames
         {
-            get { return new[] { "DateTime" }; }
+            get { return new[] { "Enumerable" }; }
         }
 
         protected override SyntaxKind[] Kinds
@@ -85,9 +83,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     {
                         this.Code.Clear();
                         this.Code.Append(code);
-                        this.Code.Append(text + "().moment()");
+                        this.Code.Append(text + "().enumerable()");
 
                     }
+                }
+                else
+                {
+                    this.Code.Append("_(" + text + ")");
                 }
             }
 

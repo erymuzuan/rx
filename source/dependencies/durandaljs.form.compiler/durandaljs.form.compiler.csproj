@@ -193,13 +193,16 @@
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\Year.cs" />
     <Compile Include="SyntaxWalkers\DateTimeMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\DecimalSyntaxWalker.cs" />
+    <Compile Include="SyntaxWalkers\EnumerableIdentifiers\Where.cs" />
     <Compile Include="SyntaxWalkers\ExpressionStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompilerMetadataAttribute.cs" />
     <Compile Include="SyntaxWalkers\IfStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\IIdentifierCompilerMetadata.cs" />
+    <Compile Include="SyntaxWalkers\ImplicitArrayCreationExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\Int32SyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\LinqEnumerableMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LocalDeclarationStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\LoggerIdentifiers\Error.cs" />
