@@ -72,6 +72,7 @@
     <Compile Include="EntityFormViewModelTestFixture.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
     <Compile Include="MathTextFixure.cs" />
+    <Compile Include="MethodTestFixture.cs" />
     <Compile Include="MockDirectoryService.cs" />
     <Compile Include="Mocks\MockChangePublisher.cs" />
     <Compile Include="Mocks\MockLdap.cs" />

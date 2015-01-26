@@ -141,6 +141,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="StatementCompiler.cs" />
     <Compile Include="SyntaxWalkers\AddSyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectModel.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectSyntaxWalker.cs" />
@@ -189,17 +190,22 @@
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\Year.cs" />
     <Compile Include="SyntaxWalkers\DateTimeMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\DecimalSyntaxWalker.cs" />
+    <Compile Include="SyntaxWalkers\ExpressionStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompilerMetadataAttribute.cs" />
     <Compile Include="SyntaxWalkers\IIdentifierCompilerMetadata.cs" />
     <Compile Include="SyntaxWalkers\Int32SyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\LoggerIdentifiers\Error.cs" />
+    <Compile Include="SyntaxWalkers\LoggerIdentifiers\Info.cs" />
+    <Compile Include="SyntaxWalkers\LoggerIdentifiers\Warning.cs" />
     <Compile Include="SyntaxWalkers\LoggerMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\MathIdentifiers\Abs.cs" />
     <Compile Include="SyntaxWalkers\MathWalker.cs" />
     <Compile Include="SyntaxWalkers\MethodInvocationExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ParenthesizedExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\ReturnStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\StringEmpty.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrEmpty.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrWhiteSpace.cs" />

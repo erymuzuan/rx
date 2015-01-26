@@ -1,9 +1,7 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Bespoke.Sph.Domain;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
