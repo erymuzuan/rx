@@ -73,24 +73,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
             else
             {
-                // NOTE : assume it's an item property
-                var parent = node.Parent;
-                if (null != parent && parent.ToString().StartsWith("item."))
+                // Filter again, to see if the node really is DateTime property
+                var walker = this.Walkers.FirstOrDefault(x => x.Filter(this.SemanticModel.GetSymbolInfo(node)));
+                if (null != walker)
                 {
-                    // Filter again, to see if the node really is DateTime property
-                    var sym = this.Filter(this.SemanticModel.GetSymbolInfo(node));
-                    if (sym)
-                    {
-                        this.Code.Clear();
-                        this.Code.Append(code);
-                        this.Code.Append(text + "().enumerable()");
+                    this.Code.Clear();
+                    this.Code.Append(code + walker.Walk(node, SemanticModel));
 
-                    }
                 }
-                else
-                {
-                    this.Code.Append("_(" + text + ")");
-                }
+
             }
 
             base.VisitIdentifierName(node);
