@@ -1,9 +1,12 @@
 using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
+using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using AwaitExpressionSyntax = Microsoft.CodeAnalysis.CSharp.Syntax.AwaitExpressionSyntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 {
@@ -29,25 +32,62 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
         {
             var aes = (AwaitExpressionSyntax)node;
             var code = new StringBuilder();
-            code.AppendLine(this.GetStatementCode(model, aes.Expression));
-            code.AppendLine(".done(function(result)){");
+            var index = 0;
 
-            // in a local declartion
-            var local = node.Parent.Parent.Parent.Parent as LocalDeclarationStatementSyntax;
-            var methodBlock = node.Parent.Parent.Parent.Parent.Parent as BlockSyntax;
-            if (null != methodBlock)
+
+            var n = node.Parent;
+            MethodDeclarationSyntax mi = null;
+            for (int i = 0; i < 100; i++)
             {
-                var index = methodBlock.Statements.IndexOf(local);
-                Console.WriteLine("::::{0}::::", index);
-                for (int i = index + 1; i < methodBlock.Statements.Count; i++)
+                mi = n as MethodDeclarationSyntax;
+                if (null != mi && mi.Identifier.Text == "Evaluate")
+                    break;
+                n = n.Parent;
+            }
+            if (null == mi) throw new InvalidOperationException("Cannot find the Method Evaluate");
+
+            var statements = mi.Body.Statements;
+            StatementSyntax statement = null;
+            foreach (var st in statements)
+            {
+                var any = st.DescendantNodes().OfType<AwaitExpressionSyntax>()
+                    .ToList().Any(d => d == node);
+                if (!any) continue;
+                statement = st;
+                break;
+            }
+            index = statements.IndexOf(statement);
+
+
+            var local = statement as LocalDeclarationStatementSyntax;
+            var result = string.Format("__result{0}", index);
+            if (null != local)
+            {
+                result = local.Declaration.Variables[0].Identifier.Text;
+            }
+
+            code.AppendLine(this.GetStatementCode(model, aes.Expression));
+            code.AppendLinf(".done(function({0})){{", result);
+
+            for (int i = index + 1; i < statements.Count; i++)
+            {
+                var rs = statements[i] as ReturnStatementSyntax;
+                if (null != rs)
                 {
-                    code.AppendLine("       " + base.GetStatementCode(model, methodBlock.Statements[i]));
+                    code.AppendLine("   __tcs.resolve(" + base.GetStatementCode(model, rs.Expression) + ");");
+                    code.AppendLine("   return __tcs.promise();");
+                }
+                else
+                {
+                    code.AppendLine("       " + base.GetStatementCode(model, statements[i]).TrimEnd() + ";");
                 }
             }
 
-            code.AppendLine("});");
 
-            // TODO : wait expression should unwind the stack and create a new state machine
+            code.AppendLinf("   __tcs{0}.resolve({1});", index, result);
+            code.AppendLine("});");
+            code.AppendLinf("return __tcs{0}.promise();", index);
+
             return code.ToString();
         }
 
