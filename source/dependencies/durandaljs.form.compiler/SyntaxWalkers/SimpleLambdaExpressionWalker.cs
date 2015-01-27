@@ -32,7 +32,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 
             var walker = this.Walkers.SingleOrDefault(x => x.Filter(les.Body, model));
             code.AppendFormat(" function({0}){{ ", les.Parameter.Identifier.Text);
-            if (null != walker) code.Append(walker.Walk(les.Body, model));
+            if (null != walker) code.AppendFormat("return {0};",walker.Walk(les.Body, model));
             code.Append(" }");
 
             return code.ToString();

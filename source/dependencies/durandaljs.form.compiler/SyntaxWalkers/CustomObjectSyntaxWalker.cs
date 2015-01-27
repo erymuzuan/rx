@@ -97,6 +97,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             walker.Code = new StringBuilder();
             walker.SemanticModel = model;
+            if(null != model)
+                this.Walkers.Where(x => null == x.SemanticModel).ToList().ForEach(x => x.SemanticModel = model);
             walker.Visit(node);
             return walker.Code.ToString();
         }

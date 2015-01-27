@@ -247,6 +247,7 @@
     <Compile Include="SyntaxWalkers\ExpressionStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompilerMetadataAttribute.cs" />
+    <Compile Include="SyntaxWalkers\IdentifierNamedSyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\IfStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\IIdentifierCompilerMetadata.cs" />
     <Compile Include="SyntaxWalkers\ImplicitArrayCreationExpressionWalker.cs" />

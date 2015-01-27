@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -33,7 +32,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
                    .Select(x => x.Walk(ess.Expression, model))
                    .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
 
-            return code;
+            var semiColon = (string.Format("{0}", code).TrimEnd().EndsWith(";") ? "" : ";");
+            return code + semiColon;
         }
     }
 }

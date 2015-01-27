@@ -113,7 +113,7 @@ namespace durandaljs.compiler.test
         {
             Assert.AreEqual(
                 "$data.CreatedDate().moment() > moment().add(1, 'y')",
-                "item.CreatedDate> DateTime.Now.AddYears(1)"
+                "item.CreatedDate > DateTime.Now.AddYears(1)"
                 .CompileHtml());
         }
 

@@ -122,6 +122,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 {
                     var f = w.Walk(st1, model);
                     if (string.IsNullOrWhiteSpace(f)) continue;
+                    
                     code.AppendLine(f.TrimEnd());
                 }
                 if (!walkers.Any())

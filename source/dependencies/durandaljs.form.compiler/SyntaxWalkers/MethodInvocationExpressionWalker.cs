@@ -32,7 +32,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
 
             var original = this.Code.ToString();
-            var code = PrintDebugInfo(node);
+            var code = GetMethodInvoationCode(node);
            
             this.Code.Clear();
             this.Code.Append(original);
@@ -41,11 +41,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             base.VisitInvocationExpression(node);
         }
 
-        private string PrintDebugInfo(InvocationExpressionSyntax node)
+        private string GetMethodInvoationCode(InvocationExpressionSyntax node)
         {
             var code = new StringBuilder();
             var syntaxWalkers = this.Walkers
-                .Where(x => x.Filter(node.Expression, this.SemanticModel));
+                .Where(x => x.Filter(node.Expression, this.SemanticModel))
+                .ToArray();
             foreach (var w in syntaxWalkers)
             {
                 var c = w.Walk(node.Expression, this.SemanticModel);
@@ -54,11 +55,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
 
             var symbolWalkers = from w in this.Walkers
+                                where !syntaxWalkers.Contains(w)
                                 let sm = this.SemanticModel.GetSymbolInfo(node.Expression)
                                 where w.Filter(sm)
                                 select w;
             foreach (var w in symbolWalkers)
             {
+                // if the syntax walker already excute it, then forget it
                 var c = w.Walk(node.Expression, this.SemanticModel);
                 Console.WriteLine("[SymbolWalker]{0}\t=> {1}", w.GetType().Name, c);
                 code.Append(".");
