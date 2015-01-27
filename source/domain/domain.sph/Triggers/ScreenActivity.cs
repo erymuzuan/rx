@@ -113,7 +113,8 @@ namespace Bespoke.Sph.Domain
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
 
             var unwrapValue = this.Performer.Value;
-            if (!string.IsNullOrWhiteSpace(unwrapValue) && unwrapValue.StartsWith("="))
+            var scriptingUsed = !string.IsNullOrWhiteSpace(unwrapValue) && unwrapValue.StartsWith("=");
+            if (scriptingUsed)
                 unwrapValue = script.Evaluate<string, Workflow>(unwrapValue.Remove(0, 1), wf);
 
             var users = new List<string>();

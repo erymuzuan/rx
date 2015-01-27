@@ -110,6 +110,7 @@ namespace Bespoke.Sph.Domain
                         continue;
                     }
 
+                    if (!(t is DomainObject)) continue;
                     if (string.IsNullOrWhiteSpace(t.WebId)) continue;
                     dynamic t2 = null;
                     foreach (var o in v2)

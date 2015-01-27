@@ -244,20 +244,5 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public WorkflowDefinition ChangeActivitiesWebId()
-        {
-            var json = this.ToJsonString();
-            foreach (var act in this.ActivityCollection)
-            {
-                var webid = act.WebId;
-                Guid id;
-                if (Guid.TryParse(webid, out id))
-                {
-                    json = json.Replace(webid, act.MethodName);
-                }
-            }
-
-            return json.DeserializeFromJson<WorkflowDefinition>();
-        }
     }
 }
