@@ -13,7 +13,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.EnumerableIdentifie
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)
         {
             var args = arguments.ToArray();
-            return string.Format("filter( function(v){{{0};}})", this.EvaluateExpressionCode(args[0]));
+            return string.Format("filter({0})", this.EvaluateExpressionCode(args[0]));
         }
     }
 }

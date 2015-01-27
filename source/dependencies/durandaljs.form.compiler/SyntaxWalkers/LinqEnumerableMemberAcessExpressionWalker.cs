@@ -71,18 +71,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 else
                     this.Code.Append("." + xp);
             }
-            else
-            {
-                // Filter again, to see if the node really is DateTime property
-                var walker = this.Walkers.FirstOrDefault(x => x.Filter(this.SemanticModel.GetSymbolInfo(node)));
-                if (null != walker)
-                {
-                    this.Code.Clear();
-                    this.Code.Append(code + walker.Walk(node, SemanticModel));
-
-                }
-
-            }
 
             base.VisitIdentifierName(node);
         }

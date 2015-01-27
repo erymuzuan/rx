@@ -94,7 +94,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             this.SemanticModel = model;
             var walker = this;
+
             walker.Code = new StringBuilder();
+            walker.SemanticModel = model;
             walker.Visit(node);
             return walker.Code.ToString();
         }

@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Text;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -29,61 +30,44 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null == this.Walkers)
                 throw new InvalidOperationException("MEF!!!");
 
-            var sb = this.Code.ToString();
-            var ok = "";
 
-            var code = this.Walkers
-                .Where(x => x.Filter(node.Expression, this.SemanticModel))
-                .Select(w => w.Walk(node.Expression, this.SemanticModel))
-                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
-            if (!string.IsNullOrWhiteSpace(code))
-                ok = code;
-
-            //code = this.Walkers
-            //   .Where(x => x.Filter(this.SemanticModel.GetSymbolInfo(node.Expression)))
-            //   .Select(w => w.Walk(node.Expression, this.SemanticModel))
-            //   .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
-            //if (!string.IsNullOrWhiteSpace(code))
-            //    ok = code;
-
+            var original = this.Code.ToString();
+            var code = PrintDebugInfo(node);
+           
             this.Code.Clear();
-            this.Code.Append(sb);
-            this.Code.Append(ok);
-
+            this.Code.Append(original);
+            this.Code.Append(code);
 
             base.VisitInvocationExpression(node);
         }
 
-
-
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
+        private string PrintDebugInfo(InvocationExpressionSyntax node)
         {
-            // for array .ContainsMethod
-            var code = this.Code.ToString();
-            var arguments = this.GetArguments(node)
-                .Select(this.EvaluateExpressionCode)
-                .ToList();
-
-            if (node.Identifier.Text == "Contains")
+            var code = new StringBuilder();
+            var syntaxWalkers = this.Walkers
+                .Where(x => x.Filter(node.Expression, this.SemanticModel));
+            foreach (var w in syntaxWalkers)
             {
-                this.Code.AppendFormat(".indexOf({0}) > -1", arguments[0]);
-            }
-            if (node.Identifier.Text == "Count")
-            {
-                this.Code.Append(".length");
+                var c = w.Walk(node.Expression, this.SemanticModel);
+                Console.WriteLine("[ExpressionWalker]{0}\t=> {1}", w.GetType().Name, c);
+                code.Append(c);
             }
 
-            var info = this.SemanticModel.GetSymbolInfo(node);
-            var sw = this.Walkers.FirstOrDefault(x => x.Filter(info));
-            if (null != sw)
+            var symbolWalkers = from w in this.Walkers
+                                let sm = this.SemanticModel.GetSymbolInfo(node.Expression)
+                                where w.Filter(sm)
+                                select w;
+            foreach (var w in symbolWalkers)
             {
-                this.Code.Append("." + sw.Walk(node, this.SemanticModel));
+                var c = w.Walk(node.Expression, this.SemanticModel);
+                Console.WriteLine("[SymbolWalker]{0}\t=> {1}", w.GetType().Name, c);
+                code.Append(".");
+                code.Append(c);
             }
 
-            this.Code.Clear();
-            this.Code.Append(code);
-
-            base.VisitIdentifierName(node);
+            return code.ToString();
         }
+
+
     }
 }

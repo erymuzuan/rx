@@ -54,6 +54,7 @@ namespace durandaljs.compiler.test
         }
 
         [Test]
+        [Trace(Verbose = true)]
         public void IsInRole()
         {
             Assert.AreEqual("config.roles.indexOf('clerk') > -1",

@@ -122,7 +122,8 @@ return null;";
             Assert.IsTrue(cr.Success);
             Console.WriteLine(cr.Code);
 
-            StringAssert.Contains("_(numbers).filter(function(v)", cr.Code);
+            // TODO : write extension method called "filter" to use underscorejs or whatever int the array prototype
+            StringAssert.Contains("numbers.filter( function(v)", cr.Code);
             StringAssert.Contains("v % 2 !== 0", cr.Code);
         }
     }

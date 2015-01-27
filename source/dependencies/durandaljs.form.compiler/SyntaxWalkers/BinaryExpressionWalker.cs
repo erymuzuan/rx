@@ -27,6 +27,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 SyntaxKind.GreaterThanOrEqualExpression,
                 SyntaxKind.LogicalAndExpression, 
                 SyntaxKind.LogicalOrExpression,
+                SyntaxKind.ModuloExpression,
                 SyntaxKind.CoalesceExpression
             };
             }
@@ -39,6 +40,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var op = "";
             switch (kind)
             {
+                case SyntaxKind.ModuloExpression:
+                    op = "%";
+                    break;
                 case SyntaxKind.CoalesceExpression:
                     op = "||";
                     break;
@@ -73,8 +77,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
                     break;
             }
-            if(!string.IsNullOrWhiteSpace(op))
-
+            if (!string.IsNullOrWhiteSpace(op))
                 return this.EvaluateExpressionCode(bes.Left)
                        + " " + op + " "
                        + this.EvaluateExpressionCode(bes.Right);

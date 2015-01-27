@@ -264,6 +264,7 @@
     <Compile Include="SyntaxWalkers\MethodInvocationExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ParenthesizedExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ReturnStatementWalker.cs" />
+    <Compile Include="SyntaxWalkers\SimpleLambdaExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\SimpleMemberAccessWalker.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\StringEmpty.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrEmpty.cs" />

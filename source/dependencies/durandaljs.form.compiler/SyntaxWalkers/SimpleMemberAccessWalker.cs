@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -24,6 +25,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var symbol = info.Symbol;
             var local = symbol as ILocalSymbol;
             return local != null;
+        }
+
+        public override bool Filter(SyntaxNode node, SemanticModel model)
+        {
+            var walkers = this.Walkers.Where(x => x != this)
+                .Count(x => x.Filter(node, model));
+            if (walkers > 0) return false;
+
+            return base.Filter(node, model);
         }
 
 
