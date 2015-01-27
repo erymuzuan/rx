@@ -59,7 +59,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {
-
             // NOTE : calling this.Evaluate or this.GetArguments will reset this.Code
             var code = this.Code.ToString();
             var text = node.Identifier.Text;

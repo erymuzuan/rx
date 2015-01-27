@@ -109,6 +109,9 @@
           <!-- attribute-->
           var model =  {
           "$type" : "Bespoke.Sph.Domain.<xsl:value-of select="@name"/>, domain.sph",
+              <xsl:if test="@bspk:entity">
+                Id : ko.observable("0"),
+              </xsl:if>
           <xsl:for-each select="xs:attribute">
             <xsl:value-of select="@name"/> : ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>),
           </xsl:for-each>

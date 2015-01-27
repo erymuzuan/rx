@@ -2464,6 +2464,7 @@
     <Folder Include="Areas\App\Models\" />
     <Folder Include="Areas\Sph\Models\" />
     <Folder Include="Areas\Sph\Views\Home\" />
+    <Folder Include="Views\EntityFormRenderer\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
     <Folder Include="Views\WorkflowDesigner\" />

@@ -7,13 +7,13 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.StringIdentifiers
 {
     [Export("String", typeof(IdentifierCompiler))]
-    [IdentifierCompilerMetadata(TypeName = "String", Text = "Trim")]
-    public class StringTrim: IdentifierCompiler
+    [IdentifierCompilerMetadata(TypeName = "String", Text = "IsNullOrEmpty")]
+    public class IsNullOrEmpty : IdentifierCompiler
     {
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)
         {
-            var argumentSyntax = string.Join(", ", arguments.Select(this.EvaluateExpressionCode));
-            return string.Format("String.trim({0})", argumentSyntax);
+            var arg = this.EvaluateExpressionCode(arguments.First());
+            return string.Format("String.isNullOrEmpty({0})", arg); ;
         }
     }
 }

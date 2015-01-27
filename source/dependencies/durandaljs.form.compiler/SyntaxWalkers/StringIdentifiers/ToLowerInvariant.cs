@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using Bespoke.Sph.FormCompilers.DurandalJs;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace NAMESPACE
+namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.StringIdentifiers
 {
     [Export("String", typeof (IdentifierCompiler))]
-    [IdentifierCompilerMetadata(TypeName = "String", Text = "ToLower")]
-    public class StringToLower : IdentifierCompiler
+    [IdentifierCompilerMetadata(TypeName = "String", Text = "ToLowerInvariant")]
+    public class ToLowerInvariant : IdentifierCompiler
     {
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)
         {
-            return "toLocaleLowerCase()";
+            return "toLowerCase()";
         }
     }
 }

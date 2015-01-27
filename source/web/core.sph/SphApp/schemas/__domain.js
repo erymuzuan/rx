@@ -849,6 +849,8 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Form(optionOrWebid);
 
+    v.Id = ko.observable("0");
+
     v.EntityDefinitionId = ko.observable("");
 
     v.Note = ko.observable("");
@@ -1525,6 +1527,7 @@ bespoke.sph.domain.Form = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Form, domain.sph",
+        Id: ko.observable("0"),
         Name: ko.observable(""),
         Route: ko.observable(""),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
