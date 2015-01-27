@@ -90,6 +90,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         void FswChanged(object sender, FileSystemEventArgs e)
         {
+            if (e.Name == "CachePath")
+            {
+                this.NotificationService.Write("Changes in CachePath will be ignored");
+                return;
+            }
             this.NotificationService.Write("Detected changes in FileSystem initiating stop\r\n{0} has {1}", e.Name, e.ChangeType);
             this.Stop();
             this.NotificationService.Write("Restarting in 2 seconds");
