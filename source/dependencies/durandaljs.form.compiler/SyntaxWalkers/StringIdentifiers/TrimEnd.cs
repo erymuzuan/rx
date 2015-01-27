@@ -1,0 +1,19 @@
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.StringIdentifiers
+{
+    [Export("String", typeof(IdentifierCompiler))]
+    [IdentifierCompilerMetadata(TypeName = "String", Text = "TrimEnd")]
+    public class TrimEnd: IdentifierCompiler
+    {
+        public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)
+        {
+            var argumentSyntax = string.Join(", ", arguments.Select(this.EvaluateExpressionCode));
+            return string.Format("String.trimEnd({0})", argumentSyntax);
+        }
+    }
+}
