@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -7,13 +7,13 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.StringIdentifiers
 {
     [Export("String", typeof(IdentifierCompiler))]
-    [IdentifierCompilerMetadata(TypeName = "String", Text = "Substring")]
-    public class StringSubstring : IdentifierCompiler
+    [IdentifierCompilerMetadata(TypeName = "String", Text = "TrimStart")]
+    public class TrimStart : IdentifierCompiler
     {
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)
         {
-            var args = string.Join(",", arguments.Select(EvaluateExpressionCode));
-            return "substring(" + args + ")";
+            var argumentSyntax = string.Join(", ", arguments.Select(this.EvaluateExpressionCode));
+            return string.Format("String.trimStart({0})", argumentSyntax);
         }
     }
 }

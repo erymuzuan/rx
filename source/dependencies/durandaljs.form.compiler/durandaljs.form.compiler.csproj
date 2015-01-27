@@ -143,6 +143,7 @@
     </Compile>
     <Compile Include="StatementCompiler.cs" />
     <Compile Include="SyntaxWalkers\AddSyntaxWalker.cs" />
+    <Compile Include="SyntaxWalkers\AnonymousObjectCreationExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\AppExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\AppIdentifiers\ShowMessageAsync.cs" />
     <Compile Include="SyntaxWalkers\AwaitExpressionWalker.cs" />
@@ -267,16 +268,19 @@
     <Compile Include="SyntaxWalkers\ReturnStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\SimpleLambdaExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\SimpleMemberAccessWalker.cs" />
-    <Compile Include="SyntaxWalkers\StringIdentifiers\StringEmpty.cs" />
-    <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrEmpty.cs" />
-    <Compile Include="SyntaxWalkers\StringIdentifiers\StringIsNullOrWhiteSpace.cs" />
-    <Compile Include="SyntaxWalkers\StringIdentifiers\StringLength.cs" />
-    <Compile Include="SyntaxWalkers\StringIdentifiers\StringSubstring.cs" />
-    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToLower.cs" />
-    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToLowerInvariant.cs" />
-    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToUpper.cs" />
-    <Compile Include="SyntaxWalkers\StringIdentifiers\StringToUpperInvariant.cs" />
-    <Compile Include="SyntaxWalkers\StringIdentifiers\StringTrim.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\Empty.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\Format.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\IsNullOrEmpty.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\IsNullOrWhiteSpace.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\Length.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\Substring.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\ToLower.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\ToLowerInvariant.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\ToUpper.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\ToUpperInvariant.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\Trim.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\TrimEnd.cs" />
+    <Compile Include="SyntaxWalkers\StringIdentifiers\TrimStart.cs" />
     <Compile Include="SyntaxWalkers\StringMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\UnaryExpressionWalker.cs" />
     <Compile Include="FormElements\TextAreaElementCompiler.cs" />

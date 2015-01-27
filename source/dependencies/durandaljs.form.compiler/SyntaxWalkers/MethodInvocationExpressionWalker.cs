@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -22,48 +23,35 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return null; }
         }
 
-
-        public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            if (null == this.Walkers)
-                ObjectBuilder.ComposeMefCatalog(this);
-            if (null == this.Walkers)
-                throw new InvalidOperationException("MEF!!!");
-
-
-            var original = this.Code.ToString();
-            var code = GetMethodInvoationCode(node);
-           
-            this.Code.Clear();
-            this.Code.Append(original);
-            this.Code.Append(code);
-
-            base.VisitInvocationExpression(node);
-        }
-
-        private string GetMethodInvoationCode(InvocationExpressionSyntax node)
-        {
+            var ies = (InvocationExpressionSyntax)node;
+            
             var code = new StringBuilder();
             var syntaxWalkers = this.Walkers
-                .Where(x => x.Filter(node.Expression, this.SemanticModel))
+                .Where(x => x != this)
+                .Where(x => x.Filter(ies.Expression, this.SemanticModel))
                 .ToArray();
             foreach (var w in syntaxWalkers)
             {
-                var c = w.Walk(node.Expression, this.SemanticModel);
-                Console.WriteLine("[ExpressionWalker]{0}\t=> {1}", w.GetType().Name, c);
+                var c = w.Walk(ies.Expression, this.SemanticModel);
+                if (DebuggerHelper.IsVerbose)
+                    Console.WriteLine("[ExpressionWalker]{0}\t=> {1}", w.GetType().Name, c);
                 code.Append(c);
             }
 
             var symbolWalkers = from w in this.Walkers
                                 where !syntaxWalkers.Contains(w)
-                                let sm = this.SemanticModel.GetSymbolInfo(node.Expression)
+                                && w != this
+                                let sm = this.SemanticModel.GetSymbolInfo(ies.Expression)
                                 where w.Filter(sm)
                                 select w;
             foreach (var w in symbolWalkers)
             {
                 // if the syntax walker already excute it, then forget it
-                var c = w.Walk(node.Expression, this.SemanticModel);
-                Console.WriteLine("[SymbolWalker]{0}\t=> {1}", w.GetType().Name, c);
+                var c = w.Walk(ies.Expression, this.SemanticModel);
+                if (DebuggerHelper.IsVerbose)
+                    Console.WriteLine("[SymbolWalker]{0}\t=> {1}", w.GetType().Name, c);
                 code.Append(".");
                 code.Append(c);
             }

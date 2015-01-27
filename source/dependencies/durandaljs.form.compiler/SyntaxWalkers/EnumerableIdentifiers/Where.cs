@@ -11,7 +11,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.EnumerableIdentifie
     public class Where : IdentifierCompiler
     {
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)
-        {
+        { 
+            // TODO : write extension method called "filter" to use underscorejs or whatever in the array prototype
             var args = arguments.ToArray();
             return string.Format("filter({0})", this.EvaluateExpressionCode(args[0]));
         }
