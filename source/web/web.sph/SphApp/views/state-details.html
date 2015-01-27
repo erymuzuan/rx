@@ -65,8 +65,20 @@
         </div>
     </div>
 
-<label class="col-md-4">Flag</label>
-<img alt="Flag" width ="" height="" data-bind="attr : {'src':'/sph/image/store/' + FlagStoreId()}, visible:true" /></form>
+
+
+
+    <label class="col-md-4">Flag</label>
+<img alt="Flag"    data-bind="attr : {'src':'/sph/image/store/' + FlagStoreId()}, visible:true" />
+    <div data-bind="visible:true" class="form-group">
+        <label for="60e150e6-047d-4dfc-c25c-cc0da8c625ea" class="col-md-4">Flag</label>
+        <div class="col-md-8">
+            <input  class=" form-control input-large" title=""
+                   data-bind="kendoUpload : FlagStoreId, visible :true"
+                   id="60e150e6-047d-4dfc-c25c-cc0da8c625ea" type="file" name="files" />
+        </div>
+    </div>
+</form>
     </div>
     <div class="col-sm-4">
         
