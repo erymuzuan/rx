@@ -32,7 +32,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
         {
             var aes = (AwaitExpressionSyntax)node;
             var code = new StringBuilder();
-            var index = 0;
+            int index;
 
 
             var n = node.Parent;
@@ -67,7 +67,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             }
 
             code.AppendLine(this.GetStatementCode(model, aes.Expression));
-            code.AppendLinf(".done(function({0})){{", result);
+            code.AppendLinf(".then(function({0})){{", result);
 
             for (int i = index + 1; i < statements.Count; i++)
             {
@@ -75,7 +75,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
                 if (awaitStatement)
                 {
                     code.AppendLine();
-                    code.AppendLinf("  var __tcs{0} = new $.Deferred();", i);
+                    code.AppendLine("  var __tcs = new $.Deferred();");
                 }
 
                 var rs = statements[i] as ReturnStatementSyntax;
@@ -88,16 +88,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
                 {
                     code.AppendLine("       " + base.GetStatementCode(model, statements[i]).TrimEnd() + ";");
                 }
-                if (awaitStatement)
-                {
-                    break;
-                }
+
+
+                if (awaitStatement) break;
+                
             }
 
 
             code.AppendLinf("   __tcs{0}.resolve({1});", index, result);
             code.AppendLine("});");
-            code.AppendLinf("return __tcs{0}.promise();", index);
+            code.AppendLinf("return __tcs.promise();", index);
             code.AppendLine();
             code.AppendLine();
 

@@ -64,6 +64,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="AwaitExpressionTestFixture.cs" />
     <Compile Include="BooleanExpressionTestFixture.cs" />
     <Compile Include="BooleanExpressionWithDateTimeAndWorkflow.cs" />
     <Compile Include="BooleanExpressionWithNumber.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="DateTimeExpressionTextFixure.cs" />
     <Compile Include="EntityFormViewModelTestFixture.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
+    <Compile Include="LambdaExpressionTestFixture.cs" />
     <Compile Include="MathTextFixure.cs" />
     <Compile Include="MethodTestFixture.cs" />
     <Compile Include="MockDirectoryService.cs" />

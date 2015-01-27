@@ -11,7 +11,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.EnumerableIdentifie
     {
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)
         {
-            return string.Format("length");
+            return "/* All */";
         }
     }
 }
