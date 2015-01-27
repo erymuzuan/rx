@@ -38,88 +38,105 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
         {
             
             #line 2 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
- if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
-}
-            
-            #line default
-            #line hidden
-            
-            #line 5 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-   
+  
     var path = string.Format("'/sph/image/store/' + {0}()", this.Model.Path);
+    var width = Model.Width.HasValue ? "width=\"" + Model.Width.Value + "\"": "";
+    var height = Model.Height.HasValue ? "height=\"" + Model.Height.Value + "\"" : "";
+    
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n<label");
+WriteLiteral("\r\n\r\n\r\n\r\n");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 211), Tuple.Create("\"", 250)
-, Tuple.Create(Tuple.Create("", 219), Tuple.Create("col-md-", 219), true)
             
-            #line 8 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 226), Tuple.Create<System.Object, System.Int32>(Model.LabelColMd ?? 4
+            #line 15 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
+ if (!Model.IsCompact)
+{
+
             
             #line default
             #line hidden
-, 226), false)
+WriteLiteral("    <label");
+
+WriteAttribute("class", Tuple.Create(" class=\"", 442), Tuple.Create("\"", 481)
+, Tuple.Create(Tuple.Create("", 450), Tuple.Create("col-md-", 450), true)
+            
+            #line 17 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 457), Tuple.Create<System.Object, System.Int32>(Model.LabelColMd ?? 4
+            
+            #line default
+            #line hidden
+, 457), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 8 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                          Write(Model.Label);
+            #line 17 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
+                                              Write(Model.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n<img");
+WriteLiteral("</label>\r\n");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 278), Tuple.Create("\"", 296)
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 284), Tuple.Create<System.Object, System.Int32>(Model.Label
+            #line 18 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
+}
+
             
             #line default
             #line hidden
-, 284), false)
+WriteLiteral("<img");
+
+WriteAttribute("alt", Tuple.Create(" alt=\"", 512), Tuple.Create("\"", 530)
+            
+            #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 518), Tuple.Create<System.Object, System.Int32>(Model.Label
+            
+            #line default
+            #line hidden
+, 518), false)
 );
 
-WriteAttribute("title", Tuple.Create(" title=\"", 297), Tuple.Create("\"", 319)
+WriteAttribute("title", Tuple.Create(" title=\"", 531), Tuple.Create("\"", 553)
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 305), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 539), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 305), false)
+, 539), false)
 );
 
-WriteLiteral(" width =\"");
+WriteLiteral(" ");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                                  Write(Model.Width);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\" height=\"");
-
-            
-            #line 9 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                                                        Write(Model.Height);
+            #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
+                                          Write(width);
 
             
             #line default
             #line hidden
-WriteLiteral("\" data-bind=\"attr : {\'src\':");
+WriteLiteral(" ");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                                                                                                Write(Html.Raw(path));
+            #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
+                                                 Write(height);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("  data-bind=\"attr : {\'src\':");
+
+            
+            #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
+                                                                                   Write(Html.Raw(path));
 
             
             #line default
@@ -127,8 +144,8 @@ WriteLiteral("\" data-bind=\"attr : {\'src\':");
 WriteLiteral("}, visible:");
 
             
-            #line 9 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
-                                                                                                                                          Write(Html.Raw(Model.Visible));
+            #line 19 "..\..\Views\Shared\EditorTemplates\ImageElement.cshtml"
+                                                                                                             Write(Html.Raw(Model.Visible));
 
             
             #line default

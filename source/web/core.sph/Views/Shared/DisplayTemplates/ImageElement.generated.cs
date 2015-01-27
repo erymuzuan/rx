@@ -38,94 +38,105 @@ namespace Bespoke.Sph.Web.Views.Shared.DisplayTemplates
         {
             
             #line 2 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
- if (string.IsNullOrWhiteSpace(Model.Enable))
-{
-    Model.Enable = "true";
-}
-            
-            #line default
-            #line hidden
-            
-            #line 5 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-   
+  
     var path = string.Format("'/sph/image/store/' + {0}()", this.Model.Path);
- 
+    var width = Model.Width.HasValue ? "width=\"" + Model.Width.Value + "\"" : "";
+    var height = Model.Height.HasValue ? "height=\"" + Model.Height.Value + "\"" : "";
+
+    if (string.IsNullOrWhiteSpace(Model.Enable))
+    {
+        Model.Enable = "true";
+    }
+
             
             #line default
             #line hidden
-WriteLiteral("\r\n<div");
+WriteLiteral("\r\n\r\n");
 
-WriteLiteral(" class=\"form-group\"");
-
-WriteLiteral(">\r\n    <label");
-
-WriteAttribute("class", Tuple.Create(" class=\"", 242), Tuple.Create("\"", 281)
-, Tuple.Create(Tuple.Create("", 250), Tuple.Create("col-md-", 250), true)
             
-            #line 9 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 257), Tuple.Create<System.Object, System.Int32>(Model.LabelColMd ?? 4
+            #line 13 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+ if (!Model.IsCompact)
+{
+
             
             #line default
             #line hidden
-, 257), false)
+WriteLiteral("    <label");
+
+WriteAttribute("class", Tuple.Create(" class=\"", 435), Tuple.Create("\"", 474)
+, Tuple.Create(Tuple.Create("", 443), Tuple.Create("col-md-", 443), true)
+            
+            #line 15 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 450), Tuple.Create<System.Object, System.Int32>(Model.LabelColMd ?? 4
+            
+            #line default
+            #line hidden
+, 450), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 9 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+            #line 15 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
                                               Write(Model.Label);
 
             
             #line default
             #line hidden
-WriteLiteral("</label>\r\n    <img");
+WriteLiteral("</label>\r\n");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 313), Tuple.Create("\"", 331)
             
-            #line 10 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 319), Tuple.Create<System.Object, System.Int32>(Model.Label
+            #line 16 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+}
+
             
             #line default
             #line hidden
-, 319), false)
-);
+WriteLiteral("<img");
 
-WriteAttribute("title", Tuple.Create(" title=\"", 332), Tuple.Create("\"", 354)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 505), Tuple.Create("\"", 523)
             
-            #line 10 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 340), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
+            #line 17 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 511), Tuple.Create<System.Object, System.Int32>(Model.Label
             
             #line default
             #line hidden
-, 340), false)
+, 511), false)
 );
 
-WriteAttribute("width", Tuple.Create(" width=\"", 355), Tuple.Create("\"", 375)
+WriteAttribute("title", Tuple.Create(" title=\"", 524), Tuple.Create("\"", 546)
             
-            #line 10 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-, Tuple.Create(Tuple.Create("", 363), Tuple.Create<System.Object, System.Int32>(Model.Width
+            #line 17 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+, Tuple.Create(Tuple.Create("", 532), Tuple.Create<System.Object, System.Int32>(Model.Tooltip
             
             #line default
             #line hidden
-, 363), false)
+, 532), false)
 );
 
-WriteAttribute("height", Tuple.Create(" height=\"", 376), Tuple.Create("\"", 398)
+WriteLiteral(" ");
+
             
-            #line 10 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
- , Tuple.Create(Tuple.Create("", 385), Tuple.Create<System.Object, System.Int32>(Model.Height
+            #line 17 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+                                          Write(width);
+
             
             #line default
             #line hidden
-, 385), false)
-);
+WriteLiteral(" ");
 
+            
+            #line 17 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+                                                 Write(height);
+
+            
+            #line default
+            #line hidden
 WriteLiteral(" data-bind=\"attr : {\'src\':");
 
             
-            #line 10 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-                                                                                                                   Write(Html.Raw(path));
+            #line 17 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+                                                                                  Write(Html.Raw(path));
 
             
             #line default
@@ -133,15 +144,13 @@ WriteLiteral(" data-bind=\"attr : {\'src\':");
 WriteLiteral("}, visible:");
 
             
-            #line 10 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
-                                                                                                                                             Write(Html.Raw(Model.Visible));
+            #line 17 "..\..\Views\Shared\DisplayTemplates\ImageElement.cshtml"
+                                                                                                            Write(Html.Raw(Model.Visible));
 
             
             #line default
             #line hidden
-WriteLiteral("\"");
-
-WriteLiteral(" />\r\n</div>");
+WriteLiteral("\" />");
 
         }
     }

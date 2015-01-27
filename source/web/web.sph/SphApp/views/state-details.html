@@ -49,17 +49,24 @@
         </div>
     </div>
 
-    <div class="form-group" data-bind="visible:true">
-        <label for="49733e5f-51fd-4570-cc87-d2f467137478" class="col-md-4">Country</label>
+
+
+    <div data-bind="visible:true" class="form-group">
+        <label for="2debfb95-e6cd-4281-9d6d-27c5e97e77a1" class="col-md-4">Country</label>
         <div class="col-md-8">
-            <select data-bind="value: Country, enable :true" id="49733e5f-51fd-4570-cc87-d2f467137478" name="Country" class=" input-large form-control">
-                    <option value="Malaysia">Malaysia</option>
-                    <option value="Singapore">Singapore</option>
-                    <option value="Thailan">Thailand</option>
-            </select>
+            <input  class=" form-control input-large" title=""
+                   data-bind="value: Country, enable :true "
+                   maxlength="25"
+                   
+                    data-rule-maxlength="25"
+ data-rule-minlength="3"
+
+                   id="2debfb95-e6cd-4281-9d6d-27c5e97e77a1" type="text" name="Country" />
         </div>
     </div>
-</form>
+
+<label class="col-md-4">Flag</label>
+<img alt="Flag" width ="" height="" data-bind="attr : {'src':'/sph/image/store/' + FlagStoreId()}, visible:true" /></form>
     </div>
     <div class="col-sm-4">
         

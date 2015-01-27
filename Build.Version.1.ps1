@@ -49,8 +49,7 @@ ls -Path .\bin\schedulers -Filter *.* -Recurse | Remove-Item -Recurse -Force -Wa
 #restore the NuGet packages
 .\restore-package.ps1
 
-#build  dependencies
-& msbuild .\source\domain\domain.sph\domain.sph.csproj /p:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=domain.sph.err"
+
 
 $outputs = @(".\source\web\web.sph\bin", ".\bin\subscribers", ".\bin\subscribers.host", ".\bin\schedulers", ".\bin\tools")
 
@@ -111,6 +110,17 @@ function Parallel-Build {
     Write-Host ""
 
 }
+
+
+$vs = gps devenv* | measure
+if($vs.Count -gt 0){
+    Write-Host -ForegroundColor Yellow -BackgroundColor Blue " Please close any running instance of Visual Studio `r`n [ENTER] to continue"
+    
+    Read-Host
+}
+
+# kill all the msbuild instance and rebuild all
+gps msbuild* | kill
 msbuild .\sph.all.sln /m
 
 #build  dependencies
@@ -218,7 +228,7 @@ $user_dll | Copy-Item -Destination .\bin\schedulers
 $user_dll | Copy-Item -Destination .\source\web\web.sph\bin
 
 
-
+gps msbuild* | kill
 
 if($success){
     Write-Host "Successfully building V1, Now starts web.sph on 4436" -ForegroundColor Cyan
