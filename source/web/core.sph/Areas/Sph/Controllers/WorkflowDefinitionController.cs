@@ -86,8 +86,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         [HttpPost]
         public async Task<ActionResult> Compile()
         {
-            var wd0 = this.GetRequestJson<WorkflowDefinition>();
-            var wd = wd0.ChangeActivitiesWebId();
+            var wd = this.GetRequestJson<WorkflowDefinition>();
             var buildValidation = wd.ValidateBuild();
 
             await this.Save("Compile", wd);
