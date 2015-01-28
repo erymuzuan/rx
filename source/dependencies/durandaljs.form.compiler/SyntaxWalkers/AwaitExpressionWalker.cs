@@ -30,45 +30,47 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
+
             var awaitExpression = (AwaitExpressionSyntax)node;
             var code = new StringBuilder();
 
-            var statements = FindBodyStatements(node);
-            var currentStatement = FindStatement(node);
-            var index = FindStatementLine(node);
-            var local = currentStatement as LocalDeclarationStatementSyntax;
-            var resultIdentifier = "";
-            if (null != local)
-            {
-                resultIdentifier = local.Declaration.Variables[0].Identifier.Text;
-            }
+           // var statements = FindBodyStatements(node);
+//            var currentStatement = FindStatement(node);
+            //var index = FindStatementLine(node);
+            //var local = currentStatement as LocalDeclarationStatementSyntax;
+            //var resultIdentifier = "";
+            //if (null != local)
+            //{
+            //    resultIdentifier = local.Declaration.Variables[0].Identifier.Text;
+            //}
 
             code.AppendLine("return " + this.GetStatementCode(model, awaitExpression.Expression));
-            var subsequentStatements = statements.SkipWhile((x, i) => i <= index);
-            foreach (var statement in subsequentStatements)
-            {
-                code.AppendLine();
-                var hasAwait = statement.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
-                if (hasAwait)
-                {
-                    code.AppendLine("       return " + base.GetStatementCode(model, statement).TrimEnd() + ";");
-                    break;
-                }
 
-                var returnStatement = statement as ReturnStatementSyntax;
-                if (null != returnStatement)
-                {
-                    code.AppendLinf("   __tcs{0}.resolve({1});", index, base.GetStatementCode(model, returnStatement.Expression));
-                    code.AppendLinf("   return __tcs.promise();", index);
-                    break;
-                }
+            //var subsequentStatements = statements.SkipWhile((x, i) => i <= index);
+            //foreach (var statement in subsequentStatements)
+            //{
+            //    code.AppendLine();
+            //    var hasAwait = statement.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
+            //    if (hasAwait)
+            //    {
+            //        code.AppendLine("       return " + base.GetStatementCode(model, statement).TrimEnd() + ";");
+            //        break;
+            //    }
 
-                code.AppendLine("       " + base.GetStatementCode(model, statement).TrimEnd() + ";");
-            }
+            //    var returnStatement = statement as ReturnStatementSyntax;
+            //    if (null != returnStatement)
+            //    {
+            //        code.AppendLinf("   __tcs{0}.resolve({1});", index, base.GetStatementCode(model, returnStatement.Expression));
+            //        code.AppendLinf("   return __tcs.promise();", index);
+            //        break;
+            //    }
+
+            //    code.AppendLine("       " + base.GetStatementCode(model, statement).TrimEnd() + ";");
+            //}
 
 
-            code.AppendLine();
-            code.AppendLine();
+            //code.AppendLine();
+            //code.AppendLine();
 
             return code.ToString();
         }
@@ -94,6 +96,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             var currentStatement = FindStatement(node);
             return statements.IndexOf(currentStatement);
         }
+
         private SyntaxList<StatementSyntax> FindBodyStatements(SyntaxNode node)
         {
             var n = node.Parent;
@@ -103,6 +106,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
                 mi = n as MethodDeclarationSyntax;
                 if (null != mi && mi.Identifier.Text == "Evaluate")
                     break;
+                if (null == n) break;
                 n = n.Parent;
             }
             if (null == mi) throw new InvalidOperationException("Cannot find the Method Evaluate");

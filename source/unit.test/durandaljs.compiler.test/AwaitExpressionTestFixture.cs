@@ -18,10 +18,20 @@ namespace durandaljs.compiler.test
             var compiler = new StatementCompiler();
             const string CODE = @"
 var name = item.Name;
+
 var result = await app.ShowMessageAsync(""Async1"" + name, new []{""Yes"", ""No""} );
+logger.Info(""result "" + result);
+
 var result2 = await app.ShowMessageAsync(""Async2 "" +  result, new []{""Yes"", ""No""}  );
+logger.Info(""result : "" + result);
+logger.Info(""result2 : "" + result2);
+
 var result3 = await app.ShowMessageAsync(""Async3 "" +  result2, new []{""Yes"", ""No""}  );
 // if(result3*** == ""No"") return;
+logger.Info(""result : "" + result);
+logger.Info(""result2 : "" + result2);
+logger.Info(""result3 : "" + result3);
+
 await app.ShowMessageAsync(""Thank you "" +  result2, new []{""OK""}  );
 
 logger.Info(""result : "" + result);

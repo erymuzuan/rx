@@ -104,17 +104,71 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         private string CompileStatements(SyntaxList<SyntaxNode> statements, SemanticModel model)
         {
             var code = new StringBuilder();
+            if (statements.Any(x => x.DescendantNodes().OfType<AwaitExpressionSyntax>().Any()))
+                return this.BuildAwaitStatementTree(statements, model, true);
+
+
+            foreach (var statement in statements)
+            {
+                var st1 = statement;
+                var walkers = this.Walkers.Where(x => x.Filter(st1, model)).ToList();
+                foreach (var w in walkers)
+                {
+                    var f = w.Walk(st1, model);
+                    if (string.IsNullOrWhiteSpace(f)) continue;
+                    code.AppendLine(f.TrimEnd());
+                }
+                if (!walkers.Any())
+                {
+                    Console.WriteLine("!!!!!!");
+                    Console.WriteLine("Cannot find statement walker for " + st1.CSharpKind());
+                }
+            }
+
+            return code.ToString();
+        }
+
+        private string BuildAwaitStatementTree(SyntaxList<StatementSyntax> statements, SemanticModel model, bool initialize = false)
+        {
+            var code = new StringBuilder();
 
             var awaitResults = statements
                 .OfType<LocalDeclarationStatementSyntax>()
                 .Where(x => x.DescendantNodes().OfType<AwaitExpressionSyntax>().Any())
-                .Select(x => x.Declaration.Variables[0].Identifier.Text);
-            code.AppendLine("var " + string.Join(", ", awaitResults) + ";");
+                .Select(x => x.Declaration.Variables[0].Identifier.Text)
+                .ToList();
+            if (initialize)
+                code.AppendLine("var " + string.Join(", ", awaitResults) + ";");
 
-            var index = 0;
+            // loop all the statements before the await
             foreach (var statement in statements)
             {
-                index++;
+                var st1 = statement;
+                var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
+                if (hasAwait) break;
+
+                var walkers = this.Walkers.Where(x => x.Filter(st1, model)).ToList();
+                foreach (var w in walkers)
+                {
+                    var f = w.Walk(st1, model);
+                    if (string.IsNullOrWhiteSpace(f)) continue;
+                    code.AppendLine(f.TrimEnd());
+                }
+                if (!walkers.Any())
+                {
+                    Console.WriteLine("!!!!!!");
+                    Console.WriteLine("Cannot find statement walker for " + st1.CSharpKind());
+                }
+
+            }
+
+            var awaitStatements = statements
+                .Where(x => x.DescendantNodes().OfType<AwaitExpressionSyntax>().Any())
+                .ToList();
+
+            foreach (var statement in awaitStatements)
+            {
+                var index = statements.IndexOf(statement);
                 var st1 = statement;
                 var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
 
@@ -138,15 +192,27 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     var local = statement as LocalDeclarationStatementSyntax;
                     if (null != local)
                     {
-                        code.AppendLinf(".then(function(__result{0}){{", index);
-                        code.AppendLinf("     {0} = __result{1};", local.Declaration.Variables[0].Identifier.Text, index);
+                        if (statementCode.EndsWith(";"))
+                            statementCode = statementCode.Substring(0, statementCode.Length - 1);
+                        if (index <= 1)
+                            code.AppendLine(statementCode);
+                        code.AppendLinf("   .then(function(__result{0}){{", index);
+                        code.AppendLinf("       {0} = __result{1};", local.Declaration.Variables[0].Identifier.Text, index);
 
-                        code.AppendLine(statementCode);
-                        code.AppendLine("});");
+                        code.AppendLine("       // subsequent statements comes in");
+                        var index1 = index;
+                        var subsequestStatements = statements.SkipWhile((s, i) => i <= index1).ToList();
+
+                        code.AppendLinf("       // statements : {0}, index : {1}, list :{2}", statements.Count, index1, subsequestStatements.Count);
+                        var subsequentCode = this.BuildAwaitStatementTree(SyntaxFactory.List<StatementSyntax>(subsequestStatements), model);
+                        code.AppendLine(subsequentCode);
+                        code.AppendLine("   });");
                     }
-                    return code.ToString();
                 }
             }
+
+
+
 
             return code.ToString();
         }
