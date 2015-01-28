@@ -17,40 +17,51 @@ namespace durandaljs.compiler.test
             var patient = HtmlCompileHelper.CreatePatientDefinition();
             var compiler = new StatementCompiler();
             const string CODE = @"
-var name = item.Name;
+            var name = item.Name;
 
-var result = await app.ShowMessageAsync(""Async1"" + name, new []{""Yes"", ""No""} );
-logger.Info(""result "" + result);
+            var result = await app.ShowMessageAsync(""Async1"" + name, new []{""Yes"", ""No""} );
+            logger.Info(""result "" + result);
 
-var result2 = await app.ShowMessageAsync(""Async2 "" +  result, new []{""Yes"", ""No""}  );
-logger.Info(""result : "" + result);
-logger.Info(""result2 : "" + result2);
+            var result2 = await app.ShowMessageAsync(""Async2 "" +  result, new []{""Yes"", ""No""}  );
+            logger.Info(""result : "" + result);
+            logger.Info(""result2 : "" + result2);
 
-var result3 = await app.ShowMessageAsync(""Async3 "" +  result2, new []{""Yes"", ""No""}  );
-// if(result3*** == ""No"") return;
-logger.Info(""result : "" + result);
-logger.Info(""result2 : "" + result2);
-logger.Info(""result3 : "" + result3);
+            var result3 = await app.ShowMessageAsync(""Async3 "" +  result2, new []{""Yes"", ""No""}  );
+            // if(result3*** == ""No"") return;
+            logger.Info(""result : "" + result);
+            logger.Info(""result2 : "" + result2);
+            logger.Info(""result3 : "" + result3);
 
-await app.ShowMessageAsync(""Thank you "" +  result2, new []{""OK""}  );
+            await app.ShowMessageAsync(""Thank you "" +  result2, new []{""OK""}  );
 
-logger.Info(""result : "" + result);
-logger.Info(""result2 : "" + result2);
-logger.Info(""result3 : "" + result3);
+            logger.Info(""result : "" + result);
+            logger.Info(""result2 : "" + result2);
+            logger.Info(""result3 : "" + result3);
 ";
 
             const string EXPECTED = @"
-                var name = $data.Name();       
-                return app.showMessage('Async1' + name, ['Yes', 'No'])
-                    .then(function(result){
-                        return app.showMessage('Async2' + result, ['Yes', 'No']);
-                    }).then(function(result2){                    
-                        return app.showMessage('Async3' + result2, ['Yes', 'No']);
-                    }).then(function(result3){
-                        logger.info('result :' + result);
-                        logger.info('result2 :' + result2);
-                        logger.info('result3 :' + result3);
-                    });
+            var result, result2, result3;
+
+            var name = $data.Name();
+            return app.showMessage('Async1' + name, ['Yes', 'No'])
+            .then(function(__temp0) {
+                result = __temp0;
+                logger.info('result ' + result);
+                return app.showMessage('Async2 ' + result, ['Yes', 'No']);
+            }).then(function(__temp1) {
+                result2 = __temp1;
+                logger.info('result : ' + result);
+                logger.info('result2 : ' + result2);
+                return app.showMessage('Async3 ' + result2, ['Yes', 'No']);
+            }).then(function(__temp2) {
+                result3 = __temp2;
+                logger.info('result : ' + result);
+                logger.info('result2 : ' + result2);
+                logger.info('result3 : ' + result3);
+
+                return app.showMessage('Thank you ' + result2, ['OK']);
+
+            });
             
 ";
             var cr = await compiler.CompileAsync<Task>(CODE, patient);
@@ -71,9 +82,11 @@ logger.Info(""User say "" + dr);
 ";
 
             const string EXPECTED = @"
+                var dr;
                 var name = $data.Name();       
                 return app.showMessage('Name' + name, ['Yes', 'No'])
-                        .then(function(dr){
+                        .then(function(__temp0) {
+                            dr = __temp0;
                             logger.info('User say ' + dr);
                         });"
                 ;
@@ -102,7 +115,7 @@ logger.Info(""User say "" + dr);
 
 ";
             const string EXPECTED = @"return app.showMessage('Are you sure you want to delete', ['OK'])
-.then(function(){
+.then(function() {
        logger.info('The user click OK');;
 });";
             var cr = await compiler.CompileAsync<Task>(CODE, patient);
