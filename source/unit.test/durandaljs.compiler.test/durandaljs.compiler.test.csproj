@@ -85,7 +85,6 @@
     <Compile Include="RazorDisplayTemplateTestFixture.cs" />
     <Compile Include="RazorEditorTemplateTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ButtonCommandTestFixture.cs" />
     <Compile Include="BooleanExpressionWithConfigObject.cs" />
     <Compile Include="ScreenActivityFormRendererTestFixture.cs" />
     <Compile Include="ScreenActivityRazorEditorTemplateTestFixture.cs" />

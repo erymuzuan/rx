@@ -12,6 +12,56 @@ namespace durandaljs.compiler.test
     {
         [Test]
         [Trace(Verbose = true)]
+        public async Task TaskWhenAll()
+        {
+            var patient = HtmlCompileHelper.CreatePatientDefinition();
+            var compiler = new StatementCompiler();
+            const string CODE = @"
+            var name = item.Name;
+
+            var task1 = app.ShowMessageAsync(""Async1"", new []{""Yes"", ""No""} );
+            var task2 = app.ShowMessageAsync(""Async2"", new []{""Yes"", ""No""} );
+            var task3 = app.ShowMessageAsync(""Async3"", new []{""Yes"", ""No""} );
+
+            var results = await Task.WhenAll(task1, task2, task3);    
+
+            logger.Info(""result1 : "" + results[0]);
+            logger.Info(""result2 : "" + results[1]);
+            logger.Info(""result3 : "" + results[2]);
+
+
+
+";
+
+            const string EXPECTED = @"
+            var results;
+
+            var name = $data.Name();
+
+
+            var task1 = app.showMessage('Async1', ['Yes', 'No']);
+            var task2 = app.showMessage('Async2', ['Yes', 'No']);
+            var task3 = app.showMessage('Async3', ['Yes', 'No']);
+
+            $.when(task1, task2, task3)
+                .then(function(__temp0) {
+                    results = __temp0;
+
+
+                    logger.info('result1 : ' + results[0]);
+                    logger.info('result2 : ' + results[1]);
+                    logger.info('result3 : ' + results[2]);
+
+            });
+
+            
+";
+            var cr = await compiler.CompileAsync<Task>(CODE, patient);
+            AssertCodes(EXPECTED, cr);
+
+        }
+        [Test]
+        [Trace(Verbose = true)]
         public async Task NestedAwaitWithLocalVariableDeclaration()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();

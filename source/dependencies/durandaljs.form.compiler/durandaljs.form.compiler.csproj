@@ -194,6 +194,7 @@
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\Year.cs" />
     <Compile Include="SyntaxWalkers\DateTimeMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\DecimalSyntaxWalker.cs" />
+    <Compile Include="SyntaxWalkers\ElementAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\EnumerableIdentifiers\Aggregate.cs" />
     <Compile Include="SyntaxWalkers\EnumerableIdentifiers\All.cs" />
     <Compile Include="SyntaxWalkers\EnumerableIdentifiers\Any.cs" />
@@ -282,6 +283,8 @@
     <Compile Include="SyntaxWalkers\StringIdentifiers\TrimEnd.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\TrimStart.cs" />
     <Compile Include="SyntaxWalkers\StringMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\TaskIdentifiers\Where.cs" />
+    <Compile Include="SyntaxWalkers\TaskMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\UnaryExpressionWalker.cs" />
     <Compile Include="FormElements\TextAreaElementCompiler.cs" />
     <Compile Include="FormElements\TextBoxCompiler.cs" />
