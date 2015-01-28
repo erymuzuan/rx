@@ -107,7 +107,7 @@ function Parallel-Build {
 }
 
 #build the solution
-& msbuild .\sph.all.sln /m
+& msbuild .\sph.all.sln /m /p:Platform="Any CPU"
 
 $dependencies = @("elasticsearch.logger","email.service", "rabbitmq.changepublisher","razor.template"`
 ,"report.sqldatasource","roslyn.scriptengine","sql.repository","sqlmembership.directoryservices","windows.taskschedulers",`
@@ -215,6 +215,8 @@ $user_dll | Copy-Item -Destination .\source\web\web.sph\bin
 if($success){
     Write-Host "Successfully building V2, Now starts web.sph on 8081, core.sph on 8080 and web.durandal on 8082" -ForegroundColor Cyan
 }
+
+gps msbuild* | kill
 
 $sw.Stop()
 Write-Host $sw.Elapsed.Minutes  " minutes and "  $sw.Elapsed.Seconds  " seconds"

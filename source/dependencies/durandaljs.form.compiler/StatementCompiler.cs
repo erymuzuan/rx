@@ -101,21 +101,32 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return Task.FromResult(result);
         }
 
-        private string CompileStatements(IEnumerable<SyntaxNode> statements, SemanticModel model)
+        private string CompileStatements(SyntaxList<SyntaxNode> statements, SemanticModel model)
         {
             var code = new StringBuilder();
+
+            var awaitResults = statements
+                .OfType<LocalDeclarationStatementSyntax>()
+                .Where(x => x.DescendantNodes().OfType<AwaitExpressionSyntax>().Any())
+                .Select(x => x.Declaration.Variables[0].Identifier.Text);
+            code.AppendLine("var " + string.Join(", ", awaitResults) + ";");
+
+            var index = 0;
             foreach (var statement in statements)
             {
+                index++;
                 var st1 = statement;
                 var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
 
                 var walkers = this.Walkers.Where(x => x.Filter(st1, model)).ToList();
+                var statementCode = "";
                 foreach (var w in walkers)
                 {
                     var f = w.Walk(st1, model);
                     if (string.IsNullOrWhiteSpace(f)) continue;
-
-                    code.AppendLine(f.TrimEnd());
+                    statementCode = f.TrimEnd();
+                    if (!hasAwait)
+                        code.AppendLine(statementCode);
                 }
                 if (!walkers.Any())
                 {
@@ -123,7 +134,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     Console.WriteLine("Cannot find statement walker for " + st1.CSharpKind());
                 }
                 if (hasAwait)
+                {
+                    var local = statement as LocalDeclarationStatementSyntax;
+                    if (null != local)
+                    {
+                        code.AppendLinf(".then(function(__result{0}){{", index);
+                        code.AppendLinf("     {0} = __result{1};", local.Declaration.Variables[0].Identifier.Text, index);
+
+                        code.AppendLine(statementCode);
+                        code.AppendLine("});");
+                    }
                     return code.ToString();
+                }
             }
 
             return code.ToString();

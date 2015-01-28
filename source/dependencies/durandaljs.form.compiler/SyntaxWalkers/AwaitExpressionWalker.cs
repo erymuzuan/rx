@@ -44,8 +44,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             }
 
             code.AppendLine("return " + this.GetStatementCode(model, awaitExpression.Expression));
-            code.AppendFormat(".then(function({0}){{", resultIdentifier);
-
             var subsequentStatements = statements.SkipWhile((x, i) => i <= index);
             foreach (var statement in subsequentStatements)
             {
@@ -69,7 +67,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             }
 
 
-            code.AppendLine("});");
             code.AppendLine();
             code.AppendLine();
 
