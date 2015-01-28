@@ -256,6 +256,7 @@
     <Compile Include="SyntaxWalkers\Int32SyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LinqEnumerableMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\ListMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LocalDeclarationStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\LoggerIdentifiers\Error.cs" />
@@ -283,7 +284,7 @@
     <Compile Include="SyntaxWalkers\StringIdentifiers\TrimEnd.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\TrimStart.cs" />
     <Compile Include="SyntaxWalkers\StringMemberAcessExpressionWalker.cs" />
-    <Compile Include="SyntaxWalkers\TaskIdentifiers\Where.cs" />
+    <Compile Include="SyntaxWalkers\TaskIdentifiers\WhenAll.cs" />
     <Compile Include="SyntaxWalkers\TaskMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\UnaryExpressionWalker.cs" />
     <Compile Include="FormElements\TextAreaElementCompiler.cs" />

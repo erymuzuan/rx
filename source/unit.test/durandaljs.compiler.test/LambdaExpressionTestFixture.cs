@@ -33,6 +33,29 @@ namespace durandaljs.compiler.test
 
         [Test]
         [Trace(Verbose = true)]
+        public async Task ListForEach()
+        {
+            var patient = HtmlCompileHelper.CreatePatientDefinition();
+            var compiler = new StatementCompiler();
+            const string CODE = @"
+            var numbers = new []{1,2,3,4,5};
+            numbers.ToList().ForEach(x => logger.Info(""no : ""  + x));
+
+            return numbers[0];
+
+";
+            var cr = await compiler.CompileAsync<int>(CODE, patient);
+
+            Assert.IsTrue(cr.Success);
+            Console.WriteLine(cr.Code);
+
+            // TODO : write extension method called "filter" to use underscorejs or whatever int the array prototype
+            StringAssert.Contains("numbers.filter( function(x)", cr.Code);
+            StringAssert.Contains("x % 2 !== 0", cr.Code);
+        }
+
+        [Test]
+        [Trace(Verbose = true)]
         public async Task LambdaExpressionCountAll()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();
