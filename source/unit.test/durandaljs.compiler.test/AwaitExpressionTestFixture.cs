@@ -28,29 +28,23 @@ logger.Info(""result : "" + result);
 logger.Info(""result2 : "" + result2);
 logger.Info(""result3 : "" + result3);
 ";
-            var cr = await compiler.CompileAsync<Task>(CODE, patient);
 
-            Assert.IsTrue(cr.Success);
             const string EXPECTED = @"
                 var name = $data.Name();       
-                var __tcs = app.showMessage('Async1', ['Yes','No']);            
-                promise1.then(function(result){
-                    return app.showMessage('Async2' + result, ['Yes','No']);
-                }).then(function(result2){                    
-                    return app.showMessage('Async3' + result2, ['Yes','No']);
-                }).then(function(result3){
-                    logger.info('result :' + result);
-                    logger.info('result2 :' + result2);
-                    logger.info('result3 :' + result3);
-                });          
-
-                return __tcs.promise();
+                return app.showMessage('Async1' + name, ['Yes', 'No'])
+                    .then(function(result){
+                        return app.showMessage('Async2' + result, ['Yes', 'No']);
+                    }).then(function(result2){                    
+                        return app.showMessage('Async3' + result2, ['Yes', 'No']);
+                    }).then(function(result3){
+                        logger.info('result :' + result);
+                        logger.info('result2 :' + result2);
+                        logger.info('result3 :' + result3);
+                    });
             
 ";
-            EXPECTED.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => x.Trim())
-                .ToList()
-                .ForEach(x => StringAssert.Contains(x, cr.Code));
+            var cr = await compiler.CompileAsync<Task>(CODE, patient);
+            AssertCodes(EXPECTED, cr);
 
         }
 
@@ -62,18 +56,28 @@ logger.Info(""result3 : "" + result3);
             var compiler = new StatementCompiler();
             const string CODE = @"
 var name = item.Name;
-var result = await app.ShowMessageAsync(""Are you sure you want to delete"" + name, new []{""Yes"", ""No""} );
-if(result == ""Yes"")
-{
-    logger.Info(""User say Yes"");
-}
+var dr = await app.ShowMessageAsync(""Name"" + name, new []{""Yes"", ""No""} );
+logger.Info(""User say "" + dr);
+";
 
-return null;";
-            var cr = await compiler.CompileAsync<Task<string>>(CODE, patient);
+            const string EXPECTED = @"
+                var name = $data.Name();       
+                return app.showMessage('Name' + name, ['Yes', 'No'])
+                        .then(function(dr){
+                            logger.info('User say ' + dr);
+                        });"
+                ;
+            var cr = await compiler.CompileAsync<Task>(CODE, patient);
+            AssertCodes(EXPECTED, cr);
+        }
 
+        private static void AssertCodes(string expected, SnippetCompilerResult cr)
+        {
             Assert.IsTrue(cr.Success);
-            Console.WriteLine(cr.Code);
-            StringAssert.Contains("return __tcs1.promise()", cr.Code);
+            expected.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim())
+                .ToList()
+                .ForEach(x => StringAssert.Contains(x, cr.Code));
         }
 
         [Test]
@@ -87,12 +91,12 @@ return null;";
             logger.Info(""The user click OK"");
 
 ";
+            const string EXPECTED = @"return app.showMessage('Are you sure you want to delete', ['OK'])
+.then(function(){
+       logger.info('The user click OK');;
+});";
             var cr = await compiler.CompileAsync<Task>(CODE, patient);
-
-            Assert.IsTrue(cr.Success);
-            Console.WriteLine(cr.Code);
-
-            StringAssert.Contains("logger.info", cr.Code);
+            AssertCodes(EXPECTED, cr);
         }
     }
 }

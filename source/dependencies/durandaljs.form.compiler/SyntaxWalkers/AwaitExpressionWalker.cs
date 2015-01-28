@@ -6,7 +6,6 @@ using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using AwaitExpressionSyntax = Microsoft.CodeAnalysis.CSharp.Syntax.AwaitExpressionSyntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
 {
@@ -28,13 +27,78 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             return node is AwaitExpressionSyntax;
         }
 
+
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var aes = (AwaitExpressionSyntax)node;
+            var awaitExpression = (AwaitExpressionSyntax)node;
             var code = new StringBuilder();
-            int index;
+
+            var statements = FindBodyStatements(node);
+            var currentStatement = FindStatement(node);
+            var index = FindStatementLine(node);
+            var local = currentStatement as LocalDeclarationStatementSyntax;
+            var resultIdentifier = "";
+            if (null != local)
+            {
+                resultIdentifier = local.Declaration.Variables[0].Identifier.Text;
+            }
+
+            code.AppendLine("return " + this.GetStatementCode(model, awaitExpression.Expression));
+            code.AppendFormat(".then(function({0}){{", resultIdentifier);
+
+            var subsequentStatements = statements.SkipWhile((x, i) => i <= index);
+            foreach (var statement in subsequentStatements)
+            {
+                code.AppendLine();
+                var hasAwait = statement.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
+                if (hasAwait)
+                {
+                    code.AppendLine("       return " + base.GetStatementCode(model, statement).TrimEnd() + ";");
+                    break;
+                }
+
+                var returnStatement = statement as ReturnStatementSyntax;
+                if (null != returnStatement)
+                {
+                    code.AppendLinf("   __tcs{0}.resolve({1});", index, base.GetStatementCode(model, returnStatement.Expression));
+                    code.AppendLinf("   return __tcs.promise();", index);
+                    break;
+                }
+
+                code.AppendLine("       " + base.GetStatementCode(model, statement).TrimEnd() + ";");
+            }
 
 
+            code.AppendLine("});");
+            code.AppendLine();
+            code.AppendLine();
+
+            return code.ToString();
+        }
+
+        private StatementSyntax FindStatement(SyntaxNode node)
+        {
+            var statements = FindBodyStatements(node);
+            StatementSyntax currentStatement = null;
+            foreach (var st in statements)
+            {
+                var any = st.DescendantNodes().OfType<AwaitExpressionSyntax>()
+                    .ToList().Any(d => d == node);
+                if (!any) continue;
+                currentStatement = st;
+                break;
+            }
+            return currentStatement;
+        }
+
+        private int FindStatementLine(SyntaxNode node)
+        {
+            var statements = this.FindBodyStatements(node);
+            var currentStatement = FindStatement(node);
+            return statements.IndexOf(currentStatement);
+        }
+        private SyntaxList<StatementSyntax> FindBodyStatements(SyntaxNode node)
+        {
             var n = node.Parent;
             MethodDeclarationSyntax mi = null;
             for (int i = 0; i < 100; i++)
@@ -47,62 +111,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             if (null == mi) throw new InvalidOperationException("Cannot find the Method Evaluate");
 
             var statements = mi.Body.Statements;
-            StatementSyntax statement = null;
-            foreach (var st in statements)
-            {
-                var any = st.DescendantNodes().OfType<AwaitExpressionSyntax>()
-                    .ToList().Any(d => d == node);
-                if (!any) continue;
-                statement = st;
-                break;
-            }
-            index = statements.IndexOf(statement);
-
-
-            var local = statement as LocalDeclarationStatementSyntax;
-            var result = string.Format("__result{0}", index);
-            if (null != local)
-            {
-                result = local.Declaration.Variables[0].Identifier.Text;
-            }
-
-            code.AppendLine(this.GetStatementCode(model, aes.Expression));
-            code.AppendLinf(".then(function({0})){{", result);
-
-            for (int i = index + 1; i < statements.Count; i++)
-            {
-                var awaitStatement = statements[i].DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
-                if (awaitStatement)
-                {
-                    code.AppendLine();
-                    code.AppendLine("  var __tcs = new $.Deferred();");
-                }
-
-                var rs = statements[i] as ReturnStatementSyntax;
-                if (null != rs)
-                {
-                    code.AppendLinf("   __tcs{0}.resolve({1});", index, base.GetStatementCode(model, rs.Expression));
-                    code.AppendLinf("   return __tcs.promise();", index);
-                }
-                else
-                {
-                    code.AppendLine("       " + base.GetStatementCode(model, statements[i]).TrimEnd() + ";");
-                }
-
-
-                if (awaitStatement) break;
-                
-            }
-
-
-            code.AppendLinf("   __tcs{0}.resolve({1});", index, result);
-            code.AppendLine("});");
-            code.AppendLinf("return __tcs.promise();", index);
-            code.AppendLine();
-            code.AppendLine();
-
-            return code.ToString();
+            return statements;
         }
-
     }
 }

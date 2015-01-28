@@ -104,25 +104,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         private string CompileStatements(IEnumerable<SyntaxNode> statements, SemanticModel model)
         {
             var code = new StringBuilder();
-            var count = -1;
             foreach (var statement in statements)
             {
-                count++;
                 var st1 = statement;
-                var awaitStatement = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
-                if (awaitStatement)
-                {
-                    code.AppendLine();
-                    code.AppendLinf("  var __tcs{0} = new $.Deferred();", count);
-                }
-
+                var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
 
                 var walkers = this.Walkers.Where(x => x.Filter(st1, model)).ToList();
                 foreach (var w in walkers)
                 {
                     var f = w.Walk(st1, model);
                     if (string.IsNullOrWhiteSpace(f)) continue;
-                    
+
                     code.AppendLine(f.TrimEnd());
                 }
                 if (!walkers.Any())
@@ -130,7 +122,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     Console.WriteLine("!!!!!!");
                     Console.WriteLine("Cannot find statement walker for " + st1.CSharpKind());
                 }
-                if (awaitStatement)
+                if (hasAwait)
                     return code.ToString();
             }
 
