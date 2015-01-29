@@ -137,28 +137,33 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .Where(x => x.DescendantNodes().OfType<AwaitExpressionSyntax>().Any())
                 .Select(x => x.Declaration.Variables[0].Identifier.Text)
                 .ToList();
-            if (initialize)
+            if (initialize && awaitResults.Count > 0)
                 code.AppendLine("var " + string.Join(", ", awaitResults) + ";");
 
-            // loop all the statements before the await
+            // loop all the statements before the await, once hitting an await then break to do the promise.then.then
             foreach (var statement in statements)
             {
                 var st1 = statement;
                 var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
-                if (hasAwait) break;
+                if (hasAwait && initialize) break;
 
                 var walkers = this.Walkers.Where(x => x.Filter(st1, model)).ToList();
                 foreach (var w in walkers)
                 {
                     var f = w.Walk(st1, model);
                     if (string.IsNullOrWhiteSpace(f)) continue;
-                    code.AppendLine(f.TrimEnd());
+                    var temp = f.TrimEnd();
+                    if (temp.EndsWith("\r\n;"))
+                        code.AppendLine(temp.Replace("\r\n;", ";"));
+                    else
+                        code.AppendLine(temp + ";");
                 }
                 if (!walkers.Any())
                 {
                     Console.WriteLine("!!!!!!");
                     Console.WriteLine("Cannot find statement walker for " + st1.CSharpKind());
                 }
+                if (hasAwait) break;
 
             }
 
@@ -166,9 +171,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .Where(x => x.DescendantNodes().OfType<AwaitExpressionSyntax>().Any())
                 .ToList();
 
+            // now build the promise.then.then.then....
             foreach (var statement in awaitStatements)
             {
-                var index = statements.IndexOf(statement);
+                var awaitIndex = awaitStatements.IndexOf(statement);
+                var lineNumber = statements.IndexOf(statement);
                 var st1 = statement;
                 var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
 
@@ -187,30 +194,64 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     Console.WriteLine("!!!!!!");
                     Console.WriteLine("Cannot find statement walker for " + st1.CSharpKind());
                 }
-                if (hasAwait)
+
+
+                var local = statement as LocalDeclarationStatementSyntax;
+                // build the first promise for an await with result
+                if (null != local && initialize && awaitIndex == 0)
                 {
-                    var local = statement as LocalDeclarationStatementSyntax;
-                    if (null != local)
-                    {
-                        if (statementCode.EndsWith(";"))
-                            statementCode = statementCode.Substring(0, statementCode.Length - 1);
-                        if (index <= 1)
-                            code.AppendLine(statementCode);
-                        code.AppendLinf("   .then(function(__result{0}){{", index);
-                        code.AppendLinf("       {0} = __result{1};", local.Declaration.Variables[0].Identifier.Text, index);
 
-                        code.AppendLine("       // subsequent statements comes in");
-                        var index1 = index;
-                        var subsequestStatements = statements.SkipWhile((s, i) => i <= index1).ToList();
-
-                        code.AppendLinf("       // statements : {0}, index : {1}, list :{2}", statements.Count, index1, subsequestStatements.Count);
-                        var subsequentCode = this.BuildAwaitStatementTree(SyntaxFactory.List<StatementSyntax>(subsequestStatements), model);
-                        code.AppendLine(subsequentCode);
-                        code.AppendLine("   });");
-                    }
+                    if (statementCode.EndsWith(";"))
+                        statementCode = statementCode.Substring(0, statementCode.Length - 1);
+                    code.AppendLine(statementCode);
                 }
-            }
+                if (null != local)
+                {
+                    if (initialize)
+                    {
+                        code.AppendLinf(".then(function(__temp{0}) {{", awaitIndex);
+                        code.AppendLinf("       {0} = __temp{1};", local.Declaration.Variables[0].Identifier.Text, awaitIndex);
 
+                        var subsequestStatements = statements.SkipWhile((s, i) => i <= lineNumber).ToList();
+                        var subsequentCode = this.BuildAwaitStatementTree(SyntaxFactory.List(subsequestStatements), model);
+
+                        code.AppendLine(subsequentCode);
+
+                    }
+                    else
+                    {
+                        return code.ToString();
+                    }
+                    code.Append("   })");
+                }
+
+                var expression = statement as ExpressionStatementSyntax;
+                if (null != expression && initialize && awaitIndex == 0)
+                {
+                    if (statementCode.EndsWith(";"))
+                        statementCode = statementCode.Substring(0, statementCode.Length - 1);
+                    code.AppendLine(statementCode);
+                }
+                if (null != expression)
+                {
+                    if (initialize)
+                    {
+                        code.AppendLine(".then(function() {");
+
+                        var subsequestStatements = statements.SkipWhile((s, i) => i <= lineNumber).ToList();
+                        var subsequentCode = this.BuildAwaitStatementTree(SyntaxFactory.List(subsequestStatements), model);
+
+                        code.AppendLine(subsequentCode);
+                    }
+                    else
+                    {
+                        return code.ToString();
+                    }
+                    code.Append("   })");
+                }
+
+            }
+            code.AppendLine(";");
 
 
 
