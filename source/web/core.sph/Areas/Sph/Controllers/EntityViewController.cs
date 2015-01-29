@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 session.Attach(view);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = view.Id });
+            return Json(new { success = true, status = "OK", id = view.Id, message = "Your view has been successfully saved" });
         }
 
         [HttpDelete]
@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             var view = await context.LoadOneAsync<EntityView>(x => x.Id == id);
-            if (null == view) return new HttpNotFoundResult("Cannnot find EntityView with id " + id);
+            if (null == view) return new HttpNotFoundResult("Cannot find EntityView with id " + id);
 
 
 
