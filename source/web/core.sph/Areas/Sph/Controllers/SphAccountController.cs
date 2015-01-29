@@ -70,16 +70,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                         if (!profile.HasChangedDefaultPassword)
                             return RedirectToAction("ChangePassword");
                         if (returnUrl == "/" ||
-                            returnUrl.Equals("/sph", StringComparison.InvariantCultureIgnoreCase) ||
-                            returnUrl.Equals("/sph#", StringComparison.InvariantCultureIgnoreCase) ||
-                            returnUrl.Equals("/sph/", StringComparison.InvariantCultureIgnoreCase) ||
-                            returnUrl.Equals("/sph/#", StringComparison.InvariantCultureIgnoreCase) ||
+                            returnUrl.Equals("/#", StringComparison.InvariantCultureIgnoreCase) ||
                             string.IsNullOrWhiteSpace(returnUrl))
-                            return Redirect("/sph#" + profile.StartModule);
+                            return Redirect("/#" + profile.StartModule);
                     }
                     if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
-                    return RedirectToAction("Index", "Home", new { area = "Sph" });
+                    return RedirectToAction("Index", "Home");
                 }
                 var user = await directory.GetUserAsync(model.UserName);
                 await logger.LogAsync("Login", "Login failed for " + model.UserName);

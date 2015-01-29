@@ -2032,6 +2032,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\correlation.set.dialog.js" />
     <EmbeddedResource Include="SphApp\services\form.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\screen.activity.form.designer.js" />
+    <Content Include="SphApp\viewmodels\entity.view.designer.js" />
     <Content Include="SphApp\viewmodels\not.found.js" />
     <Content Include="SphApp\viewmodels\public.index.js" />
     <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.docking.js" />
@@ -2069,8 +2070,6 @@
     <Content Include="Areas\App\Views\EntityFormDesigner\_ValidationSetting.cshtml">
     </Content>
     <Content Include="Areas\App\Views\EntityViewDesigner\Html.cshtml">
-    </Content>
-    <Content Include="Areas\App\Views\EntityViewDesigner\Script.cshtml">
     </Content>
     <Content Include="Content\jsplumb\OpenSans.woff" />
     <Content Include="Content\jsplumb\OpenSans-Regular.ttf" />
