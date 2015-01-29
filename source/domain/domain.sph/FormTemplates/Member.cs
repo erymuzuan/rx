@@ -24,7 +24,12 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public Type Type
         {
-            get { return Type.GetType(this.TypeName); }
+            get
+            {
+                if (string.IsNullOrWhiteSpace(this.TypeName))
+                    return null;
+                return Type.GetType(this.TypeName);
+            }
             set { this.TypeName = value.GetShortAssemblyQualifiedName(); }
         }
 

@@ -39,13 +39,17 @@ namespace Bespoke.Sph.Domain
         {
             if (null != m_member)
                 return m_member;
-            var member = new Member { Name = this.Name, Type = this.Type };
+            var member = new Member { Name = this.Name};
+            if (null != this.Type)
+                member.Type = this.Type;
+
             this.PopulateMember(member, this.Type);
             return m_member = member;
         }
 
         private void PopulateMember(Member member, Type childType)
         {
+            if(null == this.Type)return;
             var natives = new[]
             {
                 typeof (string), typeof (int), typeof (double), typeof (decimal)
