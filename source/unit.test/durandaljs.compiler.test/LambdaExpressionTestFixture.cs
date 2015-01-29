@@ -8,9 +8,34 @@ namespace durandaljs.compiler.test
 {
     public class LambdaExpressionTestFixture
     {
+
         [Test]
         [Trace(Verbose = true)]
-        public async Task LambdaExpressionWhere()
+        public async Task All()
+        {
+            var patient = HtmlCompileHelper.CreatePatientDefinition();
+            var compiler = new StatementCompiler();
+            var numbers = "[1, 2, 3, 4, 5]";
+
+            const string CODE = @"
+            var numbers = new []{1,2,3,4,5};
+            var odd = numbers.All(x => x <= 3);
+
+            return 0;
+
+";
+            var cr = await compiler.CompileAsync<object>(CODE, patient);
+
+            Assert.IsTrue(cr.Success);
+            Console.WriteLine(cr.Code);
+
+            // TODO : write extension method called "filter" to use underscorejs or whatever int the array prototype
+            StringAssert.Contains("numbers.every( function(x){ return x <= 3; });", cr.Code);
+        }
+
+        [Test]
+        [Trace(Verbose = true)]
+        public async Task Where()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();
             var compiler = new StatementCompiler();
@@ -33,7 +58,7 @@ namespace durandaljs.compiler.test
 
         [Test]
         [Trace(Verbose = true)]
-        public async Task LambdaExpressionCountAll()
+        public async Task CountAll()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();
             var compiler = new StatementCompiler();
@@ -53,7 +78,7 @@ namespace durandaljs.compiler.test
 
         [Test]
         [Trace(Verbose = true)]
-        public async Task LambdaExpressionCount()
+        public async Task Count()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();
             var compiler = new StatementCompiler();
@@ -76,7 +101,7 @@ namespace durandaljs.compiler.test
 
         [Test]
         [Trace(Verbose = false)]
-        public async Task LambdaExpressionSelect()
+        public async Task Select()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();
             var compiler = new StatementCompiler();
