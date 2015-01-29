@@ -58,9 +58,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                          let x = c.GetCode().Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
                              .Replace("using System.Web.Mvc;", string.Empty)
                          select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)).ToArray();
-
-
-
+            
             var trees = new List<SyntaxTree> { snippet };
             var root = (CompilationUnitSyntax)snippet.GetRoot();
 
@@ -271,7 +269,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         private static CSharpSyntaxTree BuilExpressionClass<T>(string code, IProjectProvider project, string parameters)
         {
             var file = new StringBuilder();
-            var async = code.Contains("await ");
+            var async = code.Contains("await ") || code.Contains("Task");
 
             file.AppendLine("using System;");
             if (async)

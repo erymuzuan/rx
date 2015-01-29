@@ -18,6 +18,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         [ImportMany("ViewModelRenderer", typeof(FormRenderer), AllowRecomposition = true)]
         public Lazy<FormRenderer, IFormRendererMetadata>[] JavascriptRenderers { get; set; }
 
+        [ImportMany("PartialRenderer", typeof(FormRenderer), AllowRecomposition = true)]
+        public Lazy<FormRenderer, IFormRendererMetadata>[] PartialRenderers { get; set; }
+
         public override async Task<WorkflowCompilerResult> CompileAsync(IForm form)
         {
             var project = await form.LoadProjectAsync();
@@ -39,6 +42,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 var script = await vmc.Value.GenerateCodeAsync(form, project);
                 File.WriteAllText(js, script);
+            }
+            else
+            {
+                Warn("Cannot find view model compiler for {0}", form.GetType().FullName);
+            }
+
+            var partial = Path.Combine(ConfigurationManager.WebPath, "SphApp/partial/" + form.Route.ToLower() + ".js");
+            var partialCompiler = this.PartialRenderers.SingleOrDefault(x => x.Metadata.FormType == form.GetType());
+            if (null != partialCompiler)
+            {
+                var script = await partialCompiler.Value.GenerateCodeAsync(form, project);
+                File.WriteAllText(partial, script);
             }
             else
             {

@@ -61,12 +61,19 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var code = this.Code.ToString();
             var text = node.Identifier.Text;
 
-            var symbol = this.SemanticModel.GetSymbolInfo(node);
-            if (!this.Filter(symbol))
+            try
             {
-                base.VisitIdentifierName(node);
-                return;
+                var symbol = this.SemanticModel.GetSymbolInfo(node);
+                if (!this.Filter(symbol))
+                {
+                    base.VisitIdentifierName(node);
+                    return;
 
+                }
+            }
+            catch (ArgumentException e)
+            {
+                if (e.Message != "Syntax node is not within syntax tree") throw;
             }
 
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);

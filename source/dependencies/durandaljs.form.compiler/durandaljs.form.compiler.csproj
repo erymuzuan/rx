@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="DurandalJsSolutionCompiler.cs" />
     <Compile Include="FormRenderers\EntityFormHtmlViewRenderer.cs" />
+    <Compile Include="FormRenderers\EntityFormJsPartialRenderer.cs" />
     <Compile Include="FormRenderers\EntityFormJsViewModelRenderer.cs" />
     <Compile Include="FormRenderers\FormRenderer.cs" />
     <Compile Include="FormRenderers\FormRendererMetadata.cs" />

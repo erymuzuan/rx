@@ -31,6 +31,7 @@ namespace Bespoke.Sph.Domain
                     this.CreateMetadataReference<System.Xml.Serialization.XmlAttributes>(),
                     this.CreateMetadataReference<object>(),
                     this.CreateMetadataReference<WorkflowDefinition>(),
+                    this.CreateMetadataReference<Task>(),
                     this.CreateMetadataReference<EnumerableQuery>()
                 };
 
