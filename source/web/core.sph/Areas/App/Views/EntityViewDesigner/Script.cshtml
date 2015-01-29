@@ -99,6 +99,7 @@
                         .then(function (result) {
                             view().Id(result.id);
                             tcs.resolve(result);
+                            logger.info(result.message);
                         });
                     return tcs.promise();
                 },
