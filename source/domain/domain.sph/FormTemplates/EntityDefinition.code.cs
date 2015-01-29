@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
-using Humanizer;
 using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 
@@ -139,9 +138,6 @@ namespace Bespoke.Sph.Domain
             @class.MethodCollection.Add(remove);
 
 
-            var schemas = GenerateControllerSchemasMethod();
-            @class.MethodCollection.Add(schemas);
-
 
             return @class;
 
@@ -223,23 +219,7 @@ namespace Bespoke.Sph.Domain
             return new Method { Name = "Remove", Code = remove.ToString() };
         }
 
-        private Method GenerateControllerSchemasMethod()
-        {
-            var schemas = new StringBuilder();
-            schemas.AppendLinf("       //exec:Schemas");
-            schemas.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Schemas()");
-            schemas.AppendLine("       {");
-            schemas.AppendLine("           var context = new SphDataContext();");
-            schemas.AppendLinf("           var ed = await context.LoadOneAsync<EntityDefinition>(t => t.Name == \"{0}\");",
-                this.Name);
 
-            schemas.AppendLine("           var script = await ed.GenerateCustomXsdJavascriptClassAsync();");
-            schemas.AppendLine("           this.Response.ContentType = \"application/javascript\";");
-
-            schemas.AppendLine("           return Content(script);");
-            schemas.AppendLine("       }");
-            return new Method { Name = "Schemas", Code = schemas.ToString() };
-        }
 
         private IEnumerable<Method> GenerateControlerOperationMethods()
         {

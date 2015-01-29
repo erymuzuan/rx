@@ -13,7 +13,7 @@ namespace sph.builder
 
         static void Main(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Gray;
             '-'.WriteFrame();
             " ".WriteMessage();
             "Reactive Developer".WriteMessage();
@@ -23,14 +23,9 @@ namespace sph.builder
 
             '-'.WriteFrame();
             Console.ResetColor();
-            "Enter \"y\" to continue".WriteLine();
+            Console.Write("press [ENTER] to continue : ");
+            Console.ReadLine();
 
-            var cont = Console.ReadLine();
-            if (cont != "y")
-            {
-                Console.WriteLine(@"BYE.");
-                return;
-            }
 
             if (args.Length > 0)
             {
@@ -84,47 +79,47 @@ namespace sph.builder
             // now build the EntityForm
             var formBuilder = new EntityFormBuilder();
             formBuilder.Initialize();
-            var formTasks = from ff in GetJsonFiles(typeof (EntityForm))
-                let fjson = File.ReadAllText(ff)
-                let fo = JObject.Parse(fjson)
-                let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
-                where edid == item.Id
-                select formBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityForm>());
+            var formTasks = from ff in GetJsonFiles(typeof(EntityForm))
+                            let fjson = File.ReadAllText(ff)
+                            let fo = JObject.Parse(fjson)
+                            let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
+                            where edid == item.Id
+                            select formBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityForm>());
             await Task.WhenAll(formTasks);
 
             // then build the EntityView
             var viewBuilder = new EntityViewBuilder();
             viewBuilder.Initialize();
-            var viewTasks = from ff in GetJsonFiles(typeof (EntityView))
-                let fjson = File.ReadAllText(ff)
-                let fo = JObject.Parse(fjson)
-                let edidToken = fo.SelectToken("$.EntityDefinitionId")
-                where null != edidToken
-                let edid = edidToken.Value<string>()
-                where edid == item.Id
-                select viewBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityView>());
+            var viewTasks = from ff in GetJsonFiles(typeof(EntityView))
+                            let fjson = File.ReadAllText(ff)
+                            let fo = JObject.Parse(fjson)
+                            let edidToken = fo.SelectToken("$.EntityDefinitionId")
+                            where null != edidToken
+                            let edid = edidToken.Value<string>()
+                            where edid == item.Id
+                            select viewBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityView>());
             await Task.WhenAll(viewTasks);
 
             // then build the charts
             var chartBuilder = new Builder<EntityChart>();
             chartBuilder.Initialize();
-            var chartTasks = from ff in GetJsonFiles(typeof (EntityChart))
-                let fjson = File.ReadAllText(ff)
-                let fo = JObject.Parse(fjson)
-                let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
-                where edid == item.Id
-                select chartBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityChart>());
+            var chartTasks = from ff in GetJsonFiles(typeof(EntityChart))
+                             let fjson = File.ReadAllText(ff)
+                             let fo = JObject.Parse(fjson)
+                             let edid = fo.SelectToken("$.EntityDefinitionId").Value<string>()
+                             where edid == item.Id
+                             select chartBuilder.RestoreAsync(fjson.DeserializeFromJson<EntityChart>());
             await Task.WhenAll(chartTasks);
 
             // then the triggers
             var triggerBuilder = new TriggerBuilder();
             triggerBuilder.Initialize();
-            var triggerTasks = from ff in GetJsonFiles(typeof (Trigger))
-                let fjson = File.ReadAllText(ff)
-                let fo = JObject.Parse(fjson)
-                let ent = fo.SelectToken("$.Entity").Value<string>()
-                where ent == item.Name
-                select triggerBuilder.RestoreAsync(fjson.DeserializeFromJson<Trigger>());
+            var triggerTasks = from ff in GetJsonFiles(typeof(Trigger))
+                               let fjson = File.ReadAllText(ff)
+                               let fo = JObject.Parse(fjson)
+                               let ent = fo.SelectToken("$.Entity").Value<string>()
+                               where ent == item.Name
+                               select triggerBuilder.RestoreAsync(fjson.DeserializeFromJson<Trigger>());
             await Task.WhenAll(triggerTasks);
         }
 
