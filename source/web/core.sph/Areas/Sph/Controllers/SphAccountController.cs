@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -27,6 +28,36 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return Redirect("/");
         }
+
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> ForgotPassword(string email)
+        {
+            var setting = new Setting { UserName = email, Key = "ForgotPassword", Value = DateTime.Now.ToString("s") , Id = Strings.GenerateId()};
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(setting);
+                await session.SubmitChanges("ForgotPassword");
+            }
+            using (var smtp = new SmtpClient())
+            {
+                var mail = new MailMessage(ConfigurationManager.FromEmailAddress, email)
+                {
+                    Subject = ConfigurationManager.ApplicationFullName + " Forgot password ",
+                    Body = string.Format("{0}/Sph/SphAccount/ResetPassword/{1}", ConfigurationManager.BaseUrl, setting.Id)
+                };
+                await smtp.SendMailAsync(mail);
+            }
+            return Json(new { sucess = true, status = "ok" });
+        }
+
 
         [AllowAnonymous]
         public ActionResult Login()
@@ -100,21 +131,67 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             return View();
         }
-
-
+        [AllowAnonymous]
         public ActionResult ChangePassword()
         {
             return View();
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult> ResetPassword(string id)
+        {
+            var context = new SphDataContext();
+            var setting = await context.LoadOneAsync<Setting>(x => x.Id == id);
+            var model = new ResetPaswordModel{IsValid = true};
+            if (null != setting && (DateTime.Now - setting.CreatedDate).TotalMinutes < 10)
+                model.Email = setting.UserName;
+            else
+                model.IsValid = false;
+
+            return View(model);
+        }
+
         [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> ResetPassword(ResetPaswordModel model)
+        {
+            var username = Membership.GetUserNameByEmail(model.Email);
+            if (model.Password != model.ConfirmPassword)
+                return Json(new { success = false, status = "PASSWORD_DOESNOT_MATCH", message = "Your password is not the same" });
+
+            var user = Membership.GetUser(username);
+            if (null == user) throw new Exception("Fuck");
+            var temp = user.ResetPassword();
+            user.ChangePassword(temp, model.Password);
+
+            var context = new SphDataContext();
+            var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);
+            profile.HasChangedDefaultPassword = true;
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(profile);
+                await session.SubmitChanges("Change password");
+            }
+
+            if (Request.ContentType.Contains("application/json"))
+            {
+                this.Response.ContentType = "application/json; charset=utf-8";
+                return Content(JsonConvert.SerializeObject(new { success = true, status = "OK" }));
+            }
+
+            return Redirect("/");
+        }
+        [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> ChangePassword(ChangePaswordModel model)
         {
             var userName = User.Identity.Name;
 
             if (!Membership.ValidateUser(userName, model.OldPassword))
             {
-                return Json(new { success = false, status = "PASSWORD_INCORRECT", message = "Your old password is incorrect" , user = userName});
+                return Json(new { success = false, status = "PASSWORD_INCORRECT", message = "Your old password is incorrect", user = userName });
             }
             if (model.Password != model.ConfirmPassword)
                 return Json(new { success = false, status = "PASSWORD_DOESNOT_MATCH", message = "Your password is not the same" });
@@ -145,6 +222,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Redirect("/");
         }
 
+    }
+
+    public class ResetPaswordModel
+    {
+        public string ConfirmPassword { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public bool IsValid { get; set; }
     }
 
     public class ChangePaswordModel

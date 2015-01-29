@@ -264,5 +264,13 @@ namespace Bespoke.Sph.Domain
                 return System.Configuration.ConfigurationManager.AppSettings["sph:ApplicationFullName"] ?? "Reactive Developer platform showcase";
             }
         }
+
+        public static string FromEmailAddress
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["sph:FromEmailAddress"] ?? "admin@rxdeveoper.com";
+            }
+        }
     }
 }

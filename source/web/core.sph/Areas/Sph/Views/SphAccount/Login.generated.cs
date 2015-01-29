@@ -278,7 +278,7 @@ WriteLiteral(">Login</button>\r\n                        </form>\r\n\r\n        
 WriteAttribute("href", Tuple.Create(" href=\"", 2469), Tuple.Create("\"", 2505)
             
             #line 57 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-, Tuple.Create(Tuple.Create("", 2476), Tuple.Create<System.Object, System.Int32>(Url.Action("ChangePassword")
+, Tuple.Create(Tuple.Create("", 2476), Tuple.Create<System.Object, System.Int32>(Url.Action("ForgotPassword")
             
             #line default
             #line hidden
