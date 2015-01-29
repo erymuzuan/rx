@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Web.Controllers
             };
             options.AddReference<Controller>();
             options.AddReference<TransformDefinitionController>();
-            options.AddReference<Newtonsoft.Json.JsonConverter>();
+            options.AddReference<JsonConverter>();
 
             var codes = map.GenerateCode();
             var sources = map.SaveSources(codes);
@@ -132,6 +132,7 @@ namespace Bespoke.Sph.Web.Controllers
             "RazorGenerator","RazorEngine",
             "Antlr3",
             "App_Code",
+            "App_Web",
             "SQLSpatialTools",
             "email.service",
             "elasticsearch.logger",
