@@ -160,12 +160,14 @@ $bindingInformation = "*:" + $Port.ToString() + ":localhost"
 $site.SelectSingleNode("bindings/binding").SetAttribute("bindingInformation","$bindingInformation")
 $apc.Save("$WorkingCopy\config\applicationhost.config")
 
+$startWebBat = Get-Content .\StartWeb.bat
+$startWebBat.Replace("%USERPROFILE%\Documents\IISExpress", $WorkingCopy) > .\StartWeb.bat
 
 #asp.net memberships
-# & C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe -E -S "(localdb)\$SqlServer" -d "$ApplicationName" -A mr
-Write-Host "Executing Aspnet membership provider"
-Start-Process -WindowStyle Hidden -FilePath "C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe" `
--ArgumentList  @('-E','-S','"(localdb)\$SqlServer"','-d ' + $ApplicationName,'-A mr')
+Write-Host "Executing Aspnet membership provider" -ForegroundColor Cyan
+Start-Process -RedirectStandardOutput "v1.log" -Wait -WindowStyle Hidden -FilePath "C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe" `
+-ArgumentList  @("-E","-S",'"(localdb)\$SqlServer"',"-d " + $ApplicationName,"-A mr")
+
 
 Write-Host "Aspnet membership has been added"
 Write-Host "Please wait....."
