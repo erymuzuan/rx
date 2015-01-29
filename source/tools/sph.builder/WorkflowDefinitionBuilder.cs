@@ -49,7 +49,7 @@ namespace sph.builder
                 SourceCodeDirectory = ConfigurationManager.SphSourceDirectory
             };
             options.ReferencedAssembliesLocation.Add(typeof(Controller).Assembly.Location);
-            options.ReferencedAssembliesLocation.Add(ConfigurationManager.WebPath + @"\bin\core.sph.dll");
+            options.ReferencedAssembliesLocation.Add(ConfigurationManager.CorePath + @"\bin\core.sph.dll");
             options.ReferencedAssembliesLocation.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly.Location);
             var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
             var customDllPattern = ConfigurationManager.ApplicationName + ".*.dll";

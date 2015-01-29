@@ -80,7 +80,7 @@ namespace domain.test.workflows
             var options = new CompilerOptions();
             options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll");
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
             var cr = wd.Compile(options);
@@ -140,7 +140,7 @@ namespace domain.test.workflows
             var options = new CompilerOptions();
             options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll");
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
             var cr = wd.Compile(options);
@@ -210,7 +210,7 @@ namespace domain.test.workflows
             options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\MySql.Data.dll");
             options.AddReference(typeof(DbException));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
             var cr = wd.Compile(options);

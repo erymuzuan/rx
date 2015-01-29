@@ -108,7 +108,7 @@ namespace sph.builder
             };
             var webDir = ConfigurationManager.WebPath;
             options.AddReference(Path.GetFullPath(webDir + @"\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(webDir + @"\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath(ConfigurationManager.CorePath + @"\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath(webDir + @"\bin\Newtonsoft.Json.dll"));
 
             var codes = ed.GenerateCode();

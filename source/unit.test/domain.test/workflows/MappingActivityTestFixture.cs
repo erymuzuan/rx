@@ -68,7 +68,7 @@ namespace domain.test.workflows
             options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.Patient.dll");
             options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.PatientToMySqlEmployee001.dll");
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
             var cr = wd.Compile(options);
