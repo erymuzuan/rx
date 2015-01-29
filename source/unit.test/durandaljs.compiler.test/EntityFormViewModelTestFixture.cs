@@ -54,9 +54,9 @@ namespace durandaljs.compiler.test
                 IsToolbarItem = true
             };
             form.FormDesign.FormElementCollection.Add(button);
-            form.FormDesign.FormElementCollection.Add(new TextBox{Path = "No", Label = "Course No", ElementId = "noTextBox", Tooltip = "Course No"});
-            form.FormDesign.FormElementCollection.Add(new TextBox{Path = "Name", Label = "Course Name", ElementId = "nameTextBox", Tooltip = "Course Name"});
-            form.FormDesign.FormElementCollection.Add(new TextBox{Path = "Author", Label = "Author", ElementId = "authorTextBox", Tooltip = "Course Author"});
+            form.FormDesign.FormElementCollection.Add(new TextBox { Path = "No", Label = "Course No", ElementId = "noTextBox", Tooltip = "Course No" });
+            form.FormDesign.FormElementCollection.Add(new TextBox { Path = "Name", Label = "Course Name", ElementId = "nameTextBox", Tooltip = "Course Name" });
+            form.FormDesign.FormElementCollection.Add(new TextBox { Path = "Author", Label = "Author", ElementId = "authorTextBox", Tooltip = "Course Author" });
 
 
             var register = new EntityOperation { Name = "RegisterCourse", ShowSuccessMessage = true, SuccessMessage = "Ok done", NavigateSuccessUrl = "course" };
@@ -80,6 +80,7 @@ namespace durandaljs.compiler.test
                 Partial = "partial/this-is-a-test",
                 IsEmailAvailable = true
             };
+
             form.Rules.Add("rule1");
             form.Rules.Add("rule2");
 
@@ -92,6 +93,67 @@ namespace durandaljs.compiler.test
 
             var compiler = new EntityFormJsViewModelRenderer();
             var js = await compiler.GenerateCodeAsync(form, ed);
+            Console.WriteLine(js);
+        }
+        [Test]
+        public async Task PartialActivate()
+        {
+            var form = new EntityForm
+            {
+                Route = "this-is-a-test",
+                Name = "This is a test",
+                Partial = "partial/this-is-a-test",
+                IsEmailAvailable = true,
+                PartialActivate = @"
+ 
+            logger.Info(""The course name is "" + item.Name);   
+            return true;
+            
+"
+            };
+            form.Rules.Add("rule1");
+            form.Rules.Add("rule2");
+
+            var register = new EntityOperation { Name = "RegisterCourse", ShowSuccessMessage = true, SuccessMessage = "Ok done", NavigateSuccessUrl = "course" };
+            var dereg = new EntityOperation { Name = "DeregisterCourse" };
+            var course = m_ed;
+
+            course.EntityOperationCollection.Add(register);
+            course.EntityOperationCollection.Add(dereg);
+
+            var compiler = new EntityFormJsPartialRenderer();
+            var js = await compiler.GenerateCodeAsync(form, course);
+            Console.WriteLine(js);
+        }
+        [Test]
+        public async Task AsyncPartialActivate()
+        {
+            var form = new EntityForm
+            {
+                Route = "this-is-a-test",
+                Name = "This is a test",
+                Partial = "partial/this-is-a-test",
+                IsEmailAvailable = true,
+                PartialActivate = @"
+ 
+            var result = await app.ShowMessageAsync(""Do you want to register "" + item.Name, new []{""Yes"",""No""});
+            logger.Info(""You click "" + result);   
+            return true;
+            
+"
+            };
+            form.Rules.Add("rule1");
+            form.Rules.Add("rule2");
+
+            var register = new EntityOperation { Name = "RegisterCourse", ShowSuccessMessage = true, SuccessMessage = "Ok done", NavigateSuccessUrl = "course" };
+            var dereg = new EntityOperation { Name = "DeregisterCourse" };
+            var course = m_ed;
+
+            course.EntityOperationCollection.Add(register);
+            course.EntityOperationCollection.Add(dereg);
+
+            var compiler = new EntityFormJsPartialRenderer();
+            var js = await compiler.GenerateCodeAsync(form, course);
             Console.WriteLine(js);
         }
     }

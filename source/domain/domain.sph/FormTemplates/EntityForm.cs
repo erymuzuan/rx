@@ -108,5 +108,7 @@ namespace Bespoke.Sph.Domain
             var ed = await context.LoadOneAsync<EntityDefinition>(x => x.Id == this.EntityDefinitionId).ConfigureAwait(false);
             return ed;
         }
+
+        public string PartialActivate { get; set; }
     }
 }
