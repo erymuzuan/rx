@@ -86,13 +86,13 @@ WriteLiteral(">\r\n    define([\'services/datacontext\', objectbuilders.logger],
 "Sph/Admin/AddRole\")\r\n                                    .then(function (fw) {\r\n" +
 "                                        tcs.resolve(fw);\r\n                      " +
 "                  logger.info(\"Refresh your browser to reflect the changes\");\r\n " +
-"                                   });\r\n                            }\r\n         " +
-"               });\r\n\r\n                });\r\n                return tcs.promise();" +
-"\r\n            };\r\n\r\n\r\n            var vm = {\r\n                activate: activate" +
-",\r\n                addRole: addRole,\r\n                deleteRole: deleteRole,\r\n " +
-"               designation: ko.observable(),\r\n                toolbar: { saveCom" +
-"mand: save }\r\n            };\r\n\r\n            return vm;\r\n\r\n\r\n        });\r\n</scrip" +
-"t>\r\n");
+"                                       window.location.reload();\r\n              " +
+"                      });\r\n                            }\r\n                      " +
+"  });\r\n\r\n                });\r\n                return tcs.promise();\r\n           " +
+" };\r\n\r\n\r\n            var vm = {\r\n                activate: activate,\r\n          " +
+"      addRole: addRole,\r\n                deleteRole: deleteRole,\r\n              " +
+"  designation: ko.observable(),\r\n                toolbar: { saveCommand: save }\r" +
+"\n            };\r\n\r\n            return vm;\r\n\r\n\r\n        });\r\n</script>\r\n");
 
         }
     }

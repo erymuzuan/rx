@@ -74,6 +74,7 @@
                                     .then(function (fw) {
                                         tcs.resolve(fw);
                                         logger.info("Refresh your browser to reflect the changes");
+                                        window.location.reload();
                                     });
                             }
                         });
