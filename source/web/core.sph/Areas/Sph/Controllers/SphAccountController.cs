@@ -39,7 +39,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ForgotPassword(string email)
         {
-            var setting = new Setting { UserName = email, Key = "ForgotPassword", Value = DateTime.Now.ToString("s") , Id = Strings.GenerateId()};
+            var setting = new Setting { UserName = email, Key = "ForgotPassword", Value = DateTime.Now.ToString("s"), Id = Strings.GenerateId() };
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -143,11 +143,29 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             var setting = await context.LoadOneAsync<Setting>(x => x.Id == id);
-            var model = new ResetPaswordModel{IsValid = true};
-            if (null != setting && (DateTime.Now - setting.CreatedDate).TotalMinutes < 10)
-                model.Email = setting.UserName;
-            else
+            var model = new ResetPaswordModel { IsValid = true };
+
+            if (null == setting)
+            {
                 model.IsValid = false;
+                model.Mesage = "The link is invalid";
+                return View(model);
+            }
+
+            model.Email = setting.UserName;
+            if ((DateTime.Now - setting.CreatedDate).TotalMinutes > 10)
+            {
+                model.IsValid = false;
+                model.Mesage = "The link has expired";
+                return View(model);
+
+            }
+            var user = Membership.FindUsersByEmail(setting.UserName);
+            if (user.Count == 0)
+            {
+                model.IsValid = false;
+                model.Mesage = "Cannot find any user with email  " + model.Email;
+            }
 
             return View(model);
         }
@@ -166,7 +184,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             user.ChangePassword(temp, model.Password);
 
             var context = new SphDataContext();
-            var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == User.Identity.Name);
+            var profile = await context.LoadOneAsync<UserProfile>(u => u.UserName == username)
+                ?? new UserProfile
+                {
+                    UserName = username,
+                    Email = model.Email,
+                    HasChangedDefaultPassword = true,
+                    Id = username,
+                    StartModule = "public.index"
+                };
             profile.HasChangedDefaultPassword = true;
 
             using (var session = context.OpenSession())
@@ -230,6 +256,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public string Password { get; set; }
         public string Email { get; set; }
         public bool IsValid { get; set; }
+        public string Mesage { get; set; }
     }
 
     public class ChangePaswordModel

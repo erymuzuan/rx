@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
+namespace ASP
 {
     using System;
     using System.Collections.Generic;
@@ -34,9 +34,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/SphAccount/ForgotPassword.cshtml")]
-    public partial class ForgotPassword : System.Web.Mvc.WebViewPage<dynamic>
+    public partial class _Areas_Sph_Views_SphAccount_ForgotPassword_cshtml : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public ForgotPassword()
+        public _Areas_Sph_Views_SphAccount_ForgotPassword_cshtml()
         {
         }
         public override void Execute()
@@ -149,11 +149,11 @@ WriteLiteral(">\r\n                            <label");
 
 WriteLiteral(" for=\"email\"");
 
-WriteLiteral(" class=\"col-lg-2 control-label\"");
+WriteLiteral(" class=\"col-sm-2 control-label\"");
 
 WriteLiteral(">Email</label>\r\n                            <div");
 
-WriteLiteral(" class=\"col-lg-6\"");
+WriteLiteral(" class=\"col-sm-9\"");
 
 WriteLiteral(">\r\n                                <input");
 
@@ -176,11 +176,11 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                            <label");
 
-WriteLiteral(" class=\"col-lg-2 control-label\"");
+WriteLiteral(" class=\"col-sm-2 control-label sr-only\"");
 
-WriteLiteral(">f</label>\r\n                            <div");
+WriteLiteral(">Submit</label>\r\n                            <div");
 
-WriteLiteral(" class=\"col-lg-6\"");
+WriteLiteral(" class=\"col-sm-9\"");
 
 WriteLiteral(">\r\n                                <button");
 
@@ -192,9 +192,17 @@ WriteLiteral(" name=\"submit\"");
 
 WriteLiteral(" class=\"btn btn-default\"");
 
-WriteLiteral(">Submit</button>\r\n                            </div>\r\n                        </d" +
-"iv>\r\n                    </form>\r\n\r\n\r\n                </div>\r\n\r\n            </di" +
-"v>\r\n\r\n\r\n            <div");
+WriteLiteral(">Send me a reset password link</button>\r\n                                <i");
+
+WriteLiteral(" id=\"progress\"");
+
+WriteLiteral(" class=\"fa fa-spin fa-spinner\"");
+
+WriteLiteral(" style=\"display: none\"");
+
+WriteLiteral("></i>\r\n                            </div>\r\n                        </div>\r\n      " +
+"              </form>\r\n\r\n\r\n                </div>\r\n\r\n            </div>\r\n\r\n\r\n   " +
+"         <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -213,7 +221,7 @@ WriteLiteral(">Got to help</a>\r\n            </div>\r\n");
 WriteLiteral("            ");
 
             
-            #line 62 "..\..\Areas\Sph\Views\SphAccount\ForgotPassword.cshtml"
+            #line 63 "..\..\Areas\Sph\Views\SphAccount\ForgotPassword.cshtml"
        Write(Html.Partial("_Footer"));
 
             
@@ -221,51 +229,36 @@ WriteLiteral("            ");
             #line hidden
 WriteLiteral("\r\n\r\n\r\n        </section>\r\n    </div>\r\n\r\n\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2308), Tuple.Create("\"", 2339)
-, Tuple.Create(Tuple.Create("", 2314), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/__vendor.min.js")
-, 2314), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2451), Tuple.Create("\"", 2482)
+, Tuple.Create(Tuple.Create("", 2457), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/__vendor.min.js")
+, 2457), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteLiteral(@">
-        $(function () {
-            $('.carousel').carousel({
-                interval: 2000
-            });
-            var retUrl = getParameterByName(""ReturnUrl"") + window.location.hash;
-            $('input[name=ReturnUrl]').val(retUrl);
-
-            function getParameterByName(name) {
-                name = name.replace(/[\[]/, ""\\\["").replace(/[\]]/, ""\\\]"");
-                var regex = new RegExp(""[\\?&]"" + name + ""=([^&#]*)""),
-                    results = regex.exec(location.search);
-                return results == null ? """" : decodeURIComponent(results[1].replace(/\+/g, "" ""));
-            }
-
-            $('#submit').click(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    type: ""POST"",
-                    data: JSON.stringify({ email: $('#email').val() }),
-                    url: ""/SphAccount/ForgotPassword"",
-                    contentType: ""application/json; charset=utf-8"",
-                    dataType: ""json"",
-                    error: function (a, b, c) {
-                        console.log(c);
-                    },
-                    success: function () {
-
-                    }
-                });
-            });
-        });
-    </script>
-</body>
-</html>
-");
+WriteLiteral(">\r\n        $(function () {\r\n            $(\'.carousel\').carousel({\r\n              " +
+"  interval: 2000\r\n            });\r\n            var retUrl = getParameterByName(\"" +
+"ReturnUrl\") + window.location.hash;\r\n            $(\'input[name=ReturnUrl]\').val(" +
+"retUrl);\r\n\r\n            function getParameterByName(name) {\r\n                nam" +
+"e = name.replace(/[\\[]/, \"\\\\\\[\").replace(/[\\]]/, \"\\\\\\]\");\r\n                var r" +
+"egex = new RegExp(\"[\\\\?&]\" + name + \"=([^&#]*)\"),\r\n                    results =" +
+" regex.exec(location.search);\r\n                return results == null ? \"\" : dec" +
+"odeURIComponent(results[1].replace(/\\+/g, \" \"));\r\n            }\r\n\r\n            $" +
+"(\'#submit\').click(function (e) {\r\n                var button = $(this),\r\n       " +
+"             email = $(\'#email\').val();\r\n                if (!email) {\r\n        " +
+"            return;\r\n                }\r\n                button.prop(\"disabled\", " +
+"true);\r\n                $(\"#progress\").show();\r\n                e.preventDefault" +
+"();\r\n                $.ajax({\r\n                    type: \"POST\",\r\n              " +
+"      data: JSON.stringify({ email: email }),\r\n                    url: \"/SphAcc" +
+"ount/ForgotPassword\",\r\n                    contentType: \"application/json; chars" +
+"et=utf-8\",\r\n                    dataType: \"json\",\r\n                    error: fu" +
+"nction (a, b, c) {\r\n                        console.log(c);\r\n                   " +
+" },\r\n                    success: function () {\r\n                        button." +
+"prop(\"disabled\", false);\r\n                        $(\"#progress\").hide();\r\n      " +
+"                  window.location = \"/\";\r\n                    }\r\n               " +
+" });\r\n            });\r\n        });\r\n    </script>\r\n</body>\r\n</html>\r\n");
 
         }
     }

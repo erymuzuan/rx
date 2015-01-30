@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
+namespace ASP
 {
     using System;
     using System.Collections.Generic;
@@ -29,9 +29,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/SphAccount/ResetPassword.cshtml")]
-    public partial class ResetPassword : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Areas.Sph.Controllers.ResetPaswordModel>
+    public partial class _Areas_Sph_Views_SphAccount_ResetPassword_cshtml : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Areas.Sph.Controllers.ResetPaswordModel>
     {
-        public ResetPassword()
+        public _Areas_Sph_Views_SphAccount_ResetPassword_cshtml()
         {
         }
         public override void Execute()
@@ -40,6 +40,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
             #line 3 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
   
     ViewBag.Title = "Reset password";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
             
             #line default
@@ -47,7 +48,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
 WriteLiteral("\r\n\r\n<h2>Reset Password</h2>\r\n");
 
             
-            #line 8 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
+            #line 9 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
  if (Model.IsValid)
 {
 
@@ -61,7 +62,7 @@ WriteLiteral(" action=\"/\"");
 
 WriteLiteral(" method=\"post\"");
 
-WriteLiteral(" class=\"\"");
+WriteLiteral(" class=\"form-horizontal\"");
 
 WriteLiteral(">\r\n        <div");
 
@@ -84,8 +85,6 @@ WriteLiteral(" type=\"password\"");
 WriteLiteral(" data-bind=\"value: password\"");
 
 WriteLiteral("\r\n                       required");
-
-WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_ ]*$\"");
 
 WriteLiteral("\r\n                       placeholder=\"New Password\"");
 
@@ -115,67 +114,119 @@ WriteLiteral(" data-bind=\"value: confirm\"");
 
 WriteLiteral("\r\n                       required");
 
+WriteLiteral(" maxlength=\"25\"");
+
 WriteLiteral("\r\n                       placeholder=\"Confirm Password\"");
 
 WriteLiteral("\r\n                       class=\"form-control\"");
 
 WriteLiteral(" id=\"confirm\"");
 
-WriteLiteral(">\r\n            </div>\r\n\r\n\r\n        </div>\r\n        <button");
+WriteLiteral(">\r\n            </div>\r\n\r\n\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n            <label");
+
+WriteLiteral(" for=\"confirm\"");
+
+WriteLiteral(" class=\"col-lg-2 control-label sr-only\"");
+
+WriteLiteral(">Submit Password Reset</label>\r\n            <div");
+
+WriteLiteral(" class=\"col-lg-6\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"submit\"");
 
 WriteLiteral(" class=\"btn btn-default\"");
 
-WriteLiteral(">Submit</button>\r\n\r\n        <script");
+WriteLiteral(">Submit</button>\r\n            </div>\r\n\r\n\r\n        </div>\r\n\r\n        <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteLiteral(">\r\n            $(function() {\r\n\r\n                $(\'#submit\').click(function() {\r" +
-"\n                    e.preventDefault(e);\r\n                    var data = {\r\n   " +
-"                     Email: \"");
+WriteLiteral(@">
+            $(function () {
+
+                $('#submit').click(function (e) {
+                    e.preventDefault();
+                    var button = $(this),
+                        password = $(""#password"").val(),
+                        confirm = $(""#confirm"").val();
+                    e.preventDefault(e);
+                    var data = {
+                        Email: """);
 
             
-            #line 41 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
+            #line 53 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
                            Write(Model.Email);
 
             
             #line default
             #line hidden
 WriteLiteral(@""",
-                        Password: $('#password').val(),
-                        ConfirmPassword: $('#confirm-password').val()
+                        Password: password,
+                        ConfirmPassword: confirm
                     };
+
+                    if (!password || (password !== confirm)) {
+                        $(""#message"").show();
+                        return;
+                    }
+
+                    button.prop(""disabled"", true);
                     $.ajax({
                         type: ""POST"",
                         data: JSON.stringify(data),
                         url: ""/SphAccount/ResetPassword"",
                         contentType: ""application/json; charset=utf-8"",
                         dataType: ""json"",
-                        error: function(a, b, c) {
+                        error: function (a, b, c) {
                             console.log(c);
                         },
-                        success: function() {
-
-                        }
-                    });
-                });
-            });
-        </script>
-    </form>
-");
+                        success: function () {
+                            button.prop(""disabled"", false);
+                            window.location = """);
 
             
-            #line 62 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
-}
-else
-{
+            #line 75 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
+                                          Write(Url.Action("Login"));
 
             
             #line default
             #line hidden
-WriteLiteral("    <h2>Sorry invalid link</h2>\r\n");
+WriteLiteral("\";\r\n                        }\r\n                    });\r\n                });\r\n    " +
+"        });\r\n        </script>\r\n    </form>\r\n");
 
             
-            #line 66 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
+            #line 82 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
+}
+else
+{
+            
+            #line default
+            #line hidden
+WriteLiteral("<div");
+
+WriteLiteral(" class=\"alert alert-danger\"");
+
+WriteLiteral(" role=\"alert\"");
+
+WriteLiteral(">\r\n        <strong>Invalid Link!</strong> ");
+
+            
+            #line 85 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
+                                  Write(Model.Mesage);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n    </div>\r\n");
+
+            
+            #line 87 "..\..\Areas\Sph\Views\SphAccount\ResetPassword.cshtml"
+
 }
 
             

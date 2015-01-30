@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Shared
+namespace ASP
 {
     using System;
     using System.Collections.Generic;
@@ -35,9 +35,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Shared
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Shared/_Layout.cshtml")]
-    public partial class Layout : System.Web.Mvc.WebViewPage<dynamic>
+    public partial class _Areas_Sph_Views_Shared__Layout_cshtml : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public Layout()
+        public _Areas_Sph_Views_Shared__Layout_cshtml()
         {
         }
         public override void Execute()
@@ -76,40 +76,16 @@ WriteLiteral(" name=\"viewport\"");
 
 WriteLiteral(" content=\"width=device-width\"");
 
-WriteLiteral(" />\r\n    ");
+WriteLiteral(" />\r\n    <link");
 
-WriteLiteral("\r\n\r\n    <link");
-
-WriteAttribute("href", Tuple.Create(" href=\"", 332), Tuple.Create("\"", 362)
-, Tuple.Create(Tuple.Create("", 339), Tuple.Create<System.Object, System.Int32>(Href("~/Content/__css.min.css")
-, 339), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 289), Tuple.Create("\"", 319)
+, Tuple.Create(Tuple.Create("", 296), Tuple.Create<System.Object, System.Int32>(Href("~/Content/__css.min.css")
+, 296), false)
 );
 
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" />\r\n\r\n");
-
-WriteLiteral("    ");
-
-            
-            #line 13 "..\..\Areas\Sph\Views\Shared\_Layout.cshtml"
-Write(Scripts.Render("~/scripts/vendor"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-WriteLiteral("    ");
-
-            
-            #line 14 "..\..\Areas\Sph\Views\Shared\_Layout.cshtml"
-Write(Scripts.Render("~/scripts/core"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n    <script");
+WriteLiteral(" />\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -124,7 +100,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 19 "..\..\Areas\Sph\Views\Shared\_Layout.cshtml"
+            #line 14 "..\..\Areas\Sph\Views\Shared\_Layout.cshtml"
        Write(RenderSection("featured", required: false));
 
             
@@ -139,7 +115,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 21 "..\..\Areas\Sph\Views\Shared\_Layout.cshtml"
+            #line 16 "..\..\Areas\Sph\Views\Shared\_Layout.cshtml"
            Write(RenderBody());
 
             
@@ -147,25 +123,25 @@ WriteLiteral("                ");
             #line hidden
 WriteLiteral("\r\n            </section>\r\n        </div>\r\n\r\n\r\n\r\n        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 784), Tuple.Create("\"", 813)
-, Tuple.Create(Tuple.Create("", 790), Tuple.Create<System.Object, System.Int32>(Href("~/kendo/js/kendo.all.js")
-, 790), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 659), Tuple.Create("\"", 688)
+, Tuple.Create(Tuple.Create("", 665), Tuple.Create<System.Object, System.Int32>(Href("~/kendo/js/kendo.all.js")
+, 665), false)
 );
 
 WriteLiteral("></script>\r\n        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 841), Tuple.Create("\"", 870)
-, Tuple.Create(Tuple.Create("", 847), Tuple.Create<System.Object, System.Int32>(Href("~/App/objectbuilders.js")
-, 847), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 716), Tuple.Create("\"", 745)
+, Tuple.Create(Tuple.Create("", 722), Tuple.Create<System.Object, System.Int32>(Href("~/App/objectbuilders.js")
+, 722), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 921), Tuple.Create("\"", 956)
-, Tuple.Create(Tuple.Create("", 927), Tuple.Create<System.Object, System.Int32>(Href("~/App/durandal/amd/require.js")
-, 927), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 796), Tuple.Create("\"", 831)
+, Tuple.Create(Tuple.Create("", 802), Tuple.Create<System.Object, System.Int32>(Href("~/App/durandal/amd/require.js")
+, 802), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -194,7 +170,7 @@ WriteLiteral(@">
 WriteLiteral("        ");
 
             
-            #line 45 "..\..\Areas\Sph\Views\Shared\_Layout.cshtml"
+            #line 40 "..\..\Areas\Sph\Views\Shared\_Layout.cshtml"
    Write(RenderSection("scripts", required: false));
 
             
