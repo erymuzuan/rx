@@ -1,1 +1,1 @@
-"C:\Program Files (x86)\IIS Express\iisexpress.exe" /config:%USERPROFILE%\Documents\IISExpress\config\applicationhost.config /site:core.sph 
+".\sph.packages\IIS Express\iisexpress.exe" /config:applicationhost.config /site:core.sph 
