@@ -10,21 +10,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
     [Export(typeof(CustomObjectSyntaxWalker))]
     public class AnonymousObjectCreationExpressionWalker : CustomObjectSyntaxWalker
     {
-        protected override string[] ObjectNames
-        {
-            get { return new string[] { }; }
-        }
 
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.AnonymousObjectCreationExpression }; }
         }
 
-        public override bool Filter(SyntaxNode node, SemanticModel model)
-        {
-            return node is AnonymousObjectCreationExpressionSyntax;
-        }
-
+   
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var anonymous = (AnonymousObjectCreationExpressionSyntax)node;
@@ -44,7 +36,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
         {
             var code = new StringBuilder();
             var syntaxWalkers = this.Walkers
-                .Where(x => x.Filter(node, this.SemanticModel))
+                .Where(x => x.Filter(node))
                 .ToArray();
             foreach (var w in syntaxWalkers)
             {

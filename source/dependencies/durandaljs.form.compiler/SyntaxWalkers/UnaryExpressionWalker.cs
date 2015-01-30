@@ -7,11 +7,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
     [Export(typeof(CustomObjectSyntaxWalker))]
     class UnaryExpressionWalker : CustomObjectSyntaxWalker
     {
-        protected override string[] ObjectNames
-        {
-            get { return null; }
-        }
-
         protected override SyntaxKind[] Kinds
         {
             get

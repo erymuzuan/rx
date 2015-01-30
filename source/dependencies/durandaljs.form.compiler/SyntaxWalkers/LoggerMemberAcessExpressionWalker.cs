@@ -14,11 +14,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         [ImportMany("Logger", typeof(IdentifierCompiler), AllowRecomposition = true)]
         public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
 
-        protected override string[] ObjectNames
-        {
-            get { return new[] { "logger" }; }
-        }
-
+    
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.InvocationExpression }; }

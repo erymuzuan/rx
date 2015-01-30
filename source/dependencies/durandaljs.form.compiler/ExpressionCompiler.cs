@@ -132,8 +132,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         private string CompileExpression(SyntaxNode statement, SemanticModel model)
         {
+            this.Walkers.ToList().ForEach(x => x.SemanticModel = model);
             var code = this.Walkers
-                .Where(x => x.Filter(statement, model))
+                .Where(x => x.Filter(statement))
                 .Select(x => x.Walk(statement, model))
                 .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
 

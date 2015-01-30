@@ -10,10 +10,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class DecimalSyntaxWalker : CustomObjectSyntaxWalker
     {
-        protected override string[] ObjectNames
-        {
-            get { return new[] { "decimal", "Decimal" }; }
-        }
         protected override SyntaxKind[] Kinds
         {
             get
@@ -34,7 +30,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var walker = this;
-            if (!walker.Filter(node, model)) return string.Empty;
+            if (!walker.Filter(node)) return string.Empty;
 
 
             walker.Visit(node);

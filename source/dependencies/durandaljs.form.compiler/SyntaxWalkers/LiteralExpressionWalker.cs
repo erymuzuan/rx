@@ -9,11 +9,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     class LiteralExpressionWalker : CustomObjectSyntaxWalker
     {
         private string m_value = "";
-        protected override string[] ObjectNames
-        {
-            get { return null; }
-        }
-
         protected override SyntaxKind[] Kinds
         {
             get

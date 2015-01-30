@@ -43,11 +43,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return symbol.ContainingType.Name == "Task" &&
                    symbol.ContainingNamespace.ToString() == "System.Threading.Tasks";
         }
-        protected override string[] ObjectNames
-        {
-            get { return new[] { "Task" }; }
-        }
-
+     
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }

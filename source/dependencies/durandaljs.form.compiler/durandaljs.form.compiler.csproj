@@ -269,6 +269,7 @@
     <Compile Include="SyntaxWalkers\MathIdentifiers\Abs.cs" />
     <Compile Include="SyntaxWalkers\MathWalker.cs" />
     <Compile Include="SyntaxWalkers\MethodInvocationExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\ParameterWalker.cs" />
     <Compile Include="SyntaxWalkers\ParenthesizedExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ReturnStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\SimpleLambdaExpressionWalker.cs" />

@@ -24,11 +24,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 info.Symbol.ContainingType.Name == "String";
         }
 
-        protected override string[] ObjectNames
-        {
-            get { return new[] { "string", "String" }; }
-        }
-
+   
         protected override bool IsPredefinedType
         {
             get { return true; }

@@ -12,8 +12,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     public abstract class CustomObjectSyntaxWalker : CSharpSyntaxWalker
     {
-
-        protected abstract string[] ObjectNames { get; }
         protected abstract SyntaxKind[] Kinds { get; }
         protected virtual bool IsPredefinedType { get { return false; } }
         protected virtual SymbolKind[] SymbolKinds { get { return new SymbolKind[] { }; } }
@@ -25,71 +23,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return null;
         }
 
+        public virtual bool Filter(SyntaxNode node)
+        {
+            return this.Filter(this.SemanticModel.GetSymbolInfo(node));
+        }
         public virtual bool Filter(SymbolInfo info)
         {
             return false;
         }
 
-        public virtual bool Filter(SyntaxNode node, SemanticModel model)
-        {
-            SemanticModel = model;
-            this.Code = new StringBuilder();
-            if (!this.Kinds.Contains(node.CSharpKind())) return false;
 
-            if (this.IsPredefinedType)
-            {
-                var maes5 = node as MemberAccessExpressionSyntax;
-                if (null != maes5)
-                {
-                    var pts = maes5.Expression as PredefinedTypeSyntax;
-                    if (null != pts)
-                        return this.ObjectNames.Contains(pts.ToString());
-                }
-
-                var ies5 = node as InvocationExpressionSyntax;
-                if (null != ies5)
-                {
-                    // TODO : what...???
-                }
-            }
-
-            if (null == this.ObjectNames)
-                return true;
-
-            var maes = node as MemberAccessExpressionSyntax;
-            while (null != maes)
-            {
-                var id = maes.Expression as IdentifierNameSyntax;
-                if (null != id && this.ObjectNames.Contains(id.Identifier.Text))
-                    return true;
-
-                maes = maes.Expression as MemberAccessExpressionSyntax;
-            }
-
-
-
-            var ies = node as InvocationExpressionSyntax;
-            if (null != ies && this.Kinds.Contains(SyntaxKind.InvocationExpression))
-            {
-                // check for the name
-                if (this.IsPredefinedType)
-                {
-                    var x = (((MemberAccessExpressionSyntax)ies.Expression).Expression) as
-                            PredefinedTypeSyntax;
-                    if (null != x && this.ObjectNames.Contains(x.Keyword.ValueText)) return true;
-                }
-                var maes2 = ies.Expression as MemberAccessExpressionSyntax;
-                if (null != maes2)
-                {
-                    var id2 = maes2.Expression as IdentifierNameSyntax;
-                    if (null != id2 && this.ObjectNames.Contains(id2.Identifier.Text)) return true;
-                }
-            }
-
-            return false;
-        }
-
-        protected SemanticModel SemanticModel { get; set; }
+        public SemanticModel SemanticModel { get; set; }
         public virtual string Walk(SyntaxNode node, SemanticModel model)
         {
             this.SemanticModel = model;
@@ -97,7 +41,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             walker.Code = new StringBuilder();
             walker.SemanticModel = model;
-            if(null != model)
+            if (null != model)
                 this.Walkers.Where(x => null == x.SemanticModel).ToList().ForEach(x => x.SemanticModel = model);
             walker.Visit(node);
             return walker.Code.ToString();
@@ -113,10 +57,22 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null == this.Walkers)
                 throw new InvalidOperationException("Failed to load MEF");
 
-            return Walkers
-                .Where(x => x.Filter(expression, this.SemanticModel))
-                .Select(x => x.Walk(expression, this.SemanticModel))
-                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
+            var symbol = this.SemanticModel.GetSymbolInfo(expression);
+            if (null != symbol.Symbol)
+            {
+                var w = Walkers
+                    .SingleOrDefault(x => x.Filter(symbol));
+                if (null != w)
+                    return w.Walk(expression, this.SemanticModel);
+
+                Console.WriteLine("Cannot find symbol walker for " + expression.CSharpKind());
+                Console.WriteLine("Name : " + symbol.Symbol.Name);
+                Console.WriteLine("Display : " + symbol.Symbol.ToDisplayString());
+
+            }
+            Console.WriteLine("No symbol could be produced for " + expression.CSharpKind());
+            Console.WriteLine("expression : " + expression.ToFullString());
+            return string.Empty;
         }
 
 
@@ -152,7 +108,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         protected string GetStatementCode(SemanticModel model, SyntaxNode node)
         {
             var code = new StringBuilder();
-            var walkers = this.Walkers.Where(x => x.Filter(node, model)).ToList();
+            var walkers = this.Walkers.Where(x => x.Filter(model.GetSymbolInfo(node))).ToList();
             foreach (var w in walkers)
             {
                 var f = w.Walk(node, model);

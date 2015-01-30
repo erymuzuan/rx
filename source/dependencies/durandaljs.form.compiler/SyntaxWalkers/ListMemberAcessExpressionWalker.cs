@@ -45,11 +45,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return symbol.ContainingType.Name == "List" &&
                    symbol.ContainingNamespace.ToString() == "System.Collections.Generic";
         }
-        protected override string[] ObjectNames
-        {
-            get { return null; }
-        }
-
+     
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }

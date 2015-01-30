@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -8,22 +7,26 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     [Export(typeof(CustomObjectSyntaxWalker))]
-    class SimpleMemberAccessExpressionWalker : CustomObjectSyntaxWalker
+    class ParameterWalker : CustomObjectSyntaxWalker
     {
         protected override SyntaxKind[] Kinds
         {
-            get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
+            get { return new[] { SyntaxKind.IdentifierName }; }
         }
+
 
         public override bool Filter(SymbolInfo info)
         {
-            return true;
+            var ps = info.Symbol as IParameterSymbol;
+            if (null == ps) return false;
+            var reservedParameters = new[] { "item", "logger", "config", "app" };
+            return !reservedParameters.Contains(ps.Name);
         }
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var maes = (MemberAccessExpressionSyntax)node;
-            return this.EvaluateExpressionCode(maes.Expression) + "." + this.EvaluateExpressionCode(maes.Name);
+            var maes = (IdentifierNameSyntax)node;
+            return maes.Identifier.Text;
         }
     }
 }

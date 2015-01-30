@@ -25,7 +25,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 throw new InvalidOperationException("Just a marker");
 
             return Walkers
-                .Where(x => x.Filter(expression, null))
+                .Where(x => x.Filter(expression))
                 .Select(x => x.Walk(expression, null))
                 .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
         }

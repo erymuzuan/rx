@@ -109,7 +109,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             foreach (var statement in statements)
             {
                 var st1 = statement;
-                var walkers = this.Walkers.Where(x => x.Filter(st1, model)).ToList();
+                var walkers = this.Walkers.Where(x => x.Filter(st1)).ToList();
                 foreach (var w in walkers)
                 {
                     var f = w.Walk(st1, model);
@@ -145,7 +145,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
                 if (hasAwait && initialize) break;
 
-                var walkers = this.Walkers.Where(x => x.Filter(st1, model)).ToList();
+                var walkers = this.Walkers.Where(x => x.Filter(st1)).ToList();
                 foreach (var w in walkers)
                 {
                     var f = w.Walk(st1, model);
@@ -177,7 +177,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var st1 = statement;
                 var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
 
-                var walkers = this.Walkers.Where(x => x.Filter(st1, model)).ToList();
+                var walkers = this.Walkers.Where(x => x.Filter(st1)).ToList();
                 var statementCode = "";
                 foreach (var w in walkers)
                 {

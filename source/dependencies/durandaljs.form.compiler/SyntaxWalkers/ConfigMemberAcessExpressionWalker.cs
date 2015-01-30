@@ -10,11 +10,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class ConfigMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
-        protected override string[] ObjectNames
-        {
-            get { return new[] { "config" }; }
-        }
-
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }

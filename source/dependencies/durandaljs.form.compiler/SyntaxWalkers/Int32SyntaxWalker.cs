@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -9,10 +10,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class Int32SyntaxWalker : CustomObjectSyntaxWalker
     {
-        protected override string[] ObjectNames
-        {
-            get { return new[] { "int", "Int32" }; }
-        }
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
@@ -22,7 +19,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             get { return true; }
         }
-        
+
+        public override bool Filter(SymbolInfo info)
+        {
+            if (null == info.Symbol) return false;
+
+            var nts = info.Symbol as INamedTypeSymbol;
+            if (null != nts) return nts.ToString() == "System.Int32";
+
+            return info.Symbol.ContainingType.Name == "int" ||
+                info.Symbol.ContainingType.Name == "Int32";
+        }
+
 
         public override void VisitIdentifierName(IdentifierNameSyntax node)
         {

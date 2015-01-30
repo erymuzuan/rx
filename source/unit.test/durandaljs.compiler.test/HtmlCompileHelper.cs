@@ -8,6 +8,15 @@ namespace durandaljs.compiler.test
     static class HtmlCompileHelper
     {
 
+        public static string CompileExpression<T>(this string expression, bool verbose = false)
+        {
+            var patient = CreatePatientDefinition();
+
+            var compiler = new ExpressionCompiler();
+            var result = compiler.CompileAsync<T>(expression, patient).Result;
+            return result.Code;
+        }
+
         public static string CompileHtml(this string expression, bool verbose = false)
         {
             var patient = CreatePatientDefinition();
@@ -44,8 +53,12 @@ namespace durandaljs.compiler.test
                 {"Street2", typeof (string)},
                 {"City", typeof (string)},
                 {"Postcode", typeof (string)},
+                {"Country", typeof (string)},
                 {"State", typeof (string)}
             });
+            var urban =address.AddMember("Urban", typeof (bool));
+            urban.IsNullable = false;
+
             patient.MemberCollection.Add(address);
 
             var children = new Member { Name = "ChildCollection", Type = typeof(Array) };

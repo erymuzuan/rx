@@ -76,5 +76,33 @@ namespace durandaljs.compiler.test
                 "$data.Address().State().length > 8",
                 "item.Address.State.Length > 8".CompileHtml());
         }
+        [Test]
+        public void ItemMarried()
+        {
+            Assert.AreEqual(
+                "$data.IsMarried()",
+                "item.IsMarried".CompileHtml());
+        }
+        [Test]
+        public void ItemUrban()
+        {
+            Assert.AreEqual(
+                "$data.Address().Urban()",
+                "item.Address.Urban".CompileHtml());
+        }
+        [Test]
+        public void ItemCountryToUpper()
+        {
+            Assert.AreEqual(
+                "$data.Address().Country().toUpperCase()",
+                "item.Address.Country.ToUpperInvariant()".CompileExpression<string>());
+        }
+        [Test]
+        public void ItemNameToUpper()
+        {
+            Assert.AreEqual(
+                "$data.Name().toUpperCase()",
+                "item.Name.ToUpperInvariant()".CompileExpression<string>());
+        }
     }
 }

@@ -45,10 +45,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 symbol.ContainingNamespace.Name == "System" &&
                 symbol.ContainingAssembly.Name == "mscorlib";
         }
-        protected override string[] ObjectNames
-        {
-            get { return new[] { "DateTime" }; }
-        }
+   
 
         protected override SyntaxKind[] Kinds
         {

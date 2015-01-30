@@ -23,10 +23,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             return info.Symbol.ContainingType.ToString() == "Math";
         }
-        protected override string[] ObjectNames
-        {
-            get { return new[] { "Math" }; }
-        }
 
         protected override SyntaxKind[] Kinds
         {

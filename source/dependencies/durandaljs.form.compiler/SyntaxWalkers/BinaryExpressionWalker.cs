@@ -8,10 +8,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class BinaryExpressionWalker : CustomObjectSyntaxWalker
     {
-        protected override string[] ObjectNames
-        {
-            get { return null; }
-        }
 
         protected override SyntaxKind[] Kinds
         {

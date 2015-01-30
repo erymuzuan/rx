@@ -9,26 +9,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
     [Export(typeof(CustomObjectSyntaxWalker))]
     public class ExpressionStatementWalker : CustomObjectSyntaxWalker
     {
-        protected override string[] ObjectNames
-        {
-            get { return new string[] { }; }
-        }
-
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.ExpressionStatement }; }
         }
 
-        public override bool Filter(SyntaxNode node, SemanticModel model)
-        {
-            return node is ExpressionStatementSyntax;
-        }
+  
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var ess = (ExpressionStatementSyntax)node;
             var code = this.Walkers
-                   .Where(x => x.Filter(ess.Expression, model))
+                   .Where(x => x.Filter(ess.Expression))
                    .Select(x => x.Walk(ess.Expression, model))
                    .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
 

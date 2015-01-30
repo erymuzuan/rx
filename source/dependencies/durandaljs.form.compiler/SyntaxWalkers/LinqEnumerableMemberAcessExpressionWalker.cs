@@ -43,14 +43,22 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return symbol.ContainingType.Name == "Enumerable" &&
                    symbol.ContainingNamespace.ToString() == "System.Linq";
         }
-        protected override string[] ObjectNames
-        {
-            get { return new[] { "Enumerable" }; }
-        }
+     
 
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }
+        }
+
+        public override string Walk(SyntaxNode node, SemanticModel model)
+        {
+            var maes = node as MemberAccessExpressionSyntax;
+            if (null != maes && node.CSharpKind() == SyntaxKind.SimpleMemberAccessExpression)
+            {
+                var walker = this.Walkers.Single(x => x.Filter(maes.Expression));
+                return walker.Walk(maes.Expression, model);
+            }
+            return base.Walk(node, model);
         }
 
         public override void VisitIdentifierName(IdentifierNameSyntax node)

@@ -14,10 +14,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         [ImportMany("ApplicationHelper", typeof(IdentifierCompiler), AllowRecomposition = true)]
         public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
 
-        protected override string[] ObjectNames
-        {
-            get { return new[] { "app" }; }
-        }
 
         protected override SyntaxKind[] Kinds
         {
