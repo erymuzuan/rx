@@ -258,6 +258,7 @@
     <Compile Include="SyntaxWalkers\Int32SyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LinqEnumerableMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\Listidentifiers\ForEach.cs" />
     <Compile Include="SyntaxWalkers\ListMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LocalDeclarationStatementWalker.cs" />

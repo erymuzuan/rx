@@ -24,6 +24,20 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public override async Task<WorkflowCompilerResult> CompileAsync(IForm form)
         {
             var project = await form.LoadProjectAsync();
+            var html = await CompileHtmlView(form, project);
+            var js = await CompileViewModel(form, project);
+            var partial = await CompilePartial(form, project);
+
+            var result = new WorkflowCompilerResult
+            {
+                Result = !string.IsNullOrWhiteSpace(js) && !string.IsNullOrWhiteSpace(html),
+                Outputs = new[] { html, js, partial }
+            };
+            return result;
+        }
+
+        private async Task<string> CompileHtmlView(IForm form, IProjectProvider project)
+        {
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + form.Route.ToLower() + ".html");
             var vc = this.HtmlRenderers.SingleOrDefault(x => x.Metadata.FormType == form.GetType());
             if (null != vc)
@@ -35,7 +49,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 Warn("Cannot find view compiler for {0}", form.GetType().FullName);
             }
+            return html;
+        }
 
+        private async Task<string> CompileViewModel(IForm form, IProjectProvider project)
+        {
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + form.Route.ToLower() + ".js");
             var vmc = this.JavascriptRenderers.SingleOrDefault(x => x.Metadata.FormType == form.GetType());
             if (null != vmc)
@@ -47,7 +65,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 Warn("Cannot find view model compiler for {0}", form.GetType().FullName);
             }
+            return js;
+        }
 
+        private async Task<string> CompilePartial(IForm form, IProjectProvider project)
+        {
             var partial = Path.Combine(ConfigurationManager.WebPath, "SphApp/partial/" + form.Route.ToLower() + ".js");
             var partialCompiler = this.PartialRenderers.SingleOrDefault(x => x.Metadata.FormType == form.GetType());
             if (null != partialCompiler)
@@ -59,13 +81,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 Warn("Cannot find view model compiler for {0}", form.GetType().FullName);
             }
-
-            var result = new WorkflowCompilerResult
-            {
-                Result = null != vmc && null != vc,
-                Outputs = new[] { html, js }
-            };
-            return result;
+            return partial;
         }
 
         private static void Warn(string format, params object[] arguments)

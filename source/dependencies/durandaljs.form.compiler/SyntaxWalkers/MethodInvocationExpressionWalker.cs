@@ -43,7 +43,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var symbolWalkers = from w in this.Walkers
                                 where !syntaxWalkers.Contains(w)
                                 && w != this
-                                let sm = this.SemanticModel.GetSymbolInfo(ies.Expression)
+                                let sm = this.GetSymbolInfo(ies.Expression, this.SemanticModel)
+                                where sm.Symbol != null
                                 where w.Filter(sm)
                                 select w;
             foreach (var w in symbolWalkers)
@@ -57,6 +58,19 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
 
             return code.ToString();
+        }
+
+        private SymbolInfo GetSymbolInfo(ExpressionSyntax node, SemanticModel model)
+        {
+            try
+            {
+                return model.GetSymbolInfo(node);
+            }
+            catch (ArgumentException e)
+            {
+                if (e.Message != "Syntax node is not within syntax tree") throw;
+                return default(SymbolInfo);
+            }
         }
 
 
