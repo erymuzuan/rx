@@ -34,6 +34,27 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Json(true);
         }
 
+        public ActionResult DeleteRole(string role)
+        {
+            Roles.DeleteRole(role);
+
+            var rolesConfig = Server.MapPath("~/roles.config.js");
+            var json = System.IO.File.ReadAllText(rolesConfig);
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.Indented
+            };
+            var roles = (JsonConvert.DeserializeObject<RoleModel[]>(json, settings)).ToList();
+
+            roles.RemoveAll(x => x.Name == role);
+            json = JsonConvert.SerializeObject(roles.ToArray(), settings);
+            System.IO.File.WriteAllText(rolesConfig, json);
+
+
+            return Json(true);
+        }
+
         public ActionResult ValidateUserName(string userName)
         {
             var user = Membership.GetUser(userName);
