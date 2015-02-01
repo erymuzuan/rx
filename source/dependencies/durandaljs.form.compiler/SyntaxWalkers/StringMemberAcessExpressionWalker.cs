@@ -13,7 +13,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         [ImportMany("String", typeof(IdentifierCompiler), AllowRecomposition = true)]
         public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
 
-        public override bool Filter(SymbolInfo info)
+        protected override bool Filter(SymbolInfo info)
         {
             if (null == info.Symbol) return false;
 

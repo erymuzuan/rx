@@ -10,13 +10,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
-    public abstract class CustomObjectSyntaxWalker : CSharpSyntaxWalker
+    public abstract class CustomObjectSyntaxWalker
     {
         protected abstract SyntaxKind[] Kinds { get; }
         protected virtual bool IsPredefinedType { get { return false; } }
         protected virtual SymbolKind[] SymbolKinds { get { return new SymbolKind[] { }; } }
 
-        protected StringBuilder Code { get; private set; }
 
         public virtual CustomObjectModel GetObjectModel(IProjectProvider project)
         {
@@ -27,25 +26,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             return this.Filter(this.SemanticModel.GetSymbolInfo(node));
         }
-        public virtual bool Filter(SymbolInfo info)
+
+        protected virtual bool Filter(SymbolInfo info)
         {
             return false;
         }
 
 
         public SemanticModel SemanticModel { get; set; }
-        public virtual string Walk(SyntaxNode node, SemanticModel model)
-        {
-            this.SemanticModel = model;
-            var walker = this;
-
-            walker.Code = new StringBuilder();
-            walker.SemanticModel = model;
-            if (null != model)
-                this.Walkers.Where(x => null == x.SemanticModel).ToList().ForEach(x => x.SemanticModel = model);
-            walker.Visit(node);
-            return walker.Code.ToString();
-        }
+        public abstract string Walk(SyntaxNode node, SemanticModel model);
 
         [ImportMany(RequiredCreationPolicy = CreationPolicy.Shared)]
         public CustomObjectSyntaxWalker[] Walkers { get; set; }

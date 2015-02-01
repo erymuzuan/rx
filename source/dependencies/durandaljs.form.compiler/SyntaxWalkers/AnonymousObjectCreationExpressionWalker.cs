@@ -16,7 +16,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             get { return new[] { SyntaxKind.AnonymousObjectCreationExpression }; }
         }
 
-   
+
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var anonymous = (AnonymousObjectCreationExpressionSyntax)node;
@@ -40,17 +40,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
                 .ToArray();
             foreach (var w in syntaxWalkers)
             {
-                return w.Walk(node, this.SemanticModel);
+                return w.Walk(node, model);
             }
 
             var symbolWalkers = from w in this.Walkers
                                 where !syntaxWalkers.Contains(w)
-                                let sm = this.SemanticModel.GetSymbolInfo(node)
-                                where w.Filter(sm)
+                                && w.Filter(node)
                                 select w;
             foreach (var w in symbolWalkers)
             {
-                return  w.Walk(node, model);
+                return w.Walk(node, model);
             }
 
             return code.ToString();

@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -19,7 +20,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             get { return new[] { SyntaxKind.InvocationExpression }; }
         }
-        
+
         public override CustomObjectModel GetObjectModel(IProjectProvider project)
         {
             var code = new StringBuilder();
@@ -41,30 +42,21 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return com;
         }
 
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
+        public override string Walk(SyntaxNode node2, SemanticModel model)
         {
-            // NOTE : calling this.Evaluate or this.GetArguments will reset this.Code
-            var code = this.Code.ToString();
+            var method = (InvocationExpressionSyntax) node2;
+            var node = (IdentifierNameSyntax)node2;
             var text = node.Identifier.Text;
-
-            //var sb = new StringBuilder();
 
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
             if (null != compiler)
             {
                 var argumentList = this.GetArguments(node).ToList();
                 var xp = compiler.Value.Compile(node, argumentList);
-                this.Code.Clear();
-                this.Code.Append(code);
-                if (string.IsNullOrWhiteSpace(code))
-                    this.Code.Append("app." + xp);
-                else
-                    this.Code.Append("." + xp);
+                return "app." + xp;
+
             }
 
-
-
-            base.VisitIdentifierName(node);
         }
 
 

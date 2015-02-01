@@ -13,7 +13,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.IdentifierName }; }
         }
 
-        public override bool Filter(SymbolInfo info)
+        protected override bool Filter(SymbolInfo info)
         {
             var symbol = info.Symbol;
             var local = symbol as ILocalSymbol;

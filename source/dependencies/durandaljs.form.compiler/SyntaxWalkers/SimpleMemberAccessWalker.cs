@@ -15,7 +15,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
         }
 
-        public override bool Filter(SymbolInfo info)
+        protected override bool Filter(SymbolInfo info)
         {
             return true;
         }

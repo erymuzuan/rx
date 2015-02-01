@@ -18,7 +18,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.InvocationExpression }; }
         }
 
-    
+
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var ies = (InvocationExpressionSyntax)node;
@@ -33,14 +33,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 }
             var w = this.Walkers.LastOrDefault(x => x.Filter(ies.Expression));
             if (null == w)
-            {
-                var symbol = this.GetSymbolInfo(ies.Expression, model);
-                if (null != symbol.Symbol)
-                    w = this.Walkers.SingleOrDefault(x => x.Filter(symbol));
+                throw new InvalidOperationException(string.Format("Cannot find walker for {0} => {1}", ies.CSharpKind(), ies.ToFullString()));
 
-                if (null == w)
-                    throw new InvalidOperationException(string.Format("Cannot find walker for {0} => {1}", ies.CSharpKind(), ies.ToFullString()));
-            }
 
             var c = w.Walk(ies.Expression, model);
             if (DebuggerHelper.IsVerbose)
@@ -50,18 +44,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return code.ToString();
         }
 
-        private SymbolInfo GetSymbolInfo(ExpressionSyntax node, SemanticModel model)
-        {
-            try
-            {
-                return model.GetSymbolInfo(node);
-            }
-            catch (ArgumentException e)
-            {
-                if (e.Message != "Syntax node is not within syntax tree") throw;
-                return default(SymbolInfo);
-            }
-        }
+
 
 
     }

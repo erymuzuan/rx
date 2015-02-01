@@ -20,7 +20,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return true; }
         }
 
-        public override bool Filter(SymbolInfo info)
+        protected override bool Filter(SymbolInfo info)
         {
             if (null == info.Symbol) return false;
 
