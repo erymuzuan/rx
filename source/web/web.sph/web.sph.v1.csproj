@@ -890,6 +890,9 @@
     <Content Include="docs\WeeklySchedule.html">
       <DependentUpon>WeeklySchedule.md</DependentUpon>
     </Content>
+    <Content Include="docs\WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen - Copy.html">
+      <DependentUpon>WorkflowDefinition.HowTo.ExceptionHandling.md</DependentUpon>
+    </Content>
     <Content Include="docs\WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.html">
       <DependentUpon>WorkflowDefinition.HowTo.CreateAReadOnlyElementsInActivityScreen.md</DependentUpon>
     </Content>
@@ -1146,6 +1149,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="docs\WorkflowDefinition.HowTo.ExceptionHandling.md" />
     <None Include="Properties\PublishProfiles\bin.pubxml" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />
