@@ -26,6 +26,24 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null != ips)
                 return ips.Name == "logger";
 
+
+            /*ms.ContainingNamespace.Name
+"Domain"
+ms.ContainingNamespace.ToString()
+"Bespoke.TestATM_patient.Domain"
+ms.ContainingAssembly.Name
+"eval"
+ms.Name
+"Info"
+ms.ContainingType.Name
+"Logger"
+
+             * */
+            var ms = info.Symbol as IMethodSymbol;
+            if (null != ms)
+                return ms.ContainingType.Name == "Logger"
+                    && ms.ContainingAssembly.Name == "eval";
+
             return false;
         }
 

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
+using Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.EnumerableIdentifiers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -13,8 +15,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
         }
 
-        protected override bool Filter(SymbolInfo info)
+        public override bool Filter(SyntaxNode node)
         {
+
+            if (node.CSharpKind() != SyntaxKind.SimpleMemberAccessExpression)
+                return false;
+
+            var any = this.Walkers.Where(x => x != this)
+                .Any(x => x.Filter(node));
+            if (any) return false;
+
             return true;
         }
 
@@ -23,7 +33,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var ins = node as IdentifierNameSyntax;
             if (null != ins)
             {
-                return "|"+ ins.Identifier.Text + "|";
+                return "|" + ins.Identifier.Text + "|";
             }
 
             var maes = (MemberAccessExpressionSyntax)node;
