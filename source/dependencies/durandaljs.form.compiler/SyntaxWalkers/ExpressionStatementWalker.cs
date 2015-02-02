@@ -14,11 +14,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             get { return new[] { SyntaxKind.ExpressionStatement }; }
         }
 
-        protected override bool Filter(SymbolInfo info)
+        public override bool Filter(SyntaxNode node)
         {
-            return null == info.Symbol;
+            return node.CSharpKind() == SyntaxKind.ExpressionStatement;
         }
-
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {

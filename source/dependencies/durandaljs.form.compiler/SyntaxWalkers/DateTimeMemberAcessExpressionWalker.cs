@@ -40,6 +40,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null != nts)
                 return nts.ToString() == "System.DateTime";
 
+            if (null == symbol.ContainingType) return false;
+            if (null == symbol.ContainingNamespace) return false;
+            if (null == symbol.ContainingAssembly) return false;
+
             // static methods and properties
             return symbol.ContainingType.Name == "DateTime" &&
                 symbol.ContainingNamespace.Name == "System" &&

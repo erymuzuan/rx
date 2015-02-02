@@ -137,7 +137,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         protected string GetStatementCode(SemanticModel model, SyntaxNode node)
         {
             var code = new StringBuilder();
-            var walkers = this.Walkers.Where(x => x.Filter(model.GetSymbolInfo(node))).ToList();
+            var walkers = this.Walkers.Where(x => x.Filter(node)).ToList();
             foreach (var w in walkers)
             {
                 var f = w.Walk(node, model);

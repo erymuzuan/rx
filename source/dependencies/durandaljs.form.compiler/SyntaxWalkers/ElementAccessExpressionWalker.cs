@@ -14,6 +14,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.ElementAccessExpression }; }
         }
 
+        public override bool Filter(SyntaxNode node)
+        {
+            return node.CSharpKind() == SyntaxKind.ElementAccessExpression;
+        }
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {

@@ -47,6 +47,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null != nts)
                 return nts.ToString() == "System.Linq.Enumerable";
 
+            if (null == symbol.ContainingType) return false;
+            if (null == symbol.ContainingNamespace) return false;
+            if (null == symbol.ContainingAssembly) return false;
+
             // static methods and propertues
             return symbol.ContainingType.Name == "Enumerable" &&
                    symbol.ContainingNamespace.ToString() == "System.Linq";

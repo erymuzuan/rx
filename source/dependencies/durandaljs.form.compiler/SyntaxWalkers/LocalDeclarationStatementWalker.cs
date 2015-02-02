@@ -15,7 +15,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             get { return new[] { SyntaxKind.LocalDeclarationStatement }; }
         }
 
-    
+        public override bool Filter(SyntaxNode node)
+        {
+            return node.CSharpKind() == SyntaxKind.LocalDeclarationStatement;
+        }
+
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
@@ -23,12 +27,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             var code = new StringBuilder();
             foreach (var v in local.Declaration.Variables)
             {
-                var iv = v.Initializer.Value;
-                if (!(iv is AwaitExpressionSyntax))
+                var init = v.Initializer.Value;
+                if (!(init is AwaitExpressionSyntax))
                 {
                     code.AppendFormat("var {0} = ", v.Identifier.Text);
                 }
-                var c = base.GetStatementCode(model, iv);
+                var c = base.GetStatementCode(model, init);
                 code.Append(c);
             }
             code.Append(";");

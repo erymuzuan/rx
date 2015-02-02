@@ -45,10 +45,26 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 if (id.Identifier.Text == "item")
                     return "$data";
-                return id.Identifier.Text + "()";
+                return id.Identifier.Text + "()" + this.GetSymbolExtension(node, model);
             }
             return "/* item should not get  " + node.CSharpKind() + ":"+ node.ToFullString() + "*/";
         }
 
+        private string GetSymbolExtension(SyntaxNode node, SemanticModel model)
+        {
+            var info = model.GetSymbolInfo(node);
+            var prop = info.Symbol as IPropertySymbol;
+            if (prop != null)
+            {
+                var named = prop.Type;
+                return (named.Name == "DateTime" || named.ToString() == "System.DateTime?") &&
+                    named.ContainingNamespace.Name == "System" &&
+                    named.ContainingAssembly.Name == "mscorlib" ? ".moment()" : "";
+
+            }
+
+            return string.Empty;
+
+        }
     }
 }

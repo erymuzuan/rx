@@ -1,19 +1,21 @@
-﻿using Bespoke.Sph.Domain;
-using Bespoke.Sph.Templating;
+﻿using System;
 using NUnit.Framework;
-
+using System.Threading.Tasks;
 
 namespace durandaljs.compiler.test
 {
     [TestFixture]
-    public class BooleanExpressionWithDateTimeAndWorkflow
+    public class BooleanExpressionWithDateTimeAndWorkflow : ExpressionTestFixture
     {
-        [SetUp]
-        public void SetUp()
+
+        [Test]
+        public async Task ItemCreatedDate()
         {
-            ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
-            ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
+            await AssertAsync<DateTime>(
+                   "$data.CreatedDate().moment()",
+                   "item.CreatedDate");
         }
+
 
 
         [Test]
@@ -24,6 +26,8 @@ namespace durandaljs.compiler.test
                 "item.CreatedDate> DateTime.Parse(\"2005-10-01\")"
                 .CompileHtml());
         }
+
+
 
         [Test]
         public void ParseExactDateTime()
@@ -117,7 +121,7 @@ namespace durandaljs.compiler.test
                 .CompileHtml());
         }
 
-     
+
 
 
 

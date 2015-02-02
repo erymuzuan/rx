@@ -22,22 +22,49 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
         }
 
-        protected override bool IsPredefinedType
+
+        protected override bool Filter(SymbolInfo info)
         {
-            get { return true; }
+            if (null == info.Symbol) return false;
+
+            var nts = info.Symbol as INamedTypeSymbol;
+            if (null != nts) return nts.ToString() == typeof(decimal).FullName;
+
+            if (null == info.Symbol.ContainingType) return false;
+            if (null == info.Symbol.ContainingNamespace) return false;
+            if (null == info.Symbol.ContainingAssembly) return false;
+
+            return info.Symbol.ContainingType.Name == "decimal" ||
+                info.Symbol.ContainingType.Name == "Decimal";
         }
 
 
 
-        public override string Walk(SyntaxNode node2, SemanticModel model)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var node = (IdentifierNameSyntax)node2;
+            var maes = node as MemberAccessExpressionSyntax;
+            if (null != maes)
+            {
+                var exp = this.EvaluateExpressionCode(maes.Expression);
+                var name = this.EvaluateExpressionCode(maes.Name);
+                if (string.IsNullOrWhiteSpace(exp))
+                    return name;
+                return exp + "." + name;
+            }
+
+            var id = node as IdentifierNameSyntax;
+            if (null == id)
+            {
+                var w = this.GetWalker(node, true);
+                return w.Walk(node, model);
+            }
+
             string code;
-            var text = node.Identifier.Text;
+            var text = id.Identifier.Text;
             switch (text)
             {
                 case "Parse":
-                    var parseArgs = node.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
+                    var parseArgs = id.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
                         .Single()
                         .ChildNodes()
                         .OfType<ArgumentSyntax>()
@@ -47,7 +74,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     code = string.Format("parseFloat({0})", parsedNumber);
                     break;
                 case "Round":
-                    var roundArgs = node.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
+                    var roundArgs = id.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
                         .Single()
                         .ChildNodes()
                         .OfType<ArgumentSyntax>()

@@ -27,19 +27,34 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var nts = info.Symbol as INamedTypeSymbol;
             if (null != nts) return nts.ToString() == "System.Int32";
 
+            if (null == info.Symbol.ContainingType) return false;
+            if (null == info.Symbol.ContainingNamespace) return false;
+            if (null == info.Symbol.ContainingAssembly) return false;
+
             return info.Symbol.ContainingType.Name == "int" ||
                 info.Symbol.ContainingType.Name == "Int32";
         }
 
 
         public override string Walk(SyntaxNode node, SemanticModel model)
-        {
+        { 
+            var maes = node as MemberAccessExpressionSyntax;
+            if (null != maes)
+            {
+                var exp = this.EvaluateExpressionCode(maes.Expression);
+                var name = this.EvaluateExpressionCode(maes.Name);
+                if (string.IsNullOrWhiteSpace(exp))
+                    return name;
+                return exp + "." + name;
+            }
+
+
             var id = node as IdentifierNameSyntax;
             if (null == id)
             {
                 var w = this.GetWalker(node, true);
                 if (null != w) return w.Walk(node, model);
-                throw new Exception("Int32 " + node.CSharpKind());
+                throw new Exception("Cannot find walker for Int32 " + node.CSharpKind() + " : " + node.ToFullString());
             }
 
 

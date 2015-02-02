@@ -20,8 +20,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var nts = info.Symbol as INamedTypeSymbol;
             if (null != nts) return nts.ToString() == "System.Boolean";
 
-            return info.Symbol.ContainingType.Name == "bool" ||
-                   info.Symbol.ContainingType.Name == "Boolean";
+            if (null == info.Symbol.ContainingType) return false;
+
+            var name = info.Symbol.ContainingType.Name;
+            return name == "bool" ||
+                   name == "Boolean";
         }
 
 

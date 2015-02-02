@@ -11,12 +11,26 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
     {
         protected override SyntaxKind[] Kinds
         {
-            get { return new[] { SyntaxKind.ArrayCreationExpression }; }
+            get { return new[] { SyntaxKind.ImplicitArrayCreationExpression }; }
         }
 
-    
+        public override bool Filter(SyntaxNode node)
+        {
+            return node.CSharpKind() == SyntaxKind.ImplicitArrayCreationExpression;
+        }
+
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
+            var maes = node as MemberAccessExpressionSyntax;
+            if (null != maes)
+            {
+                var exp = this.EvaluateExpressionCode(maes.Expression);
+                var name = this.EvaluateExpressionCode(maes.Name);
+                if (string.IsNullOrWhiteSpace(exp))
+                    return name;
+                return exp + "." + name;
+            }
+         
             var rs = (ImplicitArrayCreationExpressionSyntax)node;
             var codes = rs.Initializer.Expressions.Select(x => this.GetStatementCode(model, x));
             var code = string.Join(", ", codes);

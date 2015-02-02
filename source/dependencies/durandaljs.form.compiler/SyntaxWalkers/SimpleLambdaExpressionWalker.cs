@@ -15,7 +15,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             get { return new[] { SyntaxKind.SimpleLambdaExpression }; }
         }
 
-       
+        public override bool Filter(SyntaxNode node)
+        {
+            return node.CSharpKind() == SyntaxKind.SimpleLambdaExpression;
+        }
+
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {

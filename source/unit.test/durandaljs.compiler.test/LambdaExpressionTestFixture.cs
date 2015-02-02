@@ -14,8 +14,6 @@ namespace durandaljs.compiler.test
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();
             var compiler = new StatementCompiler();
-            var numbers = "[1, 2, 3, 4, 5]";
-
             const string CODE = @"
             var numbers = new []{1,2,3,4,5};
             var odd = numbers.All(x => x <= 3);
@@ -73,9 +71,8 @@ namespace durandaljs.compiler.test
             Assert.IsTrue(cr.Success);
             Console.WriteLine(cr.Code);
 
-            // TODO : write extension method called "filter" to use underscorejs or whatever int the array prototype
-            StringAssert.Contains("numbers.filter( function(x)", cr.Code);
-            StringAssert.Contains("x % 2 !== 0", cr.Code);
+            StringAssert.Contains("numbers.map( function(x){ return x;}).each( function(x)", cr.Code);
+            StringAssert.Contains("return numbers[0];", cr.Code);
         }
 
         [Test]

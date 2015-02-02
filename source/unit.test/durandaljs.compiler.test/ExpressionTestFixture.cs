@@ -17,10 +17,6 @@ namespace durandaljs.compiler.test
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
         }
 
-
-   
-
-
         public async Task AssertAsync<T>(string expected, string expression, string message = "")
         {
 

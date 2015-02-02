@@ -11,6 +11,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class ConfigMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
+        private const string ClassName = "ConfigurationManager";
+
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
@@ -21,7 +23,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var code = new StringBuilder();
             code.AppendLine("namespace " + project.DefaultNamespace);
             code.AppendLine("{");
-            code.AppendLine("   public class ConfigurationManager");
+            code.AppendLinf("   public class {0}", ClassName);
             code.AppendLine("   {");
             code.AppendLine("       public bool IsAuthenticated {get;}");
             code.AppendLine("       public string[] Roles {get;}");
@@ -33,7 +35,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 SyntaxTree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(code.ToString()),
                 IncludeAsParameter = true,
-                ClassName = "ConfigurationManager",
+                ClassName = ClassName,
                 IdentifierText = "config"
             };
             return com;
@@ -47,7 +49,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var ms = info.Symbol as IPropertySymbol;
             if (null != ms)
-                return ms.ContainingType.Name == "ConfigurationManager"
+                return ms.ContainingType.Name == ClassName
                     && ms.ContainingAssembly.Name == "eval";
 
             return false;
@@ -81,6 +83,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (text == "IsAuthenticated") return "isAuthenticated";
             if (text == "UserName") return "userName";
             if (text == "Roles") return "roles";
+            if (text == "ShortDateFormatString") return "shortDateFormatString";
 
             return "config." + text + " is not yet";
 
