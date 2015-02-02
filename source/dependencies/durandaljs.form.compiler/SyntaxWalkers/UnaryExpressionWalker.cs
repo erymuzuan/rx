@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -20,7 +21,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             };
             }
         }
-        
+
+        public override bool Filter(SyntaxNode node)
+        {
+            return Kinds.Contains(node.CSharpKind());
+        }
+
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {

@@ -30,12 +30,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var ins = node as IdentifierNameSyntax;
-            if (null != ins)
-            {
-                return "|" + ins.Identifier.Text + "|";
-            }
-
             var maes = (MemberAccessExpressionSyntax)node;
             var local = this.EvaluateExpressionCode(maes.Expression);
             var name = this.EvaluateExpressionCode(maes.Name);

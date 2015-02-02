@@ -68,11 +68,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return string.Empty;
         }
 
-        protected CustomObjectSyntaxWalker GetWalker(SymbolInfo symbol)
+        protected CustomObjectSyntaxWalker GetWalker(SymbolInfo symbol, bool excludeThis = false)
         {
             var potentialWalkers = this.Walkers
                 .Where(x => x.Filter(symbol))
                 .ToList();
+            if (excludeThis) potentialWalkers = this.Walkers
+                .Where(x => x != this)
+                 .Where(x => x.Filter(symbol))
+                 .ToList();
             if (potentialWalkers.Count > 1)
             {
                 potentialWalkers.ForEach(t => Console.WriteLine("{0} -> {1}", symbol.Symbol, t));
@@ -80,9 +84,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return potentialWalkers.FirstOrDefault();
         }
 
-        protected CustomObjectSyntaxWalker GetWalker(SyntaxNode node)
+        protected CustomObjectSyntaxWalker GetWalker(SyntaxNode node, bool excludeThis = false)
         {
             var potentialWalkers = this.Walkers
+                .Where(x => x.Filter(node))
+                .ToList();
+            if(excludeThis) potentialWalkers = this.Walkers
+                .Where(x => x != this)
                 .Where(x => x.Filter(node))
                 .ToList();
             if (potentialWalkers.Count > 1)

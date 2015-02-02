@@ -6,8 +6,20 @@ using NUnit.Framework;
 namespace durandaljs.compiler.test
 {
     [TestFixture]
-    public class StringTestFixture
+    public class StringTestFixture : ExpressionTestFixture
     {
+        [Test]
+        [Trace(Verbose = false)]
+        public async Task Empty()
+        {
+            await AssertAsync<string>("''", @"string.Empty");
+        }
+        [Test]
+        [Trace(Verbose = false)]
+        public async Task IsNullOrWhiteSpace()
+        {
+            await AssertAsync<bool>("String.isNullOrWhiteSpace($data.Name())", @"string.IsNullOrWhiteSpace(item.Name)");
+        }
         [Test]
         [Trace(Verbose = false)]
         public async Task StringFormat()

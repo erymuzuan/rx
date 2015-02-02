@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Text;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
@@ -38,42 +39,50 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return com;
         }
 
-        private readonly StringBuilder m_code = new StringBuilder();
+        protected override bool Filter(SymbolInfo info)
+        {
+            var ips = info.Symbol as IParameterSymbol;
+            if (null != ips)
+                return ips.Name == "config";
+
+            var ms = info.Symbol as IPropertySymbol;
+            if (null != ms)
+                return ms.ContainingType.Name == "ConfigurationManager"
+                    && ms.ContainingAssembly.Name == "eval";
+
+            return false;
+        }
+
+
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var maes = ((MemberAccessExpressionSyntax)node).Expression as MemberAccessExpressionSyntax;
-            if (null != maes
-                && node.ToString().StartsWith("config.Roles")
-                && maes.Name.Identifier.Text == "Roles") return "config.roles";
+            var maes = node as MemberAccessExpressionSyntax;
+            if (null != maes)
+            {
+                var exp = this.EvaluateExpressionCode(maes.Expression);
+                var name = this.EvaluateExpressionCode(maes.Name);
+                if (string.IsNullOrWhiteSpace(exp))
+                    return name;
+                return exp + "." + name;
+            }
 
 
-            var identifier = ((MemberAccessExpressionSyntax)node).Expression as IdentifierNameSyntax;
-            if (null == identifier) return string.Empty;
-            if (identifier.Identifier.Text != "config")
-                return string.Empty;
+            var id = node as IdentifierNameSyntax;
+            if (null == id)
+            {
+                var w = this.GetWalker(node, true);
+                if (null != w) return w.Walk(node, model);
+                throw new Exception("Int32 " + node.CSharpKind());
+            }
+            var text = id.Identifier.Text;
+            if (text == "config") return "config";
 
-            var walker = new ConfigMemberAcessExpressionWalker();
-            return walker.m_code.ToString();
 
+            if (text == "IsAuthenticated") return "isAuthenticated";
+            if (text == "UserName") return "userName";
+            if (text == "Roles") return "roles";
 
-            //if (node.Parent.GetText().ToString().StartsWith("config."))
-            //{
-            //    if (node.Identifier.Text == "config")
-            //        m_code.Append("config");
-            //    if (node.Identifier.Text == "IsAuthenticated")
-            //        m_code.Append("isAuthenticated");
-            //    if (node.Identifier.Text == "UserName")
-            //        m_code.Append("userName");
-            //    if (node.Identifier.Text == "Roles")
-            //        m_code.Append("roles");
-            //    if (node.Identifier.Text == "ShortDateFormatString")
-            //        m_code.Append("shortDateFormatString");
-            //    if (node.Identifier.Text == "Length")
-            //        m_code.Append("xxxxxxxx");
-
-            //    if (node.Identifier.Text == "config")
-            //        m_code.Append(".");
-            //}
+            return "config." + text + " is not yet";
 
         }
 

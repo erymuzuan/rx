@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
@@ -19,6 +20,13 @@ namespace durandaljs.compiler.test
             await AssertAsync<string>(
                 "$data.Address().Country()",
                 "item.Address.Country");
+        }
+        [Test]
+        public async Task CreatedDate()
+        {
+            await AssertAsync<DateTime>(
+                "$data.CreatedDate()",
+                "item.CreatedDate");
         }
     }
 }

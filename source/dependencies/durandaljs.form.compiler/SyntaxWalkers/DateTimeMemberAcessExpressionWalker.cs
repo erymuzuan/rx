@@ -40,7 +40,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null != nts)
                 return nts.ToString() == "System.DateTime";
 
-            // static methods and propertues
+            // static methods and properties
             return symbol.ContainingType.Name == "DateTime" &&
                 symbol.ContainingNamespace.Name == "System" &&
                 symbol.ContainingAssembly.Name == "mscorlib";
@@ -52,23 +52,35 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }
         }
 
-        public override string Walk(SyntaxNode node2, SemanticModel model)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var node = (IdentifierNameSyntax)node2;
-            var text = node.Identifier.Text;
+            var maes = node as MemberAccessExpressionSyntax;
+            if (null != maes)
+            {
+                var exp = this.EvaluateExpressionCode(maes.Expression);
+                var name = this.EvaluateExpressionCode(maes.Name);
+                if (string.IsNullOrWhiteSpace(exp))
+                    return name;
+                return exp + "." + name;
+            }
+
+            var id = (IdentifierNameSyntax)node;
+            var text = id.Identifier.Text;
 
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
             if (null != compiler)
             {
-                var argumentList = this.GetArguments(node).ToList();
-                var xp = compiler.Value.Compile(node, argumentList);
+                var argumentList = this.GetArguments(id).ToList();
+                var xp = compiler.Value.Compile(id, argumentList);
 
 
                 return ("." + xp);
             }
 
+            var w = this.GetWalker(model.GetSymbolInfo(node), true);
+            if (null != w) return w.Walk(node, model);
 
-            return string.Empty;
+            throw new Exception("Cannot find  a compiler for DateTime." + text);
         }
 
 

@@ -58,12 +58,24 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var walker = this.Walkers.Single(x => x.Filter(maes.Expression));
                 return walker.Walk(maes.Expression, model);
             }
-            return string.Empty;
+            var id = node as IdentifierNameSyntax;
+            if (null == id)
+            {
+                var w = this.GetWalker(node, true);
+                return w.Walk(node, model);
+            }
+            var text = id.Identifier.Text;
+            var compiler = this.IdentifierCompilers.LastOrDefault(x => string.Equals(x.Metadata.Text, text, StringComparison.InvariantCultureIgnoreCase));
+            if (null != compiler)
+            {
+                var argumentList = this.GetArguments(id).ToList();
+                var xp = compiler.Value.Compile(id, argumentList);
+                return xp;
+            }
+
+
+            return "Enumerable." + text;
         }
-
-
-
-
 
     }
 }

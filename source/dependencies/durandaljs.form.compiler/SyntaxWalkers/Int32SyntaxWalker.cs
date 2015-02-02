@@ -32,14 +32,22 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
 
-        public override string Walk(SyntaxNode node2, SemanticModel model)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var node = (IdentifierNameSyntax)node2;
-            var text = node.Identifier.Text;
+            var id = node as IdentifierNameSyntax;
+            if (null == id)
+            {
+                var w = this.GetWalker(node, true);
+                if (null != w) return w.Walk(node, model);
+                throw new Exception("Int32 " + node.CSharpKind());
+            }
+
+
+            var text = id.Identifier.Text;
             switch (text)
             {
                 case "Parse":
-                    var aguments = node.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
+                    var aguments = id.Parent.Parent.ChildNodes().OfType<ArgumentListSyntax>()
                         .Single()
                         .ChildNodes()
                         .OfType<ArgumentSyntax>()

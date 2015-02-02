@@ -26,9 +26,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 if (prop.Name == "item") return true;
                 var domain = prop.ContainingType.BaseType.Name == typeof(Entity).Name
                              || prop.ContainingType.BaseType.Name == typeof (DomainObject).Name;
+                var dll = prop.ContainingAssembly.Name == "eval" || prop.ContainingAssembly.Name == typeof(DomainObject).Assembly.GetName().Name;
 
-                return prop.ContainingAssembly.Name == "eval"
-                       && domain;
+                return dll && domain;
             }
             return false;
         }
@@ -37,20 +37,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             var maes = node as MemberAccessExpressionSyntax;
             if (null != maes)
-                return this.EvaluateExpressionCode(maes.Expression) + "." + this.EvaluateExpressionCode(maes.Name) + "()";
+                return this.EvaluateExpressionCode(maes.Expression) + "." + this.EvaluateExpressionCode(maes.Name);
+      
 
-            var invocation = node as InvocationExpressionSyntax;
-            if (null != invocation)
+            var id = node as IdentifierNameSyntax;
+            if (null != id)
             {
-                Console.WriteLine("********************");
-            }
-            var identifier = node as IdentifierNameSyntax;
-            if (null != identifier)
-            {
-                if (identifier.Identifier.Text == "item")
+                if (id.Identifier.Text == "item")
                     return "$data";
+                return id.Identifier.Text + "()";
             }
-            return node.ToFullString();
+            return "/* item should not get  " + node.CSharpKind() + ":"+ node.ToFullString() + "*/";
         }
 
     }
