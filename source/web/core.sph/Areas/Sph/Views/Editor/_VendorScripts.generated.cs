@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Editor
+namespace ASP
 {
     using System;
     using System.Collections.Generic;
@@ -29,9 +29,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Editor
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Editor/_VendorScripts.cshtml")]
-    public partial class VendorScripts : System.Web.Mvc.WebViewPage<dynamic>
+    public partial class _Areas_Sph_Views_Editor__VendorScripts_cshtml : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public VendorScripts()
+        public _Areas_Sph_Views_Editor__VendorScripts_cshtml()
         {
         }
         public override void Execute()
@@ -62,7 +62,7 @@ WriteLiteral(" src=\"/Scripts/ace/snippets/css.js\"");
 
 WriteLiteral("></script>\r\n<script");
 
-WriteLiteral(" src=\"/Scripts/jquery-2.1.1.min.js\"");
+WriteLiteral(" src=\"/Scripts/jquery-2.1.3.min.js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
