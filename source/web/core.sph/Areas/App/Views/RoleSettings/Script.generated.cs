@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.App.Views.RoleSettings
+namespace ASP
 {
     using System;
     using System.Collections.Generic;
@@ -31,9 +31,9 @@ namespace Bespoke.Sph.Web.Areas.App.Views.RoleSettings
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/RoleSettings/Script.cshtml")]
-    public partial class Script : System.Web.Mvc.WebViewPage<IEnumerable<Bespoke.Sph.Web.ViewModels.RoleModel>>
+    public partial class _Areas_App_Views_RoleSettings_Script_cshtml : System.Web.Mvc.WebViewPage<IEnumerable<Bespoke.Sph.Web.ViewModels.RoleModel>>
     {
-        public Script()
+        public _Areas_App_Views_RoleSettings_Script_cshtml()
         {
         }
         public override void Execute()
@@ -67,24 +67,32 @@ WriteLiteral(">\r\n    define([\'services/datacontext\', objectbuilders.logger],
 "          .then(function (result) {\r\n                        tcs.resolve(result)" +
 ";\r\n                        logger.info(\"Designation is successfully saved\");\r\n  " +
 "                  });\r\n                return tcs.promise();\r\n            },\r\n  " +
-"             addRole = function () {\r\n\r\n\r\n                   var tcs = new $.Def" +
-"erred();\r\n\r\n                   require([\'viewmodels/role.dialog\', \'durandal/app\'" +
-"], function (dialog, app2) {\r\n                       app2.showDialog(dialog)\r\n  " +
-"                         .done(function (result) {\r\n                            " +
-"   if (!result) {\r\n                                   tcs.resolve(false);\r\n     " +
-"                              return;\r\n                               };\r\n      " +
-"                         if (result === \"OK\") {\r\n                               " +
-"    var data = ko.mapping.toJSON(dialog.role);\r\n                                " +
-"   context.post(data, \"/Sph/Admin/AddRole\")\r\n                                   " +
-"    .then(function (fw) {\r\n                                           tcs.resolv" +
-"e(fw);\r\n                                           logger.info(\"Refresh your bro" +
-"wser to relect the changes\");\r\n                                       });\r\n     " +
-"                          }\r\n                           });\r\n\r\n                 " +
-"  });\r\n                   return tcs.promise();\r\n               };\r\n\r\n          " +
-"  var vm = {\r\n                activate: activate,\r\n                addRole: addR" +
-"ole,\r\n                designation: ko.observable(),\r\n                toolbar: { " +
-"saveCommand: save }\r\n            };\r\n\r\n            return vm;\r\n\r\n\r\n        });\r\n" +
-"</script>\r\n");
+"          deleteRole = function (role) {\r\n                var tcs = new $.Deferr" +
+"ed();\r\n                var self = this;\r\n\r\n                var r = confirm(\"Do y" +
+"ou want to delete this role ?\");\r\n                if (r == true) {\r\n            " +
+"        $.post(\"/Sph/Admin/DeleteRole/\", { role: role })\r\n                  .the" +
+"n(function (fw) {\r\n                      tcs.resolve(fw);\r\n                     " +
+" logger.info(\"Role deleted. Refresh your browser to reflect the changes\");\r\n    " +
+"                  window.location.reload();\r\n                  });\r\n            " +
+"    } else {\r\n\r\n                }\r\n\r\n                return tcs.promise();\r\n    " +
+"        },\r\n            addRole = function () {\r\n\r\n                var tcs = new" +
+" $.Deferred();\r\n                require([\'viewmodels/role.dialog\', \'durandal/app" +
+"\'], function (dialog, app2) {\r\n                    app2.showDialog(dialog)\r\n    " +
+"                    .done(function (result) {\r\n                            if (!" +
+"result) {\r\n                                tcs.resolve(false);\r\n                " +
+"                return;\r\n                            };\r\n\r\n                     " +
+"       if (result === \"OK\") {\r\n                                var data = ko.map" +
+"ping.toJSON(dialog.role);\r\n                                context.post(data, \"/" +
+"Sph/Admin/AddRole\")\r\n                                    .then(function (fw) {\r\n" +
+"                                        tcs.resolve(fw);\r\n                      " +
+"                  logger.info(\"Refresh your browser to reflect the changes\");\r\n " +
+"                                       window.location.reload();\r\n              " +
+"                      });\r\n                            }\r\n                      " +
+"  });\r\n\r\n                });\r\n                return tcs.promise();\r\n           " +
+" };\r\n\r\n\r\n            var vm = {\r\n                activate: activate,\r\n          " +
+"      addRole: addRole,\r\n                deleteRole: deleteRole,\r\n              " +
+"  designation: ko.observable(),\r\n                toolbar: { saveCommand: save }\r" +
+"\n            };\r\n\r\n            return vm;\r\n\r\n\r\n        });\r\n</script>\r\n");
 
         }
     }

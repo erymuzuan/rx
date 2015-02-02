@@ -39,35 +39,55 @@
                     });
                 return tcs.promise();
             },
-               addRole = function () {
+            deleteRole = function (role) {
+                var tcs = new $.Deferred();
+                var self = this;
 
+                var r = confirm("Do you want to delete this role ?");
+                if (r == true) {
+                    $.post("/Sph/Admin/DeleteRole/", { role: role })
+                  .then(function (fw) {
+                      tcs.resolve(fw);
+                      logger.info("Role deleted. Refresh your browser to reflect the changes");
+                      window.location.reload();
+                  });
+                } else {
 
-                   var tcs = new $.Deferred();
+                }
 
-                   require(['viewmodels/role.dialog', 'durandal/app'], function (dialog, app2) {
-                       app2.showDialog(dialog)
-                           .done(function (result) {
-                               if (!result) {
-                                   tcs.resolve(false);
-                                   return;
-                               };
-                               if (result === "OK") {
-                                   var data = ko.mapping.toJSON(dialog.role);
-                                   context.post(data, "/Sph/Admin/AddRole")
-                                       .then(function (fw) {
-                                           tcs.resolve(fw);
-                                           logger.info("Refresh your browser to relect the changes");
-                                       });
-                               }
-                           });
+                return tcs.promise();
+            },
+            addRole = function () {
 
-                   });
-                   return tcs.promise();
-               };
+                var tcs = new $.Deferred();
+                require(['viewmodels/role.dialog', 'durandal/app'], function (dialog, app2) {
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) {
+                                tcs.resolve(false);
+                                return;
+                            };
+
+                            if (result === "OK") {
+                                var data = ko.mapping.toJSON(dialog.role);
+                                context.post(data, "/Sph/Admin/AddRole")
+                                    .then(function (fw) {
+                                        tcs.resolve(fw);
+                                        logger.info("Refresh your browser to reflect the changes");
+                                        window.location.reload();
+                                    });
+                            }
+                        });
+
+                });
+                return tcs.promise();
+            };
+
 
             var vm = {
                 activate: activate,
                 addRole: addRole,
+                deleteRole: deleteRole,
                 designation: ko.observable(),
                 toolbar: { saveCommand: save }
             };

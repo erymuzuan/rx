@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group">
-            <span>Please (<i class="fa fa-check"></i>)check the option to set the designation roles</span>
+            <span>Please (<i class="fa fa-check"></i>)check the option to set the designation roles hassan</span>
         </div>
 
         <div>
@@ -57,9 +57,17 @@
                             <td>
                                 <label class="checkbox" title="@r.Role">
                                     <input data-bind="checked: RoleCollection" value="@r.Role"
-                                           type="checkbox" name="role" />
+                                           type="checkbox" name="role"/>
                                     @r.Name
                                 </label>
+
+                                @if ((!@r.Name.Equals("Administrators")) && (!@r.Name.Equals("Developers")))
+                                {
+                                    <a href="#" class="btn btn-link" data-bind="click : $root.deleteRole.bind($data, '@r.Role')">
+                                        Delete
+                                    </a>
+                                }
+
                             </td>
                             <td><span class="help-block">@r.Description</span></td>
                         </tr>
