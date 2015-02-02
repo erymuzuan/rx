@@ -19,15 +19,31 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 ObjectBuilder.ComposeMefCatalog(this);
             if (null == this.Walkers)
                 throw new InvalidOperationException("Failed to load MEF");
-            
 
-            if(string.IsNullOrWhiteSpace(expression.ToString()))
+
+            if (string.IsNullOrWhiteSpace(expression.ToString()))
                 throw new InvalidOperationException("Just a marker");
+            var walker = this.GetWalker(expression);
+            if (null != walker) return walker.Walk(expression, null);
 
-            return Walkers
-                .Where(x => x.Filter(expression))
-                .Select(x => x.Walk(expression, null))
-                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
+            throw new Exception("Now walker found for " + expression.CSharpKind());
+        }
+
+
+        protected CustomObjectSyntaxWalker GetWalker(SyntaxNode node)
+        {
+            var potentialWalkers = this.Walkers
+                .Where(x => x.Filter(node))
+                .ToList();
+            if (potentialWalkers.Count > 1)
+            {
+                Console.WriteLine("!!!!! There are more that 1 walker for : " + node.CSharpKind());
+                potentialWalkers.ForEach(t => Console.WriteLine("{0} -> {1}", node.CSharpKind(), t));
+            }
+            if (potentialWalkers.Count == 0)
+                Console.WriteLine("!!!!! There is no walker for : " + node.CSharpKind());
+
+            return potentialWalkers.FirstOrDefault();
         }
 
         public virtual string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)

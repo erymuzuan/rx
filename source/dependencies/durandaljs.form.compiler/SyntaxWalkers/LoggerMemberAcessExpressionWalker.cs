@@ -26,19 +26,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null != ips)
                 return ips.Name == "logger";
 
-
-            /*ms.ContainingNamespace.Name
-"Domain"
-ms.ContainingNamespace.ToString()
-"Bespoke.TestATM_patient.Domain"
-ms.ContainingAssembly.Name
-"eval"
-ms.Name
-"Info"
-ms.ContainingType.Name
-"Logger"
-
-             * */
             var ms = info.Symbol as IMethodSymbol;
             if (null != ms)
                 return ms.ContainingType.Name == "Logger"
@@ -46,6 +33,32 @@ ms.ContainingType.Name
 
             return false;
         }
+
+        public override string Walk(SyntaxNode node2, SemanticModel model)
+        {
+            var maes = node2 as MemberAccessExpressionSyntax;
+            if (null != maes)
+            {
+                return this.EvaluateExpressionCode(maes.Expression) + "." + this.EvaluateExpressionCode(maes.Name);
+            }
+            var ins = (IdentifierNameSyntax)node2;
+            var text = ins.Identifier.Text;
+
+            if (text == "logger") return "logger";
+
+            var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
+            if (null != compiler)
+            {
+                var argumentList = this.GetArguments(ins).ToList();
+                var xp = compiler.Value.Compile(ins, argumentList);
+                return xp;
+
+            }
+
+            return string.Empty;
+        }
+
+
 
 
         public override CustomObjectModel GetObjectModel(IProjectProvider project)
@@ -69,27 +82,6 @@ ms.ContainingType.Name
             };
             return com;
         }
-
-
-        public override string Walk(SyntaxNode node2, SemanticModel model)
-        {
-            var node = (IdentifierNameSyntax)node2;
-            var text = node.Identifier.Text;
-
-            if (text == "logger") return "logger";
-
-            var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
-            if (null != compiler)
-            {
-                var argumentList = this.GetArguments(node).ToList();
-                var xp = compiler.Value.Compile(node, argumentList);
-                return xp;
-
-            }
-
-            return string.Empty;
-        }
-
 
 
 

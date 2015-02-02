@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -27,15 +28,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
         }
 
-        protected override bool Filter(SymbolInfo info)
+        public override bool Filter(SyntaxNode node)
         {
-            Console.WriteLine(info.Symbol);
-            return null == info.Symbol;
+            return Kinds.Contains(node.CSharpKind());
         }
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var literal = (LiteralExpressionSyntax) node;
+            var literal = (LiteralExpressionSyntax)node;
             var kind = node.CSharpKind();
             switch (kind)
             {

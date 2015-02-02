@@ -60,12 +60,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 Console.WriteLine("Display : " + symbol.Symbol.ToDisplayString());
 
             }
+            var w2 = this.GetWalker(expression);
+            if (null != w2)
+                return w2.Walk(expression, this.SemanticModel);
             Console.WriteLine("No symbol could be produced for " + expression.CSharpKind());
             Console.WriteLine("expression : " + expression.ToFullString());
             return string.Empty;
         }
 
-        private CustomObjectSyntaxWalker GetWalker(SymbolInfo symbol)
+        protected CustomObjectSyntaxWalker GetWalker(SymbolInfo symbol)
         {
             var potentialWalkers = this.Walkers
                 .Where(x => x.Filter(symbol))
@@ -74,6 +77,22 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 potentialWalkers.ForEach(t => Console.WriteLine("{0} -> {1}", symbol.Symbol, t));
             }
+            return potentialWalkers.FirstOrDefault();
+        }
+
+        protected CustomObjectSyntaxWalker GetWalker(SyntaxNode node)
+        {
+            var potentialWalkers = this.Walkers
+                .Where(x => x.Filter(node))
+                .ToList();
+            if (potentialWalkers.Count > 1)
+            {
+                Console.WriteLine("!!!!! There are more that 1 walker for : " + node.CSharpKind());
+                potentialWalkers.ForEach(t => Console.WriteLine("{0} -> {1}", node.CSharpKind(), t));
+            }
+            if (potentialWalkers.Count == 0)
+                Console.WriteLine("!!!!! There is no walker for : " + node.CSharpKind());
+
             return potentialWalkers.FirstOrDefault();
         }
 

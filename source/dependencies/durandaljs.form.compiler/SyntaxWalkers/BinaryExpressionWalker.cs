@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -15,6 +16,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 return new[]
             {
+                SyntaxKind.AddExpression,
+                SyntaxKind.SubtractExpression,
                 SyntaxKind.EqualsExpression,
                 SyntaxKind.NotEqualsExpression,
                 SyntaxKind.GreaterThanExpression, 
@@ -27,6 +30,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 SyntaxKind.CoalesceExpression
             };
             }
+        }
+
+        public override bool Filter(SyntaxNode node)
+        {
+            return Kinds.Contains(node.CSharpKind());
         }
 
         public override string Walk(SyntaxNode node, SemanticModel model)
@@ -65,6 +73,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     break;
                 case SyntaxKind.LessThanOrEqualExpression:
                     op = "<=";
+                    break;
+                case SyntaxKind.AddExpression:
+                    op = "+";
+                    break;
+                case SyntaxKind.SubtractExpression:
+                    op = "-";
                     break;
                 case SyntaxKind.LogicalNotExpression:
                     op = "/* LogicalNotExpression is not implemented */";

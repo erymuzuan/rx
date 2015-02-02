@@ -73,10 +73,11 @@
     <Compile Include="DateTimeExpressionTextFixure.cs" />
     <Compile Include="EntityFormViewModelTestFixture.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
+    <Compile Include="ItemExpressionTestFixture.cs" />
     <Compile Include="LambdaExpressionTestFixture.cs" />
     <Compile Include="LiteralExpressionTestFixture.cs" />
+    <Compile Include="LoggerTestFixture.cs" />
     <Compile Include="MathTextFixure.cs" />
-    <Compile Include="MethodTestFixture.cs" />
     <Compile Include="MockDirectoryService.cs" />
     <Compile Include="Mocks\MockChangePublisher.cs" />
     <Compile Include="Mocks\MockLdap.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="ScreenActivityFormRendererTestFixture.cs" />
     <Compile Include="ScreenActivityRazorEditorTemplateTestFixture.cs" />
     <Compile Include="SolutionCompilerTestFixture.cs" />
+    <Compile Include="StringTestFixture.cs" />
     <Compile Include="SymbolWalkerTestFixture.cs" />
     <Compile Include="ExpressionTestFixture.cs" />
   </ItemGroup>
