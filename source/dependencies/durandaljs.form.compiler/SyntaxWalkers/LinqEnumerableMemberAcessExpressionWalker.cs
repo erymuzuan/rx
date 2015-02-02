@@ -22,7 +22,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var prop = symbol as IPropertySymbol;
             if (prop != null)
-            {   //System.Linq.Enumerable
+            {
                 if (null != prop.ContainingType && prop.ContainingType.Name == "Enumerable")
                 {
                     return prop.ContainingNamespace.Name == "System" &&
@@ -33,6 +33,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var named = prop.Type;
                 return (named.Name == "Enumerable" || named.ToString() == "System.Linq.Enumerable?") &&
                        named.ContainingNamespace.Name == "System";
+
+            }
+
+            var ms = symbol as IMethodSymbol;
+            if (ms != null)
+            {
+                return ms.ContainingType.Name == "Enumerable"
+            && ms.ContainingNamespace.ToString() == "System.Linq";
 
             }
             var nts = symbol as INamedTypeSymbol;
@@ -47,17 +55,21 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         protected override SyntaxKind[] Kinds
         {
-            get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }
+            get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.IdentifierName, SyntaxKind.InvocationExpression }; }
         }
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
             var maes = node as MemberAccessExpressionSyntax;
-            if (null != maes && node.CSharpKind() == SyntaxKind.SimpleMemberAccessExpression)
+            if (null != maes)
             {
-                var walker = this.Walkers.Single(x => x.Filter(maes.Expression));
-                return walker.Walk(maes.Expression, model);
+                var exp = this.EvaluateExpressionCode(maes.Expression);
+                var name = this.EvaluateExpressionCode(maes.Name);
+                if (string.IsNullOrWhiteSpace(exp))
+                    return name;
+                return exp + "." + name;
             }
+
             var id = node as IdentifierNameSyntax;
             if (null == id)
             {

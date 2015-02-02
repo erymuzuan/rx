@@ -64,17 +64,20 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 return exp + "." + name;
             }
 
-            var id = (IdentifierNameSyntax)node;
+            var id = node as IdentifierNameSyntax;
+            if (null == id)
+            {
+                var w2 = this.GetWalker(node, true);
+                return w2.Walk(node, model);
+            }
             var text = id.Identifier.Text;
-
+            if (text == "DateTime") return "";
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
             if (null != compiler)
             {
                 var argumentList = this.GetArguments(id).ToList();
                 var xp = compiler.Value.Compile(id, argumentList);
-
-
-                return ("." + xp);
+                return  xp;
             }
 
             var w = this.GetWalker(model.GetSymbolInfo(node), true);

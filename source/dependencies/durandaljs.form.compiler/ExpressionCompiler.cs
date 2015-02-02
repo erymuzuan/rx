@@ -133,12 +133,23 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         private string CompileExpression(SyntaxNode statement, SemanticModel model)
         {
             this.Walkers.ToList().ForEach(x => x.SemanticModel = model);
-            var code = this.Walkers
+            var walkers = this.Walkers
                 .Where(x => x.Filter(statement))
-                .Select(x => x.Walk(statement, model))
-                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
+                .ToList();
 
-            return code;
+            if (walkers.Count > 1)
+            {
+                Console.WriteLine("!!! " + statement.CSharpKind());
+                foreach (var w in walkers)
+                {
+                    Console.WriteLine(statement +" -> " + w.GetType().Name);
+                }
+            }
+
+
+            return walkers
+                .Select(x => x.Walk(statement, model))
+                .LastOrDefault(x => !string.IsNullOrWhiteSpace(x));
         }
     }
 }
