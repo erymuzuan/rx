@@ -9,7 +9,7 @@ Since the Field.GetValue is a synchronous method, it will wrap inside `Wait` and
 The word of warning : You might run into deadlock issue in this situation
 
 Here is simple example of C# class
-<pre>
+```csharp
 using System;
 
 namespace Bespoke
@@ -21,29 +21,35 @@ namespace Bespoke
             // may read it from database somewhere
 			return value + "01 is the lookup for " + value;
 		}
+		public async Task<string> GetLookupValueAsync(string value)
+		{
+            // may read it from database somewhere
+			await Task.Delay(5000);
+			return value + "01 is the lookup for " + value;
+		}
 	}
 
 }
-</pre>
+```
 
 then compile it using csc.exe
 <pre>
 csc /t:library Util.cs
 </pre>
 
-![Field setting](http://i.imgur.com/37yZLKh.png)
+![Field setting](http://i.imgur.com/WbIljtq.png)
 
 
 ## Using custom assembly that refer to your Entity
 Not all you do is a simple lookup function with a simple type arguement, there may be time that you need to include the full object to your type.
 
-<pre>
+```csharp
 using System;
 namespace Bespoke
 {
 	public class Util
 	{
-		public string GetOldRecordName(Bespoke.Dev_2002.Domain.Patient patient)
+		public string GetOldRecordName(Bespoke.Dev_patient.Domain.Patient patient)
 		{
             // may read it from database somewhere
 			return patient.Mrn + "_old";
@@ -51,7 +57,7 @@ namespace Bespoke
 	}
 
 }
-</pre>
+```
 
 Now compile your dll using this switch
 <pre>
@@ -74,10 +80,10 @@ Other alternative are
 </tr>
 </thead>
 <tbody>
-<tr><td>Location</td><td> - Assembly path</td></tr>
+<tr><td>Location</td><td> - Assembly Name without extension</td></tr>
 <tr><td>TypeName</td><td> - The name of the class, FullName</td></tr>
 <tr><td>Method</td><td> - The method name</td></tr>
-<tr><td>IsAsync</td><td> - Use async or not</td></tr>
+<tr><td>IsAsync</td><td> - Use async or not, automatically checked if your method return System.Threading.Task or one of its generic</td></tr>
 <tr><td>AsyncTimeout</td><td> - Set the timeout for async call</td></tr>
 <tr><td>MethodArgCollection</td><td> - The method arguements</td></tr>
 </tbody></table>

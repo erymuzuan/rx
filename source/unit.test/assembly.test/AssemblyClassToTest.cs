@@ -1,5 +1,6 @@
-﻿using System.Threading.Tasks;
-using Bespoke.Dev_customer.Domain;
+﻿using System;
+using System.Threading.Tasks;
+using Bespoke.DevV1_customer.Domain;
 
 namespace assembly.test
 {
@@ -26,6 +27,16 @@ namespace assembly.test
         {
             await Task.Delay(500);
             return string.Format( greet + " warning " + customer.FullName);
+        }
+        public async Task<string> SayHelloAsync(Customer customer, string greet, bool warning)
+        {
+            await Task.Delay(500);
+            return string.Format( greet + " warning " + customer.FullName);
+        }
+        public async Task<DateTime?> GetNullableDateTime(DateTime date)
+        {
+            await Task.Delay(500);
+            return date;
         }
         public async Task<object> GreetAsync(Customer customer, string greet, string warning)
         {
