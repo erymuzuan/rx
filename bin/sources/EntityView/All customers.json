@@ -136,7 +136,7 @@
     "$values": []
   },
   "IconClass": "",
-  "IconStoreId": "c8fee004-fd5d-4cb1-ab99-446a1d003de3",
+  "IconStoreId": "7e4cddeb-32bb-47df-b5f8-4fb0123d4bfc",
   "EntityDefinitionId": "customer",
   "Name": "All customers",
   "Route": "all-customers",
@@ -152,6 +152,6 @@
   "Id": "all-customers",
   "CreatedDate": "2014-01-23T08:33:51.7433351+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-12-15T15:34:40.4298775+08:00",
+  "ChangedDate": "2015-02-02T08:39:52.4479986+08:00",
   "WebId": "856b74a7-2aaa-45d0-82fc-06a3444310a6"
 }
