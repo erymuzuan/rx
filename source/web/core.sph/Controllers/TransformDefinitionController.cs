@@ -240,6 +240,7 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 x.Name,
                 RetVal = x.ReturnType.FullName,
+                IsAsync = x.ReturnType.FullName.StartsWith("System.Threading.Tasks.Task"),
                 Parameters = x.GetParameters().Select(p => new
                 {
                     p.Name,

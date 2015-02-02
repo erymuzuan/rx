@@ -19,24 +19,24 @@
                             <input class="form-control" data-bind="value: Note" id="constant-field-note" type="text" name="constant-field-note" />
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="assembly-field-location" class="col-sm-2 control-label">Location</label>
                         <div class="col-sm-8">
-                            <input required data-bind="value:Location" type="text" class="form-control" id="assembly-field-location" placeholder="Assembly location">
+                            <select required data-bind="value:Location, options: $root.assemblyOptions, optionsText : 'FullName', optionsValue :'Name', optionsCaption :'[Please select an assembly]' " type="text" class="form-control" id="assembly-field-location"></select>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="assembly-field-type" class="col-sm-2 control-label">Class</label>
                         <div class="col-sm-8">
-                            <input required data-bind="value:TypeName" type="text" class="form-control" id="assembly-field-type" placeholder="Full type name ,e.g. Namespace.Class">
+                            <select required data-bind="value:TypeName, options : $root.typeOptions,optionsText : 'FullName', optionsValue : 'TypeName', optionsCaption :'[Please select a Type]'" type="text" class="form-control" id="assembly-field-type" placeholder="Full type name ,e.g. Namespace.Class"></select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="assembly-field-method" class="col-sm-2 control-label">Method</label>
                         <div class="col-sm-8">
-                            <input required data-bind="value:Method" type="text" class="form-control" id="assembly-field-method" placeholder="Method name">
+                            <select required data-bind="value:Method, options : $root.methodOptions, optionsText :'Name', optionsValue :'Name', optionsCaption :'[Please select a Method]'" type="text" class="form-control" id="assembly-field-method" placeholder="Method name"></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -49,14 +49,14 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group" data-bind="enable:IsAsync">
                         <label for="assembly-field-timeout" class="col-lg-2 control-label">Async timeout</label>
                         <div class="col-lg-6">
                             <input data-bind="value:AsyncTimeout,enable:IsAsync" type="text" pattern="[0-9]{1,8}" class="form-control" id="assembly-field-timeout" placeholder="Async time out in milliseconds">
                         </div>
                     </div>
-                  
+
 
                     <table class="table">
                         <thead>
@@ -67,16 +67,11 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach :MethodArgCollection">
+                        <tbody data-bind="foreach : MethodArgCollection">
                             <tr>
+                                <td data-bind="text:Name"></td>
+                                <td data-bind="text:TypeName"></td>
                                 <td>
-                                    <input type="text" data-bind="value:Name" class="form-control"/>
-                                </td>
-                                <td>
-                                    <input type="text" data-bind="value:TypeName" class="form-control"/>
-                                </td>
-                                <td>
-                                    
 
                                     <div class="btn-group">
                                         <a data-bind="with : ValueProvider, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
@@ -116,19 +111,15 @@
                                         </ul>
                                     </div>
 
+
                                 </td>
-                                <td>
-                                    <a href="#" data-bind="click : $parent.removeParameter.call($parent,$data)"><i class="fa fa-times"></i></a>
-                                </td>
+
                             </tr>
                         </tbody>
 
                     </table>
-                    
-                    <a class="btn btn-link" data-bind="click : addParameter" href="#assembly-field-isasync">
-                        <i class="fa fa-plus-circle"></i>
-                        Add a parameter
-                    </a>
+
+
                 </form>
             </div>
 

@@ -454,6 +454,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private bool m_LoadInCurrentAppDomain;
+        [XmlAttribute]
+        public bool LoadInCurrentAppDomain
+        {
+            get
+            {
+                return m_LoadInCurrentAppDomain;
+            }
+            set
+            {
+                m_LoadInCurrentAppDomain = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<MethodArg> m_MethodArgCollection = new ObjectCollection<MethodArg>();
 
         ///<summary>

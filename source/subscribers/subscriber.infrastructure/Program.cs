@@ -99,6 +99,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 var metadata = work.Value.Find();
                 this.Start(metadata);
             }
+
+            this.NotificationService.Write("Your workers has been succesfully restarted.");
         }
 
         private Thread StartAppDomain(SubscriberMetadata metadata)

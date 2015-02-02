@@ -10,7 +10,11 @@ namespace Bespoke.Sph.Domain
     {
         public override object GetValue(RuleContext context)
         {
-            var dll = Assembly.LoadFrom(this.Location);
+            if (this.LoadInCurrentAppDomain)
+            {
+                return ExecuteInNewAppDomain(context);
+            }
+            var dll = Assembly.LoadFrom(ConfigurationManager.WebPath + @"\bin\" + this.Location + ".dll");
             var type = dll.GetType(this.TypeName);
             if (null == type)
                 throw new InvalidOperationException("Cannot load type " + this.TypeName);
@@ -22,7 +26,7 @@ namespace Bespoke.Sph.Domain
             if (0 == count)
                 throw new InvalidOperationException("Cannot load method " + this.Method + " with these parameters");
 
-            if (count > 1) 
+            if (count > 1)
                 throw new InvalidOperationException("This is not yet possible to have overloaded method with same parameters length ");
 
 
@@ -45,20 +49,37 @@ namespace Bespoke.Sph.Domain
 
             if (this.IsAsync)
             {
-                object result = null;
-                var task = method.Invoke(obj, temp.ToArray()) as Task<object>;
-                if (null == task)
-                    throw new InvalidOperationException("Only Task<object> is supported for now");
-                task.ContinueWith(_ =>
-                {
-                    result = _.Result;
-                }).Wait(this.AsyncTimeout);
+                var taskObject = method.Invoke(obj, temp.ToArray()) as Task<object>;
+                if (null != taskObject) return taskObject.Result;
 
-                return result;
+                var taskString = method.Invoke(obj, temp.ToArray()) as Task<string>;
+                if (null != taskString) return taskString.Result;
+
+                var taskInt32 = method.Invoke(obj, temp.ToArray()) as Task<int>;
+                if (null != taskInt32) return taskInt32.Result;
+
+                var taskBoolean = method.Invoke(obj, temp.ToArray()) as Task<bool>;
+                if (null != taskBoolean) return taskBoolean.Result;
+
+                var taskDateTime = method.Invoke(obj, temp.ToArray()) as Task<DateTime>;
+                if (null != taskDateTime) return taskDateTime.Result;
+
+                var taskDecimal = method.Invoke(obj, temp.ToArray()) as Task<decimal>;
+                if (null != taskDecimal) return taskDecimal.Result;
+
+                dynamic taskDynamic = method.Invoke(obj, temp.ToArray());
+                if (null != taskDynamic) return taskDynamic.Result;
+
+                throw new InvalidOperationException("Only Task<object> is supported for now");
 
             }
-
+            
             return method.Invoke(obj, temp.ToArray());
+        }
+
+        private object ExecuteInNewAppDomain(RuleContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 }
