@@ -6,8 +6,6 @@ namespace durandaljs.compiler.test
     [TestFixture]
     public class MathTextFixure : ExpressionTestFixture
     {
-      
-
 
         [Test]
         public async Task Abs()

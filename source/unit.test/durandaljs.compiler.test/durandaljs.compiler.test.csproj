@@ -72,7 +72,7 @@
     <Compile Include="BooleanExpressionTestFixture.cs" />
     <Compile Include="BooleanExpressionWithDateTimeAndWorkflow.cs" />
     <Compile Include="BooleanExpressionWithNumber.cs" />
-    <Compile Include="BooleanExpressionWithDateTime.cs" />
+    <Compile Include="DateTimeExpressionTestFixture.bool.cs" />
     <Compile Include="DateTimeExpressionTestFixture.cs" />
     <Compile Include="DateTimeExpressionTextFixure.cs" />
     <Compile Include="EntityFormViewModelTestFixture.cs" />

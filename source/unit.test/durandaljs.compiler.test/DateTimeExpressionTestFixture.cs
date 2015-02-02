@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace durandaljs.compiler.test
 {
     [TestFixture]
-    public class DateTimeExpressionTestFixture : ExpressionTestFixture
+    public partial class DateTimeExpressionTestFixture
     {
         [Test]
         public async Task ItemAndString()
@@ -17,7 +17,7 @@ namespace durandaljs.compiler.test
         }
 
         [Test]
-        public async Task DateTimeToString()
+        public async Task DateTimeToString2()
         {
 
             await AssertAsync<string>(
@@ -108,14 +108,5 @@ namespace durandaljs.compiler.test
                 );
         }
 
-        [Test]
-        public async Task MathAbs()
-        {
-
-            await AssertAsync<int>(
-                "Math.abs($data.Age() || 0)",
-                "Math.Abs(item.Age ?? 0)"
-                );
-        }
     }
 }
