@@ -105,7 +105,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (statements.Any(x => x.DescendantNodes().OfType<AwaitExpressionSyntax>().Any()))
                 return this.BuildAwaitStatementTree(statements, model, true);
 
-
+            this.Walkers.ToList().ForEach(w => w.SemanticModel = model);
             foreach (var statement in statements)
             {
                 var st1 = statement;
@@ -120,6 +120,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 {
                     Console.WriteLine("!!!!!!");
                     Console.WriteLine("Cannot find statement walker for " + st1.CSharpKind());
+                    Console.WriteLine(st1.ToFullString());
+                    Console.WriteLine("-----------------");
                 }
             }
 

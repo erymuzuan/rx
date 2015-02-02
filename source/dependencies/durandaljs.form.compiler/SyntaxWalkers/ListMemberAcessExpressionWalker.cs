@@ -10,7 +10,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     public class ListMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
-
         [ImportMany("List", typeof(IdentifierCompiler), AllowRecomposition = true)]
         public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
 
@@ -19,9 +18,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var symbol = info.Symbol;
             if (null == symbol) return false;
 
-            var numbers = new[] { 1, 3, 4, 6, 7, 8, 6 };
-            var list = numbers.ToList();
-            Console.WriteLine(list.GetType().FullName);
+
             var prop = symbol as IPropertySymbol;
             if (prop != null)
             {   //System.Linq.Enumerable
@@ -45,47 +42,24 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return symbol.ContainingType.Name == "List" &&
                    symbol.ContainingNamespace.ToString() == "System.Collections.Generic";
         }
-     
+
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }
         }
 
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
+        public override string Walk(SyntaxNode node2, SemanticModel model)
         {
-            // NOTE : calling this.Evaluate or this.GetArguments will reset this.Code
-            var code = this.Code.ToString();
+            var node = (IdentifierNameSyntax)node2;
             var text = node.Identifier.Text;
-
-            try
-            {
-                var symbol = this.SemanticModel.GetSymbolInfo(node);
-                if (!this.Filter(symbol))
-                {
-                    base.VisitIdentifierName(node);
-                    return;
-
-                }
-            }
-            catch (ArgumentException e)
-            {
-                if (e.Message != "Syntax node is not within syntax tree") throw;
-            }
-
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
             if (null != compiler)
             {
                 var argumentList = this.GetArguments(node).ToList();
                 var xp = compiler.Value.Compile(node, argumentList);
-                this.Code.Clear();
-                this.Code.Append(code);
-                if (string.IsNullOrWhiteSpace(code))
-                    this.Code.Append(xp);
-                else
-                    this.Code.Append("." + xp);
+                return ("." + xp);
             }
-
-            base.VisitIdentifierName(node);
+            return string.Empty;
         }
 
 

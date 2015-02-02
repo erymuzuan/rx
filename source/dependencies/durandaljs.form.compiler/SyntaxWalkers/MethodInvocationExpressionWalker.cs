@@ -18,6 +18,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.InvocationExpression }; }
         }
 
+        public override bool Filter(SyntaxNode node)
+        {
+            return (node.CSharpKind() == SyntaxKind.InvocationExpression);
+        }
+
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
@@ -25,7 +30,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var code = new StringBuilder();
             var walkers = this.Walkers.Where(x => x.Filter(ies.Expression)).ToList();
-            if (walkers.Count > 1)
+            if (walkers.Count > 1 && DebuggerHelper.IsVerbose)
                 foreach (var v in walkers)
                 {
                     Console.WriteLine(node.CSharpKind() + " ----" + v.GetType().Name);

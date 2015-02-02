@@ -69,10 +69,12 @@
     <Compile Include="BooleanExpressionWithDateTimeAndWorkflow.cs" />
     <Compile Include="BooleanExpressionWithNumber.cs" />
     <Compile Include="BooleanExpressionWithDateTime.cs" />
+    <Compile Include="DateTimeExpressionTestFixture.cs" />
     <Compile Include="DateTimeExpressionTextFixure.cs" />
     <Compile Include="EntityFormViewModelTestFixture.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
     <Compile Include="LambdaExpressionTestFixture.cs" />
+    <Compile Include="LiteralExpressionTestFixture.cs" />
     <Compile Include="MathTextFixure.cs" />
     <Compile Include="MethodTestFixture.cs" />
     <Compile Include="MockDirectoryService.cs" />

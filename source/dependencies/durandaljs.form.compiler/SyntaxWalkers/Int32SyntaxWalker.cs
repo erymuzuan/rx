@@ -32,10 +32,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
 
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
+        public override string Walk(SyntaxNode node2, SemanticModel model)
         {
-            
-            var code = "";
+            var node = (IdentifierNameSyntax)node2;
             var text = node.Identifier.Text;
             switch (text)
             {
@@ -48,21 +47,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     var arg = aguments.FirstOrDefault();
                     if (null == arg)
                         throw new Exception("Parse must have at least 1 arg");
-                    code = string.Format("parseInt({0})", this.EvaluateExpressionCode(arg));
-                    break;
+                    return string.Format("parseInt({0})", this.EvaluateExpressionCode(arg));
                 case "MaxValue":
-                    code = "Infinity";
-                    break;
+                    return "Infinity";
                 case "MinValue":
-                    code = "-Infinity";
-                    break;
+                    return "-Infinity";
             }
 
 
-            this.Code.Clear();
-            this.Code.Append(code);
-
-            base.VisitIdentifierName(node);
+            return string.Empty;
         }
 
 

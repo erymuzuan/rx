@@ -50,11 +50,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
         private string m_code;
-        public override string Walk(SyntaxNode node, SemanticModel model)
+        public  string Walk2(SyntaxNode node, SemanticModel model)
         {
             var mae = node as MemberAccessExpressionSyntax;
             if (null != mae)
-                return base.Walk(node, model);
+                return "base.Walk(node, model)";
             var awaitExpression = node as AwaitExpressionSyntax;
             if (null != awaitExpression)
                 return "yyyyyyy";
@@ -62,14 +62,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var invocationExpress = node as InvocationExpressionSyntax;
             if (null != invocationExpress && node.ToFullString().Contains("Task."))
             {
-                this.Visit(node);
                 return m_code;
             }
             return "xxxx";
         }
 
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
+        public override string Walk(SyntaxNode node2, SemanticModel model)
         {
+            var node = (IdentifierNameSyntax)node2;
             var text = node.Identifier.Text;
 
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
@@ -78,8 +78,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var argumentList = this.GetArguments(node).ToList();
                 m_code = compiler.Value.Compile(node, argumentList);
             }
-
-            base.VisitIdentifierName(node);
+            return string.Empty;
         }
      
 

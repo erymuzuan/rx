@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -14,12 +15,19 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         [ImportMany("Logger", typeof(IdentifierCompiler), AllowRecomposition = true)]
         public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
 
-    
         protected override SyntaxKind[] Kinds
         {
-            get { return new[] { SyntaxKind.InvocationExpression }; }
+            get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
         }
 
+        protected override bool Filter(SymbolInfo info)
+        {
+            var ips = info.Symbol as IParameterSymbol;
+            if (null != ips)
+                return ips.Name == "logger";
+
+            return false;
+        }
 
 
         public override CustomObjectModel GetObjectModel(IProjectProvider project)
@@ -44,30 +52,24 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return com;
         }
 
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
+
+        public override string Walk(SyntaxNode node2, SemanticModel model)
         {
-            // NOTE : calling this.Evaluate or this.GetArguments will reset this.Code
-            var code = this.Code.ToString();
+            var node = (IdentifierNameSyntax)node2;
             var text = node.Identifier.Text;
 
-            //var sb = new StringBuilder();
+            if (text == "logger") return "logger";
 
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
             if (null != compiler)
             {
                 var argumentList = this.GetArguments(node).ToList();
                 var xp = compiler.Value.Compile(node, argumentList);
-                this.Code.Clear();
-                this.Code.Append(code);
-                if (string.IsNullOrWhiteSpace(code))
-                    this.Code.Append("logger." + xp);
-                else
-                    this.Code.Append("." + xp);
+                return xp;
+
             }
 
-
-
-            base.VisitIdentifierName(node);
+            return string.Empty;
         }
 
 

@@ -24,7 +24,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 info.Symbol.ContainingType.Name == "String";
         }
 
-   
+
         protected override bool IsPredefinedType
         {
             get { return true; }
@@ -47,32 +47,26 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
         }
 
-        public override void VisitInvocationExpression(InvocationExpressionSyntax node)
-        {
-            Console.WriteLine(node);
-            base.VisitInvocationExpression(node);
-        }
 
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
+
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            // NOTE : calling this.Evaluate or this.GetArguments will reset this.Code
-            var code = this.Code.ToString();
-            var text = node.Identifier.Text;
+            var node2 = node as IdentifierNameSyntax;
+            if (null == node2) return string.Empty;
+
+            var text = node2.Identifier.Text;
 
             var compiler = this.IdentifierCompilers.LastOrDefault(x => string.Equals(x.Metadata.Text, text, StringComparison.InvariantCultureIgnoreCase));
             if (null != compiler)
             {
-                var argumentList = this.GetArguments(node).ToList();
-                var xp = compiler.Value.Compile(node, argumentList);
-                this.Code.Clear();
-                this.Code.Append(code);
-                if (string.IsNullOrWhiteSpace(code))
-                    this.Code.Append(xp);
-                else
-                    this.Code.Append("." + xp);
+                var argumentList = this.GetArguments(node2).ToList();
+                var xp = compiler.Value.Compile(node2, argumentList);
+                return ("." + xp);
             }
 
-            base.VisitIdentifierName(node);
+            return string.Empty;
+
+
         }
 
 

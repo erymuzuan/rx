@@ -19,37 +19,37 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null == info.Symbol) return false;
 
             var nts = info.Symbol as INamedTypeSymbol;
-            if (null != nts)return nts.ToString() == "System.Math";
+            if (null != nts) return nts.ToString() == "System.Math";
+
+            var ms = info.Symbol as IMethodSymbol;
+            if (null != ms)
+                return ms.ContainingType.Name == "Math" && ms.ContainingNamespace.Name == "System";
 
             return info.Symbol.ContainingType.ToString() == "Math";
         }
 
         protected override SyntaxKind[] Kinds
         {
-            get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }
+            get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
         }
 
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
+        public override string Walk(SyntaxNode n, SemanticModel model)
         {
-            // NOTE : calling this.Evaluate or this.GetArguments will reset this.Code
-            var code = this.Code.ToString();
+            var node = n as IdentifierNameSyntax;
+            if (null == node) return string.Empty;
+
             var text = node.Identifier.Text;
+            if (text == "Math") return "Math";
 
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
             if (null != compiler)
             {
                 var argumentList = this.GetArguments(node).ToList();
                 var xp = compiler.Value.Compile(node, argumentList);
-                this.Code.Clear();
-                this.Code.Append(code);
-                this.Code.Append("Math.");
-                if (string.IsNullOrWhiteSpace(code))
-                    this.Code.Append(xp);
-                else
-                    this.Code.Append("." + xp);
-            }
 
-            base.VisitIdentifierName(node);
+                return xp;
+            }
+            return string.Empty;
         }
 
 

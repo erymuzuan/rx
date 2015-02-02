@@ -45,17 +45,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 symbol.ContainingNamespace.Name == "System" &&
                 symbol.ContainingAssembly.Name == "mscorlib";
         }
-   
+
 
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }
         }
 
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
+        public override string Walk(SyntaxNode node2, SemanticModel model)
         {
-            // NOTE : calling this.Evaluate or this.GetArguments will reset this.Code
-            var code = this.Code.ToString();
+            var node = (IdentifierNameSyntax)node2;
             var text = node.Identifier.Text;
 
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
@@ -63,32 +62,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 var argumentList = this.GetArguments(node).ToList();
                 var xp = compiler.Value.Compile(node, argumentList);
-                this.Code.Clear();
-                this.Code.Append(code);
-                if (string.IsNullOrWhiteSpace(code))
-                    this.Code.Append(xp);
-                else
-                    this.Code.Append("." + xp);
-            }
-            else
-            {
-                // NOTE : assume it's an item property
-                var parent = node.Parent;
-                if (null != parent && parent.ToString().StartsWith("item."))
-                {
-                    // Filter again, to see if the node really is DateTime property
-                    var sym = this.Filter(this.SemanticModel.GetSymbolInfo(node));
-                    if (sym)
-                    {
-                        this.Code.Clear();
-                        this.Code.Append(code);
-                        this.Code.Append(text + "().moment()");
 
-                    }
-                }
+
+                return ("." + xp);
             }
 
-            base.VisitIdentifierName(node);
+
+            return string.Empty;
         }
 
 

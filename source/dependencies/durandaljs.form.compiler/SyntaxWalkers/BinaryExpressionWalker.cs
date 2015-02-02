@@ -78,24 +78,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                        + " " + op + " "
                        + this.EvaluateExpressionCode(bes.Right);
 
-            return base.Walk(node, model);
+            return string.Empty;
         }
 
 
-        public override void VisitBinaryExpression(BinaryExpressionSyntax node)
-        {
-            var operatorToken = node.OperatorToken.Text;
-            var ot = node.OperatorToken.RawKind;
-            if (ot == (int)SyntaxKind.EqualsEqualsToken)
-                operatorToken = "===";
-            if (ot == (int)SyntaxKind.ExclamationEqualsToken)
-                operatorToken = "!==";
+  
 
-            var left = this.EvaluateExpressionCode(node.Left);
-            var right = this.EvaluateExpressionCode(node.Right);
-            this.Code.AppendFormat("{0} {1} {2}", left, operatorToken, right);
-
-            base.VisitBinaryExpression(node);
-        }
     }
 }

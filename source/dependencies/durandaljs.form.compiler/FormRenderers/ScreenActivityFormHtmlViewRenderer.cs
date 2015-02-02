@@ -35,7 +35,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.FormRenderers
             if (!File.Exists(mscorlib))
                 mscorlib = (typeof(object).Assembly.Location);
             Assembly.LoadFile(mscorlib);
-            Console.WriteLine(mscorlib);
             Assembly.Load(typeof(System.Net.Mail.SmtpClient).Assembly.GetName());
 
             var vm = new FormRendererViewModel

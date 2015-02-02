@@ -43,7 +43,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return symbol.ContainingType.Name == "Enumerable" &&
                    symbol.ContainingNamespace.ToString() == "System.Linq";
         }
-     
+
 
         protected override SyntaxKind[] Kinds
         {
@@ -58,30 +58,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 var walker = this.Walkers.Single(x => x.Filter(maes.Expression));
                 return walker.Walk(maes.Expression, model);
             }
-            return base.Walk(node, model);
+            return string.Empty;
         }
 
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
-        {
-            // NOTE : calling this.Evaluate or this.GetArguments will reset this.Code
-            var code = this.Code.ToString();
-            var text = node.Identifier.Text;
 
-            var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
-            if (null != compiler)
-            {
-                var argumentList = this.GetArguments(node).ToList();
-                var xp = compiler.Value.Compile(node, argumentList);
-                this.Code.Clear();
-                this.Code.Append(code);
-                if (string.IsNullOrWhiteSpace(code))
-                    this.Code.Append(xp);
-                else
-                    this.Code.Append("." + xp);
-            }
 
-            base.VisitIdentifierName(node);
-        }
 
 
     }

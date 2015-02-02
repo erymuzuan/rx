@@ -24,6 +24,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public virtual bool Filter(SyntaxNode node)
         {
+            if (!this.Kinds.Contains(node.CSharpKind()))
+                return false;
             return this.Filter(this.SemanticModel.GetSymbolInfo(node));
         }
 
@@ -49,8 +51,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var symbol = this.SemanticModel.GetSymbolInfo(expression);
             if (null != symbol.Symbol)
             {
-                var w = Walkers
-                    .SingleOrDefault(x => x.Filter(symbol));
+                var w = GetWalker(symbol);
                 if (null != w)
                     return w.Walk(expression, this.SemanticModel);
 
@@ -62,6 +63,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             Console.WriteLine("No symbol could be produced for " + expression.CSharpKind());
             Console.WriteLine("expression : " + expression.ToFullString());
             return string.Empty;
+        }
+
+        private CustomObjectSyntaxWalker GetWalker(SymbolInfo symbol)
+        {
+            var potentialWalkers = this.Walkers
+                .Where(x => x.Filter(symbol))
+                .ToList();
+            if (potentialWalkers.Count > 1)
+            {
+                potentialWalkers.ForEach(t => Console.WriteLine("{0} -> {1}", symbol.Symbol, t));
+            }
+            return potentialWalkers.FirstOrDefault();
         }
 
 

@@ -27,22 +27,12 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return true; }
         }
 
-        public override string Walk(SyntaxNode node, SemanticModel model)
+
+
+        public override string Walk(SyntaxNode node2, SemanticModel model)
         {
-            var walker = this;
-            if (!walker.Filter(node)) return string.Empty;
-
-
-            walker.Visit(node);
-            return walker.Code.ToString();
-        }
-
-
-
-        public override void VisitIdentifierName(IdentifierNameSyntax node)
-        {
-
-            var code = "";
+            var node = (IdentifierNameSyntax)node2;
+            string code;
             var text = node.Identifier.Text;
             switch (text)
             {
@@ -119,10 +109,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
 
 
-            this.Code.Clear();
-            this.Code.Append(code);
-
-            base.VisitIdentifierName(node);
+            return code;
         }
 
 

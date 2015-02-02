@@ -44,7 +44,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override string Walk(SyntaxNode node2, SemanticModel model)
         {
-            var method = (InvocationExpressionSyntax) node2;
             var node = (IdentifierNameSyntax)node2;
             var text = node.Identifier.Text;
 
@@ -56,6 +55,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 return "app." + xp;
 
             }
+            return string.Empty;
 
         }
 
