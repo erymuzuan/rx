@@ -52,34 +52,32 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }
         }
 
-        private string m_code;
-        public  string Walk2(SyntaxNode node, SemanticModel model)
-        {
-            var mae = node as MemberAccessExpressionSyntax;
-            if (null != mae)
-                return "base.Walk(node, model)";
-            var awaitExpression = node as AwaitExpressionSyntax;
-            if (null != awaitExpression)
-                return "yyyyyyy";
 
-            var invocationExpress = node as InvocationExpressionSyntax;
-            if (null != invocationExpress && node.ToFullString().Contains("Task."))
+        public override string Walk(SyntaxNode node, SemanticModel model)
+        {
+            var maes = node as MemberAccessExpressionSyntax;
+            if (null != maes)
             {
-                return m_code;
+                var exp = this.EvaluateExpressionCode(maes.Expression);
+                var name = this.EvaluateExpressionCode(maes.Name);
+                if (string.IsNullOrWhiteSpace(exp))
+                    return name;
+                return exp + "." + name;
             }
-            return "xxxx";
-        }
 
-        public override string Walk(SyntaxNode node2, SemanticModel model)
-        {
-            var node = (IdentifierNameSyntax)node2;
-            var text = node.Identifier.Text;
+            var id = node as IdentifierNameSyntax;
+            if (null == id)
+            {
+                var w = this.GetWalker(node, true);
+                return w.Walk(node, model);
+            }
+            var text = id.Identifier.Text;
 
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
             if (null != compiler)
             {
-                var argumentList = this.GetArguments(node).ToList();
-                m_code = compiler.Value.Compile(node, argumentList);
+                var argumentList = this.GetArguments(id).ToList();
+                return compiler.Value.Compile(id, argumentList);
             }
             return string.Empty;
         }

@@ -18,7 +18,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         protected override SyntaxKind[] Kinds
         {
-            get { return new[] { SyntaxKind.InvocationExpression }; }
+            get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
         }
 
         public override CustomObjectModel GetObjectModel(IProjectProvider project)
@@ -42,16 +42,40 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return com;
         }
 
-        public override string Walk(SyntaxNode node2, SemanticModel model)
+        protected override bool Filter(SymbolInfo info)
         {
-            var node = (IdentifierNameSyntax)node2;
-            var text = node.Identifier.Text;
+            var ips = info.Symbol as IParameterSymbol;
+            if (null != ips)
+                return ips.Name == "app";
+
+            var ms = info.Symbol as IMethodSymbol;
+            if (null != ms)
+                return ms.ContainingType.Name == "ApplicationHelper"
+                    && ms.ContainingAssembly.Name == "eval";
+
+            return false;
+        }
+
+        public override string Walk(SyntaxNode node, SemanticModel model)
+        {
+            var maes = node as MemberAccessExpressionSyntax;
+            if (null != maes)
+            {
+                var exp = this.EvaluateExpressionCode(maes.Expression);
+                var name = this.EvaluateExpressionCode(maes.Name);
+                if (string.IsNullOrWhiteSpace(exp))
+                    return name;
+                return exp + "." + name;
+            }
+
+            var id = (IdentifierNameSyntax)node;
+            var text = id.Identifier.Text;
 
             var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
             if (null != compiler)
             {
-                var argumentList = this.GetArguments(node).ToList();
-                var xp = compiler.Value.Compile(node, argumentList);
+                var argumentList = this.GetArguments(id).ToList();
+                var xp = compiler.Value.Compile(id, argumentList);
                 return "app." + xp;
 
             }

@@ -120,7 +120,7 @@ namespace durandaljs.compiler.test
         }
 
         [Test]
-        [Trace(Verbose = true)]
+        [Trace(Verbose = false)]
         public async Task AwaitWithLocalVariableDeclaration()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();
@@ -154,7 +154,7 @@ logger.Info(""User say "" + dr);
         }
 
         [Test]
-        [Trace(Verbose = true)]
+        [Trace(Verbose = false)]
         public async Task AwaitExpresion()
         {
             var patient = HtmlCompileHelper.CreatePatientDefinition();

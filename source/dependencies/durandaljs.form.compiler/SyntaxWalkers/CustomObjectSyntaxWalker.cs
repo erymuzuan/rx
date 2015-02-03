@@ -12,6 +12,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     public abstract class CustomObjectSyntaxWalker
     {
+        private SemanticModel m_semanticModel;
         protected abstract SyntaxKind[] Kinds { get; }
         protected virtual bool IsPredefinedType { get { return false; } }
         protected virtual SymbolKind[] SymbolKinds { get { return new SymbolKind[] { }; } }
@@ -24,22 +25,62 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public virtual bool Filter(SyntaxNode node)
         {
-            if (!this.Kinds.Contains(node.CSharpKind()))
-                return false;
-            return this.Filter(this.SemanticModel.GetSymbolInfo(node));
+            try
+            {
+                if (!this.Kinds.Contains(node.CSharpKind()))
+                    return false;
+                var info = this.SemanticModel.GetSymbolInfo(node);
+                return this.Filter(info);
+            }
+            catch (ArgumentException e)
+            {
+                var model = this.Compilation.GetSemanticModel(node.SyntaxTree);
+                var f = model.GetSymbolInfo(node);
+                Console.WriteLine(f);
+                if (DebuggerHelper.IsVerbose)
+                {
+                    Console.WriteLine("!!!!{0} : {1}", e.GetType().FullName, e.Message);
+                    Console.WriteLine(node.CSharpKind() + " -> " + node.ToFullString());
+                    Console.WriteLine(":::::::" + this.GetType().Name);
+
+                }
+            }
+
+            return false;
+
         }
 
+        private SymbolInfo GetSymbolInfo(ExpressionSyntax expression)
+        {
+            return this.SemanticModel.GetSymbolInfo(expression);
+        }
         protected virtual bool Filter(SymbolInfo info)
         {
             return false;
         }
 
 
-        public SemanticModel SemanticModel { get; set; }
+        public SemanticModel SemanticModel
+        {
+            get { return m_semanticModel; }
+            set
+            {
+                if (null != m_semanticModel)
+                {
+                    Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + this.GetType());
+                }
+                m_semanticModel = value;
+            }
+        }
+
         public abstract string Walk(SyntaxNode node, SemanticModel model);
 
         [ImportMany(RequiredCreationPolicy = CreationPolicy.Shared)]
         public CustomObjectSyntaxWalker[] Walkers { get; set; }
+
+        public CSharpCompilation Compilation { get; set; }
+        public SyntaxTree[] Trees { get; set; }
+        public CSharpSyntaxTree Snippet { get; set; }
 
         protected string EvaluateExpressionCode(ExpressionSyntax expression)
         {
@@ -48,7 +89,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null == this.Walkers)
                 throw new InvalidOperationException("Failed to load MEF");
 
-            var symbol = this.SemanticModel.GetSymbolInfo(expression);
+            var symbol = GetSymbolInfo(expression);
             if (null != symbol.Symbol)
             {
                 var w = GetWalker(symbol);
@@ -67,6 +108,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             Console.WriteLine("expression : " + expression.ToFullString());
             return string.Empty;
         }
+
 
         protected CustomObjectSyntaxWalker GetWalker(SymbolInfo symbol, bool excludeThis = false)
         {
@@ -89,10 +131,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var potentialWalkers = this.Walkers
                 .Where(x => x.Filter(node))
                 .ToList();
-            if(excludeThis) potentialWalkers = this.Walkers
-                .Where(x => x != this)
-                .Where(x => x.Filter(node))
-                .ToList();
+            if (excludeThis) potentialWalkers = this.Walkers
+                 .Where(x => x != this)
+                 .Where(x => x.Filter(node))
+                 .ToList();
             if (potentialWalkers.Count > 1)
             {
                 Console.WriteLine("!!!!! There are more that 1 walker for : " + node.CSharpKind());

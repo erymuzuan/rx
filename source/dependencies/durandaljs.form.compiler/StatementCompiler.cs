@@ -36,7 +36,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public Task<SnippetCompilerResult> CompileAsync<T>(string expression, IProjectProvider project)
         {
-
             if (string.IsNullOrWhiteSpace(expression))
             {
                 expression = GetDefaultExpression<T>();
@@ -58,7 +57,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                          let x = c.GetCode().Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
                              .Replace("using System.Web.Mvc;", string.Empty)
                          select (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)).ToArray();
-            
+
             var trees = new List<SyntaxTree> { snippet };
             var root = (CompilationUnitSyntax)snippet.GetRoot();
 
@@ -71,11 +70,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .AddReferences(project.References)
                 .AddSyntaxTrees(trees.ToArray());
 
-            var model = compilation.GetSemanticModel(snippet);
-
 
             var diagnostics = compilation.GetDiagnostics();
-
             var result = new SnippetCompilerResult { Success = true };
             result.DiagnosticCollection.AddRange(diagnostics.Where(x => x.Id != "CS8019"));
             result.Success = result.DiagnosticCollection.Count == 0;
@@ -90,6 +86,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 return Task.FromResult(result);
 
 
+
+            var model = compilation.GetSemanticModel(snippet);
+            this.Walkers.ToList().ForEach(w =>
+            {
+                w.SemanticModel = model;
+                w.Compilation = compilation;
+                w.Trees = trees.ToArray();
+                w.Snippet = snippet;
+            });
+
             var statements = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
                 .Single(x => x.Identifier.Text == "Evaluate")
                 .Body
@@ -103,9 +109,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             var code = new StringBuilder();
             if (statements.Any(x => x.DescendantNodes().OfType<AwaitExpressionSyntax>().Any()))
-                return this.BuildAwaitStatementTree(statements, model, true);
+                return this.BuildAwaitStatementTree(statements.OfType<StatementSyntax>().ToList(), model, true);
 
-            this.Walkers.ToList().ForEach(w => w.SemanticModel = model);
             foreach (var statement in statements)
             {
                 var st1 = statement;
@@ -128,7 +133,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return code.ToString();
         }
 
-        private string BuildAwaitStatementTree(SyntaxList<StatementSyntax> statements, SemanticModel model, bool initialize = false)
+        private string BuildAwaitStatementTree(IList<StatementSyntax> statements, SemanticModel model, bool initialize = false)
         {
             var code = new StringBuilder();
 
@@ -213,7 +218,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         code.AppendLinf("       {0} = __temp{1};", local.Declaration.Variables[0].Identifier.Text, awaitIndex);
 
                         var subsequestStatements = statements.SkipWhile((s, i) => i <= lineNumber).ToList();
-                        var subsequentCode = this.BuildAwaitStatementTree(SyntaxFactory.List(subsequestStatements), model);
+                        var subsequentCode = this.BuildAwaitStatementTree(subsequestStatements, model);
 
                         code.AppendLine(subsequentCode);
 
@@ -239,7 +244,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                         code.AppendLine(".then(function() {");
 
                         var subsequestStatements = statements.SkipWhile((s, i) => i <= lineNumber).ToList();
-                        var subsequentCode = this.BuildAwaitStatementTree(SyntaxFactory.List(subsequestStatements), model);
+                        var subsequentCode = this.BuildAwaitStatementTree(subsequestStatements, model);
 
                         code.AppendLine(subsequentCode);
                     }
