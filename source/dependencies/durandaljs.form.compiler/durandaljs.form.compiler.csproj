@@ -276,6 +276,7 @@
     <Compile Include="SyntaxWalkers\Listidentifiers\ForEach.cs" />
     <Compile Include="SyntaxWalkers\ListMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\LoadOperationMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LocalDeclarationStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\LoggerIdentifiers\Error.cs" />
     <Compile Include="SyntaxWalkers\LoggerIdentifiers\Info.cs" />
@@ -286,6 +287,8 @@
     <Compile Include="SyntaxWalkers\MathIdentifiers\Math.cs" />
     <Compile Include="SyntaxWalkers\MathWalker.cs" />
     <Compile Include="SyntaxWalkers\MethodInvocationExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\ObjectCollectionIdentifiers\Count.cs" />
+    <Compile Include="SyntaxWalkers\ObjectCollectionMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ParameterWalker.cs" />
     <Compile Include="SyntaxWalkers\ParenthesizedExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ReturnStatementWalker.cs" />

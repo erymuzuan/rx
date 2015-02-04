@@ -22,14 +22,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var code = new StringBuilder();
             code.AppendLine("using System;");
             code.AppendLine("using System.Threading.Tasks;");
+            code.AppendLine("using Bespoke.Sph.Domain;");
             code.AppendLine("using System.Linq;");
             code.AppendLine("using System.Linq.Expressions;");
 
             code.AppendLine("namespace " + project.DefaultNamespace);
             code.AppendLine("{");
+
             code.AppendLine("   public class DataContext");
             code.AppendLine("   {");
-            code.AppendLine("       public Task<T> LoadOneAsync<T>(Expression<Func<T, bool>> predicate){ throw new Exception();}");
+            code.AppendLine("       public Task<T> LoadOneAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity { throw new Exception();}");
+            code.AppendLine("       public Task<LoadOperation<T>> LoadAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity { throw new Exception();}");
             code.AppendLine("   }");
             code.AppendLine("}");
             var com = new CustomObjectModel

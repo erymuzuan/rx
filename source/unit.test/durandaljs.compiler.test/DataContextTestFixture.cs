@@ -25,15 +25,15 @@ namespace durandaljs.compiler.test
         public async Task LoadAsync()
         {
             await AssertAsync<Task>(@"
-            var patients;
+            var lo;
             return context.loadAsync('Patient', 'Mrn eq \'123\')
                         .then(function(__temp0) {
-                            logger.info(patient.Name());
+                            logger.info('Count : ' + lo.itemCollection.length);
                         });;
             ",
                 @"
-                var patients = await context.LoadAsync<Patient>(x => x.Mrn == ""123"");
-                logger.Info(patients.ItemCollection.Count); 
+                var lo = await context.LoadAsync<Patient>(x => x.Mrn == ""123"");
+                logger.Info("" Count : "" + lo.ItemCollection.Count); 
             ");
         }
 
