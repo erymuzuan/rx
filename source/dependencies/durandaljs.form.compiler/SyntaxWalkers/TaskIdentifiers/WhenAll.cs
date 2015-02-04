@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.TaskIdentifiers
 {
-    [Export("Task", typeof(IdentifierCompiler))]
+    [Export(typeof(IdentifierCompiler))]
     [IdentifierCompilerMetadata(TypeName = "Task", Text = "WhenAll")]
     public class WhenAll : IdentifierCompiler
     {

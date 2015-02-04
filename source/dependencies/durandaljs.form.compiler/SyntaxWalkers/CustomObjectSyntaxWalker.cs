@@ -139,14 +139,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
         [ImportMany(typeof(IdentifierCompiler), AllowRecomposition = true)]
-        public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers2 { get; set; }
+        public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
 
         protected virtual string InferredTypeName { get { return string.Empty; } }
 
         protected virtual string Walk(IdentifierNameSyntax id, SemanticModel model)
         {
             var text = id.Identifier.Text;
-            var compiler = this.IdentifierCompilers2.LastOrDefault(x => x.Metadata.Text == text && x.Metadata.TypeName == this.InferredTypeName);
+            var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text && x.Metadata.TypeName == this.InferredTypeName);
             if (null != compiler)
             {
                 var argumentList = this.GetArguments(id).ToList();

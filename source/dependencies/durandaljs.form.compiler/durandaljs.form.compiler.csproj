@@ -150,8 +150,8 @@
     <Compile Include="SyntaxWalkers\AppIdentifiers\App.cs" />
     <Compile Include="SyntaxWalkers\AppIdentifiers\ShowMessageAsync.cs" />
     <Compile Include="SyntaxWalkers\AwaitExpressionWalker.cs" />
-    <Compile Include="SyntaxWalkers\BooleanMemberAcessExpressionWalker - Copy.cs" />
     <Compile Include="SyntaxWalkers\BooleanMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\CultureInfoMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectModel.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectSyntaxWalker.cs" />
     <Compile Include="FormElements\DateTimePickerCompiler.cs" />

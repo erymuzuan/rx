@@ -29,8 +29,6 @@ namespace durandaljs.compiler.test
             logger.Info(""result2 : "" + results[1]);
             logger.Info(""result3 : "" + results[2]);
 
-
-
 ";
 
             const string EXPECTED = @"

@@ -1,17 +1,19 @@
 using System.ComponentModel.Composition;
+using System.Globalization;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     [Export(typeof(CustomObjectSyntaxWalker))]
-    class BooleanMemberAcessExpressionWalker : CustomObjectSyntaxWalker
+    class CultureInfoMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
 
         protected override bool Filter(INamedTypeSymbol named)
         {
-            return named.ToString() == "System.Boolean";
+            return named.ToString() == typeof(CultureInfo).FullName;
         }
+
 
         protected override SyntaxKind[] Kinds
         {
@@ -24,9 +26,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 };
             }
         }
-
-
-
 
     }
 }
