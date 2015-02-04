@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;

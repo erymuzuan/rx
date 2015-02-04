@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -10,8 +9,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class LiteralExpressionWalker : CustomObjectSyntaxWalker
     {
-        private const string Value = "";
-
         protected override SyntaxKind[] Kinds
         {
             get
