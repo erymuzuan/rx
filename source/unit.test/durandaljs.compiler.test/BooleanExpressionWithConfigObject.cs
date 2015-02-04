@@ -1,36 +1,14 @@
 ﻿using Bespoke.Sph.Domain;
-using Bespoke.Sph.Templating;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 
 namespace durandaljs.compiler.test
 {
     [TestFixture]
-    public class BooleanExpressionWithConfigObject
+    public class BooleanExpressionWithConfigObject : ExpressionTestFixture
     {
-        [SetUp]
-        public void SetUp()
-        {
-            ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
-            ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
-        }
-        /*
-         * 
-         * debugEnabled: ko.observable(true),
-            imageSettings: imageSettings,
-            userName: '@User.Identity.Name',
-            isAuthenticated : @(User.Identity.IsAuthenticated.ToString().ToLower()),
-            routes: routes,
-            startModule: startModule,
-            stateOptions : @Html.Raw(Model.StateOptions),
-            departmentOptions : @Html.Raw(Model.DepartmentOptions),
-            applicationFullName :'@Model.ApplicationFullName',
-            applicationName :'@Model.ApplicationName',
-            roles :[ @Html.Raw(string.Join(",", Roles.GetRolesForUser(User.Identity.Name).Select(u => string.Format("'{0}'", u))))],
-            allRoles :[ @Html.Raw(string.Join(",", Roles.GetAllRoles().Select(u => string.Format("'{0}'", u))))],
-            profile : @Html.Raw(JsonConvert.SerializeObject(Model.UserProfile))
-    
-         * */
+
 
         [Test]
         public void UserName()
@@ -68,11 +46,11 @@ namespace durandaljs.compiler.test
         }
 
         [Test]
-        [Ignore]
-        public void StringArrayLength()
+        public async Task StringArrayLength()
         {
-            Assert.AreEqual("config.roles.length  === 1",
-                "config.Roles.Length == 2".CompileHtml(), "Use Count() method");
+            await AssertAsync<int>(
+                "config.roles.length",
+                "config.Roles.Length");
         }
 
         [Test]

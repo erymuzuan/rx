@@ -149,6 +149,9 @@
     <Compile Include="SyntaxWalkers\AppExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\AppIdentifiers\App.cs" />
     <Compile Include="SyntaxWalkers\AppIdentifiers\ShowMessageAsync.cs" />
+    <Compile Include="SyntaxWalkers\ArrayIdentifiers\Length.cs" />
+    <Compile Include="SyntaxWalkers\ArrayIdentifiers\LongLength.cs" />
+    <Compile Include="SyntaxWalkers\ArrayMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\AwaitExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\BooleanMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\CultureInfoMemberAcessExpressionWalker.cs" />
@@ -260,6 +263,9 @@
     <Compile Include="SyntaxWalkers\IfStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\IIdentifierCompilerMetadata.cs" />
     <Compile Include="SyntaxWalkers\ImplicitArrayCreationExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\Int32Identifiers\MaxValue.cs" />
+    <Compile Include="SyntaxWalkers\Int32Identifiers\MinValue.cs" />
+    <Compile Include="SyntaxWalkers\Int32Identifiers\Parse.cs" />
     <Compile Include="SyntaxWalkers\Int32SyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\Listidentifiers\ForEach.cs" />
