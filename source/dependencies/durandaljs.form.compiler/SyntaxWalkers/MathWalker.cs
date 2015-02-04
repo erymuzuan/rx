@@ -7,22 +7,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class MathWalker : CustomObjectSyntaxWalker
     {
-        protected override bool Filter(SymbolInfo info)
+        protected override bool Filter(INamedTypeSymbol named)
         {
-            if (null == info.Symbol) return false;
+            return named.ToString() == "System.Math";
+        }
 
-            var nts = info.Symbol as INamedTypeSymbol;
-            if (null != nts) return nts.ToString() == "System.Math";
-
-            var ms = info.Symbol as IMethodSymbol;
-            if (null != ms)
-                return ms.ContainingType.Name == "Math" && ms.ContainingNamespace.Name == "System";
-
-            if (null == info.Symbol.ContainingType) return false;
-            if (null == info.Symbol.ContainingNamespace) return false;
-            if (null == info.Symbol.ContainingAssembly) return false;
-
-            return info.Symbol.ContainingType.ToString() == "Math";
+        protected override bool Filter(IMethodSymbol method)
+        {
+            return method.ContainingType.Name == "Math" && method.ContainingNamespace.Name == "System";
         }
 
         protected override SyntaxKind[] Kinds
