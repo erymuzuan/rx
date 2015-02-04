@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.Listidentifiers
 {
-    [Export("List", typeof(IdentifierCompiler))]
+    [Export(typeof(IdentifierCompiler))]
     [IdentifierCompilerMetadata(TypeName = "List", Text = "ForEach")]
     public class ForEach : IdentifierCompiler
     {

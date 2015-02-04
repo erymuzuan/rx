@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,13 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Javascripts
 
         public void AddReturn(string identifier, string body = null)
         {
-            this.ReturnStatement.ValueCollection.Add(identifier, string.IsNullOrWhiteSpace(body) ? identifier : body);
+            var statment = string.IsNullOrWhiteSpace(body) ? identifier : body;
+            if (this.ReturnStatement.ValueCollection.ContainsKey(identifier))
+            {
+                Console.WriteLine("The return statement already contains [{0}] : {1}", identifier, statment);
+                return;
+            }
+            this.ReturnStatement.ValueCollection.Add(identifier, statment);
         }
         public void AddDependency(string location, string identifier)
         {
@@ -72,7 +79,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Javascripts
         public override string ToString()
         {
             var code = new StringBuilder();
-            var keys = this.DependeciesCollection.Keys.Select(x => string.Format("\"{0}\"", (object)x));
+            var keys = this.DependeciesCollection.Keys.Select(x => string.Format("\"{0}\"", x));
             var values = this.DependeciesCollection.Values.Select(x => string.Format("{0}", x));
 
             code.AppendLinf("define([{0}],", string.Join(", ", keys));
