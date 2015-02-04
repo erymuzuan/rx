@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Text;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
@@ -56,39 +55,19 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
 
-        public override string Walk(SyntaxNode node, SemanticModel model)
+        protected override string Walk(IdentifierNameSyntax id, SemanticModel model)
         {
-            var maes = node as MemberAccessExpressionSyntax;
-            if (null != maes)
-            {
-                var exp = this.EvaluateExpressionCode(maes.Expression);
-                var name = this.EvaluateExpressionCode(maes.Name);
-                if (string.IsNullOrWhiteSpace(exp))
-                    return name;
-                return exp + "." + name;
-            }
-
-
-            var id = node as IdentifierNameSyntax;
-            if (null == id)
-            {
-                var w = this.GetWalker(node, true);
-                if (null != w) return w.Walk(node, model);
-                throw new Exception("Int32 " + node.CSharpKind());
-            }
             var text = id.Identifier.Text;
-            if (text == "config") return "config";
+            switch (text)
+            {
+                case "config": return "config";
+                case "IsAuthenticated": return "isAuthenticated";
+                case "UserName": return "userName";
+                case "Roles": return "roles";
+                case "ShortDateFormatString": return "shortDateFormatString";
+            }
 
-
-            if (text == "IsAuthenticated") return "isAuthenticated";
-            if (text == "UserName") return "userName";
-            if (text == "Roles") return "roles";
-            if (text == "ShortDateFormatString") return "shortDateFormatString";
-
-            return "config." + text + " is not yet";
-
+            return base.Walk(id, model);
         }
-
-
     }
 }
