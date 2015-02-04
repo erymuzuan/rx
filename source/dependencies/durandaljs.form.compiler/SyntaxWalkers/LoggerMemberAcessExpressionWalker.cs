@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
@@ -34,33 +33,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return false;
         }
 
-        public override string Walk(SyntaxNode node, SemanticModel model)
+        protected override string InferredTypeName
         {
-            var maes = node as MemberAccessExpressionSyntax;
-            if (null != maes)
-            {
-                return this.EvaluateExpressionCode(maes.Expression) + "." + this.EvaluateExpressionCode(maes.Name);
-            }
-            var ins = (IdentifierNameSyntax)node;
-            var text = ins.Identifier.Text;
-
-            if (text == "logger") return "logger";
-
-            var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
-            if (null != compiler)
-            {
-                var argumentList = this.GetArguments(ins).ToList();
-                var xp = compiler.Value.Compile(ins, argumentList);
-                return xp;
-
-            }
-
-            return string.Empty;
+            get { return "Logger"; }
         }
-
-
-
-
+        
         public override CustomObjectModel GetObjectModel(IProjectProvider project)
         {
             var code = new StringBuilder();

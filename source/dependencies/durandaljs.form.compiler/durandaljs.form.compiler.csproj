@@ -266,6 +266,7 @@
     <Compile Include="SyntaxWalkers\LocalDeclarationStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\LoggerIdentifiers\Error.cs" />
     <Compile Include="SyntaxWalkers\LoggerIdentifiers\Info.cs" />
+    <Compile Include="SyntaxWalkers\LoggerIdentifiers\Logger.cs" />
     <Compile Include="SyntaxWalkers\LoggerIdentifiers\Warning.cs" />
     <Compile Include="SyntaxWalkers\LoggerMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\MathIdentifiers\Abs.cs" />

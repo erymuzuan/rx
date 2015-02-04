@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.LoggerIdentifiers
 {
-    [Export("Logger", typeof(IdentifierCompiler))]
+    [Export(typeof(IdentifierCompiler))]
     [IdentifierCompilerMetadata(TypeName = "Logger", Text = "Error")]
     public class Error : IdentifierCompiler
     {
