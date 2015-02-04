@@ -93,11 +93,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers2 { get; set; }
 
         protected virtual string InferredTypeName { get { return string.Empty; } }
+
         protected virtual string Walk(IdentifierNameSyntax id, SemanticModel model)
         {
             var text = id.Identifier.Text;
-            if (text.ToLowerInvariant() == "string") return "String";
-
             var compiler = this.IdentifierCompilers2.LastOrDefault(x => x.Metadata.Text == text && x.Metadata.TypeName == this.InferredTypeName);
             if (null != compiler)
             {
@@ -106,7 +105,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 return xp;
             }
 
-            return "Cannot find compiler for string." + text;
+            return string.Format("Cannot find compiler for [{0}].[{1}]", this.InferredTypeName, text);
         }
 
         [ImportMany(RequiredCreationPolicy = CreationPolicy.Shared)]

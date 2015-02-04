@@ -6,16 +6,14 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.DateTimeIdentifiers
 {
-    [Export("DateTime", typeof(IdentifierCompiler))]
-    [IdentifierCompilerMetadata(TypeName = "DateTime", Text = "ToString")]
-    public class DateTimeToString : IdentifierCompiler
+    [Export(typeof(IdentifierCompiler))]
+    [IdentifierCompilerMetadata(TypeName = "DateTime", Text = "AddMonths")]
+    public class AddMonths : IdentifierCompiler
     {
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments)
         {
-            var args = "";
-            if (null != arguments)
-                args = string.Join(", ", arguments.Select(this.EvaluateExpressionCode));
-            return "format(" + args + ")";
+            var args = arguments.ToArray();
+            return "add(" + this.EvaluateExpressionCode(args[0]) + ", 'M')";
         }
     }
 }

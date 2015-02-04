@@ -98,7 +98,6 @@ namespace durandaljs.compiler.test
                 "$data.Address().CreatedDate().moment()",
                 "item.Address.CreatedDate"
                 );
-          
         }
 
         [Test]

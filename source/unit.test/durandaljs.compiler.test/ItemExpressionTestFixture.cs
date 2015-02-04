@@ -28,5 +28,12 @@ namespace durandaljs.compiler.test
                 "$data.CreatedDate().moment()",
                 "item.CreatedDate");
         }
+        [Test]
+        public async Task CreatedDateYear()
+        {
+            await AssertAsync<int>(
+                "$data.CreatedDate().moment().year()",
+                "item.CreatedDate.Year");
+        }
     }
 }

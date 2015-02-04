@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel.Composition;
-using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,10 +8,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class DateTimeMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
-
-        [ImportMany("DateTime", typeof(IdentifierCompiler), AllowRecomposition = true)]
-        public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
-
         protected override bool Filter(SymbolInfo info)
         {
             var symbol = info.Symbol;
@@ -28,12 +22,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     return prop.ContainingNamespace.Name == "System" &&
                         prop.ContainingAssembly.Name == "mscorlib";
                 }
-
-
-                var named = prop.Type;
-                return (named.Name == "DateTime" || named.ToString() == "System.DateTime?") &&
-                    named.ContainingNamespace.Name == "System" &&
-                    named.ContainingAssembly.Name == "mscorlib";
+                // if the property type is DateTime, then return false
+                // we just interested the current type, property belong to DateTime
+                return false;
 
             }
             var nts = symbol as INamedTypeSymbol;
@@ -56,40 +47,17 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.InvocationExpression }; }
         }
 
-        public override string Walk(SyntaxNode node, SemanticModel model)
+        protected override string InferredTypeName
         {
-            var maes = node as MemberAccessExpressionSyntax;
-            if (null != maes)
-            {
-                var exp = this.EvaluateExpressionCode(maes.Expression);
-                var name = this.EvaluateExpressionCode(maes.Name);
-                if (string.IsNullOrWhiteSpace(exp))
-                    return name;
-                return exp + "." + name;
-            }
-
-            var id = node as IdentifierNameSyntax;
-            if (null == id)
-            {
-                var w2 = this.GetWalker(node, true);
-                return w2.Walk(node, model);
-            }
-            var text = id.Identifier.Text;
-            if (text == "DateTime") return "";
-            var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
-            if (null != compiler)
-            {
-                var argumentList = this.GetArguments(id).ToList();
-                var xp = compiler.Value.Compile(id, argumentList);
-                return  xp;
-            }
-
-            var w = this.GetWalker(model.GetSymbolInfo(node), true);
-            if (null != w) return w.Walk(node, model);
-
-            throw new Exception("Cannot find  a compiler for DateTime." + text);
+            get { return "DateTime"; }
         }
 
+        protected override string Walk(IdentifierNameSyntax id, SemanticModel model)
+        {
+            if (id.Identifier.Text == "DateTime") 
+                return string.Empty;
 
+            return base.Walk(id, model);
+        }
     }
 }
