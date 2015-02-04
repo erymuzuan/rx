@@ -1,9 +1,7 @@
 using System;
 using System.ComponentModel.Composition;
-using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
@@ -37,39 +35,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
         }
 
-        public override string Walk(SyntaxNode node, SemanticModel model)
+        protected override string InferredTypeName
         {
-            var maes = node as MemberAccessExpressionSyntax;
-            if (null != maes)
-            {
-                var exp = this.EvaluateExpressionCode(maes.Expression);
-                var name = this.EvaluateExpressionCode(maes.Name);
-                if (string.IsNullOrWhiteSpace(exp))
-                    return name;
-                return exp + "." + name;
-            }
-
-            var id = node as IdentifierNameSyntax;
-            if (null == id)
-            {
-                var w = this.GetWalker(node, true);
-                return w.Walk(node, model);
-            }
-
-            var text = id.Identifier.Text;
-            if (text == "Math") return "Math";
-
-            var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
-            if (null != compiler)
-            {
-                var argumentList = this.GetArguments(id).ToList();
-                var xp = compiler.Value.Compile(id, argumentList);
-
-                return xp;
-            }
-            return string.Empty;
+            get { return "Math"; }
         }
-
-
     }
 }
