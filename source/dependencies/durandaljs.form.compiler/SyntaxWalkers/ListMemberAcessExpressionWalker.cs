@@ -27,7 +27,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             if (null != prop.ContainingType && prop.ContainingType.Name == LIST)
             {
-                return prop.ContainingNamespace.Name == SYSTEM &&
+                return prop.ContainingNamespace.ToString() == SYSTEM_COLLECTION_GENERIC &&
                        prop.ContainingAssembly.Name == MSCORLIB;
             }
 
