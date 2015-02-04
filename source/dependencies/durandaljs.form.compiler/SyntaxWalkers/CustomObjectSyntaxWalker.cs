@@ -12,6 +12,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     public abstract class CustomObjectSyntaxWalker
     {
+        public const string MSCORLIB = "mscorlib";
+        public const string SYSTEM = "System";
+
         protected abstract SyntaxKind[] Kinds { get; }
         protected virtual bool IsPredefinedType { get { return false; } }
         protected virtual SymbolKind[] SymbolKinds { get { return new SymbolKind[] { }; } }
@@ -53,11 +56,74 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             return this.SemanticModel.GetSymbolInfo(expression);
         }
+
         protected virtual bool Filter(SymbolInfo info)
+        {
+            var ms = info.Symbol as IMethodSymbol;
+            if (null != ms)
+            {
+                if (this.Filter(ms)) return true;
+            }
+
+            var nts = info.Symbol as INamedTypeSymbol;
+            if (null != nts)
+            {
+                if (this.Filter(nts)) return true;
+            }
+
+            var ps = info.Symbol as IPropertySymbol;
+            if (null != ps)
+            {
+                if (this.Filter(ps)) return true;
+            }
+
+            var parameter = info.Symbol as IParameterSymbol;
+            if (null != parameter)
+            {
+                if (this.Filter(parameter)) return true;
+            }
+
+            var local = info.Symbol as ILocalSymbol;
+            if (null != local)
+            {
+                if (this.Filter(local)) return true;
+            }
+
+            var field = info.Symbol as IFieldSymbol;
+            if (null != field)
+            {
+                if (this.Filter(field)) return true;
+            }
+
+            return false;
+        }
+
+        protected virtual bool Filter(IMethodSymbol method)
         {
             return false;
         }
 
+        protected virtual bool Filter(INamedTypeSymbol named)
+        {
+            return false;
+        }
+
+        protected virtual bool Filter(IPropertySymbol prop)
+        {
+            return false;
+        }
+        protected virtual bool Filter(IParameterSymbol parameter)
+        {
+            return false;
+        }
+        protected virtual bool Filter(ILocalSymbol local)
+        {
+            return false;
+        }
+        protected virtual bool Filter(IFieldSymbol field)
+        {
+            return false;
+        }
 
         public SemanticModel SemanticModel { get; set; }
 

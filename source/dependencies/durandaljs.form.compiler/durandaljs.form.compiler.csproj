@@ -186,6 +186,7 @@
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\AddMonths.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\AddSecond.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\AddYears.cs" />
+    <Compile Include="SyntaxWalkers\DateTimeIdentifiers\DateTime.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\Day.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\Now.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\Parse.cs" />

@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.Composition;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -8,10 +7,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class MathWalker : CustomObjectSyntaxWalker
     {
-
-        [ImportMany("Math", typeof(IdentifierCompiler), AllowRecomposition = true)]
-        public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
-
         protected override bool Filter(SymbolInfo info)
         {
             if (null == info.Symbol) return false;

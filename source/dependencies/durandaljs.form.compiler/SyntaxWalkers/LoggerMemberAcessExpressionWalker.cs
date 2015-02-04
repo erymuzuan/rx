@@ -14,19 +14,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
         }
-
-        protected override bool Filter(SymbolInfo info)
+        
+        protected override bool Filter(IParameterSymbol parameter)
         {
-            var ips = info.Symbol as IParameterSymbol;
-            if (null != ips)
-                return ips.Name == "logger";
+            return parameter.Name == "logger";
+        }
 
-            var ms = info.Symbol as IMethodSymbol;
-            if (null != ms)
-                return ms.ContainingType.Name == "Logger"
-                    && ms.ContainingAssembly.Name == "eval";
-
-            return false;
+        protected override bool Filter(IMethodSymbol method)
+        {
+            return method.ContainingType.Name == "Logger"
+                && method.ContainingAssembly.Name == "eval";
         }
 
         protected override string InferredTypeName

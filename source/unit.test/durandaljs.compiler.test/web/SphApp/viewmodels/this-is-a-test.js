@@ -113,6 +113,132 @@ var activate  = function(itemId){
        return tcs.promise();
 
    },
+   registerCourse  = function($data){ 
+          if (!validation.valid()) {
+          return Task.fromResult(false);
+       }
+       
+       var tcs = new $.Deferred(),
+           data = ko.mapping.toJSON(item);
+       
+       context.post(data, "course/RegisterCourse")
+       .then(function (result) {
+           if (result.success) {
+               logger.info(result.message);
+               item().Id(result.id);
+               errors.removeAll();
+ 
+                        app.showMessage("Ok done", "Reactive Developer platform showcase", ["OK"])
+	                        .done(function () {
+                                window.location="/sph#course";
+	                        });
+                                 
+           } else {
+               errors.removeAll();
+               _(result.rules).each(function(v){
+               errors(v.ValidationErrors);
+           });
+           
+           logger.error("There are errors in your entity, !!!");
+           }
+           tcs.resolve(result);
+       });
+
+       return tcs.promise();
+
+   },
+   deregisterCourse  = function($data){ 
+          if (!validation.valid()) {
+          return Task.fromResult(false);
+       }
+       
+       var tcs = new $.Deferred(),
+           data = ko.mapping.toJSON(item);
+       
+       context.post(data, "course/DeregisterCourse")
+       .then(function (result) {
+           if (result.success) {
+               logger.info(result.message);
+               item().Id(result.id);
+               errors.removeAll();
+
+           } else {
+               errors.removeAll();
+               _(result.rules).each(function(v){
+               errors(v.ValidationErrors);
+           });
+           
+           logger.error("There are errors in your entity, !!!");
+           }
+           tcs.resolve(result);
+       });
+
+       return tcs.promise();
+
+   },
+   registerCourse  = function($data){ 
+          if (!validation.valid()) {
+          return Task.fromResult(false);
+       }
+       
+       var tcs = new $.Deferred(),
+           data = ko.mapping.toJSON(item);
+       
+       context.post(data, "course/RegisterCourse")
+       .then(function (result) {
+           if (result.success) {
+               logger.info(result.message);
+               item().Id(result.id);
+               errors.removeAll();
+ 
+                        app.showMessage("Ok done", "Reactive Developer platform showcase", ["OK"])
+	                        .done(function () {
+                                window.location="/sph#course";
+	                        });
+                                 
+           } else {
+               errors.removeAll();
+               _(result.rules).each(function(v){
+               errors(v.ValidationErrors);
+           });
+           
+           logger.error("There are errors in your entity, !!!");
+           }
+           tcs.resolve(result);
+       });
+
+       return tcs.promise();
+
+   },
+   deregisterCourse  = function($data){ 
+          if (!validation.valid()) {
+          return Task.fromResult(false);
+       }
+       
+       var tcs = new $.Deferred(),
+           data = ko.mapping.toJSON(item);
+       
+       context.post(data, "course/DeregisterCourse")
+       .then(function (result) {
+           if (result.success) {
+               logger.info(result.message);
+               item().Id(result.id);
+               errors.removeAll();
+
+           } else {
+               errors.removeAll();
+               _(result.rules).each(function(v){
+               errors(v.ValidationErrors);
+           });
+           
+           logger.error("There are errors in your entity, !!!");
+           }
+           tcs.resolve(result);
+       });
+
+       return tcs.promise();
+
+   },
    save  = function($data){ 
        if (!validation.valid()) {
            return Task.fromResult(false);
