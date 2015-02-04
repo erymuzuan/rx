@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.StringIdentifiers
 {
-    [Export("String", typeof(IdentifierCompiler))]
+    [Export(typeof(IdentifierCompiler))]
     [IdentifierCompilerMetadata(TypeName = "String", Text = "Format")]
     public class Format : IdentifierCompiler
     {
@@ -16,7 +16,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.StringIdentifiers
             var args = arguments.ToArray();
             var code = new StringBuilder("String.format(");
             var formatArguments = from a in args
-                select this.EvaluateExpressionCode(a);
+                                  select this.EvaluateExpressionCode(a);
             code.Append(string.Join(", ", formatArguments));
             code.Append(")");
             return code.ToString();

@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace NAMESPACE
 {
-    [Export("String", typeof (IdentifierCompiler))]
+    [Export(typeof(IdentifierCompiler))]
     [IdentifierCompilerMetadata(TypeName = "String", Text = "ToLower")]
     public class ToLower : IdentifierCompiler
     {

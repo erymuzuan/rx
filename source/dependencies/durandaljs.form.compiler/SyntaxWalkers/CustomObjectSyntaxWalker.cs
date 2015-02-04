@@ -61,7 +61,53 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public SemanticModel SemanticModel { get; set; }
 
-        public abstract string Walk(SyntaxNode node, SemanticModel model);
+        public virtual string Walk(SyntaxNode node, SemanticModel model)
+        {
+            var maes = node as MemberAccessExpressionSyntax;
+            if (null != maes)
+                return this.Walk(maes, model);
+
+            var id = node as IdentifierNameSyntax;
+            if (null != id) return this.Walk(id, model);
+
+            var w = this.GetWalker(model.GetSymbolInfo(node), true);
+            if (null != w) return w.Walk(node, model);
+
+            var w2 = this.GetWalker(node, true);
+            if (null != w2) return w2.Walk(node, model);
+
+            return string.Empty;
+
+        }
+
+        protected virtual string Walk(MemberAccessExpressionSyntax maes, SemanticModel model)
+        {
+            var exp = this.EvaluateExpressionCode(maes.Expression);
+            var name = this.EvaluateExpressionCode(maes.Name);
+            if (string.IsNullOrWhiteSpace(exp))
+                return name;
+            return exp + "." + name;
+        }
+
+        [ImportMany(typeof(IdentifierCompiler), AllowRecomposition = true)]
+        public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers2 { get; set; }
+
+        protected virtual string InferredTypeName { get { return string.Empty; } }
+        protected virtual string Walk(IdentifierNameSyntax id, SemanticModel model)
+        {
+            var text = id.Identifier.Text;
+            if (text.ToLowerInvariant() == "string") return "String";
+
+            var compiler = this.IdentifierCompilers2.LastOrDefault(x => x.Metadata.Text == text && x.Metadata.TypeName == this.InferredTypeName);
+            if (null != compiler)
+            {
+                var argumentList = this.GetArguments(id).ToList();
+                var xp = compiler.Value.Compile(id, argumentList);
+                return xp;
+            }
+
+            return "Cannot find compiler for string." + text;
+        }
 
         [ImportMany(RequiredCreationPolicy = CreationPolicy.Shared)]
         public CustomObjectSyntaxWalker[] Walkers { get; set; }

@@ -8,6 +8,24 @@ namespace durandaljs.compiler.test
     [TestFixture]
     public class StringTestFixture : ExpressionTestFixture
     {
+       
+
+        [Test]
+        public async Task NotIsNullOrWhiteSpace()
+        {
+
+            await AssertAsync<bool>(
+                "!String.isNullOrWhiteSpace($data.Name())",
+                "!string.IsNullOrWhiteSpace(item.Name)");
+        }
+
+        [Test]
+        public async Task Concat()
+        {
+           await AssertAsync<string>(
+               "'test' + $data.Mrn()",
+               "\"test\" + item.Mrn");
+        }
         [Test]
         [Trace(Verbose = false)]
         public async Task Empty()

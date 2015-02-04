@@ -34,14 +34,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return false;
         }
 
-        public override string Walk(SyntaxNode node2, SemanticModel model)
+        public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var maes = node2 as MemberAccessExpressionSyntax;
+            var maes = node as MemberAccessExpressionSyntax;
             if (null != maes)
             {
                 return this.EvaluateExpressionCode(maes.Expression) + "." + this.EvaluateExpressionCode(maes.Name);
             }
-            var ins = (IdentifierNameSyntax)node2;
+            var ins = (IdentifierNameSyntax)node;
             var text = ins.Identifier.Text;
 
             if (text == "logger") return "logger";

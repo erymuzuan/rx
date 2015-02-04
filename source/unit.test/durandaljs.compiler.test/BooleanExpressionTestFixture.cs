@@ -6,23 +6,9 @@ using NUnit.Framework;
 namespace durandaljs.compiler.test
 {
     [TestFixture]
-    public class BooleanExpressionTestFixture
+    public class BooleanExpressionTestFixture : ExpressionTestFixture
     {
-        [SetUp]
-        public void SetUp()
-        {
-            ObjectBuilder.AddCacheList<IDirectoryService>(new MockDirectoryService());
-            ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
-        }
-
-
-        [Test]
-        public void StringConcat()
-        {
-            Assert.AreEqual(
-                "'test' + $data.Mrn() === $data.Name()",
-                "\"test\" + item.Mrn == item.Name".CompileHtml());
-        }
+       
         [Test]
         public void ReturnString()
         {
@@ -109,29 +95,7 @@ namespace durandaljs.compiler.test
                 "$data.Name() !== null",
                 "item.Name != null".CompileHtml());
         }
-        [Test]
-        public void NotStringEmptyConstant()
-        {
-
-            Assert.AreEqual(
-                "$data.Name() !== ''",
-                "item.Name != string.Empty".CompileHtml());
-        }
-        [Test]
-        public void StringIsNullOrWhiteSpace()
-        {
-            Assert.AreEqual(
-                "String.isNullOrWhiteSpace($data.Name())",
-                "string.IsNullOrWhiteSpace(item.Name)".CompileHtml());
-        }
-        [Test]
-        public void NotStringIsNullOrWhiteSpace()
-        {
-
-            Assert.AreEqual(
-                "!String.isNullOrWhiteSpace($data.Name())",
-                "!string.IsNullOrWhiteSpace(item.Name)".CompileHtml());
-        }
+    
 
         [Test]
         public void StringIsNullOrEmpty()
