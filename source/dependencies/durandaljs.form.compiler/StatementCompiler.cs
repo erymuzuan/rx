@@ -94,6 +94,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 w.Compilation = compilation;
                 w.Trees = trees.ToArray();
                 w.Snippet = snippet;
+                w.Compiler = this;
             });
 
             var statements = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
@@ -133,7 +134,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             return code.ToString();
         }
 
-        private string BuildAwaitStatementTree(IList<StatementSyntax> statements, SemanticModel model, bool initialize = false)
+        public string BuildAwaitStatementTree(IList<StatementSyntax> statements, SemanticModel model, bool initialize = false)
         {
             var code = new StringBuilder();
 
@@ -149,7 +150,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             foreach (var statement in statements)
             {
                 var st1 = statement;
-                var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any();
+                var kind = st1.CSharpKind();
+                var hasAwait = st1.DescendantNodes().OfType<AwaitExpressionSyntax>().Any()
+                    && (kind == SyntaxKind.LocalDeclarationStatement || kind == SyntaxKind.ExpressionStatement);
                 if (hasAwait && initialize) break;
 
                 var walkers = this.Walkers.Where(x => x.Filter(st1)).ToList();

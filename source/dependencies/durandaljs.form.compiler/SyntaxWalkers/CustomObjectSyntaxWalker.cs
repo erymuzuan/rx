@@ -163,6 +163,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         public CSharpCompilation Compilation { get; set; }
         public SyntaxTree[] Trees { get; set; }
         public CSharpSyntaxTree Snippet { get; set; }
+        public StatementCompiler Compiler { get; set; }
 
         protected string EvaluateExpressionCode(ExpressionSyntax expression)
         {

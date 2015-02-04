@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -30,10 +31,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             var block = ifsyntax.Statement as BlockSyntax;
             if (null != block)
             {
-                foreach (var st in block.Statements)
-                {
-                    code.AppendLine("       " + this.GetStatementCode(model, st) );
-                }
+                var blockCode = this.Compiler.BuildAwaitStatementTree(block.Statements.ToList(), model, true);
+                code.AppendLine(blockCode);
             }
             else
             {
