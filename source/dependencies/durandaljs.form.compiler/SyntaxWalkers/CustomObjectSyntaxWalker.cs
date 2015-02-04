@@ -12,7 +12,6 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     public abstract class CustomObjectSyntaxWalker
     {
-        private SemanticModel m_semanticModel;
         protected abstract SyntaxKind[] Kinds { get; }
         protected virtual bool IsPredefinedType { get { return false; } }
         protected virtual SymbolKind[] SymbolKinds { get { return new SymbolKind[] { }; } }
@@ -60,18 +59,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
 
-        public SemanticModel SemanticModel
-        {
-            get { return m_semanticModel; }
-            set
-            {
-                if (null != m_semanticModel)
-                {
-                    Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + this.GetType());
-                }
-                m_semanticModel = value;
-            }
-        }
+        public SemanticModel SemanticModel { get; set; }
 
         public abstract string Walk(SyntaxNode node, SemanticModel model);
 

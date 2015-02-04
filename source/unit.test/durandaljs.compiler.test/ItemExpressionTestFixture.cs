@@ -25,7 +25,7 @@ namespace durandaljs.compiler.test
         public async Task CreatedDate()
         {
             await AssertAsync<DateTime>(
-                "$data.CreatedDate()",
+                "$data.CreatedDate().moment()",
                 "item.CreatedDate");
         }
     }

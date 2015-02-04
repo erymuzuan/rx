@@ -34,7 +34,7 @@ namespace durandaljs.compiler.test
 
             Assert.IsTrue(cr.Success);
 
-            StringAssert.Contains("return String.format(' Created on {0:d}', $data.CreatedDate());", cr.Code);
+            StringAssert.Contains("return String.format(' Created on {0:d}', $data.CreatedDate().moment());", cr.Code);
         }
     }
 }
