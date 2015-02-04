@@ -1,21 +1,15 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Linq;
+﻿using System.ComponentModel.Composition;
 using System.Text;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     [Export(typeof(CustomObjectSyntaxWalker))]
     class AppExpressionWalker : CustomObjectSyntaxWalker
     {
-        [ImportMany("ApplicationHelper", typeof(IdentifierCompiler), AllowRecomposition = true)]
-        public Lazy<IdentifierCompiler, IIdentifierCompilerMetadata>[] IdentifierCompilers { get; set; }
-
-
+        public const string APPLICATION_HELPER = "ApplicationHelper";
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
@@ -36,55 +30,27 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             {
                 SyntaxTree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(code.ToString()),
                 IncludeAsParameter = true,
-                ClassName = "ApplicationHelper",
+                ClassName = APPLICATION_HELPER,
                 IdentifierText = "app"
             };
             return com;
         }
 
-        protected override bool Filter(SymbolInfo info)
+
+        protected override bool Filter(IParameterSymbol parameter)
         {
-            var ips = info.Symbol as IParameterSymbol;
-            if (null != ips)
-                return ips.Name == "app";
-
-            var ms = info.Symbol as IMethodSymbol;
-            if (null != ms)
-                return ms.ContainingType.Name == "ApplicationHelper"
-                    && ms.ContainingAssembly.Name == "eval";
-
-            return false;
+            return parameter.Name == "app";
         }
 
-        public override string Walk(SyntaxNode node, SemanticModel model)
+        protected override bool Filter(IMethodSymbol method)
         {
-            var maes = node as MemberAccessExpressionSyntax;
-            if (null != maes)
-            {
-                var exp = this.EvaluateExpressionCode(maes.Expression);
-                var name = this.EvaluateExpressionCode(maes.Name);
-                if (string.IsNullOrWhiteSpace(exp))
-                    return name;
-                return exp + "." + name;
-            }
-
-            var id = (IdentifierNameSyntax)node;
-            var text = id.Identifier.Text;
-
-            var compiler = this.IdentifierCompilers.LastOrDefault(x => x.Metadata.Text == text);
-            if (null != compiler)
-            {
-                var argumentList = this.GetArguments(id).ToList();
-                var xp = compiler.Value.Compile(id, argumentList);
-                return "app." + xp;
-
-            }
-            return string.Empty;
-
+            return method.ContainingType.Name == APPLICATION_HELPER
+                && method.ContainingAssembly.Name == EVAL;
         }
 
-
-
-
+        protected override string InferredTypeName
+        {
+            get { return APPLICATION_HELPER; }
+        }
     }
 }

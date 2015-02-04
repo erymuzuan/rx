@@ -147,6 +147,7 @@
     <Compile Include="SyntaxWalkers\AddSyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\AnonymousObjectCreationExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\AppExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\AppIdentifiers\App.cs" />
     <Compile Include="SyntaxWalkers\AppIdentifiers\ShowMessageAsync.cs" />
     <Compile Include="SyntaxWalkers\AwaitExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\BooleanMemberAcessExpressionWalker - Copy.cs" />

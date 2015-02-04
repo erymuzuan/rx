@@ -14,6 +14,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     {
         public const string MSCORLIB = "mscorlib";
         public const string SYSTEM = "System";
+        public const string EVAL = "eval";
+
 
         protected abstract SyntaxKind[] Kinds { get; }
         protected virtual bool IsPredefinedType { get { return false; } }
@@ -27,29 +29,10 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public virtual bool Filter(SyntaxNode node)
         {
-            try
-            {
-                if (!this.Kinds.Contains(node.CSharpKind()))
-                    return false;
-                var info = this.SemanticModel.GetSymbolInfo(node);
-                return this.Filter(info);
-            }
-            catch (ArgumentException e)
-            {
-                var model = this.Compilation.GetSemanticModel(node.SyntaxTree);
-                var f = model.GetSymbolInfo(node);
-                Console.WriteLine(f);
-                if (DebuggerHelper.IsVerbose)
-                {
-                    Console.WriteLine("!!!!{0} : {1}", e.GetType().FullName, e.Message);
-                    Console.WriteLine(node.CSharpKind() + " -> " + node.ToFullString());
-                    Console.WriteLine(":::::::" + this.GetType().Name);
-
-                }
-            }
-
-            return false;
-
+            if (!this.Kinds.Contains(node.CSharpKind()))
+                return false;
+            var info = this.SemanticModel.GetSymbolInfo(node);
+            return this.Filter(info);
         }
 
         private SymbolInfo GetSymbolInfo(ExpressionSyntax expression)
