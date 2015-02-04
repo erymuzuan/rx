@@ -7,38 +7,33 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     public class ListMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
-        protected override bool Filter(SymbolInfo info)
+        public const string LIST = "List";
+        public const string SYSTEM_COLLECTION_GENERIC = "System.Collections.Generic";
+        public const string SYSTEM_COLLECTIONS_GENERIC_LIST = "System.Collections.Generic.List`";
+
+
+        protected override bool Filter(INamedTypeSymbol named)
         {
-            var symbol = info.Symbol;
-            if (null == symbol) return false;
+            return named.ToString() == SYSTEM_COLLECTIONS_GENERIC_LIST;
+        }
 
+        protected override bool Filter(IMethodSymbol method)
+        {
+            return method.ContainingType.Name == LIST &&
+                   method.ContainingNamespace.ToString() == SYSTEM_COLLECTION_GENERIC;
+        }
 
-            var prop = symbol as IPropertySymbol;
-            if (prop != null)
-            {   //System.Linq.Enumerable
-                if (null != prop.ContainingType && prop.ContainingType.Name == "List")
-                {
-                    return prop.ContainingNamespace.Name == "System" &&
-                           prop.ContainingAssembly.Name == "mscorlib";
-                }
-
-
-                var named = prop.Type;
-                return (named.Name == "List" || named.ToString() == "System.Collections.Generic") &&
-                       named.ContainingNamespace.Name == "System";
-
+        protected override bool Filter(IPropertySymbol prop)
+        {
+            if (null != prop.ContainingType && prop.ContainingType.Name == LIST)
+            {
+                return prop.ContainingNamespace.Name == SYSTEM &&
+                       prop.ContainingAssembly.Name == MSCORLIB;
             }
-            var nts = symbol as INamedTypeSymbol;
-            if (null != nts)
-                return nts.ToString() == "System.Collections.Generic.List`";
 
-            if (null == symbol.ContainingType) return false;
-            if (null == symbol.ContainingNamespace) return false;
-            if (null == symbol.ContainingAssembly) return false;
-
-            // static methods and propertues
-            return symbol.ContainingType.Name == "List" &&
-                   symbol.ContainingNamespace.ToString() == "System.Collections.Generic";
+            var named = prop.Type;
+            return (named.Name == LIST || named.ToString() == SYSTEM_COLLECTION_GENERIC) &&
+                   named.ContainingNamespace.Name == SYSTEM;
         }
 
         protected override SyntaxKind[] Kinds
@@ -48,7 +43,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         protected override string InferredTypeName
         {
-            get { return "List"; }
+            get { return LIST; }
         }
     }
 }
