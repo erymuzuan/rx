@@ -8,14 +8,12 @@ using NUnit.Framework;
 namespace durandaljs.compiler.test
 {
     [TestFixture]
-    public class AwaitExpressionTestFixture
+    public class AwaitExpressionTestFixture : StatementTestFixture
     {
         [Test]
         [Trace(Verbose = true)]
         public async Task TaskWhenAll()
         {
-            var patient = HtmlCompileHelper.CreatePatientDefinition();
-            var compiler = new StatementCompiler();
             const string CODE = @"
             var name = item.Name;
 
@@ -54,8 +52,7 @@ namespace durandaljs.compiler.test
 
             
 ";
-            var cr = await compiler.CompileAsync<Task>(CODE, patient);
-            AssertCodes(EXPECTED, cr);
+            await AssertAsync<Task>(EXPECTED, CODE);
 
         }
         [Test]

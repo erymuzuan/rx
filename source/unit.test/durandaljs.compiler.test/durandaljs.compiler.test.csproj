@@ -77,6 +77,7 @@
     <Compile Include="DecimalExpressionTestFixture.cs" />
     <Compile Include="EntityFormViewModelTestFixture.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
+    <Compile Include="IfExpressionTestFixture.cs" />
     <Compile Include="ItemExpressionTestFixture.cs" />
     <Compile Include="LambdaExpressionTestFixture.cs" />
     <Compile Include="LiteralExpressionTestFixture.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="ScreenActivityFormRendererTestFixture.cs" />
     <Compile Include="ScreenActivityRazorEditorTemplateTestFixture.cs" />
     <Compile Include="SolutionCompilerTestFixture.cs" />
+    <Compile Include="StatementTestFixture.cs" />
     <Compile Include="StringTestFixture.cs" />
     <Compile Include="SymbolWalkerTestFixture.cs" />
     <Compile Include="ExpressionTestFixture.cs" />

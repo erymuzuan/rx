@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
+﻿using System.ComponentModel.Composition;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -17,29 +14,52 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers
             get { return new[] { SyntaxKind.IfStatement }; }
         }
 
-   
+        public override bool Filter(SyntaxNode node)
+        {
+            return node.CSharpKind() == SyntaxKind.IfStatement;
+        }
+
+
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var iss = (IfStatementSyntax)node;
+            var ifsyntax = (IfStatementSyntax)node;
             var code = new StringBuilder();
-            code.AppendLine("if( " + iss.Condition + "){");
+            code.AppendLine("if( " + this.EvaluateExpressionCode(ifsyntax.Condition) + "){");
 
 
-            var block = iss.Statement as BlockSyntax;
+            var block = ifsyntax.Statement as BlockSyntax;
             if (null != block)
             {
                 foreach (var st in block.Statements)
                 {
-                    code.AppendLine("       " + this.GetStatementCode(model, st).TrimEnd() + ";");
+                    code.AppendLine("       " + this.GetStatementCode(model, st) );
                 }
             }
             else
             {
-                code.AppendLine("       " + this.GetStatementCode(model, iss.Statement).TrimEnd() + ";");
+                code.AppendLine("       " + this.GetStatementCode(model, ifsyntax.Statement));
             }
-
-
             code.AppendLine("}");
+
+            if (ifsyntax.Else == null) return code.ToString();
+
+
+            code.AppendLine("else {");
+            var elseBlock = ifsyntax.Else.Statement as BlockSyntax;
+            if (null != elseBlock)
+            {
+                foreach (var st in elseBlock.Statements)
+                {
+                    code.AppendLine("       " + this.GetStatementCode(model, st) );
+                }
+            }
+            else
+            {
+                code.AppendLine("       " + this.GetStatementCode(model, ifsyntax.Else.Statement));
+            }
+            code.AppendLine("}");
+
+
             return code.ToString();
         }
     }
