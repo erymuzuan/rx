@@ -183,6 +183,10 @@
     <Compile Include="FormElements\SectionFormElementCompiler.cs" />
     <Compile Include="SyntaxWalkers\BinaryExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ConfigMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\DataContextExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\DataContextIdentifiers\Context.cs" />
+    <Compile Include="SyntaxWalkers\DataContextIdentifiers\LoadAsync.cs" />
+    <Compile Include="SyntaxWalkers\DataContextIdentifiers\LoadOneAsync.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\AddDays.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\AddHours.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\AddMillis.cs" />
@@ -257,6 +261,7 @@
     <Compile Include="SyntaxWalkers\EnumerableIdentifiers\Zip.cs" />
     <Compile Include="SyntaxWalkers\EnumerableMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ExpressionStatementWalker.cs" />
+    <Compile Include="SyntaxWalkers\GenericNameAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompilerMetadataAttribute.cs" />
     <Compile Include="SyntaxWalkers\IdentifierNamedSyntaxWalker.cs" />

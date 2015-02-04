@@ -50,5 +50,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             return string.Empty;
         }
+        public virtual string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments, IEnumerable<TypeSyntax> genericTypeArguments )
+        {
+            return string.Empty;
+        }
     }
 }
