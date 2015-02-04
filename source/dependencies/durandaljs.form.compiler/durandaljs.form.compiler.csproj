@@ -251,6 +251,7 @@
     <Compile Include="SyntaxWalkers\EnumerableIdentifiers\Union.cs" />
     <Compile Include="SyntaxWalkers\EnumerableIdentifiers\Where.cs" />
     <Compile Include="SyntaxWalkers\EnumerableIdentifiers\Zip.cs" />
+    <Compile Include="SyntaxWalkers\EnumerableMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ExpressionStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompilerMetadataAttribute.cs" />
@@ -260,7 +261,6 @@
     <Compile Include="SyntaxWalkers\ImplicitArrayCreationExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\Int32SyntaxWalker.cs" />
     <Compile Include="SyntaxWalkers\ItemMemberAccessExpressionWalker.cs" />
-    <Compile Include="SyntaxWalkers\LinqEnumerableMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\Listidentifiers\ForEach.cs" />
     <Compile Include="SyntaxWalkers\ListMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\LiteralExpressionWalker.cs" />

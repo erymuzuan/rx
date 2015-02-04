@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.EnumerableIdentifiers
 {
-    [Export("Enumerable", typeof(IdentifierCompiler))]
+    [Export(typeof(IdentifierCompiler))]
     [IdentifierCompilerMetadata(TypeName = "Enumerable", Text = "Intersect")]
     public class Intersect : IdentifierCompiler
     {
