@@ -9,8 +9,8 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app, objectbuilders.system, objectbuilders.logger],
-    function (context, eximp, app, system, logger) {
+define(['services/datacontext', 'services/jsonimportexport', 'plugins/router', objectbuilders.app, objectbuilders.system, objectbuilders.logger],
+    function (context, eximp, router, app, system, logger) {
 
         var trigger = ko.observable(new bespoke.sph.domain.Trigger()),
             typeaheadEntity = ko.observable(),
@@ -77,6 +77,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app,
                     .then(function (result) {
                         isBusy(false);
                         vm.trigger().Id(result);
+                        router.navigate('/trigger.setup/' + vm.trigger().Id());
                         tcs.resolve(result);
                     });
                 return tcs.promise();
