@@ -163,6 +163,8 @@
     <Compile Include="SyntaxWalkers\ArrayMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\AwaitExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\BooleanMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\BreakStatementWalker.cs" />
+    <Compile Include="SyntaxWalkers\ContinueStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\CultureInfoMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectModel.cs" />
     <Compile Include="SyntaxWalkers\CustomObjectSyntaxWalker.cs" />
@@ -282,6 +284,7 @@
     <Compile Include="SyntaxWalkers\EnumerableIdentifiers\Zip.cs" />
     <Compile Include="SyntaxWalkers\EnumerableMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ExpressionStatementWalker.cs" />
+    <Compile Include="SyntaxWalkers\ForEachStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\GenericNameAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompilerMetadataAttribute.cs" />

@@ -161,7 +161,7 @@ logger.Info(""User say "" + dr);
 ";
             const string EXPECTED = @"return app.showMessage('Are you sure you want to delete', ['OK'])
 .then(function() {
-       logger.info('The user click OK');;
+       logger.info('The user click OK');
 });";
             var cr = await compiler.CompileAsync<Task>(CODE, patient);
             AssertCodes(EXPECTED, cr);

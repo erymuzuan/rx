@@ -5,7 +5,7 @@ using Bespoke.Sph.OdataQueryCompilers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.LoggerIdentifiers
+namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.DataContextIdentifiers
 {
     [Export(typeof(IdentifierCompiler))]
     [IdentifierCompilerMetadata(TypeName = "DataContext", Text = "GetListAsync")]

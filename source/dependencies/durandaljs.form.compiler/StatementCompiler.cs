@@ -164,7 +164,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                     if (temp.EndsWith("\r\n;"))
                         code.AppendLine(temp.Replace("\r\n;", ";"));
                     else
-                        code.AppendLine(temp + ";");
+                        code.AppendLine(temp);
                 }
                 if (!walkers.Any())
                 {

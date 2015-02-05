@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.LoggerIdentifiers
+namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.DataContextIdentifiers
 {
     [Export(typeof(IdentifierCompiler))]
     [IdentifierCompilerMetadata(TypeName = "DataContext", Text = "context")]
