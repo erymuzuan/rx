@@ -344,6 +344,7 @@
     <Compile Include="FormElements\TextAreaElementCompiler.cs" />
     <Compile Include="FormElements\TextBoxCompiler.cs" />
     <Compile Include="FormElements\WebsiteFormElementCompiler.cs" />
+    <Compile Include="SyntaxWalkers\WhileStatementWalker.cs" />
     <Compile Include="Template.cs" />
     <Compile Include="XsdJavascript.cs" />
   </ItemGroup>

@@ -73,6 +73,7 @@
     <Compile Include="DecimalExpressionTestFixture.cs" />
     <Compile Include="EntityFormViewModelTestFixture.cs" />
     <Compile Include="ForEachTestFixture.cs" />
+    <Compile Include="ForTestFixture.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
     <Compile Include="IfExpressionTestFixture.cs" />
     <Compile Include="ItemExpressionTestFixture.cs" />
@@ -97,8 +98,10 @@
     <Compile Include="SolutionCompilerTestFixture.cs" />
     <Compile Include="StatementTestFixture.cs" />
     <Compile Include="StringTestFixture.cs" />
+    <Compile Include="SwitchTestFixture.cs" />
     <Compile Include="SymbolWalkerTestFixture.cs" />
     <Compile Include="ExpressionTestFixture.cs" />
+    <Compile Include="WhileTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\durandaljs.form.compiler\durandaljs.form.compiler.csproj">

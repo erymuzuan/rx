@@ -37,7 +37,7 @@ namespace durandaljs.compiler.test
         private static void AssertCodes(string expected, SnippetCompilerResult cr, string message)
         {
             Assert.IsTrue(cr.Success, message);
-            expected.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
+            expected.Split(new[] { "\r\n","\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Trim())
                 .ToList()
                 .ForEach(x => StringAssert.Contains(x, cr.Code, message));
