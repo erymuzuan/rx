@@ -315,6 +315,7 @@
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ScreenActivityFormController.cs" />
+    <Compile Include="Controllers\SolutionController.cs" />
     <Compile Include="Controllers\TransformDefinitionController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />

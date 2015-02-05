@@ -19,8 +19,8 @@ namespace Bespoke.Sph.Domain
         public async Task<IEnumerable<WorkflowCompilerResult>> CompileAsync(string compilers)
         {
             var tasks = from c in this.Compilers.Where(x => compilers.Contains(x.Metadata.Name))
-                let compiler = c.Value
-                select compiler.CompileAsync(this);
+                        let compiler = c.Value
+                        select compiler.CompileAsync(this);
 
             var results = await Task.WhenAll(tasks);
 
@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Domain
         public Task<IProjectProvider> LoadProjectAsync(ProjectMetadata pm)
         {
             var provider = this.ProjectProviders.SingleOrDefault(x => x.Metadata.Type == pm.Type);
-            if(null == provider)
+            if (null == provider)
                 throw new InvalidOperationException("Cannot find project provider for " + pm.Type);
 
             return provider.Value.LoadProjectAsync(pm);
@@ -42,6 +42,10 @@ namespace Bespoke.Sph.Domain
         {
             get { return m_projectMetadataCollection; }
         }
+
+        public string Name { get; set; }
+        public string Path { get; set; }
+
         public static async Task<IEnumerable<JsRoute>> GetJsRoutes()
         {
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
@@ -109,18 +113,18 @@ namespace Bespoke.Sph.Domain
 
             // get valid users for ed
             var edDashboardUserTasks = from ed in entityDefinitions
-                let p = ed.Performer
-                where p.IsPublic
-                      || (!string.IsNullOrWhiteSpace(p.UserProperty)
-                          && !string.IsNullOrWhiteSpace(p.Value))
-                select ed.Performer.GetUsersAsync(ed);
+                                       let p = ed.Performer
+                                       where p.IsPublic
+                                             || (!string.IsNullOrWhiteSpace(p.UserProperty)
+                                                 && !string.IsNullOrWhiteSpace(p.Value))
+                                       select ed.Performer.GetUsersAsync(ed);
             var edDashboardUsers = await Task.WhenAll(edDashboardUserTasks);
 
             var screenActivityFormRoutes = from t in screenActivityForms
-                select t.CreateJsRoute();
+                                           select t.CreateJsRoute();
             var formRoutes = forms.Select(t => t.CreateJsRoute());
             var viewRoutes = from t in views
-                select t.CreateJsRoute();
+                             select t.CreateJsRoute();
 
             var edRoutes = entityDefinitions
                 .Where(t => t.Performer.Validate())
@@ -156,6 +160,56 @@ namespace Bespoke.Sph.Domain
             routes.AddRange(edRoutes);
             routes.AddRange(rdlRoutes);
             return routes;
+        }
+
+        public static async Task<Solution> LoadAsync(string path)
+        {
+            var context = new SphDataContext();
+            var solution = new Solution { Name = ConfigurationManager.ApplicationFullName, Path = path };
+
+            var lo = await context.LoadAsync(context.EntityDefinitions);
+            var eds = (from t in lo.ItemCollection
+                       select new ProjectMetadata
+                       {
+                           Name = t.Name,
+                           Type = typeof(EntityDefinition),
+                           TypeName = typeof(EntityDefinition).GetShortAssemblyQualifiedName()
+
+                       }).ToList();
+            foreach (var ed in eds)
+            {
+                var ed1 = ed;
+                var formsLo = await context.LoadAsync(context.EntityForms.Where(f => f.Entity == ed1.Name));
+                var forms = from f in formsLo.ItemCollection
+                            select new ProjectChildItem
+                            {
+                                Name = f.Name,
+                                TypeName = typeof(EntityForm).GetShortAssemblyQualifiedName()
+                            };
+
+                var views = from f in formsLo.ItemCollection
+                            select new ProjectChildItem
+                            {
+                                Name = f.Name,
+                                TypeName = typeof(EntityView).GetShortAssemblyQualifiedName()
+                            };
+
+                var operations = from f in formsLo.ItemCollection
+                            select new ProjectChildItem
+                            {
+                                Name = f.Name,
+                                TypeName = typeof(EntityOperation).GetShortAssemblyQualifiedName()
+                            };
+
+                ed.ChildItemCollection.AddRange(forms);
+                ed.ChildItemCollection.AddRange(views);
+                ed.ChildItemCollection.AddRange(operations);
+                //ed.ChildItemCollection.AddRange(rules);
+            }
+
+            solution.ProjectMetadataCollection.AddRange(eds);
+
+            return solution;
         }
     }
 }

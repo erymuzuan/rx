@@ -6,6 +6,7 @@ namespace Bespoke.Sph.Domain
 {
     public class ProjectMetadata
     {
+        private readonly ObjectCollection<ProjectChildItem> m_childItemCollection = new ObjectCollection<ProjectChildItem>();
         public string TypeName { get; set; }
         [XmlIgnore]
         [JsonIgnore]
@@ -21,5 +22,16 @@ namespace Bespoke.Sph.Domain
             }
         }
         public string Name { get; set; }
+
+        public ObjectCollection<ProjectChildItem> ChildItemCollection
+        {
+            get { return m_childItemCollection; }
+        }
+    }
+
+    public class ProjectChildItem
+    {
+        public string Name { get; set; }
+        public string TypeName { get; set; }
     }
 }
