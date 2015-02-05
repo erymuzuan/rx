@@ -198,23 +198,6 @@ function (logger, system, ko2) {
         return tcs.promise();
     }
 
-    function loadOneAsync(entity, query) {
-        var tcs = new $.Deferred();
-        loadAsync(entity, query)
-            .fail(function () {
-                tcs.reject();
-            })
-            .done(function (lo) {
-                if (lo.itemCollection.length) {
-                    var item = lo.itemCollection[0];
-                    tcs.resolve(item);
-                } else {
-                    tcs.resolve(null);
-                }
-            });
-
-        return tcs.promise();
-    }
 
     function loadAsync(entityOrOptions, query) {
 
@@ -270,6 +253,23 @@ function (logger, system, ko2) {
 
     }
 
+    function loadOneAsync(entity, query) {
+        var tcs = new $.Deferred();
+        loadAsync(entity, query)
+            .fail(function () {
+                tcs.reject();
+            })
+            .done(function (lo) {
+                if (lo.itemCollection.length) {
+                    var item = lo.itemCollection[0];
+                    tcs.resolve(item);
+                } else {
+                    tcs.resolve(null);
+                }
+            });
+
+        return tcs.promise();
+    }
     function searchAsync(entityOrOptions, query) {
 
         if (!entityOrOptions) throw "This cannot be happening, you have to have entity or option";
@@ -324,21 +324,6 @@ function (logger, system, ko2) {
         return tcs.promise();
     }
 
-    function getScalarAsync(entity, query, field) {
-        return getAggregateAsync("scalar", entity, query, field);
-    }
-    function getMaxAsync(entity, query, field) {
-        return getAggregateAsync("max", entity, query, field);
-    }
-    function getMinAsync(entity, query, field) {
-        return getAggregateAsync("min", entity, query, field);
-    }
-    function getSumAsync(entity, query, field) {
-        return getAggregateAsync("sum", entity, query, field);
-    }
-    function getCountAsync(entity, query, field) {
-        return getAggregateAsync("count", entity, query, field);
-    }
 
     function getTuplesAsync(entityOrOptions, query, field, field2) {
 
@@ -460,6 +445,21 @@ function (logger, system, ko2) {
         return tcs.promise();
     }
 
+    function getScalarAsync(entity, query, field) {
+        return getAggregateAsync("scalar", entity, query, field);
+    }
+    function getMaxAsync(entity, query, field) {
+        return getAggregateAsync("max", entity, query, field);
+    }
+    function getMinAsync(entity, query, field) {
+        return getAggregateAsync("min", entity, query, field);
+    }
+    function getSumAsync(entity, query, field) {
+        return getAggregateAsync("sum", entity, query, field);
+    }
+    function getCountAsync(entity, query, field) {
+        return getAggregateAsync("count", entity, query, field);
+    }
     // ReSharper disable InconsistentNaming
     function LoadOperation() {
         // ReSharper restore InconsistentNaming

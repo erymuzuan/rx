@@ -23,7 +23,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         protected override bool Filter(IMethodSymbol method)
         {
             return method.ContainingType.Name == "Logger"
-                && method.ContainingAssembly.Name == "eval";
+                && method.ContainingAssembly.Name == EVAL;
         }
 
         protected override string InferredTypeName

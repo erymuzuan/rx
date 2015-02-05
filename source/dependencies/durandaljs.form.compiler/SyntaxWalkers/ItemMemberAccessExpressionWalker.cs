@@ -23,9 +23,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             if (null != prop)
             {
                 if (prop.Name == "item") return true;
+                if (null == prop.ContainingType) return false;
+                if (null == prop.ContainingType.BaseType) return false;
                 var domain = prop.ContainingType.BaseType.Name == typeof(Entity).Name
                              || prop.ContainingType.BaseType.Name == typeof (DomainObject).Name;
-                var dll = prop.ContainingAssembly.Name == "eval" || prop.ContainingAssembly.Name == typeof(DomainObject).Assembly.GetName().Name;
+                var dll = prop.ContainingAssembly.Name == EVAL || prop.ContainingAssembly.Name == typeof(DomainObject).Assembly.GetName().Name;
 
                 return dll && domain;
             }

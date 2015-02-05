@@ -26,27 +26,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         public override string Walk(SyntaxNode node, SemanticModel model)
         {
-            var ies = (InvocationExpressionSyntax)node;
+            var invocationSyntax = (InvocationExpressionSyntax)node;
 
-            var code = new StringBuilder();
-            var walkers = this.Walkers.Where(x => x.Filter(ies.Expression)).ToList();
-            if (walkers.Count > 1 && DebuggerHelper.IsVerbose)
-                foreach (var v in walkers)
-                {
-                    Console.WriteLine(node.CSharpKind() + " ----" + v.GetType().Name);
-                    Console.WriteLine(node.ToFullString());
-                }
-            var w = this.Walkers.LastOrDefault(x => x.Filter(ies.Expression));
+            var w = this.GetWalker(invocationSyntax.Expression);
             if (null == w)
-                throw new InvalidOperationException(string.Format("Cannot find walker for {0} => {1}", ies.CSharpKind(), ies.ToFullString()));
+                throw new InvalidOperationException(string.Format("Cannot find walker for {0} => {1}", invocationSyntax.CSharpKind(), invocationSyntax.ToFullString()));
 
+            var c = w.Walk(invocationSyntax.Expression, model);
+            return c;
 
-            var c = w.Walk(ies.Expression, model);
-            if (DebuggerHelper.IsVerbose)
-                Console.WriteLine("[ExpressionWalker]{0}\t=> {1}", w.GetType().Name, c);
-            code.Append(c);
-
-            return code.ToString();
         }
 
 
