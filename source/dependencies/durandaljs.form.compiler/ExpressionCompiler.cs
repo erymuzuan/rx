@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -96,6 +97,11 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .Expression;
 
             result.Code = CompileExpression(statement, model);
+            dynamic tag = new ExpandoObject();
+            tag.Statement = statement;
+            tag.SemanticModel = model;
+            result.Tag = tag;
+
             return Task.FromResult(result);
         }
 
@@ -142,7 +148,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 Console.WriteLine("!!! " + statement.CSharpKind());
                 foreach (var w in walkers)
                 {
-                    Console.WriteLine(statement +" -> " + w.GetType().Name);
+                    Console.WriteLine(statement + " -> " + w.GetType().Name);
                 }
             }
 

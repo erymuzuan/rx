@@ -25,5 +25,6 @@ namespace Bespoke.Sph.Domain
         }
 
         public string Code { get; set; }
+        public dynamic Tag { get; set; }
     }
 }

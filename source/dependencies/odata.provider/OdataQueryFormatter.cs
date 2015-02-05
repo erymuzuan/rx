@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Bespoke.Sph.Domain.QueryProviders;
 
-namespace Bespoke.Station.OdataRepository
+namespace Bespoke.Sph.OdataQueryCompilers
 {
     /// <summary>
     /// OdataQueryFormatter is a visitor that converts an bound expression tree into SQL query text

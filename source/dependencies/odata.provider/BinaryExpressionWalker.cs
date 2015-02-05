@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Bespoke.Sph.FormCompilers.DurandalJs
+namespace Bespoke.Sph.OdataQueryCompilers
 {
-    [Export(typeof(CustomObjectSyntaxWalker))]
-    class BinaryExpressionWalker : CustomObjectSyntaxWalker
+    [Export(typeof(OdataSyntaxWalker))]
+    class BinaryExpressionWalker : OdataSyntaxWalker
     {
 
         protected override SyntaxKind[] Kinds
@@ -41,51 +42,34 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         {
             var kind = node.CSharpKind();
             var bes = (BinaryExpressionSyntax)node;
-            var op = "";
+            string op;
             switch (kind)
             {
-                case SyntaxKind.ModuloExpression:
-                    op = "%";
-                    break;
-                case SyntaxKind.CoalesceExpression:
-                    op = "||";
-                    break;
                 case SyntaxKind.LogicalAndExpression:
-                    op = "&&";
+                    op = "and";
                     break;
                 case SyntaxKind.LogicalOrExpression:
-                    op = "||";
+                    op = "or";
                     break;
                 case SyntaxKind.EqualsExpression:
-                    op = "===";
+                    op = "eq";
                     break;
                 case SyntaxKind.NotEqualsExpression:
-                    op = "!==";
+                    op = "ne";
                     break;
                 case SyntaxKind.GreaterThanExpression:
-                    op = ">";
+                    op = "gt";
                     break;
                 case SyntaxKind.GreaterThanOrEqualExpression:
-                    op = ">=";
+                    op = "ge";
                     break;
                 case SyntaxKind.LessThanExpression:
-                    op = "<";
+                    op = "lt";
                     break;
                 case SyntaxKind.LessThanOrEqualExpression:
-                    op = "<=";
+                    op = "le";
                     break;
-                case SyntaxKind.AddExpression:
-                    op = "+";
-                    break;
-                case SyntaxKind.SubtractExpression:
-                    op = "-";
-                    break;
-                case SyntaxKind.LogicalNotExpression:
-                    op = "/* LogicalNotExpression is not implemented */";
-                    break;
-                default:
-
-                    break;
+                default: throw new Exception(kind + " not implemented for Odata");
             }
             if (!string.IsNullOrWhiteSpace(op))
                 return this.EvaluateExpressionCode(bes.Left)
@@ -96,7 +80,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         }
 
 
-  
+
 
     }
 }

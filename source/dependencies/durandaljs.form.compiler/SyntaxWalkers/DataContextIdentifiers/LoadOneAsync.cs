@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Bespoke.Sph.OdataQueryCompilers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -10,10 +11,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.LoggerIdentifiers
     [IdentifierCompilerMetadata(TypeName = "DataContext", Text = "LoadOneAsync")]
     public class LoadOneAsync : IdentifierCompiler
     {
+        [Import]
+        public OdataQueryExpressionCompiler OdataCompiler { get; set; }
+
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments, IEnumerable<TypeSyntax> genericTypeArguments)
         {
-            var args = arguments.ToArray();
-            return "loadOneAsync('" + genericTypeArguments.First() + "', " + this.EvaluateExpressionCode(args[0]) + ")";
+            var lambda = (SimpleLambdaExpressionSyntax) arguments.First();
+            var query = OdataCompiler.CompileExpression(lambda.Body, this.GetWalker(node).SemanticModel);
+            return "loadOneAsync(\"" + genericTypeArguments.First() + "\", \"" + query + "\")";
         }
 
     }

@@ -8,18 +8,16 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.LoggerIdentifiers
 {
     [Export(typeof(IdentifierCompiler))]
-    [IdentifierCompilerMetadata(TypeName = "DataContext", Text = "LoadAsync")]
-    public class LoadAsync : IdentifierCompiler
+    [IdentifierCompilerMetadata(TypeName = "DataContext", Text = "SearchAsync")]
+    public class SearchAsync : IdentifierCompiler
     {
         [Import]
         public OdataQueryExpressionCompiler OdataCompiler { get; set; }
 
         public override string Compile(SyntaxNode node, IEnumerable<ExpressionSyntax> arguments, IEnumerable<TypeSyntax> genericTypeArguments)
         {
-            var lambda = (SimpleLambdaExpressionSyntax)arguments.First();
-            var query = OdataCompiler.CompileExpression(lambda.Body, this.GetWalker(node).SemanticModel);
-           
-            return "loadAsync(\"" + genericTypeArguments.First() + "\", \"" + query + "\")";
+
+            return "searchAsync(\"" + genericTypeArguments.First() + "\", JSON.stringify(" + arguments.First() + "))";
         }
 
     }

@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq.Expressions;
 using Bespoke.Sph.Domain.QueryProviders;
 
-namespace Bespoke.Station.OdataRepository
+namespace Bespoke.Sph.OdataQueryCompilers
 {
 
     /// <summary>
     /// A LINQ query provider that executes SQL queries over a DbConnection
     /// </summary>
-    public class OdataQueryProvider : QueryProvider
+    class OdataQueryProvider : QueryProvider
     {
 
         TextWriter m_log;

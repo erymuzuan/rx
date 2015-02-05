@@ -194,8 +194,11 @@
     <Compile Include="SyntaxWalkers\ConfigMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\DataContextExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\DataContextIdentifiers\Context.cs" />
+    <Compile Include="SyntaxWalkers\DataContextIdentifiers\GetCountAsync.cs" />
+    <Compile Include="SyntaxWalkers\DataContextIdentifiers\GetListAsync.cs" />
     <Compile Include="SyntaxWalkers\DataContextIdentifiers\LoadAsync.cs" />
     <Compile Include="SyntaxWalkers\DataContextIdentifiers\LoadOneAsync.cs" />
+    <Compile Include="SyntaxWalkers\DataContextIdentifiers\SearchAsync.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\AddDays.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\AddHours.cs" />
     <Compile Include="SyntaxWalkers\DateTimeIdentifiers\AddMillis.cs" />
@@ -331,6 +334,10 @@
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\odata.provider\odata.provider.csproj">
+      <Project>{679B03B4-7D21-4C00-A32B-0BA16C49F1AE}</Project>
+      <Name>odata.provider</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
