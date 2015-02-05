@@ -319,6 +319,7 @@
     <Compile Include="SyntaxWalkers\ParenthesizedExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\PostIncrementExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ReturnStatementWalker.cs" />
+    <Compile Include="SyntaxWalkers\SimpleAssignmentExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\SimpleLambdaExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\SimpleMemberAccessWalker.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\Empty.cs" />
@@ -335,8 +336,10 @@
     <Compile Include="SyntaxWalkers\StringIdentifiers\TrimEnd.cs" />
     <Compile Include="SyntaxWalkers\StringIdentifiers\TrimStart.cs" />
     <Compile Include="SyntaxWalkers\StringMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\SwitchStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\TaskIdentifiers\WhenAll.cs" />
     <Compile Include="SyntaxWalkers\TaskMemberAcessExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\ThrowStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\UnaryExpressionWalker.cs" />
     <Compile Include="FormElements\TextAreaElementCompiler.cs" />
     <Compile Include="FormElements\TextBoxCompiler.cs" />
