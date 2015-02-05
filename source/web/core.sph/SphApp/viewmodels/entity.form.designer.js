@@ -181,6 +181,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     .then(function (result) {
                         if (result.success) {
                             form().Id(result.id);
+                            router.navigate('/entity.form.designer/' + entity().Id() + '/' + form().Id());
                             logger.info("Your form has been successfully saved.");
                         } else {
                             errors(result.Errors);
