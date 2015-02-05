@@ -424,6 +424,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         if (result.success) {
                             logger.info("Data have been succesfully save");
                             wd().Id(result.id);
+                            router.navigate('/workflow.definition.visual/' + wd().Id());
                         } else {
                             logger.error(result.message);
                         }
