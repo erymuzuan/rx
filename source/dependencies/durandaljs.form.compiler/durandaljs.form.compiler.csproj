@@ -285,6 +285,7 @@
     <Compile Include="SyntaxWalkers\EnumerableMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ExpressionStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\ForEachStatementWalker.cs" />
+    <Compile Include="SyntaxWalkers\ForStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\GenericNameAccessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompiler.cs" />
     <Compile Include="SyntaxWalkers\IdentifierCompilerMetadataAttribute.cs" />
@@ -316,6 +317,7 @@
     <Compile Include="SyntaxWalkers\ObjectCollectionMemberAcessExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ParameterWalker.cs" />
     <Compile Include="SyntaxWalkers\ParenthesizedExpressionWalker.cs" />
+    <Compile Include="SyntaxWalkers\PostIncrementExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\ReturnStatementWalker.cs" />
     <Compile Include="SyntaxWalkers\SimpleLambdaExpressionWalker.cs" />
     <Compile Include="SyntaxWalkers\SimpleMemberAccessWalker.cs" />
