@@ -123,5 +123,21 @@ namespace durandaljs.compiler.test
                 logger.Info(""Names "" + names.Count); 
             ");
         }
+        [Test]
+        public async Task Scalar()
+        {
+            await AssertAsync<Task>(@"
+            var name;
+            return context.getScalarAsync(""Patient"", ""Name"", ""Mrn eq 'ABC123'"")
+                        .then(function(__temp0) {
+                            name = __temp0;
+                            logger.info('Name : ' + name);
+                        });
+            ",
+                @"
+                var name = await context.GetScalarAsync<Patient, string>(x => x.Name,  x => x.Mrn == ""ABC123"");
+                logger.Info(""Name : "" + name); 
+            ");
+        }
     }
 }

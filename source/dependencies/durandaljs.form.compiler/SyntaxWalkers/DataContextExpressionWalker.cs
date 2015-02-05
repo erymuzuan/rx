@@ -39,13 +39,15 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             code.AppendLine("       public Task<List<Tout>> GetListAsync<T, Tout>(string member, Func<T, bool> predicate) where T : Entity { throw new Exception();}");
             code.AppendLine("       public Task<List<Tout>> GetDistinctAsync<T, Tout>(string member, Func<T, bool> predicate) where T : Entity { throw new Exception();}");
             code.AppendLine("       public Task<int> GetCountAsync<T>(Func<T, bool> predicate) where T : Entity { throw new Exception();}");
-            code.AppendLine("       public Task<int> GetSumAsync<T>(string member, Func<T, bool> predicate) where T : Entity { throw new Exception();}");
-            code.AppendLine("       public Task<int> GetMinAsync<T>(string member, Func<T, bool> predicate) where T : Entity { throw new Exception();}");
-            code.AppendLine("       public Task<int> GetMaxAsync<T>(string member, Func<T, bool> predicate) where T : Entity { throw new Exception();}");
-            code.AppendLine("       public Task<Tout> GetScalarAsync<T, Tout>(string member, Func<T, bool> predicate) where T : Entity { throw new Exception();}");
-            code.AppendLine("       public Task<string> PostAsync<T>(Func<T, bool> predicate) where T : Entity { throw new Exception();}");
-            code.AppendLine("       public Task<string> SendAsync<T>(Func<T, bool> predicate) where T : Entity { throw new Exception();}");
-            code.AppendLine("       public Task<string> GetAsync<T>(Func<T, bool> predicate) where T : Entity { throw new Exception();}");
+            code.AppendLine("       public Task<Tout> GetSumAsync<T, Tout>(Func<T, Tout> selector, Func<T, bool> predicate) where T : Entity { throw new Exception();}");
+            code.AppendLine("       public Task<Tout> GetMinAsync<T, Tout>(Func<T, Tout> selector, Func<T, bool> predicate) where T : Entity { throw new Exception();}");
+            code.AppendLine("       public Task<Tout> GetMaxAsync<T, Tout>(Func<T, Tout> selector, Func<T, bool> predicate) where T : Entity { throw new Exception();}");
+            code.AppendLine("       public Task<Tout> GetScalarAsync<T, Tout>(Func<T, Tout> selector, Func<T, bool> predicate) where T : Entity { throw new Exception();}");
+            code.AppendLine("       public Task<string> PostAsync(string url, string body) { throw new Exception();}");
+            code.AppendLine("       public Task<dynamic> PostJsonAsync(string url, string body) { throw new Exception();}");
+            code.AppendLine("       public Task<string> SendAsync(string method, string url, string body) { throw new Exception();}");
+            code.AppendLine("       public Task<string> GetAsync(string url) { throw new Exception();}");
+            code.AppendLine("       public Task<dynamic> GetJsonAsync(string url) { throw new Exception();}");
             code.AppendLine("   }");
             code.AppendLine("}");
             var com = new CustomObjectModel
