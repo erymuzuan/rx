@@ -143,8 +143,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticsearch.logger", "sou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "odata.provider", "source\dependencies\odata.provider\odata.provider.csproj", "{679B03B4-7D21-4C00-A32B-0BA16C49F1AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "odata.provider.test", "test\odata.provider.test\odata.provider.test.csproj", "{7691DBA0-8795-447B-B5BA-2AFBD6EE1DA1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -363,10 +361,6 @@ Global
 		{679B03B4-7D21-4C00-A32B-0BA16C49F1AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{679B03B4-7D21-4C00-A32B-0BA16C49F1AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{679B03B4-7D21-4C00-A32B-0BA16C49F1AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7691DBA0-8795-447B-B5BA-2AFBD6EE1DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7691DBA0-8795-447B-B5BA-2AFBD6EE1DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7691DBA0-8795-447B-B5BA-2AFBD6EE1DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7691DBA0-8795-447B-B5BA-2AFBD6EE1DA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -425,6 +419,5 @@ Global
 		{2661E912-501C-497D-B36E-1FEE268C680F} = {402F5682-5851-4DC5-AC3D-B176A302BBE1}
 		{4DB11B5C-2618-4E36-A2FF-2AA4CB328483} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{679B03B4-7D21-4C00-A32B-0BA16C49F1AE} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
-		{7691DBA0-8795-447B-B5BA-2AFBD6EE1DA1} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 EndGlobal
