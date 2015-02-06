@@ -25,6 +25,9 @@ namespace Bespoke.Sph.Domain
         {
             get { return m_embededResourceCollection; }
         }
+
+        public bool Emit { get; set; }
+
         /// <summary>
         /// A helper to add referenced assembly location
         /// </summary>

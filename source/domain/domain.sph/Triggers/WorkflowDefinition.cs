@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -114,7 +115,7 @@ namespace Bespoke.Sph.Domain
             var trees = (from c in projectDocuments
                          let x = c.GetCode()
                          let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)
-                         select CSharpSyntaxTree.Create(root.GetRoot(),path:c.FileName)).ToList();
+                         select CSharpSyntaxTree.Create(root.GetRoot(), path: c.FileName)).ToList();
 
             var compilation = CSharpCompilation.Create(string.Format("{0}.wd.{1}", ConfigurationManager.ApplicationName, this.Id))
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
@@ -135,9 +136,21 @@ namespace Bespoke.Sph.Domain
                 result.Errors.ForEach(Console.WriteLine);
                 Console.ForegroundColor = color;
             }
+            if (!result.Result || !options.Emit)
+                return result;
 
+            var path = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, string.Format("{0}.wd.{1}.dll",ConfigurationManager.ApplicationName,this.Id));
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                var k = compilation.Emit(stream);
+                result.Result = k.Success;
+                result.Output = path;
+                result.Outputs = new[] {path};
+
+                var errors2 = k.Diagnostics.Select(v => new BuildError(v));
+                result.Errors.AddRange(errors2);
+            }
             return result;
-
         }
 
 

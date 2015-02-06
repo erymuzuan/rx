@@ -95,10 +95,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return Json(buildValidation);
 
 
-            var options = new CompilerOptions
-            {
-                SourceCodeDirectory = Path.Combine(ConfigurationManager.UserSourceDirectory, wd.Id)
-            };
+            var options = new CompilerOptions();
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
             options.AddReference(typeof(JsonConvert));
@@ -124,11 +121,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
-
             // compile , then save
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.SphSourceDirectory
+                SourceCodeDirectory = ConfigurationManager.SphSourceDirectory,
+                Emit = true
             };
             options.AddReference(typeof(Controller));
             options.AddReference(typeof(WorkflowDefinitionController));
