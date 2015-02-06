@@ -30,7 +30,7 @@ namespace domain.test.workflows
             var resultA = await wf.ExecuteAsync("A");
             CollectionAssert.Contains(resultA.NextActivities, "B");
 
-            var initB = await wf.InitiateAsyncWaitDelayAsync();//this.GetType().Name, name, unique)
+            var initB = await wf.InitiateAsyncWaitDelayAsync();
             Assert.IsNotNullOrEmpty(initB.Correlation);
             CollectionAssert.Contains(scheduledTask, "Wait Delay");
 

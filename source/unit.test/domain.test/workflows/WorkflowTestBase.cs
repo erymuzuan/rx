@@ -35,7 +35,7 @@ namespace domain.test.workflows
             BinaryStore = new Mock<IBinaryStore>(MockBehavior.Strict);
             BinaryStore.Setup(x => x.GetContent("schema-storeid"))
                 .Returns(doc);
-            ObjectBuilder.AddCacheList<IBinaryStore>(BinaryStore.Object);
+            ObjectBuilder.AddCacheList(BinaryStore.Object);
             var qp = new MockQueryProvider();
             ObjectBuilder.AddCacheList<QueryProvider>(qp);
             ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(new MockRepository<WorkflowDefinition>());
@@ -113,7 +113,6 @@ namespace domain.test.workflows
                 IsVerbose = verbose
             };
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
 
