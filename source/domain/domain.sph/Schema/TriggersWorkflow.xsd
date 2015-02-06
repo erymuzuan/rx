@@ -855,6 +855,7 @@
 			<xs:attribute name="FullName" type="xs:string" use="required"/>
 			<xs:attribute name="Version" type="xs:string" use="required"/>
 			<xs:attribute name="Location" type="xs:string" use="required"/>
+			<xs:attribute name="IsGac" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="MappingActivity">

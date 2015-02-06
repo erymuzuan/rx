@@ -1971,101 +1971,50 @@ namespace Bespoke.Sph.Domain
     public partial class ScreenActivityForm
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_workflowDefinitionId;
-        public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_version;
-        public const string PropertyNameVersion = "Version";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isPublished;
-        public const string PropertyNameIsPublished = "IsPublished";
-
-
-        ///<summary>
-        /// 
-        ///</summary>
+        private string m_WorkflowDefinitionId;
         [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-
         public string WorkflowDefinitionId
         {
-            set
-            {
-                if (String.Equals(m_workflowDefinitionId, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_workflowDefinitionId = value;
-                    OnPropertyChanged();
-                }
-            }
             get
             {
-                return m_workflowDefinitionId;
+                return m_WorkflowDefinitionId;
+            }
+            set
+            {
+                m_WorkflowDefinitionId = value;
+                RaisePropertyChanged();
             }
         }
 
 
-        ///<summary>
-        /// 
-        ///</summary>
+        private int m_Version;
         [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-
         public int Version
         {
-            set
-            {
-                if (m_version == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameVersion, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_version = value;
-                    OnPropertyChanged();
-                }
-            }
             get
             {
-                return m_version;
+                return m_Version;
+            }
+            set
+            {
+                m_Version = value;
+                RaisePropertyChanged();
             }
         }
 
 
-        ///<summary>
-        /// 
-        ///</summary>
+        private bool m_IsPublished;
         [XmlAttribute]
-        [DebuggerHidden]
-
-        [Required]
-
         public bool IsPublished
         {
-            set
-            {
-                if (m_isPublished == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsPublished, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isPublished = value;
-                    OnPropertyChanged();
-                }
-            }
             get
             {
-                return m_isPublished;
+                return m_IsPublished;
+            }
+            set
+            {
+                m_IsPublished = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -4100,6 +4049,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameLocation = "Location";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isGac;
+        public const string PropertyNameIsGac = "IsGac";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -4208,6 +4162,34 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_location;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+        [DebuggerHidden]
+
+        [Required]
+
+        public bool IsGac
+        {
+            set
+            {
+                if (m_isGac == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsGac, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isGac = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isGac;
             }
         }
 
@@ -6693,6 +6675,8 @@ namespace Bespoke.Sph.Domain
 
     }
 
+
+    // placeholder for Form complext type
 
     [JsonConverter(typeof(StringEnumConverter))]
     public enum FieldType

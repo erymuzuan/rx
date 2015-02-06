@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Domain
 
         public string Output { get; set; }
         public string[] Outputs { get; set; }
+        public byte[] Buffer { get; set; }
 
         public override string ToString()
         {

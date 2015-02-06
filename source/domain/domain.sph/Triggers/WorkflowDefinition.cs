@@ -139,17 +139,16 @@ namespace Bespoke.Sph.Domain
             if (!result.Result || !options.Emit)
                 return result;
 
-            var path = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, string.Format("{0}.wd.{1}.dll",ConfigurationManager.ApplicationName,this.Id));
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                var k = compilation.Emit(stream);
-                result.Result = k.Success;
-                result.Output = path;
-                result.Outputs = new[] {path};
+            var path = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, string.Format("{0}.wd.{1}.dll", ConfigurationManager.ApplicationName, this.Id));
 
-                var errors2 = k.Diagnostics.Select(v => new BuildError(v));
-                result.Errors.AddRange(errors2);
-            }
+            var k = compilation.Emit(options.Stream);
+            result.Result = k.Success;
+            result.Output = path;
+            result.Outputs = new[] { path };
+
+            var errors2 = k.Diagnostics.Select(v => new BuildError(v));
+            result.Errors.AddRange(errors2);
+
             return result;
         }
 

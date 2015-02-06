@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -27,6 +28,7 @@ namespace Bespoke.Sph.Domain
         }
 
         public bool Emit { get; set; }
+        public Stream Stream { get; set; }
 
         /// <summary>
         /// A helper to add referenced assembly location

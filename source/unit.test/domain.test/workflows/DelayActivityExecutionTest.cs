@@ -24,7 +24,8 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new DelayActivity { Name = "Wait Delay", Seconds = 1, WebId = "B", NextActivityWebId = "C" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "C", Name = "Habis" });
             var result = this.Compile(wd);
-            dynamic wf = this.CreateInstance(wd, result.Output);
+            
+            dynamic wf = this.CreateInstance(wd, result.Buffer);
             await wf.StartAsync();
 
             var resultA = await wf.ExecuteAsync("A");
@@ -52,13 +53,13 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new DelayActivity { Name = "Wait Delay", Seconds = 1, WebId = "B", NextActivityWebId = "C" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "C", Name = "Habis" });
             var result = this.Compile(wd);
-            dynamic wf = this.CreateInstance(wd, result.Output);
+            dynamic wf = this.CreateInstance(wd, result.Buffer);
             await wf.StartAsync();
 
             var resultA = await wf.ExecuteAsync("A");
             CollectionAssert.Contains(resultA.NextActivities, "B");
 
-            var initB = await wf.InitiateAsyncWaitDelayAsync();//this.GetType().Name, name, unique
+            var initB = await wf.InitiateAsyncWaitDelayAsync();
             Assert.IsNotNullOrEmpty(initB.Correlation);
             CollectionAssert.Contains(scheduledTask, "Wait Delay");
 

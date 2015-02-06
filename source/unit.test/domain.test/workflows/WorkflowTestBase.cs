@@ -16,11 +16,12 @@ using NUnit.Framework;
 
 namespace domain.test.workflows
 {
+    [TestFixture]
     public class WorkflowTestBase
     {
         protected Mock<IBinaryStore> BinaryStore { get; private set; }
 
-        
+
 
         [SetUp]
         public virtual void Init()
@@ -31,7 +32,7 @@ namespace domain.test.workflows
             {
                 Content = File.ReadAllBytes(@".\workflows\PemohonWakaf.xsd")
             };
-            
+
             BinaryStore = new Mock<IBinaryStore>(MockBehavior.Strict);
             BinaryStore.Setup(x => x.GetContent("schema-storeid"))
                 .Returns(doc);
@@ -67,9 +68,9 @@ namespace domain.test.workflows
 
             var edRepository = new Mock<IRepository<EntityDefinition>>(MockBehavior.Strict);
             edRepository.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<EntityDefinition>>()))
-                .Returns(Task.FromResult(new EntityDefinition { Name= "Building", Plural = "Buildings", Id= "10"}));
+                .Returns(Task.FromResult(new EntityDefinition { Name = "Building", Plural = "Buildings", Id = "10" }));
             edRepository.Setup(x => x.LoadOne(It.IsAny<IQueryable<EntityDefinition>>()))
-                .Returns(new EntityDefinition { Name= "Building", Plural = "Buildings", Id= "10"});
+                .Returns(new EntityDefinition { Name = "Building", Plural = "Buildings", Id = "10" });
             ObjectBuilder.AddCacheList(edRepository.Object);
 
             var usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);
@@ -98,6 +99,17 @@ namespace domain.test.workflows
 
             return wd;
         }
+        [Test]
+        public void Compile()
+        {
+
+            var wd = this.Create("test-compile-workflow");
+            wd.ActivityCollection.Add(new ScreenActivity { Name = "Start isi borang", IsInitiator = true, WebId = "A", NextActivityWebId = "B" });
+            wd.ActivityCollection.Add(new DelayActivity { Name = "Wait Delay", Seconds = 1, WebId = "B", NextActivityWebId = "C" });
+            wd.ActivityCollection.Add(new EndActivity { WebId = "C", Name = "Habis" });
+            var result = this.Compile(wd);
+            Assert.IsTrue(result.Result);
+        }
 
         protected SphCompilerResult Compile(WorkflowDefinition wd, bool verbose = false, bool
             assertError = true)
@@ -110,24 +122,36 @@ namespace domain.test.workflows
             {
                 IsDebug = true,
                 SourceCodeDirectory = @"c:\temp\sph",
-                IsVerbose = verbose
+                IsVerbose = verbose,
+                Emit = true
             };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+            wd.ReferencedAssemblyCollection.Add(new ReferencedAssembly { Location = @"c:\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll" });
+            wd.ReferencedAssemblyCollection.Add(new ReferencedAssembly { Location = @"c:\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll" });
 
+            using (var ms = new MemoryStream())
+            {
+                options.Emit = true;
+                options.Stream = ms;
+                var result = wd.Compile(options);
+                result.Errors.ForEach(Console.WriteLine);
+                if (assertError)
+                    Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
-            var result = wd.Compile(options);
-            result.Errors.ForEach(Console.WriteLine);
-            if (assertError)
-                Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
+                result.Buffer = ms.GetBuffer();
 
-            return result;
+                return result;
+            }
         }
 
         protected Workflow CreateInstance(WorkflowDefinition wd, string dll)
         {
+            Console.WriteLine("!!! use the buffer for loading assembly");
+            return CreateInstance(wd, File.ReadAllBytes(dll));
+        }
+        protected Workflow CreateInstance(WorkflowDefinition wd, byte[] buffer)
+        {
             // try to instantiate the Workflow
-            var assembly = Assembly.LoadFrom(dll);
+            var assembly = Assembly.Load(buffer);
             var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.Id, wd.Version,
                 wd.WorkflowTypeName);
 
