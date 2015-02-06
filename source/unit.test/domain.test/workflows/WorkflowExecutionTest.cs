@@ -36,7 +36,7 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd, true);
-            var wf = this.CreateInstance(wd, result.Output);
+            var wf = this.CreateInstance(wd, result.Buffer);
             Assert.IsNotNull(wf);
         }
 
@@ -77,7 +77,7 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd, true);
-            var wf = this.CreateInstance(wd, result.Output);
+            var wf = this.CreateInstance(wd, result.Buffer);
             await wf.StartAsync();
 
             var resultA = await wf.ExecuteAsync("_A_");
@@ -161,7 +161,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new EndActivity { WebId = "_D_", Name = "habis" });
 
             var compilerResult = this.Compile(wd);
-            var wf = this.CreateInstance(wd, compilerResult.Output);
+            var wf = this.CreateInstance(wd, compilerResult.Buffer);
             var execResult = await wf.StartAsync();
             Console.WriteLine(wf);
             Assert.AreEqual(new[] { "_B_" }, execResult.NextActivities);
@@ -206,8 +206,8 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_END_", Name = "habis" });
 
-            var compile = this.Compile(wd, true);
-            var wf = this.CreateInstance(wd, compile.Output);
+            var cr = this.Compile(wd, true);
+            var wf = this.CreateInstance(wd, cr.Buffer);
             var execResult = await wf.StartAsync();
             Console.WriteLine(execResult);
             Assert.AreEqual(new[] { "_EMAIL_" }, execResult.NextActivities);

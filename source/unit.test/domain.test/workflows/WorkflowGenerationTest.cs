@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
 using Newtonsoft.Json;
@@ -13,6 +12,9 @@ namespace domain.test.workflows
     [TestFixture]
     public class WorkflowGenerationTest
     {
+        public const string SYSTEM_WEB_MVC_DLL = @"c:\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll";
+        public const string NEWTONSOFT_JSON_DLL = @"c:\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll";
+
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
 
         [SetUp]
@@ -45,7 +47,7 @@ namespace domain.test.workflows
             options.ReferencedAssembliesLocation.Add(typeof(JsonConvert).Assembly.Location);
 
             var result = wd.Compile(options);
-            var sourceFile = Path.Combine(options.SourceCodeDirectory,"Vehicle.cs");
+            var sourceFile = Path.Combine(options.SourceCodeDirectory, "Vehicle.cs");
             var code = File.ReadAllText(sourceFile);
             foreach (var e in result.Errors)
             {
@@ -77,7 +79,7 @@ namespace domain.test.workflows
         }
 
         [Test]
-        public async Task GenerateJavascriptClasses()
+        public void GenerateJavascriptClasses()
         {
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "permohonan-tanah-wakaf", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
@@ -118,35 +120,33 @@ namespace domain.test.workflows
                 IsInitiator = true,
                 Name = "Starts Screen"
             };
-            //apply.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
-            //apply.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
+
             wd.ActivityCollection.Add(apply);
             wd.ActivityCollection.Add(new EndActivity { WebId = apply.NextActivityWebId, Name = "Habis" });
 
             wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
+            wd.ReferencedAssemblyCollection.Add(new ReferencedAssembly { Location = SYSTEM_WEB_MVC_DLL });
+            wd.ReferencedAssemblyCollection.Add(new ReferencedAssembly { Location = NEWTONSOFT_JSON_DLL });
 
-            var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = @"c:\temp\sph" };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.json.dll"));
+            using (var ms = new MemoryStream())
+            {
+                var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = @"c:\temp\sph", Emit = true, Stream = ms };
+                var result = wd.Compile(options);
+                Console.WriteLine("Buidling \"{1}\" with {0} Errors", result.Errors.Count, wd.Id);
+                result.Errors.ForEach(Console.WriteLine);
 
-            var result = wd.Compile(options);
-            result.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(result.Result);
-            Assert.IsTrue(File.Exists(result.Output), "assembly " + result.Output);
+                Assert.IsTrue(result.Result);
 
-            //var view = apply.GetView(wd);
-            //Assert.IsNotNull(view);
+                // try to instantiate the Workflow
+                var assembly = Assembly.Load(ms.GetBuffer());
+                var wfTypeName = string.Format("{0}.{1}", wd.CodeNamespace, wd.WorkflowTypeName);
 
-            // try to instantiate the Workflow
-            var assembly = Assembly.LoadFrom(result.Output);
-            var wfTypeName = string.Format("{0}.{1}", wd.CodeNamespace, wd.WorkflowTypeName);
+                var wfType = assembly.GetType(wfTypeName);
+                Assert.IsNotNull(wfType, wfTypeName + " is null");
 
-            var wfType = assembly.GetType(wfTypeName);
-            Assert.IsNotNull(wfType, wfTypeName + " is null");
-
-            var wf = Activator.CreateInstance(wfType) as Entity;
-            Assert.IsNotNull(wf);
+                var wf = Activator.CreateInstance(wfType) as Entity;
+                Assert.IsNotNull(wf);
+            }
 
         }
     }

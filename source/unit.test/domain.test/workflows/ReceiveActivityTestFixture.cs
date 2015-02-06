@@ -66,7 +66,7 @@ namespace domain.test.workflows
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
-            var wfDll = Assembly.LoadFile(cr.Output);
+            var wfDll = Assembly.Load(cr.Buffer);
             var wfType = wfDll.GetType("Bespoke.Sph.Workflows_ReceiveRegisterPatient_0.ReceiveRegisterPatientWorkflow");
             dynamic wf = Activator.CreateInstance(wfType);
 
@@ -145,7 +145,7 @@ namespace domain.test.workflows
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
-            var wfDll = Assembly.LoadFile(cr.Output);
+            var wfDll = Assembly.Load(cr.Buffer);
             var wfType = wfDll.GetType("Bespoke.Sph.Workflows_ReceiveRegisterPatient_0.ReceiveRegisterPatientWorkflow");
             dynamic wf = Activator.CreateInstance(wfType);
 
@@ -244,7 +244,7 @@ namespace domain.test.workflows
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
-            var wfDll = Assembly.LoadFile(cr.Output);
+            var wfDll = Assembly.Load(cr.Buffer);
             var wfType = wfDll.GetType("Bespoke.Sph.Workflows_ReceiveRegisterPatient_0.ReceiveRegisterPatientWorkflow");
             dynamic wf = Activator.CreateInstance(wfType);
 

@@ -142,7 +142,7 @@ namespace domain.test.workflows
                 return result;
             }
         }
-
+        [Obsolete]
         protected Workflow CreateInstance(WorkflowDefinition wd, string dll)
         {
             Console.WriteLine("!!! use the buffer for loading assembly");

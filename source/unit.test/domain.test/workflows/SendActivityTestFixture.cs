@@ -87,7 +87,7 @@ namespace domain.test.workflows
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
-            var wfDll = Assembly.LoadFile(cr.Output);
+            var wfDll = Assembly.Load(cr.Buffer);
             dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_MysqlInsertEmployeeCrs_0.MysqlInsertEmployeeCrsWorkflow"));
 
 
@@ -147,7 +147,7 @@ namespace domain.test.workflows
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
-            var wfDll = Assembly.LoadFile(cr.Output);
+            var wfDll = Assembly.Load(cr.Buffer);
             dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_MysqlInsertEmployee_0.MysqlInsertEmployeeWorkflow"));
 
 
@@ -217,7 +217,7 @@ namespace domain.test.workflows
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
-            var wfDll = Assembly.LoadFile(cr.Output);
+            var wfDll = Assembly.Load(cr.Buffer);
             dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_MysqlInsertEmployee_0.MysqlInsertEmployeeWorkflow"));
 
 

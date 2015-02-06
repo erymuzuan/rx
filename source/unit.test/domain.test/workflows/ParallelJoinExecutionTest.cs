@@ -64,7 +64,7 @@ namespace domain.test.workflows
 
             Assert.IsTrue(br.Result);
             var result = this.Compile(wd);
-            var wf = this.CreateInstance(wd, result.Output);
+            var wf = this.CreateInstance(wd, result.Buffer);
             await wf.StartAsync();
 
             var resultB = await wf.ExecuteAsync("_B_");
@@ -121,7 +121,7 @@ namespace domain.test.workflows
 
             Assert.IsTrue(br.Result);
             var result = this.Compile(wd, true);
-            var wf = this.CreateInstance(wd, result.Output);
+            var wf = this.CreateInstance(wd, result.Buffer);
             await wf.StartAsync();
 
             await Task.Delay(500);

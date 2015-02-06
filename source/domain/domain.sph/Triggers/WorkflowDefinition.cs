@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -138,14 +137,12 @@ namespace Bespoke.Sph.Domain
             }
             if (!result.Result || !options.Emit)
                 return result;
-
-            var path = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, string.Format("{0}.wd.{1}.dll", ConfigurationManager.ApplicationName, this.Id));
+            
+            if(null == options.Stream)
+                throw new ArgumentException("To emit please provide a stream in your options", "options");
 
             var k = compilation.Emit(options.Stream);
             result.Result = k.Success;
-            result.Output = path;
-            result.Outputs = new[] { path };
-
             var errors2 = k.Diagnostics.Select(v => new BuildError(v));
             result.Errors.AddRange(errors2);
 

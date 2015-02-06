@@ -64,7 +64,7 @@ namespace domain.test.workflows
         public void SanitizeSingleThrow()
         {
             CompilerOptions options;
-            var wd = CreateWorkflowDefinition(out options,"throw new InvalidOperationException(\"Test One\");");
+            var wd = CreateWorkflowDefinition(out options, "throw new InvalidOperationException(\"Test One\");");
             var b = wd.ActivityCollection.OfType<ExpressionActivity>().Single(x => x.Name == "B");
 
             var code = wd.SanitizeMethodBody(b);
@@ -88,16 +88,21 @@ namespace domain.test.workflows
         {
             CompilerOptions options;
             var wd = CreateWorkflowDefinition(out options, code);
+            options.Emit = true;
 
-            var cr = wd.Compile(options);
-            cr.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(cr.Result);
+            using (var ms = new MemoryStream())
+            {
+                options.Stream = ms;
+                var cr = wd.Compile(options);
+                cr.Errors.ForEach(Console.WriteLine);
+                Assert.IsTrue(cr.Result);
+                var dll = Assembly.Load(cr.Buffer);
+                var type = dll.GetType(wd.CodeNamespace + "." + wd.WorkflowTypeName);
+                dynamic wf = Activator.CreateInstance(type);
+                wf.WorkflowDefinition = wd;
+                return wf;
+            }
 
-            var dll = Assembly.LoadFile(cr.Output);
-            var type = dll.GetType(wd.CodeNamespace + "." + wd.WorkflowTypeName);
-            dynamic wf = Activator.CreateInstance(type);
-            wf.WorkflowDefinition = wd;
-            return wf;
         }
 
         private WorkflowDefinition CreateWorkflowDefinition(out CompilerOptions options, string code = null)

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -11,7 +12,7 @@ namespace Bespoke.Sph.Domain
         {
             get { return m_errorsCollection; }
         }
-
+        [Obsolete("Use Stream to compile to an assembly, then use Buffer to set the compilation result")]
         public string Output { get; set; }
         public string[] Outputs { get; set; }
         public byte[] Buffer { get; set; }
