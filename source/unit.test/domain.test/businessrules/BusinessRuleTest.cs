@@ -20,9 +20,9 @@ namespace domain.test.businessrules
         [Test]
         public void SimpleRule()
         {
-            var customerDefinition = this.CreatePatientDefinition();
-            dynamic customer = this.CreateInstance(customerDefinition);
-            customer.FullName = "Erymuzuan";
+            var cd = this.CreatePatientDefinition();
+            dynamic patient = this.CreateInstance(cd);
+            patient.FullName = "Erymuzuan";
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -32,9 +32,9 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "A" }
             };
             br.RuleCollection.Add(nameMustContainsA);
-            customerDefinition.BusinessRuleCollection.Add(br);
+            cd.BusinessRuleCollection.Add(br);
 
-            ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
+            ValidationResult result = patient.ValidateBusinessRule(cd.BusinessRuleCollection);
             foreach (var error in result.ValidationErrors)
             {
                 Console.WriteLine(error);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
@@ -23,6 +24,8 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
+                const string SYSTEM_WEB = "System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
+                var mvc = Path.Combine(ConfigurationManager.WebPath, @"bin\System.Web.Mvc.dll");
                 var references = new List<MetadataReference>
                 {
                     this.CreateMetadataReference<System.Net.WebClient>(),
@@ -31,10 +34,12 @@ namespace Bespoke.Sph.Domain
                     this.CreateMetadataReference<object>(),
                     this.CreateMetadataReference<WorkflowDefinition>(),
                     this.CreateMetadataReference<Task>(),
-                    this.CreateMetadataReference<EnumerableQuery>()
+                    this.CreateMetadataReference<Newtonsoft.Json.Converters.DataTableConverter>(),
+                    this.CreateMetadataReference<System.Net.Http.HttpClient>(),
+                    this.CreateMetadataReference<EnumerableQuery>(),
+                    this.CreateMetadataFromFile(mvc),
+                    MetadataReference.CreateFromAssembly(Assembly.Load(SYSTEM_WEB))
                 };
-
-
                 return references.ToArray();
 
             }
@@ -121,7 +126,7 @@ namespace Bespoke.Sph.Domain
             @class.AddNamespaceImport<Task>();
             @class.ImportCollection.Add("System.Web.Mvc");
             @class.ImportCollection.Add("System.Linq");
-            @class.ImportCollection.Add("Bespoke.Sph.Web.Helpers");
+            @class.ImportCollection.Add("System.IO");
 
 
             var search = GenerateControllerSearchMethod();
@@ -129,6 +134,9 @@ namespace Bespoke.Sph.Domain
 
             var save = GenerateControllerSaveAction();
             @class.MethodCollection.Add(save);
+
+            var requestJson = GenerateGetRequestJsonMethod();
+            @class.MethodCollection.Add(requestJson);
 
             @class.MethodCollection.AddRange(this.GenerateControlerOperationMethods());
             @class.MethodCollection.Add(this.GenerateControllerValidateMethod());
@@ -144,6 +152,35 @@ namespace Bespoke.Sph.Domain
 
         }
 
+        private Method GenerateGetRequestJsonMethod()
+        {
+            var code = new StringBuilder();
+
+            code.AppendLine(@"
+            public string GetRequestBody()
+            {
+                using (var reader = new StreamReader(this.Request.InputStream))
+                {
+                    string text = reader.ReadToEnd();
+                    return text;
+                }
+            }
+            private T GetRequestJson<T>()
+            {
+                if (null == this.Request) return default(T);
+                if (null == this.Request.InputStream) return default(T);
+                using (var reader = new StreamReader(this.Request.InputStream))
+                {
+                    string json = reader.ReadToEnd();
+                    return json.DeserializeFromJson<T>();
+                }
+            }
+            ");
+
+
+
+            return new Method { Code = code.ToString(), Name = "Search", Comment = "//exec:Search" };
+        }
         private Method GenerateControllerSearchMethod()
         {
             var search = new StringBuilder();
@@ -151,7 +188,7 @@ namespace Bespoke.Sph.Domain
             search.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
             search.AppendLine("       {");
             search.AppendFormat(@"
-            var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
+            var json = this.GetRequestBody();
             var request = new System.Net.Http.StringContent(json);
             var url = ""{1}/{0}/_search"";
 

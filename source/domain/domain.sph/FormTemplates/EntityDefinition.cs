@@ -1,18 +1,12 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using Bespoke.Sph.Domain.Properties;
-using Microsoft.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Bespoke.Sph.Domain
 {
@@ -176,59 +170,44 @@ namespace Bespoke.Sph.Domain
 
         public SphCompilerResult Compile(CompilerOptions options, params string[] files)
         {
-            if (files.Length == 0)
-                throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, "files");
-            foreach (var cs in files)
+            var project = (IProjectProvider)this;
+            var projectDocuments = project.GenerateCode().ToList();
+            var trees = (from c in projectDocuments
+                         let x = c.GetCode()
+                         let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)
+                         select CSharpSyntaxTree.Create(root.GetRoot(), path: c.FileName)).ToList();
+
+            var compilation = CSharpCompilation.Create(string.Format("{0}.{1}", ConfigurationManager.ApplicationName, this.Id))
+                .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+                .AddReferences(project.References)
+                .AddSyntaxTrees(trees);
+
+            var errors = compilation.GetDiagnostics()
+                .Where(d => d.Id != "CS8019")
+                .Select(d => new BuildError(d));
+
+            var result = new SphCompilerResult { Result = true };
+            result.Errors.AddRange(errors);
+            result.Result = result.Errors.Count == 0;
+            if (DebuggerHelper.IsVerbose)
             {
-                Debug.WriteLineIf(options.IsVerbose, cs);
+                var color = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                result.Errors.ForEach(Console.WriteLine);
+                Console.ForegroundColor = color;
             }
+            if (!result.Result || !options.Emit)
+                return result;
 
-            using (var provider = new CSharpCodeProvider())
-            {
-                var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
-                var parameters = new CompilerParameters
-                {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, this.Name)),
-                    GenerateExecutable = false,
-                    IncludeDebugInformation = true
+            if (null == options.Stream)
+                throw new ArgumentException("To emit please provide a stream in your options", "options");
 
-                };
+            var k = compilation.Emit(options.Stream);
+            result.Result = k.Success;
+            var errors2 = k.Diagnostics.Select(v => new BuildError(v));
+            result.Errors.AddRange(errors2);
 
-                parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
-
-                foreach (var es in options.EmbeddedResourceCollection)
-                {
-                    parameters.EmbeddedResources.Add(es);
-                }
-                foreach (var ass in options.ReferencedAssembliesLocation)
-                {
-                    parameters.ReferencedAssemblies.Add(ass);
-                }
-                var result = provider.CompileAssemblyFromFile(parameters, files);
-                var cr = new SphCompilerResult
-                {
-                    Result = true,
-                    Output = Path.GetFullPath(parameters.OutputAssembly)
-                };
-                cr.Result = result.Errors.Count == 0;
-                var errors = from CompilerError x in result.Errors
-                             select new BuildError(this.WebId, x.ErrorText)
-                             {
-                                 Line = x.Line,
-                                 FileName = x.FileName
-                             };
-                cr.Errors.AddRange(errors);
-                return cr;
-            }
+            return result;
         }
 
 

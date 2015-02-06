@@ -20,6 +20,10 @@ namespace Bespoke.Sph.Domain
         {
             return MetadataReference.CreateFromAssembly((typeof(T)).Assembly);
         }
+        public static MetadataReference CreateMetadataFromFile(this object type, string file)
+        {
+            return MetadataReference.CreateFromFile(file);
+        }
         public static IList<MetadataReference> AddMetadataReference<T>(this IList<MetadataReference> references)
         {
             var mr = MetadataReference.CreateFromAssembly((typeof(T)).Assembly);
