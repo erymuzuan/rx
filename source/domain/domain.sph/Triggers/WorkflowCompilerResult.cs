@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.Domain
 {
-    public class WorkflowCompilerResult
+    public class SphCompilerResult
     {
         private readonly ObjectCollection<BuildError> m_errorsCollection = new ObjectCollection<BuildError>();
         public bool Result { get; set; }

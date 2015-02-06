@@ -174,7 +174,7 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
+        public SphCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
                 throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, "files");
@@ -214,7 +214,7 @@ namespace Bespoke.Sph.Domain
                     parameters.ReferencedAssemblies.Add(ass);
                 }
                 var result = provider.CompileAssemblyFromFile(parameters, files);
-                var cr = new WorkflowCompilerResult
+                var cr = new SphCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -115,7 +114,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public WorkflowCompilerResult Compile(CompilerOptions options)
+        public SphCompilerResult Compile(CompilerOptions options)
         {
             var codes = this.GenerateCode();
             Debug.WriteLineIf(options.IsVerbose, codes);
@@ -136,94 +135,41 @@ namespace Bespoke.Sph.Domain
 
             using (var provider = new CSharpCodeProvider())
             {
-                var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
-                var parameters = new CompilerParameters
-                {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.Id, this.Version)),
-                    GenerateExecutable = false,
-                    IncludeDebugInformation = true
-                };
+                //var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
+                //var parameters = new CompilerParameters
+                //{
+                //    OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.Id, this.Version)),
+                //    GenerateExecutable = false,
+                //    IncludeDebugInformation = true
+                //};
 
-                parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Binder).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(ApiController).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(RoutePrefixAttribute).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter).Assembly.Location);
-                foreach (var ra in this.ReferencedAssemblyCollection)
-                {
-                    parameters.ReferencedAssemblies.Add(ra.Location);
-                }
+                //parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(Binder).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(ApiController).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(RoutePrefixAttribute).Assembly.Location);
+                //parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter).Assembly.Location);
+                //foreach (var ra in this.ReferencedAssemblyCollection)
+                //{
+                //    parameters.ReferencedAssemblies.Add(ra.Location);
+                //}
                 // custom entities
 
-                foreach (var loc in options.ReferencedAssembliesLocation)
-                {
-                    if (!parameters.ReferencedAssemblies.Contains(loc))
-                        parameters.ReferencedAssemblies.Add(loc);
-                }
-                var result = provider.CompileAssemblyFromFile(parameters, sourceFiles.ToArray());
-                var cr = new WorkflowCompilerResult
-                {
-                    Result = true,
-                    Output = Path.GetFullPath(parameters.OutputAssembly)
-                };
-                cr.Result = result.Errors.Count == 0;
-                cr.Errors.AddRange(this.GetCompileErrors(result));
+
 
                 return cr;
             }
         }
 
-        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result)
-        {
 
-            var list = from CompilerError er in result.Errors.OfType<CompilerError>()
-                       select this.GetSourceError(er, er.FileName);
-            return list;
-        }
-
-        private BuildError GetSourceError(CompilerError er, string fileName)
-        {
-            if (string.IsNullOrWhiteSpace(fileName) || !File.Exists(fileName))
-                return new BuildError(this.WebId, er.ErrorText);
-
-            var sources = File.ReadAllLines(fileName);
-            var member = string.Empty;
-            for (var i = 0; i < er.Line; i++)
-            {
-                if (sources[i].Trim().StartsWith("//exec:"))
-                    member = sources[i].Trim().Replace("//exec:", string.Empty);
-            }
-            if (this.ActivityCollection.All(a => a.WebId != member))
-            {
-                return new BuildError(null, er.ToString())
-                {
-                    Line = er.Line,
-                    Code = er.Line > 1 ? sources[er.Line - 1] : string.Empty
-                };
-
-            }
-
-
-            var act = this.GetActivity<Activity>(member);
-            var message = er.ErrorText;
-            if (null != act)
-                message = string.Format("[{0}] -< {1} : {2}", act.GetType().Name, act.Name, er.ErrorText);
-            return new BuildError(member, message)
-            {
-                Code = sources[er.Line - 1],
-                Line = er.Line
-            };
-
-        }
 
         [XmlIgnore]
         [JsonIgnore]

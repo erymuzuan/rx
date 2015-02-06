@@ -42,7 +42,7 @@ namespace Bespoke.Sph.Domain.Api
 
 
 
-        public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
+        public SphCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
                 throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, "files");
@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Domain.Api
                     parameters.ReferencedAssemblies.Add(ass);
                 }
                 var result = provider.CompileAssemblyFromFile(parameters, files);
-                var cr = new WorkflowCompilerResult
+                var cr = new SphCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)
@@ -104,7 +104,7 @@ namespace Bespoke.Sph.Domain.Api
         {
             return Task.FromResult(0);
         }
-        public async Task<WorkflowCompilerResult> CompileAsync()
+        public async Task<SphCompilerResult> CompileAsync()
         {
 
             var options = new CompilerOptions();

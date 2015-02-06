@@ -21,14 +21,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
         [ImportMany("PartialRenderer", typeof(FormRenderer), AllowRecomposition = true)]
         public Lazy<FormRenderer, IFormRendererMetadata>[] PartialRenderers { get; set; }
 
-        public override async Task<WorkflowCompilerResult> CompileAsync(IForm form)
+        public override async Task<SphCompilerResult> CompileAsync(IForm form)
         {
             var project = await form.LoadProjectAsync();
             var html = await CompileHtmlView(form, project);
             var js = await CompileViewModel(form, project);
             var partial = await CompilePartial(form, project);
 
-            var result = new WorkflowCompilerResult
+            var result = new SphCompilerResult
             {
                 Result = !string.IsNullOrWhiteSpace(js) && !string.IsNullOrWhiteSpace(html),
                 Outputs = new[] { html, js, partial }

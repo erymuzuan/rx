@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
+        public async Task<SphCompilerResult> CompileAsync(CompilerOptions options)
         {
             var code = await this.GenerateCodeAsync();
 
@@ -70,7 +70,7 @@ namespace Bespoke.Sph.Domain
 
                 var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
                     : provider.CompileAssemblyFromSource(parameters, code);
-                var cr = new WorkflowCompilerResult
+                var cr = new SphCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

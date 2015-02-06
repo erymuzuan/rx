@@ -13,9 +13,9 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [SolutionCompilerMetadata(Name = "DurandalJs")]
     public class DurandalJsSolutionCompiler : SolutionCompiler
     {
-        public override async Task<WorkflowCompilerResult> CompileAsync(Solution solution)
+        public override async Task<SphCompilerResult> CompileAsync(Solution solution)
         {
-            var result = new WorkflowCompilerResult();
+            var result = new SphCompilerResult();
             var models = new List<string>();
             foreach (var pm in solution.ProjectMetadataCollection)
             {

@@ -92,7 +92,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public WorkflowCompilerResult Compile(RuleContext context)
+        public SphCompilerResult Compile(RuleContext context)
         {
             var code = this.GenerateCode(context);
 
@@ -112,7 +112,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add((context.Item.GetType()).Assembly.Location);
 
                 var result = provider.CompileAssemblyFromSource(parameters, code);
-                var cr = new WorkflowCompilerResult
+                var cr = new SphCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Domain
             return sb.ToString();
         }
 
-        public Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options, params string[] files)
+        public Task<SphCompilerResult> CompileAsync(CompilerOptions options, params string[] files)
         {
             this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
             this.MapCollection.ForEach(x => x.TransformDefinition = this);
@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Domain
                     parameters.ReferencedAssemblies.Add(ass);
                 }
                 var result = provider.CompileAssemblyFromFile(parameters, files);
-                var cr = new WorkflowCompilerResult
+                var cr = new SphCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

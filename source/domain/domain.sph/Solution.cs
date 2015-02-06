@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Domain
         [ImportMany("ProjectProvider", typeof(ProjectProvider), AllowRecomposition = true)]
         public Lazy<ProjectProvider, IProjectProviderMetadata>[] ProjectProviders { get; set; }
 
-        public async Task<IEnumerable<WorkflowCompilerResult>> CompileAsync(string compilers)
+        public async Task<IEnumerable<SphCompilerResult>> CompileAsync(string compilers)
         {
             var tasks = from c in this.Compilers.Where(x => compilers.Contains(x.Metadata.Name))
                         let compiler = c.Value

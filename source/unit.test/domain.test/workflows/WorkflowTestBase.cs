@@ -99,7 +99,7 @@ namespace domain.test.workflows
             return wd;
         }
 
-        protected WorkflowCompilerResult Compile(WorkflowDefinition wd, bool verbose = false, bool
+        protected SphCompilerResult Compile(WorkflowDefinition wd, bool verbose = false, bool
             assertError = true)
         {
             this.BinaryStore.Setup(x => x.GetContent("wd-storeid"))
