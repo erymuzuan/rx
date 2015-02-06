@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using Humanizer;
-using Microsoft.CSharp;
-using Microsoft.CSharp.RuntimeBinder;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -116,57 +109,35 @@ namespace Bespoke.Sph.Domain
 
         public SphCompilerResult Compile(CompilerOptions options)
         {
-            var codes = this.GenerateCode();
-            Debug.WriteLineIf(options.IsVerbose, codes);
+            var project = (IProjectProvider)this;
+            var projectDocuments = project.GenerateCode().ToList();
+            var trees = (from c in projectDocuments
+                         let x = c.GetCode()
+                         let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)
+                         select CSharpSyntaxTree.Create(root.GetRoot(),path:c.FileName)).ToList();
 
-            var sourceFiles = new List<string>();
-            if (string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
+            var compilation = CSharpCompilation.Create(string.Format("{0}.wd.{1}", ConfigurationManager.ApplicationName, this.Id))
+                .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+                .AddReferences(project.References)
+                .AddSyntaxTrees(trees);
+
+            var errors = compilation.GetDiagnostics()
+                .Where(d => d.Id != "CS8019")
+                .Select(d => new BuildError(d));
+
+            var result = new SphCompilerResult { Result = true };
+            result.Errors.AddRange(errors);
+            result.Result = result.Errors.Count == 0;
+            if (DebuggerHelper.IsVerbose)
             {
-                options.SourceCodeDirectory = Path.Combine(ConfigurationManager.UserSourceDirectory, this.Id);
-            }
-            if (!Directory.Exists(options.SourceCodeDirectory))
-                Directory.CreateDirectory(options.SourceCodeDirectory);
-            foreach (var @class in codes)
-            {
-                var cs = Path.Combine(options.SourceCodeDirectory, @class.FileName);
-                File.WriteAllText(cs, @class.GetCode());
-                sourceFiles.Add(cs);
+                var color = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                result.Errors.ForEach(Console.WriteLine);
+                Console.ForegroundColor = color;
             }
 
-            using (var provider = new CSharpCodeProvider())
-            {
-                //var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
-                //var parameters = new CompilerParameters
-                //{
-                //    OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.Id, this.Version)),
-                //    GenerateExecutable = false,
-                //    IncludeDebugInformation = true
-                //};
+            return result;
 
-                //parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(Binder).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(ApiController).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(RoutePrefixAttribute).Assembly.Location);
-                //parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter).Assembly.Location);
-                //foreach (var ra in this.ReferencedAssemblyCollection)
-                //{
-                //    parameters.ReferencedAssemblies.Add(ra.Location);
-                //}
-                // custom entities
-
-
-
-                return cr;
-            }
         }
 
 

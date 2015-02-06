@@ -234,6 +234,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AggregateController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Helpers\ControllerHelpers.cs" />
     <Compile Include="Helpers\IPagingTranslator2.cs" />
     <Compile Include="Controllers\ListController.cs" />
     <Compile Include="Helpers\Sql2008PagingTranslator.cs" />

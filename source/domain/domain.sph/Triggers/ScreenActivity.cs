@@ -246,7 +246,7 @@ namespace Bespoke.Sph.Domain
             saveAction.AppendLine("       public async Task<ActionResult> " + this.ActionName + "()");
             saveAction.AppendLine("       {");
 
-            saveAction.AppendLinf("           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", wd.WorkflowTypeName);// this is extension method
+            saveAction.AppendLinf("            var wf = this.GetRequestJson<{0}>();", wd.WorkflowTypeName);
             saveAction.AppendLine(@"           var store = ObjectBuilder.GetObject<IBinaryStore>();
             var doc = await store.GetContentAsync(string.Format(""wd.{0}.{1}"", wf.WorkflowDefinitionId, wf.Version));
             using (var stream = new MemoryStream(doc.Content))

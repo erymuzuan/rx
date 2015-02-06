@@ -465,6 +465,7 @@
     <Compile Include="Triggers\SetterAction.cs" />
     <Compile Include="Triggers\SimpleMapping.cs" />
     <Compile Include="Triggers\SimpleVariable.cs" />
+    <Compile Include="Triggers\SphCompilerResult.cs" />
     <Compile Include="Triggers\StartWorkflowAction.cs" />
     <Compile Include="Triggers\ThrowActivity.cs" />
     <Compile Include="Triggers\Tracker.cs" />
@@ -501,7 +502,6 @@
     <Compile Include="Triggers\Variable.cs" />
     <Compile Include="Triggers\VariableValue.cs" />
     <Compile Include="Triggers\Workflow.cs" />
-    <Compile Include="Triggers\WorkflowCompilerResult.cs" />
     <Compile Include="Triggers\WorkflowDefinition.code.cs">
       <DependentUpon>WorkflowDefinition.cs</DependentUpon>
     </Compile>

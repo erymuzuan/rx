@@ -35,8 +35,9 @@ namespace Bespoke.Sph.Domain
                 var references = clrTypes.ToList();
                 references.AddMetadataReference<System.Net.WebClient>()
                     .AddMetadataReference<System.Xml.Serialization.XmlAnyAttributeAttribute>()
-                    //.AddMetadataReference<object>()
                     .AddMetadataReference<WorkflowDefinition>()
+                    .AddMetadataReference<System.Net.Http.HttpClient>()
+                    .AddMetadataReference<System.Web.Routing.RouteValueDictionary>()
                     .AddMetadataReference<EnumerableQuery>()
                     .AddMetadataReference<System.Net.Mail.SmtpClient>();
                 references.Add(MetadataReference.CreateFromAssembly(Assembly.Load("mscorlib")));
@@ -212,11 +213,13 @@ namespace Bespoke.Sph.Domain
             };
             @controller.ImportCollection.Add("System.Web.Mvc");
             @controller.ImportCollection.Add("System.Net.Http");
+            @controller.ImportCollection.Add(typeof(StreamReader).Namespace);
             @controller.ImportCollection.Add(typeof(Exception).Namespace);
             @controller.ImportCollection.Add(typeof(DomainObject).Namespace);
             @controller.ImportCollection.Add(typeof(Task<>).Namespace);
             @controller.AttributeCollection.Add(string.Format("     [RoutePrefix(\"wf/{0}/v{1}\")]", this.Id, this.Version));
 
+            @controller.MethodCollection.Add(this.GenerateGetRequestJsonMethod());
             @controller.MethodCollection.Add(this.GenerateSearchMethod());
             @classes.Add(@controller);
 
@@ -230,6 +233,37 @@ namespace Bespoke.Sph.Domain
 
 
 
+        private Method GenerateGetRequestJsonMethod()
+        {
+            var code = new StringBuilder();
+
+            code.AppendLine(@"
+            public string GetRequestBody()
+            {
+                using (var reader = new StreamReader(this.Request.InputStream))
+                {
+                    string text = reader.ReadToEnd();
+                    return text;
+                }
+            }
+            private T GetRequestJson<T>()
+            {
+                if (null == this.Request) return default(T);
+                if (null == this.Request.InputStream) return default(T);
+                using (var reader = new StreamReader(this.Request.InputStream))
+                {
+                    string json = reader.ReadToEnd();
+                    return json.DeserializeFromJson<T>();
+                }
+            }
+            ");
+
+
+
+            return new Method { Code = code.ToString(), Name = "Search", Comment = "//exec:Search" };
+        }
+
+
         private Method GenerateSearchMethod()
         {
             var code = new StringBuilder();
@@ -239,7 +273,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       public async Task<ActionResult> Search()");
             code.AppendLine("       {");
             code.AppendLinf(@"
-            var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
+            var json = this.GetRequestBody();
             var request = new StringContent(json);
             var url = string.Format(""{{0}}/{{1}}/workflow_{0}_{1}/_search"", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex );
 
@@ -255,7 +289,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       }");
 
-            return new Method { Code = code.ToString(), Name = "Search" , Comment = "//exec:Search"};
+            return new Method { Code = code.ToString(), Name = "Search", Comment = "//exec:Search" };
         }
 
 

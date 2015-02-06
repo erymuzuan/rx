@@ -107,7 +107,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
             var result = wd.Compile(options);
 
-            if (!result.Result || !System.IO.File.Exists(result.Output))
+            if (!result.Result)
             {
                 return Json(new { success = false, version = wd.Version, status = "ERROR", result.Errors });
             }
