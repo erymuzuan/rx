@@ -9,8 +9,8 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 
 
-define(['services/datacontext', 'services/logger', objectbuilders.system, objectbuilders.config],
-    function (context, logger, system, config) {
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, objectbuilders.config],
+    function (context, logger, router, system, config) {
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             errors = ko.observableArray(),
@@ -68,6 +68,9 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, object
                             logger.info(result.message);
                             entity().Id(result.id);
                             errors.removeAll();
+                            setTimeout(function () {
+                                router.navigate('/entity.details/' + entity().Id());
+                            }, 1000);                            
                         } else {
 
                             errors(result.Errors);
