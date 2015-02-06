@@ -182,6 +182,7 @@
   <ItemGroup>
     <Compile Include="businessrules\BusinessRuleTest.cs" />
     <Compile Include="change.tracker\CustomEntityChangeTest.cs" />
+    <Compile Include="CodeGenerations\PropertyCode.cs" />
     <Compile Include="CustomerEntityHelper.cs" />
     <Compile Include="DynamicEntityProvider.cs" />
     <Compile Include="entities\EntityDefinitionCodeTest.cs" />

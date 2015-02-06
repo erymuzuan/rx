@@ -355,6 +355,9 @@ namespace Bespoke.Sph.Domain
         }
         public static string ToCSharp(this Type type)
         {
+            if (null == type)
+                return null;
+            
             if (type == typeof(DateTime)) return "DateTime";
             if (type == typeof(string)) return "string";
             if (type == typeof(int)) return "int";

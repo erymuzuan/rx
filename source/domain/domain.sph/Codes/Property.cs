@@ -56,6 +56,7 @@ namespace Bespoke.Sph.Domain.Codes
                 {
                     code.Append(" get; set; }");
                 }
+
                 return code.ToString();
             }
             set { m_code = value; }

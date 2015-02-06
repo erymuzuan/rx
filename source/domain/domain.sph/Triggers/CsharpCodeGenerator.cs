@@ -101,10 +101,11 @@ namespace Bespoke.Sph.Domain
                 var allElements = from at in all.Elements(x + "element")
                                   where at.Attribute("name") != null
                                         && at.Attribute("type") != null
+                                  let typeName = ComplexVariable.GetClrDataType(at).ToCSharp() ?? at.Attribute("type").Value
                                   select new Property
                                   {
                                       Name = at.Attribute("name").Value,
-                                      Code = string.Format("      public {1} {0} {{get;set;}}", at.Attribute("name").Value, ComplexVariable.GetClrDataType(at))
+                                      Code = string.Format("      public {1} {0} {{get;set;}} ", at.Attribute("name").Value, typeName)
                                   };
                 properties.AddRange(allElements);
 

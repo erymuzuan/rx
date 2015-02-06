@@ -188,7 +188,7 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLinf("       [HttpGet]");
             getAction.AppendLinf("       [Route(\"{0}/{{id}}/{{correlation?}}\")]", this.Name.ToIdFormat());
             getAction.AppendLinf("       [Route(\"{0}{1}\")]", this.ActionName, this.IsInitiator ? "" : "{id}/{correlation}");
-            getAction.AppendLinf("       public async Task<ActionResult> {0}({1})", this.ActionName, this.IsInitiator ? "" : "string id, string correlation=\"\"");
+            getAction.AppendLinf("       public async Task<ActionResult> {0}({1})", this.ActionName, this.IsInitiator ? "string id = \"0\"" : "string id, string correlation=\"\"");
             getAction.AppendLine("       {");
 
 
@@ -232,7 +232,7 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLine("               canview = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);");
             getAction.AppendLine("           }");
 
-            getAction.AppendLinf("           return Json(new {{ canView, vm,version = \"{0}\" }}, , JsonRequestBehavior.AllowGet);", this.ActionName, wd.Version);
+            getAction.AppendLinf("           return Json(new {{ canview, vm,version = \"{0}\" }},  JsonRequestBehavior.AllowGet);", this.ActionName, wd.Version);
 
             getAction.AppendLine("       }");// end GET action
             getAction.AppendLine();
