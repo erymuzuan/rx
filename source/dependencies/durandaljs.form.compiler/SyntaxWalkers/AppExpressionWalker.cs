@@ -9,7 +9,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class AppExpressionWalker : CustomObjectSyntaxWalker
     {
-        public const string APPLICATION_HELPER = "ApplicationHelper";
+        public const string APPLICATION_HELPER = "IApplicationHelper";
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
@@ -21,16 +21,16 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             code.AppendLine("using System.Threading.Tasks;");
             code.AppendLine("namespace " + project.DefaultNamespace);
             code.AppendLine("{");
-            code.AppendLine("   public class ApplicationHelper");
+            code.AppendLinf("   public interface {0}", APPLICATION_HELPER);
             code.AppendLine("   {");
-            code.AppendLine("       public Task<string> ShowMessageAsync(string message, string[] buttons){ return Task.FromResult(string.Empty);}");
+            code.AppendLine("       Task<string> ShowMessageAsync(string message, string[] buttons);");
             code.AppendLine("   }");
             code.AppendLine("}");
             var com = new CustomObjectModel
             {
                 SyntaxTree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(code.ToString()),
                 IncludeAsParameter = true,
-                ClassName = APPLICATION_HELPER,
+                InterfaceName = APPLICATION_HELPER,
                 IdentifierText = "app"
             };
             return com;

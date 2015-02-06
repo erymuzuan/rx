@@ -48,7 +48,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var parameters = string.Join(", ", walkersObjectModels
                 .Where(x => x.IncludeAsParameter)
-                .Select(x => x.ClassName + " " + x.IdentifierText));
+                .Select(x => x.InterfaceName + " " + x.IdentifierText));
 
             var snippet = BuilExpressionClass<T>(expression, project, parameters);
             var projectDocuments = project.GenerateCode().ToList();

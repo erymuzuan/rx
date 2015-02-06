@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Bespoke.Sph.FormCompilers.DurandalJs.SyntaxWalkers.DataContextIdentifiers
 {
     [Export(typeof(IdentifierCompiler))]
-    [IdentifierCompilerMetadata(TypeName = "DataContext", Text = "GetAsync")]
+    [IdentifierCompilerMetadata(TypeName = DataContextExpressionWalker.DATA_CONTEXT, Text = "GetAsync")]
     public class GetAsync : IdentifierCompiler
     {
         [Import]

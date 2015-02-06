@@ -22,7 +22,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
         protected override bool Filter(IMethodSymbol method)
         {
-            return method.ContainingType.Name == "Logger"
+            return method.ContainingType.Name == "ILogger"
                 && method.ContainingAssembly.Name == EVAL;
         }
 
@@ -36,18 +36,18 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var code = new StringBuilder();
             code.AppendLine("namespace " + project.DefaultNamespace);
             code.AppendLine("{");
-            code.AppendLine("   public class Logger");
+            code.AppendLine("   public interface ILogger");
             code.AppendLine("   {");
-            code.AppendLine("       public void Info(string message){}");
-            code.AppendLine("       public void Warning(string message){}");
-            code.AppendLine("       public void Error(string message){}");
+            code.AppendLine("       void Info(string message);");
+            code.AppendLine("       void Warning(string message);");
+            code.AppendLine("       void Error(string message);");
             code.AppendLine("   }");
             code.AppendLine("}");
             var com = new CustomObjectModel
             {
                 SyntaxTree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(code.ToString()),
                 IncludeAsParameter = true,
-                ClassName = "Logger",
+                InterfaceName = "ILogger",
                 IdentifierText = "logger"
             };
             return com;

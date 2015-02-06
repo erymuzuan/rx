@@ -10,7 +10,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class LoadOperationMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
-        public const string CLASS_NAME = "LoadOperation";
+        public const string CLASS_NAME = "ILoadOperation";
         protected override SyntaxKind[] Kinds
         {
             get { return new[] { SyntaxKind.SimpleMemberAccessExpression }; }
@@ -28,21 +28,21 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             code.AppendLinf("using {0}; ", ListMemberAcessExpressionWalker.SYSTEM_COLLECTION_GENERIC );
             code.AppendLine("namespace " + project.DefaultNamespace);
             code.AppendLine("{");
-            code.AppendLinf("   public class {0}<T> where T : Entity ", CLASS_NAME);
+            code.AppendLinf("   public interface {0}<T> where T : Entity ", CLASS_NAME);
             code.AppendLine("   {");
-            code.AppendLine("       public List<T> ItemCollection {get;}");
-            code.AppendLine("       public string NextSkipToken {get;}");
-            code.AppendLine("       public string Filter {get;}");
-            code.AppendLine("       public int CurrentPage{get;}");
-            code.AppendLine("       public int PageSize{get;}");
-            code.AppendLine("       public int TotalRows{get;}");
+            code.AppendLine("       List<T> ItemCollection {get;}");
+            code.AppendLine("       string NextSkipToken {get;}");
+            code.AppendLine("       string Filter {get;}");
+            code.AppendLine("       int CurrentPage{get;}");
+            code.AppendLine("       int PageSize{get;}");
+            code.AppendLine("       int TotalRows{get;}");
             code.AppendLine("   }");
             code.AppendLine("}");
             var com = new CustomObjectModel
             {
                 SyntaxTree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(code.ToString()),
                 IncludeAsParameter = false,
-                ClassName = CLASS_NAME
+                InterfaceName = CLASS_NAME
             };
             return com;
         }

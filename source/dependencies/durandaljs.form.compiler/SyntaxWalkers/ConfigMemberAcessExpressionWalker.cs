@@ -10,7 +10,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
     [Export(typeof(CustomObjectSyntaxWalker))]
     class ConfigMemberAcessExpressionWalker : CustomObjectSyntaxWalker
     {
-        private const string ClassName = "ConfigurationManager";
+        private const string InterfaceName = "IConfig";
 
         protected override SyntaxKind[] Kinds
         {
@@ -22,19 +22,19 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var code = new StringBuilder();
             code.AppendLine("namespace " + project.DefaultNamespace);
             code.AppendLine("{");
-            code.AppendLinf("   public class {0}", ClassName);
+            code.AppendLinf("   public interface {0}", InterfaceName);
             code.AppendLine("   {");
-            code.AppendLine("       public bool IsAuthenticated {get;}");
-            code.AppendLine("       public string[] Roles {get;}");
-            code.AppendLine("       public string UserName {get;}");
-            code.AppendLine("       public string ShortDateFormatString {get;}");
+            code.AppendLine("       bool IsAuthenticated {get;}");
+            code.AppendLine("       string[] Roles {get;}");
+            code.AppendLine("       string UserName {get;}");
+            code.AppendLine("       string ShortDateFormatString {get;}");
             code.AppendLine("   }");
             code.AppendLine("}");
             var com = new CustomObjectModel
             {
                 SyntaxTree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(code.ToString()),
                 IncludeAsParameter = true,
-                ClassName = ClassName,
+                InterfaceName = InterfaceName,
                 IdentifierText = "config"
             };
             return com;
@@ -48,8 +48,8 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var ms = info.Symbol as IPropertySymbol;
             if (null != ms)
-                return ms.ContainingType.Name == ClassName
-                    && ms.ContainingAssembly.Name == "eval";
+                return ms.ContainingType.Name == InterfaceName
+                    && ms.ContainingAssembly.Name == EVAL;
 
             return false;
         }

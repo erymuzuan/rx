@@ -52,7 +52,7 @@ var activate  = function(itemId){
 
    },
    buttonClick  = function(){ 
-   return ;
+   return moment();
    };
 
    var vm = { 
