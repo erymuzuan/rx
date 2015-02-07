@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Dynamic;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -191,11 +189,13 @@ namespace domain.test.entities
             //Assert.AreEqual(3, vr.rules.Length);
 
         }
+
+
         [Test]
         public async Task AddReleaseOperationWithSetter()
         {
             var release = new EntityOperation { Name = "Release", WebId = Guid.NewGuid().ToString() };
-            var statusSetter = new SetterActionChild
+            var setter = new SetterActionChild
             {
                 Path = "Status",
                 Field = new ConstantField { Type = typeof(string), Value = "Released", Name = "Released" },
@@ -203,7 +203,7 @@ namespace domain.test.entities
             };
             var ed = this.CreatePatientDefinition("PatientReleaseOperationWithSetter");
             ed.EntityOperationCollection.Add(release);
-            release.SetterActionChildCollection.Add(statusSetter);
+            release.SetterActionChildCollection.Add(setter);
 
             var patient = this.CreateInstance(ed, true);
             Assert.IsNotNull(patient);
@@ -227,21 +227,8 @@ namespace domain.test.entities
             Assert.IsNotNull(vr);
 
             Assert.AreEqual("Released", patient.Status);
-            Assert.IsFalse(vr.success);
-            Assert.AreEqual(3, vr.rules.Length);
+            Assert.IsTrue(vr.success);
 
-        }
-    }
-    public static class DynamicExtensions
-    {
-        public static dynamic ToDynamic(this object value)
-        {
-            IDictionary<string, object> expando = new ExpandoObject();
-
-            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(value.GetType()))
-                expando.Add(property.Name, property.GetValue(value));
-
-            return (ExpandoObject)expando;
         }
     }
 }
