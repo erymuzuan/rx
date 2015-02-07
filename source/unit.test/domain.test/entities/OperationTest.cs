@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Dynamic;
 using System.IO;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Hosting;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -49,7 +54,7 @@ namespace domain.test.entities
                 Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
                 buffers = stream.GetBuffer();
             }
-            
+
             // try to instantiate the EntityDefinition
             var assembly = Assembly.Load(buffers);
             var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
@@ -212,18 +217,31 @@ namespace domain.test.entities
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
-
+            controller.Request = new HttpRequestMessage();
+            controller.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
             var result = await controller.Release(patient);
             Console.WriteLine("Result type : " + result);
             Assert.IsNotNull(result);
 
-            dynamic vr = result.Data;
+            dynamic vr = DynamicExtensions.ToDynamic(result.Content.Value);
             Assert.IsNotNull(vr);
 
             Assert.AreEqual("Released", patient.Status);
-            //Assert.IsFalse(vr.success);
-            //Assert.AreEqual(3, vr.rules.Length);
+            Assert.IsFalse(vr.success);
+            Assert.AreEqual(3, vr.rules.Length);
 
+        }
+    }
+    public static class DynamicExtensions
+    {
+        public static dynamic ToDynamic(this object value)
+        {
+            IDictionary<string, object> expando = new ExpandoObject();
+
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(value.GetType()))
+                expando.Add(property.Name, property.GetValue(value));
+
+            return (ExpandoObject)expando;
         }
     }
 }
