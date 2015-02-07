@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -32,15 +33,15 @@ namespace domain.test.entities
                 IsFilterable = true,
                 DefaultValue = new DocumentField { Path = "Name", Type = typeof(string) }
             });
-            
+
             ent.MemberCollection.Add(new Member
             {
                 Name = "LastName",
                 Type = typeof(string),
                 IsFilterable = true,
-                DefaultValue = new FunctionField  { Script = "item.Name.Split(new string[]{\" \"}, StringSplitOptions.RemoveEmptyEntries)[0]" }
+                DefaultValue = new FunctionField { Script = "item.Name.Split(new string[]{\" \"}, StringSplitOptions.RemoveEmptyEntries)[0]" }
             });
-            
+
             ent.MemberCollection.Add(new Member
             {
                 Name = "Title",
@@ -62,10 +63,10 @@ namespace domain.test.entities
                 DefaultValue = new FunctionField { Script = "new DateTime(2011,5,2)", ScriptEngine = new RoslynScriptEngine() }
             });
             var address = new Member { Name = "Address", Type = typeof(object) };
-            var malaysia = new ConstantField {Type = typeof (string), Value = "Malaysia"};
+            var malaysia = new ConstantField { Type = typeof(string), Value = "Malaysia" };
             address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, Type = typeof(string) });
             address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, Type = typeof(string) });
-            address.MemberCollection.Add(new Member { Name = "Country", IsFilterable = true, Type = typeof(string), DefaultValue = malaysia});
+            address.MemberCollection.Add(new Member { Name = "Country", IsFilterable = true, Type = typeof(string), DefaultValue = malaysia });
             ent.MemberCollection.Add(address);
             var options = new CompilerOptions
             {
@@ -73,7 +74,7 @@ namespace domain.test.entities
                 IsDebug = true
             };
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new Member { Name = "ContactCollection", AllowMultiple = true };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 
@@ -81,17 +82,21 @@ namespace domain.test.entities
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-            var codes = ent.GenerateCode();
-            var sources = ent.SaveSources(codes);
-            var result = ent.Compile(options, sources);
-            result.Errors.ForEach(Console.WriteLine);
 
-            Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
+            byte[] buffers;
+            using (var stream = new MemoryStream())
+            {
+                options.Stream = stream;
+                options.Emit = true;
+                var result = ent.Compile(options);
+                PrintErrors(result, ent);
 
-            var dll = AppDomain.CurrentDomain.BaseDirectory + "\\Dev.Lead.dll";
-            File.Copy(result.Output, dll,true);
+                Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
+                buffers = stream.GetBuffer();
+            }
 
-            var assembly = Assembly.LoadFrom(dll);
+
+            var assembly = Assembly.Load(buffers);
             var type = assembly.GetType("Bespoke.Dev_lead.Domain.Lead");
             Assert.IsNotNull(type, type.FullName + " is null");
 
@@ -100,6 +105,16 @@ namespace domain.test.entities
             Assert.AreEqual(DateTime.Parse("2011-05-02"), lead.RegisteredDate);
 
 
+        }
+
+        public static void PrintErrors(SphCompilerResult result, EntityDefinition ent)
+        {
+            if (result.Result) return;
+            Console.WriteLine("!!!!! Failed to build ");
+            var codes = ent.GenerateCode();
+            var sources = ent.SaveSources(codes);
+            sources.ToList().ForEach(x => Console.WriteLine("saved to : {0}", x));
+            result.Errors.ForEach(Console.WriteLine);
         }
 
 
@@ -128,19 +143,14 @@ namespace domain.test.entities
                 IsDebug = true
             };
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new Member { Name = "ContactCollection", AllowMultiple = true };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-            var codes = ent.GenerateCode();
-            var sources = ent.SaveSources(codes);
 
-            var result = ent.Compile(options, sources);
-            result.Errors.ForEach(Console.WriteLine);
+            var result = ent.Compile(options);
+            PrintErrors(result, ent);
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
@@ -169,7 +179,7 @@ namespace domain.test.entities
             ent.MemberCollection.Add(address);
 
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new Member { Name = "ContactCollection", AllowMultiple = true };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             contacts.MemberCollection.Add(address);
             ent.MemberCollection.Add(contacts);

@@ -40,7 +40,7 @@ namespace Bespoke.Sph.Domain
                 var val = string.Format("{0}", m_tempVal);
                 this.Value = this.ParseValue(val);
                 m_tempVal = null;
-                RaisePropertyChanged("Value");
+                RaisePropertyChanged();
 
             }
             base.OnPropertyChanged(propertyName);

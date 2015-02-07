@@ -26,9 +26,7 @@ namespace subscriber.entities
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.CorePath + @"\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
             
-            var codes = item.GenerateCode();
-            var sources = item.SaveSources(codes);
-            var result = item.Compile(options, sources);
+            var result = item.Compile(options);
 
             result.Errors.ForEach(Console.WriteLine);
             if (!result.Result)

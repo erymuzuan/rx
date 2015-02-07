@@ -1,16 +1,13 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Drawing;
-using System.Globalization;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Schema;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -99,7 +96,7 @@ namespace Bespoke.Sph.Web.Controllers
             byte[] byteArray;
             using (var stream = new MemoryStream())
             {
-                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                img.Save(stream, ImageFormat.Png);
                 stream.Close();
 
                 byteArray = stream.ToArray();

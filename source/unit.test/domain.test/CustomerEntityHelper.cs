@@ -46,9 +46,7 @@ namespace domain.test
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
 
-            var codes = ed.GenerateCode();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
+            var result = ed.Compile(options);
             result.Errors.ForEach(Console.WriteLine);
             DeployCustomEntity(ed);
 

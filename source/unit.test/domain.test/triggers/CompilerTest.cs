@@ -68,9 +68,7 @@ namespace domain.test.triggers
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-            var codes = ed.GenerateCode();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources); 
+            var result = ed.Compile(options); 
             result.Errors.ForEach(Console.WriteLine);
 
             // try to instantiate the EntityDefinition

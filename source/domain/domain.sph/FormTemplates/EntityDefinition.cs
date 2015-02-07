@@ -168,7 +168,7 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public SphCompilerResult Compile(CompilerOptions options, params string[] files)
+        public SphCompilerResult Compile(CompilerOptions options)
         {
             var project = (IProjectProvider)this;
             var projectDocuments = project.GenerateCode().ToList();

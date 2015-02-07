@@ -37,23 +37,21 @@ namespace domain.test.entities
                 IsVerbose = verbose,
                 IsDebug = true
             };
-            var core = Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll");
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(core);
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-            var destinationCore = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "core.sph.dll");
-            File.Copy(core, destinationCore, true);
+            byte[] buffers;
+            using (var stream = new MemoryStream())
+            {
+                options.Stream = stream;
+                options.Emit = true;
+                var result = ed.Compile(options);
+                EntityDefinitionCodeTest.PrintErrors(result, ed);
 
-
-            var codes = ed.GenerateCode();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
-
-            result.Errors.ForEach(Console.WriteLine);
-
+                Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
+                buffers = stream.GetBuffer();
+            }
+            
             // try to instantiate the EntityDefinition
-            var assembly = Assembly.LoadFrom(result.Output);
+            var assembly = Assembly.Load(buffers);
             var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
 
             var edType = assembly.GetType(edTypeName);
@@ -96,7 +94,7 @@ namespace domain.test.entities
             ent.MemberCollection.Add(address);
 
 
-            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = new Member { Name = "ContactCollection", AllowMultiple = true };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 

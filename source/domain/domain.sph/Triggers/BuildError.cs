@@ -32,6 +32,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine("// " + diagnostic.Location.SourceTree.FilePath);
 
                 this.Code = code.ToString();
+                this.Line = lineNumber;
 
                 // get the item id
                 this.ItemWebId = this.GetSourceError(lineNumber, tree.Split(new[] { '\n' }, StringSplitOptions.None));
@@ -75,7 +76,7 @@ namespace Bespoke.Sph.Domain
 
         public override string ToString()
         {
-            return string.Format("{2}({0}) : {1}", this.Line, this.Message, this.FileName);
+            return string.Format("{2}({0}) : {1}{3}", this.Line, this.Message, this.FileName,"\r\n"+ this.Code.Trim());
         }
     }
 

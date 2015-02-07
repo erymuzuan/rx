@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
             get
             {
                 const string SYSTEM_WEB = "System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
-                var mvc = Path.Combine(ConfigurationManager.WebPath, @"bin\System.Web.Mvc.dll");
+                var mvc = Path.Combine(ConfigurationManager.WebPath, @"bin\System.Web.Http.dll");
                 var references = new List<MetadataReference>
                 {
                     this.CreateMetadataReference<System.Net.WebClient>(),
@@ -93,10 +93,9 @@ namespace Bespoke.Sph.Domain
             ctor.AppendLinf("           var rc = new RuleContext(item);");
             foreach (var mb in this.MemberCollection)
             {
-                var inferred = mb.InferredType;
-                if (!string.IsNullOrWhiteSpace(inferred))
+                if (!string.IsNullOrWhiteSpace(mb.InferredType) && !mb.InferredType.Contains("ObjectCollection`1"))
                 {
-                    ctor.AppendLinf("           this.{0} = new {1}();", mb.Name, inferred);
+                    ctor.AppendLinf("           this.{0} = new {1}();", mb.Name, mb.InferredType);
                 }
                 if (null == mb.DefaultValue) continue;
 
@@ -120,11 +119,14 @@ namespace Bespoke.Sph.Domain
 
         private Class GenerateController()
         {
-            var @class = new Class { Name = this.Name + "Controller", Namespace = DefaultNamespace, BaseClass = "System.Web.Mvc.Controller" };
+            var @class = new Class { Name = this.Name + "Controller", Namespace = DefaultNamespace, BaseClass = "System.Web.Http.ApiController" };
+            @class.AttributeCollection.Add(string.Format("[RoutePrefix(\"{0}\")]", this.Id));
             @class.AddNamespaceImport<string>();
             @class.AddNamespaceImport<DomainObject>();
             @class.AddNamespaceImport<Task>();
-            @class.ImportCollection.Add("System.Web.Mvc");
+            @class.ImportCollection.Add("System.Web.Http");
+            @class.ImportCollection.Add("System.Net");
+            @class.ImportCollection.Add("System.Net.Http");
             @class.ImportCollection.Add("System.Linq");
             @class.ImportCollection.Add("System.IO");
 
@@ -134,9 +136,6 @@ namespace Bespoke.Sph.Domain
 
             var save = GenerateControllerSaveAction();
             @class.MethodCollection.Add(save);
-
-            var requestJson = GenerateGetRequestJsonMethod();
-            @class.MethodCollection.Add(requestJson);
 
             @class.MethodCollection.AddRange(this.GenerateControlerOperationMethods());
             @class.MethodCollection.Add(this.GenerateControllerValidateMethod());
@@ -152,59 +151,36 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        private Method GenerateGetRequestJsonMethod()
-        {
-            var code = new StringBuilder();
 
-            code.AppendLine(@"
-            public string GetRequestBody()
-            {
-                using (var reader = new StreamReader(this.Request.InputStream))
-                {
-                    string text = reader.ReadToEnd();
-                    return text;
-                }
-            }
-            private T GetRequestJson<T>()
-            {
-                if (null == this.Request) return default(T);
-                if (null == this.Request.InputStream) return default(T);
-                using (var reader = new StreamReader(this.Request.InputStream))
-                {
-                    string json = reader.ReadToEnd();
-                    return json.DeserializeFromJson<T>();
-                }
-            }
-            ");
-
-
-
-            return new Method { Code = code.ToString(), Name = "Search", Comment = "//exec:Search" };
-        }
         private Method GenerateControllerSearchMethod()
         {
             var search = new StringBuilder();
             search.AppendLinf("       //exec:Search");
-            search.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
+            search.AppendLinf("       [Route(\"search\")]");
+            search.AppendLinf("       public async Task<HttpResponseMessage> Search([FromBody]string json)");
             search.AppendLine("       {");
             search.AppendFormat(@"
-            var json = this.GetRequestBody();
             var request = new System.Net.Http.StringContent(json);
             var url = ""{1}/{0}/_search"";
 
             using(var client = new System.Net.Http.HttpClient())
             {{
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as System.Net.Http.StreamContent;
+                var es = await client.PostAsync(url, request);
+                var content = es.Content as System.Net.Http.StreamContent;
                 if (null == content) throw new Exception(""Cannot execute query on es "" + request);
-                this.Response.ContentType = ""application/json; charset=utf-8"";
-                return Content(await content.ReadAsStringAsync());
+
+                var result = await content.ReadAsStringAsync();
+    
+                var response = Request.CreateResponse(HttpStatusCode.OK);
+                response.Content = new StringContent(result, System.Text.Encoding.Default, ""application/json"");
+                return response;
             }}
             ", this.Name.ToLower(), ConfigurationManager.ApplicationName.ToLower());
             search.AppendLine();
             search.AppendLine("       }");
             search.AppendLine();
+
             return new Method { Name = "Search", Code = search.ToString() };
         }
 
@@ -212,21 +188,26 @@ namespace Bespoke.Sph.Domain
         {
             var save = new StringBuilder();
             save.AppendLinf("       //exec:Save");
-            save.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Save([RequestBody]{0} item)", this.Name);
+            save.AppendLinf("       [HttpPost]");
+            save.AppendLinf("       [Route(\"\")]");
+            save.AppendLinf("       public async Task<HttpResponseMessage> Save([FromBody]{0} item)", this.Name);
             save.AppendLine("       {");
-            save.AppendLinf(@"
+            save.AppendFormat(@"
             if(null == item) throw new ArgumentNullException(""item"");
             var context = new Bespoke.Sph.Domain.SphDataContext();
-            if(item.IsNewItem)item.Id = Guid.NewGuid().ToString();
+            if(item.IsNewItem)
+                item.Id = Guid.NewGuid().ToString();
 
             using(var session = context.OpenSession())
             {{
                 session.Attach(item);
                 await session.SubmitChanges(""save"");
             }}
-            this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.Id, href = ""{1}/"" + item.Id}});", this.Name,
-                this.Name.ToLowerInvariant());
+            
+            var result = new {{success = true, status=""OK"", id = item.Id, href = ""{0}/"" + item.Id}};
+            var  response = Request.CreateResponse(HttpStatusCode.Accepted, result );
+            return response;", this.Id);
+            save.AppendLine();
             save.AppendLine("       }");
             return new Method { Name = "Save", Code = save.ToString() };
         }
@@ -236,13 +217,14 @@ namespace Bespoke.Sph.Domain
             var remove = new StringBuilder();
             remove.AppendLinf("       //exec:Remove");
             remove.AppendLinf("       [HttpDelete]");
-            remove.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Remove(string id)");
+            remove.AppendLine("       [Route(\"{id}\")]");
+            remove.AppendLinf("       public async Task<HttpResponseMessage> Remove(string id)");
             remove.AppendLine("       {");
             remove.AppendLinf(@"
             var repos = ObjectBuilder.GetObject<IRepository<{0}>>();
             var item = await repos.LoadOneAsync(id);
             if(null == item)
-                return new HttpNotFoundResult();
+                return Request.CreateResponse(HttpStatusCode.NotFound);
 
             var context = new Bespoke.Sph.Domain.SphDataContext();
             using(var session = context.OpenSession())
@@ -250,8 +232,8 @@ namespace Bespoke.Sph.Domain
                 session.Delete(item);
                 await session.SubmitChanges(""delete"");
             }}
-            this.Response.ContentType = ""application/json; charset=utf-8"";
-            return Json(new {{success = true, status=""OK"", id = item.Id}});", this.Name);
+            var  response = Request.CreateResponse(HttpStatusCode.Accepted,new {{success = true, status=""OK""}} );
+            return response;", this.Name);
             remove.AppendLine("       }");
             return new Method { Name = "Remove", Code = remove.ToString() };
         }
@@ -275,7 +257,8 @@ namespace Bespoke.Sph.Domain
                 if (!everybody && !anonymous && string.Join(",", operation.Permissions.Where(s => s != "Everybody" && s != "Anonymous")).Length > 0)
                     code.AppendLinf("       [Authorize(Roles=\"{0}\")]", string.Join(",", operation.Permissions.Where(s => s != "Everybody" && s != "Anonymous")));
 
-                code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> {0}([RequestBody]{1} item)", operation.Name, this.Name);
+                code.AppendLinf("       [Route(\"{0}\")]", operation.Name);
+                code.AppendLinf("       public async Task<HttpResponseMessage> {0}([FromBody]{1} item)", operation.Name, this.Name);
                 code.AppendLine("       {");
                 code.AppendLine("           var context = new Bespoke.Sph.Domain.SphDataContext();");
                 code.AppendLine("           if(null == item) throw new ArgumentNullException(\"item\");");
@@ -295,7 +278,7 @@ namespace Bespoke.Sph.Domain
             }}
 ", rule, count);
                 }
-                code.AppendLine("           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});");
+                code.AppendLine("           if( brokenRules.Count > 0) Request.CreateResponse(HttpStatusCode.OK, new {success = false, rules = brokenRules.ToArray()});");
 
                 code.AppendLine();
                 // now the setter
@@ -314,9 +297,11 @@ namespace Bespoke.Sph.Domain
             using(var session = context.OpenSession())
             {{
                 session.Attach(item);
-                await session.SubmitChanges(""{1}"");
+                await session.SubmitChanges(""{0}"");
             }}
-            return Json(new {{success = true, message=""{2}"", status=""OK"", id = item.Id}});", this.Name, operation.Name, operation.SuccessMessage);
+
+            var  response = Request.CreateResponse(HttpStatusCode.OK,new {{success = true, status=""OK"", message=""{1}"" ,id = item.Id}} );
+            return response;", operation.Name, operation.SuccessMessage);
 
                 code.AppendLine();
                 code.AppendLine("       }");
@@ -335,33 +320,33 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLinf("       //exec:validate");
             code.AppendLine("       [HttpPost]");
+            code.AppendLine("       [Route(\"validate/{rules}\")]");
 
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Validate(string id,[RequestBody]{0} item)", this.Name);
+            code.AppendLinf("       public async Task<HttpResponseMessage> Validate([FromBody]{0} item, string rules)", this.Name);
             code.AppendLine("       {");
             code.AppendLine("           var context = new Bespoke.Sph.Domain.SphDataContext();");
             code.AppendLine("           if(null == item) throw new ArgumentNullException(\"item\");");
             code.AppendLinf("           var ed = await context.LoadOneAsync<EntityDefinition>(d => d.Name == \"{0}\");", this.Name);
 
             code.AppendLine("           var brokenRules = new ObjectCollection<ValidationResult>();");
-            code.AppendLine("           var rules = id.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);");
+            code.AppendLine("           var ruleNames = rules.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);");
 
             code.AppendFormat(@"
-           foreach(var r in rules)
+           foreach(var r in ruleNames)
            {{
                 var appliedRules = ed.BusinessRuleCollection.Where(b => b.Name == r);
-                ValidationResult result = item.ValidateBusinessRule(appliedRules);
+                ValidationResult br = item.ValidateBusinessRule(appliedRules);
 
-                if(!result.Success){{
-                    brokenRules.Add(result);
+                if(!br.Success){{
+                    brokenRules.Add(br);
                 }}
            }}
 ");
-            code.AppendLine("           if( brokenRules.Count > 0) return Json(new {success = false, rules = brokenRules.ToArray()});");
-
             code.AppendLine();
-
             code.AppendFormat(@"   
-            return Json(new {{success = true, status=""OK"", id = item.Id}});");
+            var result = new {{ success = brokenRules.Count > 0, id = item.Id, status=""OK"", rules = brokenRules.ToArray()}};
+            var  response = Request.CreateResponse( HttpStatusCode.Accepted, result);
+            return response;");
 
             code.AppendLine();
             code.AppendLine("       }");

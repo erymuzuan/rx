@@ -128,6 +128,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="web\bin\System.Runtime.dll" />
+    <Content Include="web\bin\System.Web.Mvc.dll" />
     <Content Include="web\SphApp\viewmodels\test-form.js" />
     <Content Include="web\SphApp\viewmodels\this-is-a-test.js" />
     <Content Include="web\SphApp\views\test-form.html" />
