@@ -447,6 +447,7 @@
     <Compile Include="Triggers\ParallelBranch.cs" />
     <Compile Include="Triggers\PendingTask.cs" />
     <Compile Include="Triggers\Performer.cs" />
+    <Compile Include="Triggers\Project.cs" />
     <Compile Include="Triggers\PropertyChangedField.cs" />
     <Compile Include="Triggers\PropertyMapping.cs" />
     <Compile Include="Triggers\ReceiveActivity.cs" />

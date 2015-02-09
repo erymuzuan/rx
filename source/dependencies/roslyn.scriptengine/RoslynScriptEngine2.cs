@@ -25,8 +25,6 @@ namespace Bespoke.Sph.RoslynScriptEngines
                 this.CreateMetadataReference<Entity>()
             };
 
-
-
             try
             {
                 references.Add(MetadataReference.CreateFromAssembly(item.GetType().Assembly));

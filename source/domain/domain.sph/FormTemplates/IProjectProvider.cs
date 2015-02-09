@@ -11,7 +11,8 @@ namespace Bespoke.Sph.Domain
         string Name { get; }
         string Id { get; set; }
         MetadataReference[] References { get; }
-        IEnumerable<Class> GenerateCode();
+        Task<IEnumerable<Class>>  GenerateCodeAsync();
         Task<IProjectModel> GetModelAsync();
+        Task<SphCompilerResult> CompileAsync(CompilerOptions options);
     }
 }

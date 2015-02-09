@@ -69,14 +69,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(this.InputType.Assembly.Location);
                 parameters.ReferencedAssemblies.Add(this.OutputType.Assembly.Location);
 
-                foreach (var es in options.EmbeddedResourceCollection)
-                {
-                    parameters.EmbeddedResources.Add(es);
-                }
-                foreach (var ass in options.ReferencedAssembliesLocation)
-                {
-                    parameters.ReferencedAssemblies.Add(ass);
-                }
+          
                 var result = provider.CompileAssemblyFromFile(parameters, files);
                 var cr = new SphCompilerResult
                 {

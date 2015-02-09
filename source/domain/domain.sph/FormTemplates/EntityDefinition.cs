@@ -202,9 +202,9 @@ namespace Bespoke.Sph.Domain
             if (null == options.Stream)
                 throw new ArgumentException("To emit please provide a stream in your options", "options");
 
-            var k = compilation.Emit(options.Stream);
-            result.Result = k.Success;
-            var errors2 = k.Diagnostics.Select(v => new BuildError(v));
+            var emitResult = compilation.Emit(options.Stream);
+            result.Result = emitResult.Success;
+            var errors2 = emitResult.Diagnostics.Select(v => new BuildError(v));
             result.Errors.AddRange(errors2);
 
             return result;

@@ -1,20 +1,16 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Codes;
 using Humanizer;
-using Microsoft.CSharp;
+using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class Trigger : Entity
+    public partial class Trigger : Project, IProjectProvider
     {
         public static Trigger ParseJson(string json)
         {
@@ -23,71 +19,15 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public async Task<SphCompilerResult> CompileAsync(CompilerOptions options)
-        {
-            var code = await this.GenerateCodeAsync();
-
-            Debug.WriteLineIf(options.IsVerbose, code);
-
-            var sourceFile = string.Empty;
-            if (!string.IsNullOrWhiteSpace(options.SourceCodeDirectory))
-            {
-                sourceFile = Path.Combine(options.SourceCodeDirectory,
-                    string.Format("{0}.cs", this.Id));
-                File.WriteAllText(sourceFile, code);
-            }
-
-            using (var provider = new CSharpCodeProvider())
-            {
-                var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
-                var parameters = new CompilerParameters
-                {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("subscriber.trigger.{0}.dll", this.Id)),
-                    GenerateExecutable = false,
-                    IncludeDebugInformation = true
-
-                };
-                var edDll = string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, this.Entity);
-                options.ReferencedAssembliesLocation.Add(Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, edDll));
-
-                var subscriberInfraDll = Path.Combine(ConfigurationManager.SubscriberPath, "subscriber.infrastructure.dll");
-                options.ReferencedAssembliesLocation.Add(subscriberInfraDll);
-
-                parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Trigger).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
-
-                foreach (var ass in options.ReferencedAssembliesLocation)
-                {
-                    parameters.ReferencedAssemblies.Add(ass);
-                }
-                foreach (var ra in this.ReferencedAssemblyCollection)
-                {
-                    parameters.ReferencedAssemblies.Add(ra.Location);
-                }
-
-                var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
-                    : provider.CompileAssemblyFromSource(parameters, code);
-                var cr = new SphCompilerResult
-                {
-                    Result = true,
-                    Output = Path.GetFullPath(parameters.OutputAssembly)
-                };
-                cr.Result = result.Errors.Count == 0;
-                cr.Errors.AddRange(this.GetCompileErrors(result, code));
-
-                return cr;
-            }
-        }
 
         public string ClassName
         {
             get { return (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "TriggerSubscriber").Replace("TriggerTrigger", "Trigger"); }
         }
-        public async Task<string> GenerateCodeAsync()
+
+        public override async Task<IEnumerable<Class>> GenerateCodeAsync()
         {
+
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == this.Entity);
 
@@ -115,7 +55,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("using Bespoke.Sph.SubscribersInfrastructure;");
             code.AppendLine();
 
-            code.AppendLine("namespace " + this.CodeNamespace);
+            code.AppendLine("namespace " + this.DefaultNamespace);
             code.AppendLine("{");
 
             code.AppendLinf("   public class {0}: Subscriber<{1}>",
@@ -198,50 +138,26 @@ namespace Bespoke.Sph.Domain
 
 
             code.AppendLine("}");// end namespace
-            return code.ToString();
+
+            var @classes = new List<Class>();
+            return @classes;
         }
 
-        public string CodeNamespace { get { return string.Format("Bespoke.Sph.TriggerSubscribers"); } }
-
-        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
+        public override string DefaultNamespace
         {
-            var temp = Path.GetTempFileName() + ".cs";
-            File.WriteAllText(temp, code);
-            var sources = File.ReadAllLines(temp);
-            var list = (from object er in result.Errors.OfType<CompilerError>()
-                        select GetSourceError(er as CompilerError, sources));
-            File.Delete(temp);
-
-            return list;
+            get { return "Bespoke.Sph.TriggerSubscribers"; }
         }
 
-        private static BuildError GetSourceError(CompilerError er, IList<string> sources)
+        public override MetadataReference[] References
         {
-            var member = string.Empty;
-            for (var i = 0; i < er.Line; i++)
+            get
             {
-                if (sources[i].StartsWith("//exec:"))
-                    member = sources[i].Replace("//exec:", string.Empty);
-            }
-            var message = er.ErrorText;
-
-            try
+                return new[]
             {
-                return new BuildError(member, message)
-                {
-                    Code = sources[er.Line - 1],
-                    Line = er.Line
-                };
+                this.CreateMetadataReference<Entity>()
+            };
             }
-            catch (Exception)
-            {
-                return new BuildError(member, message)
-                {
-                    Code = "",
-                    Line = er.Line
-                };
-            }
-
         }
+
     }
 }
