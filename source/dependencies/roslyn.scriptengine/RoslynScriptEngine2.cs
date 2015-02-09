@@ -25,15 +25,25 @@ namespace Bespoke.Sph.RoslynScriptEngines
                 this.CreateMetadataReference<Entity>()
             };
 
+
+
             try
             {
                 references.Add(MetadataReference.CreateFromAssembly(item.GetType().Assembly));
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                if (File.Exists(this.TempDllForItem))
-                    references.Add(MetadataReference.CreateFromFile(this.TempDllForItem));
+                if (DebuggerHelper.IsRunningInUnitTest && e.Message == "Empty path name is not legal.")
+                {
+                    Console.WriteLine("Load from buffer for unit test");
+                    references.Add(MetadataReference.CreateFromFile(this.Stream));
+                }
+                else
+                {
+                    throw;
+                }
             }
+
 
             var tree = this.GetSyntaxTree<T, T1>(script, item);
             var compilation = CSharpCompilation.Create("eval")
@@ -58,10 +68,8 @@ namespace Bespoke.Sph.RoslynScriptEngines
                 return host.Evaluate(item);
             }
         }
-        /// <summary>
-        /// For used in unit test only
-        /// </summary>
-        public string TempDllForItem { get; set; }
+
+        public string Stream { get; set; }
 
 
         public T Evaluate<T, T1, T2>(string script, T1 arg1, T2 arg2)
@@ -87,7 +95,7 @@ namespace Bespoke.Sph.RoslynScriptEngines
             code.AppendLine("   {");
             code.AppendLine("       public DateTime @Today { get { return DateTime.Today; } }");
             code.AppendLine("       public DateTime @Now { get { return DateTime.Now; } }");
-            code.AppendLinf("       public {0} Item{{ get; set;}}", typeof(TReturn).FullName);
+            code.AppendLinf("       public {0} Item{{ get; set;}}", item.GetType().FullName);
             code.AppendLinf("       public {0} Evaluate({1} item)", typeof(TReturn).FullName, item.GetType().FullName);
             code.AppendLine("       {");
             code.AppendLine("           this.Item = item;");
