@@ -1,27 +1,28 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Helpers;
 using Humanizer;
+using System.Web.Http;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("entity-definition")]
-    public class EntityDefinition2Controller : Controller
+    public class EntityDefinition2Controller : ApiController
     {
         [HttpGet]
         [Route("variable-path/{id}")]
-        public async Task<ActionResult> GetVariablePath(string id)
+        public async Task<HttpResponseMessage> GetVariablePath(string id)
         {
             var context = new SphDataContext();
 
             var ed = await context.LoadOneAsync<EntityDefinition>(w => w.Id == id);
-            if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
+            if (null == ed) return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Cannot find EntityDefinition with Id = " + id);
             var list = ed.GetMembersPath();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return Request.CreateResponse(HttpStatusCode.OK, list);
 
         }
 
@@ -29,14 +30,19 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult> Save()
+        public async Task<HttpResponseMessage> Save([FromBody]EntityDefinition ed)
         {
-            var ed = this.GetRequestJson<EntityDefinition>();
             var context = new SphDataContext();
             var canSave = ed.CanSave();
             if (!canSave.Result)
             {
-                return Json(new { success = false, status = "ERROR", message = "Your entity cannot be save", errors = canSave.Errors.ToArray() });
+                return Request.CreateResponse(HttpStatusCode.OK, new
+                {
+                    success = false,
+                    status = "ERROR",
+                    message = "Your entity cannot be save",
+                    errors = canSave.Errors.ToArray()
+                });
             }
 
             var brandNewItem = ed.IsNewItem;
@@ -51,7 +57,13 @@ namespace Bespoke.Sph.Web.Controllers
                     session.Attach(ed);
                     await session.SubmitChanges("Save");
                 }
-                return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
+                return Request.CreateResponse(HttpStatusCode.OK, new
+                {
+                    success = true,
+                    status = "OK",
+                    message = "Your entity has been successfully saved ",
+                    id = ed.Id
+                });
 
             }
 
@@ -78,45 +90,43 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(ed, form, view);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
 
 
         }
 
         [HttpGet]
         [Route("plural/{id}")]
-        public ActionResult GetPlural(string id)
+        public HttpResponseMessage GetPlural(string id)
         {
-            return Content(id.Pluralize());
+            return Request.CreateResponse(HttpStatusCode.OK, id.Pluralize());
         }
 
 
 
         [HttpPost]
         [Route("depublish")]
-        public async Task<ActionResult> Depublish()
+        public async Task<HttpResponseMessage> Depublish([FromBody]EntityDefinition ed)
         {
             var context = new SphDataContext();
-            var ed = this.GetRequestJson<EntityDefinition>();
-
             ed.IsPublished = false;
             using (var session = context.OpenSession())
             {
                 session.Attach(ed);
                 await session.SubmitChanges("Depublish");
             }
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully depublished", id = ed.Id });
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = true, status = "OK", message = "Your entity has been successfully depublished", id = ed.Id });
 
 
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<HttpResponseMessage> Delete(string id)
         {
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
-            if (null == ed) return new HttpNotFoundResult("Cannot find entity definition to delete, id : " + id);
+            if (null == ed) return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Cannot find entity definition to delete, id : " + id);
 
             var formsTask = context.LoadAsync(context.EntityForms.Where(f => f.EntityDefinitionId == id));
             var viewsTask = context.LoadAsync(context.EntityViews.Where(f => f.EntityDefinitionId == id));
@@ -132,40 +142,42 @@ namespace Bespoke.Sph.Web.Controllers
                 // TODO : drop the tables and elastic search mappings
                 await session.SubmitChanges("delete");
             }
-            return Json(new { success = true, status = "OK", message = "Your entity definition has been successfully deleted", id = ed.Id });
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = true, status = "OK", message = "Your entity definition has been successfully deleted", id = ed.Id });
 
         }
 
 
         [HttpPost]
-        [Route("publish")]
-        public async Task<ActionResult> Publish()
+        [Route("publish/{generateSource}")]
+        public async Task<HttpResponseMessage> Publish([FromBody]EntityDefinition ed, bool generateSource = false)
         {
             var context = new SphDataContext();
-            var ed = this.GetRequestJson<EntityDefinition>();
             var buildValidation = await ed.ValidateBuildAsync();
 
-
             if (!buildValidation.Result)
-                return Json(buildValidation);
+                return Request.CreateResponse(HttpStatusCode.OK, buildValidation);
 
-            var options = new CompilerOptions
+
+            var path = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath,
+                string.Format("{0}.{1}", ConfigurationManager.ApplicationName, ed.Id));
+            using (var stream = new FileStream(path, FileMode.Create))
             {
-                SourceCodeDirectory = ConfigurationManager.UserSourceDirectory
-            };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.CorePath + @"\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
-
-            var codes = ed.GenerateCode();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
-
-            result.Errors.ForEach(Console.WriteLine);
-            if (!result.Result)
-                return Json(result);
-
-
+                var options = new CompilerOptions
+                {
+                    SourceCodeDirectory = ConfigurationManager.UserSourceDirectory,
+                    Emit = true,
+                    Stream = stream
+                };
+                var result = ed.Compile(options);
+                result.Errors.ForEach(Console.WriteLine);
+                if (!result.Result)
+                    return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            if (generateSource)
+            {
+                var codes = ed.GenerateCode();
+                ed.SaveSources(codes);
+            }
 
             ed.IsPublished = true;
             using (var session = context.OpenSession())
@@ -173,7 +185,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(ed);
                 await session.SubmitChanges("Publish");
             }
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully published", id = ed.Id });
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = true, status = "OK", message = "Your entity has been successfully published", id = ed.Id });
 
 
         }

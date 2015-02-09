@@ -28,7 +28,7 @@ namespace domain.test.entities
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
-            ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+            ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine2());
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
             ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
@@ -51,6 +51,11 @@ namespace domain.test.entities
 
                 Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
                 buffers = stream.GetBuffer();
+
+                var temp = Path.GetTempFileName() + ".dll";
+                var roslyn = (RoslynScriptEngine2) ObjectBuilder.GetObject<IScriptEngine>();
+                File.WriteAllBytes(temp, buffers);
+                roslyn.TempDllForItem = temp;
             }
 
             // try to instantiate the EntityDefinition
@@ -66,7 +71,13 @@ namespace domain.test.entities
 
         public EntityDefinition CreatePatientDefinition(string name = "Patient")
         {
-            var ent = new EntityDefinition { Name = name, Plural = "Patients", RecordName = "FullName" };
+            var ent = new EntityDefinition
+            {
+                Name = name,
+                Id = name.ToIdFormat(),
+                Plural = "Patients",
+                RecordName = "FullName"
+            };
             ent.MemberCollection.Add(new Member
             {
                 Name = "FullName",
@@ -138,6 +149,8 @@ namespace domain.test.entities
             Assert.IsNotNull(releaseActionMethodInfo);
 
         }
+
+
         [Test]
         public async Task AddReleaseOperationWithBusinessRule()
         {
