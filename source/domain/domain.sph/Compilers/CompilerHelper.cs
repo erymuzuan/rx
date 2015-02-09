@@ -36,9 +36,9 @@ namespace Bespoke.Sph.Domain
         {
             return type.AddReferences(MetadataReference.CreateFromAssembly((typeof(T)).Assembly));
         }
-        public static Project AddMetadataReference<T>(this Project type)
+        public static Project AddMetadataReference<T>(this Project project)
         {
-            return type.AddMetadataReference(MetadataReference.CreateFromAssembly((typeof(T)).Assembly));
+            return project.AddMetadataReference(MetadataReference.CreateFromAssembly((typeof(T)).Assembly));
         }
 
         public static Project AddMetadataReference(this Project project, Type type)
@@ -50,6 +50,7 @@ namespace Bespoke.Sph.Domain
         {
             return project.AddMetadataReference(MetadataReference.CreateFromFile(location));
         }
+
         public static ProjectInfo AddMetadataReference<T>(this ProjectInfo info)
         {
             var list = info.MetadataReferences.ToList();

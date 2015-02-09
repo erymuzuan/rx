@@ -1,24 +1,34 @@
 using System;
 using System.Collections.Generic;
-
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Newtonsoft.Json.Converters;
 
 namespace Bespoke.Sph.Domain
 {
-
-    public abstract class Project : Entity, IProjectProvider
+    public abstract class CustomProject : Entity, IProjectProvider
     {
         public abstract string DefaultNamespace { get; }
 
-        public abstract string Name { get; }
+        public virtual string Name { get; set; }
 
         public virtual MetadataReference[] References
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                var references = new List<MetadataReference>
+                {
+                    this.CreateMetadataReference<object>(),
+                    this.CreateMetadataReference<WorkflowDefinition>(),
+                    this.CreateMetadataReference<Task>(),
+                    this.CreateMetadataReference<DataTableConverter>(),
+                    this.CreateMetadataReference<EnumerableQuery>()
+                };
+                return references.ToArray();
+            }
         }
 
         public abstract Task<IEnumerable<Class>> GenerateCodeAsync();
@@ -33,9 +43,9 @@ namespace Bespoke.Sph.Domain
             var project = (IProjectProvider)this;
             var projectDocuments = (await project.GenerateCodeAsync()).ToList();
             var trees = (from c in projectDocuments
-                         let x = c.GetCode()
-                         let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)
-                         select CSharpSyntaxTree.Create(root.GetRoot(), path: c.FileName)).ToList();
+                let x = c.GetCode()
+                let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)
+                select CSharpSyntaxTree.Create(root.GetRoot(), path: c.FileName)).ToList();
 
             var compilation = CSharpCompilation.Create(string.Format("{0}.{1}", ConfigurationManager.ApplicationName, this.Id))
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))

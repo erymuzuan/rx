@@ -14,13 +14,13 @@ namespace Bespoke.Sph.Domain
     public partial class EntityDefinition : IProjectProvider, IProjectModel
     {
 
-        public string DefaultNamespace
+        public override string DefaultNamespace
         {
             get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.Id); }
         }
 
         [JsonIgnore]
-        public MetadataReference[] References
+        public override MetadataReference[] References
         {
             get
             {
@@ -45,7 +45,7 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public IEnumerable<Class> GenerateCode()
+        public override Task<IEnumerable<Class>> GenerateCodeAsync()
         {
             var @class = new Class { Name = this.Name, Namespace = this.DefaultNamespace, BaseClass = "Entity" };
             @class.AddNamespaceImport<DateTime>();
@@ -75,10 +75,10 @@ namespace Bespoke.Sph.Domain
             sourceCodes.ForEach(x => x.Namespace = DefaultNamespace);
 
 
-            return sourceCodes;
+            return Task.FromResult(sourceCodes.AsEnumerable());
         }
 
-        public Task<IProjectModel> GetModelAsync()
+        public override Task<IProjectModel> GetModelAsync()
         {
             return Task.FromResult((IProjectModel)this);
         }

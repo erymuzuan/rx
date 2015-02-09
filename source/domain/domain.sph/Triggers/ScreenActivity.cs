@@ -169,7 +169,7 @@ namespace Bespoke.Sph.Domain
             {
                 Name = string.Format("{0}Controller", wd.WorkflowTypeName),
                 FileName = wd.WorkflowTypeName + "Controller." + name + ".cs",
-                Namespace = wd.CodeNamespace,
+                Namespace = wd.DefaultNamespace,
                 IsPartial = true
             };
             controller.ImportCollection.Add("System.Web.Mvc");
@@ -207,8 +207,8 @@ namespace Bespoke.Sph.Domain
             getAction.AppendLinf("                   Instance  = wf as {0},", wd.WorkflowTypeName);
             getAction.AppendLinf("                   Controller  = this.GetType().Name,");
             getAction.AppendLinf("                   SaveAction  = \"{0}\",", this.ActionName);
-            getAction.AppendLinf("                   Namespace  = \"{0}\"", wd.CodeNamespace);
-            getAction.AppendLinf("               }};", wd.CodeNamespace);
+            getAction.AppendLinf("                   Namespace  = \"{0}\"", wd.DefaultNamespace);
+            getAction.AppendLinf("               }};", wd.DefaultNamespace);
 
 
             if (!this.IsInitiator)
@@ -263,7 +263,7 @@ namespace Bespoke.Sph.Domain
 
             controller.MethodCollection.Add(new Method { Code = saveAction.ToString() });
 
-            var vm = new Class { Name = ViewModelType, Namespace = wd.CodeNamespace, FileName = ViewModelType + ".cs" };
+            var vm = new Class { Name = ViewModelType, Namespace = wd.DefaultNamespace, FileName = ViewModelType + ".cs" };
             vm.AddNamespaceImport(typeof(ScreenActivity));
 
             vm.AddProperty("       public {0} Instance {{get;set;}}", wd.WorkflowTypeName);

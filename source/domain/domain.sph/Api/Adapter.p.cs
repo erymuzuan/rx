@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.Domain.Api
 {
-    public abstract partial class Adapter : Entity
+    public abstract partial class Adapter 
     {
         public AdapterTable[] Tables { get; set; }
         public string Schema { get; set; }

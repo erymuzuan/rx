@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("@using System.Web.Mvc.Html");
             code.AppendLine("@using Bespoke.Sph.Domain");
             code.AppendLine("@using Newtonsoft.Json");
-            code.AppendLine("@model " + wd.CodeNamespace + "." + activity.ViewModelType);
+            code.AppendLine("@model " + wd.DefaultNamespace + "." + activity.ViewModelType);
 
             code.AppendFormat(@"
 @{{

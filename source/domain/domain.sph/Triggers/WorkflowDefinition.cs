@@ -4,13 +4,12 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Humanizer;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class WorkflowDefinition : Entity
+    public partial class WorkflowDefinition : CustomProject
     {
         public T GetActivity<T>(string webId) where T : Activity
         {
@@ -19,7 +18,7 @@ namespace Bespoke.Sph.Domain
 
         public async Task<Workflow> InitiateAsync(VariableValue[] values = null, ScreenActivity screen = null)
         {
-            var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.Id, this.Version, this.CodeNamespace);
+            var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.Id, this.Version, this.DefaultNamespace);
             var type = Type.GetType(typeName);
             if (null == type) throw new InvalidOperationException("Cannot instantiate  " + typeName);
 
@@ -107,50 +106,6 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public SphCompilerResult Compile(CompilerOptions options)
-        {
-            var project = (IProjectProvider)this;
-            var projectDocuments = project.GenerateCode().ToList();
-            var trees = (from c in projectDocuments
-                         let x = c.GetCode()
-                         let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)
-                         select CSharpSyntaxTree.Create(root.GetRoot(), path: c.FileName)).ToList();
-
-            var compilation = CSharpCompilation.Create(string.Format("{0}.wd.{1}", ConfigurationManager.ApplicationName, this.Id))
-                .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
-                .AddReferences(project.References)
-                .AddSyntaxTrees(trees);
-
-            var errors = compilation.GetDiagnostics()
-                .Where(d => d.Id != "CS8019")
-                .Select(d => new BuildError(d));
-
-            var result = new SphCompilerResult { Result = true };
-            result.Errors.AddRange(errors);
-            result.Result = result.Errors.Count == 0;
-            if (DebuggerHelper.IsVerbose)
-            {
-                var color = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                result.Errors.ForEach(Console.WriteLine);
-                Console.ForegroundColor = color;
-            }
-            if (!result.Result || !options.Emit)
-                return result;
-            
-            if(null == options.Stream)
-                throw new ArgumentException("To emit please provide a stream in your options", "options");
-
-            var k = compilation.Emit(options.Stream);
-            result.Result = k.Success;
-            var errors2 = k.Diagnostics.Select(v => new BuildError(v));
-            result.Errors.AddRange(errors2);
-
-            return result;
-        }
-
-
-
         [XmlIgnore]
         [JsonIgnore]
         public string WorkflowTypeName
@@ -158,16 +113,7 @@ namespace Bespoke.Sph.Domain
 
             get { return (this.Id.Humanize(LetterCasing.Title).Dehumanize() + "Workflow").Replace("WorkflowWorkflow", "Workflow"); }
         }
-        [XmlIgnore]
-        [JsonIgnore]
-        public string CodeNamespace
-        {
-            get
-            {
-                var id = (this.Id.Humanize(LetterCasing.Title).Dehumanize());
-                return string.Format("Bespoke.Sph.Workflows_{0}_{1}", id, this.Version);
-            }
-        }
+   
 
 
     }

@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class Trigger : Project, IProjectProvider
+    public partial class Trigger : CustomProject, IProjectProvider
     {
         public static Trigger ParseJson(string json)
         {
