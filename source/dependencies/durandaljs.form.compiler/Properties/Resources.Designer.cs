@@ -62,6 +62,45 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
+        ///@inherits Bespoke.Sph.FormCompilers.DurandalJs.Template&lt;Bespoke.Sph.FormCompilers.DurandalJs.EntityViewHtmlViewModel&gt;
+        ///
+        ///&lt;h1&gt;@Model.View.Name&lt;/h1&gt;
+        ///&lt;div class=&quot;row&quot;&gt;
+        ///    &lt;div class=&quot;col-md-8&quot;&gt;
+        ///        &lt;button class=&quot;btn btn-link pull-right&quot; data-bind=&quot;visible: chartFiltered, click: clearChartFilter&quot;&gt;
+        ///            &lt;i class=&quot;fa fa-times&quot;&gt;&lt;/i&gt;
+        ///            Clear chart&apos;s filter
+        ///        &lt;/button&gt;
+        ///        &lt;table class=&quot;table table-striped&quot; data-bind=&quot;filter : {path:&apos;tbody&gt;tr&apos;}, sear [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string entity_view {
+            get {
+                return ResourceManager.GetString("entity_view", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;Scripts/jquery-2.1.1.intellisense.js&quot; /&gt;
+        ////// &lt;reference path=&quot;Scripts/knockout-3.2.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;Scripts/knockout.mapping-latest.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;Scripts/require.js&quot; /&gt;
+        ////// &lt;reference path=&quot;Scripts/underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;Scripts/moment.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../schemas/trigger.workflow.g.js&quot; /&gt;
+        ////// &lt;reference path=&quot;../../Scripts/bootstrap.js&quot; /&gt;
+        ///
+        ///
+        ///define([&quot;services/ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EntityViewJs {
+            get {
+                return ResourceManager.GetString("EntityViewJs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
         ///@inherits Bespoke.Sph.FormCompilers.DurandalJs.Template&lt;Bespoke.Sph.FormCompilers.DurandalJs.FormRendererViewModel&gt;
         ///@{
         ///

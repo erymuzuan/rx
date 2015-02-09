@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
+
     [Export("ProjectProvider", typeof(ProjectProvider))]
     [ProjectProviderMetadata(Type = typeof(EntityDefinition))]
     class EntityDefinitionProjectProvider : ProjectProvider
