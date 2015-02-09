@@ -143,6 +143,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticsearch.logger", "sou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "odata.provider", "source\dependencies\odata.provider\odata.provider.csproj", "{679B03B4-7D21-4C00-A32B-0BA16C49F1AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trigger.test", "source\unit.test\trigger.test\trigger.test.csproj", "{79EC7D66-E907-4B9A-8242-4E7D57B5ED04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trigger.action.messaging.test", "source\unit.test\trigger.action.messaging.test\trigger.action.messaging.test.csproj", "{72744191-5875-4D59-9FD5-BC3B0680C84E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sqlserver.adapter.test", "source\unit.test\sqlserver.adapter.test\sqlserver.adapter.test.csproj", "{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mapping.transformation.test", "source\unit.test\mapping.transformation.test\mapping.transformation.test.csproj", "{FF531004-0787-4331-8565-BC930F44BBB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -361,6 +369,22 @@ Global
 		{679B03B4-7D21-4C00-A32B-0BA16C49F1AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{679B03B4-7D21-4C00-A32B-0BA16C49F1AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{679B03B4-7D21-4C00-A32B-0BA16C49F1AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79EC7D66-E907-4B9A-8242-4E7D57B5ED04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79EC7D66-E907-4B9A-8242-4E7D57B5ED04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79EC7D66-E907-4B9A-8242-4E7D57B5ED04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79EC7D66-E907-4B9A-8242-4E7D57B5ED04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72744191-5875-4D59-9FD5-BC3B0680C84E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72744191-5875-4D59-9FD5-BC3B0680C84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72744191-5875-4D59-9FD5-BC3B0680C84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72744191-5875-4D59-9FD5-BC3B0680C84E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF531004-0787-4331-8565-BC930F44BBB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF531004-0787-4331-8565-BC930F44BBB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF531004-0787-4331-8565-BC930F44BBB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF531004-0787-4331-8565-BC930F44BBB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -419,5 +443,9 @@ Global
 		{2661E912-501C-497D-B36E-1FEE268C680F} = {402F5682-5851-4DC5-AC3D-B176A302BBE1}
 		{4DB11B5C-2618-4E36-A2FF-2AA4CB328483} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{679B03B4-7D21-4C00-A32B-0BA16C49F1AE} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{79EC7D66-E907-4B9A-8242-4E7D57B5ED04} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{72744191-5875-4D59-9FD5-BC3B0680C84E} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{EFB2E2E9-B069-4507-9F39-5FAA1DE3DDE2} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{FF531004-0787-4331-8565-BC930F44BBB7} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 EndGlobal

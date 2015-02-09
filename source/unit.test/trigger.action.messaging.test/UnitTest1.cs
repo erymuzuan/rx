@@ -16,8 +16,8 @@ namespace trigger.action.messaging.test
             var act = new MessagingAction
             {
                 WebId = Guid.NewGuid().ToString(),
-                Adapter = typeof(Dev.Adapters.dbo.__CisFinance).GetShortAssemblyQualifiedName(),
-                OutboundMap = typeof(Dev.Integrations.Transforms.PatientToFinanceAccount).GetShortAssemblyQualifiedName(),
+                Adapter = "typeof(Dev.Adapters.dbo.__CisFinance).GetShortAssemblyQualifiedName()",
+                OutboundMap = "typeof(Dev.Integrations.Transforms.PatientToFinanceAccount).GetShortAssemblyQualifiedName()",
                 Table = "Account",
                 Crud = "Insert"
             };
