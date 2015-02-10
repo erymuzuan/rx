@@ -16,6 +16,12 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
             chartFiltered = ko.observable(false),
             view = ko.observable(),
             list = ko.observableArray([]),
+            map = function(v) {
+                if (typeof partial.map === "function") {
+                    return partial.map(v);
+                }
+                return v;
+            },
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             query = ko.observable(),
             activate = function (@Model.Routes) {
@@ -56,7 +62,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
                      {
                          <text>
                          if(typeof partial.activate === "function"){
-                             var pt = partial.activate(list());
+                             var pt = partial.activate(list);
                              if(typeof pt.done === "function"){
                                  pt.done(tcs.resolve);
                              }else{
@@ -154,6 +160,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "services/c
             view: view,
             chart: chart,
             isBusy: isBusy,
+            map: map,
             entity: entity,
             activate: activate,
             attached: attached,

@@ -5,7 +5,7 @@
             <i class="fa fa-times"></i>
             Clear chart's filter
         </button>
-        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, entity : '@Model.Definition.Name', list:list}">
+        <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, map : map, entity : '@Model.Definition.Name', list:list}">
             <thead>
                 <tr>
                     @foreach(var col in Model.View.ViewColumnCollection)
