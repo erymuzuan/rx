@@ -1,15 +1,15 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/moment.js" />
+﻿/// <reference path="../Scripts/jquery-2.1.3.intellisense.js" />
+/// <reference path="../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../Scripts/require.js" />
+/// <reference path="../Scripts/underscore.js" />
+/// <reference path="../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['plugins/dialog', objectbuilders.datacontext, objectbuilders.config],
+define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.config],
     function (dialog, context, config) {
 
         var entityOptions = ko.observableArray(),
@@ -22,7 +22,7 @@ define(['plugins/dialog', objectbuilders.datacontext, objectbuilders.config],
                         var types = _(lo.itemCollection).map(function (v) {
                             return {
                                 name: v.Name(),
-                                fullName: String.format("Bespoke.{0}_{1}.Domain.{2}, {0}.{2}", config.applicationName, v.EntityDefinitionId(), v.Name())
+                                fullName: String.format("Bespoke.{0}_{1}.Domain.{2}, {0}.{2}", config.applicationName, v.Id(), v.Name())
                             };
                         });
                         entityOptions(types);
