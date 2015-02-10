@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Amido.NAuto;
 using Amido.NAuto.Randomizers;
 using Bespoke.Sph.Domain;
@@ -32,7 +33,7 @@ namespace domain.test
             return Activator.CreateInstance(type);
         }
 
-        public static Type CompileEntityDefinition(EntityDefinition ed)
+        public static async Task<Type> CompileEntityDefinitionAsync(EntityDefinition ed)
         {
             var options = new CompilerOptions
             {
@@ -41,12 +42,7 @@ namespace domain.test
             };
 
 
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-
-
-            var result = ed.Compile(options);
+            var result = await ed.CompileAsync(options).ConfigureAwait(false);
             result.Errors.ForEach(Console.WriteLine);
             DeployCustomEntity(ed);
 

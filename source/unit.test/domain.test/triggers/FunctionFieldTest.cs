@@ -2,7 +2,7 @@
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using NUnit.Framework;
-
+using System.Threading.Tasks;
 
 namespace domain.test.triggers
 {
@@ -27,9 +27,9 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void DocumentFieldEqFunction()
+        public async Task DocumentFieldEqFunction()
         {
-            dynamic customer = this.GetCustomerInstance();
+            dynamic customer = await this.GetCustomerInstanceAsync();
             customer.CreatedDate = DateTime.Today;
 
             var rule = new Rule
@@ -43,9 +43,9 @@ namespace domain.test.triggers
             Assert.IsTrue(result);
         }
         [Test]
-        public void DocumentFieldEqFunctionExpression()
+        public async Task DocumentFieldEqFunctionExpression()
         {
-            dynamic customer = this.GetCustomerInstance();
+            dynamic customer = await this.GetCustomerInstanceAsync();
             customer.CreatedDate = DateTime.Today.AddDays(-2);
 
             var rule = new Rule
@@ -60,9 +60,9 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void DocumentFieldEqFunctionWithItem()
+        public async Task DocumentFieldEqFunctionWithItem()
         {
-            dynamic customer = this.GetCustomerInstance();
+            dynamic customer = await this.GetCustomerInstanceAsync();
             customer.CreatedDate = DateTime.Today.AddDays(-2);
             customer.CustomerId = 1;
             customer.FullName = "Wan Fatimah";

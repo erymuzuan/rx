@@ -46,10 +46,8 @@ namespace domain.test.triggers
             var options = new CompilerOptions
             {
                 IsVerbose = true,
-                IsDebug = true,
-                SourceCodeDirectory = AppDomain.CurrentDomain.BaseDirectory
+                IsDebug = true
             };
-            Console.WriteLine(options.SourceCodeDirectory);
             var result = await trigger.CompileAsync(options);
             result.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(result.Result);
@@ -57,28 +55,29 @@ namespace domain.test.triggers
 
 
 
-        private dynamic CreateInstance(EntityDefinition ed, bool verbose = false)
+        private async Task<dynamic> CreateInstance(EntityDefinition ed, bool verbose = false)
         {
-            var options = new CompilerOptions
+            using (var stream = new MemoryStream())
             {
-                IsVerbose = verbose,
-                IsDebug = true
-            };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+                var options = new CompilerOptions
+                {
+                    IsVerbose = verbose,
+                    IsDebug = true,
+                    Emit = true,
+                    Stream = stream
+                };
+                var result = await ed.CompileAsync(options);
+                result.Errors.ForEach(Console.WriteLine);
 
-            var result = ed.Compile(options); 
-            result.Errors.ForEach(Console.WriteLine);
+                // try to instantiate the EntityDefinition
+                var assembly = Assembly.Load(stream.GetBuffer());
+                var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
 
-            // try to instantiate the EntityDefinition
-            var assembly = Assembly.LoadFrom(result.Output);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
+                var edType = assembly.GetType(edTypeName);
+                Assert.IsNotNull(edType, edTypeName + " is null in ");
 
-            var edType = assembly.GetType(edTypeName);
-            Assert.IsNotNull(edType, edTypeName + " is null in " + result.Output);
-
-            return Activator.CreateInstance(edType);
+                return Activator.CreateInstance(edType);
+            }
         }
 
 

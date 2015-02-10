@@ -63,7 +63,7 @@ namespace domain.test.workflows
             br.Errors.ForEach(Console.WriteLine);
 
             Assert.IsTrue(br.Result);
-            var result = this.Compile(wd);
+            var result = await this.CompileAsync(wd).ConfigureAwait(false);
             var wf = this.CreateInstance(wd, result.Buffer);
             await wf.StartAsync();
 
@@ -120,7 +120,7 @@ namespace domain.test.workflows
 
 
             Assert.IsTrue(br.Result);
-            var result = this.Compile(wd, true);
+            var result = await this.CompileAsync(wd, true).ConfigureAwait(false);
             var wf = this.CreateInstance(wd, result.Buffer);
             await wf.StartAsync();
 

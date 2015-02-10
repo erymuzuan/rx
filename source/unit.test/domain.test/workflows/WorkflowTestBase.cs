@@ -100,18 +100,18 @@ namespace domain.test.workflows
             return wd;
         }
         [Test]
-        public void Compile()
+        public async Task Compile()
         {
 
             var wd = this.Create("test-compile-workflow");
             wd.ActivityCollection.Add(new ScreenActivity { Name = "Start isi borang", IsInitiator = true, WebId = "A", NextActivityWebId = "B" });
             wd.ActivityCollection.Add(new DelayActivity { Name = "Wait Delay", Seconds = 1, WebId = "B", NextActivityWebId = "C" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "C", Name = "Habis" });
-            var result = this.Compile(wd);
+            var result =await this.CompileAsync(wd);
             Assert.IsTrue(result.Result);
         }
 
-        protected SphCompilerResult Compile(WorkflowDefinition wd, bool verbose = false, bool
+        protected async Task<SphCompilerResult> CompileAsync(WorkflowDefinition wd, bool verbose = false, bool
             assertError = true)
         {
             this.BinaryStore.Setup(x => x.GetContent("wd-storeid"))
@@ -121,7 +121,6 @@ namespace domain.test.workflows
             var options = new CompilerOptions
             {
                 IsDebug = true,
-                SourceCodeDirectory = @"c:\temp\sph",
                 IsVerbose = verbose,
                 Emit = true
             };
@@ -132,7 +131,7 @@ namespace domain.test.workflows
             {
                 options.Emit = true;
                 options.Stream = ms;
-                var result = wd.Compile(options);
+                var result =await wd.CompileAsync(options).ConfigureAwait(false );
                 result.Errors.ForEach(Console.WriteLine);
                 if (assertError)
                     Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));

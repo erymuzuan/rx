@@ -10,7 +10,7 @@ namespace domain.test.workflows
     {
 
         [Test]
-        public void TriggerSchedule()
+        public async Task TriggerSchedule()
         {
             var wd = this.Create("Wf503");
             wd.ActivityCollection.Add(new ScheduledTriggerActivity
@@ -35,7 +35,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(send);
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
-            var result = this.Compile(wd, true);
+            var result = await this.CompileAsync(wd, true);
             var wf = this.CreateInstance(wd, result.Buffer);
             Assert.IsNotNull(wf);
         }
@@ -76,7 +76,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(scree2);
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
-            var result = this.Compile(wd, true);
+            var result = await this.CompileAsync(wd, true).ConfigureAwait(false);
             var wf = this.CreateInstance(wd, result.Buffer);
             await wf.StartAsync();
 
@@ -160,7 +160,7 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_D_", Name = "habis" });
 
-            var compilerResult = this.Compile(wd);
+            var compilerResult = await this.CompileAsync(wd).ConfigureAwait(false);
             var wf = this.CreateInstance(wd, compilerResult.Buffer);
             var execResult = await wf.StartAsync();
             Console.WriteLine(wf);
@@ -206,7 +206,7 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_END_", Name = "habis" });
 
-            var cr = this.Compile(wd, true);
+            var cr = await this.CompileAsync(wd, true).ConfigureAwait(false);
             var wf = this.CreateInstance(wd, cr.Buffer);
             var execResult = await wf.StartAsync();
             Console.WriteLine(execResult);

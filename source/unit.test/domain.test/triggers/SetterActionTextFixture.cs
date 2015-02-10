@@ -3,6 +3,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace domain.test.triggers
 {
@@ -10,7 +11,7 @@ namespace domain.test.triggers
     class SetterActionTextFixture
     {
         [Test]
-        public void Setter()
+        public async Task Setter()
         {
             var persistence = new MockPersistence();
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
@@ -19,7 +20,7 @@ namespace domain.test.triggers
             ObjectBuilder.AddCacheList<IPersistence>(persistence);
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
 
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync();
             customer.FullName = "Wan Fatimah";
             customer.Gender = "Female";
             customer.CreatedBy = "erymuzuan";
