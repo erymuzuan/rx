@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -10,7 +10,7 @@
 /// <reference path="../../Scripts/jsPlumb/jsPlumb.js" />
 
 
-define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_ko.mapping'],
+define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping"],
     function (context, logger, system) {
 
         var td = ko.observable(),
@@ -190,13 +190,13 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     };
                     // source field functoid
                     if (info.sourceId.indexOf("source-field-") > -1 && info.targetId.indexOf("destination-field-") < 0) {
-                        var sourceField = info.sourceId.replace("source-field-", "").replace("-", "."),
+                        var sourceField = info.sourceId.replace("source-field-", "").replace(/-/g, "."),
                             targetFnc2 = ko.dataFor(document.getElementById(info.targetId));
 
                         var sourceFnc2 = new bespoke.sph.domain.SourceFunctoid({ Field: sourceField, WebId: system.guid() });
 
                         selectArg(sourceFnc2, targetFnc2).done(function (result) {
-                            if (result == "OK") {
+                            if (result === "OK") {
                                 td().FunctoidCollection.push(sourceFnc2);
                             } else {
                                 instance.detach(info.connection);
@@ -249,13 +249,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                     });
                     item.designer(tool.designer);
 
-                    var element = document.getElementById(ko.unwrap(item.WebId)),
-                        isFilterSupported = true;//instance.isDragFilterSupported();
-                    if (isFilterSupported) {
-
-                    } else {
-                        console.log("Filter is not supported...");
-                    }
+                    var element = document.getElementById(ko.unwrap(item.WebId));
                     instance.makeSource(element, {
                         filter: ".fep",
                         endPoint: ["Rectangle", { width: 10, height: 10 }],
@@ -299,14 +293,14 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
                 // creates the connection for each argument list
                 _(td().FunctoidCollection()).each(function (f) {
                     if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
-                        _(f.ArgumentCollection()).each(function (a) {
+                        _(f.ArgumentCollection()).each(function(a) {
                             var source = document.getElementById(ko.unwrap(a.Functoid));
                             if (typeof a.Functoid !== "function" || !source) {
                                 return;
                             }
                             var conn = instance.connect({ source: source, target: ko.unwrap(f.WebId) });
                             conn.functoidArg = a.Functoid;
-                        })
+                        });
                     }
                 });
 
@@ -354,7 +348,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, 'ko/_k
 
                 $.get("/transform-definition/functoids", function (list) {
                     functoidToolboxItems(list.$values);
-                    $('ul#function-toolbox>li.list-group-item').draggable({
+                    $("ul#function-toolbox>li.list-group-item").draggable({
                         helper: function () {
                             return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('i').clone());
                         },
