@@ -82,7 +82,7 @@ namespace sqlserver.adapter.test
             adapter.OperationDefinitionCollection.Add(productByCategory);
 
             await adapter.OpenAsync(true);
-            var cr = await adapter.CompileAsync();
+            var cr = await adapter.CompileAsync(new CompilerOptions());
             Assert.AreEqual(true, cr.Result);
 
             var dll = Assembly.LoadFile(cr.Output);
@@ -189,7 +189,7 @@ namespace sqlserver.adapter.test
             adapter.OperationDefinitionCollection.Add(uspUpdateEmployeePersonalInfo);
 
             await adapter.OpenAsync(true);
-            var cr = await adapter.CompileAsync();
+            var cr = await adapter.CompileAsync(new CompilerOptions());
             Assert.AreEqual(true, cr.Result);
 
             var dll = Assembly.LoadFile(cr.Output);

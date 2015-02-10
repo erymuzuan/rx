@@ -43,7 +43,7 @@ namespace domain.test.workflows
         [Test]
         public async Task ThrowException()
         {
-            dynamic wf = CreateWorkflowInstance();
+            dynamic wf =await CreateWorkflowInstanceAsync();
             wf.Status = "A";
 
             ActivityExecutionResult resultA = await wf.ExecuteAsync("B");
@@ -53,7 +53,7 @@ namespace domain.test.workflows
         [Test]
         public async Task Ok()
         {
-            var wf = CreateWorkflowInstance();
+            var wf =await CreateWorkflowInstanceAsync();
             wf.Status = "Something else";
 
             ActivityExecutionResult b = await wf.ExecuteAsync("B");
@@ -76,7 +76,7 @@ namespace domain.test.workflows
         [Test]
         public async Task SingleThrow()
         {
-            var wf = CreateWorkflowInstance("throw new InvalidOperationException(\"Test One\");");
+            var wf =await CreateWorkflowInstanceAsync("throw new InvalidOperationException(\"Test One\");");
             wf.Status = "A";
 
             ActivityExecutionResult b = await wf.ExecuteAsync("B");
@@ -84,7 +84,7 @@ namespace domain.test.workflows
 
         }
 
-        private dynamic CreateWorkflowInstance(string code = null)
+        private async Task<dynamic> CreateWorkflowInstanceAsync(string code = null)
         {
             CompilerOptions options;
             var wd = CreateWorkflowDefinition(out options, code);
@@ -93,11 +93,11 @@ namespace domain.test.workflows
             using (var ms = new MemoryStream())
             {
                 options.Stream = ms;
-                var cr = wd.Compile(options);
+                var cr =await wd.CompileAsync(options).ConfigureAwait(false);
                 cr.Errors.ForEach(Console.WriteLine);
                 Assert.IsTrue(cr.Result);
                 var dll = Assembly.Load(cr.Buffer);
-                var type = dll.GetType(wd.CodeNamespace + "." + wd.WorkflowTypeName);
+                var type = dll.GetType(wd.DefaultNamespace + "." + wd.WorkflowTypeName);
                 dynamic wf = Activator.CreateInstance(type);
                 wf.WorkflowDefinition = wd;
                 return wf;
@@ -161,13 +161,7 @@ if(this.Status == ""A"")
 
             tryScope.CatchScopeCollection.Add(catchScope1);
             wd.TryScopeCollection.Add(tryScope);
-
-
             options = new CompilerOptions();
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-            options.AddReference(typeof(JsonMediaTypeFormatter));
             return wd;
         }
     }

@@ -65,7 +65,7 @@ namespace oracle.adapter.test
             };
             await ora.OpenAsync();
 
-            var result = await ora.CompileAsync();
+            var result = await ora.CompileAsync(new CompilerOptions());
             Assert.IsTrue(File.Exists(result.Output));
 
 
@@ -98,7 +98,7 @@ namespace oracle.adapter.test
             };
             await ora.OpenAsync();
 
-            var result = await ora.CompileAsync();
+            var result = await ora.CompileAsync(new CompilerOptions());
             var dll = Assembly.LoadFile(result.Output);
             var employeeType = dll.GetType("Dev.Adapters.HR.EMPLOYEES");
             dynamic emp = Activator.CreateInstance(employeeType);
@@ -225,7 +225,7 @@ ORDER BY  DBMS_RANDOM.RANDOM) WHERE ROWNUM<=1");
         private static async Task CompileAsync(OracleAdapter ora)
         {
             await ora.OpenAsync();
-            var result = await ora.CompileAsync();
+            var result = await ora.CompileAsync(new CompilerOptions());
             Assert.IsTrue(result.Result);
 
             var bin = ConfigurationManager.WebPath + @"\bin\Dev.HR_EMPLOYEES.dll";

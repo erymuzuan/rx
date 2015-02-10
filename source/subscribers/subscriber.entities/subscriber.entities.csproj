@@ -54,7 +54,6 @@
     <Compile Include="Builder.cs" />
     <Compile Include="EntityFormSubscriber.cs" />
     <Compile Include="EntityIndexerMappingSubscriber.cs" />
-    <Compile Include="EntityViewSubscriber.cs" />
     <Compile Include="EntityPageSubscriber.cs" />
     <Compile Include="EntityCodeSubscriber.cs" />
     <Compile Include="EsMappingHelper.cs" />
@@ -88,12 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="entity.page.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="entity.view.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="entity.view.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -67,13 +67,13 @@ namespace durandaljs.compiler.test
                 Name = "This is a test",
                 Id = "test-form"
             };
-            string code = "DateTime.Now";// + DateTime.Now.ToString("g");
+            const string CODE = "DateTime.Now"; // + DateTime.Now.ToString("g");
             var button = new Button
             {
                 ElementId = "button",
                 CommandName = "buttonClick",
                 IsAsynchronous = true,
-                Command = code,
+                Command = CODE,
                 IsToolbarItem = true
             };
             form.FormDesign.FormElementCollection.Add(button);

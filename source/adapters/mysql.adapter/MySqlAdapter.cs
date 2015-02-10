@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Integrations.Adapters.Properties;
 using MySql.Data.MySqlClient;
 
@@ -136,8 +137,8 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
-            options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
-            options.AddReference(typeof(MySqlConnection));
+            //options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
+            //options.AddReference(typeof(MySqlConnection));
             var sources = new Dictionary<string, string>();
             var header = this.GetCodeHeader(namespaces);
             foreach (var at in this.Tables)
@@ -625,6 +626,16 @@ namespace Bespoke.Sph.Integrations.Adapters
             {
                 return m_operationDefinitionCollection;
             }
+        }
+
+        public override string DefaultNamespace
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override Task<IEnumerable<Class>> GenerateCodeAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

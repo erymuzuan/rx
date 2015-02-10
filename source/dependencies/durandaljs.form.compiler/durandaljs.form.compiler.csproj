@@ -127,6 +127,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DurandalJsSolutionCompiler.cs" />
+    <Compile Include="DurandalJsViewCompiler.cs" />
+    <Compile Include="EntityViewHtmlRenderer.cs" />
+    <Compile Include="EntityViewHtmlViewModel.cs" />
+    <Compile Include="EntityViewJsRenderer.cs" />
+    <Compile Include="EntityViewPartialRenderer.cs" />
     <Compile Include="FormRenderers\EntityFormHtmlViewRenderer.cs" />
     <Compile Include="FormRenderers\EntityFormJsPartialRenderer.cs" />
     <Compile Include="FormRenderers\EntityFormJsViewModelRenderer.cs" />
@@ -421,6 +426,8 @@
     <None Include="Resources\editor.template.TextAreaElement.cshtml" />
     <None Include="Resources\editor.template.TextBox.cshtml" />
     <None Include="Resources\editor.template.WebsiteFormElement.cshtml" />
+    <None Include="Resources\entity.view.cshtml" />
+    <None Include="Resources\EntityViewJs.cshtml" />
     <None Include="Resources\FormViewModels.cshtml" />
     <None Include="Resources\Html2ColsWithAuditTrail.cshtml" />
     <None Include="Resources\ScreenActivityFormTemplate.cshtml" />

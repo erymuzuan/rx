@@ -113,7 +113,7 @@ namespace Bespoke.Sph.Domain
             {
                 Name = string.Format("{0}Controller", this.Name),
                 FileName = this.Name + "Controller.cs",
-                Namespace = wd.CodeNamespace,
+                Namespace = wd.DefaultNamespace,
                 IsPartial = true,
                 BaseClass = "ApiController"
             };

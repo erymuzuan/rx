@@ -34,7 +34,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             }
         }
 
-        public Task<SnippetCompilerResult> CompileAsync<T>(string expression, IProjectProvider project)
+        public async Task<SnippetCompilerResult> CompileAsync<T>(string expression, IProjectProvider project)
         {
             if (string.IsNullOrWhiteSpace(expression))
             {
@@ -51,7 +51,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .Select(x => x.InterfaceName + " " + x.IdentifierText));
 
             var snippet = BuilExpressionClass<T>(expression, project, parameters);
-            var projectDocuments = project.GenerateCode().ToList();
+            var projectDocuments = (await project.GenerateCodeAsync()).ToList();
             var codes = (from c in projectDocuments
                          where !c.FileName.Contains("Controller")
                          let x = c.GetCode().Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)
@@ -83,7 +83,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 Console.ForegroundColor = color;
             }
             if (!result.Success)
-                return Task.FromResult(result);
+                return result;
 
 
 
@@ -103,7 +103,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
                 .Statements;
 
             result.Code = CompileStatements(statements, model);
-            return Task.FromResult(result);
+            return result;
         }
 
         private string CompileStatements(SyntaxList<SyntaxNode> statements, SemanticModel model)

@@ -33,7 +33,8 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
             ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
         }
-        private dynamic CreateInstance(EntityDefinition ed, bool verbose = false)
+
+        private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed, bool verbose = false)
         {
             var options = new CompilerOptions
             {
@@ -41,25 +42,20 @@ namespace domain.test.entities
                 IsDebug = true
             };
 
-            byte[] buffers;
-            using (var stream = new MemoryStream())
+            var temp = Path.GetTempFileName() + ".dll";
+            using (var stream = new FileStream(temp, FileMode.Create))
             {
                 options.Stream = stream;
                 options.Emit = true;
-                var result = ed.Compile(options);
-                EntityDefinitionCodeTest.PrintErrors(result, ed);
-
+                var result = await ed.CompileAsync(options).ConfigureAwait(false);
+                await EntityDefinitionCodeTest.PrintErrorsAsync(result, ed);
                 Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
-                buffers = stream.GetBuffer();
 
-                var temp = Path.GetTempFileName() + ".dll";
-                var roslyn = (RoslynScriptEngine2) ObjectBuilder.GetObject<IScriptEngine>();
-                File.WriteAllBytes(temp, buffers);
-                roslyn.TempDllForItem = temp;
             }
-
+            var roslyn = (RoslynScriptEngine2)ObjectBuilder.GetObject<IScriptEngine>();
+            roslyn.Stream = temp;
             // try to instantiate the EntityDefinition
-            var assembly = Assembly.Load(buffers);
+            var assembly = Assembly.LoadFile(temp);
             var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
 
             var edType = assembly.GetType(edTypeName);
@@ -117,15 +113,15 @@ namespace domain.test.entities
         }
 
         [Test]
-        public void GeneratePatientTest()
+        public async Task GeneratePatientTest()
         {
             var ed = this.CreatePatientDefinition();
-            var patient = this.CreateInstance(ed, true);
+            var patient = await this.CreateInstanceAsync(ed, true);
             Assert.IsNotNull(patient);
         }
 
         [Test]
-        public void AddReleaseOperation()
+        public async Task AddReleaseOperation()
         {
             var release = new EntityOperation { Name = "Release" };
             release.Rules.Add("VerifyRegisteredDate");
@@ -133,7 +129,7 @@ namespace domain.test.entities
             var ed = this.CreatePatientDefinition("PatientForRelease");
             ed.EntityOperationCollection.Add(release);
 
-            var patient = this.CreateInstance(ed, true);
+            var patient = await this.CreateInstanceAsync(ed, true).ConfigureAwait(false);
             Assert.IsNotNull(patient);
 
             Type patientType = patient.GetType();
@@ -177,7 +173,7 @@ namespace domain.test.entities
             ed.EntityOperationCollection.Add(release);
             ed.BusinessRuleCollection.Add(mustBeDeadRule);
 
-            var patient = this.CreateInstance(ed, true);
+            var patient = await this.CreateInstanceAsync(ed, true).ConfigureAwait(false);
             Assert.IsNotNull(patient);
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
@@ -218,7 +214,7 @@ namespace domain.test.entities
             ed.EntityOperationCollection.Add(release);
             release.SetterActionChildCollection.Add(setter);
 
-            var patient = this.CreateInstance(ed, true);
+            var patient = await this.CreateInstanceAsync(ed, true).ConfigureAwait(false);
             Assert.IsNotNull(patient);
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 

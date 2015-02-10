@@ -7,6 +7,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace domain.test.entities
 {
@@ -14,7 +15,7 @@ namespace domain.test.entities
     public class EntityDefinitionCodeTest
     {
         [Test]
-        public void GenerateRootWithDefaultValues()
+        public async Task GenerateRootWithDefaultValues()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
@@ -78,18 +79,13 @@ namespace domain.test.entities
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-
-
             byte[] buffers;
             using (var stream = new MemoryStream())
             {
                 options.Stream = stream;
                 options.Emit = true;
-                var result = ent.Compile(options);
-                PrintErrors(result, ent);
+                var result = await ent.CompileAsync(options);
+                await PrintErrorsAsync(result, ent);
 
                 Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
                 buffers = stream.GetBuffer();
@@ -107,11 +103,11 @@ namespace domain.test.entities
 
         }
 
-        public static void PrintErrors(SphCompilerResult result, EntityDefinition ent)
+        public static async Task PrintErrorsAsync(SphCompilerResult result, EntityDefinition ent)
         {
             if (result.Result) return;
             Console.WriteLine("!!!!! Failed to build ");
-            var codes = ent.GenerateCode();
+            var codes = await ent.GenerateCodeAsync();
             var sources = ent.SaveSources(codes);
             sources.ToList().ForEach(x => Console.WriteLine("saved to : {0}", x));
             result.Errors.ForEach(Console.WriteLine);
@@ -119,7 +115,7 @@ namespace domain.test.entities
 
 
         [Test]
-        public void GenerateCodeBasic()
+        public async Task GenerateCodeBasic()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
             ent.MemberCollection.Add(new Member
@@ -149,8 +145,8 @@ namespace domain.test.entities
 
 
 
-            var result = ent.Compile(options);
-            PrintErrors(result, ent);
+            var result = await ent.CompileAsync(options);
+            await PrintErrorsAsync(result, ent);
 
             Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 

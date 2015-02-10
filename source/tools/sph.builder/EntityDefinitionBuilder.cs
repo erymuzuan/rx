@@ -29,9 +29,9 @@ namespace sph.builder
             Console.WriteLine("Reading from " + folder);
 
             var tasks = from f in Directory.GetFiles(folder, "*.json")
-                let json = File.ReadAllText(f)
-                let ed = json.DeserializeFromJson<EntityDefinition>()
-                select this.RestoreAsync(ed);
+                        let json = File.ReadAllText(f)
+                        let ed = json.DeserializeFromJson<EntityDefinition>()
+                        select this.RestoreAsync(ed);
 
             await Task.WhenAll(tasks);
 
@@ -44,7 +44,7 @@ namespace sph.builder
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName.ToLowerInvariant() + "/" + ed.Name.ToLowerInvariant() );
+                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName.ToLowerInvariant() + "/" + ed.Name.ToLowerInvariant());
                 Console.WriteLine("DELETE {1} type : {0}", response.StatusCode, ed.Name.ToLowerInvariant());
             }
         }
@@ -55,7 +55,7 @@ namespace sph.builder
             await this.DeleteElasticSearchType(ed);
             await InsertAsync(ed);
 
-            var type = CompileEntityDefinition(ed);
+            var type = await CompileEntityDefinitionAsync(ed);
             Console.WriteLine("Compiled : {0}", type);
 
             var sqlSub = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
@@ -99,7 +99,7 @@ namespace sph.builder
             await store.AddAsync(schema);
         }
 
-        private static Type CompileEntityDefinition(EntityDefinition ed)
+        private static async Task<Type> CompileEntityDefinitionAsync(EntityDefinition ed)
         {
             var options = new CompilerOptions
             {
@@ -107,13 +107,7 @@ namespace sph.builder
                 IsDebug = true
             };
             var webDir = ConfigurationManager.WebPath;
-            options.AddReference(Path.GetFullPath(webDir + @"\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(ConfigurationManager.CorePath + @"\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(webDir + @"\bin\Newtonsoft.Json.dll"));
-
-            var codes = ed.GenerateCode();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
+            var result = await ed.CompileAsync(options);
             result.Errors.ForEach(Console.WriteLine);
 
             var assembly = Assembly.LoadFrom(result.Output);

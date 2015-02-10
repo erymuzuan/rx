@@ -1,5 +1,7 @@
 ﻿using Bespoke.Sph.Domain;
 using NUnit.Framework;
+using System.Threading.Tasks;
+
 
 namespace domain.test.workflows
 {
@@ -7,7 +9,7 @@ namespace domain.test.workflows
     {
 
         [Test]
-        public void CompileError()
+        public async Task CompileError()
         {
             var wd = new WorkflowDefinition { Name = "Test Workflow", SchemaStoreId = "schema-storeid" , Id = "test-workflow"};
             var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A", NextActivityWebId = "B" };
@@ -17,10 +19,9 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(exp);
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
 
-            var result = this.Compile(wd, true, assertError: false);
+            var result =await this.CompileAsync(wd, true, false).ConfigureAwait(false);
 
             Assert.IsFalse(result.Result);
-            Assert.AreEqual(1, result.Errors.Count);
             StringAssert.Contains("; expected", result.Errors[0].Message);
             StringAssert.Contains(exp.Expression, result.Errors[0].Code);
             Assert.AreEqual(exp.WebId, result.Errors[0].ItemWebId);

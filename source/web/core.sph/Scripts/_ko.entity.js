@@ -16,7 +16,7 @@
                 node.children = _(node.data.MemberCollection()).map(function (v) {
                     return {
                         text: v.Name(),
-                        state: 'open',
+                        state: "open",
                         type: v.TypeName(),
                         data: v
                     };
@@ -27,14 +27,14 @@
                 jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
                     return {
                         text: v.Name(),
-                        state: 'open',
+                        state: "open",
                         type: v.TypeName(),
                         data: v
                     };
                 });
                 _(jsTreeData.children).each(recurseChildMember);
                 $(element)
-                    .on('select_node.jstree', function (node, selected) {
+                    .on("select_node.jstree", function (node, selected) {
                         if (selected.node.data) {
                             member(selected.node.data);
 
@@ -50,10 +50,10 @@
                             });
                         }
                     })
-                    .on('create_node.jstree', function (event, node) {
+                    .on("create_node.jstree", function (event, node) {
                         console.log(node, "node");
                     })
-                    .on('rename_node.jstree', function (ev, node) {
+                    .on("rename_node.jstree", function (ev, node) {
                         var mb = node.node.data;
                         mb.Name(node.text);
                     })
@@ -293,21 +293,21 @@ ko.bindingHandlers.entityTypeaheadPath = {
                             c.options.push("" + i);
                         }
                         c.options.sort();
-                        c.startFrom = text.lastIndexOf('.') + 1;
+                        c.startFrom = text.lastIndexOf(".") + 1;
                     }
                     c.repaint();
                 };
 
                 c.repaint();
                 $(c.input)
-                    .attr('autocomplete', 'off')
+                    .attr("autocomplete", "off")
                     .blur(function () {
                         allBindings.value($(this).val());
-                    }).parent().find('input')
+                    }).parent().find("input")
                     .css({ "padding": "6px 12px", "height": "28px" });
 
-                if ($(element).prop('required')) {
-                    $(c.input).prop('required', true);
+                if ($(element).prop("required")) {
+                    $(c.input).prop("required", true);
                 }
 
 
@@ -360,7 +360,7 @@ ko.bindingHandlers.cssTypeahead = {
             minLength: 0,
             highlight: true,
             updater: function () {
-                return this.$element.val().replace(/[^,]*$/, '') + item + ',';
+                return this.$element.val().replace(/[^,]*$/, "") + item + ",";
             },
             matcher: function (item) {
                 var tquery = extractor(this.query);
@@ -369,11 +369,11 @@ ko.bindingHandlers.cssTypeahead = {
             }
         },
             {
-                name: 'css-class',
-                displayKey: 'path',
+                name: "css-class",
+                displayKey: "path",
                 source: members.ttAdapter()
             })
-            .on('typeahead:closed', function () {
+            .on("typeahead:closed", function () {
                 allBindings.value($(this).val());
             });
 
@@ -384,7 +384,7 @@ ko.bindingHandlers.cssTypeahead = {
 ko.bindingHandlers.chart = {
     init: function (element, valueAccessor) {
         var chart = ko.unwrap(valueAccessor()),
-            context = require('services/datacontext'),
+            context = require("services/datacontext"),
             entity = chart.Entity(),
             query = JSON.parse(chart.Query()),
             type = chart.Type(),

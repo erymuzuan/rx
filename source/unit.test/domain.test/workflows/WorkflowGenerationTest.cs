@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
 using Moq;
-using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace domain.test.workflows
@@ -31,7 +30,7 @@ namespace domain.test.workflows
         }
 
         [Test]
-        public void GenerateVariableWithDefaultValues()
+        public async System.Threading.Tasks.Task GenerateVariableWithDefaultValues()
         {
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", Id = "permohonan-tanah-wakaf", SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string), DefaultValue = "<New application>" });
@@ -41,19 +40,12 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(new EndActivity { Name = "Habis test", WebId = "B" });
 
-            var options = new CompilerOptions { IsDebug = true, IsVerbose = true, SourceCodeDirectory = @"c:\temp\sph" };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(typeof(JsonConvert).Assembly.Location);
 
-            var result = wd.Compile(options);
-            var sourceFile = Path.Combine(options.SourceCodeDirectory, "Vehicle.cs");
-            var code = File.ReadAllText(sourceFile);
-            foreach (var e in result.Errors)
-            {
-                Console.WriteLine(e.Message);
-            }
-            Assert.IsTrue(result.Result);
+            var sources = await wd.GenerateCodeAsync();
+            var sourceFile = sources.SingleOrDefault(c => c.Name == "Vehicle");
+            Assert.IsNotNull(sourceFile);
+
+            var code = sourceFile.GetCode();
             StringAssert.Contains("public class Vehicle", code);
 
         }
@@ -69,9 +61,6 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(new EndActivity { Name = "Habis test", WebId = "B" });
 
-            var options = new CompilerOptions { IsDebug = true, IsVerbose = false, SourceCodeDirectory = @"c:\temp\sph" };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll"));
 
             var code = wd.GenerateXsdCsharpClasses();
             Assert.IsNotNull(code.SingleOrDefault(x => x.Name == "Vehicle"));
@@ -89,15 +78,11 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(new EndActivity { Name = "Habis test", WebId = "B" });
 
-            var options = new CompilerOptions { IsDebug = true, IsVerbose = false };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll"));
-
 
         }
 
         [Test]
-        public void Compile()
+        public async System.Threading.Tasks.Task Compile()
         {
 
             var wd = new WorkflowDefinition
@@ -130,8 +115,8 @@ namespace domain.test.workflows
 
             using (var ms = new MemoryStream())
             {
-                var options = new CompilerOptions { IsDebug = true, SourceCodeDirectory = @"c:\temp\sph", Emit = true, Stream = ms };
-                var result = wd.Compile(options);
+                var options = new CompilerOptions { IsDebug = true,  Emit = true, Stream = ms };
+                var result =await wd.CompileAsync(options);
                 Console.WriteLine("Buidling \"{1}\" with {0} Errors", result.Errors.Count, wd.Id);
                 result.Errors.ForEach(Console.WriteLine);
 
@@ -139,7 +124,7 @@ namespace domain.test.workflows
 
                 // try to instantiate the Workflow
                 var assembly = Assembly.Load(ms.GetBuffer());
-                var wfTypeName = string.Format("{0}.{1}", wd.CodeNamespace, wd.WorkflowTypeName);
+                var wfTypeName = string.Format("{0}.{1}", wd.DefaultNamespace, wd.WorkflowTypeName);
 
                 var wfType = assembly.GetType(wfTypeName);
                 Assert.IsNotNull(wfType, wfTypeName + " is null");

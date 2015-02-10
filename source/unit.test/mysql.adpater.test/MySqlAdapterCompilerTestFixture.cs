@@ -34,7 +34,7 @@ namespace mysql.adpater.test
                 }
             };
             await adapter.OpenAsync(true);
-            var cr = await adapter.CompileAsync();
+            var cr = await adapter.CompileAsync(new CompilerOptions());
             Assert.IsTrue(cr.Result);
         }
 
@@ -67,7 +67,7 @@ namespace mysql.adpater.test
 
             adapter.OperationDefinitionCollection.Add(sproc);
             await adapter.OpenAsync(true);
-            var cr = await adapter.CompileAsync();
+            var cr = await adapter.CompileAsync(new CompilerOptions());
             Assert.IsTrue(cr.Result);
 
 
@@ -110,7 +110,7 @@ namespace mysql.adpater.test
 
             adapter.OperationDefinitionCollection.Add(sproc);
             await adapter.OpenAsync(true);
-            var cr = await adapter.CompileAsync();
+            var cr = await adapter.CompileAsync(new CompilerOptions());
             Assert.IsTrue(cr.Result);
 
 
@@ -149,7 +149,7 @@ namespace mysql.adpater.test
                 Tables = new[] { employees, titles }
             };
             await adapter.OpenAsync(true);
-            var cr = await adapter.CompileAsync();
+            var cr = await adapter.CompileAsync(new CompilerOptions());
             Assert.IsTrue(cr.Result);
 
             var dll = Assembly.LoadFile(cr.Output);

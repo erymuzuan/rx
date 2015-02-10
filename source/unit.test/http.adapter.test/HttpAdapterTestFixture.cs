@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,7 +39,7 @@ namespace http.adapter.test
                     ;
                 op.MethodName = op.Name;
             }
-            var result = await this.Adapter.CompileAsync();
+            var result = await this.Adapter.CompileAsync(new CompilerOptions());
             Assert.IsTrue(File.Exists(result.Output));
             return result.Output;
         }

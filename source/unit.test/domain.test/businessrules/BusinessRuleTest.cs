@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using NUnit.Framework;
@@ -66,9 +67,9 @@ namespace domain.test.businessrules
 
             br.FilterCollection.Add(new Rule
             {
-                Left = new DocumentField{Type = typeof(string),Path = "Gender"},
+                Left = new DocumentField { Type = typeof(string), Path = "Gender" },
                 Operator = Operator.Eq,
-                Right = new ConstantField{ Type = typeof(string), Value = "Male"}
+                Right = new ConstantField { Type = typeof(string), Value = "Male" }
             });
 
             ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
@@ -104,9 +105,9 @@ namespace domain.test.businessrules
 
             br.FilterCollection.Add(new Rule
             {
-                Left = new DocumentField{Type = typeof(string),Path = "Gender"},
+                Left = new DocumentField { Type = typeof(string), Path = "Gender" },
                 Operator = Operator.Eq,
-                Right = new ConstantField{ Type = typeof(string), Value = "Male"}
+                Right = new ConstantField { Type = typeof(string), Value = "Male" }
             });
 
             ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
@@ -138,7 +139,7 @@ namespace domain.test.businessrules
             };
             br.RuleCollection.Add(nameMustContainsA);
             customerDefinition.BusinessRuleCollection.Add(br);
-        
+
             ValidationResult result = customer.ValidateBusinessRule(customerDefinition.BusinessRuleCollection);
             Assert.IsFalse(result.Success);
 
@@ -173,9 +174,9 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "B" }
             };
             br2.RuleCollection.Add(nameMustContainsB);
-            
 
-            customer.Title= "Temp C";
+
+            customer.Title = "Temp C";
             customer.FullName = "Kelantan";
             customerDefinition.BusinessRuleCollection.Add(br);
             customerDefinition.BusinessRuleCollection.Add(br2);
@@ -231,42 +232,46 @@ namespace domain.test.businessrules
         }
 
 
-        private dynamic CreateInstance(EntityDefinition ed, bool verbose = false)
+        private async Task<dynamic> CreateInstance(EntityDefinition ed, bool verbose = false)
         {
-            var options = new CompilerOptions
+
+            using (var stream = new MemoryStream())
             {
-                IsVerbose = verbose,
-                IsDebug = true
-            };
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+                var options = new CompilerOptions
+                            {
+                                IsVerbose = verbose,
+                                IsDebug = true,
+                                Emit = true,
+                                Stream = stream
+                            };
 
 
-            var result = ed.Compile(options);
+                var result = await ed.CompileAsync(options).ConfigureAwait(false);
 
-            result.Errors.ForEach(Console.WriteLine);
+                result.Errors.ForEach(Console.WriteLine);
 
-            // try to instantiate the EntityDefinition
-            var assembly = Assembly.LoadFrom(result.Output);
-            var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
+                // try to instantiate the EntityDefinition
+                var assembly = Assembly.Load(stream.GetBuffer());
+                var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
 
-            var edType = assembly.GetType(edTypeName);
-            Assert.IsNotNull(edType, edTypeName + " is null");
+                var edType = assembly.GetType(edTypeName);
+                Assert.IsNotNull(edType, edTypeName + " is null");
 
-            return Activator.CreateInstance(edType);
+                return Activator.CreateInstance(edType);
+            }
+
         }
 
 
         public EntityDefinition CreatePatientDefinition()
         {
-            var ent = new EntityDefinition { Name = "Patient", Plural = "Patients" ,RecordName = "FullName"};
+            var ent = new EntityDefinition { Name = "Patient", Plural = "Patients", RecordName = "FullName" };
             ent.MemberCollection.Add(new Member
             {
                 Name = "FullName",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
-            }); 
+            });
             ent.MemberCollection.Add(new Member
             {
                 Name = "Title",

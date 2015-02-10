@@ -338,7 +338,7 @@ order by ORDINAL_POSITION";
                 return response;
             }
             await adapter.OpenAsync(true);
-            var result = await adapter.CompileAsync();
+            var result = await adapter.CompileAsync(new CompilerOptions());
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())

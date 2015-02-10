@@ -55,14 +55,9 @@ namespace domain.test.workflows
             StringAssert.Contains("RegisterPatientAsync", code);
 
             var options = new CompilerOptions();
-            options.AddReference(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.Patient.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-            options.AddReference(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll"));
-            options.AddReference(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter));
 
-            var cr = wd.Compile(options);
+
+            var cr = await wd.CompileAsync(options).ConfigureAwait(false);
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
@@ -134,14 +129,9 @@ namespace domain.test.workflows
             StringAssert.Contains("RegisterAsync", code);
 
             var options = new CompilerOptions();
-            options.AddReference(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.Patient.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-            options.AddReference(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll"));
-            options.AddReference(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter));
 
-            var cr = wd.Compile(options);
+
+            var cr =await wd.CompileAsync(options).ConfigureAwait(false);
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
@@ -233,14 +223,9 @@ namespace domain.test.workflows
             StringAssert.Contains("RegisterPatientAsync", code);
 
             var options = new CompilerOptions();
-            options.AddReference(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.Patient.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-            options.AddReference(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll"));
-            options.AddReference(typeof(System.Net.Http.Formatting.JsonMediaTypeFormatter));
 
-            var cr = wd.Compile(options);
+
+            var cr =await wd.CompileAsync(options).ConfigureAwait(false);
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 

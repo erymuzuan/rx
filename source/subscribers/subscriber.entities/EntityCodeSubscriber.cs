@@ -19,14 +19,11 @@ namespace subscriber.entities
             get { return new[] { typeof(EntityDefinition).Name + ".changed.Publish" }; }
         }
 
-        protected override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
+        protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             var options = new CompilerOptions();
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.CorePath + @"\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
-            
-            var result = item.Compile(options);
+
+            var result = await item.CompileAsync(options);
 
             result.Errors.ForEach(Console.WriteLine);
             if (!result.Result)
@@ -36,8 +33,6 @@ namespace subscriber.entities
             // NOTE : copy dlls, this will cause the appdomain to unload and we want it happend
             // after the Ack to the broker
             this.QueueUserWorkItem(Deploy, item);
-
-            return Task.FromResult(0);
         }
 
 
@@ -45,11 +40,11 @@ namespace subscriber.entities
         {
             Thread.Sleep(5 * 1000);
 
-            var dll = string.Format("{0}.{1}.dll",ConfigurationManager.ApplicationName, item.Name);
-            var pdb = string.Format("{0}.{1}.pdb",ConfigurationManager.ApplicationName, item.Name);
+            var dll = string.Format("{0}.{1}.dll", ConfigurationManager.ApplicationName, item.Name);
+            var pdb = string.Format("{0}.{1}.pdb", ConfigurationManager.ApplicationName, item.Name);
             var dllFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, dll);
             var pdbFullPath = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, pdb);
-           
+
             File.Copy(dllFullPath, ConfigurationManager.WebPath + @"\bin\" + dll, true);
             File.Copy(pdbFullPath, ConfigurationManager.WebPath + @"\bin\" + pdb, true);
 

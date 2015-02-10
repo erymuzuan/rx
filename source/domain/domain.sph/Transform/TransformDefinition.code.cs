@@ -4,47 +4,33 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class TransformDefinition
     {
-        private string GetCodeHeader()
+
+
+        public override string DefaultNamespace
         {
-            var header = new StringBuilder();
-            header.AppendLine("using " + typeof(Entity).Namespace + ";");
-            header.AppendLine("using " + typeof(Int32).Namespace + ";");
-            header.AppendLine("using " + typeof(Task<>).Namespace + ";");
-            header.AppendLine("using " + typeof(IEnumerable<>).Namespace + ";");
-            header.AppendLine("using " + typeof(Enumerable).Namespace + ";");
-            header.AppendLine();
-
-            header.AppendLine("namespace " + this.CodeNamespace);
-            header.AppendLine("{");
-            return header.ToString();
-
+            get { return string.Format("{0}.Integrations.Transforms", ConfigurationManager.ApplicationName); }
         }
 
-        public Dictionary<string, string> GenerateCode()
+        public override Task<IEnumerable<Class>> GenerateCodeAsync()
         {
-            var header = this.GetCodeHeader();
-            var code = new StringBuilder(header);
-
-            code.AppendLine("   public class " + this.Name);
-            code.AppendLine("   {");
+            var @classes = new List<Class>();
 
 
-            code.AppendLine(this.GenerateTransformCode());
-            code.AppendLine(this.GenerateTransformToArrayCode());
+            var map = new Class { Name = this.Name };
+            map.AddNamespaceImport<Int32>();
+            map.AddNamespaceImport<Task>();
+            map.AddNamespaceImport<EnumerableQuery>();
+            @classes.Add(map);
 
-
-            code.AppendLine("   }");// end class
-            code.AppendLine("}");// end namespace
-
-            var sourceCodes = new Dictionary<string, string> { { this.Name + ".cs", code.FormatCode() } };
-
-
-            return sourceCodes;
+            map.MethodCollection.Add(new Method { Name = "TransformAsync", Code = this.GenerateTransformCode() });
+            map.MethodCollection.Add(new Method { Name = "TransformToArrayAsync", Code = this.GenerateTransformToArrayCode() });
+            return Task.FromResult(@classes.AsEnumerable());
         }
 
 
@@ -62,10 +48,7 @@ namespace Bespoke.Sph.Domain
                     .Select(f => string.Format("{0}\\{1}\\{2}", ConfigurationManager.UserSourceDirectory, this.Name, f))
                     .ToArray();
         }
-        public string CodeNamespace
-        {
-            get { return string.Format("{0}.Integrations.Transforms", ConfigurationManager.ApplicationName); }
-        }
+
 
         public string GenerateTransformCode()
         {

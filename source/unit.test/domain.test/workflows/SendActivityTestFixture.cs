@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Common;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -18,7 +17,7 @@ namespace domain.test.workflows
     {
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
 
-        public const string MySQL = "Server=localhost;Database=employees;Uid=root;Pwd=";
+        public const string MY_SQL = "Server=localhost;Database=employees;Uid=root;Pwd=";
         [SetUp]
         public void Init()
         {
@@ -40,7 +39,7 @@ namespace domain.test.workflows
         public async Task SendActivityWithInitializingCorrelationSet()
         {
             var trackerRepository = new MockRepository<Tracker>();
-            trackerRepository.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.Tracker]",null);
+            trackerRepository.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.Tracker]", null);
 
             ObjectBuilder.AddCacheList<IRepository<Tracker>>(trackerRepository);
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
@@ -53,7 +52,7 @@ namespace domain.test.workflows
             crt.CorrelationPropertyCollection.Add(new CorrelationProperty { Path = "staff.emp_no" });
             crt.CorrelationPropertyCollection.Add(new CorrelationProperty { Path = "staff.birth_date" });
             wd.CorrelationTypeCollection.Add(crt);
-            wd.CorrelationSetCollection.Add(new CorrelationSet { Type =crt.Name, Name = "empno" });
+            wd.CorrelationSetCollection.Add(new CorrelationSet { Type = crt.Name, Name = "empno" });
 
             var sendToEmployees = new SendActivity
             {
@@ -78,12 +77,9 @@ namespace domain.test.workflows
             const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
             File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll", true);
             var options = new CompilerOptions();
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll");
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-            var cr = wd.Compile(options);
+
+            var cr = await wd.CompileAsync(options).ConfigureAwait(false);
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
@@ -100,7 +96,7 @@ namespace domain.test.workflows
             wf.WorkflowDefinition = wd;
             wf.Id = Guid.NewGuid().ToString();
 
-            await MySQL.ExecuteMySqlNonQueryAsync("DELETE FROM `employees` WHERE `emp_no` = 784528");
+            await MY_SQL.ExecuteMySqlNonQueryAsync("DELETE FROM `employees` WHERE `emp_no` = 784528");
 
             Assert.IsNotNull(wf.staff);
             await wf.StartAsync();
@@ -138,12 +134,9 @@ namespace domain.test.workflows
             const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
             File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll", true);
             var options = new CompilerOptions();
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll");
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-            var cr = wd.Compile(options);
+
+            var cr = await wd.CompileAsync(options).ConfigureAwait(false);
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
@@ -159,7 +152,7 @@ namespace domain.test.workflows
             wf.staff.hire_date = new DateTime(1995, 5, 21);
 
 
-            await MySQL.ExecuteMySqlNonQueryAsync("DELETE FROM `employees` WHERE `emp_no` = 784528");
+            await MY_SQL.ExecuteMySqlNonQueryAsync("DELETE FROM `employees` WHERE `emp_no` = 784528");
 
             Assert.IsNotNull(wf.staff);
             await wf.StartAsync();
@@ -206,14 +199,9 @@ namespace domain.test.workflows
             const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.MySqlSampleTest001.dll";
             File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll", true);
             var options = new CompilerOptions();
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\Dev.MySqlSampleTest001.dll");
-            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\MySql.Data.dll");
-            options.AddReference(typeof(DbException));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-            var cr = wd.Compile(options);
+
+            var cr = await wd.CompileAsync(options).ConfigureAwait(false);
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 

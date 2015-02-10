@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -47,7 +48,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
-            options.AddReference(typeof(HttpClient));
+            //options.AddReference(typeof(HttpClient));
             var sources = new Dictionary<string, string>();
 
             var header = this.GetCodeHeader(namespaces);
@@ -187,6 +188,16 @@ namespace Bespoke.Sph.Integrations.Adapters
             var ur = urls.First();
             this.BaseAddress =string.Format("{0}://{1}{2}", ur.Scheme, ur.Host, ur.IsDefaultPort ? "" : ":" + ur.Port);
             return Task.FromResult(0);
+        }
+
+        public override string DefaultNamespace
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override Task<IEnumerable<Class>> GenerateCodeAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

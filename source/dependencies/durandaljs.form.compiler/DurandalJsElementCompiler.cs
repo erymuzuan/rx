@@ -6,6 +6,7 @@ using Bespoke.Sph.FormCompilers.DurandalJs.Properties;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
+
 namespace Bespoke.Sph.FormCompilers.DurandalJs
 {
     public class DurandalJsElementCompiler<T> : FormElementCompiler<T> where T : FormElement
@@ -91,8 +92,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             var tree = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(file.ToString());
             trees.Add(tree);
 
-
-            var codes = from c in project.GenerateCode()
+            var codes = from c in (project.GenerateCodeAsync().Result)
                         where !c.Name.EndsWith("Controller")
                         let text = c.GetCode()
                         let x = text.Replace("using Bespoke.Sph.Web.Helpers;", string.Empty)

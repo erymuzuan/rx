@@ -2,7 +2,7 @@
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using NUnit.Framework;
-
+using System.Threading.Tasks;
 namespace domain.test.triggers
 {
     [TestFixture]
@@ -14,9 +14,9 @@ namespace domain.test.triggers
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
         }
         [Test]
-        public void EndWith()
+        public async Task EndWith()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             var rule = new Rule
                 {
                     Left = new ConstantField { Value = "This e-mail is not a new bill; it is meant to help you to identify", Type = typeof(string) },
@@ -28,9 +28,9 @@ namespace domain.test.triggers
             Assert.IsTrue(result);
         }
         [Test]
-        public void StartsWith()
+        public async Task StartsWith()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             var rule = new Rule
                 {
                     Left = new ConstantField { Value = "This e-mail is not a new bill; it is meant to help you to identify the", Type = typeof(string) },
@@ -43,9 +43,9 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void Contains()
+        public async Task Contains()
         {
-            var custoemr = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync();
             var rule = new Rule
                 {
                     Left = new ConstantField { Value = "This e-mail is not a new bill; it is meant to help you to identify the", Type = typeof(string) },
@@ -53,14 +53,14 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = "Mail", Type = typeof(string) }
                 };
 
-            var result = rule.Execute(new RuleContext(custoemr));
+            var result = rule.Execute(new RuleContext(customer));
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void ConstEqConstString()
+        public async Task ConstEqConstString()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             var rule = new Rule
                 {
                     Left = new ConstantField { Value = "erymuzuan", Type = typeof(string) },
@@ -73,9 +73,9 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void ConstEqConstString2()
+        public async Task ConstEqConstString2()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             var rule = new Rule
                 {
                     Left = new ConstantField { Value = "erymuzuan", Type = typeof(string) },
@@ -87,9 +87,9 @@ namespace domain.test.triggers
             Assert.IsTrue(result);
         }
         [Test]
-        public void ConstNeqConstString()
+        public async Task ConstNeqConstString()
         {
-            var building = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync();
             var rule = new Rule
                 {
                     Left = new ConstantField { Value = "erymuzuan", Type = typeof(string) },
@@ -97,13 +97,13 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = "Erymuzuan", Type = typeof(string) }
                 };
 
-            var result = rule.Execute(new RuleContext(building));
+            var result = rule.Execute(new RuleContext(customer));
             Assert.IsTrue(result);
         }
         [Test]
-        public void ConstNeqConstInteger()
+        public async Task ConstNeqConstInteger()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync();
             var rule = new Rule
                 {
                     Left = new ConstantField { Value = 500, Type = typeof(int) },
@@ -116,9 +116,9 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void ConstEqConst()
+        public async Task ConstEqConst()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             var rule = new Rule
                 {
                     Left = new ConstantField { Value = 500, Type = typeof(int) },
@@ -131,9 +131,9 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void ConstString()
+        public async Task ConstString()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             var rule = new Rule
             {
                 Left = new ConstantField { Value = "Mohd Ali", Type = typeof(string) },
@@ -146,9 +146,9 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void NotContainsString()
+        public async Task NotContainsString()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             var rule = new Rule
             {
                 Left = new ConstantField { Value = "Mohd Ali", Type = typeof(string) },
@@ -160,9 +160,9 @@ namespace domain.test.triggers
             Assert.IsTrue(result);
         }
         [Test]
-        public void NotContainsStringFalse()
+        public async Task NotContainsStringFalse()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             var rule = new Rule
             {
                 Left = new ConstantField { Value = "Mohd Ali", Type = typeof(string) },
@@ -175,9 +175,9 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void NotStartsWith()
+        public async Task NotStartsWith()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             var rule = new Rule
             {
                 Left = new ConstantField { Value = "Mohd Ali", Type = typeof(string) },
@@ -190,9 +190,9 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void NotEndsWith()
+        public async Task NotEndsWith()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             var rule = new Rule
             {
                 Left = new ConstantField { Value = "Mohd Ali", Type = typeof(string) },
@@ -208,10 +208,10 @@ namespace domain.test.triggers
 
 
         [Test]
-        public void ExecuteLinqValueOnDocumentField()
+        public async Task ExecuteLinqValueOnDocumentField()
         {
             var script = new RoslynScriptEngine();
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             customer.Revenue = 100m * 10;
             var field = new FunctionField { Script = "item.Revenue", ScriptEngine = script };
             var val = field.GetValue(new RuleContext(customer));
@@ -223,11 +223,11 @@ namespace domain.test.triggers
 
 
         [Test]
-        public void DocumentFieldEqConst()
+        public async Task DocumentFieldEqConst()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             customer.Rating = 6;
-            customer.CustomerId = 15;
+            customer.Id = "15";
 
             var doc = new DocumentField { Path = "Rating", Type = typeof(int) };
             var rule = new Rule
@@ -244,15 +244,15 @@ namespace domain.test.triggers
 
 
         [Test]
-        public void DocumentFieldLeConst()
+        public async Task DocumentFieldLeConst()
         {
-            var customer = this.GetCustomerInstance();
-            customer.CustomerId = 50;
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
+            customer.Id = "50";
             var rule = new Rule
                 {
-                    Left = new DocumentField { Path = "CustomerId", Type = typeof(int) },
+                    Left = new DocumentField { Path = "Id", Type = typeof(string) },
                     Operator = Operator.Le,
-                    Right = new ConstantField { Value = 500 }
+                    Right = new ConstantField { Value = "500" }
                 };
 
             var result = rule.Execute(new RuleContext(customer));
@@ -260,9 +260,9 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void DateTimeDocumentFieldLtConst()
+        public async Task DateTimeDocumentFieldLtConst()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             customer.CreatedDate = new DateTime(2010, 5, 5);
             var rule = new Rule
                 {
@@ -275,10 +275,10 @@ namespace domain.test.triggers
             Assert.IsTrue(result);
         }
         [Test]
-        public void DateTimeDocumentFieldEqConst()
+        public async Task DateTimeDocumentFieldEqConst()
         {
-            var customer = this.GetCustomerInstance();
-            customer. CreatedDate = new DateTime(2010, 5, 5) ;
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
+            customer.CreatedDate = new DateTime(2010, 5, 5);
             var rule = new Rule
                 {
                     Left = new DocumentField { Path = "CreatedDate", Type = typeof(DateTime) },
@@ -291,15 +291,15 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void DocumentFieldLtConst()
+        public async Task DocumentFieldLtConst()
         {
-            var customer = this.GetCustomerInstance();
-            customer.CustomerId = 300 ;
+            var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
+            customer.Id = "300";
             var rule = new Rule
                 {
-                    Left = new DocumentField { Path = "CustomerId", Type = typeof(int) },
+                    Left = new DocumentField { Path = "Id", Type = typeof(string) },
                     Operator = Operator.Lt,
-                    Right = new ConstantField { Value = 400 }
+                    Right = new ConstantField { Value = "400" }
                 };
 
             var result = rule.Execute(new RuleContext(customer));

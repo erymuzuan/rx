@@ -72,7 +72,7 @@ namespace domain.test.reports
         {
             var vd = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             var ed = vd.DeserializeFromJson<EntityDefinition>();
-            var type = CompileCustomerDefinition(ed);
+            var type =await CompileCustomerDefinitionAsync(ed).ConfigureAwait(false);
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
@@ -95,7 +95,7 @@ namespace domain.test.reports
             row.ReportColumnCollection.AddRange(colums);
             m_sql.FillColumnValue(json, row);
 
-            
+
             Console.WriteLine("FullName: " + row["FullName"].Value);
             Assert.AreEqual("erymuzuan", row["FullName"].Value);
             Assert.AreEqual("Kelantan", row["Address.State"].Value);
@@ -107,7 +107,7 @@ namespace domain.test.reports
         [Test]
         public async Task ExecuteAggregateProperties()
         {
-            const string path = "Tenant.Address.Street";
+            const string PATH = "Tenant.Address.Street";
             var count = "Sph".GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Contract]");
             Assert.IsTrue(count > 0, "Fuck no contract");
 
@@ -123,8 +123,8 @@ namespace domain.test.reports
             var rows = await rdl.ExecuteResultAsync();
 
             Assert.AreEqual(count, rows.Count);
-            Assert.IsTrue(rows[0].ReportColumnCollection.Any(c => c.Name == path));
-            var street = rows[0][path];
+            Assert.IsTrue(rows[0].ReportColumnCollection.Any(c => c.Name == PATH));
+            var street = rows[0][PATH];
             Assert.AreEqual(tenantStreet, street.Value as string);
 
 
@@ -174,25 +174,26 @@ namespace domain.test.reports
         }
 
 
-        private Type CompileCustomerDefinition(EntityDefinition ed)
+        private async Task<Type> CompileCustomerDefinitionAsync(EntityDefinition ed)
         {
-            var options = new CompilerOptions
+            using (var stream = new MemoryStream())
             {
-                IsVerbose = false,
-                IsDebug = true
-            };
 
+                var options = new CompilerOptions
+                {
+                    IsVerbose = false,
+                    IsDebug = true,
+                    Emit = true,
+                    Stream = stream
+                };
 
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\core.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+                var result = await ed.CompileAsync(options).ConfigureAwait(false);
+                result.Errors.ForEach(Console.WriteLine);
 
-            var result = ed.Compile(options);
-            result.Errors.ForEach(Console.WriteLine);
-
-            var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType("Bespoke.Dev_customer.Domain.Customer");
-            return type;
+                var assembly = Assembly.Load(stream.GetBuffer());
+                var type = assembly.GetType("Bespoke.Dev_customer.Domain.Customer");
+                return type;
+            }
         }
 
     }

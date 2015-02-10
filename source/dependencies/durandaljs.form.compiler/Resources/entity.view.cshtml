@@ -1,4 +1,7 @@
-﻿<h1>@Model.View.Name</h1>
+﻿@using Bespoke.Sph.Domain
+@inherits Bespoke.Sph.FormCompilers.DurandalJs.Template<Bespoke.Sph.FormCompilers.DurandalJs.EntityViewHtmlViewModel>
+
+<h1>@Model.View.Name</h1>
 <div class="row">
     <div class="col-md-8">
         <button class="btn btn-link pull-right" data-bind="visible: chartFiltered, click: clearChartFilter">
@@ -23,7 +26,7 @@
                     col.RouteValueField = Model.Definition.Name + "Id";
                     }
                     var format = string.IsNullOrWhiteSpace(col.Format) ? "text:{0}": col.Format;
-                    var binding = string.Format(col.Format, col.Path);
+                    var binding = string.Format(format, col.Path);
                     if(col.IsLinkColumn){
                     <td>
                         <a data-bind="attr : {href:'#@col.FormRoute' + '/' + @col.RouteValueField, title:'@col.Header' }">

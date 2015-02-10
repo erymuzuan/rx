@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
+using Humanizer;
 using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 
@@ -13,9 +14,13 @@ namespace Bespoke.Sph.Domain
 {
     public partial class WorkflowDefinition : IProjectProvider
     {
-        public string DefaultNamespace
+        public override string DefaultNamespace
         {
-            get { return this.CodeNamespace; }
+            get
+            {
+                var id = (this.Id.Humanize(LetterCasing.Title).Dehumanize());
+                return string.Format("Bespoke.Sph.Workflows_{0}_{1}", id, this.Version);
+            }
         }
 
         string IProjectProvider.Name
@@ -25,7 +30,7 @@ namespace Bespoke.Sph.Domain
 
 
         [JsonIgnore]
-        public MetadataReference[] References
+        public override MetadataReference[] References
         {
             get
             {
@@ -57,13 +62,13 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public IEnumerable<Class> GenerateCode()
+        public override Task<IEnumerable<Class>> GenerateCodeAsync()
         {
             var @classes = new List<Class>();
             var wcd = new Class
             {
                 Name = this.WorkflowTypeName,
-                Namespace = this.CodeNamespace,
+                Namespace = this.DefaultNamespace,
                 BaseClass = typeof(Workflow).FullName,
                 FileName = this.WorkflowTypeName + ".cs",
                 IsPartial = true
@@ -185,7 +190,7 @@ namespace Bespoke.Sph.Domain
                     {
                         IsPartial = true,
                         Name = this.WorkflowTypeName,
-                        Namespace = this.CodeNamespace,
+                        Namespace = this.DefaultNamespace,
                         FileName = this.WorkflowTypeName + "." + activity.MethodName.Replace("Async", "") + ".cs"
                     };
                     actPartial.ImportCollection.Add(typeof(Entity).Namespace);
@@ -202,7 +207,7 @@ namespace Bespoke.Sph.Domain
 
 
             var customSchemaCode = this.GenerateXsdCsharpClasses().ToList();
-            customSchemaCode.ForEach(c => c.Namespace = this.CodeNamespace);
+            customSchemaCode.ForEach(c => c.Namespace = this.DefaultNamespace);
             customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(DomainObject)));
             customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(DateTime)));
             customSchemaCode.ForEach(c => c.AddNamespaceImport(typeof(System.Xml.Serialization.XmlAttributeAttribute)));
@@ -219,7 +224,7 @@ namespace Bespoke.Sph.Domain
                 Name = string.Format("{0}Controller", this.WorkflowTypeName),
                 BaseClass = "Controller",
                 FileName = this.WorkflowTypeName + "Controller.cs",
-                Namespace = this.CodeNamespace,
+                Namespace = this.DefaultNamespace,
                 IsPartial = true
             };
             @controller.ImportCollection.Add("System.Web.Mvc");
@@ -234,10 +239,10 @@ namespace Bespoke.Sph.Domain
             @controller.MethodCollection.Add(this.GenerateSearchMethod());
             @classes.Add(@controller);
 
-            return @classes;
+            return Task.FromResult(@classes.AsEnumerable());
         }
 
-        public Task<IProjectModel> GetModelAsync()
+        public override Task<IProjectModel> GetModelAsync()
         {
             return Task.FromResult((IProjectModel)this);
         }

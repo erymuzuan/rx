@@ -11,7 +11,7 @@ namespace domain.test.triggers
         [Test]
         public async Task Email()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync();
             customer.FullName = "Mercedes";
             ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEnging());
             CustomAction email = new EmailAction
@@ -22,7 +22,7 @@ namespace domain.test.triggers
                 BodyTemplate = "What ever"
             };
             if (email.UseAsync)
-              await  email.ExecuteAsync(new RuleContext(customer));
+                await email.ExecuteAsync(new RuleContext(customer));
             else
                 email.Execute(new RuleContext(customer));
 
@@ -31,13 +31,13 @@ namespace domain.test.triggers
         [Test]
         public async Task EmailWithModel()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync();
             customer.FullName = "Ferarri";
             customer.Contact.Email = "ruzzaima@bespoke.com.my";
             ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEnging());
             CustomAction email = new EmailAction
             {
-                To ="@Model.Email" ,
+                To = "@Model.Email",
                 SubjectTemplate = "test @Model.FullName",
                 From = "admin@bespoke.com.my",
                 BodyTemplate = "What ever"

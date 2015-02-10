@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Codes;
 using ParameterDirection = System.Data.ParameterDirection;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -211,7 +212,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
-            options.AddReference(typeof(OracleConnection));
+            //options.AddReference(typeof(OracleConnection));
             var sources = new Dictionary<string, string>();
             foreach (var table in this.Tables)
             {
@@ -665,5 +666,14 @@ namespace Bespoke.Sph.Integrations.Adapters
             return Task.FromResult(result);
         }
 
+        public override string DefaultNamespace
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override Task<IEnumerable<Class>> GenerateCodeAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

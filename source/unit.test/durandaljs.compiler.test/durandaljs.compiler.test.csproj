@@ -72,6 +72,7 @@
     <Compile Include="DateTimeExpressionTextFixure.cs" />
     <Compile Include="DecimalExpressionTestFixture.cs" />
     <Compile Include="EntityFormViewModelTestFixture.cs" />
+    <Compile Include="EntityViewRendererTestFixture.cs" />
     <Compile Include="ForEachTestFixture.cs" />
     <Compile Include="ForTestFixture.cs" />
     <Compile Include="HtmlCompileHelper.cs" />
