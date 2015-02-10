@@ -54,7 +54,7 @@ namespace http.adapter.test
         {
             if (this.Adapter.OperationDefinitionCollection.Count == 0)
                 await this.OpenAsync();
-            var result = await this.Adapter.CompileAsync();
+            var result = await this.Adapter.CompileAsync(new CompilerOptions());
             Assert.IsTrue(File.Exists(result.Output));
             return result.Output;
         }

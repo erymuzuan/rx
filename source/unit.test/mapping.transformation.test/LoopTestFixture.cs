@@ -111,9 +111,7 @@ namespace mapping.transformation.test
 
 
             var options = new CompilerOptions();
-            var sourceCodes = td.GenerateCode();
-            var sourceFiles = td.SaveSources(sourceCodes);
-            var cr = await td.CompileAsync(options, sourceFiles);
+            var cr = await td.CompileAsync(options);
             Assert.IsTrue(cr.Result,"Cannot compile : " + cr.Errors);
             var mapType = Assembly.LoadFrom(cr.Output).GetType("Dev.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mapType);

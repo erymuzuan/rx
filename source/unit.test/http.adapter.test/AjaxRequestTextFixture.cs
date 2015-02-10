@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Integrations.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -53,7 +54,7 @@ namespace http.adapter.test
         {
             if (this.Adapter.OperationDefinitionCollection.Count == 0)
                 await this.OpenAsync();
-            var result = await this.Adapter.CompileAsync();
+            var result = await this.Adapter.CompileAsync(new CompilerOptions());
             Assert.IsTrue(File.Exists(result.Output));
             return result.Output;
         }

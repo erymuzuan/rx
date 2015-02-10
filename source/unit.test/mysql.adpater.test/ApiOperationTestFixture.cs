@@ -62,7 +62,7 @@ namespace mysql.adpater.test
 
             await m_adapter.OpenAsync();
 
-            var result = await m_adapter.CompileAsync();
+            var result = await m_adapter.CompileAsync(new CompilerOptions());
             m_dll = Assembly.LoadFile(result.Output);
             File.Copy(result.Output, bin, true);
             await Task.Delay(1000);

@@ -164,18 +164,17 @@ namespace Bespoke.Sph.Web.Controllers
             {
                 var options = new CompilerOptions
                 {
-                    SourceCodeDirectory = ConfigurationManager.UserSourceDirectory,
                     Emit = true,
                     Stream = stream
                 };
-                var result = ed.Compile(options);
+                var result = await ed.CompileAsync(options);
                 result.Errors.ForEach(Console.WriteLine);
                 if (!result.Result)
                     return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             if (generateSource)
             {
-                var codes = ed.GenerateCode();
+                var codes = await ed.GenerateCodeAsync();
                 ed.SaveSources(codes);
             }
 

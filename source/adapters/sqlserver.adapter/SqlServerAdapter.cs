@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Integrations.Adapters.Properties;
 
 namespace Bespoke.Sph.Integrations.Adapters
@@ -195,13 +196,13 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
 
         protected override Task<Dictionary<string, string>> GenerateSourceCodeAsync(CompilerOptions options, params string[] namespaces)
         {
-            options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
+            //options.AddReference(typeof(Microsoft.CSharp.RuntimeBinder.Binder));
             var sources = new Dictionary<string, string>();
             var header = this.GetCodeHeader(namespaces);
             foreach (var at in this.Tables)
             {
                 var table = this.TableDefinitionCollection.Single(t => t.Name == at.Name);
-                options.AddReference(typeof(SqlConnection));
+                //options.AddReference(typeof(SqlConnection));
                 var adapterName = table + "Adapter";
 
                 var code = new StringBuilder(header);
@@ -610,7 +611,16 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             return Task.FromResult(td);
         }
 
-        
+
+        public override string DefaultNamespace
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override Task<IEnumerable<Class>> GenerateCodeAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

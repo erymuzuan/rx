@@ -12,16 +12,20 @@ namespace domain.test.change.tracker
     [TestFixture]
     public class CustomEntityChangeTest
     {
-        private EntityDefinition GetCustomerEntityDefinition()
+        private static EntityDefinition GetCustomerEntityDefinition()
         {
             var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
-            return customerDefinition.DeserializeFromJson<EntityDefinition>();
+            var ed = customerDefinition.DeserializeFromJson<EntityDefinition>();
+            var attachment = ed.MemberCollection.Single(m => m.Name == "Contact").MemberCollection.Single(m => m.Name == "AttachmentCollection");
+            attachment.AllowMultiple = true;
+            attachment.TypeName = null;
+            return ed;
 
         }
 
-        private async Task<dynamic> GetCustomerInstanceAsync()
+        private static async Task<dynamic> GetCustomerInstanceAsync()
         {
-            var ed = this.GetCustomerEntityDefinition();
+            var ed = GetCustomerEntityDefinition();
             var type = await CustomerEntityHelper.CompileEntityDefinitionAsync(ed).ConfigureAwait(false);
             return CustomerEntityHelper.CreateCustomerInstance(type);
         }
@@ -29,7 +33,7 @@ namespace domain.test.change.tracker
         [Test]
         public async Task ChangeFullName()
         {
-            var c = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
+            var c = await GetCustomerInstanceAsync().ConfigureAwait(false);
             c.FullName = "1";
 
             var c1 = JsonSerializerService.JsonClone(c);
@@ -48,7 +52,7 @@ namespace domain.test.change.tracker
         [Test]
         public async Task ChangeAddressState()
         {
-            var c2 = await this.GetCustomerInstanceAsync();
+            var c2 = await GetCustomerInstanceAsync();
             c2.FullName = "1";
             c2.Address.State = "Selangor";
 
@@ -102,7 +106,7 @@ namespace domain.test.change.tracker
         [Test]
         public async Task CollectionChildItemAdded()
         {
-            var c2 = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
+            var c2 = await GetCustomerInstanceAsync().ConfigureAwait(false);
             c2.FullName = "erymuzuan";
             c2.Contact.Name = "wan fatimah";
 
@@ -134,7 +138,7 @@ namespace domain.test.change.tracker
             attachment.Title = "My essay";
             attachment.WebId = "ABC";
 
-            var c2 = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
+            var c2 = await GetCustomerInstanceAsync().ConfigureAwait(false);
             c2.FullName = "erymuzuan";
             c2.Contact.Name = "wan fatimah";
             c2.Contact.AttachmentCollection.Add(attachment);

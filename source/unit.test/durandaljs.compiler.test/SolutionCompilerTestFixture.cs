@@ -90,7 +90,7 @@ namespace durandaljs.compiler.test
 
         [Test]
         [Trace(Verbose = false)]
-        public void GenerateCodeEntityDefinitionModelWithAggregate()
+        public async Task GenerateCodeEntityDefinitionModelWithAggregate()
         {
             var course = this.CreateCourseInstance();
             var tutor = new Member { Name = "Tutor" };
@@ -106,7 +106,7 @@ namespace durandaljs.compiler.test
             tutor.MemberCollection.Add(experiences);
             course.MemberCollection.Add(tutor);
 
-            var codes = course.GenerateCode().ToList();
+            var codes = (await course.GenerateCodeAsync()).ToList();
             Assert.AreEqual(1, codes.Count(x => x.Name == "Tutor"));
 
             var @class = codes.Single(x => x.Name == "Tutor");
@@ -117,7 +117,7 @@ namespace durandaljs.compiler.test
 
         [Test]
         [Trace(Verbose = false)]
-        public void GenerateCodeEntityDefinitionWithCollection()
+        public async Task GenerateCodeEntityDefinitionWithCollection()
         {
             var course = this.CreateCourseInstance();
             var ratings = new Member { Name = "RatingCollection", AllowMultiple = true };
@@ -127,7 +127,7 @@ namespace durandaljs.compiler.test
             course.MemberCollection.Add(ratings);
 
 
-            var codes = course.GenerateCode().ToList();
+            var codes =(await course.GenerateCodeAsync()).ToList();
             codes.ForEach(Console.WriteLine);
             Assert.AreEqual(1, codes.Count(x => x.Name == "Rating"));
 
@@ -137,7 +137,7 @@ namespace durandaljs.compiler.test
         }
         [Test]
         [Trace(Verbose = false)]
-        public void GenerateCodeEntityDefinitionWithPlural()
+        public async Task GenerateCodeEntityDefinitionWithPlural()
         {
             var course = this.CreateCourseInstance();
             var ratings = new Member { Name = "Ratings", AllowMultiple = true };
@@ -147,7 +147,7 @@ namespace durandaljs.compiler.test
             course.MemberCollection.Add(ratings);
 
 
-            var codes = course.GenerateCode().ToList();
+            var codes = (await course.GenerateCodeAsync()).ToList();
             codes.ForEach(Console.WriteLine);
             Assert.AreEqual(1, codes.Count(x => x.Name == "Rating"));
 
@@ -310,7 +310,7 @@ namespace durandaljs.compiler.test
 
 
         }
-        
+
 
         [Test]
         [Trace(Verbose = false)]

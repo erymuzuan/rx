@@ -13,10 +13,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         private static string ExtractScriptFromHtml(string html)
         {
-            const RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline;
+            const RegexOptions OPTION = RegexOptions.IgnoreCase | RegexOptions.Singleline;
 
             var matches = Regex.Matches(html,
-                @"<script type=\""text/javascript\"" data-script=\""true\"">(?<script>.*?)</script>", option);
+                @"<script type=\""text/javascript\"" data-script=\""true\"">(?<script>.*?)</script>", OPTION);
             if (matches.Count == 1)
                 return matches[0].Groups["script"].Value;
             if (matches.Count == 0)

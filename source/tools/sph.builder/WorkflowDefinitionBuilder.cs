@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 
 namespace sph.builder
@@ -42,25 +41,10 @@ namespace sph.builder
             return true;
         }
 
-        private void Compile(WorkflowDefinition item)
+        private async Task CompileAsync(WorkflowDefinition item)
         {
-            var options = new CompilerOptions
-            {
-                SourceCodeDirectory = ConfigurationManager.SphSourceDirectory
-            };
-            options.ReferencedAssembliesLocation.Add(typeof(Controller).Assembly.Location);
-            options.ReferencedAssembliesLocation.Add(ConfigurationManager.CorePath + @"\bin\core.sph.dll");
-            options.ReferencedAssembliesLocation.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly.Location);
-            var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
-            var customDllPattern = ConfigurationManager.ApplicationName + ".*.dll";
-            var entityAssembiles = Directory.GetFiles(outputPath, customDllPattern);
-            foreach (var dll in entityAssembiles)
-            {
-                options.ReferencedAssembliesLocation.Add(dll);
-            }
-
-
-            var result = item.Compile(options);
+            var options = new CompilerOptions();
+            var result = await item.CompileAsync(options).ConfigureAwait(false);
             result.Errors.ForEach(Console.WriteLine);
 
             this.Deploy(item);
@@ -88,7 +72,9 @@ namespace sph.builder
 
             return screens.Select(scr => new ScreenActivityForm
             {
-                WorkflowDefinitionId = wd.Id, Version = wd.Version, WebId = Guid.NewGuid().ToString()
+                WorkflowDefinitionId = wd.Id,
+                Version = wd.Version,
+                WebId = Guid.NewGuid().ToString()
             }).ToList();
 
         }
@@ -103,7 +89,7 @@ namespace sph.builder
             await this.InsertAsync(wd);
             try
             {
-                this.Compile(wd);
+                await this.CompileAsync(wd).ConfigureAwait(false);
             }
             catch (Exception e)
             {

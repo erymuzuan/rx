@@ -132,7 +132,7 @@ namespace mapping.transformation.test
                 WebId = FORMATTING_FUNCTOID
             };
             ff.Initialize();
-            var sfff = new SourceFunctoid {Field = "CreatedDate", WebId = Guid.NewGuid().ToString()};
+            var sfff = new SourceFunctoid { Field = "CreatedDate", WebId = Guid.NewGuid().ToString() };
             ff["value"].Functoid = sfff.WebId;
             td.FunctoidCollection.Add(sfff);
             td.FunctoidCollection.Add(ff);
@@ -144,9 +144,7 @@ namespace mapping.transformation.test
             });
 
             var options = new CompilerOptions();
-            var codes = td.GenerateCode();
-            var sources = td.SaveSources(codes);
-            var result = await td.CompileAsync(options, sources);
+            var result = await td.CompileAsync(options);
             if (!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(result.Result, "Compiler fails");
@@ -211,7 +209,7 @@ namespace mapping.transformation.test
             var sc0 = new StringConcateFunctoid { WebId = "sc0" };
             var space = new ConstantFunctoid { Value = " ", Type = typeof(string), WebId = "space" };
             var bin = new ConstantFunctoid { Value = "bin", Type = typeof(string), WebId = "bin" };
-            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "1", Functoid = space.WebId ,});
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "1", Functoid = space.WebId, });
             sc0.ArgumentCollection.Add(new FunctoidArg { Name = "2", Functoid = bin.WebId });
             sc0.ArgumentCollection.Add(new FunctoidArg { Name = "3", Functoid = space.WebId });
 
@@ -232,9 +230,7 @@ namespace mapping.transformation.test
             });
 
             var options = new CompilerOptions();
-            var codes = td.GenerateCode();
-            var sources = td.SaveSources(codes);
-            var result = await td.CompileAsync(options, sources);
+            var result = await td.CompileAsync(options);
             if (!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
 
@@ -292,9 +288,7 @@ namespace mapping.transformation.test
             });
 
             var options = new CompilerOptions();
-            var codes = td.GenerateCode();
-            var sources = td.SaveSources(codes);
-            var result = await td.CompileAsync(options, sources);
+            var result = await td.CompileAsync(options);
             if (!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
 
@@ -308,8 +302,8 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual("Erymuzuan bin Mustapa", output.FullName);
 
-        }  
-        
+        }
+
         [TestMethod]
         public async Task FormatObjectMapping()
         {
@@ -360,9 +354,7 @@ namespace mapping.transformation.test
             });
 
             var options = new CompilerOptions();
-            var codes = td.GenerateCode();
-            var sources = td.SaveSources(codes);
-            var result = await td.CompileAsync(options, sources);
+            var result = await td.CompileAsync(options);
             if (!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
 
@@ -376,7 +368,7 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual("RM 4500.00", output.FullName);
 
-        }  
+        }
         [TestMethod]
         public async Task ParseDateMapping()
         {
@@ -416,7 +408,7 @@ namespace mapping.transformation.test
             };
             td.AddFunctoids(phoneNumber);
             parseDate["value"].Functoid = phoneNumber.WebId;
-            
+
             td.MapCollection.Add(new FunctoidMap
             {
                 Functoid = parseDate.WebId,
@@ -425,9 +417,7 @@ namespace mapping.transformation.test
             });
 
             var options = new CompilerOptions();
-            var codes = td.GenerateCode();
-            var sources = td.SaveSources(codes);
-            var result = await td.CompileAsync(options, sources);
+            var result = await td.CompileAsync(options);
             if (!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
 
@@ -439,10 +429,10 @@ namespace mapping.transformation.test
 
             var output = await map.TransformAsync(staff);
             Assert.IsNotNull(output);
-            Assert.AreEqual(new DateTime(2014,5,1), output.RegisteredDate);
+            Assert.AreEqual(new DateTime(2014, 5, 1), output.RegisteredDate);
 
-        }  
-        
+        }
+
         [TestMethod]
         public async Task ParseDecimalMapping()
         {
@@ -482,7 +472,7 @@ namespace mapping.transformation.test
             };
             td.AddFunctoids(phoneNumber);
             parseDecimal["value"].Functoid = phoneNumber.WebId;
-            
+
             td.MapCollection.Add(new FunctoidMap
             {
                 Functoid = parseDecimal.WebId,
@@ -491,9 +481,7 @@ namespace mapping.transformation.test
             });
 
             var options = new CompilerOptions();
-            var codes = td.GenerateCode();
-            var sources = td.SaveSources(codes);
-            var result = await td.CompileAsync(options, sources);
+            var result = await td.CompileAsync(options);
             if (!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
 
@@ -507,7 +495,7 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual(4589m, output.Revenue);
 
-        }  
+        }
 
         [TestMethod]
         public async Task ParseDoubleMapping()
@@ -559,7 +547,7 @@ namespace mapping.transformation.test
             };
             td.AddFunctoids(phoneNumber);
             parseDouble["value"].Functoid = phoneNumber.WebId;
-            
+
             td.MapCollection.Add(new FunctoidMap
             {
                 Functoid = ff.WebId,
@@ -568,9 +556,7 @@ namespace mapping.transformation.test
             });
 
             var options = new CompilerOptions();
-            var codes = td.GenerateCode();
-            var sources = td.SaveSources(codes);
-            var result = await td.CompileAsync(options, sources);
+            var result = await td.CompileAsync(options);
             if (!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
 
@@ -584,7 +570,7 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual("Nama : 4589", output.FullName);
 
-        }  
+        }
 
         [TestMethod]
         public async Task ParseInt32Mapping()
@@ -625,7 +611,7 @@ namespace mapping.transformation.test
             };
             td.AddFunctoids(phoneNumber);
             parseInt32["value"].Functoid = phoneNumber.WebId;
-            
+
             td.MapCollection.Add(new FunctoidMap
             {
                 Functoid = parseInt32.WebId,
@@ -634,9 +620,7 @@ namespace mapping.transformation.test
             });
 
             var options = new CompilerOptions();
-            var codes = td.GenerateCode();
-            var sources = td.SaveSources(codes);
-            var result = await td.CompileAsync(options, sources);
+            var result = await td.CompileAsync(options);
             if (!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
 
@@ -650,8 +634,8 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual(4589, output.CustomerId);
 
-        }  
-        
+        }
+
         [TestMethod]
         public async Task ChildItemMapping()
         {
@@ -684,9 +668,7 @@ namespace mapping.transformation.test
             });
 
             var options = new CompilerOptions();
-            var codes = td.GenerateCode();
-            var sources = td.SaveSources(codes);
-            var result = await td.CompileAsync(options, sources);
+            var result = await td.CompileAsync(options);
             if (!result.Result)
                 result.Errors.ForEach(Console.WriteLine);
 
@@ -701,6 +683,6 @@ namespace mapping.transformation.test
             Assert.AreEqual("erymuzuan@hotmail.com", output.Contact.Email);
 
         }
-        
+
     }
 }

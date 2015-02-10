@@ -64,7 +64,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (validationErrors.Any())
                 return Json(validationErrors);
             adapter.Tables = new AdapterTable[] { };
-            var result = await adapter.CompileAsync();
+            var result = await adapter.CompileAsync(new CompilerOptions());
 
             var context = new SphDataContext();
             var adapters = context.CreateQueryable<Adapter>();
@@ -95,7 +95,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 return Json(validationErrors);
 
             await adapter.OpenAsync();
-            var result = await adapter.CompileAsync();
+            var result = await adapter.CompileAsync(new CompilerOptions());
 
             return Ok(new
             {

@@ -19,10 +19,9 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(exp);
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
 
-            var result =await this.CompileAsync(wd, true, assertError: false).ConfigureAwait(false);
+            var result =await this.CompileAsync(wd, true, false).ConfigureAwait(false);
 
             Assert.IsFalse(result.Result);
-            Assert.AreEqual(1, result.Errors.Count);
             StringAssert.Contains("; expected", result.Errors[0].Message);
             StringAssert.Contains(exp.Expression, result.Errors[0].Code);
             Assert.AreEqual(exp.WebId, result.Errors[0].ItemWebId);

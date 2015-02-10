@@ -335,7 +335,7 @@
     <Compile Include="Areas\Sph\Controllers\DesignationController.cs" />
     <Compile Include="Areas\Sph\Controllers\ReportDeliveryController.cs" />
     <Compile Include="Areas\Sph\Controllers\JavascriptTestController.cs" />
-    <Compile Include="Areas\Sph\Controllers\WorkflowDefinitionController.cs" />
+    <Compile Include="Controllers\WorkflowDefinitionController.cs" />
     <Compile Include="Areas\Sph\Controllers\WorkflowController.cs" />
     <Compile Include="Areas\Sph\Controllers\WorkflowMonitorController.cs" />
     <Compile Include="Controllers\EntityFormController.cs" />

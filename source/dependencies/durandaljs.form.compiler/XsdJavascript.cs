@@ -50,7 +50,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             code.AppendLinf("bespoke.sph.wf.{0}.{1} = function(webid){{", m_wd.WorkflowTypeName, name);
             code.AppendLine("   var model = {");
-            properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", m_wd.CodeNamespace, name, m_wd.Id, m_wd.Version));
+            properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", m_wd.DefaultNamespace, name, m_wd.Id, m_wd.Version));
             properties.Add("        \"WebId\": ko.observable(webid)");
 
 
@@ -81,7 +81,7 @@ return model;", m_wd.WorkflowTypeName, name);
 
             code.AppendLinf("bespoke.sph.wf.{0}.{1} = function(webid){{", m_wd.WorkflowTypeName, name);
             code.AppendLine("   var model = {");
-            properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", m_wd.CodeNamespace, name, m_wd.Id, m_wd.Version));
+            properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", m_wd.DefaultNamespace, name, m_wd.Id, m_wd.Version));
             properties.Add("         \"WebId\": ko.observable(webid)");
 
 

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Domain;
 using Humanizer;
 using Oracle.ManagedDataAccess.Client;
 
@@ -76,7 +77,7 @@ WHERE FK.CONSTRAINT_TYPE = 'R'
                                 {
                                     src_table_name = reader.GetOracleString(0).Value,
                                     fk_table_name = reader.GetOracleString(1).Value,
-                                    parent = reader.GetOracleString(1).Value.Singularize(),
+                                    parent = InflectorExtensions.Singularize(reader.GetOracleString(1).Value),
                                     src_constraint_name = reader.GetOracleString(2).Value,
                                     fk_constraint_name = reader.GetOracleString(3).Value,
                                 };
@@ -114,7 +115,7 @@ WHERE FK.CONSTRAINT_TYPE = 'R'
                 return Json(valid);
 
             await ora.OpenAsync();
-            var result = await ora.CompileAsync();
+            var result = await ora.CompileAsync(new CompilerOptions());
             this.Response.ContentType = "application/json";
             return Json(new
             {

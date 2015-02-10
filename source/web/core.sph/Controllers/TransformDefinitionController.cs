@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -55,17 +54,8 @@ namespace Bespoke.Sph.Web.Controllers
                 return Json(erros);
 
 
-            var options = new CompilerOptions
-            {
-                SourceCodeDirectory = ConfigurationManager.UserSourceDirectory
-            };
-            options.AddReference<Controller>();
-            options.AddReference<TransformDefinitionController>();
-            options.AddReference<JsonConverter>();
-
-            var codes = map.GenerateCode();
-            var sources = map.SaveSources(codes);
-            var result = await map.CompileAsync(options, sources);
+            var options = new CompilerOptions();
+            var result = await map.CompileAsync(options);
 
             result.Errors.ForEach(Console.WriteLine);
             if (!result.Result)

@@ -62,7 +62,7 @@ namespace sqlserver.adapter.test
 
             await m_sql.OpenAsync();
 
-            var result = await m_sql.CompileAsync();
+            var result = await m_sql.CompileAsync(new CompilerOptions());
             m_dll = Assembly.LoadFile(result.Output);
             File.Copy(result.Output, bin, true);
             Console.WriteLine("copying files");
