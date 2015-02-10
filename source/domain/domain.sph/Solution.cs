@@ -168,7 +168,7 @@ namespace Bespoke.Sph.Domain
             var solution = new Solution { Name = ConfigurationManager.ApplicationFullName, Path = path };
 
             var lo = await context.LoadAsync(context.EntityDefinitions);
-            var eds = (from t in lo.ItemCollection
+            var projects = (from t in lo.ItemCollection
                        select new ProjectMetadata
                        {
                            Name = t.Name,
@@ -176,38 +176,47 @@ namespace Bespoke.Sph.Domain
                            TypeName = typeof(EntityDefinition).GetShortAssemblyQualifiedName()
 
                        }).ToList();
-            foreach (var ed in eds)
+            foreach (var prj in projects)
             {
-                var ed1 = ed;
-                var formsLo = await context.LoadAsync(context.EntityForms.Where(f => f.Entity == ed1.Name));
+                var prj1 = prj;
+                var ed = lo.ItemCollection.Single(x => x.Name == prj1.Name);
+                var formsLo = await context.LoadAsync(context.EntityForms.Where(f => f.EntityDefinitionId == ed.Id));
                 var forms = from f in formsLo.ItemCollection
                             select new ProjectChildItem
                             {
                                 Name = f.Name,
-                                TypeName = typeof(EntityForm).GetShortAssemblyQualifiedName()
+                                TypeName = typeof(EntityForm).Name
                             };
 
-                var views = from f in formsLo.ItemCollection
+                var viewLo = await context.LoadAsync(context.EntityViews.Where(f => f.EntityDefinitionId == ed.Id));
+                var views = from f in viewLo.ItemCollection
                             select new ProjectChildItem
                             {
                                 Name = f.Name,
-                                TypeName = typeof(EntityView).GetShortAssemblyQualifiedName()
+                                TypeName = typeof(EntityView).Name
                             };
 
-                var operations = from f in formsLo.ItemCollection
+                var operations = from f in ed.EntityOperationCollection
                             select new ProjectChildItem
                             {
                                 Name = f.Name,
-                                TypeName = typeof(EntityOperation).GetShortAssemblyQualifiedName()
+                                TypeName = typeof(EntityOperation).Name
                             };
 
-                ed.ChildItemCollection.AddRange(forms);
-                ed.ChildItemCollection.AddRange(views);
-                ed.ChildItemCollection.AddRange(operations);
-                //ed.ChildItemCollection.AddRange(rules);
+                var rules = from f in ed.BusinessRuleCollection
+                            select new ProjectChildItem
+                            {
+                                Name = f.Name,
+                                TypeName = typeof(BusinessRule).Name
+                            };
+
+                prj.ChildItemCollection.AddRange(forms);
+                prj.ChildItemCollection.AddRange(views);
+                prj.ChildItemCollection.AddRange(operations);
+                prj.ChildItemCollection.AddRange(rules);
             }
 
-            solution.ProjectMetadataCollection.AddRange(eds);
+            solution.ProjectMetadataCollection.AddRange(projects);
 
             return solution;
         }
