@@ -15,7 +15,7 @@ namespace subscriber.entities
     {
         public override string QueueName
         {
-            get { return "ed_sql_table"; }
+            get { return "ed_sql_table2"; }
         }
 
         public override string[] RoutingKeys
