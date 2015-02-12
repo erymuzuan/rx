@@ -325,7 +325,7 @@ namespace durandaljs.compiler.test
             });
 
 
-            var members = work.Members.ToList();
+            var members = work.GetMembers().ToList();
             Assert.AreEqual(1, members.Count);
             var pemohon = members.First();
             Assert.AreEqual("Pemohon", pemohon.Name);
@@ -353,7 +353,7 @@ namespace durandaljs.compiler.test
             for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("iteration : {0}", i + 1);
-                var members = work.Members.ToList();
+                var members = work.GetMembers().ToList();
                 Assert.AreEqual(1, members.Count);
                 var pesakit = members.First();
                 Assert.AreEqual("Pesakit", pesakit.Name);

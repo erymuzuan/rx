@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
 using Microsoft.CodeAnalysis;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -19,14 +18,12 @@ namespace Bespoke.Sph.Domain
             get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.Id); }
         }
 
-        [JsonIgnore]
-        public override MetadataReference[] References
+        public override MetadataReference[] GetMetadataReferences()
         {
-            get
-            {
-                const string SYSTEM_WEB = "System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
-                var mvc = Path.Combine(ConfigurationManager.WebPath, @"bin\System.Web.Http.dll");
-                var references = new List<MetadataReference>
+
+            const string SYSTEM_WEB = "System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
+            var mvc = Path.Combine(ConfigurationManager.WebPath, @"bin\System.Web.Http.dll");
+            var references = new List<MetadataReference>
                 {
                     this.CreateMetadataReference<System.Net.WebClient>(),
                     this.CreateMetadataReference<System.Net.Mail.SmtpClient>(),
@@ -40,9 +37,9 @@ namespace Bespoke.Sph.Domain
                     this.CreateMetadataFromFile(mvc),
                     MetadataReference.CreateFromAssembly(Assembly.Load(SYSTEM_WEB))
                 };
-                return references.ToArray();
+            return references.ToArray();
 
-            }
+
         }
 
         public override Task<IEnumerable<Class>> GenerateCodeAsync()
@@ -355,6 +352,6 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public IEnumerable<Member> Members { get { return this.MemberCollection; } }
+        public IEnumerable<Member> GetMembers() {  return this.MemberCollection;  }
     }
 }

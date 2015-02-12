@@ -6,16 +6,15 @@ namespace Bespoke.Sph.Domain
     public partial class WorkflowDefinition : IProjectModel
     {
         string IProjectModel.Name { get { return this.WorkflowTypeName; } }
-        public IEnumerable<Member> Members
+        public IEnumerable<Member> GetMembers()
         {
-            get
-            {
-                var members = this.VariableDefinitionCollection
-                    .Select(v => v.CreateMember(this))
-                    .ToList();
 
-                return members;
-            }
+            var members = this.VariableDefinitionCollection
+                .Select(v => v.CreateMember(this))
+                .ToList();
+
+            return members;
+
         }
     }
 }

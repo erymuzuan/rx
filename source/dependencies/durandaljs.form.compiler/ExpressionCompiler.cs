@@ -70,7 +70,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var compilation = CSharpCompilation.Create("eval")
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
-                .AddReferences(project.References)
+                .AddReferences(project.GetMetadataReferences())
                 .AddSyntaxTrees(trees.ToArray());
 
             var model = compilation.GetSemanticModel(snippet);

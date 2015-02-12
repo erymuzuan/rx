@@ -15,11 +15,10 @@ namespace Bespoke.Sph.Domain
 
         public virtual string Name { get; set; }
 
-        public virtual MetadataReference[] References
+        public virtual MetadataReference[] GetMetadataReferences()
         {
-            get
-            {
-                var references = new List<MetadataReference>
+
+            var references = new List<MetadataReference>
                 {
                     this.CreateMetadataReference<object>(),
                     this.CreateMetadataReference<WorkflowDefinition>(),
@@ -27,8 +26,8 @@ namespace Bespoke.Sph.Domain
                     this.CreateMetadataReference<DataTableConverter>(),
                     this.CreateMetadataReference<EnumerableQuery>()
                 };
-                return references.ToArray();
-            }
+            return references.ToArray();
+
         }
 
         public abstract Task<IEnumerable<Class>> GenerateCodeAsync();
@@ -43,13 +42,13 @@ namespace Bespoke.Sph.Domain
             var project = (IProjectProvider)this;
             var projectDocuments = (await project.GenerateCodeAsync()).ToList();
             var trees = (from c in projectDocuments
-                let x = c.GetCode()
-                let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)
-                select CSharpSyntaxTree.Create(root.GetRoot(), path: c.FileName)).ToList();
+                         let x = c.GetCode()
+                         let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)
+                         select CSharpSyntaxTree.Create(root.GetRoot(), path: c.FileName)).ToList();
 
             var compilation = CSharpCompilation.Create(string.Format("{0}.{1}", ConfigurationManager.ApplicationName, this.Id))
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
-                .AddReferences(project.References)
+                .AddReferences(project.GetMetadataReferences())
                 .AddSyntaxTrees(trees);
 
             var errors = compilation.GetDiagnostics()

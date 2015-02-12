@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,7 +82,7 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
             script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", model.DefaultNamespace, model.Name, assemblyName);
             script.AppendLine("     Id : ko.observable(\"0\"),");
 
-            var membersDeclarations = model.Members.Select(m => "     " + m.GetMemberDeclaration(jsNamespace));
+            var membersDeclarations = model.GetMembers().Select(m => "     " + m.GetMemberDeclaration(jsNamespace));
             script.AppendLine(string.Join(", \r\n", membersDeclarations) + ",");
             script.AppendFormat(AddRemoveChildItemFunctions);
             script.AppendLine("     WebId : ko.observable()");
@@ -98,14 +97,14 @@ namespace Bespoke.Sph.FormCompilers.DurandalJs
 
             var generated = new List<string>();
             // unknown member types
-            foreach (var mb in model.Members.Where(m => m.IsComplex && !string.IsNullOrWhiteSpace(m.InferredType)))
+            foreach (var mb in model.GetMembers().Where(m => m.IsComplex && !string.IsNullOrWhiteSpace(m.InferredType)))
             {
                 var code = this.GenerateJavascriptClass(mb, jsNamespace, model.DefaultNamespace, assemblyName, generated);
                 generated.Add(mb.InferredType);
                 script.AppendLine(code);
             }
             // known member types
-            foreach (var mb in model.Members.Where(m => m.IsComplex && !string.IsNullOrWhiteSpace(m.TypeName)))
+            foreach (var mb in model.GetMembers().Where(m => m.IsComplex && !string.IsNullOrWhiteSpace(m.TypeName)))
             {
                 var code = this.GenerateJavascriptClass(mb, jsNamespace, model.DefaultNamespace, assemblyName, generated);
                 generated.Add(mb.Type.Name);

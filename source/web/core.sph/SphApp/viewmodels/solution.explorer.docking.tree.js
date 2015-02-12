@@ -8,8 +8,8 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/router'],
-    function (context, logger, dialog, router) {
+define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/router', objectbuilders.system],
+    function (context, logger, dialog, router, system) {
         var items = ko.observableArray(),
             triggers = ko.observableArray(),
             wds = ko.observableArray(),
@@ -22,18 +22,19 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                 console.log("solution.explorer.docking.tree.js activate 2");
 
             },
-            attached = function(view) {
+            attached = function (view) {
+
                 console.log("solution.explorer.docking.tree.js attached 1");
                 var eds = [];
                 var defaultEds = [
-                    { "id": "EntityDefinition", "parent": "#", "text": "Entity Definitions", icon: "fa fa-file" },
-                    { "id": "WorkflowDefinition", "parent": "#", "text": "Workflow Definitions", icon: "fa fa-file" },
-                    { "id": "TransformDefinition", "parent": "#", "text": "Transform Definitions", icon: "fa fa-file" },
-                    { "id": "Adapter", "parent": "#", "text": "Adapters", icon: "fa fa-file" },
-                    { "id": "Trigger", "parent": "#", "text": "Triggers", icon: "fa fa-file" }
+                    { "id": "EntityDefinition", "parent": "#", "text": "Entity Definitions", icon: "fa fa-file", data: { TypeName: "#"} },
+                    { "id": "WorkflowDefinition", "parent": "#", "text": "Workflow Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
+                    { "id": "TransformDefinition", "parent": "#", "text": "Transform Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
+                    { "id": "Adapter", "parent": "#", "text": "Adapters", icon: "fa fa-file", data: { TypeName: "#" } },
+                    { "id": "Trigger", "parent": "#", "text": "Triggers", icon: "fa fa-file", data: { TypeName: "#" } }
                 ];
 
-                $.get("/Solution/open/asdasd", function (data) {
+                return $.get("/Solution/open/asdasd", function (data) {
 
                     _.each(data.ProjectMetadataCollection, function(pmd) {
                         eds.push({
@@ -61,7 +62,11 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                                 id: cic.Name,
                                 text: cic.Name,
                                 parent: pmd.Name,
-                                icon : icon
+                                icon: icon,
+                                data : {
+                                    TypeName: cic.TypeName
+                                }
+                                
                             });
                         });
 
@@ -73,11 +78,10 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                     $('#jstree_demo_div').jstree({
                         'core': {
                             'data': defaultEds.concat(eds)
-                },
+                        },
                         "plugins": ["contextmenu", "search"],
                         "contextmenu": {
                             "items": function (node) {
-                                console.log(node);
 
                                 if (node.id === "EntityDefinition") {
                                     return {
@@ -152,6 +156,23 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                             }
                         }
                     });
+
+                    $('#jstree_demo_div').on("select_node.jstree", function(e, data) {
+                        e.stopPropagation();
+                        if (data.node.parent === "EntityDefinition") {
+                            return router.navigate('entity.details/'+ data.node.id);
+                        } else if (data.node.data.TypeName === "EntityForm") {
+                            return router.navigate('entity.form.designer/' + data.node.parentNode +"/"+ data.node.id);
+                        } else if (data.node.data.TypeName === "EntityOperation") {
+                            return router.navigate('entity.operation.details/' + data.node.parentNode + "/" + data.node.id);
+                        } else if (data.node.data.TypeName === "EntityView") {
+                            return router.navigate('entity.view.designer/' + data.node.parentNode + "/" + data.node.id);
+                        } else if (data.node.data.TypeName === "BusinessRule") {
+                            return router.navigate('entity.details/' + data.node.parentNode);
+                        }
+
+
+                    });
                 });
 
                 
@@ -172,7 +193,23 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                 activate();
             },
             addEntityDefinition = function() {
-                return router.navigate('entity.details/0');
+                //return router.navigate('entity.details/0');
+                //var entity = new bespoke.sph.domain.EntityDefinition(system.guid());
+
+                require(['viewmodels/entity.details.add', 'durandal/app'], function (dialog, app2) {
+                    //dialog.correlationType(correlationType);
+                    if (typeof dialog.wd === "function") {
+                        //dialog.wd(self);
+                    }
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                //self.CorrelationTypeCollection.push(correlationType);
+                            }
+                        });
+
+                });
             },
             addBlogForm = function(name) {
                 return router.navigate('/entity.form.designer/' + name + '/0');

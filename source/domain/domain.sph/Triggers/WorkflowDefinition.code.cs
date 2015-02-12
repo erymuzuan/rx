@@ -29,37 +29,35 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        [JsonIgnore]
-        public override MetadataReference[] References
+        public override MetadataReference[] GetMetadataReferences()
         {
-            get
-            {
-                var localReferences = from v in this.ReferencedAssemblyCollection
-                                      where !v.IsGac
-                                      let location = Path.Combine(ConfigurationManager.WebPath, @"bin\" + Path.GetFileName(v.Location))
-                                      select MetadataReference.CreateFromFile(location);
+
+            var localReferences = from v in this.ReferencedAssemblyCollection
+                                  where !v.IsGac
+                                  let location = Path.Combine(ConfigurationManager.WebPath, @"bin\" + Path.GetFileName(v.Location))
+                                  select MetadataReference.CreateFromFile(location);
 
 
-                var gacReferences = from v in this.ReferencedAssemblyCollection
-                                    where v.IsGac
-                                    let name = new AssemblyName(v.FullName)
-                                    let dll = Assembly.Load(name)
-                                    select MetadataReference.CreateFromAssembly(dll);
+            var gacReferences = from v in this.ReferencedAssemblyCollection
+                                where v.IsGac
+                                let name = new AssemblyName(v.FullName)
+                                let dll = Assembly.Load(name)
+                                select MetadataReference.CreateFromAssembly(dll);
 
-                var references = localReferences.Concat(gacReferences).ToList();
+            var references = localReferences.Concat(gacReferences).ToList();
 
 
-                references.AddMetadataReference<System.Net.WebClient>()
-                    .AddMetadataReference<System.Xml.Serialization.XmlAnyAttributeAttribute>()
-                    .AddMetadataReference<WorkflowDefinition>()
-                    .AddMetadataReference<System.Net.Http.HttpClient>()
-                    .AddMetadataReference<System.Web.Routing.RouteValueDictionary>()
-                    .AddMetadataReference<EnumerableQuery>()
-                    .AddMetadataReference<System.Net.Mail.SmtpClient>();
-                references.Add(MetadataReference.CreateFromAssembly(Assembly.Load("mscorlib")));
+            references.AddMetadataReference<System.Net.WebClient>()
+                .AddMetadataReference<System.Xml.Serialization.XmlAnyAttributeAttribute>()
+                .AddMetadataReference<WorkflowDefinition>()
+                .AddMetadataReference<System.Net.Http.HttpClient>()
+                .AddMetadataReference<System.Web.Routing.RouteValueDictionary>()
+                .AddMetadataReference<EnumerableQuery>()
+                .AddMetadataReference<System.Net.Mail.SmtpClient>();
+            references.Add(MetadataReference.CreateFromAssembly(Assembly.Load("mscorlib")));
 
-                return references.ToArray();
-            }
+            return references.ToArray();
+
         }
 
         public override Task<IEnumerable<Class>> GenerateCodeAsync()

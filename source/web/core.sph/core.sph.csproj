@@ -350,6 +350,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ApiHelpers.cs" />
     <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\HashTableHelper.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />

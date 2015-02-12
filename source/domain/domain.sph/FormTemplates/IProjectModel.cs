@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain
     /// </summary>
     public interface IProjectModel
     {
-        IEnumerable<Member> Members { get; }
+        IEnumerable<Member> GetMembers();
         string Name { get; }
         string DefaultNamespace { get;  }
         string Id { get;  }
