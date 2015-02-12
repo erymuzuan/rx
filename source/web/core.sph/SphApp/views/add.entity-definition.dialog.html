@@ -1,0 +1,73 @@
+﻿
+<section class="view-model-modal" id="add-entity-definition-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Add new Entity Definition</h3>
+            </div>
+            <div class="modal-body" data-bind="with: ed">
+
+                <form class="form-horizontal" id="add-entity-definition-dialog-form">
+
+                    <div class="form-group">
+                        <label for="ent-name" class="col-md-2">Name</label>
+                        <div class="col-md-6">
+                            <input type="text" data-bind="value: Name, readonly : ko.unwrap(Id) !== '0'"
+                                   required="" pattern="^[A-Za-z][A-Za-z0-9]*$"
+                                   placeholder="Custom Entity Name"
+                                   class="form-control" id="ent-name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="record-name" class="col-md-2">Record Name</label>
+                        <div class="col-md-6">
+                            <input type="text" data-bind="value: RecordName"
+                                   required="required" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Identifying member"
+                                   class="form-control" id="record-name">
+                            <span class="help-block">
+                                <i class="fa fa-question-circle"></i>
+                                The Record Name appears in page layouts, key lists, related lists, lookups, and search results.
+                                For example, the Record Name for Account is "AccountName" and for Case it is "CaseNumber".
+                                Note that the Record Name field is always called "Name" when referenced via the API.
+                                The field must exist as a first level member in your schema
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plural" class="col-md-2">Plural</label>
+                        <div class="col-md-6">
+                            <input type="text" data-bind="value: Plural"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Plurals"
+                                   class="form-control" id="plural">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="icon-storeid" class="col-md-2 control-label">Icon/Logo</label>
+                        <div class="col-md-6">
+                            <label for="icon-storeid">
+                                <img data-bind="attr : {src:'/sph/image/Store/' + IconStoreId()}" alt="Logo" />
+                            </label>
+                            <input type="file" data-bind="kendoUpload: {value:IconStoreId, extensions:['.png']}" name="files" class="form-control" id="icon-storeid" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="icon-class" class="col-md-2 control-label">Icon class</label>
+                        <div class="col-md-6">
+                            <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }" id="icon-class"></i>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="add-entity-definition-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

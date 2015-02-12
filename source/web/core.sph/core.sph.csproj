@@ -2042,12 +2042,13 @@
     <EmbeddedResource Include="SphApp\viewmodels\correlation.set.dialog.js" />
     <EmbeddedResource Include="SphApp\services\form.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\screen.activity.form.designer.js" />
-    <EmbeddedResource Include="SphApp\viewmodels\entity.details.add.js" />
+    <Content Include="SphApp\viewmodels\add.entity-definition.dialog.js" />
     <Content Include="SphApp\viewmodels\entity.view.designer.js" />
     <Content Include="SphApp\viewmodels\not.found.js" />
     <Content Include="SphApp\viewmodels\public.index.js" />
     <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.docking.js" />
     <EmbeddedResource Include="SphApp\viewmodels\solution.explorer.docking.tree.js" />
+    <Content Include="SphApp\views\add.entity-definition.dialog.html" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -2432,7 +2433,6 @@
     <EmbeddedResource Include="SphApp\views\transform.definition.prop.dialog.html" />
     <EmbeddedResource Include="SphApp\views\correlation.type.dialog.html" />
     <EmbeddedResource Include="SphApp\views\correlation.set.dialog.html" />
-    <EmbeddedResource Include="SphApp\views\entity.details.add.html" />
     <Content Include="SphApp\views\not.found.html" />
     <Content Include="SphApp\views\public.index.html" />
     <EmbeddedResource Include="SphApp\views\solution.explorer.docking.html" />

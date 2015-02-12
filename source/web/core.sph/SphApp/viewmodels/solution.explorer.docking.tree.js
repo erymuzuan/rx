@@ -40,9 +40,26 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
             addAdapter = function (name) {
                 return router.navigate('/adapter.definition.list');
             },
-            activate = function() {
+            addEntityDefinition = function () {
+                var ed = new bespoke.sph.domain.EntityDefinition(system.guid());
+                require(["viewmodels/add.entity-definition.dialog", "durandal/app"], function (dialog, app2) {
+                    dialog.ed(ed);
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                context.post(ko.toJSON(ed), "/entity-definition")
+                                        .done(function (edr) {
+                                            if (edr.success) {
+                                                router.navigate("entity.details/" + edr.id);
+                                            }
+                                        });
+                            }
+                        });
 
-
+                });
+            },
+            activate = function () {
                 console.log("solution.explorer.docking.tree.js activate 1");
                 console.log("solution.explorer.docking.tree.js activate 2");
 
@@ -51,17 +68,17 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
 
                 console.log("solution.explorer.docking.tree.js attached 1");
                 var eds = [];
-                var defaultEds = [
-                    { "id": "EntityDefinition", "parent": "#", "text": "Entity Definitions", icon: "fa fa-file", data: { TypeName: "#"} },
+                var treeRoots = [
+                    { "id": "EntityDefinition", "parent": "#", "text": "Entity Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
                     { "id": "WorkflowDefinition", "parent": "#", "text": "Workflow Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
                     { "id": "TransformDefinition", "parent": "#", "text": "Transform Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
                     { "id": "Adapter", "parent": "#", "text": "Adapters", icon: "fa fa-file", data: { TypeName: "#" } },
                     { "id": "Trigger", "parent": "#", "text": "Triggers", icon: "fa fa-file", data: { TypeName: "#" } }
                 ];
 
-                return $.get("/Solution/open/asdasd", function (data) {
+                return $.getJSON("/Solution/open/asdasd").then(function (data) {
 
-                    _.each(data.ProjectMetadataCollection, function(pmd) {
+                    _.each(data.ProjectMetadataCollection, function (pmd) {
                         eds.push({
                             id: pmd.Id,
                             text: pmd.Name,
@@ -69,41 +86,43 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                             icon: "fa fa-clipboard"
                         });
 
-                        _.each(pmd.ChildItemCollection, function (cic) {
+                        _.each(pmd.ChildItemCollection, function (child) {
                             var icon = "";
 
-                            if (cic.TypeName === "EntityForm") {
-                                icon = "fa fa-edit";
-                            } else if (cic.TypeName === "EntityOperation") {
-                                icon = "fa fa-gavel";
-                            } else if (cic.TypeName === "EntityView") {
-                                icon = "fa fa-table";
-                            } else if (cic.TypeName === "BusinessRule") {
-                                icon = "fa fa-bold";
+                            switch (child.TypeName) {
+                                case "EntityForm":
+                                    icon = "fa fa-edit";
+                                    break;
+                                case "EntityOperation":
+                                    icon = "fa fa-gavel";
+                                    break;
+                                case "EntityView":
+                                    icon = "fa fa-table";
+                                    break;
+                                case "BusinessRule":
+                                    icon = "fa fa-bold";
+                                    break;
                             }
 
-                            
+
                             eds.push({
-                                id: cic.Id,
-                                parentId : cic.parentId,
-                                text: cic.Name,
-                                parent: pmd.Name,
+                                id: child.Id,
+                                parentId: child.ParentId,
+                                text: child.Name,
+                                parent: pmd.Id,
                                 icon: icon,
-                                data : {
-                                    TypeName: cic.TypeName
-                                }
-                                
+                                data: child
+
                             });
                         });
 
                     });
 
-                    
-                }).then(function () {
 
-                    $('#jstree_demo_div').jstree({
+
+                    $("#jstree_demo_div").jstree({
                         'core': {
-                            'data': defaultEds.concat(eds)
+                            'data': treeRoots.concat(eds)
                         },
                         "plugins": ["contextmenu", "search"],
                         "contextmenu": {
@@ -183,12 +202,12 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                         }
                     });
 
-                    $('#jstree_demo_div').on("select_node.jstree", function(e, data) {
+                    $('#jstree_demo_div').on("select_node.jstree", function (e, data) {
                         e.stopPropagation();
                         if (data.node.parent === "EntityDefinition") {
-                            return router.navigate('entity.details/'+ data.node.id);
+                            return router.navigate('entity.details/' + data.node.id);
                         } else if (data.node.data.TypeName === "EntityForm") {
-                            return router.navigate('entity.form.designer/' + data.node.parentNode +"/"+ data.node.id);
+                            return router.navigate('entity.form.designer/' + data.node.parentNode + "/" + data.node.id);
                         } else if (data.node.data.TypeName === "EntityOperation") {
                             return router.navigate('entity.operation.details/' + data.node.parentNode + "/" + data.node.id);
                         } else if (data.node.data.TypeName === "EntityView") {
@@ -201,41 +220,22 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                     });
                 });
 
-                
+
 
 
             },
-            okClick = function(data, ev) {
+            okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
                 }
 
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
-            hassanRefresh = function() {
+            hassanRefresh = function () {
                 console.log("clicking hassan refresh function");
                 activate();
-            },
-            addEntityDefinition = function() {
-                //return router.navigate('entity.details/0');
-                //var entity = new bespoke.sph.domain.EntityDefinition(system.guid());
-
-                require(['viewmodels/entity.details.add', 'durandal/app'], function (dialog, app2) {
-                    //dialog.correlationType(correlationType);
-                    if (typeof dialog.wd === "function") {
-                        //dialog.wd(self);
-                    }
-                    app2.showDialog(dialog)
-                        .done(function (result) {
-                            if (!result) return;
-                            if (result === "OK") {
-                                //self.CorrelationTypeCollection.push(correlationType);
-                            }
-                        });
-
-                });
             };
 
         var vm = {
