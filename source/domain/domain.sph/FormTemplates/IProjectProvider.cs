@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain
         string DefaultNamespace { get; }
         string Name { get; }
         string Id { get; set; }
-        MetadataReference[] References { get; }
+        MetadataReference[] GetMetadataReferences();
         Task<IEnumerable<Class>>  GenerateCodeAsync();
         Task<IProjectModel> GetModelAsync();
         Task<SphCompilerResult> CompileAsync(CompilerOptions options);

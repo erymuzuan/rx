@@ -148,15 +148,14 @@ namespace Bespoke.Sph.Domain
             get { return "Bespoke.Sph.TriggerSubscribers"; }
         }
 
-        public override MetadataReference[] References
+        public override MetadataReference[] GetMetadataReferences()
         {
-            get
-            {
-                return new[]
+
+            return new[]
             {
                 this.CreateMetadataReference<Entity>()
             };
-            }
+
         }
 
     }
