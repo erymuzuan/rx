@@ -1,0 +1,10 @@
+copy .\source\dependencies\elasticsearch.logger\bin\Debug\elasticsearch.logger.dll .\source\web\core.sph\bin
+copy .\source\dependencies\sql.repository\bin\Debug\sql.repository.dll .\source\web\core.sph\bin
+copy .\source\dependencies\rabbitmq.changepublisher\bin\Debug\rabbitmq.changepublisher.dll .\source\web\core.sph\bin
+copy .\source\dependencies\word.document.generator\bin\Debug\word.document.generator.dll .\source\web\core.sph\bin
+copy .\source\dependencies\razor.template\bin\Debug\razor.template.dll .\source\web\core.sph\bin
+copy .\source\dependencies\report.sqldatasource\bin\Debug\report.sqldatasource.dll .\source\web\core.sph\bin
+copy .\source\dependencies\roslyn.scriptengine\bin\Debug\roslyn.scriptengine.dll .\source\web\core.sph\bin
+copy .\source\dependencies\windows.taskschedulers\bin\Debug\windows.taskschedulers.dll .\source\web\core.sph\bin
+copy .\source\dependencies\sqlmembership.directoryservices\bin\Debug\sqlmembership.directoryservices.dll .\source\web\core.sph\bin
+copy .\source\dependencies\email.service\bin\Debug\email.service.dll .\source\web\core.sph\bin
