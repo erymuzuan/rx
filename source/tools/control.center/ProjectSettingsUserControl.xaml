@@ -77,6 +77,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="20*"/>
@@ -84,8 +85,10 @@
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="JAVA Home"/>
                         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding JavaHome}"/>
-                        <Label Grid.Row="1" Grid.Column="0" Content="ElasticSearch Home"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Home"/>
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElasticSearchHome}"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="Version"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElasticSearchVersion}"/>
                     </Grid>
                 </GroupBox>
                 <Button HorizontalAlignment="Right" Content="Save Settings" 

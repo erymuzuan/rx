@@ -15,6 +15,7 @@ namespace Bespoke.Sph.ControlCenter.Model
         private string m_rabbitMqPassword;
         private string m_rabbitMqUserName;
         private int m_port;
+        private string m_elasticSearchVersion;
 
 
         public string SqlLocalDbName
@@ -121,6 +122,16 @@ namespace Bespoke.Sph.ControlCenter.Model
             set
             {
                 m_port = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ElasticSearchVersion
+        {
+            get { return m_elasticSearchVersion; }
+            set
+            {
+                m_elasticSearchVersion = value; 
                 OnPropertyChanged();
             }
         }

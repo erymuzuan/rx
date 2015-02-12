@@ -3,13 +3,11 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Xml.Linq;
 using Bespoke.Sph.ControlCenter.Model;
 using Bespoke.Sph.ControlCenter.Properties;
 using Bespoke.Sph.Domain;
@@ -85,13 +83,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 RabbitmqPassword = settings.RabbitMqPassword;
                 JavaHome = settings.JavaHome;
                 ElasticSearchHome = settings.ElasticSearchHome;
-                if (settings.Port == 0)
-                {
-                    XNamespace x = "http://www.bespoke.com.my/";
-                    var xml = XElement.Parse(File.ReadAllText(file));
-                    var port = xml.Descendants(x + "Port").First().Value;
-                    this.Port = int.Parse(port);
-                }
+                ElasticSearchVersion = settings.ElasticSearchVersion;
                 Port = settings.Port;
                 // TODO : see if the database, elasticsearch index, RabbitMq vhost etc are present
                 this.IsSetup = await this.FindOutSetupAsync();
@@ -348,6 +340,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private Process m_rabbitMqServer;
         private Process m_sphWorkerProcess;
+        private int m_elasticSearchId;
 
         private async void StartRabbitMqService()
         {
@@ -428,24 +421,26 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             try
             {
                 var elasticSearchBat = string.Join(@"\", ElasticSearchHome, "bin", "elasticsearch.bat").TranslatePath();
+                var es = string.Join(@"\", ElasticSearchHome).TranslatePath();
                 Console.WriteLine(elasticSearchBat);
                 if (!File.Exists(elasticSearchBat))
                 {
-                    Console.WriteLine(Resources.CannotFind + elasticSearchBat);
+                    MessageBox.Show(Resources.CannotFind + elasticSearchBat);
                     return;
                 }
+                var arg = string.Format(@" -Xms256m -Xmx1g -Xss256k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError  -Delasticsearch -Des-foreground=yes -Des.path.home=""{0}""  -cp "";{0}/lib/elasticsearch-{1}.jar;{0}/lib/*;{0}/lib/sigar/*"" ""org.elasticsearch.bootstrap.Elasticsearch""", es, ElasticSearchVersion);
                 var info = new ProcessStartInfo
                 {
-                    FileName = elasticSearchBat,
+                    FileName = JavaHome + @"\bin\java.exe",
+                    Arguments = arg,
                     WorkingDirectory = Path.GetDirectoryName(elasticSearchBat) ?? ".",
-                    //Arguments = "/c elasticsearch.bat",
-                    //Arguments = string.Format(@"/c {0}\{1}", ElasticSearchHome, "elasticsearch.bat"),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
-                    //CreateNoWindow = true,
+                    CreateNoWindow = true,
                     RedirectStandardError = true,
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
+
                 m_elasticProcess = Process.Start(info);
                 if (null == m_elasticProcess)
                 {
@@ -460,6 +455,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 ElasticSearchServiceStarted = true;
                 ElasticSearchStatus = "Running";
                 Log("ElasticSearch... [STARTED]");
+                Log("Started : " + m_elasticProcess.Id);
+                m_elasticSearchId = m_elasticProcess.Id;
                 this.IsSetup = await this.FindOutSetupAsync();
             }
             catch (Exception ex)
@@ -471,13 +468,19 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         private void StopElasticSearch()
         {
-            m_elasticProcess.CloseMainWindow();
-            m_elasticProcess.Close();
-
-            m_elasticProcess = null;
-            Log("ElasticSearch... [STOPPED]");
-            ElasticSearchServiceStarted = false;
-            ElasticSearchStatus = "Stopped";
+            try
+            {
+                var es = Process.GetProcessById(m_elasticSearchId);
+                es.Kill();
+                m_elasticProcess = null;
+                Log("ElasticSearch... [STOPPED]");
+                ElasticSearchServiceStarted = false;
+                ElasticSearchStatus = "Stopped";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private void StartSphWorker()
@@ -544,11 +547,12 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 RabbitMqPassword = RabbitmqPassword,
                 JavaHome = JavaHome,
                 ElasticSearchHome = ElasticSearchHome,
+                ElasticSearchVersion = ElasticSearchVersion,
                 Port = Port
             };
 
             var path = this.GetSettingFile();
-            File.WriteAllText(path, settings.ToJsonString(), Encoding.UTF8);
+            File.WriteAllText(path, settings.ToJsonString(true), Encoding.UTF8);
 
             Settings.Default.ApplicationName = this.ApplicationName;
             Settings.Default.ProjectDirectory = this.ProjectDirectory;

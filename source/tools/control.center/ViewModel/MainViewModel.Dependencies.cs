@@ -120,6 +120,17 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             }
         }
 
+        private string m_elasticSearchVersion;
+        public string ElasticSearchVersion
+        {
+            get { return m_elasticSearchVersion; }
+            set
+            {
+                m_elasticSearchVersion = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string m_iisExpressDirectory;
         public string IisExpressDirectory
         {
