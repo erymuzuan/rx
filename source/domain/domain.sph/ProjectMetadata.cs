@@ -27,11 +27,16 @@ namespace Bespoke.Sph.Domain
         {
             get { return m_childItemCollection; }
         }
+
+        public string Id { get; set; }
+        public string ParentId { get; set; }
     }
 
     public class ProjectChildItem
     {
         public string Name { get; set; }
         public string TypeName { get; set; }
+        public string Id { get; set; }
+        public string ParentId { get; set; }
     }
 }

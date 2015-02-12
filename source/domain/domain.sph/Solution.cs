@@ -169,13 +169,15 @@ namespace Bespoke.Sph.Domain
 
             var lo = await context.LoadAsync(context.EntityDefinitions);
             var projects = (from t in lo.ItemCollection
-                       select new ProjectMetadata
-                       {
-                           Name = t.Name,
-                           Type = typeof(EntityDefinition),
-                           TypeName = typeof(EntityDefinition).GetShortAssemblyQualifiedName()
+                            select new ProjectMetadata
+                            {
+                                Name = t.Name,
+                                Id = t.Id,
+                                ParentId = "",
+                                Type = typeof(EntityDefinition),
+                                TypeName = typeof(EntityDefinition).GetShortAssemblyQualifiedName()
 
-                       }).ToList();
+                            }).ToList();
             foreach (var prj in projects)
             {
                 var prj1 = prj;
@@ -185,28 +187,37 @@ namespace Bespoke.Sph.Domain
                             select new ProjectChildItem
                             {
                                 Name = f.Name,
+                                Id = f.Id,
+                                ParentId = ed.Id,
                                 TypeName = typeof(EntityForm).Name
                             };
+
 
                 var viewLo = await context.LoadAsync(context.EntityViews.Where(f => f.EntityDefinitionId == ed.Id));
                 var views = from f in viewLo.ItemCollection
                             select new ProjectChildItem
                             {
                                 Name = f.Name,
+                                Id = f.Id,
+                                ParentId = ed.Id,
                                 TypeName = typeof(EntityView).Name
                             };
 
                 var operations = from f in ed.EntityOperationCollection
-                            select new ProjectChildItem
-                            {
-                                Name = f.Name,
-                                TypeName = typeof(EntityOperation).Name
-                            };
+                                 select new ProjectChildItem
+                                 {
+                                     Name = f.Name,
+                                     Id = f.Name,
+                                     ParentId = ed.Id,
+                                     TypeName = typeof(EntityOperation).Name
+                                 };
 
                 var rules = from f in ed.BusinessRuleCollection
                             select new ProjectChildItem
                             {
                                 Name = f.Name,
+                                Id = f.Name,
+                                ParentId = ed.Id,
                                 TypeName = typeof(BusinessRule).Name
                             };
 

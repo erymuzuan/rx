@@ -10,11 +10,36 @@
 
 define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/router', objectbuilders.system],
     function (context, logger, dialog, router, system) {
+        "use strict";
         var items = ko.observableArray(),
             triggers = ko.observableArray(),
             wds = ko.observableArray(),
             transforms = ko.observableArray(),
             isBusy = ko.observable(true),
+            addBlogForm = function (name) {
+                return router.navigate('/entity.form.designer/' + name + '/0');
+            },
+            addBlogOperation = function (name) {
+                return router.navigate('/entity.operation.details/' + name + '/<New Operation>');
+            },
+            addBlogView = function (name) {
+                return router.navigate('/entity.view.designer/' + name + '/0');
+            },
+            addWorkflowDefinition = function (name) {
+                return router.navigate('/workflow.definition.visual/0');
+            },
+            addTransformDefinition = function (name) {
+                return router.navigate('/transform.definition.edit/0');
+            },
+            addReportDefinition = function (name) {
+                return router.navigate('/reportdefinition.edit/0');
+            },
+            addTrigger = function (name) {
+                return router.navigate('/trigger.setup/0');
+            },
+            addAdapter = function (name) {
+                return router.navigate('/adapter.definition.list');
+            },
             activate = function() {
 
 
@@ -22,7 +47,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                 console.log("solution.explorer.docking.tree.js activate 2");
 
             },
-            attached = function (view) {
+            attached = function () {
 
                 console.log("solution.explorer.docking.tree.js attached 1");
                 var eds = [];
@@ -38,7 +63,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
 
                     _.each(data.ProjectMetadataCollection, function(pmd) {
                         eds.push({
-                            id: pmd.Name,
+                            id: pmd.Id,
                             text: pmd.Name,
                             parent: "EntityDefinition",
                             icon: "fa fa-clipboard"
@@ -59,7 +84,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
 
                             
                             eds.push({
-                                id: cic.Name,
+                                id: cic.Id,
+                                parentId : cic.parentId,
                                 text: cic.Name,
                                 parent: pmd.Name,
                                 icon: icon,
@@ -210,30 +236,6 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
                         });
 
                 });
-            },
-            addBlogForm = function(name) {
-                return router.navigate('/entity.form.designer/' + name + '/0');
-            },
-            addBlogOperation = function(name) {
-                return router.navigate('/entity.operation.details/' + name + '/<New Operation>');
-            },
-            addBlogView = function(name) {
-                return router.navigate('/entity.view.designer/' + name + '/0');
-            },
-            addWorkflowDefinition = function(name) {
-                return router.navigate('/workflow.definition.visual/0');
-            },
-            addTransformDefinition = function(name) {
-                return router.navigate('/transform.definition.edit/0');
-            },
-            addReportDefinition = function(name) {
-                return router.navigate('/reportdefinition.edit/0');
-            },
-            addTrigger = function(name) {
-                return router.navigate('/trigger.setup/0');
-            },
-            addAdapter = function (name) {
-                return router.navigate('/adapter.definition.list');
             };
 
         var vm = {
