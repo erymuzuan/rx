@@ -155,7 +155,7 @@ namespace Bespoke.Sph.Web.Controllers
 
 
         [HttpPost]
-        [Route("publish/{generateSource}")]
+        [Route("publish/{generateSource:bool=false}")]
         public async Task<HttpResponseMessage> Publish([FromBody]EntityDefinition ed, bool generateSource = false)
         {
             ed = this.GetRequestBody(ed, t => !string.IsNullOrWhiteSpace(t.Name));

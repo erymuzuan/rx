@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
 using Microsoft.CodeAnalysis;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -353,6 +352,6 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public IEnumerable<Member> Members { get { return this.MemberCollection; } }
+        public IEnumerable<Member> GetMembers() {  return this.MemberCollection;  }
     }
 }
