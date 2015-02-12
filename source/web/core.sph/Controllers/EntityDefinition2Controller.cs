@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Humanizer;
 using System.Web.Http;
+using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -30,8 +31,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<HttpResponseMessage> Save([FromBody]EntityDefinition ed)
+        public async Task<HttpResponseMessage> Save([FromBody2]EntityDefinition ed)
         {
+            ed = this.GetRequestBody(ed, t => !string.IsNullOrWhiteSpace(t.Name));
+
             var context = new SphDataContext();
             var canSave = ed.CanSave();
             if (!canSave.Result)
@@ -96,10 +99,10 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpGet]
-        [Route("plural/{id}")]
-        public HttpResponseMessage GetPlural(string id)
+        [Route("plural/{name}")]
+        public HttpResponseMessage GetPlural(string name)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, id.Pluralize());
+            return Request.CreateResponse(HttpStatusCode.OK, name.Pluralize());
         }
 
 
@@ -108,6 +111,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("depublish")]
         public async Task<HttpResponseMessage> Depublish([FromBody]EntityDefinition ed)
         {
+            ed = this.GetRequestBody(ed, t => !string.IsNullOrWhiteSpace(t.Name));
             var context = new SphDataContext();
             ed.IsPublished = false;
             using (var session = context.OpenSession())
@@ -147,16 +151,20 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
+  
+
+
         [HttpPost]
         [Route("publish/{generateSource}")]
         public async Task<HttpResponseMessage> Publish([FromBody]EntityDefinition ed, bool generateSource = false)
         {
+            ed = this.GetRequestBody(ed, t => !string.IsNullOrWhiteSpace(t.Name));
+
             var context = new SphDataContext();
             var buildValidation = await ed.ValidateBuildAsync();
 
             if (!buildValidation.Result)
                 return Request.CreateResponse(HttpStatusCode.OK, buildValidation);
-
 
             var path = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath,
                 string.Format("{0}.{1}", ConfigurationManager.ApplicationName, ed.Id));
@@ -189,8 +197,6 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
-
-
-
+        
     }
 }

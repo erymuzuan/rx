@@ -78,13 +78,15 @@ namespace domain.test.entities
             var contacts = new Member { Name = "ContactCollection", AllowMultiple = true };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
+            var json = ent.ToJsonString(true);
+            var clone = json.DeserializeFromJson<EntityDefinition>();
 
             byte[] buffers;
             using (var stream = new MemoryStream())
             {
                 options.Stream = stream;
                 options.Emit = true;
-                var result = await ent.CompileAsync(options);
+                var result = await clone.CompileAsync(options);
                 await PrintErrorsAsync(result, ent);
 
                 Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
