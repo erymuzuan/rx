@@ -1,8 +1,8 @@
-﻿<link href="/Content/jstree/style.min.css" rel="stylesheet"/>
+﻿<link href="/Content/jstree/style.min.css" rel="stylesheet" />
 
 <div id="solution-explorer-docking">
     <h3>Solution Explorer</h3>
-    <span data-bind = "click:hassanRefresh">Refresh</span>
-    
-    <div id="jstree_demo_div"></div>
+    <span data-bind="click:hassanRefresh">Refresh</span>
+
+    <div id="jstree_demo_div" data-bind="solutiontree:{solution: solution, click: click}"></div>
 </div>

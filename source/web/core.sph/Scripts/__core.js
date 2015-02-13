@@ -476,6 +476,149 @@ ko.bindingHandlers.comboBoxLookupOptions = {
 };
 
 
+ko.bindingHandlers.solutiontree = {
+    init: function (element, valueAccessor) {
+        var value = valueAccessor(),
+            solution = ko.unwrap(value.solution),
+            click = value.click;
+
+        var eds = [];
+        var treeRoots = [
+            { "id": "EntityDefinition", "parent": "#", "text": "Entity Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
+            { "id": "WorkflowDefinition", "parent": "#", "text": "Workflow Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
+            { "id": "TransformDefinition", "parent": "#", "text": "Transform Definitions", icon: "fa fa-file", data: { TypeName: "#" } },
+            { "id": "Adapter", "parent": "#", "text": "Adapters", icon: "fa fa-file", data: { TypeName: "#" } },
+            { "id": "Trigger", "parent": "#", "text": "Triggers", icon: "fa fa-file", data: { TypeName: "#" } }
+        ];
+
+        _.each(solution.ProjectMetadataCollection(), function (pmd) {
+            eds.push({
+                id: ko.unwrap(pmd.Id),
+                text: ko.unwrap(pmd.Name),
+                parent: "EntityDefinition",
+                icon: "fa fa-clipboard"
+            });
+
+            _.each(pmd.ChildItemCollection(), function (child) {
+                var icon = "";
+
+                switch (ko.unwrap(child.TypeName)) {
+                    case "EntityForm":
+                        icon = "fa fa-edit";
+                        break;
+                    case "EntityOperation":
+                        icon = "fa fa-gavel";
+                        break;
+                    case "EntityView":
+                        icon = "fa fa-table";
+                        break;
+                    case "BusinessRule":
+                        icon = "fa fa-bold";
+                        break;
+                }
+
+
+                eds.push({
+                    id: ko.unwrap(child.Id),
+                    parentId: ko.unwrap(child.ParentId),
+                    text: ko.unwrap(child.Name),
+                    parent: ko.unwrap(pmd.Id),
+                    icon: ko.unwrap(icon),
+                    data: child
+
+                });
+            });
+
+        });
+
+        $("#jstree_demo_div").jstree({
+            'core': {
+                'data': treeRoots.concat(eds)
+            },
+            "plugins": ["contextmenu", "search"],
+            "contextmenu": {
+                "items": function (node) {
+
+                    if (node.id === "EntityDefinition") {
+                        return {
+                            "Create": {
+                                "label": "Add New Entity",
+                                "action": function (obj) {
+                                    //this.create(obj);
+                                    addEntityDefinition();
+                                }
+                            }
+                        };
+                    } else if (node.id === "WorkflowDefinition") {
+                        return {
+                            "Create": {
+                                "label": "Add New Workflow Definition",
+                                "action": function (obj) {
+                                    addWorkflowDefinition();
+                                }
+                            }
+                        };
+                    } else if (node.id === "TransformDefinition") {
+                        return {
+                            "Create": {
+                                "label": "Add New Transform Definition",
+                                "action": function (obj) {
+                                    addTransformDefinition();
+                                }
+                            }
+                        };
+                    } else if (node.id === "Adapter") {
+                        return {
+                            "Create": {
+                                "label": "Add New Adapter",
+                                "action": function (obj) {
+                                    addAdapter();
+                                }
+                            }
+                        };
+                    } else if (node.id === "Trigger") {
+                        return {
+                            "Create": {
+                                "label": "Add New Trigger",
+                                "action": function (obj) {
+                                    addTrigger();
+                                }
+                            }
+                        };
+                    } else if (node.parent === "EntityDefinition") {
+                        return {
+                            "Create Form": {
+                                "label": "Add New Form",
+                                "action": function (obj) {
+                                    // this.create(obj);
+                                    addBlogForm(node.id);
+                                }
+                            },
+                            "Create Views": {
+                                "label": "Add New View",
+                                "action": function (obj) {
+                                    addBlogView(node.id);
+                                }
+                            },
+                            "Create Operation": {
+                                "label": "Add New Operation",
+                                "action": function (obj) {
+                                    addBlogOperation(node.id);
+                                }
+                            }
+                        };
+                    }
+
+                }
+            }
+        });
+
+        $("#jstree_demo_div").on("select_node.jstree", click);
+
+
+
+    }
+};
 ko.bindingHandlers.tree = {
     init: function (element, valueAccessor) {
         var system = require(objectbuilders.system),
@@ -494,7 +637,7 @@ ko.bindingHandlers.tree = {
                 node.children = _(node.data.MemberCollection()).map(function (v) {
                     return {
                         text: v.Name(),
-                        state: 'open',
+                        state: "open",
                         type: v.TypeName(),
                         data: v
                     };
@@ -505,14 +648,14 @@ ko.bindingHandlers.tree = {
                 jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
                     return {
                         text: v.Name(),
-                        state: 'open',
+                        state: "open",
                         type: v.TypeName(),
                         data: v
                     };
                 });
                 _(jsTreeData.children).each(recurseChildMember);
                 $(element)
-                    .on('select_node.jstree', function (node, selected) {
+                    .on("select_node.jstree", function (node, selected) {
                         if (selected.node.data) {
                             member(selected.node.data);
 
@@ -528,10 +671,10 @@ ko.bindingHandlers.tree = {
                             });
                         }
                     })
-                    .on('create_node.jstree', function (event, node) {
+                    .on("create_node.jstree", function (event, node) {
                         console.log(node, "node");
                     })
-                    .on('rename_node.jstree', function (ev, node) {
+                    .on("rename_node.jstree", function (ev, node) {
                         var mb = node.node.data;
                         mb.Name(node.text);
                     })
@@ -771,21 +914,21 @@ ko.bindingHandlers.entityTypeaheadPath = {
                             c.options.push("" + i);
                         }
                         c.options.sort();
-                        c.startFrom = text.lastIndexOf('.') + 1;
+                        c.startFrom = text.lastIndexOf(".") + 1;
                     }
                     c.repaint();
                 };
 
                 c.repaint();
                 $(c.input)
-                    .attr('autocomplete', 'off')
+                    .attr("autocomplete", "off")
                     .blur(function () {
                         allBindings.value($(this).val());
-                    }).parent().find('input')
+                    }).parent().find("input")
                     .css({ "padding": "6px 12px", "height": "28px" });
 
-                if ($(element).prop('required')) {
-                    $(c.input).prop('required', true);
+                if ($(element).prop("required")) {
+                    $(c.input).prop("required", true);
                 }
 
 
@@ -838,7 +981,7 @@ ko.bindingHandlers.cssTypeahead = {
             minLength: 0,
             highlight: true,
             updater: function () {
-                return this.$element.val().replace(/[^,]*$/, '') + item + ',';
+                return this.$element.val().replace(/[^,]*$/, "") + item + ",";
             },
             matcher: function (item) {
                 var tquery = extractor(this.query);
@@ -847,11 +990,11 @@ ko.bindingHandlers.cssTypeahead = {
             }
         },
             {
-                name: 'css-class',
-                displayKey: 'path',
+                name: "css-class",
+                displayKey: "path",
                 source: members.ttAdapter()
             })
-            .on('typeahead:closed', function () {
+            .on("typeahead:closed", function () {
                 allBindings.value($(this).val());
             });
 
@@ -862,7 +1005,7 @@ ko.bindingHandlers.cssTypeahead = {
 ko.bindingHandlers.chart = {
     init: function (element, valueAccessor) {
         var chart = ko.unwrap(valueAccessor()),
-            context = require('services/datacontext'),
+            context = require("services/datacontext"),
             entity = chart.Entity(),
             query = JSON.parse(chart.Query()),
             type = chart.Type(),
