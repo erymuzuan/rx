@@ -140,9 +140,11 @@ namespace subscriber.entities
 
         private bool CheckForNewColumns(EntityDefinition item)
         {
-            var members = this.GetFilterableMembers("", item.MemberCollection);
+            var members = this.GetFilterableMembers("", item.MemberCollection).ToList();
             var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
             var table = metadataProvider.GetTable(item.Name);
+
+            // compare the members againts column
             foreach (var mb in members)
             {
                 var colType = GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
@@ -154,6 +156,26 @@ namespace subscriber.entities
                 if (null == col)
                 {
                     this.WriteMessage("[COLUMN-COMPARE] - > Cannot find column {0} as {1}", mb1.FullName, colType);
+                    return false;
+                }
+            }
+            // compare the columns againts column
+            foreach (var col in table.Columns)
+            {
+                if (col.Name == "Id") continue;
+                if (col.Name == "CreatedDate") continue;
+                if (col.Name == "CreatedBy") continue;
+                if (col.Name == "ChangedDate") continue;
+                if (col.Name == "ChangedBy") continue;
+
+                var col1 = col;
+                var member = members.SingleOrDefault(m =>
+                            m.Name.Equals(col1.Name, StringComparison.InvariantCultureIgnoreCase)
+                            && String.Equals(GetSqlType(m.TypeName).Replace("(255)", string.Empty), col1.SqlType, StringComparison.InvariantCultureIgnoreCase)
+                            && col.IsNullable == m.IsNullable);
+                if (null == member)
+                {
+                    this.WriteMessage("[Member-COMPARE] - > Cannot find member {0} as {1}", col.Name, col.SqlType);
                     return false;
                 }
             }

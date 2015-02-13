@@ -93,7 +93,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workers.windowsservice.runn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core.sph", "source\web\core.sph\core.sph.csproj", "{A2B488B2-A536-49DF-9741-B87BDD745D8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.sph.v1", "source\web\web.sph\web.sph.v1.csproj", "{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.sph", "source\web\web.sph\web.sph.csproj", "{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.entities", "source\subscribers\subscriber.entities\subscriber.entities.csproj", "{954AD880-4C7D-4DEE-9455-3A670FE9767B}"
 EndProject
@@ -128,8 +128,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trigger.action.messaging", "source\domain\trigger.action.messaging\trigger.action.messaging.csproj", "{529768DA-DF59-416B-B180-EE5F742474F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mysql.adpater.test", "source\unit.test\mysql.adpater.test\mysql.adpater.test.csproj", "{590DC146-6BA1-4202-995D-9E46951A0E57}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.entities.dev", "source\subscribers\subscriber.entities.dev\subscriber.entities.dev.csproj", "{680E3EBE-6691-4DCD-A328-9D992F81B633}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dead.letter.viewer", "source\tools\dead.letter.viewer\dead.letter.viewer.csproj", "{1FB70D66-D1D2-46B5-8C95-83B7A770781E}"
 EndProject
@@ -331,10 +329,6 @@ Global
 		{590DC146-6BA1-4202-995D-9E46951A0E57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{590DC146-6BA1-4202-995D-9E46951A0E57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{590DC146-6BA1-4202-995D-9E46951A0E57}.Release|Any CPU.Build.0 = Release|Any CPU
-		{680E3EBE-6691-4DCD-A328-9D992F81B633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{680E3EBE-6691-4DCD-A328-9D992F81B633}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{680E3EBE-6691-4DCD-A328-9D992F81B633}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{680E3EBE-6691-4DCD-A328-9D992F81B633}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1FB70D66-D1D2-46B5-8C95-83B7A770781E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1FB70D66-D1D2-46B5-8C95-83B7A770781E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FB70D66-D1D2-46B5-8C95-83B7A770781E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -406,7 +400,6 @@ Global
 		{2B120D6E-DF82-4AC9-ACC9-1363249B8E13} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{529768DA-DF59-416B-B180-EE5F742474F9} = {FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}
 		{590DC146-6BA1-4202-995D-9E46951A0E57} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
-		{680E3EBE-6691-4DCD-A328-9D992F81B633} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{1FB70D66-D1D2-46B5-8C95-83B7A770781E} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{4DB11B5C-2618-4E36-A2FF-2AA4CB328483} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{18026DFA-33A4-4038-8E27-C7A99CFB77D5} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
