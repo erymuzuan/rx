@@ -355,23 +355,18 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @using System.Web.Mvc.Html
-        ///@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
-        ///
-        ///@{
-        ///    Layout = null;
-        ///}
-        ///
-        ///
+        ///   Looks up a localized string similar to 
         ///&lt;div class=&quot;view-model-modal&quot; id=&quot;activity-screen-modal&quot;&gt;
         ///    &lt;div class=&quot;modal-dialog&quot;&gt;
         ///        &lt;div class=&quot;modal-content&quot;&gt;
-        ///            
+        ///
         ///            &lt;div class=&quot;modal-header&quot;&gt;
         ///                &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; data-bind=&quot;click : cancelClick&quot;&gt;&amp;times;&lt;/button&gt;
         ///                &lt;h3&gt;Screen Activity&lt;/h3&gt;
         ///            &lt;/div&gt;
-        ///            &lt;div class=&quot;mod [rest of string was truncated]&quot;;.
+        ///            &lt;div class=&quot;modal-body&quot;&gt;
+        ///                &lt;ul class=&quot;nav nav-tabs&quot;&gt;
+        ///                    &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;#form-general&quot; data-toggle [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string activity_screen {
             get {

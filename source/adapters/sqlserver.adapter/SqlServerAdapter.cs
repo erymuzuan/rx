@@ -18,7 +18,6 @@ namespace Bespoke.Sph.Integrations.Adapters
     public partial class SqlServerAdapter : Adapter
     {
 
-
         public override string OdataTranslator
         {
             get { return "OdataSqlTranslator"; }
@@ -185,7 +184,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             }
             header.AppendLine();
 
-            header.AppendLine("namespace " + this.CodeNamespace);
+            header.AppendLine("namespace " + this.DefaultNamespace);
             header.AppendLine("{");
             return header.ToString();
 
@@ -238,7 +237,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
             {
-                op.CodeNamespace = this.CodeNamespace;
+                op.CodeNamespace = this.DefaultNamespace;
                 var methodName = op.MethodName;
 
                 if (addedActions.Contains(methodName)) continue;
@@ -313,7 +312,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             // ReSharper restore AssignNullToNotNullAttribute
             {
                 var code = reader.ReadToEnd();
-                code = code.Replace("__NAMESPACE__", this.CodeNamespace);
+                code = code.Replace("__NAMESPACE__", this.DefaultNamespace);
                 var source = new Tuple<string, string>("OdataSqlTranslator.cs", code);
                 return Task.FromResult(source);
 
@@ -330,7 +329,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
             // ReSharper restore AssignNullToNotNullAttribute
             {
                 var code = reader.ReadToEnd();
-                code = code.Replace("__NAMESPACE__", this.CodeNamespace);
+                code = code.Replace("__NAMESPACE__", this.DefaultNamespace);
                 var source = new Tuple<string, string>("SqlPagingTranslator.cs", code);
                 return Task.FromResult(source);
 
@@ -612,11 +611,7 @@ WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME
         }
 
 
-        public override string DefaultNamespace
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+   
         public override Task<IEnumerable<Class>> GenerateCodeAsync()
         {
             throw new NotImplementedException();

@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bespoke.Sph.Integrations.Adapters</RootNamespace>
     <AssemblyName>oracle.adapter</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -209,7 +210,8 @@
     <Copy SourceFiles="OdataOracleTranslator.cs" DestinationFiles="OdataOracleTranslator.txt" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(SolutionDir)\source\web\web.sph\bin</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(SolutionDir)\source\web\web.sph\bin
+copy $(TargetDir)$(TargetName).* $(SolutionDir)\source\web\core.sph\bin</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

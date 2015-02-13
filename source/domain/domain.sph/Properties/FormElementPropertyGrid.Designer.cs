@@ -61,10 +61,7 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.Button
-        ///
-        ///&lt;!--ko if: ko.unwrap($type) === &quot;Bespoke.Sph.Domain.Button, domain.sph&quot; --&gt;
-        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///   Looks up a localized string similar to &lt;div class=&quot;form-group&quot;&gt;
         ///    &lt;label for=&quot;button-icon-class&quot; class=&quot;control-label&quot;&gt;Icon class&lt;/label&gt;
         ///    &lt;br /&gt;
         ///    &lt;i data-bind=&quot;iconPicker: IconClass, attr:{&apos;class&apos;:IconClass() + &apos; fa-2x&apos; }&quot; id=&quot;button-icon-class&quot;&gt;&lt;/i&gt;
@@ -74,7 +71,14 @@ namespace Bespoke.Sph.Domain.Properties {
         ///
         ///    &lt;label&gt;
         ///        &lt;input data-bind=&quot;checked: IsToolbarItem&quot; id=&quot;button-toolbar-item&quot; type=&quot;checkbox&quot; name=&quot;IsToolbarItem&quot; /&gt;
-        ///     [rest of string was truncated]&quot;;.
+        ///        Show on toolbar
+        ///    &lt;/label&gt;
+        ///
+        ///&lt;/div&gt;
+        ///
+        ///&lt;!-- ko if : typeof $root.entity === &quot;function&quot; --&gt;
+        ///
+        ///&lt;div class= [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string form_element_property_grid_Button {
             get {
@@ -83,14 +87,7 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ChildEntityListView
-        ///
-        ///
-        ///
-        ///&lt;!--ko if:ko.unwrap($type) === &quot;Bespoke.Sph.Domain.ChildEntityListView, domain.sph&quot; --&gt;
-        ///
-        ///
-        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///   Looks up a localized string similar to &lt;div class=&quot;form-group&quot;&gt;
         ///    &lt;label for=&quot;celv-entity&quot; class=&quot;control-label&quot;&gt;Entity&lt;/label&gt;
         ///
         ///    &lt;select data-bind=&quot;value: Entity, tooltip :&apos;The child entity name&apos;,
@@ -98,7 +95,13 @@ namespace Bespoke.Sph.Domain.Properties {
         ///                optionsValue : &apos;value&apos;,
         ///                optionsText : &apos;text&apos;,
         ///                optionsCaption: &apos;[Select Entity]&apos;&quot;
-        ///            requir [rest of string was truncated]&quot;;.
+        ///            required
+        ///            class=&quot;form-control&quot; id=&quot;celv-entity&quot;&gt;&lt;/select&gt;
+        ///
+        ///&lt;/div&gt;
+        ///
+        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///    &lt;label for=&quot;celv-query&quot; class=&quot;control- [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string form_element_property_grid_ChildEntityListView {
             get {
@@ -107,10 +110,7 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.ComboBox
-        ///
-        ///&lt;!--ko if: ko.unwrap($type) === &quot;Bespoke.Sph.Domain.ComboBox, domain.sph&quot; --&gt;
-        ///&lt;a href=&quot;#&quot; data-bind=&quot;click: addItem&quot;&gt;+ option&lt;/a&gt;
+        ///   Looks up a localized string similar to &lt;a href=&quot;#&quot; data-bind=&quot;click: addItem&quot;&gt;+ option&lt;/a&gt;
         ///&lt;div class=&quot;row&quot;&gt;
         ///    &lt;span class=&quot;col-lg-5&quot;&gt;Value&lt;/span&gt;
         ///    &lt;span class=&quot;col-lg-5&quot;&gt;Caption&lt;/span&gt;
@@ -120,7 +120,9 @@ namespace Bespoke.Sph.Domain.Properties {
         ///
         ///&lt;div class=&quot;row&quot;&gt;
         ///    &lt;input class=&quot;col-lg-5&quot; type=&quot;text&quot; data-bind=&quot;value: Value, valueUpdate: &apos;keyup&apos;&quot; /&gt;
-        ///    &lt;input class=&quot;col-lg-5&quot; type=&quot;text&quot; data-bind=&quot;value: Caption, valu [rest of string was truncated]&quot;;.
+        ///    &lt;input class=&quot;col-lg-5&quot; type=&quot;text&quot; data-bind=&quot;value: Caption, valueUpdate: &apos;keyup&apos;&quot; /&gt;
+        ///    &lt;a href=&quot;#&quot; data-bind=&quot;click: $parent.removeItem.call($parent, $data)&quot;&gt;
+        ///        &lt;i class=&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string form_element_property_grid_ComboBox {
             get {
@@ -129,10 +131,7 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.DownloadLink
-        ///
-        ///&lt;!--ko if: ko.unwrap($type) === &quot;Bespoke.Sph.Domain.DownloadLink, domain.sph&quot; --&gt;
-        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///   Looks up a localized string similar to &lt;div class=&quot;form-group&quot;&gt;
         ///    &lt;label for=&quot;dl-icon-class&quot;&gt;Icon class&lt;/label&gt;
         ///
         ///    &lt;br /&gt;
@@ -144,7 +143,14 @@ namespace Bespoke.Sph.Domain.Properties {
         ///
         ///    &lt;label&gt;
         ///        &lt;input data-bind=&quot;checked: IsTransformTemplate&quot; id=&quot;dl-tt&quot; type=&quot;checkbox&quot; name=&quot;dl-tt&quot; /&gt;
-        ///        Is Transform Temp [rest of string was truncated]&quot;;.
+        ///        Is Transform Template
+        ///    &lt;/label&gt;
+        ///
+        ///&lt;/div&gt;
+        ///
+        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///    &lt;label for=&quot;dl-entity-type&quot;&gt;Entity type&lt;/label&gt;
+        ///    &lt;select da [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string form_element_property_grid_DownloadLink {
             get {
@@ -153,10 +159,7 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.EntityLookupElement
-        ///
-        ///&lt;!--ko if: ko.unwrap($type) === &quot;Bespoke.Sph.Domain.EntityLookupElement, domain.sph&quot; --&gt;
-        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///   Looks up a localized string similar to &lt;div class=&quot;form-group&quot;&gt;
         ///    &lt;label for=&quot;fe-ele-entity&quot;&gt;Entity&lt;/label&gt;
         ///    &lt;select class=&quot;form-control&quot; data-bind=&quot;value: Entity,
         ///                options : $root.entityOptions,
@@ -164,7 +167,9 @@ namespace Bespoke.Sph.Domain.Properties {
         ///                optionsText : &apos;text&apos;,
         ///                optionsCaption: &apos;[Select Entity]&apos;&quot; id=&quot;fe-ele-entity&quot; name=&quot;entity&quot;&gt;&lt;/select&gt;
         ///&lt;/div&gt;
-        ///&lt;div clas [rest of string was truncated]&quot;;.
+        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///    &lt;label for=&quot;fe-ele-vmp&quot;&gt;Value Member Path&lt;/label&gt;
+        ///    &lt;input class=&quot;form-control&quot; data-bind=&quot;value: ValueMemberPath,e [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string form_element_property_grid_EntityLookupElement {
             get {
@@ -173,18 +178,13 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.FileUploadElement
-        ///
-        ///&lt;!--ko if: ko.unwrap($type) === &quot;Bespoke.Sph.Domain.FileUploadElement, domain.sph&quot; --&gt;
-        ///
-        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///   Looks up a localized string similar to &lt;div class=&quot;form-group&quot;&gt;
         ///    &lt;label for=&quot;upload-extensions&quot;&gt;Allowed  file extensions&lt;/label&gt;
         ///    &lt;input class=&quot;form-control&quot; data-bind=&quot;value: AllowedExtensions&quot;
         ///           placeholder=&quot;For more than one  extension use , e.g. .docx,.xlsx&quot;
         ///           id=&quot;upload-extensions&quot; type=&quot;text&quot; name=&quot;CommandName&quot; /&gt;
         ///&lt;/div&gt;
         ///
-        ///&lt;!--/ko--&gt;
         ///.
         /// </summary>
         internal static string form_element_property_grid_FileUploadElement {
@@ -194,12 +194,7 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///@model Bespoke.Sph.Domain.ImageElement
-        ///
-        ///&lt;!--ko if: ko.unwrap($type) === &quot;Bespoke.Sph.Domain.ImageElement, domain.sph&quot; --&gt;
-        ///
-        ///&lt;div class=&quot;form-group&quot; &gt;
+        ///   Looks up a localized string similar to &lt;div class=&quot;form-group&quot; &gt;
         ///    &lt;label for=&quot;form-element-image-height&quot;&gt;Width&lt;/label&gt;
         ///    &lt;input class=&quot;form-control&quot; data-bind=&quot;value: Width&quot;
         ///           placeholder=&quot;Image width&quot;
@@ -207,7 +202,9 @@ namespace Bespoke.Sph.Domain.Properties {
         ///&lt;/div&gt;
         ///&lt;div class=&quot;form-group&quot; &gt;
         ///    &lt;label for=&quot;form-element-image-height&quot;&gt;Height&lt;/label&gt;
-        ///    &lt;input class=&quot;form-control&quot;  [rest of string was truncated]&quot;;.
+        ///    &lt;input class=&quot;form-control&quot; data-bind=&quot;value: Height&quot;
+        ///           placeholder=&quot;Image height&quot;
+        ///           id=&quot;form-element-image-height&quot; type=&quot;text&quot; name=&quot;wid [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string form_element_property_grid_ImageElement {
             get {
@@ -216,18 +213,8 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @using Bespoke.Sph.Domain
-        ///@model Bespoke.Sph.Domain.ListView
-        ///
-        ///
-        ///
-        ///&lt;!--ko if:ko.unwrap($type) === &quot;Bespoke.Sph.Domain.ListView, domain.sph&quot; --&gt;
-        ///&lt;div class=&quot;form-group&quot;&gt;
-        ///    &lt;label for=&quot;form-element-list-view-type&quot;&gt;Child item type&lt;/label&gt;
-        ///    &lt;input placeholder=&quot;e.g, bespoke.@(ConfigurationManager.ApplicationName.ToLowerInvariant())_&amp;lt;id&amp;gt;.domain.&amp;lt;ChildType&amp;gt;&quot; class=&quot;form-control&quot; data-bind=&quot;value: ChildItemType&quot; id=&quot;form-element-list-view-type&quot; type=&quot;text&quot; name=&quot;MinLength&quot; /&gt;
-        ///&lt;/div&gt;
-        ///
-        ///&lt;div c [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;span class=&quot;error&quot;&gt;TODO : there are lots of things here - please refer to the original property grid&lt;/span&gt;
+        ///.
         /// </summary>
         internal static string form_element_property_grid_ListView {
             get {
@@ -236,10 +223,7 @@ namespace Bespoke.Sph.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @model Bespoke.Sph.Domain.TextBox
-        ///
-        ///&lt;!--ko if: ko.unwrap($type) === &quot;Bespoke.Sph.Domain.TextBox, domain.sph&quot; --&gt;
-        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///   Looks up a localized string similar to &lt;div class=&quot;form-group&quot;&gt;
         ///    &lt;label for=&quot;fetb-entity&quot;&gt;Autocompletion Entity&lt;/label&gt;
         ///    &lt;select id=&quot;fetb-entity&quot; class=&quot;form-control&quot; data-bind=&quot;value: AutoCompletionEntity,
         ///                options : $root.entityOptions,
@@ -247,7 +231,9 @@ namespace Bespoke.Sph.Domain.Properties {
         ///                optionsText : &apos;text&apos;,
         ///                optionsCaption: &apos;[Select Entity]&apos;&quot; name=&quot;entity&quot;&gt;&lt;/select&gt;
         ///&lt;/div&gt;
-        ///&lt;div cla [rest of string was truncated]&quot;;.
+        ///&lt;div class=&quot;form-group&quot;&gt;
+        ///    &lt;label for=&quot;fetb-field&quot;&gt;Autocompletion Field&lt;/label&gt;
+        ///    &lt;input class=&quot;form-control&quot; data-bi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string form_element_property_grid_TextBox {
             get {
