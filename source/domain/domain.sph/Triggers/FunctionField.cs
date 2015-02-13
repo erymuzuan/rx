@@ -1,14 +1,11 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq.Expressions;
+using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Xml.Serialization;
-using Microsoft.CSharp;
-using Newtonsoft.Json;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Bespoke.Sph.Domain
 {
@@ -23,18 +20,6 @@ namespace Bespoke.Sph.Domain
         {
             this.WebId = "ff" + Guid.NewGuid().ToString().Replace("-", string.Empty)
                 .Substring(0, 8);
-        }
-
-        [XmlIgnore]
-        [JsonIgnore]
-        private IScriptEngine m_scriptEngine;
-
-        [XmlIgnore]
-        [JsonIgnore]
-        public IScriptEngine ScriptEngine
-        {
-            get { return m_scriptEngine ?? (m_scriptEngine = ObjectBuilder.GetObject<IScriptEngine>()); }
-            set { m_scriptEngine = value; }
         }
 
         public string CodeNamespace
@@ -53,14 +38,20 @@ namespace Bespoke.Sph.Domain
             if (m_ff.ContainsKey(this.WebId))
                 return m_ff[this.WebId].Evaluate(context.Item);
 
-            var dll = Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, string.Format("{0}.dll", this.CodeNamespace));
-            if (!File.Exists(dll)) this.Compile(context);
+            using (var stream = new MemoryStream())
+            {
+                var result = this.Compile(context, stream);
+                if (!result.Result)
+                    throw new InvalidOperationException("Cannot compile your script");
 
-            var assembly = Assembly.LoadFile(dll);
-            dynamic ff = Activator.CreateInstance(assembly.GetType(this.CodeNamespace + ".FunctionFieldHost"));
-            m_ff.Add(this.WebId, ff);
+                var assembly = Assembly.Load(stream.GetBuffer());
+                dynamic ff = Activator.CreateInstance(assembly.GetType(this.CodeNamespace + ".FunctionFieldHost"));
+                m_ff.Add(this.WebId, ff);
 
-            return ff.Evaluate(context.Item);
+                return ff.Evaluate(context.Item);
+            }
+
+
 
         }
 
@@ -92,50 +83,47 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public SphCompilerResult Compile(RuleContext context)
+        private SphCompilerResult Compile(RuleContext context, Stream stream)
         {
             var code = this.GenerateCode(context);
+            var trees = new List<SyntaxTree>() { CSharpSyntaxTree.ParseText(code) };
+            var references = new List<MetadataReference>(){
+                this.CreateMetadataReference<Entity>(),
+                this.CreateMetadataReference<EnumerableQuery>(),
+                this.CreateMetadataReference<DateTime>(),
+                MetadataReference.CreateFromAssembly(context.Item.GetType().Assembly)
+                };
 
-            using (var provider = new CSharpCodeProvider())
+            var compilation = CSharpCompilation.Create(string.Format("{0}.{1}", ConfigurationManager.ApplicationName, this.WebId))
+                .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+                .AddReferences(references)
+                .AddSyntaxTrees(trees);
+
+            var errors = compilation.GetDiagnostics()
+                .Where(d => d.Id != "CS8019")
+                .Select(d => new BuildError(d));
+
+            var result = new SphCompilerResult { Result = true };
+            result.Errors.AddRange(errors);
+            result.Result = result.Errors.Count == 0;
+            if (DebuggerHelper.IsVerbose)
             {
-                var outputPath = ConfigurationManager.WorkflowCompilerOutputPath;
-                var parameters = new CompilerParameters
-                {
-                    OutputAssembly = Path.Combine(outputPath, string.Format("{0}.dll", this.CodeNamespace)),
-                    GenerateExecutable = false,
-                    IncludeDebugInformation = true
-                };
-                parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
-                parameters.ReferencedAssemblies.Add((context.Item.GetType()).Assembly.Location);
-
-                var result = provider.CompileAssemblyFromSource(parameters, code);
-                var cr = new SphCompilerResult
-                {
-                    Result = true,
-                    Output = Path.GetFullPath(parameters.OutputAssembly)
-                };
-                cr.Result = result.Errors.Count == 0;
-
-                foreach (var error in result.Errors)
-                {
-                    Console.WriteLine(error);
-                    var guid = Guid.NewGuid();
-                    var log = Path.Combine(ConfigurationManager.UserSourceDirectory, @"\logs");
-                    if (!Directory.Exists(log)) Directory.CreateDirectory(log);
-
-                    var logFile = string.Format("{0}\\{1}.log", log, guid);
-                    var cs = string.Format("{0}\\{1}.cs", log, guid);
-
-                    File.WriteAllText(logFile, error.ToString());
-                    File.WriteAllText(cs, code);
-                }
-
-                return cr;
+                var color = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                result.Errors.ForEach(Console.WriteLine);
+                Console.ForegroundColor = color;
             }
-        }
 
+            if (null == stream)
+                throw new ArgumentException("To emit please provide a stream in your options", "stream");
+
+            var emitResult = compilation.Emit(stream);
+            result.Result = emitResult.Success;
+            var errors2 = emitResult.Diagnostics.Select(v => new BuildError(v));
+            result.Errors.AddRange(errors2);
+
+            return result;
+        }
     }
+
 }

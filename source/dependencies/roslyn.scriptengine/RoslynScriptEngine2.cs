@@ -7,6 +7,7 @@ using System.Text;
 using Bespoke.Sph.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.RoslynScriptEngines
 {
@@ -22,26 +23,11 @@ namespace Bespoke.Sph.RoslynScriptEngines
             var references = new List<MetadataReference>
             {
                 this.CreateMetadataReference<DateTime>(),
-                this.CreateMetadataReference<Entity>()
+                this.CreateMetadataReference<Entity>(),
+                this.CreateMetadataReference<JsonTextReader>(),
+                MetadataReference.CreateFromAssembly(item.GetType().Assembly)
             };
-
-            try
-            {
-                references.Add(MetadataReference.CreateFromAssembly(item.GetType().Assembly));
-            }
-            catch (ArgumentException e)
-            {
-                if (DebuggerHelper.IsRunningInUnitTest && e.Message == "Empty path name is not legal.")
-                {
-                    Console.WriteLine("Load from buffer for unit test");
-                    references.Add(MetadataReference.CreateFromFile(this.Stream));
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            
 
             var tree = this.GetSyntaxTree<T, T1>(script, item);
             var compilation = CSharpCompilation.Create("eval")
@@ -57,7 +43,13 @@ namespace Bespoke.Sph.RoslynScriptEngines
             }
             using (var stream = new MemoryStream())
             {
-                compilation.Emit(stream);
+                var emitResult = compilation.Emit(stream); 
+                if (emitResult.Diagnostics.Length > 0)
+                {
+                    emitResult.Diagnostics.ToList().ForEach(Console.WriteLine);
+                    throw new Exception("Emit error in your script");
+                }
+
                 var dll = Assembly.Load(stream.GetBuffer());
                 var type = dll.GetType("Bespoke.Sph.RoslynScriptEngines.Host");
                 dynamic host = Activator.CreateInstance(type);
@@ -66,8 +58,6 @@ namespace Bespoke.Sph.RoslynScriptEngines
                 return host.Evaluate(item);
             }
         }
-
-        public string Stream { get; set; }
 
 
         public T Evaluate<T, T1, T2>(string script, T1 arg1, T2 arg2)
@@ -87,6 +77,7 @@ namespace Bespoke.Sph.RoslynScriptEngines
 
             var code = new StringBuilder();
             code.AppendLine("using System;");
+            code.AppendLine("using Bespoke.Sph.Domain;");
             code.AppendLine("namespace Bespoke.Sph.RoslynScriptEngines");
             code.AppendLine("{");
             code.AppendLine("   public class Host");
@@ -94,8 +85,11 @@ namespace Bespoke.Sph.RoslynScriptEngines
             code.AppendLine("       public DateTime @Today { get { return DateTime.Today; } }");
             code.AppendLine("       public DateTime @Now { get { return DateTime.Now; } }");
             code.AppendLinf("       public {0} Item{{ get; set;}}", item.GetType().FullName);
-            code.AppendLinf("       public {0} Evaluate({1} item)", typeof(TReturn).FullName, item.GetType().FullName);
+            code.AppendLinf("       public {0} Evaluate(object o)", typeof(TReturn).FullName);
             code.AppendLine("       {");
+                
+            code.AppendLine("           var json = o.ToJsonString();");
+            code.AppendLinf("           var item = json.DeserializeFromJson<{0}>();", item.GetType().FullName);
             code.AppendLine("           this.Item = item;");
             code.AppendLine(block);
             code.AppendLine("       }");

@@ -20,7 +20,7 @@ namespace domain.test.triggers
         [Test]
         public void FuctionDateTimeValue()
         {
-            var building = new FunctionField { Script = "DateTime.Today", ScriptEngine = new RoslynScriptEngine() };
+            var building = new FunctionField { Script = "DateTime.Today" };
 
             var result = building.GetValue(new RuleContext(new Designation()));
             Assert.AreEqual(DateTime.Today, result);

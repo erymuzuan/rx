@@ -208,18 +208,15 @@ namespace domain.test.triggers
 
 
         [Test]
+        [Trace(Verbose = true)]
         public async Task ExecuteLinqValueOnDocumentField()
         {
-            var script = new RoslynScriptEngine();
             var customer = await this.GetCustomerInstanceAsync().ConfigureAwait(false);
             customer.Revenue = 100m * 10;
-            var field = new FunctionField { Script = "item.Revenue", ScriptEngine = script };
+            var field = new FunctionField { Script = "item.Revenue" };
             var val = field.GetValue(new RuleContext(customer));
             Assert.AreEqual(1000m, val);
         }
-
-
-
 
 
         [Test]

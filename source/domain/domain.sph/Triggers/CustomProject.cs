@@ -46,7 +46,11 @@ namespace Bespoke.Sph.Domain
                          let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)
                          select CSharpSyntaxTree.Create(root.GetRoot(), path: c.FileName)).ToList();
 
-            var compilation = CSharpCompilation.Create(string.Format("{0}.{1}", ConfigurationManager.ApplicationName, this.Id))
+            var assemblyName = string.Format("{0}.{1}", ConfigurationManager.ApplicationName, this.Id);
+            var co = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+            var compilation = CSharpCompilation.Create(assemblyName)
+                .WithAssemblyName(assemblyName)
+                .WithOptions(co)
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
                 .AddReferences(project.GetMetadataReferences())
                 .AddSyntaxTrees(trees);
