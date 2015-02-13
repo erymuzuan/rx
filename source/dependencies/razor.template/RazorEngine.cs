@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using RazorEngine;
 using RazorEngine.Templating;
@@ -18,8 +17,8 @@ namespace Bespoke.Sph.Templating
             viewBag.UserName = directory.CurrentUserName;
 
             if (string.IsNullOrWhiteSpace(template)) return Task.FromResult(string.Empty);
-            var body = Razor.Parse(template, model, viewBag, null);
-            return Task.FromResult(body);
+            var result = Engine.Razor.RunCompile(template, "templateKey", null, new { Name = "World" }, (DynamicViewBag)viewBag);
+            return Task.FromResult(result);
         }
     }
 

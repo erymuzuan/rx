@@ -31,7 +31,7 @@ namespace adapter.csproj.gen
             var vm = new
             {
                 Adapter = item,
-                RootNamespace =string.Format("{0}.Adapter.{1}", ConfigurationManager.ApplicationName, item.Schema),
+                RootNamespace = string.Format("{0}.Adapter.{1}", ConfigurationManager.ApplicationName, item.Schema),
                 CsFiles = files,
                 AssemblyName = string.Format("{0}.{1}", ConfigurationManager.ApplicationName, item.Name)
             };
@@ -53,11 +53,10 @@ namespace adapter.csproj.gen
 
         public string TransformTemplate(string template, dynamic model)
         {
-            dynamic viewBag = new DynamicViewBag();
-
+            var viewBag = new DynamicViewBag();
             if (string.IsNullOrWhiteSpace(template)) return string.Empty;
-            var body = Razor.Parse(template, model, viewBag, null);
-            return body;
+            var result = Engine.Razor.RunCompile(template, "templateKey", null, new { Name = "World" }, viewBag);
+            return result;
         }
     }
 }
