@@ -238,7 +238,7 @@ order by ORDINAL_POSITION";
                 Name = name,
                 MethodName = name.ToCsharpIdentitfier(),
                 Uuid = uuid,
-                CodeNamespace = adapter.CodeNamespace,
+                CodeNamespace = adapter.DefaultNamespace,
                 WebId = uuid,
             };
             using (var conn = new SqlConnection(adapter.ConnectionString))

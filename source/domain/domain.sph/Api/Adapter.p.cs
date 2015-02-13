@@ -6,8 +6,7 @@ namespace Bespoke.Sph.Domain.Api
     {
         public AdapterTable[] Tables { get; set; }
         public string Schema { get; set; }
-
-        public virtual string CodeNamespace
+        public override string DefaultNamespace
         {
             get { return string.Format("{0}.Adapters.{1}.{2}", ConfigurationManager.ApplicationName, this.Schema, this.Name); }
         }

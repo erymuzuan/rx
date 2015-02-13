@@ -7,6 +7,7 @@ namespace Bespoke.Sph.Domain.Api
 {
     public abstract partial class Adapter : CustomProject
     {
+       
         public override Task<IEnumerable<ValidationError>> ValidateAsync()
         {
             var vr = new ObjectCollection<ValidationError>();

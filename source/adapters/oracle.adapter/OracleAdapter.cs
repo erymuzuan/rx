@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             // ReSharper restore AssignNullToNotNullAttribute
             {
                 var code = reader.ReadToEnd();
-                code = code.Replace("__NAMESPACE__", this.CodeNamespace);
+                code = code.Replace("__NAMESPACE__", this.DefaultNamespace);
                 var source = new Tuple<string, string>("OraclePagingTranslator.cs", code);
                 return Task.FromResult(source);
 
@@ -79,14 +79,14 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var table1 = table;
                 if(m_tableDefinitions.Contains(t => t.Name == table1.Name))continue;
 
-                var td = new TableDefinition { Schema = this.Schema, Name = table.Name, CodeNamespace = this.CodeNamespace };
+                var td = new TableDefinition { Schema = this.Schema, Name = table.Name, CodeNamespace = this.DefaultNamespace };
                 m_columnCollection.Add(table.Name, new ObjectCollection<Column>());
                 m_tableDefinitions.Add(td);
                 td.ChildTableCollection.ClearAndAddRange(from a in table.ChildRelationCollection
                                                          select new TableDefinition
                                                          {
                                                              Name = a.Table,
-                                                             CodeNamespace = this.CodeNamespace,
+                                                             CodeNamespace = this.DefaultNamespace,
                                                              Schema = this.Schema
                                                          });
 
@@ -196,7 +196,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             header.AppendLine();
 
-            header.AppendLine("namespace " + this.CodeNamespace);
+            header.AppendLine("namespace " + this.DefaultNamespace);
             header.AppendLine("{");
             return header.ToString();
 
@@ -265,7 +265,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             // ReSharper restore AssignNullToNotNullAttribute
             {
                 var code = reader.ReadToEnd();
-                code = code.Replace("__NAMESPACE__", this.CodeNamespace);
+                code = code.Replace("__NAMESPACE__", this.DefaultNamespace);
                 var source = new Tuple<string, string>("OdataOracleTranslator.cs", code);
                 return Task.FromResult(source);
 
@@ -666,11 +666,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             return Task.FromResult(result);
         }
 
-        public override string DefaultNamespace
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+    
         public override Task<IEnumerable<Class>> GenerateCodeAsync()
         {
             throw new NotImplementedException();

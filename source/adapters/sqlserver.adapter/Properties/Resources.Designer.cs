@@ -99,7 +99,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
+        ///   Looks up a localized string similar to &lt;link href=&quot;/Content/prism.css&quot; rel=&quot;stylesheet&quot; /&gt;
         ///&lt;link href=&quot;/Content/jstree/style.min.css&quot; rel=&quot;stylesheet&quot; /&gt;
         ///&lt;h1&gt;Web Page Operation Details&lt;/h1&gt;
         ///&lt;div class=&quot;row&quot;&gt;
@@ -114,7 +114,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ///        &lt;form class=&quot;form-horizontal&quot; data-bind=&quot;with : operation&quot;&gt;
         ///
         ///         &lt;div class=&quot;form-group&quot;&gt;
-        ///                &lt;label for=&quot;name&quot; class=&quot;col-sm-2 control-label&quot; [rest of string was truncated]&quot;;.
+        ///              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SprocHtml {
             get {
@@ -132,9 +132,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         ////// &lt;reference path=&quot;../Scripts/moment.js&quot; /&gt;
         ////// &lt;reference path=&quot;../services/datacontext.js&quot; /&gt;
         ////// &lt;reference path=&quot;../schemas/sph.domain.g.js&quot; /&gt;
-        ///
-        ///
-        ///define([&apos;se [rest of string was truncated]&quot;;.
+        ////// &lt;reference  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SprocJs {
             get {
@@ -144,17 +142,19 @@ namespace Bespoke.Sph.Integrations.Adapters.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;h1&gt;Microsoft SQL Server&lt;/h1&gt;
+        ///&lt;div id=&quot;error-list&quot; class=&quot;row&quot; data-bind=&quot;visible:errors().length&quot;&gt;
+        ///    &lt;!-- ko foreach : errors --&gt;
+        ///    &lt;div class=&quot;col-md-8 col-md-offset-2 alert alert-dismissable alert-danger&quot;&gt;
+        ///        &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/button&gt;
+        ///        &lt;i class=&quot;fa fa-exclamation&quot;&gt;&lt;/i&gt;
+        ///        &lt;span data-bind=&quot;text:Message&quot;&gt;&lt;/span&gt;
+        ///        
+        ///    &lt;/div&gt;
+        ///    &lt;div class=&quot;col-md-2&quot;&gt;&lt;/div&gt;
+        ///    &lt;!-- /ko--&gt;
+        ///&lt;/div&gt;
         ///&lt;div class=&quot;row&quot;&gt;
-        ///    &lt;form class=&quot;form-horizontal&quot; data-bind=&quot;with:adapter&quot;&gt;
-        ///        &lt;h3&gt;Adapter property&lt;/h3&gt;
-        ///        &lt;div class=&quot;form-group&quot;&gt;
-        ///            &lt;label class=&quot;col-sm-3&quot; for=&quot;name&quot;&gt;Name&lt;/label&gt;
-        ///            &lt;div class=&quot;col-sm-9&quot;&gt;
-        ///                &lt;input class=&quot;form-control&quot; type=&quot;text&quot; id=&quot;name&quot; required placeholder=&quot;Adapter name&quot; data-bind=&quot;value:Name&quot; /&gt;
-        ///            &lt;/div&gt;
-        ///        &lt;/div&gt;
-        ///        &lt;div class=&quot;form-group&quot;&gt;
-        ///            &lt;label class=&quot;col-sm-3&quot;  [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SqlServerAdapterHtml {
             get {
