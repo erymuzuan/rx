@@ -1,6 +1,5 @@
 ﻿using System;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.RoslynScriptEngines;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
@@ -69,7 +68,7 @@ namespace domain.test.triggers
                 Location = ASSEMBLY,
                 TypeName = @"assembly.test.AssemblyClassToTest"
             };
-            var field = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
+            var field = new FunctionField { Script = "return item;" };
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Welcome", Type = typeof(string) }, Name = "greet" });
             af.MethodArgCollection.Add(new MethodArg { ValueProvider = field, Name = "customer" });
 
@@ -86,7 +85,7 @@ namespace domain.test.triggers
             customer.FullName = "Erymuzuan";
             var context = new RuleContext(customer);
 
-            var field = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
+            var field = new FunctionField { Script = "return item;"};
 
             var af = new AssemblyField
             {
@@ -110,7 +109,7 @@ namespace domain.test.triggers
             customer.FullName = "Erymuzuan";
             var context = new RuleContext(customer);
 
-            var field = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
+            var field = new FunctionField { Script = "return item;"};
 
             var af = new AssemblyField
             {
@@ -160,7 +159,7 @@ namespace domain.test.triggers
             customer.FullName = "Erymuzuan";
             var context = new RuleContext(customer);
 
-            var field = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
+            var field = new FunctionField { Script = "return item;"};
 
             var af = new AssemblyField
             {

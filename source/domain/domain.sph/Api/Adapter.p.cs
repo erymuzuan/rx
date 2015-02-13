@@ -24,10 +24,7 @@ namespace Bespoke.Sph.Domain.Api
         {
             get { return m_operationDefinitionsCollection; }
         }
-
-
-        [XmlAttribute]
-        public string Name { get; set; }
+        
         [XmlAttribute]
         public string Description { get; set; }
 

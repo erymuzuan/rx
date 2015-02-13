@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ using Bespoke.Sph.RoslynScriptEngines;
 using domain.test.reports;
 using domain.test.triggers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NUnit.Framework;
 
 namespace domain.test.entities
@@ -41,8 +44,11 @@ namespace domain.test.entities
                 IsVerbose = verbose,
                 IsDebug = true
             };
+            var guid = Guid.NewGuid();
+            var folder = string.Format(@"{0}\{1}", Path.GetTempPath(), guid);
+            Directory.CreateDirectory(folder);
 
-            var temp = Path.GetTempFileName() + ".dll";
+            var temp = string.Format(@"{0}\{1}\{2}.{3}.dll", Path.GetTempPath(), guid, ConfigurationManager.ApplicationName, ed.Id);
             using (var stream = new FileStream(temp, FileMode.Create))
             {
                 options.Stream = stream;
@@ -52,14 +58,25 @@ namespace domain.test.entities
                 Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
             }
-            var roslyn = (RoslynScriptEngine2)ObjectBuilder.GetObject<IScriptEngine>();
-            roslyn.Stream = temp;
-            // try to instantiate the EntityDefinition
+
             var assembly = Assembly.LoadFile(temp);
             var edTypeName = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, ed.Id, ed.Name);
 
             var edType = assembly.GetType(edTypeName);
             Assert.IsNotNull(edType, edTypeName + " is null");
+
+
+            AppDomain.CurrentDomain.AssemblyResolve += (o, e) =>
+            {
+                Console.WriteLine("Resolving {0}", e.Name);
+                if (e.Name.StartsWith(ConfigurationManager.ApplicationName)) return assembly;
+                var name = ConfigurationManager.WebPath + @"\bin\" + e.Name.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).First().Trim()
+                    + ".dll";
+                if (File.Exists(name))
+                    return Assembly.LoadFile(name);
+                Console.WriteLine("Cannot find " + name);
+                return null;
+            };
 
             return Activator.CreateInstance(edType);
         }
@@ -77,29 +94,36 @@ namespace domain.test.entities
             ent.MemberCollection.Add(new Member
             {
                 Name = "FullName",
-                TypeName = "System.String, mscorlib",
+                Type = typeof(string),
                 IsFilterable = true
             });
             ent.MemberCollection.Add(new Member
             {
                 Name = "Status",
-                TypeName = "System.String, mscorlib",
+                Type = typeof(string),
                 IsFilterable = true
             });
             ent.MemberCollection.Add(new Member
             {
                 Name = "Title",
-                TypeName = "System.String, mscorlib",
+                Type = typeof(string),
                 IsFilterable = true
             });
             ent.MemberCollection.Add(new Member
             {
                 Name = "DeathDateTime",
-                TypeName = "System.DateTime, mscorlib",
+                Type = typeof(DateTime),
+                IsNullable = true,
+                IsFilterable = true
+            });
+            ent.MemberCollection.Add(new Member
+            {
+                Name = "RegisteredDateTime",
+                Type = typeof(DateTime),
                 IsFilterable = true
             });
             var address = new Member { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, Type = typeof(string)});
             address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
@@ -131,7 +155,6 @@ namespace domain.test.entities
 
             var patient = await this.CreateInstanceAsync(ed, true).ConfigureAwait(false);
             Assert.IsNotNull(patient);
-
             Type patientType = patient.GetType();
             var dll = patientType.Assembly;
             foreach (var type in dll.GetTypes())
@@ -145,6 +168,9 @@ namespace domain.test.entities
             Assert.IsNotNull(releaseActionMethodInfo);
 
         }
+
+
+
 
 
         [Test]
@@ -172,9 +198,10 @@ namespace domain.test.entities
             var ed = this.CreatePatientDefinition("PatientWithBusinessRule");
             ed.EntityOperationCollection.Add(release);
             ed.BusinessRuleCollection.Add(mustBeDeadRule);
+            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
             var patient = await this.CreateInstanceAsync(ed, true).ConfigureAwait(false);
-            Assert.IsNotNull(patient);
+            patient.RegisteredDateTime = DateTime.Today;
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
             Type patientType = patient.GetType();
@@ -182,20 +209,16 @@ namespace domain.test.entities
 
             var controllerType = dll.GetType(patientType.Namespace + ".PatientWithBusinessRuleController");
             dynamic controller = Activator.CreateInstance(controllerType);
+            controller.Request = new HttpRequestMessage { Method = HttpMethod.Post };
+            controller.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
 
-            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
+            var result = await controller.Save(patient);
 
-
-            var result = await controller.Release(patient);
-            Console.WriteLine("Result type : " + result);
-            Assert.IsNotNull(result);
-
-            dynamic vr = result.Data;
-            var ttt = JsonSerializerService.ToJsonString(vr, Formatting.Indented);
-            StringAssert.Contains("\"success\": false", ttt);
-            Console.WriteLine();
-            //Assert.IsFalse(vr.success);
-            //Assert.AreEqual(3, vr.rules.Length);
+            string json = JsonConvert.SerializeObject(result.Content.Value, Formatting.Indented);
+            var converter = new ExpandoObjectConverter();
+            dynamic vr = JsonConvert.DeserializeObject<ExpandoObject>(json, converter);
+            Assert.IsFalse(vr.success);
+            Assert.AreEqual(3, vr.rules.Length);
 
         }
 

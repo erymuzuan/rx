@@ -61,7 +61,7 @@ namespace domain.test.entities
                 Name = "RegisteredDate",
                 Type = typeof(DateTime),
                 IsFilterable = true,
-                DefaultValue = new FunctionField { Script = "new DateTime(2011,5,2)", ScriptEngine = new RoslynScriptEngine() }
+                DefaultValue = new FunctionField { Script = "new DateTime(2011,5,2)" }
             });
             var address = new Member { Name = "Address", Type = typeof(object) };
             var malaysia = new ConstantField { Type = typeof(string), Value = "Malaysia" };

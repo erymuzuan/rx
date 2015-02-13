@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.RoslynScriptEngines;
 using NUnit.Framework;
 using Newtonsoft.Json;
 
@@ -40,7 +39,7 @@ namespace domain.test.triggers
                     Operator = Operator.Eq,
                     Right = new ConstantField { Value = 500 }
                 };
-            var t = new Trigger { Name = "test action" };
+            var t = new Trigger { Name = "test action" , Id = "test-action"};
             t.RuleCollection.Add(rule);
             return JsonConvert.SerializeObject(t, Formatting.Indented , new JsonSerializerSettings
                 {
@@ -58,11 +57,10 @@ namespace domain.test.triggers
                 Field = new FunctionField
                     {
                         Name = "Whate ver",
-                        Script = "LotNo",
-                        ScriptEngine = new RoslynScriptEngine()
+                        Script = "LotNo"
                     }
             });
-            var t = new Trigger { Name = "test action" };
+            var t = new Trigger { Name = "test action", Id = "test-action"};
             t.ActionCollection.Add(email);
             t.ActionCollection.Add(setter);
             return JsonConvert.SerializeObject(t, Formatting.Indented,
