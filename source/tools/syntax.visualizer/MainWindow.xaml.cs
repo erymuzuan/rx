@@ -12,6 +12,13 @@ namespace Bespoke.Sph.SyntaxVisualizers
 {
     public partial class MainWindow : IView
     {
+
+        public string EditedFile { get; set; }
+        public DispatcherObject View
+        {
+            get { return this; }
+            set { throw new NotImplementedException(); }
+        }
         public MainWindow()
         {
             InitializeComponent();
@@ -21,7 +28,7 @@ namespace Bespoke.Sph.SyntaxVisualizers
             this.Drop += this.MainWindowDrop;
         }
 
-        void MainWindowDrop(object sender, DragEventArgs e)
+        private void MainWindowDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -44,8 +51,6 @@ namespace Bespoke.Sph.SyntaxVisualizers
                 this.Cursor = Cursors.Arrow;
             }
         }
-
-        public string EditedFile { get; set; }
 
         void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -72,7 +77,7 @@ namespace Bespoke.Sph.SyntaxVisualizers
 
         }
 
-        void SyntaxVisualizerSelected(object sender, RoutedEventArgs e)
+        private void SyntaxVisualizerSelected(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -174,10 +179,5 @@ namespace Bespoke.Sph.SyntaxVisualizers
 
         }
 
-        public DispatcherObject View
-        {
-            get { return this; }
-            set { throw new NotImplementedException(); }
-        }
     }
 }
