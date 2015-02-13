@@ -129,7 +129,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             header.AppendLine();
 
-            header.AppendLine("namespace " + this.CodeNamespace);
+            header.AppendLine("namespace " + this.DefaultNamespace);
             header.AppendLine("{");
             return header.ToString();
 
@@ -179,7 +179,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<SprocOperationDefinition>())
             {
-                op.CodeNamespace = this.CodeNamespace;
+                op.CodeNamespace = this.DefaultNamespace;
                 var methodName = op.MethodName;
 
                 if (addedActions.Contains(methodName)) continue;
@@ -524,7 +524,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             // ReSharper restore AssignNullToNotNullAttribute
             {
                 var code = reader.ReadToEnd();
-                code = code.Replace("__NAMESPACE__", this.CodeNamespace);
+                code = code.Replace("__NAMESPACE__", this.DefaultNamespace);
                 var source = new Tuple<string, string>("OdataSqlTranslator.cs", code);
                 return Task.FromResult(source);
 
@@ -542,7 +542,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             // ReSharper restore AssignNullToNotNullAttribute
             {
                 var code = reader.ReadToEnd();
-                code = code.Replace("__NAMESPACE__", this.CodeNamespace);
+                code = code.Replace("__NAMESPACE__", this.DefaultNamespace);
                 var source = new Tuple<string, string>("SqlPagingTranslator.cs", code);
                 return Task.FromResult(source);
 
@@ -566,7 +566,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                                                          select new TableDefinition
                                                          {
                                                              Name = a.Table,
-                                                             CodeNamespace = this.CodeNamespace,
+                                                             CodeNamespace = this.DefaultNamespace,
                                                              Schema = this.Schema
                                                          });
                 using (var reader = await cmd.ExecuteReaderAsync())

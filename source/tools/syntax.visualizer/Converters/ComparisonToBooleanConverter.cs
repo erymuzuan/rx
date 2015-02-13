@@ -17,10 +17,10 @@ namespace Bespoke.Sph.SyntaxVisualizers.Converters
                 int number;
                 if (int.TryParse(Compare, out number))
                 {
-                    if (Operator == "eq")return number == (int)value;
-                    if (Operator == "neq")return number != (int)value;
-                    if (Operator == "gt")return (int)value > number;
-                    if (Operator == "lt")return (int)value < number;
+                    if (Operator == "eq") return number == (int)value;
+                    if (Operator == "neq") return number != (int)value;
+                    if (Operator == "gt") return (int)value > number;
+                    if (Operator == "lt") return (int)value < number;
                 }
             }
             if (value is decimal)
@@ -35,13 +35,13 @@ namespace Bespoke.Sph.SyntaxVisualizers.Converters
                 }
             }
 
-            if (value is string)
+            var s = value as string;
+            if (s != null)
             {
-                var stringValue = value as string;
                 if (Operator == "eq")
-                    return stringValue == this.Compare;
+                    return s == this.Compare;
                 if (Operator == "neq")
-                    return stringValue != this.Compare;
+                    return s != this.Compare;
 
                 throw new InvalidOperationException("Operator " + this.Operator + " cannot be recognized, only eq and neq for string");
             }
