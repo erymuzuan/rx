@@ -15,6 +15,7 @@ namespace domain.test.razor
         {
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
         }
+
         [Test]
         public async Task Engine()
         {
