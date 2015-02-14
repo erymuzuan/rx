@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Templating
             viewBag.UserName = directory.CurrentUserName;
 
             if (string.IsNullOrWhiteSpace(template)) return Task.FromResult(string.Empty);
-            var result = Engine.Razor.RunCompile(template, "templateKey", null, new { Name = "World" }, (DynamicViewBag)viewBag);
+            var result = Engine.Razor.RunCompile(template, template, null, (object)model, (DynamicViewBag)viewBag);
             return Task.FromResult(result);
         }
     }

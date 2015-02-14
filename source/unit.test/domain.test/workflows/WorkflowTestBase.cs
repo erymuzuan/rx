@@ -35,7 +35,7 @@ namespace domain.test.workflows
             BinaryStore = new Mock<IBinaryStore>(MockBehavior.Strict);
             BinaryStore.Setup(x => x.GetContent("schema-storeid"))
                 .Returns(doc);
-            ObjectBuilder.AddCacheList<IBinaryStore>(BinaryStore.Object);
+            ObjectBuilder.AddCacheList(BinaryStore.Object);
             var qp = new MockQueryProvider();
             ObjectBuilder.AddCacheList<QueryProvider>(qp);
             ObjectBuilder.AddCacheList<IRepository<WorkflowDefinition>>(new MockRepository<WorkflowDefinition>());

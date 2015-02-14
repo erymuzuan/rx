@@ -55,7 +55,7 @@ namespace adapter.csproj.gen
         {
             var viewBag = new DynamicViewBag();
             if (string.IsNullOrWhiteSpace(template)) return string.Empty;
-            var result = Engine.Razor.RunCompile(template, "templateKey", null, new { Name = "World" }, viewBag);
+            var result = Engine.Razor.RunCompile(template, template, null, (object)model, viewBag);
             return result;
         }
     }
