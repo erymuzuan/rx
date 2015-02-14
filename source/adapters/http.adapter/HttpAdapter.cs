@@ -40,7 +40,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             header.AppendLine();
 
-            header.AppendLine("namespace " + this.CodeNamespace);
+            header.AppendLine("namespace " + this.DefaultNamespace);
             header.AppendLine("{");
             return header.ToString();
 
@@ -66,7 +66,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var addedActions = new List<string>();
             foreach (var op in this.OperationDefinitionCollection.OfType<HttpOperationDefinition>())
             {
-                op.CodeNamespace = this.CodeNamespace;
+                op.CodeNamespace = this.DefaultNamespace;
                 var methodName = string.Format("{0}_{1}_", op.HttpMethod, op.Name);
 
                 if (addedActions.Contains(methodName)) continue;

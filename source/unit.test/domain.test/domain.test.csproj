@@ -190,6 +190,7 @@
     <Compile Include="entities\FieldValidationTest.cs" />
     <Compile Include="entities\OperationTest.cs" />
     <Compile Include="entities\ViewSortTest.cs" />
+    <Compile Include="razor\RazorEngineTestFixture.cs" />
     <Compile Include="reports\DataGridTestFixture.cs" />
     <Compile Include="reports\FilterValueTestFixture.cs" />
     <Compile Include="reports\MockRepository.cs" />

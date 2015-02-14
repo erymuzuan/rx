@@ -18,8 +18,8 @@ namespace Bespoke.Sph.Templating
             viewBag.UserName = directory.CurrentUserName;
 
             if (string.IsNullOrWhiteSpace(template)) return Task.FromResult(string.Empty);
-            var body = Razor.Parse(template, model, viewBag, null);
-            return Task.FromResult(body);
+            var result = Engine.Razor.RunCompile(template, template, null, (object)model, (DynamicViewBag)viewBag);
+            return Task.FromResult(result);
         }
     }
 
