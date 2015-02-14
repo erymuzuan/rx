@@ -11,6 +11,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -76,6 +77,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "IsPathIsRequired": true,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -119,6 +121,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -171,6 +174,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "IsPathIsRequired": true,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -223,6 +227,7 @@
             "IsComputedQuery": true,
             "WebId": null
           },
+          "IsPathIsRequired": true,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -294,6 +299,7 @@
             "IsComputedQuery": false,
             "WebId": null
           },
+          "IsPathIsRequired": true,
           "TypeName": "ComboBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -333,7 +339,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.ListView, domain.sph",
-          "ChildItemType": "bespoke.dev_1.domain.Attachment",
+          "ChildItemType": "bespoke.DevV1_customer.domain.Attachment",
           "IsChildItemFunction": false,
           "ListViewColumnCollection": {
             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ListViewColumn, domain.sph]], domain.sph",
@@ -348,6 +354,7 @@
                   "AutoCompletionEntity": "",
                   "AutoCompletionField": "",
                   "AutoCompletionQuery": "",
+                  "IsPathIsRequired": true,
                   "TypeName": "TextBox",
                   "FieldValidation": {
                     "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -425,6 +432,7 @@
                     "IsComputedQuery": false,
                     "WebId": null
                   },
+                  "IsPathIsRequired": true,
                   "TypeName": "ComboBox",
                   "FieldValidation": {
                     "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -471,6 +479,7 @@
                 "Input": {
                   "$type": "Bespoke.Sph.Domain.FileUploadElement, domain.sph",
                   "AllowedExtensions": "",
+                  "IsPathIsRequired": true,
                   "TypeName": "FileUploadElement",
                   "FieldValidation": {
                     "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -520,6 +529,7 @@
                   "TemplateId": 0,
                   "Entity": "",
                   "IconClass": "",
+                  "IsPathIsRequired": true,
                   "TypeName": "DownloadLink",
                   "FieldValidation": {
                     "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -558,9 +568,59 @@
                   "WebId": "5c738f75-a3cd-4c03-b552-b80b85c2982e"
                 },
                 "WebId": "b7346372-5be6-4939-bccb-9f1cb539f481"
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
+                "Label": "Image222",
+                "Path": "StoreId",
+                "Input": {
+                  "$type": "Bespoke.Sph.Domain.ImageElement, domain.sph",
+                  "IsThumbnail": false,
+                  "Width": null,
+                  "Height": null,
+                  "IsPathIsRequired": true,
+                  "TypeName": "ImageElement",
+                  "FieldValidation": {
+                    "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+                    "IsRequired": false,
+                    "Pattern": "",
+                    "Mode": "",
+                    "Message": "",
+                    "Min": null,
+                    "Max": null,
+                    "MinLength": null,
+                    "MaxLength": null,
+                    "WebId": null
+                  },
+                  "Name": "",
+                  "Label": "Image2222",
+                  "Tooltip": "",
+                  "Path": "StoreId",
+                  "IsRequired": false,
+                  "Size": "",
+                  "CssClass": "",
+                  "Visible": "",
+                  "Enable": "",
+                  "ElementId": "",
+                  "HelpText": "",
+                  "UseDisplayTemplate": false,
+                  "ToolboxIconClass": "",
+                  "IsUniqueName": false,
+                  "LabelColLg": null,
+                  "LabelColMd": null,
+                  "LabelColSm": null,
+                  "LabelColXs": null,
+                  "InputColLg": null,
+                  "InputColMd": null,
+                  "InputColSm": null,
+                  "InputColXs": null,
+                  "WebId": "42a9fc8f-7b57-4331-b95e-d9dd9ef23ca7"
+                },
+                "WebId": "d9fc9f5d-de28-442f-f784-e86f523cdf5e"
               }
             ]
           },
+          "IsPathIsRequired": true,
           "TypeName": "ListView",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -604,6 +664,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -643,6 +704,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.CheckBox, domain.sph",
+          "IsPathIsRequired": true,
           "TypeName": "CheckBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -682,6 +744,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.DatePicker, domain.sph",
+          "IsPathIsRequired": true,
           "TypeName": "DatePicker",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -722,6 +785,7 @@
         {
           "$type": "Bespoke.Sph.Domain.CurrencyElement, domain.sph",
           "Currency": null,
+          "IsPathIsRequired": true,
           "TypeName": "CurrencyElement",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -765,6 +829,7 @@
           "AutoCompletionEntity": null,
           "AutoCompletionField": null,
           "AutoCompletionQuery": null,
+          "IsPathIsRequired": true,
           "TypeName": "TextBox",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -808,6 +873,7 @@
           "TemplateId": 2,
           "Entity": "Customer",
           "IconClass": "glyphicon glyphicon-cloud-download",
+          "IsPathIsRequired": true,
           "TypeName": "DownloadLink",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -848,6 +914,7 @@
         {
           "$type": "Bespoke.Sph.Domain.FileUploadElement, domain.sph",
           "AllowedExtensions": null,
+          "IsPathIsRequired": true,
           "TypeName": "FileUploadElement",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -890,6 +957,7 @@
           "IsThumbnail": false,
           "Width": null,
           "Height": null,
+          "IsPathIsRequired": true,
           "TypeName": "ImageElement",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -930,6 +998,7 @@
         {
           "$type": "Bespoke.Sph.Domain.FileUploadElement, domain.sph",
           "AllowedExtensions": ".jpg,.png,.gif",
+          "IsPathIsRequired": true,
           "TypeName": "FileUploadElement",
           "FieldValidation": {
             "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -969,6 +1038,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.Button, domain.sph",
+          "IsPathIsRequired": false,
           "Command": "",
           "UseClick": false,
           "CommandName": "",
@@ -1016,6 +1086,7 @@
         },
         {
           "$type": "Bespoke.Sph.Domain.Button, domain.sph",
+          "IsPathIsRequired": false,
           "Command": null,
           "UseClick": false,
           "CommandName": null,
@@ -1118,7 +1189,7 @@
   "CreatedBy": "admin",
   "Id": "add-customer-form",
   "CreatedDate": "2014-01-20T08:56:14.795948+08:00",
-  "ChangedBy": "BESPOKE1-PC",
-  "ChangedDate": "2014-09-24T15:27:12.0241253+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2015-01-27T17:39:20.8987116+08:00",
   "WebId": "1292ee6f-44c9-4200-bf3b-f57694c63b3a"
 }

@@ -13,6 +13,23 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
           "$values": []
         },
+        "Path": "Name",
+        "Header": "Name",
+        "Sort": "",
+        "IsLinkColumn": true,
+        "FormRoute": "state-details",
+        "IconCssClass": "fa fa-phone-square",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "Id",
+        "WebId": "b101d5de-b5d9-451b-a115-8eeb077b69e6"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "Country",
         "Header": "Country",
         "Sort": "",
@@ -21,39 +38,8 @@
         "IconCssClass": "",
         "IconStoreId": "",
         "Format": "text:{0}",
-        "WebId": "b0d16673-c8cf-447b-9c3a-fa27dfb58b23"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "Abbreviation",
-        "Header": "Abbreviation",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "text:{0}",
-        "WebId": "bbd8a378-564d-4f8a-8ecd-080d2ca9a57b"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "CreatedDate",
-        "Header": "Created",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "date:{0}",
-        "WebId": "38fb5209-5590-49b7-b533-c14094a7bcb7"
+        "RouteValueField": "",
+        "WebId": "8aaa8654-36da-4ba2-f0e5-f7799b3497ad"
       }
     ]
   },
@@ -65,22 +51,34 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
     "$values": []
   },
-  "Id": "states-all",
-  "IconClass": null,
-  "IconStoreId": "0cb0362c-3e1e-4dd1-aff3-0b603e4fcc75",
-  "EntityDefinitionId": "State",
-  "Name": "All States",
-  "Route": "states-all",
-  "Note": "All states in the system",
-  "Query": null,
+  "Performer": {
+    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+    "UserProperty": "",
+    "Value": "",
+    "IsPublic": true,
+    "WebId": null
+  },
+  "RouteParameterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "IconClass": "",
+  "IconStoreId": "sph-img-list",
+  "EntityDefinitionId": "state",
+  "Name": "All states",
+  "Route": "all-states",
+  "Note": "",
+  "Query": "",
   "IsPublished": true,
-  "Visibilty": null,
-  "TileColour": "blightblue",
-  "CountMessage": null,
-  "Entity": "State",
-  "CreatedBy": "admin",
-  "CreatedDate": "2014-04-19T10:07:12.2580087+08:00",
+  "Visibilty": "",
+  "TileColour": "bblue",
+  "CountMessage": "",
+  "Entity": "",
+  "Partial": "",
+  "CreatedBy": null,
+  "Id": "all-states",
+  "CreatedDate": "0001-01-01T00:00:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2014-04-19T10:14:14.2755751+08:00",
-  "WebId": "ded510db-995f-4080-a001-01d8658edcc1"
+  "ChangedDate": "2015-01-27T18:37:29.6519965+08:00",
+  "WebId": "d889dc66-78df-464a-aec1-4bd8685fd26b"
 }
