@@ -17,8 +17,28 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', 'plugins/ro
             wds = ko.observableArray(),
             transforms = ko.observableArray(),
             isBusy = ko.observable(true),
-            addBlogForm = function (name) {
-                return router.navigate('/entity.form.designer/' + name + '/0');
+            addBlogForm = function (EntityDefinitionName) {
+                // return router.navigate('/entity.form.designer/' + EntityDefinitionName + '/0');
+
+                var edForm = new bespoke.sph.domain.EntityForm({ WebId: system.guid() });
+                require(["viewmodels/add.entity-definition.form.dialog", "durandal/app"], function (dialog, app2) {
+                    dialog.entity(EntityDefinitionName);
+                    dialog.form(edForm);
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                context.post(ko.toJSON(edForm), "/entity-form")
+                                        .done(function (result) {
+                                            if (result.success) {
+                                                router.navigate('/entity.form.designer/' + dialog.entity().Id() + '/' + dialog.form().Id());
+                                                logger.info("Your form has been successfully saved.");
+                                            }
+                                        });
+                            }
+                        });
+
+                });
             },
             addBlogOperation = function (name) {
                 return router.navigate('/entity.operation.details/' + name + '/<New Operation>');

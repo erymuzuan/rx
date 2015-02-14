@@ -1,0 +1,25 @@
+﻿
+<section class="view-model-modal" id="add-entity-definition-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Add new Operation</h3>
+            </div>
+            <div class="modal-body" data-bind="with: ed">
+
+                <form class="form-horizontal" id="add-entity-definition-form-dialog-form">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input required class="form-control" data-bind="value: Name" id="form-design-name" type="text" name="FormDesign.Name" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="add-entity-definition-form-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

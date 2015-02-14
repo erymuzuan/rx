@@ -480,7 +480,26 @@ ko.bindingHandlers.solutiontree = {
     init: function (element, valueAccessor) {
         var value = valueAccessor(),
             solution = ko.unwrap(value.solution),
-            click = value.click;
+            click = value.click,
+            addEntityDefinition = function () {
+                var ed = new bespoke.sph.domain.EntityDefinition(system.guid());
+                require(["viewmodels/add.entity-definition.dialog", "durandal/app"], function (dialog, app2) {
+                    dialog.ed(ed);
+                    app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                context.post(ko.toJSON(ed), "/entity-definition")
+                                        .done(function (edr) {
+                                            if (edr.success) {
+                                                router.navigate("entity.details/" + edr.id);
+                                            }
+                                        });
+                            }
+                        });
+
+                });
+            };
 
         var eds = [];
         var treeRoots = [
