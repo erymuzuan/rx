@@ -121,7 +121,7 @@ if($vs.Count -gt 0){
 
 # kill all the msbuild instance and rebuild all
 gps msbuild* | kill
-msbuild .\sph.all.sln /m
+msbuild .\sph.all.sln /m /p:Configuration=Debug /p:Platform="Any CPU"
 
 #build  dependencies
 $domains = @("domain.sph", "trigger.action.messaging")
@@ -170,7 +170,7 @@ $tools | %{
 
 #build core.sph and web.sph
 Parallel-Build -Name "web" -folder "web" -projects @("core.sph")
-& msbuild .\source\web\web.sph\web.sph.v1.csproj /p:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=web.sph.v1.err"
+& msbuild .\source\web\web.sph\web.sph.csproj /p:SolutionDir=$pwd /nologo /noconsolelogger /fileLogger /flp2:"errorsonly;logfile=web.sph.v1.err"
 
 
 Write-Host "Removing dll.config and xml files from output folders"

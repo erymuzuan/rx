@@ -46,8 +46,8 @@ Write-Host "Checking RabbitMQ" -ForegroundColor Cyan
 $erl = Get-Process "erl*" | measure
 if($erl.Count -eq 0){
     Start-Process .\sph.packages\rabbitmq_server\sbin\rabbitmq-server.bat
-    Write-Host "Starting rabbit mq server, waiting for 5 seconds"
-    Start-Sleep -Seconds 5
+    Write-Host "Starting rabbit mq server, waiting for 15 seconds"
+    Start-Sleep -Seconds 15
 }
 
 & .\sph.packages\rabbitmq_server\sbin\rabbitmqctl.bat list_vhosts > $outputLog
@@ -78,8 +78,8 @@ Try
 Catch{
     [System.Net.WebException]
     Start-Process .\StartElasticSearch.bat
-    Write-Host "Starting elasticsearch, waiting for 5 seconds"
-    Start-Sleep -Seconds 6
+    Write-Host "Starting elasticsearch, waiting for 15 seconds"
+    Start-Sleep -Seconds 16
     
     $cat_indices = curl -Method GET "$es`_cat/indices" | Out-String
     $esExist = ($cat_indices.Contains("yellow $indexName"))
