@@ -59,12 +59,12 @@ namespace mapping.transformation.test
             };
             td.FunctoidCollection.Add(destinationOffences);
 
-            var loop = new LoopingFunctoid{WebId = "_loop"};
+            var loop = new LoopingFunctoid { WebId = "_loop" };
             loop.Initialize();
             loop["sourceCollection"].Functoid = sourceSummons.WebId;
 
             td.FunctoidCollection.Add(loop);
-            
+
             td.MapCollection.Add(new DirectMap
             {
                 Source = "SamanCollection.NoKenderaan",
@@ -83,7 +83,7 @@ namespace mapping.transformation.test
                 Field = "SamanCollection.Compoun"
             };
             td.FunctoidCollection.Add(compundSource);
-            var pd = new ParseDecimalFunctoid {WebId = "pd"};
+            var pd = new ParseDecimalFunctoid { WebId = "pd" };
             pd.Initialize();
             pd["value"].Functoid = compundSource.WebId;
             td.FunctoidCollection.Add(pd);
@@ -106,16 +106,12 @@ namespace mapping.transformation.test
             td.MapCollection.Add(loopToDest);
 
 
-
-
-
-
             var options = new CompilerOptions();
             var sourceCodes = td.GenerateCode();
             var sourceFiles = td.SaveSources(sourceCodes);
             var cr = await td.CompileAsync(options, sourceFiles);
-            Assert.IsTrue(cr.Result,"Cannot compile : " + cr.Errors);
-            var mapType = Assembly.LoadFrom(cr.Output).GetType("Dev.Integrations.Transforms." + td.Name);
+            Assert.IsTrue(cr.Result, "Cannot compile : " + cr.Errors);
+            var mapType = Assembly.LoadFrom(cr.Output).GetType(ConfigurationManager.ApplicationName + ".Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mapType);
 
 
