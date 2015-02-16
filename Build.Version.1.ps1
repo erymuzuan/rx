@@ -19,6 +19,7 @@ ls -Path .\source -Filter *.pdb -Recurse | Remove-Item
 ls -Path .\source -Filter *.dll -Recurse | Remove-Item
 & git checkout source/unit.test/mapping.transformation.test/rsc.Driver.dll
 & git checkout source/unit.test/mapping.transformation.test/rsc.RilekWeb.dll
+& git checkout .\source\unit.test\assembly.test\DevV1.Customer.dll
 
 
 if($KeepPackages -eq $false )
