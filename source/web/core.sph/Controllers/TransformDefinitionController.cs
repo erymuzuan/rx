@@ -9,7 +9,7 @@ using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Controllers
 {
-    [Authorize(Roles = "developers")]
+    //[Authorize(Roles = "developers")]
     [RoutePrefix("transform-definition")]
     public class TransformDefinitionController : Controller
     {
@@ -113,7 +113,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         readonly string[] m_ignores =
         {
-            "Microsoft","Spring","WebGrease","WebActivator","WebMatrix",
+            "domain.sph",
+            "core.sph",
+            "Microsoft",
+            "Spring","WebGrease","WebActivator","WebMatrix",
             "workflows","Antlr3.Runtime","core.sph", "web.sph", "mscorlib",
             "DiffPlex","Common.Logging","EntityFramework","App_global", "Mono.Math",
             "Humanizer","ImageResizer","windows",
@@ -156,12 +159,20 @@ namespace Bespoke.Sph.Web.Controllers
                                 let name = a.GetName()
                                 where a.IsDynamic == false
                                 && !m_ignores.Any(x => name.Name.StartsWith(x))
-                                select new ReferencedAssembly
+                                select new
                                 {
-                                    Version = name.Version.ToString(),
-                                    FullName = name.FullName,
-                                    Location = a.Location,
-                                    Name = name.Name
+                                    Version = name.Version.ToString(), name.FullName, name.Name,
+                                    Types = a.GetTypes()
+                                                .Where(x => !x.IsAbstract)
+                                                .Where(x => !x.IsInterface)
+                                                .Where(x => x.IsPublic)
+                                                .Where(x => x.IsClass)
+                                                .Select(x => new
+                                                    {
+                                                        FullName = x.FullName + ", " + name.Name,
+                                                        TypeName = x.FullName,
+                                                        x.Name
+                                                    }).ToArray()
                                 };
 
             return Json(refAssemblies.ToArray(), JsonRequestBehavior.AllowGet);
