@@ -6,6 +6,18 @@ namespace Bespoke.Sph.Domain
 {
     public partial class TransformDefinition
     {
+        private readonly ObjectCollection<ReferencedAssembly> m_referencedAssemblyCollection = new ObjectCollection<ReferencedAssembly>();
+        private readonly ObjectCollection<string> m_inputTypeNameCollection = new ObjectCollection<string>();
+
+        public ObjectCollection<string> InputTypeNameCollection
+        {
+            get { return m_inputTypeNameCollection; }
+        }
+
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection
+        {
+            get { return m_referencedAssemblyCollection; }
+        }
 
         [XmlIgnore]
         [JsonIgnore]
