@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -12,12 +11,14 @@ namespace mapping.transformation.test
     [TestClass]
     public class TransformationTestFixture
     {
+        public const string CUSTOMER = "Customer";
+
+        public const string PATIENT = "Patient";
+
         [TestInitialize]
         public void Setup()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
-            File.Copy(Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, "Dev.Customer.dll"), @".\Dev.Customer.dll", true);
-            File.Copy(Path.Combine(ConfigurationManager.WorkflowCompilerOutputPath, "Dev.HR_EMPLOYEES.dll"), @".\Dev.HR_EMPLOYEES.dll", true);
         }
 
 
@@ -25,56 +26,67 @@ namespace mapping.transformation.test
         [TestMethod]
         public void ReadMappingFile()
         {
-            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.DevV1_customer.Domain.Customer");
+            var patientType = Assembly.LoadFrom(@".\DevV1.Patient.dll").GetType("Bespoke.DevV1_patient.Domain.Patient");
             var map = new TransformDefinition
             {
                 Name = "__Test Survey Mapping",
                 Description = "Just a description",
-                InputType = customerType,
-                OutputType = oracleEmployeeType
+                InputType = patientType,
+                OutputType = customerType
             };
             map.MapCollection.Add(new DirectMap
             {
-                Source = "SurveId",
+                Source = "Mrn",
                 Type = typeof(int),
-                Destination = "SURVEY_ID"
+                Destination = "Id"
             });
 
             Console.WriteLine(map.ToJsonString(Formatting.Indented));
         }
 
-        private dynamic CreateDynamicCustomer()
+        private dynamic CreateEntityInstance(string entity, string typeName = "")
         {
-            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            dynamic customer = Activator.CreateInstance(customerType);
-            return customer;
+            if (string.IsNullOrWhiteSpace(typeName))
+                typeName = entity;
+            var name = string.Format("Bespoke.{0}_{1}.Domain.{2}", ConfigurationManager.ApplicationName, entity.ToIdFormat(), typeName);
+            var type = LoadAssembly(entity).GetType(name);
+            dynamic instance = Activator.CreateInstance(type);
+            return instance;
         }
-        private Type GetCustomerType()
+
+        private static Assembly LoadAssembly(string entity)
         {
-            return Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var assemblyFile = string.Format(@".\{0}.{1}.dll", ConfigurationManager.ApplicationName, entity);
+            return Assembly.LoadFrom(assemblyFile);
+        }
+
+        private static string GetTypeName(string entity, string typeName = "")
+        {
+            if (string.IsNullOrWhiteSpace(typeName))
+                typeName = entity;
+            var name = string.Format("Bespoke.{0}_{1}.Domain.{2}, {0}.{3}", ConfigurationManager.ApplicationName, entity.ToIdFormat(), typeName, entity);
+            return name;
         }
 
         [TestMethod]
-        public async Task EntityCustomerToOracleEmployee()
+        public async Task CustomerToPatient()
         {
-            var customer = this.CreateDynamicCustomer();
+            var customer = this.CreateEntityInstance(CUSTOMER);
             customer.FullName = "Erymuzuan Mustapa";
             customer.PrimaryContact = "0123889200";
             customer.LogoStoreId = "2012-05-31";
             customer.RegisteredDate = DateTime.Today;
             customer.Age = 45;
-            customer.CustomerId = 50;
-
-            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            customer.Id = "_50";
 
 
             var td = new TransformDefinition
             {
-                Name = "__EmployeeMapping",
+                Name = "__CustomerToPatientMapping",
                 Description = "Just a description",
-                InputType = this.GetCustomerType(),
-                OutputType = oracleEmployeeType
+                InputTypeName = GetTypeName(CUSTOMER),
+                OutputTypeName = GetTypeName(PATIENT)
             };
             td.FunctoidCollection.Add(new ConstantFunctoid
             {
@@ -97,9 +109,9 @@ namespace mapping.transformation.test
             td.FunctoidCollection.Add(df);
             td.MapCollection.Add(new DirectMap
             {
-                Source = "CustomerId",
+                Source = "Id",
                 Type = typeof(int),
-                Destination = "EMPLOYEE_ID"
+                Destination = "Mrn"
             });
 
 
@@ -113,35 +125,6 @@ namespace mapping.transformation.test
             };
             td.FunctoidCollection.Add(genderFnctd);
 
-            td.MapCollection.Add(new FunctoidMap
-            {
-                Functoid = genderFnctd.WebId,
-                Destination = "EMAIL",
-                DestinationType = typeof(string)
-            });
-            td.MapCollection.Add(new FunctoidMap
-            {
-                Functoid = df.WebId,
-                Destination = "HIRE_DATE",
-                DestinationType = typeof(DateTime)
-            });
-            const string FORMATTING_FUNCTOID = "formattingFunctoid";
-            var ff = new FormattingFunctoid
-            {
-                Format = "Phone from date {0:yyyy-MM-dd}",
-                WebId = FORMATTING_FUNCTOID
-            };
-            ff.Initialize();
-            var sfff = new SourceFunctoid {Field = "CreatedDate", WebId = Guid.NewGuid().ToString()};
-            ff["value"].Functoid = sfff.WebId;
-            td.FunctoidCollection.Add(sfff);
-            td.FunctoidCollection.Add(ff);
-            td.MapCollection.Add(new FunctoidMap
-            {
-                Functoid = FORMATTING_FUNCTOID,
-                Destination = "PHONE_NUMBER",
-                DestinationType = typeof(string)
-            });
 
             var options = new CompilerOptions();
             var codes = td.GenerateCode();
@@ -151,24 +134,20 @@ namespace mapping.transformation.test
                 result.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            var mt = dll.GetType(ConfigurationManager.ApplicationName + ".Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
             var output = await map.TransformAsync(customer);
             Assert.IsNotNull(output);
-            Assert.AreEqual(customer.CustomerId, output.EMPLOYEE_ID);
-            Assert.AreEqual(new DateTime(2011, 5, 5), output.HIRE_DATE);
-            StringAssert.Contains(output.PHONE_NUMBER, "Phone from date", output.PHONE_NUMBER);
-            Console.WriteLine(td.ToJsonString(true));
         }
 
 
         [TestMethod]
         public async Task OracleEmployeeToEntityCustomer()
         {
-            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
@@ -211,7 +190,7 @@ namespace mapping.transformation.test
             var sc0 = new StringConcateFunctoid { WebId = "sc0" };
             var space = new ConstantFunctoid { Value = " ", Type = typeof(string), WebId = "space" };
             var bin = new ConstantFunctoid { Value = "bin", Type = typeof(string), WebId = "bin" };
-            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "1", Functoid = space.WebId ,});
+            sc0.ArgumentCollection.Add(new FunctoidArg { Name = "1", Functoid = space.WebId, });
             sc0.ArgumentCollection.Add(new FunctoidArg { Name = "2", Functoid = bin.WebId });
             sc0.ArgumentCollection.Add(new FunctoidArg { Name = "3", Functoid = space.WebId });
 
@@ -240,7 +219,7 @@ namespace mapping.transformation.test
 
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            var mt = dll.GetType("DevV1.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
@@ -256,8 +235,8 @@ namespace mapping.transformation.test
         [TestMethod]
         public async Task ScriptFunctoidMapping()
         {
-            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
@@ -300,7 +279,7 @@ namespace mapping.transformation.test
 
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            var mt = dll.GetType("DevV1.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
@@ -308,13 +287,13 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual("Erymuzuan bin Mustapa", output.FullName);
 
-        }  
-        
+        }
+
         [TestMethod]
         public async Task FormatObjectMapping()
         {
-            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
@@ -368,7 +347,7 @@ namespace mapping.transformation.test
 
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            var mt = dll.GetType("DevV1.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
@@ -376,12 +355,12 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual("RM 4500.00", output.FullName);
 
-        }  
+        }
         [TestMethod]
         public async Task ParseDateMapping()
         {
-            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
@@ -416,7 +395,7 @@ namespace mapping.transformation.test
             };
             td.AddFunctoids(phoneNumber);
             parseDate["value"].Functoid = phoneNumber.WebId;
-            
+
             td.MapCollection.Add(new FunctoidMap
             {
                 Functoid = parseDate.WebId,
@@ -433,21 +412,21 @@ namespace mapping.transformation.test
 
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            var mt = dll.GetType("DevV1.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
             var output = await map.TransformAsync(staff);
             Assert.IsNotNull(output);
-            Assert.AreEqual(new DateTime(2014,5,1), output.RegisteredDate);
+            Assert.AreEqual(new DateTime(2014, 5, 1), output.RegisteredDate);
 
-        }  
-        
+        }
+
         [TestMethod]
         public async Task ParseDecimalMapping()
         {
-            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
@@ -482,7 +461,7 @@ namespace mapping.transformation.test
             };
             td.AddFunctoids(phoneNumber);
             parseDecimal["value"].Functoid = phoneNumber.WebId;
-            
+
             td.MapCollection.Add(new FunctoidMap
             {
                 Functoid = parseDecimal.WebId,
@@ -499,7 +478,7 @@ namespace mapping.transformation.test
 
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            var mt = dll.GetType("DevV1.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
@@ -507,13 +486,13 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual(4589m, output.Revenue);
 
-        }  
+        }
 
         [TestMethod]
         public async Task ParseDoubleMapping()
         {
-            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
@@ -559,7 +538,7 @@ namespace mapping.transformation.test
             };
             td.AddFunctoids(phoneNumber);
             parseDouble["value"].Functoid = phoneNumber.WebId;
-            
+
             td.MapCollection.Add(new FunctoidMap
             {
                 Functoid = ff.WebId,
@@ -576,7 +555,7 @@ namespace mapping.transformation.test
 
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            var mt = dll.GetType("DevV1.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
@@ -584,13 +563,13 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual("Nama : 4589", output.FullName);
 
-        }  
+        }
 
         [TestMethod]
         public async Task ParseInt32Mapping()
         {
             var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
@@ -625,7 +604,7 @@ namespace mapping.transformation.test
             };
             td.AddFunctoids(phoneNumber);
             parseInt32["value"].Functoid = phoneNumber.WebId;
-            
+
             td.MapCollection.Add(new FunctoidMap
             {
                 Functoid = parseInt32.WebId,
@@ -642,7 +621,7 @@ namespace mapping.transformation.test
 
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            var mt = dll.GetType("DevV1.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
@@ -650,13 +629,13 @@ namespace mapping.transformation.test
             Assert.IsNotNull(output);
             Assert.AreEqual(4589, output.CustomerId);
 
-        }  
-        
+        }
+
         [TestMethod]
         public async Task ChildItemMapping()
         {
             var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
@@ -692,7 +671,7 @@ namespace mapping.transformation.test
 
             Assert.IsTrue(result.Result, "Compiler fails");
             var dll = Assembly.LoadFile(result.Output);
-            var mt = dll.GetType("Dev.Integrations.Transforms." + td.Name);
+            var mt = dll.GetType("DevV1.Integrations.Transforms." + td.Name);
             dynamic map = Activator.CreateInstance(mt);
 
 
@@ -701,6 +680,6 @@ namespace mapping.transformation.test
             Assert.AreEqual("erymuzuan@hotmail.com", output.Contact.Email);
 
         }
-        
+
     }
 }
