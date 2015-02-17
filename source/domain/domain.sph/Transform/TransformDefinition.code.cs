@@ -52,16 +52,50 @@ namespace Bespoke.Sph.Domain
 
         public string GenerateTransformCode()
         {
+            const string GAP = "               ";
+            var code = new StringBuilder();
+
+            var args = "";
+            if (!string.IsNullOrWhiteSpace(this.InputTypeName))
+                args = string.Format("{0} item", this.InputType.FullName);
+            if (this.InputTypeNameCollection.Count > 0)
+            {
+                code.AppendLine(" class Input");
+                code.AppendLine("{");
+                foreach (var input in this.InputTypeNameCollection)
+                {
+                    var type = Type.GetType(input);
+                    if (null == type) continue;
+                    code.AppendLinf(" public {0} {1} {{ get; set; }}", type.FullName, type.Name);
+                }
+                code.AppendLine("   ");
+                code.AppendLine("}");
+                var list = from p in this.InputTypeNameCollection
+                           let type = Type.GetType(p)
+                           where null != type
+                           let name = type.Name.ToCamelCase()
+                           select string.Format("{0} {1}", type.FullName, name);
+                args = string.Join(", ", list);
+            }
 
             this.FunctoidCollection.Select((x, i) => x.Index = i).ToList().ForEach(Console.WriteLine);
 
             this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
             this.MapCollection.ForEach(x => x.TransformDefinition = this);
 
-            const string GAP = "               ";
-            var code = new StringBuilder();
-            code.AppendLinf("           public async Task<{0}> TransformAsync({1} item)", this.OutputType.FullName, this.InputType.FullName);
+            code.AppendLinf("           public async Task<{0}> TransformAsync({1})", this.OutputType.FullName, args);
             code.AppendLine("           {");
+            if (this.InputTypeNameCollection.Count > 0)
+            {
+                code.AppendLinf(" var item = new {0}.Input();", this.Name);
+                foreach (var input in this.InputTypeNameCollection)
+                {
+                    var type = Type.GetType(input);
+                    if (null == type) continue;
+                    code.AppendLinf("item.{0} =  {1};", type.Name, type.Name.ToCamelCase());
+                }
+            }
+
             code.AppendLinf("               var dest =  new {0}();", this.OutputType.FullName);
 
             // functoids statement
@@ -91,7 +125,11 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("           }");
 
-            code.Replace("{SOURCE_TYPE}", this.InputType.FullName);
+            if (!string.IsNullOrWhiteSpace(this.InputTypeName))
+                code.Replace("{SOURCE_TYPE}", this.InputType.FullName);
+            else
+                code.Replace("{SOURCE_TYPE}", this.Name +".Input");
+
             code.Replace("{DEST_TYPE}", this.OutputType.FullName);
             return code.ToString();
         }
