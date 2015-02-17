@@ -20,6 +20,10 @@ ls -Path .\source -Filter *.dll -Recurse | Remove-Item
 & git checkout source/unit.test/mapping.transformation.test/rsc.Driver.dll
 & git checkout source/unit.test/mapping.transformation.test/rsc.RilekWeb.dll
 & git checkout .\source\unit.test\assembly.test\DevV1.Customer.dll
+& git checkout .\source\unit.test\mapping.transformation.test\DevV1.Customer.dll
+& git checkout .\source\unit.test\mapping.transformation.test\DevV1.Patient.dll
+& git checkout .\source\unit.test\mapping.transformation.test\DevV1.District.dll
+& git checkout .\source\unit.test\mapping.transformation.test\DevV1.State.dll
 
 
 if($KeepPackages -eq $false )
@@ -223,6 +227,11 @@ $Microsoft_Code_Analysis | Copy-Item -Destination .\bin\subscribers
 $Microsoft_Compostition| Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
 $Microsoft_Code_Analysis | Copy-Item -Destination .\source\unit.test\sqlserver.adapter.test\bin\Debug
 $odp_managed_data_provider| Copy-Item -Destination .\source\web\web.sph\bin
+
+
+$Microsoft_Compostition | Copy-Item -Destination .\source\unit.test\mapping.transformation.test\bin\Debug
+$Microsoft_Code_Analysis | Copy-Item -Destination .\source\unit.test\mapping.transformation.test\bin\Debug
+
 
 $user_dll | Copy-Item -Destination .\bin\subscribers
 $user_dll | Copy-Item -Destination .\bin\schedulers

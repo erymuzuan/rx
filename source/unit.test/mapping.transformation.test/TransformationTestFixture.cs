@@ -589,8 +589,8 @@ namespace mapping.transformation.test
         [TestMethod]
         public async Task ParseInt32Mapping()
         {
-            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
@@ -655,8 +655,8 @@ namespace mapping.transformation.test
         [TestMethod]
         public async Task ChildItemMapping()
         {
-            var customerType = Assembly.LoadFrom(@".\Dev.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\Dev.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
+            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("Dev.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
