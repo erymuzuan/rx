@@ -39,7 +39,7 @@ namespace Bespoke.Sph.Domain
         {
             this.FunctoidCollection.AddRange(functoids);
         }
-        
+
         public async Task<BuildValidationResult> ValidateBuildAsync()
         {
             this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
@@ -59,7 +59,7 @@ namespace Bespoke.Sph.Domain
             result.Errors.AddRange(maps);
 
             var fntTasks = from m in this.FunctoidCollection
-                        select m.ValidateAsync();
+                           select m.ValidateAsync();
             var functoidsValidation = (await Task.WhenAll(fntTasks)).SelectMany(x => x.ToArray())
                 .Select(x => new BuildError(x.ErrorLocation, x.Message));
 
