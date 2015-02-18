@@ -177,8 +177,7 @@ namespace Bespoke.Sph.Web.Controllers
                                                 .Where(x => x.IsClass)
                                                 .Select(x => new
                                                     {
-                                                        FullName = x.FullName + ", " + name.Name,
-                                                        TypeName = x.FullName,
+                                                        x.Namespace,
                                                         x.Name
                                                     }).ToArray()
                                 };
