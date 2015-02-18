@@ -70,9 +70,9 @@ namespace Bespoke.Sph.Domain
                     parameters.ReferencedAssemblies.Add(this.InputType.Assembly.Location);
                 else
                 {
-                    foreach (var p in this.InputTypeNameCollection)
+                    foreach (var p in this.InputCollection)
                     {
-                        var type = Type.GetType(p);
+                        var type = Type.GetType(p.TypeName);
                         if (null != type)
                             parameters.ReferencedAssemblies.Add(type.Assembly.Location);
                     }

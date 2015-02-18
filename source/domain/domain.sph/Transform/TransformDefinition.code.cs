@@ -75,22 +75,22 @@ namespace Bespoke.Sph.Domain
             var args = "";
             if (!string.IsNullOrWhiteSpace(this.InputTypeName))
                 args = string.Format("{0} item", this.InputType.FullName);
-            if (this.InputTypeNameCollection.Count > 0)
+            if (this.InputCollection.Count > 0)
             {
                 code.AppendLine(" class Input");
                 code.AppendLine("{");
-                foreach (var input in this.InputTypeNameCollection)
+                foreach (var input in this.InputCollection)
                 {
-                    var type = Type.GetType(input);
+                    var type = Type.GetType(input.TypeName);
                     if (null == type) continue;
-                    code.AppendLinf(" public {0} {1} {{ get; set; }}", type.FullName, type.Name);
+                    code.AppendLinf(" public {0} {1} {{ get; set; }}", type.FullName, input.Name);
                 }
                 code.AppendLine("   ");
                 code.AppendLine("}");
-                var list = from p in this.InputTypeNameCollection
-                           let type = Type.GetType(p)
+                var list = from p in this.InputCollection
+                           let type = Type.GetType(p.TypeName)
                            where null != type
-                           let name = type.Name.ToCamelCase()
+                           let name = p.Name.ToCamelCase()
                            select string.Format("{0} {1}", type.FullName, name);
                 args = string.Join(", ", list);
             }
@@ -102,14 +102,14 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLinf("           public async Task<{0}> TransformAsync({1})", this.OutputType.FullName, args);
             code.AppendLine("           {");
-            if (this.InputTypeNameCollection.Count > 0)
+            if (this.InputCollection.Count > 0)
             {
                 code.AppendLinf(" var item = new {0}.Input();", this.Name);
-                foreach (var input in this.InputTypeNameCollection)
+                foreach (var input in this.InputCollection)
                 {
-                    var type = Type.GetType(input);
+                    var type = Type.GetType(input.TypeName);
                     if (null == type) continue;
-                    code.AppendLinf("item.{0} =  {1};", type.Name, type.Name.ToCamelCase());
+                    code.AppendLinf("item.{0} =  {1};", input.Name, input.Name.ToCamelCase());
                 }
             }
 

@@ -49,9 +49,9 @@ namespace mapping.transformation.test
                 Description = "Just a description",
                 OutputType = customerType
             };
-            td.InputTypeNameCollection.Add("Bespoke.DevV1_patient.Domain.Patient, DevV1.Patient");
-            td.InputTypeNameCollection.Add("Bespoke.DevV1_district.Domain.District, DevV1.District");
-            td.InputTypeNameCollection.Add("Bespoke.DevV1_state.Domain.State, DevV1.State");
+            td.InputCollection.Add(new MethodArg {Name="Patient", Type = patient.GetType()});
+            td.InputCollection.Add(new MethodArg {Name="District", Type = district.GetType()});
+            td.InputCollection.Add(new MethodArg {Name="State", Type = state.GetType()});
 
             td.FunctoidCollection.Add(new ConstantFunctoid
             {
