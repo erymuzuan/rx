@@ -30,7 +30,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                 v.designer = ko.observable({ FontAwesomeIcon: "", "BootstrapIcon": "", "PngIcon": "", Category: "" });
                             });
                             td(b);
-                            $.get("/transform-definition/json-schema/" + b.InputTypeName(), function (s) {
+                            $.post(ko.toJSON(b), "/transform-definition/json-schema", function (s) {
                                 sourceSchema(s);
                             });
                             $.get("/transform-definition/json-schema/" + b.OutputTypeName(), function (s) {
@@ -293,7 +293,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 // creates the connection for each argument list
                 _(td().FunctoidCollection()).each(function (f) {
                     if (ko.unwrap(f.$type) !== "Bespoke.Sph.Domain.SourceFunctoid, domain.sph") {
-                        _(f.ArgumentCollection()).each(function(a) {
+                        _(f.ArgumentCollection()).each(function (a) {
                             var source = document.getElementById(ko.unwrap(a.Functoid));
                             if (typeof a.Functoid !== "function" || !source) {
                                 return;
@@ -367,7 +367,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     }, 1500);
 
 
-                if (!td().OutputTypeName() || !td().InputTypeName()) {
+                if (!td().OutputTypeName()) {
                     return;
                 }
                 var icon = function (html, item) {
@@ -527,7 +527,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                                 // try build the tree for new item
                                 if (!td().Id() || td().Id() === "0") {
-                                    var inTask = context.get("/transform-definition/json-schema/" + td().InputTypeName()),
+                                    var inTask = context.post(ko.toJSON(td), "/transform-definition/json-schema"),
                                        outTask = context.get("/transform-definition/json-schema/" + td().OutputTypeName());
                                     $.when(inTask, outTask).done(function (input, output) {
                                         sourceSchema(input[0]);

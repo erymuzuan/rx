@@ -187,6 +187,23 @@ namespace Bespoke.Sph.Web.Controllers
             return Content(schema.ToString(), "application/json", Encoding.UTF8);
         }
 
+        [HttpPost]
+        [Route("json-schema")]
+        public ActionResult Schema([RequestBody]TransformDefinition map)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("{");
+            sb.AppendLine("     \"types\":[\"object\", null],");
+            sb.AppendLine("     \"properties\": {");
+            var schemes = from t in map.InputCollection
+                let sc = JsonSerializerService.GetJsonSchemaFromObject(t.Type)
+                          select string.Format(@"""{0}"" : {1}", t.Name, sc);
+            sb.AppendLine(string.Join(", ", schemes));
+            sb.AppendLine("     }");
+            sb.AppendLine("}");
+            return Content(sb.ToString(), "application/json", Encoding.UTF8);
+        }
+
         [HttpGet]
         [Route("types/{dll}")]
         public ActionResult GetTypes(string dll)
