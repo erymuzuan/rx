@@ -14,38 +14,38 @@ namespace Bespoke.Sph.Domain
     {
         public static JsonSchema GetJsonSchemaFromObject2(Type type)
         {
-            var schemaGenerator = new JsonSchemaGenerator();
-            var jSchema = schemaGenerator.Generate(type);
-            jSchema = MapSchemaTypes(jSchema, type);
+            var generator = new JsonSchemaGenerator();
+            var schema = generator.Generate(type);
+            schema = MapSchemaTypes(schema, type);
 
-            return jSchema;
+            return schema;
         }
-        private static JsonSchema MapSchemaTypes(JsonSchema jSchema, Type type)
+        private static JsonSchema MapSchemaTypes(JsonSchema schema, Type type)
         {
-            foreach (var js in jSchema.Properties)
+            foreach (var prop in schema.Properties)
             {
-                Type fieldType = type.GetProperty(js.Key).PropertyType;
+                var fieldType = type.GetProperty(prop.Key).PropertyType;
 
                 if (fieldType.IsGenericType
                     && fieldType.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
-                    Type underlyingType = Nullable.GetUnderlyingType(fieldType);
+                    var underlyingType = Nullable.GetUnderlyingType(fieldType);
                     if (underlyingType == typeof(DateTime))
-                        js.Value.Format = "date-time";
+                        prop.Value.Format = "date-time";
                     else if (underlyingType.BaseType == typeof(Enum))
-                        js.Value.Enum = new JArray(Enum.GetNames(underlyingType));
+                        prop.Value.Enum = new JArray(Enum.GetNames(underlyingType).Cast<object>());
                 }
                 else if (fieldType == typeof(DateTime))
                 {
-                    js.Value.Format = "date-time";
+                    prop.Value.Format = "date-time";
                 }
                 else if (fieldType.BaseType == typeof(Enum))
                 {
-                    js.Value.Enum = new JArray(Enum.GetNames(fieldType));
+                    prop.Value.Enum = new JArray(Enum.GetNames(fieldType).Cast<object>());
                 }
-                else if (js.Value.Items != null && js.Value.Items.Any())
+                else if (prop.Value.Items != null && prop.Value.Items.Any())
                 {
-                    foreach (var item in js.Value.Items)
+                    foreach (var item in prop.Value.Items)
                     {
                         var arg = fieldType.GetGenericArguments();
                         if (arg.Any())
@@ -54,39 +54,39 @@ namespace Bespoke.Sph.Domain
                         MapSchemaTypes(item, fieldType);
                     }
                 }
-                else if (js.Value.Properties != null && js.Value.Properties.Any())
+                else if (prop.Value.Properties != null && prop.Value.Properties.Any())
                 {
-                    MapSchemaTypes(js.Value, fieldType);
+                    MapSchemaTypes(prop.Value, fieldType);
                 }
             }
-            return jSchema;
+            return schema;
         }
 
         public static JsonSchema GetJsonSchemaFromObject(Type type)
         {
-            var schemaGenerator = new JsonSchemaGenerator();
-            JsonSchema jSchema = schemaGenerator.Generate(type);
+            var generator = new JsonSchemaGenerator();
+            var schema = generator.Generate(type);
 
-            foreach (var js in jSchema.Properties)
+            foreach (var prop in schema.Properties)
             {
-                Type fieldType = type.GetProperty(js.Key).PropertyType;
+                var fieldType = type.GetProperty(prop.Key).PropertyType;
 
                 if (fieldType.IsGenericType
                     && fieldType.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
-                    Type underlyingType = Nullable.GetUnderlyingType(fieldType);
+                    var underlyingType = Nullable.GetUnderlyingType(fieldType);
                     if (underlyingType == typeof(DateTime))
-                        js.Value.Format = "date-time";
+                        prop.Value.Format = "date-time";
                     else if (underlyingType.BaseType == typeof(Enum))
-                        js.Value.Enum = new JArray(Enum.GetNames(underlyingType));
+                        prop.Value.Enum = new JArray(Enum.GetNames(underlyingType).Cast<object>());
                 }
                 else if (fieldType == typeof(DateTime))
                 {
-                    js.Value.Format = "date-time";
+                    prop.Value.Format = "date-time";
                 }
             }
 
-            return jSchema;
+            return schema;
         }
 
         /// <summary>
