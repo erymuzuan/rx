@@ -12,26 +12,51 @@
                 <form class="form-horizontal" id="td-prop-dialog-form">
 
                     <div class="form-group">
-                        <label for="name" class="col-lg-2 control-label">Name</label>
+                        <label for="name-input" class="col-lg-2 control-label">Name</label>
                         <div class="col-lg-6">
                             <input type="text" data-bind="value: Name"
                                    required="" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
                                    placeholder="Mapping name"
-                                   class="form-control" id="name">
+                                   class="form-control" id="name-input">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="description" class="col-lg-2 control-label">Description</label>
+                        <label for="description-input" class="col-lg-2 control-label">Description</label>
                         <div class="col-lg-9">
                             <textarea data-bind="value: Description"
                                       placeholder="Developers note.."
-                                      class="form-control" id="description"></textarea>
+                                      class="form-control" id="description-input"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: $root.allowMultipleSource" id="multiple-source-check" type="checkbox" name="$root.AllowMultipleSource" />
+                                    Allow multiple source
+                                </label>
+                            </div>
                         </div>
                     </div>
 
-                    <div id="tree-panel"></div>
-                    <table class="table table-striped" data-bind="filter : {path:'tbody>tr'}">
-                        <thead>
+                    <div class="form-group" data-bind="visible:$root.allowMultipleSource() === false">
+                        <label for="input-type-dll" class="col-lg-2 control-label">Input Assembly</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="input-type-dll" data-bind="value:$root.selectedInputAssembly, options: $root.assemblyOptions, optionsText:'Name', optionsValue:'Name', optionsCaption: '[Select an assembly]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group" data-bind="visible:$root.allowMultipleSource() === false">
+                        <label for="input-type-name" class="col-lg-2 control-label">Input Type</label>
+                        <div class="col-lg-6">
+                            <select data-bind="value: InputTypeName, options: $root.inputTypeOptions, optionsText:'Name', optionsValue:'FullName', optionsCaption:'[Select a .Net type]'"
+                                    required
+                                    class="form-control" id="input-type-name"></select>
+                        </div>
+                    </div>
+
+
+                    <table id="types-table" class="table table-striped" data-bind="filter : {path:'tbody>tr'}, visible:$root.allowMultipleSource">
+                        <thead style="display: block">
                             <tr>
                                 <th>Type</th>
                                 <th>Namespace</th>
@@ -39,20 +64,21 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody style="height: 120px; overflow-y: auto" data-bind="foreach :$root.typeOptions">
+                        <tbody style="height: 160px; overflow-y: auto; overflow-x: hidden; display: block" data-bind="foreach :$root.typeOptions">
                             <tr>
                                 <td data-bind="text:Name"></td>
                                 <td data-bind="text:Namespace"></td>
                                 <td data-bind="text:Assembly"></td>
                                 <td>
-                                    <a class="fa fa-angle-double-down" href="#input-type-dll">
+                                    <a class="fa fa-angle-double-down" href="#types-table">
                                         <i class="fa fa-angle-double-down"></i>
                                     </a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <table class="table table-striped">
+                    
+                    <table class="table table-striped" data-bind="visible:$root.allowMultipleSource">
                         <thead>
                             <tr>
                                 <th>Type</th>
@@ -67,24 +93,27 @@
                                 </td>
                                 <td data-bind="text:TypeName"></td>
                                 <td>
-                                    <a class="fa fa-times" title="remove input" href="#input-type-dll">
+                                    <a class="fa fa-times" title="remove input" href="#types-table">
                                     </a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+
+
+
                     <div class="form-group">
-                        <label for="input-type-dll" class="col-lg-2 control-label">Output Assembly</label>
+                        <label for="output-type-dll" class="col-lg-2 control-label">Output Assembly</label>
                         <div class="col-lg-6">
-                            <select class="form-control" id="input-type-dll" data-bind="value:$root.selectedOutputAssembly, options: $root.assemblyOptions, optionsText:'Name', optionsValue:'Name', optionsCaption: '[Select an assembly]'"></select>
+                            <select class="form-control" id="output-type-dll" data-bind="value:$root.selectedOutputAssembly, options: $root.assemblyOptions, optionsText:'Name', optionsValue:'Name', optionsCaption: '[Select an assembly]'"></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="input-type-name" class="col-lg-2 control-label">Output Type</label>
+                        <label for="output-type-name" class="col-lg-2 control-label">Output Type</label>
                         <div class="col-lg-6">
                             <select data-bind="value: OutputTypeName, options: $root.outputTypeOptions, optionsText:'Name', optionsValue:'FullName', optionsCaption:'[Select a .Net type]'"
                                     required
-                                    class="form-control" id="input-type-name"></select>
+                                    class="form-control" id="output-type-name"></select>
                         </div>
                     </div>
                 </form>
