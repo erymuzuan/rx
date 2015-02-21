@@ -732,12 +732,12 @@ ko.bindingHandlers.filter = {
         var value = valueAccessor(),
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
-            tooltip = value.tooltip || 'Type to filter current page or type and [ENTER] to search the whole view',
+            tooltip = value.tooltip || "Type to filter current page or type and [ENTER] to search the whole view",
             offset = (typeof value.offset === "undefined" ? 8 : parseInt(value.offset)),
             colmd = "col-md-" + (12 - offset),
             coloff = "col-md-offset-" + offset,
             $element = $(element),
-            $filterInput = $("<input data-toggle='tooltip' title='" + tooltip + "' type='search' class='search-query input-medium form-control' placeholder='Filter.. '>"),
+            $filterInput = $("<input data-toggle=\"tooltip\" title=\"" + tooltip + "\" type=\"search\" class=\"search-query input-medium form-control\" placeholder=\"Filter.. \">"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
             $form = $("<form class='form-search " + colmd + " " + coloff + "'>" +
                 " <div class='input-group pull-right'>" +
@@ -749,9 +749,9 @@ ko.bindingHandlers.filter = {
             pagedSearch = bindingAccessor.searchPaging;
 
 
-        $form.find('span.input-group-addon').before($filterInput);
+        $form.find("span.input-group-addon").before($filterInput);
         if (pagedSearch) {
-            $form.find('span.glyphicon-remove').after($serverLoadButton);
+            $form.find("span.glyphicon-remove").after($serverLoadButton);
         }
         $element.before($form);
 
@@ -786,9 +786,9 @@ ko.bindingHandlers.filter = {
         },
         throttled = _.throttle(dofilter, 800);
 
-        $filterInput.on('keyup', throttled).siblings('span.input-group-addon')
+        $filterInput.on("keyup", throttled).siblings("span.input-group-addon")
             .click(function () {
-                $filterInput.val('');
+                $filterInput.val("");
                 dofilter();
             });
 
