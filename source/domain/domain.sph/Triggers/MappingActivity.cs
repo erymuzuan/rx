@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
@@ -29,17 +30,17 @@ namespace Bespoke.Sph.Domain
 
 
             var code = new StringBuilder();
-          
+
             code.AppendLinf("        var map = new {0}();", this.MappingDefinition);
-            code.AppendLinf("        this.{0} = await map.TransformAsync({1});", this.OutputPath, this.MappingSourceCollection[0].Variable);
-           
+            code.AppendLinf("        this.{0} = await map.TransformAsync({1});", this.OutputPath, string.Join(", ", this.MappingSourceCollection.Select(x => x.Variable)));
+
 
 
             code.AppendLine();
             // set the next activity
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
-      
+
             return code.ToString();
         }
     }

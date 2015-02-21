@@ -31,17 +31,17 @@ namespace domain.test.workflows
         public async Task Compile()
         {
 
-            var wd = new WorkflowDefinition { Name = "Mapping patient into MySql employee", Id = "patient-mysql-insert-employee", SchemaStoreId = m_schemaStoreId };
-            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "empNo", Type = typeof(int) });
-            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = "Bespoke.Dev_patient.Domain.Patient" });
-            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "staff", TypeName = "Dev.Adapters.employees.employees" });
+            var wd = new WorkflowDefinition { Name = "Patient To Customer", Id = "mapping-patient-to-customer", SchemaStoreId = m_schemaStoreId };
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "mrn", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "patient", TypeName = "Bespoke." + ConfigurationManager.ApplicationName + "_patient.Domain.Patient" });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "customer", TypeName = "Bespoke." + ConfigurationManager.ApplicationName + "_customer.Domain.Customer" });
 
 
             var mapping = new MappingActivity
             {
-                Name = "MapPatientToEmployee",
-                MappingDefinition = "Dev.Integrations.Transforms.PatientToMySqlEmployee001",
-                OutputPath = "staff",
+                Name = "MapPatientToCustomer",
+                MappingDefinition = ConfigurationManager.ApplicationName + ".Integrations.Transforms.PatientToCustomer",
+                OutputPath = "customer",
                 WebId = "A",
                 IsInitiator = true,
                 NextActivityWebId = "End"
@@ -55,23 +55,28 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "End", Name = "EndWf" });
 
-            
-            const string ADAPTER_PATH = @"C:\project\work\sph\bin\output\Dev.__MySqlTestAdapter.dll";
-            const string PATIENT_PATH = @"C:\project\work\sph\bin\output\Dev.Patient.dll";
-            const string MAPPING_PATH = @"C:\project\work\sph\bin\output\Dev.PatientToMySqlEmployee001.dll";
 
-            File.Copy(ADAPTER_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.__MySqlTestAdapter.dll", true);
-            File.Copy(PATIENT_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.Patient.dll", true);
-            File.Copy(MAPPING_PATH, AppDomain.CurrentDomain.BaseDirectory + @"\Dev.PatientToMySqlEmployee001.dll", true);
+            var adapterPath = string.Format(@"C:\project\work\sph\bin\output\{0}.Customer.dll", ConfigurationManager.ApplicationName);
+            var patientPath = string.Format(@"C:\project\work\sph\bin\output\{0}.Patient.dll", ConfigurationManager.ApplicationName);
+            var mappingPath = string.Format(@"C:\project\work\sph\bin\output\{0}.PatientToCustomer.dll", ConfigurationManager.ApplicationName);
+
+            File.Copy(adapterPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Customer.dll", true);
+            File.Copy(patientPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Patient.dll", true);
+            File.Copy(mappingPath, AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".PatientToCustomer.dll", true);
             var options = new CompilerOptions();
+            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Customer.dll");
+            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".Patient.dll");
+            options.AddReference(AppDomain.CurrentDomain.BaseDirectory + @"\" + ConfigurationManager.ApplicationName + ".PatientToCustomer.dll");
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
 
-
-            var cr = await wd.CompileAsync(options).ConfigureAwait(false);
+            var cr = wd.Compile(options);
             cr.Errors.ForEach(Console.WriteLine);
             Assert.IsTrue(cr.Result);
 
-            var wfDll = Assembly.Load(cr.Buffer);
-            dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_PatientMysqlInsertEmployee_0.PatientMysqlInsertEmployeeWorkflow"));
+            var wfDll = Assembly.LoadFile(cr.Output);
+            dynamic wf = Activator.CreateInstance(wfDll.GetType("Bespoke.Sph.Workflows_PatientToCustomer_0.PatientToCustomerWorkflow"));
 
 
             wf.patient.Mrn = "784528";
@@ -82,9 +87,9 @@ namespace domain.test.workflows
 
 
 
-            Assert.AreNotEqual("Pantani",wf.staff.last_name);
+            Assert.AreNotEqual("Pantani", wf.staff.last_name);
             await wf.StartAsync();
-            
+
 
             Assert.AreEqual("Marco", wf.staff.first_name.Trim(), JsonSerializerService.ToJsonString(wf.staff, true));
             Assert.AreEqual("Pantani", wf.staff.last_name.Trim(), JsonSerializerService.ToJsonString(wf.staff, true));
