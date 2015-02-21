@@ -1,0 +1,65 @@
+
+<section class="view-model-modal" id="sql-server--lookup-functoid-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        data-bind="click : cancelclick">
+                    &times;
+                </button>
+                <h3>Functoid Properties Editor</h3>
+            </div>
+            <div class="modal-body" data-bind="with:functoid">
+
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="script-functoid-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-9">
+                            <input required class="form-control" data-bind="value: name" id="script-functoid-name" type="text" name="script-functoid-name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="constant-field-typename" class="col-lg-2 control-label">Type</label>
+                        <div class="col-lg-9">
+                            <select required class="form-control" id="constant-field-typename" name="constant-field-typename" data-bind="value : outputtypename">
+                                <option value="system.string, mscorlib">String</option>
+                                <option value="system.datetime, mscorlib">DateTime</option>
+                                <option value="system.int32, mscorlib">Integer</option>
+                                <option value="system.decimal, mscorlib">Decimal</option>
+                                <option value="system.boolean, mscorlib">Boolean</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="function-field-script" class="col-sm-2 control-label">Script</label>
+                        <div class="col-sm-8">
+                            <pre id="function-field-script" data-bind="text:expression"></pre>
+                            <a class="btn btn-default" id="script-help-buttton">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </a>
+                            <a href="#" data-bind="click:$root.edit">Edit</a>
+                            <div class="hidden" id="script-help-content">
+                                Must be a strict C# code, you can use "item" member to access the current item, e.g. to return a Rental application status use <pre>return item.Status;</pre>
+
+                                any C# construct is valid
+                                <pre>
+// return date = 1 Jan 2015
+return new DateTime(2015,1,1);
+</pre>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <input data-dismiss="modal" type="submit" class="btn btn-default"
+                       value="ok" data-bind="click : okclick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelclick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>
