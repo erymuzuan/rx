@@ -7,12 +7,13 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schema/sph.domain.g.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="~/Scripts/_task.js" />
 
-
-define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.system],
+define(["services/datacontext", "services/logger", "plugins/dialog", objectbuilders.system],
     function (context, logger, dialog, system) {
         "use strict";
-        var assemblyOptions = ko.observableArray(),
+        var allowMultipleSource = ko.observable(),
+            assemblyOptions = ko.observableArray(),
             inputTypeOptions = ko.observableArray(),
             selectedInputAssembly = ko.observable(),
             outputTypeOptions = ko.observableArray(),
@@ -20,39 +21,88 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
             selectedOutputAssembly = ko.observable(),
             td = ko.observable(new bespoke.sph.domain.TransformDefinition()),
             activate = function () {
-                var tcs = new $.Deferred();
-                $.get("/transform-definition/assemblies", function (list) {
-                    assemblyOptions(list);
-                    var types = [];
-                    _(list).each(function (v) {
-                        var items = v.Types.map(function (x) {
-                            x.Assembly = v.Name;
-                            x.FullName = x.Namespace + "." + x.Name + ", " + v.Name;
-                            return x;
+                allowMultipleSource(!td().InputTypeName());
+                return context.get("/transform-definition/assemblies")
+                    .then(function (list) {
+                        assemblyOptions(list);
+                        var types = [];
+                        _(list).each(function (v) {
+                            var items = v.Types.map(function (x) {
+                                x.Assembly = v.Name;
+                                x.FullName = x.Namespace + "." + x.Name + ", " + v.Name;
+                                return x;
+                            });
+                            types = types.concat(items);
                         });
-                        types = types.concat(items);
-                    });
-                    typeOptions(types);
-                    tcs.resolve(true);
+                        typeOptions(types);
+
+                        var input = ko.unwrap(td().InputTypeName),
+                            output = ko.unwrap(td().OutputTypeName);
+                        if (input) {
+                            selectedInputAssembly(/, (.*)/.exec(input)[1]);
+                        }
+                        if (output) {
+                            selectedOutputAssembly(/, (.*)/.exec(output)[1]);
+                            return context.get("/transform-definition/types/" + selectedOutputAssembly());
+                        }
+                        return Task.fromResult([]);
+
+                    }).then(function (list) {
+                        outputTypeOptions(list);
+                        if (selectedInputAssembly()) {
+                            return context.get("/transform-definition/types/" + selectedInputAssembly());
+                        }
+                        return Task.fromResult([]);
+                    })
+                .then(function (list) {
+                    inputTypeOptions(list);
+                }).fail(function (e, x, z) {
+                    console.log(e);
+                    console.log(x);
+                    console.log(z);
                 });
 
-                return tcs.promise();
             },
             attached = function (view) {
-                $(view).on('click', 'a.fa-angle-double-down', function (e) {
+                $(view).on("click", "a.fa-angle-double-down", function (e) {
                     e.preventDefault();
                     var arg = ko.dataFor(this);
                     td().InputCollection.push(new bespoke.sph.domain.MethodArg({
                         TypeName: arg.FullName,
-                        WebId : system.guid()
+                        Name: arg.Name,
+                        WebId: system.guid()
                     }));
                 });
-                $(view).on('click', 'a.fa-times', function (e) {
+                $(view).on("click", "a.fa-times", function (e) {
                     e.preventDefault();
                     var arg = ko.dataFor(this);
                     td().InputCollection.remove(arg);
                 });
 
+                //scrollable tbody
+                var $table = $("#types-table"),
+                    $bodyCells = $table.find("tbody tr:first").children(),
+                    colWidth;
+
+                $(window).resize(function () {
+                    colWidth = $bodyCells.map(function () {
+                        return $(this).width();
+                    }).get();
+
+                    $table.find("thead tr").children().each(function (i, v) {
+                        $(v).width(colWidth[i]);
+                    });
+                }).resize();
+
+
+                selectedInputAssembly.subscribe(function (dll) {
+                    return context.get("/transform-definition/types/" + dll)
+                        .then(inputTypeOptions);
+                });
+                selectedOutputAssembly.subscribe(function (dll) {
+                    return context.get("/transform-definition/types/" + dll)
+                        .then(outputTypeOptions);
+                });
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
@@ -64,18 +114,10 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                 dialog.close(this, "Cancel");
             };
 
-        selectedInputAssembly.subscribe(function (dll) {
-            $.get("/transform-definition/types/" + dll, function (list) {
-                inputTypeOptions(list);
-            });
-        });
-        selectedOutputAssembly.subscribe(function (dll) {
-            $.get("/transform-definition/types/" + dll, function (list) {
-                outputTypeOptions(list);
-            });
-        });
+
 
         var vm = {
+            allowMultipleSource: allowMultipleSource,
             activate: activate,
             attached: attached,
             assemblyOptions: assemblyOptions,

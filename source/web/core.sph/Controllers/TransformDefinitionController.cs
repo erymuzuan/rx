@@ -161,7 +161,9 @@ namespace Bespoke.Sph.Web.Controllers
                                 && !m_ignores.Any(x => name.Name.StartsWith(x))
                                 select new
                                 {
-                                    Version = name.Version.ToString(), name.FullName, name.Name,
+                                    Version = name.Version.ToString(),
+                                    name.FullName,
+                                    name.Name,
                                     Types = a.GetTypes()
                                                 .Where(x => !x.IsAbstract)
                                                 .Where(x => !x.IsInterface)
@@ -191,12 +193,15 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("json-schema")]
         public ActionResult Schema([RequestBody]TransformDefinition map)
         {
+            if (!string.IsNullOrWhiteSpace(map.InputTypeName))
+                return Schema(map.InputTypeName);
+
             var sb = new StringBuilder();
             sb.AppendLine("{");
             sb.AppendLine("     \"types\":[\"object\", null],");
             sb.AppendLine("     \"properties\": {");
             var schemes = from t in map.InputCollection
-                let sc = JsonSerializerService.GetJsonSchemaFromObject(t.Type)
+                          let sc = JsonSerializerService.GetJsonSchemaFromObject(t.Type)
                           select string.Format(@"""{0}"" : {1}", t.Name, sc);
             sb.AppendLine(string.Join(", ", schemes));
             sb.AppendLine("     }");
