@@ -1,4 +1,10 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
@@ -12,16 +18,77 @@ namespace Bespoke.Sph.Domain
             this.ArgumentCollection.Add(new FunctoidArg { Name = "schema", Type = typeof(string) });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "table", Type = typeof(string) });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "column", Type = typeof(string) });
-            this.ArgumentCollection.Add(new FunctoidArg { Name = "predicate", Type = typeof(string) });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "value1", Type = typeof(string) });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "value2", Type = typeof(string) });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "value3", Type = typeof(string) });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "value4", Type = typeof(string) });
+            this.ArgumentCollection.Add(new FunctoidArg { Name = "function", Type = typeof(string) });
             return base.Initialize();
 
         }
 
-        public override string GetEditorView()
+        public override async Task<IEnumerable<ValidationError>> ValidateAsync()
         {
-            return "";
+            var errors = (await base.ValidateAsync()).ToList();
+            var conn = this["connection"].GetFunctoid(this.TransformDefinition);
+            if (null == conn)
+                errors.Add(new ValidationError { Message = "We need the connection", PropertyName = "Connection" });
+            if(string.IsNullOrWhiteSpace(this.DefaultValue))
+                errors.Add(new ValidationError{PropertyName = "DefaultValue", Message = "You will need to provide a default value for non nullable destination"});
+            if(string.IsNullOrWhiteSpace(this.Column))
+                errors.Add(new ValidationError{PropertyName = "Column", Message = "You will need to provide a default value for non nullable destination"});
+            if(string.IsNullOrWhiteSpace(this.Schema))
+                errors.Add(new ValidationError{PropertyName = "Schema", Message = "You will need to provide a default value for non nullable destination"});
+            if(string.IsNullOrWhiteSpace(this.Predicate) && string.IsNullOrWhiteSpace(this.Function))
+                errors.Add(new ValidationError { PropertyName = "Predicate", Message = "For query without a predicate, please provide a scalar function" });
+            return errors;
         }
 
-        
+        public override string GenerateAssignmentCode()
+        {
+            return string.Format("({1})__result{0}", this.Index, Type.GetType(this.OutputTypeName).ToCSharp());
+        }
+
+        public override string GenerateStatementCode()
+        {
+            var code = new StringBuilder();
+
+            var value1 = this["value1"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode();
+            var connection = this["connection"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode();
+
+            code.AppendLinf("object __result{0} = null;", this.Index);
+            code.AppendLinf("var __connectionString{0} =  @{1};", this.Index, connection);
+            code.AppendLinf("var __text{0} = string.Format(\"SELECT [{3}] FROM [{4}].[{5}] WHERE {1}\", {2});", this.Index, this.Predicate, value1, this.Column, this.Schema, this.Table);
+            code.AppendLinf("using(var __conn = new {1}(__connectionString{0}))", this.Index, typeof(SqlConnection).FullName);
+            code.AppendLinf("using(var __cmd = new {1}(__text{0},__conn))", this.Index, typeof(SqlCommand).FullName);
+            code.AppendLine("{");
+            code.AppendLine("       await __conn.OpenAsync();");
+            code.AppendLinf("       __result{0} = await __cmd.ExecuteScalarAsync();", this.Index);
+
+            code.AppendLinf("       if(__result{0} == DBNull.Value || null == __result{0}) __result{0} = {1};", this.Index, this.DefaultValue);
+
+            code.AppendLine("}");
+
+            return code.ToString();
+        }
+
+        public string DefaultValue { get; set; }
+
+        public override string GetEditorView()
+        {
+            return database.lookup.Properties.Resources.view;
+        }
+
+        public override string GetEditorViewModel()
+        {
+            return database.lookup.Properties.Resources.vm;
+        }
+
+
+        public string Schema { get; set; }
+        public string Table { get; set; }
+        public string Predicate { get; set; }
+        public string Column { get; set; }
+        public string Function { get; set; }
     }
 }
