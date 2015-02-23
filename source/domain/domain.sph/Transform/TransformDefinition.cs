@@ -9,8 +9,6 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using Microsoft.CSharp;
 
 namespace Bespoke.Sph.Domain
@@ -60,12 +58,13 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(Int32).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Xml.Serialization.XmlAttributeAttribute).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
-                parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Xml.Linq.XElement).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Data.SqlClient.SqlConnection).Assembly.Location);
                 if (!string.IsNullOrWhiteSpace(this.InputTypeName))
                     parameters.ReferencedAssemblies.Add(this.InputType.Assembly.Location);
                 else
