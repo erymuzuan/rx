@@ -65,6 +65,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Data.SqlClient.SqlConnection).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Configuration.ConfigurationManager).Assembly.Location);
                 if (!string.IsNullOrWhiteSpace(this.InputTypeName))
                     parameters.ReferencedAssemblies.Add(this.InputType.Assembly.Location);
                 else
