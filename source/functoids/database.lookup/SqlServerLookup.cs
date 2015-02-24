@@ -33,13 +33,16 @@ namespace Bespoke.Sph.Domain
             var conn = this["connection"].GetFunctoid(this.TransformDefinition);
             if (null == conn)
                 errors.Add(new ValidationError { Message = "We need the connection", PropertyName = "Connection" });
-            if(string.IsNullOrWhiteSpace(this.DefaultValue))
-                errors.Add(new ValidationError{PropertyName = "DefaultValue", Message = "You will need to provide a default value for non nullable destination"});
-            if(string.IsNullOrWhiteSpace(this.Column))
-                errors.Add(new ValidationError{PropertyName = "Column", Message = "You will need to provide a default value for non nullable destination"});
-            if(string.IsNullOrWhiteSpace(this.Schema))
-                errors.Add(new ValidationError{PropertyName = "Schema", Message = "You will need to provide a default value for non nullable destination"});
-            if(string.IsNullOrWhiteSpace(this.Predicate) && string.IsNullOrWhiteSpace(this.Function))
+            
+            if (string.IsNullOrWhiteSpace(this.DefaultValue))
+                errors.Add(new ValidationError { PropertyName = "DefaultValue", Message = "You will need to provide a default value for non nullable destination" });
+            if (string.IsNullOrWhiteSpace(this.Column))
+                errors.Add(new ValidationError { PropertyName = "Column", Message = "You will need to provide a \"Column\" to SELECT from" });
+            if (string.IsNullOrWhiteSpace(this.Schema))
+                errors.Add(new ValidationError { PropertyName = "Schema", Message = "You will need to provide the \"Schema\" for your table" });
+            if (string.IsNullOrWhiteSpace(this.Table))
+                errors.Add(new ValidationError { PropertyName = "Schema", Message = "You will need to provide the \"Table\" to SELECT from" });
+            if (string.IsNullOrWhiteSpace(this.Predicate) && string.IsNullOrWhiteSpace(this.Function))
                 errors.Add(new ValidationError { PropertyName = "Predicate", Message = "For query without a predicate, please provide a scalar function" });
             return errors;
         }
@@ -53,12 +56,31 @@ namespace Bespoke.Sph.Domain
         {
             var code = new StringBuilder();
 
-            var value1 = this["value1"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode();
+            Func<string, string> evalValue = key =>
+            {
+                var assignmentCode = string.Empty;
+                if (null != this[key].GetFunctoid(this.TransformDefinition))
+                    assignmentCode = this[key].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode();
+                return assignmentCode;
+            };
+
+            var value1 = evalValue("value1");
+            var value2 = evalValue("value2");
+            var value3 = evalValue("value3");
+
             var connection = this["connection"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode();
 
             code.AppendLinf("object __result{0} = null;", this.Index);
             code.AppendLinf("var __connectionString{0} =  @{1};", this.Index, connection);
-            code.AppendLinf("var __text{0} = string.Format(\"SELECT [{3}] FROM [{4}].[{5}] WHERE {1}\", {2});", this.Index, this.Predicate, value1, this.Column, this.Schema, this.Table);
+
+            code.AppendLinf("var __text{0} = string.Format(\"SELECT [{3}] FROM [{4}].[{5}] WHERE {1}\", {2});", this.Index, this.Predicate, "<VALUES>", this.Column, this.Schema, this.Table);
+            if (!string.IsNullOrWhiteSpace(value1) && string.IsNullOrWhiteSpace(value2) && string.IsNullOrWhiteSpace(value3))
+                code.Replace("<VALUES>", value1);
+            if (!string.IsNullOrWhiteSpace(value1) && !string.IsNullOrWhiteSpace(value2) && string.IsNullOrWhiteSpace(value3))
+                code.Replace("<VALUES>", value1 + ", " + value2);
+            if (!string.IsNullOrWhiteSpace(value1) && !string.IsNullOrWhiteSpace(value2) && !string.IsNullOrWhiteSpace(value3))
+                code.Replace("<VALUES>", value1 + ", " + value2 + ", " + value3);
+
             code.AppendLinf("using(var __conn = new {1}(__connectionString{0}))", this.Index, typeof(SqlConnection).FullName);
             code.AppendLinf("using(var __cmd = new {1}(__text{0},__conn))", this.Index, typeof(SqlCommand).FullName);
             code.AppendLine("{");
