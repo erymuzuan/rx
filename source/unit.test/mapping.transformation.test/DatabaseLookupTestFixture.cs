@@ -74,6 +74,56 @@ namespace mapping.transformation.test
         }
 
         [TestMethod]
+        public async Task WithConnectionStringFromConfig()
+        {
+            TransformDefinition td;
+            var patient = CreatePatientMapping(out td, "__WithConnectionStringFromConfig");
+
+            var lookup = new SqlServerLookup
+            {
+                WebId = "lookup",
+                Name = "lookup",
+                Table = "Patient",
+                Schema = "dbo",
+                Column = "Income",
+                Predicate = "Mrn = '{0}'",
+                DefaultValue = "decimal.Zero",
+                OutputTypeName = typeof(decimal).GetShortAssemblyQualifiedName()
+            };
+            lookup.Initialize();
+            td.AddFunctoids(lookup);
+            var mrn = new SourceFunctoid
+            {
+                Name = "Mrn",
+                Field = "Mrn",
+                WebId = "Mrn"
+            };
+            td.AddFunctoids(mrn);
+            lookup["value1"].Functoid = mrn.WebId;
+
+            var conn = new ConfigurationSettingFunctoid
+            {
+                WebId = "conn" ,
+                Section = "ConnectionString",
+                Key = "His"
+            };
+            td.AddFunctoids(conn);
+            lookup["connection"].Functoid = conn.WebId;
+
+            td.MapCollection.Add(new FunctoidMap
+            {
+                Functoid = lookup.WebId,
+                DestinationType = typeof(decimal),
+                Destination = "Revenue"
+            });
+
+            var customer = await Compile(td, patient);
+            Assert.IsNotNull(customer);
+            Assert.AreEqual(5800m, customer.Revenue);
+
+        }
+
+        [TestMethod]
         public async Task TwoValues()
         {
             TransformDefinition td;
